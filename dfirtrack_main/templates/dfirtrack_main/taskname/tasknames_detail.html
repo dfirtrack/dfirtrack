@@ -1,0 +1,59 @@
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+{% block head %}
+<title>DFIRTrack - Tasknames</title>
+{% load staticfiles %}
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-3">
+        <a href="/tasknames" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon" alt="icon">  Up to tasknames</a>
+        <br><br>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-3">
+        <h5>Taskname "{{ taskname.taskname_name }}"</h5>
+    </div>
+    <div class="col-3">
+        <small class="text-muted">
+            Taskname-ID: {{ taskname.taskname_id }}
+        </small>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-6">
+    <br>
+        <h5>Tasks with this name{% if taskname.task_set.all %} ({{ taskname.task_set.all|length }}){% endif %}</h5>
+    </div>
+</div>
+
+{% if taskname.task_set.all %}
+{% for i in taskname.task_set.all %}
+<div class="row top-distance">
+    <div class="col-3">
+        <a href="/tasks/{{ i.task_id}}" type="button" class="btn btn-primary btn-sm sharp"><img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon-sm" alt="icon">  
+        {{ i.taskname }}
+        {% if i.system %}
+        | {{ i.system.system_name }}
+        {% endif %}
+        </a>
+    </div>
+</div>
+{% endfor %}
+{% else %}
+<div class="row top-distance">
+    <div class="col-3">
+        ---
+    </div>
+</div>
+{% endif %}
+
+<br><br>
+<a href="/tasknames/{{ taskname.taskname_id }}/edit" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon" alt="icon">  Edit</a>
+
+{% endblock %}

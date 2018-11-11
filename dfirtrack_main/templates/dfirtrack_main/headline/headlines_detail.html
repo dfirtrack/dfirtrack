@@ -1,0 +1,31 @@
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+{% block head %}
+<title>DFIRTrack - Headlines</title>
+{% load staticfiles %}
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-3">
+        <a href="/headlines" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon" alt="icon">  Up to headlines</a>
+        <br><br>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-3">
+        <h5>Headline "{{ headline.headline_name }}"</h5>
+    </div>
+    <div class="col-3">
+        <small class="text-muted">
+            Headline-ID: {{ headline.headline_id }}
+        </small>
+    </div>
+</div>
+
+<br><br>
+<a href="/headlines/{{ headline.headline_id }}/edit" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon" alt="icon">  Edit</a>
+
+{% endblock %}

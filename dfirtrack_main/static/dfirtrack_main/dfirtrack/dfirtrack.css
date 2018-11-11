@@ -1,0 +1,58 @@
+.icon {
+    width: 16px;
+    height: 16px;
+}
+.icon-sm {
+    width: 12px;
+    height: 12px;
+}
+.btn-green {
+    background: MediumSeaGreen;
+    border: MediumSeaGreen;
+    color: White;
+   }
+.btn-green:hover {
+    background: ForestGreen;
+    color: White;
+}
+.btn-orange {
+    background: Orange;
+    border: Orange;
+    color: White;
+   }
+.btn-orange:hover {
+    background: DarkOrange;
+    color: White;
+}
+.btn-red {
+    background: Red;
+    border: Red;
+    color: White;
+   }
+.btn-red:hover {
+    background: DarkRed;
+    color: White;
+}
+.btn.round {
+    border-radius: 20px;
+}
+.btn.sharp {
+    border-radius: 0px;
+}
+.top-distance {
+    margin-top: 5px;
+}
+a {
+    color: White;
+}
+a:hover {
+    color: White;
+}
+
+#btn-top {
+    display: none; /* hide per default */
+    position: fixed; /* fixed position */
+    bottom: 20px; /* 20px from the bottom */
+    right: 30px; /* 30px from the right */
+    z-index: 99; /* show in foreground */
+}

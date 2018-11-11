@@ -1,0 +1,251 @@
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+{% block head %}
+<title>DFIRTrack - Tasks</title>
+{% load staticfiles %}
+{% endblock %}
+
+{% block content %}
+        
+<h4>Add task</h4><br><br>
+<form method="POST" class="post-form">
+
+    <div class="row">
+        <div class="col-1">
+            {% include "dfirtrack_main/includes/button_save.html" %}
+            <br><br>
+        </div>
+        <div class="col-1">
+            {% include "dfirtrack_main/includes/button_cancel.html" %}
+            <br><br>
+        </div>
+    </div>
+
+    {% csrf_token %}
+
+    {% if form.non_field.errors %}
+    <div class="row">
+        <div class="col">
+            <div class="text-danger">
+                Non field errors:<br>
+                {{ form.non_field.errors }}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="card card-body bg-dark border-light top-distance">
+
+        <div class="row">
+            <div class="col">
+                <h5>Taskname (*):</h5>
+            </div>
+        </div>
+    	
+        <div class="row">
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                <div class="text-danger">{{ form.taskname.errors }}</div>
+                {{ form.taskname }}
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-3">
+                <div class="font-weight-bold">Parent task:</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                <div class="text-danger">{{ form.parent_task.errors }}</div>
+                {{ form.parent_task }}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card card-body bg-dark border-light top-distance">
+
+        <div class="row">
+            <div class="col">
+                <h5>Tags</h5>
+            </div>
+        </div>
+    	
+        <div class="row">
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                <div class="text-danger">{{ form.tag.errors }}</div>
+                    {% for i in form.tag %}
+                    {{ i }}<br>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card card-body bg-dark border-light top-distance">
+
+        <div class="row">
+            <div class="col">
+                <h5>Status information</h5>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-3">
+                <div class="font-weight-bold">Priority (*):</div>
+            </div>
+            <div class="col-3">
+                <div class="font-weight-bold">Status (*):</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <div class="text-danger">{{ form.taskpriority.errors }}</div>
+                    {% for i in form.taskpriority %}
+                    {{ i }}<br>
+                    {% endfor %}
+                </div>
+                <br><br>
+            </div>
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <div class="text-danger">{{ form.taskstatus.errors }}</div>
+                    {% for i in form.taskstatus %}
+                    {{ i }}<br>
+                    {% endfor %}
+                </div>
+                <br><br>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-3">
+                <div class="font-weight-bold">Corresponding system:</div>
+            </div>
+            <div class="col-3">
+                <div class="font-weight-bold">Assigned to user:</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <div class="text-danger">{{ form.system.errors }}</div>
+                    {{ form.system }}
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <div class="text-danger">{{ form.task_assigned_to_user_id.errors }}</div>
+                    {% for i in form.task_assigned_to_user_id %}
+                    {{ i }}<br>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card card-body bg-dark border-light top-distance">
+
+        <div class="row">
+            <div class="col">
+                <h5>Timing information</h5>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-3">
+                <div class="font-weight-bold">
+                    Scheduled:<br>
+                    (YYYY-MM-DD HH:MM:SS)
+                </div>
+            </div>
+            <div class="col-3">
+            </div>
+            <div class="col-3">
+            </div>
+            <div class="col-3">
+                <div class="font-weight-bold">
+                    Due:<br>
+                    (YYYY-MM-DD HH:MM:SS)
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <div class="text-danger">{{ form.task_scheduled_time.errors }}</div>
+                    {{ form.task_scheduled_time }}
+                </div>
+            </div>
+            <div class="col-3">
+            </div>
+            <div class="col-3">
+            </div>
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <div class="text-danger">{{ form.task_due_time.errors }}</div>
+                    {{ form.task_due_time }}
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-3">
+		<button type="button" class="btn btn-light btn-sm top-distance" onclick="document.getElementById('{{ form.task_scheduled_time.auto_id }}').value = ''"><img src="{% static 'dfirtrack_main/icons/ban.svg' %}" class="icon-sm" alt="icon">  Clear given value</button>
+            </div>
+            <div class="col-3">
+            </div>
+            <div class="col-3">
+            </div>
+            <div class="col-3">
+		<button type="button" class="btn btn-light btn-sm top-distance" onclick="document.getElementById('{{ form.task_due_time.auto_id }}').value = ''"><img src="{% static 'dfirtrack_main/icons/ban.svg' %}" class="icon-sm" alt="icon">  Clear given value</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card card-body bg-dark border-light top-distance">
+
+        <div class="row">
+            <div class="col">
+                <h5>Note</h5>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <div class="text-danger">{{ form.task_note.errors }}</div>
+                    {{ form.task_note }}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <br><br>
+
+    <div class="row">
+        <div class="col-1">
+            {% include "dfirtrack_main/includes/button_save.html" %}
+        </div>
+        <div class="col-1">
+            {% include "dfirtrack_main/includes/button_cancel.html" %}
+        </div>
+    </div>
+
+</form>
+    
+{% endblock %}

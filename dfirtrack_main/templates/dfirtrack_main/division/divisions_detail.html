@@ -1,0 +1,71 @@
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+{% block head %}
+<title>DFIRTrack - Divisions</title>
+{% load staticfiles %}
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-3">
+        <a href="/divisions" type="button" class="btn btn-light"><img src="{%static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon" alt="icon">  Up to divisions</a>
+        <br><br>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-3">
+        <h5>Division "{{ division.division_name }}"</h5>
+    </div>
+    <div class="col-3">
+        <small class="text-muted">
+            Division-ID: {{ division.division_id }}
+        </small>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-3">
+    <br>
+        <h5>Note</h5>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        {% if division.division_note %}
+        {{ division.division_note|linebreaks }}
+        {% else %}
+        ---
+        {% endif %}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-3">
+    <br>
+        <h5>Companies assigned to this division</h5>
+    </div>
+</div>
+
+{% if division.company_set.all %}
+{% for i in division.company_set.all %}
+<div class="row top-distance">
+    <div class="col-3">
+        <a href="/companys/{{ i.company_id}}">{{ i.company_name }}</a>
+    </div>
+</div>
+{% endfor %}
+{% else %}
+<div class="row top-distance">
+    <div class="col-3">
+        ---
+    </div>
+</div>
+{% endif %}
+
+<br><br>
+<a href="/divisions/{{ division.division_id }}/edit" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon" alt="icon">  Edit</a>
+
+{% endblock %}

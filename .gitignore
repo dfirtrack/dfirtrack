@@ -1,0 +1,20 @@
+# Django settings
+settings.py
+
+# Backup files
+*.backup
+*.bak
+
+# Log files
+*.log
+
+# Python files
+*.pyc
+*.pyo
+
+# Vim files
+*.swo
+*.swp
+
+# Kate files
+*swp

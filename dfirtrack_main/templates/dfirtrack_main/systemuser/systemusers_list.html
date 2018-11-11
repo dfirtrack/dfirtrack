@@ -1,0 +1,48 @@
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+{% block head %}
+<title>DFIRTrack - Systemusers</title>
+{% load staticfiles %}
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col">
+            <h5>Systemusers</h5>
+        </div>
+    </div>
+
+        <div class="row font-weight-bold">
+            <div class="col-1">ID</div>
+            <div class="col-2">Systemuser</div>
+            <div class="col-2">Last logon</div>
+            <div class="col-1">System</div>
+        </div>
+
+    {% for i in object_list %}
+        <div class="row">
+            <div class="col-1">{{ i.systemuser_id }}</div>
+            <div class="col-2">
+                <a href="/systemusers/{{ i.systemuser_id }}">{{ i.systemuser_name }} | {{ i.system }}</a>
+            </div>
+            <div class="col-2">{{ i.systemuser_lastlogon_time|date:"Y-m-d H:i" }}</div>
+            <div class="col-1">
+                <a href="/systems/{{ i.system.system_id }}" type="button" class="btn btn-primary btn-sm top-distance"><img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm" alt="icon">  {{ i.system.system_name }}</a>
+            </div>
+            <div class="col-5"></div>
+            <div class="col-1">
+                <a href="/systemusers/{{ i.systemuser_id }}/edit">Edit</a>
+            </div>
+            <br><br>
+        </div>
+    {% endfor %}
+
+    <br><br>
+    <div class="row">
+        <div class="col-1">
+            <a href="/systemusers/add" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon" alt="icon">  Add systemuser</a>
+        </div>
+    </div>
+
+{% endblock %}

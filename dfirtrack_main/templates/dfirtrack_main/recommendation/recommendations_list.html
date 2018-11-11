@@ -1,0 +1,49 @@
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+{% block head %}
+<title>DFIRTrack - Recommendations</title>
+{% load staticfiles %}
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col">
+            <h5>Recommendations</h5>
+        </div>
+    </div>
+
+        <div class="row font-weight-bold">
+            <div class="col-1">ID</div>
+            <div class="col-2">Recommendation</div>
+            <div class="col-8">Note</div>
+        </div>
+
+    {% for i in object_list %}
+        <div class="row">
+            <div class="col-1">{{ i.recommendation_id }}</div>
+            <div class="col-2">
+                <a href="/recommendations/{{ i.recommendation_id }}">{{ i.recommendation_name }}</a>
+            </div>
+            <div class="col-8">
+                {% if i.recommendation_note %}
+                {{ i.recommendation_note|linebreaks }}
+                {% else %}
+                ---
+                {% endif %}
+            </div>
+            <div class="col-1">
+                <a href="/recommendations/{{ i.recommendation_id }}/edit">Edit</a>
+            </div>
+            <br><br>
+        </div>
+    {% endfor %}
+
+    <br><br>
+    <div class="row">
+        <div class="col-1">
+            <a href="/recommendations/add" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon" alt="icon">  Add recommendation</a>
+        </div>
+    </div>
+
+{% endblock %}

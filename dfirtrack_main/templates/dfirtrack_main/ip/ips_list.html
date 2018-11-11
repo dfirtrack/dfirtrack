@@ -1,0 +1,44 @@
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+{% block head %}
+<title>DFIRTrack - IPs</title>
+{% load staticfiles %}
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col">
+            <h5>IP addresses</h5>
+        </div>
+    </div>
+
+        <div class="row font-weight-bold">
+            <div class="col-1">ID</div>
+            <div class="col-2">IP address</div>
+            <div class="col-8">Number of systems</div>
+        </div>
+
+    {% for i in object_list %}
+        <div class="row">
+            <div class="col-1">{{ i.ip_id }}</div>
+            <div class="col-2">
+                <a href="/ips/{{ i.ip_id }}">{{ i.ip_ip }}</a>
+            </div>
+            <div class="col-8">{{ i.system_set.all|length }}</div>
+            <div class="col-1">
+                <a href="/ips/{{ i.ip_id }}/edit">Edit</a>
+            </div>
+            <br><br>
+        </div>
+
+    {% endfor %}
+
+    <br><br>
+    <div class="row">
+        <div class="col-1">
+            <a href="/ips/add" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon" alt="icon">  Add IP</a>
+        </div>
+    </div>
+
+{% endblock %}

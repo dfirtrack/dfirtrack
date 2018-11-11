@@ -1,0 +1,143 @@
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+{% block head %}
+<title>DFIRTrack - Entries</title>
+{% load staticfiles %}
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-3">
+        <a href="/entrys" type="button" class="btn btn-light"><img src="{%static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon" alt="icon">  Up to entries</a>
+        <br><br>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-6">
+        <h5>Entry "{{ entry.entry_id }} - {{ entry.entry_sha1 }}"</h5>
+    </div>
+    <div class="col-6">
+        <small class="text-muted">
+            Entry-ID: {{ entry.entry_id }}
+        </small>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-6">
+    <br>
+        <h5>Note</h5>
+    </div>
+    <div class="col-6">
+    <br>
+        <h5>Time</h5>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-6">
+        {% if entry.entry_note %}
+        {{ entry.entry_note|linebreaks }}
+        {% else %}
+        ---
+        {% endif %}
+    </div>
+    <div class="col-6">{{ entry.entry_time|date:"Y-m-d H:i:s" }}</div>
+</div>
+
+<div class="row">
+    <div class="col-6">
+    <br>
+        <h5>Entry associated to this system</h5>
+    </div>
+    <div class="col-6">
+    <br>
+        <h5>Entry associated to this case</h5>
+    </div>
+</div>
+
+<div class="row top-distance">
+
+    <div class="col-6">
+        <a href="/systems/{{ entry.system.system_id }}" type="button" class="btn btn-primary btn-sm"><img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm" alt="icon">  {{ entry.system.system_name }}</a>
+    </div>
+
+    <div class="col-6">
+        {% if entry.case %}
+        <a href="/cases/{{ entry.case.case_id }}">{{ entry.case.case_name }}</a>
+        {% else %}
+        ---
+        {% endif %}
+    </div>
+
+</div>
+
+<div class="card bg-dark border-light card-body top-distance">
+    <div class="row">
+        <div class="col">
+            <h5>Timeline entry</h5>
+        </div>
+    </div>
+
+    <div class="row font-weight-bold">
+        <div class="col-1">Date</div>
+        <div class="col-1">Time (UTC)</div>
+        <div class="col-1">System</div>
+        <div class="col-1">Type</div>
+        <div class="col-8">Content</div>
+    </div>
+    
+    <div class="row">
+        <div class="col-1">{{ entry.entry_date }}</div>
+        <div class="col-1">{{ entry.entry_utc }}</div>
+        <div class="col-1">{{ entry.entry_system }}</div>
+        <div class="col-1">{{ entry.entry_type }}</div>
+        <div class="col-8">{{ entry.entry_content }}</div>
+    </div>
+</div>
+
+<div class="card bg-dark border-secondary card-body top-distance">
+    <div class="row text-muted">
+        <div class="col">
+            <h5>Meta information</h5>
+        </div>
+    </div>
+
+    <div class="row text-muted">
+        <div class="col-3">
+            <div class="font-weight-bold">Created:</div>
+            {{ entry.entry_create_time|date:"Y-m-d H:i" }}
+        </div>
+        <div class="col-3">
+            <div class="font-weight-bold">Created by:</div>
+            {{ entry.entry_created_by_user_id }}
+        </div>
+        <div class="col-3">
+            <div class="font-weight-bold">Last modified:</div>
+            {{ entry.entry_modify_time|date:"Y-m-d H:i" }}
+        </div>
+        <div class="col-3">
+            <div class="font-weight-bold">Modified by:</div>
+            {{ entry.entry_modified_by_user_id }}
+        </div>
+    </div>
+
+    <div class="row text-muted">
+        <div class="col-6"></div>
+        <div class="col-3">
+            <div class="font-weight-bold">Last API update:</div>
+            {% if entry.entry_api_time %}
+            {{ entry.entry_api_time|date:"Y-m-d H:i" }}
+            {% else %}
+            ---
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<br><br>
+<a href="/entrys/{{ entry.entry_id }}/edit" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon" alt="icon">  Edit</a>
+
+{% endblock %}

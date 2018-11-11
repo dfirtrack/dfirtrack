@@ -1,0 +1,60 @@
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+{% block head %}
+<title>DFIRTrack - Entries</title>
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.css' %}"/>
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col">
+            <h5>Entries</h5>
+        </div>
+    </div>
+
+<table id="table_entry" class="display" width="100%">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Time (UTC)</th>
+            <th>System</th>
+            <th>Type</th>
+            <th>Content</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for i in object_list %}
+            <tr>
+                <td><a href="/entrys/{{ i.entry_id}}">{{ i.entry_id }}</a></td>
+                <td>{{ i.entry_date }}</td>
+                <td>{{ i.entry_utc }}</td>
+                <td>{{ i.entry_system }}</td>
+                <td>{{ i.entry_type }}</td>
+                <td>{{ i.entry_content }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
+
+    <br><br>
+    <div class="row">
+        <div class="col-1">
+            <a href="/entrys/add" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon" alt="icon">  Add entry</a>
+        </div>
+        <div class="col-2">
+            <a href="/entrys/importer/api/giraf/entrys?redirector=entrys" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/cloud-download.svg' %}" class="icon" alt="icon">  Import GIRAF</a>
+        </div>
+    </div>
+
+{% block datatables %}
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.js' %}"></script>
+{% endblock %}
+
+{% endblock %}

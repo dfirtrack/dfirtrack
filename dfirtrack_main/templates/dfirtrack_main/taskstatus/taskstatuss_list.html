@@ -1,0 +1,52 @@
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+{% block head %}
+<title>DFIRTrack - Taskstatus</title>
+{% load staticfiles %}
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col">
+            <h5>Taskstatus</h5>
+        </div>
+    </div>
+
+        <div class="row font-weight-bold">
+            <div class="col-1">ID</div>
+            <div class="col-10">Taskstatus</div>
+        </div>
+
+    {% for i in object_list %}
+        <div class="row">
+            <div class="col-1">{{ i.taskstatus_id }}</div>
+            <div class="col-10 top-distance">
+                <a href="/taskstatuss/{{ i.taskstatus_id }}">
+                {% if i.taskstatus_name == 'Pending' %}
+                {% include "dfirtrack_main/includes/button_taskstatus_pending.html" %}
+                {% endif %}
+                {% if i.taskstatus_name == 'Working' %}
+                {% include "dfirtrack_main/includes/button_taskstatus_working.html" %}
+                {% endif %}
+                {% if i.taskstatus_name == 'Done' %}
+                {% include "dfirtrack_main/includes/button_taskstatus_done.html" %}
+                {% endif %}
+                {{ i.taskstatus_name }}
+                </a>
+            </div>
+            <div class="col-1">
+                <a href="/taskstatuss/{{ i.taskstatus_id }}/edit">Edit</a>
+            </div>
+            <br><br>
+        </div>
+    {% endfor %}
+
+    <br><br>
+    <div class="row">
+        <div class="col-1">
+            <a href="/taskstatuss/add" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon" alt="icon">  Add taskstatus</a>
+        </div>
+    </div>
+
+{% endblock %}

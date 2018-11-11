@@ -1,0 +1,56 @@
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+{% block head %}
+<title>DFIRTrack - Tags</title>
+{% load staticfiles %}
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col">
+            <h5>Tags</h5>
+        </div>
+    </div>
+
+        <div class="row font-weight-bold">
+            <div class="col-1">ID</div>
+            <div class="col-2">Tag</div>
+            <div class="col-7">Note</div>
+            <div class="col-1">Modified by</div>
+        </div>
+
+    {% for i in object_list %}
+        <div class="row top-distance">
+            <div class="col-1">{{ i.tag_id }}</div>
+            <div class="col-2">
+                <a href="/tags/{{ i.tag_id }}" type="button" class="btn btn-{{ i.tagcolor }} btn-sm round"><img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon-sm" alt="icon">  {{ i.tag_name }}</a>
+            </div>
+            <div class="col-7">
+                {% if i.tag_note %}
+                {{ i.tag_note|linebreaks }}
+                {% else %}
+                ---
+                {% endif %}
+            </div>
+            <div class="col-1">
+                {% if i.tag_modified_by_user_id %}
+                {{ i.tag_modified_by_user_id }}
+                {% else %}
+                ---
+                {% endif %}
+            </div>
+            <div class="col-1">
+                <a href="/tags/{{ i.tag_id }}/edit">Edit</a>
+            </div>
+        </div>
+    {% endfor %}
+
+    <br><br>
+    <div class="row">
+        <div class="col-1">
+            <a href="/tags/add" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon" alt="icon">  Add Tag</a>
+        </div>
+    </div>
+
+{% endblock %}

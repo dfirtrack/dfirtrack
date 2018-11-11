@@ -1,0 +1,21 @@
+{% extends "dfirtrack_main/mainloginlogout.html" %}
+
+{% block head %}
+<title>Logout</title>
+{% load staticfiles %}
+{% endblock %}
+
+
+{% block content %}
+
+<br><br>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-4">
+            <h3>See you soon...</h3>
+            <a href="/login" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/account-login.svg' %}" class="icon" alt="icon">  Back to Login</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

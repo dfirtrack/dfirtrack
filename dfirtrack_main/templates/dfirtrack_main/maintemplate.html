@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% block head %}
+    {% endblock %}
+    <meta charset="utf-8" />
+    
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'dfirtrack_main/bootstrap-4.0.0/css/bootstrap.min.css' %}" type = "text/css"/>
+    
+    <meta name="viewport" content = "width=device-width, initial-scale=1.0">
+    
+    <style type="text/css">
+        html,
+        body {
+          height:100%
+        }
+    </style>
+
+    <link rel="stylesheet" href="{% static 'dfirtrack_main/dfirtrack/dfirtrack.css' %}" type = "text/css"/>
+    <script src="{% static 'dfirtrack_main/dfirtrack/dfirtrack.js' %}"></script>
+    <script src="{% static 'dfirtrack_main/clipboard-2.0.1/clipboard.min.js' %}"></script>
+
+</head>
+
+<body class="body bg-dark text-light">
+
+    {% load dfirtrack_main_tags %}
+
+    <div class="container-fluid" style="min-height:95%; ">
+
+        <div class="row">
+
+            <div class="col-2">
+                <br>
+                <center>
+                    <img src="{% static 'dfirtrack_main/img/logo.png' %}" class="responsive-img" style='max-height:60px;' alt="place a logo in 'dfirtrack_main/img/logo.png'">
+                </center>
+            </div>
+
+            <div class="col">
+                <br>
+                <center>
+                    <h3>
+                        DFIRTrack
+                        <small class="text-muted">The Incident Response Tracking Application</small>
+                        <small>{% dfirtrack_version %}</small>
+                    </h3>
+                </center>
+            </div>
+
+            <div class="col-1">
+                <p><div class="text-muted">Logged in as </div><img src="{% static 'dfirtrack_main/icons/person-light.svg' %}" class="icon-sm" alt="icon">  {{ user.get_username }}</p>
+	    </div>
+            <div class="col-1">
+		<a href="/logout" type="button" class="btn btn-light" style="margin-top:20px"><img src="{% static 'dfirtrack_main/icons/account-logout.svg' %}" class="icon" alt="icon">  Logout</a></p>
+	    </div>
+        </div><hr>
+
+
+        <div class="row">
+
+            <div class="col-2">
+		<ul class="nav flex-column nav-pills">
+		  <li class="nav-item">
+		    <a class="nav-link active" href="/systems">Systems</a>
+		  </li>
+
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle active top-distance" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Systemitems</a>
+                        <div class="dropdown-menu">
+		    	    <a class="dropdown-item" href="/analysisstatuss">Analysisstatus</a>
+		    	    <a class="dropdown-item" href="/analystmemos">Analystmemos</a>
+		    	    <a class="dropdown-item" href="/cases">Cases</a>
+		    	    <a class="dropdown-item" href="/companys">Companies</a>
+		    	    <a class="dropdown-item" href="/contacts">Contacts</a>
+		    	    <a class="dropdown-item" href="/divisions">Divisions</a>
+		    	    <a class="dropdown-item" href="/domains">Domains</a>
+		    	    <a class="dropdown-item" href="/entrys">Entries</a>
+		    	    <a class="dropdown-item" href="/headlines">Headlines</a>
+		    	    <a class="dropdown-item" href="/ips">IPs</a>
+		    	    <a class="dropdown-item" href="/locations">Locations</a>
+		    	    <a class="dropdown-item" href="/oss">OS</a>
+		    	    <a class="dropdown-item" href="/osimportnames">OS-Importnames</a>
+		    	    <a class="dropdown-item" href="/reasons">Reasons</a>
+		    	    <a class="dropdown-item" href="/recommendations">Recommendations</a>
+		    	    <a class="dropdown-item" href="/reportitems">Reportitems</a>
+		    	    <a class="dropdown-item" href="/serviceproviders">Serviceproviders</a>
+		    	    <a class="dropdown-item" href="/systemstatuss">Systemstatus</a>
+		    	    <a class="dropdown-item" href="/systemtypes">Systemtypes</a>
+		    	    <a class="dropdown-item" href="/systemusers">Systemusers</a>
+                        </div>
+                  </li>
+
+		  <li class="nav-item">
+		    <a class="nav-link active top-distance" href="/tasks">Tasks</a>
+		  </li>
+
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle active top-distance" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Taskitems</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/tasknames">Tasknames</a>
+                            <a class="dropdown-item" href="/taskprioritys">Taskpriorities</a>
+                            <a class="dropdown-item" href="/taskstatuss">Taskstatus</a>
+                        </div>
+                  </li>
+
+		  <li class="nav-item">
+		    <a class="nav-link active top-distance" href="/tags">Tags</a>
+		  </li>
+
+		</ul>
+            </div>
+
+            <div class="col">
+                <div class='container-fluid'>
+                    <br><br>
+
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if message.tags == 'error' %}
+                                <div class="alert alert-danger">{{ message }}</div>
+                            {% else %}
+                                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+
+                    {% block content %}
+                    {% endblock %}	
+
+                    <button type="button" class="btn btn-primary" onclick="go_to_top()" id="btn-top"><img src="{% static 'dfirtrack_main/icons/arrow-circle-top-light.svg' %}" class="icon" alt="icon"></button>
+
+                </div>
+            </div>
+
+        </div> 
+
+    </div>
+
+    <footer>
+        <div class="container-fluid" style='margin-left:15px'>
+            <p>
+            <a href="/faq/" target="blank" type="button" class="btn btn-outline-light btn-sm">FAQ</a></button>
+            <a href="/about/" target="blank" type="button" class="btn btn-outline-light btn-sm">About</a></button>
+            <a href="/admin/" target="blank" type="button" class="btn btn-outline-light btn-sm">Admin</a></button>
+            </p>
+        </div>
+    </footer>	
+
+    <script src="{% static 'dfirtrack_main/jquery-3.2.1/jquery-3.2.1.slim.min.js' %}"></script>
+    <script src="{% static 'dfirtrack_main/popper-1.12.9/popper.min.js' %}"></script>
+    <script src="{% static 'dfirtrack_main/bootstrap-4.0.0/js/bootstrap.min.js' %}"></script>
+
+    {% block datatables %}
+    {% endblock %}
+	
+</body>
+
+</html>

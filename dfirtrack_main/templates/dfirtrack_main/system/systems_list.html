@@ -1,0 +1,166 @@
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+{% block head %}
+<title>DFIRTrack - Systems</title>
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.css' %}"/>
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col">
+    	<h5>Systems</h5>
+    </div>
+</div>
+<br><br>
+
+<table id="table_system" class="display" width="100%">
+
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>System</th>
+            <th>Systemstatus</th>
+            <th>Analysisstatus</th>
+            <th>Created</th>
+            <th>Modified</th>
+        </tr>
+    </thead>
+
+    <tbody>
+    {% for i in object_list %}
+	<tr>
+        	<td>{{ i.system_id }}</td>
+        	<td><a href="/systems/{{ i.system_id }}" type="button" class="btn btn-primary btn-sm top-distance"><img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon" alt="icon">  {{ i.system_name }}</a></td>
+        	<td>
+			<a href="/systemstatuss/{{ i.systemstatus.systemstatus_id }}"
+			{% if i.systemstatus.systemstatus_name == 'Clean' %}
+			class="btn btn-green btn-sm round"><img src="{% static 'dfirtrack_main/icons/shield-light.svg' %}" class="icon-sm" alt="icon">  
+			{% elif i.systemstatus.systemstatus_name == 'Removed' %}
+			class="btn btn-green btn-sm round"><img src="{% static 'dfirtrack_main/icons/trash-light.svg' %}" class="icon-sm" alt="icon">  
+			{% elif i.systemstatus.systemstatus_name == 'Reinstalled' %}
+			class="btn btn-green btn-sm round"><img src="{% static 'dfirtrack_main/icons/shield-light.svg' %}" class="icon-sm" alt="icon">  
+			{% elif i.systemstatus.systemstatus_name == 'Remediation done' %}
+			class="btn btn-green btn-sm round"><img src="{% static 'dfirtrack_main/icons/shield-light.svg' %}" class="icon-sm" alt="icon">  
+			{% elif i.systemstatus.systemstatus_name == 'Analysis ongoing' %}
+			class="btn btn-orange btn-sm round"><img src="{% static 'dfirtrack_main/icons/pulse-light.svg' %}" class="icon-sm" alt="icon">  
+			{% elif i.systemstatus.systemstatus_name == 'Unknown' %}
+			class="btn btn-orange btn-sm round"><img src="{% static 'dfirtrack_main/icons/flag-light.svg' %}" class="icon-sm" alt="icon">  
+			{% elif i.systemstatus.systemstatus_name == 'Compromised' %}
+			class="btn btn-red btn-sm round"><img src="{% static 'dfirtrack_main/icons/fire-light.svg' %}" class="icon-sm" alt="icon">  
+			{% else %}
+			>
+			{% endif %}
+			    {{ i.systemstatus.systemstatus_name }}
+			</a>
+        	</td>
+        	<td>
+			{% if i.analysisstatus %}
+			<a href="/analysisstatuss/{{ i.analysisstatus.analysisstatus_id }}">{{ i.analysisstatus }}</a>
+			{% else %}
+			---
+			{% endif %}
+		</td>
+        <td class="text-muted">{{ i.system_create_time|date:"Y-m-d H:i" }}</td>
+        <td class="text-muted">{{ i.system_modify_time|date:"Y-m-d H:i" }}</td>
+	</tr>
+    {% endfor %}
+    </tbody>
+
+</table>
+
+<script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
+
+<br><br>
+<div class="card card-body bg-dark border-light top-distance">
+    <div class="row">
+        <div class="col-6">
+            <h5>Create systems</h5>
+        </div>
+        <div class="col-4">
+            <h5>Import systems</h5>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-2">
+            <a href="/systems/add" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon" alt="icon">  Add system</a>
+        </div>
+        <div class="col-2">
+            <a href="/systems/creator" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/box.svg' %}" class="icon" alt="icon">  Creator</a>
+        </div>
+        <div class="col-2">
+        </div>
+        <div class="col-2">
+            <a href="/systems/importer/file/csv/systems_ips" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/list.svg' %}" class="icon" alt="icon">  Import CSV with IPs</a>
+        </div>
+        <div class="col-2">
+            <a href="/systems/importer/file/csv/systems_tags" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/list.svg' %}" class="icon" alt="icon">  Import CSV with tags</a>
+        </div>
+    </div>
+
+    <div class="row top-distance">
+        <div class="col-6">
+        </div>
+        <div class="col-2">
+            <h5>Import reportitems</h5>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+        </div>
+        <div class="col-2">
+            <a href="/reportitems/importer/file/filesystem/reportitems" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/list.svg' %}" class="icon" alt="icon">  Import from filesystem</a>
+        </div>
+    </div>
+</div>
+
+<div class="card card-body bg-dark border-light top-distance">
+    <div class="row">
+        <div class="col-6">
+            <h5>Export to spreadsheet</h5>
+        </div>
+        <div class="col-6">
+            <h5>Export to markdown</h5>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-2">
+            <a href="/systems/exporter/spreadsheet/csv/systems" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/list.svg' %}" class="icon" alt="icon">  Export CSV</a>
+        </div>
+        <div class="col-4">
+            <a href="/systems/exporter/spreadsheet/xls/systems" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/spreadsheet.svg' %}" class="icon" alt="icon">  Export XLS</a>
+        </div>
+        <div class="col-2">
+            <a href="/systems/exporter/markdown/systemsorted" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/list-rich.svg' %}" class="icon" alt="icon">  Export sorted by system</a>
+        </div>
+        <div class="col-3">
+            <a href="/systems/exporter/markdown/domainsorted" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/list-rich.svg' %}" class="icon" alt="icon">  Export sorted by domain</a>
+        </div>
+    </div>
+</div>
+
+<div class="card card-body bg-dark border-light top-distance">
+    <div class="row">
+        <div class="col-6">
+            <h5>Import via GIRAF API</h5>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-2">
+            <a href="/systems/importer/api/giraf/systems" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/cloud-download.svg' %}" class="icon" alt="icon">  Import systems</a>
+        </div>
+        <div class="col-2">
+            <a href="/entrys/importer/api/giraf/entrys?redirector=systems" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/cloud-download.svg' %}" class="icon" alt="icon">  Import timeline entries</a>
+        </div>
+    </div>
+</div>
+
+{% block datatables %}
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.js' %}"></script>
+{% endblock %}
+
+{% endblock %}

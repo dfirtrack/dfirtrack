@@ -1,0 +1,49 @@
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+{% block head %}
+<title>DFIRTrack - Serviceproviders</title>
+{% load staticfiles %}
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col">
+            <h5>Serviceproviders</h5>
+        </div>
+    </div>
+
+        <div class="row font-weight-bold">
+            <div class="col-1">ID</div>
+            <div class="col-2">Serviceprovider name</div>
+            <div class="col-8">Note</div>
+        </div>
+
+    {% for i in object_list %}
+        <div class="row">
+            <div class="col-1">{{ i.serviceprovider_id }}</div>
+            <div class="col-2">
+                <a href="/serviceproviders/{{ i.serviceprovider_id }}">{{ i.serviceprovider_name }}</a>
+            </div>
+            <div class="col-8">
+                {% if i.serviceprovider_note %}
+                {{ i.serviceprovider_note|linebreaks }}
+                {% else %}
+                ---
+                {% endif %}
+            </div>
+            <div class="col-1">
+                <a href="/serviceproviders/{{ i.serviceprovider_id }}/edit">Edit</a>
+            </div>
+            <br><br>
+        </div>
+    {% endfor %}
+
+    <br><br>
+    <div class="row">
+        <div class="col-1">
+            <a href="/serviceproviders/add" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon" alt="icon">  Add serviceprovider</a>
+        </div>
+    </div>
+
+{% endblock %}

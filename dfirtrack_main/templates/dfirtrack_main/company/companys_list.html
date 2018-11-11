@@ -1,0 +1,57 @@
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+{% block head %}
+<title>DFIRTrack - Companies</title>
+{% load staticfiles %}
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col">
+            <h5>Companies</h5>
+        </div>
+    </div>
+
+        <div class="row font-weight-bold">
+            <div class="col-1">ID</div>
+            <div class="col-2">Company name</div>
+            <div class="col-2">Division</div>
+            <div class="col-6">Note</div>
+        </div>
+
+    {% for i in object_list %}
+        <div class="row">
+            <div class="col-1">{{ i.company_id }}</div>
+            <div class="col-2">
+                <a href="/companys/{{ i.company_id }}">{{ i.company_name }}</a>
+            </div>
+            <div class="col-2">
+                {% if i.division %}
+                <a href="/divisions/{{ i.division.division_id }}">{{ i.division.division_name }}</a>
+                {% else %}
+                ---
+                {% endif %}
+            </div>
+            <div class="col-6">
+                {% if i.company_note %}
+                {{ i.company_note|linebreaks }}
+                {% else %}
+                ---
+                {% endif %}
+            </div>
+            <div class="col-1">
+                <a href="/companys/{{ i.company_id }}/edit">Edit</a>
+            </div>
+            <br><br>
+        </div>
+    {% endfor %}
+
+    <br><br>
+    <div class="row">
+        <div class="col-1">
+            <a href="/companys/add" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon" alt="icon">  Add company</a>
+        </div>
+    </div>
+
+{% endblock %}

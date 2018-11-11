@@ -1,0 +1,255 @@
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+{% block head %}
+<title>DFIRTrack - Tasks</title>
+{% load staticfiles %}
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-6">
+        <a href="/tasks" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon" alt="icon">  Up to tasks</a>
+        <br><br>
+    </div>
+    <div class="col-1">
+        <a href="/tasks/{{ task.task_id }}/edit" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon" alt="icon">  Edit</a>
+        <br><br>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-6">
+        <div class="btn btn-primary btn-lg sharp"><img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon" alt="icon">  
+            {{task.taskname}}
+        </div>
+    </div>
+    <div class="col-3">
+        <small class="text-muted">
+            Task-ID: {{task.task_id}}
+        </small>
+    </div>
+    <div class="col-3">
+        <small class="text-muted">
+            Parent-Task-ID:
+            {% if task.parent_task %}
+            <a href="/tasks/{{ task.parent_task.task_id }}">{{ task.parent_task.task_id }}</a>
+            {% else %}
+            ---
+            {% endif %}
+        </small>
+    </div>
+</div>
+
+{% if task.tag.all %}
+<div class="row">
+    <div class="col-6">
+        {% for i in task.tag.all %}
+        <a href="/tags/{{ i.tag_id }}" type="button" class="btn btn-{{ i.tagcolor }} btn-sm round top-distance"><img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon-sm" alt="icon">  {{ i }}</a>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+<div class="card bg-dark border-light card-body top-distance">
+
+    <div class="row">
+        <div class="col">
+            <h5>Status information</h5>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-3">
+            <div class="font-weight-bold">Priority:</div>
+            {% if task.taskpriority %}
+            <a href="/taskprioritys/{{ task.taskpriority.taskpriority_id }}">
+                {% if task.taskpriority.taskpriority_name == 'High' %}
+                {% include "dfirtrack_main/includes/button_taskpriority_high.html" %}
+                {% endif %}
+                {% if task.taskpriority.taskpriority_name == 'Medium' %}
+                {% include "dfirtrack_main/includes/button_taskpriority_medium.html" %}
+                {% endif %}
+                {% if task.taskpriority.taskpriority_name == 'Low' %}
+                {% include "dfirtrack_main/includes/button_taskpriority_low.html" %}
+                {% endif %}
+            </a>
+            {% else %}
+            ---
+            {% endif %}
+            <br><br>
+        </div>
+        <div class="col-3">
+            <div class="font-weight-bold">Status:</div>
+            {% if task.taskstatus %}
+            <a href="/taskstatuss/{{ task.taskstatus.taskstatus_id }}">{{ task.taskstatus }}</a>
+            {% else %}
+            ---
+            {% endif %}
+            <br><br>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-3">
+            <div class="font-weight-bold">Corresponding system:</div>
+            {% if task.system %}
+            <a href="/systems/{{ task.system.system_id }}" type="button" class="btn btn-primary btn-sm top-distance"><img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm" alt="icon">  {{ task.system.system_name }} </a>
+            {% else %}
+            ---
+            {% endif %}
+        </div>
+        <div class="col-3">
+            <div class="font-weight-bold">Assigned to user:</div>
+            {% if task.task_assigned_to_user_id %}
+            {{ task.task_assigned_to_user_id }}
+            {% else %}
+            ---
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-3">
+        </div>
+        <div class="col-3">
+            {% if not task.task_assigned_to_user_id %}
+            <a href="/tasks/{{ task.task_id }}/user" type="button" class="btn btn-sm btn-light"><img src="{% static 'dfirtrack_main/icons/person.svg' %}" class="icon-sm" alt="icon">  Me</a>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+
+<div class="card bg-dark border-light card-body top-distance">
+
+    <div class="row">
+        <div class="col">
+            <a href="#timing_information" data-toggle="collapse"><h5>Timing information  <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon" alt="icon"></h5></a>
+        </div>
+    </div>
+    
+    <div id="timing_information" class="collapse">
+        <div class="row">
+            <div class="col-3">
+                <div class="font-weight-bold">Scheduled:</div>
+                {% if task.task_scheduled_time %}
+                {{ task.task_scheduled_time|date:"Y-m-d H:i" }}
+                {% else %}
+                ---
+                {% endif %}
+            </div>
+            <br><br>
+            <div class="col-3">
+                <div class="font-weight-bold">Started:</div>
+                {% if task.task_started_time %}
+                {{ task.task_started_time|date:"Y-m-d H:i" }}
+                {% else %}
+                ---
+                {% endif %}
+            </div>
+            <br><br>
+            <div class="col-3">
+                <div class="font-weight-bold">Finished:</div>
+                {% if task.task_finished_time %}
+                {{ task.task_finished_time|date:"Y-m-d H:i" }}
+                {% else %}
+                ---
+                {% endif %}
+            </div>
+            <br><br>
+            <div class="col-3">
+                <div class="font-weight-bold">Due:</div>
+                {% if task.task_due_time %}
+                {{ task.task_due_time|date:"Y-m-d H:i" }}
+                {% else %}
+                ---
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3">
+            </div>
+            <div class="col-3">
+                {% if not task.task_started_time %}
+                <a href="/tasks/{{ task.task_id }}/start" type="button" class="btn btn-sm btn-light"><img src="{% static 'dfirtrack_main/icons/play-circle.svg' %}" class="icon-sm" alt="icon">  Start</a>
+                {% endif %}
+            </div>
+            <div class="col-1">
+                {% if not task.task_finished_time %}
+                <a href="/tasks/{{ task.task_id }}/finish" type="button" class="btn btn-sm btn-light"><img src="{% static 'dfirtrack_main/icons/circle-check.svg' %}" class="icon-sm" alt="icon">  Finish</a>
+                {% endif %}
+            </div>
+            <div class="col-1">
+                {% if task.task_started_time or task.task_finished_time %}
+                <a href="/tasks/{{ task.task_id }}/renew" type="button" class="btn btn-sm btn-secondary"><img src="{% static 'dfirtrack_main/icons/circle-x.svg' %}" class="icon-sm" alt="icon">  Renew</a>
+                {% endif %}
+            </div>
+            <br><br>
+        </div>
+    </div>
+
+</div>
+
+<div class="card bg-dark border-light card-body top-distance">
+
+    <div class="row">
+        <div class="col">
+            <a href="#note" data-toggle="collapse"><h5>Note  <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon" alt="icon"></h5></a>
+        </div>
+    </div>
+    
+    <div id="note" class="collapse">
+        <div class="row">
+            <div class="col">
+            {% if task.task_note %}
+            {{ task.task_note|linebreaks }}
+            {% else %}
+            ---
+            {% endif %}
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="card bg-dark border-secondary card-body top-distance">
+
+    <div class="row text-muted">
+        <div class="col">
+            <h5>Meta information</h5>
+        </div>
+    </div>
+    
+    <div class="row text-muted">
+        <div class="col-3">
+            <div class="font-weight-bold">Created:</div>
+            {{ task.task_create_time|date:"Y-m-d H:i" }}
+        </div>
+        <div class="col-3">
+            <div class="font-weight-bold">Created by:</div>
+            {{ task.task_created_by_user_id }}
+        </div>
+        <div class="col-3">
+            <div class="font-weight-bold">Last modified:</div>
+            {{ task.task_modify_time|date:"Y-m-d H:i" }}
+        </div>
+        <div class="col-3">
+            <div class="font-weight-bold">Modified by:</div>
+            {{ task.task_modified_by_user_id }}
+        </div>
+    </div>
+
+</div>
+
+<br><br>
+<div class="row">
+    <div class="col-6">
+        <a href="/tasks" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon" alt="icon">  Up to tasks</a>
+    </div>
+    <div class="col-1">
+        <a href="/tasks/{{ task.task_id }}/edit" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon" alt="icon">  Edit</a>
+    </div>
+</div>
+
+{% endblock %}

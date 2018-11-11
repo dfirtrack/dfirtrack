@@ -1,0 +1,27 @@
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+{% block head %}
+<title>DFIRTrack - Locations</title>
+{% load staticfiles %}
+{% endblock %}
+
+{% block content %}
+        
+    <h4>Add location</h4><br><br>
+    <form method="POST" class="post-form">
+        {% csrf_token %}
+        {% include "dfirtrack_main/includes/form.html" %}
+
+        <br><br>
+
+        <div class="row">
+            <div class="col-1">
+                {% include "dfirtrack_main/includes/button_save.html" %}
+            </div>
+            <div class="col-1">
+                {% include "dfirtrack_main/includes/button_cancel.html" %}
+            </div>
+        </div>
+    </form>
+    
+{% endblock %}

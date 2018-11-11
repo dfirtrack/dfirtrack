@@ -1,0 +1,25 @@
+{% extends "dfirtrack_main/mainloginlogout.html" %}
+
+{% block head %}
+<title>Login</title>
+{% load staticfiles %}
+{% endblock %}
+
+
+{% block content %}
+
+<br><br>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-4">
+            <h3>Welcome</h3>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+            <button class="btn btn-light" type="submit"><img src="{% static 'dfirtrack_main/icons/account-login.svg' %}" class="icon" alt="icon">  Login</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

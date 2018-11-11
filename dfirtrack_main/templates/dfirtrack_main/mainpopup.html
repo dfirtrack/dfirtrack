@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% block head %}
+    {% endblock %}
+    <meta charset="utf-8" />
+
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'dfirtrack_main/bootstrap-4.0.0/css/bootstrap.min.css' %}" type = "text/css"/>
+
+    <meta name="viewport" content = "width=device-width, initial-scale=1.0">
+
+    <style type="text/css">
+        html,
+        body {
+          height:100%
+        }
+    </style>
+
+    <link rel="stylesheet" href="{% static 'dfirtrack_main/dfirtrack/dfirtrack.css' %}" type = "text/css"/>
+    <script src="{% static 'dfirtrack_main/dfirtrack/dfirtrack.js' %}"></script>
+
+</head>
+
+<body class="body bg-dark text-light">
+
+    <div class="container-fluid">
+
+        {% block content %}
+        {% endblock %}
+
+    </div>
+
+    <script src="{% static 'dfirtrack_main/jquery-3.2.1/jquery-3.2.1.slim.min.js' %}"></script>
+    <script src="{% static 'dfirtrack_main/popper-1.12.9/popper.min.js' %}"></script>
+    <script src="{% static 'dfirtrack_main/bootstrap-4.0.0/js/bootstrap.min.js' %}"></script>
+
+</body>
+
+</html>

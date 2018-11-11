@@ -1,0 +1,820 @@
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+{% block head %}
+<title>
+    {{ system.system_name }}
+    {% if system.system_dnssuffix %}
+    .{{ system.system_dnssuffix }}
+    {% endif %}
+</title>
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.css' %}"/>
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+<div class="row text-muted">
+    <div class="col-6">
+        <a href="/systems" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon" alt="icon">  Up to systems</a>
+        <br><br>
+    </div>
+    <div class="col-6">
+        <a href="/systems/{{ system.system_id }}/edit" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon" alt="icon">  Edit</a>
+        <br><br>
+    </div>
+</div>
+
+<script>
+var clipboard = new ClipboardJS('.btn');
+</script>
+
+<div class="row">
+    <div class="col-3">
+        <div class="btn btn-primary btn-lg"><img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon" alt="icon">
+            {{ system.system_name }}
+        </div>
+    </div>
+    <div class="col-3">
+            <button class="btn btn-outline-primary btn-sm" data-clipboard-text="{{ system.system_name }}">
+                Copy hostname
+            </button>
+    </div>
+
+    <div class="col-3">
+	<div class="font-weight-bold">DNS Suffix:</div>
+	{% if system.system_dnssuffix %}
+	{{ system.system_dnssuffix }}
+	{% else %}
+	---
+	{% endif %}
+	<br><br>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-3">
+        <small class="text-muted">
+            System-ID: {{ system.system_id }}
+        </small>
+    </div>
+    <div class="col-3">
+        <small class="text-muted">
+            System-UUID:
+            {% if system.system_uuid %}
+            {{ system.system_uuid }}
+            {% else %}
+            ---
+            {% endif  %}
+        </small>
+    </div>
+</div>
+<br><br>
+
+<div class="row">
+
+    <div class="col-6">
+        {% if system.tag.all %}
+    	    {% for i in system.tag.all %}
+    	    <a href="/tags/{{ i.tag_id }}" type="button" class="btn btn-sm btn-{{ i.tagcolor }} round top-distance"><img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon-sm" alt="icon">  {{ i }}</a>
+    	    {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="col-6">
+        {% if system.case.all %}
+	    {% for i in system.case.all %}
+	    <a href="/cases/{{ i.case_id }}">{{ i }}</a>
+	    {% endfor %}
+        {% endif %}
+    </div>
+
+</div>
+
+<div class="card bg-dark border-light card-body top-distance">
+
+    <div class="row">
+        <div class="col">
+            <h5>Tasks information</h5>
+        </div>
+    </div>
+
+    <div class="row font-weight-bold">
+        <div class="col-3">Open tasks</div>
+    </div>
+    <br>
+    
+    <table id="table_system_task_open" class="display" width="100%">
+
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Task</th>
+                <th>Note</th>
+                <th>User</th>
+                <th></th>
+                <th>Status</th>
+                <th></th>
+                <th></th>
+                <th>Priority</th>
+                <th>Due</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        {% if system.task_set.all %}
+            {% for i in system.task_set.all %}
+                {% if i.taskstatus.taskstatus_name == 'Pending' or i.taskstatus.taskstatus_name == 'Working' %}
+                <tr>
+
+                    <td>
+                        {{ i.task_id }}
+                    </td>
+
+                    <td>
+                        <a href="/tasks/{{ i.task_id }}" type="button" class="btn btn-primary btn-sm sharp"><img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon-sm" alt="icon">  {{ i.taskname }}</a>
+                    </td>
+
+                    <td>
+                        {% if i.task_note %}
+                        {{ i.task_note }}
+                        {% else %}
+                        ---
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {% if i.task_assigned_to_user_id %}
+                        {{ i.task_assigned_to_user_id }}
+                        {% else %}
+                        ---
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {% if not i.task_assigned_to_user_id %}
+                        <a href="/tasks/{{ i.task_id }}/user?system={{ system.system_id }}" type="button" class="btn btn-sm btn-light"><img src="{% static 'dfirtrack_main/icons/person.svg' %}" class="icon-sm" alt="icon">  Me</a></a>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        <a href="/taskstatuss/{{ i.taskstatus.taskstatus_id }}">
+                        {% if i.taskstatus.taskstatus_name == 'Pending' %}
+                        {% include "dfirtrack_main/includes/button_taskstatus_pending.html" %}
+                        {% endif %}
+                        {% if i.taskstatus.taskstatus_name == 'Working' %}
+                        {% include "dfirtrack_main/includes/button_taskstatus_working.html" %}
+                        {% endif %}
+                        {% if i.taskstatus.taskstatus_name == 'Done' %}
+                        {% include "dfirtrack_main/includes/button_taskstatus_done.html" %}
+                        {% endif %}
+                        {{ i.taskstatus }}
+                        </a>
+                    </td>
+
+                    <td>
+                        {% if not i.task_started_time %}
+                        <a href="/tasks/{{ i.task_id }}/start?system={{ system.system_id }}" type="button" class="btn btn-sm btn-light"><img src="{% static 'dfirtrack_main/icons/play-circle.svg' %}" class="icon-sm" alt="icon">  Start</a>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        <a href="/tasks/{{ i.task_id }}/finish?system={{ system.system_id }}" type="button" class="btn btn-sm btn-light"><img src="{% static 'dfirtrack_main/icons/circle-check.svg' %}" class="icon-sm" alt="icon">  Finish</a>
+                    </td>
+
+                    <td>
+                        <a href="/taskprioritys/{{ i.taskpriority.taskpriority_id }}">
+                        {% if i.taskpriority.taskpriority_name == 'High' %}
+                        {% include "dfirtrack_main/includes/button_taskpriority_high.html" %}
+                        {% endif %}
+                        {% if i.taskpriority.taskpriority_name == 'Medium' %}
+                        {% include "dfirtrack_main/includes/button_taskpriority_medium.html" %}
+                        {% endif %}
+                        {% if i.taskpriority.taskpriority_name == 'Low' %}
+                        {% include "dfirtrack_main/includes/button_taskpriority_low.html" %}
+                        {% endif %}
+                        {{ i.taskpriority }}
+                        </a>
+                    </td>
+
+                    <td>
+                        {% if i.task_due_time %}
+                        {{ i.task_due_time|date:"Y-m-d H:i" }}
+                        {% else %}
+                        ---
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+
+        {% else %}
+
+            <tr>
+                <td>---</td>
+                <td>---</td>
+                <td>---</td>
+                <td></td>
+                <td>---</td>
+                <td></td>
+                <td></td>
+                <td>---</td>
+                <td>---</td>
+            </tr>
+
+        {% endif %}
+        </tbody>
+    </table>
+    
+    <div class="row top-distance">
+        <div class="col-1">
+            <a href="/tasks/add?system={{ system.system_id }}" type="button" class="btn btn-light btn-sm"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm" alt="icon">  Add Task</a></a>
+        </div>
+    </div>
+    <br>
+
+    <div class="row font-weight-bold">
+        <div class="col-3">
+            <br>
+            <a href="#closed_tasks" data-toggle="collapse">Closed tasks  <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon-sm" alt="icon"></a>
+        </div>
+    </div>
+    
+    <div id="closed_tasks" class="collapse">
+    <table id="table_system_task_done" class="display" width="100%">
+
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Task</th>
+                <th>Note</th>
+                <th>User</th>
+                <th>Status</th>
+                <th></th>
+                <th>Priority</th>
+                <th>Finished</th>
+            </tr>
+        </thead>
+    
+        <tbody>
+            {% if system.task_set.all %}
+                {% for i in system.task_set.all %}
+                    {% if i.taskstatus.taskstatus_name == 'Done' %}
+                    <tr>
+                    <div class="text-muted">
+
+                        <td>
+                            {{ i.task_id }}
+                        </td>
+
+                        <td>
+                            <a href="/tasks/{{ i.task_id }}" type="button" class="btn btn-primary btn-sm sharp"><img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon-sm" alt="icon">  {{ i.taskname }}</a>
+                        </td>
+
+                        <td>
+                            {% if i.task_note %}
+                            {{ i.task_note }}
+                            {% else %}
+                            ---
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if i.task_assigned_to_user_id %}
+                            {{ i.task_assigned_to_user_id }}
+                            {% else %}
+                            ---
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            <a href="/taskstatuss/{{ i.taskstatus.taskstatus_id }}">
+                            {% if i.taskstatus.taskstatus_name == 'Pending' %}
+                            {% include "dfirtrack_main/includes/button_taskstatus_pending.html" %}
+                            {% endif %}
+                            {% if i.taskstatus.taskstatus_name == 'Working' %}
+                            {% include "dfirtrack_main/includes/button_taskstatus_working.html" %}
+                            {% endif %}
+                            {% if i.taskstatus.taskstatus_name == 'Done' %}
+                            {% include "dfirtrack_main/includes/button_taskstatus_done.html" %}
+                            {% endif %}
+                            {{ i.taskstatus }}
+                            </a>
+                        </td>
+
+                        <td>
+                            <a href="/tasks/{{ i.task_id }}/renew?system={{ system.system_id }}" type="button" class="btn btn-sm btn-secondary"><img src="{% static 'dfirtrack_main/icons/circle-x.svg' %}" class="icon-sm" alt="icon">  Renew</a>
+                        </td>
+
+                        <td>
+                            <a href="/taskprioritys/{{ i.taskpriority.taskpriority_id }}">
+                            {% if i.taskpriority.taskpriority_name == 'High' %}
+                            {% include "dfirtrack_main/includes/button_taskpriority_high.html" %}
+                            {% endif %}
+                            {% if i.taskpriority.taskpriority_name == 'Medium' %}
+                            {% include "dfirtrack_main/includes/button_taskpriority_medium.html" %}
+                            {% endif %}
+                            {% if i.taskpriority.taskpriority_name == 'Low' %}
+                            {% include "dfirtrack_main/includes/button_taskpriority_low.html" %}
+                            {% endif %}
+                            {{ i.taskpriority }}
+                            </a>
+                        </td>
+
+                        <td>
+                            {% if i.task_finished_time %}
+                            {{ i.task_finished_time|date:"Y-m-d H:i" }}
+                            {% else %}
+                            ---
+                            {% endif %}
+                        </td>
+
+                    </div>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <tr>
+
+                <div class="text-muted">
+                    <td>---</td>
+                    <td>---</td>
+                    <td>---</td>
+                    <td>---</td>
+                    <td></td>
+                    <td>---</td>
+                    <td>---</td>
+                </div>
+
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+    </div>
+
+</div>
+
+<div class="card bg-dark border-light card-body top-distance">
+	<div class="row">
+            <div class="col">
+	        <h5>Status information</h5>
+            </div>
+	</div>
+    <div class="row">
+        <div class="col-3">
+            <div class="font-weight-bold">Systemstatus:</div>
+            {% if system.systemstatus %}
+            <a href="/systemstatuss/{{ system.systemstatus.systemstatus_id }}"
+            {% if system.systemstatus.systemstatus_name == 'Clean' %}
+            class="btn btn-green btn-sm round"><img src="{% static 'dfirtrack_main/icons/shield-light.svg' %}" class="icon-sm" alt="icon">  
+            {% elif system.systemstatus.systemstatus_name == 'Removed' %}
+            class="btn btn-green btn-sm round"><img src="{% static 'dfirtrack_main/icons/trash-light.svg' %}" class="icon-sm" alt="icon">  
+            {% elif system.systemstatus.systemstatus_name == 'Reinstalled' %}
+            class="btn btn-green btn-sm round"><img src="{% static 'dfirtrack_main/icons/shield-light.svg' %}" class="icon-sm" alt="icon">  
+            {% elif system.systemstatus.systemstatus_name == 'Remediation done' %}
+            class="btn btn-green btn-sm round"><img src="{% static 'dfirtrack_main/icons/shield-light.svg' %}" class="icon-sm" alt="icon">  
+            {% elif system.systemstatus.systemstatus_name == 'Analysis ongoing' %}
+            class="btn btn-orange btn-sm round"><img src="{% static 'dfirtrack_main/icons/pulse-light.svg' %}" class="icon-sm" alt="icon">  
+            {% elif system.systemstatus.systemstatus_name == 'Unknown' %}
+            class="btn btn-orange btn-sm round"><img src="{% static 'dfirtrack_main/icons/flag-light.svg' %}" class="icon-sm" alt="icon">  
+            {% elif system.systemstatus.systemstatus_name == 'Compromised' %}
+            class="btn btn-red btn-sm round"><img src="{% static 'dfirtrack_main/icons/fire-light.svg' %}" class="icon-sm" alt="icon">  
+            {% else %}
+            >
+            {% endif %}
+                {{ system.systemstatus.systemstatus_name }}
+            </a>
+            {% else %}
+            ---
+            {% endif %}
+        </div>
+        <div class="col-3">
+            <div class="font-weight-bold">Analysisstatus:</div>
+            {% if system.analysisstatus %}
+            <a href="/analysisstatuss/{{ system.analysisstatus.analysisstatus_id }}">{{ system.analysisstatus }}</a>
+            {% else %}
+            ---
+            {% endif %}
+        </div>
+        <div class="col-3">
+            <div class="font-weight-bold">Reason for investigation:</div>
+            {% if system.reason %}
+            <a href="/reasons/{{ system.reason.reason_id }}">{{ system.reason }}</a>
+            {% else %}
+            ---
+            {% endif %}
+        </div>
+        <div class="col-3">
+            <div class="font-weight-bold">Recommendation:</div>
+            {% if system.recommendation %}
+            <a href="/recommendations/{{ system.recommendation.recommendation_id }}">{{ system.recommendation }}</a>
+            {% else %}
+            ---
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="card bg-dark border-light card-body top-distance">
+
+    <div class="row">
+        <div class="col">
+            <a href="#timeline" data-toggle="collapse"><h5>Timeline  <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon" alt="icon"></h5></a>
+        </div>
+    </div>
+
+    <div id="timeline" class="collapse">
+        <table id="table_timeline" class="display" width="100%">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Date</th>
+                    <th>Time (UTC)</th>
+                    <th>System</th>
+                    <th>Type</th>
+                    <th>Content</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+            {% if system.entry_set.all %}
+
+                {% for i in system.entry_set.all %}
+                    <tr>
+                        <td><a href="/entrys/{{ i.entry_id}}">{{ i.entry_id }}</a></td>
+                        <td>{{ i.entry_date }}</td>
+                        <td>{{ i.entry_utc }}</td>
+                        <td>{{ i.entry_system }}</td>
+                        <td>{{ i.entry_type }}</td>
+                        <td>{{ i.entry_content }}</td>
+                    </tr>
+                {% endfor %}
+
+            {% else%}
+                <tr>
+                    <td>---</td>
+                    <td>---</td>
+                    <td>---</td>
+                    <td>---</td>
+                    <td>---</td>
+                    <td>---</td>
+                </tr>
+            {% endif %}
+
+            </tbody>
+        </table>
+
+        <div class="row">
+            <div class="col-3">
+            <a href="/entrys/add?system={{ system.system_id }}" type="button" class="btn btn-light btn-sm top-distance"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm" alt="icon">  Add entry</a>
+            </div>
+            <div class="col-3">
+            <a href="/entrys/importer/file/markdown/entrys?system={{ system.system_id }}" type="button" class="btn btn-light btn-sm top-distance"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm" alt="icon">  Add entries via Timesketch CSV</a>
+            </div>
+        </div>
+    </div>
+
+<script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
+
+</div>
+
+<div class="card bg-dark border-light card-body top-distance">
+    <div class="row">
+        <div class="col">
+            <a href="#technical_information" data-toggle="collapse"><h5>Technical information  <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon" alt="icon"></h5></a>
+        </div>
+    </div>
+    
+    <div id="technical_information" class="collapse">
+        <div class="row">
+            <div class="col-3">
+        	<div class="font-weight-bold">Systemtype:</div>
+                {% if system.systemtype %}
+                <a href="/systemtypes/{{ system.systemtype.systemtype_id }}">{{ system.systemtype }}</a>
+        	{% else %}
+        	---
+        	{% endif %}
+        	<br><br>
+            </div>
+            <div class="col-3">
+                <div class="font-weight-bold">IP addresses:</div>
+            	{% if system.ip.all %}
+            	{% for i in system.ip.all %}
+                <a href="/ips/{{ i.ip_id }}">{{ i.ip_ip }}<br></a>
+        	{% endfor %}
+        	{% else %}
+        	---
+        	{% endif %}
+        	<br><br>
+            </div>
+            <div class="col-3">
+        	<div class="font-weight-bold">Domain:</div>
+        	{% if system.domain %}
+        	<a href="/domains/{{ system.domain.domain_id }}">{{ system.domain.domain_name }}</a>
+        	{% else %}
+        	---
+        	{% endif %}
+        	<br><br>
+            </div>
+            <div class="col-3">
+                <div class="font-weight-bold">Operating system:</div>
+                {% if system.os %}
+                <a href="/oss/{{ system.os.os_id }}">{{ system.os.os_name }}</a>
+        	{% else %}
+        	---
+        	{% endif %}
+        	<br><br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3">
+                <div class="font-weight-bold">Installation time:</div>
+                {% if system.system_install_time %}
+                {{ system.system_install_time|date:"Y-m-d H:i" }}
+        	{% else %}
+        	---
+        	{% endif %}
+            </div>
+            <div class="col-3">
+        	<div class="font-weight-bold">Last booted:</div>
+                {% if system.system_lastbooted_time %}
+                {{ system.system_lastbooted_time|date:"Y-m-d H:i" }}
+        	{% else %}
+        	---
+        	{% endif %}
+            </div>
+            <div class="col-3">
+        	<div class="font-weight-bold">System is depracted since:</div>
+                {% if system.system_deprecated_time %}
+                {{ system.system_deprecated_time|date:"Y-m-d H:i" }}
+        	{% else %}
+        	---
+        	{% endif %}
+            </div>
+            <div class="col-3">
+        	<div class="font-weight-bold">OS architecture:</div>
+                {% if system.osarch %}
+                {{ system.osarch }}
+        	{% else %}
+        	---
+        	{% endif %}
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="card bg-dark border-light card-body top-distance">
+    <div class="row">
+        <div class="col">
+            <a href="#virtualization_information" data-toggle="collapse"><h5>Virtualization information  <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon" alt="icon"></h5></a>
+        </div>
+    </div>
+    
+    <div id="virtualization_information" class="collapse">
+        <div class="row">
+            <div class="col-3">
+        	<div class="font-weight-bold">System is a VM:</div>
+        	{% if system.system_is_vm is none %}
+        	Unknown
+        	{% else %}
+        	{{ system.system_is_vm }}
+        	{% endif %}
+            </div>
+            <div class="col-3">
+        	<div class="font-weight-bold">Host system:</div>
+            	{% if system.host_system %}
+                <a href="/systems/{{ system.host_system.system_id }}" type="button" class="btn btn-primary btn-sm top-distance"><img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm" alt="icon">  {{ system.host_system.system_name }}</a>
+        	{% else %}
+        	---
+        	{% endif %}
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="card bg-dark border-light card-body top-distance">
+    <div class="row">
+        <div class="col">
+            <a href="#company_information" data-toggle="collapse"><h5>Company information  <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon" alt="icon"></h5></a>
+        </div>
+    </div>
+    
+    <div id="company_information" class="collapse">
+        <div class="row">
+            <div class="col-3">
+        	<div class="font-weight-bold">Company:</div>
+        	{% if system.company.all %}
+            	{% for i in system.company.all %}
+        	<a href="/companys/{{ i.company_id }}">{{ i.company_name }}</a><br>
+        	{% endfor %}
+        	{% else %}
+        	---
+        	{% endif %}
+            </div>
+            <div class="col-3">
+        	<div class="font-weight-bold">Location:</div>
+        	{% if system.location %}
+        	<a href="/locations/{{ system.location.location_id }}">{{ system.location }}</a>
+        	{% else %}
+        	---
+        	{% endif %}
+            </div>
+            <div class="col-3">
+        	<div class="font-weight-bold">Serviceprovider:</div>
+        	{% if system.serviceprovider %}
+        	<a href="/serviceproviders/{{ system.serviceprovider.serviceprovider_id }}">{{ system.serviceprovider }}</a>
+        	{% else %}
+        	---
+        	{% endif %}
+            </div>
+            <div class="col-3">
+        	<div class="font-weight-bold">Contact:</div>
+        	{% if system.contact %}
+        	<a href="/contacts/{{ system.contact.contact_id }}">{{ system.contact.contact_name }}</a>
+        	{% else %}
+        	---
+        	{% endif %}
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="card bg-dark border-light card-body top-distance">
+    <div class="row">
+        <div class="col">
+            <a href="#systemusers" data-toggle="collapse"><h5>Systemusers  <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon" alt="icon"></h5></a>
+        </div>
+    </div>
+    
+    <div id="systemusers" class="collapse">
+        {% if system.systemuser_set.all %}
+        <div class="row top-distance">
+            <div class="col">
+        
+        {% for i in system.systemuser_set.all %}
+        
+                <img src="{% static 'dfirtrack_main/icons/person-light.svg' %}" class="icon-sm" alt="icon">  {{ i.systemuser_name }} ({{ i.systemuser_lastlogon_time|date:"Y-m-d H:i" }})<br>
+        
+        {% endfor %}
+        
+            </div>
+        </div>
+        {% else %}
+        ---
+        {% endif %}
+    </div>
+
+</div>
+
+<div class="card bg-dark border-light card-body top-distance">
+    <div class="row">
+        <div class="col">
+            <a href="#analystmemos" data-toggle="collapse"><h5>Analystmemos  <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon" alt="icon"></a>
+            <div class="text-muted">(just notes for information)</div>
+            </h5>
+        </div>
+    </div>
+
+    <div id="analystmemos" class="collapse">
+        {% if system.analystmemo_set.all %}
+        {% for i in system.analystmemo_set.all %}
+
+                <div class="row top-distance">
+                    <div class="col">
+                        <a href="#analystmemo_{{ i.analystmemo_id }}" data-toggle="collapse">
+                            Analystmemo created {{ i.analystmemo_create_time|date:"Y-m-d H:i" }} by {{ i.analystmemo_created_by_user_id }} and last edited {{ i.analystmemo_modify_time|date:"Y-m-d H:i" }} by {{ i.analystmemo_modified_by_user_id }}
+                        </a>
+                    </div>
+                </div>
+                <div id="analystmemo_{{ i.analystmemo_id }}" class="collapse">
+                    {{ i.analystmemo_note|linebreaks }}<br>
+                    <a href="/analystmemos/{{ i.analystmemo_id }}/edit" type="button" class="btn btn-light btn-sm top-distance"><img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm" alt="icon">  Edit</a>
+                    <br><br>
+                </div>
+
+        {% endfor %}
+        {% else %}
+        ---
+        {% endif %}
+
+        <div class="row">
+            <div class="col-1">
+            <a href="/analystmemos/add?system={{ system.system_id }}" type="button" class="btn btn-light btn-sm top-distance"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm" alt="icon">  Add analystmemo</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card bg-dark border-light card-body top-distance">
+    <div class="row">
+        <div class="col">
+            <a href="#reportitems" data-toggle="collapse"><h5>Reportitems  <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon" alt="icon"></a>
+            <div class="text-muted">(will be exported to the systemreport)</div>
+            </h5>
+        </div>
+    </div>
+    
+    <div id="reportitems" class="collapse">
+        {% if system.reportitem_set.all %}
+        {% for i in system.reportitem_set.all %}
+
+                <div class="row top-distance">
+                    <div class="col">
+                        <a href="#reportitem_{{ i.reportitem_id }}" data-toggle="collapse">
+                            {% if i.reportitem_subheadline %}
+                                <b>{{ i.headline }} - {{ i.reportitem_subheadline }}</b> - Reportitem created {{ i.reportitem_create_time|date:"Y-m-d H:i" }} by {{ i.reportitem_created_by_user_id }} and last edited {{ i.reportitem_modify_time|date:"Y-m-d H:i" }} by {{ i.reportitem_modified_by_user_id }}
+                            {% else %}
+                                <b>{{ i.headline }}</b> - Reportitem created {{ i.reportitem_create_time|date:"Y-m-d H:i" }} by {{ i.reportitem_created_by_user_id }} and last edited {{ i.reportitem_modify_time|date:"Y-m-d H:i" }} by {{ i.reportitem_modified_by_user_id }}
+                            {% endif %}
+                        </a>
+                    </div>
+                </div>
+                <div id="reportitem_{{ i.reportitem_id }}" class="collapse">
+                    <div class="font-weight-bold">
+                        <u>{{ i.headline }}</u>
+                    </div>
+                    <br>
+                    {% if i.reportitem_subheadline %}
+                    <div class="font-italic">
+                        <u>{{ i.reportitem_subheadline }}</u>
+                    </div>
+                    {% endif %}
+                    <br>
+                    {{ i.reportitem_note|linebreaks }}<br>
+                    <a href="/reportitems/{{ i.reportitem_id }}/edit" type="button" class="btn btn-light btn-sm top-distance"><img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm" alt="icon">  Edit</a>
+                    <br><br>
+                </div>
+
+        {% endfor %}
+        {% else %}
+        ---
+        {% endif %}
+
+        <div class="row">
+            <div class="col-1">
+            <a href="/reportitems/add?system={{ system.system_id }}" type="button" class="btn btn-light btn-sm top-distance"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm" alt="icon">  Add reportitem</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="card bg-dark border-secondary card-body top-distance">
+    <div class="row text-muted">
+        <div class="col">
+            <h5>Meta information</h5>
+        </div>
+    </div>
+
+    <div class="row text-muted">
+        <div class="col-3">
+            <div class="font-weight-bold">Created:</div>
+            {{ system.system_create_time|date:"Y-m-d H:i" }}
+        </div>
+        <div class="col-3">
+            <div class="font-weight-bold">Created by:</div>
+            {{ system.system_created_by_user_id }}
+        </div>
+        <div class="col-3">
+            <div class="font-weight-bold">Last modified:</div>
+            {{ system.system_modify_time|date:"Y-m-d H:i" }}
+        </div>
+        <div class="col-3">
+            <div class="font-weight-bold">Modified by:</div>
+            {{ system.system_modified_by_user_id }}
+        </div>
+    </div>
+
+    <div class="row text-muted">
+        <div class="col-6"></div>
+        <div class="col-3">
+            <div class="font-weight-bold">Last API update:</div>
+            {% if system.system_api_time %}
+            {{ system.system_api_time|date:"Y-m-d H:i" }}
+            {% else %}
+            ---
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<br><br>
+
+<div class="row text-muted">
+    <div class="col-6">
+        <a href="/systems" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon" alt="icon">  Up to systems</a>
+    </div>
+    <div class="col-6">
+        <a href="/systems/{{ system.system_id }}/edit" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon" alt="icon">  Edit</a>
+    </div>
+</div>
+
+{% block datatables %}
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.js' %}"></script>
+{% endblock %}
+
+{% endblock %}

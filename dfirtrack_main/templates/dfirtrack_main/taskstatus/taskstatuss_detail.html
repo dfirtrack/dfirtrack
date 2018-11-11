@@ -1,0 +1,70 @@
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+{% block head %}
+<title>DFIRTrack - Taskstatus</title>
+{% load staticfiles %}
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-3">
+        <a href="/taskstatuss" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon" alt="icon">  Up to taskstatus</a>
+        <br><br>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-3">
+        <h5>Taskstatus "{{ taskstatus.taskstatus_name }}"
+            {% if i.taskstatus.taskstatus_name == 'Pending' %}
+            {% include "dfirtrack_main/includes/button_taskstatus_pending.html" %}
+            {% endif %}
+            {% if i.taskstatus.taskstatus_name == 'Working' %}
+            {% include "dfirtrack_main/includes/button_taskstatus_working.html" %}
+            {% endif %}
+            {% if i.taskstatus.taskstatus_name == 'Done' %}
+            {% include "dfirtrack_main/includes/button_taskstatus_done.html" %}
+            {% endif %}
+            {{ i.taskstatus }}
+        </h5>
+    </div>
+    <div class="col-3">
+        <small class="text-muted">
+            Taskstatus-ID: {{ taskstatus.taskstatus_id }}
+        </small>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-6">
+    <br>
+        <h5>Tasks with this status{% if taskstatus.task_set.all %} ({{ taskstatus.task_set.all|length }}){% endif %}</h5>
+    </div>
+</div>
+
+{% if taskstatus.task_set.all %}
+{% for i in taskstatus.task_set.all %}
+<div class="row top-distance">
+    <div class="col-3">
+        <a href="/tasks/{{ i.task_id}}" type="button" class="btn btn-primary btn-sm sharp"><img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon-sm" alt="icon">  
+        {{ i.taskname }}
+        {% if i.system %}
+        | {{ i.system.system_name }}
+        {% endif %}
+        </a>
+    </div>
+</div>
+{% endfor %}
+{% else %}
+<div class="row top-distance">
+    <div class="col-3">
+        ---
+    </div>
+</div>
+{% endif %}
+
+<br><br>
+<a href="/taskstatuss/{{ taskstatus.taskstatus_id }}/edit" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon" alt="icon">  Edit</a>
+
+{% endblock %}

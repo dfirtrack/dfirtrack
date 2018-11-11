@@ -1,0 +1,69 @@
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+{% block head %}
+<title>DFIRTrack - Taskpriorities</title>
+{% load staticfiles %}
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-3">
+        <a href="/taskprioritys" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon" alt="icon">  Up to taskpriorities</a>
+        <br><br>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-3">
+        <h5>Taskpriority "{{ taskpriority.taskpriority_name }}"
+        {% if taskpriority.taskpriority_name == 'High' %}
+        {% include "dfirtrack_main/includes/button_taskpriority_high.html" %}
+        {% endif %}
+        {% if taskpriority.taskpriority_name == 'Medium' %}
+        {% include "dfirtrack_main/includes/button_taskpriority_medium.html" %}
+        {% endif %}
+        {% if taskpriority.taskpriority_name == 'Low' %}
+        {% include "dfirtrack_main/includes/button_taskpriority_low.html" %}
+        {% endif %}
+        </h5>
+    </div>
+    <div class="col-3">
+        <small class="text-muted">
+            Taskpriority-ID: {{ taskpriority.taskpriority_id }}
+        </small>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-6">
+    <br>
+        <h5>Tasks with this priority{% if taskpriority.task_set.all %} ({{ taskpriority.task_set.all|length }}){% endif %}</h5>
+    </div>
+</div>
+
+{% if taskpriority.task_set.all %}
+{% for i in taskpriority.task_set.all %}
+<div class="row top-distance">
+    <div class="col-3">
+        <a href="/tasks/{{ i.task_id}}" type="button" class="btn btn-primary btn-sm sharp"><img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon-sm" alt="icon">  
+        {{ i.taskname }}
+        {% if i.system %}
+        | {{ i.system.system_name }}
+        {% endif %}
+        </a>
+    </div>
+</div>
+{% endfor %}
+{% else %}
+<div class="row top-distance">
+    <div class="col-3">
+        ---
+    </div>
+</div>
+{% endif %}
+
+<br><br>
+<a href="/taskprioritys/{{ taskpriority.taskpriority_id }}/edit" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon" alt="icon">  Edit</a>
+
+{% endblock %}

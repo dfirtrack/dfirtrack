@@ -1,0 +1,97 @@
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+{% block head %}
+<title>DFIRTrack - Entries</title>
+{% load staticfiles %}
+
+<script src="{% static 'dfirtrack_main/dfirtrack/dfirtrack.js' %}"></script>
+
+{% endblock %}
+
+{% block content %}
+        
+    <h4>Import entries via file</h4><br><br>
+    <form method="POST" class="post-form" enctype="multipart/form-data">
+
+        <div class="row">
+            <div class="col-1">
+                {% include "dfirtrack_main/includes/button_save.html" %}
+                <br><br>
+            </div>
+            <div class="col-1">
+                {% include "dfirtrack_main/includes/button_cancel.html" %}
+                <br><br>
+            </div>
+        </div>
+
+        {% csrf_token %}
+
+            {% if form.non_field.errors %}
+            <div class="row">
+                <div class="col">
+                    <div class="text-danger">
+                        Non field errors:<br>
+                        {{ form.non_field.errors }}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+        <div class="card card-body bg-dark border-light top-distance">
+            <div class="row">
+                <div class="col">
+                    <h5>System (*):</h5>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-3">
+                    <div class="card card-body bg-dark border-light top-distance">
+                        <div class="text-danger">{{ form.system.errors }}</div>
+                        {{ form.system }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-body bg-dark border-light top-distance">
+
+            <div class="row">
+                <div class="col">
+                    <h5>Entryfile (*):</h5>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-3">
+                    <div class="card card-body bg-dark border-light top-distance">
+                        <div class="text-danger">{{ form.entryfile.errors }}</div>
+                        {{ form.entryfile }}
+                    </div>
+                </div>
+                <div class="col-5">
+                <!--
+                    <p><b>Systems with existing system names and ip addresses won't get added.</b></p>
+                    <p>Use comma (,) as field delimiter and apostrophe (') to enclose fields.</p>
+                    <p>Expected file format: 'system_name','ip_address'</p>
+                    <p>If you just have a list of system names use <b>Creator</b> instead.</p>
+                -->
+                </div>
+            </div>
+
+        </div>
+
+	<br><br>
+
+        <div class="row">
+            <div class="col-1">
+                {% include "dfirtrack_main/includes/button_save.html" %}
+            </div>
+            <div class="col-1">
+                {% include "dfirtrack_main/includes/button_cancel.html" %}
+            </div>
+        </div>
+
+    </form>
+    
+{% endblock %}

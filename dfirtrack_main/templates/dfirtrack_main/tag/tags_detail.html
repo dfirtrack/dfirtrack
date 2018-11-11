@@ -1,0 +1,118 @@
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+{% block head %}
+<title>DFIRTrack - Tags</title>
+{% load staticfiles %}
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-3">
+        <a href="/tags" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon" alt="icon">  Up to tags</a>
+        <br><br>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-3">
+        <div class="btn btn-{{ tag.tagcolor }} btn-lg round"><img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon" alt="icon">  
+            {{ tag.tag_name }}
+        </div>
+    </div>
+    <div class="col-3">
+        <small class="text-muted">
+            Modified by:
+            {% if tag.tag_modified_by_user_id %}
+            {{ tag.tag_modified_by_user_id }}
+            {% else %}
+            ---
+            {% endif %}
+        </small>
+    </div>
+    <div class="col-3">
+        <small class="text-muted">
+            Tag-ID: {{ tag.tag_id }}
+        </small>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-3">
+    <br>
+        <h5>Note</h5>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+    {% if tag.tag_note %}
+    {{ tag.tag_note|linebreaks }}
+    {% else %}
+    ---
+    {% endif %}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-6">
+    <br>
+        <h5>Systems with this tag{% if tag.system_set.all %} ({{ tag.system_set.all|length }}){% endif %}</h5>
+    </div>
+</div>
+
+{% if tag.system_set.all %}
+{% for i in tag.system_set.all %}
+<div class="row top-distance">
+    <div class="col-3">
+        <a href="/systems/{{ i.system_id}}" type="button" class="btn btn-primary btn-sm"><img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm" alt="icon">  {{ i.system_name }}</a>
+    </div>
+</div>
+{% endfor %}
+{% else %}
+<div class="row top-distance">
+    <div class="col-3">
+        ---
+    </div>
+</div>
+{% endif %}
+
+<div class="row">
+    <div class="col-2">
+    <br>
+        <h5>Tasks with this tag</h5>
+    </div>
+</div>
+
+{% if tag.task_set.all %}
+{% for i in tag.task_set.all %}
+<div class="row top-distance">
+    <div class="col-3">
+        <a href="/tasks/{{ i.task_id }}" type="button" class="btn btn-primary btn-sm sharp"><img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon-sm" alt="icon">  
+        {{ i.taskname }}
+        {% if i.system %}
+        | {{ i.system.system_name }}
+        {% endif %}
+        </a>
+    </div>
+</div>
+{% endfor %}
+{% else %}
+<div class="row top-distance">
+    <div class="col-3">
+        ---
+    </div>
+</div>
+{% endif %}
+
+<br><br>
+<div class="row">
+    <div class="col-1">
+        <a href="/tags/{{ tag.tag_id }}/edit" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon" alt="icon">  Edit</a>
+    </div>
+    <div class="col-1">
+        <a href="/tags/{{ tag.tag_id }}/delete" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/trash.svg' %}" class="icon" alt="icon">  Delete</a>
+    </div>
+</div>
+
+{% endblock %}
