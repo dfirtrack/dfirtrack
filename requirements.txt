@@ -1,0 +1,9 @@
+django~=2.0.0
+django_q~=0.9.0
+djangorestframework
+gunicorn
+psycopg2-binary
+PyYAML
+requests
+xlwt
+mkdocs
