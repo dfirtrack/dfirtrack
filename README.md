@@ -53,6 +53,12 @@ in the project root directory to start the environment:
 docker-compose up
 ```
 
+A user *admin* is already created. A password can be set with:
+
+```
+docker/setup_admin.sh
+```
+
 The application is located at [localhost:8000](http://localhost:8000).
 
 ## Built-in software

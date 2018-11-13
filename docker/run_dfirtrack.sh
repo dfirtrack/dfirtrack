@@ -13,4 +13,4 @@ done
 
 $APPDIR/manage.py migrate
 $APPDIR/manage.py qcluster &
-$APPDIR/manage.py runserver
+$APPDIR/manage.py runserver 0.0.0.0:8000
