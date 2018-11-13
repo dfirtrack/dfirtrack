@@ -32,7 +32,7 @@ For fast and uncomplicated installation on a dedicated server including all depe
 For a minimal setup the following dependencies are needed:
 
 * `django` (2.0),
-* `django_q` (0.9.1),
+* `django_q`,
 * `djangorestframework`,
 * `gunicorn`,
 * `postgresql`,
@@ -44,6 +44,23 @@ For a minimal setup the following dependencies are needed:
 * `xlwt`.
 
 **Note that there is no `settings.py` in this repository.** [This file](https://github.com/stuhli/dfirtrack_ansible/blob/master/roles/dfirtrack/templates/settings.py.j2) is submitted via Ansible or has to be copied and configured by hand. That will be changed in the future (see issues for more information).
+
+## Docker Environment
+
+An experimental Docker Compose environment for local-only usage is provided in this project. Run the following command
+in the project root directory to start the environment:
+
+```
+docker-compose up
+```
+
+A user *admin* is already created. A password can be set with:
+
+```
+docker/setup_admin.sh
+```
+
+The application is located at [localhost:8000](http://localhost:8000).
 
 ## Built-in software
 

@@ -1,5 +1,5 @@
-# Django settings
-settings.py
+# Django development settings
+dfirtrack/settings.py
 
 # Backup files
 *.backup
