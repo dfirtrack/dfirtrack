@@ -10,15 +10,16 @@ In contrast to case-based applications, DFIRTrack works in a system-based fashio
 
 ## Features
 
-One focus is the fast and reliable import and export of systems and associated information. The goal for importing systems is to provide a fast and error-free procedure. Moreover, the goal for exporting systems and their status is to have multiple instances of documentation: for instance, detailed Markdown reports for technical staff vs. spreadsheets for non-technical audiences) without redundancies and deviations in the data sets. A manager whose numbers match is a happy manager! ;-)
+One focus is the fast and reliable import and export of systems and associated information. The goal for importing systems is to provide a fast and error-free procedure. Moreover, the goal for exporting systems and their status is to have multiple instances of documentation: for instance, detailed Markdown reports for technical staff vs. spreadsheets for non-technical audiences without redundancies and deviations in the data sets. A manager whose numbers match is a happy manager! ;-)
 
 The following functions are implemented for now:
 
 * Importer
-    * Creator (fast creation of multiple related instances via web interface),
-    * CSV (simple and generic CSV based import (hostname and IP combined with a web form), should fit for the export capabilities of many tools),
+    * Creator (fast creation of multiple related instances via web interface) for systems and tasks,
+    * CSV (simple and generic CSV based import (either hostname and IP or hostname and tags combined with a web form), should fit for the export capabilities of many tools),
+    * Markdown for entries (one entry per system(report)).
 * Exporter
-    * Markdown (for use in a [MkDocs](https://www.mkdocs.org/) structure),
+    * Markdown for so-called system reports (for use in a [MkDocs](https://www.mkdocs.org/) structure),
     * Spreadsheet (CSV and XLS),
     * LaTeX (planned).
 
