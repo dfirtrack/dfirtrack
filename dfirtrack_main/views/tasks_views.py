@@ -35,6 +35,12 @@ def tasks_add(request):
             task = form.save(commit=False)
             task.task_created_by_user_id = request.user
             task.task_modified_by_user_id = request.user
+            # adapt starting and finishing time corresponding to taskstatus
+            if task.taskstatus == Taskstatus.objects.get(taskstatus_name="Working"):
+                task.task_started_time = timezone.now()
+            elif task.taskstatus == Taskstatus.objects.get(taskstatus_name="Done"):
+                task.task_started_time = timezone.now()
+                task.task_finished_time = timezone.now()
             task.save()
             form.save_m2m()
             task.logger(str(request.user), " TASK_ADD_EXECUTED")
@@ -72,6 +78,17 @@ def tasks_edit(request, pk):
         if form.is_valid():
             task = form.save(commit=False)
             task.task_modified_by_user_id = request.user
+            # adapt starting and finishing time corresponding to taskstatus
+            if task.taskstatus == Taskstatus.objects.get(taskstatus_name="Pending"):
+                task.task_started_time = None
+                task.task_finished_time = None
+            elif task.taskstatus == Taskstatus.objects.get(taskstatus_name="Working"):
+                task.task_started_time = timezone.now()
+                task.task_finished_time = None
+            elif task.taskstatus == Taskstatus.objects.get(taskstatus_name="Done"):
+                task.task_finished_time = timezone.now()
+                if task.task_started_time == None:
+                    task.task_started_time = timezone.now()
             task.save()
             form.save_m2m()
             task.logger(str(request.user), " TASK_EDIT_EXECUTED")
@@ -99,6 +116,9 @@ def tasks_start(request, pk):
 @login_required(login_url="/login")
 def tasks_finish(request, pk):
     task = get_object_or_404(Task, pk=pk)
+    # set starting time if task was not started yet
+    if task.task_started_time == None:
+        task.task_started_time = timezone.now()
     task.task_finished_time = timezone.now()
     task.taskstatus = Taskstatus.objects.get(taskstatus_name="Done")
     task.save()
