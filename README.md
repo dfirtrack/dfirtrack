@@ -25,7 +25,7 @@ The following functions are implemented for now:
 
 ## Installation and dependencies
 
-DFIRTrack is developed for deploying on **Debian Stretch** or **Ubuntu 16.04**. Other *Debian* based distributions or versions may work but were not tested yet. At the moment the project will be focussed on Ubuntu LTS and Debian releases.
+DFIRTrack is developed for deploying on **Debian Stretch** or **Ubuntu 16.04**. Other *Debian* based distributions or versions may work but were not tested yet. At the moment the project will be focused on Ubuntu LTS and Debian releases.
 
 For fast and uncomplicated installation on a dedicated server including all dependencies an [Ansible](https://docs.ansible.com/ansible/latest/) playbook and role was written (available [here](https://github.com/stuhli/dfirtrack_ansible)).
 
