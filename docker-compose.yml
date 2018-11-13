@@ -1,0 +1,18 @@
+version: "3"
+services:
+    db:
+        image: postgres:9
+        environment:
+            POSTGRES_DB: dfirtrack
+            POSTGRES_USER: dfirtrack
+            POSTGRES_PASSWORD: dfirtrack
+        volumes:
+            - db-data:/var/lib/postgresql/data
+    app:
+        build: .
+        ports:
+            - "8000:8000"
+        depends_on:
+            - db
+volumes:
+    db-data:

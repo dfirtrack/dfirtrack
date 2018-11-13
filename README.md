@@ -45,6 +45,23 @@ For a minimal setup the following dependencies are needed:
 
 **Note that there is no `settings.py` in this repository.** [This file](https://github.com/stuhli/dfirtrack_ansible/blob/master/roles/dfirtrack/templates/settings.py.j2) is submitted via Ansible or has to be copied and configured by hand. That will be changed in the future (see issues for more information).
 
+## Docker Environment
+
+An experimental Docker Compose environment for local-only usage is provided in this project. Run the following command
+in the project root directory to start the environment:
+
+```
+docker-compose up
+```
+
+A user *admin* is already created. A password can be set with:
+
+```
+docker/setup_admin.sh
+```
+
+The application is located at [localhost:8000](http://localhost:8000).
+
 ## Built-in software
 
 The application was created by implementing the following libraries and code:
