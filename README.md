@@ -32,7 +32,7 @@ For fast and uncomplicated installation on a dedicated server including all depe
 For a minimal setup the following dependencies are needed:
 
 * `django` (2.0),
-* `django_q` (0.9.1),
+* `django_q`,
 * `djangorestframework`,
 * `gunicorn`,
 * `postgresql`,

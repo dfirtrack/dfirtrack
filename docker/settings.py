@@ -8,7 +8,6 @@ import os
 
 # dfirtrack
 
-THOR_SYSTEMREPORTS = ''
 GIRAF_URL = 'https://giraf.irt.m001'
 GIRAF_USER = 'api'
 GIRAF_PASS = 'api'
