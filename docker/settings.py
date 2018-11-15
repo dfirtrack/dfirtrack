@@ -8,9 +8,6 @@ import os
 
 # dfirtrack
 
-GIRAF_URL = 'https://giraf.irt.m001'
-GIRAF_USER = 'api'
-GIRAF_PASS = 'api'
 LOGGING_PATH = '/app/log'
 MARKDOWN_PATH = '/app/markdown/markdown'
 
