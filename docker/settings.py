@@ -8,7 +8,6 @@ import os
 
 # dfirtrack
 
-LOGGING_PATH = '/app/log'
 MARKDOWN_PATH = '/app/markdown/markdown'
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)

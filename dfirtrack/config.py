@@ -4,6 +4,15 @@
 #                           #
 #############################
 
+from os.path import expanduser
+
+# SETTINGS
+
+# MAIN APP SETTINGS (dfirtrack.settings)
+## change path for the log file (default: `$HOME`)
+LOGGING_PATH = expanduser("~")
+#LOGGING_PATH = ''
+
 
 # IMPORTER
 
