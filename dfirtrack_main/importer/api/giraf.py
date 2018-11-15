@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.utils import timezone
-from dfirtrack.settings import GIRAF_PASS, GIRAF_URL, GIRAF_USER
+from dfirtrack.config import GIRAF_PASS, GIRAF_URL, GIRAF_USER
 from dfirtrack_main.logger.default_logger import debug_logger, error_logger
 from dfirtrack_main.models import Domain, Entry, Ip, Os, Osarch, Osimportname, System, Systemstatus, Systemuser
 import json

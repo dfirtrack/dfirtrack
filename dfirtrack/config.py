@@ -7,6 +7,14 @@
 
 # IMPORTER
 
+# IMPORT SYSTEMS AND ENTRIES VIA GIRAF API (dfirtrack_main.importer.api.giraf)
+## add an url for giraf (e. g. 'https://giraf.testing.vm')
+GIRAF_URL = ''
+## add an user for giraf api
+GIRAF_USER = ''
+## add a password for giraf api user
+GIRAF_PASS = ''
+
 # IMPORT SYSTEMS WITH TAGS FROM CLIENT CSV FILE (dfirtrack_main.importer.file.csv.systems_tags)
 ## add a list of strings representing the relevant tags you want to automatically import
 TAGLIST = []
