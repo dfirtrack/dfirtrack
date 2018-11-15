@@ -6,6 +6,15 @@
     width: 12px;
     height: 12px;
 }
+.btn-black {
+    background: Black;
+    border: Black;
+    color: White;
+   }
+.btn-black:hover {
+    background: DarkGray;
+    color: White;
+}
 .btn-green {
     background: MediumSeaGreen;
     border: MediumSeaGreen;
@@ -32,6 +41,15 @@
 .btn-red:hover {
     background: DarkRed;
     color: White;
+}
+.btn-white {
+    background: White;
+    border: White;
+    color: Black;
+   }
+.btn-white:hover {
+    background: LightGray;
+    color: Black;
 }
 .btn.round {
     border-radius: 20px;
