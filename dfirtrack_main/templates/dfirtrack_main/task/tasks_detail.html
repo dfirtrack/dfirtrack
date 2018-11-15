@@ -45,7 +45,13 @@
 <div class="row">
     <div class="col-6">
         {% for i in task.tag.all %}
-        <a href="/tags/{{ i.tag_id }}" type="button" class="btn btn-{{ i.tagcolor }} btn-sm round top-distance"><img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon-sm" alt="icon">  {{ i }}</a>
+        <a href="/tags/{{ i.tag_id }}" type="button" class="btn btn-{{ i.tagcolor }} btn-sm round top-distance">
+        {% if i.tagcolor.tagcolor_name == 'white' %}
+            <img src="{% static 'dfirtrack_main/icons/tag.svg' %}" class="icon-sm" alt="icon">  {{ i }}
+        {% else %}
+            <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon-sm" alt="icon">  {{ i }}
+        {% endif %}
+        </a>
         {% endfor %}
     </div>
 </div>

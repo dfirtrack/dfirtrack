@@ -24,7 +24,13 @@
         <div class="row top-distance">
             <div class="col-1">{{ i.tag_id }}</div>
             <div class="col-2">
-                <a href="/tags/{{ i.tag_id }}" type="button" class="btn btn-{{ i.tagcolor }} btn-sm round"><img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon-sm" alt="icon">  {{ i.tag_name }}</a>
+                <a href="/tags/{{ i.tag_id }}" type="button" class="btn btn-{{ i.tagcolor }} btn-sm round">
+                {% if i.tagcolor.tagcolor_name == 'white' %}
+                    <img src="{% static 'dfirtrack_main/icons/tag.svg' %}" class="icon-sm" alt="icon">  {{ i.tag_name }}
+                {% else %}
+                    <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon-sm" alt="icon">  {{ i.tag_name }}
+                {% endif %}
+                </a>
             </div>
             <div class="col-7">
                 {% if i.tag_note %}

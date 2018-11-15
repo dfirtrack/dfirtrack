@@ -16,7 +16,12 @@
 
 <div class="row">
     <div class="col-3">
-        <div class="btn btn-{{ tag.tagcolor }} btn-lg round"><img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon" alt="icon">  
+        <div class="btn btn-{{ tag.tagcolor }} btn-lg round">
+            {% if tag.tagcolor.tagcolor_name == 'white' %}
+                <img src="{% static 'dfirtrack_main/icons/tag.svg' %}" class="icon" alt="icon">
+            {% else %}
+                <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon" alt="icon">
+            {% endif %}
             {{ tag.tag_name }}
         </div>
     </div>
