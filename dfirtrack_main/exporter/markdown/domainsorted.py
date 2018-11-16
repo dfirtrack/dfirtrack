@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.files import File
 from django.shortcuts import redirect
 from django_q.tasks import async_task
-from dfirtrack.config import MARKDOWN_PATH
+from dfirtrack.config import MARKDOWN_PATH as markdown_path
 from dfirtrack_main.exporter.markdown import clean_directory, config_check, write_report
 from dfirtrack_main.logger.default_logger import debug_logger, info_logger
 from dfirtrack_main.models import Domain, System
@@ -63,9 +63,9 @@ def write_report_domainsorted(system, request_user):
 
     # finish path for markdown file
     if system.domain != None:
-        path = MARKDOWN_PATH + "/docs/systems/" + domain_name + "/" + path + ".md"
+        path = markdown_path + "/docs/systems/" + domain_name + "/" + path + ".md"
     else:
-        path = MARKDOWN_PATH + "/docs/systems/" + "other_domains/" + path + ".md"
+        path = markdown_path + "/docs/systems/" + "other_domains/" + path + ".md"
 
     # open file for system
     report = open(path, "w")
@@ -118,10 +118,10 @@ def domainsorted_async(request_user):
     # (re)create markdown directory for existing domains
     if len(domains) > 0:
         for domain in domains:
-            os.mkdir(MARKDOWN_PATH + "/docs/systems/" + domain.domain_name)
+            os.mkdir(markdown_path + "/docs/systems/" + domain.domain_name)
 
     # create directory for systems without domains
-    os.mkdir(MARKDOWN_PATH + "/docs/systems/other_domains/")
+    os.mkdir(markdown_path + "/docs/systems/other_domains/")
 
     # get all systems
     systems = System.objects.all().order_by('domain','system_name')
@@ -165,7 +165,7 @@ def domainsorted_async(request_user):
         domaindict = {}
 
     # get path for mkdocs.yml
-    mkdconfpath = MARKDOWN_PATH + "/mkdocs.yml"
+    mkdconfpath = markdown_path + "/mkdocs.yml"
 
     # open mkdocs.yml for reading
     mkdconffile = open(mkdconfpath, "r")

@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.files import File
 from django.shortcuts import redirect
 from django_q.tasks import async_task
-from dfirtrack.config import MARKDOWN_PATH
+from dfirtrack.config import MARKDOWN_PATH as markdown_path
 from dfirtrack_main.exporter.markdown import clean_directory, config_check, write_report
 from dfirtrack_main.logger.default_logger import debug_logger, info_logger
 from dfirtrack_main.models import System
@@ -49,7 +49,7 @@ def write_report_systemsorted(system, request_user):
     rpath = "systems/" + path + ".md"
 
     # finish path for markdown file
-    path = MARKDOWN_PATH + "/docs/systems/" + path + ".md"
+    path = markdown_path + "/docs/systems/" + path + ".md"
 
     # open file for system
     report = open(path, "w")
@@ -121,7 +121,7 @@ def systemsorted_async(request_user):
         systemdict = {}
 
     # get path for mkdocs.yml
-    mkdconfpath = MARKDOWN_PATH + "/mkdocs.yml"
+    mkdconfpath = markdown_path + "/mkdocs.yml"
 
     # open mkdocs.yml for reading
     mkdconffile = open(mkdconfpath, "r")
