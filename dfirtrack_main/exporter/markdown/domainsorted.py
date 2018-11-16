@@ -2,8 +2,8 @@ from django.contrib.auth.decorators import login_required
 from django.core.files import File
 from django.shortcuts import redirect
 from django_q.tasks import async_task
-from dfirtrack.settings import MARKDOWN_PATH
-from dfirtrack_main.exporter.markdown import clean_directory, write_report
+from dfirtrack.config import MARKDOWN_PATH
+from dfirtrack_main.exporter.markdown import clean_directory, config_check, write_report
 from dfirtrack_main.logger.default_logger import debug_logger, info_logger
 from dfirtrack_main.models import Domain, System
 import fileinput
@@ -91,6 +91,12 @@ def domainsorted(request):
 
     request_user = str(request.user)
 
+    # call logger
+    debug_logger(request_user, " SYSTEM_MARKDOWN_ALL_SYSTEMS_SORTEDBYDOMAIN_BEGIN")
+
+    # check for existing variable MARKDOWN_PATH
+    config_check(request)
+
     # call async function
     async_task(
         "dfirtrack_main.exporter.markdown.domainsorted.domainsorted_async",
@@ -102,9 +108,6 @@ def domainsorted(request):
 
 def domainsorted_async(request_user):
     """ exports markdown report for all systems sorted by domain """
-
-    # call logger
-    debug_logger(request_user, " SYSTEM_MARKDOWN_ALL_SYSTEMS_SORTEDBYDOMAIN_BEGIN")
 
     # call directory cleaning function
     clean_directory.clean_directory(request_user)

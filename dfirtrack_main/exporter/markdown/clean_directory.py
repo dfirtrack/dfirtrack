@@ -1,4 +1,4 @@
-from dfirtrack.settings import MARKDOWN_PATH
+from dfirtrack.config import MARKDOWN_PATH
 from dfirtrack_main.logger.default_logger import debug_logger, info_logger
 import os
 import shutil

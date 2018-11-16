@@ -12,7 +12,8 @@ from os.path import expanduser
 ## change path for the log file (default: `$HOME`)
 LOGGING_PATH = expanduser("~")
 #LOGGING_PATH = ''
-
+## change path for the markdown documentation
+MARKDOWN_PATH = ''
 
 # IMPORTER
 
