@@ -3,7 +3,7 @@ from django.core.files import File
 from django.shortcuts import redirect
 from django_q.tasks import async_task
 from dfirtrack.config import MARKDOWN_PATH as markdown_path
-from dfirtrack_main.exporter.markdown import clean_directory, config_check, write_report
+from dfirtrack_main.exporter.markdown import clean_directory, config_check, path_check, write_report
 from dfirtrack_main.logger.default_logger import debug_logger, info_logger
 from dfirtrack_main.models import System
 from time import strftime
@@ -79,7 +79,16 @@ def systemsorted(request):
     debug_logger(request_user, " SYSTEM_MARKDOWN_ALL_SYSTEMS_BEGIN")
 
     # check for existing variable MARKDOWN_PATH
-    config_check.config_check(request)
+    mp_var_exists = config_check.config_check(request)
+    if not mp_var_exists:
+        return redirect('/systems')
+        exit()
+
+    # check for existing path
+    mp_path_exists = path_check.path_check(request)
+    if not mp_path_exists:
+        return redirect('/systems')
+        exit()
 
     # call async function
     async_task(
