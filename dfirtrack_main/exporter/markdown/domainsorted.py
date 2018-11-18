@@ -95,7 +95,7 @@ def domainsorted(request):
     debug_logger(request_user, " SYSTEM_MARKDOWN_ALL_SYSTEMS_SORTEDBYDOMAIN_BEGIN")
 
     # check for existing variable MARKDOWN_PATH
-    config_check(request)
+    config_check.config_check(request)
 
     # call async function
     async_task(
