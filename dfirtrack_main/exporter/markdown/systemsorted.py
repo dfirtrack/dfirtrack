@@ -2,8 +2,8 @@ from django.contrib.auth.decorators import login_required
 from django.core.files import File
 from django.shortcuts import redirect
 from django_q.tasks import async_task
-from dfirtrack.settings import MARKDOWN_PATH
-from dfirtrack_main.exporter.markdown import clean_directory, write_report
+from dfirtrack.config import MARKDOWN_PATH as markdown_path
+from dfirtrack_main.exporter.markdown import clean_directory, config_check, path_check, write_report
 from dfirtrack_main.logger.default_logger import debug_logger, info_logger
 from dfirtrack_main.models import System
 from time import strftime
@@ -49,7 +49,7 @@ def write_report_systemsorted(system, request_user):
     rpath = "systems/" + path + ".md"
 
     # finish path for markdown file
-    path = MARKDOWN_PATH + "/docs/systems/" + path + ".md"
+    path = markdown_path + "/docs/systems/" + path + ".md"
 
     # open file for system
     report = open(path, "w")
@@ -75,6 +75,21 @@ def systemsorted(request):
 
     request_user = str(request.user)
 
+    # call logger
+    debug_logger(request_user, " SYSTEM_MARKDOWN_ALL_SYSTEMS_BEGIN")
+
+    # check for existing variable MARKDOWN_PATH
+    mp_var_exists = config_check.config_check(request)
+    if not mp_var_exists:
+        return redirect('/systems')
+        exit()
+
+    # check for existing path
+    mp_path_exists = path_check.path_check(request)
+    if not mp_path_exists:
+        return redirect('/systems')
+        exit()
+
     # call async function
     async_task(
         "dfirtrack_main.exporter.markdown.systemsorted.systemsorted_async",
@@ -86,9 +101,6 @@ def systemsorted(request):
 
 def systemsorted_async(request_user):
     """ exports markdown report for all systems """
-
-    # call logger
-    debug_logger(request_user, " SYSTEM_MARKDOWN_ALL_SYSTEMS_BEGIN")
 
     # call directory cleaning function
     clean_directory.clean_directory(request_user)
@@ -118,7 +130,7 @@ def systemsorted_async(request_user):
         systemdict = {}
 
     # get path for mkdocs.yml
-    mkdconfpath = MARKDOWN_PATH + "/mkdocs.yml"
+    mkdconfpath = markdown_path + "/mkdocs.yml"
 
     # open mkdocs.yml for reading
     mkdconffile = open(mkdconfpath, "r")
