@@ -93,6 +93,10 @@ def tasks_edit(request, pk):
             form.save_m2m()
             task.logger(str(request.user), " TASK_EDIT_EXECUTED")
             messages.success(request, 'Task edited')
+        if 'system' in request.GET:
+            system = request.GET['system']
+            return redirect('/systems/' + str(system))
+        else:
             return redirect('/tasks/' + str(task.task_id))
     else:
         form = TaskForm(instance=task)
