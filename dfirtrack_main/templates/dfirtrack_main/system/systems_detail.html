@@ -122,7 +122,7 @@ var clipboard = new ClipboardJS('.btn');
                 <th></th>
                 <th></th>
                 <th>Priority</th>
-                <th>Due</th>
+                <th>Edit</th>
             </tr>
         </thead>
 
@@ -203,11 +203,7 @@ var clipboard = new ClipboardJS('.btn');
                     </td>
 
                     <td>
-                        {% if i.task_due_time %}
-                        {{ i.task_due_time|date:"Y-m-d H:i" }}
-                        {% else %}
-                        ---
-                        {% endif %}
+                        <a href="/tasks/{{ i.task_id }}/edit?system={{ system.system_id }}" type="button" class="btn btn-sm btn-light"><img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm" alt="icon">  Edit</a>
                     </td>
                 </tr>
                 {% endif %}
