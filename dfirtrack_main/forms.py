@@ -17,8 +17,7 @@ class AnalystmemoForm(forms.ModelForm):
         }
         # special form type or option
         widgets = {
-            'analystmemo_note': forms.TextInput(attrs={'autofocus': 'autofocus'}),
-            'analystmemo_note': forms.Textarea(attrs={'rows': 10}),
+            'analystmemo_note': forms.Textarea(attrs={'autofocus': 'autofocus','rows': 20}),
         }
 
 class CaseForm(forms.ModelForm):
