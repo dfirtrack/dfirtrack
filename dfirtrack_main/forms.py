@@ -1,23 +1,6 @@
 from django import forms
 from django.utils.translation import gettext_lazy
-from dfirtrack_main.models import Analysisstatus, Analystmemo, Case, Company, Contact, Division, Domain, Entry, Headline, Ip, Location, Os, Osimportname, Reason, Recommendation, Reportitem, Serviceprovider, System, Systemstatus, Systemtype, Systemuser, Tag, Task, Taskname, Taskpriority, Taskstatus
-
-class AnalysisstatusForm(forms.ModelForm):
-    class Meta:
-        model = Analysisstatus
-        # this HTML forms are shown
-        fields = (
-            'analysisstatus_name',
-            'analysisstatus_note',
-        )
-        # non default form labeling
-        labels = {
-            'analysisstatus_name': gettext_lazy('Analysisstatus name (*)'),
-        }
-        # special form type or option
-        widgets = {
-            'analysisstatus_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
-        }
+from dfirtrack_main.models import Analystmemo, Case, Company, Contact, Division, Domain, Entry, Headline, Ip, Location, Os, Osimportname, Reason, Recommendation, Reportitem, Serviceprovider, System, Systemtype, Systemuser, Tag, Task, Taskname
 
 class AnalystmemoForm(forms.ModelForm):
     class Meta:
@@ -474,23 +457,6 @@ class SystemCreatorForm(forms.ModelForm):
             'case': forms.CheckboxSelectMultiple(),
         }
 
-class SystemstatusForm(forms.ModelForm):
-    class Meta:
-        model = Systemstatus
-        # this HTML forms are shown
-        fields = (
-            'systemstatus_name',
-            'systemstatus_note',
-        )
-        # non default form labeling
-        labels = {
-            'systemstatus_name': gettext_lazy('Systemstatus name (*)'),
-        }
-        # special form type or option
-        widgets = {
-            'systemstatus_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
-        }
-
 class SystemtypeForm(forms.ModelForm):
     class Meta:
         model = Systemtype
@@ -617,36 +583,3 @@ class TasknameForm(forms.ModelForm):
         widgets = {
             'taskname_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
         }
-
-class TaskpriorityForm(forms.ModelForm):
-    class Meta:
-        model = Taskpriority
-        # this HTML forms are shown
-        fields = (
-            'taskpriority_name',
-        )
-        # non default form labeling
-        labels = {
-            'taskpriority_name': gettext_lazy('Taskpriority name (*)'),
-        }
-        # special form type or option
-        widgets = {
-            'taskpriority_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
-        }
-
-class TaskstatusForm(forms.ModelForm):
-    class Meta:
-        model = Taskstatus
-        # this HTML forms are shown
-        fields = (
-            'taskstatus_name',
-        )
-        # non default form labeling
-        labels = {
-            'taskstatus_name': gettext_lazy('Taskstatus name (*)'),
-        }
-        # special form type or option
-        widgets = {
-            'taskstatus_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
-        }
-

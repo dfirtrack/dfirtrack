@@ -17,9 +17,6 @@ urlpatterns = [
 
     url(r'^analysisstatuss/$', analysisstatuss_views.Analysisstatuss.as_view(), name='analysisstatuss'),
     url(r'^analysisstatuss/(?P<pk>\d+)$', analysisstatuss_views.AnalysisstatussDetail.as_view(), name='analysisstatussdetail'),
-    url(r'^analysisstatuss/add$', analysisstatuss_views.analysisstatuss_add, name='analysisstatuss_add'),
-    url(r'^analysisstatuss/add_popup$', analysisstatuss_views.analysisstatuss_add_popup, name='analysisstatuss_add_popup'),
-    url(r'^analysisstatuss/(?P<pk>\d+)/edit/$', analysisstatuss_views.analysisstatuss_edit, name='analysisstatuss_edit'),
 
     url(r'^analystmemos/$', analystmemos_views.Analystmemos.as_view(), name='analystmemos'),
     url(r'^analystmemos/(?P<pk>\d+)$', analystmemos_views.AnalystmemosDetail.as_view(), name='analystmemosdetail'),
@@ -127,9 +124,6 @@ urlpatterns = [
 
     url(r'^systemstatuss/$', systemstatuss_views.Systemstatuss.as_view(), name='systemstatuss'),
     url(r'^systemstatuss/(?P<pk>\d+)$', systemstatuss_views.SystemstatussDetail.as_view(), name='systemstatussdetail'),
-    url(r'^systemstatuss/add$', systemstatuss_views.systemstatuss_add, name='systemstatuss_add'),
-    url(r'^systemstatuss/add_popup$', systemstatuss_views.systemstatuss_add_popup, name='systemstatuss_add_popup'),
-    url(r'^systemstatuss/(?P<pk>\d+)/edit/$', systemstatuss_views.systemstatuss_edit, name='systemstatuss_edit'),
 
     url(r'^systemtypes/$', systemtypes_views.Systemtypes.as_view(), name='systemtypes'),
     url(r'^systemtypes/(?P<pk>\d+)$', systemtypes_views.SystemtypesDetail.as_view(), name='systemtypesdetail'),
@@ -166,12 +160,8 @@ urlpatterns = [
 
     url(r'^taskprioritys/$', taskprioritys_views.Taskprioritys.as_view(), name='taskprioritys'),
     url(r'^taskprioritys/(?P<pk>\d+)$', taskprioritys_views.TaskprioritysDetail.as_view(), name='taskprioritysdetail'),
-    url(r'^taskprioritys/add$', taskprioritys_views.taskprioritys_add, name='taskprioritys_add'),
-    url(r'^taskprioritys/(?P<pk>\d+)/edit/$', taskprioritys_views.taskprioritys_edit, name='taskprioritys_edit'),
 
     url(r'^taskstatuss/$', taskstatuss_views.Taskstatuss.as_view(), name='taskstatuss'),
     url(r'^taskstatuss/(?P<pk>\d+)$', taskstatuss_views.TaskstatussDetail.as_view(), name='taskstatussdetail'),
-    url(r'^taskstatuss/add$', taskstatuss_views.taskstatuss_add, name='taskstatuss_add'),
-    url(r'^taskstatuss/(?P<pk>\d+)/edit/$', taskstatuss_views.taskstatuss_edit, name='taskstatuss_edit'),
 
 ]
