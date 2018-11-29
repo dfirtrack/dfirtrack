@@ -44,25 +44,15 @@
                     {{ i.systemstatus_name }}
                 </a>
             </div>
-            <div class="col-8">
+            <div class="col-9">
                 {% if i.systemstatus_note %}
                 {{ i.systemstatus_note|linebreaks }}
                 {% else %}
                 ---
                 {% endif %}
             </div>
-            <div class="col-1">
-                <a href="/systemstatuss/{{ i.systemstatus_id }}/edit">Edit</a>
-            </div>
             <br><br>
         </div>
     {% endfor %}
-
-    <br><br>
-    <div class="row">
-        <div class="col-1">
-            <a href="/systemstatuss/add" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon" alt="icon">  Add systemstatus</a>
-        </div>
-    </div>
 
 {% endblock %}

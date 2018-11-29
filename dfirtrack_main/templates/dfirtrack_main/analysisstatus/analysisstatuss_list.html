@@ -27,25 +27,15 @@
             <div class="col-2">
                 <a href="/analysisstatuss/{{ i.analysisstatus_id }}">{{ i.analysisstatus_name }}</a>
             </div>
-            <div class="col-8">
+            <div class="col-9">
                 {% if i.analysisstatus_note %}
                 {{ i.analysisstatus_note|linebreaks }}
                 {% else %}
                 ---
                 {% endif %}
             </div>
-            <div class="col-1">
-                <a href="/analysisstatuss/{{ i.analysisstatus_id }}/edit">Edit</a>
-            </div>
             <br><br>
         </div>
     {% endfor %}
-
-    <br><br>
-    <div class="row">
-        <div class="col-1">
-            <a href="/analysisstatuss/add" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon" alt="icon">  Add analysisstatus</a>
-        </div>
-    </div>
 
 {% endblock %}
