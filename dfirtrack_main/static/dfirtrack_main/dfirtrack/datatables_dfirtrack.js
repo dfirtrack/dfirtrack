@@ -1,4 +1,9 @@
 $(document).ready( function () {
+    $('#table_analystmemo').DataTable( {
+        "pageLength": 15,
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        "order": [[ 5, "desc" ]]
+    } );
     $('#table_entry').DataTable( {
         "pageLength": 30,
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],

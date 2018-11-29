@@ -15,6 +15,11 @@ class AnalystmemoForm(forms.ModelForm):
             'system': gettext_lazy('System (*)'),
             'analystmemo_note': gettext_lazy('Analystmemo note (*)'),
         }
+        # special form type or option
+        widgets = {
+            'analystmemo_note': forms.TextInput(attrs={'autofocus': 'autofocus'}),
+            'analystmemo_note': forms.Textarea(attrs={'rows': 10}),
+        }
 
 class CaseForm(forms.ModelForm):
     class Meta:
