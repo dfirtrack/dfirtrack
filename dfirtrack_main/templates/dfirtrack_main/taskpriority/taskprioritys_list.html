@@ -21,7 +21,7 @@
     {% for i in object_list %}
         <div class="row top-distance">
             <div class="col-1">{{ i.taskpriority_id }}</div>
-            <div class="col-10">
+            <div class="col-11">
                 <a href="/taskprioritys/{{ i.taskpriority_id }}">
                 {% if i.taskpriority_name == 'High' %}
                 {% include "dfirtrack_main/includes/button_taskpriority_high.html" %}
@@ -35,18 +35,8 @@
                 {{ i.taskpriority_name }}
                 </a>
             </div>
-            <div class="col-1">
-                <a href="/taskprioritys/{{ i.taskpriority_id }}/edit">Edit</a>
-            </div>
             <br><br>
         </div>
     {% endfor %}
-
-    <br><br>
-    <div class="row">
-        <div class="col-1">
-            <a href="/taskprioritys/add" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon" alt="icon">  Add taskpriority</a>
-        </div>
-    </div>
 
 {% endblock %}
