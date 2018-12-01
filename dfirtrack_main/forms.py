@@ -292,6 +292,10 @@ class ReportitemForm(forms.ModelForm):
             'reportitem_subheadline': gettext_lazy('Subheadline'),
             'reportitem_note': gettext_lazy('Note (*)'),
         }
+        # special form type or option
+        widgets = {
+            'reportitem_note': forms.Textarea(attrs={'autofocus': 'autofocus','rows': 20}),
+        }
 
 class ServiceproviderForm(forms.ModelForm):
     class Meta:
