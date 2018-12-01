@@ -13,7 +13,71 @@
 
     <form method="POST" class="post-form">
         {% csrf_token %}
-        {% include "dfirtrack_main/includes/form.html" %}
+
+        {% if form.non_field.errors %}
+        <div class="row">
+            <div class="col">
+                <div class="text-danger">
+                    Non field errors:<br>
+                    {{ form.non_field.errors }}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="card card-body bg-dark border-light top-distance">
+            <div class="row">
+                <div class="col-3">
+                    <h5>System name (*):</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <div class="card card-body bg-dark border-light top-distance">
+                        <div class="text-danger">{{ form.system.errors }}</div>
+                        {{ form.system }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-body bg-dark border-light top-distance">
+            <div class="row">
+                <div class="col-3">
+                    <h5>Headline (*):</h5>
+                    <div class="card card-body bg-dark border-light top-distance">
+                        {{ form.headline }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <div class="top-distance">
+                        <h5>Subheadline:</h5>
+                    </div>
+                    <div class="card card-body bg-dark border-light top-distance">
+                        {{ form.reportitem_subheadline }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-body bg-dark border-light top-distance">
+            <div class="row">
+                <div class="col">
+                    <h5>Note (*):</h5>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="card card-body bg-dark border-light top-distance">
+                        <div class="text-danger">{{ form.reportitem_note.errors }}</div>
+                        {{ form.reportitem_note }}
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <br><br>
 

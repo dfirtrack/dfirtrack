@@ -15,6 +15,10 @@ class AnalystmemoForm(forms.ModelForm):
             'system': gettext_lazy('System (*)'),
             'analystmemo_note': gettext_lazy('Analystmemo note (*)'),
         }
+        # special form type or option
+        widgets = {
+            'analystmemo_note': forms.Textarea(attrs={'autofocus': 'autofocus','rows': 20}),
+        }
 
 class CaseForm(forms.ModelForm):
     class Meta:
@@ -287,6 +291,10 @@ class ReportitemForm(forms.ModelForm):
             'headline': gettext_lazy('Headline (*)'),
             'reportitem_subheadline': gettext_lazy('Subheadline'),
             'reportitem_note': gettext_lazy('Note (*)'),
+        }
+        # special form type or option
+        widgets = {
+            'reportitem_note': forms.Textarea(attrs={'autofocus': 'autofocus','rows': 20}),
         }
 
 class ServiceproviderForm(forms.ModelForm):

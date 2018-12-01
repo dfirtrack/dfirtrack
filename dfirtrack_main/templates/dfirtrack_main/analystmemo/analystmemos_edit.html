@@ -10,7 +10,50 @@
     <h4>Edit analystmemo</h4><br><br>
     <form method="POST" class="post-form">
         {% csrf_token %}
-        {% include "dfirtrack_main/includes/form.html" %}
+
+        {% if form.non_field.errors %}
+        <div class="row">
+            <div class="col">
+                <div class="text-danger">
+                    Non field errors:<br>
+                    {{ form.non_field.errors }}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="card card-body bg-dark border-light top-distance">
+            <div class="row">
+                <div class="col-3">
+                    <h5>System name (*):</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <div class="card card-body bg-dark border-light top-distance">
+                        <div class="text-danger">{{ form.system.errors }}</div>
+                        {{ form.system }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-body bg-dark border-light top-distance">
+            <div class="row">
+                <div class="col">
+                    <h5>Note (*):</h5>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="card card-body bg-dark border-light top-distance">
+                        <div class="text-danger">{{ form.analystmemo_note.errors }}</div>
+                        {{ form.analystmemo_note }}
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <br><br>
 

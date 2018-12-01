@@ -3,48 +3,59 @@
 {% block head %}
 <title>DFIRTrack - Reportitems</title>
 {% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.css' %}"/>
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.js' %}"></script>
 {% endblock %}
 
 {% block content %}
 
-    <div class="row">
-        <div class="col">
-            <h5>Reportitems</h5>
-        </div>
+<div class="row">
+    <div class="col">
+        <h5>Reportitems</h5>
     </div>
+</div>
 
-        <div class="row font-weight-bold">
-            <div class="col-1">ID</div>
-            <div class="col-3">Reportitem</div>
-            <div class="col-1">System</div>
-            <div class="col-1">Created</div>
-            <div class="col-1">Modified</div>
-        </div>
+<br><br>
 
+<table id="table_reportitem" class="display" width="100%">
+
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>System</th>
+            <th>Reportitem</th>
+            <th>Created</th>
+            <th>Created by</th>
+            <th>Modified</th>
+            <th>Modified by</th>
+        </tr>
+    </thead>
+
+    <tbody>
     {% for i in object_list %}
-        <div class="row">
-            <div class="col-1">{{ i.reportitem_id }}</div>
-            <div class="col-3">
-                <a href="/reportitems/{{ i.reportitem_id }}">{{ i }}</a>
-            </div>
-            <div class="col-1">
+        <tr>
+            <td>{{ i.reportitem_id }}</td>
+            <td>
                 <a href="/systems/{{ i.system.system_id }}" type="button" class="btn btn-primary btn-sm top-distance"><img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm" alt="icon">  {{ i.system.system_name }}</a>
-            </div>
-            <div class="col-1 text-secondary">{{ i.reportitem_create_time|date:"Y-m-d H:i" }}</div>
-            <div class="col-1 text-secondary">{{ i.reportitem_modify_time|date:"Y-m-d H:i" }}</div>
-            <div class="col-4"></div>
-            <div class="col-1">
-                <a href="/reportitems/{{ i.reportitem_id }}/edit">Edit</a>
-            </div>
-            <br><br>
-        </div>
-    {% endfor %}
+            </td>
+            <td>
+                <a href="/reportitems/{{ i.reportitem_id }}">{{ i.headline }} - {{ i.reportitem_subheadline }}</a>
+            </td>
+            <td>{{ i.reportitem_create_time|date:"Y-m-d H:i" }}</td>
+            <td>{{ i.reportitem_created_by_user_id }}</td>
+            <td>{{ i.reportitem_modify_time|date:"Y-m-d H:i" }}</td>
+            <td>{{ i.reportitem_modified_by_user_id }}</td>
+        </tr>
 
-    <br><br>
-    <div class="row">
-        <div class="col-1">
-            <a href="/reportitems/add" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon" alt="icon">  Add reportitem</a>
-        </div>
-    </div>
+    {% endfor %}
+    </tbody>
+
+</table>
+
+<script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
+
+{% block datatables %}
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.js' %}"></script>
+{% endblock %}
 
 {% endblock %}
