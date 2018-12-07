@@ -27,7 +27,7 @@ The following functions are implemented for now:
 
 DFIRTrack is developed for deploying on **Debian Stretch** or **Ubuntu 16.04**. Other *Debian* based distributions or versions may work but were not tested yet. At the moment the project will be focused on Ubuntu LTS and Debian releases.
 
-For fast and uncomplicated installation on a dedicated server including all dependencies an [Ansible](https://docs.ansible.com/ansible/latest/) playbook and role was written (available [here](https://github.com/stuhli/dfirtrack_ansible)).
+For fast and uncomplicated installation on a dedicated server including all dependencies an [Ansible](https://docs.ansible.com/ansible/latest/) playbook and role was written (available [here](https://github.com/stuhli/dfirtrack_ansible)). For testing a docker environment was prepared (see below).
 
 For a minimal setup the following dependencies are needed:
 
@@ -72,6 +72,19 @@ The application was created by implementing the following libraries and code:
 * [jQuery](https://github.com/jquery/jquery)
 * [Open Iconic](https://github.com/iconic/open-iconic)
 * [Popper.js](https://github.com/FezVrasta/popper.js)
+
+## Development
+
+There are two main branches:
+
+* `master`
+* `development`
+
+The master branch should be stable (as you can expect from an alpha version).
+New features and changes are added to the development branch and merged into master from time to time.
+Everything merged into development should run too but might need manual changes (e. g. config).
+[Devolopment branch](https://github.com/stuhli/dfirtrack_ansible/tree/develop) of DFIRTrack Ansible should follow these changes.
+So if you want to see the latest features and progress: "check out" development.
 
 ## License
 
