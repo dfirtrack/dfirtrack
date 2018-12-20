@@ -57,15 +57,11 @@ def tasks_add(request):
                 'system': system,
                 'taskpriority': 2,
                 'taskstatus': 1,
-                'task_scheduled_time': timezone.now(),
-                'task_due_time': timezone.now(),
             })
         else:
             form = TaskForm(initial={
                 'taskpriority': 2,
                 'taskstatus': 1,
-                'task_scheduled_time': timezone.now(),
-                'task_due_time': timezone.now(),
             })
         debug_logger(str(request.user), " TASK_ADD_ENTERED")
     return render(request, 'dfirtrack_main/task/tasks_add.html', {'form': form})
