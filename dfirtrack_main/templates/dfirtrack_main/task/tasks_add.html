@@ -164,19 +164,39 @@
         </div>
 
         <div class="row font-weight-bold">
-            <div class="col-3">
+            <div class="col-2">
                     Scheduled:<br>
                     (YYYY-MM-DD HH:MM:SS)
             </div>
-            <div class="col-3 text-muted">
+            <div class="col-1">
+                <div data-toggle="tooltip" data-placement="auto" title="The time when a task can be started at the earliest.">
+                    {% include "dfirtrack_main/includes/button_tooltip.html" %}
+                </div>
+            </div>
+            <div class="col-1 text-muted">
                 Started:
             </div>
-            <div class="col-3 text-muted">
+            <div class="col-2">
+                <div data-toggle="tooltip" data-placement="right" title="The starting time is affected by task status and therefore not manually editable.">
+                    {% include "dfirtrack_main/includes/button_tooltip.html" %}
+                </div>
+            </div>
+            <div class="col-1 text-muted">
                 Finished:
             </div>
-            <div class="col-3">
+            <div class="col-2">
+                <div data-toggle="tooltip" data-placement="right" title="The finishing time is affected by task status and therefore not manually editable.">
+                    {% include "dfirtrack_main/includes/button_tooltip.html" %}
+                </div>
+            </div>
+            <div class="col-2">
                     Due:<br>
                     (YYYY-MM-DD HH:MM:SS)
+            </div>
+            <div class="col-1">
+                <div data-toggle="tooltip" data-placement="right" title="The time when a task should be finished.">
+                    {% include "dfirtrack_main/includes/button_tooltip.html" %}
+                </div>
             </div>
         </div>
 
