@@ -1,7 +1,13 @@
 {% extends "dfirtrack_main/maintemplate.html" %}
 
 {% block head %}
-<title>DFIRTrack - Entries</title>
+<title>
+    Entry '{{ entry.system.system_name }}
+    {% if entry.system.system_dnssuffix %}
+    .{{ entry.system.system_dnssuffix }}
+    {% endif %}
+    '
+</title>
 {% load staticfiles %}
 {% endblock %}
 

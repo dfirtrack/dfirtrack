@@ -1,7 +1,7 @@
 {% extends "dfirtrack_main/maintemplate.html" %}
 
 {% block head %}
-<title>DFIRTrack - Analysisstatus</title>
+<title>Analysisstatus '{{ analysisstatus.analysisstatus_name }}'{% if analysisstatus.system_set.all %} (s: {{ analysisstatus.system_set.all|length }}){% endif %}</title>
 {% load staticfiles %}
 {% endblock %}
 

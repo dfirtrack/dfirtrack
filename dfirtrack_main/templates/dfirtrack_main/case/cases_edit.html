@@ -1,7 +1,7 @@
 {% extends "dfirtrack_main/maintemplate.html" %}
 
 {% block head %}
-<title>DFIRTrack - Cases</title>
+<title>Edit case '{{ form.case_name.value }}'</title>
 {% load staticfiles %}
 {% endblock %}
 
@@ -22,7 +22,6 @@
                 {% include "dfirtrack_main/includes/button_cancel.html" %}
             </div>
         </div>
-
     </form>
     
 {% endblock %}

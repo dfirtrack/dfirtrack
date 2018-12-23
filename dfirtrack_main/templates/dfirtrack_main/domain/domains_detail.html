@@ -1,7 +1,7 @@
 {% extends "dfirtrack_main/maintemplate.html" %}
 
 {% block head %}
-<title>DFIRTrack - Domains</title>
+<title>Domain '{{ domain.domain_name }}'{% if domain.system_set.all %} (s: {{ domain.system_set.all|length }}){% endif %}</title>
 {% load staticfiles %}
 {% endblock %}
 

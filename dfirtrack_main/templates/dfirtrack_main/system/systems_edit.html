@@ -1,7 +1,13 @@
 {% extends "dfirtrack_main/maintemplate.html" %}
 
 {% block head %}
-<title>DFIRTrack - Systems</title>
+<title>
+    Edit '{{ form.system_name.value }}
+    {% if form.system_dnssuffix.value %}
+    .{{ form.system_dnssuffix.value }}
+    {% endif %}
+    '
+</title>
 {% load staticfiles %}
 
 <script src="{% static 'dfirtrack_main/dfirtrack/dfirtrack.js' %}"></script>

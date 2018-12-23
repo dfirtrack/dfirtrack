@@ -1,7 +1,7 @@
 {% extends "dfirtrack_main/maintemplate.html" %}
 
 {% block head %}
-<title>DFIRTrack - Cases</title>
+<title>Case '{{ case.case_name }}'{% if case.system_set.all %} (s: {{ case.system_set.all|length }}){% endif %}</title>
 {% load staticfiles %}
 {% endblock %}
 
@@ -41,7 +41,7 @@
 <div class="row">
     <div class="col-3">
     <br>
-        <h5>Systems associated with this case</h5>
+        <h5>Systems associated with this case{% if case.system_set.all %} ({{ case.system_set.all|length }}){% endif %}</h5>
     </div>
 </div>
 

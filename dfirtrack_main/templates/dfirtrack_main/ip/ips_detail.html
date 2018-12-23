@@ -1,7 +1,7 @@
 {% extends "dfirtrack_main/maintemplate.html" %}
 
 {% block head %}
-<title>DFIRTrack - IPs</title>
+<title>IP '{{ ip.ip_ip }}'{% if ip.system_set.all %} (s: {{ ip.system_set.all|length }}){% endif %}</title>
 {% load staticfiles %}
 {% endblock %}
 

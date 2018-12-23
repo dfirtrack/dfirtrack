@@ -1,7 +1,7 @@
 {% extends "dfirtrack_main/maintemplate.html" %}
 
 {% block head %}
-<title>DFIRTrack - OS</title>
+<title>OS '{{ os.os_name }}'{% if os.system_set.all %} (s: {{ os.system_set.all|length }}){% endif %}</title>
 {% load staticfiles %}
 {% endblock %}
 

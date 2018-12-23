@@ -1,7 +1,7 @@
 {% extends "dfirtrack_main/maintemplate.html" %}
 
 {% block head %}
-<title>DFIRTrack - Locations</title>
+<title>Location '{{ location.location_name }}'{% if location.system_set.all %} (s: {{ location.system_set.all|length }}){% endif %}</title>
 {% load staticfiles %}
 {% endblock %}
 

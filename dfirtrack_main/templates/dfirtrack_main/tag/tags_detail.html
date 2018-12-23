@@ -1,7 +1,7 @@
 {% extends "dfirtrack_main/maintemplate.html" %}
 
 {% block head %}
-<title>Tag '{{ tag.tag_name }}'</title>
+<title>Tag '{{ tag.tag_name }}' (s: {{ tag.system_set.all|length }}, t: {{ tag.task_set.all|length }})</title>
 {% load staticfiles %}
 {% endblock %}
 
@@ -85,7 +85,7 @@
 <div class="row">
     <div class="col-2">
     <br>
-        <h5>Tasks with this tag</h5>
+        <h5>Tasks with this tag{% if tag.task_set.all %} ({{ tag.task_set.all|length }}){% endif %}</h5>
     </div>
 </div>
 

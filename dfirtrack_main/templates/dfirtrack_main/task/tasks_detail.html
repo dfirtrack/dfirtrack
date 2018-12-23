@@ -1,7 +1,16 @@
 {% extends "dfirtrack_main/maintemplate.html" %}
 
 {% block head %}
-<title>DFIRTrack - Tasks</title>
+<title>
+    Task '{{ task.task_id }}'
+    {% if task.system %}
+     - System '{{ task.system.system_name }}
+     {% if task.system.system_dnssuffix %}
+     .{{ task.system.system_dnssuffix }}
+     {% endif %}
+     '
+    {% endif %}
+</title>
 {% load staticfiles %}
 {% endblock %}
 
