@@ -17,6 +17,14 @@ class Tasks(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " TASK_ENTERED")
         return Task.objects.order_by('taskstatus')
 
+class Tasks_closed(LoginRequiredMixin, ListView):
+    login_url = '/login'
+    model = Task
+    template_name = 'dfirtrack_main/task/tasks_closed_list.html'
+    def get_queryset(self):
+        debug_logger(str(self.request.user), " TASK_CLOSED_ENTERED")
+        return Task.objects.order_by('task_id')
+
 class TasksDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Task

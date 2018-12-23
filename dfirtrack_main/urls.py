@@ -142,6 +142,7 @@ urlpatterns = [
     url(r'^tags/(?P<pk>\d+)/delete/$', tags_views.tags_delete, name='tags_delete'),
 
     url(r'^tasks/$', tasks_views.Tasks.as_view(), name='tasks'),
+    url(r'^tasks/closed$', tasks_views.Tasks_closed.as_view(), name='tasks_closed'),
     url(r'^tasks/(?P<pk>\d+)$', tasks_views.TasksDetail.as_view(), name='tasksdetail'),
     url(r'^tasks/add/$', tasks_views.tasks_add, name='tasks_add'),
     url(r'^tasks/(?P<pk>\d+)/edit/$', tasks_views.tasks_edit, name='tasks_edit'),

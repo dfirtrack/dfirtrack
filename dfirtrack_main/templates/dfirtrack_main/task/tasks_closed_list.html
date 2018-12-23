@@ -11,12 +11,12 @@
 
 <div class="row">
     <div class="col">
-        <h5>Tasks</h5>
+        <h5>Closed tasks</h5>
     </div>
 </div>
 <br><br>
 
-<table id="table_task_open" class="display" width="100%">
+<table id="table_task_done" class="display" width="100%">
 
     <thead>
         <tr>
@@ -34,7 +34,7 @@
 
     <tbody>
     {% for i in object_list %}
-        {% if i.taskstatus.taskstatus_name != 'Done' %}
+        {% if i.taskstatus.taskstatus_name == 'Done' %}
         <tr>
             <td>{{ i.task_id }}</td>
             <td><a href="/tasks/{{ i.task_id }}" type="button" class="btn btn-primary btn-sm sharp"><img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon-sm" alt="icon">  {{ i.taskname }}</a></td>
@@ -95,16 +95,6 @@
     </tbody>
 
 </table>
-
-<br><br>
-<div class="row">
-    <div class="col-1">
-        <a href="/tasks/add" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon" alt="icon">  Add task</a>
-    </div>
-    <div class="col-2">
-        <a href="/tasks/creator" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/box.svg' %}" class="icon" alt="icon">  Creator</a>
-    </div>
-</div>
 
 <script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
 
