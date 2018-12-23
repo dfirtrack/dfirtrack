@@ -147,7 +147,7 @@ def tasks_renew(request, pk):
         return redirect('/tasks/' + str(task.task_id))
 
 @login_required(login_url="/login")
-def tasks_user(request, pk):
+def tasks_set_user(request, pk):
     task = get_object_or_404(Task, pk=pk)
     task.task_assigned_to_user_id = request.user
     task.save()
