@@ -151,8 +151,21 @@ def tasks_set_user(request, pk):
     task = get_object_or_404(Task, pk=pk)
     task.task_assigned_to_user_id = request.user
     task.save()
-    task.logger(str(request.user), " TASK_USER_EXECUTED")
+    task.logger(str(request.user), " TASK_SET_USER_EXECUTED")
     messages.success(request, 'Task assigned to you')
+    if 'system' in request.GET:
+        system = request.GET['system']
+        return redirect('/systems/' + str(system))
+    else:
+        return redirect('/tasks/' + str(task.task_id))
+
+@login_required(login_url="/login")
+def tasks_unset_user(request, pk):
+    task = get_object_or_404(Task, pk=pk)
+    task.task_assigned_to_user_id = None
+    task.save()
+    task.logger(str(request.user), " TASK_UNSET_USER_EXECUTED")
+    messages.warning(request, 'User assignment for task deleted')
     if 'system' in request.GET:
         system = request.GET['system']
         return redirect('/systems/' + str(system))

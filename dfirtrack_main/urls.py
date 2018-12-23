@@ -151,6 +151,7 @@ urlpatterns = [
     url(r'^tasks/(?P<pk>\d+)/finish/$', tasks_views.tasks_finish, name='tasks_finish'),
     url(r'^tasks/(?P<pk>\d+)/renew/$', tasks_views.tasks_renew, name='tasks_renew'),
     url(r'^tasks/(?P<pk>\d+)/set_user/$', tasks_views.tasks_set_user, name='tasks_set_user'),
+    url(r'^tasks/(?P<pk>\d+)/unset_user/$', tasks_views.tasks_unset_user, name='tasks_unset_user'),
 
     url(r'^tasknames/$', tasknames_views.Tasknames.as_view(), name='tasknames'),
     url(r'^tasknames/(?P<pk>\d+)$', tasknames_views.TasknamesDetail.as_view(), name='tasknamesdetail'),

@@ -158,7 +158,9 @@ var clipboard = new ClipboardJS('.btn');
 
                     <td>
                         {% if not i.task_assigned_to_user_id %}
-                        <a href="/tasks/{{ i.task_id }}/set_user?system={{ system.system_id }}" type="button" class="btn btn-sm btn-light"><img src="{% static 'dfirtrack_main/icons/person.svg' %}" class="icon-sm" alt="icon">  Me</a></a>
+                        <a href="/tasks/{{ i.task_id }}/set_user?system={{ system.system_id }}" type="button" class="btn btn-sm btn-light"><img src="{% static 'dfirtrack_main/icons/person.svg' %}" class="icon-sm" alt="icon">  Assign me</a></a>
+                        {% else %}
+                        <a href="/tasks/{{ i.task_id }}/unset_user?system={{ system.system_id }}" type="button" class="btn btn-sm btn-light"><img src="{% static 'dfirtrack_main/icons/delete.svg' %}" class="icon-sm" alt="icon">  Free assignment</a></a>
                         {% endif %}
                     </td>
 
