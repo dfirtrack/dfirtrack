@@ -42,21 +42,6 @@ def ips_add(request):
     return render(request, 'dfirtrack_main/ip/ips_add.html', {'form': form})
 
 @login_required(login_url="/login")
-def ips_add_popup(request):
-    if request.method == 'POST':
-        form = IpForm(request.POST)
-        if form.is_valid():
-            ip = form.save(commit=False)
-            ip.save()
-            ip.logger(str(request.user), " IP_ADD_POPUP_EXECUTED")
-            messages.success(request, 'IP address added')
-            return HttpResponse('<script type="text/javascript">window.close();</script>')
-    else:
-        form = IpForm()
-        debug_logger(str(request.user), " IP_ADD_POPUP_ENTERED")
-    return render(request, 'dfirtrack_main/ip/ips_add_popup.html', {'form': form})
-
-@login_required(login_url="/login")
 def ips_edit(request, pk):
     ip = get_object_or_404(Ip, pk=pk)
     if request.method == 'POST':

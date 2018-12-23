@@ -36,11 +36,6 @@ function systemtypes_add_popup() {
     systemtypes_add_popup = window.open("/systemtypes/add_popup", "systemtypes_add_popup", "height=600, width=1000");
 }
 
-var ips_add_popup;
-function ips_add_popup() {
-    ips_add_popup = window.open("/ips/add_popup", "ips_add_popup", "height=600, width=1000");
-}
-
 var domains_add_popup;
 function domains_add_popup() {
     domains_add_popup = window.open("/domains/add_popup", "domains_add_popup", "height=600, width=1000");

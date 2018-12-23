@@ -66,7 +66,6 @@ urlpatterns = [
     url(r'^ips/$', ips_views.Ips.as_view(), name='ips'),
     url(r'^ips/(?P<pk>\d+)$', ips_views.IpsDetail.as_view(), name='ipsdetail'),
     url(r'^ips/add/$', ips_views.ips_add, name='ips_add'),
-    url(r'^ips/add_popup$', ips_views.ips_add_popup, name='ips_add_popup'),
     url(r'^ips/(?P<pk>\d+)/edit/$', ips_views.ips_edit, name='ips_edit'),
 
     url(r'^locations/$', locations_views.Locations.as_view(), name='locations'),
