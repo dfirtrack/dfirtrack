@@ -1,7 +1,7 @@
 {% extends "dfirtrack_main/maintemplate.html" %}
 
 {% block head %}
-<title>DFIRTrack - Reasons</title>
+<title>Reason '{{ reason.reason_name }}'{% if reason.system_set.all %} (s: {{ reason.system_set.all|length }}){% endif %}</title>
 {% load staticfiles %}
 {% endblock %}
 

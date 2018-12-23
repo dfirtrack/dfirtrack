@@ -1,7 +1,7 @@
 {% extends "dfirtrack_main/maintemplate.html" %}
 
 {% block head %}
-<title>DFIRTrack - Companies</title>
+<title>Company '{{ company.company_name }}'{% if company.system_set.all %} (s: {{ company.system_set.all|length }}){% endif %}</title>
 {% load staticfiles %}
 {% endblock %}
 

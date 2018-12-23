@@ -1,7 +1,7 @@
 {% extends "dfirtrack_main/maintemplate.html" %}
 
 {% block head %}
-<title>DFIRTrack - Systemtypes</title>
+<title>Systemtype '{{ systemtype.systemtype_name }}'{% if systemtype.system_set.all %} (s: {{ systemtype.system_set.all|length }}){% endif %}</title>
 {% load staticfiles %}
 {% endblock %}
 

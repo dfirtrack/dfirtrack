@@ -1,7 +1,13 @@
 {% extends "dfirtrack_main/maintemplate.html" %}
 
 {% block head %}
-<title>DFIRTrack - Analystmemos</title>
+<title>
+    Analystmemo '{{ analystmemo.system.system_name }}
+    {% if analystmemo.system.system_dnssuffix %}
+    .{{ analystmemo.system.system_dnssuffix }}
+    {% endif %}
+    '
+</title>
 {% load staticfiles %}
 {% endblock %}
 

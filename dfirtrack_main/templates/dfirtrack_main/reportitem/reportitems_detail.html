@@ -1,7 +1,13 @@
 {% extends "dfirtrack_main/maintemplate.html" %}
 
 {% block head %}
-<title>DFIRTrack - Reportitems</title>
+<title>
+    Reportitem '{{ reportitem.system.system_name }}
+    {% if reportitem.system.system_dnssuffix %}
+    .{{ reportitem.system.system_dnssuffix }}
+    {% endif %}
+    '
+</title>
 {% load staticfiles %}
 {% endblock %}
 

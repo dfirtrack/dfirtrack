@@ -1,7 +1,7 @@
 {% extends "dfirtrack_main/maintemplate.html" %}
 
 {% block head %}
-<title>DFIRTrack - Recommendations</title>
+<title>Recommendation '{{ recommendation.recommendation_name }}'{% if recommendation.system_set.all %} (s: {{ recommendation.system_set.all|length }}){% endif %}</title>
 {% load staticfiles %}
 {% endblock %}
 
