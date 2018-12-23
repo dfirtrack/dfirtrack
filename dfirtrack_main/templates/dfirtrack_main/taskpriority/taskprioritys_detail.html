@@ -1,7 +1,7 @@
 {% extends "dfirtrack_main/maintemplate.html" %}
 
 {% block head %}
-<title>DFIRTrack - Taskpriorities</title>
+<title>Taskpriority '{{ taskpriority.taskpriority_name }}'{% if taskpriority.task_set.all %} (t: {{ taskpriority.task_set.all|length }}){% endif %}</title>
 {% load staticfiles %}
 {% endblock %}
 

@@ -1,7 +1,7 @@
 {% extends "dfirtrack_main/maintemplate.html" %}
 
 {% block head %}
-<title>DFIRTrack - Taskstatus</title>
+<title>Taskstatus '{{ taskstatus.taskstatus_name }}'{% if taskstatus.task_set.all %} (t: {{ taskstatus.task_set.all|length }}){% endif %}</title>
 {% load staticfiles %}
 {% endblock %}
 

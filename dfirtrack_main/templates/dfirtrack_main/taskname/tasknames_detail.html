@@ -1,7 +1,7 @@
 {% extends "dfirtrack_main/maintemplate.html" %}
 
 {% block head %}
-<title>DFIRTrack - Tasknames</title>
+<title>Taskname '{{ taskname.taskname_name }}'{% if taskname.task_set.all %} (t: {{ taskname.task_set.all|length }}){% endif %}</title>
 {% load staticfiles %}
 {% endblock %}
 
