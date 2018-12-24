@@ -1,7 +1,7 @@
 {% extends "dfirtrack_main/maintemplate.html" %}
 
 {% block head %}
-<title>DFIRTrack - Tasks</title>
+<title>DFIRTrack - Closed tasks</title>
 {% load staticfiles %}
 <link rel="stylesheet" type="text/css" href="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.css' %}"/>
 <script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.js' %}"></script></script>
@@ -34,7 +34,6 @@
 
     <tbody>
     {% for i in object_list %}
-        {% if i.taskstatus.taskstatus_name == 'Done' %}
         <tr>
             <td>{{ i.task_id }}</td>
             <td><a href="/tasks/{{ i.task_id }}" type="button" class="btn btn-primary btn-sm sharp"><img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon-sm" alt="icon">  {{ i.taskname }}</a></td>
@@ -90,7 +89,6 @@
             <td class="text-secondary">{{ i.task_create_time|date:"Y-m-d H:i" }}</td>
             <td class="text-secondary">{{ i.task_modify_time|date:"Y-m-d H:i" }}</td>
         </tr>
-    {% endif %}
     {% endfor %}
     </tbody>
 
