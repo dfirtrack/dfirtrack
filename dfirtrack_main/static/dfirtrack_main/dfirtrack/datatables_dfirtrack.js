@@ -49,14 +49,14 @@ $(document).ready( function () {
             { "width": "10%", "targets": 9 },
         ]
     } );
-    $('#table_task_done').DataTable( {
-        "pageLength": 10,
-        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+    $('#table_task_closed').DataTable( {
+        "pageLength": 15,
+        "lengthMenu": [[15, 25, 50, -1], [15, 25, 50, "All"]],
         "order": [[ 2, "asc" ]]
     } );
     $('#table_task_open').DataTable( {
         "pageLength": 15,
-        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        "lengthMenu": [[15, 25, 50, -1], [15, 25, 50, "All"]],
         "order": [[ 2, "asc" ]]
     } );
     $('#table_timeline').DataTable( {

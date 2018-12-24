@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
@@ -15,7 +16,15 @@ class Tasks(LoginRequiredMixin, ListView):
     template_name = 'dfirtrack_main/task/tasks_list.html'
     def get_queryset(self):
         debug_logger(str(self.request.user), " TASK_ENTERED")
-        return Task.objects.order_by('taskstatus')
+        return Task.objects.filter(Q(taskstatus_id=1) | Q(taskstatus_id=2))
+
+class TasksClosed(LoginRequiredMixin, ListView):
+    login_url = '/login'
+    model = Task
+    template_name = 'dfirtrack_main/task/tasks_closed_list.html'
+    def get_queryset(self):
+        debug_logger(str(self.request.user), " TASK_CLOSED_ENTERED")
+        return Task.objects.filter(taskstatus_id=3)
 
 class TasksDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
