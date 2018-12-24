@@ -10,8 +10,11 @@
 {% block content %}
 
 <div class="row">
-    <div class="col">
-        <h5>Tasks</h5>
+    <div class="col-3">
+        <h5>Open tasks</h5>
+    </div>
+    <div class="col-2">
+        <a href="/tasks/closed" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/task.svg' %}" class="icon" alt="icon">  Closed tasks</a>
     </div>
 </div>
 <br><br>
