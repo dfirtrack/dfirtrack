@@ -25,6 +25,9 @@ def write_systemstatus(django_report, system):
     elif system.systemstatus.systemstatus_name == "Analysis ongoing":
         django_report.write('!!! warning "Systemstatus"\n')
         django_report.write("    " + system.systemstatus.systemstatus_name)
+    elif system.systemstatus.systemstatus_name == "Not analyzed":
+        django_report.write('!!! warning "Systemstatus"\n')
+        django_report.write("    " + system.systemstatus.systemstatus_name)
     else:
         django_report.write('!!! success "Systemstatus"\n')
         django_report.write("    " + system.systemstatus.systemstatus_name)
