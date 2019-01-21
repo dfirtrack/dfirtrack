@@ -380,6 +380,8 @@ var clipboard = new ClipboardJS('.btn');
             class="btn btn-orange btn-sm round"><img src="{% static 'dfirtrack_main/icons/pulse-light.svg' %}" class="icon-sm" alt="icon">  
             {% elif system.systemstatus.systemstatus_name == 'Unknown' %}
             class="btn btn-orange btn-sm round"><img src="{% static 'dfirtrack_main/icons/flag-light.svg' %}" class="icon-sm" alt="icon">  
+            {% elif system.systemstatus.systemstatus_name == 'Not analyzed' %}
+            class="btn btn-orange btn-sm round"><img src="{% static 'dfirtrack_main/icons/ban-light.svg' %}" class="icon-sm" alt="icon">  
             {% elif system.systemstatus.systemstatus_name == 'Compromised' %}
             class="btn btn-red btn-sm round"><img src="{% static 'dfirtrack_main/icons/fire-light.svg' %}" class="icon-sm" alt="icon">  
             {% else %}
