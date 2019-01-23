@@ -3,6 +3,8 @@
 {% block head %}
 <title>Tag '{{ tag.tag_name }}' (s: {{ tag.system_set.all|length }}, t: {{ tag.task_set.all|length }})</title>
 {% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.css' %}"/>
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -67,13 +69,22 @@
 </div>
 
 {% if tag.system_set.all %}
+
+<table id="table_system" class="display" width="100%">
+
+<thead>
+{% include "dfirtrack_main/includes/datatable_thead_table_system.html" %}
+</thead>
+
+<tbody>
 {% for i in tag.system_set.all %}
-<div class="row top-distance">
-    <div class="col-3">
-        <a href="/systems/{{ i.system_id}}" type="button" class="btn btn-primary btn-sm"><img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm" alt="icon">  {{ i.system_name }}</a>
-    </div>
-</div>
+{% include "dfirtrack_main/includes/datatable_tbody_table_system.html" %}
 {% endfor %}
+</tbody>
+</table>
+
+<script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
+
 {% else %}
 <div class="row top-distance">
     <div class="col-3">
@@ -119,5 +130,9 @@
         <a href="/tags/{{ tag.tag_id }}/delete" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/trash.svg' %}" class="icon" alt="icon">  Delete</a>
     </div>
 </div>
+
+{% block datatables %}
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.js' %}"></script>
+{% endblock %}
 
 {% endblock %}
