@@ -1,23 +1,23 @@
 {% load staticfiles %}
-                <a href="/systemstatuss/{{ i.systemstatus.systemstatus_id }}"
-                {% if i.systemstatus.systemstatus_name == 'Clean' %}
+                <a href="/systemstatuss/{{ systemstatus.systemstatus_id }}"
+                {% if systemstatus.systemstatus_name == 'Clean' %}
                 class="btn btn-green btn-sm round"><img src="{% static 'dfirtrack_main/icons/shield-light.svg' %}" class="icon-sm" alt="icon">
-                {% elif i.systemstatus.systemstatus_name == 'Removed' %}
+                {% elif systemstatus.systemstatus_name == 'Removed' %}
                 class="btn btn-green btn-sm round"><img src="{% static 'dfirtrack_main/icons/trash-light.svg' %}" class="icon-sm" alt="icon">
-                {% elif i.systemstatus.systemstatus_name == 'Reinstalled' %}
+                {% elif systemstatus.systemstatus_name == 'Reinstalled' %}
                 class="btn btn-green btn-sm round"><img src="{% static 'dfirtrack_main/icons/shield-light.svg' %}" class="icon-sm" alt="icon">
-                {% elif i.systemstatus.systemstatus_name == 'Remediation done' %}
+                {% elif systemstatus.systemstatus_name == 'Remediation done' %}
                 class="btn btn-green btn-sm round"><img src="{% static 'dfirtrack_main/icons/shield-light.svg' %}" class="icon-sm" alt="icon">
-                {% elif i.systemstatus.systemstatus_name == 'Analysis ongoing' %}
+                {% elif systemstatus.systemstatus_name == 'Analysis ongoing' %}
                 class="btn btn-orange btn-sm round"><img src="{% static 'dfirtrack_main/icons/pulse-light.svg' %}" class="icon-sm" alt="icon">
-                {% elif i.systemstatus.systemstatus_name == 'Unknown' %}
+                {% elif systemstatus.systemstatus_name == 'Unknown' %}
                 class="btn btn-orange btn-sm round"><img src="{% static 'dfirtrack_main/icons/flag-light.svg' %}" class="icon-sm" alt="icon">
-                {% elif i.systemstatus.systemstatus_name == 'Not analyzed' %}
+                {% elif systemstatus.systemstatus_name == 'Not analyzed' %}
                 class="btn btn-orange btn-sm round"><img src="{% static 'dfirtrack_main/icons/ban-light.svg' %}" class="icon-sm" alt="icon">
-                {% elif i.systemstatus.systemstatus_name == 'Compromised' %}
+                {% elif systemstatus.systemstatus_name == 'Compromised' %}
                 class="btn btn-red btn-sm round"><img src="{% static 'dfirtrack_main/icons/fire-light.svg' %}" class="icon-sm" alt="icon">
                 {% else %}
                 >
                 {% endif %}
-                    {{ i.systemstatus.systemstatus_name }}
+                    {{ systemstatus.systemstatus_name }}
                 </a>

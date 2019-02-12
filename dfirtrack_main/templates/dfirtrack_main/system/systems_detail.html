@@ -367,28 +367,9 @@ var clipboard = new ClipboardJS('.btn');
         <div class="col-3">
             <div class="font-weight-bold">Systemstatus:</div>
             {% if system.systemstatus %}
-            <a href="/systemstatuss/{{ system.systemstatus.systemstatus_id }}"
-            {% if system.systemstatus.systemstatus_name == 'Clean' %}
-            class="btn btn-green btn-sm round"><img src="{% static 'dfirtrack_main/icons/shield-light.svg' %}" class="icon-sm" alt="icon">  
-            {% elif system.systemstatus.systemstatus_name == 'Removed' %}
-            class="btn btn-green btn-sm round"><img src="{% static 'dfirtrack_main/icons/trash-light.svg' %}" class="icon-sm" alt="icon">  
-            {% elif system.systemstatus.systemstatus_name == 'Reinstalled' %}
-            class="btn btn-green btn-sm round"><img src="{% static 'dfirtrack_main/icons/shield-light.svg' %}" class="icon-sm" alt="icon">  
-            {% elif system.systemstatus.systemstatus_name == 'Remediation done' %}
-            class="btn btn-green btn-sm round"><img src="{% static 'dfirtrack_main/icons/shield-light.svg' %}" class="icon-sm" alt="icon">  
-            {% elif system.systemstatus.systemstatus_name == 'Analysis ongoing' %}
-            class="btn btn-orange btn-sm round"><img src="{% static 'dfirtrack_main/icons/pulse-light.svg' %}" class="icon-sm" alt="icon">  
-            {% elif system.systemstatus.systemstatus_name == 'Unknown' %}
-            class="btn btn-orange btn-sm round"><img src="{% static 'dfirtrack_main/icons/flag-light.svg' %}" class="icon-sm" alt="icon">  
-            {% elif system.systemstatus.systemstatus_name == 'Not analyzed' %}
-            class="btn btn-orange btn-sm round"><img src="{% static 'dfirtrack_main/icons/ban-light.svg' %}" class="icon-sm" alt="icon">  
-            {% elif system.systemstatus.systemstatus_name == 'Compromised' %}
-            class="btn btn-red btn-sm round"><img src="{% static 'dfirtrack_main/icons/fire-light.svg' %}" class="icon-sm" alt="icon">  
-            {% else %}
-            >
-            {% endif %}
-                {{ system.systemstatus.systemstatus_name }}
-            </a>
+            {% with systemstatus=system.systemstatus %}
+            {% include "dfirtrack_main/includes/datatable_tbody_table_system_systemstatus.html" %}
+            {% endwith %}
             {% else %}
             ---
             {% endif %}

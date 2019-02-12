@@ -23,28 +23,9 @@
         <div class="row top-distance">
             <div class="col-1">{{ i.systemstatus_id }}</div>
             <div class="col-2">
-                <a href="/systemstatuss/{{ i.systemstatus_id }}"
-                {% if i.systemstatus_name == 'Clean' %}
-                class="btn btn-green btn-sm round"><img src="{% static 'dfirtrack_main/icons/shield-light.svg' %}" class="icon-sm" alt="icon">  
-                {% elif i.systemstatus_name == 'Removed' %}
-                class="btn btn-green btn-sm round"><img src="{% static 'dfirtrack_main/icons/trash-light.svg' %}" class="icon-sm" alt="icon">  
-                {% elif i.systemstatus_name == 'Reinstalled' %}
-                class="btn btn-green btn-sm round"><img src="{% static 'dfirtrack_main/icons/shield-light.svg' %}" class="icon-sm" alt="icon">  
-                {% elif i.systemstatus_name == 'Remediation done' %}
-                class="btn btn-green btn-sm round"><img src="{% static 'dfirtrack_main/icons/shield-light.svg' %}" class="icon-sm" alt="icon">  
-                {% elif i.systemstatus_name == 'Analysis ongoing' %}
-                class="btn btn-orange btn-sm round"><img src="{% static 'dfirtrack_main/icons/pulse-light.svg' %}" class="icon-sm" alt="icon">  
-                {% elif i.systemstatus_name == 'Unknown' %}
-                class="btn btn-orange btn-sm round"><img src="{% static 'dfirtrack_main/icons/flag-light.svg' %}" class="icon-sm" alt="icon">  
-                {% elif i.systemstatus_name == 'Not analyzed' %}
-                class="btn btn-orange btn-sm round"><img src="{% static 'dfirtrack_main/icons/ban-light.svg' %}" class="icon-sm" alt="icon">  
-                {% elif i.systemstatus_name == 'Compromised' %}
-                class="btn btn-red btn-sm round"><img src="{% static 'dfirtrack_main/icons/fire-light.svg' %}" class="icon-sm" alt="icon">  
-                {% else %}
-                >
-                {% endif %}
-                    {{ i.systemstatus_name }}
-                </a>
+                {% with systemstatus=i %}
+                {% include "dfirtrack_main/includes/datatable_tbody_table_system_systemstatus.html" %}
+                {% endwith %}
             </div>
             <div class="col-9">
                 {% if i.systemstatus_note %}
