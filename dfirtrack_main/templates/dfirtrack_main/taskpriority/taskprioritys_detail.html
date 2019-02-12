@@ -16,16 +16,11 @@
 
 <div class="row">
     <div class="col-3">
-        <h5>Taskpriority "{{ taskpriority.taskpriority_name }}"
-        {% if taskpriority.taskpriority_name == 'High' %}
-        {% include "dfirtrack_main/includes/button_taskpriority_high.html" %}
-        {% endif %}
-        {% if taskpriority.taskpriority_name == 'Medium' %}
-        {% include "dfirtrack_main/includes/button_taskpriority_medium.html" %}
-        {% endif %}
-        {% if taskpriority.taskpriority_name == 'Low' %}
-        {% include "dfirtrack_main/includes/button_taskpriority_low.html" %}
-        {% endif %}
+        <h5>Taskpriority
+        {% with taskpriority=taskpriority %}
+        {% include "dfirtrack_main/includes/button_taskpriority.html" %}
+        {% endwith %}
+        {{ taskpriority.taskpriority_name }}
         </h5>
     </div>
     <div class="col-3">

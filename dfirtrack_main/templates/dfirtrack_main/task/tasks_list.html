@@ -64,15 +64,9 @@
             </td>
             <td>
                 <a href="/taskprioritys/{{ i.taskpriority.taskpriority_id }}">
-                {% if i.taskpriority.taskpriority_name == 'High' %}
-                {% include "dfirtrack_main/includes/button_taskpriority_high.html" %}
-                {% endif %}
-                {% if i.taskpriority.taskpriority_name == 'Medium' %}
-                {% include "dfirtrack_main/includes/button_taskpriority_medium.html" %}
-                {% endif %}
-                {% if i.taskpriority.taskpriority_name == 'Low' %}
-                {% include "dfirtrack_main/includes/button_taskpriority_low.html" %}
-                {% endif %}
+                {% with taskpriority=i.taskpriority %}
+                {% include "dfirtrack_main/includes/button_taskpriority.html" %}
+                {% endwith %}
                 {{ i.taskpriority }}
                 </a>
             </td>

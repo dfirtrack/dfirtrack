@@ -1,0 +1,8 @@
+{% load staticfiles %}
+{% if taskpriority.taskpriority_name == 'High' %}
+<div class="btn btn-primary btn-sm btn-red"><img src="{% static 'dfirtrack_main/icons/arrow-thick-top.svg' %}" class="icon-sm" alt="icon"></div>
+{% elif taskpriority.taskpriority_name == 'Medium' %}
+<div class="btn btn-primary btn-sm btn-orange"><img src="{% static 'dfirtrack_main/icons/arrow-thick-right.svg' %}" class="icon-sm" alt="icon"></div>
+{% elif taskpriority.taskpriority_name == 'Low' %}
+<div class="btn btn-primary btn-sm btn-green"><img src="{% static 'dfirtrack_main/icons/arrow-thick-bottom.svg' %}" class="icon-sm" alt="icon"></div>
+{% endif %}
