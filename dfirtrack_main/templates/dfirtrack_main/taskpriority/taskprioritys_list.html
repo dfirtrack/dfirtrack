@@ -23,15 +23,9 @@
             <div class="col-1">{{ i.taskpriority_id }}</div>
             <div class="col-11">
                 <a href="/taskprioritys/{{ i.taskpriority_id }}">
-                {% if i.taskpriority_name == 'High' %}
-                {% include "dfirtrack_main/includes/button_taskpriority_high.html" %}
-                {% endif %}
-                {% if i.taskpriority_name == 'Medium' %}
-                {% include "dfirtrack_main/includes/button_taskpriority_medium.html" %}
-                {% endif %}
-                {% if i.taskpriority_name == 'Low' %}
-                {% include "dfirtrack_main/includes/button_taskpriority_low.html" %}
-                {% endif %}
+                {% with taskpriority=i %}
+                {% include "dfirtrack_main/includes/button_taskpriority.html" %}
+                {% endwith %}
                 {{ i.taskpriority_name }}
                 </a>
             </div>

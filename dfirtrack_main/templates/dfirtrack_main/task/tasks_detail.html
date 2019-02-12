@@ -79,15 +79,10 @@
             <div class="font-weight-bold">Priority:</div>
             {% if task.taskpriority %}
             <a href="/taskprioritys/{{ task.taskpriority.taskpriority_id }}">
-                {% if task.taskpriority.taskpriority_name == 'High' %}
-                {% include "dfirtrack_main/includes/button_taskpriority_high.html" %}
-                {% endif %}
-                {% if task.taskpriority.taskpriority_name == 'Medium' %}
-                {% include "dfirtrack_main/includes/button_taskpriority_medium.html" %}
-                {% endif %}
-                {% if task.taskpriority.taskpriority_name == 'Low' %}
-                {% include "dfirtrack_main/includes/button_taskpriority_low.html" %}
-                {% endif %}
+            {% with taskpriority=task.taskpriority %}
+            {% include "dfirtrack_main/includes/button_taskpriority.html" %}
+            {% endwith %}
+            {{ task.taskpriority }}
             </a>
             {% else %}
             ---
