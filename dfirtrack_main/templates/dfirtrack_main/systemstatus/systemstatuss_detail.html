@@ -18,7 +18,9 @@
 
 <div class="row">
     <div class="col-3">
-        <h5>Systemstatus "{{ systemstatus.systemstatus_name }}"</h5>
+        <h5>Systemstatus
+	{% include "dfirtrack_main/includes/button_systemstatus.html" %}
+	</h5>
     </div>
     <div class="col-3">
         <small class="text-muted">
