@@ -366,13 +366,9 @@ var clipboard = new ClipboardJS('.btn');
     <div class="row">
         <div class="col-3">
             <div class="font-weight-bold">Systemstatus:</div>
-            {% if system.systemstatus %}
             {% with systemstatus=system.systemstatus %}
             {% include "dfirtrack_main/includes/button_systemstatus.html" %}
             {% endwith %}
-            {% else %}
-            ---
-            {% endif %}
         </div>
         <div class="col-3">
             <div class="font-weight-bold">Analysisstatus:</div>
