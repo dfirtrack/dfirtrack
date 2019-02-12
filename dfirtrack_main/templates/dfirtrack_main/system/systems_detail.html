@@ -166,15 +166,9 @@ var clipboard = new ClipboardJS('.btn');
 
                     <td>
                         <a href="/taskstatuss/{{ i.taskstatus.taskstatus_id }}">
-                        {% if i.taskstatus.taskstatus_name == 'Pending' %}
-                        {% include "dfirtrack_main/includes/button_taskstatus_pending.html" %}
-                        {% endif %}
-                        {% if i.taskstatus.taskstatus_name == 'Working' %}
-                        {% include "dfirtrack_main/includes/button_taskstatus_working.html" %}
-                        {% endif %}
-                        {% if i.taskstatus.taskstatus_name == 'Done' %}
-                        {% include "dfirtrack_main/includes/button_taskstatus_done.html" %}
-                        {% endif %}
+                        {% with taskstatus=i.taskstatus %}
+                        {% include "dfirtrack_main/includes/button_taskstatus.html" %}
+                        {% endwith %}
                         {{ i.taskstatus }}
                         </a>
                     </td>
@@ -292,15 +286,9 @@ var clipboard = new ClipboardJS('.btn');
 
                         <td>
                             <a href="/taskstatuss/{{ i.taskstatus.taskstatus_id }}">
-                            {% if i.taskstatus.taskstatus_name == 'Pending' %}
-                            {% include "dfirtrack_main/includes/button_taskstatus_pending.html" %}
-                            {% endif %}
-                            {% if i.taskstatus.taskstatus_name == 'Working' %}
-                            {% include "dfirtrack_main/includes/button_taskstatus_working.html" %}
-                            {% endif %}
-                            {% if i.taskstatus.taskstatus_name == 'Done' %}
-                            {% include "dfirtrack_main/includes/button_taskstatus_done.html" %}
-                            {% endif %}
+                            {% with taskstatus=i.taskstatus %}
+                            {% include "dfirtrack_main/includes/button_taskstatus.html" %}
+                            {% endwith %}
                             {{ i.taskstatus }}
                             </a>
                         </td>

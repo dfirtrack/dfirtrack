@@ -16,17 +16,11 @@
 
 <div class="row">
     <div class="col-3">
-        <h5>Taskstatus "{{ taskstatus.taskstatus_name }}"
-            {% if i.taskstatus.taskstatus_name == 'Pending' %}
-            {% include "dfirtrack_main/includes/button_taskstatus_pending.html" %}
-            {% endif %}
-            {% if i.taskstatus.taskstatus_name == 'Working' %}
-            {% include "dfirtrack_main/includes/button_taskstatus_working.html" %}
-            {% endif %}
-            {% if i.taskstatus.taskstatus_name == 'Done' %}
-            {% include "dfirtrack_main/includes/button_taskstatus_done.html" %}
-            {% endif %}
-            {{ i.taskstatus }}
+        <h5>Taskstatus
+            {% with taskstatus=taskstatus %}
+            {% include "dfirtrack_main/includes/button_taskstatus.html" %}
+            {% endwith %}
+            {{ taskstatus.taskstatus_name }}
         </h5>
     </div>
     <div class="col-3">

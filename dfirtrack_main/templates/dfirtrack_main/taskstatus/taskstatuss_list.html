@@ -23,15 +23,9 @@
             <div class="col-1">{{ i.taskstatus_id }}</div>
             <div class="col-11 top-distance">
                 <a href="/taskstatuss/{{ i.taskstatus_id }}">
-                {% if i.taskstatus_name == 'Pending' %}
-                {% include "dfirtrack_main/includes/button_taskstatus_pending.html" %}
-                {% endif %}
-                {% if i.taskstatus_name == 'Working' %}
-                {% include "dfirtrack_main/includes/button_taskstatus_working.html" %}
-                {% endif %}
-                {% if i.taskstatus_name == 'Done' %}
-                {% include "dfirtrack_main/includes/button_taskstatus_done.html" %}
-                {% endif %}
+                {% with taskstatus=i %}
+                {% include "dfirtrack_main/includes/button_taskstatus.html" %}
+                {% endwith %}
                 {{ i.taskstatus_name }}
                 </a>
             </div>
