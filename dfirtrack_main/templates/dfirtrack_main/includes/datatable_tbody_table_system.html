@@ -4,7 +4,7 @@
         <td><a href="/systems/{{ i.system_id }}" type="button" class="btn btn-primary btn-sm top-distance"><img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon" alt="icon">  {{ i.system_name }}</a></td>
         <td>
 	{% with systemstatus=i.systemstatus %}
-	{% include "dfirtrack_main/includes/datatable_tbody_table_system_systemstatus.html" %}
+	{% include "dfirtrack_main/includes/button_systemstatus.html" %}
 	{% endwith %}
         </td>
         <td>
