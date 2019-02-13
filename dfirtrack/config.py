@@ -43,3 +43,5 @@ REPORTITEMS_FILESYSTEMPATH = ''
 REPORTITEMS_HEADLINE = ''
 ## add a subheadline for the reportitems to import
 REPORTITEMS_SUBHEADLINE = ''
+## if 'True' the reportitem will be deleted from DFIRTrack if it disappears from the filesystem, change to 'False' to change this behaviour
+REPORTITEMS_DELETE = True
