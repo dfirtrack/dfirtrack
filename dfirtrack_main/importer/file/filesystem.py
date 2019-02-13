@@ -76,6 +76,13 @@ def reportitems(request):
             warning_logger(str(request.user), " REPORTITEMS_FILESYSTEM_IMPORTER_NO_FILE system_name:" + system.system_name)
             # autoincrement counter
             nofile_found_counter += 1
+            # delete already existing reportitem for this system if no file was provided
+            try:
+                reportitem = Reportitem.objects.get(system = system, headline = headline, reportitem_subheadline = reportitems_subheadline)
+                reportitem.delete()
+            except Reportitem.DoesNotExist:
+                pass
+            # continue with next system
             continue
 
         # create reportitem if it does not exist (get_or_create won't work in this context because of needed user objects for saving)
