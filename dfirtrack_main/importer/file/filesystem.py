@@ -53,6 +53,7 @@ def reportitems(request):
     # create headline if it does not exist
     headline, created = Headline.objects.get_or_create(headline_name=reportitems_headline )
     if created == True:
+        # call logger
         headline.logger(str(request.user), " REPORTITEMS_FILESYSTEM_IMPORTER_HEADLINE_CREATED")
 
     # set counter for non-existing files (needed for messages)
@@ -82,6 +83,8 @@ def reportitems(request):
             # delete already existing reportitem for this system if no file was provided
             try:
                 reportitem = Reportitem.objects.get(system = system, headline = headline, reportitem_subheadline = reportitems_subheadline)
+                # call logger (before deleting instance)
+                reportitem.logger(str(request.user), " REPORTITEMS_FILESYSTEM_IMPORTER_REPORTITEM_DELETED")
                 reportitem.delete()
                 # autoincrement counter
                 reportitems_deleted_counter += 1
