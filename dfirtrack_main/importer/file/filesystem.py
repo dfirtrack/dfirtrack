@@ -64,6 +64,9 @@ def reportitems(request):
     # set counter for modified reportitems (needed for messages)
     reportitems_modified_counter = 0
 
+    # set counter for deleted reportitems (needed for messages)
+    reportitems_deleted_counter = 0
+
     # iterate over systems
     for system in systems:
 
@@ -80,6 +83,8 @@ def reportitems(request):
             try:
                 reportitem = Reportitem.objects.get(system = system, headline = headline, reportitem_subheadline = reportitems_subheadline)
                 reportitem.delete()
+                # autoincrement counter
+                reportitems_deleted_counter += 1
             except Reportitem.DoesNotExist:
                 pass
             # continue with next system
@@ -125,5 +130,10 @@ def reportitems(request):
             messages.success(request, str(reportitems_modified_counter) + ' reportitem was modified.')
         else:
             messages.success(request, str(reportitems_modified_counter) + ' reportitems were modified.')
+    if reportitems_deleted_counter > 0:
+        if reportitems_deleted_counter  == 1:
+            messages.success(request, str(reportitems_deleted_counter) + ' reportitem was deleted.')
+        else:
+            messages.success(request, str(reportitems_deleted_counter) + ' reportitems were deleted.')
 
     return redirect('/systems/')
