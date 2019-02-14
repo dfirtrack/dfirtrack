@@ -16,12 +16,25 @@
     </div>
 </div>
 
+<script>
+var clipboard = new ClipboardJS('.btn');
+</script>
+
 <div class="row">
     <div class="col-3">
         <h5>Systemstatus
 	{% include "dfirtrack_main/includes/button_systemstatus.html" %}
 	</h5>
     </div>
+    <div class="col-3">
+    {% if systemstatus.system_set.all %}
+    {% with systems=systemstatus.system_set.all %}
+    {% include "dfirtrack_main/includes/button_copy_hostnames.html" %}
+    {% endwith %}
+    {% endif %}
+    </div>
+</div>
+<div class="row">
     <div class="col-3">
         <small class="text-muted">
             Systemstatus-ID: {{ systemstatus.systemstatus_id }}

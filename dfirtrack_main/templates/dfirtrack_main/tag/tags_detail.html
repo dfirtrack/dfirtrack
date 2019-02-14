@@ -16,6 +16,10 @@
     </div>
 </div>
 
+<script>
+var clipboard = new ClipboardJS('.btn');
+</script>
+
 <div class="row">
     <div class="col-3">
         <div class="btn btn-{{ tag.tagcolor }} btn-lg round">
@@ -26,6 +30,20 @@
             {% endif %}
             {{ tag.tag_name }}
         </div>
+        <br><br>
+    </div>
+    {% if tag.system_set.all %}
+    {% with systems=tag.system_set.all %}
+    {% include "dfirtrack_main/includes/button_copy_hostnames.html" %}
+    {% endwith %}
+    {% endif %}
+</div>
+
+<div class="row">
+    <div class="col-3">
+        <small class="text-muted">
+            Tag-ID: {{ tag.tag_id }}
+        </small>
     </div>
     <div class="col-3">
         <small class="text-muted">
@@ -35,11 +53,6 @@
             {% else %}
             ---
             {% endif %}
-        </small>
-    </div>
-    <div class="col-3">
-        <small class="text-muted">
-            Tag-ID: {{ tag.tag_id }}
         </small>
     </div>
 </div>
