@@ -14,10 +14,24 @@
     </div>
 </div>
 
+<script>
+var clipboard = new ClipboardJS('.btn');
+</script>
+
 <div class="row">
     <div class="col-3">
         <h5>Company "{{ company.company_name }}"</h5>
     </div>
+    <div class="col-3">
+    {% if company.system_set.all %}
+    {% with systems=company.system_set.all %}
+    {% include "dfirtrack_main/includes/button_copy_hostnames.html" %}
+    {% endwith %}
+    {% endif %}
+    </div>
+
+</div>
+<div class="row">
     <div class="col-3">
         <small class="text-muted">
             Company-ID: {{ company.company_id }}
