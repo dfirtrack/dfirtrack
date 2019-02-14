@@ -16,10 +16,23 @@
     </div>
 </div>
 
+<script>
+var clipboard = new ClipboardJS('.btn');
+</script>
+
 <div class="row">
     <div class="col-3">
         <h5>Analysisstatus "{{ analysisstatus.analysisstatus_name }}"</h5>
     </div>
+    <div class="col-3">
+    {% if analysisstatus.system_set.all %}
+    {% with systems=analysisstatus.system_set.all %}
+    {% include "dfirtrack_main/includes/button_copy_hostnames.html" %}
+    {% endwith %}
+    {% endif %}
+    </div>
+</div>
+<div class="row">
     <div class="col-3">
         <small class="text-muted">
             Analysisstatus-ID: {{ analysisstatus.analysisstatus_id }}
