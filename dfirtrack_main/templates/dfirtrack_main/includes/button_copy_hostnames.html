@@ -1,6 +1,6 @@
 {% load staticfiles %}
 <div class="col-3">
-    <button class="btn btn-outline-primary btn-sm" data-clipboard-text="{% for i in tag.system_set.all %}{{ i.system_name }}
+    <button class="btn btn-outline-primary btn-sm" data-clipboard-text="{% for system in systems %}{{ system.system_name }}
 {% endfor %}">
         Copy hostnames
     </button>

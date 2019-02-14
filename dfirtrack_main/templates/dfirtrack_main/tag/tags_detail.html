@@ -33,7 +33,9 @@ var clipboard = new ClipboardJS('.btn');
         <br><br>
     </div>
     {% if tag.system_set.all %}
+    {% with systems=tag.system_set.all %}
     {% include "dfirtrack_main/includes/button_copy_hostnames.html" %}
+    {% endwith %}
     {% endif %}
 </div>
 
