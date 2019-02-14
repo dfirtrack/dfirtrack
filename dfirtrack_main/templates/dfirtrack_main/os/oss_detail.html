@@ -14,10 +14,23 @@
     </div>
 </div>
 
+<script>
+var clipboard = new ClipboardJS('.btn');
+</script>
+
 <div class="row">
     <div class="col-3">
         <h5>Operating system "{{ os.os_name }}"</h5>
     </div>
+    <div class="col-3">
+    {% if os.system_set.all %}
+    {% with systems=os.system_set.all %}
+    {% include "dfirtrack_main/includes/button_copy_hostnames.html" %}
+    {% endwith %}
+    {% endif %}
+    </div>
+</div>
+<div class="row">
     <div class="col-3">
         <small class="text-muted">
             OS-ID: {{ os.os_id }}
