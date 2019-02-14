@@ -33,12 +33,7 @@ var clipboard = new ClipboardJS('.btn');
         <br><br>
     </div>
     {% if tag.system_set.all %}
-    <div class="col-3">
-        <button class="btn btn-outline-primary btn-sm" data-clipboard-text="{% for i in tag.system_set.all %}{{ i.system_name }}
-{% endfor %}">
-            Copy hostnames
-        </button>
-    </div>
+    {% include "dfirtrack_main/includes/button_copy_hostnames.html" %}
     {% endif %}
 </div>
 
