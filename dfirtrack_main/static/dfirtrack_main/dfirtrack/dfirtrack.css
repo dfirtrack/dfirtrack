@@ -6,6 +6,16 @@
     width: 12px;
     height: 12px;
 }
+.copy-true {
+    -moz-user-select:all;
+    -ms-user-select:all;
+    -webkit-user-user-select:all;
+}
+.copy-false {
+    -moz-user-select:none;
+    -ms-user-select:none;
+    -webkit-user-user-select:none;
+}
 .btn-black {
     background: Black;
     border: Black;
@@ -58,7 +68,16 @@
     border-radius: 0px;
 }
 .top-distance {
-    margin-top: 5px;
+    margin-top: 10px;
+}
+.bottom-distance {
+    margin-bottom: 10px;
+}
+.right-distance {
+    margin-right: 10px;
+}
+.left-distance {
+    margin-left: 10px;
 }
 a {
     color: White;
