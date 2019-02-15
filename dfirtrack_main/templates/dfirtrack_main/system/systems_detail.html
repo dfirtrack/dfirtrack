@@ -1,63 +1,100 @@
 {% extends "dfirtrack_main/maintemplate.html" %}
 
+<!--
+###################### HEAD ######################
+-->
+
 {% block head %}
+
+<!-- page title -->
+
 <title>
-    {{ system.system_name }}
-    {% if system.system_dnssuffix %}
-    .{{ system.system_dnssuffix }}
-    {% endif %}
+    {{ system.system_name }}{% if system.system_dnssuffix %}.{{ system.system_dnssuffix }}{% endif %}
 </title>
+
+<!-- static files -->
+
 {% load staticfiles %}
 <link rel="stylesheet" type="text/css" href="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.css' %}"/>
 <script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.js' %}"></script>
+
 {% endblock %}
+
+<!--
+###################### BODY ######################
+-->
 
 {% block content %}
 
-<div class="row text-muted">
+<!-- upper buttons row -->
+<div class="row bottom-distance">
+
+    <!-- left button -->
     <div class="col-6">
-        <a href="/systems" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon" alt="icon">  Up to systems</a>
-        <br><br>
+        <a href="/systems" type="button" class="btn btn-light">
+            <img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon right-distance" alt="icon">
+            Up to systems
+        </a>
     </div>
+
+    <!-- right button -->
     <div class="col-6">
-        <a href="/systems/{{ system.system_id }}/edit" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon" alt="icon">  Edit</a>
-        <br><br>
+        <a href="/systems/{{ system.system_id }}/edit" type="button" class="btn btn-light">
+            <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon right-distance" alt="icon">
+            Edit
+        </a>
+    </div>
+
+</div>
+
+<!-- javascript for copy button -->
+<script>
+    var clipboard = new ClipboardJS('.btn');
+</script>
+
+<!-- system name row -->
+<div class="row bottom-distance">
+
+    <!-- system name -->
+    <div class="col-3">
+        <div class="btn btn-primary btn-lg copy-true">
+            <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon copy-false right-distance" alt="icon">
+            {{ system.system_name }}
+         </div>
+    </div>
+
+    <!-- dns suffix -->
+    <div class="col-3">
+        <div class="font-weight-bold">DNS Suffix:</div>
+        {% if system.system_dnssuffix %}
+        {{ system.system_dnssuffix }}
+        {% else %}
+        ---
+        {% endif %}
     </div>
 </div>
 
-<script>
-var clipboard = new ClipboardJS('.btn');
-</script>
+<!-- copy button row-->
+<div class="row buttom-distance">
 
-<div class="row">
-    <div class="col-3">
-        <div class="btn btn-primary btn-lg"><img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon" alt="icon">
-            {{ system.system_name }}
-        </div>
-    </div>
+    <!-- copy button -->
     <div class="col-3">
             <button class="btn btn-outline-primary btn-sm" data-clipboard-text="{{ system.system_name }}">
                 Copy hostname
             </button>
     </div>
 
-    <div class="col-3">
-	<div class="font-weight-bold">DNS Suffix:</div>
-	{% if system.system_dnssuffix %}
-	{{ system.system_dnssuffix }}
-	{% else %}
-	---
-	{% endif %}
-	<br><br>
-    </div>
 </div>
 
-<div class="row">
+<!-- id row -->
+<div class="row bottom-distance">
+
     <div class="col-3">
         <small class="text-muted">
             System-ID: {{ system.system_id }}
         </small>
     </div>
+
     <div class="col-3">
         <small class="text-muted">
             System-UUID:
@@ -68,29 +105,29 @@ var clipboard = new ClipboardJS('.btn');
             {% endif  %}
         </small>
     </div>
+
 </div>
-<br><br>
 
 <div class="row">
 
     <div class="col-6">
         {% if system.tag.all %}
-    	    {% for i in system.tag.all %}
-    	    <a href="/tags/{{ i.tag_id }}" type="button" class="btn btn-sm btn-{{ i.tagcolor }} round top-distance">
+            {% for i in system.tag.all %}
+            <a href="/tags/{{ i.tag_id }}" type="button" class="btn btn-sm btn-{{ i.tagcolor }} round top-distance copy-true">
             {% if i.tagcolor.tagcolor_name == 'white' %}
-                <img src="{% static 'dfirtrack_main/icons/tag.svg' %}" class="icon-sm" alt="icon">  {{ i }}</a>
+                <img src="{% static 'dfirtrack_main/icons/tag.svg' %}" class="icon-sm right-distance copy-false" alt="icon">{{ i }}</a>
             {% else %}
-                <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon-sm" alt="icon">  {{ i }}</a>
+                <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">{{ i }}</a>
             {% endif %}
-    	    {% endfor %}
+            {% endfor %}
         {% endif %}
     </div>
 
     <div class="col-6">
         {% if system.case.all %}
-	    {% for i in system.case.all %}
-	    <a href="/cases/{{ i.case_id }}">{{ i }}</a>
-	    {% endfor %}
+            {% for i in system.case.all %}
+            <a href="/cases/{{ i.case_id }}">{{ i }}</a>
+            {% endfor %}
         {% endif %}
     </div>
 
@@ -227,7 +264,7 @@ var clipboard = new ClipboardJS('.btn');
     <div class="row font-weight-bold">
         <div class="col-3">
             <br>
-            <a href="#closed_tasks" data-toggle="collapse">Closed tasks  <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon-sm" alt="icon"></a>
+            <a href="#closed_tasks" data-toggle="collapse">Closed tasks<img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon-sm copy-false left-distance" alt="icon"></a>
         </div>
     </div>
     
@@ -334,11 +371,11 @@ var clipboard = new ClipboardJS('.btn');
 </div>
 
 <div class="card bg-dark border-light card-body top-distance">
-	<div class="row">
-            <div class="col">
-	        <h5>Status information</h5>
-            </div>
-	</div>
+    <div class="row">
+        <div class="col">
+            <h5>Status information</h5>
+        </div>
+    </div>
     <div class="row">
         <div class="col-3">
             <div class="font-weight-bold">Systemstatus:</div>
@@ -447,42 +484,42 @@ var clipboard = new ClipboardJS('.btn');
     <div id="technical_information" class="collapse">
         <div class="row">
             <div class="col-3">
-        	<div class="font-weight-bold">Systemtype:</div>
+                <div class="font-weight-bold">Systemtype:</div>
                 {% if system.systemtype %}
                 <a href="/systemtypes/{{ system.systemtype.systemtype_id }}">{{ system.systemtype }}</a>
-        	{% else %}
-        	---
-        	{% endif %}
-        	<br><br>
+                {% else %}
+                ---
+                {% endif %}
+                <br><br>
             </div>
             <div class="col-3">
                 <div class="font-weight-bold">IP addresses:</div>
-            	{% if system.ip.all %}
-            	{% for i in system.ip.all %}
+                {% if system.ip.all %}
+                {% for i in system.ip.all %}
                 <a href="/ips/{{ i.ip_id }}">{{ i.ip_ip }}<br></a>
-        	{% endfor %}
-        	{% else %}
-        	---
-        	{% endif %}
-        	<br><br>
+                {% endfor %}
+                {% else %}
+                ---
+                {% endif %}
+                <br><br>
             </div>
             <div class="col-3">
-        	<div class="font-weight-bold">Domain:</div>
-        	{% if system.domain %}
-        	<a href="/domains/{{ system.domain.domain_id }}">{{ system.domain.domain_name }}</a>
-        	{% else %}
-        	---
-        	{% endif %}
-        	<br><br>
+                <div class="font-weight-bold">Domain:</div>
+                {% if system.domain %}
+                <a href="/domains/{{ system.domain.domain_id }}">{{ system.domain.domain_name }}</a>
+                {% else %}
+                ---
+                {% endif %}
+                <br><br>
             </div>
             <div class="col-3">
                 <div class="font-weight-bold">Operating system:</div>
                 {% if system.os %}
                 <a href="/oss/{{ system.os.os_id }}">{{ system.os.os_name }}</a>
-        	{% else %}
-        	---
-        	{% endif %}
-        	<br><br>
+                {% else %}
+                ---
+                {% endif %}
+                <br><br>
             </div>
         </div>
         <div class="row">
@@ -490,33 +527,33 @@ var clipboard = new ClipboardJS('.btn');
                 <div class="font-weight-bold">Installation time:</div>
                 {% if system.system_install_time %}
                 {{ system.system_install_time|date:"Y-m-d H:i" }}
-        	{% else %}
-        	---
-        	{% endif %}
+                {% else %}
+                ---
+                {% endif %}
             </div>
             <div class="col-3">
-        	<div class="font-weight-bold">Last booted:</div>
+                <div class="font-weight-bold">Last booted:</div>
                 {% if system.system_lastbooted_time %}
                 {{ system.system_lastbooted_time|date:"Y-m-d H:i" }}
-        	{% else %}
-        	---
-        	{% endif %}
+                {% else %}
+                ---
+                {% endif %}
             </div>
             <div class="col-3">
-        	<div class="font-weight-bold">System is depracted since:</div>
+                <div class="font-weight-bold">System is depracted since:</div>
                 {% if system.system_deprecated_time %}
                 {{ system.system_deprecated_time|date:"Y-m-d H:i" }}
-        	{% else %}
-        	---
-        	{% endif %}
+                {% else %}
+                ---
+                {% endif %}
             </div>
             <div class="col-3">
-        	<div class="font-weight-bold">OS architecture:</div>
+                <div class="font-weight-bold">OS architecture:</div>
                 {% if system.osarch %}
                 {{ system.osarch }}
-        	{% else %}
-        	---
-        	{% endif %}
+                {% else %}
+                ---
+                {% endif %}
             </div>
         </div>
     </div>
@@ -533,20 +570,20 @@ var clipboard = new ClipboardJS('.btn');
     <div id="virtualization_information" class="collapse">
         <div class="row">
             <div class="col-3">
-        	<div class="font-weight-bold">System is a VM:</div>
-        	{% if system.system_is_vm is none %}
-        	Unknown
-        	{% else %}
-        	{{ system.system_is_vm }}
-        	{% endif %}
+                <div class="font-weight-bold">System is a VM:</div>
+                {% if system.system_is_vm is none %}
+                Unknown
+                {% else %}
+                {{ system.system_is_vm }}
+                {% endif %}
             </div>
             <div class="col-3">
-        	<div class="font-weight-bold">Host system:</div>
-            	{% if system.host_system %}
+                <div class="font-weight-bold">Host system:</div>
+                {% if system.host_system %}
                 <a href="/systems/{{ system.host_system.system_id }}" type="button" class="btn btn-primary btn-sm top-distance"><img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm" alt="icon">  {{ system.host_system.system_name }}</a>
-        	{% else %}
-        	---
-        	{% endif %}
+                {% else %}
+                ---
+                {% endif %}
             </div>
         </div>
     </div>
@@ -563,38 +600,38 @@ var clipboard = new ClipboardJS('.btn');
     <div id="company_information" class="collapse">
         <div class="row">
             <div class="col-3">
-        	<div class="font-weight-bold">Company:</div>
-        	{% if system.company.all %}
-            	{% for i in system.company.all %}
-        	<a href="/companys/{{ i.company_id }}">{{ i.company_name }}</a><br>
-        	{% endfor %}
-        	{% else %}
-        	---
-        	{% endif %}
+                <div class="font-weight-bold">Company:</div>
+                {% if system.company.all %}
+                {% for i in system.company.all %}
+                <a href="/companys/{{ i.company_id }}">{{ i.company_name }}</a><br>
+                {% endfor %}
+                {% else %}
+                ---
+                {% endif %}
             </div>
             <div class="col-3">
-        	<div class="font-weight-bold">Location:</div>
-        	{% if system.location %}
-        	<a href="/locations/{{ system.location.location_id }}">{{ system.location }}</a>
-        	{% else %}
-        	---
-        	{% endif %}
+                <div class="font-weight-bold">Location:</div>
+                {% if system.location %}
+                <a href="/locations/{{ system.location.location_id }}">{{ system.location }}</a>
+                {% else %}
+                ---
+                {% endif %}
             </div>
             <div class="col-3">
-        	<div class="font-weight-bold">Serviceprovider:</div>
-        	{% if system.serviceprovider %}
-        	<a href="/serviceproviders/{{ system.serviceprovider.serviceprovider_id }}">{{ system.serviceprovider }}</a>
-        	{% else %}
-        	---
-        	{% endif %}
+                <div class="font-weight-bold">Serviceprovider:</div>
+                {% if system.serviceprovider %}
+                <a href="/serviceproviders/{{ system.serviceprovider.serviceprovider_id }}">{{ system.serviceprovider }}</a>
+                {% else %}
+                ---
+                {% endif %}
             </div>
             <div class="col-3">
-        	<div class="font-weight-bold">Contact:</div>
-        	{% if system.contact %}
-        	<a href="/contacts/{{ system.contact.contact_id }}">{{ system.contact.contact_name }}</a>
-        	{% else %}
-        	---
-        	{% endif %}
+                <div class="font-weight-bold">Contact:</div>
+                {% if system.contact %}
+                <a href="/contacts/{{ system.contact.contact_id }}">{{ system.contact.contact_name }}</a>
+                {% else %}
+                ---
+                {% endif %}
             </div>
         </div>
     </div>
@@ -761,6 +798,8 @@ var clipboard = new ClipboardJS('.btn');
 </div>
 
 <br><br>
+
+<!-- lower buttons -->
 
 <div class="row text-muted">
     <div class="col-6">
