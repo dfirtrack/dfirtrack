@@ -76,6 +76,66 @@ class DomainViewTestCase(TestCase):
         # compare
         self.assertEqual(str(response.context['user']), 'testuser')
 
+    def test_domains_add_response_not_logged_in(self):
+
+        # create url
+        destination = '/login/?next=' + urllib.parse.quote('/domains/add', safe='')
+        # get response
+        response = self.client.get('/domains/add', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_domains_add_response_logged_in(self):
+
+        # login testuser
+        login = self.client.login(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+        # get response
+        response = self.client.get('/domains/add')
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_domains_add_get_user_context(self):
+
+        # login testuser
+        login = self.client.login(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+        # get response
+        response = self.client.get('/domains/add')
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser')
+
+    def test_domains_edit_response_not_logged_in(self):
+
+        # get object
+        domain_1 = Domain.objects.get(domain_name='domain_1')
+        # create url
+        destination = '/login/?next=' + urllib.parse.quote('/domains/' + str(domain_1.domain_id) + '/edit/', safe='')
+        # get response
+        response = self.client.get('/domains/' + str(domain_1.domain_id) + '/edit/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_domains_edit_response_logged_in(self):
+
+        # get object
+        domain_1 = Domain.objects.get(domain_name='domain_1')
+        # login testuser
+        login = self.client.login(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+        # get response
+        response = self.client.get('/domains/' + str(domain_1.domain_id) + '/edit/')
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_domains_edit_get_user_context(self):
+
+        # get object
+        domain_1 = Domain.objects.get(domain_name='domain_1')
+        # login testuser
+        login = self.client.login(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+        # get response
+        response = self.client.get('/domains/' + str(domain_1.domain_id) + '/edit/')
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser')
+
 #    def test_domains_detail_response_logged_in_not_existing(self):
 #
 #        # login testuser
