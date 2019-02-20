@@ -13,7 +13,7 @@ class RecommendationViewTestCase(TestCase):
         # create object
         Recommendation.objects.create(recommendation_name='recommendation_1', recommendation_note='lorem ipsum')
         # create user
-        test_user = User.objects.create_user(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+        test_user = User.objects.create_user(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         test_user.save()
 
     def test_recommendations_list_not_logged_in(self):
@@ -28,7 +28,7 @@ class RecommendationViewTestCase(TestCase):
     def test_recommendations_list_logged_in(self):
 
         # login testuser
-        login = self.client.login(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # get response
         response = self.client.get('/recommendations/')
         # compare
@@ -37,7 +37,7 @@ class RecommendationViewTestCase(TestCase):
     def test_recommendations_list_template(self):
 
         # login testuser
-        login = self.client.login(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # get response
         response = self.client.get('/recommendations/')
         # compare
@@ -46,11 +46,11 @@ class RecommendationViewTestCase(TestCase):
     def test_recommendations_list_get_user_context(self):
 
         # login testuser
-        login = self.client.login(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # get response
         response = self.client.get('/recommendations/')
         # compare
-        self.assertEqual(str(response.context['user']), 'testuser')
+        self.assertEqual(str(response.context['user']), 'testuser_recommendation')
 
     def test_recommendations_detail_not_logged_in(self):
 
@@ -68,7 +68,7 @@ class RecommendationViewTestCase(TestCase):
         # get object
         recommendation_1 = Recommendation.objects.get(recommendation_name='recommendation_1')
         # login testuser
-        login = self.client.login(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # get response
         response = self.client.get('/recommendations/' + str(recommendation_1.recommendation_id))
         # compare
@@ -79,7 +79,7 @@ class RecommendationViewTestCase(TestCase):
         # get object
         recommendation_1 = Recommendation.objects.get(recommendation_name='recommendation_1')
         # login testuser
-        login = self.client.login(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # get response
         response = self.client.get('/recommendations/' + str(recommendation_1.recommendation_id))
         # compare
@@ -90,11 +90,11 @@ class RecommendationViewTestCase(TestCase):
         # get object
         recommendation_1 = Recommendation.objects.get(recommendation_name='recommendation_1')
         # login testuser
-        login = self.client.login(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # get response
         response = self.client.get('/recommendations/' + str(recommendation_1.recommendation_id))
         # compare
-        self.assertEqual(str(response.context['user']), 'testuser')
+        self.assertEqual(str(response.context['user']), 'testuser_recommendation')
 
     def test_recommendations_add_not_logged_in(self):
 
@@ -108,7 +108,7 @@ class RecommendationViewTestCase(TestCase):
     def test_recommendations_add_logged_in(self):
 
         # login testuser
-        login = self.client.login(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # get response
         response = self.client.get('/recommendations/add')
         # compare
@@ -117,7 +117,7 @@ class RecommendationViewTestCase(TestCase):
     def test_recommendations_add_template(self):
 
         # login testuser
-        login = self.client.login(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # get response
         response = self.client.get('/recommendations/add')
         # compare
@@ -126,11 +126,11 @@ class RecommendationViewTestCase(TestCase):
     def test_recommendations_add_get_user_context(self):
 
         # login testuser
-        login = self.client.login(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # get response
         response = self.client.get('/recommendations/add')
         # compare
-        self.assertEqual(str(response.context['user']), 'testuser')
+        self.assertEqual(str(response.context['user']), 'testuser_recommendation')
 
     def test_recommendations_edit_not_logged_in(self):
 
@@ -148,7 +148,7 @@ class RecommendationViewTestCase(TestCase):
         # get object
         recommendation_1 = Recommendation.objects.get(recommendation_name='recommendation_1')
         # login testuser
-        login = self.client.login(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # get response
         response = self.client.get('/recommendations/' + str(recommendation_1.recommendation_id) + '/edit/')
         # compare
@@ -159,7 +159,7 @@ class RecommendationViewTestCase(TestCase):
         # get object
         recommendation_1 = Recommendation.objects.get(recommendation_name='recommendation_1')
         # login testuser
-        login = self.client.login(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # get response
         response = self.client.get('/recommendations/' + str(recommendation_1.recommendation_id) + '/edit/')
         # compare
@@ -170,16 +170,16 @@ class RecommendationViewTestCase(TestCase):
         # get object
         recommendation_1 = Recommendation.objects.get(recommendation_name='recommendation_1')
         # login testuser
-        login = self.client.login(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # get response
         response = self.client.get('/recommendations/' + str(recommendation_1.recommendation_id) + '/edit/')
         # compare
-        self.assertEqual(str(response.context['user']), 'testuser')
+        self.assertEqual(str(response.context['user']), 'testuser_recommendation')
 
 #    def test_recommendations_detail_logged_in_not_existing(self):
 #
 #        # login testuser
-#        login = self.client.login(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+#        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
 #        # get response
 #        response = self.client.get('/recommendations/x')
 #        # compare

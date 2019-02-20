@@ -13,7 +13,7 @@ class AnalysisstatusViewTestCase(TestCase):
         # create object
         Analysisstatus.objects.create(analysisstatus_name='analysisstatus_1', analysisstatus_note='lorem ipsum')
         # create user
-        test_user = User.objects.create_user(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+        test_user = User.objects.create_user(username='testuser_analysisstatus', password='9u2Ew4XdFHLcCG5xyTvR')
         test_user.save()
 
     def test_analysisstatuss_list_not_logged_in(self):
@@ -28,7 +28,7 @@ class AnalysisstatusViewTestCase(TestCase):
     def test_analysisstatuss_list_logged_in(self):
 
         # login testuser
-        login = self.client.login(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+        login = self.client.login(username='testuser_analysisstatus', password='9u2Ew4XdFHLcCG5xyTvR')
         # get response
         response = self.client.get('/analysisstatuss/')
         # compare
@@ -37,7 +37,7 @@ class AnalysisstatusViewTestCase(TestCase):
     def test_analysisstatuss_list_template(self):
 
         # login testuser
-        login = self.client.login(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+        login = self.client.login(username='testuser_analysisstatus', password='9u2Ew4XdFHLcCG5xyTvR')
         # get response
         response = self.client.get('/analysisstatuss/')
         # compare
@@ -46,11 +46,11 @@ class AnalysisstatusViewTestCase(TestCase):
     def test_analysisstatuss_list_get_user_context(self):
 
         # login testuser
-        login = self.client.login(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+        login = self.client.login(username='testuser_analysisstatus', password='9u2Ew4XdFHLcCG5xyTvR')
         # get response
         response = self.client.get('/analysisstatuss/')
         # compare
-        self.assertEqual(str(response.context['user']), 'testuser')
+        self.assertEqual(str(response.context['user']), 'testuser_analysisstatus')
 
     def test_analysisstatuss_detail_not_logged_in(self):
 
@@ -68,7 +68,7 @@ class AnalysisstatusViewTestCase(TestCase):
         # get object
         analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
         # login testuser
-        login = self.client.login(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+        login = self.client.login(username='testuser_analysisstatus', password='9u2Ew4XdFHLcCG5xyTvR')
         # get response
         response = self.client.get('/analysisstatuss/' + str(analysisstatus_1.analysisstatus_id))
         # compare
@@ -79,7 +79,7 @@ class AnalysisstatusViewTestCase(TestCase):
         # get object
         analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
         # login testuser
-        login = self.client.login(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+        login = self.client.login(username='testuser_analysisstatus', password='9u2Ew4XdFHLcCG5xyTvR')
         # get response
         response = self.client.get('/analysisstatuss/' + str(analysisstatus_1.analysisstatus_id))
         # compare
@@ -90,16 +90,16 @@ class AnalysisstatusViewTestCase(TestCase):
         # get object
         analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
         # login testuser
-        login = self.client.login(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+        login = self.client.login(username='testuser_analysisstatus', password='9u2Ew4XdFHLcCG5xyTvR')
         # get response
         response = self.client.get('/analysisstatuss/' + str(analysisstatus_1.analysisstatus_id))
         # compare
-        self.assertEqual(str(response.context['user']), 'testuser')
+        self.assertEqual(str(response.context['user']), 'testuser_analysisstatus')
 
 #    def test_analysisstatuss_detail_logged_in_not_existing(self):
 #
 #        # login testuser
-#        login = self.client.login(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+#        login = self.client.login(username='testuser_analysisstatus', password='9u2Ew4XdFHLcCG5xyTvR')
 #        # get response
 #        response = self.client.get('/analysisstatuss/x')
 #        # compare

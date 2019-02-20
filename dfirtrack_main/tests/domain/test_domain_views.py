@@ -13,7 +13,7 @@ class DomainViewTestCase(TestCase):
         # create object
         Domain.objects.create(domain_name='domain_1', domain_note='lorem ipsum')
         # create user
-        test_user = User.objects.create_user(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+        test_user = User.objects.create_user(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
         test_user.save()
 
     def test_domains_list_not_logged_in(self):
@@ -28,7 +28,7 @@ class DomainViewTestCase(TestCase):
     def test_domains_list_logged_in(self):
 
         # login testuser
-        login = self.client.login(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+        login = self.client.login(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
         # get response
         response = self.client.get('/domains/')
         # compare
@@ -37,7 +37,7 @@ class DomainViewTestCase(TestCase):
     def test_domains_list_template(self):
 
         # login testuser
-        login = self.client.login(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+        login = self.client.login(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
         # get response
         response = self.client.get('/domains/')
         # compare
@@ -46,11 +46,11 @@ class DomainViewTestCase(TestCase):
     def test_domains_list_get_user_context(self):
 
         # login testuser
-        login = self.client.login(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+        login = self.client.login(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
         # get response
         response = self.client.get('/domains/')
         # compare
-        self.assertEqual(str(response.context['user']), 'testuser')
+        self.assertEqual(str(response.context['user']), 'testuser_domain')
 
     def test_domains_detail_not_logged_in(self):
 
@@ -68,7 +68,7 @@ class DomainViewTestCase(TestCase):
         # get object
         domain_1 = Domain.objects.get(domain_name='domain_1')
         # login testuser
-        login = self.client.login(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+        login = self.client.login(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
         # get response
         response = self.client.get('/domains/' + str(domain_1.domain_id))
         # compare
@@ -79,7 +79,7 @@ class DomainViewTestCase(TestCase):
         # get object
         domain_1 = Domain.objects.get(domain_name='domain_1')
         # login testuser
-        login = self.client.login(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+        login = self.client.login(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
         # get response
         response = self.client.get('/domains/' + str(domain_1.domain_id))
         # compare
@@ -90,11 +90,11 @@ class DomainViewTestCase(TestCase):
         # get object
         domain_1 = Domain.objects.get(domain_name='domain_1')
         # login testuser
-        login = self.client.login(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+        login = self.client.login(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
         # get response
         response = self.client.get('/domains/' + str(domain_1.domain_id))
         # compare
-        self.assertEqual(str(response.context['user']), 'testuser')
+        self.assertEqual(str(response.context['user']), 'testuser_domain')
 
     def test_domains_add_not_logged_in(self):
 
@@ -108,7 +108,7 @@ class DomainViewTestCase(TestCase):
     def test_domains_add_logged_in(self):
 
         # login testuser
-        login = self.client.login(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+        login = self.client.login(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
         # get response
         response = self.client.get('/domains/add')
         # compare
@@ -117,7 +117,7 @@ class DomainViewTestCase(TestCase):
     def test_domains_add_template(self):
 
         # login testuser
-        login = self.client.login(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+        login = self.client.login(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
         # get response
         response = self.client.get('/domains/add')
         # compare
@@ -126,11 +126,11 @@ class DomainViewTestCase(TestCase):
     def test_domains_add_get_user_context(self):
 
         # login testuser
-        login = self.client.login(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+        login = self.client.login(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
         # get response
         response = self.client.get('/domains/add')
         # compare
-        self.assertEqual(str(response.context['user']), 'testuser')
+        self.assertEqual(str(response.context['user']), 'testuser_domain')
 
     def test_domains_edit_not_logged_in(self):
 
@@ -148,7 +148,7 @@ class DomainViewTestCase(TestCase):
         # get object
         domain_1 = Domain.objects.get(domain_name='domain_1')
         # login testuser
-        login = self.client.login(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+        login = self.client.login(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
         # get response
         response = self.client.get('/domains/' + str(domain_1.domain_id) + '/edit/')
         # compare
@@ -159,7 +159,7 @@ class DomainViewTestCase(TestCase):
         # get object
         domain_1 = Domain.objects.get(domain_name='domain_1')
         # login testuser
-        login = self.client.login(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+        login = self.client.login(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
         # get response
         response = self.client.get('/domains/' + str(domain_1.domain_id) + '/edit/')
         # compare
@@ -170,16 +170,16 @@ class DomainViewTestCase(TestCase):
         # get object
         domain_1 = Domain.objects.get(domain_name='domain_1')
         # login testuser
-        login = self.client.login(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+        login = self.client.login(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
         # get response
         response = self.client.get('/domains/' + str(domain_1.domain_id) + '/edit/')
         # compare
-        self.assertEqual(str(response.context['user']), 'testuser')
+        self.assertEqual(str(response.context['user']), 'testuser_domain')
 
 #    def test_domains_detail_logged_in_not_existing(self):
 #
 #        # login testuser
-#        login = self.client.login(username='testuser', password='jjSeshxL17aDEdqkt8tP')
+#        login = self.client.login(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
 #        # get response
 #        response = self.client.get('/domains/x')
 #        # compare
