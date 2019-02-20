@@ -76,7 +76,7 @@ urlpatterns = [
 
     url(r'^oss/$', oss_views.Oss.as_view(), name='oss'),
     url(r'^oss/(?P<pk>\d+)$', oss_views.OssDetail.as_view(), name='ossdetail'),
-    url(r'^oss/add/$', oss_views.oss_add, name='oss_add'),
+    url(r'^oss/add$', oss_views.oss_add, name='oss_add'),
     url(r'^oss/add_popup$', oss_views.oss_add_popup, name='oss_add_popup'),
     url(r'^oss/(?P<pk>\d+)/edit/$', oss_views.oss_edit, name='oss_edit'),
 
