@@ -11,6 +11,13 @@ class ReasonFormTestCase(TestCase):
         # compare
         self.assertEquals(form.fields['reason_name'].label, 'Reason name (*)')
 
+    def test_reason_note_label(self):
+
+        # get object
+        form = ReasonForm()
+        # compare
+        self.assertEquals(form.fields['reason_note'].label, 'Reason note')
+
     def test_reason_name_empty(self):
 
         # get object

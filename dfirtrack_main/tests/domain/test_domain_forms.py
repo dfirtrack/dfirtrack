@@ -11,6 +11,13 @@ class DomainFormTestCase(TestCase):
         # compare
         self.assertEquals(form.fields['domain_name'].label, 'Domain name (*)')
 
+    def test_domain_note_label(self):
+
+        # get object
+        form = DomainForm()
+        # compare
+        self.assertEquals(form.fields['domain_note'].label, 'Domain note')
+
     def test_domain_name_empty(self):
 
         # get object
