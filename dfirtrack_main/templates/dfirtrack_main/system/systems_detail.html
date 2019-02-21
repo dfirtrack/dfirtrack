@@ -67,9 +67,9 @@
     <div class="col-3">
         <div class="font-weight-bold">DNS Suffix:</div>
         {% if system.system_dnssuffix %}
-        {{ system.system_dnssuffix }}
+            {{ system.system_dnssuffix }}
         {% else %}
-        ---
+            ---
         {% endif %}
     </div>
 </div>
@@ -89,12 +89,14 @@
 <!-- id row -->
 <div class="row bottom-distance">
 
+    <!-- system id -->
     <div class="col-3">
         <small class="text-muted">
             System-ID: {{ system.system_id }}
         </small>
     </div>
 
+    <!-- system uuid -->
     <div class="col-3">
         <small class="text-muted">
             System-UUID:
@@ -108,46 +110,59 @@
 
 </div>
 
+<!-- tag row -->
 <div class="row">
 
+    <!-- all tags -->
     <div class="col-6">
         {% if system.tag.all %}
             {% for i in system.tag.all %}
-            <a href="/tags/{{ i.tag_id }}" type="button" class="btn btn-sm btn-{{ i.tagcolor }} round top-distance copy-true">
-            {% if i.tagcolor.tagcolor_name == 'white' %}
-                <img src="{% static 'dfirtrack_main/icons/tag.svg' %}" class="icon-sm right-distance copy-false" alt="icon">{{ i }}</a>
-            {% else %}
-                <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">{{ i }}</a>
-            {% endif %}
+                <a href="/tags/{{ i.tag_id }}" type="button" class="btn btn-sm btn-{{ i.tagcolor }} round top-distance copy-true">
+                <!-- white tag -->
+                {% if i.tagcolor.tagcolor_name == 'white' %}
+                    <img src="{% static 'dfirtrack_main/icons/tag.svg' %}" class="icon-sm right-distance copy-false" alt="icon">{{ i }}</a>
+                <!-- all other colors -->
+                {% else %}
+                    <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">{{ i }}</a>
+                {% endif %}
             {% endfor %}
         {% endif %}
     </div>
 
+    <!-- case -->
     <div class="col-6">
+        <div class="font-weight-bold">Cases:</div>
         {% if system.case.all %}
             {% for i in system.case.all %}
-            <a href="/cases/{{ i.case_id }}">{{ i }}</a>
+                <a href="/cases/{{ i.case_id }}">{{ i }}</a>
             {% endfor %}
+        {% else %}
+            ---
         {% endif %}
     </div>
 
 </div>
 
+<!-- tasks information -->
 <div class="card bg-dark border-light card-body top-distance">
 
+    <!-- tasks information headline -->
     <div class="row">
         <div class="col">
             <h5>Tasks information</h5>
         </div>
     </div>
 
+    <!-- open tasks headline -->
     <div class="row font-weight-bold">
         <div class="col-3">Open tasks</div>
     </div>
     <br>
     
+    <!-- open tasks datatable -->
     <table id="table_system_task_open" class="display" width="100%">
 
+        <!-- table head -->
         <thead>
             <tr>
                 <th>ID</th>
@@ -163,79 +178,115 @@
             </tr>
         </thead>
 
+        <!-- table body -->
         <tbody>
+
+        <!-- open tasks -->
         {% if system.task_set.all %}
             {% for i in system.task_set.all %}
-                {% if i.taskstatus.taskstatus_name == 'Pending' or i.taskstatus.taskstatus_name == 'Working' %}
+                {% if i.taskstatus.taskstatus_name != 'Done' %}
+
+                <!-- table row -->
                 <tr>
 
+                    <!-- task id -->
                     <td>
                         {{ i.task_id }}
                     </td>
 
+                    <!-- task name -->
                     <td>
-                        <a href="/tasks/{{ i.task_id }}" type="button" class="btn btn-primary btn-sm sharp"><img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon-sm" alt="icon">  {{ i.taskname }}</a>
+                        <a href="/tasks/{{ i.task_id }}" type="button" class="btn btn-primary btn-sm sharp copy-true">
+                            <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                            {{ i.taskname }}
+                        </a>
                     </td>
 
+                    <!-- task note -->
                     <td>
                         {% if i.task_note %}
-                        {{ i.task_note }}
+                            {{ i.task_note }}
                         {% else %}
-                        ---
+                            ---
                         {% endif %}
                     </td>
 
+                    <!-- task user -->
                     <td>
                         {% if i.task_assigned_to_user_id %}
-                        {{ i.task_assigned_to_user_id }}
+                            {{ i.task_assigned_to_user_id }}
                         {% else %}
-                        ---
+                            ---
                         {% endif %}
                     </td>
 
+                    <!-- task user assign / free buttons -->
                     <td>
+                        <!-- assign button -->
                         {% if not i.task_assigned_to_user_id %}
-                        <a href="/tasks/{{ i.task_id }}/set_user?system={{ system.system_id }}" type="button" class="btn btn-sm btn-light"><img src="{% static 'dfirtrack_main/icons/person.svg' %}" class="icon-sm" alt="icon">  Assign me</a></a>
+                            <a href="/tasks/{{ i.task_id }}/set_user?system={{ system.system_id }}" type="button" class="btn btn-sm btn-light copy-false">
+                                <img src="{% static 'dfirtrack_main/icons/person.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                                Grab
+                            </a>
+                        <!-- free button -->
                         {% else %}
-                        <a href="/tasks/{{ i.task_id }}/unset_user?system={{ system.system_id }}" type="button" class="btn btn-sm btn-light"><img src="{% static 'dfirtrack_main/icons/delete.svg' %}" class="icon-sm" alt="icon">  Free assignment</a></a>
+                            <a href="/tasks/{{ i.task_id }}/unset_user?system={{ system.system_id }}" type="button" class="btn btn-sm btn-light copy-false">
+                                <img src="{% static 'dfirtrack_main/icons/delete.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                                Free
+                            </a>
                         {% endif %}
                     </td>
 
+                    <!-- task status -->
                     <td>
                         <a href="/taskstatuss/{{ i.taskstatus.taskstatus_id }}">
-                        {% with taskstatus=i.taskstatus %}
-                        {% include "dfirtrack_main/includes/button_taskstatus.html" %}
-                        {% endwith %}
-                        {{ i.taskstatus }}
+                            {% with taskstatus=i.taskstatus %}
+                                {% include "dfirtrack_main/includes/button_taskstatus.html" %}
+                            {% endwith %}
+                            {{ i.taskstatus }}
                         </a>
                     </td>
 
+                    <!-- task start button -->
                     <td>
                         {% if not i.task_started_time %}
-                        <a href="/tasks/{{ i.task_id }}/start?system={{ system.system_id }}" type="button" class="btn btn-sm btn-light"><img src="{% static 'dfirtrack_main/icons/play-circle.svg' %}" class="icon-sm" alt="icon">  Start</a>
+                            <a href="/tasks/{{ i.task_id }}/start?system={{ system.system_id }}" type="button" class="btn btn-sm btn-light copy-false">
+                                <img src="{% static 'dfirtrack_main/icons/play-circle.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                                Start
+                            </a>
                         {% endif %}
                     </td>
 
+                    <!-- task finish button -->
                     <td>
-                        <a href="/tasks/{{ i.task_id }}/finish?system={{ system.system_id }}" type="button" class="btn btn-sm btn-light"><img src="{% static 'dfirtrack_main/icons/circle-check.svg' %}" class="icon-sm" alt="icon">  Finish</a>
-                    </td>
-
-                    <td>
-                        <a href="/taskprioritys/{{ i.taskpriority.taskpriority_id }}">
-                        {% with taskpriority=i.taskpriority %}
-                        {% include "dfirtrack_main/includes/button_taskpriority.html" %}
-                        {% endwith %}
-                        {{ i.taskpriority }}
+                        <a href="/tasks/{{ i.task_id }}/finish?system={{ system.system_id }}" type="button" class="btn btn-sm btn-light copy-false">
+                            <img src="{% static 'dfirtrack_main/icons/circle-check.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                            Finish
                         </a>
                     </td>
 
+                    <!-- task priority -->
                     <td>
-                        <a href="/tasks/{{ i.task_id }}/edit?system={{ system.system_id }}" type="button" class="btn btn-sm btn-light"><img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm" alt="icon">  Edit</a>
+                        <a href="/taskprioritys/{{ i.taskpriority.taskpriority_id }}">
+                            {% with taskpriority=i.taskpriority %}
+                                {% include "dfirtrack_main/includes/button_taskpriority.html" %}
+                            {% endwith %}
+                            {{ i.taskpriority }}
+                        </a>
+                    </td>
+
+                    <!-- task edit button -->
+                    <td>
+                        <a href="/tasks/{{ i.task_id }}/edit?system={{ system.system_id }}" type="button" class="btn btn-sm btn-light copy-false">
+                            <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                            Edit
+                        </a>
                     </td>
                 </tr>
                 {% endif %}
             {% endfor %}
 
+        <!-- no open tasks -->
         {% else %}
 
             <tr>

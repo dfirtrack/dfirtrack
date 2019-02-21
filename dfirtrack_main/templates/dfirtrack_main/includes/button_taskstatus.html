@@ -1,8 +1,8 @@
 {% load staticfiles %}
 {% if taskstatus.taskstatus_name == 'Pending' %}
-<div class="btn btn-light btn-sm"><img src="{% static 'dfirtrack_main/icons/moon.svg' %}" class="icon-sm" alt="icon"></div>
+<div class="btn btn-light btn-sm copy-false"><img src="{% static 'dfirtrack_main/icons/moon.svg' %}" class="icon-sm copy-false" alt="icon"></div>
 {% elif taskstatus.taskstatus_name == 'Working' %}
-<div class="btn btn-light btn-sm"><img src="{% static 'dfirtrack_main/icons/clock.svg' %}" class="icon-sm" alt="icon"></div>
+<div class="btn btn-light btn-sm copy-false"><img src="{% static 'dfirtrack_main/icons/clock.svg' %}" class="icon-sm copy-false" alt="icon"></div>
 {% elif taskstatus.taskstatus_name == 'Done' %}
-<div class="btn btn-light btn-sm"><img src="{% static 'dfirtrack_main/icons/check.svg' %}" class="icon-sm" alt="icon"></div>
+<div class="btn btn-light btn-sm copy-false"><img src="{% static 'dfirtrack_main/icons/check.svg' %}" class="icon-sm copy-false" alt="icon"></div>
 {% endif %}

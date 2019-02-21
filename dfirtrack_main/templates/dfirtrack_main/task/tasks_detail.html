@@ -129,9 +129,9 @@
         </div>
         <div class="col-3">
             {% if not task.task_assigned_to_user_id %}
-            <a href="/tasks/{{ task.task_id }}/set_user" type="button" class="btn btn-sm btn-light"><img src="{% static 'dfirtrack_main/icons/person.svg' %}" class="icon-sm" alt="icon">  Assign me</a>
+            <a href="/tasks/{{ task.task_id }}/set_user" type="button" class="btn btn-sm btn-light"><img src="{% static 'dfirtrack_main/icons/person.svg' %}" class="icon-sm" alt="icon">  Grab</a>
             {% else %}
-            <a href="/tasks/{{ task.task_id }}/unset_user" type="button" class="btn btn-sm btn-light"><img src="{% static 'dfirtrack_main/icons/delete.svg' %}" class="icon-sm" alt="icon">  Free assignment</a>
+            <a href="/tasks/{{ task.task_id }}/unset_user" type="button" class="btn btn-sm btn-light"><img src="{% static 'dfirtrack_main/icons/delete.svg' %}" class="icon-sm" alt="icon">  Free</a>
             {% endif %}
         </div>
     </div>
