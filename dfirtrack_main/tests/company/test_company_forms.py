@@ -5,6 +5,12 @@ from dfirtrack_main.models import Division
 class CompanyFormTestCase(TestCase):
     """ company form tests """
 
+    @classmethod
+    def setUpTestData(cls):
+
+        # create object
+        Division.objects.create(division_name='division_1')
+
     def test_company_name_label(self):
 
         # get object
@@ -35,8 +41,6 @@ class CompanyFormTestCase(TestCase):
 
     def test_company_name_filled_with_division(self):
 
-        # create foreign key object
-        Division.objects.create(division_name='division_1')
         # get foreign key object id
         division_id = Division.objects.get(division_name='division_1').division_id
         # get object
