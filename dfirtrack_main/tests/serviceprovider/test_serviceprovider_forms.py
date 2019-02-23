@@ -31,3 +31,17 @@ class ServiceproviderFormTestCase(TestCase):
         form = ServiceproviderForm(data = {'serviceprovider_name': 'serviceprovider_1'})
         # compare
         self.assertTrue(form.is_valid())
+
+    def test_serviceprovider_name_proper_chars(self):
+
+        # get object
+        form = ServiceproviderForm(data = {'serviceprovider_name': 'ssssssssssssssssssssssssssssssssssssssssssssssssss'})
+        # compare
+        self.assertTrue(form.is_valid())
+
+    def test_serviceprovider_name_too_many_chars(self):
+
+        # get object
+        form = ServiceproviderForm(data = {'serviceprovider_name': 'sssssssssssssssssssssssssssssssssssssssssssssssssss'})
+        # compare
+        self.assertFalse(form.is_valid())

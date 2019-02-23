@@ -31,3 +31,17 @@ class ReasonFormTestCase(TestCase):
         form = ReasonForm(data = {'reason_name': 'reason_1'})
         # compare
         self.assertTrue(form.is_valid())
+
+    def test_reason_name_proper_chars(self):
+
+        # get object
+        form = ReasonForm(data = {'reason_name': 'rrrrrrrrrrrrrrrrrrrrrrrrrrrrrr'})
+        # compare
+        self.assertTrue(form.is_valid())
+
+    def test_reason_name_too_many_chars(self):
+
+        # get object
+        form = ReasonForm(data = {'reason_name': 'rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr'})
+        # compare
+        self.assertFalse(form.is_valid())

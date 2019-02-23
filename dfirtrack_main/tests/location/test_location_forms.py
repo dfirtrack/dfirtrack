@@ -31,3 +31,17 @@ class LocationFormTestCase(TestCase):
         form = LocationForm(data = {'location_name': 'location_1'})
         # compare
         self.assertTrue(form.is_valid())
+
+    def test_location_name_proper_chars(self):
+
+        # get object
+        form = LocationForm(data = {'location_name': 'llllllllllllllllllllllllllllllllllllllllllllllllll'})
+        # compare
+        self.assertTrue(form.is_valid())
+
+    def test_location_name_too_many_chars(self):
+
+        # get object
+        form = LocationForm(data = {'location_name': 'lllllllllllllllllllllllllllllllllllllllllllllllllll'})
+        # compare
+        self.assertFalse(form.is_valid())

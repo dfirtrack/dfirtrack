@@ -31,3 +31,17 @@ class RecommendationFormTestCase(TestCase):
         form = RecommendationForm(data = {'recommendation_name': 'recommendation_1'})
         # compare
         self.assertTrue(form.is_valid())
+
+    def test_recommendation_name_proper_chars(self):
+
+        # get object
+        form = RecommendationForm(data = {'recommendation_name': 'rrrrrrrrrrrrrrrrrrrrrrrrrrrrrr'})
+        # compare
+        self.assertTrue(form.is_valid())
+
+    def test_recommendation_name_too_many_chars(self):
+
+        # get object
+        form = RecommendationForm(data = {'recommendation_name': 'rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr'})
+        # compare
+        self.assertFalse(form.is_valid())

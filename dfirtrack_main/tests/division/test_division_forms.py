@@ -31,3 +31,17 @@ class DivisionFormTestCase(TestCase):
         form = DivisionForm(data = {'division_name': 'division_1'})
         # compare
         self.assertTrue(form.is_valid())
+
+    def test_division_name_proper_chars(self):
+
+        # get object
+        form = DivisionForm(data = {'division_name': 'dddddddddddddddddddddddddddddddddddddddddddddddddd'})
+        # compare
+        self.assertTrue(form.is_valid())
+
+    def test_division_name_too_many_chars(self):
+
+        # get object
+        form = DivisionForm(data = {'division_name': 'ddddddddddddddddddddddddddddddddddddddddddddddddddd'})
+        # compare
+        self.assertFalse(form.is_valid())

@@ -24,3 +24,17 @@ class OsFormTestCase(TestCase):
         form = OsForm(data = {'os_name': 'os_1'})
         # compare
         self.assertTrue(form.is_valid())
+
+    def test_os_name_proper_chars(self):
+
+        # get object
+        form = OsForm(data = {'os_name': 'oooooooooooooooooooooooooooooo'})
+        # compare
+        self.assertTrue(form.is_valid())
+
+    def test_os_name_too_many_chars(self):
+
+        # get object
+        form = OsForm(data = {'os_name': 'ooooooooooooooooooooooooooooooo'})
+        # compare
+        self.assertFalse(form.is_valid())

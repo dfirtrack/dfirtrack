@@ -43,3 +43,17 @@ class CompanyFormTestCase(TestCase):
         form = CompanyForm(data = {'company_name': 'company_1', 'division': division_id})
         # compare
         self.assertTrue(form.is_valid())
+
+    def test_company_name_proper_chars(self):
+
+        # get object
+        form = CompanyForm(data = {'company_name': 'cccccccccccccccccccccccccccccccccccccccccccccccccc'})
+        # compare
+        self.assertTrue(form.is_valid())
+
+    def test_company_name_too_many_chars(self):
+
+        # get object
+        form = CompanyForm(data = {'company_name': 'ccccccccccccccccccccccccccccccccccccccccccccccccccc'})
+        # compare
+        self.assertFalse(form.is_valid())
