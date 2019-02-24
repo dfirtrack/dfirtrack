@@ -8,7 +8,7 @@ class LocationModelTestCase(TestCase):
     def setUpTestData(cls):
 
         # create object
-        Location.objects.create(location_name='location_1', location_note='lorem ipsum')
+        Location.objects.create(location_name='location_1')
 
     def test_location_string(self):
 

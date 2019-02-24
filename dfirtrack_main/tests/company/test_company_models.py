@@ -8,7 +8,7 @@ class CompanyModelTestCase(TestCase):
     def setUpTestData(cls):
 
         # create object
-        Company.objects.create(company_name='company_1', company_note='lorem ipsum')
+        Company.objects.create(company_name='company_1')
 
     def test_company_string(self):
 

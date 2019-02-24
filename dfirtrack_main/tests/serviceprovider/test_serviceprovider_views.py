@@ -11,7 +11,7 @@ class ServiceproviderViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create object
-        Serviceprovider.objects.create(serviceprovider_name='serviceprovider_1', serviceprovider_note='lorem ipsum')
+        Serviceprovider.objects.create(serviceprovider_name='serviceprovider_1')
         # create user
         test_user = User.objects.create_user(username='testuser_serviceprovider', password='KxVbBhKZcvh6IcQUGjr0')
         test_user.save()

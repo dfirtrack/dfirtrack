@@ -11,7 +11,7 @@ class SystemstatusViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create object
-        Systemstatus.objects.create(systemstatus_name='systemstatus_1', systemstatus_note='lorem ipsum')
+        Systemstatus.objects.create(systemstatus_name='systemstatus_1')
         # create user
         test_user = User.objects.create_user(username='testuser_systemstatus', password='kWAvcuNoU97qpEy7UpDT')
         test_user.save()

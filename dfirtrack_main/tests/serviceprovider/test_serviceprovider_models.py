@@ -8,7 +8,7 @@ class ServiceproviderModelTestCase(TestCase):
     def setUpTestData(cls):
 
         # create object
-        Serviceprovider.objects.create(serviceprovider_name='serviceprovider_1', serviceprovider_note='lorem ipsum')
+        Serviceprovider.objects.create(serviceprovider_name='serviceprovider_1')
 
     def test_serviceprovider_string(self):
 

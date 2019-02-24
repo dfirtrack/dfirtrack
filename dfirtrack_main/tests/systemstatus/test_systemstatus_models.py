@@ -8,7 +8,7 @@ class SystemstatusModelTestCase(TestCase):
     def setUpTestData(cls):
 
         # create object
-        Systemstatus.objects.create(systemstatus_name='systemstatus_1', systemstatus_note='lorem ipsum')
+        Systemstatus.objects.create(systemstatus_name='systemstatus_1')
 
     def test_systemstatus_string(self):
 

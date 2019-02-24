@@ -11,7 +11,7 @@ class DivisionViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create object
-        Division.objects.create(division_name='division_1', division_note='lorem ipsum')
+        Division.objects.create(division_name='division_1')
         # create user
         test_user = User.objects.create_user(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
         test_user.save()

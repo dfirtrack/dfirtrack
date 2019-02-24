@@ -11,7 +11,7 @@ class DomainViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create object
-        Domain.objects.create(domain_name='domain_1', domain_note='lorem ipsum')
+        Domain.objects.create(domain_name='domain_1')
         # create user
         test_user = User.objects.create_user(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
         test_user.save()

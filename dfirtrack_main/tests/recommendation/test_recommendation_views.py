@@ -11,7 +11,7 @@ class RecommendationViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create object
-        Recommendation.objects.create(recommendation_name='recommendation_1', recommendation_note='lorem ipsum')
+        Recommendation.objects.create(recommendation_name='recommendation_1')
         # create user
         test_user = User.objects.create_user(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         test_user.save()

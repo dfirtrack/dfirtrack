@@ -8,7 +8,7 @@ class DivisionModelTestCase(TestCase):
     def setUpTestData(cls):
 
         # create object
-        Division.objects.create(division_name='division_1', division_note='lorem ipsum')
+        Division.objects.create(division_name='division_1')
 
     def test_division_string(self):
 

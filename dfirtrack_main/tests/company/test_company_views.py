@@ -11,7 +11,7 @@ class CompanyViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create object
-        Company.objects.create(company_name='company_1', company_note='lorem ipsum')
+        Company.objects.create(company_name='company_1')
         # create user
         test_user = User.objects.create_user(username='testuser_company', password='MbJfulGWGKeqceBtN9Mi')
         test_user.save()

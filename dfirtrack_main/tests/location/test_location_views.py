@@ -11,7 +11,7 @@ class LocationViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create object
-        Location.objects.create(location_name='location_1', location_note='lorem ipsum')
+        Location.objects.create(location_name='location_1')
         # create user
         test_user = User.objects.create_user(username='testuser_location', password='jjSeshxL17aDEdqkt8tP')
         test_user.save()

@@ -8,7 +8,7 @@ class RecommendationModelTestCase(TestCase):
     def setUpTestData(cls):
 
         # create object
-        Recommendation.objects.create(recommendation_name='recommendation_1', recommendation_note='lorem ipsum')
+        Recommendation.objects.create(recommendation_name='recommendation_1')
 
     def test_recommendation_string(self):
 

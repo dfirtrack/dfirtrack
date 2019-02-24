@@ -8,7 +8,7 @@ class ReasonModelTestCase(TestCase):
     def setUpTestData(cls):
 
         # create object
-        Reason.objects.create(reason_name='reason_1', reason_note='lorem ipsum')
+        Reason.objects.create(reason_name='reason_1')
 
     def test_reason_string(self):
 

@@ -8,7 +8,7 @@ class AnalysisstatusModelTestCase(TestCase):
     def setUpTestData(cls):
 
         # create object
-        Analysisstatus.objects.create(analysisstatus_name='analysisstatus_1', analysisstatus_note='lorem ipsum')
+        Analysisstatus.objects.create(analysisstatus_name='analysisstatus_1')
 
     def test_analysisstatus_string(self):
 
