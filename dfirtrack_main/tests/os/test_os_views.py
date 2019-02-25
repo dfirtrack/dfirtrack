@@ -99,9 +99,9 @@ class OsViewTestCase(TestCase):
     def test_oss_add_not_logged_in(self):
 
         # create url
-        destination = '/login/?next=' + urllib.parse.quote('/oss/add', safe='')
+        destination = '/login/?next=' + urllib.parse.quote('/oss/add/', safe='')
         # get response
-        response = self.client.get('/oss/add', follow=True)
+        response = self.client.get('/oss/add/', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
@@ -110,7 +110,7 @@ class OsViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
         # get response
-        response = self.client.get('/oss/add')
+        response = self.client.get('/oss/add/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -119,7 +119,7 @@ class OsViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
         # get response
-        response = self.client.get('/oss/add')
+        response = self.client.get('/oss/add/')
         # compare
         self.assertTemplateUsed(response, 'dfirtrack_main/os/oss_add.html')
 
@@ -128,7 +128,7 @@ class OsViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
         # get response
-        response = self.client.get('/oss/add')
+        response = self.client.get('/oss/add/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_os')
 

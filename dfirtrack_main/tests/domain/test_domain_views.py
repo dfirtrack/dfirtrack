@@ -99,9 +99,9 @@ class DomainViewTestCase(TestCase):
     def test_domains_add_not_logged_in(self):
 
         # create url
-        destination = '/login/?next=' + urllib.parse.quote('/domains/add', safe='')
+        destination = '/login/?next=' + urllib.parse.quote('/domains/add/', safe='')
         # get response
-        response = self.client.get('/domains/add', follow=True)
+        response = self.client.get('/domains/add/', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
@@ -110,7 +110,7 @@ class DomainViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
         # get response
-        response = self.client.get('/domains/add')
+        response = self.client.get('/domains/add/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -119,7 +119,7 @@ class DomainViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
         # get response
-        response = self.client.get('/domains/add')
+        response = self.client.get('/domains/add/')
         # compare
         self.assertTemplateUsed(response, 'dfirtrack_main/domain/domains_add.html')
 
@@ -128,7 +128,7 @@ class DomainViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
         # get response
-        response = self.client.get('/domains/add')
+        response = self.client.get('/domains/add/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_domain')
 

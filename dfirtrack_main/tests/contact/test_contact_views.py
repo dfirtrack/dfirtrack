@@ -99,9 +99,9 @@ class ContactViewTestCase(TestCase):
     def test_contacts_add_not_logged_in(self):
 
         # create url
-        destination = '/login/?next=' + urllib.parse.quote('/contacts/add', safe='')
+        destination = '/login/?next=' + urllib.parse.quote('/contacts/add/', safe='')
         # get response
-        response = self.client.get('/contacts/add', follow=True)
+        response = self.client.get('/contacts/add/', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
@@ -110,7 +110,7 @@ class ContactViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
         # get response
-        response = self.client.get('/contacts/add')
+        response = self.client.get('/contacts/add/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -119,7 +119,7 @@ class ContactViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
         # get response
-        response = self.client.get('/contacts/add')
+        response = self.client.get('/contacts/add/')
         # compare
         self.assertTemplateUsed(response, 'dfirtrack_main/contact/contacts_add.html')
 
@@ -128,7 +128,7 @@ class ContactViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
         # get response
-        response = self.client.get('/contacts/add')
+        response = self.client.get('/contacts/add/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_contact')
 

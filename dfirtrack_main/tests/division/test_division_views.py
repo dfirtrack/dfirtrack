@@ -99,9 +99,9 @@ class DivisionViewTestCase(TestCase):
     def test_divisions_add_not_logged_in(self):
 
         # create url
-        destination = '/login/?next=' + urllib.parse.quote('/divisions/add', safe='')
+        destination = '/login/?next=' + urllib.parse.quote('/divisions/add/', safe='')
         # get response
-        response = self.client.get('/divisions/add', follow=True)
+        response = self.client.get('/divisions/add/', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
@@ -110,7 +110,7 @@ class DivisionViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
         # get response
-        response = self.client.get('/divisions/add')
+        response = self.client.get('/divisions/add/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -119,7 +119,7 @@ class DivisionViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
         # get response
-        response = self.client.get('/divisions/add')
+        response = self.client.get('/divisions/add/')
         # compare
         self.assertTemplateUsed(response, 'dfirtrack_main/division/divisions_add.html')
 
@@ -128,7 +128,7 @@ class DivisionViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
         # get response
-        response = self.client.get('/divisions/add')
+        response = self.client.get('/divisions/add/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_division')
 

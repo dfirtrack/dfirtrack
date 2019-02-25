@@ -99,9 +99,9 @@ class TasknameViewTestCase(TestCase):
     def test_tasknames_add_not_logged_in(self):
 
         # create url
-        destination = '/login/?next=' + urllib.parse.quote('/tasknames/add', safe='')
+        destination = '/login/?next=' + urllib.parse.quote('/tasknames/add/', safe='')
         # get response
-        response = self.client.get('/tasknames/add', follow=True)
+        response = self.client.get('/tasknames/add/', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
@@ -110,7 +110,7 @@ class TasknameViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
         # get response
-        response = self.client.get('/tasknames/add')
+        response = self.client.get('/tasknames/add/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -119,7 +119,7 @@ class TasknameViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
         # get response
-        response = self.client.get('/tasknames/add')
+        response = self.client.get('/tasknames/add/')
         # compare
         self.assertTemplateUsed(response, 'dfirtrack_main/taskname/tasknames_add.html')
 
@@ -128,7 +128,7 @@ class TasknameViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
         # get response
-        response = self.client.get('/tasknames/add')
+        response = self.client.get('/tasknames/add/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_taskname')
 

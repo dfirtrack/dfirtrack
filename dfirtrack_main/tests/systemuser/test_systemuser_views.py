@@ -113,9 +113,9 @@ class SystemuserViewTestCase(TestCase):
     def test_systemusers_add_not_logged_in(self):
 
         # create url
-        destination = '/login/?next=' + urllib.parse.quote('/systemusers/add', safe='')
+        destination = '/login/?next=' + urllib.parse.quote('/systemusers/add/', safe='')
         # get response
-        response = self.client.get('/systemusers/add', follow=True)
+        response = self.client.get('/systemusers/add/', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
@@ -124,7 +124,7 @@ class SystemuserViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
         # get response
-        response = self.client.get('/systemusers/add')
+        response = self.client.get('/systemusers/add/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -133,7 +133,7 @@ class SystemuserViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
         # get response
-        response = self.client.get('/systemusers/add')
+        response = self.client.get('/systemusers/add/')
         # compare
         self.assertTemplateUsed(response, 'dfirtrack_main/systemuser/systemusers_add.html')
 
@@ -142,7 +142,7 @@ class SystemuserViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
         # get response
-        response = self.client.get('/systemusers/add')
+        response = self.client.get('/systemusers/add/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_systemuser')
 

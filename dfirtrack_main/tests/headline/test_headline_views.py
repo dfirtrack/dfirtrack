@@ -99,9 +99,9 @@ class HeadlineViewTestCase(TestCase):
     def test_headlines_add_not_logged_in(self):
 
         # create url
-        destination = '/login/?next=' + urllib.parse.quote('/headlines/add', safe='')
+        destination = '/login/?next=' + urllib.parse.quote('/headlines/add/', safe='')
         # get response
-        response = self.client.get('/headlines/add', follow=True)
+        response = self.client.get('/headlines/add/', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
@@ -110,7 +110,7 @@ class HeadlineViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
         # get response
-        response = self.client.get('/headlines/add')
+        response = self.client.get('/headlines/add/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -119,7 +119,7 @@ class HeadlineViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
         # get response
-        response = self.client.get('/headlines/add')
+        response = self.client.get('/headlines/add/')
         # compare
         self.assertTemplateUsed(response, 'dfirtrack_main/headline/headlines_add.html')
 
@@ -128,7 +128,7 @@ class HeadlineViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
         # get response
-        response = self.client.get('/headlines/add')
+        response = self.client.get('/headlines/add/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_headline')
 
