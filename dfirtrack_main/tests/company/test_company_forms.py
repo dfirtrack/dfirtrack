@@ -25,6 +25,13 @@ class CompanyFormTestCase(TestCase):
         # compare
         self.assertEquals(form.fields['company_note'].label, 'Company note')
 
+    def test_company_division_label(self):
+
+        # get object
+        form = CompanyForm()
+        # compare
+        self.assertEquals(form.fields['division'].label, 'Division')
+
     def test_company_name_empty(self):
 
         # get object

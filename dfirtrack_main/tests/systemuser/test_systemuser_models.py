@@ -44,15 +44,6 @@ class SystemuserModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'systemuser name')
 
-    def test_systemuser_name_length(self):
-
-        # get object
-        systemuser_1 = Systemuser.objects.get(systemuser_name='systemuser_1')
-        # get max length
-        max_length = systemuser_1._meta.get_field('systemuser_name').max_length
-        # compare
-        self.assertEquals(max_length, 50)
-
     def test_systemuser_lastlogon_time_label(self):
 
         # get object
@@ -70,3 +61,12 @@ class SystemuserModelTestCase(TestCase):
         field_label = systemuser_1._meta.get_field('system').verbose_name
         # compare
         self.assertEquals(field_label, 'system')
+
+    def test_systemuser_name_length(self):
+
+        # get object
+        systemuser_1 = Systemuser.objects.get(systemuser_name='systemuser_1')
+        # get max length
+        max_length = systemuser_1._meta.get_field('systemuser_name').max_length
+        # compare
+        self.assertEquals(max_length, 50)

@@ -8,7 +8,7 @@ class TagModelTestCase(TestCase):
     def setUpTestData(cls):
 
         # create object
-        tagcolor_1 = Tagcolor.objects.create(tagcolor_name='tag_1')
+        tagcolor_1 = Tagcolor.objects.create(tagcolor_name='tagcolor_1')
 
         # create object
         Tag.objects.create(tag_name='tag_1', tagcolor = tagcolor_1)
@@ -37,6 +37,15 @@ class TagModelTestCase(TestCase):
         field_label = tag_1._meta.get_field('tag_note').verbose_name
         # compare
         self.assertEquals(field_label, 'tag note')
+
+    def test_tag_tagcolor_label(self):
+
+        # get object
+        tag_1 = Tag.objects.get(tag_name='tag_1')
+        # get label
+        field_label = tag_1._meta.get_field('tagcolor').verbose_name
+        # compare
+        self.assertEquals(field_label, 'tagcolor')
 
     def test_tag_name_length(self):
 

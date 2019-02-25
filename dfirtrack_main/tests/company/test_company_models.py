@@ -35,6 +35,15 @@ class CompanyModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'company note')
 
+    def test_company_division_label(self):
+
+        # get object
+        company_1 = Company.objects.get(company_name='company_1')
+        # get label
+        field_label = company_1._meta.get_field('division').verbose_name
+        # compare
+        self.assertEquals(field_label, 'division')
+
     def test_company_name_length(self):
 
         # get object
