@@ -1,8 +1,24 @@
 {% load staticfiles %}
+<!--
+FOR NEW TASKPRIORITIES ADD NEW BUTTONS HERE
+-->
+
+<!-- taskpriority 'High' -->
 {% if taskpriority.taskpriority_name == 'High' %}
-<div class="btn btn-primary btn-sm btn-red copy-false"><img src="{% static 'dfirtrack_main/icons/arrow-thick-top.svg' %}" class="icon-sm copy-false" alt="icon"></div>
+    <div class="btn btn-primary btn-sm btn-red copy-false">
+        <img src="{% static 'dfirtrack_main/icons/arrow-thick-top.svg' %}" class="icon-sm copy-false" alt="icon">
+    </div>
+
+<!-- taskpriority 'Medium' -->
 {% elif taskpriority.taskpriority_name == 'Medium' %}
-<div class="btn btn-primary btn-sm btn-orange copy-false"><img src="{% static 'dfirtrack_main/icons/arrow-thick-right.svg' %}" class="icon-sm copy-false" alt="icon"></div>
+    <div class="btn btn-primary btn-sm btn-orange copy-false">
+        <img src="{% static 'dfirtrack_main/icons/arrow-thick-right.svg' %}" class="icon-sm copy-false" alt="icon">
+    </div>
+
+<!-- taskpriority 'Low' -->
 {% elif taskpriority.taskpriority_name == 'Low' %}
-<div class="btn btn-primary btn-sm btn-green copy-false"><img src="{% static 'dfirtrack_main/icons/arrow-thick-bottom.svg' %}" class="icon-sm copy-false" alt="icon"></div>
+    <div class="btn btn-primary btn-sm btn-green copy-false">
+        <img src="{% static 'dfirtrack_main/icons/arrow-thick-bottom.svg' %}" class="icon-sm copy-false" alt="icon">
+    </div>
+
 {% endif %}
