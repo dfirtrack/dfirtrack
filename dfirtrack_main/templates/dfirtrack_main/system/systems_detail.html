@@ -1001,31 +1001,37 @@
         {% if system.analystmemo_set.all %}
             {% for i in system.analystmemo_set.all %}
 
-                <!-- single analystmemo headline -->
-                <div class="row top-distance">
-                    <div class="col">
-                        <a href="#analystmemo_{{ i.analystmemo_id }}" data-toggle="collapse">
-                            Analystmemo
-                            <span class="text-muted">
-                                created {{ i.analystmemo_create_time|date:"Y-m-d H:i" }} by {{ i.analystmemo_created_by_user_id }} and last edited {{ i.analystmemo_modify_time|date:"Y-m-d H:i" }} by {{ i.analystmemo_modified_by_user_id }}
-                            </span>
-                        </a>
+                <!-- single analystmemo -->
+                <div class="card bg-dark border-light card-body top-distance">
+
+                    <!-- single analystmemo headline -->
+                    <div class="row">
+                        <div class="col">
+                            <a href="#analystmemo_{{ i.analystmemo_id }}" data-toggle="collapse">
+                                Analystmemo
+                                <span class="text-muted">
+                                    created {{ i.analystmemo_create_time|date:"Y-m-d H:i" }} by {{ i.analystmemo_created_by_user_id }} and last edited {{ i.analystmemo_modify_time|date:"Y-m-d H:i" }} by {{ i.analystmemo_modified_by_user_id }}
+                                </span>
+                            </a>
+                        </div>
                     </div>
-                </div>
 
-                <!-- single analystmemo collapse -->
-                <div id="analystmemo_{{ i.analystmemo_id }}" class="collapse">
+                    <!-- single analystmemo collapse -->
+                    <div id="analystmemo_{{ i.analystmemo_id }}" class="collapse">
 
-                    <!-- reportitem note with linebreaks -->
-                    {{ i.analystmemo_note|linebreaks }}
+                        <!-- reportitem note with linebreaks -->
+                        {{ i.analystmemo_note|linebreaks }}
 
-                    <!-- analystmemo edit button -->
-                    <a href="/analystmemos/{{ i.analystmemo_id }}/edit" type="button" class="btn btn-light btn-sm copy-false">
-                        <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                        Edit
-                    </a>
+                        <!-- analystmemo edit button -->
+                        <a href="/analystmemos/{{ i.analystmemo_id }}/edit" type="button" class="btn btn-light btn-sm copy-false">
+                            <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                            Edit
+                        </a>
 
-                <!-- single analystmemo collapse -->
+                    <!-- single analystmemo collapse -->
+                    </div>
+
+                <!-- single analystmemo -->
                 </div>
 
             {% endfor %}
@@ -1073,57 +1079,51 @@
         {% if system.reportitem_set.all %}
             {% for i in system.reportitem_set.all %}
 
-                <!-- single reportitem headline -->
-                <div class="row top-distance">
-                    <div class="col">
-                        <a href="#reportitem_{{ i.reportitem_id }}" data-toggle="collapse">
+                <!-- single reportitem -->
+                <div class="card bg-dark border-light card-body top-distance">
 
-                            <!-- with subheadline -->
-                            {% if i.reportitem_subheadline %}
-                                <b>{{ i.headline }} - {{ i.reportitem_subheadline }}</b>
-                                | Reportitem
-                                <span class="text-muted">
-                                    created {{ i.reportitem_create_time|date:"Y-m-d H:i" }} by {{ i.reportitem_created_by_user_id }} and last edited {{ i.reportitem_modify_time|date:"Y-m-d H:i" }} by {{ i.reportitem_modified_by_user_id }}
-                                </span>
+                    <!-- single reportitem headline -->
+                    <div class="row top-distance">
+                        <div class="col">
+                            <a href="#reportitem_{{ i.reportitem_id }}" data-toggle="collapse">
 
-                            <!-- without subheadline -->
-                            {% else %}
-                                <b>{{ i.headline }}</b>
-                                | Reportitem
-                                <span class="text-muted">
-                                    created {{ i.reportitem_create_time|date:"Y-m-d H:i" }} by {{ i.reportitem_created_by_user_id }} and last edited {{ i.reportitem_modify_time|date:"Y-m-d H:i" }} by {{ i.reportitem_modified_by_user_id }}
-                                </span>
-                            {% endif %}
+                                <!-- with subheadline -->
+                                {% if i.reportitem_subheadline %}
+                                    <b>{{ i.headline }} - {{ i.reportitem_subheadline }}</b>
+                                    | Reportitem
+                                    <span class="text-muted">
+                                        created {{ i.reportitem_create_time|date:"Y-m-d H:i" }} by {{ i.reportitem_created_by_user_id }} and last edited {{ i.reportitem_modify_time|date:"Y-m-d H:i" }} by {{ i.reportitem_modified_by_user_id }}
+                                    </span>
 
-                        </a>
-                    </div>
-                </div>
+                                <!-- without subheadline -->
+                                {% else %}
+                                    <b>{{ i.headline }}</b>
+                                    | Reportitem
+                                    <span class="text-muted">
+                                        created {{ i.reportitem_create_time|date:"Y-m-d H:i" }} by {{ i.reportitem_created_by_user_id }} and last edited {{ i.reportitem_modify_time|date:"Y-m-d H:i" }} by {{ i.reportitem_modified_by_user_id }}
+                                    </span>
+                                {% endif %}
 
-                <!-- single reportitem collapse -->
-                <div id="reportitem_{{ i.reportitem_id }}" class="collapse">
-
-                    <!-- headline -->
-                    <div class="font-weight-bold">
-                        <u>{{ i.headline }}</u>
-                    </div>
-
-                    <!-- subheadline -->
-                    {% if i.reportitem_subheadline %}
-                        <div class="font-italic">
-                            <u>{{ i.reportitem_subheadline }}</u>
+                            </a>
                         </div>
-                    {% endif %}
+                    </div>
 
-                    <!-- reportitem note with linebreaks -->
-                    {{ i.reportitem_note|linebreaks }}
+                    <!-- single reportitem collapse -->
+                    <div id="reportitem_{{ i.reportitem_id }}" class="collapse">
 
-                    <!-- reportitem edit button -->
-                    <a href="/reportitems/{{ i.reportitem_id }}/edit" type="button" class="btn btn-light btn-sm top-distance copy-false">
-                        <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                        Edit
-                    </a>
+                        <!-- reportitem note with linebreaks -->
+                        {{ i.reportitem_note|linebreaks }}
 
-                <!-- single reportitem collapse -->
+                        <!-- reportitem edit button -->
+                        <a href="/reportitems/{{ i.reportitem_id }}/edit" type="button" class="btn btn-light btn-sm top-distance copy-false">
+                            <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                            Edit
+                        </a>
+
+                    <!-- single reportitem collapse -->
+                    </div>
+
+                <!-- single reportitem -->
                 </div>
 
             {% endfor %}
