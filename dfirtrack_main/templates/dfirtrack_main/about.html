@@ -1,17 +1,34 @@
+<!-- extending maintemplate -->
 {% extends "dfirtrack_main/maintemplate.html" %}
 
+<!-- HTML head in maintemplate -->
 {% block head %}
-<title>DFIRTrack - About</title>
+
+<!-- page title -->
+<title>
+    DFIRTrack - About
+</title>
+
+<!-- HTML head in maintemplate -->
 {% endblock %}
 
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
 {% block content %}
-<p><h2>About DFIRTrack</h2></p>
-Looks like there is not much...
+
+<!-- main content -->
+<h5>
+    About DFIRTrack
+</h5>
+
+Looks like there is not much yet...
 <br>
 
-Meanwhile check the <a href="https://github.com/stuhli/dfirtrack/blob/master/README.md" class="text-primary">README</a>... ;-)
+Meanwhile check the <a href="https://github.com/stuhli/dfirtrack/blob/master/README.md" target="_blank" class="text-primary">README</a>... ;-)
 
-<br>
-<br>
+<!-- include mainsnippet -->
 {% include "dfirtrack_main/includes/mainsnippet.html" %}
+
+<!-- HTML body in maintemplate -->
 {% endblock %}
