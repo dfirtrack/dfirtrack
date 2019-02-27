@@ -20,14 +20,15 @@ The following functions are implemented for now:
     * Markdown for entries (one entry per system(report)).
 * Exporter
     * Markdown for so-called system reports (for use in a [MkDocs](https://www.mkdocs.org/) structure),
-    * Spreadsheet (CSV and XLS),
-    * LaTeX (planned).
+    * Spreadsheet (CSV and XLS).
+
+A list of feature ideas is maintained in the [Wiki](https://github.com/stuhli/dfirtrack/wiki/Roadmap).
 
 ## Installation and dependencies
 
-DFIRTrack is developed for deploying on **Debian Stretch** or **Ubuntu 16.04**. Other *Debian* based distributions or versions may work but were not tested yet. At the moment the project will be focused on Ubuntu LTS and Debian releases.
+DFIRTrack is developed for deploying on **Debian** or **Ubuntu**. Other distributions may work but were not tested yet. At the moment the project will be focused on Ubuntu LTS and Debian releases.
 
-For fast and uncomplicated installation on a dedicated server including all dependencies an [Ansible](https://docs.ansible.com/ansible/latest/) playbook and role was written (available [here](https://github.com/stuhli/dfirtrack_ansible)). For testing a docker environment was prepared (see below).
+For fast and uncomplicated installation on a dedicated server including all dependencies an (deprecated) [Ansible](https://docs.ansible.com/ansible/latest/) playbook and role was written (available [here](https://github.com/stuhli/dfirtrack_ansible)). For testing a docker environment was prepared (see below).
 
 For a minimal setup the following dependencies are needed:
 
@@ -85,6 +86,8 @@ New features and changes are added to the development branch and merged into mas
 Everything merged into development should run too but might need manual changes (e. g. config).
 [Devolopment branch](https://github.com/stuhli/dfirtrack_ansible/tree/develop) of DFIRTrack Ansible should follow these changes.
 So if you want to see the latest features and progress: "check out" development.
+
+## Roadmap
 
 ## License
 
