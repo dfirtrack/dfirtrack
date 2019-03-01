@@ -1,96 +1,154 @@
+<!-- extending maintemplate -->
 {% extends "dfirtrack_main/maintemplate.html" %}
 
+<!-- HTML head in maintemplate -->
 {% block head %}
-<title>Analysisstatus '{{ analysisstatus.analysisstatus_name }}'{% if analysisstatus.system_set.all %} (s: {{ analysisstatus.system_set.all|length }}){% endif %}</title>
+
+<!-- page title -->
+<title>
+    Analysisstatus '{{ analysisstatus.analysisstatus_name }}'
+    {% if analysisstatus.system_set.all %}
+        (s: {{ analysisstatus.system_set.all|length }})
+    {% endif %}
+</title>
+
+<!-- javascript and CSS for datatables -->
 {% load staticfiles %}
 <link rel="stylesheet" type="text/css" href="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.css' %}"/>
 <script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.js' %}"></script>
+
+<!-- HTML head in maintemplate -->
 {% endblock %}
 
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
 {% block content %}
 
-<div class="row">
+<!-- up button -->
+<div class="row bottom-distance">
     <div class="col-3">
-        <a href="/analysisstatuss" type="button" class="btn btn-light"><img src="{%static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon" alt="icon">  Up to analysisstatus</a>
-        <br><br>
+        <a href="/analysisstatuss" type="button" class="btn btn-light copy-false">
+            <img src="{%static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Up to analysisstatus
+        </a>
     </div>
 </div>
 
+<!-- javascript for copy button -->
 <script>
 var clipboard = new ClipboardJS('.btn');
 </script>
 
+<!-- headline row -->
 <div class="row">
+
+    <!-- headline -->
     <div class="col-3">
         <h5>Analysisstatus "{{ analysisstatus.analysisstatus_name }}"</h5>
     </div>
+
+    <!-- copy hostnames button -->
     <div class="col-3">
-    {% if analysisstatus.system_set.all %}
-    {% with systems=analysisstatus.system_set.all %}
-    {% include "dfirtrack_main/includes/button_copy_hostnames.html" %}
-    {% endwith %}
-    {% endif %}
+        {% if analysisstatus.system_set.all %}
+            {% with systems=analysisstatus.system_set.all %}
+                {% include "dfirtrack_main/includes/button_copy_hostnames.html" %}
+            {% endwith %}
+        {% endif %}
     </div>
+
+<!-- headline row -->
 </div>
+
+<!-- id row -->
 <div class="row">
+
+    <!-- analysisstatus id -->
     <div class="col-3">
         <small class="text-muted">
             Analysisstatus-ID: {{ analysisstatus.analysisstatus_id }}
         </small>
     </div>
+
+<!-- id row -->
 </div>
 
-<div class="row">
+<!-- note headline row -->
+<div class="row top-distance">
+
+    <!-- note headline -->
     <div class="col-3">
-    <br>
-        <h5>Note</h5>
+        <h5>
+            Note
+        </h5>
     </div>
+
+<!-- note headline row -->
 </div>
 
+<!-- note row -->
 <div class="row">
+
+    <!-- analysisstatus row -->
     <div class="col">
         {% if analysisstatus.analysisstatus_note %}
-        {{ analysisstatus.analysisstatus_note|linebreaks }}
+            {{ analysisstatus.analysisstatus_note|linebreaks }}
         {% else %}
-        ---
+            ---
         {% endif %}
     </div>
+
+<!-- note row -->
 </div>
 
-<div class="row">
+<!-- systems row -->
+<div class="row top-distance bottom-distance">
     <div class="col-6">
-    <br>
         <h5>Systems with this analysisstatus{% if analysisstatus.system_set.all %} ({{ analysisstatus.system_set.all|length }}){% endif %}</h5>
     </div>
 </div>
 
+<!-- check for systems -->
 {% if analysisstatus.system_set.all %}
 
-<table id="table_system" class="display" width="100%">
+    <!-- datatable system -->
+    <table id="table_system" class="display" width="100%">
+    
+        <!-- table head -->
+        <thead>
+            {% include "dfirtrack_main/includes/datatable_thead_table_system.html" %}
+        </thead>
+        
+        <!-- table body -->
+        <tbody>
+            <!-- iterate over rows -->
+            {% for i in analysisstatus.system_set.all %}
+                {% include "dfirtrack_main/includes/datatable_tbody_table_system.html" %}
+            {% endfor %}
+        </tbody>
 
-<thead>
-{% include "dfirtrack_main/includes/datatable_thead_table_system.html" %}
-</thead>
+    <!-- datatable system -->
+    </table>
+    
+    <!-- javascript for datatables -->
+    <script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
 
-<tbody>
-{% for i in analysisstatus.system_set.all %}
-{% include "dfirtrack_main/includes/datatable_tbody_table_system.html" %}
-{% endfor %}
-</tbody>
-</table>
-
-<script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
-
+<!-- do not show an empty table if there are no systems -->
 {% else %}
-<div class="row top-distance">
-    <div class="col-3">
-        ---
+
+    <!-- placeholder -->
+    <div class="row top-distance">
+        <div class="col-3">
+            ---
+        </div>
     </div>
-</div>
+
 {% endif %}
 
+<!-- javascript for datatables -->
 {% block datatables %}
 <script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.js' %}"></script>
 {% endblock %}
 
+<!-- HTML body in maintemplate -->
 {% endblock %}

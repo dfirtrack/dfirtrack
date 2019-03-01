@@ -1,41 +1,81 @@
+<!-- extending maintemplate -->
 {% extends "dfirtrack_main/maintemplate.html" %}
 
+<!-- HTML head in maintemplate -->
 {% block head %}
-<title>DFIRTrack - Analysisstatus</title>
+
+<!-- page title -->
+<title>
+    DFIRTrack - Analysisstatus
+</title>
+
 {% load staticfiles %}
+
+<!-- HTML head in maintemplate -->
 {% endblock %}
 
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
 {% block content %}
 
-        <div class="row">
-            <div class="col">
-                <h5>Analysisstatus</h5>
-            </div>
+<!-- headline -->
+<div class="row">
+    <div class="col">
+        <h5>Analysisstatus</h5>
+    </div>
+</div>
+
+<!-- headlines -->
+<div class="row font-weight-bold">
+
+    <!-- analysisstatus id -->
+    <div class="col-1">
+        ID
+    </div>
+
+    <!-- analysisstatus name -->
+    <div class="col-2">
+        Analysisstatus
+    </div>
+
+    <!-- analysisstatus note -->
+    <div class="col-8">
+        Note
+    </div>
+<!-- headlines -->
+</div>
+
+<!-- iterate over analysisstatuses -->
+{% for i in object_list %}
+
+    <!-- analysisstatus row -->
+    <div class="row">
+
+        <!-- analysisstatus id -->
+        <div class="col-1">
+            {{ i.analysisstatus_id }}
         </div>
 
-        <div class="row font-weight-bold">
-            <div class="col-1">ID</div>
-            <div class="col-2">Analysisstatus</div>
-            <div class="col-8">Note</div>
+        <!-- analysisstatus name -->
+        <div class="col-2">
+            <a href="/analysisstatuss/{{ i.analysisstatus_id }}">
+                {{ i.analysisstatus_name }}
+            </a>
         </div>
 
-    {% for i in object_list %}
-        <div class="row">
-            <div class="col-1">
-                {{ i.analysisstatus_id }}
-            </div>
-            <div class="col-2">
-                <a href="/analysisstatuss/{{ i.analysisstatus_id }}">{{ i.analysisstatus_name }}</a>
-            </div>
-            <div class="col-9">
-                {% if i.analysisstatus_note %}
+        <!-- analysisstatus note -->
+        <div class="col-9">
+            {% if i.analysisstatus_note %}
                 {{ i.analysisstatus_note|linebreaks }}
-                {% else %}
+            {% else %}
                 ---
-                {% endif %}
-            </div>
-            <br><br>
+            {% endif %}
         </div>
-    {% endfor %}
 
+    <!-- analysisstatus row -->
+    </div>
+{% endfor %}
+
+<!-- HTML body in maintemplate -->
 {% endblock %}
