@@ -1,35 +1,62 @@
+<!-- extending maintemplate -->
 {% extends "dfirtrack_main/maintemplate.html" %}
 
+<!-- HTML head in maintemplate -->
 {% block head %}
-<title>Case '{{ case.case_name }}'{% if case.system_set.all %} (s: {{ case.system_set.all|length }}){% endif %}</title>
+
+<!-- page title -->
+<title>
+    Case '{{ case.case_name }}'{% if case.system_set.all %} (s: {{ case.system_set.all|length }}){% endif %}
+</title>
+
 {% load staticfiles %}
+
+<!-- HTML head in maintemplate -->
 {% endblock %}
 
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
 {% block content %}
 
-<div class="row">
+<!-- up button -->
+<div class="row bottom-distance">
     <div class="col-3">
-        <a href="/cases" type="button" class="btn btn-light"><img src="{%static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon" alt="icon">  Up to cases</a>
-        <br><br>
+        <a href="/cases" type="button" class="btn btn-light copy-false">
+            <img src="{%static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Up to cases
+        </a>
     </div>
 </div>
 
+<!-- javascript for copy button -->
 <script>
-var clipboard = new ClipboardJS('.btn');
+    var clipboard = new ClipboardJS('.btn');
 </script>
 
+<!-- case name row -->
 <div class="row">
+
+    <!-- case name -->
     <div class="col-3">
-        <h5>Case "{{ case.case_name }}"</h5>
+        <h5>
+            Case "{{ case.case_name }}"
+        </h5>
     </div>
+
+    <!-- copy button -->
     <div class="col-3">
-    {% if case.system_set.all %}
-    {% with systems=case.system_set.all %}
-    {% include "dfirtrack_main/includes/button_copy_hostnames.html" %}
-    {% endwith %}
-    {% endif %}
+        {% if case.system_set.all %}
+            {% with systems=case.system_set.all %}
+                {% include "dfirtrack_main/includes/button_copy_hostnames.html" %}
+            {% endwith %}
+        {% endif %}
     </div>
+
+<!-- case name row -->
 </div>
+
+<!-- case id row -->
 <div class="row">
     <div class="col-3">
         <small class="text-muted">
@@ -38,43 +65,54 @@ var clipboard = new ClipboardJS('.btn');
     </div>
 </div>
 
-<div class="row">
+<!-- case is incident row -->
+<div class="row top-distance">
     <div class="col-3">
-    <br>
-        <h5>Is incident</h5>
+        <h5>
+            Is incident: {{ case.case_is_incident }}
+        </h5>
     </div>
 </div>
 
-<div class="row">
-    <div class="col">
-    {{ case.case_is_incident }}
-    </div>
-</div>
-
-<div class="row">
+<!-- systems headline row -->
+<div class="row top-distance">
     <div class="col-3">
-    <br>
-        <h5>Systems associated with this case{% if case.system_set.all %} ({{ case.system_set.all|length }}){% endif %}</h5>
+        <h5>
+            Systems associated with this case{% if case.system_set.all %} ({{ case.system_set.all|length }}){% endif %}
+        </h5>
     </div>
 </div>
 
+<!-- systems -->
 {% if case.system_set.all %}
-{% for i in case.system_set.all %}
-<div class="row top-distance">
-    <div class="col-3">
-        <a href="/systems/{{ i.system_id}}" type="button" class="btn btn-primary btn-sm"><img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm" alt="icon">  {{ i.system_name }}</a>
-    </div>
-</div>
-{% endfor %}
+
+    {% for i in case.system_set.all %}
+        <div class="row top-distance">
+            <div class="col-3">
+                <a href="/systems/{{ i.system_id}}" type="button" class="btn btn-primary btn-sm copy-true">
+                    <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    {{ i.system_name }}
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+
+<!-- no systems -->
 {% else %}
-<div class="row top-distance">
-    <div class="col-3">
-        ---
+    <div class="row top-distance">
+        <div class="col-3">
+            ---
+        </div>
     </div>
-</div>
+
+<!-- systems -->
 {% endif %}
 
-<br><br>
-<a href="/cases/{{ case.case_id }}/edit" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon" alt="icon">  Edit</a>
+<!-- edit button -->
+<a href="/cases/{{ case.case_id }}/edit" type="button" class="btn btn-light top-distance copy-false">
+    <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon right-distance copy-false" alt="icon">
+    Edit
+</a>
 
+<!-- HTML body in maintemplate -->
 {% endblock %}

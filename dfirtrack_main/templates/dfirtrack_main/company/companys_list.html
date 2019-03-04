@@ -1,57 +1,120 @@
+<!-- extending maintemplate -->
 {% extends "dfirtrack_main/maintemplate.html" %}
 
+<!-- HTML head in maintemplate -->
 {% block head %}
-<title>DFIRTrack - Companies</title>
+
+<!-- page title -->
+<title>
+    DFIRTrack - Companies
+</title>
+
 {% load staticfiles %}
+
+<!-- HTML head in maintemplate -->
 {% endblock %}
 
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
 {% block content %}
 
-    <div class="row">
-        <div class="col">
-            <h5>Companies</h5>
-        </div>
+<!-- headline -->
+<div class="row">
+    <div class="col">
+        <h5>
+            Companies
+        </h5>
+    </div>
+</div>
+
+<!-- headlines -->
+<div class="row font-weight-bold">
+
+    <!-- company id -->
+    <div class="col-1">
+        ID
     </div>
 
-        <div class="row font-weight-bold">
-            <div class="col-1">ID</div>
-            <div class="col-2">Company name</div>
-            <div class="col-2">Division</div>
-            <div class="col-6">Note</div>
-        </div>
+    <!-- company name -->
+    <div class="col-2">
+        Company name
+    </div>
 
-    {% for i in object_list %}
-        <div class="row">
-            <div class="col-1">{{ i.company_id }}</div>
-            <div class="col-2">
-                <a href="/companys/{{ i.company_id }}">{{ i.company_name }}</a>
-            </div>
-            <div class="col-2">
-                {% if i.division %}
-                <a href="/divisions/{{ i.division.division_id }}">{{ i.division.division_name }}</a>
-                {% else %}
-                ---
-                {% endif %}
-            </div>
-            <div class="col-6">
-                {% if i.company_note %}
-                {{ i.company_note|linebreaks }}
-                {% else %}
-                ---
-                {% endif %}
-            </div>
-            <div class="col-1">
-                <a href="/companys/{{ i.company_id }}/edit">Edit</a>
-            </div>
-            <br><br>
-        </div>
-    {% endfor %}
+    <!-- division -->
+    <div class="col-2">
+        Division
+    </div>
 
-    <br><br>
-    <div class="row">
+    <!-- company note -->
+    <div class="col-6">
+        Note
+    </div>
+
+<!-- headlines -->
+</div>
+
+<!-- companies list -->
+{% for i in object_list %}
+
+    <!-- company row -->
+    <div class="row top-distance">
+
+        <!-- company id -->
         <div class="col-1">
-            <a href="/companys/add" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon" alt="icon">  Add company</a>
+            {{ i.company_id }}
         </div>
+
+        <!-- company name -->
+        <div class="col-2">
+            <a href="/companys/{{ i.company_id }}">
+                {{ i.company_name }}
+            </a>
+        </div>
+
+        <!-- division -->
+        <div class="col-2">
+            {% if i.division %}
+                <a href="/divisions/{{ i.division.division_id }}">
+                    {{ i.division.division_name }}
+                </a>
+            {% else %}
+                ---
+            {% endif %}
+        </div>
+
+        <!-- company note -->
+        <div class="col-6">
+            {% if i.company_note %}
+                {{ i.company_note|linebreaks }}
+            {% else %}
+                ---
+            {% endif %}
+        </div>
+
+        <!-- edit button -->
+        <div class="col-1">
+            <a href="/companys/{{ i.company_id }}/edit" type="button" class="btn btn-sm btn-light copy-false">
+                <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                Edit
+            </a>
+        </div>
+
+    <!-- company row -->
     </div>
 
+<!-- companies list -->
+{% endfor %}
+
+<!-- add button -->
+<div class="row top-distance">
+    <div class="col-1">
+        <a href="/companys/add" type="button" class="btn btn-light copy-false">
+            <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Add company
+        </a>
+    </div>
+</div>
+
+<!-- HTML body in maintemplate -->
 {% endblock %}
