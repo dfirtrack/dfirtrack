@@ -1,10 +1,5 @@
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse
-from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import DetailView, ListView
-from dfirtrack_main.forms import IpForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Ip
 
@@ -25,34 +20,3 @@ class IpsDetail(LoginRequiredMixin, DetailView):
         ip = self.object
         ip.logger(str(self.request.user), " IPDETAIL_ENTERED")
         return context
-
-@login_required(login_url="/login")
-def ips_add(request):
-    if request.method == 'POST':
-        form = IpForm(request.POST)
-        if form.is_valid():
-            ip = form.save(commit=False)
-            ip.save()
-            ip.logger(str(request.user), " IP_ADD_EXECUTED")
-            messages.success(request, 'IP address added')
-            return redirect('/ips')
-    else:
-        form = IpForm()
-        debug_logger(str(request.user), " IP_ADD_ENTERED")
-    return render(request, 'dfirtrack_main/ip/ips_add.html', {'form': form})
-
-@login_required(login_url="/login")
-def ips_edit(request, pk):
-    ip = get_object_or_404(Ip, pk=pk)
-    if request.method == 'POST':
-        form = IpForm(request.POST, instance=ip)
-        if form.is_valid():
-            ip = form.save(commit=False)
-            ip.save()
-            ip.logger(str(request.user), " IP_EDIT_EXECUTED")
-            messages.success(request, 'IP address edited')
-            return redirect('/ips')
-    else:
-        form = IpForm(instance=ip)
-        ip.logger(str(request.user), " IP_EDIT_ENTERED")
-    return render(request, 'dfirtrack_main/ip/ips_edit.html', {'form': form})
