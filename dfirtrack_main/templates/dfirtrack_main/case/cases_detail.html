@@ -57,7 +57,7 @@
 </div>
 
 <!-- case id row -->
-<div class="row">
+<div class="row bottom-distance">
     <div class="col-3">
         <small class="text-muted">
             Case-ID: {{ case.case_id }}
@@ -66,7 +66,7 @@
 </div>
 
 <!-- case is incident row -->
-<div class="row top-distance">
+<div class="row bottom-distance">
     <div class="col-3">
         <h5>
             Is incident: {{ case.case_is_incident }}
@@ -75,7 +75,7 @@
 </div>
 
 <!-- systems headline row -->
-<div class="row top-distance">
+<div class="row bottom-distance">
     <div class="col-3">
         <h5>
             Systems associated with this case{% if case.system_set.all %} ({{ case.system_set.all|length }}){% endif %}

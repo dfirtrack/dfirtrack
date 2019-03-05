@@ -20,7 +20,7 @@
 {% block content %}
 
 <!-- headline -->
-<div class="row">
+<div class="row bottom-distance">
     <div class="col">
         <h5>Analysisstatus</h5>
     </div>
@@ -29,28 +29,28 @@
 <!-- headlines -->
 <div class="row font-weight-bold">
 
-    <!-- analysisstatus id -->
+    <!-- analysisstatus id headline -->
     <div class="col-1">
         ID
     </div>
 
-    <!-- analysisstatus name -->
+    <!-- analysisstatus name headline -->
     <div class="col-2">
         Analysisstatus
     </div>
 
-    <!-- analysisstatus note -->
+    <!-- analysisstatus note headline -->
     <div class="col-8">
         Note
     </div>
 <!-- headlines -->
 </div>
 
-<!-- iterate over analysisstatuses -->
+<!-- analysisstatus list -->
 {% for i in object_list %}
 
     <!-- analysisstatus row -->
-    <div class="row">
+    <div class="row top-distance">
 
         <!-- analysisstatus id -->
         <div class="col-1">
@@ -75,6 +75,8 @@
 
     <!-- analysisstatus row -->
     </div>
+
+<!-- analysisstatus list -->
 {% endfor %}
 
 <!-- HTML body in maintemplate -->

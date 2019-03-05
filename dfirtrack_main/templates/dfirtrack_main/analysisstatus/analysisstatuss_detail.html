@@ -61,7 +61,7 @@ var clipboard = new ClipboardJS('.btn');
 </div>
 
 <!-- id row -->
-<div class="row">
+<div class="row bottom-distance">
 
     <!-- analysisstatus id -->
     <div class="col-3">
@@ -74,7 +74,7 @@ var clipboard = new ClipboardJS('.btn');
 </div>
 
 <!-- note headline row -->
-<div class="row top-distance">
+<div class="row">
 
     <!-- note headline -->
     <div class="col-3">
@@ -87,7 +87,7 @@ var clipboard = new ClipboardJS('.btn');
 </div>
 
 <!-- note row -->
-<div class="row">
+<div class="row bottom-distance">
 
     <!-- analysisstatus row -->
     <div class="col">
@@ -102,7 +102,7 @@ var clipboard = new ClipboardJS('.btn');
 </div>
 
 <!-- systems row -->
-<div class="row top-distance bottom-distance">
+<div class="row bottom-distance">
     <div class="col-6">
         <h5>Systems with this analysisstatus{% if analysisstatus.system_set.all %} ({{ analysisstatus.system_set.all|length }}){% endif %}</h5>
     </div>

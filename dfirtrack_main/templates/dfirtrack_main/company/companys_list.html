@@ -20,7 +20,7 @@
 {% block content %}
 
 <!-- headline -->
-<div class="row">
+<div class="row bottom-distance">
     <div class="col">
         <h5>
             Companies
@@ -31,22 +31,22 @@
 <!-- headlines -->
 <div class="row font-weight-bold">
 
-    <!-- company id -->
+    <!-- company id headline -->
     <div class="col-1">
         ID
     </div>
 
-    <!-- company name -->
+    <!-- company name headline -->
     <div class="col-2">
         Company name
     </div>
 
-    <!-- division -->
+    <!-- division headline -->
     <div class="col-2">
         Division
     </div>
 
-    <!-- company note -->
+    <!-- company note headline -->
     <div class="col-6">
         Note
     </div>
@@ -54,7 +54,7 @@
 <!-- headlines -->
 </div>
 
-<!-- companies list -->
+<!-- company list -->
 {% for i in object_list %}
 
     <!-- company row -->
@@ -103,7 +103,7 @@
     <!-- company row -->
     </div>
 
-<!-- companies list -->
+<!-- company list -->
 {% endfor %}
 
 <!-- add button -->
