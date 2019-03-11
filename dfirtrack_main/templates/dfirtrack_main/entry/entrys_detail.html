@@ -6,7 +6,7 @@
 
 <!-- page title -->
 <title>
-    Entry '{{ entry.system.system_name }}{% if entry.system.system_dnssuffix %}.{{ entry.system.system_dnssuffix }}{% endif %}'
+    Entry for '{{ entry.system.system_name }}{% if entry.system.system_dnssuffix %}.{{ entry.system.system_dnssuffix }}{% endif %}'
 </title>
 
 {% load staticfiles %}
@@ -135,77 +135,166 @@
 <!-- timeline entry block -->
 <div class="card bg-dark border-light card-body top-distance">
 
+    <!-- headline row -->
     <div class="row">
+
+        <!-- headline -->
         <div class="col-11">
             <h5>Timeline entry</h5>
         </div>
 
+        <!-- tooltip -->
         <div class="col-1">
             <div data-toggle="tooltip" data-placement="right" title="These are the fields to be exported to the markdown system report.">
                 {% include "dfirtrack_main/includes/button_tooltip.html" %}
             </div>
         </div>
 
+    <!-- headline row -->
     </div>
 
+    <!-- headlines -->
     <div class="row font-weight-bold">
-        <div class="col-1">Date</div>
-        <div class="col-1">Time (UTC)</div>
-        <div class="col-1">System</div>
-        <div class="col-1">Type</div>
-        <div class="col-8">Content</div>
+
+        <!-- entry date -->
+        <div class="col-1">
+            Date
+        </div>
+
+        <!-- entry time -->
+        <div class="col-1">
+            Time (UTC)
+        </div>
+
+        <!-- entry system -->
+        <div class="col-1">
+            System
+        </div>
+
+        <!-- entry type -->
+        <div class="col-1">
+            Type
+        </div>
+
+        <!-- entry content -->
+        <div class="col-8">
+            Content
+        </div>
+
+    <!-- headlines -->
     </div>
     
+    <!-- entry -->
     <div class="row">
-        <div class="col-1">{{ entry.entry_date }}</div>
-        <div class="col-1">{{ entry.entry_utc }}</div>
-        <div class="col-1">{{ entry.entry_system }}</div>
-        <div class="col-1">{{ entry.entry_type }}</div>
-        <div class="col-8">{{ entry.entry_content }}</div>
+
+        <!-- entry date -->
+        <div class="col-1">
+            {{ entry.entry_date }}
+        </div>
+
+        <!-- entry time -->
+        <div class="col-1">
+            {{ entry.entry_utc }}
+        </div>
+
+        <!-- entry system -->
+        <div class="col-1">
+            {{ entry.entry_system }}
+        </div>
+
+        <!-- entry type -->
+        <div class="col-1">
+            {{ entry.entry_type }}
+        </div>
+
+        <!-- entry content -->
+        <div class="col-8">
+            {{ entry.entry_content }}
+        </div>
+
+    <!-- entry -->
     </div>
+
+<!-- timeline entry block -->
 </div>
 
-<div class="card bg-dark border-secondary card-body top-distance">
+<!-- meta information block -->
+<div class="card bg-dark border-secondary card-body bottom-distance top-distance">
+
+    <!-- meta information headline -->
     <div class="row text-muted">
         <div class="col">
             <h5>Meta information</h5>
         </div>
     </div>
 
+    <!-- meta information row -->
     <div class="row text-muted">
+
+        <!-- entry created time -->
         <div class="col-3">
-            <div class="font-weight-bold">Created:</div>
+            <div class="font-weight-bold">
+                Created:
+            </div>
             {{ entry.entry_create_time|date:"Y-m-d H:i" }}
         </div>
+
+        <!-- entry created user -->
         <div class="col-3">
-            <div class="font-weight-bold">Created by:</div>
+            <div class="font-weight-bold">
+                Created by:
+            </div>
             {{ entry.entry_created_by_user_id }}
         </div>
+
+        <!-- entry modified time -->
         <div class="col-3">
-            <div class="font-weight-bold">Last modified:</div>
+            <div class="font-weight-bold">
+                Last modified:
+            </div>
             {{ entry.entry_modify_time|date:"Y-m-d H:i" }}
         </div>
+
+        <!-- entry modified user -->
         <div class="col-3">
-            <div class="font-weight-bold">Modified by:</div>
+            <div class="font-weight-bold">
+                Modified by:
+            </div>
             {{ entry.entry_modified_by_user_id }}
         </div>
+
+    <!-- meta information row -->
     </div>
 
+    <!-- meta information row -->
     <div class="row text-muted">
+
+        <!-- placeholder -->
         <div class="col-6"></div>
+
+        <!-- entry api time -->
         <div class="col-3">
-            <div class="font-weight-bold">Last API update:</div>
+            <div class="font-weight-bold">
+                Last API update:
+            </div>
             {% if entry.entry_api_time %}
-            {{ entry.entry_api_time|date:"Y-m-d H:i" }}
+                {{ entry.entry_api_time|date:"Y-m-d H:i" }}
             {% else %}
-            ---
+                ---
             {% endif %}
         </div>
+
+    <!-- meta information row -->
     </div>
+
+<!-- meta information block -->
 </div>
 
-<br><br>
-<a href="/entrys/{{ entry.entry_id }}/edit" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon" alt="icon">  Edit</a>
+<!-- edit button -->
+<a href="/entrys/{{ entry.entry_id }}/edit" type="button" class="btn btn-light copy-false">
+    <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon right-distance copy-false" alt="icon">
+    Edit
+</a>
 
 <!-- HTML body in maintemplate -->
 {% endblock %}
