@@ -1,49 +1,105 @@
+<!-- extending maintemplate -->
 {% extends "dfirtrack_main/maintemplate.html" %}
 
+<!-- HTML head in maintemplate -->
 {% block head %}
-<title>DFIRTrack - Reasons</title>
+
+<!-- page title -->
+<title>
+    DFIRTrack - Reasons
+</title>
+
 {% load staticfiles %}
+
+<!-- HTML head in maintemplate -->
 {% endblock %}
 
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
 {% block content %}
 
-    <div class="row">
-        <div class="col">
-            <h5>Reasons</h5>
-        </div>
+<!-- headline -->
+<div class="row bottom-distance">
+    <div class="col">
+        <h5>
+            Reasons
+        </h5>
+    </div>
+</div>
+
+<!-- headlines -->
+<div class="row font-weight-bold">
+
+    <!-- reason id headline -->
+    <div class="col-1">
+        ID
     </div>
 
-        <div class="row font-weight-bold">
-            <div class="col-1">ID</div>
-            <div class="col-2">Reason for investigation</div>
-            <div class="col-8">Note</div>
-        </div>
+    <!-- reason name headline -->
+    <div class="col-2">
+        Reason for investigation
+    </div>
 
-    {% for i in object_list %}
-        <div class="row">
-            <div class="col-1">{{ i.reason_id }}</div>
-            <div class="col-2">
-                <a href="/reasons/{{ i.reason_id }}">{{ i.reason_name }}</a>
-            </div>
-            <div class="col-8">
-                {% if i.reason_note %}
-                {{ i.reason_note|linebreaks }}
-                {% else %}
-                ---
-                {% endif %}
-            </div>
-            <div class="col-1">
-                <a href="/reasons/{{ i.reason_id }}/edit">Edit</a>
-            </div>
-            <br><br>
-        </div>
-    {% endfor %}
+    <!-- reason note headline -->
+    <div class="col-8">
+        Note
+    </div>
 
-    <br><br>
-    <div class="row">
+
+<!-- headlines -->
+</div>
+
+<!-- reason list -->
+{% for i in object_list %}
+
+    <!-- reason row -->
+    <div class="row top-distance">
+
+        <!-- reason id headline -->
         <div class="col-1">
-            <a href="/reasons/add" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon" alt="icon">  Add reason</a>
+            {{ i.reason_id }}
         </div>
+
+        <!-- reason name headline -->
+        <div class="col-2">
+            <a href="/reasons/{{ i.reason_id }}">
+                {{ i.reason_name }}
+            </a>
+        </div>
+
+        <!-- reason note headline -->
+        <div class="col-8">
+            {% if i.reason_note %}
+                {{ i.reason_note|linebreaks }}
+            {% else %}
+                ---
+            {% endif %}
+        </div>
+
+        <!-- edit button -->
+        <div class="col-1">
+            <a href="/reasons/{{ i.reason_id }}/edit" type="button" class="btn btn-sm btn-light copy-false">
+                <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                Edit
+            </a>
+        </div>
+
+    <!-- reason row -->
     </div>
 
+<!-- reason list -->
+{% endfor %}
+
+<!-- add button -->
+<div class="row top-distance">
+    <div class="col-1">
+        <a href="/reasons/add" type="button" class="btn btn-light copy-false">
+            <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Add reason
+        </a>
+    </div>
+</div>
+
+<!-- HTML body in maintemplate -->
 {% endblock %}
