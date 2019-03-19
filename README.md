@@ -89,6 +89,8 @@ So if you want to see the latest features and progress: "check out" development.
 
 ## Roadmap
 
+A list of feature ideas is maintained in the [Wiki](https://github.com/stuhli/dfirtrack/wiki/Roadmap).
+
 ## License
 
 See `LICENSE` file in the root directory.
