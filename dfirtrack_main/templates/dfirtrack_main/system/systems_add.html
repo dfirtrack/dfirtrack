@@ -22,6 +22,7 @@
 <!-- HTML body in maintemplate -->
 {% block content %}
         
+<!-- headline -->
 <div class="bottom-distance">
     <h4>
         Add system
@@ -53,14 +54,14 @@
 
     <!-- general errors -->
     {% if form.non_field.errors %}
-    <div class="row">
-        <div class="col">
-            <div class="text-danger">
-                Non field errors:<br>
-                {{ form.non_field.errors }}
+        <div class="row">
+            <div class="col">
+                <div class="text-danger">
+                    Non field errors:<br>
+                    {{ form.non_field.errors }}
+                </div>
             </div>
         </div>
-    </div>
     {% endif %}
 
     <!-- ############################################ -->
