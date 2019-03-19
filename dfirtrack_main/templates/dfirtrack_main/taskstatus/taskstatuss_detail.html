@@ -4,6 +4,7 @@
 <!-- HTML head in maintemplate -->
 {% block head %}
 
+<!-- page title -->
 <title>
     Taskstatus '{{ taskstatus.taskstatus_name }}'{% if taskstatus.task_set.all %} (t: {{ taskstatus.task_set.all|length }}){% endif %}
 </title>
@@ -57,7 +58,6 @@
 <!-- task headline -->
 <div class="row">
     <div class="col-6">
-    <br>
         <h5>
             Tasks with this status{% if taskstatus.task_set.all %} ({{ taskstatus.task_set.all|length }}){% endif %}
         </h5>
