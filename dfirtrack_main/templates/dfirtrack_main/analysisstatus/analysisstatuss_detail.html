@@ -12,8 +12,9 @@
     {% endif %}
 </title>
 
-<!-- javascript and CSS for datatables -->
 {% load staticfiles %}
+
+<!-- javascript and CSS for datatables -->
 <link rel="stylesheet" type="text/css" href="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.css' %}"/>
 <script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.js' %}"></script>
 
@@ -37,7 +38,7 @@
 
 <!-- javascript for copy button -->
 <script>
-var clipboard = new ClipboardJS('.btn');
+    var clipboard = new ClipboardJS('.btn');
 </script>
 
 <!-- headline row -->
@@ -45,10 +46,12 @@ var clipboard = new ClipboardJS('.btn');
 
     <!-- headline -->
     <div class="col-3">
-        <h5>Analysisstatus "{{ analysisstatus.analysisstatus_name }}"</h5>
+        <h5>
+            Analysisstatus "{{ analysisstatus.analysisstatus_name }}"
+        </h5>
     </div>
 
-    <!-- copy hostnames button -->
+    <!-- copy button -->
     <div class="col-3">
         {% if analysisstatus.system_set.all %}
             {% with systems=analysisstatus.system_set.all %}
