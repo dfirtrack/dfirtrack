@@ -124,14 +124,16 @@
     <div class="col-6">
         {% if system.tag.all %}
             {% for i in system.tag.all %}
-                <a href="/tags/{{ i.tag_id }}" type="button" class="btn btn-sm btn-{{ i.tagcolor }} round top-distance copy-true">
-                <!-- white tag -->
-                {% if i.tagcolor.tagcolor_name == 'white' %}
-                    <img src="{% static 'dfirtrack_main/icons/tag.svg' %}" class="icon-sm right-distance copy-false" alt="icon">{{ i }}</a>
-                <!-- all other colors -->
-                {% else %}
-                    <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">{{ i }}</a>
-                {% endif %}
+                <a href="/tags/{{ i.tag_id }}" type="button" class="btn btn-sm btn-{{ i.tagcolor }} round copy-true">
+                    <!-- black tag icon for white tag (black color of font is defined in corresponding CSS for button) -->
+                    {% if i.tagcolor.tagcolor_name == 'white' %}
+                        <img src="{% static 'dfirtrack_main/icons/tag.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    <!-- white tag icon for other tags (white color of font is defined in corresponding CSS for button) -->
+                    {% else %}
+                        <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    {% endif %}
+                    {{ i }}
+                </a>
             {% endfor %}
         {% endif %}
     </div>
