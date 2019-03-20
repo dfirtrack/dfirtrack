@@ -101,14 +101,16 @@ var clipboard = new ClipboardJS('.btn');
 <!-- note row -->
 </div>
 
-<!-- systems row -->
+<!-- system headline -->
 <div class="row bottom-distance">
     <div class="col-6">
-        <h5>Systems with this analysisstatus{% if analysisstatus.system_set.all %} ({{ analysisstatus.system_set.all|length }}){% endif %}</h5>
+        <h5>
+            Systems with this analysisstatus{% if analysisstatus.system_set.all %} ({{ analysisstatus.system_set.all|length }}){% endif %}
+        </h5>
     </div>
 </div>
 
-<!-- check for systems -->
+<!-- systems -->
 {% if analysisstatus.system_set.all %}
 
     <!-- datatable system -->
@@ -133,7 +135,7 @@ var clipboard = new ClipboardJS('.btn');
     <!-- javascript for datatables -->
     <script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
 
-<!-- do not show an empty table if there are no systems -->
+<!-- no systems -->
 {% else %}
 
     <!-- placeholder -->
@@ -143,6 +145,7 @@ var clipboard = new ClipboardJS('.btn');
         </div>
     </div>
 
+<!-- systems -->
 {% endif %}
 
 <!-- javascript for datatables -->
