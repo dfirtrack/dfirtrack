@@ -63,36 +63,26 @@
 <!-- headline row -->
 </div>
 
-<!-- id row -->
+<!-- analysisstatus id -->
 <div class="row bottom-distance">
-
-    <!-- analysisstatus id -->
     <div class="col-3">
         <small class="text-muted">
             Analysisstatus-ID: {{ analysisstatus.analysisstatus_id }}
         </small>
     </div>
-
-<!-- id row -->
 </div>
 
-<!-- note headline row -->
+<!-- analysisstatus note headline -->
 <div class="row">
-
-    <!-- note headline -->
     <div class="col-3">
         <h5>
             Note
         </h5>
     </div>
-
-<!-- note headline row -->
 </div>
 
-<!-- note row -->
+<!-- analysisstatus note -->
 <div class="row bottom-distance">
-
-    <!-- analysisstatus row -->
     <div class="col">
         {% if analysisstatus.analysisstatus_note %}
             {{ analysisstatus.analysisstatus_note|linebreaks }}
@@ -100,8 +90,6 @@
             ---
         {% endif %}
     </div>
-
-<!-- note row -->
 </div>
 
 <!-- system headline -->
@@ -140,8 +128,6 @@
 
 <!-- no systems -->
 {% else %}
-
-    <!-- placeholder -->
     <div class="row top-distance">
         <div class="col-3">
             ---
