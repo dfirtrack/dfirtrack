@@ -1,33 +1,52 @@
+<!-- extending maintemplate -->
 {% extends "dfirtrack_main/maintemplate.html" %}
 
+<!-- HTML head in maintemplate -->
 {% block head %}
+
+<!-- page title -->
 <title>
-    Systemuser '{{ systemuser.systemuser_name }}' ({{ systemuser.system.system_name }}
-    {% if systemuser.system.system_dnssuffix %}
-    .{{ systemuser.system.system_dnssuffix }}
-    {% endif %}
-    )
+    Systemuser '{{ systemuser.systemuser_name }}' ({{ systemuser.system.system_name }}{% if systemuser.system.system_dnssuffix %}.{{ systemuser.system.system_dnssuffix }}{% endif %})
 </title>
+
 {% load staticfiles %}
+
+<!-- HTML head in maintemplate -->
 {% endblock %}
 
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
 {% block content %}
 
-<div class="row">
+<!-- up button -->
+<div class="row bottom-distance">
     <div class="col-3">
-        <a href="/systemusers" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon" alt="icon">  Up to systemusers</a>
-        <br><br>
+        <a href="/systemusers" type="button" class="btn btn-light copy-false">
+            <img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Up to systemusers
+        </a>
     </div>
 </div>
 
+
+<!-- systemuser name / system row -->
 <div class="row">
     <div class="col-3">
         <h5>
-        Systemuser "{{ systemuser.systemuser_name }}" at system <a href="/systems/{{ systemuser.system.system_id }}" type="button" class="btn btn-primary btn-sm btn-lg"><img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon" alt="icon">
-            {{ systemuser.system.system_name }}
-        </a>
+            <!-- systemuser name -->
+            Systemuser "{{ systemuser.systemuser_name }}" at system
+            <!-- system -->
+            <a href="/systems/{{ systemuser.system.system_id }}" type="button" class="btn btn-primary btn-sm btn-lg copy-true">
+                <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                {{ systemuser.system.system_name }}
+            </a>
         </h5>
     </div>
+</div>
+
+<!-- systemuser id -->
+<div class="row bottom-distance">
     <div class="col-3">
         <small class="text-muted">
             Systemuser-ID: {{ systemuser.systemuser_id }}
@@ -35,7 +54,18 @@
     </div>
 </div>
 
-<br><br>
-<a href="/systemusers/{{ systemuser.systemuser_id }}/edit" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon" alt="icon">  Edit</a>
+<!-- systemuser last logon time -->
+<div class="row bottom-distance">
+    <div class="col-3">
+            Last logon: {{ systemuser.systemuser_lastlogon_time|date:"Y-m-d H:i" }}
+    </div>
+</div>
 
+<!-- edit button -->
+<a href="/systemusers/{{ systemuser.systemuser_id }}/edit" type="button" class="btn btn-light top-distance copy-false">
+    <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon right-distance copy-false" alt="icon">
+    Edit
+</a>
+
+<!-- HTML body in maintemplate -->
 {% endblock %}
