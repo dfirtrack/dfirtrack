@@ -1,8 +1,5 @@
 # DFIRTrack
 
-[![Build Status](https://img.shields.io/github/forks/stuhli/dfirtrack.svg)](https://github.com/stuhli/dfirtrack)
-[![Build Status](https://img.shields.io/github/stars/stuhli/dfirtrack.svg)](https://github.com/stuhli/dfirtrack)
-[![License](https://img.shields.io/github/license/stuhli/dfirtrack.svg)](https://github.com/stuhli/dfirtrack)
 [![Rawsec's CyberSecurity Inventory](https://inventory.rawsec.ml/img/badges/Rawsec-inventoried-FF5050_flat.svg)](https://inventory.rawsec.ml/tools.html#DFIRTrack)
 
 DFIRTrack (Digital Forensics and Incident Response Tracking application) is an open source web application mainly based on [Django](https://www.djangoproject.com/) using a [PostgreSQL](https://www.postgresql.org/) database backend.
