@@ -1,36 +1,75 @@
+<!-- extending maintemplate -->
 {% extends "dfirtrack_main/maintemplate.html" %}
 
+<!-- HTML head in maintemplate -->
 {% block head %}
-<title>DFIRTrack - Taskstatus</title>
+
+<!-- page title -->
+<title>
+    DFIRTrack - Taskstatus
+</title>
+
 {% load staticfiles %}
+
+<!-- HTML head in maintemplate -->
 {% endblock %}
 
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
 {% block content %}
 
-    <div class="row">
-        <div class="col">
-            <h5>Taskstatus</h5>
-        </div>
+<!-- headline -->
+<div class="row bottom-distance">
+    <div class="col">
+        <h5>
+            Taskstatus
+        </h5>
+    </div>
+</div>
+
+<!-- headlines -->
+<div class="row font-weight-bold">
+
+    <!-- taskstatus id headline -->
+    <div class="col-1">
+        ID
     </div>
 
-        <div class="row font-weight-bold">
-            <div class="col-1">ID</div>
-            <div class="col-10">Taskstatus</div>
+    <!-- taskstatus name headline -->
+    <div class="col-10">
+        Taskstatus
+    </div>
+
+<!-- headlines -->
+</div>
+
+<!-- taskstatus list -->
+{% for i in object_list %}
+
+    <!-- taskstatus row -->
+    <div class="row top-distance">
+
+        <!-- taskstatus id -->
+        <div class="col-1">
+            {{ i.taskstatus_id }}
         </div>
 
-    {% for i in object_list %}
-        <div class="row">
-            <div class="col-1">{{ i.taskstatus_id }}</div>
-            <div class="col-11 top-distance">
-                <a href="/taskstatuss/{{ i.taskstatus_id }}">
+        <!-- taskstatus name -->
+        <div class="col-11">
+            <a href="/taskstatuss/{{ i.taskstatus_id }}">
                 {% with taskstatus=i %}
-                {% include "dfirtrack_main/includes/button_taskstatus.html" %}
+                    {% include "dfirtrack_main/includes/button_taskstatus.html" %}
                 {% endwith %}
                 {{ i.taskstatus_name }}
-                </a>
-            </div>
-            <br><br>
+            </a>
         </div>
-    {% endfor %}
 
+    <!-- taskstatus row -->
+    </div>
+
+<!-- taskstatus list -->
+{% endfor %}
+
+<!-- HTML body in maintemplate -->
 {% endblock %}

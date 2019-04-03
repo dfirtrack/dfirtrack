@@ -1,160 +1,250 @@
+<!-- extending maintemplate -->
 {% extends "dfirtrack_main/maintemplate.html" %}
 
+<!-- HTML head in maintemplate -->
 {% block head %}
+
+<!-- page title -->
 <title>Tasks creator</title>
+
 {% load staticfiles %}
+
+<!-- HTML head in maintemplate -->
 {% endblock %}
 
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
 {% block content %}
         
-<h4>Create tasks</h4><br><br>
+<!-- headline -->
+<div class="bottom-distance">
+    <h4>
+        Create tasks
+    </h4>
+</div>
+
+<!-- form -->
 <form method="POST" class="post-form">
 
+    <!-- button row -->
     <div class="row">
+
+        <!-- save button -->
         <div class="col-1">
             {% include "dfirtrack_main/includes/button_save.html" %}
-            <br><br>
         </div>
+
+        <!-- cancel button -->
         <div class="col-1">
             {% include "dfirtrack_main/includes/button_cancel.html" %}
-            <br><br>
         </div>
+
+    <!-- button row -->
     </div>
 
     {% csrf_token %}
 
+    <!-- general errors -->
     {% if form.non_field.errors %}
-    <div class="row">
-        <div class="col">
-            <div class="text-danger">
-                Non field errors:<br>
-                {{ form.non_field.errors }}
-            </div>
-        </div>
-    </div>
-    {% endif %}
-
-    <div class="card card-body bg-dark border-light top-distance">
-
         <div class="row">
             <div class="col">
-                <h5>Taskname (*):</h5>
+                <div class="text-danger">
+                    Non field errors:<br>
+                    {{ form.non_field.errors }}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- taskname block -->
+    <div class="card card-body bg-dark border-light top-distance">
+
+        <!-- taskname headline -->
+        <div class="row">
+            <div class="col">
+                <h5>
+                    Taskname (*):
+                </h5>
             </div>
         </div>
     	
+        <!-- tasknames -->
         <div class="row">
             <div class="col-3">
                 <div class="card card-body bg-dark border-light top-distance">
-                <div class="text-danger">{{ form.taskname.errors }}</div>
+                <!-- taskname errors -->
+                <div class="text-danger">
+                    {{ form.taskname.errors }}
+                </div>
                 {% for i in form.taskname %}
-                {{ i }}
+                    {{ i }}
                 {% endfor %}
                 </div>
             </div>
         </div>
 
+    <!-- taskname block -->
     </div>
 
+    <!-- ############################################ -->
+
+    <!-- tag block -->
     <div class="card card-body bg-dark border-light top-distance">
 
+        <!-- tag headline -->
         <div class="row">
             <div class="col">
-                <h5>Tags</h5>
+                <h5>
+                    Tags
+                </h5>
             </div>
         </div>
     	
+        <!-- tags -->
         <div class="row">
             <div class="col-3">
                 <div class="card card-body bg-dark border-light top-distance">
-                <div class="text-danger">{{ form.tag.errors }}</div>
-                    {% for i in form.tag %}
-                    {{ i }}<br>
-                    {% endfor %}
+                <!-- tag errors -->
+                <div class="text-danger">
+                    {{ form.tag.errors }}
+                </div>
+                {% for i in form.tag %}
+                    {{ i }}
+                {% endfor %}
                 </div>
             </div>
         </div>
 
+    <!-- tag block -->
     </div>
 
+    <!-- ############################################ -->
+
+    <!-- status information block -->
     <div class="card card-body bg-dark border-light top-distance">
 
+        <!-- status information headline -->
         <div class="row">
             <div class="col">
-                <h5>Status information</h5>
+                <h5>
+                    Status information
+                </h5>
             </div>
         </div>
 
+        <!-- taskpriority / taskstatus headline -->
         <div class="row">
             <div class="col-3">
-                <div class="font-weight-bold">Priority (*):</div>
+                <div class="font-weight-bold">
+                    Priority (*):
+                </div>
             </div>
             <div class="col-3">
-                <div class="font-weight-bold">Status (*):</div>
+                <div class="font-weight-bold">
+                    Status (*):
+                </div>
             </div>
         </div>
 
+        <!-- taskpriority / taskstatus -->
         <div class="row">
+
+            <!-- taskpriority -->
             <div class="col-3">
                 <div class="card card-body bg-dark border-light top-distance">
-                    <div class="text-danger">{{ form.taskpriority.errors }}</div>
+                    <!-- taskpriority errors -->
+                    <div class="text-danger">
+                        {{ form.taskpriority.errors }}
+                    </div>
                     {% for i in form.taskpriority %}
-                    {{ i }}<br>
+                        {{ i }}
                     {% endfor %}
                 </div>
-                <br><br>
             </div>
+
+            <!-- taskstatus -->
             <div class="col-3">
                 <div class="card card-body bg-dark border-light top-distance">
-                    <div class="text-danger">{{ form.taskstatus.errors }}</div>
+                    <!-- taskstatus errors -->
+                    <div class="text-danger">
+                        {{ form.taskstatus.errors }}
+                    </div>
                     {% for i in form.taskstatus %}
-                    {{ i }}<br>
+                        {{ i }}
                     {% endfor %}
                 </div>
-                <br><br>
+            </div>
+
+        <!-- taskpriority / taskstatus -->
+        </div>
+
+        <!-- system / user headline -->
+        <div class="row top-distance">
+            <div class="col-3">
+                <div class="font-weight-bold">
+                    Corresponding system:
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="font-weight-bold">
+                    Assigned to user:
+                </div>
             </div>
         </div>
 
+        <!-- system / user -->
         <div class="row">
-            <div class="col-3">
-                <div class="font-weight-bold">Corresponding system:</div>
-            </div>
-            <div class="col-3">
-                <div class="font-weight-bold">Assigned to user:</div>
-            </div>
-        </div>
 
-        <div class="row">
+            <!-- system -->
             <div class="col-3">
                 <div class="card card-body bg-dark border-light top-distance">
-                    <div class="text-danger">{{ form.system.errors }}</div>
+                    <!-- system errors -->
+                    <div class="text-danger">
+                        {{ form.system.errors }}
+                    </div>
                     {% for i in form.system %}
-                    {{ i }}
+                        {{ i }}
                     {% endfor %}
                 </div>
             </div>
+
+            <!-- user -->
             <div class="col-3">
                 <div class="card card-body bg-dark border-light top-distance">
-                    <div class="text-danger">{{ form.task_assigned_to_user_id.errors }}</div>
+                    <div class="text-danger">
+                        {{ form.task_assigned_to_user_id.errors }}
+                    </div>
 		    {% for i in form.task_assigned_to_user_id %}
-                    {{ i }}<br>
+                        {{ i }}
                     {% endfor %}
                 </div>
             </div>
+
+        <!-- system / user -->
         </div>
 
+    <!-- status information block -->
     </div>
 
-    <br><br>
+    <!-- button row -->
+    <div class="row top-distance">
 
-    <div class="row">
+        <!-- save button -->
         <div class="col-1">
             {% include "dfirtrack_main/includes/button_save.html" %}
         </div>
+
+        <!-- cancel button -->
         <div class="col-1">
             {% include "dfirtrack_main/includes/button_cancel.html" %}
         </div>
+
+    <!-- button row -->
     </div>
 
+<!-- form -->
 </form>
     
+<!-- HTML body in maintemplate -->
 {% endblock %}

@@ -1,151 +1,225 @@
+<!-- extending maintemplate -->
 {% extends "dfirtrack_main/maintemplate.html" %}
 
+<!-- HTML head in maintemplate -->
 {% block head %}
-<title>Tag '{{ tag.tag_name }}' (s: {{ tag.system_set.all|length }}, t: {{ tag.task_set.all|length }})</title>
+
+<!-- page title -->
+<title>
+    Tag '{{ tag.tag_name }}' (s: {{ tag.system_set.all|length }}, t: {{ tag.task_set.all|length }})
+</title>
+
 {% load staticfiles %}
+
+<!-- javascript and CSS for datatables -->
 <link rel="stylesheet" type="text/css" href="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.css' %}"/>
 <script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.js' %}"></script>
+
+<!-- HTML head in maintemplate -->
 {% endblock %}
 
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
 {% block content %}
 
-<div class="row">
+<!-- up button -->
+<div class="row bottom-distance">
     <div class="col-3">
-        <a href="/tags" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon" alt="icon">  Up to tags</a>
-        <br><br>
+        <a href="/tags" type="button" class="btn btn-light copy-false">
+            <img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Up to tags
+        </a>
     </div>
 </div>
 
+<!-- javascript for copy button -->
 <script>
-var clipboard = new ClipboardJS('.btn');
+    var clipboard = new ClipboardJS('.btn');
 </script>
 
+<!-- tag name row -->
 <div class="row">
+
+    <!-- tag name -->
     <div class="col-3">
-        <div class="btn btn-{{ tag.tagcolor }} btn-lg round">
+        <div class="btn btn-{{ tag.tagcolor }} btn-lg round copy-true">
+            <!-- black tag icon for white tag (black color of font is defined in corresponding CSS for button) -->
             {% if tag.tagcolor.tagcolor_name == 'white' %}
-                <img src="{% static 'dfirtrack_main/icons/tag.svg' %}" class="icon" alt="icon">
+                <img src="{% static 'dfirtrack_main/icons/tag.svg' %}" class="icon right-distance copy-false" alt="icon">
+            <!-- white tag icon for other tags (white color of font is defined in corresponding CSS for button) -->
             {% else %}
-                <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon" alt="icon">
+                <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon right-distance copy-false" alt="icon">
             {% endif %}
             {{ tag.tag_name }}
         </div>
-        <br><br>
     </div>
-    {% if tag.system_set.all %}
-    {% with systems=tag.system_set.all %}
-    {% include "dfirtrack_main/includes/button_copy_hostnames.html" %}
-    {% endwith %}
-    {% endif %}
+
+    <!-- copy button -->
+    <div class="col-3">
+        {% if tag.system_set.all %}
+            {% with systems=tag.system_set.all %}
+                {% include "dfirtrack_main/includes/button_copy_hostnames.html" %}
+            {% endwith %}
+        {% endif %}
+    </div>
+
+<!-- tag name row -->
 </div>
 
-<div class="row">
+<!-- tag id / meta information row -->
+<div class="row bottom-distance top-distance">
+
+    <!-- tag id -->
     <div class="col-3">
         <small class="text-muted">
             Tag-ID: {{ tag.tag_id }}
         </small>
     </div>
+
+    <!-- tag modify user -->
     <div class="col-3">
         <small class="text-muted">
             Modified by:
             {% if tag.tag_modified_by_user_id %}
-            {{ tag.tag_modified_by_user_id }}
+                {{ tag.tag_modified_by_user_id }}
             {% else %}
-            ---
+                ---
             {% endif %}
         </small>
     </div>
+
+<!-- tag id / meta information row -->
 </div>
 
+<!-- tag note headline -->
 <div class="row">
     <div class="col-3">
-    <br>
-        <h5>Note</h5>
+        <h5>
+            Note
+        </h5>
     </div>
 </div>
 
-<div class="row">
+<!-- tag note -->
+<div class="row bottom-distance">
     <div class="col">
     {% if tag.tag_note %}
-    {{ tag.tag_note|linebreaks }}
+        {{ tag.tag_note|linebreaks }}
     {% else %}
-    ---
+        ---
     {% endif %}
     </div>
 </div>
 
-<div class="row">
+<!-- system headline -->
+<div class="row bottom-distance">
     <div class="col-6">
-    <br>
-        <h5>Systems with this tag{% if tag.system_set.all %} ({{ tag.system_set.all|length }}){% endif %}</h5>
+        <h5>
+            Systems with this tag{% if tag.system_set.all %} ({{ tag.system_set.all|length }}){% endif %}
+        </h5>
     </div>
 </div>
 
+<!-- systems -->
 {% if tag.system_set.all %}
 
-<table id="table_system" class="display" width="100%">
+    <!-- datatable system -->
+    <table id="table_system" class="display" width="100%">
+    
+        <!-- table head -->
+        <thead>
+            {% include "dfirtrack_main/includes/datatable_thead_table_system.html" %}
+        </thead>
+        
+        <!-- table body -->
+        <tbody>
+            <!-- iterate over rows -->
+            {% for i in tag.system_set.all %}
+                {% include "dfirtrack_main/includes/datatable_tbody_table_system.html" %}
+            {% endfor %}
+        </tbody>
 
-<thead>
-{% include "dfirtrack_main/includes/datatable_thead_table_system.html" %}
-</thead>
-
-<tbody>
-{% for i in tag.system_set.all %}
-{% include "dfirtrack_main/includes/datatable_tbody_table_system.html" %}
-{% endfor %}
-</tbody>
-</table>
-
-<script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
-
+    <!-- datatable system -->
+    </table>
+    
+    <!-- javascript for datatables -->
+    <script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
+    
+<!-- no systems -->
 {% else %}
-<div class="row top-distance">
-    <div class="col-3">
-        ---
+    <div class="row top-distance">
+        <div class="col-3">
+            ---
+        </div>
     </div>
-</div>
+
+<!-- systems -->
 {% endif %}
 
-<div class="row">
+<!-- task headline -->
+<div class="row top-distance">
     <div class="col-2">
-    <br>
-        <h5>Tasks with this tag{% if tag.task_set.all %} ({{ tag.task_set.all|length }}){% endif %}</h5>
+        <h5>
+            Tasks with this tag{% if tag.task_set.all %} ({{ tag.task_set.all|length }}){% endif %}
+        </h5>
     </div>
 </div>
 
+<!-- tasks -->
 {% if tag.task_set.all %}
-{% for i in tag.task_set.all %}
+
+    {% for i in tag.task_set.all %}
+        <div class="row top-distance">
+            <div class="col-3">
+                <a href="/tasks/{{ i.task_id }}" type="button" class="btn btn-primary btn-sm sharp copy-true">
+                    <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">  
+                    {{ i.taskname }}
+                    {% if i.system %}
+                        | {{ i.system.system_name }}
+                    {% endif %}
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+
+<!-- no tasks -->
+{% else %}
+    <div class="row top-distance">
+        <div class="col-3">
+            ---
+        </div>
+    </div>
+
+<!-- tasks -->
+{% endif %}
+
+<!-- button row -->
 <div class="row top-distance">
-    <div class="col-3">
-        <a href="/tasks/{{ i.task_id }}" type="button" class="btn btn-primary btn-sm sharp"><img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon-sm" alt="icon">  
-        {{ i.taskname }}
-        {% if i.system %}
-        | {{ i.system.system_name }}
-        {% endif %}
+
+    <!-- edit button -->
+    <div class="col-1">
+        <a href="/tags/{{ tag.tag_id }}/edit" type="button" class="btn btn-light copy-false">
+            <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Edit
         </a>
     </div>
-</div>
-{% endfor %}
-{% else %}
-<div class="row top-distance">
-    <div class="col-3">
-        ---
-    </div>
-</div>
-{% endif %}
 
-<br><br>
-<div class="row">
+    <!-- delete button -->
     <div class="col-1">
-        <a href="/tags/{{ tag.tag_id }}/edit" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon" alt="icon">  Edit</a>
+        <a href="/tags/{{ tag.tag_id }}/delete" type="button" class="btn btn-light copy-false">
+            <img src="{% static 'dfirtrack_main/icons/trash.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Delete
+        </a>
     </div>
-    <div class="col-1">
-        <a href="/tags/{{ tag.tag_id }}/delete" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/trash.svg' %}" class="icon" alt="icon">  Delete</a>
-    </div>
+
+<!-- button row -->
 </div>
 
+<!-- javascript for datatables -->
 {% block datatables %}
-<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.js' %}"></script>
+    <script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.js' %}"></script>
 {% endblock %}
 
+<!-- HTML body in maintemplate -->
 {% endblock %}

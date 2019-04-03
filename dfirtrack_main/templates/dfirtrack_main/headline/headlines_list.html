@@ -1,41 +1,90 @@
+<!-- extending maintemplate -->
 {% extends "dfirtrack_main/maintemplate.html" %}
 
+<!-- HTML head in maintemplate -->
 {% block head %}
-<title>DFIRTrack - Headlines</title>
+
+<!-- page title -->
+<title>
+    DFIRTrack - Headlines
+</title>
+
 {% load staticfiles %}
+
+<!-- HTML head in maintemplate -->
 {% endblock %}
 
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
 {% block content %}
 
-    <div class="row">
-        <div class="col">
-            <h5>Headlines</h5>
-        </div>
+<!-- headline -->
+<div class="row bottom-distance">
+    <div class="col">
+        <h5>
+            Headlines
+        </h5>
+    </div>
+</div>
+
+<!-- headlines -->
+<div class="row font-weight-bold">
+
+    <!-- headline id headline -->
+    <div class="col-1">
+        ID
     </div>
 
-        <div class="row font-weight-bold">
-            <div class="col-1">ID</div>
-            <div class="col-10">Headline</div>
-        </div>
+    <!-- headline name headline -->
+    <div class="col-10">
+        Headline
+    </div>
 
-    {% for i in object_list %}
-        <div class="row">
-            <div class="col-1">{{ i.headline_id }}</div>
-            <div class="col-10">
-                <a href="/headlines/{{ i.headline_id }}">{{ i.headline_name }}</a>
-            </div>
-            <div class="col-1">
-                <a href="/headlines/{{ i.headline_id }}/edit">Edit</a>
-            </div>
-            <br><br>
-        </div>
-    {% endfor %}
+<!-- headlines -->
+</div>
 
-    <br><br>
-    <div class="row">
+<!-- headline list -->
+{% for i in object_list %}
+
+    <!-- headline row -->
+    <div class="row top-distance">
+
+        <!-- headline id -->
         <div class="col-1">
-            <a href="/headlines/add" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon" alt="icon">  Add headline</a>
+            {{ i.headline_id }}
         </div>
+
+        <!-- headline name -->
+        <div class="col-10">
+            <a href="/headlines/{{ i.headline_id }}">
+                {{ i.headline_name }}
+            </a>
+        </div>
+
+        <!-- edit button -->
+        <div class="col-1">
+            <a href="/headlines/{{ i.headline_id }}/edit" type="button" class="btn btn-sm btn-light copy-false">
+                <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                Edit
+            </a>
+        </div>
+
+    <!-- headline row -->
     </div>
 
+<!-- headline list -->
+{% endfor %}
+
+<!-- add button -->
+<div class="row top-distance">
+    <div class="col-1">
+        <a href="/headlines/add" type="button" class="btn btn-light copy-false">
+            <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Add headline
+        </a>
+    </div>
+</div>
+
+<!-- HTML body in maintemplate -->
 {% endblock %}

@@ -1,30 +1,57 @@
+<!-- extending mainpopup -->
 {% extends "dfirtrack_main/mainpopup.html" %}
 
+<!-- HTML head in mainpopup -->
 {% block head %}
-<title>Add systemtype</title>
+
+<!-- page title -->
+<title>
+    Add systemtype
+</title>
+
 {% load staticfiles %}
+
+<!-- HTML head in mainpopup -->
 {% endblock %}
 
+<!-- ############################################ -->
+
+<!-- HTML body in mainpopup -->
 {% block content %}
         
-    <h4>Add systemtype</h4>
-    
-    <br><br>
+<!-- headline -->
+<div class="bottom-distance top-distance">
+    <h4>
+        Add systemtype
+    </h4>
+</div>
 
-    <form method="POST" class="post-form">
-        {% csrf_token %}
-        {% include "dfirtrack_main/includes/form.html" %}
+<!-- form -->
+<form method="POST" class="post-form">
 
-        <br><br>
+    {% csrf_token %}
 
-        <div class="row">
-            <div class="col-2">
-                {% include "dfirtrack_main/includes/button_save.html" %}
-            </div>
-            <div class="col-1">
-                {% include "dfirtrack_main/includes/button_cancel_popup.html" %}
-            </div>
+    <!-- include standard form -->
+    {% include "dfirtrack_main/includes/form.html" %}
+
+    <!-- button row -->
+    <div class="row top-distance">
+
+        <!-- save button -->
+        <div class="col-2">
+            {% include "dfirtrack_main/includes/button_save.html" %}
         </div>
-    </form>
+
+        <!-- cancel button -->
+        <div class="col-1">
+            {% include "dfirtrack_main/includes/button_cancel_popup.html" %}
+        </div>
+
+    <!-- button row -->
+    </div>
+
+<!-- form -->
+</form>
     
+<!-- HTML head in mainpopup -->
 {% endblock %}

@@ -1,6 +1,6 @@
 from django import forms
 from django.utils.translation import gettext_lazy
-from dfirtrack_main.models import Analystmemo, Case, Company, Contact, Division, Domain, Entry, Headline, Ip, Location, Os, Osimportname, Reason, Recommendation, Reportitem, Serviceprovider, System, Systemtype, Systemuser, Tag, Task, Taskname
+from dfirtrack_main.models import Analystmemo, Case, Company, Contact, Division, Domain, Entry, Headline, Location, Os, Osimportname, Reason, Recommendation, Reportitem, Serviceprovider, System, Systemtype, Systemuser, Tag, Task, Taskname
 
 class AnalystmemoForm(forms.ModelForm):
     class Meta:
@@ -170,22 +170,6 @@ class HeadlineForm(forms.ModelForm):
         # special form type or option
         widgets = {
             'headline_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
-        }
-
-class IpForm(forms.ModelForm):
-    class Meta:
-        model = Ip
-        # this HTML forms are shown
-        fields = (
-            'ip_ip',
-        )
-        # non default form labeling
-        labels = {
-            'ip_ip': gettext_lazy('IP (*)'),
-        }
-        # special form type or option
-        widgets = {
-            'ip_ip': forms.TextInput(attrs={'autofocus': 'autofocus'}),
         }
 
 class LocationForm(forms.ModelForm):

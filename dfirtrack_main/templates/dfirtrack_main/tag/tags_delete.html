@@ -1,34 +1,70 @@
+<!-- extending maintemplate -->
 {% extends "dfirtrack_main/maintemplate.html" %}
 
+<!-- HTML head in maintemplate -->
 {% block head %}
-<title>Delete tag '{{ tag.tag_name }}'</title>
+
+<!-- page title -->
+<title>
+    Delete tag '{{ tag.tag_name }}'
+</title>
+
 {% load staticfiles %}
+
+<!-- HTML head in maintemplate -->
 {% endblock %}
 
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
 {% block content %}
         
-    <h4>Delete tag</h4><br><br>
-	<form method="post">{% csrf_token %}
-	    <h4>Delete tag 
-        	<div class="btn btn-{{ tag.tagcolor }} btn-lg round">
-                {% if tag.tagcolor.tagcolor_name == 'white' %}
-                    <img src="{% static 'dfirtrack_main/icons/tag.svg' %}" class="icon" alt="icon">  {{ tag.tag_name }}
-                {% else %}
-                    <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon" alt="icon">  {{ tag.tag_name }}
-                {% endif %}
-                </div>
-	    ?</h4>
-        <br><br>
+<!-- headline -->
+<div class="bottom-distance">
+    <h4>
+        Delete tag
+    </h4>
+</div>
 
-        <div class="row">
-            <div class="col-1">
-                {% include "dfirtrack_main/includes/button_save.html" %}
-            </div>
-            <div class="col-1">
-                {% include "dfirtrack_main/includes/button_cancel.html" %}
-            </div>
+<!-- form -->
+<form method="post">
+
+    {% csrf_token %}
+
+    <!-- question -->
+    <div class="bottom-distance">
+        Delete tag 
+        <div class="btn btn-{{ tag.tagcolor }} btn-sm round left-distance right-distance copy-true">
+            <!-- black tag icon for white tag (black color of font is defined in corresponding CSS for button) -->
+            {% if tag.tagcolor.tagcolor_name == 'white' %}
+                <img src="{% static 'dfirtrack_main/icons/tag.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+            <!-- white tag icon for other tags (white color of font is defined in corresponding CSS for button) -->
+            {% else %}
+                <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+            {% endif %}
+            {{ tag.tag_name }}
+        </div>
+        ?
+    </div>
+
+    <!-- button row -->
+    <div class="row top-distance">
+
+        <!-- save button -->
+        <div class="col-1">
+            {% include "dfirtrack_main/includes/button_save.html" %}
         </div>
 
-    </form>
+        <!-- cancel button -->
+        <div class="col-1">
+            {% include "dfirtrack_main/includes/button_cancel.html" %}
+        </div>
+
+    <!-- button row -->
+    </div>
+
+<!-- form -->
+</form>
     
+<!-- HTML body in maintemplate -->
 {% endblock %}

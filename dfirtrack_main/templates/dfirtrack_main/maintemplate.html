@@ -1,176 +1,323 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<!-- HTML head -->
 <head>
-    {% block head %}
-    {% endblock %}
-    <meta charset="utf-8" />
-    
-    {% load staticfiles %}
-    <link rel="stylesheet" href="{% static 'dfirtrack_main/bootstrap-4.0.0/css/bootstrap.min.css' %}" type = "text/css"/>
-    
-    <meta name="viewport" content = "width=device-width, initial-scale=1.0">
-    
-    <style type="text/css">
-        html,
-        body {
-          height:100%
-        }
-    </style>
 
-    <link rel="stylesheet" href="{% static 'dfirtrack_main/dfirtrack/dfirtrack.css' %}" type = "text/css"/>
-    <script src="{% static 'dfirtrack_main/dfirtrack/dfirtrack.js' %}"></script>
-    <script src="{% static 'dfirtrack_main/clipboard-2.0.1/clipboard.min.js' %}"></script>
+<!-- HTML head from templates -->
+{% block head %}
+{% endblock %}
 
+<meta charset="utf-8" />
+
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'dfirtrack_main/bootstrap-4.0.0/css/bootstrap.min.css' %}" type = "text/css"/>
+
+<meta name="viewport" content = "width=device-width, initial-scale=1.0">
+
+<style type="text/css">
+    html,
+    body {
+      height:100%
+    }
+</style>
+
+<!-- custom CSS -->
+<link rel="stylesheet" href="{% static 'dfirtrack_main/dfirtrack/dfirtrack.css' %}" type = "text/css"/>
+<!-- custom javascript -->
+<script src="{% static 'dfirtrack_main/dfirtrack/dfirtrack.js' %}"></script>
+<!-- javascript for copy button -->
+<script src="{% static 'dfirtrack_main/clipboard-2.0.1/clipboard.min.js' %}"></script>
+
+<!-- HTML head -->
 </head>
 
+<!-- ############################################ -->
+
+<!-- HTML body -->
 <body class="body bg-dark text-light">
 
-    {% load dfirtrack_main_tags %}
+<!-- dfirtrack_main.templatetags.dfirtrack_main_tags  -->
+{% load dfirtrack_main_tags %}
 
-    <div class="container-fluid" style="min-height:95%; ">
+<!-- overall container -->
+<div class="container-fluid" style="min-height:95%; ">
 
-        <div class="row">
+    <!-- upper row -->
+    <div class="row">
 
-            <div class="col-2">
-                <br>
-                <center>
-                    <img src="{% static 'dfirtrack_main/img/logo.png' %}" class="responsive-img" style='max-height:60px;' alt="place a logo in 'dfirtrack_main/img/logo.png'">
-                </center>
-            </div>
+        <!-- DFIRTrack logo -->
+        <div class="col-2 top-distance copy-false">
+            <center>
+                <img src="{% static 'dfirtrack_main/img/logo.png' %}" class="responsive-img copy-false" style='max-height:60px;' alt="place a logo in 'dfirtrack_main/img/logo.png'">
+            </center>
+        </div>
 
-            <div class="col">
-                <br>
-                <center>
-                    <h3>
-                        DFIRTrack
-                        <small class="text-muted">The Incident Response Tracking Application</small>
-                        <small>{% dfirtrack_version %}</small>
-                    </h3>
-                </center>
-            </div>
+        <!-- DFIRTrack headline -->
+        <div class="col top-distance copy-false">
+            <center>
+                <h3>
+                    <!-- DFIRTrack -->
+                    DFIRTrack
 
-            <div class="col-1">
-                <p><div class="text-muted">Logged in as </div><img src="{% static 'dfirtrack_main/icons/person-light.svg' %}" class="icon-sm" alt="icon">  {{ user.get_username }}</p>
-	    </div>
-            <div class="col-1">
-		<a href="/logout" type="button" class="btn btn-light" style="margin-top:20px"><img src="{% static 'dfirtrack_main/icons/account-logout.svg' %}" class="icon" alt="icon">  Logout</a></p>
-	    </div>
-        </div><hr>
+                    <!-- DFIRTrack subtitle -->
+                    <small class="text-muted">
+                        The Incident Response Tracking Application
+                    </small>
 
+                    <!-- DFIRTrack version number -->
+                    <!-- dfirtrack_main.templatetags.dfirtrack_main_tags.dfirtrack_version   -->
+                    <small>
+                        {% dfirtrack_version %}
+                    </small>
+                </h3>
+            </center>
+        </div>
 
-        <div class="row">
+        <!-- logged in user -->
+        <div class="col-1 top-distance copy-false">
+            <center>
+                <div class="text-muted">
+                    Logged in as
+                </div>
+            </center>
+            <center>
+                <div class="top-distance copy-false">
+                <img src="{% static 'dfirtrack_main/icons/person-light.svg' %}" class="icon-sm copy-false" alt="icon">
+                {{ user.get_username }}
+                </div>
+            </center>
+        </div>
 
-            <div class="col-2">
-		<ul class="nav flex-column nav-pills">
-		  <li class="nav-item">
-		    <a class="nav-link active" href="/systems">Systems</a>
-		  </li>
+        <!-- logout button -->
+        <div class="col-1">
+            <center>
+                <a href="/logout" type="button" class="btn btn-light copy-false" style="margin-top:20px">
+                    <img src="{% static 'dfirtrack_main/icons/account-logout.svg' %}" class="icon copy-false" alt="icon">
+                    Logout
+                </a>
+            </center>
+        </div>
 
-                  <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle active top-distance" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Systemitems</a>
-                        <div class="dropdown-menu">
-                            <div class="dropdown-header">Creator</div>
-                            <a class="dropdown-item" href="/systems/creator">Systems creator</a>
-                            <div class="dropdown-divider"></div>
-                            <div class="dropdown-header">Status information</div>
-                            <a class="dropdown-item" href="/systemstatuss">Systemstatus</a>
-                            <a class="dropdown-item" href="/analysisstatuss">Analysisstatus</a>
-                            <a class="dropdown-item" href="/reasons">Reasons</a>
-                            <a class="dropdown-item" href="/recommendations">Recommendations</a>
-                            <div class="dropdown-header">Technical information</div>
-                            <a class="dropdown-item" href="/systemtypes">Systemtypes</a>
-                            <a class="dropdown-item" href="/ips">IPs</a>
-                            <a class="dropdown-item" href="/domains">Domains</a>
-                            <a class="dropdown-item" href="/oss">OS</a>
-                            <div class="dropdown-header">Company information</div>
-                            <a class="dropdown-item" href="/companys">Companies</a>
-                            <a class="dropdown-item" href="/locations">Locations</a>
-                            <a class="dropdown-item" href="/serviceproviders">Serviceproviders</a>
-                            <a class="dropdown-item" href="/contacts">Contacts</a>
-                            <a class="dropdown-item" href="/divisions">Divisions</a>
-                            <div class="dropdown-header">Systemusers</div>
-                            <a class="dropdown-item" href="/systemusers">Systemusers</a>
-                            <div class="dropdown-header">System information</div>
-                            <a class="dropdown-item" href="/analystmemos">Analystmemos</a>
-                            <a class="dropdown-item" href="/reportitems">Reportitems</a>
-                            <div class="dropdown-header">Case information</div>
-                            <a class="dropdown-item" href="/cases">Cases</a>
-                            <a class="dropdown-item" href="/entrys">Entries</a>
-                            <div class="dropdown-header">Meta utilities</div>
-                            <a class="dropdown-item" href="/headlines">Headlines</a>
-                            <a class="dropdown-item" href="/osimportnames">OS-Importnames</a>
-                        </div>
-                  </li>
+    <!-- upper row -->
+    </div><hr>
 
-		  <li class="nav-item">
-		    <a class="nav-link active top-distance" href="/tasks">Tasks</a>
-		  </li>
+    <!-- main row -->
+    <div class="row">
 
-                  <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle active top-distance" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Taskitems</a>
-                        <div class="dropdown-menu">
-                            <div class="dropdown-header">Creator</div>
-                            <a class="dropdown-item" href="/tasks/creator">Tasks creator</a>
-                            <div class="dropdown-divider"></div>
-                            <div class="dropdown-header">Status information</div>
-                            <a class="dropdown-item" href="/taskprioritys">Taskpriorities</a>
-                            <a class="dropdown-item" href="/taskstatuss">Taskstatus</a>
-                            <div class="dropdown-header">Meta utilities</div>
-                            <a class="dropdown-item" href="/tasknames">Tasknames</a>
-                        </div>
-                  </li>
+        <!-- nav bar column -->
+        <div class="col-2 copy-false">
 
-		  <li class="nav-item">
-		    <a class="nav-link active top-distance" href="/tags">Tags</a>
-		  </li>
+            <!-- nav bar -->
+            <ul class="nav flex-column nav-pills">
 
-		</ul>
-            </div>
+                <!-- nav bar item -->
+                <li class="nav-item">
+                    <a class="nav-link active" href="/systems">
+                        Systems
+                    </a>
+                </li>
 
-            <div class="col">
-                <div class='container-fluid'>
-                    <br><br>
+                <!-- nav bar dropdown item -->
+                <li class="nav-item dropdown">
 
+                    <!-- nav bar dropdown toggle -->
+                    <a class="nav-link dropdown-toggle active top-distance" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                        Systemitems
+                    </a>
+
+                    <!-- nav bar dropdown menu -->
+                    <div class="dropdown-menu">
+
+                        <!-- section -->
+                        <div class="dropdown-header">Creator</div>
+                        <a class="dropdown-item" href="/systems/creator">Systems creator</a>
+                        <div class="dropdown-divider"></div>
+
+                        <!-- section -->
+                        <div class="dropdown-header">Status information</div>
+                        <a class="dropdown-item" href="/systemstatuss">Systemstatus</a>
+                        <a class="dropdown-item" href="/analysisstatuss">Analysisstatus</a>
+                        <a class="dropdown-item" href="/reasons">Reasons</a>
+                        <a class="dropdown-item" href="/recommendations">Recommendations</a>
+
+                        <!-- section -->
+                        <div class="dropdown-header">Technical information</div>
+                        <a class="dropdown-item" href="/systemtypes">Systemtypes</a>
+                        <a class="dropdown-item" href="/ips">IPs</a>
+                        <a class="dropdown-item" href="/domains">Domains</a>
+                        <a class="dropdown-item" href="/oss">OS</a>
+
+                        <!-- section -->
+                        <div class="dropdown-header">Company information</div>
+                        <a class="dropdown-item" href="/companys">Companies</a>
+                        <a class="dropdown-item" href="/locations">Locations</a>
+                        <a class="dropdown-item" href="/serviceproviders">Serviceproviders</a>
+                        <a class="dropdown-item" href="/contacts">Contacts</a>
+                        <a class="dropdown-item" href="/divisions">Divisions</a>
+
+                        <!-- section -->
+                        <div class="dropdown-header">Systemusers</div>
+                        <a class="dropdown-item" href="/systemusers">Systemusers</a>
+
+                        <!-- section -->
+                        <div class="dropdown-header">System information</div>
+                        <a class="dropdown-item" href="/analystmemos">Analystmemos</a>
+                        <a class="dropdown-item" href="/reportitems">Reportitems</a>
+
+                        <!-- section -->
+                        <div class="dropdown-header">Case information</div>
+                        <a class="dropdown-item" href="/cases">Cases</a>
+                        <a class="dropdown-item" href="/entrys">Entries</a>
+
+                        <!-- section -->
+                        <div class="dropdown-header">Meta utilities</div>
+                        <a class="dropdown-item" href="/headlines">Headlines</a>
+                        <a class="dropdown-item" href="/osimportnames">OS-Importnames</a>
+
+                    <!-- nav bar dropdown menu -->
+                    </div>
+                <!-- nav bar dropdown item -->
+                </li>
+
+                <!-- nav bar item -->
+                <li class="nav-item">
+                    <a class="nav-link active top-distance" href="/tasks">
+                        Tasks
+                    </a>
+                </li>
+
+                <!-- nav bar dropdown item -->
+                <li class="nav-item dropdown">
+
+                    <!-- nav bar dropdown toggle -->
+                    <a class="nav-link dropdown-toggle active top-distance" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                        Taskitems
+                    </a>
+
+                    <!-- nav bar dropdown menu -->
+                    <div class="dropdown-menu">
+
+                        <!-- section -->
+                        <div class="dropdown-header">Creator</div>
+                        <a class="dropdown-item" href="/tasks/creator">Tasks creator</a>
+                        <div class="dropdown-divider"></div>
+
+                        <!-- section -->
+                        <div class="dropdown-header">Status information</div>
+                        <a class="dropdown-item" href="/taskprioritys">Taskpriorities</a>
+                        <a class="dropdown-item" href="/taskstatuss">Taskstatus</a>
+
+                        <!-- section -->
+                        <div class="dropdown-header">Meta utilities</div>
+                        <a class="dropdown-item" href="/tasknames">Tasknames</a>
+
+                    <!-- nav bar dropdown menu -->
+                    </div>
+
+                <!-- nav bar dropdown item -->
+                </li>
+
+                <!-- nav bar item -->
+                <li class="nav-item">
+                    <a class="nav-link active top-distance" href="/tags">
+                        Tags
+                    </a>
+                </li>
+
+            <!-- nav bar -->
+            </ul>
+
+        <!-- nav bar column -->
+        </div>
+
+        <!-- main column -->
+        <div class="col">
+
+            <!-- main content container -->
+            <div class='container-fluid'>
+
+                    <!-- messages -->
                     {% if messages %}
                         {% for message in messages %}
+
+                            <!-- the corresponding alert for message level error is danger -->
                             {% if message.tags == 'error' %}
-                                <div class="alert alert-danger">{{ message }}</div>
+                                <div class="alert alert-danger copy-false">
+                                    {{ message }}
+                                </div>
+
+                            <!-- all other alert levels correspond with the message level -->
                             {% else %}
-                                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                                <div class="alert alert-{{ message.tags }} copy-false">
+                                    {{ message }}
+                                </div>
                             {% endif %}
+
                         {% endfor %}
+                    <!-- messages -->
                     {% endif %}
 
+                    <!-- HTML body from templates -->
                     {% block content %}
-                    {% endblock %}	
+                    {% endblock %}
 
-                    <button type="button" class="btn btn-primary" onclick="go_to_top()" id="btn-top"><img src="{% static 'dfirtrack_main/icons/arrow-circle-top-light.svg' %}" class="icon" alt="icon"></button>
+                    <!-- go to top of page button -->
+                    <button type="button" class="btn btn-primary copy-false" onclick="go_to_top()" id="btn-top">
+                        <img src="{% static 'dfirtrack_main/icons/arrow-circle-top-light.svg' %}" class="icon copy-false" alt="icon">
+                    </button>
 
-                </div>
+            <!-- main content container -->
             </div>
 
-        </div> 
-
-    </div>
-
-    <footer>
-        <div class="container-fluid" style='margin-left:15px'>
-            <p>
-            <a href="/faq/" target="blank" type="button" class="btn btn-outline-light btn-sm">FAQ</a></button>
-            <a href="/about/" target="blank" type="button" class="btn btn-outline-light btn-sm">About</a></button>
-            <a href="/admin/" target="blank" type="button" class="btn btn-outline-light btn-sm">Admin</a></button>
-            </p>
+        <!-- main column -->
         </div>
-    </footer>	
 
-    <script src="{% static 'dfirtrack_main/jquery-3.2.1/jquery-3.2.1.slim.min.js' %}"></script>
-    <script src="{% static 'dfirtrack_main/popper-1.12.9/popper.min.js' %}"></script>
-    <script src="{% static 'dfirtrack_main/bootstrap-4.0.0/js/bootstrap.min.js' %}"></script>
+    <!-- main row -->
+    </div> 
 
-    {% block datatables %}
-    {% endblock %}
-	
+<!-- overall container -->
+</div>
+
+<!-- ############################################ -->
+
+<!-- HTML footer -->
+<footer>
+
+<!-- footer container -->
+<div class="container-fluid top-distance bottom-distance">
+
+    <!-- link to FAQ -->
+    <a href="/faq/" target="blank" type="button" class="btn btn-outline-light btn-sm copy-false">
+        FAQ
+    </a>
+
+    <!-- link to about page -->
+    <a href="/about/" target="blank" type="button" class="btn btn-outline-light btn-sm copy-false">
+        About
+    </a>
+
+    <!-- link to admin space -->
+    <a href="/admin/" target="blank" type="button" class="btn btn-outline-light btn-sm copy-false">
+        Admin
+    </a>
+
+<!-- footer container -->
+</div>
+
+<!-- HTML footer -->
+</footer>
+
+<!-- bootstrap relevant javascript -->
+<script src="{% static 'dfirtrack_main/jquery-3.2.1/jquery-3.2.1.slim.min.js' %}"></script>
+<script src="{% static 'dfirtrack_main/popper-1.12.9/popper.min.js' %}"></script>
+<script src="{% static 'dfirtrack_main/bootstrap-4.0.0/js/bootstrap.min.js' %}"></script>
+
+<!-- extend datatables javascript where necessary -->
+{% block datatables %}
+{% endblock %}
+
+<!-- HTML body -->
 </body>
 
 </html>
