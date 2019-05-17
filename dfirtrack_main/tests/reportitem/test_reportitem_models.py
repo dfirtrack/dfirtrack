@@ -40,14 +40,14 @@ class ReportitemModelTestCase(TestCase):
     def test_reportitem_string(self):
 
         # get object
-        reportitem_1 = Reportitem.objects.get(reportitem_id=1)
+        reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
         # compare
         self.assertEqual(str(reportitem_1), str(reportitem_1.system) + ' | ' + str(reportitem_1.headline.headline_name) + ' | ' + str(reportitem_1.reportitem_subheadline))
 
     def test_reportitem_system_label(self):
 
         # get object
-        reportitem_1 = Reportitem.objects.get(reportitem_id=1)
+        reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
         # get label
         field_label = reportitem_1._meta.get_field('system').verbose_name
         # compare
@@ -56,7 +56,7 @@ class ReportitemModelTestCase(TestCase):
     def test_reportitem_headline_label(self):
 
         # get object
-        reportitem_1 = Reportitem.objects.get(reportitem_id=1)
+        reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
         # get label
         field_label = reportitem_1._meta.get_field('headline').verbose_name
         # compare
@@ -65,7 +65,7 @@ class ReportitemModelTestCase(TestCase):
     def test_reportitem_subheadline_label(self):
 
         # get object
-        reportitem_1 = Reportitem.objects.get(reportitem_id=1)
+        reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
         # get label
         field_label = reportitem_1._meta.get_field('reportitem_subheadline').verbose_name
         # compare
@@ -74,7 +74,7 @@ class ReportitemModelTestCase(TestCase):
     def test_reportitem_note_label(self):
 
         # get object
-        reportitem_1 = Reportitem.objects.get(reportitem_id=1)
+        reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
         # get label
         field_label = reportitem_1._meta.get_field('reportitem_note').verbose_name
         # compare
@@ -83,7 +83,7 @@ class ReportitemModelTestCase(TestCase):
     def test_reportitem_create_time_label(self):
 
         # get object
-        reportitem_1 = Reportitem.objects.get(reportitem_id=1)
+        reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
         # get label
         field_label = reportitem_1._meta.get_field('reportitem_create_time').verbose_name
         # compare
@@ -92,7 +92,7 @@ class ReportitemModelTestCase(TestCase):
     def test_reportitem_modify_time_label(self):
 
         # get object
-        reportitem_1 = Reportitem.objects.get(reportitem_id=1)
+        reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
         # get label
         field_label = reportitem_1._meta.get_field('reportitem_modify_time').verbose_name
         # compare
@@ -101,7 +101,7 @@ class ReportitemModelTestCase(TestCase):
     def test_reportitem_created_by_user_id_label(self):
 
         # get object
-        reportitem_1 = Reportitem.objects.get(reportitem_id=1)
+        reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
         # get label
         field_label = reportitem_1._meta.get_field('reportitem_created_by_user_id').verbose_name
         # compare
@@ -110,7 +110,7 @@ class ReportitemModelTestCase(TestCase):
     def test_reportitem_modified_by_user_id_label(self):
 
         # get object
-        reportitem_1 = Reportitem.objects.get(reportitem_id=1)
+        reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
         # get label
         field_label = reportitem_1._meta.get_field('reportitem_modified_by_user_id').verbose_name
         # compare
