@@ -2,7 +2,6 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
 from dfirtrack_main.models import Headline, Reportitem, System, Systemstatus
-from dfirtrack_main.views import reportitems_views
 import urllib.parse
 
 class ReportitemViewTestCase(TestCase):

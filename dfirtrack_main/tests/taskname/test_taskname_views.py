@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from dfirtrack_main.models import Taskname
-from dfirtrack_main.views import tasknames_views
 import urllib.parse
 
 class TasknameViewTestCase(TestCase):

@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from dfirtrack_main.models import Systemstatus
-from dfirtrack_main.views import systemstatuss_views
 import urllib.parse
 
 class SystemstatusViewTestCase(TestCase):

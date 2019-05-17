@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from dfirtrack_main.models import Contact
-from dfirtrack_main.views import contacts_views
 import urllib.parse
 
 class ContactViewTestCase(TestCase):

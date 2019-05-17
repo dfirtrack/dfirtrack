@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from dfirtrack_main.models import Task, Taskname, Taskpriority, Taskstatus
-from dfirtrack_main.views import tasks_views
 import urllib.parse
 
 class TaskViewTestCase(TestCase):

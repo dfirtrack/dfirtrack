@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from dfirtrack_main.models import Ip
-from dfirtrack_main.views import ips_views
 import urllib.parse
 
 class IpViewTestCase(TestCase):

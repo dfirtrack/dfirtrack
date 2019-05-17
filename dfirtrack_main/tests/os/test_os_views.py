@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from dfirtrack_main.models import Os
-from dfirtrack_main.views import oss_views
 import urllib.parse
 
 class OsViewTestCase(TestCase):
