@@ -15,6 +15,7 @@ class AnalysisstatusViewTestCase(TestCase):
         test_user = User.objects.create_user(username='testuser_analysisstatus', password='9u2Ew4XdFHLcCG5xyTvR')
 
     def test_analysisstatuss_list_not_logged_in(self):
+        """ test list view """
 
         # create url
         destination = '/login/?next=' + urllib.parse.quote('/analysisstatuss/', safe='')
@@ -24,6 +25,7 @@ class AnalysisstatusViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_analysisstatuss_list_logged_in(self):
+        """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_analysisstatus', password='9u2Ew4XdFHLcCG5xyTvR')
@@ -33,6 +35,7 @@ class AnalysisstatusViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_analysisstatuss_list_template(self):
+        """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_analysisstatus', password='9u2Ew4XdFHLcCG5xyTvR')
@@ -42,6 +45,7 @@ class AnalysisstatusViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_main/analysisstatus/analysisstatuss_list.html')
 
     def test_analysisstatuss_list_get_user_context(self):
+        """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_analysisstatus', password='9u2Ew4XdFHLcCG5xyTvR')
@@ -51,6 +55,7 @@ class AnalysisstatusViewTestCase(TestCase):
         self.assertEqual(str(response.context['user']), 'testuser_analysisstatus')
 
     def test_analysisstatuss_detail_not_logged_in(self):
+        """ test detail view """
 
         # get object
         analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
@@ -62,6 +67,7 @@ class AnalysisstatusViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_analysisstatuss_detail_logged_in(self):
+        """ test detail view """
 
         # get object
         analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
@@ -73,6 +79,7 @@ class AnalysisstatusViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_analysisstatuss_detail_template(self):
+        """ test detail view """
 
         # get object
         analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
@@ -84,6 +91,7 @@ class AnalysisstatusViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_main/analysisstatus/analysisstatuss_detail.html')
 
     def test_analysisstatuss_detail_get_user_context(self):
+        """ test detail view """
 
         # get object
         analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')

@@ -11,13 +11,25 @@ class LocationModelTestCase(TestCase):
         Location.objects.create(location_name='location_1')
 
     def test_location_string(self):
+        """ test string representation """
 
         # get object
         location_1 = Location.objects.get(location_name='location_1')
         # compare
         self.assertEqual(str(location_1), 'location_1')
 
-    def test_location_name_label(self):
+    def test_location_id_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        location_1 = Location.objects.get(location_name='location_1')
+        # get label
+        field_label = location_1._meta.get_field('location_id').verbose_name
+        # compare
+        self.assertEquals(field_label, 'location id')
+
+    def test_location_name_attribute_label(self):
+        """ test attribute label """
 
         # get object
         location_1 = Location.objects.get(location_name='location_1')
@@ -26,7 +38,8 @@ class LocationModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'location name')
 
-    def test_location_note_label(self):
+    def test_location_note_attribute_label(self):
+        """ test attribute label """
 
         # get object
         location_1 = Location.objects.get(location_name='location_1')
@@ -36,6 +49,7 @@ class LocationModelTestCase(TestCase):
         self.assertEquals(field_label, 'location note')
 
     def test_location_name_length(self):
+        """ test for max length """
 
         # get object
         location_1 = Location.objects.get(location_name='location_1')

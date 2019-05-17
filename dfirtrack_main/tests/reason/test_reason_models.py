@@ -11,13 +11,25 @@ class ReasonModelTestCase(TestCase):
         Reason.objects.create(reason_name='reason_1')
 
     def test_reason_string(self):
+        """ test string representation """
 
         # get object
         reason_1 = Reason.objects.get(reason_name='reason_1')
         # compare
         self.assertEqual(str(reason_1), 'reason_1')
 
-    def test_reason_name_label(self):
+    def test_reason_id_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        reason_1 = Reason.objects.get(reason_name='reason_1')
+        # get label
+        field_label = reason_1._meta.get_field('reason_id').verbose_name
+        # compare
+        self.assertEquals(field_label, 'reason id')
+
+    def test_reason_name_attribute_label(self):
+        """ test attribute label """
 
         # get object
         reason_1 = Reason.objects.get(reason_name='reason_1')
@@ -26,7 +38,8 @@ class ReasonModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'reason name')
 
-    def test_reason_note_label(self):
+    def test_reason_note_attribute_label(self):
+        """ test attribute label """
 
         # get object
         reason_1 = Reason.objects.get(reason_name='reason_1')
@@ -36,6 +49,7 @@ class ReasonModelTestCase(TestCase):
         self.assertEquals(field_label, 'reason note')
 
     def test_reason_name_length(self):
+        """ test for max length """
 
         # get object
         reason_1 = Reason.objects.get(reason_name='reason_1')

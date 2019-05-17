@@ -15,6 +15,7 @@ class LocationViewTestCase(TestCase):
         test_user = User.objects.create_user(username='testuser_location', password='jjSeshxL17aDEdqkt8tP')
 
     def test_locations_list_not_logged_in(self):
+        """ test list view """
 
         # create url
         destination = '/login/?next=' + urllib.parse.quote('/locations/', safe='')
@@ -24,6 +25,7 @@ class LocationViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_locations_list_logged_in(self):
+        """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_location', password='jjSeshxL17aDEdqkt8tP')
@@ -33,6 +35,7 @@ class LocationViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_locations_list_template(self):
+        """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_location', password='jjSeshxL17aDEdqkt8tP')
@@ -42,6 +45,7 @@ class LocationViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_main/location/locations_list.html')
 
     def test_locations_list_get_user_context(self):
+        """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_location', password='jjSeshxL17aDEdqkt8tP')
@@ -51,6 +55,7 @@ class LocationViewTestCase(TestCase):
         self.assertEqual(str(response.context['user']), 'testuser_location')
 
     def test_locations_detail_not_logged_in(self):
+        """ test detail view """
 
         # get object
         location_1 = Location.objects.get(location_name='location_1')
@@ -62,6 +67,7 @@ class LocationViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_locations_detail_logged_in(self):
+        """ test detail view """
 
         # get object
         location_1 = Location.objects.get(location_name='location_1')
@@ -73,6 +79,7 @@ class LocationViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_locations_detail_template(self):
+        """ test detail view """
 
         # get object
         location_1 = Location.objects.get(location_name='location_1')
@@ -84,6 +91,7 @@ class LocationViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_main/location/locations_detail.html')
 
     def test_locations_detail_get_user_context(self):
+        """ test detail view """
 
         # get object
         location_1 = Location.objects.get(location_name='location_1')
@@ -95,6 +103,7 @@ class LocationViewTestCase(TestCase):
         self.assertEqual(str(response.context['user']), 'testuser_location')
 
     def test_locations_add_not_logged_in(self):
+        """ test add view """
 
         # create url
         destination = '/login/?next=' + urllib.parse.quote('/locations/add/', safe='')
@@ -104,6 +113,7 @@ class LocationViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_locations_add_logged_in(self):
+        """ test add view """
 
         # login testuser
         login = self.client.login(username='testuser_location', password='jjSeshxL17aDEdqkt8tP')
@@ -113,6 +123,7 @@ class LocationViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_locations_add_template(self):
+        """ test add view """
 
         # login testuser
         login = self.client.login(username='testuser_location', password='jjSeshxL17aDEdqkt8tP')
@@ -122,6 +133,7 @@ class LocationViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_main/location/locations_add.html')
 
     def test_locations_add_get_user_context(self):
+        """ test add view """
 
         # login testuser
         login = self.client.login(username='testuser_location', password='jjSeshxL17aDEdqkt8tP')
@@ -131,6 +143,7 @@ class LocationViewTestCase(TestCase):
         self.assertEqual(str(response.context['user']), 'testuser_location')
 
     def test_locations_edit_not_logged_in(self):
+        """ test edit view """
 
         # get object
         location_1 = Location.objects.get(location_name='location_1')
@@ -142,6 +155,7 @@ class LocationViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_locations_edit_logged_in(self):
+        """ test edit view """
 
         # get object
         location_1 = Location.objects.get(location_name='location_1')
@@ -153,6 +167,7 @@ class LocationViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_locations_edit_template(self):
+        """ test edit view """
 
         # get object
         location_1 = Location.objects.get(location_name='location_1')
@@ -164,6 +179,7 @@ class LocationViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_main/location/locations_edit.html')
 
     def test_locations_edit_get_user_context(self):
+        """ test edit view """
 
         # get object
         location_1 = Location.objects.get(location_name='location_1')

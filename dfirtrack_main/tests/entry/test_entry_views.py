@@ -35,6 +35,7 @@ class EntryViewTestCase(TestCase):
         )
 
     def test_entrys_list_not_logged_in(self):
+        """ test list view """
 
         # create url
         destination = '/login/?next=' + urllib.parse.quote('/entrys/', safe='')
@@ -44,6 +45,7 @@ class EntryViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_entrys_list_logged_in(self):
+        """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
@@ -53,6 +55,7 @@ class EntryViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_entrys_list_template(self):
+        """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
@@ -62,6 +65,7 @@ class EntryViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_main/entry/entrys_list.html')
 
     def test_entrys_list_get_user_context(self):
+        """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
@@ -71,6 +75,7 @@ class EntryViewTestCase(TestCase):
         self.assertEqual(str(response.context['user']), 'testuser_entry')
 
     def test_entrys_detail_not_logged_in(self):
+        """ test detail view """
 
         # get object
         entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
@@ -82,6 +87,7 @@ class EntryViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_entrys_detail_logged_in(self):
+        """ test detail view """
 
         # get object
         entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
@@ -93,6 +99,7 @@ class EntryViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_entrys_detail_template(self):
+        """ test detail view """
 
         # get object
         entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
@@ -104,6 +111,7 @@ class EntryViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_main/entry/entrys_detail.html')
 
     def test_entrys_detail_get_user_context(self):
+        """ test detail view """
 
         # get object
         entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
@@ -115,6 +123,7 @@ class EntryViewTestCase(TestCase):
         self.assertEqual(str(response.context['user']), 'testuser_entry')
 
     def test_entrys_add_not_logged_in(self):
+        """ test add view """
 
         # create url
         destination = '/login/?next=' + urllib.parse.quote('/entrys/add/', safe='')
@@ -124,6 +133,7 @@ class EntryViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_entrys_add_logged_in(self):
+        """ test add view """
 
         # login testuser
         login = self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
@@ -133,6 +143,7 @@ class EntryViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_entrys_add_template(self):
+        """ test add view """
 
         # login testuser
         login = self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
@@ -142,6 +153,7 @@ class EntryViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_main/entry/entrys_add.html')
 
     def test_entrys_add_get_user_context(self):
+        """ test add view """
 
         # login testuser
         login = self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
@@ -151,6 +163,7 @@ class EntryViewTestCase(TestCase):
         self.assertEqual(str(response.context['user']), 'testuser_entry')
 
     def test_entrys_edit_not_logged_in(self):
+        """ test edit view """
 
         # get object
         entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
@@ -162,6 +175,7 @@ class EntryViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_entrys_edit_logged_in(self):
+        """ test edit view """
 
         # get object
         entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
@@ -173,6 +187,7 @@ class EntryViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_entrys_edit_template(self):
+        """ test edit view """
 
         # get object
         entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
@@ -184,6 +199,7 @@ class EntryViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_main/entry/entrys_edit.html')
 
     def test_entrys_edit_get_user_context(self):
+        """ test edit view """
 
         # get object
         entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')

@@ -11,13 +11,25 @@ class DivisionModelTestCase(TestCase):
         Division.objects.create(division_name='division_1')
 
     def test_division_string(self):
+        """ test string representation """
 
         # get object
         division_1 = Division.objects.get(division_name='division_1')
         # compare
         self.assertEqual(str(division_1), 'division_1')
 
-    def test_division_name_label(self):
+    def test_division_id_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        division_1 = Division.objects.get(division_name='division_1')
+        # get label
+        field_label = division_1._meta.get_field('division_id').verbose_name
+        # compare
+        self.assertEquals(field_label, 'division id')
+
+    def test_division_name_attribute_label(self):
+        """ test attribute label """
 
         # get object
         division_1 = Division.objects.get(division_name='division_1')
@@ -26,7 +38,8 @@ class DivisionModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'division name')
 
-    def test_division_note_label(self):
+    def test_division_note_attribute_label(self):
+        """ test attribute label """
 
         # get object
         division_1 = Division.objects.get(division_name='division_1')
@@ -36,6 +49,7 @@ class DivisionModelTestCase(TestCase):
         self.assertEquals(field_label, 'division note')
 
     def test_division_name_length(self):
+        """ test for max length """
 
         # get object
         division_1 = Division.objects.get(division_name='division_1')

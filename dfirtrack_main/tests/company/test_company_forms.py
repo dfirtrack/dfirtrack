@@ -11,51 +11,75 @@ class CompanyFormTestCase(TestCase):
         # create object
         Division.objects.create(division_name='division_1')
 
-    def test_company_name_label(self):
+    def test_company_name_form_label(self):
+        """ test form label """
 
         # get object
         form = CompanyForm()
         # compare
         self.assertEquals(form.fields['company_name'].label, 'Company name (*)')
 
-    def test_company_note_label(self):
-
-        # get object
-        form = CompanyForm()
-        # compare
-        self.assertEquals(form.fields['company_note'].label, 'Company note')
-
-    def test_company_division_label(self):
+    def test_company_division_form_label(self):
+        """ test form label """
 
         # get object
         form = CompanyForm()
         # compare
         self.assertEquals(form.fields['division'].label, 'Division')
 
-    def test_company_name_empty(self):
+    def test_company_note_form_label(self):
+        """ test form label """
+
+        # get object
+        form = CompanyForm()
+        # compare
+        self.assertEquals(form.fields['company_note'].label, 'Company note')
+
+    def test_company_form_empty(self):
+        """ test minimum form requirements / INVALID """
 
         # get object
         form = CompanyForm(data = {'company_name': ''})
         # compare
         self.assertFalse(form.is_valid())
 
-    def test_company_name_filled(self):
+    def test_company_name_form_filled(self):
+        """ test minimum form requirements / VALID """
 
         # get object
         form = CompanyForm(data = {'company_name': 'company_1'})
         # compare
         self.assertTrue(form.is_valid())
 
-    def test_company_name_filled_with_division(self):
+    def test_company_division_form_filled(self):
+        """ test additional form content """
 
         # get foreign key object id
         division_id = Division.objects.get(division_name='division_1').division_id
         # get object
-        form = CompanyForm(data = {'company_name': 'company_1', 'division': division_id})
+        form = CompanyForm(data = {
+            'company_name': 'company_1',
+            'division': division_id,
+        })
+        # compare
+        self.assertTrue(form.is_valid())
+
+    def test_company_note_form_filled(self):
+        """ test additional form content """
+
+        # get foreign key object id
+        division_id = Division.objects.get(division_name='division_1').division_id
+        # get object
+        form = CompanyForm(data = {
+            'company_name': 'company_1',
+            'division': division_id,
+            'company_note': 'lorem_ipsum',
+        })
         # compare
         self.assertTrue(form.is_valid())
 
     def test_company_name_proper_chars(self):
+        """ test for max length """
 
         # get object
         form = CompanyForm(data = {'company_name': 'cccccccccccccccccccccccccccccccccccccccccccccccccc'})
@@ -63,6 +87,7 @@ class CompanyFormTestCase(TestCase):
         self.assertTrue(form.is_valid())
 
     def test_company_name_too_many_chars(self):
+        """ test for max length """
 
         # get object
         form = CompanyForm(data = {'company_name': 'ccccccccccccccccccccccccccccccccccccccccccccccccccc'})

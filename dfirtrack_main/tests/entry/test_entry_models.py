@@ -34,6 +34,7 @@ class EntryModelTestCase(TestCase):
         )
 
     def test_entry_string(self):
+        """ test string representation """
 
         # get object
         entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
@@ -42,124 +43,18 @@ class EntryModelTestCase(TestCase):
         # compare
         self.assertEqual(str(entry_1), str(entry_id) + ' | ' + str(entry_1.system) + ' | ' + 'da39a3ee5e6b4b0d3255bfef95601890afd80709')
 
-    def test_entry_time_label(self):
+    def test_entry_id_attribute_label(self):
+        """ test attribute label """
 
         # get object
         entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
         # get label
-        field_label = entry_1._meta.get_field('entry_time').verbose_name
+        field_label = entry_1._meta.get_field('entry_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'entry time')
+        self.assertEquals(field_label, 'entry id')
 
-    def test_entry_sha1_label(self):
-
-        # get object
-        entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
-        # get label
-        field_label = entry_1._meta.get_field('entry_sha1').verbose_name
-        # compare
-        self.assertEquals(field_label, 'entry sha1')
-
-    def test_entry_date_label(self):
-
-        # get object
-        entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
-        # get label
-        field_label = entry_1._meta.get_field('entry_date').verbose_name
-        # compare
-        self.assertEquals(field_label, 'entry date')
-
-    def test_entry_utc_label(self):
-
-        # get object
-        entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
-        # get label
-        field_label = entry_1._meta.get_field('entry_utc').verbose_name
-        # compare
-        self.assertEquals(field_label, 'entry utc')
-
-    def test_entry_system_label(self):
-
-        # get object
-        entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
-        # get label
-        field_label = entry_1._meta.get_field('entry_system').verbose_name
-        # compare
-        self.assertEquals(field_label, 'entry system')
-
-    def test_entry_type_label(self):
-
-        # get object
-        entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
-        # get label
-        field_label = entry_1._meta.get_field('entry_type').verbose_name
-        # compare
-        self.assertEquals(field_label, 'entry type')
-
-    def test_entry_content_label(self):
-
-        # get object
-        entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
-        # get label
-        field_label = entry_1._meta.get_field('entry_content').verbose_name
-        # compare
-        self.assertEquals(field_label, 'entry content')
-
-    def test_entry_note_label(self):
-
-        # get object
-        entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
-        # get label
-        field_label = entry_1._meta.get_field('entry_note').verbose_name
-        # compare
-        self.assertEquals(field_label, 'entry note')
-
-    def test_entry_create_time_label(self):
-
-        # get object
-        entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
-        # get label
-        field_label = entry_1._meta.get_field('entry_create_time').verbose_name
-        # compare
-        self.assertEquals(field_label, 'entry create time')
-
-    def test_entry_modify_time_label(self):
-
-        # get object
-        entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
-        # get label
-        field_label = entry_1._meta.get_field('entry_modify_time').verbose_name
-        # compare
-        self.assertEquals(field_label, 'entry modify time')
-
-    def test_entry_api_time_label(self):
-
-        # get object
-        entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
-        # get label
-        field_label = entry_1._meta.get_field('entry_api_time').verbose_name
-        # compare
-        self.assertEquals(field_label, 'entry api time')
-
-    def test_entry_created_by_user_id_label(self):
-
-        # get object
-        entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
-        # get label
-        field_label = entry_1._meta.get_field('entry_created_by_user_id').verbose_name
-        # compare
-        self.assertEquals(field_label, 'entry created by user id')
-
-    def test_entry_modified_by_user_id_label(self):
-
-        # get object
-        entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
-        # get label
-        field_label = entry_1._meta.get_field('entry_modified_by_user_id').verbose_name
-        # compare
-        self.assertEquals(field_label, 'entry modified by user id')
-
-    def test_system_label(self):
+    def test_system_attribute_label(self):
+        """ test attribute label """
 
         # get object
         entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
@@ -168,7 +63,8 @@ class EntryModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'system')
 
-    def test_case_label(self):
+    def test_entry_case_attribute_label(self):
+        """ test attribute label """
 
         # get object
         entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
@@ -177,7 +73,138 @@ class EntryModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'case')
 
+    def test_entry_time_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
+        # get label
+        field_label = entry_1._meta.get_field('entry_time').verbose_name
+        # compare
+        self.assertEquals(field_label, 'entry time')
+
+    def test_entry_sha1_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
+        # get label
+        field_label = entry_1._meta.get_field('entry_sha1').verbose_name
+        # compare
+        self.assertEquals(field_label, 'entry sha1')
+
+    def test_entry_date_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
+        # get label
+        field_label = entry_1._meta.get_field('entry_date').verbose_name
+        # compare
+        self.assertEquals(field_label, 'entry date')
+
+    def test_entry_utc_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
+        # get label
+        field_label = entry_1._meta.get_field('entry_utc').verbose_name
+        # compare
+        self.assertEquals(field_label, 'entry utc')
+
+    def test_entry_system_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
+        # get label
+        field_label = entry_1._meta.get_field('entry_system').verbose_name
+        # compare
+        self.assertEquals(field_label, 'entry system')
+
+    def test_entry_type_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
+        # get label
+        field_label = entry_1._meta.get_field('entry_type').verbose_name
+        # compare
+        self.assertEquals(field_label, 'entry type')
+
+    def test_entry_content_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
+        # get label
+        field_label = entry_1._meta.get_field('entry_content').verbose_name
+        # compare
+        self.assertEquals(field_label, 'entry content')
+
+    def test_entry_note_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
+        # get label
+        field_label = entry_1._meta.get_field('entry_note').verbose_name
+        # compare
+        self.assertEquals(field_label, 'entry note')
+
+    def test_entry_create_time_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
+        # get label
+        field_label = entry_1._meta.get_field('entry_create_time').verbose_name
+        # compare
+        self.assertEquals(field_label, 'entry create time')
+
+    def test_entry_modify_time_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
+        # get label
+        field_label = entry_1._meta.get_field('entry_modify_time').verbose_name
+        # compare
+        self.assertEquals(field_label, 'entry modify time')
+
+    def test_entry_api_time_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
+        # get label
+        field_label = entry_1._meta.get_field('entry_api_time').verbose_name
+        # compare
+        self.assertEquals(field_label, 'entry api time')
+
+    def test_entry_created_by_user_id_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
+        # get label
+        field_label = entry_1._meta.get_field('entry_created_by_user_id').verbose_name
+        # compare
+        self.assertEquals(field_label, 'entry created by user id')
+
+    def test_entry_modified_by_user_id_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
+        # get label
+        field_label = entry_1._meta.get_field('entry_modified_by_user_id').verbose_name
+        # compare
+        self.assertEquals(field_label, 'entry modified by user id')
+
     def test_entry_sha1_length(self):
+        """ test for max length """
 
         # get object
         entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
@@ -187,6 +214,7 @@ class EntryModelTestCase(TestCase):
         self.assertEquals(max_length, 40)
 
     def test_entry_date_length(self):
+        """ test for max length """
 
         # get object
         entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
@@ -196,6 +224,7 @@ class EntryModelTestCase(TestCase):
         self.assertEquals(max_length, 10)
 
     def test_entry_utc_length(self):
+        """ test for max length """
 
         # get object
         entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
@@ -205,6 +234,7 @@ class EntryModelTestCase(TestCase):
         self.assertEquals(max_length, 8)
 
     def test_entry_system_length(self):
+        """ test for max length """
 
         # get object
         entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
@@ -214,6 +244,7 @@ class EntryModelTestCase(TestCase):
         self.assertEquals(max_length, 30)
 
     def test_entry_type_length(self):
+        """ test for max length """
 
         # get object
         entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')

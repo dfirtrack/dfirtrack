@@ -34,6 +34,7 @@ class AnalystmemoViewTestCase(TestCase):
         )
 
     def test_analystmemos_list_not_logged_in(self):
+        """ test list view """
 
         # create url
         destination = '/login/?next=' + urllib.parse.quote('/analystmemos/', safe='')
@@ -43,6 +44,7 @@ class AnalystmemoViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_analystmemos_list_logged_in(self):
+        """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
@@ -52,6 +54,7 @@ class AnalystmemoViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_analystmemos_list_template(self):
+        """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
@@ -61,6 +64,7 @@ class AnalystmemoViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_main/analystmemo/analystmemos_list.html')
 
     def test_analystmemos_list_get_user_context(self):
+        """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
@@ -70,6 +74,7 @@ class AnalystmemoViewTestCase(TestCase):
         self.assertEqual(str(response.context['user']), 'testuser_analystmemo')
 
     def test_analystmemos_detail_not_logged_in(self):
+        """ test detail view """
 
         # get object
         analystmemo_1 = Analystmemo.objects.get(analystmemo_note='lorem ipsum')
@@ -81,6 +86,7 @@ class AnalystmemoViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_analystmemos_detail_logged_in(self):
+        """ test detail view """
 
         # get object
         analystmemo_1 = Analystmemo.objects.get(analystmemo_note='lorem ipsum')
@@ -92,6 +98,7 @@ class AnalystmemoViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_analystmemos_detail_template(self):
+        """ test detail view """
 
         # get object
         analystmemo_1 = Analystmemo.objects.get(analystmemo_note='lorem ipsum')
@@ -103,6 +110,7 @@ class AnalystmemoViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_main/analystmemo/analystmemos_detail.html')
 
     def test_analystmemos_detail_get_user_context(self):
+        """ test detail view """
 
         # get object
         analystmemo_1 = Analystmemo.objects.get(analystmemo_note='lorem ipsum')
@@ -114,6 +122,7 @@ class AnalystmemoViewTestCase(TestCase):
         self.assertEqual(str(response.context['user']), 'testuser_analystmemo')
 
     def test_analystmemos_add_not_logged_in(self):
+        """ test add view """
 
         # create url
         destination = '/login/?next=' + urllib.parse.quote('/analystmemos/add/', safe='')
@@ -123,6 +132,7 @@ class AnalystmemoViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_analystmemos_add_logged_in(self):
+        """ test add view """
 
         # login testuser
         login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
@@ -132,6 +142,7 @@ class AnalystmemoViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_analystmemos_add_template(self):
+        """ test add view """
 
         # login testuser
         login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
@@ -141,6 +152,7 @@ class AnalystmemoViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_main/analystmemo/analystmemos_add.html')
 
     def test_analystmemos_add_get_user_context(self):
+        """ test add view """
 
         # login testuser
         login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
@@ -150,6 +162,7 @@ class AnalystmemoViewTestCase(TestCase):
         self.assertEqual(str(response.context['user']), 'testuser_analystmemo')
 
     def test_analystmemos_edit_not_logged_in(self):
+        """ test edit view """
 
         # get object
         analystmemo_1 = Analystmemo.objects.get(analystmemo_note='lorem ipsum')
@@ -161,6 +174,7 @@ class AnalystmemoViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_analystmemos_edit_logged_in(self):
+        """ test edit view """
 
         # get object
         analystmemo_1 = Analystmemo.objects.get(analystmemo_note='lorem ipsum')
@@ -172,6 +186,7 @@ class AnalystmemoViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_analystmemos_edit_template(self):
+        """ test edit view """
 
         # get object
         analystmemo_1 = Analystmemo.objects.get(analystmemo_note='lorem ipsum')
@@ -183,6 +198,7 @@ class AnalystmemoViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_main/analystmemo/analystmemos_edit.html')
 
     def test_analystmemos_edit_get_user_context(self):
+        """ test edit view """
 
         # get object
         analystmemo_1 = Analystmemo.objects.get(analystmemo_note='lorem ipsum')

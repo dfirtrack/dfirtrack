@@ -19,13 +19,25 @@ class CaseModelTestCase(TestCase):
         )
 
     def test_case_string(self):
+        """ test string representation """
 
         # get object
         case_1 = Case.objects.get(case_name='case_1')
         # compare
         self.assertEqual(str(case_1), 'case_1')
 
-    def test_case_name_label(self):
+    def test_case_id_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        case_1 = Case.objects.get(case_name='case_1')
+        # get label
+        field_label = case_1._meta.get_field('case_id').verbose_name
+        # compare
+        self.assertEquals(field_label, 'case id')
+
+    def test_case_name_attribute_label(self):
+        """ test attribute label """
 
         # get object
         case_1 = Case.objects.get(case_name='case_1')
@@ -34,7 +46,18 @@ class CaseModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'case name')
 
-    def test_case_create_time_label(self):
+    def test_case_is_incident_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        case_1 = Case.objects.get(case_name='case_1')
+        # get label
+        field_label = case_1._meta.get_field('case_is_incident').verbose_name
+        # compare
+        self.assertEquals(field_label, 'case is incident')
+
+    def test_case_create_time_attribute_label(self):
+        """ test attribute label """
 
         # get object
         case_1 = Case.objects.get(case_name='case_1')
@@ -43,7 +66,8 @@ class CaseModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'case create time')
 
-    def test_case_user_label(self):
+    def test_case_created_by_user_id_attribute_label(self):
+        """ test attribute label """
 
         # get object
         case_1 = Case.objects.get(case_name='case_1')
@@ -53,6 +77,7 @@ class CaseModelTestCase(TestCase):
         self.assertEquals(field_label, 'case created by user id')
 
     def test_case_name_length(self):
+        """ test for max length """
 
         # get object
         case_1 = Case.objects.get(case_name='case_1')

@@ -25,35 +25,40 @@ class AnalystmemoFormTestCase(TestCase):
             system_modified_by_user_id = test_user,
         )
 
-    def test_analystmemo_note_label(self):
+    def test_analystmemo_note_form_label(self):
+        """ test form label """
 
         # get object
         form = AnalystmemoForm()
         # compare
         self.assertEquals(form.fields['analystmemo_note'].label, 'Analystmemo note (*)')
 
-    def test_analystmemo_system_label(self):
+    def test_analystmemo_system_form_label(self):
+        """ test form label """
 
         # get object
         form = AnalystmemoForm()
         # compare
         self.assertEquals(form.fields['system'].label, 'System (*)')
 
-    def test_analystmemo_note_empty_no_system(self):
+    def test_analystmemo_form_empty(self):
+        """ test minimum form requirements / INVALID """
 
         # get object
         form = AnalystmemoForm(data = {'analystmemo_note': ''})
         # compare
         self.assertFalse(form.is_valid())
 
-    def test_analystmemo_note_filled_no_system(self):
+    def test_analystmemo_note_form_filled(self):
+        """ test minimum form requirements / INVALID """
 
         # get object
         form = AnalystmemoForm(data = {'analystmemo_note': 'lorem ipsum'})
         # compare
         self.assertFalse(form.is_valid())
 
-    def test_analystmemo_note_filled_system(self):
+    def test_analystmemo_system_form_filled(self):
+        """ test minimum form requirements / VALID """
 
         # get foreign key object id
         system_id = System.objects.get(system_name='system_1').system_id

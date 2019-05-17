@@ -17,6 +17,7 @@ class OsimportnameViewTestCase(TestCase):
         test_user = User.objects.create_user(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
 
     def test_osimportnames_list_not_logged_in(self):
+        """ test list view """
 
         # create url
         destination = '/login/?next=' + urllib.parse.quote('/osimportnames/', safe='')
@@ -26,6 +27,7 @@ class OsimportnameViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_osimportnames_list_logged_in(self):
+        """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
@@ -35,6 +37,7 @@ class OsimportnameViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_osimportnames_list_template(self):
+        """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
@@ -44,6 +47,7 @@ class OsimportnameViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_main/osimportname/osimportnames_list.html')
 
     def test_osimportnames_list_get_user_context(self):
+        """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
@@ -53,6 +57,7 @@ class OsimportnameViewTestCase(TestCase):
         self.assertEqual(str(response.context['user']), 'testuser_osimportname')
 
     def test_osimportnames_add_not_logged_in(self):
+        """ test add view """
 
         # create url
         destination = '/login/?next=' + urllib.parse.quote('/osimportnames/add/', safe='')
@@ -62,6 +67,7 @@ class OsimportnameViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_osimportnames_add_logged_in(self):
+        """ test add view """
 
         # login testuser
         login = self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
@@ -71,6 +77,7 @@ class OsimportnameViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_osimportnames_add_template(self):
+        """ test add view """
 
         # login testuser
         login = self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
@@ -80,6 +87,7 @@ class OsimportnameViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_main/osimportname/osimportnames_add.html')
 
     def test_osimportnames_add_get_user_context(self):
+        """ test add view """
 
         # login testuser
         login = self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
@@ -89,6 +97,7 @@ class OsimportnameViewTestCase(TestCase):
         self.assertEqual(str(response.context['user']), 'testuser_osimportname')
 
     def test_osimportnames_edit_not_logged_in(self):
+        """ test edit view """
 
         # get object
         osimportname_1 = Osimportname.objects.get(osimportname_name='osimportname_1')
@@ -100,6 +109,7 @@ class OsimportnameViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_osimportnames_edit_logged_in(self):
+        """ test edit view """
 
         # get object
         osimportname_1 = Osimportname.objects.get(osimportname_name='osimportname_1')
@@ -111,6 +121,7 @@ class OsimportnameViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_osimportnames_edit_template(self):
+        """ test edit view """
 
         # get object
         osimportname_1 = Osimportname.objects.get(osimportname_name='osimportname_1')
@@ -122,6 +133,7 @@ class OsimportnameViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_main/osimportname/osimportnames_edit.html')
 
     def test_osimportnames_edit_get_user_context(self):
+        """ test edit view """
 
         # get object
         osimportname_1 = Osimportname.objects.get(osimportname_name='osimportname_1')
