@@ -23,6 +23,7 @@ ALLOWED_HOSTS = ['localhost']
 
 INSTALLED_APPS = [
     'dfirtrack_main',
+    'dfirtrack_artifacts',
     'dfirtrack_api',
     'rest_framework',
     'django_q',
