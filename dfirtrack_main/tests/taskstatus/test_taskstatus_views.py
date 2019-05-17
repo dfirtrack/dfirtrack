@@ -14,7 +14,6 @@ class TaskstatusViewTestCase(TestCase):
         Taskstatus.objects.create(taskstatus_name='taskstatus_1')
         # create user
         test_user = User.objects.create_user(username='testuser_taskstatus', password='TZjmjiUQviOnIEral6l9')
-        test_user.save()
 
     def test_taskstatuss_list_not_logged_in(self):
 

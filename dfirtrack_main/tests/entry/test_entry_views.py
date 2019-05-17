@@ -13,7 +13,6 @@ class EntryViewTestCase(TestCase):
 
         # create user
         test_user = User.objects.create_user(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
-        test_user.save()
 
         # create object
         systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')

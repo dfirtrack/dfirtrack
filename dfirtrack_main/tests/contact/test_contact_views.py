@@ -14,7 +14,6 @@ class ContactViewTestCase(TestCase):
         Contact.objects.create(contact_name='contact_1', contact_email='contact_1@example.org')
         # create user
         test_user = User.objects.create_user(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
-        test_user.save()
 
     def test_contacts_list_not_logged_in(self):
 

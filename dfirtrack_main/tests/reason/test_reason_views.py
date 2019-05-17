@@ -14,7 +14,6 @@ class ReasonViewTestCase(TestCase):
         Reason.objects.create(reason_name='reason_1')
         # create user
         test_user = User.objects.create_user(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
-        test_user.save()
 
     def test_reasons_list_not_logged_in(self):
 

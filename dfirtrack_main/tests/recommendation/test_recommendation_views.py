@@ -14,7 +14,6 @@ class RecommendationViewTestCase(TestCase):
         Recommendation.objects.create(recommendation_name='recommendation_1')
         # create user
         test_user = User.objects.create_user(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
-        test_user.save()
 
     def test_recommendations_list_not_logged_in(self):
 

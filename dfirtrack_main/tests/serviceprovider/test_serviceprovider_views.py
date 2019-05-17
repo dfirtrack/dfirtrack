@@ -14,7 +14,6 @@ class ServiceproviderViewTestCase(TestCase):
         Serviceprovider.objects.create(serviceprovider_name='serviceprovider_1')
         # create user
         test_user = User.objects.create_user(username='testuser_serviceprovider', password='KxVbBhKZcvh6IcQUGjr0')
-        test_user.save()
 
     def test_serviceproviders_list_not_logged_in(self):
 

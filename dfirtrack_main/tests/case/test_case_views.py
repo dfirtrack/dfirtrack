@@ -12,7 +12,6 @@ class CaseViewTestCase(TestCase):
 
         # create user
         test_user = User.objects.create_user(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
-        test_user.save()
 
         # create object
         Case.objects.create(

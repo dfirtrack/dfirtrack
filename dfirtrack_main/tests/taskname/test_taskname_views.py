@@ -14,7 +14,6 @@ class TasknameViewTestCase(TestCase):
         Taskname.objects.create(taskname_name='taskname_1')
         # create user
         test_user = User.objects.create_user(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
-        test_user.save()
 
     def test_tasknames_list_not_logged_in(self):
 

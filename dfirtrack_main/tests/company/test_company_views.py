@@ -14,7 +14,6 @@ class CompanyViewTestCase(TestCase):
         Company.objects.create(company_name='company_1')
         # create user
         test_user = User.objects.create_user(username='testuser_company', password='MbJfulGWGKeqceBtN9Mi')
-        test_user.save()
 
     def test_companys_list_not_logged_in(self):
 

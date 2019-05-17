@@ -14,7 +14,6 @@ class DomainViewTestCase(TestCase):
         Domain.objects.create(domain_name='domain_1')
         # create user
         test_user = User.objects.create_user(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
-        test_user.save()
 
     def test_domains_list_not_logged_in(self):
 

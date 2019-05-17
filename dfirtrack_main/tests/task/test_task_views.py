@@ -12,7 +12,6 @@ class TaskViewTestCase(TestCase):
 
         # create user
         test_user = User.objects.create_user(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
-        test_user.save()
 
         # create object
         taskname_1 = Taskname.objects.create(taskname_name='taskname_1')

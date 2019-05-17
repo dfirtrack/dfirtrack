@@ -11,7 +11,6 @@ class SystemuserModelTestCase(TestCase):
 
         # create user
         test_user = User.objects.create_user(username='testuser_systemuser', password='u6YexpBiCjk1fdx68uHY')
-        test_user.save()
 
         # create object
         systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')

@@ -14,7 +14,6 @@ class OsViewTestCase(TestCase):
         Os.objects.create(os_name='os_1')
         # create user
         test_user = User.objects.create_user(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
-        test_user.save()
 
     def test_oss_list_not_logged_in(self):
 

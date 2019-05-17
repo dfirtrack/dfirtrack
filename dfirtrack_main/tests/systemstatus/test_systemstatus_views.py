@@ -14,7 +14,6 @@ class SystemstatusViewTestCase(TestCase):
         Systemstatus.objects.create(systemstatus_name='systemstatus_1')
         # create user
         test_user = User.objects.create_user(username='testuser_systemstatus', password='kWAvcuNoU97qpEy7UpDT')
-        test_user.save()
 
     def test_systemstatuss_list_not_logged_in(self):
 

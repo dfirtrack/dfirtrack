@@ -11,7 +11,6 @@ class AnalystmemoModelTestCase(TestCase):
 
         # create user
         test_user = User.objects.create_user(username='testuser_analystmemo', password='h09JwX22izrDh7zvPley')
-        test_user.save()
 
         # create object
         systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')

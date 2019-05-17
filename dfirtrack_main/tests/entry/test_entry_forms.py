@@ -12,7 +12,6 @@ class EntryFormTestCase(TestCase):
 
         # create user
         test_user = User.objects.create_user(username='testuser_entry', password='z2B7MofdZ4suAn6AYGSo')
-        test_user.save()
 
         # create object
         systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')

@@ -14,7 +14,6 @@ class SystemtypeViewTestCase(TestCase):
         Systemtype.objects.create(systemtype_name='systemtype_1')
         # create user
         test_user = User.objects.create_user(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
-        test_user.save()
 
     def test_systemtypes_list_not_logged_in(self):
 

@@ -11,7 +11,6 @@ class ReportitemModelTestCase(TestCase):
 
         # create user
         test_user = User.objects.create_user(username='testuser_reportitem', password='n26RCEzVtmtmpAHa5g1M')
-        test_user.save()
 
         # create object
         systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')

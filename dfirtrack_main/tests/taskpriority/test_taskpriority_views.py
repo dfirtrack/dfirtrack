@@ -14,7 +14,6 @@ class TaskpriorityViewTestCase(TestCase):
         Taskpriority.objects.create(taskpriority_name='prio_1')
         # create user
         test_user = User.objects.create_user(username='testuser_taskpriority', password='VxuP85UUDkfXwRuwRFqA')
-        test_user.save()
 
     def test_taskprioritys_list_not_logged_in(self):
 

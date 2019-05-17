@@ -14,7 +14,6 @@ class AnalysisstatusViewTestCase(TestCase):
         Analysisstatus.objects.create(analysisstatus_name='analysisstatus_1')
         # create user
         test_user = User.objects.create_user(username='testuser_analysisstatus', password='9u2Ew4XdFHLcCG5xyTvR')
-        test_user.save()
 
     def test_analysisstatuss_list_not_logged_in(self):
 

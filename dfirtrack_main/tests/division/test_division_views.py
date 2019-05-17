@@ -14,7 +14,6 @@ class DivisionViewTestCase(TestCase):
         Division.objects.create(division_name='division_1')
         # create user
         test_user = User.objects.create_user(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
-        test_user.save()
 
     def test_divisions_list_not_logged_in(self):
 
