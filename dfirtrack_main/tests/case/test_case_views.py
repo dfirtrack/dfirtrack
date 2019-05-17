@@ -178,12 +178,3 @@ class CaseViewTestCase(TestCase):
         response = self.client.get('/cases/' + str(case_1.case_id) + '/edit/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_case')
-
-#    def test_cases_detail_logged_in_not_existing(self):
-#
-#        # login testuser
-#        login = self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
-#        # get response
-#        response = self.client.get('/cases/x')
-#        # compare
-#        self.assertEqual(response.status_code, 404)

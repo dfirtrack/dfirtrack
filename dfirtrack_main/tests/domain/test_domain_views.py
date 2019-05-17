@@ -173,12 +173,3 @@ class DomainViewTestCase(TestCase):
         response = self.client.get('/domains/' + str(domain_1.domain_id) + '/edit/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_domain')
-
-#    def test_domains_detail_logged_in_not_existing(self):
-#
-#        # login testuser
-#        login = self.client.login(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
-#        # get response
-#        response = self.client.get('/domains/x')
-#        # compare
-#        self.assertEqual(response.status_code, 404)

@@ -196,12 +196,3 @@ class ReportitemViewTestCase(TestCase):
         response = self.client.get('/reportitems/' + str(reportitem_1.reportitem_id) + '/edit/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_reportitem')
-
-#    def test_reportitems_detail_logged_in_not_existing(self):
-#
-#        # login testuser
-#        login = self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
-#        # get response
-#        response = self.client.get('/reportitems/x')
-#        # compare
-#        self.assertEqual(response.status_code, 404)

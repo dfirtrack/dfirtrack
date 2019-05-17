@@ -173,12 +173,3 @@ class HeadlineViewTestCase(TestCase):
         response = self.client.get('/headlines/' + str(headline_1.headline_id) + '/edit/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_headline')
-
-#    def test_headlines_detail_logged_in_not_existing(self):
-#
-#        # login testuser
-#        login = self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
-#        # get response
-#        response = self.client.get('/headlines/x')
-#        # compare
-#        self.assertEqual(response.status_code, 404)

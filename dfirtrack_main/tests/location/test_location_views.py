@@ -173,12 +173,3 @@ class LocationViewTestCase(TestCase):
         response = self.client.get('/locations/' + str(location_1.location_id) + '/edit/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_location')
-
-#    def test_locations_detail_logged_in_not_existing(self):
-#
-#        # login testuser
-#        login = self.client.login(username='testuser_location', password='jjSeshxL17aDEdqkt8tP')
-#        # get response
-#        response = self.client.get('/locations/x')
-#        # compare
-#        self.assertEqual(response.status_code, 404)

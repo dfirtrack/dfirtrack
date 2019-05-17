@@ -205,12 +205,3 @@ class TaskViewTestCase(TestCase):
         response = self.client.get('/tasks/' + str(task_1.task_id) + '/edit/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_task')
-
-#    def test_tasks_detail_logged_in_not_existing(self):
-#
-#        # login testuser
-#        login = self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
-#        # get response
-#        response = self.client.get('/tasks/x')
-#        # compare
-#        self.assertEqual(response.status_code, 404)

@@ -93,12 +93,3 @@ class SystemstatusViewTestCase(TestCase):
         response = self.client.get('/systemstatuss/' + str(systemstatus_1.systemstatus_id))
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_systemstatus')
-
-#    def test_systemstatuss_detail_logged_in_not_existing(self):
-#
-#        # login testuser
-#        login = self.client.login(username='testuser_systemstatus', password='kWAvcuNoU97qpEy7UpDT')
-#        # get response
-#        response = self.client.get('/systemstatuss/x')
-#        # compare
-#        self.assertEqual(response.status_code, 404)

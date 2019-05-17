@@ -93,12 +93,3 @@ class AnalysisstatusViewTestCase(TestCase):
         response = self.client.get('/analysisstatuss/' + str(analysisstatus_1.analysisstatus_id))
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_analysisstatus')
-
-#    def test_analysisstatuss_detail_logged_in_not_existing(self):
-#
-#        # login testuser
-#        login = self.client.login(username='testuser_analysisstatus', password='9u2Ew4XdFHLcCG5xyTvR')
-#        # get response
-#        response = self.client.get('/analysisstatuss/x')
-#        # compare
-#        self.assertEqual(response.status_code, 404)

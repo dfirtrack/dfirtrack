@@ -173,12 +173,3 @@ class IpViewTestCase(TestCase):
         response = self.client.get('/ips/' + str(ip_1.ip_id) + '/edit/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_ip')
-
-#    def test_ips_detail_logged_in_not_existing(self):
-#
-#        # login testuser
-#        login = self.client.login(username='testuser_ip', password='pRs9Ap7oc9W0yjLfnP2Y')
-#        # get response
-#        response = self.client.get('/ips/x')
-#        # compare
-#        self.assertEqual(response.status_code, 404)

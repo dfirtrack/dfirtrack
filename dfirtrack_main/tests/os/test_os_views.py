@@ -173,12 +173,3 @@ class OsViewTestCase(TestCase):
         response = self.client.get('/oss/' + str(os_1.os_id) + '/edit/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_os')
-
-#    def test_oss_detail_logged_in_not_existing(self):
-#
-#        # login testuser
-#        login = self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
-#        # get response
-#        response = self.client.get('/oss/x')
-#        # compare
-#        self.assertEqual(response.status_code, 404)

@@ -173,12 +173,3 @@ class RecommendationViewTestCase(TestCase):
         response = self.client.get('/recommendations/' + str(recommendation_1.recommendation_id) + '/edit/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_recommendation')
-
-#    def test_recommendations_detail_logged_in_not_existing(self):
-#
-#        # login testuser
-#        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
-#        # get response
-#        response = self.client.get('/recommendations/x')
-#        # compare
-#        self.assertEqual(response.status_code, 404)

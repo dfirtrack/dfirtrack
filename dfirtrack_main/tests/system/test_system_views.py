@@ -184,12 +184,3 @@ class SystemViewTestCase(TestCase):
         response = self.client.get('/systems/' + str(system_1.system_id) + '/edit/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_system')
-
-#    def test_systems_detail_logged_in_not_existing(self):
-#
-#        # login testuser
-#        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
-#        # get response
-#        response = self.client.get('/systems/x')
-#        # compare
-#        self.assertEqual(response.status_code, 404)

@@ -93,12 +93,3 @@ class TaskstatusViewTestCase(TestCase):
         response = self.client.get('/taskstatuss/' + str(taskstatus_1.taskstatus_id))
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_taskstatus')
-
-#    def test_taskstatuss_detail_logged_in_not_existing(self):
-#
-#        # login testuser
-#        login = self.client.login(username='testuser_taskstatus', password='TZjmjiUQviOnIEral6l9')
-#        # get response
-#        response = self.client.get('/taskstatuss/x')
-#        # compare
-#        self.assertEqual(response.status_code, 404)

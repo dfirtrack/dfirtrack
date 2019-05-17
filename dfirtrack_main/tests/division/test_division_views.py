@@ -173,12 +173,3 @@ class DivisionViewTestCase(TestCase):
         response = self.client.get('/divisions/' + str(division_1.division_id) + '/edit/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_division')
-
-#    def test_divisions_detail_logged_in_not_existing(self):
-#
-#        # login testuser
-#        login = self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
-#        # get response
-#        response = self.client.get('/divisions/x')
-#        # compare
-#        self.assertEqual(response.status_code, 404)

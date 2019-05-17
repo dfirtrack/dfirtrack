@@ -219,12 +219,3 @@ class TagViewTestCase(TestCase):
         response = self.client.get('/tags/' + str(tag_1.tag_id) + '/delete/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_tag')
-
-#    def test_tags_detail_logged_in_not_existing(self):
-#
-#        # login testuser
-#        login = self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
-#        # get response
-#        response = self.client.get('/tags/x')
-#        # compare
-#        self.assertEqual(response.status_code, 404)

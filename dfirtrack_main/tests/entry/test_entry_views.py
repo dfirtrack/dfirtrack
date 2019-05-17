@@ -193,12 +193,3 @@ class EntryViewTestCase(TestCase):
         response = self.client.get('/entrys/' + str(entry_1.entry_id) + '/edit/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_entry')
-
-#    def test_entrys_detail_logged_in_not_existing(self):
-#
-#        # login testuser
-#        login = self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
-#        # get response
-#        response = self.client.get('/entrys/x')
-#        # compare
-#        self.assertEqual(response.status_code, 404)

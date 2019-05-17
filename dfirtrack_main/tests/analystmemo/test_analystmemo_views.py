@@ -192,12 +192,3 @@ class AnalystmemoViewTestCase(TestCase):
         response = self.client.get('/analystmemos/' + str(analystmemo_1.analystmemo_id) + '/edit/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_analystmemo')
-
-#    def test_analystmemos_detail_logged_in_not_existing(self):
-#
-#        # login testuser
-#        login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
-#        # get response
-#        response = self.client.get('/analystmemos/x')
-#        # compare
-#        self.assertEqual(response.status_code, 404)

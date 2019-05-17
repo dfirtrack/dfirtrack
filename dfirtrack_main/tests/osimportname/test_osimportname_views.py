@@ -131,12 +131,3 @@ class OsimportnameViewTestCase(TestCase):
         response = self.client.get('/osimportnames/' + str(osimportname_1.osimportname_id) + '/edit/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_osimportname')
-
-#    def test_osimportnames_detail_logged_in_not_existing(self):
-#
-#        # login testuser
-#        login = self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
-#        # get response
-#        response = self.client.get('/osimportnames/x')
-#        # compare
-#        self.assertEqual(response.status_code, 404)

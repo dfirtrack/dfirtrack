@@ -173,12 +173,3 @@ class ReasonViewTestCase(TestCase):
         response = self.client.get('/reasons/' + str(reason_1.reason_id) + '/edit/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_reason')
-
-#    def test_reasons_detail_logged_in_not_existing(self):
-#
-#        # login testuser
-#        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
-#        # get response
-#        response = self.client.get('/reasons/x')
-#        # compare
-#        self.assertEqual(response.status_code, 404)

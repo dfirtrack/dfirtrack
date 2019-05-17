@@ -173,12 +173,3 @@ class ServiceproviderViewTestCase(TestCase):
         response = self.client.get('/serviceproviders/' + str(serviceprovider_1.serviceprovider_id) + '/edit/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_serviceprovider')
-
-#    def test_serviceproviders_detail_logged_in_not_existing(self):
-#
-#        # login testuser
-#        login = self.client.login(username='testuser_serviceprovider', password='KxVbBhKZcvh6IcQUGjr0')
-#        # get response
-#        response = self.client.get('/serviceproviders/x')
-#        # compare
-#        self.assertEqual(response.status_code, 404)
