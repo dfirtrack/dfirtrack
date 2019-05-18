@@ -14,31 +14,25 @@ class TagModelTestCase(TestCase):
         Tag.objects.create(tag_name='tag_1', tagcolor = tagcolor_1)
 
     def test_tag_string(self):
+        """ test string representation """
 
         # get object
         tag_1 = Tag.objects.get(tag_name='tag_1')
         # compare
         self.assertEqual(str(tag_1), 'tag_1')
 
-    def test_tag_name_label(self):
+    def test_tag_id_attribute_label(self):
+        """ test attribute label """
 
         # get object
         tag_1 = Tag.objects.get(tag_name='tag_1')
         # get label
-        field_label = tag_1._meta.get_field('tag_name').verbose_name
+        field_label = tag_1._meta.get_field('tag_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'tag name')
+        self.assertEquals(field_label, 'tag id')
 
-    def test_tag_note_label(self):
-
-        # get object
-        tag_1 = Tag.objects.get(tag_name='tag_1')
-        # get label
-        field_label = tag_1._meta.get_field('tag_note').verbose_name
-        # compare
-        self.assertEquals(field_label, 'tag note')
-
-    def test_tag_tagcolor_label(self):
+    def test_tag_tagcolor_attribute_label(self):
+        """ test attribute label """
 
         # get object
         tag_1 = Tag.objects.get(tag_name='tag_1')
@@ -47,7 +41,28 @@ class TagModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'tagcolor')
 
+    def test_tag_name_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        tag_1 = Tag.objects.get(tag_name='tag_1')
+        # get label
+        field_label = tag_1._meta.get_field('tag_name').verbose_name
+        # compare
+        self.assertEquals(field_label, 'tag name')
+
+    def test_tag_note_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        tag_1 = Tag.objects.get(tag_name='tag_1')
+        # get label
+        field_label = tag_1._meta.get_field('tag_note').verbose_name
+        # compare
+        self.assertEquals(field_label, 'tag note')
+
     def test_tag_name_length(self):
+        """ test for max length """
 
         # get object
         tag_1 = Tag.objects.get(tag_name='tag_1')

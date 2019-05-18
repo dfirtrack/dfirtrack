@@ -15,6 +15,7 @@ class SystemtypeViewTestCase(TestCase):
         test_user = User.objects.create_user(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
 
     def test_systemtypes_list_not_logged_in(self):
+        """ test list view """
 
         # create url
         destination = '/login/?next=' + urllib.parse.quote('/systemtypes/', safe='')
@@ -24,6 +25,7 @@ class SystemtypeViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_systemtypes_list_logged_in(self):
+        """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
@@ -33,6 +35,7 @@ class SystemtypeViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_systemtypes_list_template(self):
+        """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
@@ -42,6 +45,7 @@ class SystemtypeViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_main/systemtype/systemtypes_list.html')
 
     def test_systemtypes_list_get_user_context(self):
+        """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
@@ -51,6 +55,7 @@ class SystemtypeViewTestCase(TestCase):
         self.assertEqual(str(response.context['user']), 'testuser_systemtype')
 
     def test_systemtypes_detail_not_logged_in(self):
+        """ test detail view """
 
         # get object
         systemtype_1 = Systemtype.objects.get(systemtype_name='systemtype_1')
@@ -62,6 +67,7 @@ class SystemtypeViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_systemtypes_detail_logged_in(self):
+        """ test detail view """
 
         # get object
         systemtype_1 = Systemtype.objects.get(systemtype_name='systemtype_1')
@@ -73,6 +79,7 @@ class SystemtypeViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_systemtypes_detail_template(self):
+        """ test detail view """
 
         # get object
         systemtype_1 = Systemtype.objects.get(systemtype_name='systemtype_1')
@@ -84,6 +91,7 @@ class SystemtypeViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_main/systemtype/systemtypes_detail.html')
 
     def test_systemtypes_detail_get_user_context(self):
+        """ test detail view """
 
         # get object
         systemtype_1 = Systemtype.objects.get(systemtype_name='systemtype_1')
@@ -95,6 +103,7 @@ class SystemtypeViewTestCase(TestCase):
         self.assertEqual(str(response.context['user']), 'testuser_systemtype')
 
     def test_systemtypes_add_not_logged_in(self):
+        """ test add view """
 
         # create url
         destination = '/login/?next=' + urllib.parse.quote('/systemtypes/add/', safe='')
@@ -104,6 +113,7 @@ class SystemtypeViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_systemtypes_add_logged_in(self):
+        """ test add view """
 
         # login testuser
         login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
@@ -113,6 +123,7 @@ class SystemtypeViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_systemtypes_add_template(self):
+        """ test add view """
 
         # login testuser
         login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
@@ -122,6 +133,7 @@ class SystemtypeViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_main/systemtype/systemtypes_add.html')
 
     def test_systemtypes_add_get_user_context(self):
+        """ test add view """
 
         # login testuser
         login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
@@ -131,6 +143,7 @@ class SystemtypeViewTestCase(TestCase):
         self.assertEqual(str(response.context['user']), 'testuser_systemtype')
 
     def test_systemtypes_edit_not_logged_in(self):
+        """ test edit view """
 
         # get object
         systemtype_1 = Systemtype.objects.get(systemtype_name='systemtype_1')
@@ -142,6 +155,7 @@ class SystemtypeViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_systemtypes_edit_logged_in(self):
+        """ test edit view """
 
         # get object
         systemtype_1 = Systemtype.objects.get(systemtype_name='systemtype_1')
@@ -153,6 +167,7 @@ class SystemtypeViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_systemtypes_edit_template(self):
+        """ test edit view """
 
         # get object
         systemtype_1 = Systemtype.objects.get(systemtype_name='systemtype_1')
@@ -164,6 +179,7 @@ class SystemtypeViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_main/systemtype/systemtypes_edit.html')
 
     def test_systemtypes_edit_get_user_context(self):
+        """ test edit view """
 
         # get object
         systemtype_1 = Systemtype.objects.get(systemtype_name='systemtype_1')

@@ -28,49 +28,60 @@ class ReportitemFormTestCase(TestCase):
         # create object
         headline_1 = Headline.objects.create(headline_name='headline_1')
 
-    def test_reportitem_system_label(self):
+    def test_reportitem_system_form_label(self):
+        """ test form label """
 
         # get object
         form = ReportitemForm()
         # compare
         self.assertEquals(form.fields['system'].label, 'System (*)')
 
-    def test_reportitem_headline_label(self):
+    def test_reportitem_headline_form_label(self):
+        """ test form label """
 
         # get object
         form = ReportitemForm()
         # compare
         self.assertEquals(form.fields['headline'].label, 'Headline (*)')
 
-    def test_reportitem_subheadline_label(self):
+    def test_reportitem_subheadline_form_label(self):
+        """ test form label """
 
         # get object
         form = ReportitemForm()
         # compare
         self.assertEquals(form.fields['reportitem_subheadline'].label, 'Subheadline')
 
-    def test_reportitem_note_label(self):
+    def test_reportitem_note_form_label(self):
+        """ test form label """
 
         # get object
         form = ReportitemForm()
         # compare
         self.assertEquals(form.fields['reportitem_note'].label, 'Note (*)')
 
-    def test_reportitem_note_empty_no_system(self):
+    def test_reportitem_form_empty(self):
+        """ test minimum form requirements / INVALID """
 
         # get object
-        form = ReportitemForm(data = {'reportitem_note': ''})
+        form = ReportitemForm(data = {
+            'reportitem_note': '',
+        })
         # compare
         self.assertFalse(form.is_valid())
 
-    def test_reportitem_note_filled_no_system(self):
+    def test_reportitem_note_form_filled(self):
+        """ test minimum form requirements / INVALID """
 
         # get object
-        form = ReportitemForm(data = {'reportitem_note': 'lorem ipsum'})
+        form = ReportitemForm(data = {
+            'reportitem_note': 'lorem ipsum',
+        })
         # compare
         self.assertFalse(form.is_valid())
 
-    def test_reportitem_note_filled_no_headline(self):
+    def test_reportitem_system_form_filled(self):
+        """ test minimum form requirements / INVALID """
 
         # get foreign key object id
         system_id = System.objects.get(system_name='system_1').system_id
@@ -82,7 +93,8 @@ class ReportitemFormTestCase(TestCase):
         # compare
         self.assertFalse(form.is_valid())
 
-    def test_reportitem_filled(self):
+    def test_reportitem_headline_form_filled(self):
+        """ test minimum form requirements / VALID """
 
         # get foreign key object id
         headline_id = Headline.objects.get(headline_name='headline_1').headline_id
@@ -96,3 +108,54 @@ class ReportitemFormTestCase(TestCase):
         })
         # compare
         self.assertTrue(form.is_valid())
+
+    def test_reportitem_subheadline_form_filled(self):
+        """ test additional form content """
+
+        # get foreign key object id
+        headline_id = Headline.objects.get(headline_name='headline_1').headline_id
+        # get foreign key object id
+        system_id = System.objects.get(system_name='system_1').system_id
+        # get object
+        form = ReportitemForm(data = {
+            'reportitem_note': 'lorem ipsum',
+            'system': system_id,
+            'headline': headline_id,
+            'reportitem_subheadline': 'subheadline_1',
+        })
+        # compare
+        self.assertTrue(form.is_valid())
+
+    def test_reportitem_subheadline_proper_chars(self):
+        """ test for max length """
+
+        # get foreign key object id
+        headline_id = Headline.objects.get(headline_name='headline_1').headline_id
+        # get foreign key object id
+        system_id = System.objects.get(system_name='system_1').system_id
+        # get object
+        form = ReportitemForm(data = {
+            'reportitem_note': 'lorem ipsum',
+            'system': system_id,
+            'headline': headline_id,
+            'reportitem_subheadline': 'ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss',
+        })
+        # compare
+        self.assertTrue(form.is_valid())
+
+    def test_reportitem_subheadline_too_many_chars(self):
+        """ test for max length """
+
+        # get foreign key object id
+        headline_id = Headline.objects.get(headline_name='headline_1').headline_id
+        # get foreign key object id
+        system_id = System.objects.get(system_name='system_1').system_id
+        # get object
+        form = ReportitemForm(data = {
+            'reportitem_note': 'lorem ipsum',
+            'system': system_id,
+            'headline': headline_id,
+            'reportitem_subheadline': 'sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss'
+        })
+        # compare
+        self.assertFalse(form.is_valid())

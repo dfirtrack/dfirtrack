@@ -78,147 +78,168 @@ class SystemFormTestCase(TestCase):
         )
 
 
-    def test_system_name_label(self):
+    def test_system_name_form_label(self):
+        """ test form label """
 
         # get object
         form = SystemForm()
         # compare
         self.assertEquals(form.fields['system_name'].label, 'System name')
 
-    def test_system_systemstatus_label(self):
+    def test_system_systemstatus_form_label(self):
+        """ test form label """
 
         # get object
         form = SystemForm()
         # compare
         self.assertEquals(form.fields['systemstatus'].label, 'Systemstatus')
 
-    def test_system_analysisstatus_label(self):
+    def test_system_analysisstatus_form_label(self):
+        """ test form label """
 
         # get object
         form = SystemForm()
         # compare
         self.assertEquals(form.fields['analysisstatus'].label, 'Analysisstatus')
 
-    def test_system_reason_label(self):
+    def test_system_reason_form_label(self):
+        """ test form label """
 
         # get object
         form = SystemForm()
         # compare
         self.assertEquals(form.fields['reason'].label, 'Reason')
 
-    def test_system_recommendation_label(self):
+    def test_system_recommendation_form_label(self):
+        """ test form label """
 
         # get object
         form = SystemForm()
         # compare
         self.assertEquals(form.fields['recommendation'].label, 'Recommendation')
 
-    def test_system_systemtype_label(self):
+    def test_system_systemtype_form_label(self):
+        """ test form label """
 
         # get object
         form = SystemForm()
         # compare
         self.assertEquals(form.fields['systemtype'].label, 'Systemtype')
 
-    def test_system_domain_label(self):
+    def test_system_domain_form_label(self):
+        """ test form label """
 
         # get object
         form = SystemForm()
         # compare
         self.assertEquals(form.fields['domain'].label, 'Domain')
 
-    def test_system_dnssuffix_label(self):
+    def test_system_dnssuffix_form_label(self):
+        """ test form label """
 
         # get object
         form = SystemForm()
         # compare
         self.assertEquals(form.fields['system_dnssuffix'].label, 'System dnssuffix')
 
-    def test_system_os_label(self):
+    def test_system_os_form_label(self):
+        """ test form label """
 
         # get object
         form = SystemForm()
         # compare
         self.assertEquals(form.fields['os'].label, 'Os')
 
-    def test_system_osarch_label(self):
+    def test_system_osarch_form_label(self):
+        """ test form label """
 
         # get object
         form = SystemForm()
         # compare
         self.assertEquals(form.fields['osarch'].label, 'Osarch')
 
-    def test_system_install_time_label(self):
+    def test_system_install_time_form_label(self):
+        """ test form label """
 
         # get object
         form = SystemForm()
         # compare
         self.assertEquals(form.fields['system_install_time'].label, 'System install time')
 
-    def test_system_lastbooted_time_label(self):
+    def test_system_lastbooted_time_form_label(self):
+        """ test form label """
 
         # get object
         form = SystemForm()
         # compare
         self.assertEquals(form.fields['system_lastbooted_time'].label, 'System lastbooted time')
 
-    def test_system_deprecated_time_label(self):
+    def test_system_deprecated_time_form_label(self):
+        """ test form label """
 
         # get object
         form = SystemForm()
         # compare
         self.assertEquals(form.fields['system_deprecated_time'].label, 'System deprecated time')
 
-    def test_system_is_vm_label(self):
+    def test_system_is_vm_form_label(self):
+        """ test form label """
 
         # get object
         form = SystemForm()
         # compare
         self.assertEquals(form.fields['system_is_vm'].label, 'System is vm')
 
-    def test_system_host_system_label(self):
+    def test_system_host_system_form_label(self):
+        """ test form label """
 
         # get object
         form = SystemForm()
         # compare
         self.assertEquals(form.fields['host_system'].label, 'Host system')
 
-    def test_system_company_label(self):
+    def test_system_company_form_label(self):
+        """ test form label """
 
         # get object
         form = SystemForm()
         # compare
         self.assertEquals(form.fields['company'].label, 'Company')
 
-    def test_system_location_label(self):
+    def test_system_location_form_label(self):
+        """ test form label """
 
         # get object
         form = SystemForm()
         # compare
         self.assertEquals(form.fields['location'].label, 'Location')
 
-    def test_system_serviceprovider_label(self):
+    def test_system_serviceprovider_form_label(self):
+        """ test form label """
 
         # get object
         form = SystemForm()
         # compare
         self.assertEquals(form.fields['serviceprovider'].label, 'Serviceprovider')
 
-    def test_system_contact_label(self):
+    def test_system_contact_form_label(self):
+        """ test form label """
 
         # get object
         form = SystemForm()
         # compare
         self.assertEquals(form.fields['contact'].label, 'Contact')
 
-    def test_system_tag_label(self):
+    def test_system_tag_form_label(self):
+        """ test form label """
 
         # get object
         form = SystemForm()
         # compare
         self.assertEquals(form.fields['tag'].label, 'Tag')
 
-    def test_system_case_label(self):
+    def test_system_case_form_label(self):
+        """ test form label """
 
         # get object
         form = SystemForm()
@@ -233,7 +254,7 @@ class SystemFormTestCase(TestCase):
         # compare
         self.assertFalse(form.is_valid())
 
-    def test_system_form_system_name_filled(self):
+    def test_system_name_form_filled(self):
         """ test minimum form requirements / INVALID """
 
         # get object
@@ -243,7 +264,7 @@ class SystemFormTestCase(TestCase):
         # compare
         self.assertFalse(form.is_valid())
 
-    def test_system_form_systemstatus_filled(self):
+    def test_system_systemstatus_form_filled(self):
         """ test minimum form requirements / VALID """
 
         # get object
@@ -256,7 +277,7 @@ class SystemFormTestCase(TestCase):
         # compare
         self.assertTrue(form.is_valid())
 
-    def test_system_form_analysisstatus_filled(self):
+    def test_system_analysisstatus_form_filled(self):
         """ test additional form content """
 
         # get object
@@ -272,7 +293,7 @@ class SystemFormTestCase(TestCase):
         # compare
         self.assertTrue(form.is_valid())
 
-    def test_system_form_reason_filled(self):
+    def test_system_reason_form_filled(self):
         """ test additional form content """
 
         # get object
@@ -288,7 +309,7 @@ class SystemFormTestCase(TestCase):
         # compare
         self.assertTrue(form.is_valid())
 
-    def test_system_form_recommendation_filled(self):
+    def test_system_recommendation_form_filled(self):
         """ test additional form content """
 
         # get object
@@ -304,7 +325,7 @@ class SystemFormTestCase(TestCase):
         # compare
         self.assertTrue(form.is_valid())
 
-    def test_system_form_systemtype_filled(self):
+    def test_system_systemtype_form_filled(self):
         """ test additional form content """
 
         # get object
@@ -320,7 +341,7 @@ class SystemFormTestCase(TestCase):
         # compare
         self.assertTrue(form.is_valid())
 
-    def test_system_form_domain_filled(self):
+    def test_system_domain_form_filled(self):
         """ test additional form content """
 
         # get object
@@ -336,7 +357,7 @@ class SystemFormTestCase(TestCase):
         # compare
         self.assertTrue(form.is_valid())
 
-    def test_system_form_system_dnssuffix_filled(self):
+    def test_system_dnssuffix_form_filled(self):
         """ test additional form content """
 
         # get object
@@ -350,7 +371,7 @@ class SystemFormTestCase(TestCase):
         # compare
         self.assertTrue(form.is_valid())
 
-    def test_system_form_os_filled(self):
+    def test_system_os_form_filled(self):
         """ test additional form content """
 
         # get object
@@ -366,7 +387,7 @@ class SystemFormTestCase(TestCase):
         # compare
         self.assertTrue(form.is_valid())
 
-    def test_system_form_osarch_filled(self):
+    def test_system_osarch_form_filled(self):
         """ test additional form content """
 
         # get object
@@ -382,7 +403,7 @@ class SystemFormTestCase(TestCase):
         # compare
         self.assertTrue(form.is_valid())
 
-    def test_system_form_system_install_time_filled(self):
+    def test_system_install_time_form_filled(self):
         """ test additional form content """
 
         # get object
@@ -396,7 +417,7 @@ class SystemFormTestCase(TestCase):
         # compare
         self.assertTrue(form.is_valid())
 
-    def test_system_form_system_lastbooted_time_filled(self):
+    def test_system_lastbooted_time_form_filled(self):
         """ test additional form content """
 
         # get object
@@ -410,7 +431,7 @@ class SystemFormTestCase(TestCase):
         # compare
         self.assertTrue(form.is_valid())
 
-    def test_system_form_system_deprecated_time_filled(self):
+    def test_system_deprecated_time_form_filled(self):
         """ test additional form content """
 
         # get object
@@ -424,7 +445,7 @@ class SystemFormTestCase(TestCase):
         # compare
         self.assertTrue(form.is_valid())
 
-    def test_system_form_system_is_vm_filled(self):
+    def test_system_is_vm_form_filled(self):
         """ test additional form content """
 
         # get object
@@ -438,7 +459,7 @@ class SystemFormTestCase(TestCase):
         # compare
         self.assertTrue(form.is_valid())
 
-    def test_system_form_host_system_filled(self):
+    def test_system_host_system_form_filled(self):
         """ test additional form content """
 
         # get object
@@ -455,7 +476,7 @@ class SystemFormTestCase(TestCase):
         self.assertTrue(form.is_valid())
 
 # TODO: test does not work as expected, returns false instead of true
-#    def test_system_form_company_filled(self):
+#    def test_system_company_form_filled(self):
 #        """ test additional form content """
 #
 #        # get object
@@ -471,7 +492,7 @@ class SystemFormTestCase(TestCase):
 #        # compare
 #        self.assertTrue(form.is_valid())
 
-    def test_system_form_location_filled(self):
+    def test_system_location_form_filled(self):
         """ test additional form content """
 
         # get object
@@ -487,7 +508,7 @@ class SystemFormTestCase(TestCase):
         # compare
         self.assertTrue(form.is_valid())
 
-    def test_system_form_serviceprovider_filled(self):
+    def test_system_serviceprovider_form_filled(self):
         """ test additional form content """
 
         # get object
@@ -503,7 +524,7 @@ class SystemFormTestCase(TestCase):
         # compare
         self.assertTrue(form.is_valid())
 
-    def test_system_form_contact_filled(self):
+    def test_system_contact_form_filled(self):
         """ test additional form content """
 
         # get object
@@ -520,7 +541,7 @@ class SystemFormTestCase(TestCase):
         self.assertTrue(form.is_valid())
 
 # TODO: test does not work as expected, returns false instead of true
-#    def test_system_tag_filled(self):
+#    def test_system_tag_form_filled(self):
 #        """ test additional form content """
 #
 #        # get object
@@ -537,7 +558,7 @@ class SystemFormTestCase(TestCase):
 #        self.assertTrue(form.is_valid())
 
 # TODO: test does not work as expected, returns false instead of true
-#    def test_system_form_case_filled(self):
+#    def test_system_case_form_filled(self):
 #        """ test additional form content """
 #
 #        # get object
@@ -552,3 +573,57 @@ class SystemFormTestCase(TestCase):
 #        })
 #        # compare
 #        self.assertTrue(form.is_valid())
+
+    def test_system_name_proper_chars(self):
+        """ test for max length """
+
+        # get object
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
+        # get object
+        form = SystemForm(data = {
+            'system_name': 'nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn',
+            'systemstatus': systemstatus_id,
+        })
+        # compare
+        self.assertTrue(form.is_valid())
+
+    def test_system_name_too_many_chars(self):
+        """ test for max length """
+
+        # get object
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
+        # get object
+        form = SystemForm(data = {
+            'system_name': 'nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn',
+            'systemstatus': systemstatus_id,
+        })
+        # compare
+        self.assertFalse(form.is_valid())
+
+    def test_system_dnssuffix_proper_chars(self):
+        """ test for max length """
+
+        # get object
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
+        # get object
+        form = SystemForm(data = {
+            'system_name': 'system_1',
+            'systemstatus': systemstatus_id,
+            'system_dnssuffix': 'dddddddddddddddddddddddddddddddddddddddddddddddddd',
+        })
+        # compare
+        self.assertTrue(form.is_valid())
+
+    def test_system_dnssuffix_too_many_chars(self):
+        """ test for max length """
+
+        # get object
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
+        # get object
+        form = SystemForm(data = {
+            'system_name': 'system_1',
+            'systemstatus': systemstatus_id,
+            'system_dnssuffix': 'ddddddddddddddddddddddddddddddddddddddddddddddddddd',
+        })
+        # compare
+        self.assertFalse(form.is_valid())

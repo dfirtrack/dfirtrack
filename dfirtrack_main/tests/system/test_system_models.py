@@ -35,6 +35,7 @@ class SystemModelTestCase(TestCase):
         )
 
     def test_system_string_without_install_time(self):
+        """ test string representation """
 
         # get object
         system_1 = System.objects.get(system_name='system_1')
@@ -42,6 +43,7 @@ class SystemModelTestCase(TestCase):
         self.assertEqual(str(system_1), '[' + str(system_1.system_id) + '] ' + system_1.system_name)
 
     def test_system_string_withinstall_time(self):
+        """ test string representation """
 
         # get object
         system_2 = System.objects.get(system_name='system_2')
@@ -50,7 +52,8 @@ class SystemModelTestCase(TestCase):
         # compare
         self.assertEqual(str(system_2), '[' + str(system_2.system_id) + '] ' + system_2.system_name + ' (' + installtime + ')')
 
-    def test_system_id_label(self):
+    def test_system_id_attribute_label(self):
+        """ test attribute label """
 
         # get object
         system_1 = System.objects.get(system_name='system_1')
@@ -59,7 +62,8 @@ class SystemModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'system id')
 
-    def test_system_systemstatus_label(self):
+    def test_system_systemstatus_attribute_label(self):
+        """ test attribute label """
 
         # get object
         system_1 = System.objects.get(system_name='system_1')
@@ -68,7 +72,8 @@ class SystemModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'systemstatus')
 
-    def test_system_analysisstatus_label(self):
+    def test_system_analysisstatus_attribute_label(self):
+        """ test attribute label """
 
         # get object
         system_1 = System.objects.get(system_name='system_1')
@@ -77,7 +82,8 @@ class SystemModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'analysisstatus')
 
-    def test_system_reason_label(self):
+    def test_system_reason_attribute_label(self):
+        """ test attribute label """
 
         # get object
         system_1 = System.objects.get(system_name='system_1')
@@ -86,7 +92,8 @@ class SystemModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'reason')
 
-    def test_system_recommendation_label(self):
+    def test_system_recommendation_attribute_label(self):
+        """ test attribute label """
 
         # get object
         system_1 = System.objects.get(system_name='system_1')
@@ -95,7 +102,8 @@ class SystemModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'recommendation')
 
-    def test_system_systemtype_label(self):
+    def test_system_systemtype_attribute_label(self):
+        """ test attribute label """
 
         # get object
         system_1 = System.objects.get(system_name='system_1')
@@ -104,7 +112,8 @@ class SystemModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'systemtype')
 
-    def test_system_ip_label(self):
+    def test_system_ip_attribute_label(self):
+        """ test attribute label """
 
         # get object
         system_1 = System.objects.get(system_name='system_1')
@@ -113,7 +122,8 @@ class SystemModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'ip')
 
-    def test_system_domain_label(self):
+    def test_system_domain_attribute_label(self):
+        """ test attribute label """
 
         # get object
         system_1 = System.objects.get(system_name='system_1')
@@ -122,7 +132,8 @@ class SystemModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'domain')
 
-    def test_system_os_label(self):
+    def test_system_os_attribute_label(self):
+        """ test attribute label """
 
         # get object
         system_1 = System.objects.get(system_name='system_1')
@@ -131,7 +142,8 @@ class SystemModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'os')
 
-    def test_system_osarch_label(self):
+    def test_system_osarch_attribute_label(self):
+        """ test attribute label """
 
         # get object
         system_1 = System.objects.get(system_name='system_1')
@@ -140,7 +152,8 @@ class SystemModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'osarch')
 
-    def test_system_host_system_label(self):
+    def test_system_host_system_attribute_label(self):
+        """ test attribute label """
 
         # get object
         system_1 = System.objects.get(system_name='system_1')
@@ -149,7 +162,8 @@ class SystemModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'host system')
 
-    def test_system_company_label(self):
+    def test_system_company_attribute_label(self):
+        """ test attribute label """
 
         # get object
         system_1 = System.objects.get(system_name='system_1')
@@ -158,7 +172,8 @@ class SystemModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'company')
 
-    def test_system_location_label(self):
+    def test_system_location_attribute_label(self):
+        """ test attribute label """
 
         # get object
         system_1 = System.objects.get(system_name='system_1')
@@ -167,7 +182,8 @@ class SystemModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'location')
 
-    def test_system_serviceprovider_label(self):
+    def test_system_serviceprovider_attribute_label(self):
+        """ test attribute label """
 
         # get object
         system_1 = System.objects.get(system_name='system_1')
@@ -176,7 +192,8 @@ class SystemModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'serviceprovider')
 
-    def test_system_contact_label(self):
+    def test_system_contact_attribute_label(self):
+        """ test attribute label """
 
         # get object
         system_1 = System.objects.get(system_name='system_1')
@@ -185,7 +202,8 @@ class SystemModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'contact')
 
-    def test_system_tag_label(self):
+    def test_system_tag_attribute_label(self):
+        """ test attribute label """
 
         # get object
         system_1 = System.objects.get(system_name='system_1')
@@ -194,7 +212,8 @@ class SystemModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'tag')
 
-    def test_system_case_label(self):
+    def test_system_case_attribute_label(self):
+        """ test attribute label """
 
         # get object
         system_1 = System.objects.get(system_name='system_1')
@@ -203,7 +222,8 @@ class SystemModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'case')
 
-    def test_system_uuid_label(self):
+    def test_system_uuid_attribute_label(self):
+        """ test attribute label """
 
         # get object
         system_1 = System.objects.get(system_name='system_1')
@@ -212,7 +232,8 @@ class SystemModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'system uuid')
 
-    def test_system_name_label(self):
+    def test_system_name_attribute_label(self):
+        """ test attribute label """
 
         # get object
         system_1 = System.objects.get(system_name='system_1')
@@ -221,7 +242,8 @@ class SystemModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'system name')
 
-    def test_system_dnssuffix_label(self):
+    def test_system_dnssuffix_attribute_label(self):
+        """ test attribute label """
 
         # get object
         system_1 = System.objects.get(system_name='system_1')
@@ -230,7 +252,8 @@ class SystemModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'system dnssuffix')
 
-    def test_system_install_time_label(self):
+    def test_system_install_time_attribute_label(self):
+        """ test attribute label """
 
         # get object
         system_1 = System.objects.get(system_name='system_1')
@@ -239,7 +262,8 @@ class SystemModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'system install time')
 
-    def test_system_lastbooted_time_label(self):
+    def test_system_lastbooted_time_attribute_label(self):
+        """ test attribute label """
 
         # get object
         system_1 = System.objects.get(system_name='system_1')
@@ -248,7 +272,8 @@ class SystemModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'system lastbooted time')
 
-    def test_system_deprecated_time_label(self):
+    def test_system_deprecated_time_attribute_label(self):
+        """ test attribute label """
 
         # get object
         system_1 = System.objects.get(system_name='system_1')
@@ -257,7 +282,8 @@ class SystemModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'system deprecated time')
 
-    def test_system_is_vm_label(self):
+    def test_system_is_vm_attribute_label(self):
+        """ test attribute label """
 
         # get object
         system_1 = System.objects.get(system_name='system_1')
@@ -266,7 +292,8 @@ class SystemModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'system is vm')
 
-    def test_system_create_time_label(self):
+    def test_system_create_time_attribute_label(self):
+        """ test attribute label """
 
         # get object
         system_1 = System.objects.get(system_name='system_1')
@@ -275,7 +302,8 @@ class SystemModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'system create time')
 
-    def test_system_modify_time_label(self):
+    def test_system_modify_time_attribute_label(self):
+        """ test attribute label """
 
         # get object
         system_1 = System.objects.get(system_name='system_1')
@@ -284,7 +312,8 @@ class SystemModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'system modify time')
 
-    def test_system_api_time_label(self):
+    def test_system_api_time_attribute_label(self):
+        """ test attribute label """
 
         # get object
         system_1 = System.objects.get(system_name='system_1')
@@ -293,7 +322,8 @@ class SystemModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'system api time')
 
-    def test_system_created_by_user_id_label(self):
+    def test_system_created_by_user_id_attribute_label(self):
+        """ test attribute label """
 
         # get object
         system_1 = System.objects.get(system_name='system_1')
@@ -302,7 +332,8 @@ class SystemModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'system created by user id')
 
-    def test_system_modified_by_user_id_label(self):
+    def test_system_modified_by_user_id_attribute_label(self):
+        """ test attribute label """
 
         # get object
         system_1 = System.objects.get(system_name='system_1')
@@ -310,3 +341,23 @@ class SystemModelTestCase(TestCase):
         field_label = system_1._meta.get_field('system_modified_by_user_id').verbose_name
         # compare
         self.assertEquals(field_label, 'system modified by user id')
+
+    def test_system_name_length(self):
+        """ test for max length """
+
+        # get object
+        system_1 = System.objects.get(system_name='system_1')
+        # get max length
+        max_length = system_1._meta.get_field('system_name').max_length
+        # compare
+        self.assertEquals(max_length, 50)
+
+    def test_system_dnssuffix_length(self):
+        """ test for max length """
+
+        # get object
+        system_1 = System.objects.get(system_name='system_1')
+        # get max length
+        max_length = system_1._meta.get_field('system_dnssuffix').max_length
+        # compare
+        self.assertEquals(max_length, 50)

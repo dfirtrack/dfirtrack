@@ -29,6 +29,7 @@ class SystemuserViewTestCase(TestCase):
         Systemuser.objects.create(systemuser_name='systemuser_1', system = system_1)
 
     def test_systemusers_list_not_logged_in(self):
+        """ test list view """
 
         # create url
         destination = '/login/?next=' + urllib.parse.quote('/systemusers/', safe='')
@@ -38,6 +39,7 @@ class SystemuserViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_systemusers_list_logged_in(self):
+        """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
@@ -47,6 +49,7 @@ class SystemuserViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_systemusers_list_template(self):
+        """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
@@ -56,6 +59,7 @@ class SystemuserViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_main/systemuser/systemusers_list.html')
 
     def test_systemusers_list_get_user_context(self):
+        """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
@@ -65,6 +69,7 @@ class SystemuserViewTestCase(TestCase):
         self.assertEqual(str(response.context['user']), 'testuser_systemuser')
 
     def test_systemusers_detail_not_logged_in(self):
+        """ test detail view """
 
         # get object
         systemuser_1 = Systemuser.objects.get(systemuser_name='systemuser_1')
@@ -76,6 +81,7 @@ class SystemuserViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_systemusers_detail_logged_in(self):
+        """ test detail view """
 
         # get object
         systemuser_1 = Systemuser.objects.get(systemuser_name='systemuser_1')
@@ -87,6 +93,7 @@ class SystemuserViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_systemusers_detail_template(self):
+        """ test detail view """
 
         # get object
         systemuser_1 = Systemuser.objects.get(systemuser_name='systemuser_1')
@@ -98,6 +105,7 @@ class SystemuserViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_main/systemuser/systemusers_detail.html')
 
     def test_systemusers_detail_get_user_context(self):
+        """ test detail view """
 
         # get object
         systemuser_1 = Systemuser.objects.get(systemuser_name='systemuser_1')
@@ -109,6 +117,7 @@ class SystemuserViewTestCase(TestCase):
         self.assertEqual(str(response.context['user']), 'testuser_systemuser')
 
     def test_systemusers_add_not_logged_in(self):
+        """ test add view """
 
         # create url
         destination = '/login/?next=' + urllib.parse.quote('/systemusers/add/', safe='')
@@ -118,6 +127,7 @@ class SystemuserViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_systemusers_add_logged_in(self):
+        """ test add view """
 
         # login testuser
         login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
@@ -127,6 +137,7 @@ class SystemuserViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_systemusers_add_template(self):
+        """ test add view """
 
         # login testuser
         login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
@@ -136,6 +147,7 @@ class SystemuserViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_main/systemuser/systemusers_add.html')
 
     def test_systemusers_add_get_user_context(self):
+        """ test add view """
 
         # login testuser
         login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
@@ -145,6 +157,7 @@ class SystemuserViewTestCase(TestCase):
         self.assertEqual(str(response.context['user']), 'testuser_systemuser')
 
     def test_systemusers_edit_not_logged_in(self):
+        """ test edit view """
 
         # get object
         systemuser_1 = Systemuser.objects.get(systemuser_name='systemuser_1')
@@ -156,6 +169,7 @@ class SystemuserViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_systemusers_edit_logged_in(self):
+        """ test edit view """
 
         # get object
         systemuser_1 = Systemuser.objects.get(systemuser_name='systemuser_1')
@@ -167,6 +181,7 @@ class SystemuserViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_systemusers_edit_template(self):
+        """ test edit view """
 
         # get object
         systemuser_1 = Systemuser.objects.get(systemuser_name='systemuser_1')
@@ -178,6 +193,7 @@ class SystemuserViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_main/systemuser/systemusers_edit.html')
 
     def test_systemusers_edit_get_user_context(self):
+        """ test edit view """
 
         # get object
         systemuser_1 = Systemuser.objects.get(systemuser_name='systemuser_1')

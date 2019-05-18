@@ -28,31 +28,25 @@ class SystemuserModelTestCase(TestCase):
         Systemuser.objects.create(systemuser_name='systemuser_1', system = system_1)
 
     def test_systemuser_string(self):
+        """ test string representation """
 
         # get object
         systemuser_1 = Systemuser.objects.get(systemuser_name='systemuser_1')
         # compare
         self.assertEqual(str(systemuser_1), systemuser_1.systemuser_name + ' (' + str(systemuser_1.system) + ')')
 
-    def test_systemuser_name_label(self):
+    def test_systemuser_id_attribute_label(self):
+        """ test attribute label """
 
         # get object
         systemuser_1 = Systemuser.objects.get(systemuser_name='systemuser_1')
         # get label
-        field_label = systemuser_1._meta.get_field('systemuser_name').verbose_name
+        field_label = systemuser_1._meta.get_field('systemuser_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'systemuser name')
+        self.assertEquals(field_label, 'systemuser id')
 
-    def test_systemuser_lastlogon_time_label(self):
-
-        # get object
-        systemuser_1 = Systemuser.objects.get(systemuser_name='systemuser_1')
-        # get label
-        field_label = systemuser_1._meta.get_field('systemuser_lastlogon_time').verbose_name
-        # compare
-        self.assertEquals(field_label, 'systemuser lastlogon time')
-
-    def test_systemuser_system_label(self):
+    def test_systemuser_system_attribute_label(self):
+        """ test attribute label """
 
         # get object
         systemuser_1 = Systemuser.objects.get(systemuser_name='systemuser_1')
@@ -61,7 +55,28 @@ class SystemuserModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'system')
 
+    def test_systemuser_name_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        systemuser_1 = Systemuser.objects.get(systemuser_name='systemuser_1')
+        # get label
+        field_label = systemuser_1._meta.get_field('systemuser_name').verbose_name
+        # compare
+        self.assertEquals(field_label, 'systemuser name')
+
+    def test_systemuser_lastlogon_time_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        systemuser_1 = Systemuser.objects.get(systemuser_name='systemuser_1')
+        # get label
+        field_label = systemuser_1._meta.get_field('systemuser_lastlogon_time').verbose_name
+        # compare
+        self.assertEquals(field_label, 'systemuser lastlogon time')
+
     def test_systemuser_name_length(self):
+        """ test for max length """
 
         # get object
         systemuser_1 = Systemuser.objects.get(systemuser_name='systemuser_1')

@@ -37,13 +37,25 @@ class ReportitemModelTestCase(TestCase):
         )
 
     def test_reportitem_string(self):
+        """ test string representation """
 
         # get object
         reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
         # compare
         self.assertEqual(str(reportitem_1), str(reportitem_1.system) + ' | ' + str(reportitem_1.headline.headline_name) + ' | ' + str(reportitem_1.reportitem_subheadline))
 
-    def test_reportitem_system_label(self):
+    def test_reportitem_id_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
+        # get label
+        field_label = reportitem_1._meta.get_field('reportitem_id').verbose_name
+        # compare
+        self.assertEquals(field_label, 'reportitem id')
+
+    def test_reportitem_system_attribute_label(self):
+        """ test attribute label """
 
         # get object
         reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
@@ -52,7 +64,8 @@ class ReportitemModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'system')
 
-    def test_reportitem_headline_label(self):
+    def test_reportitem_headline_attribute_label(self):
+        """ test attribute label """
 
         # get object
         reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
@@ -61,7 +74,8 @@ class ReportitemModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'headline')
 
-    def test_reportitem_subheadline_label(self):
+    def test_reportitem_subheadline_attribute_label(self):
+        """ test attribute label """
 
         # get object
         reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
@@ -70,7 +84,8 @@ class ReportitemModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'reportitem subheadline')
 
-    def test_reportitem_note_label(self):
+    def test_reportitem_note_attribute_label(self):
+        """ test attribute label """
 
         # get object
         reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
@@ -79,7 +94,8 @@ class ReportitemModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'reportitem note')
 
-    def test_reportitem_create_time_label(self):
+    def test_reportitem_create_time_attribute_label(self):
+        """ test attribute label """
 
         # get object
         reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
@@ -88,7 +104,8 @@ class ReportitemModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'reportitem create time')
 
-    def test_reportitem_modify_time_label(self):
+    def test_reportitem_modify_time_attribute_label(self):
+        """ test attribute label """
 
         # get object
         reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
@@ -97,7 +114,8 @@ class ReportitemModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'reportitem modify time')
 
-    def test_reportitem_created_by_user_id_label(self):
+    def test_reportitem_created_by_user_id_attribute_label(self):
+        """ test attribute label """
 
         # get object
         reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
@@ -106,7 +124,8 @@ class ReportitemModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'reportitem created by user id')
 
-    def test_reportitem_modified_by_user_id_label(self):
+    def test_reportitem_modified_by_user_id_attribute_label(self):
+        """ test attribute label """
 
         # get object
         reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
@@ -114,3 +133,13 @@ class ReportitemModelTestCase(TestCase):
         field_label = reportitem_1._meta.get_field('reportitem_modified_by_user_id').verbose_name
         # compare
         self.assertEquals(field_label, 'reportitem modified by user id')
+
+    def test_reportitem_subheadline_length(self):
+        """ test for max length """
+
+        # get object
+        reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
+        # get max length
+        max_length = reportitem_1._meta.get_field('reportitem_subheadline').max_length
+        # compare
+        self.assertEquals(max_length, 100)

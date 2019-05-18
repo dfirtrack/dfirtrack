@@ -11,13 +11,25 @@ class RecommendationModelTestCase(TestCase):
         Recommendation.objects.create(recommendation_name='recommendation_1')
 
     def test_recommendation_string(self):
+        """ test string representation """
 
         # get object
         recommendation_1 = Recommendation.objects.get(recommendation_name='recommendation_1')
         # compare
         self.assertEqual(str(recommendation_1), 'recommendation_1')
 
-    def test_recommendation_name_label(self):
+    def test_recommendation_id_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        recommendation_1 = Recommendation.objects.get(recommendation_name='recommendation_1')
+        # get label
+        field_label = recommendation_1._meta.get_field('recommendation_id').verbose_name
+        # compare
+        self.assertEquals(field_label, 'recommendation id')
+
+    def test_recommendation_name_attribute_label(self):
+        """ test attribute label """
 
         # get object
         recommendation_1 = Recommendation.objects.get(recommendation_name='recommendation_1')
@@ -26,7 +38,8 @@ class RecommendationModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'recommendation name')
 
-    def test_recommendation_note_label(self):
+    def test_recommendation_note_attribute_label(self):
+        """ test attribute label """
 
         # get object
         recommendation_1 = Recommendation.objects.get(recommendation_name='recommendation_1')
@@ -36,6 +49,7 @@ class RecommendationModelTestCase(TestCase):
         self.assertEquals(field_label, 'recommendation note')
 
     def test_recommendation_name_length(self):
+        """ test for max length """
 
         # get object
         recommendation_1 = Recommendation.objects.get(recommendation_name='recommendation_1')
