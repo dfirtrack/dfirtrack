@@ -31,6 +31,7 @@ class TaskViewTestCase(TestCase):
         )
 
     def test_tasks_list_not_logged_in(self):
+        """ test list view """
 
         # create url
         destination = '/login/?next=' + urllib.parse.quote('/tasks/', safe='')
@@ -40,6 +41,7 @@ class TaskViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_tasks_list_logged_in(self):
+        """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
@@ -49,6 +51,7 @@ class TaskViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_tasks_list_template(self):
+        """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
@@ -58,6 +61,7 @@ class TaskViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_main/task/tasks_list.html')
 
     def test_tasks_list_get_user_context(self):
+        """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
@@ -67,6 +71,7 @@ class TaskViewTestCase(TestCase):
         self.assertEqual(str(response.context['user']), 'testuser_task')
 
     def test_tasks_detail_not_logged_in(self):
+        """ test detail view """
 
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
@@ -80,6 +85,7 @@ class TaskViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_tasks_detail_logged_in(self):
+        """ test detail view """
 
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
@@ -93,6 +99,7 @@ class TaskViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_tasks_detail_template(self):
+        """ test detail view """
 
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
@@ -106,6 +113,7 @@ class TaskViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_main/task/tasks_detail.html')
 
     def test_tasks_detail_get_user_context(self):
+        """ test detail view """
 
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
@@ -119,6 +127,7 @@ class TaskViewTestCase(TestCase):
         self.assertEqual(str(response.context['user']), 'testuser_task')
 
     def test_tasks_add_not_logged_in(self):
+        """ test add view """
 
         # create url
         destination = '/login/?next=' + urllib.parse.quote('/tasks/add/', safe='')
@@ -128,6 +137,7 @@ class TaskViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_tasks_add_logged_in(self):
+        """ test add view """
 
         # login testuser
         login = self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
@@ -137,6 +147,7 @@ class TaskViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_tasks_add_template(self):
+        """ test add view """
 
         # login testuser
         login = self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
@@ -146,6 +157,7 @@ class TaskViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_main/task/tasks_add.html')
 
     def test_tasks_add_get_user_context(self):
+        """ test add view """
 
         # login testuser
         login = self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
@@ -155,6 +167,7 @@ class TaskViewTestCase(TestCase):
         self.assertEqual(str(response.context['user']), 'testuser_task')
 
     def test_tasks_edit_not_logged_in(self):
+        """ test edit view """
 
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
@@ -168,6 +181,7 @@ class TaskViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_tasks_edit_logged_in(self):
+        """ test edit view """
 
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
@@ -181,6 +195,7 @@ class TaskViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_tasks_edit_template(self):
+        """ test edit view """
 
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
@@ -194,6 +209,7 @@ class TaskViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_main/task/tasks_edit.html')
 
     def test_tasks_edit_get_user_context(self):
+        """ test edit view """
 
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')

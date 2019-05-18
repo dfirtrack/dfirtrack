@@ -44,6 +44,7 @@ class TaskModelTestCase(TestCase):
         )
 
     def test_task_string(self):
+        """ test string representation """
 
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
@@ -52,7 +53,8 @@ class TaskModelTestCase(TestCase):
         # compare
         self.assertEqual(str(task_1), '[' + str(task_1.task_id) + '] ' + str(task_1.taskname) + ' (' + str(task_1.system) + ')')
 
-    def test_task_id_label(self):
+    def test_task_id_attribute_label(self):
+        """ test attribute label """
 
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
@@ -63,7 +65,8 @@ class TaskModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'task id')
 
-    def test_task_parent_task_label(self):
+    def test_task_parent_task_attribute_label(self):
+        """ test attribute label """
 
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
@@ -74,7 +77,8 @@ class TaskModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'parent task')
 
-    def test_task_taskname_label(self):
+    def test_task_taskname_attribute_label(self):
+        """ test attribute label """
 
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
@@ -85,7 +89,8 @@ class TaskModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'taskname')
 
-    def test_task_taskpriority_label(self):
+    def test_task_taskpriority_attribute_label(self):
+        """ test attribute label """
 
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
@@ -96,7 +101,8 @@ class TaskModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'taskpriority')
 
-    def test_task_taskstatus_label(self):
+    def test_task_taskstatus_attribute_label(self):
+        """ test attribute label """
 
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
@@ -107,7 +113,8 @@ class TaskModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'taskstatus')
 
-    def test_task_system_label(self):
+    def test_task_system_attribute_label(self):
+        """ test attribute label """
 
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
@@ -118,7 +125,8 @@ class TaskModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'system')
 
-    def test_task_assigned_to_user_id_label(self):
+    def test_task_assigned_to_user_id_attribute_label(self):
+        """ test attribute label """
 
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
@@ -129,7 +137,8 @@ class TaskModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'task assigned to user id')
 
-    def test_task_tag_label(self):
+    def test_task_tag_attribute_label(self):
+        """ test attribute label """
 
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
@@ -140,7 +149,8 @@ class TaskModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'tag')
 
-    def test_task_note_label(self):
+    def test_task_note_attribute_label(self):
+        """ test attribute label """
 
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
@@ -151,7 +161,8 @@ class TaskModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'task note')
 
-    def test_task_scheduled_time_label(self):
+    def test_task_scheduled_time_attribute_label(self):
+        """ test attribute label """
 
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
@@ -162,7 +173,8 @@ class TaskModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'task scheduled time')
 
-    def test_task_started_time_label(self):
+    def test_task_started_time_attribute_label(self):
+        """ test attribute label """
 
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
@@ -173,7 +185,8 @@ class TaskModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'task started time')
 
-    def test_task_finished_time_label(self):
+    def test_task_finished_time_attribute_label(self):
+        """ test attribute label """
 
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
@@ -184,7 +197,8 @@ class TaskModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'task finished time')
 
-    def test_task_due_time_label(self):
+    def test_task_due_time_attribute_label(self):
+        """ test attribute label """
 
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
@@ -195,7 +209,8 @@ class TaskModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'task due time')
 
-    def test_task_create_time_label(self):
+    def test_task_create_time_attribute_label(self):
+        """ test attribute label """
 
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
@@ -206,7 +221,8 @@ class TaskModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'task create time')
 
-    def test_task_modify_time_label(self):
+    def test_task_modify_time_attribute_label(self):
+        """ test attribute label """
 
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
@@ -217,7 +233,8 @@ class TaskModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'task modify time')
 
-    def test_task_created_by_user_id_label(self):
+    def test_task_created_by_user_id_attribute_label(self):
+        """ test attribute label """
 
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
@@ -228,7 +245,8 @@ class TaskModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'task created by user id')
 
-    def test_task_modified_by_user_id_label(self):
+    def test_task_modified_by_user_id_attribute_label(self):
+        """ test attribute label """
 
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')

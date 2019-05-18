@@ -11,13 +11,25 @@ class TasknameModelTestCase(TestCase):
         Taskname.objects.create(taskname_name='taskname_1')
 
     def test_taskname_string(self):
+        """ test string representation """
 
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
         # compare
         self.assertEqual(str(taskname_1), 'taskname_1')
 
-    def test_taskname_name_label(self):
+    def test_taskname_id_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
+        # get label
+        field_label = taskname_1._meta.get_field('taskname_id').verbose_name
+        # compare
+        self.assertEquals(field_label, 'taskname id')
+
+    def test_taskname_name_attribute_label(self):
+        """ test attribute label """
 
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
@@ -27,6 +39,7 @@ class TasknameModelTestCase(TestCase):
         self.assertEquals(field_label, 'taskname name')
 
     def test_taskname_name_length(self):
+        """ test for max length """
 
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')

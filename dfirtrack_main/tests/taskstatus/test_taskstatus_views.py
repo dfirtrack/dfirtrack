@@ -15,6 +15,7 @@ class TaskstatusViewTestCase(TestCase):
         test_user = User.objects.create_user(username='testuser_taskstatus', password='TZjmjiUQviOnIEral6l9')
 
     def test_taskstatuss_list_not_logged_in(self):
+        """ test list view """
 
         # create url
         destination = '/login/?next=' + urllib.parse.quote('/taskstatuss/', safe='')
@@ -24,6 +25,7 @@ class TaskstatusViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_taskstatuss_list_logged_in(self):
+        """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_taskstatus', password='TZjmjiUQviOnIEral6l9')
@@ -33,6 +35,7 @@ class TaskstatusViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_taskstatuss_list_template(self):
+        """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_taskstatus', password='TZjmjiUQviOnIEral6l9')
@@ -42,6 +45,7 @@ class TaskstatusViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_main/taskstatus/taskstatuss_list.html')
 
     def test_taskstatuss_list_get_user_context(self):
+        """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_taskstatus', password='TZjmjiUQviOnIEral6l9')
@@ -51,6 +55,7 @@ class TaskstatusViewTestCase(TestCase):
         self.assertEqual(str(response.context['user']), 'testuser_taskstatus')
 
     def test_taskstatuss_detail_not_logged_in(self):
+        """ test detail view """
 
         # get object
         taskstatus_1 = Taskstatus.objects.get(taskstatus_name='taskstatus_1')
@@ -62,6 +67,7 @@ class TaskstatusViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_taskstatuss_detail_logged_in(self):
+        """ test detail view """
 
         # get object
         taskstatus_1 = Taskstatus.objects.get(taskstatus_name='taskstatus_1')
@@ -73,6 +79,7 @@ class TaskstatusViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_taskstatuss_detail_template(self):
+        """ test detail view """
 
         # get object
         taskstatus_1 = Taskstatus.objects.get(taskstatus_name='taskstatus_1')
@@ -84,6 +91,7 @@ class TaskstatusViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_main/taskstatus/taskstatuss_detail.html')
 
     def test_taskstatuss_detail_get_user_context(self):
+        """ test detail view """
 
         # get object
         taskstatus_1 = Taskstatus.objects.get(taskstatus_name='taskstatus_1')
