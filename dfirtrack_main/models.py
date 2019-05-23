@@ -2,6 +2,10 @@ from django.contrib.auth.models import User
 from django.db import models
 import logging
 from time import strftime
+import uuid
+import os
+import shutil
+from dfirtrack.config import EVIDENCE_PATH
 
 # initialize logger
 stdlogger = logging.getLogger(__name__)
@@ -637,6 +641,20 @@ class System(models.Model):
             "|tag:" + tagstring +
             "|case:" + casestring
         )
+
+    def create_evidence_directory(self):
+        """
+        Check if the evidence directory for the system was already created 
+        otherwise it will be created. 
+        """
+        system_evidence_path = (EVIDENCE_PATH + '/' + str(self.uuid))
+        if os.path.exists(system_evidence_path):
+            self.logger(request_user, "System-Path: {} already exists.".format(system_evidence_path))
+            return False
+        else:
+            os.makedirs(system_evidence_path)
+            self.logger(request_user, "System-Path: {} created.".format(system_evidence_path))
+            return True
 
 class Systemstatus(models.Model):
 
