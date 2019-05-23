@@ -15,6 +15,9 @@ LOGGING_PATH = expanduser("~")
 ## change path for the markdown documentation
 MARKDOWN_PATH = ''
 
+# ARTIFACTS
+EVIDENCE_PATH = ''
+
 # IMPORTER
 
 # IMPORT SYSTEMS AND ENTRIES VIA GIRAF API (dfirtrack_main.importer.api.giraf)

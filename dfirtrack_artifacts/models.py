@@ -7,6 +7,7 @@ from django.utils.text import slugify
 import os
 import shutil
 from dfirtrack_main import models as main_models
+from dfirtrack.config import EVIDENCE_PATH
 
 #initialize logger
 stdlogger = logging.getLogger(__name__)
