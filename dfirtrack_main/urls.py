@@ -20,47 +20,47 @@ urlpatterns = [
 
     url(r'^analystmemos/$', analystmemos_views.Analystmemos.as_view(), name='analystmemos'),
     url(r'^analystmemos/(?P<pk>\d+)$', analystmemos_views.AnalystmemosDetail.as_view(), name='analystmemosdetail'),
-    url(r'^analystmemos/add$', analystmemos_views.analystmemos_add, name='analystmemos_add'),
+    url(r'^analystmemos/add/$', analystmemos_views.analystmemos_add, name='analystmemos_add'),
     url(r'^analystmemos/(?P<pk>\d+)/edit/$', analystmemos_views.analystmemos_edit, name='analystmemos_edit'),
 
     url(r'^cases/$', cases_views.Cases.as_view(), name='cases'),
     url(r'^cases/(?P<pk>\d+)$', cases_views.CasesDetail.as_view(), name='casesdetail'),
-    url(r'^cases/add$', cases_views.cases_add, name='cases_add'),
+    url(r'^cases/add/$', cases_views.cases_add, name='cases_add'),
     url(r'^cases/(?P<pk>\d+)/edit/$', cases_views.cases_edit, name='cases_edit'),
 
     url(r'^companys/$', companys_views.Companys.as_view(), name='companys'),
     url(r'^companys/(?P<pk>\d+)$', companys_views.CompanysDetail.as_view(), name='companysdetail'),
-    url(r'^companys/add$', companys_views.companys_add, name='companys_add'),
+    url(r'^companys/add/$', companys_views.companys_add, name='companys_add'),
     url(r'^companys/add_popup$', companys_views.companys_add_popup, name='companys_add_popup'),
     url(r'^companys/(?P<pk>\d+)/edit/$', companys_views.companys_edit, name='companys_edit'),
 
     url(r'^contacts/$', contacts_views.Contacts.as_view(), name='contacts'),
     url(r'^contacts/(?P<pk>\d+)$', contacts_views.ContactsDetail.as_view(), name='contactsdetail'),
-    url(r'^contacts/add$', contacts_views.contacts_add, name='contacts_add'),
+    url(r'^contacts/add/$', contacts_views.contacts_add, name='contacts_add'),
     url(r'^contacts/add_popup$', contacts_views.contacts_add_popup, name='contacts_add_popup'),
     url(r'^contacts/(?P<pk>\d+)/edit/$', contacts_views.contacts_edit, name='contacts_edit'),
 
     url(r'^divisions/$', divisions_views.Divisions.as_view(), name='divisions'),
     url(r'^divisions/(?P<pk>\d+)$', divisions_views.DivisionsDetail.as_view(), name='divisionsdetail'),
-    url(r'^divisions/add$', divisions_views.divisions_add, name='divisions_add'),
+    url(r'^divisions/add/$', divisions_views.divisions_add, name='divisions_add'),
     url(r'^divisions/(?P<pk>\d+)/edit/$', divisions_views.divisions_edit, name='divisions_edit'),
 
     url(r'^domains/$', domains_views.Domains.as_view(), name='domains'),
     url(r'^domains/(?P<pk>\d+)$', domains_views.DomainsDetail.as_view(), name='domainsdetail'),
-    url(r'^domains/add$', domains_views.domains_add, name='domains_add'),
+    url(r'^domains/add/$', domains_views.domains_add, name='domains_add'),
     url(r'^domains/add_popup$', domains_views.domains_add_popup, name='domains_add_popup'),
     url(r'^domains/(?P<pk>\d+)/edit/$', domains_views.domains_edit, name='domains_edit'),
 
     url(r'^entrys/$', entrys_views.Entrys.as_view(), name='entrys'),
     url(r'^entrys/(?P<pk>\d+)$', entrys_views.EntrysDetail.as_view(), name='entrysdetail'),
-    url(r'^entrys/add$', entrys_views.entrys_add, name='entrys_add'),
+    url(r'^entrys/add/$', entrys_views.entrys_add, name='entrys_add'),
     url(r'^entrys/(?P<pk>\d+)/edit/$', entrys_views.entrys_edit, name='entrys_edit'),
     url(r'^entrys/importer/api/giraf/entrys/$', giraf.entrys, name='entrys_importer_api_giraf'),
     url(r'^entrys/importer/file/markdown/entrys/$', markdown.entrys, name='entrys_importer_file_markdown'),
 
     url(r'^headlines/$', headlines_views.Headlines.as_view(), name='headlines'),
     url(r'^headlines/(?P<pk>\d+)$', headlines_views.HeadlinesDetail.as_view(), name='headlinesdetail'),
-    url(r'^headlines/add$', headlines_views.headlines_add, name='headlines_add'),
+    url(r'^headlines/add/$', headlines_views.headlines_add, name='headlines_add'),
     url(r'^headlines/(?P<pk>\d+)/edit/$', headlines_views.headlines_edit, name='headlines_edit'),
 
     url(r'^ips/$', ips_views.Ips.as_view(), name='ips'),
@@ -68,7 +68,7 @@ urlpatterns = [
 
     url(r'^locations/$', locations_views.Locations.as_view(), name='locations'),
     url(r'^locations/(?P<pk>\d+)$', locations_views.LocationsDetail.as_view(), name='locationsdetail'),
-    url(r'^locations/add$', locations_views.locations_add, name='locations_add'),
+    url(r'^locations/add/$', locations_views.locations_add, name='locations_add'),
     url(r'^locations/add_popup$', locations_views.locations_add_popup, name='locations_add_popup'),
     url(r'^locations/(?P<pk>\d+)/edit/$', locations_views.locations_edit, name='locations_edit'),
 
@@ -84,25 +84,25 @@ urlpatterns = [
 
     url(r'^reasons/$', reasons_views.Reasons.as_view(), name='reasons'),
     url(r'^reasons/(?P<pk>\d+)$', reasons_views.ReasonsDetail.as_view(), name='reasonsdetail'),
-    url(r'^reasons/add$', reasons_views.reasons_add, name='reasons_add'),
+    url(r'^reasons/add/$', reasons_views.reasons_add, name='reasons_add'),
     url(r'^reasons/add_popup$', reasons_views.reasons_add_popup, name='reasons_add_popup'),
     url(r'^reasons/(?P<pk>\d+)/edit/$', reasons_views.reasons_edit, name='reasons_edit'),
 
     url(r'^recommendations/$', recommendations_views.Recommendations.as_view(), name='recommendations'),
     url(r'^recommendations/(?P<pk>\d+)$', recommendations_views.RecommendationsDetail.as_view(), name='recommendationsdetail'),
-    url(r'^recommendations/add$', recommendations_views.recommendations_add, name='recommendations_add'),
+    url(r'^recommendations/add/$', recommendations_views.recommendations_add, name='recommendations_add'),
     url(r'^recommendations/add_popup$', recommendations_views.recommendations_add_popup, name='recommendations_add_popup'),
     url(r'^recommendations/(?P<pk>\d+)/edit/$', recommendations_views.recommendations_edit, name='recommendations_edit'),
 
     url(r'^reportitems/$', reportitems_views.Reportitems.as_view(), name='reportitems'),
     url(r'^reportitems/(?P<pk>\d+)$', reportitems_views.ReportitemsDetail.as_view(), name='reportitemsdetail'),
-    url(r'^reportitems/add$', reportitems_views.reportitems_add, name='reportitems_add'),
+    url(r'^reportitems/add/$', reportitems_views.reportitems_add, name='reportitems_add'),
     url(r'^reportitems/(?P<pk>\d+)/edit/$', reportitems_views.reportitems_edit, name='reportitems_edit'),
     url(r'^reportitems/importer/file/filesystem/reportitems/$', filesystem.reportitems, name='reportitems_importer_file_filesystem'),
 
     url(r'^serviceproviders/$', serviceproviders_views.Serviceproviders.as_view(), name='serviceproviders'),
     url(r'^serviceproviders/(?P<pk>\d+)$', serviceproviders_views.ServiceprovidersDetail.as_view(), name='serviceprovidersdetail'),
-    url(r'^serviceproviders/add$', serviceproviders_views.serviceproviders_add, name='serviceproviders_add'),
+    url(r'^serviceproviders/add/$', serviceproviders_views.serviceproviders_add, name='serviceproviders_add'),
     url(r'^serviceproviders/add_popup$', serviceproviders_views.serviceproviders_add_popup, name='serviceproviders_add_popup'),
     url(r'^serviceproviders/(?P<pk>\d+)/edit/$', serviceproviders_views.serviceproviders_edit, name='serviceproviders_edit'),
 
@@ -124,18 +124,18 @@ urlpatterns = [
 
     url(r'^systemtypes/$', systemtypes_views.Systemtypes.as_view(), name='systemtypes'),
     url(r'^systemtypes/(?P<pk>\d+)$', systemtypes_views.SystemtypesDetail.as_view(), name='systemtypesdetail'),
-    url(r'^systemtypes/add$', systemtypes_views.systemtypes_add, name='systemtypes_add'),
+    url(r'^systemtypes/add/$', systemtypes_views.systemtypes_add, name='systemtypes_add'),
     url(r'^systemtypes/add_popup$', systemtypes_views.systemtypes_add_popup, name='systemtypes_add_popup'),
     url(r'^systemtypes/(?P<pk>\d+)/edit/$', systemtypes_views.systemtypes_edit, name='systemtypes_edit'),
 
     url(r'^systemusers/$', systemusers_views.Systemusers.as_view(), name='systemusers'),
     url(r'^systemusers/(?P<pk>\d+)$', systemusers_views.SystemusersDetail.as_view(), name='systemusersdetail'),
-    url(r'^systemusers/add$', systemusers_views.systemusers_add, name='systemusers_add'),
+    url(r'^systemusers/add/$', systemusers_views.systemusers_add, name='systemusers_add'),
     url(r'^systemusers/(?P<pk>\d+)/edit/$', systemusers_views.systemusers_edit, name='systemusers_edit'),
 
     url(r'^tags/$', tags_views.Tags.as_view(), name='tags'),
     url(r'^tags/(?P<pk>\d+)$', tags_views.TagsDetail.as_view(), name='tagsdetail'),
-    url(r'^tags/add$', tags_views.tags_add, name='tags_add'),
+    url(r'^tags/add/$', tags_views.tags_add, name='tags_add'),
     url(r'^tags/(?P<pk>\d+)/edit/$', tags_views.tags_edit, name='tags_edit'),
     url(r'^tags/(?P<pk>\d+)/delete/$', tags_views.tags_delete, name='tags_delete'),
 
@@ -154,7 +154,7 @@ urlpatterns = [
 
     url(r'^tasknames/$', tasknames_views.Tasknames.as_view(), name='tasknames'),
     url(r'^tasknames/(?P<pk>\d+)$', tasknames_views.TasknamesDetail.as_view(), name='tasknamesdetail'),
-    url(r'^tasknames/add$', tasknames_views.tasknames_add, name='tasknames_add'),
+    url(r'^tasknames/add/$', tasknames_views.tasknames_add, name='tasknames_add'),
     url(r'^tasknames/(?P<pk>\d+)/edit/$', tasknames_views.tasknames_edit, name='tasknames_edit'),
 
     url(r'^taskprioritys/$', taskprioritys_views.Taskprioritys.as_view(), name='taskprioritys'),
