@@ -81,13 +81,13 @@ The application was created by implementing the following libraries and code:
 There are two main branches:
 
 * `master`
-* `development`
+* `develop`
 
 The master branch should be stable (as you can expect from an alpha version).
-New features and changes are added to the development branch and merged into master from time to time.
-Everything merged into development should run too but might need manual changes (e. g. config).
-[Devolopment branch](https://github.com/stuhli/dfirtrack_ansible/tree/develop) of DFIRTrack Ansible should follow these changes.
-So if you want to see the latest features and progress: "check out" development.
+New features and changes are added to the develop branch and merged into master from time to time.
+Everything merged into develop should run too but might need manual changes (e. g. config).
+[devolop branch](https://github.com/stuhli/dfirtrack_ansible/tree/develop) of DFIRTrack Ansible should follow these changes.
+So if you want to see the latest features and progress: "check out" develop.
 
 ## Roadmap
 
