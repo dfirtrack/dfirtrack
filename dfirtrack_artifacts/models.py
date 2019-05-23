@@ -6,6 +6,7 @@ import uuid
 from django.utils.text import slugify
 import os
 import shutil
+from dfirtrack_main import models as main_models
 
 #initialize logger
 stdlogger = logging.getLogger(__name__)
@@ -20,8 +21,8 @@ class Artifact(models.Model):
     # foreing key(s)
     artifacttype = models.ForeignKey('Artifacttype', on_delete=models.PROTECT)
     artifactstatus = models.ForeignKey('Artifactstatus', on_delete=models.PROTECT, default=1)
-    case = models.ForeignKey('Case', on_delete=models.PROTECT, blank=True, null=True)
-    system = models.ForeignKey('System', on_delete=models.PROTECT)
+    case = models.ForeignKey('main_models.Case', on_delete=models.PROTECT, blank=True, null=True)
+    system = models.ForeignKey('main_models.System', on_delete=models.PROTECT)
 
     # main entity information
     artifact_description = models.CharField(max_length=4096, blank=False, null=False)
@@ -209,5 +210,6 @@ class Artifacttype(models.Modell):
     def save(self, *args, **kwargs):
         self.artifacttype_slug = slugify(self.artifacttype_name)
         super().save(*args, **kwargs)
+
 #TODO: Signals for DjangoQ reciever that creates the hassums
 #def artifact_created()
