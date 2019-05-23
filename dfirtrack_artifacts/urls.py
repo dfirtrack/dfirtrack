@@ -1,25 +1,25 @@
 from django.urls import include, path
-from . import views
+from dfirtrack_artifacts.views import artifact_view, artifactstatus_view, artifacttype_view
 
 urlpatterns = (
     # urls for Artifact
-    path(r'artifact/', views.ArtifactListView.as_view(), name='artifacts_artifact_list'),
-    path(r'artifact/create/', views.ArtifactCreateView.as_view(), name='artifacts_artifact_create'),
-    path(r'artifact/detail/<int:pk>/', views.ArtifactDetailView.as_view(), name='artifacts_artifact_detail'),
-    path(r'artifact/update/<int:pk>/', views.ArtifactUpdateView.as_view(), name='artifacts_artifact_update'),
+    path(r'artifact/', artifact_view.ArtifactListView.as_view(), name='artifacts_artifact_list'),
+    path(r'artifact/create/', artifact_view.ArtifactCreateView.as_view(), name='artifacts_artifact_create'),
+    path(r'artifact/detail/<int:pk>/', artifact_view.ArtifactDetailView.as_view(), name='artifacts_artifact_detail'),
+    path(r'artifact/update/<int:pk>/', artifact_view.ArtifactUpdateView.as_view(), name='artifacts_artifact_update'),
 )
 
 urlpatterns += (
     # urls for Artifactstatus
-    path(r'artifactstatus/', views.ArtifactstatusListView.as_view(), name='artifacts_artifactstatus_list'),
-    path(r'artifactstatus/create/', views.ArtifactstatusCreateView.as_view(), name='artifacts_artifactstatus_create'),
-    path(r'artifactstatus/detail/<int:pk>/', views.ArtifactstatusDetailView.as_view(), name='artifacts_artifactstatus_detail'),
-    path(r'artifactstatus/update/<int:pk>/', views.ArtifactstatusUpdateView.as_view(), name='artifacts_artifactstatus_update'),
+    path(r'artifactstatus/', artifactstatus_view.ArtifactstatusListView.as_view(), name='artifacts_artifactstatus_list'),
+    path(r'artifactstatus/create/', artifactstatus_view.ArtifactstatusCreateView.as_view(), name='artifacts_artifactstatus_create'),
+    path(r'artifactstatus/detail/<int:pk>/', artifactstatus_view.ArtifactstatusDetailView.as_view(), name='artifacts_artifactstatus_detail'),
+    path(r'artifactstatus/update/<int:pk>/', artifactstatus_view.ArtifactstatusUpdateView.as_view(), name='artifacts_artifactstatus_update'),
 )
 urlpatterns += (
     # urls for Artifacttype
-    path(r'artifacttype/', views.ArtifacttypeListView.as_view(), name='artifacts_artifacttype_list'),
-    path(r'artifacttype/create/', views.ArtifacttypeCreateView.as_view(), name='artifacts_artifacttype_create'),
-    path(r'artifacttype/detail/<int:pk>/', views.ArtifacttypeDetailView.as_view(), name='artifacts_artifacttype_detail'),
-    path(r'artifacttype/update/<int:pk>/', views.ArtifacttypeUpdateView.as_view(), name='artifacts_artifacttype_update'),
+    path(r'artifacttype/', artifacttype_view.ArtifacttypeListView.as_view(), name='artifacts_artifacttype_list'),
+    path(r'artifacttype/create/', artifacttype_view.ArtifacttypeCreateView.as_view(), name='artifacts_artifacttype_create'),
+    path(r'artifacttype/detail/<int:pk>/', artifacttype_view.ArtifacttypeDetailView.as_view(), name='artifacts_artifacttype_detail'),
+    path(r'artifacttype/update/<int:pk>/', artifacttype_view.ArtifacttypeUpdateView.as_view(), name='artifacts_artifacttype_update'),
 )
