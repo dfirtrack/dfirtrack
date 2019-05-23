@@ -135,9 +135,12 @@ class Artifactstatus(models.Modell):
     artifactstatus_created_by_user_id = models.ForeignKey(User, on_delete=models.Protect, related_name='artifactstatus_created_by')
     artifactstatus_modified_by_user_id = models.ForeignKey(User, on_delete=models.Protect, related_name='artifactstatus_modified_by')
 
+    class Meta:
+        ordering = ('artifactstatus_name',)
+
     # string representation
     def __str__(self):
-        return 'Artifacstatus {0}'.format(str(self.artifactstatus_id))
+        return 'Artifacstatus {0}'.format(str(self.artifactstatus_name))
 
     #define logger
     def logger(artifactstatus, request_user, log_text):
@@ -145,10 +148,15 @@ class Artifactstatus(models.Modell):
             request_user +
             log_text +
             " artifactstatus_id:" + str(artifactstatus.artifactstatus_id) +
-            "|artifactstatus_name:" str(artifactstatus.artifactstatus_name) +
-            "|artifactstatus_description:" str(artifactstatus.artifactstatus_description) +
-            "|artifactstatus_slug:" str(artifactstatus.artifactstatus_slug)
+            "|artifactstatus_name:" + str(artifactstatus.artifactstatus_name) +
+            "|artifactstatus_description:" + str(artifactstatus.artifactstatus_description) +
+            "|artifactstatus_slug:" + str(artifactstatus.artifactstatus_slug)
         )
+
+    # override save()-method
+    def save(self, *args, **kwargs):
+            self.artifactstatus_slug = slugify(self.artifactstatus_name)       
+            super().save(*args, **kwargs) 
 
 class Artifacttype(models.Modell):
     ''' Artifacttype like File, Registry-Key, Registry-Hive, etc. '''
