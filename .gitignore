@@ -331,7 +331,7 @@ tags
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-
+.vscode/
 ### VisualStudioCode Patch ###
 # Ignore all local history of files
 .history
@@ -360,5 +360,6 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
 
 # End of https://www.gitignore.io/api/go,vim,venv,linux,macos,python,windows,pycharm+all,visualstudiocode
