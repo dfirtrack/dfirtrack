@@ -627,3 +627,45 @@ class SystemFormTestCase(TestCase):
         })
         # compare
         self.assertFalse(form.is_valid())
+
+    def test_system_install_time_formatcheck(self):
+        """ test input format """
+
+        # get object
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
+        # get object
+        form = SystemForm(data = {
+            'system_name': 'system_1',
+            'systemstatus': systemstatus_id,
+            'system_install_time': 'wrong format',
+        })
+        # compare
+        self.assertFalse(form.is_valid())
+
+    def test_system_lastbooted_time_formatcheck(self):
+        """ test input format """
+
+        # get object
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
+        # get object
+        form = SystemForm(data = {
+            'system_name': 'system_1',
+            'systemstatus': systemstatus_id,
+            'system_lastbooted_time': 'wrong format',
+        })
+        # compare
+        self.assertFalse(form.is_valid())
+
+    def test_system_deprecated_time_formatcheck(self):
+        """ test input format """
+
+        # get object
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
+        # get object
+        form = SystemForm(data = {
+            'system_name': 'system_1',
+            'systemstatus': systemstatus_id,
+            'system_deprecated_time': 'wrong format',
+        })
+        # compare
+        self.assertFalse(form.is_valid())

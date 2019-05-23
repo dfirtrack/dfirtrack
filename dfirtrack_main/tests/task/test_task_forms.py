@@ -330,3 +330,41 @@ class TaskFormTestCase(TestCase):
         })
         # compare
         self.assertTrue(form.is_valid())
+
+    def test_task_scheduled_time_formatcheck(self):
+        """ test input format """
+
+        # get object
+        taskname_id = Taskname.objects.get(taskname_name='taskname_1').taskname_id
+        # get object
+        taskpriority_id = Taskpriority.objects.get(taskpriority_name='prio_1').taskpriority_id
+        # get object
+        taskstatus_id = Taskstatus.objects.get(taskstatus_name='taskstatus_1').taskstatus_id
+        # get object
+        form = TaskForm(data = {
+            'taskname': taskname_id,
+            'taskpriority': taskpriority_id,
+            'taskstatus': taskstatus_id,
+            'task_scheduled_time': 'wrong format',
+        })
+        # compare
+        self.assertFalse(form.is_valid())
+
+    def test_task_due_time_formatcheck(self):
+        """ test input format """
+
+        # get object
+        taskname_id = Taskname.objects.get(taskname_name='taskname_1').taskname_id
+        # get object
+        taskpriority_id = Taskpriority.objects.get(taskpriority_name='prio_1').taskpriority_id
+        # get object
+        taskstatus_id = Taskstatus.objects.get(taskstatus_name='taskstatus_1').taskstatus_id
+        # get object
+        form = TaskForm(data = {
+            'taskname': taskname_id,
+            'taskpriority': taskpriority_id,
+            'taskstatus': taskstatus_id,
+            'task_due_time': 'wrong format',
+        })
+        # compare
+        self.assertFalse(form.is_valid())

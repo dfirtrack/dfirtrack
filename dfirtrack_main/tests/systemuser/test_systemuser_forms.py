@@ -92,20 +92,6 @@ class SystemuserFormTestCase(TestCase):
         # compare
         self.assertTrue(form.is_valid())
 
-    def test_systemuser_lastlogon_time_formatcheck(self):
-        """ test input format """
-
-        # get foreign key object id
-        system_id = System.objects.get(system_name='system_1').system_id
-        # get object
-        form = SystemuserForm(data = {
-            'systemuser_name': 'systemuser_1',
-            'system': system_id,
-            'systemuser_lastlogon_time': '2019',
-        })
-        # compare
-        self.assertFalse(form.is_valid())
-
     def test_systemuser_name_proper_chars(self):
         """ test for max length """
 
@@ -128,6 +114,20 @@ class SystemuserFormTestCase(TestCase):
         form = SystemuserForm(data = {
             'systemuser_name': 'sssssssssssssssssssssssssssssssssssssssssssssssssss',
             'system': system_id,
+        })
+        # compare
+        self.assertFalse(form.is_valid())
+
+    def test_systemuser_lastlogon_formatcheck(self):
+        """ test input format """
+
+        # get foreign key object id
+        system_id = System.objects.get(system_name='system_1').system_id
+        # get object
+        form = SystemuserForm(data = {
+            'systemuser_name': 'systemuser_1',
+            'system': system_id,
+            'systemuser_lastlogon_time': 'wrong format',
         })
         # compare
         self.assertFalse(form.is_valid())
