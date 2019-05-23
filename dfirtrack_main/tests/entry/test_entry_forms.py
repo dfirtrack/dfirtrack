@@ -116,9 +116,7 @@ class EntryFormTestCase(TestCase):
         """ test minimum form requirements / INVALID """
 
         # get object
-        form = EntryForm(data = {
-            'entry_time': '',
-        })
+        form = EntryForm(data = {})
         # compare
         self.assertFalse(form.is_valid())
 

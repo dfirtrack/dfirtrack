@@ -250,7 +250,7 @@ class SystemFormTestCase(TestCase):
         """ test minimum form requirements / INVALID """
 
         # get object
-        form = SystemForm(data = {'system_name': ''})
+        form = SystemForm(data = {})
         # compare
         self.assertFalse(form.is_valid())
 

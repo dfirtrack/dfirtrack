@@ -40,7 +40,7 @@ class ContactFormTestCase(TestCase):
         """ test minimum form requirements / INVALID """
 
         # get object
-        form = ContactForm(data = {'contact_name': ''})
+        form = ContactForm(data = {})
         # compare
         self.assertFalse(form.is_valid())
 

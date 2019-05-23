@@ -24,7 +24,7 @@ class LocationFormTestCase(TestCase):
         """ test minimum form requirements / INVALID """
 
         # get object
-        form = LocationForm(data = {'location_name': ''})
+        form = LocationForm(data = {})
         # compare
         self.assertFalse(form.is_valid())
 

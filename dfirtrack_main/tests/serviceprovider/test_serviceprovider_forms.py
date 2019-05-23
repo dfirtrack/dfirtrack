@@ -24,9 +24,7 @@ class ServiceproviderFormTestCase(TestCase):
         """ test minimum form requirements / INVALID """
 
         # get object
-        form = ServiceproviderForm(data = {
-            'serviceprovider_name': '',
-        })
+        form = ServiceproviderForm(data = {})
         # compare
         self.assertFalse(form.is_valid())
 

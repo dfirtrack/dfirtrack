@@ -24,7 +24,7 @@ class DivisionFormTestCase(TestCase):
         """ test minimum form requirements / INVALID """
 
         # get object
-        form = DivisionForm(data = {'division_name': ''})
+        form = DivisionForm(data = {})
         # compare
         self.assertFalse(form.is_valid())
 

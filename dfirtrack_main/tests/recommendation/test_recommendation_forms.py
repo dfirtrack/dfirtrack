@@ -24,7 +24,7 @@ class RecommendationFormTestCase(TestCase):
         """ test minimum form requirements / INVALID """
 
         # get object
-        form = RecommendationForm(data = {'recommendation_name': ''})
+        form = RecommendationForm(data = {})
         # compare
         self.assertFalse(form.is_valid())
 

@@ -24,7 +24,7 @@ class CaseFormTestCase(TestCase):
         """ test minimum form requirements / INVALID """
 
         # get object
-        form = CaseForm(data = {'case_name': ''})
+        form = CaseForm(data = {})
         # compare
         self.assertFalse(form.is_valid())
 

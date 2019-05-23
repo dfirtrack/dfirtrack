@@ -64,9 +64,7 @@ class ReportitemFormTestCase(TestCase):
         """ test minimum form requirements / INVALID """
 
         # get object
-        form = ReportitemForm(data = {
-            'reportitem_note': '',
-        })
+        form = ReportitemForm(data = {})
         # compare
         self.assertFalse(form.is_valid())
 

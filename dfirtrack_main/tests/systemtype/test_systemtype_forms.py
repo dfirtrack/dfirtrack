@@ -16,7 +16,7 @@ class SystemtypeFormTestCase(TestCase):
         """ test minimum form requirements / INVALID """
 
         # get object
-        form = SystemtypeForm(data = {'systemtype_name': ''})
+        form = SystemtypeForm(data = {})
         # compare
         self.assertFalse(form.is_valid())
 

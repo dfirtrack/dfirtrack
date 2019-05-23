@@ -24,7 +24,7 @@ class ReasonFormTestCase(TestCase):
         """ test minimum form requirements / INVALID """
 
         # get object
-        form = ReasonForm(data = {'reason_name': ''})
+        form = ReasonForm(data = {})
         # compare
         self.assertFalse(form.is_valid())
 

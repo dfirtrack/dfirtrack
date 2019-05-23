@@ -39,7 +39,7 @@ class CompanyFormTestCase(TestCase):
         """ test minimum form requirements / INVALID """
 
         # get object
-        form = CompanyForm(data = {'company_name': ''})
+        form = CompanyForm(data = {})
         # compare
         self.assertFalse(form.is_valid())
 

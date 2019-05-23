@@ -16,7 +16,7 @@ class IpFormTestCase(TestCase):
         """ test minimum form requirements / INVALID """
 
         # get object
-        form = IpForm(data = {'ip_ip': ''})
+        form = IpForm(data = {})
         # compare
         self.assertFalse(form.is_valid())
 

@@ -138,7 +138,7 @@ class TaskFormTestCase(TestCase):
         """ test minimum form requirements / INVALID """
 
         # get object
-        form = TaskForm(data = {'taskname': ''})
+        form = TaskForm(data = {})
         # compare
         self.assertFalse(form.is_valid())
 

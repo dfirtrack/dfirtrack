@@ -39,7 +39,7 @@ class OsimportnameFormTestCase(TestCase):
         """ test minimum form requirements / INVALID """
 
         # get object
-        form = OsimportnameForm(data = {'osimportname_name': ''})
+        form = OsimportnameForm(data = {})
         # compare
         self.assertFalse(form.is_valid())
 

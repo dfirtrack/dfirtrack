@@ -53,7 +53,7 @@ class SystemuserFormTestCase(TestCase):
         """ test minimum form requirements / INVALID """
 
         # get object
-        form = SystemuserForm(data = {'systemuser_name': ''})
+        form = SystemuserForm(data = {})
         # compare
         self.assertFalse(form.is_valid())
 

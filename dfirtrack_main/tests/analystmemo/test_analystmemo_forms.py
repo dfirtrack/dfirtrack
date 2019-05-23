@@ -45,7 +45,7 @@ class AnalystmemoFormTestCase(TestCase):
         """ test minimum form requirements / INVALID """
 
         # get object
-        form = AnalystmemoForm(data = {'analystmemo_note': ''})
+        form = AnalystmemoForm(data = {})
         # compare
         self.assertFalse(form.is_valid())
 

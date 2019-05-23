@@ -24,7 +24,7 @@ class DomainFormTestCase(TestCase):
         """ test minimum form requirements / INVALID """
 
         # get object
-        form = DomainForm(data = {'domain_name': ''})
+        form = DomainForm(data = {})
         # compare
         self.assertFalse(form.is_valid())
 
