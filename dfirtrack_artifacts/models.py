@@ -158,6 +158,12 @@ class Artifactstatus(models.Modell):
             self.artifactstatus_slug = slugify(self.artifactstatus_name)       
             super().save(*args, **kwargs) 
 
+    def get_absolute_url(self):
+        return reverse('artifacts_artifactstatus_detail', args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse('artifacts_artifactstatus_update', args=(self.pk,))
+
 class Artifacttype(models.Modell):
     ''' Artifacttype like File, Registry-Key, Registry-Hive, etc. '''
 
@@ -175,17 +181,33 @@ class Artifacttype(models.Modell):
     artifacttype_created_by_user_id = models.ForeignKey(User, on_delete=models.Protect, related_name='artifacttype_created_by')
     artifacttype_modified_by_user_id = models.ForeignKey(User, on_delete=models.Protect, related_name='artifacttype_modified_by')
 
+    class Meta:
+        ordering = ('artifacttype_name',)
+
     # string representation
     def __str__(self):
-        return 'Artifacstatus {0}'.format(str(self.artifacttype_id))
+        return 'Artifacttype {0}'.format(str(self.artifacttype_name))
 
     #define logger
     def logger(artifactstatus, request_user, log_text):
         stdlogger.info(
             request_user +
             log_text +
-            " artifacttype_id:" + str(artifactstatus.artifacttype_id) +
-            "|artifacttype_name:" str(artifactstatus.artifacttype_name) +
-            "|artifacttype_description:" str(artifactstatus.artifacttype_description) +
-            "|artifacttype_slug:" str(artifactstatus.artifacttype_slug)
+            " artifacttype_id:" + str(artifacttype.artifacttype_id) +
+            "|artifacttype_name:" + str(artifacttype.artifacttype_name) +
+            "|artifacttype_description:" + str(artifacttype.artifacttype_description) +
+            "|artifacttype_slug:" + str(artifacttype.artifacttype_slug)
         )
+
+    def get_absolute_url(self):
+            return reverse('artifacts_artifacttype_detail', args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse('artifacts_artifacttype_update', args=(self.pk,))
+    
+    # override save()-method
+    def save(self, *args, **kwargs):
+        self.artifacttype_slug = slugify(self.artifacttype_name)
+        super().save(*args, **kwargs)
+#TODO: Signals for DjangoQ reciever that creates the hassums
+#def artifact_created()
