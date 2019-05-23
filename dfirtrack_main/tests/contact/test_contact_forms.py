@@ -44,7 +44,7 @@ class ContactFormTestCase(TestCase):
         # compare
         self.assertFalse(form.is_valid())
 
-    def test_contact_name_filled(self):
+    def test_contact_name_form_filled(self):
         """ test minimum form requirements / INVALID """
 
         # get object
@@ -52,7 +52,7 @@ class ContactFormTestCase(TestCase):
         # compare
         self.assertFalse(form.is_valid())
 
-    def test_contact_email_filled(self):
+    def test_contact_email_form_filled(self):
         """ test minimum form requirements / VALID """
 
         # get object
@@ -63,7 +63,7 @@ class ContactFormTestCase(TestCase):
         # compare
         self.assertTrue(form.is_valid())
 
-    def test_contact_phone_filled(self):
+    def test_contact_phone_form_filled(self):
         """ test additional form content """
 
         # get object
@@ -75,7 +75,7 @@ class ContactFormTestCase(TestCase):
         # compare
         self.assertTrue(form.is_valid())
 
-    def test_contact_note_filled(self):
+    def test_contact_note_form_filled(self):
         """ test additional form content """
 
         # get object

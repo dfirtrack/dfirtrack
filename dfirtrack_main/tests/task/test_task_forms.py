@@ -142,7 +142,7 @@ class TaskFormTestCase(TestCase):
         # compare
         self.assertFalse(form.is_valid())
 
-    def test_task_taskname_filled(self):
+    def test_task_taskname_form_filled(self):
         """ test minimum form requirements / INVALID """
 
         # get object
@@ -154,7 +154,7 @@ class TaskFormTestCase(TestCase):
         # compare
         self.assertFalse(form.is_valid())
 
-    def test_task_taskpriority_filled(self):
+    def test_task_taskpriority_form_filled(self):
         """ test minimum form requirements / INVALID """
 
         # get object
@@ -169,7 +169,7 @@ class TaskFormTestCase(TestCase):
         # compare
         self.assertFalse(form.is_valid())
 
-    def test_task_taskstatus_filled(self):
+    def test_task_taskstatus_form_filled(self):
         """ test minimum form requirements / VALID """
 
         # get object
@@ -187,7 +187,7 @@ class TaskFormTestCase(TestCase):
         # compare
         self.assertTrue(form.is_valid())
 
-    def test_task_parent_task_filled(self):
+    def test_task_parent_task_form_filled(self):
         """ test additional form content """
 
         # get object
@@ -210,7 +210,7 @@ class TaskFormTestCase(TestCase):
         # compare
         self.assertTrue(form.is_valid())
 
-    def test_task_system_filled(self):
+    def test_task_system_form_filled(self):
         """ test additional form content """
 
         # get object
@@ -231,7 +231,7 @@ class TaskFormTestCase(TestCase):
         # compare
         self.assertTrue(form.is_valid())
 
-    def test_task_assigned_to_user_id_filled(self):
+    def test_task_assigned_to_user_id_form_filled(self):
         """ test additional form content """
 
         # get object
@@ -252,7 +252,7 @@ class TaskFormTestCase(TestCase):
         # compare
         self.assertTrue(form.is_valid())
 
-    def test_task_note_filled(self):
+    def test_task_note_form_filled(self):
         """ test additional form content """
 
         # get object
@@ -272,7 +272,7 @@ class TaskFormTestCase(TestCase):
         self.assertTrue(form.is_valid())
 
 # TODO: test does not work as expected, returns false instead of true
-#    def test_task_tag_filled(self):
+#    def test_task_tag_form_filled(self):
 #        """ test additional form content """
 #
 #        # get object
@@ -293,7 +293,7 @@ class TaskFormTestCase(TestCase):
 #        # compare
 #        self.assertTrue(form.is_valid())
 
-    def test_task_scheduled_time_filled(self):
+    def test_task_scheduled_time_form_filled(self):
         """ test additional form content """
 
         # get object
@@ -312,7 +312,7 @@ class TaskFormTestCase(TestCase):
         # compare
         self.assertTrue(form.is_valid())
 
-    def test_task_due_time_filled(self):
+    def test_task_due_time_form_filled(self):
         """ test additional form content """
 
         # get object
