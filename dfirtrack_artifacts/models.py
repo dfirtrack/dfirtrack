@@ -3,6 +3,9 @@ from django.db import models
 import logging
 from time import strftime
 import uuid
+from django.utils.text import slugify
+import os
+import shutil
 
 #initialize logger
 stdlogger = logging.getLogger(__name__)
@@ -31,8 +34,9 @@ class Artifact(models.Model):
     artifact_uuid = models.UUIDField(editable=False, null=False, blank=False)
 
     # set the ordering criteria
-    Class Meta:
+    class Meta:
         ordering = ('artifact_name', )
+        
     # meta information
     artifact_create_time = models.DateTimeField(auto_now_add=True)
     artifact_modify_time = models.DateTimeField(auto_now_add=True)
@@ -43,6 +47,9 @@ class Artifact(models.Model):
     def __str__(self):
 	#TODO: Ask Stuhli, all ForeignKeys should be included here?
         return 'Artifact {0} ({1})'.format(str(self.artifact_id), self.system)
+        
+    def __unicode__(self):
+        return u'%s' % self.artifact_name
 
     #define logger
     def logger(artifact, request_user, log_text):
@@ -60,61 +67,56 @@ class Artifact(models.Model):
 	    "|artifact_uuid" + str(artifact.artifact_uuid)
         )
 
-    # # define some artifact routines
-    #TODO: Implement them
-    #   def create_artifact_directory(self, system_uuid, artifact_type, artifact_uuid):
-    #     """ Generates the directory in which the artifact will be stored """
-    #     # we generate the path for the evidence file
-    #     artifact_evidence_path = (EVIDENCE_PATH+'/'+ str(system_uuid)+'/'+ artifact_type + '/' + str(artifact_uuid))
-    #     if os.path.exists(artifact_evidence_path):
-    #         print("Artifact-Path: {} already exists.".format(artifact_evidence_path))
-    #         return artifact_evidence_path
-    #     else:
-    #         os.makedirs(artifact_evidence_path)
-    #         return artifact_evidence_path
+    def save(self, *args, **kwargs):
+        # generate slug
+        self.artifact_slug = slugify(self.artifact_name)
 
-    # def save(self,*args,**kwargs):
-    #     # generate slug
-    #     self.slug = slugify(self.name)
+        # we check if we have a new artifact
+        if not self.pk:
+            # generate uuid type4 (completely random type)
+            self.artifact_uuid = uuid.uuid4()
 
-    #     # we check if we have a new artifact
-    #     if not self.pk:
-    #         # generate uuid tpye 4 (completely random)
-    #         self.artifact_uuid = uuid.uuid4()
+        # set hashes to calculating while hash calculating is performed in background
+        self.artifact_md5 = 'Calculating...'
+        self.artifact_sha1 = 'Calculating...'
+        self.artifact_sha256 = 'Calculating...'
 
-    #         # set hashes to calculating while tasks are performed
-    #         self.hashsum_md5 = 'Calculating...'
-            # self.hashsum_sha1 = 'Calculating...'
-            # self.hashsum_sha256 = 'Calculating...'
+        # we generate the artifact directory
 
-            # # we generate the artifact dir
-            # system_uuid = self.system.uuid
-            # artifact_type = self.artifact_type.slug
-            # artifact_uuid = self.artifact_uuid
-            
-            # # we generate the artifact path in the EVIDENCE_PATH
-            # artifact_evidence_path = self.create_artifact_directory(system_uuid, artifact_type, artifact_uuid)
+        # we generate the artifact path in the EVIDENCE_PATH
+        artifact_evidence_path = self.create_artifact_directory(self.system_uuid, self.artifact_type, self.artifact_uuid)
 
-            # # check if the storage_path from the form is equal to the artifact_evidence_path
-            # if self.storage_path != artifact_evidence_path:
-            #     # check if we have a folder than we create an archive
-            #     if os.path.isdir(self.storage_path):
-            #         pass
-            #     elif os.path.isfile(self.storage_path):
-            #         # if not we will copy the artifact to the artifact_evidence_path
-            #         destination = shutil.copy(self.storage_path, artifact_evidence_path)
-            #     self.storage_path = destination
-            # else:
-            #     self.storage_path = artifact_evidence_path
-
+        # check if the storage_path from the form is equal to the artifact_evidence_path
+        if self.artifact_storage_path != artifact_evidence_path:
+            # check if we have a folder, then we do not need to create the dir
+            if os.path.isdir(self.artifact_storage_path):
+                pass
+            elif os.path.isfile(self.artifact_storage_path):
+                # if not we will copy the artifact to the artifact_evidence_path
+                destination = shutil.copy(self.artifact_storage_path, artifact_evidence_path)
+            self.artifact_storage_path = destination
+        else:
+            self.artifact_storage_path = artifact_evidence_path
+        #TODO: check if this works or if wee need
         # super().save(*args,**kwargs)
+        return super().save(*args, **kwargs)
 
-    # def get_absolute_url(self):
-    #     return reverse('system_artifact_detail', args=(self.pk,))
+    def get_absolute_url(self):
+        return reverse('artifacts_artifact_detail', args=(self.pk,))
 
-    # def get_update_url(self):
-    #     return reverse('system_artifact_update', args=(self.pk,))
+    def get_update_url(self):
+        return reverse('artifacts_artifact_update', args=(self.pk,))
 
+    def create_artifact_directory(self, system_uuid, artifact_type, artifact_uuid):
+            """ Generates the directory in which the artifact will be stored """
+            # we generate the path for the evidence file
+            artifact_evidence_path = (EVIDENCE_PATH+'/'+ str(system_uuid)+'/'+ artifact_type + '/' + str(artifact_uuid))
+            if os.path.exists(artifact_evidence_path):
+                print("Artifact-Path: {} already exists.".format(artifact_evidence_path))
+                return artifact_evidence_path
+            else:
+                os.makedirs(artifact_evidence_path)
+                return artifact_evidence_path
 
 class Artifactstatus(models.Modell):
     ''' Artifactstatus that shows the current status of the artifact like: New, Requested, Processed, Imported...'''
