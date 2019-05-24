@@ -3,15 +3,15 @@ from django.views.generic import DetailView, ListView, UpdateView, CreateView, R
 from django.db import IntegrityError
 from django.contrib.auth.mixins import LoginRequiredMixin
 from dfirtrack_artifacts import models as artifacts_models
-#TODO: Forms mus be created
-#from dfirtrack_artifacts.forms import ArtifactForm
+from dfirtrack_main import models as main_models
+from dfirtrack_artifacts import forms
 
 class ArtifactListView(ListView):
     model = artifacts_models.Artifact
 
 class ArtifactCreateView(CreateView):
     model = artifacts_models.Artifact
-    form_class = ArtifactForm
+    form_class = forms.ArtifactForm
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
@@ -25,4 +25,4 @@ class ArtifactDetailView(DetailView):
 
 class ArtifactUpdateView(UpdateView):
     model = artifacts_models.Artifact
-    form_class = ArtifactForm
+    form_class = forms.ArtifactForm
