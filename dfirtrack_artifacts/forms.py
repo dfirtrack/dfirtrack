@@ -1,4 +1,5 @@
 from django import forms
+from dfirtrack_main.models import Case, System
 from dfirtrack_artifacts.models import Artifact, Artifactstatus, Artifacttype
 
 
@@ -15,5 +16,5 @@ class ArtifactstatusForm(forms.ModelForm):
 class ArtifacttypeForm(forms.ModelForm):
     class Meta:
         model = Artifacttype
-        fields = ['artifacttype_id', 'artifacttype_name', 'artifactstatus_description']
+        fields = ['artifacttype_id', 'artifacttype_name', 'artifacttype_description']
 

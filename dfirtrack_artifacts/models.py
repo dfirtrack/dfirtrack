@@ -1,5 +1,7 @@
-from django.contrib.auth.models import User
 from django.db import models
+from django.db.models import *
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
 import logging
 from time import strftime
 import uuid
@@ -8,6 +10,9 @@ import os
 import shutil
 from dfirtrack_main import models as main_models
 from dfirtrack.config import EVIDENCE_PATH
+
+#Get active user model
+User = get_user_model()
 
 #initialize logger
 stdlogger = logging.getLogger(__name__)
@@ -22,8 +27,8 @@ class Artifact(models.Model):
     # foreing key(s)
     artifacttype = models.ForeignKey('Artifacttype', on_delete=models.PROTECT)
     artifactstatus = models.ForeignKey('Artifactstatus', on_delete=models.PROTECT, default=1)
-    case = models.ForeignKey('main_models.Case', on_delete=models.PROTECT, blank=True, null=True)
-    system = models.ForeignKey('main_models.System', on_delete=models.PROTECT)
+    case = models.ForeignKey('dfirtrack_main.Case', related_name='artifact_case',on_delete=models.PROTECT, blank=True, null=True)
+    system = models.ForeignKey('dfirtrack_main.System', related_name='artifact_system',on_delete=models.PROTECT)
 
     # main entity information
     artifact_description = models.CharField(max_length=4096, blank=False, null=False)
@@ -42,8 +47,8 @@ class Artifact(models.Model):
     # meta information
     artifact_create_time = models.DateTimeField(auto_now_add=True)
     artifact_modify_time = models.DateTimeField(auto_now_add=True)
-    artifact_created_by_user_id = models.ForeignKey(User, on_delete=models.Protect, related_name='artifact_created_by')
-    artifact_modified_by_user_id = models.ForeignKey(User, on_delete=models.Protect, related_name='artifact_modified_by')
+    artifact_created_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='artifact_created_by')
+    artifact_modified_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='artifact_modified_by')
 
     # string representation
     def __str__(self):
@@ -120,11 +125,11 @@ class Artifact(models.Model):
                 os.makedirs(artifact_evidence_path)
                 return artifact_evidence_path
 
-class Artifactstatus(models.Modell):
+class Artifactstatus(models.Model):
     ''' Artifactstatus that shows the current status of the artifact like: New, Requested, Processed, Imported...'''
 
     # primary key
-    artifactstatus_id = models.AutoFieldField(primary_key=True)
+    artifactstatus_id = models.AutoField(primary_key=True)
 
     # main entity information
     artifactstatus_name = models.CharField(max_length=255, blank=False, unique=True)
@@ -134,8 +139,8 @@ class Artifactstatus(models.Modell):
     # meta information
     artifactstatus_create_time = models.DateTimeField(auto_now_add=True)
     artifactstatus_modify_time = models.DateTimeField(auto_now_add=True)
-    artifactstatus_created_by_user_id = models.ForeignKey(User, on_delete=models.Protect, related_name='artifactstatus_created_by')
-    artifactstatus_modified_by_user_id = models.ForeignKey(User, on_delete=models.Protect, related_name='artifactstatus_modified_by')
+    artifactstatus_created_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='artifactstatus_created_by')
+    artifactstatus_modified_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='artifactstatus_modified_by')
 
     class Meta:
         ordering = ('artifactstatus_name',)
@@ -166,11 +171,11 @@ class Artifactstatus(models.Modell):
     def get_update_url(self):
         return reverse('artifacts_artifactstatus_update', args=(self.pk,))
 
-class Artifacttype(models.Modell):
+class Artifacttype(models.Model):
     ''' Artifacttype like File, Registry-Key, Registry-Hive, etc. '''
 
     # primary key
-    artifacttype_id = models.AutoFieldField(primary_key=True)
+    artifacttype_id = models.AutoField(primary_key=True)
 
     # main entity information
     artifacttype_name = models.CharField(max_length=255, blank=False, unique=True)
@@ -180,8 +185,8 @@ class Artifacttype(models.Modell):
     # meta information
     artifacttype_create_time = models.DateTimeField(auto_now_add=True)
     artifacttype_modify_time = models.DateTimeField(auto_now_add=True)
-    artifacttype_created_by_user_id = models.ForeignKey(User, on_delete=models.Protect, related_name='artifacttype_created_by')
-    artifacttype_modified_by_user_id = models.ForeignKey(User, on_delete=models.Protect, related_name='artifacttype_modified_by')
+    artifacttype_created_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='artifacttype_created_by')
+    artifacttype_modified_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='artifacttype_modified_by')
 
     class Meta:
         ordering = ('artifacttype_name',)
