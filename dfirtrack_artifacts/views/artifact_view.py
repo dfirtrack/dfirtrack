@@ -8,9 +8,11 @@ from dfirtrack_artifacts import forms
 
 class ArtifactListView(ListView):
     model = artifacts_models.Artifact
+    template_name = 'dfirtrack_artifacts/artifact/artifact_list.html'
 
 class ArtifactCreateView(CreateView):
     model = artifacts_models.Artifact
+    template_name = 'dfirtrack_artifacts/artifact/artifact_add.html'
     form_class = forms.ArtifactForm
 
     def form_valid(self, form):
@@ -22,7 +24,9 @@ class ArtifactCreateView(CreateView):
 
 class ArtifactDetailView(DetailView):
     model = artifacts_models.Artifact
+    template_name = 'dfirtrack_artifacts/artifact/artifact_detail.html'
 
 class ArtifactUpdateView(UpdateView):
     model = artifacts_models.Artifact
+    template_name = 'dfirtrack_artifacts/artifact/artifact_edit.html'
     form_class = forms.ArtifactForm
