@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 import logging
 from time import strftime
 import uuid
@@ -90,6 +91,12 @@ class Case(models.Model):
             "|case_name:" + str(case.case_name) +
             "|case_is_incident:" + str(case.case_is_incident)
         )
+
+    def get_absolute_url(self):
+        return reverse('casesdetail', args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse('cases_edit', args=(self.pk,))
 
 class Company(models.Model):
 
@@ -655,6 +662,12 @@ class System(models.Model):
             os.makedirs(system_evidence_path)
             self.logger(request_user, "System-Path: {} created.".format(system_evidence_path))
             return True
+
+    def get_absolute_url(self):
+        return reverse('systemsdetail', args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse('systems_edit', args=(self.pk,))
 
 class Systemstatus(models.Model):
 
