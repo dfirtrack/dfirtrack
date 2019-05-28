@@ -5,7 +5,7 @@
 {% block head %}
 
 <title>
-    DFIRTrack - Cases
+    DFIRTrack - Artifacts
 </title>
 
 {% load staticfiles %}
@@ -22,7 +22,7 @@
 <div class="row bottom-distance">
     <div class="col">
         <h5>
-            Cases
+            Artifacts
         </h5>
     </div>
 </div>
@@ -30,22 +30,22 @@
 <!-- headlines -->
 <div class="row font-weight-bold">
 
-    <!-- case id -->
+    <!-- artifact id -->
     <div class="col-1">
         ID
     </div>
 
-    <!-- case name -->
+    <!-- artifact name -->
     <div class="col-2">
-        Case name
+        Artifact name
     </div>
 
-    <!-- case is incident -->
+    <!-- artifact is related to case -->
     <div class="col-1">
-        Incident
+        Case
     </div>
 
-    <!-- case create time -->
+    <!-- artifact create time -->
     <div class="col-2">
         Created
     </div>
@@ -58,18 +58,18 @@
 <!-- headlines -->
 </div>
 
-<!-- case list -->
+<!-- artifact list -->
 {% for i in object_list %}
 
-    <!-- case row -->
+    <!-- artifact row -->
     <div class="row top-distance">
 
-        <!-- case id -->
+        <!-- artifact id -->
         <div class="col-1">
-            {{ i.case_id }}
+            {{ i.artifact_id }}
         </div>
 
-        <!-- case name -->
+        <!-- artifact name -->
         <div class="col-2">
             <a href="/cases/{{ i.case_id }}">
                 {{ i.case_name }}
@@ -111,9 +111,9 @@
 <!-- add button -->
 <div class="row top-distance">
     <div class="col-1">
-        <a href="/cases/add" type="button" class="btn btn-light copy-false">
+        <a href="{% url 'artifacts_artifact_create' %}" type="button" class="btn btn-light copy-false">
             <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon right-distance copy-false" alt="icon">
-            Add case
+            Add artifact
         </a>
     </div>
 </div>

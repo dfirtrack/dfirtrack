@@ -6,7 +6,7 @@
 
 <!-- page title -->
 <title>
-    Artifact '{{ artifact.artifact_name }}'{% if case.system_set.all %} (s: {{ case.system_set.all|length }}){% endif %}
+    Case '{{ case.case_name }}'{% if case.system_set.all %} (s: {{ case.system_set.all|length }}){% endif %}
 </title>
 
 {% load staticfiles %}
@@ -24,7 +24,7 @@
     <div class="col-3">
         <a href="/cases" type="button" class="btn btn-light copy-false">
             <img src="{%static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon right-distance copy-false" alt="icon">
-            Up to artifacts
+            Up to cases
         </a>
     </div>
 </div>
@@ -34,13 +34,13 @@
     var clipboard = new ClipboardJS('.btn');
 </script>
 
-<!-- artifact name row -->
+<!-- case name row -->
 <div class="row">
 
-    <!-- artifact name -->
+    <!-- case name -->
     <div class="col-3">
         <h5>
-            Artifact "{{ artifact.artifact_name }}"
+            Case "{{ case.case_name }}"
         </h5>
     </div>
 
@@ -60,12 +60,12 @@
 <div class="row bottom-distance">
     <div class="col-3">
         <small class="text-muted">
-            Artifact-ID: {{ artifact.artifact_id }}
+            Case-ID: {{ case.case_id }}
         </small>
     </div>
 </div>
 
-<!-- artifact is incident row -->
+<!-- case is incident row -->
 <div class="row bottom-distance">
     <div class="col-3">
         <h5>
