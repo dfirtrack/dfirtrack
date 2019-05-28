@@ -88,10 +88,8 @@ class Artifact(models.Model):
         self.artifact_sha1 = 'Calculating...'
         self.artifact_sha256 = 'Calculating...'
 
-        # we generate the artifact directory
-
         # we generate the artifact path in the EVIDENCE_PATH
-        artifact_evidence_path = self.create_artifact_directory(self.system_uuid, self.artifact_type, self.artifact_uuid)
+        artifact_evidence_path = self.create_artifact_directory(self.system.system_uuid, self.artifacttype.artifacttype_slug, self.artifact_uuid)
 
         # check if the storage_path from the form is equal to the artifact_evidence_path
         if self.artifact_storage_path != artifact_evidence_path:
@@ -114,10 +112,10 @@ class Artifact(models.Model):
     def get_update_url(self):
         return reverse('artifacts_artifact_update', args=(self.pk,))
 
-    def create_artifact_directory(self, system_uuid, artifact_type, artifact_uuid):
+    def create_artifact_directory(self, system_uuid, artifacttype, artifact_uuid):
             """ Generates the directory in which the artifact will be stored """
             # we generate the path for the evidence file
-            artifact_evidence_path = (EVIDENCE_PATH+'/'+ str(system_uuid)+'/'+ artifact_type + '/' + str(artifact_uuid))
+            artifact_evidence_path = (EVIDENCE_PATH+'/'+ str(system_uuid)+'/'+ artifacttype + '/' + str(artifact_uuid))
             if os.path.exists(artifact_evidence_path):
                 print("Artifact-Path: {} already exists.".format(artifact_evidence_path))
                 return artifact_evidence_path
