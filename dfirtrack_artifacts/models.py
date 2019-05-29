@@ -34,10 +34,10 @@ class Artifact(models.Model):
     # main entity information
     artifact_acquisition_time = models.DateTimeField(blank=True, null=True)
     artifact_description = models.CharField(max_length=4096, blank=True, null=True)
-    artifact_md5 = models.CharField(max_length=4096, blank=False, null=False)
+    artifact_md5 = models.CharField(max_length=32, blank=True, null=True)
     artifact_name = models.CharField(max_length=4096, blank=False, null=False)
-    artifact_sha1 = models.CharField(max_length=4096, blank=False, null=False)
-    artifact_sha256 = models.CharField(max_length=4096, blank=False, null=False)
+    artifact_sha1 = models.CharField(max_length=40, blank=True, null=True)
+    artifact_sha256 = models.CharField(max_length=64, blank=True, null=True)
     artifact_slug = models.CharField(max_length=4096, blank=False, null=False)
     artifact_storage_path = models.CharField(max_length=4096, blank=False, null=False, unique=True)
     artifact_uuid = models.UUIDField(editable=False, null=False, blank=False)
@@ -48,7 +48,7 @@ class Artifact(models.Model):
         
     # meta information
     artifact_create_time = models.DateTimeField(auto_now_add=True)
-    artifact_modify_time = models.DateTimeField(auto_now_add=True)
+    artifact_modify_time = models.DateTimeField(auto_now=True)
     artifact_created_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='artifact_created_by')
     artifact_modified_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='artifact_modified_by')
 
@@ -97,6 +97,7 @@ class Artifact(models.Model):
         # check if the storage_path from the form is equal to the artifact_evidence_path
         if self.artifact_storage_path != artifact_evidence_path:
             #TODO: We mnust change this logic, so that exception will be thrown if file does not exist
+            #TODO: Check if we do not have file at the beginning --> calculate evidence path --> edit use new path testen
             # os.path.exists(self.artifact_storage_path)
             # check if we have a folder, then we do not need to create the dir
             if os.path.isdir(self.artifact_storage_path):
@@ -135,13 +136,13 @@ class Artifactstatus(models.Model):
     artifactstatus_id = models.AutoField(primary_key=True)
 
     # main entity information
-    artifactstatus_name = models.CharField(max_length=255, blank=False, unique=True)
+    artifactstatus_name = models.CharField(max_length=255, blank=False, null=False, unique=True)
     artifactstatus_description = models.CharField(max_length=2048, blank=False, null=False, unique=True)
     artifactstatus_slug = models.CharField(max_length=255, blank=False, null=False, unique=True)
 
     # meta information
     artifactstatus_create_time = models.DateTimeField(auto_now_add=True)
-    artifactstatus_modify_time = models.DateTimeField(auto_now_add=True)
+    artifactstatus_modify_time = models.DateTimeField(auto_now=True)
     artifactstatus_created_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='artifactstatus_created_by')
     artifactstatus_modified_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='artifactstatus_modified_by')
 
@@ -181,13 +182,13 @@ class Artifacttype(models.Model):
     artifacttype_id = models.AutoField(primary_key=True)
 
     # main entity information
-    artifacttype_name = models.CharField(max_length=255, blank=False, unique=True)
+    artifacttype_name = models.CharField(max_length=255, blank=False, null=False, unique=True)
     artifacttype_description = models.CharField(max_length=2048, blank=False, null=False, unique=True)
     artifacttype_slug = models.CharField(max_length=255, blank=False, null=False, unique=True)
 
     # meta information
     artifacttype_create_time = models.DateTimeField(auto_now_add=True)
-    artifacttype_modify_time = models.DateTimeField(auto_now_add=True)
+    artifacttype_modify_time = models.DateTimeField(auto_now=True)
     artifacttype_created_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='artifacttype_created_by')
     artifacttype_modified_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='artifacttype_modified_by')
 
