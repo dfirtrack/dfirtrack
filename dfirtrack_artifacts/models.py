@@ -32,7 +32,7 @@ class Artifact(models.Model):
     system = models.ForeignKey('dfirtrack_main.System', related_name='artifact_system',on_delete=models.PROTECT)
 
     # main entity information
-    artifact_acquisition_time = models.DateTimeField(blank=False, null=False)
+    artifact_acquisition_time = models.DateTimeField(blank=True, null=True)
     artifact_description = models.CharField(max_length=4096, blank=True, null=True)
     artifact_md5 = models.CharField(max_length=4096, blank=False, null=False)
     artifact_name = models.CharField(max_length=4096, blank=False, null=False)
