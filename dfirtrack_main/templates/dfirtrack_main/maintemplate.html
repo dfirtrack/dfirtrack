@@ -180,11 +180,27 @@
                 <!-- nav bar dropdown item -->
                 </li>
 
-                <!-- nav bar item -->
-                <li class="nav-item">
-                    <a class="nav-link active top-distance" href="/artifacts/artifact">
+                <!-- nav bar dropdown item -->
+                <li class="nav-item dropdown">
+
+                    <!-- nav bar dropdown toggle -->
+                    <a class="nav-link dropdown-toggle active top-distance" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                         Artifacts
                     </a>
+
+                    <!-- nav bar dropdown menu -->
+                    <div class="dropdown-menu">
+
+                        <!-- section -->
+                        <div class="dropdown-header">Artifacts</div>
+                        <a class="dropdown-item" href="{% url 'artifacts_artifact_list' %}">Artifacts</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'artifacts_artifacttype_list' %}"">Artifact Type</a>
+                        <a class="dropdown-item" href="{% url 'artifacts_artifactstatus_list' %}"">Artifact Status</a>
+
+                    <!-- nav bar dropdown menu -->
+                    </div>
+                <!-- nav bar dropdown item -->
                 </li>
 
                 <!-- nav bar item -->
