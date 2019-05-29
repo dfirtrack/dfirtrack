@@ -32,12 +32,13 @@ class Artifact(models.Model):
     system = models.ForeignKey('dfirtrack_main.System', related_name='artifact_system',on_delete=models.PROTECT)
 
     # main entity information
-    artifact_description = models.CharField(max_length=4096, blank=False, null=False)
+    artifact_acquisition_time = models.DateTimeField(blank=False, null=False)
+    artifact_description = models.CharField(max_length=4096, blank=True, null=True)
     artifact_md5 = models.CharField(max_length=4096, blank=False, null=False)
-    artifact_name = models.CharField(max_length=255, blank=False, null=False)
+    artifact_name = models.CharField(max_length=4096, blank=False, null=False)
     artifact_sha1 = models.CharField(max_length=4096, blank=False, null=False)
     artifact_sha256 = models.CharField(max_length=4096, blank=False, null=False)
-    artifact_slug = models.CharField(max_length=255, blank=False, null=False)
+    artifact_slug = models.CharField(max_length=4096, blank=False, null=False)
     artifact_storage_path = models.CharField(max_length=4096, blank=False, null=False, unique=True)
     artifact_uuid = models.UUIDField(editable=False, null=False, blank=False)
 
@@ -68,6 +69,7 @@ class Artifact(models.Model):
             "|artifact_name:" + str(artifact.artifact_name) +
             "|artifact_description:" + str(artifact.artifact_description) +
             "|artifact_slug:" + str(artifact.artifact_slug) +
+            "|artifact_acquisition_time:" + str(artifact.artifact_acquisition_time) +
 	    "|artifact_md5" + str(artifact.artifact_md5) +
 	    "|artifact_sha1" + str(artifact.artifact_sha1) +
 	    "|artifact_sha256" + str(artifact.artifact_sha256) +
@@ -94,6 +96,8 @@ class Artifact(models.Model):
 
         # check if the storage_path from the form is equal to the artifact_evidence_path
         if self.artifact_storage_path != artifact_evidence_path:
+            #TODO: We mnust change this logic, so that exception will be thrown if file does not exist
+            # os.path.exists(self.artifact_storage_path)
             # check if we have a folder, then we do not need to create the dir
             if os.path.isdir(self.artifact_storage_path):
                 pass
