@@ -6,7 +6,7 @@ from dfirtrack_artifacts.models import Artifact, Artifactstatus, Artifacttype
 class ArtifactForm(forms.ModelForm):
     class Meta:
         model = Artifact
-        fields = ['artifact_id', 'artifact_name', 'artifact_description', 'artifact_storage_path', 'artifacttype', 'case', 'system']
+        fields = ['artifact_id', 'artifact_name', 'artifact_description', 'artifact_storage_path', 'artifacttype', 'case', 'system', 'artifact_acquisition_time']
 
 class ArtifactstatusForm(forms.ModelForm):
     class Meta:
