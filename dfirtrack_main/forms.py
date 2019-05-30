@@ -1,6 +1,6 @@
 from django import forms
 from django.utils.translation import gettext_lazy
-from dfirtrack_main.models import Analystmemo, Case, Company, Contact, Division, Domain, Entry, Headline, Location, Os, Osimportname, Reason, Recommendation, Reportitem, Serviceprovider, System, Systemtype, Systemuser, Tag, Task, Taskname
+from dfirtrack_main.models import Analystmemo, Case, Company, Contact, Division, Dnsname, Domain, Entry, Headline, Location, Os, Osimportname, Reason, Recommendation, Reportitem, Serviceprovider, System, Systemtype, Systemuser, Tag, Task, Taskname
 
 class AnalystmemoForm(forms.ModelForm):
     class Meta:
@@ -321,7 +321,7 @@ class SystemForm(forms.ModelForm):
             'recommendation',
             'systemtype',
             'domain',
-            'system_dnssuffix',
+            'dnsname',
             'os',
             'osarch',
             'system_install_time',
@@ -346,7 +346,7 @@ class SystemForm(forms.ModelForm):
             'systemtype': forms.RadioSelect(),
             'ip': forms.GenericIPAddressField(),
             'domain': forms.RadioSelect(),
-            'system_dnssuffix': forms.TextInput(),
+            'dnsname': forms.RadioSelect(),
             'os': forms.RadioSelect(),
             'osarch': forms.RadioSelect(),
             'system_install_time': forms.DateTimeInput(),
