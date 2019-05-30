@@ -1,6 +1,6 @@
 from django.conf.urls import url
 from dfirtrack_main.views import generic_views
-from dfirtrack_main.views import analysisstatuss_views, analystmemos_views, cases_views, companys_views, contacts_views, divisions_views, domains_views, entrys_views, headlines_views, ips_views, locations_views, oss_views, osimportnames_views, reasons_views, recommendations_views, reportitems_views, serviceproviders_views, systems_views, systemstatuss_views, systemtypes_views, systemusers_views, tags_views, tasks_views, tasknames_views, taskprioritys_views, taskstatuss_views
+from dfirtrack_main.views import analysisstatuss_views, analystmemos_views, cases_views, companys_views, contacts_views, divisions_views, dnsnames_views, domains_views, entrys_views, headlines_views, ips_views, locations_views, oss_views, osimportnames_views, reasons_views, recommendations_views, reportitems_views, serviceproviders_views, systems_views, systemstatuss_views, systemtypes_views, systemusers_views, tags_views, tasks_views, tasknames_views, taskprioritys_views, taskstatuss_views
 from dfirtrack_main.creator import systems_creator, tasks_creator
 from dfirtrack_main.exporter.spreadsheet import csv as spreadsheet_csv
 from dfirtrack_main.exporter.spreadsheet import xls
@@ -8,7 +8,7 @@ from dfirtrack_main.exporter.markdown import domainsorted, systemsorted
 from dfirtrack_main.importer.api import giraf
 from dfirtrack_main.importer.file import csv as file_csv
 from dfirtrack_main.importer.file import filesystem, markdown
-from dfirtrack_main.models import Analysisstatus, Analystmemo, Case, Company, Contact, Division, Domain, Entry, Headline, Ip, Location, Os, Osimportname, Reason, Recommendation, Reportitem, Serviceprovider, System, Systemstatus, Systemtype, Systemuser, Tag, Task, Taskname, Taskpriority, Taskstatus
+from dfirtrack_main.models import Analysisstatus, Analystmemo, Case, Company, Contact, Division, Dnsname, Domain, Entry, Headline, Ip, Location, Os, Osimportname, Reason, Recommendation, Reportitem, Serviceprovider, System, Systemstatus, Systemtype, Systemuser, Tag, Task, Taskname, Taskpriority, Taskstatus
 
 urlpatterns = [
 
@@ -44,6 +44,12 @@ urlpatterns = [
     url(r'^divisions/(?P<pk>\d+)$', divisions_views.DivisionsDetail.as_view(), name='divisionsdetail'),
     url(r'^divisions/add/$', divisions_views.divisions_add, name='divisions_add'),
     url(r'^divisions/(?P<pk>\d+)/edit/$', divisions_views.divisions_edit, name='divisions_edit'),
+
+    url(r'^dnsnames/$', dnsnames_views.Dnsnames.as_view(), name='dnsnames'),
+    url(r'^dnsnames/(?P<pk>\d+)$', dnsnames_views.DnsnamesDetail.as_view(), name='dnsnamesdetail'),
+    url(r'^dnsnames/add/$', dnsnames_views.dnsnames_add, name='dnsnames_add'),
+    url(r'^dnsnames/add_popup$', dnsnames_views.dnsnames_add_popup, name='dnsnames_add_popup'),
+    url(r'^dnsnames/(?P<pk>\d+)/edit/$', dnsnames_views.dnsnames_edit, name='dnsnames_edit'),
 
     url(r'^domains/$', domains_views.Domains.as_view(), name='domains'),
     url(r'^domains/(?P<pk>\d+)$', domains_views.DomainsDetail.as_view(), name='domainsdetail'),
