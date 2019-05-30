@@ -6,7 +6,7 @@
 
 <!-- page title -->
 <title>
-    Systemuser '{{ systemuser.systemuser_name }}' ({{ systemuser.system.system_name }}{% if systemuser.system.system_dnssuffix %}.{{ systemuser.system.system_dnssuffix }}{% endif %})
+    Systemuser '{{ systemuser.systemuser_name }}' ({{ systemuser.system.system_name }}{% if systemuser.system.dnsname %}.{{ systemuser.system.dnsname }}{% endif %})
 </title>
 
 {% load staticfiles %}
