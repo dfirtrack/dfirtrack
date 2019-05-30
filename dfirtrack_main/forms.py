@@ -108,6 +108,7 @@ class DnsnameForm(forms.ModelForm):
         }
         # special form type or option
         widgets = {
+            'domain': forms.RadioSelect(),
             'dnsname_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
         }
 
