@@ -169,6 +169,9 @@ class Dnsname(models.Model):
     # primary key
     dnsname_id = models.AutoField(primary_key=True)
 
+    # foreign key(s)
+    domain = models.ForeignKey('Domain', on_delete=models.PROTECT, blank=True, null=True)
+
     # main entity information
     dnsname_name = models.CharField(max_length=100, unique=True)
     dnsname_note = models.TextField(blank=True, null=True)
@@ -511,6 +514,7 @@ class System(models.Model):
     systemtype = models.ForeignKey('Systemtype', on_delete=models.PROTECT, blank=True, null=True)
     ip = models.ManyToManyField('Ip', blank=True)
     domain = models.ForeignKey('Domain', on_delete=models.PROTECT, blank=True, null=True)
+    dnsname = models.ForeignKey('Dnsname', on_delete=models.PROTECT, blank=True, null=True)
     os = models.ForeignKey('Os', on_delete=models.PROTECT, blank=True, null=True)
     osarch = models.ForeignKey('Osarch', on_delete=models.PROTECT, blank=True, null=True)
     host_system = models.ForeignKey('self', on_delete=models.PROTECT, blank=True, null=True)
@@ -524,7 +528,6 @@ class System(models.Model):
     # main entity information
     system_uuid = models.UUIDField(editable=False, null=True, unique=True)
     system_name = models.CharField(max_length=50)
-    system_dnssuffix = models.CharField(max_length=50, blank=True, null=True)
     system_install_time = models.DateTimeField(blank=True, null=True)
     system_lastbooted_time = models.DateTimeField(blank=True, null=True)
     system_deprecated_time = models.DateTimeField(blank=True, null=True)
@@ -645,7 +648,7 @@ class System(models.Model):
             "|systemtype:" + str(system.systemtype) +
             "|ip:" + ipstring +
             "|domain:" + str(system.domain) +
-            "|system_dnssuffix:" + str(system.system_dnssuffix) +
+            "|dnsname:" + str(system.dnsname) +
             "|os:" + str(system.os) +
             "|osarch:" + str(system.osarch) +
             "|system_install_time:" + installtime +
