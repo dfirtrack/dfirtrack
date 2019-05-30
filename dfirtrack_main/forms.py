@@ -92,6 +92,24 @@ class DivisionForm(forms.ModelForm):
             'division_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
         }
 
+class DnsnameForm(forms.ModelForm):
+    class Meta:
+        model = Dnsname
+        # this HTML forms are shown
+        fields = (
+            'dnsname_name',
+            'dnsname_note',
+        )
+        # non default form labeling
+        labels = {
+            'dnsname_name': gettext_lazy('DNS name (*)'),
+            'dnsname_note': gettext_lazy('Note'),
+        }
+        # special form type or option
+        widgets = {
+            'dnsname_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
+        }
+
 class DomainForm(forms.ModelForm):
     class Meta:
         model = Domain
