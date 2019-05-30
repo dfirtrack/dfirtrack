@@ -164,6 +164,29 @@ class Division(models.Model):
             "|division_note:" + str(division.division_note)
         )
 
+class Dnsname(models.Model):
+
+    # primary key
+    dnsname_id = models.AutoField(primary_key=True)
+
+    # main entity information
+    dnsname_name = models.CharField(max_length=100, unique=True)
+    dnsname_note = models.TextField(blank=True, null=True)
+
+    # string representation
+    def __str__(self):
+        return self.dnsname_name
+
+    # define logger
+    def logger(dnsname, request_user, log_text):
+        stdlogger.info(
+            request_user +
+            log_text +
+            " dnsname_id:" + str(dnsname.dnsname_id) +
+            "|dnsname_name:" + str(dnsname.dnsname_name) +
+            "|dnsname_note:" + str(dnsname.dnsname_note)
+        )
+
 class Domain(models.Model):
 
     # primary key
