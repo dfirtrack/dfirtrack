@@ -9,7 +9,7 @@
 <!-- page title -->
 
 <title>
-    {{ system.system_name }}{% if system.system_dnssuffix %}.{{ system.system_dnssuffix }}{% endif %}
+    {{ system.system_name }}{% if system.dnsname %}.{{ system.dnsname }}{% endif %}
 </title>
 
 <!-- static files -->
@@ -66,11 +66,11 @@
          </div>
     </div>
 
-    <!-- dns suffix -->
+    <!-- dnsname -->
     <div class="col-3">
-        <div class="font-weight-bold">DNS Suffix:</div>
-        {% if system.system_dnssuffix %}
-            {{ system.system_dnssuffix }}
+        <div class="font-weight-bold">DNS name:</div>
+        {% if system.dnsname %}
+            {{ system.dnsname }}
         {% else %}
             ---
         {% endif %}
