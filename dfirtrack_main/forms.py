@@ -97,6 +97,7 @@ class DnsnameForm(forms.ModelForm):
         model = Dnsname
         # this HTML forms are shown
         fields = (
+            'domain',
             'dnsname_name',
             'dnsname_note',
         )
