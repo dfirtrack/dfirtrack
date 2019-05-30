@@ -132,6 +132,16 @@ class SystemModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'domain')
 
+    def test_system_dnsname_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        system_1 = System.objects.get(system_name='system_1')
+        # get label
+        field_label = system_1._meta.get_field('dnsname').verbose_name
+        # compare
+        self.assertEquals(field_label, 'dnsname')
+
     def test_system_os_attribute_label(self):
         """ test attribute label """
 
@@ -242,16 +252,6 @@ class SystemModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'system name')
 
-    def test_system_dnssuffix_attribute_label(self):
-        """ test attribute label """
-
-        # get object
-        system_1 = System.objects.get(system_name='system_1')
-        # get label
-        field_label = system_1._meta.get_field('system_dnssuffix').verbose_name
-        # compare
-        self.assertEquals(field_label, 'system dnssuffix')
-
     def test_system_install_time_attribute_label(self):
         """ test attribute label """
 
@@ -349,15 +349,5 @@ class SystemModelTestCase(TestCase):
         system_1 = System.objects.get(system_name='system_1')
         # get max length
         max_length = system_1._meta.get_field('system_name').max_length
-        # compare
-        self.assertEquals(max_length, 50)
-
-    def test_system_dnssuffix_length(self):
-        """ test for max length """
-
-        # get object
-        system_1 = System.objects.get(system_name='system_1')
-        # get max length
-        max_length = system_1._meta.get_field('system_dnssuffix').max_length
         # compare
         self.assertEquals(max_length, 50)
