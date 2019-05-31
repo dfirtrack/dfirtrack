@@ -720,6 +720,7 @@ class Systemuser(models.Model):
     # main entity information
     systemuser_name = models.CharField(max_length=50)
     systemuser_lastlogon_time = models.DateTimeField(blank=True, null=True)
+    systemuser_is_systemadmin = models.NullBooleanField(blank=True, null=True)
 
     # define unique together
     class Meta:
@@ -737,7 +738,8 @@ class Systemuser(models.Model):
             " systemuser_id:" + str(systemuser.systemuser_id) +
             "|system:" + str(systemuser.system) +
             "|systemuser_name:" + str(systemuser.systemuser_name) +
-            "|systemuser_lastlogon_time:" + str(systemuser.systemuser_lastlogon_time)
+            "|systemuser_lastlogon_time:" + str(systemuser.systemuser_lastlogon_time) +
+            "|systemuser_is_systemadmin:" + str(systemuser.systemuser_is_systemadmin)
         )
 
 class Tag(models.Model):

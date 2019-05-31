@@ -41,6 +41,10 @@
                 <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                 {{ systemuser.system.system_name }}
             </a>
+            <!-- systemuser admin -->
+            {% if systemuser.systemuser_is_systemadmin %}
+                (Admin)
+            {% endif %}
         </h5>
     </div>
 </div>
