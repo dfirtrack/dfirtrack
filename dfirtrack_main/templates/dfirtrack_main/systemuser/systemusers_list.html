@@ -41,6 +41,11 @@
         Systemuser
     </div>
 
+    <!-- systemuser admin headline -->
+    <div class="col-1">
+        Admin
+    </div>
+
     <!-- systemuser last logon time headline -->
     <div class="col-2">
         Last logon
@@ -70,6 +75,13 @@
             <a href="/systemusers/{{ i.systemuser_id }}">
                 {{ i.systemuser_name }} | {{ i.system }}
             </a>
+        </div>
+
+        <!-- systemuser admin -->
+        <div class="col-1">
+            {% if i.systemuser_is_systemadmin %}
+                X
+            {% endif %}
         </div>
 
         <!-- systemuser last logon time -->
