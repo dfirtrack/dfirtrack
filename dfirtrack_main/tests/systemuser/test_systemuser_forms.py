@@ -41,6 +41,14 @@ class SystemuserFormTestCase(TestCase):
         # compare
         self.assertEquals(form.fields['systemuser_lastlogon_time'].label, 'Last logon time (YYYY-MM-DD HH:MM:SS)')
 
+    def test_systemuser_is_systemadmin_form_label(self):
+        """ test form label """
+
+        # get object
+        form = SystemuserForm()
+        # compare
+        self.assertEquals(form.fields['systemuser_is_systemadmin'].label, 'Systemuser is systemadmin')
+
     def test_systemuser_system_form_label(self):
         """ test form label """
 

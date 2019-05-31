@@ -75,6 +75,16 @@ class SystemuserModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'systemuser lastlogon time')
 
+    def test_systemuser_is_systemadmin_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        systemuser_1 = Systemuser.objects.get(systemuser_name='systemuser_1')
+        # get label
+        field_label = systemuser_1._meta.get_field('systemuser_is_systemadmin').verbose_name
+        # compare
+        self.assertEquals(field_label, 'systemuser is systemadmin')
+
     def test_systemuser_name_length(self):
         """ test for max length """
 
