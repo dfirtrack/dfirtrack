@@ -492,6 +492,7 @@ class SystemuserForm(forms.ModelForm):
         fields = (
             'systemuser_name',
             'systemuser_lastlogon_time',
+            'systemuser_is_systemadmin',
             'system',
         )
         # non default form labeling
