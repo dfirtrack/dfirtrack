@@ -187,7 +187,8 @@ class Dnsname(models.Model):
             log_text +
             " dnsname_id:" + str(dnsname.dnsname_id) +
             "|dnsname_name:" + str(dnsname.dnsname_name) +
-            "|dnsname_note:" + str(dnsname.dnsname_note)
+            "|dnsname_note:" + str(dnsname.dnsname_note) +
+            "|domain:" + str(dnsname.domain)
         )
 
 class Domain(models.Model):
