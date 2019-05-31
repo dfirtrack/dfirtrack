@@ -213,6 +213,59 @@ class Domain(models.Model):
             "|domain_note:" + str(domain.domain_note)
         )
 
+class Domainuser(models.Model):
+
+    # primary key
+    domainuser_id = models.AutoField(primary_key=True)
+
+    # foreign key(s)
+    domain = models.ForeignKey('Domain', on_delete=models.CASCADE)
+    system_was_logged_on = models.ManyToManyField('System', blank=True)
+
+    # main entity information
+    domainuser_name = models.CharField(max_length=50)
+    domainuser_is_domainadmin = models.NullBooleanField(blank=True, null=True)
+
+    # define unique together
+    class Meta:
+        unique_together = ('domain', 'domainuser_name')
+
+    # string representation
+    def __str__(self):
+        return '%s (%s)' % (self.domainuser_name, self.domain)
+
+    # define logger
+    def logger(domainuser, request_user, log_text):
+
+        """
+        ManyToMany-Relationsship don't get the default 'None' string if they are empty.
+        So the default string is set to 'None'.
+        If there are existing entities, their strings will be used instead and concatenated and separated by comma.
+        """
+
+        # get objects
+        systems = domainuser.system_was_logged_on.all()
+        # create empty list
+        systemlist = []
+        # set default string if there is no object at all
+        systemstring = 'None'
+        # iterate over objects
+        for system in systems:
+            # append object to list
+            systemlist.append(system.system_name)
+            # join list to comma separated string if there are any objects, else default string will remain
+            systemstring = ','.join(systemlist)
+
+        stdlogger.info(
+            request_user +
+            log_text +
+            " domainuser_id:" + str(domainuser.domainuser_id) +
+            "|domainuser_name:" + str(domainuser.domainuser_name) +
+            "|domainuser_is_domainadmin:" + str(domainuser.domainuser_is_domainadmin) +
+            "|domain:" + str(domainuser.domain) +
+            "|system_was_logged_on: " + systemlist
+        )
+
 class Entry(models.Model):
 
     # primary key
