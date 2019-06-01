@@ -1,6 +1,6 @@
 from django import forms
 from django.utils.translation import gettext_lazy
-from dfirtrack_main.models import Analystmemo, Case, Company, Contact, Division, Dnsname, Domain, Entry, Headline, Location, Os, Osimportname, Reason, Recommendation, Reportitem, Serviceprovider, System, Systemtype, Systemuser, Tag, Task, Taskname
+from dfirtrack_main.models import Analystmemo, Case, Company, Contact, Division, Dnsname, Domain, Domainuser, Entry, Headline, Location, Os, Osimportname, Reason, Recommendation, Reportitem, Serviceprovider, System, Systemtype, Systemuser, Tag, Task, Taskname
 
 class AnalystmemoForm(forms.ModelForm):
     class Meta:
@@ -127,6 +127,29 @@ class DomainForm(forms.ModelForm):
         # special form type or option
         widgets = {
             'domain_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
+        }
+
+class DomainuserForm(forms.ModelForm):
+    class Meta:
+        model = Domainuser
+        # this HTML forms are shown
+        fields = (
+            'domainuser_name',
+            'domainuser_is_domainadmin',
+            'domain',
+            'system_was_logged_on',
+        )
+        # non default form labeling
+        labels = {
+            'domainuser_name': gettext_lazy('Domainuser name (*)'),
+            'domain': gettext_lazy('Domain (*)'),
+            'system_was_logged_on': gettext_lazy('Systems where this domainuser was logged on'),
+        }
+        # special form type or option
+        widgets = {
+            'domainuser_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
+            'domain': forms.RadioSelect(),
+            'system_was_logged_on': forms.CheckboxSelectMultiple(),
         }
 
 class EntryForm(forms.ModelForm):
