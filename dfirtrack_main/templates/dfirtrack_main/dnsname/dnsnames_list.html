@@ -41,8 +41,13 @@
         DNS name
     </div>
 
+    <!-- domain headline -->
+    <div class="col-2">
+        Domain
+    </div>
+
     <!-- dnsname note headline -->
-    <div class="col-8">
+    <div class="col-6">
         Note
     </div>
 
@@ -67,8 +72,15 @@
             </a>
         </div>
 
+        <!-- domain -->
+        <div class="col-2">
+            <a href="/domains/{{ i.domain.domain_id }}">
+                {{ i.domain.domain_name }}
+            </a>
+        </div>
+
         <!-- dnsname note -->
-        <div class="col-8">
+        <div class="col-6">
             {% if i.dnsname_note %}
                 {{ i.dnsname_note|linebreaks }}
             {% else %}
