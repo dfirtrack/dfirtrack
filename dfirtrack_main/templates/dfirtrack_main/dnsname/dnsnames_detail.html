@@ -64,6 +64,18 @@
     </div>
 </div>
 
+<!-- domain -->
+<div class="row bottom-distance">
+    <div class="col">
+            {% if dnsname.domain %}
+                Associated to domain
+                    <a href="/domains/{{ dnsname.domain.domain_id }}">
+                        "{{ dnsname.domain.domain_name }}"
+                    </a>
+            {% endif %}
+    </div>
+</div>
+
 <!-- dnsname note headline -->
 <div class="row">
     <div class="col-3">

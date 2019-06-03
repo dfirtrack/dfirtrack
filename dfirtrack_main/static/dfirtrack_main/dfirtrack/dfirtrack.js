@@ -44,6 +44,12 @@ function domains_add_popup() {
     domains_add_popup = window.open("/domains/add_popup", "domains_add_popup", "height=600, width=1000");
 }
 
+// popup window for adding dnsname
+var dnsnames_add_popup;
+function dnsnames_add_popup() {
+    dnsnames_add_popup = window.open("/dnsnames/add_popup", "dnsnames_add_popup", "height=600, width=1000");
+}
+
 // popup window for adding location
 var locations_add_popup;
 function locations_add_popup() {

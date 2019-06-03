@@ -70,7 +70,9 @@
     <div class="col-3">
         <div class="font-weight-bold">DNS name:</div>
         {% if system.dnsname %}
-            {{ system.dnsname }}
+            <a href="/dnsnames/{{ system.dnsname.dnsname_id}}">
+                {{ system.dnsname }}
+            </a>
         {% else %}
             ---
         {% endif %}

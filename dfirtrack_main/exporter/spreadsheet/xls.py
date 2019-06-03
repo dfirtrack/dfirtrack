@@ -38,6 +38,7 @@ def systems(request):
         'Type',
         'IP',
         'Domain',
+        'DNS Name',
         'OS',
         'Company',
         'Location',
@@ -106,6 +107,12 @@ def systems(request):
             domain = system.domain.domain_name
 
         # set foreign key field to none if it doesn't exist
+        if system.dnsname == None:
+            dnsname = ''
+        else:
+            dnsname = system.dnsname.dnsname_name
+
+        # set foreign key field to none if it doesn't exist
         if system.os == None:
             os = ''
         else:
@@ -154,6 +161,7 @@ def systems(request):
             systemtype,
             ip,
             domain,
+            dnsname,
             os,
             company,
             location,
