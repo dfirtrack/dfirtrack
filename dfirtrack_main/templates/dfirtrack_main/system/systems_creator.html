@@ -86,9 +86,30 @@
             </div>
 
             <!-- systemlist requirement description -->
-            <div class="col-5">
+            <div class="col-3">
                 <p><b>Systems with existing system names won't get added.</b></p>
                 <p>Only one system per line is allowed.</p>
+            </div>
+
+            <!-- dnsname -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- dnsname errors -->
+                    <div class="text-danger">
+                        {{ form.dnsname.errors }}
+                    </div>
+                    {% for i in form.dnsname %}
+                        {{ i }}<br>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- add dnsname button -->
+            <div class="col-3">
+                <button onclick="dnsnames_add_popup()" type="button" class="btn btn-light btn-sm top-distance copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    Add DNS name
+                </button>
             </div>
 
         <!-- systemlist -->
