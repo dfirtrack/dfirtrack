@@ -110,7 +110,9 @@
                     <div class="text-danger">
                         {{ form.dnsname.errors }}
                     </div>
-                    {{ form.dnsname }}
+                    {% for i in form.dnsname %}
+                        {{ i }}
+                    {% endfor %}
                 </div>
             </div>
 
