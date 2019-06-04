@@ -966,10 +966,15 @@
                         <img src="{% static 'dfirtrack_main/icons/person-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                         <!-- systemuser admin -->
                         {% if i.systemuser_is_systemadmin %}
-                            {{ i.systemuser_name }} (Admin) ({{ i.systemuser_lastlogon_time|date:"Y-m-d H:i" }})<br>
+                            {{ i.systemuser_name }} (Admin)
                         {% else %}
-                            {{ i.systemuser_name }} ({{ i.systemuser_lastlogon_time|date:"Y-m-d H:i" }})<br>
+                            {{ i.systemuser_name }}
                         {% endif %}
+                        <!-- systemuser lastlogon time -->
+                        {% if i.systemuser_lastlogon_time %}
+                            ({{ i.systemuser_lastlogon_time|date:"Y-m-d H:i" }})
+                        {% endif %}
+                        <br>
                     {% endfor %}
                 </div>
 
