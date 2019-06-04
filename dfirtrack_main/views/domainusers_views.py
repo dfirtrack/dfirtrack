@@ -33,6 +33,7 @@ def domainusers_add(request):
         if form.is_valid():
             domainuser = form.save(commit=False)
             domainuser.save()
+            form.save_m2m()
             domainuser.logger(str(request.user), " DOMAINUSER_ADD_EXECUTED")
             messages.success(request, 'Domainuser added')
             return redirect('/domainusers')
@@ -49,6 +50,7 @@ def domainusers_edit(request, pk):
         if form.is_valid():
             domainuser = form.save(commit=False)
             domainuser.save()
+            form.save_m2m()
             domainuser.logger(str(request.user), " DOMAINUSER_EDIT_EXECUTED")
             messages.success(request, 'Domainuser edited')
             return redirect('/domainusers')
