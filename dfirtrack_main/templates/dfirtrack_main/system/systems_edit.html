@@ -90,16 +90,38 @@
             <div class="col-3">
             </div>
 
-            <!-- system export markdown -->
+            <!-- system export values -->
             <div class="col-3">
-                <!-- system export markdown errors -->
-                <div class="text-danger">
-                    {{ form.system_export_markdown.errors }}
-                </div>
-                <div class="font-weight-bold">
-                    Export system to markdown
-                    {{ form.system_export_markdown }}
-                </div>
+
+                <table>
+
+                    <!-- system export markdown -->
+                    <tr>
+                        <td>
+                            <span class="font-weight-bold right-distance">
+                                Export system to markdown
+                            </span>
+                        </td>
+                        <td>
+                            {{ form.system_export_markdown }}
+                        </td>
+                    </tr>
+
+                    <!-- system export spreadsheet -->
+                    <tr>
+                        <td>
+                            <span class="font-weight-bold right-distance">
+                                Export system to spreadsheet
+                            </span>
+                        </td>
+                        <td>
+                            {{ form.system_export_spreadsheet }}
+                        </td>
+                    </tr>
+
+                </table>
+
+            <!-- export values -->
             </div>
 
         <!-- system name headline row -->

@@ -594,6 +594,7 @@ class System(models.Model):
     system_created_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='system_created_by')
     system_modified_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='system_modified_by')
     system_export_markdown = models.BooleanField(default=True)
+    system_export_spreadsheet = models.BooleanField(default=True)
 
     # define unique together
     class Meta:
@@ -717,7 +718,8 @@ class System(models.Model):
             "|contact:" + str(system.contact) +
             "|tag:" + tagstring +
             "|case:" + casestring +
-            "|system_export_markdown:" + str(system.system_export_markdown)
+            "|system_export_markdown:" + str(system.system_export_markdown) +
+            "|system_export_spreadsheet:" + str(system.system_export_spreadsheet)
         )
 
 class Systemstatus(models.Model):
