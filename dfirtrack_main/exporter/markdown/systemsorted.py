@@ -115,7 +115,7 @@ def systemsorted_async(request_user):
     # iterate over systems
     for system in systems:
 
-        # skip system if it should not be exported
+        # skip system depending on export variable
         if system.system_export_markdown == False:
             continue
 
