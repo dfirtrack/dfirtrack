@@ -1,0 +1,94 @@
+<!-- extending maintemplate -->
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+<!-- HTML head in maintemplate -->
+{% block head %}
+
+<!-- page title -->
+<title>
+    DFIRTrack - Artifacstatus
+</title>
+
+{% load staticfiles %}
+
+<!-- HTML head in maintemplate -->
+{% endblock %}
+
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
+{% block content %}
+
+<!-- headline -->
+<div class="row bottom-distance">
+    <div class="col">
+        <h5>
+            Artifacstatus
+        </h5>
+    </div>
+</div>
+
+<!-- headlines -->
+<div class="row font-weight-bold">
+
+    <!-- artifactstatus id headline -->
+    <div class="col-1">
+        ID
+    </div>
+
+    <!-- artifactstatus name headline -->
+    <div class="col-2">
+        Artifacstatus
+    </div>
+
+    <!-- artifactstatus description headline -->
+    <div class="col-8">
+        Description
+    </div>
+
+<!-- headlines -->
+</div>
+
+<!-- artifactstatus list -->
+{% for i in object_list %}
+
+    <!-- artifactstatus row -->
+    <div class="row top-distance">
+
+        <!-- artifactstatus id -->
+        <div class="col-1">
+            {{ i.artifactstatus_id }}
+        </div>
+
+        <!-- artifactstatus name -->
+        <div class="col-2">
+            {{ i.artifactstatus_name }}
+        </div>
+
+        <!-- artifactstatus note -->
+        <div class="col-9">
+            {% if i.artifactstatus_description %}
+                {{ i.artifactstatus_description|linebreaks }}
+            {% else %}
+                ---
+            {% endif %}
+        </div>
+
+    <!-- artifactstatus row -->
+    </div>
+
+<!-- artifactstatus list -->
+{% endfor %}
+
+<!-- add button -->
+<div class="row top-distance">
+    <div class="col-1">
+        <a href="{% url 'artifacts_artifactstatus_create' %}" type="button" class="btn btn-light copy-false">
+            <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Add artifactstatus
+        </a>
+    </div>
+</div>
+
+<!-- HTML body in maintemplate -->
+{% endblock %}
