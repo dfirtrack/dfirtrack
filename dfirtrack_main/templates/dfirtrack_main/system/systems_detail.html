@@ -78,6 +78,51 @@
         {% endif %}
     </div>
 
+    <!-- placeholder -->
+    <div class="col-3"></div>
+
+    <!-- system export values -->
+    <div class="col-3">
+
+        <table>
+
+            <!-- system export markdown -->
+            <tr>
+                <td>
+                    <span class="font-weight-bold right-distance">
+                        Export system to markdown
+                    </span>
+                </td>
+                <td>
+                    {% if system.system_export_markdown == True %}
+                        {% include "dfirtrack_main/includes/button_true.html" %}
+                    {% elif system.system_export_markdown == False %}
+                        {% include "dfirtrack_main/includes/button_false.html" %}
+                    {% endif %}
+                </td>
+            </tr>
+
+            <!-- system export spreadsheet -->
+            <tr>
+                <td>
+                    <span class="font-weight-bold right-distance">
+                        Export system to spreadsheet
+                    </span>
+                </td>
+                <td>
+                    {% if system.system_export_spreadsheet == True %}
+                        {% include "dfirtrack_main/includes/button_true.html" %}
+                    {% elif system.system_export_spreadsheet == False %}
+                        {% include "dfirtrack_main/includes/button_false.html" %}
+                    {% endif %}
+                </td>
+            </tr>
+
+        </table>
+
+    <!-- system export values -->
+    </div>
+
 <!-- system name row -->
 </div>
 

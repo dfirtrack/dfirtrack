@@ -144,6 +144,10 @@ def domainsorted_async(request_user):
     # iterate over systems
     for system in systems:
 
+        # skip system depending on export variable
+        if system.system_export_markdown == False:
+            continue
+
         # call writing function (and get return values)
         rid, rfqdn, rpath, rdomain = write_report_domainsorted(system, request_user)
 
