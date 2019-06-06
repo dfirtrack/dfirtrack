@@ -586,6 +586,7 @@ class System(models.Model):
     system_lastbooted_time = models.DateTimeField(blank=True, null=True)
     system_deprecated_time = models.DateTimeField(blank=True, null=True)
     system_is_vm = models.NullBooleanField(blank=True, null=True)
+    system_export = models.BooleanField(default=True)
 
     # meta information
     system_create_time = models.DateTimeField(auto_now_add=True)
@@ -715,7 +716,8 @@ class System(models.Model):
             "|serviceprovider:" + str(system.serviceprovider) +
             "|contact:" + str(system.contact) +
             "|tag:" + tagstring +
-            "|case:" + casestring
+            "|case:" + casestring +
+            "|system_export:" + str(system.system_export)
         )
 
 class Systemstatus(models.Model):
