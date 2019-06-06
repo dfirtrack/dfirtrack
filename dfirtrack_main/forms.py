@@ -378,6 +378,7 @@ class SystemForm(forms.ModelForm):
             'contact',
             'tag',
             'case',
+            'system_export',
         )
         # special form type or option
         widgets = {
