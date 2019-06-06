@@ -78,6 +78,21 @@
         {% endif %}
     </div>
 
+    <!-- placeholder -->
+    <div class="col-3"></div>
+
+    <!-- system export markdown -->
+    <div class="col-3">
+        <div class="font-weight-bold">
+            Export system to markdown
+            {% if system.system_export_markdown == True %}
+                {% include "dfirtrack_main/includes/button_true.html" %}
+            {% elif system.system_export_markdown == False %}
+                {% include "dfirtrack_main/includes/button_false.html" %}
+            {% endif %}
+        </div>
+    </div>
+
 <!-- system name row -->
 </div>
 
