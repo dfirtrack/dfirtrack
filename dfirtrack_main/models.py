@@ -264,7 +264,7 @@ class Domainuser(models.Model):
             "|domainuser_name:" + str(domainuser.domainuser_name) +
             "|domainuser_is_domainadmin:" + str(domainuser.domainuser_is_domainadmin) +
             "|domain:" + str(domainuser.domain) +
-            "|system_was_logged_on: " + systemstring
+            "|system_was_logged_on:" + systemstring
         )
 
 class Entry(models.Model):
