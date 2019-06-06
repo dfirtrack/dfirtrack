@@ -370,3 +370,6 @@ dfirtrack_artifacts/notes.md
 dfirtrack_artifacts/migrations/
 # docker TODO: remove this after fixing
 docker_foo/
+
+# Venv
+venv/

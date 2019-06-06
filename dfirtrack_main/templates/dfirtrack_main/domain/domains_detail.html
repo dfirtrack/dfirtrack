@@ -118,6 +118,39 @@
 <!-- systems -->
 {% endif %}
 
+<!-- dnsname headline -->
+<div class="row top-distance">
+    <div class="col-6">
+        <h5>
+            DNS names associated to this domain{% if domain.dnsname_set.all %} ({{ domain.dnsname_set.all|length }}){% endif %}
+        </h5>
+    </div>
+</div>
+
+<!-- dnsnames -->
+{% if domain.dnsname_set.all %}
+
+    {% for i in domain.dnsname_set.all %}
+        <div class="row top-distance">
+            <div class="col-3">
+                <a href="/dnsnames/{{ i.dnsname_id}}">
+                    {{ i.dnsname_name }}
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+
+<!-- no dnsnames -->
+{% else %}
+    <div class="row top-distance">
+        <div class="col-3">
+            ---
+        </div>
+    </div>
+
+<!-- dnsnames -->
+{% endif %}
+
 <!-- edit button -->
 <a href="/domains/{{ domain.domain_id }}/edit" type="button" class="btn btn-light top-distance copy-false">
     <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon right-distance copy-false" alt="icon">

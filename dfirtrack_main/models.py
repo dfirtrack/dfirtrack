@@ -175,6 +175,33 @@ class Division(models.Model):
             "|division_note:" + str(division.division_note)
         )
 
+class Dnsname(models.Model):
+
+    # primary key
+    dnsname_id = models.AutoField(primary_key=True)
+
+    # foreign key(s)
+    domain = models.ForeignKey('Domain', on_delete=models.PROTECT, blank=True, null=True)
+
+    # main entity information
+    dnsname_name = models.CharField(max_length=100, unique=True)
+    dnsname_note = models.TextField(blank=True, null=True)
+
+    # string representation
+    def __str__(self):
+        return self.dnsname_name
+
+    # define logger
+    def logger(dnsname, request_user, log_text):
+        stdlogger.info(
+            request_user +
+            log_text +
+            " dnsname_id:" + str(dnsname.dnsname_id) +
+            "|dnsname_name:" + str(dnsname.dnsname_name) +
+            "|dnsname_note:" + str(dnsname.dnsname_note) +
+            "|domain:" + str(dnsname.domain)
+        )
+
 class Domain(models.Model):
 
     # primary key
@@ -196,6 +223,59 @@ class Domain(models.Model):
             " domain_id:" + str(domain.domain_id) +
             "|domain_name:" + str(domain.domain_name) +
             "|domain_note:" + str(domain.domain_note)
+        )
+
+class Domainuser(models.Model):
+
+    # primary key
+    domainuser_id = models.AutoField(primary_key=True)
+
+    # foreign key(s)
+    domain = models.ForeignKey('Domain', on_delete=models.CASCADE)
+    system_was_logged_on = models.ManyToManyField('System', blank=True)
+
+    # main entity information
+    domainuser_name = models.CharField(max_length=50)
+    domainuser_is_domainadmin = models.NullBooleanField(blank=True, null=True)
+
+    # define unique together
+    class Meta:
+        unique_together = ('domain', 'domainuser_name')
+
+    # string representation
+    def __str__(self):
+        return '%s (%s)' % (self.domainuser_name, self.domain)
+
+    # define logger
+    def logger(domainuser, request_user, log_text):
+
+        """
+        ManyToMany-Relationsship don't get the default 'None' string if they are empty.
+        So the default string is set to 'None'.
+        If there are existing entities, their strings will be used instead and concatenated and separated by comma.
+        """
+
+        # get objects
+        systems = domainuser.system_was_logged_on.all()
+        # create empty list
+        systemlist = []
+        # set default string if there is no object at all
+        systemstring = 'None'
+        # iterate over objects
+        for system in systems:
+            # append object to list
+            systemlist.append(system.system_name)
+            # join list to comma separated string if there are any objects, else default string will remain
+            systemstring = ','.join(systemlist)
+
+        stdlogger.info(
+            request_user +
+            log_text +
+            " domainuser_id:" + str(domainuser.domainuser_id) +
+            "|domainuser_name:" + str(domainuser.domainuser_name) +
+            "|domainuser_is_domainadmin:" + str(domainuser.domainuser_is_domainadmin) +
+            "|domain:" + str(domainuser.domain) +
+            "|system_was_logged_on:" + systemstring
         )
 
 class Entry(models.Model):
@@ -499,6 +579,7 @@ class System(models.Model):
     systemtype = models.ForeignKey('Systemtype', on_delete=models.PROTECT, blank=True, null=True)
     ip = models.ManyToManyField('Ip', blank=True)
     domain = models.ForeignKey('Domain', on_delete=models.PROTECT, blank=True, null=True)
+    dnsname = models.ForeignKey('Dnsname', on_delete=models.PROTECT, blank=True, null=True)
     os = models.ForeignKey('Os', on_delete=models.PROTECT, blank=True, null=True)
     osarch = models.ForeignKey('Osarch', on_delete=models.PROTECT, blank=True, null=True)
     host_system = models.ForeignKey('self', on_delete=models.PROTECT, blank=True, null=True)
@@ -512,7 +593,6 @@ class System(models.Model):
     # main entity information
     system_uuid = models.UUIDField(editable=False, null=True, unique=True)
     system_name = models.CharField(max_length=50)
-    system_dnssuffix = models.CharField(max_length=50, blank=True, null=True)
     system_install_time = models.DateTimeField(blank=True, null=True)
     system_lastbooted_time = models.DateTimeField(blank=True, null=True)
     system_deprecated_time = models.DateTimeField(blank=True, null=True)
@@ -633,7 +713,7 @@ class System(models.Model):
             "|systemtype:" + str(system.systemtype) +
             "|ip:" + ipstring +
             "|domain:" + str(system.domain) +
-            "|system_dnssuffix:" + str(system.system_dnssuffix) +
+            "|dnsname:" + str(system.dnsname) +
             "|os:" + str(system.os) +
             "|osarch:" + str(system.osarch) +
             "|system_install_time:" + installtime +
@@ -724,6 +804,7 @@ class Systemuser(models.Model):
     # main entity information
     systemuser_name = models.CharField(max_length=50)
     systemuser_lastlogon_time = models.DateTimeField(blank=True, null=True)
+    systemuser_is_systemadmin = models.NullBooleanField(blank=True, null=True)
 
     # define unique together
     class Meta:
@@ -741,7 +822,8 @@ class Systemuser(models.Model):
             " systemuser_id:" + str(systemuser.systemuser_id) +
             "|system:" + str(systemuser.system) +
             "|systemuser_name:" + str(systemuser.systemuser_name) +
-            "|systemuser_lastlogon_time:" + str(systemuser.systemuser_lastlogon_time)
+            "|systemuser_lastlogon_time:" + str(systemuser.systemuser_lastlogon_time) +
+            "|systemuser_is_systemadmin:" + str(systemuser.systemuser_is_systemadmin)
         )
 
 class Tag(models.Model):
