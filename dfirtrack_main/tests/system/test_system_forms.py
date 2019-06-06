@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
 from dfirtrack_main.forms import SystemForm
-from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Domain, Location, Os, Osarch, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Tag, Tagcolor
+from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Dnsname, Domain, Location, Os, Osarch, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Tag, Tagcolor
 
 class SystemFormTestCase(TestCase):
     """ system form tests """
@@ -30,6 +30,9 @@ class SystemFormTestCase(TestCase):
 
         # create object
         Domain.objects.create(domain_name='domain_1')
+
+        # create object
+        Dnsname.objects.create(dnsname_name='dnsname_1')
 
         # create object
         Os.objects.create(os_name='os_1')
@@ -134,13 +137,13 @@ class SystemFormTestCase(TestCase):
         # compare
         self.assertEquals(form.fields['domain'].label, 'Domain')
 
-    def test_system_dnssuffix_form_label(self):
+    def test_system_dnsname_form_label(self):
         """ test form label """
 
         # get object
         form = SystemForm()
         # compare
-        self.assertEquals(form.fields['system_dnssuffix'].label, 'System dnssuffix')
+        self.assertEquals(form.fields['dnsname'].label, 'Dnsname')
 
     def test_system_os_form_label(self):
         """ test form label """
@@ -357,16 +360,18 @@ class SystemFormTestCase(TestCase):
         # compare
         self.assertTrue(form.is_valid())
 
-    def test_system_dnssuffix_form_filled(self):
+    def test_system_dnsname_form_filled(self):
         """ test additional form content """
 
         # get object
         systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
         # get object
+        dnsname_id = Dnsname.objects.get(dnsname_name='dnsname_1').dnsname_id
+        # get object
         form = SystemForm(data = {
             'system_name': 'system_1',
             'systemstatus': systemstatus_id,
-            'system_dnssuffix': 'system_dnssuffix_1',
+            'dnsname': dnsname_id,
         })
         # compare
         self.assertTrue(form.is_valid())
@@ -596,34 +601,6 @@ class SystemFormTestCase(TestCase):
         form = SystemForm(data = {
             'system_name': 'nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn',
             'systemstatus': systemstatus_id,
-        })
-        # compare
-        self.assertFalse(form.is_valid())
-
-    def test_system_dnssuffix_proper_chars(self):
-        """ test for max length """
-
-        # get object
-        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
-        # get object
-        form = SystemForm(data = {
-            'system_name': 'system_1',
-            'systemstatus': systemstatus_id,
-            'system_dnssuffix': 'dddddddddddddddddddddddddddddddddddddddddddddddddd',
-        })
-        # compare
-        self.assertTrue(form.is_valid())
-
-    def test_system_dnssuffix_too_many_chars(self):
-        """ test for max length """
-
-        # get object
-        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
-        # get object
-        form = SystemForm(data = {
-            'system_name': 'system_1',
-            'systemstatus': systemstatus_id,
-            'system_dnssuffix': 'ddddddddddddddddddddddddddddddddddddddddddddddddddd',
         })
         # compare
         self.assertFalse(form.is_valid())

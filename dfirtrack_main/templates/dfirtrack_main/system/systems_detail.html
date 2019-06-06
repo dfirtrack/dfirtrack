@@ -9,7 +9,7 @@
 <!-- page title -->
 
 <title>
-    {{ system.system_name }}{% if system.system_dnssuffix %}.{{ system.system_dnssuffix }}{% endif %}
+    {{ system.system_name }}{% if system.dnsname %}.{{ system.dnsname }}{% endif %}
 </title>
 
 <!-- static files -->
@@ -66,11 +66,13 @@
          </div>
     </div>
 
-    <!-- dns suffix -->
+    <!-- dnsname -->
     <div class="col-3">
-        <div class="font-weight-bold">DNS Suffix:</div>
-        {% if system.system_dnssuffix %}
-            {{ system.system_dnssuffix }}
+        <div class="font-weight-bold">DNS name:</div>
+        {% if system.dnsname %}
+            <a href="/dnsnames/{{ system.dnsname.dnsname_id}}">
+                {{ system.dnsname }}
+            </a>
         {% else %}
             ---
         {% endif %}
@@ -952,7 +954,7 @@
     <!-- systemusers collapse  -->
     <div id="systemusers" class="collapse">
 
-        <!-- single row for all systemusers -->
+        <!-- single row for all systemusers (but linebreaks) -->
         {% if system.systemuser_set.all %}
 
             <!-- systemusers row -->
@@ -962,7 +964,17 @@
                 <div class="col">
                     {% for i in system.systemuser_set.all %}
                         <img src="{% static 'dfirtrack_main/icons/person-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                        {{ i.systemuser_name }} ({{ i.systemuser_lastlogon_time|date:"Y-m-d H:i" }})<br>
+                        <!-- systemuser admin -->
+                        {% if i.systemuser_is_systemadmin %}
+                            {{ i.systemuser_name }} (Admin)
+                        {% else %}
+                            {{ i.systemuser_name }}
+                        {% endif %}
+                        <!-- systemuser lastlogon time -->
+                        {% if i.systemuser_lastlogon_time %}
+                            ({{ i.systemuser_lastlogon_time|date:"Y-m-d H:i" }})
+                        {% endif %}
+                        <br>
                     {% endfor %}
                 </div>
 

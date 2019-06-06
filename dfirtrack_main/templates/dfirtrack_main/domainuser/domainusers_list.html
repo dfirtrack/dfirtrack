@@ -6,7 +6,7 @@
 
 <!-- page title -->
 <title>
-    DFIRTrack - Systemusers
+    DFIRTrack - Domainusers
 </title>
 
 {% load staticfiles %}
@@ -23,7 +23,7 @@
 <div class="row bottom-distance">
     <div class="col">
         <h5>
-            Systemusers
+            Domainusers
         </h5>
     </div>
 </div>
@@ -31,95 +31,84 @@
 <!-- headlines -->
 <div class="row font-weight-bold">
 
-    <!-- systemuser id headline -->
+    <!-- domainuser id headline -->
     <div class="col-1">
         ID
     </div>
 
-    <!-- systemuser name headline -->
+    <!-- domainuser name headline -->
     <div class="col-2">
-        Systemuser
+        Domainuser
     </div>
 
-    <!-- systemuser admin headline -->
+    <!-- domainuser admin headline -->
     <div class="col-1">
         Admin
     </div>
 
-    <!-- systemuser last logon time headline -->
-    <div class="col-2">
-        Last logon
-    </div>
-
-    <!-- system headline -->
+    <!-- domain headline -->
     <div class="col-1">
-        System
+        Domain
     </div>
 
 <!-- headlines -->
 </div>
 
-<!-- systemuser list -->
+<!-- domainuser list -->
 {% for i in object_list %}
 
-    <!-- systemuser row -->
+    <!-- domainuser row -->
     <div class="row top-distance">
 
-        <!-- systemuser id -->
+        <!-- domainuser id -->
         <div class="col-1">
-            {{ i.systemuser_id }}
+            {{ i.domainuser_id }}
         </div>
 
-        <!-- systemuser name -->
+        <!-- domainuser name -->
         <div class="col-2">
-            <a href="/systemusers/{{ i.systemuser_id }}">
-                {{ i.systemuser_name }} | {{ i.system }}
+            <a href="/domainusers/{{ i.domainuser_id }}">
+                {{ i.domainuser_name }} | {{ i.domain }}
             </a>
         </div>
 
-        <!-- systemuser admin -->
+        <!-- domainuser admin -->
         <div class="col-1">
-            {% if i.systemuser_is_systemadmin %}
+            {% if i.domainuser_is_domainadmin %}
                 X
             {% endif %}
         </div>
 
-        <!-- systemuser last logon time -->
-        <div class="col-2">
-            {{ i.systemuser_lastlogon_time|date:"Y-m-d H:i" }}
-        </div>
-
-        <!-- system -->
+        <!-- domain -->
         <div class="col-1">
-            <a href="/systems/{{ i.system.system_id }}" type="button" class="btn btn-primary btn-sm copy-true">
-                <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                    {{ i.system.system_name }}
-                </a>
+            <a href="/domains/{{ i.domain.domain_id }}">
+                {{ i.domain.domain_name }}
+            </a>
         </div>
 
         <!-- placeholder -->
-        <div class="col-4"></div>
+        <div class="col-6"></div>
 
         <!-- edit button -->
         <div class="col-1">
-            <a href="/systemusers/{{ i.systemuser_id }}/edit" type="button" class="btn btn-sm btn-light copy-false">
+            <a href="/domainusers/{{ i.domainuser_id }}/edit" type="button" class="btn btn-sm btn-light copy-false">
                 <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                 Edit
             </a>
         </div>
 
-    <!-- systemuser row -->
+    <!-- domainuser row -->
     </div>
 
-<!-- systemuser list -->
+<!-- domainuser list -->
 {% endfor %}
 
 <!-- add button -->
 <div class="row top-distance">
     <div class="col-1">
-        <a href="/systemusers/add" type="button" class="btn btn-light copy-false">
+        <a href="/domainusers/add" type="button" class="btn btn-light copy-false">
             <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon right-distance copy-false" alt="icon">
-            Add systemuser
+            Add domainuser
         </a>
     </div>
 </div>

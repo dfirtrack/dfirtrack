@@ -7,7 +7,7 @@
 <!-- page title -->
 <title>
     Task '{{ task.taskname.taskname_name }}'
-    {% if task.system %}- System '{{ task.system.system_name }}{% if task.system.system_dnssuffix %}.{{ task.system.system_dnssuffix }}{% endif %}
+    {% if task.system %}- System '{{ task.system.system_name }}{% if task.system.dnsname %}.{{ task.system.dnsname }}{% endif %}
     '
     ({{ task.taskstatus.taskstatus_name }})
     {% endif %}

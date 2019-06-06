@@ -6,7 +6,7 @@
 
 <!-- page title -->
 <title>
-    Edit '{{ form.system_name.value }}{% if form.system_dnssuffix.value %}.{{ form.system_dnssuffix.value }}{% endif %}'
+    Edit '{{ form.system_name.value }}{% if form.dnsname.value %}.{{ form.dnsname.value }}{% endif %}'
 </title>
 
 {% load staticfiles %}
@@ -79,10 +79,10 @@
                 </h5>
             </div>
 
-            <!-- system dns suffix headline -->
+            <!-- dnsname headline -->
             <div class="col-3">
                 <div class="font-weight-bold">
-                    DNS Suffix:
+                    DNS name:
                 </div>
             </div>
 
@@ -103,18 +103,38 @@
                 </div>
             </div>
 
-            <!-- system dns suffix -->
+            <!-- dnsname -->
             <div class="col-3">
                 <div class="card card-body bg-dark border-light top-distance">
-                    <!-- system dns suffix errors -->
+                    <!-- dnsname errors -->
                     <div class="text-danger">
-                        {{ form.system_dnssuffix.errors }}
+                        {{ form.dnsname.errors }}
                     </div>
-                    {{ form.system_dnssuffix }}
+                    {% for i in form.dnsname %}
+                        {{ i }}
+                    {% endfor %}
                 </div>
             </div>
 
         <!-- system name row -->
+        </div>
+
+        <!-- button row -->
+        <div class="row">
+
+            <!-- placeholder -->
+            <div class="col-3">
+            </div>
+
+            <!-- dnsname add button -->
+            <div class="col-3">
+                <button onclick="dnsnames_add_popup()" type="button" class="btn btn-light btn-sm top-distance copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    Add DNS name
+                </button>
+            </div>
+
+        <!-- button row -->
         </div>
 
     <!-- system name block -->
