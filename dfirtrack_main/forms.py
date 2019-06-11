@@ -108,7 +108,6 @@ class DnsnameForm(forms.ModelForm):
         }
         # special form type or option
         widgets = {
-            'domain': forms.RadioSelect(),
             'dnsname_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
         }
 
@@ -148,7 +147,6 @@ class DomainuserForm(forms.ModelForm):
         # special form type or option
         widgets = {
             'domainuser_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
-            'domain': forms.RadioSelect(),
             'system_was_logged_on': forms.CheckboxSelectMultiple(),
         }
 
