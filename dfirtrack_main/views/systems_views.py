@@ -8,6 +8,7 @@ from django.views.generic import DetailView, ListView
 from dfirtrack_main.forms import SystemForm
 from dfirtrack_main.logger.default_logger import debug_logger, warning_logger
 from dfirtrack_main.models import Ip, System
+from dfirtrack.settings import INSTALLED_APPS as installed_apps
 import ipaddress
 
 class Systems(LoginRequiredMixin, ListView):
@@ -18,6 +19,22 @@ class Systems(LoginRequiredMixin, ListView):
         # call logger
         debug_logger(str(self.request.user), " SYSTEM_ENTERED")
         return System.objects.order_by('system_name')
+
+    # check for dfirtrack_api
+    def get_context_data(self, **kwargs):
+        # returns context dictionary
+        context = super(Systems, self).get_context_data()
+        print("context type: " + str(type(context)))
+        print("context: " + str(context))
+        # check settings for dfirtrack_api in installed_apps
+        if 'dfirtrack_api' in installed_apps:
+            # add key value pair for 'dfirtrack_api' to dictionary
+            context['dfirtrack_api'] = True
+        else:
+            # add key value pair for 'dfirtrack_api' to dictionary
+            context['dfirtrack_api'] = False
+        # return dictionary with additional key value pair for 'dfirtrack_api'
+        return context
 
 class SystemsDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
