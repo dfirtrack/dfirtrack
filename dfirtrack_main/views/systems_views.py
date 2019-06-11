@@ -24,8 +24,6 @@ class Systems(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         # returns context dictionary
         context = super(Systems, self).get_context_data()
-        print("context type: " + str(type(context)))
-        print("context: " + str(context))
         # check settings for dfirtrack_api in installed_apps
         if 'dfirtrack_api' in installed_apps:
             # add key value pair for 'dfirtrack_api' to dictionary
