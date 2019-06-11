@@ -74,9 +74,13 @@
 
         <!-- domain -->
         <div class="col-2">
-            <a href="/domains/{{ i.domain.domain_id }}">
-                {{ i.domain.domain_name }}
-            </a>
+            {% if i.domain %}
+                <a href="/domains/{{ i.domain.domain_id }}">
+                    {{ i.domain.domain_name }}
+                </a>
+            {% else %}
+                ---
+            {% endif %}
         </div>
 
         <!-- dnsname note -->
