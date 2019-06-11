@@ -188,40 +188,46 @@
 <!-- button block -->
 </div>
 
-<!-- button block -->
-<div class="card card-body bg-dark border-light top-distance copy-false">
+<!-- check for dfirtrack_api -->
+{% if dfirtrack_api == True %}
 
-    <!-- headlines -->
-    <div class="row">
-        <div class="col-6">
-            <h5>Import via GIRAF API</h5>
+    <!-- button block -->
+    <div class="card card-body bg-dark border-light top-distance copy-false">
+
+        <!-- headlines -->
+        <div class="row">
+            <div class="col-6">
+                <h5>Import via GIRAF API</h5>
+            </div>
         </div>
+
+        <!-- button row -->
+        <div class="row">
+
+            <!-- import systems button -->
+            <div class="col-2">
+                <a href="/systems/importer/api/giraf/systems" type="button" class="btn btn-light copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/cloud-download.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    Import systems
+                </a>
+            </div>
+
+            <!-- import timeline entries button -->
+            <div class="col-2">
+                <a href="/entrys/importer/api/giraf/entrys?redirector=systems" type="button" class="btn btn-light copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/cloud-download.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    Import timeline entries
+                </a>
+            </div>
+
+        <!-- button row -->
+        </div>
+
+    <!-- button block -->
     </div>
 
-    <!-- button row -->
-    <div class="row">
-
-        <!-- import systems button -->
-        <div class="col-2">
-            <a href="/systems/importer/api/giraf/systems" type="button" class="btn btn-light copy-false">
-                <img src="{% static 'dfirtrack_main/icons/cloud-download.svg' %}" class="icon right-distance copy-false" alt="icon">
-                Import systems
-            </a>
-        </div>
-
-        <!-- import timeline entries button -->
-        <div class="col-2">
-            <a href="/entrys/importer/api/giraf/entrys?redirector=systems" type="button" class="btn btn-light copy-false">
-                <img src="{% static 'dfirtrack_main/icons/cloud-download.svg' %}" class="icon right-distance copy-false" alt="icon">
-                Import timeline entries
-            </a>
-        </div>
-
-    <!-- button row -->
-    </div>
-
-<!-- button block -->
-</div>
+<!-- check for dfirtrack_api -->
+{% endif %}
 
 <!-- javascript for datatables -->
 {% block datatables %}
