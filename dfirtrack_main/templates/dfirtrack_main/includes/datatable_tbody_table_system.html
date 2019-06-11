@@ -30,7 +30,7 @@
     <td>
         {% if i.analysisstatus %}
             <!-- tooltip with analysisstatus note -->
-            <span data-toggle="tooltip" data-placement="auto" title="{{ analysisstatus.analysisstatus_note }}">
+            <span data-toggle="tooltip" data-placement="auto" title="{{ i.analysisstatus.analysisstatus_note }}">
                 <a href="/analysisstatuss/{{ i.analysisstatus.analysisstatus_id }}">
                     {{ i.analysisstatus }}
                 </a>
