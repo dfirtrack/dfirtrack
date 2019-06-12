@@ -8,7 +8,7 @@ from dfirtrack_main.forms import EntryForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Entry
 
-class Entrys(LoginRequiredMixin, ListView):
+class EntryList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Entry
     template_name = 'dfirtrack_main/entry/entrys_list.html'
@@ -16,7 +16,7 @@ class Entrys(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " ENTRY_ENTERED")
         return Entry.objects.order_by('entry_id')
 
-class EntrysDetail(LoginRequiredMixin, DetailView):
+class EntryDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Entry
     template_name = 'dfirtrack_main/entry/entrys_detail.html'

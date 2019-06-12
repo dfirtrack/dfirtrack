@@ -8,7 +8,7 @@ from dfirtrack_main.forms import RecommendationForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Recommendation
 
-class Recommendations(LoginRequiredMixin, ListView):
+class RecommendationList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Recommendation
     template_name = 'dfirtrack_main/recommendation/recommendations_list.html'
@@ -16,7 +16,7 @@ class Recommendations(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " RECOMMENDATION_ENTERED")
         return Recommendation.objects.order_by('recommendation_name')
 
-class RecommendationsDetail(LoginRequiredMixin, DetailView):
+class RecommendationDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Recommendation
     template_name = 'dfirtrack_main/recommendation/recommendations_detail.html'

@@ -8,7 +8,7 @@ from dfirtrack_main.forms import DnsnameForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Dnsname
 
-class Dnsnames(LoginRequiredMixin, ListView):
+class DnsnameList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Dnsname
     template_name = 'dfirtrack_main/dnsname/dnsnames_list.html'
@@ -16,7 +16,7 @@ class Dnsnames(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " DNSNAME_ENTERED")
         return Dnsname.objects.order_by('dnsname_name')
 
-class DnsnamesDetail(LoginRequiredMixin, DetailView):
+class DnsnameDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Dnsname
     template_name = 'dfirtrack_main/dnsname/dnsnames_detail.html'

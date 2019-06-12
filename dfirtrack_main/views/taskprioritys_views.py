@@ -3,7 +3,7 @@ from django.views.generic import DetailView, ListView
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Taskpriority
 
-class Taskprioritys(LoginRequiredMixin, ListView):
+class TaskpriorityList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Taskpriority
     template_name = 'dfirtrack_main/taskpriority/taskprioritys_list.html'
@@ -11,7 +11,7 @@ class Taskprioritys(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " TASKPRIORITY_ENTERED")
         return Taskpriority.objects.order_by('taskpriority_name')
 
-class TaskprioritysDetail(LoginRequiredMixin, DetailView):
+class TaskpriorityDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Taskpriority
     template_name = 'dfirtrack_main/taskpriority/taskprioritys_detail.html'

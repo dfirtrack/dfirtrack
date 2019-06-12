@@ -11,7 +11,7 @@ from dfirtrack_main.models import Ip, System
 from dfirtrack.settings import INSTALLED_APPS as installed_apps
 import ipaddress
 
-class Systems(LoginRequiredMixin, ListView):
+class SystemList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = System
     template_name = 'dfirtrack_main/system/systems_list.html'
@@ -23,7 +23,7 @@ class Systems(LoginRequiredMixin, ListView):
     # check for dfirtrack_api
     def get_context_data(self, **kwargs):
         # returns context dictionary
-        context = super(Systems, self).get_context_data()
+        context = super(SystemList, self).get_context_data()
         # check settings for dfirtrack_api in installed_apps
         if 'dfirtrack_api' in installed_apps:
             # add key value pair for 'dfirtrack_api' to dictionary
@@ -34,7 +34,7 @@ class Systems(LoginRequiredMixin, ListView):
         # return dictionary with additional key value pair for 'dfirtrack_api'
         return context
 
-class SystemsDetail(LoginRequiredMixin, DetailView):
+class SystemDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = System
     template_name = 'dfirtrack_main/system/systems_detail.html'

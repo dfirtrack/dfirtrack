@@ -8,7 +8,7 @@ from dfirtrack_main.forms import SystemtypeForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Systemtype
 
-class Systemtypes(LoginRequiredMixin, ListView):
+class SystemtypeList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Systemtype
     template_name = 'dfirtrack_main/systemtype/systemtypes_list.html'
@@ -16,7 +16,7 @@ class Systemtypes(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " SYSTEMTYPE_ENTERED")
         return Systemtype.objects.order_by('systemtype_name')
 
-class SystemtypesDetail(LoginRequiredMixin, DetailView):
+class SystemtypeDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Systemtype
     template_name = 'dfirtrack_main/systemtype/systemtypes_detail.html'

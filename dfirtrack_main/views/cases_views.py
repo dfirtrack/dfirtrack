@@ -8,7 +8,7 @@ from dfirtrack_main.forms import CaseForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Case
 
-class Cases(LoginRequiredMixin, ListView):
+class CaseList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Case
     template_name = 'dfirtrack_main/case/cases_list.html'
@@ -16,7 +16,7 @@ class Cases(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " CASE_ENTERED")
         return Case.objects.order_by('case_name')
 
-class CasesDetail(LoginRequiredMixin, DetailView):
+class CaseDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Case
     template_name = 'dfirtrack_main/case/cases_detail.html'

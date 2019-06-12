@@ -8,7 +8,7 @@ from dfirtrack_main.forms import CompanyForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Company
 
-class Companys(LoginRequiredMixin, ListView):
+class CompanyList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Company
     template_name = 'dfirtrack_main/company/companys_list.html'
@@ -16,7 +16,7 @@ class Companys(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " COMPANY_ENTERED")
         return Company.objects.order_by('company_name')
 
-class CompanysDetail(LoginRequiredMixin, DetailView):
+class CompanyDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Company
     template_name = 'dfirtrack_main/company/companys_detail.html'

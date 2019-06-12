@@ -8,7 +8,7 @@ from dfirtrack_main.forms import ContactForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Contact
 
-class Contacts(LoginRequiredMixin, ListView):
+class ContactList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Contact
     template_name = 'dfirtrack_main/contact/contacts_list.html'
@@ -16,7 +16,7 @@ class Contacts(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " CONTACT_ENTERED")
         return Contact.objects.order_by('contact_name')
 
-class ContactsDetail(LoginRequiredMixin, DetailView):
+class ContactDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Contact
     template_name = 'dfirtrack_main/contact/contacts_detail.html'

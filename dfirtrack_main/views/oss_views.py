@@ -8,7 +8,7 @@ from dfirtrack_main.forms import OsForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Os
 
-class Oss(LoginRequiredMixin, ListView):
+class OsList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Os
     template_name = 'dfirtrack_main/os/oss_list.html'
@@ -16,7 +16,7 @@ class Oss(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " OS_ENTERED")
         return Os.objects.order_by('os_name')
 
-class OssDetail(LoginRequiredMixin, DetailView):
+class OsDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Os
     template_name = 'dfirtrack_main/os/oss_detail.html'

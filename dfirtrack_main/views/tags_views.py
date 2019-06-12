@@ -8,7 +8,7 @@ from dfirtrack_main.forms import TagForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Tag
 
-class Tags(LoginRequiredMixin, ListView):
+class TagList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Tag
     template_name = 'dfirtrack_main/tag/tags_list.html'
@@ -16,7 +16,7 @@ class Tags(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " TAG_ENTERED")
         return Tag.objects.order_by('tag_name')
 
-class TagsDetail(LoginRequiredMixin, DetailView):
+class TagDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Tag
     template_name = 'dfirtrack_main/tag/tags_detail.html'

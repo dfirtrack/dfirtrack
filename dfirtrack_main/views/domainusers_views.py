@@ -8,7 +8,7 @@ from dfirtrack_main.forms import DomainuserForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Domainuser
 
-class Domainusers(LoginRequiredMixin, ListView):
+class DomainuserList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Domainuser
     template_name = 'dfirtrack_main/domainuser/domainusers_list.html'
@@ -16,7 +16,7 @@ class Domainusers(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " DOMAINUSER_ENTERED")
         return Domainuser.objects.order_by('domainuser_name')
 
-class DomainusersDetail(LoginRequiredMixin, DetailView):
+class DomainuserDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Domainuser
     template_name = 'dfirtrack_main/domainuser/domainusers_detail.html'

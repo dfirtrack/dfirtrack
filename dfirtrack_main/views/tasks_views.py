@@ -10,7 +10,7 @@ from dfirtrack_main.forms import TaskForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Task, Taskstatus
 
-class Tasks(LoginRequiredMixin, ListView):
+class TaskList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Task
     template_name = 'dfirtrack_main/task/tasks_list.html'
@@ -18,7 +18,7 @@ class Tasks(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " TASK_ENTERED")
         return Task.objects.filter(Q(taskstatus_id=1) | Q(taskstatus_id=2))
 
-class TasksClosed(LoginRequiredMixin, ListView):
+class TaskClosed(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Task
     template_name = 'dfirtrack_main/task/tasks_closed_list.html'
@@ -26,7 +26,7 @@ class TasksClosed(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " TASK_CLOSED_ENTERED")
         return Task.objects.filter(taskstatus_id=3)
 
-class TasksDetail(LoginRequiredMixin, DetailView):
+class TaskDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Task
     template_name = 'dfirtrack_main/task/tasks_detail.html'

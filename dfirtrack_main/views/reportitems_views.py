@@ -8,7 +8,7 @@ from dfirtrack_main.forms import ReportitemForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Reportitem
 
-class Reportitems(LoginRequiredMixin, ListView):
+class ReportitemList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Reportitem
     template_name = 'dfirtrack_main/reportitem/reportitems_list.html'
@@ -16,7 +16,7 @@ class Reportitems(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " REPORTITEM_ENTERED")
         return Reportitem.objects.order_by('reportitem_id')
 
-class ReportitemsDetail(LoginRequiredMixin, DetailView):
+class ReportitemDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Reportitem
     template_name = 'dfirtrack_main/reportitem/reportitems_detail.html'

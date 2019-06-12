@@ -8,7 +8,7 @@ from dfirtrack_main.forms import HeadlineForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Headline
 
-class Headlines(LoginRequiredMixin, ListView):
+class HeadlineList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Headline
     template_name = 'dfirtrack_main/headline/headlines_list.html'
@@ -16,7 +16,7 @@ class Headlines(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " HEADLINE_ENTERED")
         return Headline.objects.order_by('headline_name')
 
-class HeadlinesDetail(LoginRequiredMixin, DetailView):
+class HeadlineDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Headline
     template_name = 'dfirtrack_main/headline/headlines_detail.html'

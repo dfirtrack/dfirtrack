@@ -8,7 +8,7 @@ from dfirtrack_main.forms import SystemuserForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Systemuser
 
-class Systemusers(LoginRequiredMixin, ListView):
+class SystemuserList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Systemuser
     template_name = 'dfirtrack_main/systemuser/systemusers_list.html'
@@ -16,7 +16,7 @@ class Systemusers(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " SYSTEMUSER_ENTERED")
         return Systemuser.objects.order_by('systemuser_name')
 
-class SystemusersDetail(LoginRequiredMixin, DetailView):
+class SystemuserDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Systemuser
     template_name = 'dfirtrack_main/systemuser/systemusers_detail.html'

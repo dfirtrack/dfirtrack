@@ -8,7 +8,7 @@ from dfirtrack_main.forms import TasknameForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Taskname
 
-class Tasknames(LoginRequiredMixin, ListView):
+class TasknameList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Taskname
     template_name = 'dfirtrack_main/taskname/tasknames_list.html'
@@ -16,7 +16,7 @@ class Tasknames(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " TASKNAME_ENTERED")
         return Taskname.objects.order_by('taskname_name')
 
-class TasknamesDetail(LoginRequiredMixin, DetailView):
+class TasknameDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Taskname
     template_name = 'dfirtrack_main/taskname/tasknames_detail.html'

@@ -8,7 +8,7 @@ from dfirtrack_main.forms import ReasonForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Reason
 
-class Reasons(LoginRequiredMixin, ListView):
+class ReasonList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Reason
     template_name = 'dfirtrack_main/reason/reasons_list.html'
@@ -16,7 +16,7 @@ class Reasons(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " REASON_ENTERED")
         return Reason.objects.order_by('reason_name')
 
-class ReasonsDetail(LoginRequiredMixin, DetailView):
+class ReasonDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Reason
     template_name = 'dfirtrack_main/reason/reasons_detail.html'

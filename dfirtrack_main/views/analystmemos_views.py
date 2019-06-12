@@ -8,7 +8,7 @@ from dfirtrack_main.forms import AnalystmemoForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Analystmemo
 
-class Analystmemos(LoginRequiredMixin, ListView):
+class AnalystmemoList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Analystmemo
     template_name = 'dfirtrack_main/analystmemo/analystmemos_list.html'
@@ -16,7 +16,7 @@ class Analystmemos(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " ANALYSTMEMO_ENTERED")
         return Analystmemo.objects.order_by('analystmemo_id')
 
-class AnalystmemosDetail(LoginRequiredMixin, DetailView):
+class AnalystmemoDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Analystmemo
     template_name = 'dfirtrack_main/analystmemo/analystmemos_detail.html'

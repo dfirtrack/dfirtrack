@@ -8,7 +8,7 @@ from dfirtrack_main.forms import OsimportnameForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Osimportname
 
-class Osimportnames(LoginRequiredMixin, ListView):
+class OsimportnameList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Osimportname
     template_name = 'dfirtrack_main/osimportname/osimportnames_list.html'

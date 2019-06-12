@@ -8,7 +8,7 @@ from dfirtrack_main.forms import ServiceproviderForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Serviceprovider
 
-class Serviceproviders(LoginRequiredMixin, ListView):
+class ServiceproviderList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Serviceprovider
     template_name = 'dfirtrack_main/serviceprovider/serviceproviders_list.html'
@@ -16,7 +16,7 @@ class Serviceproviders(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " SERVICEPROVIDER_ENTERED")
         return Serviceprovider.objects.order_by('serviceprovider_name')
 
-class ServiceprovidersDetail(LoginRequiredMixin, DetailView):
+class ServiceproviderDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Serviceprovider
     template_name = 'dfirtrack_main/serviceprovider/serviceproviders_detail.html'

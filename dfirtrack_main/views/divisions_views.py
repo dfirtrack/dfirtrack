@@ -8,7 +8,7 @@ from dfirtrack_main.forms import DivisionForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Division
 
-class Divisions(LoginRequiredMixin, ListView):
+class DivisionList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Division
     template_name = 'dfirtrack_main/division/divisions_list.html'
@@ -16,7 +16,7 @@ class Divisions(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " DIVISION_ENTERED")
         return Division.objects.order_by('division_name')
 
-class DivisionsDetail(LoginRequiredMixin, DetailView):
+class DivisionDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Division
     template_name = 'dfirtrack_main/division/divisions_detail.html'

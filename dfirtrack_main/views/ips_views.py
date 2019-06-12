@@ -3,7 +3,7 @@ from django.views.generic import DetailView, ListView
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Ip
 
-class Ips(LoginRequiredMixin, ListView):
+class IpList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Ip
     template_name = 'dfirtrack_main/ip/ips_list.html'
@@ -11,7 +11,7 @@ class Ips(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " IP_ENTERED")
         return Ip.objects.order_by('ip_ip')
 
-class IpsDetail(LoginRequiredMixin, DetailView):
+class IpDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Ip
     template_name = 'dfirtrack_main/ip/ips_detail.html'

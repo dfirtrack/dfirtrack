@@ -8,7 +8,7 @@ from dfirtrack_main.forms import LocationForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Location
 
-class Locations(LoginRequiredMixin, ListView):
+class LocationList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Location
     template_name = 'dfirtrack_main/location/locations_list.html'
@@ -16,7 +16,7 @@ class Locations(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " LOCATION_ENTERED")
         return Location.objects.order_by('location_name')
 
-class LocationsDetail(LoginRequiredMixin, DetailView):
+class LocationDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Location
     template_name = 'dfirtrack_main/location/locations_detail.html'
