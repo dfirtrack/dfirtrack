@@ -12,6 +12,7 @@ class SystemuserList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Systemuser
     template_name = 'dfirtrack_main/systemuser/systemusers_list.html'
+    context_object_name = 'systemuser_list'
     def get_queryset(self):
         debug_logger(str(self.request.user), " SYSTEMUSER_ENTERED")
         return Systemuser.objects.order_by('systemuser_name')

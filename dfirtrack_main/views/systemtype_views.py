@@ -12,6 +12,7 @@ class SystemtypeList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Systemtype
     template_name = 'dfirtrack_main/systemtype/systemtypes_list.html'
+    context_object_name = 'systemtype_list'
     def get_queryset(self):
         debug_logger(str(self.request.user), " SYSTEMTYPE_ENTERED")
         return Systemtype.objects.order_by('systemtype_name')

@@ -12,6 +12,7 @@ class DivisionList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Division
     template_name = 'dfirtrack_main/division/divisions_list.html'
+    context_object_name = 'division_list'
     def get_queryset(self):
         debug_logger(str(self.request.user), " DIVISION_ENTERED")
         return Division.objects.order_by('division_name')

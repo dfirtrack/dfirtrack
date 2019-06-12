@@ -12,6 +12,7 @@ class AnalystmemoList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Analystmemo
     template_name = 'dfirtrack_main/analystmemo/analystmemos_list.html'
+    context_object_name = 'analystmemo_list'
     def get_queryset(self):
         debug_logger(str(self.request.user), " ANALYSTMEMO_ENTERED")
         return Analystmemo.objects.order_by('analystmemo_id')

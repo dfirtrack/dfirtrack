@@ -12,6 +12,7 @@ class ReasonList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Reason
     template_name = 'dfirtrack_main/reason/reasons_list.html'
+    context_object_name = 'reason_list'
     def get_queryset(self):
         debug_logger(str(self.request.user), " REASON_ENTERED")
         return Reason.objects.order_by('reason_name')

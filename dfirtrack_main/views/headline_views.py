@@ -12,6 +12,7 @@ class HeadlineList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Headline
     template_name = 'dfirtrack_main/headline/headlines_list.html'
+    context_object_name = 'headline_list'
     def get_queryset(self):
         debug_logger(str(self.request.user), " HEADLINE_ENTERED")
         return Headline.objects.order_by('headline_name')

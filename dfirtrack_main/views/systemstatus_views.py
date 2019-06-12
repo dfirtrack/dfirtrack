@@ -7,6 +7,7 @@ class SystemstatusList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Systemstatus
     template_name = 'dfirtrack_main/systemstatus/systemstatuss_list.html'
+    context_object_name = 'systemstatus_list'
     def get_queryset(self):
         debug_logger(str(self.request.user), " SYSTEMSTATUS_ENTERED")
         return Systemstatus.objects.order_by('systemstatus_name')

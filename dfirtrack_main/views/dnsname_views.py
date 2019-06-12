@@ -12,6 +12,7 @@ class DnsnameList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Dnsname
     template_name = 'dfirtrack_main/dnsname/dnsnames_list.html'
+    context_object_name = 'dnsname_list'
     def get_queryset(self):
         debug_logger(str(self.request.user), " DNSNAME_ENTERED")
         return Dnsname.objects.order_by('dnsname_name')

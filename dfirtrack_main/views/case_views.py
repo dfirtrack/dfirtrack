@@ -12,6 +12,7 @@ class CaseList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Case
     template_name = 'dfirtrack_main/case/cases_list.html'
+    context_object_name = 'case_list'
     def get_queryset(self):
         debug_logger(str(self.request.user), " CASE_ENTERED")
         return Case.objects.order_by('case_name')

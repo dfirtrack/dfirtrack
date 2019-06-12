@@ -12,6 +12,7 @@ class TasknameList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Taskname
     template_name = 'dfirtrack_main/taskname/tasknames_list.html'
+    context_object_name = 'taskname_list'
     def get_queryset(self):
         debug_logger(str(self.request.user), " TASKNAME_ENTERED")
         return Taskname.objects.order_by('taskname_name')

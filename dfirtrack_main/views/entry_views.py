@@ -12,6 +12,7 @@ class EntryList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Entry
     template_name = 'dfirtrack_main/entry/entrys_list.html'
+    context_object_name = 'entry_list'
     def get_queryset(self):
         debug_logger(str(self.request.user), " ENTRY_ENTERED")
         return Entry.objects.order_by('entry_id')

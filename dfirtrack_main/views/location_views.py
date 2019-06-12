@@ -12,6 +12,7 @@ class LocationList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Location
     template_name = 'dfirtrack_main/location/locations_list.html'
+    context_object_name = 'location_list'
     def get_queryset(self):
         debug_logger(str(self.request.user), " LOCATION_ENTERED")
         return Location.objects.order_by('location_name')

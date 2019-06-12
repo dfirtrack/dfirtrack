@@ -12,6 +12,7 @@ class CompanyList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Company
     template_name = 'dfirtrack_main/company/companys_list.html'
+    context_object_name = 'company_list'
     def get_queryset(self):
         debug_logger(str(self.request.user), " COMPANY_ENTERED")
         return Company.objects.order_by('company_name')

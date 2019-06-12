@@ -15,6 +15,7 @@ class SystemList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = System
     template_name = 'dfirtrack_main/system/systems_list.html'
+    context_object_name = 'system_list'
     def get_queryset(self):
         # call logger
         debug_logger(str(self.request.user), " SYSTEM_ENTERED")

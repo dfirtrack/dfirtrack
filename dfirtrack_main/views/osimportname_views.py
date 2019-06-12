@@ -12,6 +12,7 @@ class OsimportnameList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Osimportname
     template_name = 'dfirtrack_main/osimportname/osimportnames_list.html'
+    context_object_name = 'osimportname_list'
     def get_queryset(self):
         debug_logger(str(self.request.user), " OSIMPORTNAME_ENTERED")
         return Osimportname.objects.order_by('osimportname_name')

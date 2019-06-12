@@ -7,6 +7,7 @@ class TaskstatusList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Taskstatus
     template_name = 'dfirtrack_main/taskstatus/taskstatuss_list.html'
+    context_object_name = 'taskstatus_list'
     def get_queryset(self):
         debug_logger(str(self.request.user), " TASKSTATUS_ENTERED")
         return Taskstatus.objects.order_by('taskstatus_name')

@@ -12,6 +12,7 @@ class ReportitemList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Reportitem
     template_name = 'dfirtrack_main/reportitem/reportitems_list.html'
+    context_object_name = 'reportitem_list'
     def get_queryset(self):
         debug_logger(str(self.request.user), " REPORTITEM_ENTERED")
         return Reportitem.objects.order_by('reportitem_id')

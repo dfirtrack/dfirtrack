@@ -12,6 +12,7 @@ class RecommendationList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Recommendation
     template_name = 'dfirtrack_main/recommendation/recommendations_list.html'
+    context_object_name = 'recommendation_list'
     def get_queryset(self):
         debug_logger(str(self.request.user), " RECOMMENDATION_ENTERED")
         return Recommendation.objects.order_by('recommendation_name')

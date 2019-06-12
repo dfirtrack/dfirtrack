@@ -12,6 +12,7 @@ class DomainuserList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Domainuser
     template_name = 'dfirtrack_main/domainuser/domainusers_list.html'
+    context_object_name = 'domainuser_list'
     def get_queryset(self):
         debug_logger(str(self.request.user), " DOMAINUSER_ENTERED")
         return Domainuser.objects.order_by('domainuser_name')

@@ -12,6 +12,7 @@ class TagList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Tag
     template_name = 'dfirtrack_main/tag/tags_list.html'
+    context_object_name = 'tag_list'
     def get_queryset(self):
         debug_logger(str(self.request.user), " TAG_ENTERED")
         return Tag.objects.order_by('tag_name')

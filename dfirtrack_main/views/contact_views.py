@@ -12,6 +12,7 @@ class ContactList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Contact
     template_name = 'dfirtrack_main/contact/contacts_list.html'
+    context_object_name = 'contact_list'
     def get_queryset(self):
         debug_logger(str(self.request.user), " CONTACT_ENTERED")
         return Contact.objects.order_by('contact_name')

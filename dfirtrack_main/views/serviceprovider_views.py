@@ -12,6 +12,7 @@ class ServiceproviderList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Serviceprovider
     template_name = 'dfirtrack_main/serviceprovider/serviceproviders_list.html'
+    context_object_name = 'serviceprovider_list'
     def get_queryset(self):
         debug_logger(str(self.request.user), " SERVICEPROVIDER_ENTERED")
         return Serviceprovider.objects.order_by('serviceprovider_name')

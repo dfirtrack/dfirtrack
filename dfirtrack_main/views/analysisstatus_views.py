@@ -7,6 +7,7 @@ class AnalysisstatusList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Analysisstatus
     template_name = 'dfirtrack_main/analysisstatus/analysisstatuss_list.html'
+    context_object_name = 'analysisstatus_list'
     def get_queryset(self):
         debug_logger(str(self.request.user), " ANALYSISSTATUS_ENTERED")
         return Analysisstatus.objects.order_by('analysisstatus_name')
