@@ -59,8 +59,8 @@ urlpatterns = [
 
     url(r'^domainusers/$', domainuser_views.DomainuserList.as_view(), name='domainuserlist'),
     url(r'^domainusers/(?P<pk>\d+)$', domainuser_views.DomainuserDetail.as_view(), name='domainuserdetail'),
-    url(r'^domainusers/add/$', domainuser_views.domainusers_add, name='domainusers_add'),
-    url(r'^domainusers/(?P<pk>\d+)/edit/$', domainuser_views.domainusers_edit, name='domainusers_edit'),
+    url(r'^domainusers/add/$', domainuser_views.DomainuserCreate.as_view(), name='domainusers_add'),
+    url(r'^domainusers/(?P<pk>\d+)/edit/$', domainuser_views.DomainuserUpdate.as_view(), name='domainusers_edit'),
 
     url(r'^entrys/$', entry_views.EntryList.as_view(), name='entrylist'),
     url(r'^entrys/(?P<pk>\d+)$', entry_views.EntryDetail.as_view(), name='entrydetail'),
