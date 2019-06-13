@@ -47,9 +47,9 @@ urlpatterns = [
 
     url(r'^dnsnames/$', dnsname_views.DnsnameList.as_view(), name='dnsnamelist'),
     url(r'^dnsnames/(?P<pk>\d+)$', dnsname_views.DnsnameDetail.as_view(), name='dnsnamedetail'),
-    url(r'^dnsnames/add/$', dnsname_views.dnsnames_add, name='dnsnames_add'),
-    url(r'^dnsnames/add_popup$', dnsname_views.dnsnames_add_popup, name='dnsnames_add_popup'),
-    url(r'^dnsnames/(?P<pk>\d+)/edit/$', dnsname_views.dnsnames_edit, name='dnsnames_edit'),
+    url(r'^dnsnames/add/$', dnsname_views.DnsnameCreate.as_view(), name='dnsnames_add'),
+    url(r'^dnsnames/add_popup$', dnsname_views.DnsnameCreatePopup.as_view(), name='dnsnames_add_popup'),
+    url(r'^dnsnames/(?P<pk>\d+)/edit/$', dnsname_views.DnsnameUpdate.as_view(), name='dnsnames_edit'),
 
     url(r'^domains/$', domain_views.DomainList.as_view(), name='domainlist'),
     url(r'^domains/(?P<pk>\d+)$', domain_views.DomainDetail.as_view(), name='domaindetail'),
