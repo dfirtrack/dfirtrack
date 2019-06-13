@@ -141,8 +141,8 @@ urlpatterns = [
 
     url(r'^systemusers/$', systemuser_views.SystemuserList.as_view(), name='systemuserlist'),
     url(r'^systemusers/(?P<pk>\d+)$', systemuser_views.SystemuserDetail.as_view(), name='systemuserdetail'),
-    url(r'^systemusers/add/$', systemuser_views.systemusers_add, name='systemusers_add'),
-    url(r'^systemusers/(?P<pk>\d+)/edit/$', systemuser_views.systemusers_edit, name='systemusers_edit'),
+    url(r'^systemusers/add/$', systemuser_views.SystemuserCreate.as_view(), name='systemusers_add'),
+    url(r'^systemusers/(?P<pk>\d+)/edit/$', systemuser_views.SystemuserUpdate.as_view(), name='systemusers_edit'),
 
     url(r'^tags/$', tag_views.TagList.as_view(), name='taglist'),
     url(r'^tags/(?P<pk>\d+)$', tag_views.TagDetail.as_view(), name='tagdetail'),
