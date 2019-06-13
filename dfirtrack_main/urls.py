@@ -85,9 +85,9 @@ urlpatterns = [
 
     url(r'^oss/$', os_views.OsList.as_view(), name='oslist'),
     url(r'^oss/(?P<pk>\d+)$', os_views.OsDetail.as_view(), name='osdetail'),
-    url(r'^oss/add/$', os_views.oss_add, name='oss_add'),
-    url(r'^oss/add_popup$', os_views.oss_add_popup, name='oss_add_popup'),
-    url(r'^oss/(?P<pk>\d+)/edit/$', os_views.oss_edit, name='oss_edit'),
+    url(r'^oss/add/$', os_views.OsCreate.as_view(), name='oss_add'),
+    url(r'^oss/add_popup$', os_views.OsCreatePopup.as_view(), name='oss_add_popup'),
+    url(r'^oss/(?P<pk>\d+)/edit/$', os_views.OsUpdate.as_view(), name='oss_edit'),
 
     url(r'^osimportnames/$', osimportname_views.OsimportnameList.as_view(), name='osimportnamelist'),
     url(r'^osimportnames/add/$', osimportname_views.OsimportnameCreate.as_view(), name='osimportnames_add'),

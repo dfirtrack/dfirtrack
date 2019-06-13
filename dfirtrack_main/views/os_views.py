@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import DetailView, ListView
+from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_main.forms import OsForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Os
@@ -13,62 +14,86 @@ class OsList(LoginRequiredMixin, ListView):
     model = Os
     template_name = 'dfirtrack_main/os/oss_list.html'
     context_object_name = 'os_list'
+
     def get_queryset(self):
-        debug_logger(str(self.request.user), " OS_ENTERED")
+        debug_logger(str(self.request.user), " OS_LIST_ENTERED")
         return Os.objects.order_by('os_name')
 
 class OsDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Os
     template_name = 'dfirtrack_main/os/oss_detail.html'
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         os = self.object
-        os.logger(str(self.request.user), " OSDETAIL_ENTERED")
+        os.logger(str(self.request.user), " OS_DETAIL_ENTERED")
         return context
 
-@login_required(login_url="/login")
-def oss_add(request):
-    if request.method == 'POST':
-        form = OsForm(request.POST)
+class OsCreate(LoginRequiredMixin, CreateView):
+    login_url = '/login'
+    model = Os
+    form_class = OsForm
+    template_name = 'dfirtrack_main/os/oss_add.html'
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        debug_logger(str(request.user), " OS_ADD_ENTERED")
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
         if form.is_valid():
             os = form.save(commit=False)
             os.save()
             os.logger(str(request.user), " OS_ADD_EXECUTED")
             messages.success(request, 'OS added')
-            return redirect('/oss')
-    else:
-        form = OsForm()
-        debug_logger(str(request.user), " OS_ADD_ENTERED")
-    return render(request, 'dfirtrack_main/os/oss_add.html', {'form': form})
+            return redirect('/oss/' + str(os.os_id))
+        else:
+            return render(request, self.template_name, {'form': form})
 
-@login_required(login_url="/login")
-def oss_add_popup(request):
-    if request.method == 'POST':
-        form = OsForm(request.POST)
+class OsCreatePopup(LoginRequiredMixin, CreateView):
+    login_url = '/login'
+    model = Os
+    form_class = OsForm
+    template_name = 'dfirtrack_main/os/oss_add_popup.html'
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        debug_logger(str(request.user), " OS_ADD_POPUP_ENTERED")
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
         if form.is_valid():
             os = form.save(commit=False)
             os.save()
             os.logger(str(request.user), " OS_ADD_POPUP_EXECUTED")
             messages.success(request, 'OS added')
             return HttpResponse('<script type="text/javascript">window.close();</script>')
-    else:
-        form = OsForm()
-        debug_logger(str(request.user), " OS_ADD_POPUP_ENTERED")
-    return render(request, 'dfirtrack_main/os/oss_add_popup.html', {'form': form})
+        else:
+            return render(request, self.template_name, {'form': form})
 
-@login_required(login_url="/login")
-def oss_edit(request, pk):
-    os = get_object_or_404(Os, pk=pk)
-    if request.method == 'POST':
-        form = OsForm(request.POST, instance=os)
+class OsUpdate(LoginRequiredMixin, UpdateView):
+    login_url = '/login'
+    model = Os
+    form_class = OsForm
+    template_name = 'dfirtrack_main/os/oss_edit.html'
+
+    def get(self, request, *args, **kwargs):
+        os = self.get_object()
+        form = self.form_class(instance=os)
+        os.logger(str(request.user), " OS_EDIT_ENTERED")
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        os = self.get_object()
+        form = self.form_class(request.POST, instance=os)
         if form.is_valid():
             os = form.save(commit=False)
             os.save()
             os.logger(str(request.user), " OS_EDIT_EXECUTED")
             messages.success(request, 'OS edited')
-            return redirect('/oss')
-    else:
-        form = OsForm(instance=os)
-        os.logger(str(request.user), " OS_EDIT_ENTERED")
-    return render(request, 'dfirtrack_main/os/oss_edit.html', {'form': form})
+            return redirect('/oss/' + str(os.os_id))
+        else:
+            return render(request, self.template_name, {'form': form})
