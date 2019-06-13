@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import DetailView, ListView
+from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_main.forms import EntryForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Entry
@@ -13,24 +14,41 @@ class EntryList(LoginRequiredMixin, ListView):
     model = Entry
     template_name = 'dfirtrack_main/entry/entrys_list.html'
     context_object_name = 'entry_list'
+
     def get_queryset(self):
-        debug_logger(str(self.request.user), " ENTRY_ENTERED")
+        debug_logger(str(self.request.user), " ENTRY_LIST_ENTERED")
         return Entry.objects.order_by('entry_id')
 
 class EntryDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Entry
     template_name = 'dfirtrack_main/entry/entrys_detail.html'
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         entry = self.object
-        entry.logger(str(self.request.user), " ENTRYDETAIL_ENTERED")
+        entry.logger(str(self.request.user), " ENTRY_DETAIL_ENTERED")
         return context
 
-@login_required(login_url="/login")
-def entrys_add(request):
-    if request.method == 'POST':
-        form = EntryForm(request.POST)
+class EntryCreate(LoginRequiredMixin, CreateView):
+    login_url = '/login'
+    model = Entry
+    form_class = EntryForm
+    template_name = 'dfirtrack_main/entry/entrys_add.html'
+
+    def get(self, request, *args, **kwargs):
+        if 'system' in request.GET:
+            system = request.GET['system']
+            form = self.form_class(
+                initial={'system': system,}
+            )
+        else:
+            form = self.form_class()
+        debug_logger(str(request.user), " ENTRY_ADD_ENTERED")
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
         if form.is_valid():
             entry = form.save(commit=False)
             entry.entry_created_by_user_id = request.user
@@ -39,22 +57,24 @@ def entrys_add(request):
             entry.logger(str(request.user), " ENTRY_ADD_EXECUTED")
             messages.success(request, 'Entry added')
             return redirect('/systems/' + str(entry.system.system_id))
-    else:
-        if request.method == 'GET' and 'system' in request.GET:
-            system = request.GET['system']
-            form = EntryForm(initial={
-                'system': system,
-            })
         else:
-            form = EntryForm()
-        debug_logger(str(request.user), " ENTRY_ADD_ENTERED")
-    return render(request, 'dfirtrack_main/entry/entrys_add.html', {'form': form})
+            return render(request, self.template_name, {'form': form})
 
-@login_required(login_url="/login")
-def entrys_edit(request, pk):
-    entry = get_object_or_404(Entry, pk=pk)
-    if request.method == 'POST':
-        form = EntryForm(request.POST, instance=entry)
+class EntryUpdate(LoginRequiredMixin, UpdateView):
+    login_url = '/login'
+    model = Entry
+    form_class = EntryForm
+    template_name = 'dfirtrack_main/entry/entrys_edit.html'
+
+    def get(self, request, *args, **kwargs):
+        entry = self.get_object()
+        form = self.form_class(instance=entry)
+        entry.logger(str(request.user), " ENTRY_EDIT_ENTERED")
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        entry = self.get_object()
+        form = self.form_class(request.POST, instance=entry)
         if form.is_valid():
             entry = form.save(commit=False)
             entry.entry_modified_by_user_id = request.user
@@ -62,7 +82,5 @@ def entrys_edit(request, pk):
             entry.logger(str(request.user), " ENTRY_EDIT_EXECUTED")
             messages.success(request, 'Entry edited')
             return redirect('/systems/' + str(entry.system.system_id))
-    else:
-        form = EntryForm(instance=entry)
-        entry.logger(str(request.user), " ENTRY_EDIT_ENTERED")
-    return render(request, 'dfirtrack_main/entry/entrys_edit.html', {'form': form})
+        else:
+            return render(request, self.template_name, {'form': form})

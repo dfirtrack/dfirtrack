@@ -64,8 +64,8 @@ urlpatterns = [
 
     url(r'^entrys/$', entry_views.EntryList.as_view(), name='entrylist'),
     url(r'^entrys/(?P<pk>\d+)$', entry_views.EntryDetail.as_view(), name='entrydetail'),
-    url(r'^entrys/add/$', entry_views.entrys_add, name='entrys_add'),
-    url(r'^entrys/(?P<pk>\d+)/edit/$', entry_views.entrys_edit, name='entrys_edit'),
+    url(r'^entrys/add/$', entry_views.EntryCreate.as_view(), name='entrys_add'),
+    url(r'^entrys/(?P<pk>\d+)/edit/$', entry_views.EntryUpdate.as_view(), name='entrys_edit'),
     url(r'^entrys/importer/api/giraf/entrys/$', giraf.entrys, name='entrys_importer_api_giraf'),
     url(r'^entrys/importer/file/markdown/entrys/$', markdown.entrys, name='entrys_importer_file_markdown'),
 
