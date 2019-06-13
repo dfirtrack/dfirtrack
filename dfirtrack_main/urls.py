@@ -135,9 +135,9 @@ urlpatterns = [
 
     url(r'^systemtypes/$', systemtype_views.SystemtypeList.as_view(), name='systemtypelist'),
     url(r'^systemtypes/(?P<pk>\d+)$', systemtype_views.SystemtypeDetail.as_view(), name='systemtypedetail'),
-    url(r'^systemtypes/add/$', systemtype_views.systemtypes_add, name='systemtypes_add'),
-    url(r'^systemtypes/add_popup$', systemtype_views.systemtypes_add_popup, name='systemtypes_add_popup'),
-    url(r'^systemtypes/(?P<pk>\d+)/edit/$', systemtype_views.systemtypes_edit, name='systemtypes_edit'),
+    url(r'^systemtypes/add/$', systemtype_views.SystemtypeCreate.as_view(), name='systemtypes_add'),
+    url(r'^systemtypes/add_popup$', systemtype_views.SystemtypeCreatePopup.as_view(), name='systemtypes_add_popup'),
+    url(r'^systemtypes/(?P<pk>\d+)/edit/$', systemtype_views.SystemtypeUpdate.as_view(), name='systemtypes_edit'),
 
     url(r'^systemusers/$', systemuser_views.SystemuserList.as_view(), name='systemuserlist'),
     url(r'^systemusers/(?P<pk>\d+)$', systemuser_views.SystemuserDetail.as_view(), name='systemuserdetail'),
