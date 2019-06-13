@@ -50,6 +50,8 @@ class DomainCreate(LoginRequiredMixin, CreateView):
             domain.logger(str(request.user), " DOMAIN_ADD_EXECUTED")
             messages.success(request, 'Domain added')
             return redirect('/domains/' + str(domain.domain_id))
+        else:
+            return render(request, self.template_name, {'form': form})
 
 class DomainCreatePopup(LoginRequiredMixin, CreateView):
     login_url = '/login'
@@ -70,6 +72,8 @@ class DomainCreatePopup(LoginRequiredMixin, CreateView):
             domain.logger(str(request.user), " DOMAIN_ADD_POPUP_EXECUTED")
             messages.success(request, 'Domain added')
             return HttpResponse('<script type="text/javascript">window.close();</script>')
+        else:
+            return render(request, self.template_name, {'form': form})
 
 class DomainUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
@@ -92,3 +96,5 @@ class DomainUpdate(LoginRequiredMixin, UpdateView):
             domain.logger(str(request.user), " DOMAIN_EDIT_EXECUTED")
             messages.success(request, 'Domain edited')
             return redirect('/domains/' + str(domain.domain_id))
+        else:
+            return render(request, self.template_name, {'form': form})

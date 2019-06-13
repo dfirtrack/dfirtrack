@@ -51,6 +51,8 @@ class CaseCreate(LoginRequiredMixin, CreateView):
             case.logger(str(request.user), " CASES_ADD_EXECUTED")
             messages.success(request, 'Case added')
             return redirect('/cases/' + str(case.case_id))
+        else:
+            return render(request, self.template_name, {'form': form})
 
 class CaseUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
@@ -74,3 +76,5 @@ class CaseUpdate(LoginRequiredMixin, UpdateView):
             case.logger(str(request.user), " CASES_EDIT_EXECUTED")
             messages.success(request, 'Case edited')
             return redirect('/cases/' + str(case.case_id))
+        else:
+            return render(request, self.template_name, {'form': form})
