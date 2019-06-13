@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import DetailView, ListView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from dfirtrack_main.forms import TagForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Tag
@@ -13,59 +14,83 @@ class TagList(LoginRequiredMixin, ListView):
     model = Tag
     template_name = 'dfirtrack_main/tag/tags_list.html'
     context_object_name = 'tag_list'
+
     def get_queryset(self):
-        debug_logger(str(self.request.user), " TAG_ENTERED")
+        debug_logger(str(self.request.user), " TAG_LIST_ENTERED")
         return Tag.objects.order_by('tag_name')
 
 class TagDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Tag
     template_name = 'dfirtrack_main/tag/tags_detail.html'
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         tag = self.object
-        tag.logger(str(self.request.user), " TAGDETAIL_ENTERED")
+        tag.logger(str(self.request.user), " TAG_DETAIL_ENTERED")
         return context
 
-@login_required(login_url="/login")
-def tags_add(request):
-    if request.method == 'POST':
-        form = TagForm(request.POST)
+class TagCreate(LoginRequiredMixin, CreateView):
+    login_url = '/login'
+    model = Tag
+    form_class = TagForm
+    template_name = 'dfirtrack_main/tag/tags_add.html'
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        debug_logger(str(request.user), " TAG_ADD_ENTERED")
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
         if form.is_valid():
             tag = form.save(commit=False)
             tag.tag_modified_by_user_id = request.user
             tag.save()
             tag.logger(str(request.user), " TAG_ADD_EXECUTED")
             messages.success(request, 'Tag added')
-            return redirect('/tags')
-    else:
-        form = TagForm()
-        debug_logger(str(request.user), " TAG_ADD_ENTERED")
-    return render(request, 'dfirtrack_main/tag/tags_add.html', {'form': form})
+            return redirect('/tags/' + str(tag.tag_id))
+        else:
+            return render(request, self.template_name, {'form': form})
 
-@login_required(login_url="/login")
-def tags_delete(request, pk, template_name='dfirtrack_main/tag/tags_delete.html'):
-    tag = get_object_or_404(Tag, pk=pk)
-    if request.method == 'POST':
+class TagDelete(LoginRequiredMixin, DeleteView):
+    login_url = '/login'
+    model = Tag
+    template_name = 'dfirtrack_main/tag/tags_delete.html'
+
+    def get(self, request, *args, **kwargs):
+        tag = self.get_object()
+        tag.logger(str(request.user), " TAG_DELETE_ENTERED")
+        return render(request, self.template_name, {'tag': tag})
+
+    def post(self, request, *args, **kwargs):
+        tag = self.get_object()
         tag.logger(str(request.user), " TAG_DELETE_EXECUTED")
         tag.delete()
         messages.success(request, 'Tag deleted')
         return redirect('/tags')
-    return render(request, template_name, {'tag': tag})
 
-@login_required(login_url="/login")
-def tags_edit(request, pk):
-    tag = get_object_or_404(Tag, pk=pk)
-    if request.method == 'POST':
-        form = TagForm(request.POST, instance=tag)
+class TagUpdate(LoginRequiredMixin, UpdateView):
+    login_url = '/login'
+    model = Tag
+    form_class = TagForm
+    template_name = 'dfirtrack_main/tag/tags_edit.html'
+
+    def get(self, request, *args, **kwargs):
+        tag = self.get_object()
+        form = self.form_class(instance=tag)
+        tag.logger(str(request.user), " TAG_EDIT_ENTERED")
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        tag = self.get_object()
+        form = self.form_class(request.POST, instance=tag)
         if form.is_valid():
             tag = form.save(commit=False)
             tag.tag_modified_by_user_id = request.user
             tag.save()
             tag.logger(str(request.user), " TAG_EDIT_EXECUTED")
             messages.success(request, 'Tag edited')
-            return redirect('/tags')
-    else:
-        form = TagForm(instance=tag)
-        tag.logger(str(request.user), " TAG_EDIT_ENTERED")
-    return render(request, 'dfirtrack_main/tag/tags_edit.html', {'form': form})
+            return redirect('/tags/' + str(tag.tag_id))
+        else:
+            return render(request, self.template_name, {'form': form})
