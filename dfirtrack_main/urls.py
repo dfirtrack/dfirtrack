@@ -30,9 +30,9 @@ urlpatterns = [
 
     url(r'^companys/$', company_views.CompanyList.as_view(), name='companylist'),
     url(r'^companys/(?P<pk>\d+)$', company_views.CompanyDetail.as_view(), name='companydetail'),
-    url(r'^companys/add/$', company_views.companys_add, name='companys_add'),
-    url(r'^companys/add_popup$', company_views.companys_add_popup, name='companys_add_popup'),
-    url(r'^companys/(?P<pk>\d+)/edit/$', company_views.companys_edit, name='companys_edit'),
+    url(r'^companys/add/$', company_views.CompanyCreate.as_view(), name='companys_add'),
+    url(r'^companys/add_popup$', company_views.CompanyCreatePopup.as_view(), name='companys_add_popup'),
+    url(r'^companys/(?P<pk>\d+)/edit/$', company_views.CompanyUpdate.as_view(), name='companys_edit'),
 
     url(r'^contacts/$', contact_views.ContactList.as_view(), name='contactlist'),
     url(r'^contacts/(?P<pk>\d+)$', contact_views.ContactDetail.as_view(), name='contactdetail'),
