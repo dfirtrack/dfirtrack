@@ -20,8 +20,8 @@ urlpatterns = [
 
     url(r'^analystmemos/$', analystmemo_views.AnalystmemoList.as_view(), name='analystmemolist'),
     url(r'^analystmemos/(?P<pk>\d+)$', analystmemo_views.AnalystmemoDetail.as_view(), name='analystmemodetail'),
-    url(r'^analystmemos/add/$', analystmemo_views.analystmemos_add, name='analystmemos_add'),
-    url(r'^analystmemos/(?P<pk>\d+)/edit/$', analystmemo_views.analystmemos_edit, name='analystmemos_edit'),
+    url(r'^analystmemos/add/$', analystmemo_views.AnalystmemoCreate.as_view(), name='analystmemos_add'),
+    url(r'^analystmemos/(?P<pk>\d+)/edit/$', analystmemo_views.AnalystmemoUpdate.as_view(), name='analystmemos_edit'),
 
     url(r'^cases/$', case_views.CaseList.as_view(), name='caselist'),
     url(r'^cases/(?P<pk>\d+)$', case_views.CaseDetail.as_view(), name='casedetail'),
