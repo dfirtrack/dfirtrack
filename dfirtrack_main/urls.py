@@ -107,8 +107,8 @@ urlpatterns = [
 
     url(r'^reportitems/$', reportitem_views.ReportitemList.as_view(), name='reportitemlist'),
     url(r'^reportitems/(?P<pk>\d+)$', reportitem_views.ReportitemDetail.as_view(), name='reportitemdetail'),
-    url(r'^reportitems/add/$', reportitem_views.reportitems_add, name='reportitems_add'),
-    url(r'^reportitems/(?P<pk>\d+)/edit/$', reportitem_views.reportitems_edit, name='reportitems_edit'),
+    url(r'^reportitems/add/$', reportitem_views.ReportitemCreate.as_view(), name='reportitems_add'),
+    url(r'^reportitems/(?P<pk>\d+)/edit/$', reportitem_views.ReportitemUpdate.as_view(), name='reportitems_edit'),
     url(r'^reportitems/importer/file/filesystem/reportitems/$', filesystem.reportitems, name='reportitems_importer_file_filesystem'),
 
     url(r'^serviceproviders/$', serviceprovider_views.ServiceproviderList.as_view(), name='serviceproviderlist'),
