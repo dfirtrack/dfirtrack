@@ -25,8 +25,8 @@ urlpatterns = [
 
     url(r'^cases/$', case_views.CaseList.as_view(), name='caselist'),
     url(r'^cases/(?P<pk>\d+)$', case_views.CaseDetail.as_view(), name='casedetail'),
-    url(r'^cases/add/$', case_views.cases_add, name='cases_add'),
-    url(r'^cases/(?P<pk>\d+)/edit/$', case_views.cases_edit, name='cases_edit'),
+    url(r'^cases/add/$', case_views.CaseCreate.as_view(), name='cases_add'),
+    url(r'^cases/(?P<pk>\d+)/edit/$', case_views.CaseUpdate.as_view(), name='cases_edit'),
 
     url(r'^companys/$', company_views.CompanyList.as_view(), name='companylist'),
     url(r'^companys/(?P<pk>\d+)$', company_views.CompanyDetail.as_view(), name='companydetail'),
