@@ -36,9 +36,9 @@ urlpatterns = [
 
     url(r'^contacts/$', contact_views.ContactList.as_view(), name='contactlist'),
     url(r'^contacts/(?P<pk>\d+)$', contact_views.ContactDetail.as_view(), name='contactdetail'),
-    url(r'^contacts/add/$', contact_views.contacts_add, name='contacts_add'),
-    url(r'^contacts/add_popup$', contact_views.contacts_add_popup, name='contacts_add_popup'),
-    url(r'^contacts/(?P<pk>\d+)/edit/$', contact_views.contacts_edit, name='contacts_edit'),
+    url(r'^contacts/add/$', contact_views.ContactCreate.as_view(), name='contacts_add'),
+    url(r'^contacts/add_popup$', contact_views.ContactCreatePopup.as_view(), name='contacts_add_popup'),
+    url(r'^contacts/(?P<pk>\d+)/edit/$', contact_views.ContactUpdate.as_view(), name='contacts_edit'),
 
     url(r'^divisions/$', division_views.DivisionList.as_view(), name='divisionlist'),
     url(r'^divisions/(?P<pk>\d+)$', division_views.DivisionDetail.as_view(), name='divisiondetail'),
