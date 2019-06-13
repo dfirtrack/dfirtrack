@@ -81,7 +81,7 @@ class DomainUpdate(LoginRequiredMixin, UpdateView):
         domain = self.get_object()
         form = self.form_class(instance=domain)
         domain.logger(str(request.user), " DOMAIN_EDIT_ENTERED")
-        return render(request, 'dfirtrack_main/domain/domains_edit.html', {'form': form})
+        return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
         domain = self.get_object()
@@ -91,4 +91,4 @@ class DomainUpdate(LoginRequiredMixin, UpdateView):
             domain.save()
             domain.logger(str(request.user), " DOMAIN_EDIT_EXECUTED")
             messages.success(request, 'Domain edited')
-        return redirect('/domains/' + str(domain.domain_id))
+            return redirect('/domains/' + str(domain.domain_id))
