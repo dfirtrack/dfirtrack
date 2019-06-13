@@ -71,8 +71,8 @@ urlpatterns = [
 
     url(r'^headlines/$', headline_views.HeadlineList.as_view(), name='headlinelist'),
     url(r'^headlines/(?P<pk>\d+)$', headline_views.HeadlineDetail.as_view(), name='headlinedetail'),
-    url(r'^headlines/add/$', headline_views.headlines_add, name='headlines_add'),
-    url(r'^headlines/(?P<pk>\d+)/edit/$', headline_views.headlines_edit, name='headlines_edit'),
+    url(r'^headlines/add/$', headline_views.HeadlineCreate.as_view(), name='headlines_add'),
+    url(r'^headlines/(?P<pk>\d+)/edit/$', headline_views.HeadlineUpdate.as_view(), name='headlines_edit'),
 
     url(r'^ips/$', ip_views.IpList.as_view(), name='iplist'),
     url(r'^ips/(?P<pk>\d+)$', ip_views.IpDetail.as_view(), name='ipdetail'),
