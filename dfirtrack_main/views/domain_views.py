@@ -7,7 +7,6 @@ from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_main.forms import DomainForm
 from dfirtrack_main.logger.default_logger import debug_logger
-from dfirtrack_main.forms import DomainForm
 from dfirtrack_main.models import Domain
 
 class DomainList(LoginRequiredMixin, ListView):
