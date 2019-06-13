@@ -42,8 +42,8 @@ urlpatterns = [
 
     url(r'^divisions/$', division_views.DivisionList.as_view(), name='divisionlist'),
     url(r'^divisions/(?P<pk>\d+)$', division_views.DivisionDetail.as_view(), name='divisiondetail'),
-    url(r'^divisions/add/$', division_views.divisions_add, name='divisions_add'),
-    url(r'^divisions/(?P<pk>\d+)/edit/$', division_views.divisions_edit, name='divisions_edit'),
+    url(r'^divisions/add/$', division_views.DivisionCreate.as_view(), name='divisions_add'),
+    url(r'^divisions/(?P<pk>\d+)/edit/$', division_views.DivisionUpdate.as_view(), name='divisions_edit'),
 
     url(r'^dnsnames/$', dnsname_views.DnsnameList.as_view(), name='dnsnamelist'),
     url(r'^dnsnames/(?P<pk>\d+)$', dnsname_views.DnsnameDetail.as_view(), name='dnsnamedetail'),
