@@ -90,8 +90,8 @@ urlpatterns = [
     url(r'^oss/(?P<pk>\d+)/edit/$', os_views.oss_edit, name='oss_edit'),
 
     url(r'^osimportnames/$', osimportname_views.OsimportnameList.as_view(), name='osimportnamelist'),
-    url(r'^osimportnames/add/$', osimportname_views.osimportnames_add, name='osimportnames_add'),
-    url(r'^osimportnames/(?P<pk>\d+)/edit/$', osimportname_views.osimportnames_edit, name='osimportnames_edit'),
+    url(r'^osimportnames/add/$', osimportname_views.OsimportnameCreate.as_view(), name='osimportnames_add'),
+    url(r'^osimportnames/(?P<pk>\d+)/edit/$', osimportname_views.OsimportnameUpdate.as_view(), name='osimportnames_edit'),
 
     url(r'^reasons/$', reason_views.ReasonList.as_view(), name='reasonlist'),
     url(r'^reasons/(?P<pk>\d+)$', reason_views.ReasonDetail.as_view(), name='reasondetail'),
