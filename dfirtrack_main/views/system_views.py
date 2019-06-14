@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.views.generic import DetailView, ListView
+from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_main.forms import SystemForm
 from dfirtrack_main.logger.default_logger import debug_logger, warning_logger
 from dfirtrack_main.models import Ip, System
@@ -16,9 +17,10 @@ class SystemList(LoginRequiredMixin, ListView):
     model = System
     template_name = 'dfirtrack_main/system/systems_list.html'
     context_object_name = 'system_list'
+
     def get_queryset(self):
         # call logger
-        debug_logger(str(self.request.user), " SYSTEM_ENTERED")
+        debug_logger(str(self.request.user), " SYSTEM_LIST_ENTERED")
         return System.objects.order_by('system_name')
 
     # check for dfirtrack_api
@@ -39,17 +41,32 @@ class SystemDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = System
     template_name = 'dfirtrack_main/system/systems_detail.html'
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         system = self.object
         # call logger
-        system.logger(str(self.request.user), " SYSTEMDETAIL_ENTERED")
+        system.logger(str(self.request.user), " SYSTEM_DETAIL_ENTERED")
         return context
 
-@login_required(login_url="/login")
-def systems_add(request):
-    if request.method == 'POST':
-        form = SystemForm(request.POST)
+class SystemCreate(LoginRequiredMixin, CreateView):
+    login_url = '/login'
+    model = System
+    form_class = SystemForm
+    template_name = 'dfirtrack_main/system/systems_add.html'
+
+    def get(self, request, *args, **kwargs):
+        # show empty form with default values for convenience and speed reasons
+        form = self.form_class(initial={
+            'systemstatus': 2,
+            'analysisstatus': 1,
+        })
+        # call logger
+        debug_logger(str(request.user), " SYSTEM_ADD_ENTERED")
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
         if form.is_valid():
             system = form.save(commit=False)
             system.system_created_by_user_id = request.user
@@ -58,8 +75,6 @@ def systems_add(request):
             system.save()
             form.save_m2m()
 
-            # get user string
-            request_user = str(request.user)
             # extract lines from ip list
             lines = request.POST.get('iplist').splitlines()
             # call function to save ips
@@ -69,42 +84,17 @@ def systems_add(request):
             system.logger(str(request.user), ' SYSTEM_ADD_EXECUTED')
             messages.success(request, 'System added')
             return redirect('/systems/' + str(system.system_id))
-    else:
-        # show empty form with default values for convenience and speed reasons
-        form = SystemForm(initial={
-            'systemstatus': 2,
-            'analysisstatus': 1,
-        })
-        # call logger
-        debug_logger(str(request.user), " SYSTEM_ADD_ENTERED")
-    return render(request, 'dfirtrack_main/system/systems_add.html', {'form': form})
+        else:
+            return render(request, self.template_name, {'form': form})
 
-@login_required(login_url="/login")
-def systems_edit(request, pk):
-    system = get_object_or_404(System, pk=pk)
-    if request.method == 'POST':
-        form = SystemForm(request.POST, instance=system)
-        if form.is_valid():
-            system = form.save(commit=False)
-            system.system_modified_by_user_id = request.user
-            system.system_modify_time = timezone.now()
-            system.save()
-            form.save_m2m()
+class SystemUpdate(LoginRequiredMixin, UpdateView):
+    login_url = '/login'
+    model = System
+    form_class = SystemForm
+    template_name = 'dfirtrack_main/system/systems_edit.html'
 
-            system.ip.clear()
-            # get user string
-            request_user = str(request.user)
-            # extract lines from ip list
-            lines = request.POST.get('iplist').splitlines()
-            # call function to save ips
-            ips_save(request, system, lines)
-
-            # call logger
-            system.logger(str(request.user), ' SYSTEM_EDIT_EXECUTED')
-            messages.success(request, 'System edited')
-            return redirect('/systems/' + str(system.system_id))
-    else:
-        system = System.objects.get(system_id = pk)
+    def get(self, request, *args, **kwargs):
+        system = self.get_object()
 
         """ get all existing ip addresses """
 
@@ -126,7 +116,7 @@ def systems_edit(request, pk):
                 ipstring = ipstring + '\n'
 
         # show form for system with all ip addresses
-        form = SystemForm(
+        form = self.form_class(
             instance=system,
             initial={
                 'iplist': ipstring,
@@ -134,7 +124,31 @@ def systems_edit(request, pk):
         )
         # call logger
         system.logger(str(request.user), " SYSTEM_EDIT_ENTERED")
-    return render(request, 'dfirtrack_main/system/systems_edit.html', {'form': form})
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        system = self.get_object()
+        form = self.form_class(request.POST, instance=system)
+        if form.is_valid():
+            system = form.save(commit=False)
+            system.system_modified_by_user_id = request.user
+            system.system_modify_time = timezone.now()
+            system.save()
+            form.save_m2m()
+
+            # remove all ips to avoid double assignment of beforehand assigned ips
+            system.ip.clear()
+            # extract lines from ip list
+            lines = request.POST.get('iplist').splitlines()
+            # call function to save ips
+            ips_save(request, system, lines)
+
+            # call logger
+            system.logger(str(request.user), ' SYSTEM_EDIT_EXECUTED')
+            messages.success(request, 'System edited')
+            return redirect('/systems/' + str(system.system_id))
+        else:
+            return render(request, self.template_name, {'form': form})
 
 def ips_save(request, system, lines):
     # iterate over lines

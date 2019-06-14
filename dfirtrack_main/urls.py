@@ -119,8 +119,8 @@ urlpatterns = [
 
     url(r'^systems/$', system_views.SystemList.as_view(), name='systemlist'),
     url(r'^systems/(?P<pk>\d+)$', system_views.SystemDetail.as_view(), name='systemdetail'),
-    url(r'^systems/add/$', system_views.systems_add, name='systems_add'),
-    url(r'^systems/(?P<pk>\d+)/edit/$', system_views.systems_edit, name='systems_edit'),
+    url(r'^systems/add/$', system_views.SystemCreate.as_view(), name='systems_add'),
+    url(r'^systems/(?P<pk>\d+)/edit/$', system_views.SystemUpdate.as_view(), name='systems_edit'),
     url(r'^systems/creator/$', systems_creator.systems_creator, name='systems_creator'),
     url(r'^systems/exporter/markdown/domainsorted/$', domainsorted.domainsorted, name='systems_exporter_markdown_domainsorted'),
     url(r'^systems/exporter/markdown/systemsorted/$', systemsorted.systemsorted, name='systems_exporter_markdown_systemsorted'),
