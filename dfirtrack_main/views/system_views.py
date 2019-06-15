@@ -96,6 +96,10 @@ class SystemUpdate(LoginRequiredMixin, UpdateView):
         form_class = SystemForm
     elif system_name_editable is True:
         form_class = SystemNameForm
+    else:
+        # enforce default value False
+        # messages.error(request, 'Flawed SYSTEM_NAME_EDITABLE . Check `dfirtrack.config`!')
+        form_class = SystemForm
 
     def get(self, request, *args, **kwargs):
         system = self.get_object()
