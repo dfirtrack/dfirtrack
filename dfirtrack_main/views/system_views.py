@@ -22,18 +22,18 @@ class SystemList(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " SYSTEM_LIST_ENTERED")
         return System.objects.order_by('system_name')
 
-    # check for dfirtrack_api
     def get_context_data(self, **kwargs):
+
         # returns context dictionary
         context = super(SystemList, self).get_context_data()
-        # check settings for dfirtrack_api in installed_apps
+
+        # set dfirtrack_api for template
         if 'dfirtrack_api' in installed_apps:
-            # add key value pair for 'dfirtrack_api' to dictionary
             context['dfirtrack_api'] = True
         else:
-            # add key value pair for 'dfirtrack_api' to dictionary
             context['dfirtrack_api'] = False
-        # return dictionary with additional key value pair for 'dfirtrack_api'
+
+        # return dictionary with additional values for template
         return context
 
 class SystemDetail(LoginRequiredMixin, DetailView):
@@ -98,11 +98,21 @@ class SystemUpdate(LoginRequiredMixin, UpdateView):
         form_class = SystemNameForm
     else:
         # enforce default value False
-        # messages.error(request, 'Flawed SYSTEM_NAME_EDITABLE . Check `dfirtrack.config`!')
         form_class = SystemForm
+
 
     def get(self, request, *args, **kwargs):
         system = self.get_object()
+
+        # set system_name_editable for template
+        if system_name_editable is False:
+            system_name_edit = False
+        elif system_name_editable is True:
+            system_name_edit = True
+        else:
+            # enforce default value False
+            messages.error(request, 'Flawed SYSTEM_NAME_EDITABLE . Check `dfirtrack.config`!')
+            system_name_edit = False
 
         """ get all existing ip addresses """
 
@@ -132,7 +142,15 @@ class SystemUpdate(LoginRequiredMixin, UpdateView):
         )
         # call logger
         system.logger(str(request.user), " SYSTEM_EDIT_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'system_name': system.system_name,
+                'system_name_edit': system_name_edit,
+            }
+        )
 
     def post(self, request, *args, **kwargs):
         system = self.get_object()
