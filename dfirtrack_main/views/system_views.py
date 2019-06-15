@@ -4,7 +4,8 @@ from django.shortcuts import redirect, render
 from django.utils import timezone
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
-from dfirtrack_main.forms import SystemForm
+from dfirtrack.config import SYSTEM_NAME_EDITABLE as system_name_editable
+from dfirtrack_main.forms import SystemForm, SystemNameForm
 from dfirtrack_main.logger.default_logger import debug_logger, warning_logger
 from dfirtrack_main.models import Ip, System
 from dfirtrack.settings import INSTALLED_APPS as installed_apps
@@ -21,18 +22,18 @@ class SystemList(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " SYSTEM_LIST_ENTERED")
         return System.objects.order_by('system_name')
 
-    # check for dfirtrack_api
     def get_context_data(self, **kwargs):
+
         # returns context dictionary
         context = super(SystemList, self).get_context_data()
-        # check settings for dfirtrack_api in installed_apps
+
+        # set dfirtrack_api for template
         if 'dfirtrack_api' in installed_apps:
-            # add key value pair for 'dfirtrack_api' to dictionary
             context['dfirtrack_api'] = True
         else:
-            # add key value pair for 'dfirtrack_api' to dictionary
             context['dfirtrack_api'] = False
-        # return dictionary with additional key value pair for 'dfirtrack_api'
+
+        # return dictionary with additional values for template
         return context
 
 class SystemDetail(LoginRequiredMixin, DetailView):
@@ -50,7 +51,7 @@ class SystemDetail(LoginRequiredMixin, DetailView):
 class SystemCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = System
-    form_class = SystemForm
+    form_class = SystemNameForm
     template_name = 'dfirtrack_main/system/systems_add.html'
 
     def get(self, request, *args, **kwargs):
@@ -88,11 +89,30 @@ class SystemCreate(LoginRequiredMixin, CreateView):
 class SystemUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = System
-    form_class = SystemForm
     template_name = 'dfirtrack_main/system/systems_edit.html'
+
+    # choose form class depending on variable
+    if system_name_editable is False:
+        form_class = SystemForm
+    elif system_name_editable is True:
+        form_class = SystemNameForm
+    else:
+        # enforce default value False
+        form_class = SystemForm
+
 
     def get(self, request, *args, **kwargs):
         system = self.get_object()
+
+        # set system_name_editable for template
+        if system_name_editable is False:
+            system_name_edit = False
+        elif system_name_editable is True:
+            system_name_edit = True
+        else:
+            # enforce default value False
+            messages.error(request, 'Flawed SYSTEM_NAME_EDITABLE . Check `dfirtrack.config`!')
+            system_name_edit = False
 
         """ get all existing ip addresses """
 
@@ -122,7 +142,17 @@ class SystemUpdate(LoginRequiredMixin, UpdateView):
         )
         # call logger
         system.logger(str(request.user), " SYSTEM_EDIT_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                # boolean variable is used in template
+                'system_name_edit': system_name_edit,
+                # return system object in context for use in template
+                'system': system,
+            }
+        )
 
     def post(self, request, *args, **kwargs):
         system = self.get_object()
