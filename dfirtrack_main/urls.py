@@ -121,6 +121,7 @@ urlpatterns = [
     url(r'^systems/(?P<pk>\d+)$', system_views.SystemDetail.as_view(), name='systemdetail'),
     url(r'^systems/add/$', system_views.SystemCreate.as_view(), name='systems_add'),
     url(r'^systems/(?P<pk>\d+)/edit/$', system_views.SystemUpdate.as_view(), name='systems_edit'),
+
     url(r'^systems/creator/$', systems_creator.systems_creator, name='systems_creator'),
     url(r'^systems/exporter/markdown/domainsorted/$', domainsorted.domainsorted, name='systems_exporter_markdown_domainsorted'),
     url(r'^systems/exporter/markdown/systemsorted/$', systemsorted.systemsorted, name='systems_exporter_markdown_systemsorted'),
@@ -153,15 +154,16 @@ urlpatterns = [
     url(r'^tasks/$', task_views.TaskList.as_view(), name='tasklist'),
     url(r'^tasks/closed$', task_views.TaskClosed.as_view(), name='taskclosed'),
     url(r'^tasks/(?P<pk>\d+)$', task_views.TaskDetail.as_view(), name='taskdetail'),
-    url(r'^tasks/add/$', task_views.tasks_add, name='tasks_add'),
-    url(r'^tasks/(?P<pk>\d+)/edit/$', task_views.tasks_edit, name='tasks_edit'),
-    url(r'^tasks/creator$', tasks_creator.tasks_creator, name='tasks_creator'),
+    url(r'^tasks/add/$', task_views.TaskCreate.as_view(), name='tasks_add'),
+    url(r'^tasks/(?P<pk>\d+)/edit/$', task_views.TaskUpdate.as_view(), name='tasks_edit'),
 
-    url(r'^tasks/(?P<pk>\d+)/start/$', task_views.tasks_start, name='tasks_start'),
-    url(r'^tasks/(?P<pk>\d+)/finish/$', task_views.tasks_finish, name='tasks_finish'),
-    url(r'^tasks/(?P<pk>\d+)/renew/$', task_views.tasks_renew, name='tasks_renew'),
-    url(r'^tasks/(?P<pk>\d+)/set_user/$', task_views.tasks_set_user, name='tasks_set_user'),
-    url(r'^tasks/(?P<pk>\d+)/unset_user/$', task_views.tasks_unset_user, name='tasks_unset_user'),
+    url(r'^tasks/(?P<pk>\d+)/start/$', task_views.TaskStart.as_view(), name='tasks_start'),
+    url(r'^tasks/(?P<pk>\d+)/finish/$', task_views.TaskFinish.as_view(), name='tasks_finish'),
+    url(r'^tasks/(?P<pk>\d+)/renew/$', task_views.TaskRenew.as_view(), name='tasks_renew'),
+    url(r'^tasks/(?P<pk>\d+)/set_user/$', task_views.TaskSetUser.as_view(), name='tasks_set_user'),
+    url(r'^tasks/(?P<pk>\d+)/unset_user/$', task_views.TaskUnsetUser.as_view(), name='tasks_unset_user'),
+
+    url(r'^tasks/creator$', tasks_creator.tasks_creator, name='tasks_creator'),
 
     url(r'^tasknames/$', taskname_views.TasknameList.as_view(), name='tasknamelist'),
     url(r'^tasknames/(?P<pk>\d+)$', taskname_views.TasknameDetail.as_view(), name='tasknamedetail'),
