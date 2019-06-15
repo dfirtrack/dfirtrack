@@ -30,7 +30,7 @@ A list of feature ideas is maintained in the [Wiki](https://github.com/stuhli/df
 
 DFIRTrack is developed for deploying on **Debian** or **Ubuntu**. Other distributions may work but were not tested yet. At the moment the project will be focused on Ubuntu LTS and Debian releases.
 
-For fast and uncomplicated installation on a dedicated server including all dependencies an (deprecated) [Ansible](https://docs.ansible.com/ansible/latest/) playbook and role was written (available [here](https://github.com/stuhli/dfirtrack_ansible)). For testing a docker environment was prepared (see below).
+For fast and uncomplicated installation on a dedicated server including all dependencies an [Ansible](https://docs.ansible.com/ansible/latest/) playbook and role was written (available [here](https://github.com/stuhli/dfirtrack_ansible)). For testing a docker environment was prepared (see below).
 
 For a minimal setup the following dependencies are needed:
 
@@ -46,7 +46,7 @@ For a minimal setup the following dependencies are needed:
 * `virtualenv`,
 * `xlwt`.
 
-**Note that there is no `settings.py` in this repository.** [This file](https://github.com/stuhli/dfirtrack_ansible/blob/master/roles/dfirtrack/templates/settings.py.j2) is submitted via Ansible or has to be copied and configured by hand. That will be changed in the future (see issues for more information).
+**Note that there is no `settings.py` in this repository.** [This file](https://github.com/stuhli/dfirtrack_ansible/blob/master/roles/dfirtrack/templates/settings.py.j2) is submitted via Ansible or has to be copied and configured by hand. More detailled instructions are provided in the [Wiki](https://github.com/stuhli/dfirtrack/wiki/Installation).
 
 ## Docker Environment
 
