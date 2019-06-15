@@ -339,7 +339,7 @@ class ServiceproviderForm(forms.ModelForm):
             'serviceprovider_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
         }
 
-class SystemForm(forms.ModelForm):
+class SystemAddForm(forms.ModelForm):
     # large text area for line separated iplist
     iplist = forms.CharField(
         widget=forms.Textarea(
@@ -382,6 +382,70 @@ class SystemForm(forms.ModelForm):
         # special form type or option
         widgets = {
             'system_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
+            'systemstatus': forms.RadioSelect(),
+            'analysisstatus': forms.RadioSelect(),
+            'reason': forms.RadioSelect(),
+            'recommendation': forms.RadioSelect(),
+            'systemtype': forms.RadioSelect(),
+            'ip': forms.GenericIPAddressField(),
+            'domain': forms.RadioSelect(),
+            'dnsname': forms.RadioSelect(),
+            'os': forms.RadioSelect(),
+            'osarch': forms.RadioSelect(),
+            'system_install_time': forms.DateTimeInput(),
+            'system_lastbooted_time': forms.DateTimeInput(),
+            'system_deprecated_time': forms.DateTimeInput(),
+            'system_is_vm': forms.NullBooleanSelect(),
+            'host_system': forms.Select(),
+            'company': forms.CheckboxSelectMultiple(),
+            'location': forms.RadioSelect(),
+            'serviceprovider': forms.RadioSelect(),
+            'contact': forms.RadioSelect(),
+            'tag': forms.CheckboxSelectMultiple(),
+            'case': forms.CheckboxSelectMultiple(),
+        }
+
+class SystemEditForm(forms.ModelForm):
+    # large text area for line separated iplist
+    iplist = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'rows': 3,
+                'placeholder': 'One ip address per line',
+            },
+        ),
+        required = False,
+    )
+
+    class Meta:
+        model = System
+        # this HTML forms are shown
+        fields = (
+            'systemstatus',
+            'analysisstatus',
+            'reason',
+            'recommendation',
+            'systemtype',
+            'domain',
+            'dnsname',
+            'os',
+            'osarch',
+            'system_install_time',
+            'system_lastbooted_time',
+            'system_deprecated_time',
+            'system_is_vm',
+            'host_system',
+            'company',
+            'location',
+            'serviceprovider',
+            'contact',
+            'tag',
+            'case',
+            'system_export_markdown',
+            'system_export_spreadsheet',
+        )
+        # special form type or option
+        widgets = {
             'systemstatus': forms.RadioSelect(),
             'analysisstatus': forms.RadioSelect(),
             'reason': forms.RadioSelect(),

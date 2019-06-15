@@ -4,7 +4,7 @@ from django.shortcuts import redirect, render
 from django.utils import timezone
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
-from dfirtrack_main.forms import SystemForm
+from dfirtrack_main.forms import SystemAddForm, SystemEditForm
 from dfirtrack_main.logger.default_logger import debug_logger, warning_logger
 from dfirtrack_main.models import Ip, System
 from dfirtrack.settings import INSTALLED_APPS as installed_apps
@@ -50,7 +50,7 @@ class SystemDetail(LoginRequiredMixin, DetailView):
 class SystemCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = System
-    form_class = SystemForm
+    form_class = SystemAddForm
     template_name = 'dfirtrack_main/system/systems_add.html'
 
     def get(self, request, *args, **kwargs):
@@ -88,7 +88,7 @@ class SystemCreate(LoginRequiredMixin, CreateView):
 class SystemUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = System
-    form_class = SystemForm
+    form_class = SystemEditForm
     template_name = 'dfirtrack_main/system/systems_edit.html'
 
     def get(self, request, *args, **kwargs):
