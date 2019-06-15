@@ -66,6 +66,7 @@ urlpatterns = [
     url(r'^entrys/(?P<pk>\d+)$', entry_views.EntryDetail.as_view(), name='entrydetail'),
     url(r'^entrys/add/$', entry_views.EntryCreate.as_view(), name='entrys_add'),
     url(r'^entrys/(?P<pk>\d+)/edit/$', entry_views.EntryUpdate.as_view(), name='entrys_edit'),
+
     url(r'^entrys/importer/api/giraf/entrys/$', giraf.entrys, name='entrys_importer_api_giraf'),
     url(r'^entrys/importer/file/markdown/entrys/$', markdown.entrys, name='entrys_importer_file_markdown'),
 
@@ -109,6 +110,7 @@ urlpatterns = [
     url(r'^reportitems/(?P<pk>\d+)$', reportitem_views.ReportitemDetail.as_view(), name='reportitemdetail'),
     url(r'^reportitems/add/$', reportitem_views.ReportitemCreate.as_view(), name='reportitems_add'),
     url(r'^reportitems/(?P<pk>\d+)/edit/$', reportitem_views.ReportitemUpdate.as_view(), name='reportitems_edit'),
+
     url(r'^reportitems/importer/file/filesystem/reportitems/$', filesystem.reportitems, name='reportitems_importer_file_filesystem'),
 
     url(r'^serviceproviders/$', serviceprovider_views.ServiceproviderList.as_view(), name='serviceproviderlist'),
