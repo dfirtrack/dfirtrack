@@ -339,7 +339,9 @@ class ServiceproviderForm(forms.ModelForm):
             'serviceprovider_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
         }
 
-class SystemAddForm(forms.ModelForm):
+class SystemForm(forms.ModelForm):
+    """ this form does not allow editing of system_name """
+
     # large text area for line separated iplist
     iplist = forms.CharField(
         widget=forms.Textarea(
@@ -355,119 +357,69 @@ class SystemAddForm(forms.ModelForm):
         model = System
         # this HTML forms are shown
         fields = (
+            'systemstatus',
+            'analysisstatus',
+            'reason',
+            'recommendation',
+            'systemtype',
+            'domain',
+            'dnsname',
+            'os',
+            'osarch',
+            'system_install_time',
+            'system_lastbooted_time',
+            'system_deprecated_time',
+            'system_is_vm',
+            'host_system',
+            'company',
+            'location',
+            'serviceprovider',
+            'contact',
+            'tag',
+            'case',
+            'system_export_markdown',
+            'system_export_spreadsheet',
+        )
+        # special form type or option
+        widgets = {
+            'systemstatus': forms.RadioSelect(),
+            'analysisstatus': forms.RadioSelect(),
+            'reason': forms.RadioSelect(),
+            'recommendation': forms.RadioSelect(),
+            'systemtype': forms.RadioSelect(),
+            'ip': forms.GenericIPAddressField(),
+            'domain': forms.RadioSelect(),
+            'dnsname': forms.RadioSelect(),
+            'os': forms.RadioSelect(),
+            'osarch': forms.RadioSelect(),
+            'system_install_time': forms.DateTimeInput(),
+            'system_lastbooted_time': forms.DateTimeInput(),
+            'system_deprecated_time': forms.DateTimeInput(),
+            'system_is_vm': forms.NullBooleanSelect(),
+            'host_system': forms.Select(),
+            'company': forms.CheckboxSelectMultiple(),
+            'location': forms.RadioSelect(),
+            'serviceprovider': forms.RadioSelect(),
+            'contact': forms.RadioSelect(),
+            'tag': forms.CheckboxSelectMultiple(),
+            'case': forms.CheckboxSelectMultiple(),
+        }
+
+class SystemNameForm(SystemForm):
+    """ this form allows editing of system_name """
+
+    class Meta(SystemForm.Meta):
+        # add system_name to shown HTML forms
+        fields = SystemForm.Meta.fields + (
             'system_name',
-            'systemstatus',
-            'analysisstatus',
-            'reason',
-            'recommendation',
-            'systemtype',
-            'domain',
-            'dnsname',
-            'os',
-            'osarch',
-            'system_install_time',
-            'system_lastbooted_time',
-            'system_deprecated_time',
-            'system_is_vm',
-            'host_system',
-            'company',
-            'location',
-            'serviceprovider',
-            'contact',
-            'tag',
-            'case',
-            'system_export_markdown',
-            'system_export_spreadsheet',
         )
-        # special form type or option
-        widgets = {
-            'system_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
-            'systemstatus': forms.RadioSelect(),
-            'analysisstatus': forms.RadioSelect(),
-            'reason': forms.RadioSelect(),
-            'recommendation': forms.RadioSelect(),
-            'systemtype': forms.RadioSelect(),
-            'ip': forms.GenericIPAddressField(),
-            'domain': forms.RadioSelect(),
-            'dnsname': forms.RadioSelect(),
-            'os': forms.RadioSelect(),
-            'osarch': forms.RadioSelect(),
-            'system_install_time': forms.DateTimeInput(),
-            'system_lastbooted_time': forms.DateTimeInput(),
-            'system_deprecated_time': forms.DateTimeInput(),
-            'system_is_vm': forms.NullBooleanSelect(),
-            'host_system': forms.Select(),
-            'company': forms.CheckboxSelectMultiple(),
-            'location': forms.RadioSelect(),
-            'serviceprovider': forms.RadioSelect(),
-            'contact': forms.RadioSelect(),
-            'tag': forms.CheckboxSelectMultiple(),
-            'case': forms.CheckboxSelectMultiple(),
-        }
-
-class SystemEditForm(forms.ModelForm):
-    # large text area for line separated iplist
-    iplist = forms.CharField(
-        widget=forms.Textarea(
+        # special form type or option for system_name
+        SystemForm.Meta.widgets['system_name'] = forms.TextInput(
             attrs={
-                'rows': 3,
-                'placeholder': 'One ip address per line',
-            },
-        ),
-        required = False,
-    )
-
-    class Meta:
-        model = System
-        # this HTML forms are shown
-        fields = (
-            'systemstatus',
-            'analysisstatus',
-            'reason',
-            'recommendation',
-            'systemtype',
-            'domain',
-            'dnsname',
-            'os',
-            'osarch',
-            'system_install_time',
-            'system_lastbooted_time',
-            'system_deprecated_time',
-            'system_is_vm',
-            'host_system',
-            'company',
-            'location',
-            'serviceprovider',
-            'contact',
-            'tag',
-            'case',
-            'system_export_markdown',
-            'system_export_spreadsheet',
+                'autofocus': 'autofocus',
+                'placeholder': 'Enter systemname here',
+            }
         )
-        # special form type or option
-        widgets = {
-            'systemstatus': forms.RadioSelect(),
-            'analysisstatus': forms.RadioSelect(),
-            'reason': forms.RadioSelect(),
-            'recommendation': forms.RadioSelect(),
-            'systemtype': forms.RadioSelect(),
-            'ip': forms.GenericIPAddressField(),
-            'domain': forms.RadioSelect(),
-            'dnsname': forms.RadioSelect(),
-            'os': forms.RadioSelect(),
-            'osarch': forms.RadioSelect(),
-            'system_install_time': forms.DateTimeInput(),
-            'system_lastbooted_time': forms.DateTimeInput(),
-            'system_deprecated_time': forms.DateTimeInput(),
-            'system_is_vm': forms.NullBooleanSelect(),
-            'host_system': forms.Select(),
-            'company': forms.CheckboxSelectMultiple(),
-            'location': forms.RadioSelect(),
-            'serviceprovider': forms.RadioSelect(),
-            'contact': forms.RadioSelect(),
-            'tag': forms.CheckboxSelectMultiple(),
-            'case': forms.CheckboxSelectMultiple(),
-        }
 
 class SystemIpFileImport(forms.ModelForm):
 
