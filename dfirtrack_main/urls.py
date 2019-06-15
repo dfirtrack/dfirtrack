@@ -12,8 +12,8 @@ from dfirtrack_main.models import Analysisstatus, Analystmemo, Case, Company, Co
 
 urlpatterns = [
 
-    url(r'^about/$', generic_views.about, name='about'),
-    url(r'^faq/$', generic_views.faq, name='faq'),
+    url(r'^about/$', generic_views.AboutView.as_view(), name='about'),
+    url(r'^faq/$', generic_views.FaqView.as_view(), name='faq'),
 
     url(r'^analysisstatuss/$', analysisstatus_views.AnalysisstatusList.as_view(), name='analysisstatuslist'),
     url(r'^analysisstatuss/(?P<pk>\d+)$', analysisstatus_views.AnalysisstatusDetail.as_view(), name='analysisstatusdetail'),
