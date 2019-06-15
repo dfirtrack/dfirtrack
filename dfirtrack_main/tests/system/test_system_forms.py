@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
-from dfirtrack_main.forms import SystemForm
+from dfirtrack_main.forms import SystemForm, SystemNameForm
 from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Dnsname, Domain, Location, Os, Osarch, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Tag, Tagcolor
 
 class SystemFormTestCase(TestCase):
@@ -85,7 +85,7 @@ class SystemFormTestCase(TestCase):
         """ test form label """
 
         # get object
-        form = SystemForm()
+        form = SystemNameForm()
         # compare
         self.assertEquals(form.fields['system_name'].label, 'System name')
 
@@ -598,7 +598,7 @@ class SystemFormTestCase(TestCase):
         # get object
         systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
         # get object
-        form = SystemForm(data = {
+        form = SystemNameForm(data = {
             'system_name': 'nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn',
             'systemstatus': systemstatus_id,
         })
