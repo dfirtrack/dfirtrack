@@ -6,7 +6,7 @@
 
 <!-- page title -->
 <title>
-    Edit '{{ form.system_name.value }}{% if form.dnsname.value %}.{{ form.dnsname.value }}{% endif %}'
+    Edit '{{ system.system_name }}{% if system.dnsname %}.{{ system.dnsname.dnsname_name }}{% endif %}'
 </title>
 
 {% load staticfiles %}
@@ -145,7 +145,7 @@
                     <!-- show system_name only otherwise -->
                     {% else %}
                         <h5>
-                            {{ system_name }}
+                            {{ system.system_name }}
                         </h5>
                     {% endif %}
 

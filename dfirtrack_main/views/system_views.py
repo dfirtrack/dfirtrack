@@ -147,8 +147,10 @@ class SystemUpdate(LoginRequiredMixin, UpdateView):
             self.template_name,
             {
                 'form': form,
-                'system_name': system.system_name,
+                # boolean variable is used in template
                 'system_name_edit': system_name_edit,
+                # return system object in context for use in template
+                'system': system,
             }
         )
 
