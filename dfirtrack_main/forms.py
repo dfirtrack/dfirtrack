@@ -417,7 +417,7 @@ class SystemNameForm(SystemForm):
         SystemForm.Meta.widgets['system_name'] = forms.TextInput(
             attrs={
                 'autofocus': 'autofocus',
-                'placeholder': 'Enter systemname here',
+                'placeholder': 'Enter system name / hostname here',
             }
         )
 
