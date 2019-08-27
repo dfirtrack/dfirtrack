@@ -48,7 +48,7 @@ class Artifact(models.Model):
         
     # meta information
     artifact_create_time = models.DateTimeField(auto_now_add=True)
-    artifact_modify_time = models.DateTimeField(auto_now_add=True)
+    artifact_modify_time = models.DateTimeField(auto_now=True)
     artifact_created_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='artifact_created_by')
     artifact_modified_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='artifact_modified_by')
 
@@ -141,7 +141,7 @@ class Artifactstatus(models.Model):
 
     # meta information
     artifactstatus_create_time = models.DateTimeField(auto_now_add=True)
-    artifactstatus_modify_time = models.DateTimeField(auto_now_add=True)
+    artifactstatus_modify_time = models.DateTimeField(auto_now=True)
     artifactstatus_created_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='artifactstatus_created_by')
     artifactstatus_modified_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='artifactstatus_modified_by')
 
@@ -187,7 +187,7 @@ class Artifacttype(models.Model):
 
     # meta information
     artifacttype_create_time = models.DateTimeField(auto_now_add=True)
-    artifacttype_modify_time = models.DateTimeField(auto_now_add=True)
+    artifacttype_modify_time = models.DateTimeField(auto_now=True)
     artifacttype_created_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='artifacttype_created_by')
     artifacttype_modified_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='artifacttype_modified_by')
 
