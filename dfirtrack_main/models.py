@@ -651,8 +651,8 @@ class System(models.Model):
 
     def create_evidence_directory(self):
         """
-        Check if the evidence directory for the system was already created 
-        otherwise it will be created. 
+        Check if the evidence directory for the system was already created
+        otherwise it will be created.
         """
         system_evidence_path = (EVIDENCE_PATH + '/' + str(self.uuid))
         if os.path.exists(system_evidence_path):
