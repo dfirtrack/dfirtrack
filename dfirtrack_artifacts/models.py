@@ -150,7 +150,7 @@ class Artifactstatus(models.Model):
 
     # string representation
     def __str__(self):
-        return 'Artifacstatus {0}'.format(str(self.artifactstatus_name))
+        return 'Artifactstatus {0}'.format(str(self.artifactstatus_name))
 
     #define logger
     def logger(artifactstatus, request_user, log_text):
