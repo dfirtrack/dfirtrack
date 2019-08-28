@@ -50,7 +50,7 @@
 </div>
 
 <!-- artifactstatus list -->
-{% for i in object_list %}
+{% for i in artifactstatus_list %}
 
     <!-- artifactstatus row -->
     <div class="row top-distance">
@@ -65,7 +65,7 @@
             {{ i.artifactstatus_name }}
         </div>
 
-        <!-- artifactstatus note -->
+        <!-- artifactstatus description -->
         <div class="col-9">
             {% if i.artifactstatus_description %}
                 {{ i.artifactstatus_description|linebreaks }}

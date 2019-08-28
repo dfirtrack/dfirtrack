@@ -6,7 +6,7 @@
 
 <!-- page title -->
 <title>
-    Artifact '{{ artifact.artifact_name }}'{% if artifact.system_set.all %} (s: {{ artifact.system_set.all|length }}){% endif %}
+    Artifacttype
 </title>
 
 {% load staticfiles %}
@@ -22,9 +22,9 @@
 <!-- up button -->
 <div class="row bottom-distance">
     <div class="col-3">
-        <a href="/cases" type="button" class="btn btn-light copy-false">
-            <img src="{%static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon right-distance copy-false" alt="icon">
-            Up to artifacts
+        <a href="/artifacts/artifacttype" type="button" class="btn btn-light copy-false">
+            <img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Up to artifacttype
         </a>
     </div>
 </div>
@@ -34,82 +34,64 @@
     var clipboard = new ClipboardJS('.btn');
 </script>
 
-<!-- case name row -->
+<!-- artifacttype name row -->
 <div class="row">
 
-    <!-- case name -->
+    <!-- artifacttype name -->
     <div class="col-3">
         <h5>
-            Case "{{ case.case_name }}"
+            Artifacttype "{{ artifacttype.artifacttype_name }}"
         </h5>
     </div>
 
-    <!-- copy button -->
-    <div class="col-3">
-        {% if case.system_set.all %}
-            {% with systems=case.system_set.all %}
-                {% include "dfirtrack_main/includes/button_copy_hostnames.html" %}
-            {% endwith %}
-        {% endif %}
-    </div>
-
-<!-- case name row -->
+<!-- artifacttype name row -->
 </div>
 
-<!-- case id row -->
+<!-- artifacttype id -->
 <div class="row bottom-distance">
     <div class="col-3">
         <small class="text-muted">
-            Case-ID: {{ case.case_id }}
+            Artifacttype-ID: {{ artifacttype.artifacttype_id }}
         </small>
     </div>
 </div>
 
-<!-- case is incident row -->
-<div class="row bottom-distance">
-    <div class="col-3">
+<!-- artifact headline -->
+<div class="row">
+    <div class="col-6">
         <h5>
-            Is incident: {{ case.case_is_incident }}
+            Artifacts of this type{% if artifacttype.artifact_set.all %} ({{ artifacttype.artifact_set.all|length }}){% endif %}
         </h5>
     </div>
 </div>
 
-<!-- systems headline row -->
-<div class="row bottom-distance">
-    <div class="col-3">
-        <h5>
-            Systems associated with this case{% if case.system_set.all %} ({{ case.system_set.all|length }}){% endif %}
-        </h5>
-    </div>
-</div>
+<!-- artifacts -->
+{% if artifacttype.artifact_set.all %}
 
-<!-- systems -->
-{% if case.system_set.all %}
-
-    {% for i in case.system_set.all %}
+    {% for i in artifacttype.artifact_set.all %}
         <div class="row top-distance">
             <div class="col-3">
-                <a href="/systems/{{ i.system_id}}" type="button" class="btn btn-primary btn-sm copy-true">
+                <a href="/artifacts/artifact/detail/{{ i.artifact_id}}" type="button" class="btn btn-primary btn-sm copy-true">
                     <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                    {{ i.system_name }}
+                    {{ i.artifact_name }}
                 </a>
             </div>
         </div>
     {% endfor %}
 
-<!-- no systems -->
+<!-- no artifacts -->
 {% else %}
-    <div class="row top-distance">
-        <div class="col-3">
-            ---
-        </div>
+<div class="row top-distance">
+    <div class="col-3">
+        ---
     </div>
+</div>
 
-<!-- systems -->
+<!-- artifacts -->
 {% endif %}
 
 <!-- edit button -->
-<a href="/cases/{{ case.case_id }}/edit" type="button" class="btn btn-light top-distance copy-false">
+<a href="/artifacts/artifacttype/update/{{ artifacttype.artifacttype_id }}" type="button" class="btn btn-light top-distance copy-false">
     <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon right-distance copy-false" alt="icon">
     Edit
 </a>
