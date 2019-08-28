@@ -87,9 +87,9 @@ class Artifact(models.Model):
             self.artifact_uuid = uuid.uuid4()
 
         # set hashes to calculating while hash calculating is performed in background
-        self.artifact_md5 = 'Calculating...'
-        self.artifact_sha1 = 'Calculating...'
-        self.artifact_sha256 = 'Calculating...'
+        # self.artifact_md5 = 'Calculating...'
+        # self.artifact_sha1 = 'Calculating...'
+        # self.artifact_sha256 = 'Calculating...'
 
         # we generate the artifact path in the EVIDENCE_PATH
         artifact_evidence_path = self.create_artifact_directory(self.system.system_uuid, self.artifacttype.artifacttype_slug, self.artifact_uuid)
@@ -104,6 +104,7 @@ class Artifact(models.Model):
                 pass
             elif os.path.isfile(self.artifact_storage_path):
                 # if not we will copy the artifact to the artifact_evidence_path
+                destination = ''
                 destination = shutil.copy(self.artifact_storage_path, artifact_evidence_path)
             self.artifact_storage_path = destination
         else:
@@ -154,7 +155,7 @@ class Artifactstatus(models.Model):
         return 'Artifacstatus {0}'.format(str(self.artifactstatus_name))
 
     #define logger
-    def logger(artifactstatus, request_user, log_text):
+    def logger(self,artifactstatus, request_user, log_text):
         stdlogger.info(
             request_user +
             log_text +
@@ -164,11 +165,13 @@ class Artifactstatus(models.Model):
             "|artifactstatus_slug:" + str(artifactstatus.artifactstatus_slug)
         )
 
-    # override save()-method
     def save(self, *args, **kwargs):
-            self.artifactstatus_slug = slugify(self.artifactstatus_name)       
-            super().save(*args, **kwargs) 
-
+        # generate slug
+        self.artifactstatus_slug = slugify(self.artifactstatus_name)
+        #TODO: check if this works or if wee need
+        # super().save(*args,**kwargs)
+        return super().save(*args, **kwargs)
+    
     def get_absolute_url(self):
         return reverse('artifacts_artifactstatus_detail', args=(self.pk,))
 
@@ -200,7 +203,7 @@ class Artifacttype(models.Model):
         return 'Artifacttype {0}'.format(str(self.artifacttype_name))
 
     #define logger
-    def logger(artifactstatus, request_user, log_text):
+    def logger(self, artifactstatus, request_user, log_text):
         stdlogger.info(
             request_user +
             log_text +
