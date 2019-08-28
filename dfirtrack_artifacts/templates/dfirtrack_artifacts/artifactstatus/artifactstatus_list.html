@@ -62,7 +62,9 @@
 
         <!-- artifactstatus name -->
         <div class="col-2">
-            {{ i.artifactstatus_name }}
+            <a href="/artifacts/artifactstatus/detail/{{ i.artifactstatus_id }}">
+                {{ i.artifactstatus_name }}
+            </a>
         </div>
 
         <!-- artifactstatus description -->
@@ -79,16 +81,6 @@
 
 <!-- artifactstatus list -->
 {% endfor %}
-
-<!-- add button -->
-<div class="row top-distance">
-    <div class="col-1">
-        <a href="{% url 'artifacts_artifactstatus_create' %}" type="button" class="btn btn-light copy-false">
-            <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon right-distance copy-false" alt="icon">
-            Add artifactstatus
-        </a>
-    </div>
-</div>
 
 <!-- HTML body in maintemplate -->
 {% endblock %}

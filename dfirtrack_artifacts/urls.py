@@ -12,9 +12,7 @@ urlpatterns = (
 urlpatterns += (
     # urls for Artifactstatus
     path(r'artifactstatus/', artifactstatus_view.ArtifactstatusListView.as_view(), name='artifacts_artifactstatus_list'),
-    path(r'artifactstatus/create/', artifactstatus_view.ArtifactstatusCreateView.as_view(), name='artifacts_artifactstatus_create'),
     path(r'artifactstatus/detail/<int:pk>/', artifactstatus_view.ArtifactstatusDetailView.as_view(), name='artifacts_artifactstatus_detail'),
-    path(r'artifactstatus/update/<int:pk>/', artifactstatus_view.ArtifactstatusUpdateView.as_view(), name='artifacts_artifactstatus_update'),
 )
 urlpatterns += (
     # urls for Artifacttype

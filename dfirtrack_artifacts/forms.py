@@ -1,6 +1,6 @@
 from django import forms
 from dfirtrack_main.models import Case, System
-from dfirtrack_artifacts.models import Artifact, Artifactstatus, Artifacttype
+from dfirtrack_artifacts.models import Artifact, Artifacttype
 
 
 class ArtifactForm(forms.ModelForm):
@@ -15,14 +15,6 @@ class ArtifactForm(forms.ModelForm):
             'system',
             'case',
             'artifact_acquisition_time',
-        ]
-
-class ArtifactstatusForm(forms.ModelForm):
-    class Meta:
-        model = Artifactstatus
-        fields = [
-            'artifactstatus_name',
-            'artifactstatus_description',
         ]
 
 class ArtifacttypeForm(forms.ModelForm):
