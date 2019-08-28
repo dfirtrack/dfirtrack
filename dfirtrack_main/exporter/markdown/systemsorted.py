@@ -22,8 +22,8 @@ def write_report_systemsorted(system, request_user):
     rid = str(system.system_id)
 
     # return fqdn for mkdocs.yml
-    if system.system_dnssuffix != None:
-        rfqdn = system.system_name + "." + system.system_dnssuffix
+    if system.dnsname != None:
+        rfqdn = system.system_name + "." + system.dnsname.dnsname_name
     else:
         rfqdn = system.system_name
 

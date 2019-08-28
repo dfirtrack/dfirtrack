@@ -332,6 +332,8 @@ tags
 !.vscode/launch.json
 !.vscode/extensions.json
 .vscode/
+.devcontainer.json
+*.code-workspace
 ### VisualStudioCode Patch ###
 # Ignore all local history of files
 .history
@@ -366,3 +368,8 @@ $RECYCLE.BIN/
 dfirtrack_artifacts/notes.md
 # migrations for dfirtrack_artifacts
 dfirtrack_artifacts/migrations/
+# docker TODO: remove this after fixing
+docker_foo/
+
+# Venv
+venv/

@@ -34,10 +34,10 @@ class Artifact(models.Model):
     # main entity information
     artifact_acquisition_time = models.DateTimeField(blank=True, null=True)
     artifact_description = models.CharField(max_length=4096, blank=True, null=True)
-    artifact_md5 = models.CharField(max_length=4096, blank=False, null=False)
+    artifact_md5 = models.CharField(max_length=32, blank=True, null=True)
     artifact_name = models.CharField(max_length=4096, blank=False, null=False)
-    artifact_sha1 = models.CharField(max_length=4096, blank=False, null=False)
-    artifact_sha256 = models.CharField(max_length=4096, blank=False, null=False)
+    artifact_sha1 = models.CharField(max_length=40, blank=True, null=True)
+    artifact_sha256 = models.CharField(max_length=64, blank=True, null=True)
     artifact_slug = models.CharField(max_length=4096, blank=False, null=False)
     artifact_storage_path = models.CharField(max_length=4096, blank=False, null=False, unique=True)
     artifact_uuid = models.UUIDField(editable=False, null=False, blank=False)
@@ -87,9 +87,9 @@ class Artifact(models.Model):
             self.artifact_uuid = uuid.uuid4()
 
         # set hashes to calculating while hash calculating is performed in background
-        self.artifact_md5 = 'Calculating...'
-        self.artifact_sha1 = 'Calculating...'
-        self.artifact_sha256 = 'Calculating...'
+        # self.artifact_md5 = 'Calculating...'
+        # self.artifact_sha1 = 'Calculating...'
+        # self.artifact_sha256 = 'Calculating...'
 
         # we generate the artifact path in the EVIDENCE_PATH
         artifact_evidence_path = self.create_artifact_directory(self.system.system_uuid, self.artifacttype.artifacttype_slug, self.artifact_uuid)
@@ -97,12 +97,14 @@ class Artifact(models.Model):
         # check if the storage_path from the form is equal to the artifact_evidence_path
         if self.artifact_storage_path != artifact_evidence_path:
             #TODO: We mnust change this logic, so that exception will be thrown if file does not exist
+            #TODO: Check if we do not have file at the beginning --> calculate evidence path --> edit use new path testen
             # os.path.exists(self.artifact_storage_path)
             # check if we have a folder, then we do not need to create the dir
             if os.path.isdir(self.artifact_storage_path):
                 pass
             elif os.path.isfile(self.artifact_storage_path):
                 # if not we will copy the artifact to the artifact_evidence_path
+                destination = ''
                 destination = shutil.copy(self.artifact_storage_path, artifact_evidence_path)
             self.artifact_storage_path = destination
         else:
@@ -135,7 +137,7 @@ class Artifactstatus(models.Model):
     artifactstatus_id = models.AutoField(primary_key=True)
 
     # main entity information
-    artifactstatus_name = models.CharField(max_length=255, blank=False, unique=True)
+    artifactstatus_name = models.CharField(max_length=255, blank=False, null=False, unique=True)
     artifactstatus_description = models.CharField(max_length=2048, blank=False, null=False, unique=True)
     artifactstatus_slug = models.CharField(max_length=255, blank=False, null=False, unique=True)
 
@@ -153,7 +155,7 @@ class Artifactstatus(models.Model):
         return 'Artifactstatus {0}'.format(str(self.artifactstatus_name))
 
     #define logger
-    def logger(artifactstatus, request_user, log_text):
+    def logger(self,artifactstatus, request_user, log_text):
         stdlogger.info(
             request_user +
             log_text +
@@ -163,11 +165,13 @@ class Artifactstatus(models.Model):
             "|artifactstatus_slug:" + str(artifactstatus.artifactstatus_slug)
         )
 
-    # override save()-method
     def save(self, *args, **kwargs):
-            self.artifactstatus_slug = slugify(self.artifactstatus_name)       
-            super().save(*args, **kwargs) 
-
+        # generate slug
+        self.artifactstatus_slug = slugify(self.artifactstatus_name)
+        #TODO: check if this works or if wee need
+        # super().save(*args,**kwargs)
+        return super().save(*args, **kwargs)
+    
     def get_absolute_url(self):
         return reverse('artifacts_artifactstatus_detail', args=(self.pk,))
 
@@ -181,7 +185,7 @@ class Artifacttype(models.Model):
     artifacttype_id = models.AutoField(primary_key=True)
 
     # main entity information
-    artifacttype_name = models.CharField(max_length=255, blank=False, unique=True)
+    artifacttype_name = models.CharField(max_length=255, blank=False, null=False, unique=True)
     artifacttype_description = models.CharField(max_length=2048, blank=False, null=False, unique=True)
     artifacttype_slug = models.CharField(max_length=255, blank=False, null=False, unique=True)
 
@@ -199,7 +203,7 @@ class Artifacttype(models.Model):
         return 'Artifacttype {0}'.format(str(self.artifacttype_name))
 
     #define logger
-    def logger(artifactstatus, request_user, log_text):
+    def logger(self, artifactstatus, request_user, log_text):
         stdlogger.info(
             request_user +
             log_text +

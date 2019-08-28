@@ -16,7 +16,7 @@ LOGGING_PATH = expanduser("~")
 MARKDOWN_PATH = ''
 
 # ARTIFACTS
-EVIDENCE_PATH = ''
+EVIDENCE_PATH = '/tmp'
 
 # IMPORTER
 

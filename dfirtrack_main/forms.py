@@ -1,6 +1,6 @@
 from django import forms
 from django.utils.translation import gettext_lazy
-from dfirtrack_main.models import Analystmemo, Case, Company, Contact, Division, Domain, Entry, Headline, Location, Os, Osimportname, Reason, Recommendation, Reportitem, Serviceprovider, System, Systemtype, Systemuser, Tag, Task, Taskname
+from dfirtrack_main.models import Analystmemo, Case, Company, Contact, Division, Dnsname, Domain, Domainuser, Entry, Headline, Location, Os, Osimportname, Reason, Recommendation, Reportitem, Serviceprovider, System, Systemtype, Systemuser, Tag, Task, Taskname
 
 class AnalystmemoForm(forms.ModelForm):
     class Meta:
@@ -92,6 +92,26 @@ class DivisionForm(forms.ModelForm):
             'division_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
         }
 
+class DnsnameForm(forms.ModelForm):
+    class Meta:
+        model = Dnsname
+        # this HTML forms are shown
+        fields = (
+            'domain',
+            'dnsname_name',
+            'dnsname_note',
+        )
+        # non default form labeling
+        labels = {
+            'dnsname_name': gettext_lazy('DNS name (*)'),
+            'dnsname_note': gettext_lazy('Note'),
+        }
+        # special form type or option
+        widgets = {
+            'domain': forms.RadioSelect(),
+            'dnsname_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
+        }
+
 class DomainForm(forms.ModelForm):
     class Meta:
         model = Domain
@@ -107,6 +127,29 @@ class DomainForm(forms.ModelForm):
         # special form type or option
         widgets = {
             'domain_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
+        }
+
+class DomainuserForm(forms.ModelForm):
+    class Meta:
+        model = Domainuser
+        # this HTML forms are shown
+        fields = (
+            'domainuser_name',
+            'domainuser_is_domainadmin',
+            'domain',
+            'system_was_logged_on',
+        )
+        # non default form labeling
+        labels = {
+            'domainuser_name': gettext_lazy('Domainuser name (*)'),
+            'domain': gettext_lazy('Domain (*)'),
+            'system_was_logged_on': gettext_lazy('Systems where this domainuser was logged on'),
+        }
+        # special form type or option
+        widgets = {
+            'domainuser_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
+            'domain': forms.RadioSelect(),
+            'system_was_logged_on': forms.CheckboxSelectMultiple(),
         }
 
 class EntryForm(forms.ModelForm):
@@ -321,7 +364,7 @@ class SystemForm(forms.ModelForm):
             'recommendation',
             'systemtype',
             'domain',
-            'system_dnssuffix',
+            'dnsname',
             'os',
             'osarch',
             'system_install_time',
@@ -346,7 +389,7 @@ class SystemForm(forms.ModelForm):
             'systemtype': forms.RadioSelect(),
             'ip': forms.GenericIPAddressField(),
             'domain': forms.RadioSelect(),
-            'system_dnssuffix': forms.TextInput(),
+            'dnsname': forms.RadioSelect(),
             'os': forms.RadioSelect(),
             'osarch': forms.RadioSelect(),
             'system_install_time': forms.DateTimeInput(),
@@ -376,6 +419,7 @@ class SystemIpFileImport(forms.ModelForm):
             'reason',
             'systemtype',
             'domain',
+            'dnsname',
             'os',
             'company',
             'location',
@@ -391,6 +435,7 @@ class SystemIpFileImport(forms.ModelForm):
             'reason': forms.RadioSelect(),
             'systemtype': forms.RadioSelect(),
             'domain': forms.RadioSelect(),
+            'dnsname': forms.RadioSelect(),
             'os': forms.RadioSelect(),
             'company': forms.CheckboxSelectMultiple(),
             'location': forms.RadioSelect(),
@@ -423,6 +468,7 @@ class SystemCreatorForm(forms.ModelForm):
             'reason',
             'systemtype',
             'domain',
+            'dnsname',
             'os',
             'osarch',
             'company',
@@ -439,6 +485,7 @@ class SystemCreatorForm(forms.ModelForm):
             'reason': forms.RadioSelect(),
             'systemtype': forms.RadioSelect(),
             'domain': forms.RadioSelect(),
+            'dnsname': forms.RadioSelect(),
             'os': forms.RadioSelect(),
             'osarch': forms.RadioSelect(),
             'company': forms.CheckboxSelectMultiple(),
@@ -472,6 +519,7 @@ class SystemuserForm(forms.ModelForm):
         fields = (
             'systemuser_name',
             'systemuser_lastlogon_time',
+            'systemuser_is_systemadmin',
             'system',
         )
         # non default form labeling

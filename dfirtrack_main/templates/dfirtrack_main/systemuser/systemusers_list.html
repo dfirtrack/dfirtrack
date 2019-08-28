@@ -41,6 +41,11 @@
         Systemuser
     </div>
 
+    <!-- systemuser admin headline -->
+    <div class="col-1">
+        Admin
+    </div>
+
     <!-- systemuser last logon time headline -->
     <div class="col-2">
         Last logon
@@ -72,6 +77,13 @@
             </a>
         </div>
 
+        <!-- systemuser admin -->
+        <div class="col-1">
+            {% if i.systemuser_is_systemadmin %}
+                X
+            {% endif %}
+        </div>
+
         <!-- systemuser last logon time -->
         <div class="col-2">
             {{ i.systemuser_lastlogon_time|date:"Y-m-d H:i" }}
@@ -86,7 +98,7 @@
         </div>
 
         <!-- placeholder -->
-        <div class="col-5"></div>
+        <div class="col-4"></div>
 
         <!-- edit button -->
         <div class="col-1">

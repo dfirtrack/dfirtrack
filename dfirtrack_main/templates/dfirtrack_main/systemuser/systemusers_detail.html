@@ -6,7 +6,7 @@
 
 <!-- page title -->
 <title>
-    Systemuser '{{ systemuser.systemuser_name }}' ({{ systemuser.system.system_name }}{% if systemuser.system.system_dnssuffix %}.{{ systemuser.system.system_dnssuffix }}{% endif %})
+    Systemuser '{{ systemuser.systemuser_name }}' ({{ systemuser.system.system_name }}{% if systemuser.system.dnsname %}.{{ systemuser.system.dnsname }}{% endif %})
 </title>
 
 {% load staticfiles %}
@@ -41,6 +41,10 @@
                 <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                 {{ systemuser.system.system_name }}
             </a>
+            <!-- systemuser admin -->
+            {% if systemuser.systemuser_is_systemadmin %}
+                (Admin)
+            {% endif %}
         </h5>
     </div>
 </div>

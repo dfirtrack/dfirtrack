@@ -50,11 +50,11 @@ def write_systemoverview_to_table(django_report, system):
 
 
 def write_systemidentification_to_table(django_report, system):
-    """ dnssuffix (for fqdn) and domain (add to table) """
+    """ dnsname (for fqdn) and domain (add to table) """
 
-    # systemname and dnssuffix
-    if system.system_dnssuffix != None:
-        django_report.write("| Hostname / FQDN (Domain) | " + system.system_name + "." + system.system_dnssuffix + " ")
+    # systemname and dnsname
+    if system.dnsname != None:
+        django_report.write("| Hostname / FQDN (Domain) | " + system.system_name + "." + system.dnsname.dnsname_name + " ")
     else:
         django_report.write("| Hostname / FQDN (Domain) | " + system.system_name + " ")
     # domain
@@ -216,7 +216,7 @@ def write_report(django_report, system):
     # systemoverview and table head
     write_systemoverview_to_table(django_report, system)
 
-    # systemname, dnssuffix (for fqdn) and domain (add to table)
+    # systemname, dnsname (for fqdn) and domain (add to table)
     write_systemidentification_to_table(django_report, system)
 
     # ip(s) (add to table)

@@ -2,15 +2,16 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import DetailView, ListView, UpdateView, CreateView, RedirectView
 from django.db import IntegrityError
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 from dfirtrack_artifacts import models as artifacts_models
 from dfirtrack_main import models as main_models
 from dfirtrack_artifacts import forms
 
-class ArtifactListView(ListView):
+class ArtifactListView(LoginRequiredMixin, ListView):
     model = artifacts_models.Artifact
     template_name = 'dfirtrack_artifacts/artifact/artifact_list.html'
 
-class ArtifactCreateView(CreateView):
+class ArtifactCreateView(LoginRequiredMixin, CreateView):
     model = artifacts_models.Artifact
     template_name = 'dfirtrack_artifacts/artifact/artifact_add.html'
     form_class = forms.ArtifactForm
@@ -20,13 +21,21 @@ class ArtifactCreateView(CreateView):
         # Connect current django user to the request
         self.object.created_by = self.request.user
         self.object.save()
+        self.object.logger(str(self.request.user), "ARTIFACT_ADD_EXECUTED")
+        messages.success(self.request, 'Artifact added')
         return super().form_valid(form) 
 
-class ArtifactDetailView(DetailView):
+    def form_invalid(self, form):
+        self.object.created_by = self.request.user
+        messages.error(self.request, 'Artifact could not be added')
+        return super().form_invalid(form)
+
+
+class ArtifactDetailView(LoginRequiredMixin, DetailView):
     model = artifacts_models.Artifact
     template_name = 'dfirtrack_artifacts/artifact/artifact_detail.html'
 
-class ArtifactUpdateView(UpdateView):
+class ArtifactUpdateView(LoginRequiredMixin, UpdateView):
     model = artifacts_models.Artifact
     template_name = 'dfirtrack_artifacts/artifact/artifact_edit.html'
     form_class = forms.ArtifactForm
