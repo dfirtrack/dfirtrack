@@ -42,19 +42,18 @@ class Artifact(models.Model):
     artifact_storage_path = models.CharField(max_length=4096, blank=False, null=False, unique=True)
     artifact_uuid = models.UUIDField(editable=False, null=False, blank=False)
 
-    # set the ordering criteria
-    class Meta:
-        ordering = ('artifact_name', )
-        
     # meta information
     artifact_create_time = models.DateTimeField(auto_now_add=True)
     artifact_modify_time = models.DateTimeField(auto_now=True)
     artifact_created_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='artifact_created_by')
     artifact_modified_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='artifact_modified_by')
 
+    # set the ordering criteria
+    class Meta:
+        ordering = ('artifact_name', )
+
     # string representation
     def __str__(self):
-	#TODO: Ask Stuhli, all ForeignKeys should be included here?
         return 'Artifact {0} ({1})'.format(str(self.artifact_id), self.system)
         
     def __unicode__(self):
@@ -94,23 +93,23 @@ class Artifact(models.Model):
         # we generate the artifact path in the EVIDENCE_PATH
         artifact_evidence_path = self.create_artifact_directory(self.system.system_uuid, self.artifacttype.artifacttype_slug, self.artifact_uuid)
 
-        # check if the storage_path from the form is equal to the artifact_evidence_path
-        if self.artifact_storage_path != artifact_evidence_path:
-            #TODO: We mnust change this logic, so that exception will be thrown if file does not exist
-            #TODO: Check if we do not have file at the beginning --> calculate evidence path --> edit use new path testen
-            # os.path.exists(self.artifact_storage_path)
-            # check if we have a folder, then we do not need to create the dir
-            if os.path.isdir(self.artifact_storage_path):
-                pass
-            elif os.path.isfile(self.artifact_storage_path):
-                # if not we will copy the artifact to the artifact_evidence_path
-                destination = ''
-                destination = shutil.copy(self.artifact_storage_path, artifact_evidence_path)
-            self.artifact_storage_path = destination
-        else:
-            self.artifact_storage_path = artifact_evidence_path
-        #TODO: check if this works or if wee need
-        # super().save(*args,**kwargs)
+        ## check if the storage_path from the form is equal to the artifact_evidence_path
+        #if self.artifact_storage_path != artifact_evidence_path:
+        #    #TODO: We mnust change this logic, so that exception will be thrown if file does not exist
+        #    #TODO: Check if we do not have file at the beginning --> calculate evidence path --> edit use new path testen
+        #    # os.path.exists(self.artifact_storage_path)
+        #    # check if we have a folder, then we do not need to create the dir
+        #    if os.path.isdir(self.artifact_storage_path):
+        #        pass
+        #    elif os.path.isfile(self.artifact_storage_path):
+        #        # if not we will copy the artifact to the artifact_evidence_path
+        #        destination = ''
+        #        destination = shutil.copy(self.artifact_storage_path, artifact_evidence_path)
+        #    self.artifact_storage_path = destination
+        #else:
+        #    self.artifact_storage_path = artifact_evidence_path
+        ##TODO: check if this works or if wee need
+        ## super().save(*args,**kwargs)
         return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -138,7 +137,7 @@ class Artifactstatus(models.Model):
 
     # main entity information
     artifactstatus_name = models.CharField(max_length=255, blank=False, null=False, unique=True)
-    artifactstatus_description = models.CharField(max_length=2048, blank=False, null=False, unique=True)
+    artifactstatus_description = models.CharField(max_length=2048, blank=True, null=True)
     artifactstatus_slug = models.CharField(max_length=255, blank=False, null=False, unique=True)
 
     # meta information
@@ -186,7 +185,7 @@ class Artifacttype(models.Model):
 
     # main entity information
     artifacttype_name = models.CharField(max_length=255, blank=False, null=False, unique=True)
-    artifacttype_description = models.CharField(max_length=2048, blank=False, null=False, unique=True)
+    artifacttype_description = models.CharField(max_length=2048, blank=True, null=True)
     artifacttype_slug = models.CharField(max_length=255, blank=False, null=False, unique=True)
 
     # meta information
