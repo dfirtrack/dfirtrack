@@ -621,6 +621,18 @@ class System(models.Model):
             installtime = self.system_install_time.strftime('%Y-%m-%d')
             return '[%s] %s (%s)' % (str(self.system_id), self.system_name, installtime)
 
+    # extend save method
+    def save(self, *args, **kwargs):
+
+        """ create uuid """
+
+        # TODO: possibly remove, if GIRAF creates uuid
+        # check for new system
+        if not self.pk:
+            # generate uuid type4 (completely random type)
+            self.system_uuid = uuid.uuid4()
+        return super().save(*args, **kwargs)
+
     # define logger
     def logger(system, request_user, log_text):
 
