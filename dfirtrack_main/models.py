@@ -591,8 +591,9 @@ class System(models.Model):
     case = models.ManyToManyField('Case', blank=True)
 
     # main entity information
-    #TODO: Use GIRAF logik to generate UUID when saving system.
-    system_uuid = models.UUIDField(editable=False, blank=False, null=False, unique=True)
+    system_uuid = models.UUIDField(editable=False, null=True, unique=True)
+    #TODO: use GIRAF logic to generate UUID when saving system
+    #system_uuid = models.UUIDField(editable=False, blank=False, null=False, unique=True)
     system_name = models.CharField(max_length=50)
     system_install_time = models.DateTimeField(blank=True, null=True)
     system_lastbooted_time = models.DateTimeField(blank=True, null=True)
@@ -750,8 +751,6 @@ class System(models.Model):
     def get_update_url(self):
         return reverse('systems_edit', args=(self.pk,))
 
-    def save(self, *args, **kwargs):
-        
 class Systemstatus(models.Model):
 
     # primary key
