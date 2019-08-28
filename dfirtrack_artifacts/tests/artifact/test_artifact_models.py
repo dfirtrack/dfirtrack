@@ -26,18 +26,10 @@ class ArtifactModelTestCase(TestCase):
         )
 
         # create object
-        artifactstatus_1 = Artifactstatus.objects.create(
-            artifactstatus_name='artifactstatus_1',
-            artifactstatus_created_by_user_id = test_user,
-            artifactstatus_modified_by_user_id = test_user,
-        )
+        artifactstatus_1 = Artifactstatus.objects.create(artifactstatus_name='artifactstatus_1')
 
         # create object
-        artifacttype_1 = Artifacttype.objects.create(
-            artifacttype_name='artifacttype_1',
-            artifacttype_created_by_user_id = test_user,
-            artifacttype_modified_by_user_id = test_user,
-        )
+        artifacttype_1 = Artifacttype.objects.create(artifacttype_name='artifacttype_1')
 
         # create object
         Artifact.objects.create(

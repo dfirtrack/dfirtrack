@@ -140,12 +140,6 @@ class Artifactstatus(models.Model):
     artifactstatus_description = models.CharField(max_length=2048, blank=True, null=True)
     artifactstatus_slug = models.CharField(max_length=255, blank=False, null=False, unique=True)
 
-    # meta information
-    artifactstatus_create_time = models.DateTimeField(auto_now_add=True)
-    artifactstatus_modify_time = models.DateTimeField(auto_now=True)
-    artifactstatus_created_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='artifactstatus_created_by')
-    artifactstatus_modified_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='artifactstatus_modified_by')
-
     class Meta:
         ordering = ('artifactstatus_name',)
 
@@ -187,12 +181,6 @@ class Artifacttype(models.Model):
     artifacttype_name = models.CharField(max_length=255, blank=False, null=False, unique=True)
     artifacttype_description = models.CharField(max_length=2048, blank=True, null=True)
     artifacttype_slug = models.CharField(max_length=255, blank=False, null=False, unique=True)
-
-    # meta information
-    artifacttype_create_time = models.DateTimeField(auto_now_add=True)
-    artifacttype_modify_time = models.DateTimeField(auto_now=True)
-    artifacttype_created_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='artifacttype_created_by')
-    artifacttype_modified_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='artifacttype_modified_by')
 
     class Meta:
         ordering = ('artifacttype_name',)
