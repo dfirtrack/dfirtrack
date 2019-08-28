@@ -108,7 +108,6 @@ class DnsnameForm(forms.ModelForm):
         }
         # special form type or option
         widgets = {
-            'domain': forms.RadioSelect(),
             'dnsname_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
         }
 
@@ -148,7 +147,6 @@ class DomainuserForm(forms.ModelForm):
         # special form type or option
         widgets = {
             'domainuser_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
-            'domain': forms.RadioSelect(),
             'system_was_logged_on': forms.CheckboxSelectMultiple(),
         }
 
@@ -342,6 +340,8 @@ class ServiceproviderForm(forms.ModelForm):
         }
 
 class SystemForm(forms.ModelForm):
+    """ this form does not allow editing of system_name """
+
     # large text area for line separated iplist
     iplist = forms.CharField(
         widget=forms.Textarea(
@@ -357,7 +357,6 @@ class SystemForm(forms.ModelForm):
         model = System
         # this HTML forms are shown
         fields = (
-            'system_name',
             'systemstatus',
             'analysisstatus',
             'reason',
@@ -378,10 +377,11 @@ class SystemForm(forms.ModelForm):
             'contact',
             'tag',
             'case',
+            'system_export_markdown',
+            'system_export_spreadsheet',
         )
         # special form type or option
         widgets = {
-            'system_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
             'systemstatus': forms.RadioSelect(),
             'analysisstatus': forms.RadioSelect(),
             'reason': forms.RadioSelect(),
@@ -404,6 +404,22 @@ class SystemForm(forms.ModelForm):
             'tag': forms.CheckboxSelectMultiple(),
             'case': forms.CheckboxSelectMultiple(),
         }
+
+class SystemNameForm(SystemForm):
+    """ this form allows editing of system_name """
+
+    class Meta(SystemForm.Meta):
+        # add system_name to shown HTML forms
+        fields = SystemForm.Meta.fields + (
+            'system_name',
+        )
+        # special form type or option for system_name
+        SystemForm.Meta.widgets['system_name'] = forms.TextInput(
+            attrs={
+                'autofocus': 'autofocus',
+                'placeholder': 'Enter system name / hostname here',
+            }
+        )
 
 class SystemIpFileImport(forms.ModelForm):
 

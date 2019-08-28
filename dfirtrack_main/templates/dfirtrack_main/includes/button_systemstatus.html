@@ -49,6 +49,9 @@ FOR NEW SYSTEMSTATUSES ADD NEW BUTTON HERE
 
     {% endif %}
 
-    <!-- systemstatus name itself (within button) -->
-    {{ systemstatus.systemstatus_name }}
+    <!-- tooltip with systemstatus note -->
+    <span data-toggle="tooltip" data-placement="auto" title="{{ systemstatus.systemstatus_note }}">
+        <!-- systemstatus name itself (within button) -->
+        {{ systemstatus.systemstatus_name }}
+    </span>
 </a>

@@ -59,6 +59,10 @@ def systems(request):
     # iterate over systems
     for system in systems:
 
+        # skip system depending on export variable
+        if system.system_export_spreadsheet == False:
+            continue
+
         # autoincrement row counter
         row_num += 1
 

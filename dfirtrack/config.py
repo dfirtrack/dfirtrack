@@ -15,6 +15,9 @@ LOGGING_PATH = expanduser("~")
 ## change path for the markdown documentation
 MARKDOWN_PATH = ''
 
+# decide whether the system name should be editable or not in system form to avoid accidentally corruption (admin can edit it either way)
+SYSTEM_NAME_EDITABLE = False
+
 # ARTIFACTS
 EVIDENCE_PATH = '/tmp'
 

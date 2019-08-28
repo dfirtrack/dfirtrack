@@ -70,12 +70,60 @@
     <div class="col-3">
         <div class="font-weight-bold">DNS name:</div>
         {% if system.dnsname %}
-            <a href="/dnsnames/{{ system.dnsname.dnsname_id}}">
-                {{ system.dnsname }}
-            </a>
+            <!-- tooltip with dnsname note -->
+            <span data-toggle="tooltip" data-placement="auto" title="{{ system.dnsname.dnsname_note }}">
+                <a href="/dnsnames/{{ system.dnsname.dnsname_id}}">
+                    {{ system.dnsname }}
+                </a>
+            </span>
         {% else %}
             ---
         {% endif %}
+    </div>
+
+    <!-- placeholder -->
+    <div class="col-3"></div>
+
+    <!-- system export values -->
+    <div class="col-3">
+
+        <table>
+
+            <!-- system export markdown -->
+            <tr>
+                <td>
+                    <span class="font-weight-bold right-distance">
+                        Export system to markdown
+                    </span>
+                </td>
+                <td>
+                    {% if system.system_export_markdown == True %}
+                        {% include "dfirtrack_main/includes/button_true.html" %}
+                    {% elif system.system_export_markdown == False %}
+                        {% include "dfirtrack_main/includes/button_false.html" %}
+                    {% endif %}
+                </td>
+            </tr>
+
+            <!-- system export spreadsheet -->
+            <tr>
+                <td>
+                    <span class="font-weight-bold right-distance">
+                        Export system to spreadsheet
+                    </span>
+                </td>
+                <td>
+                    {% if system.system_export_spreadsheet == True %}
+                        {% include "dfirtrack_main/includes/button_true.html" %}
+                    {% elif system.system_export_spreadsheet == False %}
+                        {% include "dfirtrack_main/includes/button_false.html" %}
+                    {% endif %}
+                </td>
+            </tr>
+
+        </table>
+
+    <!-- system export values -->
     </div>
 
 <!-- system name row -->
@@ -126,16 +174,19 @@
     <div class="col-6">
         {% if system.tag.all %}
             {% for i in system.tag.all %}
-                <a href="/tags/{{ i.tag_id }}" type="button" class="btn btn-sm btn-{{ i.tagcolor }} round copy-true">
-                    <!-- black tag icon for white tag (black color of font is defined in corresponding CSS for button) -->
-                    {% if i.tagcolor.tagcolor_name == 'white' %}
-                        <img src="{% static 'dfirtrack_main/icons/tag.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                    <!-- white tag icon for other tags (white color of font is defined in corresponding CSS for button) -->
-                    {% else %}
-                        <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                    {% endif %}
-                    {{ i }}
-                </a>
+                <!-- tooltip with tag note -->
+                <span data-toggle="tooltip" data-placement="auto" title="{{ i.tag_note }}">
+                    <a href="/tags/{{ i.tag_id }}" type="button" class="btn btn-sm btn-{{ i.tagcolor }} round copy-true">
+                        <!-- black tag icon for white tag (black color of font is defined in corresponding CSS for button) -->
+                        {% if i.tagcolor.tagcolor_name == 'white' %}
+                            <img src="{% static 'dfirtrack_main/icons/tag.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                        <!-- white tag icon for other tags (white color of font is defined in corresponding CSS for button) -->
+                        {% else %}
+                            <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                        {% endif %}
+                        {{ i }}
+                    </a>
+                </span>
             {% endfor %}
         {% endif %}
     </div>
@@ -505,9 +556,12 @@
         <div class="col-3">
             <div class="font-weight-bold">Analysisstatus:</div>
             {% if system.analysisstatus %}
-                <a href="/analysisstatuss/{{ system.analysisstatus.analysisstatus_id }}">
-                    {{ system.analysisstatus }}
-                </a>
+                <!-- tooltip with analysisstatus note -->
+                <span data-toggle="tooltip" data-placement="auto" title="{{ system.analysisstatus.analysisstatus_note }}">
+                    <a href="/analysisstatuss/{{ system.analysisstatus.analysisstatus_id }}">
+                        {{ system.analysisstatus }}
+                    </a>
+                </span>
             {% else %}
                 ---
             {% endif %}
@@ -517,9 +571,12 @@
         <div class="col-3">
             <div class="font-weight-bold">Reason for investigation:</div>
             {% if system.reason %}
-                <a href="/reasons/{{ system.reason.reason_id }}">
-                    {{ system.reason }}
-                </a>
+                <!-- tooltip with reason note -->
+                <span data-toggle="tooltip" data-placement="auto" title="{{ system.reason.reason_note }}">
+                    <a href="/reasons/{{ system.reason.reason_id }}">
+                        {{ system.reason }}
+                    </a>
+                </span>
             {% else %}
                 ---
             {% endif %}
@@ -529,9 +586,12 @@
         <div class="col-3">
             <div class="font-weight-bold">Recommendation:</div>
             {% if system.recommendation %}
-                <a href="/recommendations/{{ system.recommendation.recommendation_id }}">
-                    {{ system.recommendation }}
-                </a>
+                <!-- tooltip with recommendation note -->
+                <span data-toggle="tooltip" data-placement="auto" title="{{ system.recommendation.recommendation_note }}">
+                    <a href="/recommendations/{{ system.recommendation.recommendation_id }}">
+                        {{ system.recommendation }}
+                    </a>
+                </span>
             {% else %}
                 ---
             {% endif %}
@@ -725,9 +785,12 @@
             <div class="col-3">
                 <div class="font-weight-bold">Domain:</div>
                 {% if system.domain %}
-                    <a href="/domains/{{ system.domain.domain_id }}">
-                        {{ system.domain.domain_name }}
-                    </a>
+                    <!-- tooltip with domain note -->
+                    <span data-toggle="tooltip" data-placement="auto" title="{{ system.domain.domain_note }}">
+                        <a href="/domains/{{ system.domain.domain_id }}">
+                            {{ system.domain.domain_name }}
+                        </a>
+                    </span>
                 {% else %}
                     ---
                 {% endif %}
@@ -881,9 +944,12 @@
                 <div class="font-weight-bold">Company:</div>
                 {% if system.company.all %}
                     {% for i in system.company.all %}
-                        <a href="/companys/{{ i.company_id }}">
-                            {{ i.company_name }}
-                        </a>
+                        <!-- tooltip with company note -->
+                        <span data-toggle="tooltip" data-placement="auto" title="{{ i.company_note }}">
+                            <a href="/companys/{{ i.company_id }}">
+                                {{ i.company_name }}<br>
+                            </a>
+                        </span>
                     {% endfor %}
                 {% else %}
                     ---
@@ -894,9 +960,12 @@
             <div class="col-3">
                 <div class="font-weight-bold">Location:</div>
                 {% if system.location %}
-                    <a href="/locations/{{ system.location.location_id }}">
-                        {{ system.location }}
-                    </a>
+                    <!-- tooltip with location note -->
+                    <span data-toggle="tooltip" data-placement="auto" title="{{ system.location.location_note }}">
+                        <a href="/locations/{{ system.location.location_id }}">
+                            {{ system.location }}
+                        </a>
+                    </span>
                 {% else %}
                     ---
                 {% endif %}
@@ -906,9 +975,12 @@
             <div class="col-3">
                 <div class="font-weight-bold">Serviceprovider:</div>
                 {% if system.serviceprovider %}
-                    <a href="/serviceproviders/{{ system.serviceprovider.serviceprovider_id }}">
-                        {{ system.serviceprovider }}
-                    </a>
+                    <!-- tooltip with serviceprovider note -->
+                    <span data-toggle="tooltip" data-placement="auto" title="{{ system.serviceprovider.serviceprovider_note }}">
+                        <a href="/serviceproviders/{{ system.serviceprovider.serviceprovider_id }}">
+                            {{ system.serviceprovider }}
+                        </a>
+                    </span>
                 {% else %}
                     ---
                 {% endif %}
@@ -918,9 +990,12 @@
             <div class="col-3">
                 <div class="font-weight-bold">Contact:</div>
                 {% if system.contact %}
-                    <a href="/contacts/{{ system.contact.contact_id }}">
-                        {{ system.contact.contact_name }}
-                    </a>
+                    <!-- tooltip with contact note -->
+                    <span data-toggle="tooltip" data-placement="auto" title="{{ system.contact.contact_note }}">
+                        <a href="/contacts/{{ system.contact.contact_id }}">
+                            {{ system.contact.contact_name }}
+                        </a>
+                    </span>
                 {% else %}
                     ---
                 {% endif %}

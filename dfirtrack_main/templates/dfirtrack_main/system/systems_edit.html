@@ -6,7 +6,7 @@
 
 <!-- page title -->
 <title>
-    Edit '{{ form.system_name.value }}{% if form.dnsname.value %}.{{ form.dnsname.value }}{% endif %}'
+    Edit '{{ system.system_name }}{% if system.dnsname %}.{{ system.dnsname.dnsname_name }}{% endif %}'
 </title>
 
 {% load staticfiles %}
@@ -86,6 +86,44 @@
                 </div>
             </div>
 
+            <!-- placeholder -->
+            <div class="col-3">
+            </div>
+
+            <!-- system export values -->
+            <div class="col-3">
+
+                <table>
+
+                    <!-- system export markdown -->
+                    <tr>
+                        <td>
+                            <span class="font-weight-bold right-distance">
+                                Export system to markdown
+                            </span>
+                        </td>
+                        <td>
+                            {{ form.system_export_markdown }}
+                        </td>
+                    </tr>
+
+                    <!-- system export spreadsheet -->
+                    <tr>
+                        <td>
+                            <span class="font-weight-bold right-distance">
+                                Export system to spreadsheet
+                            </span>
+                        </td>
+                        <td>
+                            {{ form.system_export_spreadsheet }}
+                        </td>
+                    </tr>
+
+                </table>
+
+            <!-- export values -->
+            </div>
+
         <!-- system name headline row -->
         </div>
 
@@ -95,12 +133,24 @@
             <!-- system name -->
             <div class="col-3">
                 <div class="card card-body bg-dark border-light top-distance">
-                    <!-- system name errors -->
-                    <div class="text-danger">
-                        {{ form.system_name.errors }}
-                    </div>
-                    {{ form.system_name }}
+
+                    <!-- show editable field if system_name_editable in settings.config is true -->
+                    {% if system_name_edit == True %}
+                        <!-- system name errors -->
+                        <div class="text-danger">
+                            {{ form.system_name.errors }}
+                        </div>
+                        {{ form.system_name }}
+
+                    <!-- show system_name only otherwise -->
+                    {% else %}
+                        <h5>
+                            {{ system.system_name }}
+                        </h5>
+                    {% endif %}
+
                 </div>
+            <!-- system name -->
             </div>
 
             <!-- dnsname -->

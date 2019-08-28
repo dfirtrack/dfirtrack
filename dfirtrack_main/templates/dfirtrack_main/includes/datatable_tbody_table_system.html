@@ -29,9 +29,12 @@
     <!-- analysisstatus -->
     <td>
         {% if i.analysisstatus %}
-            <a href="/analysisstatuss/{{ i.analysisstatus.analysisstatus_id }}">
-                {{ i.analysisstatus }}
-            </a>
+            <!-- tooltip with analysisstatus note -->
+            <span data-toggle="tooltip" data-placement="auto" title="{{ i.analysisstatus.analysisstatus_note }}">
+                <a href="/analysisstatuss/{{ i.analysisstatus.analysisstatus_id }}">
+                    {{ i.analysisstatus }}
+                </a>
+            </span>
         {% else %}
             ---
         {% endif %}
