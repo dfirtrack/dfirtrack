@@ -24,6 +24,7 @@ class ArtifactForm(forms.ModelForm):
             'artifacttype': gettext_lazy('Artifacttype (*)'),
             'artifactstatus': gettext_lazy('Artifactstatus (*)'),
             'system': gettext_lazy('System (*)'),
+            'artifact_acquisition_time': gettext_lazy('Artifact acquisition time (YYYY-MM-DD HH:MM:SS)'),
         }
         # special form type or option
         widgets = {
