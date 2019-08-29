@@ -56,6 +56,26 @@
     </div>
 </div>
 
+<!-- artifacttype description headline -->
+<div class="row">
+    <div class="col-3">
+        <h5>
+            Description
+        </h5>
+    </div>
+</div>
+
+<!-- artifacttype description -->
+<div class="row bottom-distance">
+    <div class="col">
+        {% if artifacttype.artifacttype_description %}
+            {{ artifacttype.artifacttype_description|linebreaks }}
+        {% else %}
+            ---
+        {% endif %}
+    </div>
+</div>
+
 <!-- artifact headline -->
 <div class="row">
     <div class="col-6">
@@ -71,9 +91,8 @@
     {% for i in artifacttype.artifact_set.all %}
         <div class="row top-distance">
             <div class="col-3">
-                <a href="/artifacts/artifact/detail/{{ i.artifact_id}}" type="button" class="btn btn-primary btn-sm copy-true">
-                    <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                    {{ i.artifact_name }}
+                <a href="/artifacts/artifact/detail/{{ i.artifact_id}}">
+                    {{ i.artifact_name }} ([{{ i.system.system_id }}] {{ i.system.system_name }})
                 </a>
             </div>
         </div>
