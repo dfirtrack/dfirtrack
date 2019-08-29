@@ -1,14 +1,18 @@
 <!-- extending maintemplate -->
 {% extends "dfirtrack_main/maintemplate.html" %}
 
+<!-- ############################################ -->
+
 <!-- HTML head in maintemplate -->
 {% block head %}
 
 <!-- page title -->
+
 <title>
-    Artifact '{{ artifact.artifact_name }}'{% if artifact.system_set.all %} (s: {{ artifact.system_set.all|length }}){% endif %}
+    Artifact '{{ artifact.artifact_name }}' ({{ artifact.system.system_name }})
 </title>
 
+<!-- static files -->
 {% load staticfiles %}
 
 <!-- HTML head in maintemplate -->
@@ -19,14 +23,26 @@
 <!-- HTML body in maintemplate -->
 {% block content %}
 
-<!-- up button -->
+<!-- upper buttons row -->
 <div class="row bottom-distance">
-    <div class="col-3">
-        <a href="/cases" type="button" class="btn btn-light copy-false">
-            <img src="{%static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon right-distance copy-false" alt="icon">
+
+    <!-- up button -->
+    <div class="col-6">
+        <a href="/artifacts/artifact" type="button" class="btn btn-light copy-false">
+            <img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon right-distance copy-false" alt="icon">
             Up to artifacts
         </a>
     </div>
+
+    <!-- edit button -->
+    <div class="col-6">
+        <a href="/artifacts/artifact/update/{{ artifact.artifact_id }}" type="button" class="btn btn-light copy-false">
+            <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Edit
+        </a>
+    </div>
+
+<!-- upper buttons row -->
 </div>
 
 <!-- javascript for copy button -->
@@ -34,85 +50,299 @@
     var clipboard = new ClipboardJS('.btn');
 </script>
 
-<!-- case name row -->
-<div class="row">
+<!-- artifact name row -->
+<div class="row bottom-distance">
 
-    <!-- case name -->
+    <!-- artifact name -->
     <div class="col-3">
         <h5>
-            Case "{{ case.case_name }}"
-        </h5>
+            Artifact "{{ artifact.artifact_name }}"
+         </h5>
     </div>
 
-    <!-- copy button -->
+    <!-- system -->
     <div class="col-3">
-        {% if case.system_set.all %}
-            {% with systems=case.system_set.all %}
-                {% include "dfirtrack_main/includes/button_copy_hostnames.html" %}
-            {% endwith %}
+        <a href="/systems/{{ artifact.system.system_id}}" type="button" class="btn btn-primary btn-sm copy-true">
+            <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+            {{ artifact.system.system_name }}
+        </a>
+    </div>
+
+<!-- artifact name row -->
+</div>
+
+<!-- id row -->
+<div class="row bottom-distance">
+
+    <!-- artifact id -->
+    <div class="col-3">
+        <small class="text-muted">
+            Artifact-ID: {{ artifact.artifact_id }}
+        </small>
+    </div>
+
+    <!-- artifact uuid -->
+    <div class="col-3">
+        <small class="text-muted">
+            Artifact-UUID:
+            {% if artifact.artifact_uuid %}
+                {{ artifact.artifact_uuid }}
+            {% else %}
+                ---
+            {% endif  %}
+        </small>
+    </div>
+
+<!-- id row -->
+</div>
+
+<!-- case row -->
+<div class="row">
+
+    <!-- case -->
+    <div class="col">
+        <div class="font-weight-bold">Case:</div>
+        {% if artifact.case %}
+            <a href="/cases/{{ i.case_id }}">
+                {{ artifact.case.case_name }}
+            </a>
+        {% else %}
+            ---
         {% endif %}
     </div>
 
-<!-- case name row -->
+<!-- case row -->
 </div>
 
-<!-- case id row -->
-<div class="row bottom-distance">
-    <div class="col-3">
-        <small class="text-muted">
-            Case-ID: {{ case.case_id }}
-        </small>
-    </div>
-</div>
+<!-- ############################################ -->
 
-<!-- case is incident row -->
-<div class="row bottom-distance">
-    <div class="col-3">
-        <h5>
-            Is incident: {{ case.case_is_incident }}
-        </h5>
-    </div>
-</div>
+<!-- artifact information -->
+<div class="card bg-dark border-light card-body top-distance">
 
-<!-- systems headline row -->
-<div class="row bottom-distance">
-    <div class="col-3">
-        <h5>
-            Systems associated with this case{% if case.system_set.all %} ({{ case.system_set.all|length }}){% endif %}
-        </h5>
-    </div>
-</div>
-
-<!-- systems -->
-{% if case.system_set.all %}
-
-    {% for i in case.system_set.all %}
-        <div class="row top-distance">
-            <div class="col-3">
-                <a href="/systems/{{ i.system_id}}" type="button" class="btn btn-primary btn-sm copy-true">
-                    <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                    {{ i.system_name }}
-                </a>
-            </div>
+    <!-- artifact information headline -->
+    <div class="row">
+        <div class="col">
+            <h5>Artifact information</h5>
         </div>
-    {% endfor %}
+    </div>
 
-<!-- no systems -->
-{% else %}
-    <div class="row top-distance">
+    <!-- artifact information row -->
+    <div class="row bottom-distance">
+
+        <!-- artifactstatus -->
         <div class="col-3">
-            ---
+            <div class="font-weight-bold">Artifactstatus:</div>
+            <a href="/artifacts/artifactstatus/detail/{{ artifact.artifactstatus.artifactstatus_id }}">
+                {{ artifact.artifactstatus.artifactstatus_name }}
+            </a>
+        </div>
+
+        <!-- artifacttype -->
+        <div class="col-3">
+            <div class="font-weight-bold">Artifacttype:</div>
+            <a href="/artifacts/artifacttype/detail/{{ artifact.artifacttype.artifacttype_id }}">
+                {{ artifact.artifacttype.artifacttype_name }}
+            </a>
+        </div>
+
+        <!-- artifact acquisition time -->
+        <div class="col-3">
+            <div class="font-weight-bold">Acquisition time:</div>
+            {{ artifact.artifact_acquisition_time|date:"Y-m-d H:i" }}
+        </div>
+
+    <!-- artifact information row -->
+    </div>
+
+    <!-- artifact storage path row -->
+    <div class="row bottom-distance">
+
+        <!-- artifact storage path -->
+        <div class="col-3">
+            <div class="font-weight-bold">Artifact storage path:</div>
+            {% if artifact.artifact_storage_path %}
+                {{ artifact.artifact_storage_path }}
+            {% else %}
+                ---
+            {% endif  %}
+        </div>
+
+        <!-- artifact evidence path -->
+        <div class="col-3">
+            <div class="font-weight-bold">Artifact evidence path:</div>
+            {% if artifact.artifact_evidence_path %}
+                {{ artifact.artifact_evidence_path }}
+            {% else %}
+                ---
+            {% endif  %}
+        </div>
+
+    <!-- artifact information row -->
+    </div>
+
+    <!-- hash information row -->
+    <div class="row top-distance">
+
+        <!-- md5 -->
+        <div class="col-3">
+            <div class="font-weight-bold">MD5:</div>
+            {% if artifact.artifact_md5 %}
+                {{ artifact.artifact_md5 }}
+            {% else %}
+                ---
+            {% endif  %}
+        </div>
+
+        <!-- sha1 -->
+        <div class="col-3">
+            <div class="font-weight-bold">SHA1:</div>
+            {% if artifact.artifact_sha1 %}
+                {{ artifact.artifact_sha1 }}
+            {% else %}
+                ---
+            {% endif  %}
+        </div>
+
+        <!-- sha256 -->
+        <div class="col-6">
+            <div class="font-weight-bold">SHA256:</div>
+            {% if artifact.artifact_sha256 %}
+                {{ artifact.artifact_sha256 }}
+            {% else %}
+                ---
+            {% endif  %}
+        </div>
+
+    <!-- hash information row -->
+    </div>
+
+    <!-- copy button row-->
+    <div class="row top-distance">
+    
+        <!-- copy button -->
+        <div class="col-3">
+                <button class="btn btn-outline-success btn-sm" data-clipboard-text="{{ artifact.artifact_md5 }}">
+                    Copy hash
+                </button>
+        </div>
+    
+        <!-- copy button -->
+        <div class="col-3">
+                <button class="btn btn-outline-success btn-sm" data-clipboard-text="{{ artifact.artifact_sha1 }}">
+                    Copy hash
+                </button>
+        </div>
+    
+        <!-- copy button -->
+        <div class="col-3">
+                <button class="btn btn-outline-success btn-sm" data-clipboard-text="{{ artifact.artifact_sha256 }}">
+                    Copy hash
+                </button>
+        </div>
+    
+    <!-- copy button row-->
+    </div>
+
+<!-- artifact information end -->
+</div>
+
+<!-- ############################################ -->
+
+<!-- artifact description -->
+<div class="card bg-dark border-light card-body top-distance">
+
+    <!-- artifact description headline -->
+    <div class="row">
+        <div class="col">
+            <h5>Artifact description</h5>
         </div>
     </div>
 
-<!-- systems -->
-{% endif %}
+    <!-- artifact description -->
+    <div class="row">
+        <div class="col-6">
+            {% if artifact.artifact_description %}
+                {{ artifact.artifact_description }}
+            {% else %}
+                ---
+            {% endif  %}
+        </div>
+    </div>
 
-<!-- edit button -->
-<a href="/cases/{{ case.case_id }}/edit" type="button" class="btn btn-light top-distance copy-false">
-    <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon right-distance copy-false" alt="icon">
-    Edit
-</a>
+<!-- artifact description -->
+</div>
+
+<!-- ############################################ -->
+
+<!-- meta information -->
+<div class="card bg-dark border-secondary card-body bottom-distance top-distance">
+
+    <!-- meta information headline -->
+    <div class="row text-muted">
+        <div class="col">
+            <h5>Meta information</h5>
+        </div>
+    </div>
+
+    <!-- meta information row -->
+    <div class="row text-muted">
+
+        <!-- artifact create time -->
+        <div class="col-3">
+            <div class="font-weight-bold">Created:</div>
+            {{ artifact.artifact_create_time|date:"Y-m-d H:i" }}
+        </div>
+
+        <!-- user creating artifact -->
+        <div class="col-3">
+            <div class="font-weight-bold">Created by:</div>
+            {{ artifact.artifact_created_by_user_id }}
+        </div>
+
+        <!-- artifact modify time -->
+        <div class="col-3">
+            <div class="font-weight-bold">Last modified:</div>
+            {{ artifact.artifact_modify_time|date:"Y-m-d H:i" }}
+        </div>
+
+        <!-- user modifying artifact -->
+        <div class="col-3">
+            <div class="font-weight-bold">Modified by:</div>
+            {{ artifact.artifact_modified_by_user_id }}
+        </div>
+
+    <!-- meta information row -->
+    </div>
+
+<!-- meta information -->
+</div>
+
+<!-- lower buttons row -->
+<div class="row top-distance">
+
+    <!-- up button -->
+    <div class="col-6">
+        <a href="/artifacts/artifact" type="button" class="btn btn-light copy-false">
+            <img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Up to artifacts
+        </a>
+    </div>
+
+    <!-- edit button -->
+    <div class="col-6">
+        <a href="/artifacts/artifact/update/{{ artifact.artifact_id }}" type="button" class="btn btn-light copy-false">
+            <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Edit
+        </a>
+    </div>
+
+<!-- lower buttons row -->
+</div>
+
+<!-- javascript for datatables in maintemplate -->
+{% block datatables %}
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.js' %}"></script>
+{% endblock %}
 
 <!-- HTML body in maintemplate -->
 {% endblock %}

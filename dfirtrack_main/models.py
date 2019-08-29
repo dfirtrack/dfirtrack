@@ -762,7 +762,7 @@ class System(models.Model):
             return True
 
     def get_absolute_url(self):
-        return reverse('systemsdetail', args=(self.pk,))
+        return reverse('systemdetail', args=(self.pk,))
 
     def get_update_url(self):
         return reverse('systems_edit', args=(self.pk,))

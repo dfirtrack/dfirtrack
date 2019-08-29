@@ -10,6 +10,7 @@ from dfirtrack_artifacts import forms
 class ArtifactListView(LoginRequiredMixin, ListView):
     model = artifacts_models.Artifact
     template_name = 'dfirtrack_artifacts/artifact/artifact_list.html'
+    context_object_name = 'artifact_list'
 
 class ArtifactCreateView(LoginRequiredMixin, CreateView):
     model = artifacts_models.Artifact
