@@ -86,7 +86,7 @@
     {% for i in artifactstatus.artifact_set.all %}
         <div class="row top-distance">
             <div class="col-3">
-                <a href="/systems/{{ i.system.system_id}}">
+                <a href="/artifacts/artifact/detail/{{ i.artifact_id}}">
                     {{ i.artifact_name }} ([{{ i.system.system_id }}] {{ i.system.system_name }})
                 </a>
             </div>
