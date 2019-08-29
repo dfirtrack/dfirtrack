@@ -19,8 +19,8 @@ class ArtifactCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
-        # Connect current django user to the request
-        self.object.created_by = self.request.user
+        self.object.artifact_created_by_user_id = self.request.user
+        self.object.artifact_modified_by_user_id = self.request.user
         self.object.save()
         self.object.logger(str(self.request.user), "ARTIFACT_ADD_EXECUTED")
         messages.success(self.request, 'Artifact added')
@@ -40,3 +40,11 @@ class ArtifactUpdateView(LoginRequiredMixin, UpdateView):
     model = artifacts_models.Artifact
     template_name = 'dfirtrack_artifacts/artifact/artifact_edit.html'
     form_class = forms.ArtifactForm
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.artifact_modified_by_user_id = self.request.user
+        self.object.save()
+        self.object.logger(str(self.request.user), "ARTIFACT_EDIT_EXECUTED")
+        messages.success(self.request, 'Artifact edited')
+        return super().form_valid(form)
