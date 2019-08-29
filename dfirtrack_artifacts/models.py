@@ -35,12 +35,12 @@ class Artifact(models.Model):
     artifact_acquisition_time = models.DateTimeField(blank=True, null=True)
     artifact_description = models.CharField(max_length=4096, blank=True, null=True)
     artifact_md5 = models.CharField(max_length=32, blank=True, null=True)
-    artifact_name = models.CharField(max_length=4096, blank=False, null=False)
+    artifact_name = models.CharField(max_length=4096)
     artifact_sha1 = models.CharField(max_length=40, blank=True, null=True)
     artifact_sha256 = models.CharField(max_length=64, blank=True, null=True)
-    artifact_slug = models.CharField(max_length=4096, blank=False, null=False)
-    artifact_storage_path = models.CharField(max_length=4096, blank=False, null=False, unique=True)
-    artifact_uuid = models.UUIDField(editable=False, null=False, blank=False)
+    artifact_slug = models.CharField(max_length=4096)
+    artifact_storage_path = models.CharField(max_length=4096, unique=True)
+    artifact_uuid = models.UUIDField(editable=False)
 
     # meta information
     artifact_create_time = models.DateTimeField(auto_now_add=True)
@@ -59,7 +59,7 @@ class Artifact(models.Model):
     def __unicode__(self):
         return u'%s' % self.artifact_name
 
-    #define logger
+    # define logger
     def logger(artifact, request_user, log_text):
         stdlogger.info(
             request_user +
@@ -136,9 +136,9 @@ class Artifactstatus(models.Model):
     artifactstatus_id = models.AutoField(primary_key=True)
 
     # main entity information
-    artifactstatus_name = models.CharField(max_length=255, blank=False, null=False, unique=True)
+    artifactstatus_name = models.CharField(max_length=255, unique=True)
     artifactstatus_description = models.CharField(max_length=2048, blank=True, null=True)
-    artifactstatus_slug = models.CharField(max_length=255, blank=False, null=False, unique=True)
+    artifactstatus_slug = models.CharField(max_length=255, unique=True)
 
     class Meta:
         ordering = ('artifactstatus_name',)
@@ -147,8 +147,8 @@ class Artifactstatus(models.Model):
     def __str__(self):
         return 'Artifactstatus {0}'.format(str(self.artifactstatus_name))
 
-    #define logger
-    def logger(self,artifactstatus, request_user, log_text):
+    # define logger
+    def logger(artifactstatus, request_user, log_text):
         stdlogger.info(
             request_user +
             log_text +
@@ -178,9 +178,9 @@ class Artifacttype(models.Model):
     artifacttype_id = models.AutoField(primary_key=True)
 
     # main entity information
-    artifacttype_name = models.CharField(max_length=255, blank=False, null=False, unique=True)
+    artifacttype_name = models.CharField(max_length=255, unique=True)
     artifacttype_description = models.CharField(max_length=2048, blank=True, null=True)
-    artifacttype_slug = models.CharField(max_length=255, blank=False, null=False, unique=True)
+    artifacttype_slug = models.CharField(max_length=255, unique=True)
 
     class Meta:
         ordering = ('artifacttype_name',)
@@ -189,8 +189,8 @@ class Artifacttype(models.Model):
     def __str__(self):
         return 'Artifacttype {0}'.format(str(self.artifacttype_name))
 
-    #define logger
-    def logger(self, artifactstatus, request_user, log_text):
+    # define logger
+    def logger(artifactstatus, request_user, log_text):
         stdlogger.info(
             request_user +
             log_text +
