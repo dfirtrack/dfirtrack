@@ -37,8 +37,13 @@
     </div>
 
     <!-- artifacttype name headline -->
-    <div class="col-10">
+    <div class="col-2">
         Artifacttype
+    </div>
+
+    <!-- artifacttype description headline -->
+    <div class="col-8">
+        Description
     </div>
 
 <!-- headlines -->
@@ -56,10 +61,19 @@
         </div>
 
         <!-- artifacttype name -->
-        <div class="col-10">
+        <div class="col-2">
             <a href="/artifacts/artifacttype/detail/{{ i.artifacttype_id }}/">
                 {{ i.artifacttype_name }}
             </a>
+        </div>
+
+        <!-- artifacttype description -->
+        <div class="col-8">
+            {% if i.artifacttype_description %}
+                {{ i.artifacttype_description|linebreaks }}
+            {% else %}
+                ---
+            {% endif %}
         </div>
 
         <!-- edit button -->
