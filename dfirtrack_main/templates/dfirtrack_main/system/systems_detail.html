@@ -604,6 +604,73 @@
 
 <!-- ############################################ -->
 
+<!-- check for artifacts app -->
+{% if dfirtrack_artifacts == True %}
+
+<!-- artifacts -->
+<div class="card bg-dark border-light card-body top-distance">
+
+    <!-- artifacts  headline -->
+    <div class="row bottom-distance">
+        <div class="col">
+            <a href="#artifacts" data-toggle="collapse">
+                <h5>
+                    Artifacts
+                    <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                </h5>
+            </a>
+        </div>
+    </div>
+
+    <!-- artifacts collapse -->
+    <div id="artifacts" class="collapse">
+
+        <!-- datatable artifacts -->
+        <table id="table_artifact" class="display" width="100%">
+
+            <!-- table head -->
+            <thead>
+                {% include "dfirtrack_artifacts/includes/datatable_thead_table_artifact.html" %}
+            </thead>
+
+            <!-- table body -->
+            <tbody>
+                {% if artifacts %}
+                    {% for i in artifacts %}
+                        {% include "dfirtrack_artifacts/includes/datatable_tbody_table_artifact.html" %}
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td>---</td>
+                        <td>---</td>
+                        <td>---</td>
+                        <td>---</td>
+                        <td>---</td>
+                        <td>---</td>
+                        <td>---</td>
+                        <td>---</td>
+                        <td>---</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+
+        <!-- datatable artifacts -->
+        </table>
+
+        <!-- javascript for datatables -->
+        <script src="{% static 'dfirtrack_artifacts/datatables_artifacts.js' %}"></script>
+
+    <!-- artifacts collapse -->
+    </div>
+
+<!-- artifacts -->
+</div>
+
+<!-- check for artifacts app -->
+{% endif %}
+
+<!-- ############################################ -->
+
 <!-- timeline -->
 <div class="card bg-dark border-light card-body top-distance">
 

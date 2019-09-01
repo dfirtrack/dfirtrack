@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack.config import SYSTEM_NAME_EDITABLE as system_name_editable
+from dfirtrack_artifacts.models import Artifact
 from dfirtrack_main.forms import SystemForm, SystemNameForm
 from dfirtrack_main.logger.default_logger import debug_logger, warning_logger
 from dfirtrack_main.models import Ip, System
@@ -44,6 +45,14 @@ class SystemDetail(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         system = self.object
+
+        # set dfirtrack_artifacts for template
+        if 'dfirtrack_artifacts' in installed_apps:
+            context['dfirtrack_artifacts'] = True
+            context['artifacts'] = Artifact.objects.filter(system=system)
+        else:
+            context['dfirtrack_artifacts'] = False
+
         # call logger
         system.logger(str(self.request.user), " SYSTEM_DETAIL_ENTERED")
         return context
