@@ -56,20 +56,20 @@
     </div>
 </div>
 
-<!-- artifacttype description headline -->
+<!-- artifacttype note headline -->
 <div class="row">
     <div class="col-3">
         <h5>
-            Description
+            Note
         </h5>
     </div>
 </div>
 
-<!-- artifacttype description -->
+<!-- artifacttype note -->
 <div class="row bottom-distance">
     <div class="col">
-        {% if artifacttype.artifacttype_description %}
-            {{ artifacttype.artifacttype_description|linebreaks }}
+        {% if artifacttype.artifacttype_note %}
+            {{ artifacttype.artifacttype_note|linebreaks }}
         {% else %}
             ---
         {% endif %}

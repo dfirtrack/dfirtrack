@@ -20,7 +20,7 @@ class ArtifactForm(forms.ModelForm):
             'artifact_md5',
             'artifact_sha1',
             'artifact_sha256',
-            'artifact_description',
+            'artifact_note',
         ]
         # non default form labeling
         labels = {
@@ -33,7 +33,6 @@ class ArtifactForm(forms.ModelForm):
             'artifact_md5': gettext_lazy('MD5'),
             'artifact_sha1': gettext_lazy('SHA1'),
             'artifact_sha256': gettext_lazy('SHA256'),
-            'artifact_description': gettext_lazy('Description'),
         }
         # special form type or option
         widgets = {
@@ -49,7 +48,7 @@ class ArtifacttypeForm(forms.ModelForm):
         # this HTML forms are shown
         fields = [
             'artifacttype_name',
-            'artifacttype_description',
+            'artifacttype_note',
         ]
         # non default form labeling
         labels = {

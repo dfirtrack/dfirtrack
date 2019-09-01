@@ -51,20 +51,20 @@
     </div>
 </div>
 
-<!-- artifactstatus description headline -->
+<!-- artifactstatus note headline -->
 <div class="row">
     <div class="col-3">
         <h5>
-            Description
+            Note
         </h5>
     </div>
 </div>
 
-<!-- artifactstatus description -->
+<!-- artifactstatus note -->
 <div class="row bottom-distance">
     <div class="col">
-        {% if artifactstatus.artifactstatus_description %}
-            {{ artifactstatus.artifactstatus_description|linebreaks }}
+        {% if artifactstatus.artifactstatus_note %}
+            {{ artifactstatus.artifactstatus_note|linebreaks }}
         {% else %}
             ---
         {% endif %}

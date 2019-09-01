@@ -262,28 +262,30 @@
 
 <!-- ############################################ -->
 
-<!-- artifact description -->
+<!-- artifact note -->
 <div class="card bg-dark border-light card-body top-distance">
 
-    <!-- artifact description headline -->
+    <!-- artifact note headline -->
     <div class="row">
         <div class="col">
-            <h5>Artifact description</h5>
+            <h5>
+                Artifact note
+            </h5>
         </div>
     </div>
 
-    <!-- artifact description -->
+    <!-- artifact note -->
     <div class="row">
         <div class="col-6">
-            {% if artifact.artifact_description %}
-                {{ artifact.artifact_description }}
+            {% if artifact.artifact_note %}
+                {{ artifact.artifact_note }}
             {% else %}
                 ---
             {% endif  %}
         </div>
     </div>
 
-<!-- artifact description -->
+<!-- artifact note -->
 </div>
 
 <!-- ############################################ -->

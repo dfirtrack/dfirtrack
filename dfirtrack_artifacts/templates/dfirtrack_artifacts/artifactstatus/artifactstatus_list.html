@@ -41,9 +41,9 @@
         Artifacstatus
     </div>
 
-    <!-- artifactstatus description headline -->
+    <!-- artifactstatus note headline -->
     <div class="col-8">
-        Description
+        Note
     </div>
 
 <!-- headlines -->
@@ -67,10 +67,10 @@
             </a>
         </div>
 
-        <!-- artifactstatus description -->
+        <!-- artifactstatus note -->
         <div class="col-9">
-            {% if i.artifactstatus_description %}
-                {{ i.artifactstatus_description|linebreaks }}
+            {% if i.artifactstatus_note %}
+                {{ i.artifactstatus_note|linebreaks }}
             {% else %}
                 ---
             {% endif %}

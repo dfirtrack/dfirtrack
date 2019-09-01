@@ -38,15 +38,15 @@ class ArtifacttypeModelTestCase(TestCase):
         # compare
         self.assertEquals(field_label, 'artifacttype name')
 
-    def test_artifacttype_description_attribute_label(self):
+    def test_artifacttype_note_attribute_label(self):
         """ test attribute label """
 
         # get object
         artifacttype_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_1')
         # get label
-        field_label = artifacttype_1._meta.get_field('artifacttype_description').verbose_name
+        field_label = artifacttype_1._meta.get_field('artifacttype_note').verbose_name
         # compare
-        self.assertEquals(field_label, 'artifacttype description')
+        self.assertEquals(field_label, 'artifacttype note')
 
     def test_artifacttype_slug_attribute_label(self):
         """ test attribute label """
@@ -67,16 +67,6 @@ class ArtifacttypeModelTestCase(TestCase):
         max_length = artifacttype_1._meta.get_field('artifacttype_name').max_length
         # compare
         self.assertEquals(max_length, 255)
-
-    def test_artifacttype_description_length(self):
-        """ test for max length """
-
-        # get object
-        artifacttype_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_1')
-        # get max length
-        max_length = artifacttype_1._meta.get_field('artifacttype_description').max_length
-        # compare
-        self.assertEquals(max_length, 2048)
 
     def test_artifacttype_slug_length(self):
         """ test for max length """

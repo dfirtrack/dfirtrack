@@ -33,7 +33,7 @@ class Artifact(models.Model):
 
     # main entity information
     artifact_acquisition_time = models.DateTimeField(blank=True, null=True)
-    artifact_description = models.CharField(max_length=4096, blank=True, null=True)
+    artifact_note = models.TextField(blank=True, null=True)
     artifact_md5 = models.CharField(max_length=32, blank=True, null=True)
     artifact_name = models.CharField(max_length=4096)
     artifact_requested_time = models.DateTimeField(blank=True, null=True)
@@ -67,7 +67,7 @@ class Artifact(models.Model):
             log_text +
             " artifact_id:" + str(artifact.artifact_id) +
             "|artifact_name:" + str(artifact.artifact_name) +
-            "|artifact_description:" + str(artifact.artifact_description) +
+            "|artifact_note:" + str(artifact.artifact_note) +
             "|artifact_slug:" + str(artifact.artifact_slug) +
             "|artifact_acquisition_time:" + str(artifact.artifact_acquisition_time) +
 	    "|artifact_md5" + str(artifact.artifact_md5) +
@@ -138,7 +138,7 @@ class Artifactstatus(models.Model):
 
     # main entity information
     artifactstatus_name = models.CharField(max_length=255, unique=True)
-    artifactstatus_description = models.CharField(max_length=2048, blank=True, null=True)
+    artifactstatus_note = models.TextField(blank=True, null=True)
     artifactstatus_slug = models.CharField(max_length=255, unique=True)
 
     class Meta:
@@ -155,7 +155,7 @@ class Artifactstatus(models.Model):
             log_text +
             " artifactstatus_id:" + str(artifactstatus.artifactstatus_id) +
             "|artifactstatus_name:" + str(artifactstatus.artifactstatus_name) +
-            "|artifactstatus_description:" + str(artifactstatus.artifactstatus_description) +
+            "|artifactstatus_note:" + str(artifactstatus.artifactstatus_note) +
             "|artifactstatus_slug:" + str(artifactstatus.artifactstatus_slug)
         )
 
@@ -180,7 +180,7 @@ class Artifacttype(models.Model):
 
     # main entity information
     artifacttype_name = models.CharField(max_length=255, unique=True)
-    artifacttype_description = models.CharField(max_length=2048, blank=True, null=True)
+    artifacttype_note = models.TextField(blank=True, null=True)
     artifacttype_slug = models.CharField(max_length=255, unique=True)
 
     class Meta:
@@ -197,7 +197,7 @@ class Artifacttype(models.Model):
             log_text +
             " artifacttype_id:" + str(artifacttype.artifacttype_id) +
             "|artifacttype_name:" + str(artifacttype.artifacttype_name) +
-            "|artifacttype_description:" + str(artifacttype.artifacttype_description) +
+            "|artifacttype_note:" + str(artifacttype.artifacttype_note) +
             "|artifacttype_slug:" + str(artifacttype.artifacttype_slug)
         )
 
