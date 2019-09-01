@@ -4,11 +4,15 @@
 <!-- HTML head in maintemplate -->
 {% block head %}
 
+<!-- page title -->
 <title>
     DFIRTrack - Artifacts
 </title>
 
+<!-- javascript and CSS for datatables -->
 {% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.css' %}"/>
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.js' %}"></script>
 
 <!-- HTML head in maintemplate -->
 {% endblock %}
@@ -27,113 +31,25 @@
     </div>
 </div>
 
-<!-- headlines -->
-<div class="row font-weight-bold">
+<!-- datatable artifact -->
+<table id="table_artifact" class="display" width="100%">
 
-    <!-- artifact id -->
-    <div class="col-1">
-        ID
-    </div>
+    <!-- table head -->
+    <thead>
+        {% include "dfirtrack_artifacts/includes/datatable_thead_table_artifact.html" %}
+    </thead>
 
-    <!-- artifact name -->
-    <div class="col-2">
-        Artifact name
-    </div>
+    <!-- table body -->
+    <tbody>
+        {% for i in artifact_list %}
+            {% include "dfirtrack_artifacts/includes/datatable_tbody_table_artifact.html" %}
+        {% endfor %}
+    </tbody>
 
-    <!-- artifactstatus -->
-    <div class="col-1">
-        Artifactstatus
-    </div>
+</table>
 
-    <!-- artifacttype -->
-    <div class="col-1">
-        Artifacttype
-    </div>
-
-    <!-- system -->
-    <div class="col-1">
-        System
-    </div>
-
-    <!-- artifact create time -->
-    <div class="col-1">
-        Created
-    </div>
-
-    <!-- artifact modify time -->
-    <div class="col-1">
-        Modified
-    </div>
-
-<!-- headlines -->
-</div>
-
-<!-- artifact list -->
-{% for i in artifact_list %}
-
-    <!-- artifact row -->
-    <div class="row top-distance">
-
-        <!-- artifact id -->
-        <div class="col-1">
-            {{ i.artifact_id }}
-        </div>
-
-        <!-- artifact name -->
-        <div class="col-2">
-            <a href="{{ i.get_absolute_url }}">
-            {{ i.artifact_name }}
-            </a>
-        </div>
-
-        <!-- artifactstatus -->
-        <div class="col-1">
-            <a href="{{ i.artifactstatus.get_absolute_url }}">
-            {{ i.artifactstatus.artifactstatus_name }}
-            </a>
-        </div>
-
-        <!-- artifacttype -->
-        <div class="col-1">
-            <a href="{{ i.artifacttype.get_absolute_url }}">
-            {{ i.artifacttype.artifacttype_name }}
-            </a>
-        </div>
-
-        <!-- system -->
-        <div class="col-1">
-            <a href="{{ i.system.get_absolute_url }}" type="button" class="btn btn-primary btn-sm copy-true">
-                <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                {{ i.system.system_name }}
-            </a>
-        </div>
-
-        <!-- artifact create time -->
-        <div class="col-1 text-secondary">
-            {{ i.artifact_create_time|date:"Y-m-d H:i" }}
-        </div>
-
-        <!-- artifact modify time -->
-        <div class="col-1 text-secondary">
-            {{ i.artifact_modify_time|date:"Y-m-d H:i" }}
-        </div>
-
-        <!-- placeholder -->
-        <div class="col-3"></div>
-
-        <!-- edit button -->
-        <div class="col-1">
-            <a href="{{ i.get_update_url }}" type="button" class="btn btn-sm btn-light copy-false">
-                <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                Edit
-            </a>
-        </div>
-
-    <!-- artifact row -->
-    </div>
-
-<!-- artifact list -->
-{% endfor %}
+<!-- javascript for datatables -->
+<script src="{% static 'dfirtrack_artifacts/datatables_artifacts.js' %}"></script>
 
 <!-- add button -->
 <div class="row top-distance">
@@ -144,6 +60,11 @@
         </a>
     </div>
 </div>
+
+<!-- javascript for datatables -->
+{% block datatables %}
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.js' %}"></script>
+{% endblock %}
 
 <!-- HTML body in maintemplate -->
 {% endblock %}
