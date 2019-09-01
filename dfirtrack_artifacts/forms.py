@@ -16,14 +16,17 @@ class ArtifactForm(forms.ModelForm):
             'artifact_storage_path',
             'system',
             'case',
+            'artifact_requested_time',
             'artifact_acquisition_time',
         ]
         # non default form labeling
         labels = {
             'artifact_name': gettext_lazy('Artifact name (*)'),
+            'artifact_description': gettext_lazy('Description'),
             'artifacttype': gettext_lazy('Artifacttype (*)'),
             'artifactstatus': gettext_lazy('Artifactstatus (*)'),
             'system': gettext_lazy('System (*)'),
+            'artifact_requested_time': gettext_lazy('Artifact requested time (YYYY-MM-DD HH:MM:SS)'),
             'artifact_acquisition_time': gettext_lazy('Artifact acquisition time (YYYY-MM-DD HH:MM:SS)'),
         }
         # special form type or option

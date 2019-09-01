@@ -145,10 +145,24 @@
             </a>
         </div>
 
+        <!-- artifact requested time -->
+        <div class="col-3">
+            <div class="font-weight-bold">Requested time:</div>
+            {% if artifact.artifact_requested_time %}
+                {{ artifact.artifact_requested_time|date:"Y-m-d H:i" }}
+            {% else %}
+                ---
+            {% endif  %}
+        </div>
+
         <!-- artifact acquisition time -->
         <div class="col-3">
             <div class="font-weight-bold">Acquisition time:</div>
-            {{ artifact.artifact_acquisition_time|date:"Y-m-d H:i" }}
+            {% if artifact.artifact_acquisition_time %}
+                {{ artifact.artifact_acquisition_time|date:"Y-m-d H:i" }}
+            {% else %}
+                ---
+            {% endif  %}
         </div>
 
     <!-- artifact information row -->

@@ -26,8 +26,8 @@ class Artifact(models.Model):
     artifact_id = models.AutoField(primary_key=True)
 
     # foreing key(s)
-    artifacttype = models.ForeignKey('Artifacttype', on_delete=models.PROTECT)
     artifactstatus = models.ForeignKey('Artifactstatus', on_delete=models.PROTECT, default=1)
+    artifacttype = models.ForeignKey('Artifacttype', on_delete=models.PROTECT)
     case = models.ForeignKey('dfirtrack_main.Case', related_name='artifact_case',on_delete=models.PROTECT, blank=True, null=True)
     system = models.ForeignKey('dfirtrack_main.System', related_name='artifact_system',on_delete=models.PROTECT)
 
@@ -36,6 +36,7 @@ class Artifact(models.Model):
     artifact_description = models.CharField(max_length=4096, blank=True, null=True)
     artifact_md5 = models.CharField(max_length=32, blank=True, null=True)
     artifact_name = models.CharField(max_length=4096)
+    artifact_requested_time = models.DateTimeField(blank=True, null=True)
     artifact_sha1 = models.CharField(max_length=40, blank=True, null=True)
     artifact_sha256 = models.CharField(max_length=64, blank=True, null=True)
     artifact_slug = models.CharField(max_length=4096)
