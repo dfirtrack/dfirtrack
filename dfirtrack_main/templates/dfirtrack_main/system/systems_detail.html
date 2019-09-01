@@ -626,24 +626,21 @@
     <div id="artifacts" class="collapse">
 
         <!-- datatable artifacts -->
-        <table id="table_artifact" class="display" width="100%">
+        <table id="table_system_artifact" class="display" width="100%">
 
             <!-- table head -->
             <thead>
-                {% include "dfirtrack_artifacts/includes/datatable_thead_table_artifact.html" %}
+                {% include "dfirtrack_artifacts/includes/datatable_thead_table_system_artifact.html" %}
             </thead>
 
             <!-- table body -->
             <tbody>
                 {% if artifacts %}
                     {% for i in artifacts %}
-                        {% include "dfirtrack_artifacts/includes/datatable_tbody_table_artifact.html" %}
+                        {% include "dfirtrack_artifacts/includes/datatable_tbody_table_system_artifact.html" %}
                     {% endfor %}
                 {% else %}
                     <tr>
-                        <td>---</td>
-                        <td>---</td>
-                        <td>---</td>
                         <td>---</td>
                         <td>---</td>
                         <td>---</td>
