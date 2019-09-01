@@ -10,24 +10,24 @@ class ArtifactForm(forms.ModelForm):
         # this HTML forms are shown
         fields = [
             'artifact_name',
-            'artifact_description',
-            'artifacttype',
             'artifactstatus',
+            'artifacttype',
             'artifact_storage_path',
             'system',
             'case',
             'artifact_requested_time',
             'artifact_acquisition_time',
+            'artifact_description',
         ]
         # non default form labeling
         labels = {
             'artifact_name': gettext_lazy('Artifact name (*)'),
-            'artifact_description': gettext_lazy('Description'),
-            'artifacttype': gettext_lazy('Artifacttype (*)'),
             'artifactstatus': gettext_lazy('Artifactstatus (*)'),
+            'artifacttype': gettext_lazy('Artifacttype (*)'),
             'system': gettext_lazy('System (*)'),
             'artifact_requested_time': gettext_lazy('Artifact requested time (YYYY-MM-DD HH:MM:SS)'),
             'artifact_acquisition_time': gettext_lazy('Artifact acquisition time (YYYY-MM-DD HH:MM:SS)'),
+            'artifact_description': gettext_lazy('Description'),
         }
         # special form type or option
         widgets = {
