@@ -3,9 +3,10 @@ from django.views.generic import DetailView, ListView, UpdateView, CreateView, R
 from django.db import IntegrityError
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
+from dfirtrack_artifacts import forms
 from dfirtrack_artifacts import models as artifacts_models
 from dfirtrack_main import models as main_models
-from dfirtrack_artifacts import forms
+from dfirtrack_main.logger.default_logger import debug_logger
 
 class ArtifactListView(LoginRequiredMixin, ListView):
     model = artifacts_models.Artifact
@@ -16,6 +17,17 @@ class ArtifactCreateView(LoginRequiredMixin, CreateView):
     model = artifacts_models.Artifact
     template_name = 'dfirtrack_artifacts/artifact/artifact_add.html'
     form_class = forms.ArtifactForm
+
+    def get(self, request, *args, **kwargs):
+        if 'system' in request.GET:
+            system = request.GET['system']
+            form = self.form_class(
+                initial={'system': system,}
+            )
+        else:
+            form = self.form_class()
+        debug_logger(str(request.user), " ARTIFACT_ADD_ENTERED")
+        return render(request, self.template_name, {'form': form})
 
     def form_valid(self, form):
         self.object = form.save(commit=False)

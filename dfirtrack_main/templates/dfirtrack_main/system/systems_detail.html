@@ -657,6 +657,16 @@
         <!-- javascript for datatables -->
         <script src="{% static 'dfirtrack_artifacts/datatables_artifacts.js' %}"></script>
 
+    <!-- add artifact button -->
+    <div class="row bottom-distance top-distance">
+        <div class="col-1">
+            <a href="/artifacts/artifact/create?system={{ system.system_id }}" type="button" class="btn btn-light btn-sm copy-false">
+                <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm copy-false right-distance" alt="icon">
+                Add artifact
+            </a>
+        </div>
+    </div>
+
     <!-- artifacts collapse -->
     </div>
 
