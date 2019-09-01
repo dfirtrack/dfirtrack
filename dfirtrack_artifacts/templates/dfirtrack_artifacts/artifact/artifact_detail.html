@@ -172,7 +172,7 @@
     <div class="row bottom-distance">
 
         <!-- artifact source path -->
-        <div class="col-3">
+        <div class="col-6">
             <div class="font-weight-bold">Artifact source path:</div>
             {% if artifact.artifact_source_path %}
                 {{ artifact.artifact_source_path }}
@@ -182,7 +182,7 @@
         </div>
 
         <!-- artifact storage path -->
-        <div class="col-3">
+        <div class="col-6">
             <div class="font-weight-bold">Artifact storage path:</div>
             {% if artifact.artifact_storage_path %}
                 {{ artifact.artifact_storage_path }}
@@ -192,6 +192,23 @@
         </div>
 
     <!-- artifact path row -->
+    </div>
+
+    <!-- copy button row-->
+    <div class="row top-distance bottom-distance">
+
+        <!-- placeholder -->
+        <div class="col-6">
+        </div>
+
+        <!-- copy button -->
+        <div class="col-6">
+                <button class="btn btn-outline-success btn-sm" data-clipboard-text="{{ artifact.artifact_storage_path }}">
+                    Copy path
+                </button>
+        </div>
+
+    <!-- copy button row-->
     </div>
 
     <!-- hash information row -->
@@ -232,28 +249,28 @@
 
     <!-- copy button row-->
     <div class="row top-distance">
-    
+
         <!-- copy button -->
         <div class="col-3">
                 <button class="btn btn-outline-success btn-sm" data-clipboard-text="{{ artifact.artifact_md5 }}">
                     Copy hash
                 </button>
         </div>
-    
+
         <!-- copy button -->
         <div class="col-3">
                 <button class="btn btn-outline-success btn-sm" data-clipboard-text="{{ artifact.artifact_sha1 }}">
                     Copy hash
                 </button>
         </div>
-    
+
         <!-- copy button -->
         <div class="col-3">
                 <button class="btn btn-outline-success btn-sm" data-clipboard-text="{{ artifact.artifact_sha256 }}">
                     Copy hash
                 </button>
         </div>
-    
+
     <!-- copy button row-->
     </div>
 
