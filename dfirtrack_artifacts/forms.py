@@ -17,6 +17,9 @@ class ArtifactForm(forms.ModelForm):
             'case',
             'artifact_requested_time',
             'artifact_acquisition_time',
+            'artifact_md5',
+            'artifact_sha1',
+            'artifact_sha256',
             'artifact_description',
         ]
         # non default form labeling
@@ -27,11 +30,17 @@ class ArtifactForm(forms.ModelForm):
             'system': gettext_lazy('System (*)'),
             'artifact_requested_time': gettext_lazy('Artifact requested time (YYYY-MM-DD HH:MM:SS)'),
             'artifact_acquisition_time': gettext_lazy('Artifact acquisition time (YYYY-MM-DD HH:MM:SS)'),
+            'artifact_md5': gettext_lazy('MD5'),
+            'artifact_sha1': gettext_lazy('SHA1'),
+            'artifact_sha256': gettext_lazy('SHA256'),
             'artifact_description': gettext_lazy('Description'),
         }
         # special form type or option
         widgets = {
             'artifact_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
+            'artifact_md5': forms.TextInput(attrs={'size': '32'}),
+            'artifact_sha1': forms.TextInput(attrs={'size': '40'}),
+            'artifact_sha256': forms.TextInput(attrs={'size': '64'}),
         }
 
 class ArtifacttypeForm(forms.ModelForm):
