@@ -27,7 +27,6 @@ class ArtifactCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form) 
 
     def form_invalid(self, form):
-        self.object.created_by = self.request.user
         messages.error(self.request, 'Artifact could not be added')
         return super().form_invalid(form)
 
