@@ -12,7 +12,7 @@ class ArtifactForm(forms.ModelForm):
             'artifact_name',
             'artifactstatus',
             'artifacttype',
-            'artifact_storage_path',
+            'artifact_source_path',
             'system',
             'case',
             'artifact_requested_time',

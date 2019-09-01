@@ -168,8 +168,18 @@
     <!-- artifact information row -->
     </div>
 
-    <!-- artifact storage path row -->
+    <!-- artifact path row -->
     <div class="row bottom-distance">
+
+        <!-- artifact source path -->
+        <div class="col-3">
+            <div class="font-weight-bold">Artifact source path:</div>
+            {% if artifact.artifact_source_path %}
+                {{ artifact.artifact_source_path }}
+            {% else %}
+                ---
+            {% endif  %}
+        </div>
 
         <!-- artifact storage path -->
         <div class="col-3">
@@ -181,17 +191,7 @@
             {% endif  %}
         </div>
 
-        <!-- artifact evidence path -->
-        <div class="col-3">
-            <div class="font-weight-bold">Artifact evidence path:</div>
-            {% if artifact.artifact_evidence_path %}
-                {{ artifact.artifact_evidence_path }}
-            {% else %}
-                ---
-            {% endif  %}
-        </div>
-
-    <!-- artifact information row -->
+    <!-- artifact path row -->
     </div>
 
     <!-- hash information row -->

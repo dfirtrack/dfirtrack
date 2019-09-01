@@ -40,6 +40,7 @@ class Artifact(models.Model):
     artifact_sha1 = models.CharField(max_length=40, blank=True, null=True)
     artifact_sha256 = models.CharField(max_length=64, blank=True, null=True)
     artifact_slug = models.CharField(max_length=4096)
+    artifact_source_path = models.CharField(max_length=4096, blank=True, null=True)
     artifact_storage_path = models.CharField(max_length=4096, unique=True)
     artifact_uuid = models.UUIDField(editable=False)
 
@@ -67,12 +68,18 @@ class Artifact(models.Model):
             log_text +
             " artifact_id:" + str(artifact.artifact_id) +
             "|artifact_name:" + str(artifact.artifact_name) +
+            "|artifactstatus:" + str(artifact.artifactstatus.artifactstatus_name) +
+            "|artifacttype:" + str(artifact.artifacttype.artifacttype_name) +
+            "|system:" + str(artifact.system) +
+            "|case:" + str(artifact.case) +
             "|artifact_note:" + str(artifact.artifact_note) +
             "|artifact_slug:" + str(artifact.artifact_slug) +
+            "|artifact_requested_time:" + str(artifact.artifact_requested_time) +
             "|artifact_acquisition_time:" + str(artifact.artifact_acquisition_time) +
 	    "|artifact_md5" + str(artifact.artifact_md5) +
 	    "|artifact_sha1" + str(artifact.artifact_sha1) +
 	    "|artifact_sha256" + str(artifact.artifact_sha256) +
+	    "|artifact_source_path" + str(artifact.artifact_source_path) +
 	    "|artifact_storage_path" + str(artifact.artifact_storage_path) +
 	    "|artifact_uuid" + str(artifact.artifact_uuid)
         )
@@ -81,18 +88,20 @@ class Artifact(models.Model):
         # generate slug
         self.artifact_slug = slugify(self.artifact_name)
 
-        # we check if we have a new artifact
+        # check for new artifact
         if not self.pk:
+            """ tasks only to perform for a new artifact """
+
             # generate uuid type4 (completely random type)
             self.artifact_uuid = uuid.uuid4()
+
+            # generate the artifact path in the EVIDENCE_PATH
+            self.artifact_storage_path = self.create_artifact_storage_path(self.system.system_uuid, self.artifacttype.artifacttype_slug, self.artifact_uuid)
 
         # set hashes to calculating while hash calculating is performed in background
         # self.artifact_md5 = 'Calculating...'
         # self.artifact_sha1 = 'Calculating...'
         # self.artifact_sha256 = 'Calculating...'
-
-        # we generate the artifact path in the EVIDENCE_PATH
-        artifact_evidence_path = self.create_artifact_directory(self.system.system_uuid, self.artifacttype.artifacttype_slug, self.artifact_uuid)
 
         ## check if the storage_path from the form is equal to the artifact_evidence_path
         #if self.artifact_storage_path != artifact_evidence_path:
@@ -119,16 +128,15 @@ class Artifact(models.Model):
     def get_update_url(self):
         return reverse('artifacts_artifact_update', args=(self.pk,))
 
-    def create_artifact_directory(self, system_uuid, artifacttype, artifact_uuid):
+    def create_artifact_storage_path(self, system_uuid, artifacttype, artifact_uuid):
             """ Generates the directory in which the artifact will be stored """
-            # we generate the path for the evidence file
-            artifact_evidence_path = (EVIDENCE_PATH+'/'+ str(system_uuid)+'/'+ artifacttype + '/' + str(artifact_uuid))
-            if os.path.exists(artifact_evidence_path):
-                print("Artifact-Path: {} already exists.".format(artifact_evidence_path))
-                return artifact_evidence_path
-            else:
-                os.makedirs(artifact_evidence_path)
-                return artifact_evidence_path
+
+            # generate the path for the artifact to store it in EVIDENCE_PATH
+            artifact_storage_path = (EVIDENCE_PATH + '/' + str(system_uuid) + '/' + artifacttype + '/' + str(artifact_uuid))
+            # create directory if it does not exist
+            if not os.path.exists(artifact_storage_path):
+                os.makedirs(artifact_storage_path)
+                return artifact_storage_path
 
 class Artifactstatus(models.Model):
     ''' Artifactstatus that shows the current status of the artifact like: New, Requested, Processed, Imported...'''
