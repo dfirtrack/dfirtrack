@@ -33,9 +33,9 @@ class Artifact(models.Model):
 
     # main entity information
     artifact_acquisition_time = models.DateTimeField(blank=True, null=True)
-    artifact_note = models.TextField(blank=True, null=True)
     artifact_md5 = models.CharField(max_length=32, blank=True, null=True)
     artifact_name = models.CharField(max_length=4096)
+    artifact_note = models.TextField(blank=True, null=True)
     artifact_requested_time = models.DateTimeField(blank=True, null=True)
     artifact_sha1 = models.CharField(max_length=40, blank=True, null=True)
     artifact_sha256 = models.CharField(max_length=64, blank=True, null=True)
