@@ -1,22 +1,37 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import DetailView, ListView, UpdateView, CreateView, RedirectView
-from django.db import IntegrityError
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
-from dfirtrack_artifacts import forms
-from dfirtrack_artifacts import models as artifacts_models
-from dfirtrack_main import models as main_models
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render
+from django.views.generic import DetailView, ListView, UpdateView, CreateView
+from dfirtrack_artifacts.forms import ArtifactForm
+from dfirtrack_artifacts.models import Artifact
 from dfirtrack_main.logger.default_logger import debug_logger
 
 class ArtifactListView(LoginRequiredMixin, ListView):
-    model = artifacts_models.Artifact
+    login_url = '/login'
+    model = Artifact
     template_name = 'dfirtrack_artifacts/artifact/artifact_list.html'
     context_object_name = 'artifact_list'
 
+    def get_queryset(self):
+        debug_logger(str(self.request.user), ' ARTIFACT_LIST_ENTERED')
+        return Artifact.objects.order_by('artifact_id')
+
+class ArtifactDetailView(LoginRequiredMixin, DetailView):
+    login_url = '/login'
+    model = Artifact
+    template_name = 'dfirtrack_artifacts/artifact/artifact_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        systemtype = self.object
+        systemtype.logger(str(self.request.user), " ARTIFACT_DETAIL_ENTERED")
+        return context
+
 class ArtifactCreateView(LoginRequiredMixin, CreateView):
-    model = artifacts_models.Artifact
+    login_url = '/login'
+    model = Artifact
     template_name = 'dfirtrack_artifacts/artifact/artifact_add.html'
-    form_class = forms.ArtifactForm
+    form_class = ArtifactForm
 
     def get(self, request, *args, **kwargs):
         if 'system' in request.GET:
@@ -26,7 +41,7 @@ class ArtifactCreateView(LoginRequiredMixin, CreateView):
             )
         else:
             form = self.form_class()
-        debug_logger(str(request.user), " ARTIFACT_ADD_ENTERED")
+        debug_logger(str(request.user), ' ARTIFACT_ADD_ENTERED')
         return render(request, self.template_name, {'form': form})
 
     def form_valid(self, form):
@@ -34,7 +49,7 @@ class ArtifactCreateView(LoginRequiredMixin, CreateView):
         self.object.artifact_created_by_user_id = self.request.user
         self.object.artifact_modified_by_user_id = self.request.user
         self.object.save()
-        self.object.logger(str(self.request.user), "ARTIFACT_ADD_EXECUTED")
+        self.object.logger(str(self.request.user), ' ARTIFACT_ADD_EXECUTED')
         messages.success(self.request, 'Artifact added')
         return super().form_valid(form) 
 
@@ -42,20 +57,22 @@ class ArtifactCreateView(LoginRequiredMixin, CreateView):
         messages.error(self.request, 'Artifact could not be added')
         return super().form_invalid(form)
 
-
-class ArtifactDetailView(LoginRequiredMixin, DetailView):
-    model = artifacts_models.Artifact
-    template_name = 'dfirtrack_artifacts/artifact/artifact_detail.html'
-
 class ArtifactUpdateView(LoginRequiredMixin, UpdateView):
-    model = artifacts_models.Artifact
+    login_url = '/login'
+    model = Artifact
     template_name = 'dfirtrack_artifacts/artifact/artifact_edit.html'
-    form_class = forms.ArtifactForm
+    form_class = ArtifactForm
+
+    def get(self, request, *args, **kwargs):
+        artifact = self.get_object()
+        form = self.form_class(instance = artifact)
+        artifact.logger(str(request.user), ' ARTIFACT_EDIT_ENTERED')
+        return render(request, self.template_name, {'form': form})
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.artifact_modified_by_user_id = self.request.user
         self.object.save()
-        self.object.logger(str(self.request.user), "ARTIFACT_EDIT_EXECUTED")
+        self.object.logger(str(self.request.user), ' ARTIFACT_EDIT_EXECUTED')
         messages.success(self.request, 'Artifact edited')
         return super().form_valid(form)

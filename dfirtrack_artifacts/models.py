@@ -12,13 +12,12 @@ import shutil
 from dfirtrack_main import models as main_models
 from dfirtrack.config import EVIDENCE_PATH
 
-#Get active user model
+# get active user model
 User = get_user_model()
 
-#initialize logger
+# initialize logger
 stdlogger = logging.getLogger(__name__)
 
-# Create your models here.
 class Artifact(models.Model):
     ''' Model used for storing a forensic artifact '''
 
@@ -76,12 +75,12 @@ class Artifact(models.Model):
             "|artifact_slug:" + str(artifact.artifact_slug) +
             "|artifact_requested_time:" + str(artifact.artifact_requested_time) +
             "|artifact_acquisition_time:" + str(artifact.artifact_acquisition_time) +
-	    "|artifact_md5" + str(artifact.artifact_md5) +
-	    "|artifact_sha1" + str(artifact.artifact_sha1) +
-	    "|artifact_sha256" + str(artifact.artifact_sha256) +
-	    "|artifact_source_path" + str(artifact.artifact_source_path) +
-	    "|artifact_storage_path" + str(artifact.artifact_storage_path) +
-	    "|artifact_uuid" + str(artifact.artifact_uuid)
+	    "|artifact_md5:" + str(artifact.artifact_md5) +
+	    "|artifact_sha1:" + str(artifact.artifact_sha1) +
+	    "|artifact_sha256:" + str(artifact.artifact_sha256) +
+	    "|artifact_source_path:" + str(artifact.artifact_source_path) +
+	    "|artifact_storage_path:" + str(artifact.artifact_storage_path) +
+	    "|artifact_uuid:" + str(artifact.artifact_uuid)
         )
 
     def save(self, *args, **kwargs):
@@ -95,7 +94,7 @@ class Artifact(models.Model):
             # generate uuid type4 (completely random type)
             self.artifact_uuid = uuid.uuid4()
 
-            # generate the artifact path in the EVIDENCE_PATH
+            # generate the artifact storage path within EVIDENCE_PATH
             self.artifact_storage_path = self.create_artifact_storage_path(self.system.system_uuid, self.artifacttype.artifacttype_slug, self.artifact_uuid)
 
         # set hashes to calculating while hash calculating is performed in background
@@ -120,6 +119,7 @@ class Artifact(models.Model):
         #    self.artifact_storage_path = artifact_evidence_path
         ##TODO: check if this works or if wee need
         ## super().save(*args,**kwargs)
+
         return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -129,7 +129,7 @@ class Artifact(models.Model):
         return reverse('artifacts_artifact_update', args=(self.pk,))
 
     def create_artifact_storage_path(self, system_uuid, artifacttype, artifact_uuid):
-            """ Generates the directory in which the artifact will be stored """
+            """ generates the directory in which the artifact will be stored """
 
             # generate the path for the artifact to store it in EVIDENCE_PATH
             artifact_storage_path = (EVIDENCE_PATH + '/' + str(system_uuid) + '/' + artifacttype + '/' + str(artifact_uuid))
@@ -139,7 +139,7 @@ class Artifact(models.Model):
                 return artifact_storage_path
 
 class Artifactstatus(models.Model):
-    ''' Artifactstatus that shows the current status of the artifact like: New, Requested, Processed, Imported...'''
+    ''' Artifactstatus that shows the current status of the artifact like: New, Requested, Processed, Imported, ...'''
 
     # primary key
     artifactstatus_id = models.AutoField(primary_key=True)
@@ -170,8 +170,6 @@ class Artifactstatus(models.Model):
     def save(self, *args, **kwargs):
         # generate slug
         self.artifactstatus_slug = slugify(self.artifactstatus_name)
-        #TODO: check if this works or if wee need
-        # super().save(*args,**kwargs)
         return super().save(*args, **kwargs)
     
     def get_absolute_url(self):
@@ -199,7 +197,7 @@ class Artifacttype(models.Model):
         return 'Artifacttype {0}'.format(str(self.artifacttype_name))
 
     # define logger
-    def logger(artifactstatus, request_user, log_text):
+    def logger(artifacttype, request_user, log_text):
         stdlogger.info(
             request_user +
             log_text +
@@ -215,10 +213,10 @@ class Artifacttype(models.Model):
     def get_update_url(self):
         return reverse('artifacts_artifacttype_update', args=(self.pk,))
     
-    # override save()-method
     def save(self, *args, **kwargs):
+        # generate slug
         self.artifacttype_slug = slugify(self.artifacttype_name)
-        super().save(*args, **kwargs)
+        return super().save(*args, **kwargs)
 
 #TODO: Signals for DjangoQ reciever that creates the hassums
 #def artifact_created()

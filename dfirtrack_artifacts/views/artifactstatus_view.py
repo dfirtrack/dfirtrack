@@ -18,9 +18,8 @@ class ArtifactstatusDetailView(LoginRequiredMixin, DetailView):
     model = Artifactstatus
     template_name = 'dfirtrack_artifacts/artifactstatus/artifactstatus_detail.html'
 
-    # TODO: does not work as expected (and in contrast to dfirtrack_main.views)
-    #def get_context_data(self, **kwargs):
-    #    context = super().get_context_data(**kwargs)
-    #    artifactstatus = self.object
-    #    artifactstatus.logger(str(self.request.user), ' ARTIFACTSTATUSDETAIL_ENTERED')
-    #    return context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        artifactstatus = self.object
+        artifactstatus.logger(str(self.request.user), " ARTIFACTSTATUSDETAIL_ENTERED")
+        return context

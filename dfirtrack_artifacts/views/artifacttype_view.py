@@ -1,4 +1,6 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render
 from django.views.generic import DetailView, ListView, UpdateView, CreateView
 from dfirtrack_artifacts.models import Artifacttype
 from dfirtrack_artifacts.forms import ArtifacttypeForm
@@ -19,12 +21,11 @@ class ArtifacttypeDetailView(LoginRequiredMixin, DetailView):
     model = Artifacttype
     template_name = 'dfirtrack_artifacts/artifacttype/artifacttype_detail.html'
 
-    # TODO: does not work as expected (and in contrast to dfirtrack_main.views)
-    #def get_context_data(self, **kwargs):
-    #    context = super().get_context_data(**kwargs)
-    #    artifacttype = self.object
-    #    artifacttype.logger(str(self.request.user), " ARTIFACTTYPE_DETAIL_ENTERED")
-    #    return context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        artifacttype = self.object
+        artifacttype.logger(str(self.request.user), ' ARTIFACTTYPE_DETAIL_ENTERED')
+        return context
 
 class ArtifacttypeCreateView(LoginRequiredMixin, CreateView):
     login_url = '/login'
@@ -32,8 +33,31 @@ class ArtifacttypeCreateView(LoginRequiredMixin, CreateView):
     form_class = ArtifacttypeForm
     template_name = 'dfirtrack_artifacts/artifacttype/artifacttype_add.html'
 
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        debug_logger(str(request.user), ' ARTIFACTTYPE_ADD_ENTERED')
+        return render(request, self.template_name, {'form': form})
+
+    def form_valid(self, form):
+        self.object = form.save()
+        self.object.logger(str(self.request.user), ' ARTIFACTTYPE_ADD_EXECUTED')
+        messages.success(self.request, 'Artifacttype added')
+        return super().form_valid(form)
+
 class ArtifacttypeUpdateView(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Artifacttype
     form_class = ArtifacttypeForm
     template_name = 'dfirtrack_artifacts/artifacttype/artifacttype_edit.html'
+
+    def get(self, request, *args, **kwargs):
+        artifacttype = self.get_object()
+        form = self.form_class(instance = artifacttype)
+        artifacttype.logger(str(request.user), ' ARTIFACTTYPE_EDIT_ENTERED')
+        return render(request, self.template_name, {'form': form})
+
+    def form_valid(self, form):
+        self.object = form.save()
+        self.object.logger(str(self.request.user), ' ARTIFACTTYPE_EDIT_EXECUTED')
+        messages.success(self.request, 'Artifacttype edited')
+        return super().form_valid(form)
