@@ -150,11 +150,11 @@ class Artifactstatus(models.Model):
     artifactstatus_slug = models.CharField(max_length=255, unique=True)
 
     class Meta:
-        ordering = ('artifactstatus_name',)
+        ordering = ('artifactstatus_id',)
 
     # string representation
     def __str__(self):
-        return 'Artifactstatus {0}'.format(str(self.artifactstatus_name))
+        return self.artifactstatus_name
 
     # define logger
     def logger(artifactstatus, request_user, log_text):
@@ -190,11 +190,11 @@ class Artifacttype(models.Model):
     artifacttype_slug = models.CharField(max_length=255, unique=True)
 
     class Meta:
-        ordering = ('artifacttype_name',)
+        ordering = ('artifacttype_id',)
 
     # string representation
     def __str__(self):
-        return 'Artifacttype {0}'.format(str(self.artifacttype_name))
+        return self.artifacttype_name
 
     # define logger
     def logger(artifacttype, request_user, log_text):
