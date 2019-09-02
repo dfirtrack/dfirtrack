@@ -6,7 +6,7 @@
 
 <!-- page title -->
 <title>
-    Artifacttype
+    Artifacttype '{{ artifacttype.artifacttype_name }}'{% if artifacttype.artifact_set.all %} (a: {{ artifacttype.artifact_set.all|length }}){% endif %}
 </title>
 
 {% load staticfiles %}

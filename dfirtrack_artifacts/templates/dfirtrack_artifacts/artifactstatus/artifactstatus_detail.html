@@ -6,7 +6,7 @@
 
 <!-- page title -->
 <title>
-    Artifactstatus '{{ artifactstatus.artifactstatus_name }}'{% if artifactstatus.artifact_set.all %} (t: {{ artifactstatus.artifact_set.all|length }}){% endif %}
+    Artifactstatus '{{ artifactstatus.artifactstatus_name }}'{% if artifactstatus.artifact_set.all %} (a: {{ artifactstatus.artifact_set.all|length }}){% endif %}
 </title>
 
 {% load staticfiles %}
