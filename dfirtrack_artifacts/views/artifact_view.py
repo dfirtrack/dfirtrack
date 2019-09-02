@@ -51,6 +51,10 @@ class ArtifactCreateView(LoginRequiredMixin, CreateView):
         self.object.save()
         self.object.logger(str(self.request.user), ' ARTIFACT_ADD_EXECUTED')
         messages.success(self.request, 'Artifact added')
+
+        # check for existing hashes
+        self.object.check_existing_hashes(self.request)
+
         return super().form_valid(form) 
 
     def form_invalid(self, form):
@@ -75,4 +79,8 @@ class ArtifactUpdateView(LoginRequiredMixin, UpdateView):
         self.object.save()
         self.object.logger(str(self.request.user), ' ARTIFACT_EDIT_EXECUTED')
         messages.success(self.request, 'Artifact edited')
+
+        # check for existing hashes
+        self.object.check_existing_hashes(self.request)
+
         return super().form_valid(form)

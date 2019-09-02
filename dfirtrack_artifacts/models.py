@@ -1,6 +1,7 @@
+from django.contrib import messages
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models import *
-from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.contrib.auth.models import User
 import logging
@@ -84,6 +85,7 @@ class Artifact(models.Model):
         )
 
     def save(self, *args, **kwargs):
+
         # generate slug
         self.artifact_slug = slugify(self.artifact_name)
 
@@ -137,6 +139,37 @@ class Artifact(models.Model):
             if not os.path.exists(artifact_storage_path):
                 os.makedirs(artifact_storage_path)
                 return artifact_storage_path
+
+    def check_existing_hashes(self, request):
+        """
+        function informs user (via messages) about existing hashes (MD5, SHA1, SHA256) when creating or updating artifacts
+        this may legit or even interesting for the analyst
+        or because of an error during workflow
+        """
+
+        # check for md5 for this artifact
+        if self.artifact_md5:
+            # exclude this artifact, only check all others
+            artifacts = Artifact.objects.filter(artifact_md5=self.artifact_md5).exclude(artifact_id=self.artifact_id)
+            # throw warning if there are any matches
+            if artifacts:
+                messages.warning(request, 'MD5 already exists for other artifact(s)')
+
+        # check for sha1 for this artifact
+        if self.artifact_sha1:
+            # exclude this artifact, only check all others
+            artifacts = Artifact.objects.filter(artifact_sha1=self.artifact_sha1).exclude(artifact_id=self.artifact_id)
+            # throw warning if there are any matches
+            if artifacts:
+                messages.warning(request, 'SHA1 already exists for other artifact(s)')
+
+        # check for sha256 for this artifact
+        if self.artifact_sha256:
+            # exclude this artifact, only check all others
+            artifacts = Artifact.objects.filter(artifact_sha256=self.artifact_sha256).exclude(artifact_id=self.artifact_id)
+            # throw warning if there are any matches
+            if artifacts:
+                messages.warning(request, 'SHA256 already exists for other artifact(s)')
 
 class Artifactstatus(models.Model):
     ''' Artifactstatus that shows the current status of the artifact like: New, Requested, Processed, Imported, ...'''
