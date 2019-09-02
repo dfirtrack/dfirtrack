@@ -16,7 +16,7 @@ class ArtifacttypeModelTestCase(TestCase):
         # get object
         artifacttype_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_1')
         # compare
-        self.assertEqual(str(artifacttype_1), 'Artifacttype artifacttype_1')
+        self.assertEqual(str(artifacttype_1), 'artifacttype_1')
 
     def test_artifacttype_id_attribute_label(self):
         """ test attribute label """
