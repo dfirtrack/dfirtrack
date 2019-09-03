@@ -84,3 +84,7 @@ class ArtifactUpdateView(LoginRequiredMixin, UpdateView):
         self.object.check_existing_hashes(self.request)
 
         return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Artifact could not be edited')
+        return super().form_invalid(form)

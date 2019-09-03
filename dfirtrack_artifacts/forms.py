@@ -42,6 +42,37 @@ class ArtifactForm(forms.ModelForm):
             'artifact_sha256': forms.TextInput(attrs={'size': '64'}),
         }
 
+    def clean(self):
+        """ check provided hashes for their length """
+
+        super(ArtifactForm, self).clean()
+
+        # check MD5
+        artifact_md5 = self.cleaned_data.get('artifact_md5')
+        # check if MD5 was provided
+        if artifact_md5:
+            # check for length
+            if len(artifact_md5) < 32:
+                self.errors['artifact_md5'] = self.error_class(['MD5 is 32 alphanumeric characters in size (' + str(len(artifact_md5)) + ' were provided)'])
+
+        # check SHA1
+        artifact_sha1 = self.cleaned_data.get('artifact_sha1')
+        # check if SHA1 was provided
+        if artifact_sha1:
+            # check for length
+            if len(artifact_sha1) < 40:
+                self.errors['artifact_sha1'] = self.error_class(['SHA1 is 32 alphanumeric characters in size (' + str(len(artifact_sha1)) + ' were provided)'])
+
+        # check SHA256
+        artifact_sha256 = self.cleaned_data.get('artifact_sha256')
+        # check if SHA256 was provided
+        if artifact_sha256:
+            # check for length
+            if len(artifact_sha256) < 64:
+                self.errors['artifact_sha256'] = self.error_class(['SHA256 is 32 alphanumeric characters in size (' + str(len(artifact_sha256)) + ' were provided)'])
+
+        return self.cleaned_data
+
 class ArtifacttypeForm(forms.ModelForm):
     class Meta:
         model = Artifacttype
