@@ -49,12 +49,7 @@ $(document).ready( function () {
             { "width": "10%", "targets": 9 },
         ]
     } );
-    $('#table_task_closed').DataTable( {
-        "pageLength": 15,
-        "lengthMenu": [[15, 25, 50, -1], [15, 25, 50, "All"]],
-        "order": [[ 2, "asc" ]]
-    } );
-    $('#table_task_open').DataTable( {
+    $('#table_task').DataTable( {
         "pageLength": 15,
         "lengthMenu": [[15, 25, 50, -1], [15, 25, 50, "All"]],
         "order": [[ 2, "asc" ]]

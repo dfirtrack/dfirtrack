@@ -1,0 +1,108 @@
+<!-- extending maintemplate -->
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+<!-- HTML head in maintemplate -->
+{% block head %}
+
+<!-- page title -->
+<title>
+    Artifactstatus '{{ artifactstatus.artifactstatus_name }}'{% if artifactstatus.artifact_set.all %} (a: {{ artifactstatus.artifact_set.all|length }}){% endif %}
+</title>
+
+{% load staticfiles %}
+
+<!-- HTML head in maintemplate -->
+{% endblock %}
+
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
+{% block content %}
+
+<!-- up button -->
+<div class="row bottom-distance">
+    <div class="col-3">
+        <a href="/artifacts/artifactstatus" type="button" class="btn btn-light copy-false">
+            <img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Up to artifactstatus
+        </a>
+    </div>
+</div>
+
+<!-- artifactstatus name row -->
+<div class="row">
+
+    <!-- artifactstatus name -->
+    <div class="col-3">
+        <h5>
+            Artifactstatus "{{ artifactstatus.artifactstatus_name }}"
+        </h5>
+    </div>
+
+<!-- artifactstatus name row -->
+</div>
+
+<!-- artifactstatus id -->
+<div class="row bottom-distance">
+    <div class="col-3">
+        <small class="text-muted">
+            Artifactstatus-ID: {{ artifactstatus.artifactstatus_id }}
+        </small>
+    </div>
+</div>
+
+<!-- artifactstatus note headline -->
+<div class="row">
+    <div class="col-3">
+        <h5>
+            Note
+        </h5>
+    </div>
+</div>
+
+<!-- artifactstatus note -->
+<div class="row bottom-distance">
+    <div class="col">
+        {% if artifactstatus.artifactstatus_note %}
+            {{ artifactstatus.artifactstatus_note|linebreaks }}
+        {% else %}
+            ---
+        {% endif %}
+    </div>
+</div>
+
+<!-- artifact headline -->
+<div class="row">
+    <div class="col-6">
+        <h5>
+            Artifacts with this status{% if artifactstatus.artifact_set.all %} ({{ artifactstatus.artifact_set.all|length }}){% endif %}
+        </h5>
+    </div>
+</div>
+
+<!-- artifacts -->
+{% if artifactstatus.artifact_set.all %}
+
+    {% for i in artifactstatus.artifact_set.all %}
+        <div class="row top-distance">
+            <div class="col-3">
+                <a href="/artifacts/artifact/detail/{{ i.artifact_id}}">
+                    {{ i.artifact_name }} ([{{ i.system.system_id }}] {{ i.system.system_name }})
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+
+<!-- no artifacts -->
+{% else %}
+    <div class="row top-distance">
+        <div class="col-3">
+            ---
+        </div>
+    </div>
+
+<!-- artifacts -->
+{% endif %}
+
+<!-- HTML body in maintemplate -->
+{% endblock %}

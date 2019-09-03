@@ -1,0 +1,119 @@
+<!-- extending maintemplate -->
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+<!-- HTML head in maintemplate -->
+{% block head %}
+
+<!-- page title -->
+<title>
+    Artifacttype '{{ artifacttype.artifacttype_name }}'{% if artifacttype.artifact_set.all %} (a: {{ artifacttype.artifact_set.all|length }}){% endif %}
+</title>
+
+{% load staticfiles %}
+
+<!-- HTML head in maintemplate -->
+{% endblock %}
+
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
+{% block content %}
+
+<!-- up button -->
+<div class="row bottom-distance">
+    <div class="col-3">
+        <a href="/artifacts/artifacttype" type="button" class="btn btn-light copy-false">
+            <img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Up to artifacttype
+        </a>
+    </div>
+</div>
+
+<!-- javascript for copy button -->
+<script>
+    var clipboard = new ClipboardJS('.btn');
+</script>
+
+<!-- artifacttype name row -->
+<div class="row">
+
+    <!-- artifacttype name -->
+    <div class="col-3">
+        <h5>
+            Artifacttype "{{ artifacttype.artifacttype_name }}"
+        </h5>
+    </div>
+
+<!-- artifacttype name row -->
+</div>
+
+<!-- artifacttype id -->
+<div class="row bottom-distance">
+    <div class="col-3">
+        <small class="text-muted">
+            Artifacttype-ID: {{ artifacttype.artifacttype_id }}
+        </small>
+    </div>
+</div>
+
+<!-- artifacttype note headline -->
+<div class="row">
+    <div class="col-3">
+        <h5>
+            Note
+        </h5>
+    </div>
+</div>
+
+<!-- artifacttype note -->
+<div class="row bottom-distance">
+    <div class="col">
+        {% if artifacttype.artifacttype_note %}
+            {{ artifacttype.artifacttype_note|linebreaks }}
+        {% else %}
+            ---
+        {% endif %}
+    </div>
+</div>
+
+<!-- artifact headline -->
+<div class="row">
+    <div class="col-6">
+        <h5>
+            Artifacts of this type{% if artifacttype.artifact_set.all %} ({{ artifacttype.artifact_set.all|length }}){% endif %}
+        </h5>
+    </div>
+</div>
+
+<!-- artifacts -->
+{% if artifacttype.artifact_set.all %}
+
+    {% for i in artifacttype.artifact_set.all %}
+        <div class="row top-distance">
+            <div class="col-3">
+                <a href="/artifacts/artifact/detail/{{ i.artifact_id}}">
+                    {{ i.artifact_name }} ([{{ i.system.system_id }}] {{ i.system.system_name }})
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+
+<!-- no artifacts -->
+{% else %}
+<div class="row top-distance">
+    <div class="col-3">
+        ---
+    </div>
+</div>
+
+<!-- artifacts -->
+{% endif %}
+
+<!-- edit button -->
+<a href="/artifacts/artifacttype/update/{{ artifacttype.artifacttype_id }}" type="button" class="btn btn-light top-distance copy-false">
+    <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon right-distance copy-false" alt="icon">
+    Edit
+</a>
+
+<!-- HTML body in maintemplate -->
+{% endblock %}

@@ -1,7 +1,12 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 import logging
 from time import strftime
+import uuid
+import os
+import shutil
+from dfirtrack.config import EVIDENCE_PATH
 
 # initialize logger
 stdlogger = logging.getLogger(__name__)
@@ -86,6 +91,12 @@ class Case(models.Model):
             "|case_name:" + str(case.case_name) +
             "|case_is_incident:" + str(case.case_is_incident)
         )
+
+    def get_absolute_url(self):
+        return reverse('casesdetail', args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse('cases_edit', args=(self.pk,))
 
 class Company(models.Model):
 
@@ -581,6 +592,8 @@ class System(models.Model):
 
     # main entity information
     system_uuid = models.UUIDField(editable=False, null=True, unique=True)
+    #TODO: use GIRAF logic to generate UUID when saving system
+    #system_uuid = models.UUIDField(editable=False, blank=False, null=False, unique=True)
     system_name = models.CharField(max_length=50)
     system_install_time = models.DateTimeField(blank=True, null=True)
     system_lastbooted_time = models.DateTimeField(blank=True, null=True)
@@ -607,6 +620,18 @@ class System(models.Model):
         else:
             installtime = self.system_install_time.strftime('%Y-%m-%d')
             return '[%s] %s (%s)' % (str(self.system_id), self.system_name, installtime)
+
+    # extend save method
+    def save(self, *args, **kwargs):
+
+        """ create uuid """
+
+        # TODO: possibly remove, if GIRAF creates uuid
+        # check for new system
+        if not self.pk:
+            # generate uuid type4 (completely random type)
+            self.system_uuid = uuid.uuid4()
+        return super().save(*args, **kwargs)
 
     # define logger
     def logger(system, request_user, log_text):
@@ -721,6 +746,26 @@ class System(models.Model):
             "|system_export_markdown:" + str(system.system_export_markdown) +
             "|system_export_spreadsheet:" + str(system.system_export_spreadsheet)
         )
+
+    def create_evidence_directory(self):
+        """
+        Check if the evidence directory for the system was already created
+        otherwise it will be created.
+        """
+        system_evidence_path = (EVIDENCE_PATH + '/' + str(self.uuid))
+        if os.path.exists(system_evidence_path):
+            self.logger(request_user, "System-Path: {} already exists.".format(system_evidence_path))
+            return False
+        else:
+            os.makedirs(system_evidence_path)
+            self.logger(request_user, "System-Path: {} created.".format(system_evidence_path))
+            return True
+
+    def get_absolute_url(self):
+        return reverse('systemdetail', args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse('systems_edit', args=(self.pk,))
 
 class Systemstatus(models.Model):
 

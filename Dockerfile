@@ -1,7 +1,7 @@
 FROM python:3.5
 RUN mkdir /app
 WORKDIR /app
-COPY . .
+COPY . /app
 RUN apt-get update && apt-get -y install postgresql-client
 RUN pip install -r requirements.txt
 RUN mkdir log markdown static

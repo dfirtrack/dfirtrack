@@ -179,6 +179,34 @@
 
                 <!-- nav bar item -->
                 <li class="nav-item">
+                    <a class="nav-link active top-distance" href="/artifacts/artifact">
+                        Artifacts
+                    </a>
+                </li>
+
+                <!-- nav bar dropdown item -->
+                <li class="nav-item dropdown">
+
+                    <!-- nav bar dropdown toggle -->
+                    <a class="nav-link dropdown-toggle active top-distance" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                        Artifactitems
+                    </a>
+
+                    <!-- nav bar dropdown menu -->
+                    <div class="dropdown-menu">
+
+                        <!-- section -->
+                        <div class="dropdown-header">Artifact information</div>
+                        <a class="dropdown-item" href="{% url 'artifacts_artifactstatus_list' %}">Artifactstatus</a>
+                        <a class="dropdown-item" href="{% url 'artifacts_artifacttype_list' %}">Artifacttype</a>
+
+                    <!-- nav bar dropdown menu -->
+                    </div>
+                <!-- nav bar dropdown item -->
+                </li>
+
+                <!-- nav bar item -->
+                <li class="nav-item">
                     <a class="nav-link active top-distance" href="/tasks">
                         Tasks
                     </a>

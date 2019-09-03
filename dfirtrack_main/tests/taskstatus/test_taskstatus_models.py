@@ -19,7 +19,7 @@ class TaskstatusModelTestCase(TestCase):
         self.assertEqual(str(taskstatus_1), 'taskstatus_1')
 
     def test_taskstatus_id_attribute_label(self):
-        """ test attribute label """""" test string representation """
+        """ test attribute label """
 
         # get object
         taskstatus_1 = Taskstatus.objects.get(taskstatus_name='taskstatus_1')
@@ -29,7 +29,7 @@ class TaskstatusModelTestCase(TestCase):
         self.assertEquals(field_label, 'taskstatus id')
 
     def test_taskstatus_name_attribute_label(self):
-        """ test attribute label """""" test string representation """
+        """ test attribute label """
 
         # get object
         taskstatus_1 = Taskstatus.objects.get(taskstatus_name='taskstatus_1')

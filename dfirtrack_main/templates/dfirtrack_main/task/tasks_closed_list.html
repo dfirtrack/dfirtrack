@@ -40,151 +40,18 @@
 </div>
 
 <!-- datatable task open -->
-<table id="table_task_open" class="display" width="100%">
+<table id="table_task" class="display" width="100%">
 
     <!-- table head -->
     <thead>
-
-        <!-- table row -->
-        <tr>
-
-            <!-- task id headline -->
-            <td>
-                ID
-            </td>
-
-            <!-- task name headline -->
-            <td>
-                Task
-            </td>
-
-            <!-- system headline -->
-            <td>
-                System
-            </td>
-
-            <!-- task user headline -->
-            <td>
-                User
-            </td>
-
-            <!-- taskstatus headline -->
-            <td>
-                Status
-            </td>
-
-            <!-- taskpriority headline -->
-            <td>
-                Priority
-            </td>
-
-            <!-- task due date headline -->
-            <td>
-                Due
-            </td>
-
-            <!-- task create date headline -->
-            <td>
-                Created
-            </td>
-
-            <!-- task modify date headline -->
-            <td>
-                Modified
-            </td>
-
-        <!-- table row -->
-        </tr>
-
-    <!-- table head -->
+        {% include "dfirtrack_main/includes/datatable_thead_table_task.html" %}
     </thead>
 
     <!-- table body -->
     <tbody>
-
         {% for i in task_list %}
-
-            <!-- table row -->
-            <tr>
-
-                <!-- task id -->
-                <td>
-                    {{ i.task_id }}
-                </td>
-
-                <!-- task name -->
-                <td>
-                    <a href="/tasks/{{ i.task_id }}" type="button" class="btn btn-primary btn-sm sharp copy-true">
-                        <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                        {{ i.taskname }}
-                    </a>
-                </td>
-
-                <!-- system -->
-                <td>
-                    {% if i.system %}
-                        <a href="/systems/{{ i.system.system_id }}" type="button" class="btn btn-primary btn-sm copy-true">
-                            <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                            {{ i.system.system_name }}
-                        </a>
-                    {% else %}
-                        ---
-                    {% endif %}
-                </td>
-
-                <!-- task user -->
-                <td>
-                    {% if i.task_assigned_to_user_id %}
-                        {{ i.task_assigned_to_user_id }}
-                    {% else %}
-                        ---
-                    {% endif %}
-                </td>
-
-                <!-- taskstatus -->
-                <td>
-                    <a href="/taskstatuss/{{ i.taskstatus.taskstatus_id }}">
-                        {% with taskstatus=i.taskstatus %}
-                            {% include "dfirtrack_main/includes/button_taskstatus.html" %}
-                        {% endwith %}
-                        {{ i.taskstatus }}
-                    </a>
-                </td>
-
-                <!-- taskpriority -->
-                <td>
-                    <a href="/taskprioritys/{{ i.taskpriority.taskpriority_id }}">
-                        {% with taskpriority=i.taskpriority %}
-                            {% include "dfirtrack_main/includes/button_taskpriority.html" %}
-                        {% endwith %}
-                        {{ i.taskpriority }}
-                    </a>
-                </td>
-
-                <!-- task due time -->
-                <td>
-                    {% if i.task_due_time %}
-                        {{ i.task_due_time|date:"Y-m-d H:i" }}
-                    {% else %}
-                        ---
-                    {% endif %}
-                </td>
-
-                <!-- task create time -->
-                <td class="text-secondary">
-                    {{ i.task_create_time|date:"Y-m-d H:i" }}
-                </td>
-
-                <!-- task modify time -->
-                <td class="text-secondary">
-                    {{ i.task_modify_time|date:"Y-m-d H:i" }}
-                </td>
-
-            <!-- table row -->
-            </tr>
+            {% include "dfirtrack_main/includes/datatable_tbody_table_task.html" %}
         {% endfor %}
-
-    <!-- table body -->
     </tbody>
 
 <!-- datatable task open -->

@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^$', views.login_redirect, name='login_redirect'),
     url(r'^admin/', admin.site.urls),
     url(r'^', include('dfirtrack_main.urls')),
+    url(r'^artifacts/', include('dfirtrack_artifacts.urls')),
     url(r'^api/', include('dfirtrack_api.urls')),
     url(r'^login/', login, {'template_name': 'dfirtrack_main/login.html'}),
     url(r'^logout/', logout, {'template_name': 'dfirtrack_main/logout.html'})
