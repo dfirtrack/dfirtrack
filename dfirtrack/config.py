@@ -10,8 +10,7 @@ from os.path import expanduser
 
 # MAIN APP SETTINGS (dfirtrack.settings)
 ## change path for the log file (default: `$HOME`)
-LOGGING_PATH = expanduser("~")
-#LOGGING_PATH = ''
+LOGGING_PATH = expanduser('~')
 ## change path for the markdown documentation
 MARKDOWN_PATH = ''
 
@@ -19,7 +18,7 @@ MARKDOWN_PATH = ''
 SYSTEM_NAME_EDITABLE = False
 
 # ARTIFACTS
-EVIDENCE_PATH = '/tmp'
+EVIDENCE_PATH = expanduser('~') + '/dfirtrack_artifact_storage'
 
 # IMPORTER
 
