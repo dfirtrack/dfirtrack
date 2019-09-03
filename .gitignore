@@ -364,12 +364,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.gitignore.io/api/go,vim,venv,linux,macos,python,windows,pycharm+all,visualstudiocode
-# Custom Notes
-dfirtrack_artifacts/notes.md
-# migrations for dfirtrack_artifacts
-dfirtrack_artifacts/migrations/
-# docker TODO: remove this after fixing
-docker_foo/
 
 # Venv
 venv/
