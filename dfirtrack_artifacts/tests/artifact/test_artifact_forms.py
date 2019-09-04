@@ -410,6 +410,26 @@ class ArtifactFormTestCase(TestCase):
         # compare
         self.assertFalse(form.is_valid())
 
+    def test_artifact_md5_too_less_chars(self):
+        """ test for min length """
+
+        # get object
+        artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1').artifactstatus_id
+        # get object
+        artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
+        # get object
+        system_id = System.objects.get(system_name='system_1').system_id
+        # get object
+        form = ArtifactForm(data = {
+            'artifact_name': 'artifact_1',
+            'artifactstatus': artifactstatus_id,
+            'artifacttype': artifacttype_id,
+            'system': system_id,
+            'artifact_md5': 'mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm',
+        })
+        # compare
+        self.assertFalse(form.is_valid())
+
     def test_artifact_sha1_proper_chars(self):
         """ test for max length """
 
@@ -450,6 +470,26 @@ class ArtifactFormTestCase(TestCase):
         # compare
         self.assertFalse(form.is_valid())
 
+    def test_artifact_sha1_too_less_chars(self):
+        """ test for min length """
+
+        # get object
+        artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1').artifactstatus_id
+        # get object
+        artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
+        # get object
+        system_id = System.objects.get(system_name='system_1').system_id
+        # get object
+        form = ArtifactForm(data = {
+            'artifact_name': 'artifact_1',
+            'artifactstatus': artifactstatus_id,
+            'artifacttype': artifacttype_id,
+            'system': system_id,
+            'artifact_sha1': 'sssssssssssssssssssssssssssssssssssssss',
+        })
+        # compare
+        self.assertFalse(form.is_valid())
+
     def test_artifact_sha256_proper_chars(self):
         """ test for max length """
 
@@ -486,6 +526,26 @@ class ArtifactFormTestCase(TestCase):
             'artifacttype': artifacttype_id,
             'system': system_id,
             'artifact_sha256': 'sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss',
+        })
+        # compare
+        self.assertFalse(form.is_valid())
+
+    def test_artifact_sha256_too_less_chars(self):
+        """ test for min length """
+
+        # get object
+        artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1').artifactstatus_id
+        # get object
+        artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
+        # get object
+        system_id = System.objects.get(system_name='system_1').system_id
+        # get object
+        form = ArtifactForm(data = {
+            'artifact_name': 'artifact_1',
+            'artifactstatus': artifactstatus_id,
+            'artifacttype': artifacttype_id,
+            'system': system_id,
+            'artifact_sha256': 'sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss',
         })
         # compare
         self.assertFalse(form.is_valid())
