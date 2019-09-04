@@ -129,18 +129,6 @@ LOGGING = {
         },
     },
     'handlers': {
-        'request': {
-            'level': 'INFO',
-            'class': 'logging.FileHandler',
-            'filename': LOGGING_PATH + '/' + 'django_request.log',
-	    'formatter': 'std_formatter',
-        },
-        'database': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': LOGGING_PATH + '/' + 'django_database.log',
-	    'formatter': 'std_formatter',
-        },
         'customlog': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
@@ -149,14 +137,9 @@ LOGGING = {
         },
     },
     'loggers': {
-        'django': {
-            'handlers': ['request'],
+        'dfirtrack_artifacts': {
+            'handlers': ['customlog'],
             'level': 'INFO',
-            'propagate': True,
-	},
-        'django.db.backends': {
-            'handlers': ['database'],
-            'level': 'DEBUG',
             'propagate': True,
         },
         'dfirtrack_main': {
