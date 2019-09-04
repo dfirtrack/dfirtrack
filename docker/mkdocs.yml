@@ -5,4 +5,4 @@ markdown_extensions:
 pages:
 - Home: index.md
 - Systems:
-- foo: index.md
+  - foo: index.md
