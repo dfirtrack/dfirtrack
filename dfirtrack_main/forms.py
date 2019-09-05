@@ -1,23 +1,6 @@
 from django import forms
 from django.utils.translation import gettext_lazy
-from dfirtrack_main.models import Analysisstatus, Analystmemo, Case, Company, Contact, Division, Domain, Entry, Headline, Ip, Location, Os, Osimportname, Reason, Recommendation, Reportitem, Serviceprovider, System, Systemstatus, Systemtype, Systemuser, Tag, Task, Taskname, Taskpriority, Taskstatus
-
-class AnalysisstatusForm(forms.ModelForm):
-    class Meta:
-        model = Analysisstatus
-        # this HTML forms are shown
-        fields = (
-            'analysisstatus_name',
-            'analysisstatus_note',
-        )
-        # non default form labeling
-        labels = {
-            'analysisstatus_name': gettext_lazy('Analysisstatus name (*)'),
-        }
-        # special form type or option
-        widgets = {
-            'analysisstatus_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
-        }
+from dfirtrack_main.models import Analystmemo, Case, Company, Contact, Division, Dnsname, Domain, Domainuser, Entry, Headline, Location, Os, Osimportname, Reason, Recommendation, Reportitem, Serviceprovider, System, Systemtype, Systemuser, Tag, Task, Taskname
 
 class AnalystmemoForm(forms.ModelForm):
     class Meta:
@@ -31,6 +14,10 @@ class AnalystmemoForm(forms.ModelForm):
         labels = {
             'system': gettext_lazy('System (*)'),
             'analystmemo_note': gettext_lazy('Analystmemo note (*)'),
+        }
+        # special form type or option
+        widgets = {
+            'analystmemo_note': forms.Textarea(attrs={'autofocus': 'autofocus','rows': 20}),
         }
 
 class CaseForm(forms.ModelForm):
@@ -105,6 +92,25 @@ class DivisionForm(forms.ModelForm):
             'division_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
         }
 
+class DnsnameForm(forms.ModelForm):
+    class Meta:
+        model = Dnsname
+        # this HTML forms are shown
+        fields = (
+            'domain',
+            'dnsname_name',
+            'dnsname_note',
+        )
+        # non default form labeling
+        labels = {
+            'dnsname_name': gettext_lazy('DNS name (*)'),
+            'dnsname_note': gettext_lazy('Note'),
+        }
+        # special form type or option
+        widgets = {
+            'dnsname_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
+        }
+
 class DomainForm(forms.ModelForm):
     class Meta:
         model = Domain
@@ -120,6 +126,28 @@ class DomainForm(forms.ModelForm):
         # special form type or option
         widgets = {
             'domain_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
+        }
+
+class DomainuserForm(forms.ModelForm):
+    class Meta:
+        model = Domainuser
+        # this HTML forms are shown
+        fields = (
+            'domainuser_name',
+            'domainuser_is_domainadmin',
+            'domain',
+            'system_was_logged_on',
+        )
+        # non default form labeling
+        labels = {
+            'domainuser_name': gettext_lazy('Domainuser name (*)'),
+            'domain': gettext_lazy('Domain (*)'),
+            'system_was_logged_on': gettext_lazy('Systems where this domainuser was logged on'),
+        }
+        # special form type or option
+        widgets = {
+            'domainuser_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
+            'system_was_logged_on': forms.CheckboxSelectMultiple(),
         }
 
 class EntryForm(forms.ModelForm):
@@ -183,22 +211,6 @@ class HeadlineForm(forms.ModelForm):
         # special form type or option
         widgets = {
             'headline_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
-        }
-
-class IpForm(forms.ModelForm):
-    class Meta:
-        model = Ip
-        # this HTML forms are shown
-        fields = (
-            'ip_ip',
-        )
-        # non default form labeling
-        labels = {
-            'ip_ip': gettext_lazy('IP (*)'),
-        }
-        # special form type or option
-        widgets = {
-            'ip_ip': forms.TextInput(attrs={'autofocus': 'autofocus'}),
         }
 
 class LocationForm(forms.ModelForm):
@@ -305,6 +317,10 @@ class ReportitemForm(forms.ModelForm):
             'reportitem_subheadline': gettext_lazy('Subheadline'),
             'reportitem_note': gettext_lazy('Note (*)'),
         }
+        # special form type or option
+        widgets = {
+            'reportitem_note': forms.Textarea(attrs={'autofocus': 'autofocus','rows': 20}),
+        }
 
 class ServiceproviderForm(forms.ModelForm):
     class Meta:
@@ -324,6 +340,8 @@ class ServiceproviderForm(forms.ModelForm):
         }
 
 class SystemForm(forms.ModelForm):
+    """ this form does not allow editing of system_name """
+
     # large text area for line separated iplist
     iplist = forms.CharField(
         widget=forms.Textarea(
@@ -339,14 +357,13 @@ class SystemForm(forms.ModelForm):
         model = System
         # this HTML forms are shown
         fields = (
-            'system_name',
             'systemstatus',
             'analysisstatus',
             'reason',
             'recommendation',
             'systemtype',
             'domain',
-            'system_dnssuffix',
+            'dnsname',
             'os',
             'osarch',
             'system_install_time',
@@ -360,10 +377,11 @@ class SystemForm(forms.ModelForm):
             'contact',
             'tag',
             'case',
+            'system_export_markdown',
+            'system_export_spreadsheet',
         )
         # special form type or option
         widgets = {
-            'system_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
             'systemstatus': forms.RadioSelect(),
             'analysisstatus': forms.RadioSelect(),
             'reason': forms.RadioSelect(),
@@ -371,7 +389,7 @@ class SystemForm(forms.ModelForm):
             'systemtype': forms.RadioSelect(),
             'ip': forms.GenericIPAddressField(),
             'domain': forms.RadioSelect(),
-            'system_dnssuffix': forms.TextInput(),
+            'dnsname': forms.RadioSelect(),
             'os': forms.RadioSelect(),
             'osarch': forms.RadioSelect(),
             'system_install_time': forms.DateTimeInput(),
@@ -387,6 +405,22 @@ class SystemForm(forms.ModelForm):
             'case': forms.CheckboxSelectMultiple(),
         }
 
+class SystemNameForm(SystemForm):
+    """ this form allows editing of system_name """
+
+    class Meta(SystemForm.Meta):
+        # add system_name to shown HTML forms
+        fields = SystemForm.Meta.fields + (
+            'system_name',
+        )
+        # special form type or option for system_name
+        SystemForm.Meta.widgets['system_name'] = forms.TextInput(
+            attrs={
+                'autofocus': 'autofocus',
+                'placeholder': 'Enter system name / hostname here',
+            }
+        )
+
 class SystemIpFileImport(forms.ModelForm):
 
     # file upload field (variable is used in request object)
@@ -401,6 +435,7 @@ class SystemIpFileImport(forms.ModelForm):
             'reason',
             'systemtype',
             'domain',
+            'dnsname',
             'os',
             'company',
             'location',
@@ -416,6 +451,7 @@ class SystemIpFileImport(forms.ModelForm):
             'reason': forms.RadioSelect(),
             'systemtype': forms.RadioSelect(),
             'domain': forms.RadioSelect(),
+            'dnsname': forms.RadioSelect(),
             'os': forms.RadioSelect(),
             'company': forms.CheckboxSelectMultiple(),
             'location': forms.RadioSelect(),
@@ -448,6 +484,7 @@ class SystemCreatorForm(forms.ModelForm):
             'reason',
             'systemtype',
             'domain',
+            'dnsname',
             'os',
             'osarch',
             'company',
@@ -464,6 +501,7 @@ class SystemCreatorForm(forms.ModelForm):
             'reason': forms.RadioSelect(),
             'systemtype': forms.RadioSelect(),
             'domain': forms.RadioSelect(),
+            'dnsname': forms.RadioSelect(),
             'os': forms.RadioSelect(),
             'osarch': forms.RadioSelect(),
             'company': forms.CheckboxSelectMultiple(),
@@ -472,23 +510,6 @@ class SystemCreatorForm(forms.ModelForm):
             'contact': forms.RadioSelect(),
             'tag': forms.CheckboxSelectMultiple(),
             'case': forms.CheckboxSelectMultiple(),
-        }
-
-class SystemstatusForm(forms.ModelForm):
-    class Meta:
-        model = Systemstatus
-        # this HTML forms are shown
-        fields = (
-            'systemstatus_name',
-            'systemstatus_note',
-        )
-        # non default form labeling
-        labels = {
-            'systemstatus_name': gettext_lazy('Systemstatus name (*)'),
-        }
-        # special form type or option
-        widgets = {
-            'systemstatus_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
         }
 
 class SystemtypeForm(forms.ModelForm):
@@ -514,6 +535,7 @@ class SystemuserForm(forms.ModelForm):
         fields = (
             'systemuser_name',
             'systemuser_lastlogon_time',
+            'systemuser_is_systemadmin',
             'system',
         )
         # non default form labeling
@@ -617,36 +639,3 @@ class TasknameForm(forms.ModelForm):
         widgets = {
             'taskname_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
         }
-
-class TaskpriorityForm(forms.ModelForm):
-    class Meta:
-        model = Taskpriority
-        # this HTML forms are shown
-        fields = (
-            'taskpriority_name',
-        )
-        # non default form labeling
-        labels = {
-            'taskpriority_name': gettext_lazy('Taskpriority name (*)'),
-        }
-        # special form type or option
-        widgets = {
-            'taskpriority_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
-        }
-
-class TaskstatusForm(forms.ModelForm):
-    class Meta:
-        model = Taskstatus
-        # this HTML forms are shown
-        fields = (
-            'taskstatus_name',
-        )
-        # non default form labeling
-        labels = {
-            'taskstatus_name': gettext_lazy('Taskstatus name (*)'),
-        }
-        # special form type or option
-        widgets = {
-            'taskstatus_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
-        }
-

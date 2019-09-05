@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
+from dfirtrack.config import REPORTITEMS_DELETE as reportitems_delete
 from dfirtrack.config import REPORTITEMS_FILESYSTEMPATH as reportitems_filesystempath
 from dfirtrack.config import REPORTITEMS_HEADLINE as reportitems_headline
 from dfirtrack.config import REPORTITEMS_SUBHEADLINE as reportitems_subheadline
@@ -47,12 +48,21 @@ def reportitems(request):
         # leave importer
         return redirect('/systems/')
 
+    # check whether REPORTITEMS_DELETE is defined in `dfirtrack.config`
+    if not isinstance(reportitems_delete, bool):
+        # call logger
+        error_logger(str(request.user), " REPORTITEMS_DELETE_VARIABLE_UNDEFINED")
+        messages.error(request, "The variable REPORTITEMS_DELETE seems to be undefined or not a boolean. Check `dfirtrack.config`!")
+        # leave importer
+        return redirect('/systems/')
+
     # get all system objects
     systems = System.objects.all()
 
     # create headline if it does not exist
     headline, created = Headline.objects.get_or_create(headline_name=reportitems_headline )
     if created == True:
+        # call logger
         headline.logger(str(request.user), " REPORTITEMS_FILESYSTEM_IMPORTER_HEADLINE_CREATED")
 
     # set counter for non-existing files (needed for messages)
@@ -63,6 +73,9 @@ def reportitems(request):
 
     # set counter for modified reportitems (needed for messages)
     reportitems_modified_counter = 0
+
+    # set counter for deleted reportitems (needed for messages)
+    reportitems_deleted_counter = 0
 
     # iterate over systems
     for system in systems:
@@ -76,6 +89,21 @@ def reportitems(request):
             warning_logger(str(request.user), " REPORTITEMS_FILESYSTEM_IMPORTER_NO_FILE system_name:" + system.system_name)
             # autoincrement counter
             nofile_found_counter += 1
+
+            # check whether already existing reportitem for this system should be deleted if no file was provided
+            if reportitems_delete:
+                # delete already existing reportitem for this system if no file was provided
+                try:
+                    reportitem = Reportitem.objects.get(system = system, headline = headline, reportitem_subheadline = reportitems_subheadline)
+                    # call logger (before deleting instance)
+                    reportitem.logger(str(request.user), " REPORTITEMS_FILESYSTEM_IMPORTER_REPORTITEM_DELETED")
+                    reportitem.delete()
+                    # autoincrement counter
+                    reportitems_deleted_counter += 1
+                except Reportitem.DoesNotExist:
+                    pass
+
+            # continue with next system
             continue
 
         # create reportitem if it does not exist (get_or_create won't work in this context because of needed user objects for saving)
@@ -118,5 +146,10 @@ def reportitems(request):
             messages.success(request, str(reportitems_modified_counter) + ' reportitem was modified.')
         else:
             messages.success(request, str(reportitems_modified_counter) + ' reportitems were modified.')
+    if reportitems_deleted_counter > 0:
+        if reportitems_deleted_counter  == 1:
+            messages.success(request, str(reportitems_deleted_counter) + ' reportitem was deleted.')
+        else:
+            messages.success(request, str(reportitems_deleted_counter) + ' reportitems were deleted.')
 
     return redirect('/systems/')

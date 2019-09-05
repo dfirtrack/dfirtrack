@@ -1,68 +1,86 @@
+<!-- extending maintemplate -->
 {% extends "dfirtrack_main/maintemplate.html" %}
 
+<!-- HTML head in maintemplate -->
 {% block head %}
-<title>DFIRTrack - Systemstatus</title>
+
+<!-- page title -->
+<title>
+    DFIRTrack - Systemstatus
+</title>
+
 {% load staticfiles %}
+
+<!-- HTML head in maintemplate -->
 {% endblock %}
 
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
 {% block content %}
 
-    <div class="row">
-        <div class="col">
-            <h5>Systemstatus</h5>
-        </div>
+<!-- headline -->
+<div class="row bottom-distance">
+    <div class="col">
+        <h5>
+            Systemstatus
+        </h5>
+    </div>
+</div>
+
+<!-- headlines -->
+<div class="row font-weight-bold">
+
+    <!-- systemstatus id headline -->
+    <div class="col-1">
+        ID
     </div>
 
-        <div class="row font-weight-bold">
-            <div class="col-1">ID</div>
-            <div class="col-2">Systemstatus</div>
-            <div class="col-8">Note</div>
-        </div>
+    <!-- systemstatus name headline -->
+    <div class="col-2">
+        Systemstatus
+    </div>
 
-    {% for i in object_list %}
-        <div class="row top-distance">
-            <div class="col-1">{{ i.systemstatus_id }}</div>
-            <div class="col-2">
-                <a href="/systemstatuss/{{ i.systemstatus_id }}"
-                {% if i.systemstatus_name == 'Clean' %}
-                class="btn btn-green btn-sm round"><img src="{% static 'dfirtrack_main/icons/shield-light.svg' %}" class="icon-sm" alt="icon">  
-                {% elif i.systemstatus_name == 'Removed' %}
-                class="btn btn-green btn-sm round"><img src="{% static 'dfirtrack_main/icons/trash-light.svg' %}" class="icon-sm" alt="icon">  
-                {% elif i.systemstatus_name == 'Reinstalled' %}
-                class="btn btn-green btn-sm round"><img src="{% static 'dfirtrack_main/icons/shield-light.svg' %}" class="icon-sm" alt="icon">  
-                {% elif i.systemstatus_name == 'Remediation done' %}
-                class="btn btn-green btn-sm round"><img src="{% static 'dfirtrack_main/icons/shield-light.svg' %}" class="icon-sm" alt="icon">  
-                {% elif i.systemstatus_name == 'Analysis ongoing' %}
-                class="btn btn-orange btn-sm round"><img src="{% static 'dfirtrack_main/icons/pulse-light.svg' %}" class="icon-sm" alt="icon">  
-                {% elif i.systemstatus_name == 'Unknown' %}
-                class="btn btn-orange btn-sm round"><img src="{% static 'dfirtrack_main/icons/flag-light.svg' %}" class="icon-sm" alt="icon">  
-                {% elif i.systemstatus_name == 'Compromised' %}
-                class="btn btn-red btn-sm round"><img src="{% static 'dfirtrack_main/icons/fire-light.svg' %}" class="icon-sm" alt="icon">  
-                {% else %}
-                >
-                {% endif %}
-                    {{ i.systemstatus_name }}
-                </a>
-            </div>
-            <div class="col-8">
-                {% if i.systemstatus_note %}
-                {{ i.systemstatus_note|linebreaks }}
-                {% else %}
-                ---
-                {% endif %}
-            </div>
-            <div class="col-1">
-                <a href="/systemstatuss/{{ i.systemstatus_id }}/edit">Edit</a>
-            </div>
-            <br><br>
-        </div>
-    {% endfor %}
+    <!-- systemstatus note headline -->
+    <div class="col-8">
+        Note
+    </div>
 
-    <br><br>
-    <div class="row">
+<!-- headlines -->
+</div>
+
+<!-- systemstatus list -->
+{% for i in systemstatus_list %}
+
+    <!-- systemstatus row -->
+    <div class="row top-distance">
+
+        <!-- systemstatus id -->
         <div class="col-1">
-            <a href="/systemstatuss/add" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon" alt="icon">  Add systemstatus</a>
+            {{ i.systemstatus_id }}
         </div>
+
+        <!-- systemstatus name -->
+        <div class="col-2">
+            {% with systemstatus=i %}
+                {% include "dfirtrack_main/includes/button_systemstatus.html" %}
+            {% endwith %}
+        </div>
+
+        <!-- systemstatus note -->
+        <div class="col-9">
+            {% if i.systemstatus_note %}
+                {{ i.systemstatus_note|linebreaks }}
+            {% else %}
+                ---
+            {% endif %}
+        </div>
+
+    <!-- systemstatus row -->
     </div>
 
+<!-- systemstatus list -->
+{% endfor %}
+
+<!-- HTML body in maintemplate -->
 {% endblock %}

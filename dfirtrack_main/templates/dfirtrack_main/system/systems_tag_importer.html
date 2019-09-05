@@ -1,78 +1,123 @@
+<!-- extending maintemplate -->
 {% extends "dfirtrack_main/maintemplate.html" %}
 
+<!-- HTML head in maintemplate -->
 {% block head %}
-<title>DFIRTrack - Systems</title>
+
+<!-- page title -->
+<title>
+    Systems and tags importer
+</title>
+
 {% load staticfiles %}
 
+<!-- custom javascript -->
 <script src="{% static 'dfirtrack_main/dfirtrack/dfirtrack.js' %}"></script>
 
+<!-- HTML head in maintemplate -->
 {% endblock %}
 
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
 {% block content %}
 
-    <h4>Import systems and tags via CSV</h4><br><br>
-    <form method="POST" class="post-form" enctype="multipart/form-data">
+<!-- headline -->
+<div class="bottom-distance">
+    <h4>
+        Import systems and tags via CSV
+    </h4>
+</div>
 
+<!-- form -->
+<form method="POST" class="post-form" enctype="multipart/form-data">
+
+    <!-- button row -->
+    <div class="row">
+
+        <!-- save button -->
+        <div class="col-1">
+            {% include "dfirtrack_main/includes/button_save.html" %}
+        </div>
+
+        <!-- cancel  button -->
+        <div class="col-1">
+            {% include "dfirtrack_main/includes/button_cancel.html" %}
+        </div>
+
+    <!-- button row -->
+    </div>
+
+    {% csrf_token %}
+
+    <!-- general errors -->
+    {% if form.non_field.errors %}
         <div class="row">
-            <div class="col-1">
-                {% include "dfirtrack_main/includes/button_save.html" %}
-                <br><br>
+            <div class="col">
+                <div class="text-danger">
+                    Non field errors:<br>
+                    {{ form.non_field.errors }}
+                </div>
             </div>
-            <div class="col-1">
-                {% include "dfirtrack_main/includes/button_cancel.html" %}
-                <br><br>
+        </div>
+    {% endif %}
+
+    <!-- file block -->
+    <div class="card card-body bg-dark border-light top-distance">
+
+        <!-- file headline -->
+        <div class="row">
+            <div class="col">
+                <h5>
+                    CSV with systems and tags (*):
+                </h5>
             </div>
         </div>
 
-        {% csrf_token %}
-
-            {% if form.non_field.errors %}
-            <div class="row">
-                <div class="col">
+        <!-- file -->
+        <div class="row">
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- file errors -->
                     <div class="text-danger">
-                        Non field errors:<br>
-                        {{ form.non_field.errors }}
+                        {{ form.systemtagcsv.errors }}
                     </div>
-                </div>
-            </div>
-            {% endif %}
-
-        <div class="card card-body bg-dark border-light top-distance">
-
-            <div class="row">
-                <div class="col">
-                    <h5>CSV with systems and tags (*):</h5>
+                    {{ form.systemtagcsv }}
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-3">
-                    <div class="card card-body bg-dark border-light top-distance">
-                        <div class="text-danger">{{ form.systemtagcsv.errors }}</div>
-                        {{ form.systemtagcsv }}
-                    </div>
-                </div>
-                <div class="col-5">
+            <!-- file requirement description -->
+            <div class="col-5">
                 <p><b>Existing systems will be updated (but only if distinct assignable).</b><p>
                 <p>Expected CSV allocation: [column_0:...], ..., [column_7:domain], [column_8:system_name], [column_9:tag(s)], ...]</p>
                 <p>Allocation will be editable in a future release.</p>
                 <p>New assignment of tags with PREFIX will be updated, afterwards manually changed domains will be kept.</p>
-                </div>
             </div>
 
+        <!-- file -->
         </div>
 
-        <br><br>
+    <!-- file block -->
+    </div>
 
-        <div class="row">
-            <div class="col-1">
-                {% include "dfirtrack_main/includes/button_save.html" %}
-            </div>
-            <div class="col-1">
-                {% include "dfirtrack_main/includes/button_cancel.html" %}
-            </div>
+    <!-- button row -->
+    <div class="row top-distance">
+
+        <!-- save button -->
+        <div class="col-1">
+            {% include "dfirtrack_main/includes/button_save.html" %}
         </div>
 
-    </form>
+        <!-- cancel button -->
+        <div class="col-1">
+            {% include "dfirtrack_main/includes/button_cancel.html" %}
+        </div>
 
+    <!-- button row -->
+    </div>
+
+<!-- form -->
+</form>
+
+<!-- HTML body in maintemplate -->
 {% endblock %}

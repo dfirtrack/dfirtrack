@@ -1,27 +1,57 @@
+<!-- extending maintemplate -->
 {% extends "dfirtrack_main/maintemplate.html" %}
 
+<!-- HTML head in maintemplate -->
 {% block head %}
-<title>DFIRTrack - Tags</title>
+
+<!-- page title -->
+<title>
+    Edit tag '{{ form.tag_name.value }}'
+</title>
+
 {% load staticfiles %}
+
+<!-- HTML head in maintemplate -->
 {% endblock %}
 
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
 {% block content %}
         
-    <h4>Edit tag</h4><br><br>
-    <form method="POST" class="post-form">
-        {% csrf_token %}
-        {% include "dfirtrack_main/includes/form.html" %}
+<!-- headline -->
+<div class="bottom-distance">
+    <h4>
+        Edit tag
+    </h4>
+</div>
 
-        <br><br>
+<!-- form -->
+<form method="POST" class="post-form">
 
-        <div class="row">
-            <div class="col-1">
-                {% include "dfirtrack_main/includes/button_save.html" %}
-            </div>
-            <div class="col-1">
-                {% include "dfirtrack_main/includes/button_cancel.html" %}
-            </div>
+    {% csrf_token %}
+
+    <!-- include standard form -->
+    {% include "dfirtrack_main/includes/form.html" %}
+
+    <!-- button row -->
+    <div class="row top-distance">
+
+        <!-- save button -->
+        <div class="col-1">
+            {% include "dfirtrack_main/includes/button_save.html" %}
         </div>
-    </form>
+
+        <!-- cancel button -->
+        <div class="col-1">
+            {% include "dfirtrack_main/includes/button_cancel.html" %}
+        </div>
+
+    <!-- button row -->
+    </div>
+
+<!-- form -->
+</form>
     
+<!-- HTML body in maintemplate -->
 {% endblock %}

@@ -1,343 +1,643 @@
+<!-- extending maintemplate -->
 {% extends "dfirtrack_main/maintemplate.html" %}
 
+<!-- HTML head in maintemplate -->
 {% block head %}
-<title>DFIRTrack - Systems</title>
+
+<!-- page title -->
+<title>
+    Systems creator
+</title>
+
 {% load staticfiles %}
 
+<!-- custom javascript -->
 <script src="{% static 'dfirtrack_main/dfirtrack/dfirtrack.js' %}"></script>
 
+<!-- HTML head in maintemplate -->
 {% endblock %}
 
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
 {% block content %}
-        
-    <h4>Create systems</h4><br><br>
-    <form method="POST" class="post-form" enctype="multipart/form-data">
 
-        <div class="row">
-            <div class="col-1">
-                {% include "dfirtrack_main/includes/button_save.html" %}
-                <br><br>
-            </div>
-            <div class="col-1">
-                {% include "dfirtrack_main/includes/button_cancel.html" %}
-                <br><br>
-            </div>
+<!-- headline -->
+<div class="bottom-distance">
+    <h4>
+        Systems creator
+    </h4>
+</div>
+
+<!-- form -->
+<form method="POST" class="post-form" enctype="multipart/form-data">
+
+    <!-- button row -->
+    <div class="row">
+
+        <!-- save button -->
+        <div class="col-1">
+            {% include "dfirtrack_main/includes/button_save.html" %}
         </div>
 
-        {% csrf_token %}
+        <!-- cancel button -->
+        <div class="col-1"> {% include "dfirtrack_main/includes/button_cancel.html" %}
+        </div>
 
-            {% if form.non_field.errors %}
-            <div class="row">
-                <div class="col">
+    <!-- button row -->
+    </div>
+
+    {% csrf_token %}
+
+    <!-- general errors -->
+    {% if form.non_field.errors %}
+        <div class="row">
+            <div class="col">
+                <div class="text-danger">
+                    Non field errors:<br>
+                    {{ form.non_field.errors }}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- systemlist block -->
+    <div class="card card-body bg-dark border-light top-distance">
+
+        <!-- systemlist headlines -->
+        <div class="row">
+
+            <div class="col-6">
+                <h5>
+                    Systemlist (*):
+                </h5>
+            </div>
+
+            <div class="col-6">
+                <h5>
+                    DNS name:
+                </h5>
+            </div>
+
+        <!-- systemlist headlines -->
+        </div>
+
+        <!-- systemlist row -->
+        <div class="row">
+
+            <!-- systemlist -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- systemlist errors -->
                     <div class="text-danger">
-                        Non field errors:<br>
-                        {{ form.non_field.errors }}
+                        {{ form.systemlist.errors }}
                     </div>
-                </div>
-            </div>
-            {% endif %}
-
-        <div class="card card-body bg-dark border-light top-distance">
-
-            <div class="row">
-                <div class="col">
-                    <h5>Systemlist (*):</h5>
+                    {{ form.systemlist }}
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-3">
-                    <div class="card card-body bg-dark border-light top-distance">
-                        <div class="text-danger">{{ form.systemlist.errors }}</div>
-                        {{ form.systemlist }}
+            <!-- systemlist requirement description -->
+            <div class="col-3">
+                <p><b>Systems with existing system names won't get added.</b></p>
+                <p>Only one system per line is allowed.</p>
+            </div>
+
+            <!-- dnsname -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- dnsname errors -->
+                    <div class="text-danger">
+                        {{ form.dnsname.errors }}
                     </div>
-                </div>
-                <div class="col-5">
-                    <p><b>Systems with existing system names won't get added.</b></p>
-                    <p>Only one system per line is allowed.</p>
+                    {% for i in form.dnsname %}
+                        {{ i }}<br>
+                    {% endfor %}
                 </div>
             </div>
 
+        <!-- systemlist row -->
         </div>
 
-        <div class="card card-body bg-dark border-light top-distance">
-
-            <div class="row">
-                <div class="col-6">
-                    <h5>Tags</h5>
-                </div>
-                <div class="col-6">
-                    <h5>Cases</h5>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-3">
-                    <div class="card card-body bg-dark border-light top-distance">
-                        <div class="text-danger">{{ form.tag.errors }}</div>
-                        {% for i in form.tag %}
-                        {{ i }}<br>
-                        {% endfor %}
-                    </div>
-                </div>
-                <div class="col-3">
-                </div>
-                <div class="col-3">
-                    <div class="card card-body bg-dark border-light top-distance">
-                        <div class="text-danger">{{ form.case.errors }}</div>
-                        {% for i in form.case %}
-                        {{ i }}<br>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="card card-body bg-dark border-light top-distance">
-
-            <div class="row">
-                <div class="col">
-                    <h5>Status information</h5>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-3">
-                    <div class="font-weight-bold">Systemstatus (*):</div>
-                </div>
-                <div class="col-3">
-                    <div class="font-weight-bold">Analysisstatus:</div>
-                </div>
-                <div class="col-3">
-                    <div class="font-weight-bold">Reason for investigation:</div>
-                </div>
-                <div class="col-3">
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-3">
-                    <div class="card card-body bg-dark border-light top-distance">
-                        <div class="text-danger">{{ form.systemstatus.errors }}</div>
-                        {% for i in form.systemstatus %}
-                        {{ i }}<br>
-                        {% endfor %}
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="card card-body bg-dark border-light top-distance">
-                        <div class="text-danger">{{ form.analysisstatus.errors }}</div>
-                        {% for i in form.analysisstatus %}
-                        {{ i }}<br>
-                        {% endfor %}
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="card card-body bg-dark border-light top-distance">
-                        <div class="text-danger">{{ form.reason.errors }}</div>
-                        {% for i in form.reason %}
-                        {{ i }}<br>
-                        {% endfor %}
-                    </div>
-                </div>
-                <div class="col-3">
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-3">
-                    <button onclick="systemstatuss_add_popup()" type="button" class="btn btn-light btn-sm top-distance"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm" alt="icon">  Add systemstatus</button>
-                </div>
-                <div class="col-3">
-                    <button onclick="analysisstatuss_add_popup()" type="button" class="btn btn-light btn-sm top-distance"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm" alt="icon">  Add analysisstatus</button>
-                </div>
-                <div class="col-3">
-                    <button onclick="reasons_add_popup()" type="button" class="btn btn-light btn-sm top-distance"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm" alt="icon">  Add reason</button>
-                </div>
-                <div class="col-3">
-                </div>
-            </div>
-
-        </div>
-
-        <div class="card card-body bg-dark border-light top-distance">
-
-            <div class="row">
-                <div class="col">
-                    <h5>Technical information</h5>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-3">
-                    <div class="font-weight-bold">Systemtype:</div>
-                </div>
-                <div class="col-3">
-                </div>
-                <div class="col-3">
-                    <div class="font-weight-bold">Domain:</div>
-                </div>
-                <div class="col-3">
-                    <div class="font-weight-bold">Operating system:</div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-3">
-                    <div class="card card-body bg-dark border-light top-distance">
-                        <div class="text-danger">{{ form.systemtype.errors }}</div>
-                        {% for i in form.systemtype %}
-                        {{ i }}<br>
-                        {% endfor %}
-                    </div>
-                </div>
-                <div class="col-3">
-                </div>
-                <div class="col-3">
-                    <div class="card card-body bg-dark border-light top-distance">
-                        <div class="text-danger">{{ form.domain.errors }}</div>
-                        {% for i in form.domain %}
-                        {{ i }}<br>
-                        {% endfor %}
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="card card-body bg-dark border-light top-distance">
-                        <div class="text-danger">{{ form.os.errors }}</div>
-                        {% for i in form.os %}
-                        {{ i }}<br>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-3">
-                    <button onclick="systemtypes_add_popup()" type="button" class="btn btn-light btn-sm top-distance"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm" alt="icon">  Add systemtype</button>
-                    <br><br>
-                </div>
-                <div class="col-3">
-                    <br><br>
-                </div>
-                <div class="col-3">
-                    <button onclick="domains_add_popup()" type="button" class="btn btn-light btn-sm top-distance"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm" alt="icon">  Add domain</button>
-                    <br><br>
-                </div>
-                <div class="col-3">
-                    <button onclick="oss_add_popup()" type="button" class="btn btn-light btn-sm top-distance"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm" alt="icon">  Add OS</button>
-                    <br><br>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-9"></div>
-                <div class="col-3">
-                    <div class="font-weight-bold">OS architecture:</div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-9"></div>
-                <div class="col-3">
-                    <div class="card card-body bg-dark border-light top-distance">
-                        <div class="text-danger">{{ form.osarch.errors }}</div>
-                        {% for i in form.osarch %}
-                        {{ i }}<br>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="card card-body bg-dark border-light top-distance">
-
-            <div class="row">
-                <div class="col">
-                    <h5>Company information</h5>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-3">
-                    <div class="font-weight-bold">Company:</div>
-                </div>
-                <div class="col-3">
-                    <div class="font-weight-bold">Location:</div>
-                </div>
-                <div class="col-3">
-                    <div class="font-weight-bold">Serviceprovider:</div>
-                </div>
-                <div class="col-3">
-                    <div class="font-weight-bold">Contact:</div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-3">
-                    <div class="card card-body bg-dark border-light top-distance">
-                        <div class="text-danger">{{ form.company.errors }}</div>
-                        {% for i in form.company %}
-                        {{ i }}<br>
-                        {% endfor %}
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="card card-body bg-dark border-light top-distance">
-                        <div class="text-danger">{{ form.location.errors }}</div>
-                        {% for i in form.location %}
-                        {{ i }}<br>
-                        {% endfor %}
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="card card-body bg-dark border-light top-distance">
-                        <div class="text-danger">{{ form.serviceprovider.errors }}</div>
-                        {% for i in form.serviceprovider %}
-                        {{ i }}<br>
-                        {% endfor %}
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="card card-body bg-dark border-light top-distance">
-                        <div class="text-danger">{{ form.contact.errors }}</div>
-                        {% for i in form.contact %}
-                        {{ i }}<br>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-3">
-                    <button onclick="companys_add_popup()" type="button" class="btn btn-light btn-sm top-distance"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm" alt="icon">  Add company</button>
-                </div>
-                <div class="col-3">
-                    <button onclick="locations_add_popup()" type="button" class="btn btn-light btn-sm top-distance"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm" alt="icon">  Add location</button>
-                </div>
-                <div class="col-3">
-                    <button onclick="serviceproviders_add_popup()" type="button" class="btn btn-light btn-sm top-distance"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm" alt="icon">  Add serviceprovider</button>
-                </div>
-                <div class="col-3">
-                    <button onclick="contacts_add_popup()" type="button" class="btn btn-light btn-sm top-distance"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm" alt="icon">  Add contact</button>
-                </div>
-            </div>
-
-        </div>
-
-
-	<br><br>
-
+        <!-- button row -->
         <div class="row">
-            <div class="col-1">
-                {% include "dfirtrack_main/includes/button_save.html" %}
+
+            <!-- placeholder -->
+            <div class="col-6">
             </div>
-            <div class="col-1">
-                {% include "dfirtrack_main/includes/button_cancel.html" %}
+
+            <!-- add dnsname button -->
+            <div class="col-3">
+                <button onclick="dnsnames_add_popup()" type="button" class="btn btn-light btn-sm top-distance copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    Add DNS name
+                </button>
+            </div>
+
+        <!-- button row -->
+        </div>
+
+    <!-- systemlist block -->
+    </div>
+
+    <!-- ############################################ -->
+
+    <!-- tag / case block -->
+    <div class="card card-body bg-dark border-light top-distance">
+
+        <!-- tag / case headline row -->
+        <div class="row">
+
+            <!-- tag headline -->
+            <div class="col-6">
+                <h5>
+                    Tags
+                </h5>
+            </div>
+
+            <!-- case headline -->
+            <div class="col-6">
+                <h5>
+                    Cases
+                </h5>
+            </div>
+
+        <!-- tag / case headline row -->
+        </div>
+
+        <!-- tag / case row -->
+        <div class="row">
+
+            <!-- tag -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- tag errors -->
+                    <div class="text-danger">
+                        {{ form.tag.errors }}
+                    </div>
+                    {% for i in form.tag %}
+                        {{ i }}<br>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- placeholder -->
+            <div class="col-3">
+            </div>
+
+            <!-- case -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- case errors -->
+                    <div class="text-danger">
+                        {{ form.case.errors }}
+                    </div>
+                    {% for i in form.case %}
+                        {{ i }}<br>
+                    {% endfor %}
+                </div>
+            </div>
+        <!-- tag / case row -->
+        </div>
+
+    <!-- tag / case block -->
+    </div>
+
+    <!-- ############################################ -->
+
+    <!-- status information -->
+    <div class="card card-body bg-dark border-light top-distance">
+
+        <!-- status information headline -->
+        <div class="row">
+            <div class="col">
+                <h5>
+                    Status information
+                </h5>
             </div>
         </div>
 
-    </form>
-    
+        <!-- status information row  -->
+        <div class="row">
+
+            <!-- systemstatus headline -->
+            <div class="col-3">
+                <div class="font-weight-bold">
+                    Systemstatus (*):
+                </div>
+            </div>
+
+            <!-- analysisstatus headline -->
+            <div class="col-3">
+                <div class="font-weight-bold">
+                    Analysisstatus:
+                </div>
+            </div>
+
+            <!-- reason -->
+            <div class="col-3">
+                <div class="font-weight-bold">
+                    Reason for investigation:
+                </div>
+            </div>
+
+            <!-- placeholder -->
+            <div class="col-3">
+            </div>
+
+        <!-- status information row  -->
+        </div>
+
+        <!-- status information row  -->
+        <div class="row">
+
+            <!-- systemstatus -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- systemstatus errors -->
+                    <div class="text-danger">
+                        {{ form.systemstatus.errors }}
+                    </div>
+                    {% for i in form.systemstatus %}
+                        {{ i }}<br>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- analysisstatus -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- analysisstatus errors -->
+                    <div class="text-danger">
+                        {{ form.analysisstatus.errors }}
+                    </div>
+                    {% for i in form.analysisstatus %}
+                        {{ i }}<br>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- reason -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- reason errors -->
+                    <div class="text-danger">
+                        {{ form.reason.errors }}
+                    </div>
+                    {% for i in form.reason %}
+                        {{ i }}<br>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- placeholder -->
+            <div class="col-3">
+            </div>
+
+        <!-- status information row  -->
+        </div>
+
+        <!-- button row -->
+        <div class="row">
+
+            <!-- placeholder -->
+            <div class="col-6">
+            </div>
+            <!-- add reason button -->
+            <div class="col-3">
+                <button onclick="reasons_add_popup()" type="button" class="btn btn-light btn-sm top-distance copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    Add reason
+                </button>
+            </div>
+
+            <!-- placeholder -->
+            <div class="col-3">
+            </div>
+
+        <!-- button row -->
+        </div>
+
+    <!-- status information -->
+    </div>
+
+    <!-- ############################################ -->
+
+    <!-- technical information -->
+    <div class="card card-body bg-dark border-light top-distance">
+
+        <!-- technical information headline -->
+        <div class="row">
+            <div class="col">
+                <h5>
+                    Technical information
+                </h5>
+            </div>
+        </div>
+
+        <!-- technical information row -->
+        <div class="row">
+
+            <!-- systemtype headline -->
+            <div class="col-3">
+                <div class="font-weight-bold">
+                    Systemtype:
+                </div>
+            </div>
+
+            <!-- placeholder -->
+            <div class="col-3">
+            </div>
+
+            <!-- domain headline -->
+            <div class="col-3">
+                <div class="font-weight-bold">
+                    Domain:
+                </div>
+            </div>
+
+            <!-- operating system headline -->
+            <div class="col-3">
+                <div class="font-weight-bold">
+                    Operating system:
+                </div>
+            </div>
+
+        <!-- technical information row -->
+        </div>
+
+        <!-- technical information row -->
+        <div class="row">
+
+            <!-- systemtype -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- systemtype errors -->
+                    <div class="text-danger">
+                        {{ form.systemtype.errors }}
+                    </div>
+                    {% for i in form.systemtype %}
+                        {{ i }}<br>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- placeholder -->
+            <div class="col-3">
+            </div>
+
+            <!-- domain -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- domain errors -->
+                    <div class="text-danger">
+                        {{ form.domain.errors }}
+                    </div>
+                    {% for i in form.domain %}
+                        {{ i }}<br>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- operating system -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- operating system -->
+                    <div class="text-danger">
+                        {{ form.os.errors }}
+                    </div>
+                    {% for i in form.os %}
+                        {{ i }}<br>
+                    {% endfor %}
+                </div>
+            </div>
+
+        <!-- technical information row -->
+        </div>
+
+        <!-- button row -->
+        <div class="row bottom-distance">
+
+            <!-- add systemtype button -->
+            <div class="col-3">
+                <button onclick="systemtypes_add_popup()" type="button" class="btn btn-light btn-sm top-distance copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    Add systemtype
+                </button>
+            </div>
+
+            <!-- placeholder -->
+            <div class="col-3">
+            </div>
+
+            <!-- add domain button -->
+            <div class="col-3">
+                <button onclick="domains_add_popup()" type="button" class="btn btn-light btn-sm top-distance copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    Add domain
+                </button>
+            </div>
+
+            <!-- add operating system button -->
+            <div class="col-3">
+                <button onclick="oss_add_popup()" type="button" class="btn btn-light btn-sm top-distance copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    Add OS
+                </button>
+            </div>
+
+        <!-- button row -->
+        </div>
+
+        <!-- technical information row -->
+        <div class="row">
+
+            <!-- placeholder -->
+            <div class="col-9">
+            </div>
+
+            <!-- osarch headline -->
+            <div class="col-3">
+                <div class="font-weight-bold">
+                    OS architecture:
+                </div>
+            </div>
+
+        <!-- technical information row -->
+        </div>
+
+        <!-- technical information row -->
+        <div class="row">
+
+            <!-- placeholder -->
+            <div class="col-9">
+            </div>
+
+            <!-- osarch -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- osarch errors -->
+                    <div class="text-danger">
+                        {{ form.osarch.errors }}
+                    </div>
+                    {% for i in form.osarch %}
+                        {{ i }}<br>
+                    {% endfor %}
+                </div>
+            </div>
+
+        <!-- technical information row -->
+        </div>
+
+    <!-- technical information -->
+    </div>
+
+    <!-- ############################################ -->
+
+    <!-- company information -->
+    <div class="card card-body bg-dark border-light top-distance">
+
+        <!-- company information headline -->
+        <div class="row">
+            <div class="col">
+                <h5>
+                    Company information
+                </h5>
+            </div>
+        </div>
+
+        <!-- company information row -->
+        <div class="row">
+
+            <!-- company headline -->
+            <div class="col-3">
+                <div class="font-weight-bold">
+                    Company:
+                </div>
+            </div>
+
+            <!-- location headline -->
+            <div class="col-3">
+                <div class="font-weight-bold">
+                    Location:
+                </div>
+            </div>
+
+            <!-- serviceprovider headline -->
+            <div class="col-3">
+                <div class="font-weight-bold">
+                    Serviceprovider:
+                </div>
+            </div>
+
+            <!-- contact headline -->
+            <div class="col-3">
+                <div class="font-weight-bold">
+                    Contact:
+                </div>
+            </div>
+
+        <!-- company information row -->
+        </div>
+
+        <!-- company information row -->
+        <div class="row">
+
+            <!-- company -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- company errors -->
+                    <div class="text-danger">
+                        {{ form.company.errors }}
+                    </div>
+                    {% for i in form.company %}
+                        {{ i }}<br>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- location -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- location errors -->
+                    <div class="text-danger">
+                        {{ form.location.errors }}
+                    </div>
+                    {% for i in form.location %}
+                        {{ i }}<br>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- serviceprovider -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- serviceprovider errors -->
+                    <div class="text-danger">
+                        {{ form.serviceprovider.errors }}
+                    </div>
+                    {% for i in form.serviceprovider %}
+                        {{ i }}<br>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- contact -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- contact errors -->
+                    <div class="text-danger">
+                        {{ form.contact.errors }}
+                    </div>
+                    {% for i in form.contact %}
+                        {{ i }}<br>
+                    {% endfor %}
+                </div>
+            </div>
+
+        <!-- company information row -->
+        </div>
+
+        <!-- button row -->
+        <div class="row">
+            <div class="col-3">
+                <button onclick="companys_add_popup()" type="button" class="btn btn-light btn-sm top-distance"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm" alt="icon">  Add company</button>
+            </div>
+            <div class="col-3">
+                <button onclick="locations_add_popup()" type="button" class="btn btn-light btn-sm top-distance"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm" alt="icon">  Add location</button>
+            </div>
+            <div class="col-3">
+                <button onclick="serviceproviders_add_popup()" type="button" class="btn btn-light btn-sm top-distance"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm" alt="icon">  Add serviceprovider</button>
+            </div>
+            <div class="col-3">
+                <button onclick="contacts_add_popup()" type="button" class="btn btn-light btn-sm top-distance"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm" alt="icon">  Add contact</button>
+            </div>
+
+        <!-- button row -->
+        </div>
+
+    <!-- company information -->
+    </div>
+
+    <!-- ############################################ -->
+
+    <!-- button row -->
+    <div class="row top-distance">
+
+        <!-- save button -->
+        <div class="col-1">
+            {% include "dfirtrack_main/includes/button_save.html" %}
+        </div>
+
+        <!-- cancel button -->
+        <div class="col-1">
+            {% include "dfirtrack_main/includes/button_cancel.html" %}
+        </div>
+
+    <!-- button row -->
+    </div>
+
+<!-- form -->
+</form>
+
+<!-- HTML body in maintemplate -->
 {% endblock %}

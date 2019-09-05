@@ -1,44 +1,82 @@
+<!-- extending maintemplate -->
 {% extends "dfirtrack_main/maintemplate.html" %}
 
+<!-- HTML head in maintemplate -->
 {% block head %}
-<title>DFIRTrack - IPs</title>
+
+<!-- page title -->
+<title>
+    DFIRTrack - IPs
+</title>
+
 {% load staticfiles %}
+
+<!-- HTML head in maintemplate -->
 {% endblock %}
 
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
 {% block content %}
 
-    <div class="row">
-        <div class="col">
-            <h5>IP addresses</h5>
-        </div>
+<!-- headline -->
+<div class="row bottom-distance">
+    <div class="col">
+        <h5>
+            IP addresses
+        </h5>
+    </div>
+</div>
+
+<!-- headlines -->
+<div class="row font-weight-bold">
+
+    <!-- ip id headline -->
+    <div class="col-1">
+        ID
     </div>
 
-        <div class="row font-weight-bold">
-            <div class="col-1">ID</div>
-            <div class="col-2">IP address</div>
-            <div class="col-8">Number of systems</div>
-        </div>
+    <!-- ip address headline -->
+    <div class="col-2">
+        IP address
+    </div>
 
-    {% for i in object_list %}
-        <div class="row">
-            <div class="col-1">{{ i.ip_id }}</div>
-            <div class="col-2">
-                <a href="/ips/{{ i.ip_id }}">{{ i.ip_ip }}</a>
-            </div>
-            <div class="col-8">{{ i.system_set.all|length }}</div>
-            <div class="col-1">
-                <a href="/ips/{{ i.ip_id }}/edit">Edit</a>
-            </div>
-            <br><br>
-        </div>
+    <!-- systems number headline -->
+    <div class="col-8">
+        Number of systems
+    </div>
 
-    {% endfor %}
+<!-- headlines -->
+</div>
 
-    <br><br>
-    <div class="row">
+<!-- ip list -->
+{% for i in ip_list %}
+
+    <!-- ip row -->
+    <div class="row top-distance">
+
+        <!-- ip id -->
         <div class="col-1">
-            <a href="/ips/add" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon" alt="icon">  Add IP</a>
+            {{ i.ip_id }}
         </div>
+
+        <!-- ip address -->
+        <div class="col-2">
+            <a href="/ips/{{ i.ip_id }}">
+                {{ i.ip_ip }}
+            </a>
+        </div>
+
+        <!-- systems number -->
+        <div class="col-8">
+            {{ i.system_set.all|length }}
+        </div>
+
+    <!-- ip row -->
     </div>
 
+<!-- ip list -->
+{% endfor %}
+
+<!-- HTML body in maintemplate -->
 {% endblock %}

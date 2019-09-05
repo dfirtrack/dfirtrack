@@ -38,6 +38,7 @@ def systems(request):
         'Type',
         'IP',
         'Domain',
+        'DNS Name',
         'OS',
         'Company',
         'Location',
@@ -57,6 +58,10 @@ def systems(request):
 
     # iterate over systems
     for system in systems:
+
+        # skip system depending on export variable
+        if system.system_export_spreadsheet == False:
+            continue
 
         # autoincrement row counter
         row_num += 1
@@ -104,6 +109,12 @@ def systems(request):
             domain = ''
         else:
             domain = system.domain.domain_name
+
+        # set foreign key field to none if it doesn't exist
+        if system.dnsname == None:
+            dnsname = ''
+        else:
+            dnsname = system.dnsname.dnsname_name
 
         # set foreign key field to none if it doesn't exist
         if system.os == None:
@@ -154,6 +165,7 @@ def systems(request):
             systemtype,
             ip,
             domain,
+            dnsname,
             os,
             company,
             location,

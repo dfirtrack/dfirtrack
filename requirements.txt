@@ -1,4 +1,4 @@
-django~=2.0.0
+django
 django_q
 djangorestframework
 gunicorn

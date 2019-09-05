@@ -1,44 +1,68 @@
+<!-- extending maintemplate -->
 {% extends "dfirtrack_main/maintemplate.html" %}
 
+<!-- HTML head in maintemplate -->
 {% block head %}
-<title>DFIRTrack - Systemstatus</title>
+
+<!-- page title -->
+<title>
+    Systemstatus '{{ systemstatus.systemstatus_name }}'{% if systemstatus.system_set.all %} (s: {{ systemstatus.system_set.all|length }}){% endif %}
+</title>
+
 {% load staticfiles %}
+
+<!-- javascript and CSS for datatables -->
+<link rel="stylesheet" type="text/css" href="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.css' %}"/>
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.js' %}"></script>
+
+<!-- HTML head in maintemplate -->
 {% endblock %}
 
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
 {% block content %}
 
-<div class="row">
+<!-- up button -->
+<div class="row bottom-distance">
     <div class="col-3">
-        <a href="/systemstatuss" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon" alt="icon">  Up to systemstatus</a>
-        <br><br>
+        <a href="/systemstatuss" type="button" class="btn btn-light">
+            <img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon" alt="icon">
+            Up to systemstatus
+        </a>
     </div>
 </div>
 
+<!-- javascript for copy button -->
+<script>
+    var clipboard = new ClipboardJS('.btn');
+</script>
+
+<!-- headline row -->
 <div class="row">
+
+    <!-- headline -->
     <div class="col-3">
-        <h5>Systemstatus 
-                <button
-                {% if systemstatus.systemstatus_name == 'Clean' %}
-                class="btn btn-green btn-lg round"><img src="{% static 'dfirtrack_main/icons/shield-light.svg' %}" class="icon" alt="icon">  
-                {% elif systemstatus.systemstatus_name == 'Removed' %}
-                class="btn btn-green btn-lg round"><img src="{% static 'dfirtrack_main/icons/trash-light.svg' %}" class="icon" alt="icon">  
-                {% elif systemstatus.systemstatus_name == 'Reinstalled' %}
-                class="btn btn-green btn-lg round"><img src="{% static 'dfirtrack_main/icons/shield-light.svg' %}" class="icon" alt="icon">  
-                {% elif systemstatus.systemstatus_name == 'Remediation done' %}
-                class="btn btn-green btn-lg round"><img src="{% static 'dfirtrack_main/icons/shield-light.svg' %}" class="icon" alt="icon">  
-                {% elif systemstatus.systemstatus_name == 'Analysis ongoing' %}
-                class="btn btn-orange btn-lg round"><img src="{% static 'dfirtrack_main/icons/pulse-light.svg' %}" class="icon" alt="icon">  
-                {% elif systemstatus.systemstatus_name == 'Unknown' %}
-                class="btn btn-orange btn-lg round"><img src="{% static 'dfirtrack_main/icons/flag-light.svg' %}" class="icon" alt="icon">  
-                {% elif systemstatus.systemstatus_name == 'Compromised' %}
-                class="btn btn-red btn-lg round"><img src="{% static 'dfirtrack_main/icons/fire-light.svg' %}" class="icon" alt="icon">  
-                {% else %}
-                >
-                {% endif %}
-                    {{ systemstatus.systemstatus_name }}
-                </button>
+        <h5>
+            Systemstatus
+	    {% include "dfirtrack_main/includes/button_systemstatus.html" %}
 	</h5>
     </div>
+
+    <!-- copy button -->
+    <div class="col-3">
+        {% if systemstatus.system_set.all %}
+            {% with systems=systemstatus.system_set.all %}
+                {% include "dfirtrack_main/includes/button_copy_hostnames.html" %}
+            {% endwith %}
+        {% endif %}
+    </div>
+
+<!-- headline row -->
+</div>
+
+<!-- systemstatus id -->
+<div class="row bottom-distance">
     <div class="col-3">
         <small class="text-muted">
             Systemstatus-ID: {{ systemstatus.systemstatus_id }}
@@ -46,47 +70,75 @@
     </div>
 </div>
 
+<!-- systemstatus note headline -->
 <div class="row">
     <div class="col-3">
-    <br>
-        <h5>Note</h5>
+        <h5>
+            Note
+        </h5>
     </div>
 </div>
 
-<div class="row">
+<!-- systemstatus note -->
+<div class="row bottom-distance">
     <div class="col">
         {% if systemstatus.systemstatus_note %}
-        {{ systemstatus.systemstatus_note|linebreaks }}
+            {{ systemstatus.systemstatus_note|linebreaks }}
         {% else %}
-        ---
+            ---
         {% endif %}
     </div>
 </div>
 
+<!-- system headline -->
 <div class="row">
     <div class="col-6">
-    <br>
-        <h5>Systems with this status{% if systemstatus.system_set.all %} ({{ systemstatus.system_set.all|length }}){% endif %}</h5>
+        <h5>
+            Systems with this status{% if systemstatus.system_set.all %} ({{ systemstatus.system_set.all|length }}){% endif %}
+        </h5>
     </div>
 </div>
 
+<!-- systems -->
 {% if systemstatus.system_set.all %}
-{% for i in systemstatus.system_set.all %}
-<div class="row top-distance">
-    <div class="col-3">
-        <a href="/systems/{{ i.system_id}}" type="button" class="btn btn-primary btn-sm"><img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm" alt="icon">  {{ i.system_name }}</a>
-    </div>
-</div>
-{% endfor %}
+
+    <!-- datatable system -->
+    <table id="table_system" class="display" width="100%">
+    
+        <!-- table head -->
+        <thead>
+            {% include "dfirtrack_main/includes/datatable_thead_table_system.html" %}
+        </thead>
+        
+        <!-- table body -->
+        <tbody>
+            <!-- iterate over rows -->
+            {% for i in systemstatus.system_set.all %}
+                {% include "dfirtrack_main/includes/datatable_tbody_table_system.html" %}
+            {% endfor %}
+        </tbody>
+
+    <!-- datatable system -->
+    </table>
+
+    <!-- javascript for datatables -->
+    <script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
+
+<!-- no systems -->
 {% else %}
-<div class="row top-distance">
-    <div class="col-3">
-        ---
+    <div class="row top-distance">
+        <div class="col-3">
+            ---
+        </div>
     </div>
-</div>
+
+<!-- systems -->
 {% endif %}
 
-<br><br>
-<a href="/systemstatuss/{{ systemstatus.systemstatus_id }}/edit" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon" alt="icon">  Edit</a>
+<!-- javascript for datatables -->
+{% block datatables %}
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.js' %}"></script>
+{% endblock %}
 
+<!-- HTML body in maintemplate -->
 {% endblock %}

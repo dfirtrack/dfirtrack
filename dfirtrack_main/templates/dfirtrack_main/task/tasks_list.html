@@ -1,206 +1,91 @@
+<!-- extending maintemplate -->
 {% extends "dfirtrack_main/maintemplate.html" %}
 
+<!-- HTML head in maintemplate -->
 {% block head %}
-<title>DFIRTrack - Tasks</title>
+
+<!-- page title -->
+<title>DFIRTrack - Open tasks</title>
+
 {% load staticfiles %}
+
+<!-- javascript and CSS for datatables -->
 <link rel="stylesheet" type="text/css" href="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.css' %}"/>
-<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.js' %}"></script></script>
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.js' %}"></script>
+
+<!-- HTML head in maintemplate -->
 {% endblock %}
 
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
 {% block content %}
 
-<div class="row">
-    <div class="col">
-        <h5>Tasks</h5>
+<!-- headline -->
+<div class="row bottom-distance">
+    <div class="col-3">
+        <h5>
+            Open tasks
+        </h5>
     </div>
-</div>
-<br><br>
 
-<table id="table_task_open" class="display" width="100%">
-
-    <thead>
-        <tr>
-            <td>ID</td>
-            <td>Task</td>
-            <td>System</td>
-            <td>User</td>
-            <td>Status</td>
-            <td>Priority</td>
-            <td>Due</td>
-            <td>Created</td>
-            <td>Modified</td>
-        </tr>
-    </thead>
-
-    <tbody>
-    {% for i in object_list %}
-        {% if i.taskstatus.taskstatus_name != 'Done' %}
-        <tr>
-            <td>{{ i.task_id }}</td>
-            <td><a href="/tasks/{{ i.task_id }}" type="button" class="btn btn-primary btn-sm sharp"><img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon-sm" alt="icon">  {{ i.taskname }}</a></td>
-            <td>
-                {% if i.system %}
-                <a href="/systems/{{ i.system.system_id }}" type="button" class="btn btn-primary btn-sm"><img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm" alt="icon">  {{ i.system.system_name }}</a>
-                {% else %}
-                ---
-                {% endif %}
-            </td>
-            <td>
-                {% if i.task_assigned_to_user_id %}
-                {{ i.task_assigned_to_user_id }}
-                {% else %}
-                ---
-                {% endif %}
-            </td>
-            <td>
-                <a href="/taskstatuss/{{ i.taskstatus.taskstatus_id }}">
-                {% if i.taskstatus.taskstatus_name == 'Pending' %}
-                {% include "dfirtrack_main/includes/button_taskstatus_pending.html" %}
-                {% endif %}
-                {% if i.taskstatus.taskstatus_name == 'Working' %}
-                {% include "dfirtrack_main/includes/button_taskstatus_working.html" %}
-                {% endif %}
-                {% if i.taskstatus.taskstatus_name == 'Done' %}
-                {% include "dfirtrack_main/includes/button_taskstatus_done.html" %}
-                {% endif %}
-                {{ i.taskstatus }}
-                </a>
-            </td>
-            <td>
-                <a href="/taskprioritys/{{ i.taskpriority.taskpriority_id }}">
-                {% if i.taskpriority.taskpriority_name == 'High' %}
-                {% include "dfirtrack_main/includes/button_taskpriority_high.html" %}
-                {% endif %}
-                {% if i.taskpriority.taskpriority_name == 'Medium' %}
-                {% include "dfirtrack_main/includes/button_taskpriority_medium.html" %}
-                {% endif %}
-                {% if i.taskpriority.taskpriority_name == 'Low' %}
-                {% include "dfirtrack_main/includes/button_taskpriority_low.html" %}
-                {% endif %}
-                {{ i.taskpriority }}
-                </a>
-            </td>
-            <td>
-                {% if i.task_due_time %}
-                {{ i.task_due_time|date:"Y-m-d H:i" }}
-                {% else %}
-                ---
-                {% endif %}
-            </td>
-            <td class="text-secondary">{{ i.task_create_time|date:"Y-m-d H:i" }}</td>
-            <td class="text-secondary">{{ i.task_modify_time|date:"Y-m-d H:i" }}</td>
-        </tr>
-    {% endif %}
-    {% endfor %}
-    </tbody>
-
-</table>
-
-<br><br>
-<div class="row">
-    <div class="col-1">
-        <a href="/tasks/add" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon" alt="icon">  Add task</a>
-    </div>
+    <!-- closed tasks button -->
     <div class="col-2">
-        <a href="/tasks/creator" type="button" class="btn btn-light"><img src="{% static 'dfirtrack_main/icons/box.svg' %}" class="icon" alt="icon">  Creator</a>
+        <a href="/tasks/closed" type="button" class="btn btn-light copy-false">
+            <img src="{% static 'dfirtrack_main/icons/task.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Closed tasks</a>
     </div>
+
+<!-- headline -->
 </div>
 
-<br><br>
+<!-- datatable task open -->
+<table id="table_task" class="display" width="100%">
 
-<div class="row">
-    <div class="col">
-        <a href="#closed_tasks" data-toggle="collapse">Closed tasks  <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon-sm" alt="icon"></a>
-    </div>
-</div>
-<br><br>
-
-<div id="closed_tasks" class="collapse">
-<table id="table_task_done" class="display" width="100%">
-
+    <!-- table head -->
     <thead>
-        <tr>
-            <td>ID</td>
-            <td>Task</td>
-            <td>System</td>
-            <td>User</td>
-            <td>Status</td>
-            <td>Priority</td>
-            <td>Due</td>
-            <td>Created</td>
-            <td>Modified</td>
-        </tr>
+        {% include "dfirtrack_main/includes/datatable_thead_table_task.html" %}
     </thead>
 
+    <!-- table body -->
     <tbody>
-    {% for i in object_list %}
-        {% if i.taskstatus.taskstatus_name == 'Done' %}
-        <tr>
-            <td>{{ i.task_id }}</td>
-            <td><a href="/tasks/{{ i.task_id }}" type="button" class="btn btn-primary btn-sm sharp"><img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon-sm" alt="icon">  {{ i.taskname }}</a></td>
-            <td>
-                {% if i.system %}
-                <a href="/systems/{{ i.system.system_id }}" type="button" class="btn btn-primary btn-sm"><img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm" alt="icon">  {{ i.system.system_name }}</a>
-                {% else %}
-                ---
-                {% endif %}
-            </td>
-            <td>
-                {% if i.task_assigned_to_user_id %}
-                {{ i.task_assigned_to_user_id }}
-                {% else %}
-                ---
-                {% endif %}
-            </td>
-            <td>
-                <a href="/taskstatuss/{{ i.taskstatus.taskstatus_id }}">
-                {% if i.taskstatus.taskstatus_name == 'Pending' %}
-                {% include "dfirtrack_main/includes/button_taskstatus_pending.html" %}
-                {% endif %}
-                {% if i.taskstatus.taskstatus_name == 'Working' %}
-                {% include "dfirtrack_main/includes/button_taskstatus_working.html" %}
-                {% endif %}
-                {% if i.taskstatus.taskstatus_name == 'Done' %}
-                {% include "dfirtrack_main/includes/button_taskstatus_done.html" %}
-                {% endif %}
-                {{ i.taskstatus }}
-                </a>
-            </td>
-            <td>
-                <a href="/taskprioritys/{{ i.taskpriority.taskpriority_id }}">
-                {% if i.taskpriority.taskpriority_name == 'High' %}
-                {% include "dfirtrack_main/includes/button_taskpriority_high.html" %}
-                {% endif %}
-                {% if i.taskpriority.taskpriority_name == 'Medium' %}
-                {% include "dfirtrack_main/includes/button_taskpriority_medium.html" %}
-                {% endif %}
-                {% if i.taskpriority.taskpriority_name == 'Low' %}
-                {% include "dfirtrack_main/includes/button_taskpriority_low.html" %}
-                {% endif %}
-                {{ i.taskpriority }}
-                </a>
-            </td>
-            <td>
-                {% if i.task_due_time %}
-                {{ i.task_due_time|date:"Y-m-d H:i" }}
-                {% else %}
-                ---
-                {% endif %}
-            </td>
-            <td class="text-secondary">{{ i.task_create_time|date:"Y-m-d H:i" }}</td>
-            <td class="text-secondary">{{ i.task_modify_time|date:"Y-m-d H:i" }}</td>
-        </tr>
-    {% endif %}
-    {% endfor %}
+        {% for i in task_list %}
+            {% include "dfirtrack_main/includes/datatable_tbody_table_task.html" %}
+        {% endfor %}
     </tbody>
 
+<!-- datatable task open -->
 </table>
+
+<!-- button row -->
+<div class="row top-distance">
+
+    <!-- add button -->
+    <div class="col-1">
+        <a href="/tasks/add" type="button" class="btn btn-light copy-false">
+            <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Add task
+        </a>
+    </div>
+
+    <!-- creator button -->
+    <div class="col-2">
+        <a href="/tasks/creator" type="button" class="btn btn-light copy-false">
+            <img src="{% static 'dfirtrack_main/icons/box.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Creator
+        </a>
+    </div>
+
+<!-- button row -->
 </div>
 
+<!-- javascript for datatables -->
 <script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
 
+<!-- javascript for datatables -->
 {% block datatables %}
 <script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.js' %}"></script>
 {% endblock %}
 
+<!-- HTML body in maintemplate -->
 {% endblock %}
