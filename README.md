@@ -4,15 +4,20 @@
 
 DFIRTrack (Digital Forensics and Incident Response Tracking application) is an open source web application mainly based on [Django](https://www.djangoproject.com/) using a [PostgreSQL](https://www.postgresql.org/) database backend.
 
-In contrast to other great incident response tools, which are mainly case-based and support the work of CERTs, SOCs etc. in their daily business, DFIRTrack is focused on handling one major incident with a lot of affected systems as it is often observed in APT cases. It is meant to be used as a tool for dedicated incident response teams in large cases. So, of course, CERTs and SOCs may use DFIRTrack as well, but they may feel it will be more appropriate in special cases instead of every day work.
+In contrast to other great incident response tools, which are mainly case-based and support the work of CERTs, SOCs etc. in their daily business, DFIRTrack is focused on handling one major incident with a lot of affected systems as it is often observed in APT cases.
+It is meant to be used as a tool for dedicated incident response teams in large cases.
+So, of course, CERTs and SOCs may use DFIRTrack as well, but they may feel it will be more appropriate in special cases instead of every day work.
 
-In contrast to case-based applications, DFIRTrack works in a system-based fashion. It keeps track of the status of various systems and the tasks associated with them, keeping the analyst well-informed about the status and number of affected systems at any time during the investigation phase up to the remediation phase of the incident response process.
+In contrast to case-based applications, DFIRTrack works in a system-based fashion.
+It keeps track of the status of various systems and the tasks associated with them, keeping the analyst well-informed about the status and number of affected systems at any time during the investigation phase up to the remediation phase of the incident response process.
 
 ![Systems list view](dfirtrack_docs/images/systems_list.png)
 
 ## Features
 
-One focus is the fast and reliable import and export of systems and associated information. The goal for importing systems is to provide a fast and error-free procedure. Moreover, the goal for exporting systems and their status is to have multiple instances of documentation: for instance, detailed Markdown reports for technical staff vs. spreadsheets for non-technical audiences without redundancies and deviations in the data sets. A manager whose numbers match is a happy manager! ;-)
+One focus is the fast and reliable import and export of systems and associated information.
+The goal for importing systems is to provide a fast and error-free procedure.
+Moreover, the goal for exporting systems and their status is to have multiple instances of documentation: for instance, detailed Markdown reports for technical staff vs. spreadsheets for non-technical audiences without redundancies and deviations in the data sets.
 
 The following functions are implemented for now:
 
@@ -24,40 +29,30 @@ The following functions are implemented for now:
     * Markdown for so-called system reports (for use in a [MkDocs](https://www.mkdocs.org/) structure),
     * Spreadsheet (CSV and XLS).
 
-A list of feature ideas is maintained in the [Wiki](https://github.com/stuhli/dfirtrack/wiki/Roadmap).
+A list of feature ideas is maintained in the [Wiki - Roadmap](https://github.com/stuhli/dfirtrack/wiki/Roadmap).
 
-## Installation and dependencies
+## Installation
 
-DFIRTrack is developed for deploying on **Debian** or **Ubuntu**. Other distributions may work but were not tested yet. At the moment the project will be focused on Ubuntu LTS and Debian releases.
+DFIRTrack is developed for deploying on **Debian** or **Ubuntu**.
+Other distributions may work but were not tested yet.
+At the moment the project will be focused on Ubuntu LTS and Debian releases.
 
-For fast and uncomplicated installation on a dedicated server including all dependencies an [Ansible](https://docs.ansible.com/ansible/latest/) playbook and role was written (available [here](https://github.com/stuhli/dfirtrack_ansible)). For testing a docker environment was prepared (see below).
+For fast and uncomplicated installation on a dedicated server including all dependencies an [Ansible](https://docs.ansible.com/ansible/latest/) playbook and role was written (available [here](https://github.com/stuhli/dfirtrack_ansible)).
+For testing a docker environment was prepared (see below).
 
-For a minimal setup the following dependencies are needed:
-
-* `django` (2.0),
-* `django_q`,
-* `djangorestframework`,
-* `gunicorn`,
-* `postgresql`,
-* `psycopg2-binary`,
-* `python3-pip`,
-* `PyYAML`,
-* `requests`,
-* `virtualenv`,
-* `xlwt`.
-
-**Note that there is no `settings.py` in this repository.** [This file](https://github.com/stuhli/dfirtrack_ansible/blob/master/roles/dfirtrack/templates/settings.py.j2) is submitted via Ansible or has to be copied and configured by hand. More detailled instructions are provided in the [Wiki](https://github.com/stuhli/dfirtrack/wiki/Installation).
+For installation with your own setup or for testing look at the [Wiki - Installation](https://github.com/stuhli/dfirtrack/wiki/Installation).
 
 ## Docker Environment
 
-An experimental Docker Compose environment for local-only usage is provided in this project. Run the following command
-in the project root directory to start the environment:
+An experimental Docker Compose environment for local-only usage is provided in this project.
+Run the following command in the project root directory to start the environment:
 
 ```
 docker-compose up
 ```
 
-A user *admin* is already created. A password can be set with:
+A user *admin* is already created.
+A password can be set with:
 
 ```
 docker/setup_admin.sh
@@ -89,16 +84,13 @@ Everything merged into develop should run too but might need manual changes (e. 
 [devolop branch](https://github.com/stuhli/dfirtrack_ansible/tree/develop) of DFIRTrack Ansible should follow these changes.
 So if you want to see the latest features and progress: "check out" develop.
 
-## Roadmap
-
-A list of feature ideas is maintained in the [Wiki](https://github.com/stuhli/dfirtrack/wiki/Roadmap).
-
 ## License
 
 See `LICENSE` file in the root directory.
 
 ## Disclaimer
 
-This software is in an early alpha phase so a lot of work has to be done. Even if some basic error checking is implemented, as of now the usage of DFIRTrack mainly depends on proper handling.
+This software is in an early alpha phase so a lot of work has to be done.
+Even if some basic error checking is implemented, as of now the usage of DFIRTrack mainly depends on proper handling.
 
 *DFIRTrack was not and most likely will never be intended for usage on publicly available servers. Nevertheless some basic security features were implemented (in particular in connection with the corresponding ansible role) always install DFIRTrack in a secured environment (e. g. a dedicated virtual machine or in a separated network)!*
