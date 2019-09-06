@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from dfirtrack_main.views import generic_views
 from dfirtrack_main.views import analysisstatus_views, analystmemo_views, case_views, company_views, contact_views, division_views, dnsname_views, domain_views, domainuser_views, entry_views, headline_views, ip_views, location_views, os_views, osimportname_views, reason_views, recommendation_views, reportitem_views, serviceprovider_views, system_views, systemstatus_views, systemtype_views, systemuser_views, tag_views, task_views, taskname_views, taskpriority_views, taskstatus_views
-from dfirtrack_main.creator import systems_creator, tasks_creator
+from dfirtrack_main.creator import systems_creator, tags_creator, tasks_creator
 from dfirtrack_main.exporter.spreadsheet import csv as spreadsheet_csv
 from dfirtrack_main.exporter.spreadsheet import xls
 from dfirtrack_main.exporter.markdown import domainsorted, systemsorted
@@ -152,6 +152,8 @@ urlpatterns = [
     url(r'^tags/add/$', tag_views.TagCreate.as_view(), name='tags_add'),
     url(r'^tags/(?P<pk>\d+)/edit/$', tag_views.TagUpdate.as_view(), name='tags_edit'),
     url(r'^tags/(?P<pk>\d+)/delete/$', tag_views.TagDelete.as_view(), name='tags_delete'),
+
+    url(r'^tags/creator$', tags_creator.tags_creator, name='tags_creator'),
 
     url(r'^tasks/$', task_views.TaskList.as_view(), name='tasklist'),
     url(r'^tasks/closed$', task_views.TaskClosed.as_view(), name='taskclosed'),
