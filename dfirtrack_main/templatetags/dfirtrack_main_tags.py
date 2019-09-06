@@ -4,5 +4,5 @@ register = template.Library()
 
 @register.simple_tag
 def dfirtrack_version():
-    versionnumber = 'v0.1.28'
+    versionnumber = 'v0.2.0'
     return versionnumber
