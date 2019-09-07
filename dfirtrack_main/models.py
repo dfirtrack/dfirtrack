@@ -849,6 +849,9 @@ class System(models.Model):
 
 class Systemhistory(models.Model):
 
+    # primary key
+    systemhistory_id = models.AutoField(primary_key=True)
+
     # foreign key(s)
     system = models.ForeignKey('System', on_delete=models.CASCADE)
 
