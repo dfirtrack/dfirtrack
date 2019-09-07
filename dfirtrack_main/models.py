@@ -858,7 +858,7 @@ class Systemhistory(models.Model):
     systemhistory_new_value = models.CharField(max_length=30)
 
     # meta information
-    systemhistory_date = models.DateTimeField(auto_now_add=True)
+    systemhistory_time = models.DateTimeField(auto_now_add=True)
     #systemhistory_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='systemhistory_user')
 
     # string representation

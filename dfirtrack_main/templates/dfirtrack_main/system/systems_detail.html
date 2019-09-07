@@ -597,6 +597,48 @@
             {% endif %}
         </div>
 
+    <!-- status information row -->
+    </div>
+
+    <!-- systemhistory headline row -->
+    <div class="row top-distance bottom-distance">
+        <div class="col">
+            <div class="font-weight-bold">System history:</div>
+        </div>
+    </div>
+
+    <!-- systemhistory row -->
+    <div class="row top-distance">
+
+        <!-- datatable systemhistory -->
+        <table id="table_systemhistory" class="display" width="100%">
+
+            <!-- table head -->
+            <thead>
+                {% include "dfirtrack_main/includes/datatable_thead_table_systemhistory.html" %}
+            </thead>
+
+            <!-- table body -->
+            <tbody>
+                {% if system.systemhistory_set.all %}
+                    {% for i in system.systemhistory_set.all %}
+                        {% include "dfirtrack_main/includes/datatable_tbody_table_systemhistory.html" %}
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td>---</td>
+                        <td>---</td>
+                        <td>---</td>
+                        <td>---</td>
+                        <td>---</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+
+        <!-- datatable systemhistory -->
+        </table>
+
+    <!-- systemhistory row -->
     </div>
 
 <!-- status information end -->
@@ -657,15 +699,15 @@
         <!-- javascript for datatables -->
         <script src="{% static 'dfirtrack_artifacts/datatables_artifacts.js' %}"></script>
 
-    <!-- add artifact button -->
-    <div class="row bottom-distance top-distance">
-        <div class="col-1">
-            <a href="/artifacts/artifact/create?system={{ system.system_id }}" type="button" class="btn btn-light btn-sm copy-false">
-                <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm copy-false right-distance" alt="icon">
-                Add artifact
-            </a>
+        <!-- add artifact button -->
+        <div class="row bottom-distance top-distance">
+            <div class="col-1">
+                <a href="/artifacts/artifact/create?system={{ system.system_id }}" type="button" class="btn btn-light btn-sm copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm copy-false right-distance" alt="icon">
+                    Add artifact
+                </a>
+            </div>
         </div>
-    </div>
 
     <!-- artifacts collapse -->
     </div>
