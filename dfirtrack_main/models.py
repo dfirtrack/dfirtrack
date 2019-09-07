@@ -633,29 +633,77 @@ class System(models.Model):
 
             ''' systemhistory '''
 
-            # check for existing previous status (at first there is no previous status)
-            if self.previous_systemstatus:
+            ''' systemstatus (null = False) '''
+
+            # compare previous with actual status
+            if self.previous_systemstatus != self.systemstatus:
+                # create systemhistory object reflecting status change
+                systemhistory = Systemhistory(
+                    system = self,
+                    systemhistory_type = 'Systemstatus',
+                    systemhistory_old_value = self.previous_systemstatus.systemstatus_name,
+                    systemhistory_new_value = self.systemstatus.systemstatus_name,
+                    # TODO: systemhistory_user_id
+                )
+                systemhistory.save()
+                # set previous status to new value
+                self.previous_systemstatus = self.systemstatus
+
+            ''' analysisstatus (null = True) '''
+
+            # existing previous status / actual status provided
+            if self.previous_analysisstatus and self.analysisstatus:
                 # compare previous with actual status
-                if self.previous_systemstatus != self.systemstatus:
+                if self.previous_analysisstatus != self.analysisstatus:
                     # create systemhistory object reflecting status change
                     systemhistory = Systemhistory(
                         system = self,
-                        systemhistory_type = 'Systemstatus',
-                        systemhistory_old_value = self.previous_systemstatus.systemstatus_name,
-                        systemhistory_new_value = self.systemstatus.systemstatus_name,
-                        #systemhistory_user_id
+                        systemhistory_type = 'Analysisstatus',
+                        systemhistory_old_value = self.previous_analysisstatus.analysisstatus_name,
+                        systemhistory_new_value = self.analysisstatus.analysisstatus_name,
+                        # TODO: systemhistory_user_id
                     )
                     systemhistory.save()
+                    # set previous status to new value
+                    self.previous_analysisstatus = self.analysisstatus
+
+            # existing previous status / no actual status provided
+            elif self.previous_analysisstatus and not self.analysisstatus:
+                systemhistory = Systemhistory(
+                    system = self,
+                    systemhistory_type = 'Analysisstatus',
+                    systemhistory_old_value = self.previous_analysisstatus.analysisstatus_name,
+                    systemhistory_new_value = 'No analysisstatus',
+                    # TODO: systemhistory_user_id
+                )
+                systemhistory.save()
                 # set previous status to new value
-                self.previous_systemstatus = self.systemstatus
+                self.previous_analysisstatus = self.analysisstatus
+
+            # no previous status / actual status provided
+            elif not self.previous_analysisstatus and self.analysisstatus:
+                systemhistory = Systemhistory(
+                    system = self,
+                    systemhistory_type = 'Analysisstatus',
+                    systemhistory_old_value = 'No analysisstatus',
+                    systemhistory_new_value = self.analysisstatus.analysisstatus_name,
+                    # TODO: systemhistory_user_id
+                )
+                systemhistory.save()
+                # set previous status to new value
+                self.previous_analysisstatus = self.analysisstatus
 
         # check for new system
         if not self.pk:
 
             ''' systemhistory '''
 
-            # initial set previous status
+            # initial set previous status (null = False)
             self.previous_systemstatus = self.systemstatus
+
+            # initial set previous status (null = True)
+            if self.analysisstatus:
+                self.previous_analysisstatus = self.analysisstatus
 
             """ create uuid """
             # TODO: possibly remove, if GIRAF creates uuid
