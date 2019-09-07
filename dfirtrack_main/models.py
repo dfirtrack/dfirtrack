@@ -572,8 +572,8 @@ class System(models.Model):
     system_id = models.AutoField(primary_key=True)
 
     # foreign key(s)
-    systemstatus = models.ForeignKey('Systemstatus', on_delete=models.PROTECT)
-    analysisstatus = models.ForeignKey('Analysisstatus', on_delete=models.PROTECT, blank=True, null=True)
+    systemstatus = models.ForeignKey('Systemstatus', on_delete=models.PROTECT, related_name='systemstatus')
+    analysisstatus = models.ForeignKey('Analysisstatus', on_delete=models.PROTECT, blank=True, null=True, related_name='analysisstatus')
     reason = models.ForeignKey('Reason', on_delete=models.PROTECT, blank=True, null=True)
     recommendation = models.ForeignKey('Recommendation', on_delete=models.PROTECT, blank=True, null=True)
     systemtype = models.ForeignKey('Systemtype', on_delete=models.PROTECT, blank=True, null=True)
@@ -600,6 +600,10 @@ class System(models.Model):
     system_deprecated_time = models.DateTimeField(blank=True, null=True)
     system_is_vm = models.NullBooleanField(blank=True, null=True)
 
+    # history information
+    previous_systemstatus = models.ForeignKey('Systemstatus', on_delete=models.PROTECT, null=True, related_name='previous_systemstatus')
+    previous_analysisstatus = models.ForeignKey('Analysisstatus', on_delete=models.PROTECT, blank=True, null=True, related_name='previous_analysisstatus')
+
     # meta information
     system_create_time = models.DateTimeField(auto_now_add=True)
     system_modify_time = models.DateTimeField()
@@ -624,13 +628,41 @@ class System(models.Model):
     # extend save method
     def save(self, *args, **kwargs):
 
-        """ create uuid """
+        # check for existing system
+        if self.pk:
 
-        # TODO: possibly remove, if GIRAF creates uuid
+            ''' systemhistory '''
+
+            # check for existing previous status (at first there is no previous status)
+            if self.previous_systemstatus:
+                # compare previous with actual status
+                if self.previous_systemstatus != self.systemstatus:
+                    # create systemhistory object reflecting status change
+                    systemhistory = Systemhistory(
+                        system = self,
+                        systemhistory_type = 'Systemstatus',
+                        systemhistory_old_value = self.previous_systemstatus.systemstatus_name,
+                        systemhistory_new_value = self.systemstatus.systemstatus_name,
+                        #systemhistory_user_id
+                    )
+                    systemhistory.save()
+                # set previous status to new value
+                self.previous_systemstatus = self.systemstatus
+
         # check for new system
         if not self.pk:
+
+            ''' systemhistory '''
+
+            # initial set previous status
+            self.previous_systemstatus = self.systemstatus
+
+            """ create uuid """
+            # TODO: possibly remove, if GIRAF creates uuid
+
             # generate uuid type4 (completely random type)
             self.system_uuid = uuid.uuid4()
+
         return super().save(*args, **kwargs)
 
     # define logger
@@ -766,6 +798,24 @@ class System(models.Model):
 
     def get_update_url(self):
         return reverse('systems_edit', args=(self.pk,))
+
+class Systemhistory(models.Model):
+
+    # foreign key(s)
+    system = models.ForeignKey('System', on_delete=models.CASCADE)
+
+    # main entity information
+    systemhistory_type = models.CharField(max_length=30)
+    systemhistory_old_value = models.CharField(max_length=30)
+    systemhistory_new_value = models.CharField(max_length=30)
+
+    # meta information
+    systemhistory_date = models.DateTimeField(auto_now_add=True)
+    #systemhistory_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='systemhistory_user')
+
+    # string representation
+    def __str__(self):
+        return str(self.systemhistory_id)
 
 class Systemstatus(models.Model):
 
