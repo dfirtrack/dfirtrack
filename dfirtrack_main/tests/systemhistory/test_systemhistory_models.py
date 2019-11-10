@@ -39,12 +39,7 @@ class SystemhistoryModelTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # get object
-        systemhistory_1 = Systemhistory.objects.get(
-            system = system_1,
-            systemhistory_type='systemhistory_type_1',
-            systemhistory_old_value='systemhistory_value_2',
-            systemhistory_new_value='systemhistory_value_1',
-        )
+        systemhistory_1 = Systemhistory.objects.filter(system=system_1.system_id).order_by('-systemhistory_id')[0]
         # compare
         self.assertEqual(str(systemhistory_1), str(systemhistory_1.systemhistory_id))
 
@@ -54,12 +49,7 @@ class SystemhistoryModelTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # get object
-        systemhistory_1 = Systemhistory.objects.get(
-            system = system_1,
-            systemhistory_type='systemhistory_type_1',
-            systemhistory_old_value='systemhistory_value_2',
-            systemhistory_new_value='systemhistory_value_1',
-        )
+        systemhistory_1 = Systemhistory.objects.filter(system=system_1.system_id).order_by('-systemhistory_id')[0]
         # get label
         field_label = systemhistory_1._meta.get_field('systemhistory_id').verbose_name
         # compare
@@ -71,12 +61,7 @@ class SystemhistoryModelTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # get object
-        systemhistory_1 = Systemhistory.objects.get(
-            system = system_1,
-            systemhistory_type='systemhistory_type_1',
-            systemhistory_old_value='systemhistory_value_2',
-            systemhistory_new_value='systemhistory_value_1',
-        )
+        systemhistory_1 = Systemhistory.objects.filter(system=system_1.system_id).order_by('-systemhistory_id')[0]
         # get label
         field_label = systemhistory_1._meta.get_field('system').verbose_name
         # compare
@@ -88,12 +73,7 @@ class SystemhistoryModelTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # get object
-        systemhistory_1 = Systemhistory.objects.get(
-            system = system_1,
-            systemhistory_type='systemhistory_type_1',
-            systemhistory_old_value='systemhistory_value_2',
-            systemhistory_new_value='systemhistory_value_1',
-        )
+        systemhistory_1 = Systemhistory.objects.filter(system=system_1.system_id).order_by('-systemhistory_id')[0]
         # get label
         field_label = systemhistory_1._meta.get_field('systemhistory_type').verbose_name
         # compare
@@ -105,12 +85,7 @@ class SystemhistoryModelTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # get object
-        systemhistory_1 = Systemhistory.objects.get(
-            system = system_1,
-            systemhistory_type='systemhistory_type_1',
-            systemhistory_old_value='systemhistory_value_2',
-            systemhistory_new_value='systemhistory_value_1',
-        )
+        systemhistory_1 = Systemhistory.objects.filter(system=system_1.system_id).order_by('-systemhistory_id')[0]
         # get label
         field_label = systemhistory_1._meta.get_field('systemhistory_old_value').verbose_name
         # compare
@@ -122,12 +97,7 @@ class SystemhistoryModelTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # get object
-        systemhistory_1 = Systemhistory.objects.get(
-            system = system_1,
-            systemhistory_type='systemhistory_type_1',
-            systemhistory_old_value='systemhistory_value_2',
-            systemhistory_new_value='systemhistory_value_1',
-        )
+        systemhistory_1 = Systemhistory.objects.filter(system=system_1.system_id).order_by('-systemhistory_id')[0]
         # get label
         field_label = systemhistory_1._meta.get_field('systemhistory_new_value').verbose_name
         # compare
@@ -139,12 +109,7 @@ class SystemhistoryModelTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # get object
-        systemhistory_1 = Systemhistory.objects.get(
-            system = system_1,
-            systemhistory_type='systemhistory_type_1',
-            systemhistory_old_value='systemhistory_value_2',
-            systemhistory_new_value='systemhistory_value_1',
-        )
+        systemhistory_1 = Systemhistory.objects.filter(system=system_1.system_id).order_by('-systemhistory_id')[0]
         # get label
         field_label = systemhistory_1._meta.get_field('systemhistory_time').verbose_name
         # compare
@@ -156,12 +121,7 @@ class SystemhistoryModelTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # get object
-        systemhistory_1 = Systemhistory.objects.get(
-            system = system_1,
-            systemhistory_type='systemhistory_type_1',
-            systemhistory_old_value='systemhistory_value_2',
-            systemhistory_new_value='systemhistory_value_1',
-        )
+        systemhistory_1 = Systemhistory.objects.filter(system=system_1.system_id).order_by('-systemhistory_id')[0]
         # get max length
         max_length = systemhistory_1._meta.get_field('systemhistory_type').max_length
         # compare
@@ -173,12 +133,7 @@ class SystemhistoryModelTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # get object
-        systemhistory_1 = Systemhistory.objects.get(
-            system = system_1,
-            systemhistory_type='systemhistory_type_1',
-            systemhistory_old_value='systemhistory_value_2',
-            systemhistory_new_value='systemhistory_value_1',
-        )
+        systemhistory_1 = Systemhistory.objects.filter(system=system_1.system_id).order_by('-systemhistory_id')[0]
         # get max length
         max_length = systemhistory_1._meta.get_field('systemhistory_old_value').max_length
         # compare
@@ -190,12 +145,7 @@ class SystemhistoryModelTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # get object
-        systemhistory_1 = Systemhistory.objects.get(
-            system = system_1,
-            systemhistory_type='systemhistory_type_1',
-            systemhistory_old_value='systemhistory_value_2',
-            systemhistory_new_value='systemhistory_value_1',
-        )
+        systemhistory_1 = Systemhistory.objects.filter(system=system_1.system_id).order_by('-systemhistory_id')[0]
         # get max length
         max_length = systemhistory_1._meta.get_field('systemhistory_new_value').max_length
         # compare
