@@ -49,6 +49,11 @@ $(document).ready( function () {
             { "width": "10%", "targets": 9 },
         ]
     } );
+    $('#table_systemhistory').DataTable( {
+        "pageLength": 10,
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        "order": [[ 2, "des" ]]
+    } );
     $('#table_task').DataTable( {
         "pageLength": 15,
         "lengthMenu": [[15, 25, 50, -1], [15, 25, 50, "All"]],
