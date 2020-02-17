@@ -4,7 +4,8 @@ from . import views
 
 urlpatterns = [
 
-    url(r'^systems/$', views.SystemView.as_view()),
+    url(r'^systems/$', views.SystemListApi.as_view()),
+    url(r'^systems/(?P<pk>\d+)/$', views.SystemDetailApi.as_view()),
 
 ]
 
