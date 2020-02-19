@@ -53,6 +53,12 @@ class SystemDetail(LoginRequiredMixin, DetailView):
         else:
             context['dfirtrack_artifacts'] = False
 
+        # set dfirtrack_api for template
+        if 'dfirtrack_api' in installed_apps:
+            context['dfirtrack_api'] = True
+        else:
+            context['dfirtrack_api'] = False
+
         # call logger
         system.logger(str(self.request.user), " SYSTEM_DETAIL_ENTERED")
         return context

@@ -47,6 +47,9 @@
         </a>
     </div>
 
+    <!-- check for dfirtrack_api -->
+    {% if dfirtrack_api == True %}
+
     <!-- show api view button -->
     <div class="col-3">
         <a href="/api/systems/{{ system.system_id }}/" type="button" class="btn btn-light copy-false">
@@ -54,6 +57,8 @@
             API view
         </a>
     </div>
+
+    {% endif %}
 
 <!-- upper buttons row -->
 </div>
@@ -1446,6 +1451,9 @@
         </a>
     </div>
 
+    <!-- check for dfirtrack_api -->
+    {% if dfirtrack_api == True %}
+
     <!-- show api view button -->
     <div class="col-3">
         <a href="/api/systems/{{ system.system_id }}/" type="button" class="btn btn-light copy-false">
@@ -1453,6 +1461,8 @@
             API view
         </a>
     </div>
+
+    {% endif %}
 
 <!-- lower buttons row -->
 </div>
