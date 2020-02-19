@@ -10,7 +10,11 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('dfirtrack_main.urls')),
     url(r'^artifacts/', include('dfirtrack_artifacts.urls')),
-    url(r'^api/', include('dfirtrack_api.urls')),
     url(r'^login/', LoginView.as_view(template_name='dfirtrack_main/login.html')),
     url(r'^logout/', LogoutView.as_view(template_name='dfirtrack_main/logout.html')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+if 'dfirtrack_api' in settings.INSTALLED_APPS:
+    urlpatterns += [
+        url(r'^api/', include('dfirtrack_api.urls')),
+    ]
