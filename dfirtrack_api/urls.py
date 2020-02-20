@@ -9,6 +9,8 @@ urlpatterns = [
     url(r'^artifacts/(?P<pk>\d+)/$', dfirtrack_artifacts.ArtifactDetailApi.as_view()),
     url(r'^artifactstatuss/$', dfirtrack_artifacts.ArtifactstatusListApi.as_view()),
     url(r'^artifactstatuss/(?P<pk>\d+)/$', dfirtrack_artifacts.ArtifactstatusDetailApi.as_view()),
+    url(r'^artifacttypes/$', dfirtrack_artifacts.ArtifacttypeListApi.as_view()),
+    url(r'^artifacttypes/(?P<pk>\d+)/$', dfirtrack_artifacts.ArtifacttypeDetailApi.as_view()),
 
     # dfirtrack_main
     url(r'^ips/$', dfirtrack_main.IpListApi.as_view()),
