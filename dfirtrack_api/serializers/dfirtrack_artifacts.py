@@ -1,3 +1,4 @@
+from dfirtrack_api.serializers.dfirtrack_main import CaseSerializer
 from dfirtrack_artifacts.models import Artifact, Artifactstatus, Artifacttype
 from dfirtrack_main.models import Case, System
 from django.contrib.auth.models import User
@@ -21,16 +22,6 @@ class ArtifacttypeSerializer(serializers.ModelSerializer):
         # attributes made available for api
         fields = (
             'artifacttype_name',
-        )
-
-class CaseSerializer(serializers.ModelSerializer):
-    """ create serializer for foreignkey relationsship """
-
-    class Meta:
-        model = Case
-        # attributes made available for api
-        fields = (
-            'case_name',
         )
 
 class SystemSerializer(serializers.ModelSerializer):
