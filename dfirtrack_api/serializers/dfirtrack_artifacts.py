@@ -1,22 +1,45 @@
-from dfirtrack_artifacts.models import Artifact
+from dfirtrack_artifacts.models import Artifact, Artifactstatus, Artifacttype
+from dfirtrack_main.models import Case
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-#class DomainSerializer(serializers.ModelSerializer):
-#    """ create serializer for foreignkey relationsship """
-#
-#    class Meta:
-#        model = Domain
-#        # attributes made available for api
-#        fields = (
-#            'domain_name',
-#        )
+class ArtifactstatusSerializer(serializers.ModelSerializer):
+    """ create serializer for foreignkey relationsship """
+
+    class Meta:
+        model = Artifactstatus
+        # attributes made available for api
+        fields = (
+            'artifactstatus_name',
+        )
+
+class ArtifacttypeSerializer(serializers.ModelSerializer):
+    """ create serializer for foreignkey relationsship """
+
+    class Meta:
+        model = Artifacttype
+        # attributes made available for api
+        fields = (
+            'artifacttype_name',
+        )
+
+class CaseSerializer(serializers.ModelSerializer):
+    """ create serializer for foreignkey relationsship """
+
+    class Meta:
+        model = Case
+        # attributes made available for api
+        fields = (
+            'case_name',
+        )
 
 class ArtifactSerializer(serializers.ModelSerializer):
     """ create serializer for artifact """
 
     # get serializers of foreignkey relationsships
-    #domain = DomainSerializer(many=False, read_only=True)
+    artifactstatus = ArtifactstatusSerializer(many=False, read_only=True)
+    artifacttype = ArtifacttypeSerializer(many=False, read_only=True)
+    case = CaseSerializer(many=False, read_only=True)
 
     # redefine representation
     def to_representation(self, instance):
@@ -47,6 +70,9 @@ class ArtifactSerializer(serializers.ModelSerializer):
             'artifact_id',
             'artifact_uuid',
             'artifact_name',
+            'artifactstatus',
+            'artifacttype',
+            'case',
             'artifact_note',
             'artifact_md5',
             'artifact_sha1',
