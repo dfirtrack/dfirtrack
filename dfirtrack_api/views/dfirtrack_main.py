@@ -58,6 +58,7 @@ class SystemListApi(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class SystemDetailApi(APIView):
+    """ single object """
 
     def get(self, request, pk, format=None):
         """ define API view for GET request """

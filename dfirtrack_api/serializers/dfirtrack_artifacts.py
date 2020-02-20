@@ -24,17 +24,15 @@ class ArtifactSerializer(serializers.ModelSerializer):
         # get exsiting to_representation
         representation = super(ArtifactSerializer, self).to_representation(instance)
 
-        ## change mandatory time strings
-        #representation['system_create_time'] = instance.system_create_time.strftime('%Y-%m-%dT%H:%M')
-        #representation['system_modify_time'] = instance.system_modify_time.strftime('%Y-%m-%dT%H:%M')
+        # change mandatory time strings
+        representation['artifact_create_time'] = instance.artifact_create_time.strftime('%Y-%m-%dT%H:%M')
+        representation['artifact_modify_time'] = instance.artifact_modify_time.strftime('%Y-%m-%dT%H:%M')
 
-        ## change optional time strings
-        #if instance.system_install_time:
-        #    representation['system_install_time'] = instance.system_install_time.strftime('%Y-%m-%dT%H:%M')
-        #if instance.system_lastbooted_time:
-        #    representation['system_lastbooted_time'] = instance.system_lastbooted_time.strftime('%Y-%m-%dT%H:%M')
-        #if instance.system_deprecated_time:
-        #    representation['system_deprecated_time'] = instance.system_deprecated_time.strftime('%Y-%m-%dT%H:%M')
+        # change optional time strings
+        if instance.artifact_acquisition_time:
+            representation['artifact_acquisition_time'] = instance.artifact_acquisition_time.strftime('%Y-%m-%dT%H:%M')
+        if instance.artifact_requested_time:
+            representation['artifact_requested_time'] = instance.artifact_requested_time.strftime('%Y-%m-%dT%H:%M')
 
         # get usernames
         representation['artifact_created_by_user_id'] = instance.artifact_created_by_user_id.username
@@ -49,4 +47,17 @@ class ArtifactSerializer(serializers.ModelSerializer):
             'artifact_id',
             'artifact_uuid',
             'artifact_name',
+            'artifact_note',
+            'artifact_md5',
+            'artifact_sha1',
+            'artifact_sha256',
+            'artifact_slug',
+            'artifact_source_path',
+            'artifact_storage_path',
+            'artifact_acquisition_time',
+            'artifact_requested_time',
+            'artifact_create_time',
+            'artifact_created_by_user_id',
+            'artifact_modify_time',
+            'artifact_modified_by_user_id',
         )
