@@ -1,5 +1,5 @@
 from dfirtrack_artifacts.models import Artifact, Artifactstatus, Artifacttype
-from dfirtrack_main.models import Case
+from dfirtrack_main.models import Case, System
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
@@ -33,6 +33,16 @@ class CaseSerializer(serializers.ModelSerializer):
             'case_name',
         )
 
+class SystemSerializer(serializers.ModelSerializer):
+    """ create serializer for foreignkey relationsship """
+
+    class Meta:
+        model = System
+        # attributes made available for api
+        fields = (
+            'system_name',
+        )
+
 class ArtifactSerializer(serializers.ModelSerializer):
     """ create serializer for artifact """
 
@@ -40,6 +50,7 @@ class ArtifactSerializer(serializers.ModelSerializer):
     artifactstatus = ArtifactstatusSerializer(many=False, read_only=True)
     artifacttype = ArtifacttypeSerializer(many=False, read_only=True)
     case = CaseSerializer(many=False, read_only=True)
+    system = SystemSerializer(many=False, read_only=True)
 
     # redefine representation
     def to_representation(self, instance):
@@ -73,6 +84,7 @@ class ArtifactSerializer(serializers.ModelSerializer):
             'artifactstatus',
             'artifacttype',
             'case',
+            'system',
             'artifact_note',
             'artifact_md5',
             'artifact_sha1',
