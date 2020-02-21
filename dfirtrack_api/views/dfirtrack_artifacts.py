@@ -44,6 +44,15 @@ class ArtifactstatusListApi(APIView):
         serializer = dfirtrack_artifacts.ArtifactstatusSerializer(artifactstatus, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    def post(self, request, format=None):
+        """ define API view for POST request """
+
+        serializer = dfirtrack_artifacts.ArtifactstatusSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 class ArtifactstatusDetailApi(APIView):
     """ single object """
 
@@ -70,6 +79,15 @@ class ArtifacttypeListApi(APIView):
         # create serializer for all objects
         serializer = dfirtrack_artifacts.ArtifacttypeSerializer(artifacttype, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request, format=None):
+        """ define API view for POST request """
+
+        serializer = dfirtrack_artifacts.ArtifacttypeSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class ArtifacttypeDetailApi(APIView):
     """ single object """
