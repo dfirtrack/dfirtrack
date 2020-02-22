@@ -1,84 +1,33 @@
 from dfirtrack_api.serializers import dfirtrack_main
 from dfirtrack_main.models import Ip, Os, System, Tag
-from django.http import Http404
-from rest_framework import status
-from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework import generics
 
-class IpListApi(APIView):
+class IpListApi(generics.ListCreateAPIView):
+    """ all objects, allowed: GET + POST """
 
-    def get(self, request, format=None):
-        """ define API view for GET request """
+    queryset = Ip.objects.all()
+    serializer_class = dfirtrack_main.IpSerializer
 
-        # get all objects
-        ip = Ip.objects.all()
-        # create serializer for all objects
-        serializer = dfirtrack_main.IpSerializer(ip, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+class OsListApi(generics.ListCreateAPIView):
+    """ all objects, allowed: GET + POST """
 
-    def post(self, request, format=None):
-        """ define API view for POST request """
+    queryset = Os.objects.all()
+    serializer_class = dfirtrack_main.OsSerializer
 
-        serializer = dfirtrack_main.IpSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class SystemListApi(generics.ListAPIView):
+    """ all objects, allowed: GET """
 
-class OsListApi(APIView):
+    queryset = System.objects.all()
+    serializer_class = dfirtrack_main.SystemSerializer
 
-    def get(self, request, format=None):
-        """ define API view for GET request """
+class SystemDetailApi(generics.RetrieveAPIView):
+    """ single object, allowed: GET """
 
-        # get all objects
-        os = Os.objects.all()
-        # create serializer for all objects
-        serializer = dfirtrack_main.OsSerializer(os, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    queryset = System.objects.all()
+    serializer_class = dfirtrack_main.SystemSerializer
 
-    def post(self, request, format=None):
-        """ define API view for POST request """
+class TagListApi(generics.ListAPIView):
+    """ all objects, allowed: GET """
 
-        serializer = dfirtrack_main.OsSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-class SystemListApi(APIView):
-    """ all objects """
-
-    def get(self, request, format=None):
-        """ define API view for GET request """
-
-        # get all objects
-        system = System.objects.all()
-        # create serializer for all objects
-        serializer = dfirtrack_main.SystemSerializer(system, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-class SystemDetailApi(APIView):
-    """ single object """
-
-    def get(self, request, pk, format=None):
-        """ define API view for GET request """
-
-        # get object
-        try:
-            system = System.objects.get(system_id = pk)
-            # create serializer for single object
-            serializer = dfirtrack_main.SystemSerializer(system)
-            return Response(serializer.data)
-        except System.DoesNotExist:
-            raise Http404
-
-class TagListApi(APIView):
-
-    def get(self, request, format=None):
-        """ define API view for GET request """
-
-        # get all objects
-        tag = Tag.objects.all()
-        # create serializer for all objects
-        serializer = dfirtrack_main.TagSerializer(tag, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    queryset = Tag.objects.all()
+    serializer_class = dfirtrack_main.TagSerializer
