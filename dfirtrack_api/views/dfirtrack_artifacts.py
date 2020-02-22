@@ -1,7 +1,6 @@
 from dfirtrack_api.serializers import dfirtrack_artifacts
 from dfirtrack_artifacts.models import Artifact, Artifactstatus, Artifacttype
 from rest_framework import generics
-from rest_framework.views import APIView
 
 class ArtifactListApi(generics.ListAPIView):
     """ all objects, allowed: GET """
