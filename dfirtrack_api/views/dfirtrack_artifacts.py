@@ -1,4 +1,4 @@
-from dfirtrack_api.serializers import dfirtrack_artifacts
+from dfirtrack_api.serializers.dfirtrack_artifacts import ArtifactSerializer, ArtifactstatusSerializer, ArtifacttypeSerializer
 from dfirtrack_artifacts.models import Artifact, Artifactstatus, Artifacttype
 from rest_framework import generics
 
@@ -6,34 +6,34 @@ class ArtifactListApi(generics.ListAPIView):
     """ all objects, allowed: GET """
 
     queryset = Artifact.objects.all()
-    serializer_class = dfirtrack_artifacts.ArtifactSerializer
+    serializer_class = ArtifactSerializer
 
 class ArtifactDetailApi(generics.RetrieveAPIView):
     """ single object, allowed: GET """
 
     queryset = Artifact.objects.all()
-    serializer_class = dfirtrack_artifacts.ArtifactSerializer
+    serializer_class = ArtifactSerializer
 
 class ArtifactstatusListApi(generics.ListCreateAPIView):
     """ all objects, allowed: GET + POST """
 
     queryset = Artifactstatus.objects.all()
-    serializer_class = dfirtrack_artifacts.ArtifactstatusSerializer
+    serializer_class = ArtifactstatusSerializer
 
 class ArtifactstatusDetailApi(generics.RetrieveUpdateAPIView):
     """ single object, allowed: GET + PUT """
 
     queryset = Artifactstatus.objects.all()
-    serializer_class = dfirtrack_artifacts.ArtifactstatusSerializer
+    serializer_class = ArtifactstatusSerializer
 
 class ArtifacttypeListApi(generics.ListCreateAPIView):
     """ all objects, allowed: GET + POST """
 
     queryset = Artifacttype.objects.all()
-    serializer_class = dfirtrack_artifacts.ArtifacttypeSerializer
+    serializer_class = ArtifacttypeSerializer
 
 class ArtifacttypeDetailApi(generics.RetrieveUpdateAPIView):
     """ single object, allowed: GET + PUT """
 
     queryset = Artifacttype.objects.all()
-    serializer_class = dfirtrack_artifacts.ArtifacttypeSerializer
+    serializer_class = ArtifacttypeSerializer
