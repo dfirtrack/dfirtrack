@@ -56,15 +56,15 @@ class ArtifactstatusAPIViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
-    def test_artifactstatus_list_api_get_user_context(self):
-        """ test user context """
-
-        # login testuser
-        login = self.client.login(username='testuser_artifactstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
-        # get response
-        response = self.client.get('/artifacts/artifactstatus/')
-        # compare
-        self.assertEqual(str(response.context['user']), 'testuser_artifactstatus_api')
+#    def test_artifactstatus_list_api_get_user_context(self):
+#        """ test user context """
+#
+#        # login testuser
+#        login = self.client.login(username='testuser_artifactstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
+#        # get response
+#        response = self.client.get('/api/artifactstatuss/')
+#        # compare
+#        self.assertEqual(str(response.context['user']), 'testuser_artifactstatus_api')
 
     def test_artifactstatus_detail_api_unauthorized (self):
         """ unauthorized access is forbidden"""
@@ -130,14 +130,14 @@ class ArtifactstatusAPIViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
-    def test_artifactstatus_detail_api_get_user_context(self):
-        """ test user context """
-
-        # get object
-        artifactstatus_api_1 = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_api_1')
-        # login testuser
-        login = self.client.login(username='testuser_artifactstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
-        # get response
-        response = self.client.get('/artifacts/artifactstatus/detail/' + str(artifactstatus_api_1.artifactstatus_id) + '/')
-        # compare
-        self.assertEqual(str(response.context['user']), 'testuser_artifactstatus_api')
+#    def test_artifactstatus_detail_api_get_user_context(self):
+#        """ test user context """
+#
+#        # get object
+#        artifactstatus_api_1 = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_api_1')
+#        # login testuser
+#        login = self.client.login(username='testuser_artifactstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
+#        # get response
+#        response = self.client.get('/api/artifactstatuss/' + str(artifactstatus_api_1.artifactstatus_id) + '/')
+#        # compare
+#        self.assertEqual(str(response.context['user']), 'testuser_artifactstatus_api')
