@@ -45,6 +45,7 @@ class CaseSerializer(serializers.ModelSerializer):
         fields = (
             'case_name',
             'case_is_incident',
+            'case_created_by_user_id',
         )
 
 class CompanySerializer(serializers.ModelSerializer):
