@@ -13,6 +13,8 @@ urlpatterns = [
     url(r'^artifacttypes/(?P<pk>\d+)/$', dfirtrack_artifacts.ArtifacttypeDetailApi.as_view()),
 
     # dfirtrack_main
+    url(r'^analysisstatuss/$', dfirtrack_main.AnalysisstatusListApi.as_view()),
+    url(r'^analysisstatuss/(?P<pk>\d+)/$', dfirtrack_main.AnalysisstatusDetailApi.as_view()),
     url(r'^ips/$', dfirtrack_main.IpListApi.as_view()),
     url(r'^oss/$', dfirtrack_main.OsListApi.as_view()),
     url(r'^systems/$', dfirtrack_main.SystemListApi.as_view()),
