@@ -51,8 +51,6 @@ class ArtifactstatusAPIViewTestCase(TestCase):
 
         # login testuser
         login = self.client.login(username='testuser_artifactstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
-        # create url
-        destination = urllib.parse.quote('/api/artifactstatuss/', safe='/')
         # create POST string
         poststring = {"artifactstatus_name": "artifactstatus_api_2"}
         # get response
@@ -111,14 +109,30 @@ class ArtifactstatusAPIViewTestCase(TestCase):
     def test_artifactstatus_detail_api_method_delete(self):
         """ DELETE is forbidden """
 
-        # login testuser
-        login = self.client.login(username='testuser_artifactstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
         # get object
         artifactstatus_api_1 = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_api_1')
+        # login testuser
+        login = self.client.login(username='testuser_artifactstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
         # get response
         response = self.client.delete('/api/artifactstatuss/' + str(artifactstatus_api_1.artifactstatus_id) + '/')
         # compare
         self.assertEqual(response.status_code, 405)
+
+    def test_artifactstatus_detail_api_method_put(self):
+        """ PUT is allowed """
+
+        # get object
+        artifactstatus_api_1 = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_api_1')
+        # login testuser
+        login = self.client.login(username='testuser_artifactstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
+        # create url
+        destination = urllib.parse.quote('/api/artifactstatuss/' + str(artifactstatus_api_1.artifactstatus_id) + '/', safe='/')
+        # create PUT string
+        putstring = {"artifactstatus_name": "new_artifactstatus_api_1"}
+        # get response
+        response = self.client.put(destination, data=putstring, content_type='application/json')
+        # compare
+        self.assertEqual(response.status_code, 200)
 
     def test_artifactstatus_detail_api_get_user_context(self):
         """ test detail view """
