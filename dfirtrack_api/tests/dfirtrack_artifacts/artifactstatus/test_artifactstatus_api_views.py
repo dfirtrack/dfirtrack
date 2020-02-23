@@ -14,17 +14,15 @@ class ArtifactstatusAPIViewTestCase(TestCase):
         # create user
         test_user = User.objects.create_user(username='testuser_artifactstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
 
-# TODO: adapt to headless / "browserless" functionality
-#    def test_artifactstatus_list_api_not_logged_in(self):
-#
-#        # create url
-#        destination = '/login/?next=' + urllib.parse.quote('/api/artifactstatuss/', safe='/')
-#        # get response
-#        response = self.client.get('/api/artifactstatuss/', follow=True)
-#        # compare
-#        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+    def test_artifactstatus_list_api_unauthorized(self):
+        """ unauthorized access is forbidden"""
 
-    def test_artifactstatus_list_api_logged_in(self):
+        # get response
+        response = self.client.get('/api/artifactstatuss/')
+        # compare
+        self.assertEqual(response.status_code, 401)
+
+    def test_artifactstatus_list_api_method_get(self):
         """ GET is allowed """
 
         # login testuser
@@ -33,18 +31,6 @@ class ArtifactstatusAPIViewTestCase(TestCase):
         response = self.client.get('/api/artifactstatuss/')
         # compare
         self.assertEqual(response.status_code, 200)
-
-    def test_artifactstatus_list_api_redirect(self):
-        """ test redirect """
-
-        # login testuser
-        login = self.client.login(username='testuser_artifactstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
-        # create url
-        destination = urllib.parse.quote('/api/artifactstatuss/', safe='/')
-        # get response
-        response = self.client.get('/api/artifactstatuss', follow=True)
-        # compare
-        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
     def test_artifactstatus_list_api_method_post(self):
         """ POST is allowed """
@@ -58,8 +44,20 @@ class ArtifactstatusAPIViewTestCase(TestCase):
         # compare
         self.assertEqual(response.status_code, 201)
 
+    def test_artifactstatus_list_api_redirect(self):
+        """ test redirect with appending slash """
+
+        # login testuser
+        login = self.client.login(username='testuser_artifactstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
+        # create url
+        destination = urllib.parse.quote('/api/artifactstatuss/', safe='/')
+        # get response
+        response = self.client.get('/api/artifactstatuss', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
     def test_artifactstatus_list_api_get_user_context(self):
-        """ test list view """
+        """ test user context """
 
         # login testuser
         login = self.client.login(username='testuser_artifactstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
@@ -68,19 +66,17 @@ class ArtifactstatusAPIViewTestCase(TestCase):
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_artifactstatus_api')
 
-# TODO: adapt to headless / "browserless" functionality
-#    def test_artifactstatus_detail_api_not_logged_in(self):
-#
-#        # get object
-#        artifactstatus_api_1 = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_api_1')
-#        # create url
-#        destination = '/login/?next=' + urllib.parse.quote('/api/artifactstatuss/' + str(artifactstatus_api_1.artifactstatus_id) + '/', safe='/')
-#        # get response
-#        response = self.client.get('/api/artifactstatuss/' + str(artifactstatus_api_1.artifactstatus_id) + '/', follow=True)
-#        # compare
-#        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+    def test_artifactstatus_detail_api_unauthorized (self):
+        """ unauthorized access is forbidden"""
 
-    def test_artifactstatus_detail_api_logged_in(self):
+        # get object
+        artifactstatus_api_1 = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_api_1')
+        # get response
+        response = self.client.get('/api/artifactstatuss/' + str(artifactstatus_api_1.artifactstatus_id) + '/')
+        # compare
+        self.assertEqual(response.status_code, 401)
+
+    def test_artifactstatus_detail_api_method_get(self):
         """ GET is allowed """
 
         # get object
@@ -91,20 +87,6 @@ class ArtifactstatusAPIViewTestCase(TestCase):
         response = self.client.get('/api/artifactstatuss/' + str(artifactstatus_api_1.artifactstatus_id) + '/')
         # compare
         self.assertEqual(response.status_code, 200)
-
-    def test_artifactstatus_detail_api_redirect(self):
-        """ test redirect """
-
-        # get object
-        artifactstatus_api_1 = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_api_1')
-        # login testuser
-        login = self.client.login(username='testuser_artifactstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
-        # create url
-        destination = urllib.parse.quote('/api/artifactstatuss/' + str(artifactstatus_api_1.artifactstatus_id) + '/', safe='/')
-        # get response
-        response = self.client.get('/api/artifactstatuss/' + str(artifactstatus_api_1.artifactstatus_id), follow=True)
-        # compare
-        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
     def test_artifactstatus_detail_api_method_delete(self):
         """ DELETE is forbidden """
@@ -134,8 +116,22 @@ class ArtifactstatusAPIViewTestCase(TestCase):
         # compare
         self.assertEqual(response.status_code, 200)
 
+    def test_artifactstatus_detail_api_redirect(self):
+        """ test redirect with appending slash """
+
+        # get object
+        artifactstatus_api_1 = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_api_1')
+        # login testuser
+        login = self.client.login(username='testuser_artifactstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
+        # create url
+        destination = urllib.parse.quote('/api/artifactstatuss/' + str(artifactstatus_api_1.artifactstatus_id) + '/', safe='/')
+        # get response
+        response = self.client.get('/api/artifactstatuss/' + str(artifactstatus_api_1.artifactstatus_id), follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
     def test_artifactstatus_detail_api_get_user_context(self):
-        """ test detail view """
+        """ test user context """
 
         # get object
         artifactstatus_api_1 = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_api_1')
