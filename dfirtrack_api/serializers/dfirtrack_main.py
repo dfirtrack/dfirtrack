@@ -2,17 +2,9 @@ from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Domain
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-class AnalysisstatusSerializer(serializers.ModelSerializer):
-    """ create serializer for foreignkey relationsship """
+# special serializers for foreignkey relationsships
 
-    class Meta:
-        model = Analysisstatus
-        # attributes made available for api
-        fields = (
-            'analysisstatus_name',
-        )
-
-class CaseSerializer(serializers.ModelSerializer):
+class CaseFKSerializer(serializers.ModelSerializer):
     """ create serializer for foreignkey relationsship """
 
     class Meta:
@@ -20,47 +12,6 @@ class CaseSerializer(serializers.ModelSerializer):
         # attributes made available for api
         fields = (
             'case_name',
-            'case_is_incident',
-        )
-
-class CompanySerializer(serializers.ModelSerializer):
-    """ create serializer for foreignkey relationsship """
-
-    class Meta:
-        model = Company
-        # attributes made available for api
-        fields = (
-            'company_name',
-        )
-
-class ContactSerializer(serializers.ModelSerializer):
-    """ create serializer for foreignkey relationsship """
-
-    class Meta:
-        model = Contact
-        # attributes made available for api
-        fields = (
-            'contact_name',
-        )
-
-class DnsnameSerializer(serializers.ModelSerializer):
-    """ create serializer for foreignkey relationsship """
-
-    class Meta:
-        model = Dnsname
-        # attributes made available for api
-        fields = (
-            'dnsname_name',
-        )
-
-class DomainSerializer(serializers.ModelSerializer):
-    """ create serializer for foreignkey relationsship """
-
-    class Meta:
-        model = Domain
-        # attributes made available for api
-        fields = (
-            'domain_name',
         )
 
 class HostSystemSerializer(serializers.ModelSerializer):
@@ -73,8 +24,71 @@ class HostSystemSerializer(serializers.ModelSerializer):
             'system_name',
         )
 
+# model serializers
+
+class AnalysisstatusSerializer(serializers.ModelSerializer):
+    """ create serializer for model instance """
+
+    class Meta:
+        model = Analysisstatus
+        # attributes made available for api
+        fields = (
+            'analysisstatus_name',
+        )
+
+class CaseSerializer(serializers.ModelSerializer):
+    """ create serializer for model instance """
+
+    class Meta:
+        model = Case
+        # attributes made available for api
+        fields = (
+            'case_name',
+            'case_is_incident',
+        )
+
+class CompanySerializer(serializers.ModelSerializer):
+    """ create serializer for model instance """
+
+    class Meta:
+        model = Company
+        # attributes made available for api
+        fields = (
+            'company_name',
+        )
+
+class ContactSerializer(serializers.ModelSerializer):
+    """ create serializer for model instance """
+
+    class Meta:
+        model = Contact
+        # attributes made available for api
+        fields = (
+            'contact_name',
+        )
+
+class DnsnameSerializer(serializers.ModelSerializer):
+    """ create serializer for model instance """
+
+    class Meta:
+        model = Dnsname
+        # attributes made available for api
+        fields = (
+            'dnsname_name',
+        )
+
+class DomainSerializer(serializers.ModelSerializer):
+    """ create serializer for model instance """
+
+    class Meta:
+        model = Domain
+        # attributes made available for api
+        fields = (
+            'domain_name',
+        )
+
 class IpSerializer(serializers.ModelSerializer):
-    """ create serializer for foreignkey relationsship """
+    """ create serializer for model instance """
 
     class Meta:
         model = Ip
@@ -84,7 +98,7 @@ class IpSerializer(serializers.ModelSerializer):
         )
 
 class LocationSerializer(serializers.ModelSerializer):
-    """ create serializer for foreignkey relationsship """
+    """ create serializer for model instance """
 
     class Meta:
         model = Location
@@ -94,7 +108,7 @@ class LocationSerializer(serializers.ModelSerializer):
         )
 
 class OsSerializer(serializers.ModelSerializer):
-    """ create serializer for foreignkey relationsship """
+    """ create serializer for model instance """
 
     class Meta:
         model = Os
@@ -104,7 +118,7 @@ class OsSerializer(serializers.ModelSerializer):
         )
 
 class OsarchSerializer(serializers.ModelSerializer):
-    """ create serializer for foreignkey relationsship """
+    """ create serializer for model instance """
 
     class Meta:
         model = Osarch
@@ -114,7 +128,7 @@ class OsarchSerializer(serializers.ModelSerializer):
         )
 
 class ReasonSerializer(serializers.ModelSerializer):
-    """ create serializer for foreignkey relationsship """
+    """ create serializer for model instance """
 
     class Meta:
         model = Reason
@@ -124,7 +138,7 @@ class ReasonSerializer(serializers.ModelSerializer):
         )
 
 class RecommendationSerializer(serializers.ModelSerializer):
-    """ create serializer for foreignkey relationsship """
+    """ create serializer for model instance """
 
     class Meta:
         model = Recommendation
@@ -134,7 +148,7 @@ class RecommendationSerializer(serializers.ModelSerializer):
         )
 
 class ServiceproviderSerializer(serializers.ModelSerializer):
-    """ create serializer for foreignkey relationsship """
+    """ create serializer for model instance """
 
     class Meta:
         model = Serviceprovider
@@ -144,7 +158,7 @@ class ServiceproviderSerializer(serializers.ModelSerializer):
         )
 
 class SystemstatusSerializer(serializers.ModelSerializer):
-    """ create serializer for foreignkey relationsship """
+    """ create serializer for model instance """
 
     class Meta:
         model = Systemstatus
@@ -154,7 +168,7 @@ class SystemstatusSerializer(serializers.ModelSerializer):
         )
 
 class SystemtypeSerializer(serializers.ModelSerializer):
-    """ create serializer for foreignkey relationsship """
+    """ create serializer for model instance """
 
     class Meta:
         model = Systemtype
@@ -164,7 +178,7 @@ class SystemtypeSerializer(serializers.ModelSerializer):
         )
 
 class TagSerializer(serializers.ModelSerializer):
-    """ create serializer for foreignkey relationsship """
+    """ create serializer for model instance """
 
     class Meta:
         model = Tag
@@ -177,23 +191,23 @@ class SystemSerializer(serializers.ModelSerializer):
     """ create serializer for system """
 
     # get serializers of foreignkey relationsships
-    systemstatus = SystemstatusSerializer(many=False, read_only=True)
     analysisstatus = AnalysisstatusSerializer(many=False, read_only=True)
-    reason = ReasonSerializer(many=False, read_only=True)
-    recommendation = RecommendationSerializer(many=False, read_only=True)
-    systemtype = SystemtypeSerializer(many=False, read_only=True)
-    ip = IpSerializer(many=True, read_only=True)
-    domain = DomainSerializer(many=False, read_only=True)
+    case = CaseFKSerializer(many=True, read_only=True)
+    company = CompanySerializer(many=True, read_only=True)
+    contact = ContactSerializer(many=False, read_only=True)
     dnsname = DnsnameSerializer(many=False, read_only=True)
+    domain = DomainSerializer(many=False, read_only=True)
+    host_system = HostSystemSerializer(many=False, read_only=True)
+    ip = IpSerializer(many=True, read_only=True)
+    location = LocationSerializer(many=False, read_only=True)
     os = OsSerializer(many=False, read_only=True)
     osarch = OsarchSerializer(many=False, read_only=True)
-    host_system = HostSystemSerializer(many=False, read_only=True)
-    company = CompanySerializer(many=True, read_only=True)
-    location = LocationSerializer(many=False, read_only=True)
+    reason = ReasonSerializer(many=False, read_only=True)
+    recommendation = RecommendationSerializer(many=False, read_only=True)
     serviceprovider = ServiceproviderSerializer(many=False, read_only=True)
-    contact = ContactSerializer(many=False, read_only=True)
+    systemstatus = SystemstatusSerializer(many=False, read_only=True)
+    systemtype = SystemtypeSerializer(many=False, read_only=True)
     tag = TagSerializer(many=True, read_only=True)
-    case = CaseSerializer(many=True, read_only=True)
 
     # redefine representation
     def to_representation(self, instance):
@@ -221,7 +235,7 @@ class SystemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = System
-        # attributes made available for api
+        # attributes made available for api in a sorted fashion
         fields = (
             'system_id',
             'system_uuid',
