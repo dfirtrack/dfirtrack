@@ -2,36 +2,6 @@ from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Domain
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-class SystemstatusSerializer(serializers.ModelSerializer):
-    """ create serializer for foreignkey relationsship """
-
-    class Meta:
-        model = Systemstatus
-        # attributes made available for api
-        fields = (
-            'systemstatus_name',
-        )
-
-class ReasonSerializer(serializers.ModelSerializer):
-    """ create serializer for foreignkey relationsship """
-
-    class Meta:
-        model = Reason
-        # attributes made available for api
-        fields = (
-            'reason_name',
-        )
-
-class RecommendationSerializer(serializers.ModelSerializer):
-    """ create serializer for foreignkey relationsship """
-
-    class Meta:
-        model = Recommendation
-        # attributes made available for api
-        fields = (
-            'recommendation_name',
-        )
-
 class AnalysisstatusSerializer(serializers.ModelSerializer):
     """ create serializer for foreignkey relationsship """
 
@@ -42,24 +12,45 @@ class AnalysisstatusSerializer(serializers.ModelSerializer):
             'analysisstatus_name',
         )
 
-class SystemtypeSerializer(serializers.ModelSerializer):
+class CaseSerializer(serializers.ModelSerializer):
     """ create serializer for foreignkey relationsship """
 
     class Meta:
-        model = Systemtype
+        model = Case
         # attributes made available for api
         fields = (
-            'systemtype_name',
+            'case_name',
+            'case_is_incident',
         )
 
-class IpSerializer(serializers.ModelSerializer):
+class CompanySerializer(serializers.ModelSerializer):
     """ create serializer for foreignkey relationsship """
 
     class Meta:
-        model = Ip
+        model = Company
         # attributes made available for api
         fields = (
-            'ip_ip',
+            'company_name',
+        )
+
+class ContactSerializer(serializers.ModelSerializer):
+    """ create serializer for foreignkey relationsship """
+
+    class Meta:
+        model = Contact
+        # attributes made available for api
+        fields = (
+            'contact_name',
+        )
+
+class DnsnameSerializer(serializers.ModelSerializer):
+    """ create serializer for foreignkey relationsship """
+
+    class Meta:
+        model = Dnsname
+        # attributes made available for api
+        fields = (
+            'dnsname_name',
         )
 
 class DomainSerializer(serializers.ModelSerializer):
@@ -72,14 +63,34 @@ class DomainSerializer(serializers.ModelSerializer):
             'domain_name',
         )
 
-class DnsnameSerializer(serializers.ModelSerializer):
+class HostSystemSerializer(serializers.ModelSerializer):
     """ create serializer for foreignkey relationsship """
 
     class Meta:
-        model = Dnsname
+        model = System
         # attributes made available for api
         fields = (
-            'dnsname_name',
+            'system_name',
+        )
+
+class IpSerializer(serializers.ModelSerializer):
+    """ create serializer for foreignkey relationsship """
+
+    class Meta:
+        model = Ip
+        # attributes made available for api
+        fields = (
+            'ip_ip',
+        )
+
+class LocationSerializer(serializers.ModelSerializer):
+    """ create serializer for foreignkey relationsship """
+
+    class Meta:
+        model = Location
+        # attributes made available for api
+        fields = (
+            'location_name',
         )
 
 class OsSerializer(serializers.ModelSerializer):
@@ -102,34 +113,24 @@ class OsarchSerializer(serializers.ModelSerializer):
             'osarch_name',
         )
 
-class HostSystemSerializer(serializers.ModelSerializer):
+class ReasonSerializer(serializers.ModelSerializer):
     """ create serializer for foreignkey relationsship """
 
     class Meta:
-        model = System
+        model = Reason
         # attributes made available for api
         fields = (
-            'system_name',
+            'reason_name',
         )
 
-class CompanySerializer(serializers.ModelSerializer):
+class RecommendationSerializer(serializers.ModelSerializer):
     """ create serializer for foreignkey relationsship """
 
     class Meta:
-        model = Company
+        model = Recommendation
         # attributes made available for api
         fields = (
-            'company_name',
-        )
-
-class LocationSerializer(serializers.ModelSerializer):
-    """ create serializer for foreignkey relationsship """
-
-    class Meta:
-        model = Location
-        # attributes made available for api
-        fields = (
-            'location_name',
+            'recommendation_name',
         )
 
 class ServiceproviderSerializer(serializers.ModelSerializer):
@@ -142,14 +143,24 @@ class ServiceproviderSerializer(serializers.ModelSerializer):
             'serviceprovider_name',
         )
 
-class ContactSerializer(serializers.ModelSerializer):
+class SystemstatusSerializer(serializers.ModelSerializer):
     """ create serializer for foreignkey relationsship """
 
     class Meta:
-        model = Contact
+        model = Systemstatus
         # attributes made available for api
         fields = (
-            'contact_name',
+            'systemstatus_name',
+        )
+
+class SystemtypeSerializer(serializers.ModelSerializer):
+    """ create serializer for foreignkey relationsship """
+
+    class Meta:
+        model = Systemtype
+        # attributes made available for api
+        fields = (
+            'systemtype_name',
         )
 
 class TagSerializer(serializers.ModelSerializer):
@@ -160,16 +171,6 @@ class TagSerializer(serializers.ModelSerializer):
         # attributes made available for api
         fields = (
             'tag_name',
-        )
-
-class CaseSerializer(serializers.ModelSerializer):
-    """ create serializer for foreignkey relationsship """
-
-    class Meta:
-        model = Case
-        # attributes made available for api
-        fields = (
-            'case_name',
         )
 
 class SystemSerializer(serializers.ModelSerializer):
