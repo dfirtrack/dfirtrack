@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
-#from dfirtrack_main.models import Ip
 import urllib.parse
 
 class IpAPIViewTestCase(TestCase):
@@ -9,8 +8,6 @@ class IpAPIViewTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
 
-        # create object
-        #Ip.objects.create(ip_name='ip_api_1')
         # create user
         test_user = User.objects.create_user(username='testuser_ip_api', password='2SxcYh8yo3rGs4PBqhg9')
 
