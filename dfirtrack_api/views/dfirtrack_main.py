@@ -1,5 +1,5 @@
-from dfirtrack_api.serializers.dfirtrack_main import AnalysisstatusSerializer, IpSerializer, OsSerializer, SystemSerializer, TagSerializer
-from dfirtrack_main.models import Analysisstatus, Ip, Os, System, Tag
+from dfirtrack_api.serializers.dfirtrack_main import AnalysisstatusSerializer, IpSerializer, OsSerializer, SystemSerializer, SystemstatusSerializer, TagSerializer
+from dfirtrack_main.models import Analysisstatus, Ip, Os, System, Systemstatus, Tag
 from rest_framework import generics
 
 class AnalysisstatusListApi(generics.ListCreateAPIView):
@@ -37,6 +37,18 @@ class SystemDetailApi(generics.RetrieveAPIView):
 
     queryset = System.objects.all()
     serializer_class = SystemSerializer
+
+class SystemstatusListApi(generics.ListCreateAPIView):
+    """ all objects, allowed: GET + POST """
+
+    queryset = Systemstatus.objects.all()
+    serializer_class = SystemstatusSerializer
+
+class SystemstatusDetailApi(generics.RetrieveUpdateAPIView):
+    """ single object, allowed: GET + PUT"""
+
+    queryset = Systemstatus.objects.all()
+    serializer_class = SystemstatusSerializer
 
 class TagListApi(generics.ListAPIView):
     """ all objects, allowed: GET """
