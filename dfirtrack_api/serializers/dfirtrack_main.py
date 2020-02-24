@@ -66,6 +66,7 @@ class ContactSerializer(serializers.ModelSerializer):
         # attributes made available for api
         fields = (
             'contact_name',
+            'contact_email',
         )
 
 class DnsnameSerializer(serializers.ModelSerializer):
