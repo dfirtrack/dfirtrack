@@ -1,4 +1,4 @@
-from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Domain, Dnsname, Ip, Location, Os, Osarch, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Tag
+from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Domain, Ip, Location, Os, Osarch, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Tag
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
@@ -67,6 +67,16 @@ class ContactSerializer(serializers.ModelSerializer):
         fields = (
             'contact_name',
             'contact_email',
+        )
+
+class DivisionSerializer(serializers.ModelSerializer):
+    """ create serializer for model instance """
+
+    class Meta:
+        model = Division
+        # attributes made available for api
+        fields = (
+            'division_name',
         )
 
 class DnsnameSerializer(serializers.ModelSerializer):
