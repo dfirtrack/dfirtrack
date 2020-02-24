@@ -1,5 +1,5 @@
-from dfirtrack_api.serializers.dfirtrack_main import AnalysisstatusSerializer, CaseSerializer, CompanySerializer, ContactSerializer, DivisionSerializer, IpSerializer, OsSerializer, SystemSerializer, SystemstatusSerializer, TagSerializer
-from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Ip, Os, System, Systemstatus, Tag
+from dfirtrack_api.serializers.dfirtrack_main import AnalysisstatusSerializer, CaseSerializer, CompanySerializer, ContactSerializer, DivisionSerializer, DnsnameSerializer, IpSerializer, OsSerializer, SystemSerializer, SystemstatusSerializer, TagSerializer
+from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Ip, Os, System, Systemstatus, Tag
 from rest_framework import generics
 
 class AnalysisstatusListApi(generics.ListCreateAPIView):
@@ -61,6 +61,18 @@ class DivisionDetailApi(generics.RetrieveUpdateAPIView):
 
     queryset = Division.objects.all()
     serializer_class = DivisionSerializer
+
+class DnsnameListApi(generics.ListCreateAPIView):
+    """ all objects, allowed: GET + POST """
+
+    queryset = Dnsname.objects.all()
+    serializer_class = DnsnameSerializer
+
+class DnsnameDetailApi(generics.RetrieveUpdateAPIView):
+    """ single object, allowed: GET + PUT"""
+
+    queryset = Dnsname.objects.all()
+    serializer_class = DnsnameSerializer
 
 class IpListApi(generics.ListCreateAPIView):
     """ all objects, allowed: GET + POST """
