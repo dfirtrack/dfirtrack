@@ -1,5 +1,5 @@
-from dfirtrack_api.serializers.dfirtrack_main import AnalysisstatusSerializer, CaseSerializer, CompanySerializer, ContactSerializer, DivisionSerializer, DnsnameSerializer, DomainSerializer, IpSerializer, LocationSerializer, OsSerializer, ReasonSerializer, SystemSerializer, SystemstatusSerializer, TagSerializer
-from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Domain, Ip, Location, Os, Reason, System, Systemstatus, Tag
+from dfirtrack_api.serializers.dfirtrack_main import AnalysisstatusSerializer, CaseSerializer, CompanySerializer, ContactSerializer, DivisionSerializer, DnsnameSerializer, DomainSerializer, IpSerializer, LocationSerializer, OsSerializer, ReasonSerializer, RecommendationSerializer, SystemSerializer, SystemstatusSerializer, TagSerializer
+from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Domain, Ip, Location, Os, Reason, Recommendation, System, Systemstatus, Tag
 from rest_framework import generics
 
 class AnalysisstatusListApi(generics.ListCreateAPIView):
@@ -121,6 +121,18 @@ class ReasonDetailApi(generics.RetrieveUpdateAPIView):
 
     queryset = Reason.objects.all()
     serializer_class = ReasonSerializer
+
+class RecommendationListApi(generics.ListCreateAPIView):
+    """ all objects, allowed: GET + POST """
+
+    queryset = Recommendation.objects.all()
+    serializer_class = RecommendationSerializer
+
+class RecommendationDetailApi(generics.RetrieveUpdateAPIView):
+    """ single object, allowed: GET + PUT"""
+
+    queryset = Recommendation.objects.all()
+    serializer_class = RecommendationSerializer
 
 class SystemListApi(generics.ListAPIView):
     """ all objects, allowed: GET """

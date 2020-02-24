@@ -33,6 +33,8 @@ urlpatterns = [
     url(r'^oss/$', dfirtrack_main.OsListApi.as_view()),
     url(r'^reasons/$', dfirtrack_main.ReasonListApi.as_view()),
     url(r'^reasons/(?P<pk>\d+)/$', dfirtrack_main.ReasonDetailApi.as_view()),
+    url(r'^recommendations/$', dfirtrack_main.RecommendationListApi.as_view()),
+    url(r'^recommendations/(?P<pk>\d+)/$', dfirtrack_main.RecommendationDetailApi.as_view()),
     url(r'^systems/$', dfirtrack_main.SystemListApi.as_view()),
     url(r'^systems/(?P<pk>\d+)/$', dfirtrack_main.SystemDetailApi.as_view()),
     url(r'^systemstatuss/$', dfirtrack_main.SystemstatusListApi.as_view()),
