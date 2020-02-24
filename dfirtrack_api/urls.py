@@ -17,6 +17,8 @@ urlpatterns = [
     url(r'^analysisstatuss/(?P<pk>\d+)/$', dfirtrack_main.AnalysisstatusDetailApi.as_view()),
     url(r'^cases/$', dfirtrack_main.CaseListApi.as_view()),
     url(r'^cases/(?P<pk>\d+)/$', dfirtrack_main.CaseDetailApi.as_view()),
+    url(r'^companys/$', dfirtrack_main.CompanyListApi.as_view()),
+    url(r'^companys/(?P<pk>\d+)/$', dfirtrack_main.CompanyDetailApi.as_view()),
     url(r'^ips/$', dfirtrack_main.IpListApi.as_view()),
     url(r'^oss/$', dfirtrack_main.OsListApi.as_view()),
     url(r'^systems/$', dfirtrack_main.SystemListApi.as_view()),
