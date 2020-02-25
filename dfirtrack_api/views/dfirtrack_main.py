@@ -1,5 +1,5 @@
-from dfirtrack_api.serializers.dfirtrack_main import AnalysisstatusSerializer, CaseSerializer, CompanySerializer, ContactSerializer, DivisionSerializer, DnsnameSerializer, DomainSerializer, IpSerializer, LocationSerializer, OsSerializer, ReasonSerializer, RecommendationSerializer, SystemSerializer, SystemstatusSerializer, TagSerializer
-from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Domain, Ip, Location, Os, Reason, Recommendation, System, Systemstatus, Tag
+from dfirtrack_api.serializers.dfirtrack_main import AnalysisstatusSerializer, CaseSerializer, CompanySerializer, ContactSerializer, DivisionSerializer, DnsnameSerializer, DomainSerializer, IpSerializer, LocationSerializer, OsSerializer, ReasonSerializer, RecommendationSerializer, ServiceproviderSerializer, SystemSerializer, SystemstatusSerializer, TagSerializer
+from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Domain, Ip, Location, Os, Reason, Recommendation, Serviceprovider, System, Systemstatus, Tag
 from rest_framework import generics
 
 class AnalysisstatusListApi(generics.ListCreateAPIView):
@@ -133,6 +133,18 @@ class RecommendationDetailApi(generics.RetrieveUpdateAPIView):
 
     queryset = Recommendation.objects.all()
     serializer_class = RecommendationSerializer
+
+class ServiceproviderListApi(generics.ListCreateAPIView):
+    """ all objects, allowed: GET + POST """
+
+    queryset = Serviceprovider.objects.all()
+    serializer_class = ServiceproviderSerializer
+
+class ServiceproviderDetailApi(generics.RetrieveUpdateAPIView):
+    """ single object, allowed: GET + PUT"""
+
+    queryset = Serviceprovider.objects.all()
+    serializer_class = ServiceproviderSerializer
 
 class SystemListApi(generics.ListAPIView):
     """ all objects, allowed: GET """
