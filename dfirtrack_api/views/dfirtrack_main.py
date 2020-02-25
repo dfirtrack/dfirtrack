@@ -2,14 +2,14 @@ from dfirtrack_api.serializers.dfirtrack_main import AnalysisstatusSerializer, C
 from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Domain, Ip, Location, Os, Osarch, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Tag
 from rest_framework import generics
 
-class AnalysisstatusListApi(generics.ListCreateAPIView):
-    """ all objects, allowed: GET + POST """
+class AnalysisstatusListApi(generics.ListAPIView):
+    """ all objects, allowed: GET """
 
     queryset = Analysisstatus.objects.all()
     serializer_class = AnalysisstatusSerializer
 
-class AnalysisstatusDetailApi(generics.RetrieveUpdateAPIView):
-    """ single object, allowed: GET + PUT"""
+class AnalysisstatusDetailApi(generics.RetrieveAPIView):
+    """ single object, allowed: GET """
 
     queryset = Analysisstatus.objects.all()
     serializer_class = AnalysisstatusSerializer
@@ -21,7 +21,7 @@ class CaseListApi(generics.ListCreateAPIView):
     serializer_class = CaseSerializer
 
 class CaseDetailApi(generics.RetrieveUpdateAPIView):
-    """ single object, allowed: GET + PUT"""
+    """ single object, allowed: GET + PUT """
 
     queryset = Case.objects.all()
     serializer_class = CaseSerializer
@@ -33,7 +33,7 @@ class CompanyListApi(generics.ListCreateAPIView):
     serializer_class = CompanySerializer
 
 class CompanyDetailApi(generics.RetrieveUpdateAPIView):
-    """ single object, allowed: GET + PUT"""
+    """ single object, allowed: GET + PUT """
 
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
@@ -45,7 +45,7 @@ class ContactListApi(generics.ListCreateAPIView):
     serializer_class = ContactSerializer
 
 class ContactDetailApi(generics.RetrieveUpdateAPIView):
-    """ single object, allowed: GET + PUT"""
+    """ single object, allowed: GET + PUT """
 
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
@@ -57,7 +57,7 @@ class DivisionListApi(generics.ListCreateAPIView):
     serializer_class = DivisionSerializer
 
 class DivisionDetailApi(generics.RetrieveUpdateAPIView):
-    """ single object, allowed: GET + PUT"""
+    """ single object, allowed: GET + PUT """
 
     queryset = Division.objects.all()
     serializer_class = DivisionSerializer
@@ -69,7 +69,7 @@ class DnsnameListApi(generics.ListCreateAPIView):
     serializer_class = DnsnameSerializer
 
 class DnsnameDetailApi(generics.RetrieveUpdateAPIView):
-    """ single object, allowed: GET + PUT"""
+    """ single object, allowed: GET + PUT """
 
     queryset = Dnsname.objects.all()
     serializer_class = DnsnameSerializer
@@ -81,7 +81,7 @@ class DomainListApi(generics.ListCreateAPIView):
     serializer_class = DomainSerializer
 
 class DomainDetailApi(generics.RetrieveUpdateAPIView):
-    """ single object, allowed: GET + PUT"""
+    """ single object, allowed: GET + PUT """
 
     queryset = Domain.objects.all()
     serializer_class = DomainSerializer
@@ -93,7 +93,7 @@ class IpListApi(generics.ListCreateAPIView):
     serializer_class = IpSerializer
 
 class IpDetailApi(generics.RetrieveUpdateAPIView):
-    """ single object, allowed: GET + PUT"""
+    """ single object, allowed: GET + PUT """
 
     queryset = Ip.objects.all()
     serializer_class = IpSerializer
@@ -105,7 +105,7 @@ class LocationListApi(generics.ListCreateAPIView):
     serializer_class = LocationSerializer
 
 class LocationDetailApi(generics.RetrieveUpdateAPIView):
-    """ single object, allowed: GET + PUT"""
+    """ single object, allowed: GET + PUT """
 
     queryset = Location.objects.all()
     serializer_class = LocationSerializer
@@ -117,7 +117,7 @@ class OsListApi(generics.ListCreateAPIView):
     serializer_class = OsSerializer
 
 class OsDetailApi(generics.RetrieveUpdateAPIView):
-    """ single object, allowed: GET + PUT"""
+    """ single object, allowed: GET + PUT """
 
     queryset = Os.objects.all()
     serializer_class = OsSerializer
@@ -129,7 +129,7 @@ class OsarchListApi(generics.ListCreateAPIView):
     serializer_class = OsarchSerializer
 
 class OsarchDetailApi(generics.RetrieveUpdateAPIView):
-    """ single object, allowed: GET + PUT"""
+    """ single object, allowed: GET + PUT """
 
     queryset = Osarch.objects.all()
     serializer_class = OsarchSerializer
@@ -141,7 +141,7 @@ class ReasonListApi(generics.ListCreateAPIView):
     serializer_class = ReasonSerializer
 
 class ReasonDetailApi(generics.RetrieveUpdateAPIView):
-    """ single object, allowed: GET + PUT"""
+    """ single object, allowed: GET + PUT """
 
     queryset = Reason.objects.all()
     serializer_class = ReasonSerializer
@@ -153,7 +153,7 @@ class RecommendationListApi(generics.ListCreateAPIView):
     serializer_class = RecommendationSerializer
 
 class RecommendationDetailApi(generics.RetrieveUpdateAPIView):
-    """ single object, allowed: GET + PUT"""
+    """ single object, allowed: GET + PUT """
 
     queryset = Recommendation.objects.all()
     serializer_class = RecommendationSerializer
@@ -165,7 +165,7 @@ class ServiceproviderListApi(generics.ListCreateAPIView):
     serializer_class = ServiceproviderSerializer
 
 class ServiceproviderDetailApi(generics.RetrieveUpdateAPIView):
-    """ single object, allowed: GET + PUT"""
+    """ single object, allowed: GET + PUT """
 
     queryset = Serviceprovider.objects.all()
     serializer_class = ServiceproviderSerializer
@@ -182,14 +182,14 @@ class SystemDetailApi(generics.RetrieveAPIView):
     queryset = System.objects.all()
     serializer_class = SystemSerializer
 
-class SystemstatusListApi(generics.ListCreateAPIView):
-    """ all objects, allowed: GET + POST """
+class SystemstatusListApi(generics.ListAPIView):
+    """ all objects, allowed: GET """
 
     queryset = Systemstatus.objects.all()
     serializer_class = SystemstatusSerializer
 
-class SystemstatusDetailApi(generics.RetrieveUpdateAPIView):
-    """ single object, allowed: GET + PUT"""
+class SystemstatusDetailApi(generics.RetrieveAPIView):
+    """ single object, allowed: GET """
 
     queryset = Systemstatus.objects.all()
     serializer_class = SystemstatusSerializer
@@ -201,7 +201,7 @@ class SystemtypeListApi(generics.ListCreateAPIView):
     serializer_class = SystemtypeSerializer
 
 class SystemtypeDetailApi(generics.RetrieveUpdateAPIView):
-    """ single object, allowed: GET + PUT"""
+    """ single object, allowed: GET + PUT """
 
     queryset = Systemtype.objects.all()
     serializer_class = SystemtypeSerializer

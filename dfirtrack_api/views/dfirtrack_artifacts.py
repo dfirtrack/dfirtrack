@@ -14,14 +14,14 @@ class ArtifactDetailApi(generics.RetrieveAPIView):
     queryset = Artifact.objects.all()
     serializer_class = ArtifactSerializer
 
-class ArtifactstatusListApi(generics.ListCreateAPIView):
-    """ all objects, allowed: GET + POST """
+class ArtifactstatusListApi(generics.ListAPIView):
+    """ all objects, allowed: GET """
 
     queryset = Artifactstatus.objects.all()
     serializer_class = ArtifactstatusSerializer
 
-class ArtifactstatusDetailApi(generics.RetrieveUpdateAPIView):
-    """ single object, allowed: GET + PUT """
+class ArtifactstatusDetailApi(generics.RetrieveAPIView):
+    """ single object, allowed: GET """
 
     queryset = Artifactstatus.objects.all()
     serializer_class = ArtifactstatusSerializer

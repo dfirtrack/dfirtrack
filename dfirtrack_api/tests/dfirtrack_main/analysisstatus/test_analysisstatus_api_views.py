@@ -33,7 +33,7 @@ class AnalysisstatusAPIViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_analysisstatus_list_api_method_post(self):
-        """ POST is allowed """
+        """ POST is forbidden """
 
         # login testuser
         login = self.client.login(username='testuser_analysisstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
@@ -42,7 +42,7 @@ class AnalysisstatusAPIViewTestCase(TestCase):
         # get response
         response = self.client.post('/api/analysisstatuss/', data=poststring)
         # compare
-        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.status_code, 405)
 
     def test_analysisstatus_list_api_redirect(self):
         """ test redirect with appending slash """
@@ -101,7 +101,7 @@ class AnalysisstatusAPIViewTestCase(TestCase):
         self.assertEqual(response.status_code, 405)
 
     def test_analysisstatus_detail_api_method_put(self):
-        """ PUT is allowed """
+        """ PUT is forbidden """
 
         # get object
         analysisstatus_api_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_api_1')
@@ -114,7 +114,7 @@ class AnalysisstatusAPIViewTestCase(TestCase):
         # get response
         response = self.client.put(destination, data=putstring, content_type='application/json')
         # compare
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 405)
 
     def test_analysisstatus_detail_api_redirect(self):
         """ test redirect with appending slash """
