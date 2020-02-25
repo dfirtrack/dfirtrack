@@ -48,6 +48,8 @@ urlpatterns = [
     url(r'^systemtypes/$', dfirtrack_main.SystemtypeListApi.as_view()),
     url(r'^systemtypes/(?P<pk>\d+)/$', dfirtrack_main.SystemtypeDetailApi.as_view()),
     url(r'^tags/$', dfirtrack_main.TagListApi.as_view()),
+    url(r'^taskstatuss/$', dfirtrack_main.TaskstatusListApi.as_view()),
+    url(r'^taskstatuss/(?P<pk>\d+)/$', dfirtrack_main.TaskstatusDetailApi.as_view()),
 
 ]
 

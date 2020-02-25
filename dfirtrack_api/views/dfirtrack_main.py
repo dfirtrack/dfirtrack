@@ -1,5 +1,5 @@
-from dfirtrack_api.serializers.dfirtrack_main import AnalysisstatusSerializer, CaseSerializer, CompanySerializer, ContactSerializer, DivisionSerializer, DnsnameSerializer, DomainSerializer, IpSerializer, LocationSerializer, OsSerializer, OsarchSerializer, ReasonSerializer, RecommendationSerializer, ServiceproviderSerializer, SystemSerializer, SystemstatusSerializer, SystemtypeSerializer, TagSerializer
-from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Domain, Ip, Location, Os, Osarch, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Tag
+from dfirtrack_api.serializers.dfirtrack_main import AnalysisstatusSerializer, CaseSerializer, CompanySerializer, ContactSerializer, DivisionSerializer, DnsnameSerializer, DomainSerializer, IpSerializer, LocationSerializer, OsSerializer, OsarchSerializer, ReasonSerializer, RecommendationSerializer, ServiceproviderSerializer, SystemSerializer, SystemstatusSerializer, SystemtypeSerializer, TagSerializer, TaskstatusSerializer
+from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Domain, Ip, Location, Os, Osarch, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Tag, Taskstatus
 from rest_framework import generics
 
 class AnalysisstatusListApi(generics.ListAPIView):
@@ -211,3 +211,15 @@ class TagListApi(generics.ListAPIView):
 
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
+
+class TaskstatusListApi(generics.ListAPIView):
+    """ all objects, allowed: GET """
+
+    queryset = Taskstatus.objects.all()
+    serializer_class = TaskstatusSerializer
+
+class TaskstatusDetailApi(generics.RetrieveAPIView):
+    """ single object, allowed: GET """
+
+    queryset = Taskstatus.objects.all()
+    serializer_class = TaskstatusSerializer

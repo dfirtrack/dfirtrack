@@ -1,5 +1,4 @@
-from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Domain, Ip, Location, Os, Osarch, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Tag
-from django.contrib.auth.models import User
+from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Domain, Ip, Location, Os, Osarch, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Tag, Taskstatus
 from rest_framework import serializers
 
 # special serializers for foreignkey relationsships
@@ -280,4 +279,14 @@ class SystemSerializer(serializers.ModelSerializer):
             'system_modified_by_user_id',
             'system_export_markdown',
             'system_export_spreadsheet',
+        )
+
+class TaskstatusSerializer(serializers.ModelSerializer):
+    """ create serializer for model instance """
+
+    class Meta:
+        model = Taskstatus
+        # attributes made available for api
+        fields = (
+            'taskstatus_name',
         )
