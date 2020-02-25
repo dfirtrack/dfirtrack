@@ -1,5 +1,5 @@
-from dfirtrack_api.serializers.dfirtrack_main import AnalysisstatusSerializer, CaseSerializer, CompanySerializer, ContactSerializer, DivisionSerializer, DnsnameSerializer, DomainSerializer, IpSerializer, LocationSerializer, OsSerializer, ReasonSerializer, RecommendationSerializer, ServiceproviderSerializer, SystemSerializer, SystemstatusSerializer, SystemtypeSerializer, TagSerializer
-from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Domain, Ip, Location, Os, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Tag
+from dfirtrack_api.serializers.dfirtrack_main import AnalysisstatusSerializer, CaseSerializer, CompanySerializer, ContactSerializer, DivisionSerializer, DnsnameSerializer, DomainSerializer, IpSerializer, LocationSerializer, OsSerializer, OsarchSerializer, ReasonSerializer, RecommendationSerializer, ServiceproviderSerializer, SystemSerializer, SystemstatusSerializer, SystemtypeSerializer, TagSerializer
+from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Domain, Ip, Location, Os, Osarch, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Tag
 from rest_framework import generics
 
 class AnalysisstatusListApi(generics.ListCreateAPIView):
@@ -121,6 +121,18 @@ class OsDetailApi(generics.RetrieveUpdateAPIView):
 
     queryset = Os.objects.all()
     serializer_class = OsSerializer
+
+class OsarchListApi(generics.ListCreateAPIView):
+    """ all objects, allowed: GET + POST """
+
+    queryset = Osarch.objects.all()
+    serializer_class = OsarchSerializer
+
+class OsarchDetailApi(generics.RetrieveUpdateAPIView):
+    """ single object, allowed: GET + PUT"""
+
+    queryset = Osarch.objects.all()
+    serializer_class = OsarchSerializer
 
 class ReasonListApi(generics.ListCreateAPIView):
     """ all objects, allowed: GET + POST """
