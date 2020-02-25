@@ -32,6 +32,7 @@ urlpatterns = [
     url(r'^locations/$', dfirtrack_main.LocationListApi.as_view()),
     url(r'^locations/(?P<pk>\d+)/$', dfirtrack_main.LocationDetailApi.as_view()),
     url(r'^oss/$', dfirtrack_main.OsListApi.as_view()),
+    url(r'^oss/(?P<pk>\d+)/$', dfirtrack_main.OsDetailApi.as_view()),
     url(r'^reasons/$', dfirtrack_main.ReasonListApi.as_view()),
     url(r'^reasons/(?P<pk>\d+)/$', dfirtrack_main.ReasonDetailApi.as_view()),
     url(r'^recommendations/$', dfirtrack_main.RecommendationListApi.as_view()),

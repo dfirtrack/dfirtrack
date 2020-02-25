@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
+from dfirtrack_main.models import Os
 import urllib.parse
 
 class IpAPIViewTestCase(TestCase):
@@ -8,6 +9,8 @@ class IpAPIViewTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
 
+        # create object
+        Os.objects.create(os_name='os_api_1')
         # create user
         test_user = User.objects.create_user(username='testuser_os_api', password='Ty8sCsWifIJmxx4KaJd6')
 
@@ -35,7 +38,7 @@ class IpAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_os_api', password='Ty8sCsWifIJmxx4KaJd6')
         # create POST string
-        poststring = {"os_name": "os_api_1"}
+        poststring = {"os_name": "os_api_2"}
         # get response
         response = self.client.post('/api/oss/', data=poststring)
         # compare
@@ -60,5 +63,81 @@ class IpAPIViewTestCase(TestCase):
 #        login = self.client.login(username='testuser_os_api', password='Ty8sCsWifIJmxx4KaJd6')
 #        # get response
 #        response = self.client.get('/api/oss/')
+#        # compare
+#        self.assertEqual(str(response.context['user']), 'testuser_os_api')
+
+    def test_os_detail_api_unauthorized (self):
+        """ unauthorized access is forbidden"""
+
+        # get object
+        os_api_1 = Os.objects.get(os_name='os_api_1')
+        # get response
+        response = self.client.get('/api/oss/' + str(os_api_1.os_id) + '/')
+        # compare
+        self.assertEqual(response.status_code, 401)
+
+    def test_os_detail_api_method_get(self):
+        """ GET is allowed """
+
+        # get object
+        os_api_1 = Os.objects.get(os_name='os_api_1')
+        # login testuser
+        login = self.client.login(username='testuser_os_api', password='Ty8sCsWifIJmxx4KaJd6')
+        # get response
+        response = self.client.get('/api/oss/' + str(os_api_1.os_id) + '/')
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_os_detail_api_method_delete(self):
+        """ DELETE is forbidden """
+
+        # get object
+        os_api_1 = Os.objects.get(os_name='os_api_1')
+        # login testuser
+        login = self.client.login(username='testuser_os_api', password='Ty8sCsWifIJmxx4KaJd6')
+        # get response
+        response = self.client.delete('/api/oss/' + str(os_api_1.os_id) + '/')
+        # compare
+        self.assertEqual(response.status_code, 405)
+
+    def test_os_detail_api_method_put(self):
+        """ PUT is allowed """
+
+        # get object
+        os_api_1 = Os.objects.get(os_name='os_api_1')
+        # login testuser
+        login = self.client.login(username='testuser_os_api', password='Ty8sCsWifIJmxx4KaJd6')
+        # create url
+        destination = urllib.parse.quote('/api/oss/' + str(os_api_1.os_id) + '/', safe='/')
+        # create PUT string
+        putstring = {"os_name": "new_os_api_1"}
+        # get response
+        response = self.client.put(destination, data=putstring, content_type='application/json')
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_os_detail_api_redirect(self):
+        """ test redirect with appending slash """
+
+        # get object
+        os_api_1 = Os.objects.get(os_name='os_api_1')
+        # login testuser
+        login = self.client.login(username='testuser_os_api', password='Ty8sCsWifIJmxx4KaJd6')
+        # create url
+        destination = urllib.parse.quote('/api/oss/' + str(os_api_1.os_id) + '/', safe='/')
+        # get response
+        response = self.client.get('/api/oss/' + str(os_api_1.os_id), follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+#    def test_os_detail_api_get_user_context(self):
+#        """ test user context """
+#
+#        # get object
+#        os_api_1 = Os.objects.get(os_name='os_api_1')
+#        # login testuser
+#        login = self.client.login(username='testuser_os_api', password='Ty8sCsWifIJmxx4KaJd6')
+#        # get response
+#        response = self.client.get('/api/oss/' + str(os_api_1.os_id) + '/')
 #        # compare
 #        self.assertEqual(str(response.context['user']), 'testuser_os_api')

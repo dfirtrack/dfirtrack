@@ -116,6 +116,12 @@ class OsListApi(generics.ListCreateAPIView):
     queryset = Os.objects.all()
     serializer_class = OsSerializer
 
+class OsDetailApi(generics.RetrieveUpdateAPIView):
+    """ single object, allowed: GET + PUT"""
+
+    queryset = Os.objects.all()
+    serializer_class = OsSerializer
+
 class ReasonListApi(generics.ListCreateAPIView):
     """ all objects, allowed: GET + POST """
 
