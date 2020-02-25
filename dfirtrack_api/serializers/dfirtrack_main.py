@@ -1,4 +1,4 @@
-from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Domain, Ip, Location, Os, Osarch, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Tag, Taskstatus
+from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Domain, Ip, Location, Os, Osarch, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Tag, Taskpriority, Taskstatus
 from rest_framework import serializers
 
 # special serializers for foreignkey relationsships
@@ -279,6 +279,16 @@ class SystemSerializer(serializers.ModelSerializer):
             'system_modified_by_user_id',
             'system_export_markdown',
             'system_export_spreadsheet',
+        )
+
+class TaskprioritySerializer(serializers.ModelSerializer):
+    """ create serializer for model instance """
+
+    class Meta:
+        model = Taskpriority
+        # attributes made available for api
+        fields = (
+            'taskpriority_name',
         )
 
 class TaskstatusSerializer(serializers.ModelSerializer):
