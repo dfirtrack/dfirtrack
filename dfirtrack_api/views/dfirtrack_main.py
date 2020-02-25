@@ -92,6 +92,12 @@ class IpListApi(generics.ListCreateAPIView):
     queryset = Ip.objects.all()
     serializer_class = IpSerializer
 
+class IpDetailApi(generics.RetrieveUpdateAPIView):
+    """ single object, allowed: GET + PUT"""
+
+    queryset = Ip.objects.all()
+    serializer_class = IpSerializer
+
 class LocationListApi(generics.ListCreateAPIView):
     """ all objects, allowed: GET + POST """
 

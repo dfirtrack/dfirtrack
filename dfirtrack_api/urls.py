@@ -28,6 +28,7 @@ urlpatterns = [
     url(r'^domains/$', dfirtrack_main.DomainListApi.as_view()),
     url(r'^domains/(?P<pk>\d+)/$', dfirtrack_main.DomainDetailApi.as_view()),
     url(r'^ips/$', dfirtrack_main.IpListApi.as_view()),
+    url(r'^ips/(?P<pk>\d+)/$', dfirtrack_main.IpDetailApi.as_view()),
     url(r'^locations/$', dfirtrack_main.LocationListApi.as_view()),
     url(r'^locations/(?P<pk>\d+)/$', dfirtrack_main.LocationDetailApi.as_view()),
     url(r'^oss/$', dfirtrack_main.OsListApi.as_view()),
