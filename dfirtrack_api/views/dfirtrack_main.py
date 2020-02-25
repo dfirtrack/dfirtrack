@@ -1,5 +1,5 @@
-from dfirtrack_api.serializers.dfirtrack_main import AnalysisstatusSerializer, CaseSerializer, CompanySerializer, ContactSerializer, DivisionSerializer, DnsnameSerializer, DomainSerializer, IpSerializer, LocationSerializer, OsSerializer, OsarchSerializer, ReasonSerializer, RecommendationSerializer, ServiceproviderSerializer, SystemSerializer, SystemstatusSerializer, SystemtypeSerializer, TagSerializer, TaskprioritySerializer, TaskstatusSerializer
-from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Domain, Ip, Location, Os, Osarch, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Tag, Taskpriority, Taskstatus
+from dfirtrack_api.serializers.dfirtrack_main import AnalysisstatusSerializer, CaseSerializer, CompanySerializer, ContactSerializer, DivisionSerializer, DnsnameSerializer, DomainSerializer, DomainuserSerializer, IpSerializer, LocationSerializer, OsSerializer, OsarchSerializer, ReasonSerializer, RecommendationSerializer, ServiceproviderSerializer, SystemSerializer, SystemstatusSerializer, SystemtypeSerializer, TagSerializer, TaskprioritySerializer, TaskstatusSerializer
+from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Domain, Domainuser, Ip, Location, Os, Osarch, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Tag, Taskpriority, Taskstatus
 from rest_framework import generics
 
 class AnalysisstatusListApi(generics.ListAPIView):
@@ -85,6 +85,18 @@ class DomainDetailApi(generics.RetrieveUpdateAPIView):
 
     queryset = Domain.objects.all()
     serializer_class = DomainSerializer
+
+class DomainuserListApi(generics.ListCreateAPIView):
+    """ all objects, allowed: GET + POST """
+
+    queryset = Domainuser.objects.all()
+    serializer_class = DomainuserSerializer
+
+class DomainuserDetailApi(generics.RetrieveUpdateAPIView):
+    """ single object, allowed: GET + PUT """
+
+    queryset = Domainuser.objects.all()
+    serializer_class = DomainuserSerializer
 
 class IpListApi(generics.ListCreateAPIView):
     """ all objects, allowed: GET + POST """

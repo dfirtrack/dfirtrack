@@ -1,4 +1,4 @@
-from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Domain, Ip, Location, Os, Osarch, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Tag, Taskpriority, Taskstatus
+from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Domain, Domainuser, Ip, Location, Os, Osarch, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Tag, Taskpriority, Taskstatus
 from rest_framework import serializers
 
 # special serializers for foreignkey relationsships
@@ -96,6 +96,21 @@ class DomainSerializer(serializers.ModelSerializer):
         # attributes made available for api
         fields = (
             'domain_name',
+        )
+
+class DomainuserSerializer(serializers.ModelSerializer):
+    """ create serializer for model instance """
+
+    # get serializers of foreignkey relationsships
+    domain = DomainSerializer(many=False, read_only=True)
+
+    class Meta:
+        model = Domainuser
+        # attributes made available for api
+        fields = (
+            'domainuser_name',
+            'domain',
+            'domainuser_is_domainadmin',
         )
 
 class IpSerializer(serializers.ModelSerializer):
