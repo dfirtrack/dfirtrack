@@ -42,23 +42,23 @@ class DomainuserAPIViewTestCase(TestCase):
         # compare
         self.assertEqual(response.status_code, 200)
 
-#    def test_domainuser_list_api_method_post(self):
-#        """ POST is allowed """
-#
-#        # login testuser
-#        login = self.client.login(username='testuser_domainuser_api', password='pzJk89y9aQYUkAfwJ5KN')
-#        # get object
-#        domain_id = str(Domain.objects.get(domain_name='domain_1').domain_id)
-#        # create POST string
-#        poststring = {
-#            "domainuser_name": "domainuser_api_2",
-#            "domainuser_is_domainadmin": False,
-#            "domain": domain_id,
-#        }
-#        # get response
-#        response = self.client.post('/api/domainusers/', data=poststring)
-#        # compare
-#        self.assertEqual(response.status_code, 201)
+    def test_domainuser_list_api_method_post(self):
+        """ POST is allowed """
+
+        # login testuser
+        login = self.client.login(username='testuser_domainuser_api', password='pzJk89y9aQYUkAfwJ5KN')
+        # get object
+        domain_id = str(Domain.objects.get(domain_name='domain_1').domain_id)
+        # create POST string
+        poststring = {
+            "domainuser_name": "domainuser_api_2",
+            "domainuser_is_domainadmin": False,
+            "domain": domain_id,
+        }
+        # get response
+        response = self.client.post('/api/domainusers/', data=poststring)
+        # compare
+        self.assertEqual(response.status_code, 201)
 
     def test_domainuser_list_api_redirect(self):
         """ test redirect with appending slash """
@@ -116,25 +116,27 @@ class DomainuserAPIViewTestCase(TestCase):
         # compare
         self.assertEqual(response.status_code, 405)
 
-#    def test_domainuser_detail_api_method_put(self):
-#        """ PUT is allowed """
-#
-#        # get object
-#        domainuser_api_1 = Domainuser.objects.get(domainuser_name='domainuser_api_1')
-#        # login testuser
-#        login = self.client.login(username='testuser_domainuser_api', password='pzJk89y9aQYUkAfwJ5KN')
-#        # create url
-#        destination = urllib.parse.quote('/api/domainusers/' + str(domainuser_api_1.domainuser_id) + '/', safe='/')
-#        # create PUT string
-#        putstring = {
-#            "domainuser_name": "domainuser_api_3",
-#            "domainuser_is_domainadmin": False,
-#            "domain": domain_id,
-#        }
-#        # get response
-#        response = self.client.put(destination, data=putstring, content_type='application/json')
-#        # compare
-#        self.assertEqual(response.status_code, 200)
+    def test_domainuser_detail_api_method_put(self):
+        """ PUT is allowed """
+
+        # get object
+        domain_id = str(Domain.objects.get(domain_name='domain_1').domain_id)
+        # get object
+        domainuser_api_1 = Domainuser.objects.get(domainuser_name='domainuser_api_1')
+        # login testuser
+        login = self.client.login(username='testuser_domainuser_api', password='pzJk89y9aQYUkAfwJ5KN')
+        # create url
+        destination = urllib.parse.quote('/api/domainusers/' + str(domainuser_api_1.domainuser_id) + '/', safe='/')
+        # create PUT string
+        putstring = {
+            "domainuser_name": "domainuser_api_3",
+            "domainuser_is_domainadmin": False,
+            "domain": domain_id,
+        }
+        # get response
+        response = self.client.put(destination, data=putstring, content_type='application/json')
+        # compare
+        self.assertEqual(response.status_code, 200)
 
     def test_domainuser_detail_api_redirect(self):
         """ test redirect with appending slash """

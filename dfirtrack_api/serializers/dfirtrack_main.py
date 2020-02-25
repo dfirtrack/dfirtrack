@@ -102,7 +102,9 @@ class DomainuserSerializer(serializers.ModelSerializer):
     """ create serializer for model instance """
 
     # get serializers of foreignkey relationsships
-    domain = DomainSerializer(many=False, read_only=True)
+    def to_representation(self, instance):
+        self.fields['domain'] =  DomainSerializer(read_only=True)
+        return super(DomainuserSerializer, self).to_representation(instance)
 
     class Meta:
         model = Domainuser
