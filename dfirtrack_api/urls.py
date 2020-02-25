@@ -49,6 +49,8 @@ urlpatterns = [
     url(r'^systemstatuss/(?P<pk>\d+)/$', dfirtrack_main.SystemstatusDetailApi.as_view()),
     url(r'^systemtypes/$', dfirtrack_main.SystemtypeListApi.as_view()),
     url(r'^systemtypes/(?P<pk>\d+)/$', dfirtrack_main.SystemtypeDetailApi.as_view()),
+    url(r'^systemusers/$', dfirtrack_main.SystemuserListApi.as_view()),
+    url(r'^systemusers/(?P<pk>\d+)/$', dfirtrack_main.SystemuserDetailApi.as_view()),
     url(r'^tags/$', dfirtrack_main.TagListApi.as_view()),
     url(r'^taskprioritys/$', dfirtrack_main.TaskpriorityListApi.as_view()),
     url(r'^taskprioritys/(?P<pk>\d+)/$', dfirtrack_main.TaskpriorityDetailApi.as_view()),

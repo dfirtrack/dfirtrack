@@ -1,5 +1,5 @@
-from dfirtrack_api.serializers.dfirtrack_main import AnalysisstatusSerializer, CaseSerializer, CompanySerializer, ContactSerializer, DivisionSerializer, DnsnameSerializer, DomainSerializer, DomainuserSerializer, IpSerializer, LocationSerializer, OsSerializer, OsarchSerializer, ReasonSerializer, RecommendationSerializer, ServiceproviderSerializer, SystemSerializer, SystemstatusSerializer, SystemtypeSerializer, TagSerializer, TaskprioritySerializer, TaskstatusSerializer
-from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Domain, Domainuser, Ip, Location, Os, Osarch, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Tag, Taskpriority, Taskstatus
+from dfirtrack_api.serializers.dfirtrack_main import AnalysisstatusSerializer, CaseSerializer, CompanySerializer, ContactSerializer, DivisionSerializer, DnsnameSerializer, DomainSerializer, DomainuserSerializer, IpSerializer, LocationSerializer, OsSerializer, OsarchSerializer, ReasonSerializer, RecommendationSerializer, ServiceproviderSerializer, SystemSerializer, SystemstatusSerializer, SystemtypeSerializer, SystemuserSerializer, TagSerializer, TaskprioritySerializer, TaskstatusSerializer
+from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Domain, Domainuser, Ip, Location, Os, Osarch, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Systemuser, Tag, Taskpriority, Taskstatus
 from rest_framework import generics
 
 class AnalysisstatusListApi(generics.ListAPIView):
@@ -217,6 +217,18 @@ class SystemtypeDetailApi(generics.RetrieveUpdateAPIView):
 
     queryset = Systemtype.objects.all()
     serializer_class = SystemtypeSerializer
+
+class SystemuserListApi(generics.ListCreateAPIView):
+    """ all objects, allowed: GET + POST """
+
+    queryset = Systemuser.objects.all()
+    serializer_class = SystemuserSerializer
+
+class SystemuserDetailApi(generics.RetrieveUpdateAPIView):
+    """ single object, allowed: GET + PUT """
+
+    queryset = Systemuser.objects.all()
+    serializer_class = SystemuserSerializer
 
 class TagListApi(generics.ListAPIView):
     """ all objects, allowed: GET """

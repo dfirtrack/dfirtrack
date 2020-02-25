@@ -1,4 +1,4 @@
-from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Domain, Domainuser, Ip, Location, Os, Osarch, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Tag, Taskpriority, Taskstatus
+from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Domain, Domainuser, Ip, Location, Os, Osarch, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Systemuser, Tag, Taskpriority, Taskstatus
 from rest_framework import serializers
 
 # special serializers for foreignkey relationsships
@@ -296,6 +296,30 @@ class SystemSerializer(serializers.ModelSerializer):
             'system_modified_by_user_id',
             'system_export_markdown',
             'system_export_spreadsheet',
+        )
+
+class SystemuserSerializer(serializers.ModelSerializer):
+    """ create serializer for model instance """
+
+    # redefine representation
+    def to_representation(self, instance):
+
+        # change optional time strings
+        if instance.systemuser_lastlogon_time:
+            representation['systemuser_lastlogon_time'] = instance.systemuser_lastlogon_time.strftime('%Y-%m-%dT%H:%M')
+
+        # get serializers of foreignkey relationsships
+        self.fields['system'] =  SystemSerializer(read_only=True)
+        return super(SystemuserSerializer, self).to_representation(instance)
+
+    class Meta:
+        model = Systemuser
+        # attributes made available for api
+        fields = (
+            'systemuser_name',
+            'system',
+            'systemuser_lastlogon_time',
+            'systemuser_is_systemadmin',
         )
 
 class TaskprioritySerializer(serializers.ModelSerializer):
