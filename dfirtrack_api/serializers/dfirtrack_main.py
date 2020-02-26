@@ -11,28 +11,45 @@ class AnalysisstatusSerializer(serializers.ModelSerializer):
         model = Analysisstatus
         # attributes made available for api
         fields = (
+            'analysisstatus_id',
             'analysisstatus_name',
         )
 
 class CaseSerializer(serializers.ModelSerializer):
     """ create serializer for model instance """
 
+    # redefine representation
+    def to_representation(self, instance):
+
+        # get exsiting to_representation
+        representation = super(CaseSerializer, self).to_representation(instance)
+
+        # change mandatory time strings
+        representation['case_create_time'] = instance.case_create_time.strftime('%Y-%m-%dT%H:%M')
+
+        return representation
+
     class Meta:
         model = Case
         # attributes made available for api
         fields = (
+            'case_id',
             'case_name',
             'case_is_incident',
             'case_created_by_user_id',
+            'case_create_time',
         )
 
 class CompanySerializer(serializers.ModelSerializer):
     """ create serializer for model instance """
 
+    # TODO: add division
+
     class Meta:
         model = Company
         # attributes made available for api
         fields = (
+            'company_id',
             'company_name',
         )
 
@@ -43,6 +60,8 @@ class ContactSerializer(serializers.ModelSerializer):
         model = Contact
         # attributes made available for api
         fields = (
+            'contact_id',
+            'contact_phone',
             'contact_name',
             'contact_email',
         )
@@ -54,16 +73,20 @@ class DivisionSerializer(serializers.ModelSerializer):
         model = Division
         # attributes made available for api
         fields = (
+            'division_id',
             'division_name',
         )
 
 class DnsnameSerializer(serializers.ModelSerializer):
     """ create serializer for model instance """
 
+    # TODO: add domain
+
     class Meta:
         model = Dnsname
         # attributes made available for api
         fields = (
+            'dnsname_id',
             'dnsname_name',
         )
 
@@ -74,6 +97,7 @@ class DomainSerializer(serializers.ModelSerializer):
         model = Domain
         # attributes made available for api
         fields = (
+            'domain_id',
             'domain_name',
         )
 
@@ -89,6 +113,7 @@ class DomainuserSerializer(serializers.ModelSerializer):
         model = Domainuser
         # attributes made available for api
         fields = (
+            'domainuser_id',
             'domainuser_name',
             'domain',
             'domainuser_is_domainadmin',
@@ -101,6 +126,7 @@ class IpSerializer(serializers.ModelSerializer):
         model = Ip
         # attributes made available for api
         fields = (
+            'ip_id',
             'ip_ip',
         )
 
@@ -111,6 +137,7 @@ class LocationSerializer(serializers.ModelSerializer):
         model = Location
         # attributes made available for api
         fields = (
+            'location_id',
             'location_name',
         )
 
@@ -121,6 +148,7 @@ class OsSerializer(serializers.ModelSerializer):
         model = Os
         # attributes made available for api
         fields = (
+            'os_id',
             'os_name',
         )
 
@@ -131,6 +159,7 @@ class OsarchSerializer(serializers.ModelSerializer):
         model = Osarch
         # attributes made available for api
         fields = (
+            'osarch_id',
             'osarch_name',
         )
 
@@ -141,16 +170,19 @@ class ReasonSerializer(serializers.ModelSerializer):
         model = Reason
         # attributes made available for api
         fields = (
+            'reason_id',
             'reason_name',
         )
 
 class RecommendationSerializer(serializers.ModelSerializer):
+
     """ create serializer for model instance """
 
     class Meta:
         model = Recommendation
         # attributes made available for api
         fields = (
+            'recommendation_id',
             'recommendation_name',
         )
 
@@ -161,6 +193,7 @@ class ServiceproviderSerializer(serializers.ModelSerializer):
         model = Serviceprovider
         # attributes made available for api
         fields = (
+            'serviceprovider_id',
             'serviceprovider_name',
         )
 
@@ -171,6 +204,7 @@ class SystemstatusSerializer(serializers.ModelSerializer):
         model = Systemstatus
         # attributes made available for api
         fields = (
+            'systemstatus_id',
             'systemstatus_name',
         )
 
@@ -181,16 +215,20 @@ class SystemtypeSerializer(serializers.ModelSerializer):
         model = Systemtype
         # attributes made available for api
         fields = (
+            'systemtype_id',
             'systemtype_name',
         )
 
 class TagSerializer(serializers.ModelSerializer):
     """ create serializer for model instance """
 
+    # TODO: add tagcolor (fk)
+
     class Meta:
         model = Tag
         # attributes made available for api
         fields = (
+            'tag_id',
             'tag_name',
         )
 
@@ -295,6 +333,7 @@ class SystemuserSerializer(serializers.ModelSerializer):
         model = Systemuser
         # attributes made available for api
         fields = (
+            'systemuser_id',
             'systemuser_name',
             'system',
             'systemuser_lastlogon_time',
@@ -308,6 +347,7 @@ class TagcolorSerializer(serializers.ModelSerializer):
         model = Tagcolor
         # attributes made available for api
         fields = (
+            'tagcolor_id',
             'tagcolor_name',
         )
 
@@ -318,6 +358,7 @@ class TaskprioritySerializer(serializers.ModelSerializer):
         model = Taskpriority
         # attributes made available for api
         fields = (
+            'taskpriority_id',
             'taskpriority_name',
         )
 
@@ -328,5 +369,6 @@ class TaskstatusSerializer(serializers.ModelSerializer):
         model = Taskstatus
         # attributes made available for api
         fields = (
+            'taskstatus_id',
             'taskstatus_name',
         )
