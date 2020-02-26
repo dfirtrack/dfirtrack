@@ -1,4 +1,4 @@
-from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Domain, Domainuser, Ip, Location, Os, Osarch, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Systemuser, Tag, Tagcolor, Taskpriority, Taskstatus
+from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Domain, Domainuser, Ip, Location, Os, Osarch, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Systemuser, Tag, Tagcolor, Taskname, Taskpriority, Taskstatus
 from rest_framework import serializers
 
 # serializers for foreignkey relationsships
@@ -201,6 +201,16 @@ class TagcolorFkSerializer(serializers.ModelSerializer):
         # attributes made available for api
         fields = (
             'tagcolor_name',
+        )
+
+class TasknameFkSerializer(serializers.ModelSerializer):
+    """ create serializer for foreignkey relationsships """
+
+    class Meta:
+        model = Taskname
+        # attributes made available for api
+        fields = (
+            'taskname_name',
         )
 
 class TaskpriorityFkSerializer(serializers.ModelSerializer):

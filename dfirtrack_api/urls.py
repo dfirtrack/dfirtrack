@@ -54,6 +54,8 @@ urlpatterns = [
     url(r'^tags/$', dfirtrack_main.TagListApi.as_view()),
     url(r'^tagcolors/$', dfirtrack_main.TagcolorListApi.as_view()),
     url(r'^tagcolors/(?P<pk>\d+)/$', dfirtrack_main.TagcolorDetailApi.as_view()),
+    url(r'^tasknames/$', dfirtrack_main.TasknameListApi.as_view()),
+    url(r'^tasknames/(?P<pk>\d+)/$', dfirtrack_main.TasknameDetailApi.as_view()),
     url(r'^taskprioritys/$', dfirtrack_main.TaskpriorityListApi.as_view()),
     url(r'^taskprioritys/(?P<pk>\d+)/$', dfirtrack_main.TaskpriorityDetailApi.as_view()),
     url(r'^taskstatuss/$', dfirtrack_main.TaskstatusListApi.as_view()),

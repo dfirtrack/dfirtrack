@@ -1,4 +1,4 @@
-from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Domain, Domainuser, Ip, Location, Os, Osarch, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Systemuser, Tag, Tagcolor, Taskpriority, Taskstatus
+from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Domain, Domainuser, Ip, Location, Os, Osarch, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Systemuser, Tag, Tagcolor, Taskname, Taskpriority, Taskstatus
 from . import dfirtrack_main_fk
 from rest_framework import serializers
 
@@ -65,9 +65,9 @@ class ContactSerializer(serializers.ModelSerializer):
         # attributes made available for api
         fields = (
             'contact_id',
-            'contact_phone',
             'contact_name',
             'contact_email',
+            'contact_phone',
         )
 
 class DivisionSerializer(serializers.ModelSerializer):
@@ -360,6 +360,17 @@ class TagcolorSerializer(serializers.ModelSerializer):
         fields = (
             'tagcolor_id',
             'tagcolor_name',
+        )
+
+class TasknameSerializer(serializers.ModelSerializer):
+    """ create serializer for model instance """
+
+    class Meta:
+        model = Taskname
+        # attributes made available for api
+        fields = (
+            'taskname_id',
+            'taskname_name',
         )
 
 class TaskprioritySerializer(serializers.ModelSerializer):
