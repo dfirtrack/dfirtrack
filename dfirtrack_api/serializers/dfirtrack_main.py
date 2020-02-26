@@ -43,7 +43,10 @@ class CaseSerializer(serializers.ModelSerializer):
 class CompanySerializer(serializers.ModelSerializer):
     """ create serializer for model instance """
 
-    # TODO: add division (fk)
+    # get serializers of foreignkey relationsships
+    def to_representation(self, instance):
+        self.fields['division'] =  dfirtrack_main_fk.DivisionFkSerializer(read_only=True)
+        return super(CompanySerializer, self).to_representation(instance)
 
     class Meta:
         model = Company
@@ -51,6 +54,7 @@ class CompanySerializer(serializers.ModelSerializer):
         fields = (
             'company_id',
             'company_name',
+            'division',
         )
 
 class ContactSerializer(serializers.ModelSerializer):
@@ -80,7 +84,10 @@ class DivisionSerializer(serializers.ModelSerializer):
 class DnsnameSerializer(serializers.ModelSerializer):
     """ create serializer for model instance """
 
-    # TODO: add domain (fk)
+    # get serializers of foreignkey relationsships
+    def to_representation(self, instance):
+        self.fields['domain'] =  dfirtrack_main_fk.DomainFkSerializer(read_only=True)
+        return super(DnsnameSerializer, self).to_representation(instance)
 
     class Meta:
         model = Dnsname
@@ -88,6 +95,7 @@ class DnsnameSerializer(serializers.ModelSerializer):
         fields = (
             'dnsname_id',
             'dnsname_name',
+            'domain',
         )
 
 class DomainSerializer(serializers.ModelSerializer):
@@ -329,7 +337,10 @@ class SystemuserSerializer(serializers.ModelSerializer):
 class TagSerializer(serializers.ModelSerializer):
     """ create serializer for model instance """
 
-    # TODO: add tagcolor (fk)
+    # get serializers of foreignkey relationsships
+    def to_representation(self, instance):
+        self.fields['tagcolor'] =  dfirtrack_main_fk.TagcolorFkSerializer(read_only=True)
+        return super(TagSerializer, self).to_representation(instance)
 
     class Meta:
         model = Tag
@@ -337,6 +348,7 @@ class TagSerializer(serializers.ModelSerializer):
         fields = (
             'tag_id',
             'tag_name',
+            'tagcolor',
         )
 
 class TagcolorSerializer(serializers.ModelSerializer):

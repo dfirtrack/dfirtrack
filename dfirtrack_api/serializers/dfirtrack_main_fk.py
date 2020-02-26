@@ -43,6 +43,16 @@ class ContactFkSerializer(serializers.ModelSerializer):
             'contact_email',
         )
 
+class DivisionFkSerializer(serializers.ModelSerializer):
+    """ create serializer for foreignkey relationsships """
+
+    class Meta:
+        model = Division
+        # attributes made available for api
+        fields = (
+            'division_name',
+        )
+
 class DnsnameFkSerializer(serializers.ModelSerializer):
     """ create serializer for foreignkey relationsships """
 
