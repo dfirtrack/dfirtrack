@@ -1,5 +1,5 @@
-from dfirtrack_api.serializers.dfirtrack_main import AnalysisstatusSerializer, CaseSerializer, CompanySerializer, ContactSerializer, DivisionSerializer, DnsnameSerializer, DomainSerializer, DomainuserSerializer, IpSerializer, LocationSerializer, OsSerializer, OsarchSerializer, ReasonSerializer, RecommendationSerializer, ServiceproviderSerializer, SystemSerializer, SystemstatusSerializer, SystemtypeSerializer, SystemuserSerializer, TagSerializer, TaskprioritySerializer, TaskstatusSerializer
-from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Domain, Domainuser, Ip, Location, Os, Osarch, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Systemuser, Tag, Taskpriority, Taskstatus
+from dfirtrack_api.serializers.dfirtrack_main import AnalysisstatusSerializer, CaseSerializer, CompanySerializer, ContactSerializer, DivisionSerializer, DnsnameSerializer, DomainSerializer, DomainuserSerializer, IpSerializer, LocationSerializer, OsSerializer, OsarchSerializer, ReasonSerializer, RecommendationSerializer, ServiceproviderSerializer, SystemSerializer, SystemstatusSerializer, SystemtypeSerializer, SystemuserSerializer, TagSerializer, TagcolorSerializer, TaskprioritySerializer, TaskstatusSerializer
+from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Domain, Domainuser, Ip, Location, Os, Osarch, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Systemuser, Tag, Tagcolor, Taskpriority, Taskstatus
 from rest_framework import generics
 
 class AnalysisstatusListApi(generics.ListAPIView):
@@ -235,6 +235,18 @@ class TagListApi(generics.ListAPIView):
 
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
+
+class TagcolorListApi(generics.ListAPIView):
+    """ all objects, allowed: GET """
+
+    queryset = Tagcolor.objects.all()
+    serializer_class = TagcolorSerializer
+
+class TagcolorDetailApi(generics.RetrieveAPIView):
+    """ single object, allowed: GET """
+
+    queryset = Tagcolor.objects.all()
+    serializer_class = TagcolorSerializer
 
 class TaskpriorityListApi(generics.ListAPIView):
     """ all objects, allowed: GET """
