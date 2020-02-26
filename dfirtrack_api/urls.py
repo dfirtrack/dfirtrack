@@ -52,6 +52,7 @@ urlpatterns = [
     url(r'^systemusers/$', dfirtrack_main.SystemuserListApi.as_view()),
     url(r'^systemusers/(?P<pk>\d+)/$', dfirtrack_main.SystemuserDetailApi.as_view()),
     url(r'^tags/$', dfirtrack_main.TagListApi.as_view()),
+    url(r'^tags/(?P<pk>\d+)/$', dfirtrack_main.TagDetailApi.as_view()),
     url(r'^tagcolors/$', dfirtrack_main.TagcolorListApi.as_view()),
     url(r'^tagcolors/(?P<pk>\d+)/$', dfirtrack_main.TagcolorDetailApi.as_view()),
     url(r'^tasknames/$', dfirtrack_main.TasknameListApi.as_view()),

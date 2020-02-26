@@ -230,8 +230,14 @@ class SystemuserDetailApi(generics.RetrieveUpdateAPIView):
     queryset = Systemuser.objects.all()
     serializer_class = SystemuserSerializer
 
-class TagListApi(generics.ListAPIView):
-    """ all objects, allowed: GET """
+class TagListApi(generics.ListCreateAPIView):
+    """ all objects, allowed: GET + POST """
+
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
+
+class TagDetailApi(generics.RetrieveUpdateAPIView):
+    """ single object, allowed: GET + PUT """
 
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
