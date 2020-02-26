@@ -1,5 +1,5 @@
 from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Domain, Domainuser, Ip, Location, Os, Osarch, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Systemuser, Tag, Tagcolor, Taskpriority, Taskstatus
-from .dfirtrack_main_fk import CaseFkSerializer, HostSystemFkSerializer
+from . import dfirtrack_main_fk
 from rest_framework import serializers
 
 # model serializers
@@ -43,7 +43,7 @@ class CaseSerializer(serializers.ModelSerializer):
 class CompanySerializer(serializers.ModelSerializer):
     """ create serializer for model instance """
 
-    # TODO: add division
+    # TODO: add division (fk)
 
     class Meta:
         model = Company
@@ -80,7 +80,7 @@ class DivisionSerializer(serializers.ModelSerializer):
 class DnsnameSerializer(serializers.ModelSerializer):
     """ create serializer for model instance """
 
-    # TODO: add domain
+    # TODO: add domain (fk)
 
     class Meta:
         model = Dnsname
@@ -106,7 +106,7 @@ class DomainuserSerializer(serializers.ModelSerializer):
 
     # get serializers of foreignkey relationsships
     def to_representation(self, instance):
-        self.fields['domain'] =  DomainSerializer(read_only=True)
+        self.fields['domain'] =  dfirtrack_main_fk.DomainFkSerializer(read_only=True)
         return super(DomainuserSerializer, self).to_representation(instance)
 
     class Meta:
@@ -175,7 +175,6 @@ class ReasonSerializer(serializers.ModelSerializer):
         )
 
 class RecommendationSerializer(serializers.ModelSerializer):
-
     """ create serializer for model instance """
 
     class Meta:
@@ -197,62 +196,27 @@ class ServiceproviderSerializer(serializers.ModelSerializer):
             'serviceprovider_name',
         )
 
-class SystemstatusSerializer(serializers.ModelSerializer):
-    """ create serializer for model instance """
-
-    class Meta:
-        model = Systemstatus
-        # attributes made available for api
-        fields = (
-            'systemstatus_id',
-            'systemstatus_name',
-        )
-
-class SystemtypeSerializer(serializers.ModelSerializer):
-    """ create serializer for model instance """
-
-    class Meta:
-        model = Systemtype
-        # attributes made available for api
-        fields = (
-            'systemtype_id',
-            'systemtype_name',
-        )
-
-class TagSerializer(serializers.ModelSerializer):
-    """ create serializer for model instance """
-
-    # TODO: add tagcolor (fk)
-
-    class Meta:
-        model = Tag
-        # attributes made available for api
-        fields = (
-            'tag_id',
-            'tag_name',
-        )
-
 class SystemSerializer(serializers.ModelSerializer):
-    """ create serializer for system """
+    """ create serializer for model instance """
 
     # get serializers of foreignkey relationsships
-    analysisstatus = AnalysisstatusSerializer(many=False, read_only=True)
-    case = CaseFkSerializer(many=True, read_only=True)
-    company = CompanySerializer(many=True, read_only=True)
-    contact = ContactSerializer(many=False, read_only=True)
-    dnsname = DnsnameSerializer(many=False, read_only=True)
-    domain = DomainSerializer(many=False, read_only=True)
-    host_system = HostSystemFkSerializer(many=False, read_only=True)
-    ip = IpSerializer(many=True, read_only=True)
-    location = LocationSerializer(many=False, read_only=True)
-    os = OsSerializer(many=False, read_only=True)
-    osarch = OsarchSerializer(many=False, read_only=True)
-    reason = ReasonSerializer(many=False, read_only=True)
-    recommendation = RecommendationSerializer(many=False, read_only=True)
-    serviceprovider = ServiceproviderSerializer(many=False, read_only=True)
-    systemstatus = SystemstatusSerializer(many=False, read_only=True)
-    systemtype = SystemtypeSerializer(many=False, read_only=True)
-    tag = TagSerializer(many=True, read_only=True)
+    analysisstatus = dfirtrack_main_fk.AnalysisstatusFkSerializer(many=False, read_only=True)
+    case = dfirtrack_main_fk.CaseFkSerializer(many=True, read_only=True)
+    company = dfirtrack_main_fk.CompanyFkSerializer(many=True, read_only=True)
+    contact = dfirtrack_main_fk.ContactFkSerializer(many=False, read_only=True)
+    dnsname = dfirtrack_main_fk.DnsnameFkSerializer(many=False, read_only=True)
+    domain = dfirtrack_main_fk.DomainFkSerializer(many=False, read_only=True)
+    host_system = dfirtrack_main_fk.HostSystemFkSerializer(many=False, read_only=True)
+    ip = dfirtrack_main_fk.IpFkSerializer(many=True, read_only=True)
+    location = dfirtrack_main_fk.LocationFkSerializer(many=False, read_only=True)
+    os = dfirtrack_main_fk.OsFkSerializer(many=False, read_only=True)
+    osarch = dfirtrack_main_fk.OsarchFkSerializer(many=False, read_only=True)
+    reason = dfirtrack_main_fk.ReasonFkSerializer(many=False, read_only=True)
+    recommendation = dfirtrack_main_fk.RecommendationFkSerializer(many=False, read_only=True)
+    serviceprovider = dfirtrack_main_fk.ServiceproviderFkSerializer(many=False, read_only=True)
+    systemstatus = dfirtrack_main_fk.SystemstatusFkSerializer(many=False, read_only=True)
+    systemtype = dfirtrack_main_fk.SystemtypeFkSerializer(many=False, read_only=True)
+    tag = dfirtrack_main_fk.TagFkSerializer(many=True, read_only=True)
 
     # redefine representation
     def to_representation(self, instance):
@@ -315,6 +279,28 @@ class SystemSerializer(serializers.ModelSerializer):
             'system_export_spreadsheet',
         )
 
+class SystemstatusSerializer(serializers.ModelSerializer):
+    """ create serializer for model instance """
+
+    class Meta:
+        model = Systemstatus
+        # attributes made available for api
+        fields = (
+            'systemstatus_id',
+            'systemstatus_name',
+        )
+
+class SystemtypeSerializer(serializers.ModelSerializer):
+    """ create serializer for model instance """
+
+    class Meta:
+        model = Systemtype
+        # attributes made available for api
+        fields = (
+            'systemtype_id',
+            'systemtype_name',
+        )
+
 class SystemuserSerializer(serializers.ModelSerializer):
     """ create serializer for model instance """
 
@@ -326,7 +312,7 @@ class SystemuserSerializer(serializers.ModelSerializer):
             representation['systemuser_lastlogon_time'] = instance.systemuser_lastlogon_time.strftime('%Y-%m-%dT%H:%M')
 
         # get serializers of foreignkey relationsships
-        self.fields['system'] =  SystemSerializer(read_only=True)
+        self.fields['system'] =  dfirtrack_main_fk.SystemFkSerializer(read_only=True)
         return super(SystemuserSerializer, self).to_representation(instance)
 
     class Meta:
@@ -338,6 +324,19 @@ class SystemuserSerializer(serializers.ModelSerializer):
             'system',
             'systemuser_lastlogon_time',
             'systemuser_is_systemadmin',
+        )
+
+class TagSerializer(serializers.ModelSerializer):
+    """ create serializer for model instance """
+
+    # TODO: add tagcolor (fk)
+
+    class Meta:
+        model = Tag
+        # attributes made available for api
+        fields = (
+            'tag_id',
+            'tag_name',
         )
 
 class TagcolorSerializer(serializers.ModelSerializer):
