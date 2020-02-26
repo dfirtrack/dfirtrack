@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
-from dfirtrack_main.models import Dnsname
+from dfirtrack_main.models import Domain, Dnsname
 import urllib.parse
 
 class DnsnameAPIViewTestCase(TestCase):
@@ -9,6 +9,10 @@ class DnsnameAPIViewTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
 
+        # create object
+        domain_1 = Domain.objects.create(domain_name='domain_api_1')
+        # create object
+        domain_2 = Domain.objects.create(domain_name='domain_api_2')
         # create object
         Dnsname.objects.create(dnsname_name='dnsname_api_1')
         # create user
@@ -35,10 +39,15 @@ class DnsnameAPIViewTestCase(TestCase):
     def test_dnsname_list_api_method_post(self):
         """ POST is allowed """
 
+        # get object
+        domain_id = str(Domain.objects.get(domain_name='domain_api_2').domain_id)
         # login testuser
         login = self.client.login(username='testuser_dnsname_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create POST string
-        poststring = {"dnsname_name": "dnsname_api_2"}
+        poststring = {
+            "dnsname_name": "dnsname_api_2",
+            "domain": domain_id,
+        }
         # get response
         response = self.client.post('/api/dnsnames/', data=poststring)
         # compare
@@ -104,13 +113,18 @@ class DnsnameAPIViewTestCase(TestCase):
         """ PUT is allowed """
 
         # get object
+        domain_id = str(Domain.objects.get(domain_name='domain_api_1').domain_id)
+        # get object
         dnsname_api_1 = Dnsname.objects.get(dnsname_name='dnsname_api_1')
         # login testuser
         login = self.client.login(username='testuser_dnsname_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create url
         destination = urllib.parse.quote('/api/dnsnames/' + str(dnsname_api_1.dnsname_id) + '/', safe='/')
         # create PUT string
-        putstring = {"dnsname_name": "new_dnsname_api_1"}
+        putstring = {
+            "dnsname_name": "new_dnsname_api_1",
+            "domain": domain_id,
+        }
         # get response
         response = self.client.put(destination, data=putstring, content_type='application/json')
         # compare

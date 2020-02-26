@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
-from dfirtrack_main.models import Company
+from dfirtrack_main.models import Company, Division
 import urllib.parse
 
 class CompanyAPIViewTestCase(TestCase):
@@ -10,7 +10,13 @@ class CompanyAPIViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create object
-        Company.objects.create(company_name='company_api_1')
+        division_1 = Division.objects.create(division_name='division_api_1')
+        # create object
+        division_2 = Division.objects.create(division_name='division_api_2')
+        # create object
+        Company.objects.create(
+            company_name='company_api_1'
+        )
         # create user
         test_user = User.objects.create_user(username='testuser_company_api', password='tvjnIPBlhP9P3ixDHVE7')
 
@@ -35,10 +41,15 @@ class CompanyAPIViewTestCase(TestCase):
     def test_company_list_api_method_post(self):
         """ POST is allowed """
 
+        # get object
+        division_id = str(Division.objects.get(division_name='division_api_2').division_id)
         # login testuser
         login = self.client.login(username='testuser_company_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create POST string
-        poststring = {"company_name": "company_api_2"}
+        poststring = {
+            "company_name": "company_api_2",
+            "division": division_id,
+        }
         # get response
         response = self.client.post('/api/companys/', data=poststring)
         # compare
@@ -104,13 +115,18 @@ class CompanyAPIViewTestCase(TestCase):
         """ PUT is allowed """
 
         # get object
+        division_id = str(Division.objects.get(division_name='division_api_1').division_id)
+        # get object
         company_api_1 = Company.objects.get(company_name='company_api_1')
         # login testuser
         login = self.client.login(username='testuser_company_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create url
         destination = urllib.parse.quote('/api/companys/' + str(company_api_1.company_id) + '/', safe='/')
         # create PUT string
-        putstring = {"company_name": "new_company_api_1"}
+        putstring = {
+            "company_name": "new_company_api_1",
+            "division": division_id,
+        }
         # get response
         response = self.client.put(destination, data=putstring, content_type='application/json')
         # compare
