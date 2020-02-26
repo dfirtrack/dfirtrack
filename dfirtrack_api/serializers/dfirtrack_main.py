@@ -1,27 +1,6 @@
 from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Domain, Domainuser, Ip, Location, Os, Osarch, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Systemuser, Tag, Tagcolor, Taskpriority, Taskstatus
+from .dfirtrack_main_fk import CaseFkSerializer, HostSystemFkSerializer
 from rest_framework import serializers
-
-# special serializers for foreignkey relationsships
-
-class CaseFKSerializer(serializers.ModelSerializer):
-    """ create serializer for foreignkey relationsship """
-
-    class Meta:
-        model = Case
-        # attributes made available for api
-        fields = (
-            'case_name',
-        )
-
-class HostSystemSerializer(serializers.ModelSerializer):
-    """ create serializer for foreignkey relationsship """
-
-    class Meta:
-        model = System
-        # attributes made available for api
-        fields = (
-            'system_name',
-        )
 
 # model serializers
 
@@ -220,12 +199,12 @@ class SystemSerializer(serializers.ModelSerializer):
 
     # get serializers of foreignkey relationsships
     analysisstatus = AnalysisstatusSerializer(many=False, read_only=True)
-    case = CaseFKSerializer(many=True, read_only=True)
+    case = CaseFkSerializer(many=True, read_only=True)
     company = CompanySerializer(many=True, read_only=True)
     contact = ContactSerializer(many=False, read_only=True)
     dnsname = DnsnameSerializer(many=False, read_only=True)
     domain = DomainSerializer(many=False, read_only=True)
-    host_system = HostSystemSerializer(many=False, read_only=True)
+    host_system = HostSystemFkSerializer(many=False, read_only=True)
     ip = IpSerializer(many=True, read_only=True)
     location = LocationSerializer(many=False, read_only=True)
     os = OsSerializer(many=False, read_only=True)
