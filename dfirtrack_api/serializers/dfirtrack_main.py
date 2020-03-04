@@ -207,25 +207,6 @@ class ServiceproviderSerializer(serializers.ModelSerializer):
 class SystemSerializer(serializers.ModelSerializer):
     """ create serializer for model instance """
 
-    # get serializers of foreignkey relationsships
-    analysisstatus = dfirtrack_main_fk.AnalysisstatusFkSerializer(many=False, read_only=True)
-    case = dfirtrack_main_fk.CaseFkSerializer(many=True, read_only=True)
-    company = dfirtrack_main_fk.CompanyFkSerializer(many=True, read_only=True)
-    contact = dfirtrack_main_fk.ContactFkSerializer(many=False, read_only=True)
-    dnsname = dfirtrack_main_fk.DnsnameFkSerializer(many=False, read_only=True)
-    domain = dfirtrack_main_fk.DomainFkSerializer(many=False, read_only=True)
-    host_system = dfirtrack_main_fk.HostSystemFkSerializer(many=False, read_only=True)
-    ip = dfirtrack_main_fk.IpFkSerializer(many=True, read_only=True)
-    location = dfirtrack_main_fk.LocationFkSerializer(many=False, read_only=True)
-    os = dfirtrack_main_fk.OsFkSerializer(many=False, read_only=True)
-    osarch = dfirtrack_main_fk.OsarchFkSerializer(many=False, read_only=True)
-    reason = dfirtrack_main_fk.ReasonFkSerializer(many=False, read_only=True)
-    recommendation = dfirtrack_main_fk.RecommendationFkSerializer(many=False, read_only=True)
-    serviceprovider = dfirtrack_main_fk.ServiceproviderFkSerializer(many=False, read_only=True)
-    systemstatus = dfirtrack_main_fk.SystemstatusFkSerializer(many=False, read_only=True)
-    systemtype = dfirtrack_main_fk.SystemtypeFkSerializer(many=False, read_only=True)
-    tag = dfirtrack_main_fk.TagFkSerializer(many=True, read_only=True)
-
     # redefine representation
     def to_representation(self, instance):
 
@@ -250,6 +231,27 @@ class SystemSerializer(serializers.ModelSerializer):
 
         return representation
 
+    # get serializers of foreignkey relationsships
+    def to_representation(self, instance):
+        self.fields['analysisstatus'] =  dfirtrack_main_fk.AnalysisstatusFkSerializer(many=False, read_only=True)
+        self.fields['case'] =  dfirtrack_main_fk.CaseFkSerializer(many=True, read_only=True)
+        self.fields['company'] =  dfirtrack_main_fk.CompanyFkSerializer(many=True, read_only=True)
+        self.fields['contact'] =  dfirtrack_main_fk.ContactFkSerializer(many=False, read_only=True)
+        self.fields['dnsname'] =  dfirtrack_main_fk.DnsnameFkSerializer(many=False, read_only=True)
+        self.fields['domain'] =  dfirtrack_main_fk.DomainFkSerializer(many=False, read_only=True)
+        self.fields['hostsystem'] =  dfirtrack_main_fk.HostSystemFkSerializer(many=False, read_only=True)
+        self.fields['ip'] =  dfirtrack_main_fk.IpFkSerializer(many=True, read_only=True)
+        self.fields['location'] =  dfirtrack_main_fk.LocationFkSerializer(many=False, read_only=True)
+        self.fields['os'] =  dfirtrack_main_fk.OsFkSerializer(many=False, read_only=True)
+        self.fields['osarch'] =  dfirtrack_main_fk.OsarchFkSerializer(many=False, read_only=True)
+        self.fields['reason'] =  dfirtrack_main_fk.ReasonFkSerializer(many=False, read_only=True)
+        self.fields['recommendation'] =  dfirtrack_main_fk.RecommendationFkSerializer(many=False, read_only=True)
+        self.fields['serviceprovider'] =  dfirtrack_main_fk.ServiceproviderFkSerializer(many=False, read_only=True)
+        self.fields['systemstatus'] =  dfirtrack_main_fk.SystemstatusFkSerializer(many=False, read_only=True)
+        self.fields['systemtype'] =  dfirtrack_main_fk.SystemtypeFkSerializer(many=False, read_only=True)
+        self.fields['tag'] =  dfirtrack_main_fk.TagFkSerializer(many=True, read_only=True)
+        return super(SystemSerializer, self).to_representation(instance)
+
     class Meta:
         model = System
         # attributes made available for api in a sorted fashion
@@ -267,7 +269,8 @@ class SystemSerializer(serializers.ModelSerializer):
             'ip',
             'os',
             'osarch',
-            'system_install_time',
+            # TODO: change after model rebuild
+            #'system_install_time',
             'system_lastbooted_time',
             'system_deprecated_time',
             'system_is_vm',

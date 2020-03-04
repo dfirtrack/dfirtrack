@@ -12,10 +12,10 @@ class SystemAPIViewTestCase(TestCase):
 
         # create user
         test_user = User.objects.create_user(username='testuser_system_api', password='Pqtg7fic7FfB2ESEwaPc')
-
         # create object
         systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
-
+        # create object
+        systemstatus_2 = Systemstatus.objects.create(systemstatus_name='systemstatus_2')
         # create object
         System.objects.create(
             system_name = 'system_api_1',
@@ -44,16 +44,26 @@ class SystemAPIViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_system_list_api_method_post(self):
-        """ POST is forbidden """
+        """ POST is allowed """
 
+        # get user
+        test_user_id = User.objects.get(username='testuser_system_api').id
+        # get object
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_2').systemstatus_id
         # login testuser
         login = self.client.login(username='testuser_system_api', password='Pqtg7fic7FfB2ESEwaPc')
         # create POST string
-        poststring = {"system_name": "system_api_2"}
+        poststring = {
+            "system_name": "system_api_2",
+            "systemstatus": systemstatus_id,
+            "system_modify_time": timezone.now().strftime('%Y-%m-%dT%H:%M'),
+            "system_created_by_user_id": test_user_id,
+            "system_modified_by_user_id": test_user_id,
+        }
         # get response
-        response = self.client.post('/api/systems/', data=poststring)
+        response = self.client.post('/api/systems/', data=poststring, content_type='application/json')
         # compare
-        self.assertEqual(response.status_code, 405)
+        self.assertEqual(response.status_code, 201)
 
     def test_system_list_api_redirect(self):
         """ test redirect with appending slash """
@@ -112,20 +122,30 @@ class SystemAPIViewTestCase(TestCase):
         self.assertEqual(response.status_code, 405)
 
     def test_system_detail_api_method_put(self):
-        """ PUT is forbidden """
+        """ PUT is allowed """
 
+        # get user
+        test_user_id = User.objects.get(username='testuser_system_api').id
         # get object
         system_api_1 = System.objects.get(system_name='system_api_1')
+        # get object
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_2').systemstatus_id
         # login testuser
         login = self.client.login(username='testuser_system_api', password='Pqtg7fic7FfB2ESEwaPc')
         # create url
         destination = urllib.parse.quote('/api/systems/' + str(system_api_1.system_id) + '/', safe='/')
         # create PUT string
-        putstring = {"system_name": "new_system_api_1"}
+        putstring = {
+            "system_name": "new_system_api_1",
+            "systemstatus": systemstatus_id,
+            "system_modify_time": timezone.now().strftime('%Y-%m-%dT%H:%M'),
+            "system_created_by_user_id": test_user_id,
+            "system_modified_by_user_id": test_user_id,
+        }
         # get response
-        response = self.client.put(destination, data=putstring, content_='application/json')
+        response = self.client.put(destination, data=putstring, content_type='application/json')
         # compare
-        self.assertEqual(response.status_code, 405)
+        self.assertEqual(response.status_code, 200)
 
     def test_system_detail_api_redirect(self):
         """ test redirect with appending slash """

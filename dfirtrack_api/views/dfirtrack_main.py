@@ -182,14 +182,14 @@ class ServiceproviderDetailApi(generics.RetrieveUpdateAPIView):
     queryset = Serviceprovider.objects.all()
     serializer_class = ServiceproviderSerializer
 
-class SystemListApi(generics.ListAPIView):
-    """ all objects, allowed: GET """
+class SystemListApi(generics.ListCreateAPIView):
+    """ all objects, allowed: GET + POST """
 
     queryset = System.objects.all()
     serializer_class = SystemSerializer
 
-class SystemDetailApi(generics.RetrieveAPIView):
-    """ single object, allowed: GET """
+class SystemDetailApi(generics.RetrieveUpdateAPIView):
+    """ single object, allowed: GET + PUT """
 
     queryset = System.objects.all()
     serializer_class = SystemSerializer
