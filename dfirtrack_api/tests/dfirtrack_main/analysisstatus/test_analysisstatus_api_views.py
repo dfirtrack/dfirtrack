@@ -56,16 +56,6 @@ class AnalysisstatusAPIViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
-#    def test_analysisstatus_list_api_get_user_context(self):
-#        """ test user context """
-#
-#        # login testuser
-#        login = self.client.login(username='testuser_analysisstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
-#        # get response
-#        response = self.client.get('/api/analysisstatuss/')
-#        # compare
-#        self.assertEqual(str(response.context['user']), 'testuser_analysisstatus_api')
-
     def test_analysisstatus_detail_api_unauthorized (self):
         """ unauthorized access is forbidden"""
 
@@ -129,15 +119,3 @@ class AnalysisstatusAPIViewTestCase(TestCase):
         response = self.client.get('/api/analysisstatuss/' + str(analysisstatus_api_1.analysisstatus_id), follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
-
-#    def test_analysisstatus_detail_api_get_user_context(self):
-#        """ test user context """
-#
-#        # get object
-#        analysisstatus_api_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_api_1')
-#        # login testuser
-#        login = self.client.login(username='testuser_analysisstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
-#        # get response
-#        response = self.client.get('/api/analysisstatuss/' + str(analysisstatus_api_1.analysisstatus_id) + '/')
-#        # compare
-#        self.assertEqual(str(response.context['user']), 'testuser_analysisstatus_api')

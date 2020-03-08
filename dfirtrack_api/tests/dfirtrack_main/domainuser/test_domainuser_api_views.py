@@ -72,16 +72,6 @@ class DomainuserAPIViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
-#    def test_domainuser_list_api_get_user_context(self):
-#        """ test user context """
-#
-#        # login testuser
-#        login = self.client.login(username='testuser_domainuser_api', password='pzJk89y9aQYUkAfwJ5KN')
-#        # get response
-#        response = self.client.get('/api/domainusers/')
-#        # compare
-#        self.assertEqual(str(response.context['user']), 'testuser_domainuser_api')
-
     def test_domainuser_detail_api_unauthorized (self):
         """ unauthorized access is forbidden"""
 
@@ -151,15 +141,3 @@ class DomainuserAPIViewTestCase(TestCase):
         response = self.client.get('/api/domainusers/' + str(domainuser_api_1.domainuser_id), follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
-
-#    def test_domainuser_detail_api_get_user_context(self):
-#        """ test user context """
-#
-#        # get object
-#        domainuser_api_1 = Domainuser.objects.get(domainuser_name='domainuser_api_1')
-#        # login testuser
-#        login = self.client.login(username='testuser_domainuser_api', password='pzJk89y9aQYUkAfwJ5KN')
-#        # get response
-#        response = self.client.get('/api/domainusers/' + str(domainuser_api_1.domainuser_id) + '/')
-#        # compare
-#        self.assertEqual(str(response.context['user']), 'testuser_domainuser_api')

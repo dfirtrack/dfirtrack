@@ -56,16 +56,6 @@ class SystemtypeAPIViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
-#    def test_systemtype_list_api_get_user_context(self):
-#        """ test user context """
-#
-#        # login testuser
-#        login = self.client.login(username='testuser_systemtype_api', password='ma1QFeT2G9ifUeETRwvK')
-#        # get response
-#        response = self.client.get('/api/systemtypes/')
-#        # compare
-#        self.assertEqual(str(response.context['user']), 'testuser_systemtype_api')
-
     def test_systemtype_detail_api_unauthorized (self):
         """ unauthorized access is forbidden"""
 
@@ -129,15 +119,3 @@ class SystemtypeAPIViewTestCase(TestCase):
         response = self.client.get('/api/systemtypes/' + str(systemtype_api_1.systemtype_id), follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
-
-#    def test_systemtype_detail_api_get_user_context(self):
-#        """ test user context """
-#
-#        # get object
-#        systemtype_api_1 = Systemtype.objects.get(systemtype_name='systemtype_api_1')
-#        # login testuser
-#        login = self.client.login(username='testuser_systemtype_api', password='ma1QFeT2G9ifUeETRwvK')
-#        # get response
-#        response = self.client.get('/api/systemtypes/' + str(systemtype_api_1.systemtype_id) + '/')
-#        # compare
-#        self.assertEqual(str(response.context['user']), 'testuser_systemtype_api')

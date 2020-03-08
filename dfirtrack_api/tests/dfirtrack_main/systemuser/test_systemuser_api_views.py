@@ -80,16 +80,6 @@ class SystemuserAPIViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
-#    def test_systemuser_list_api_get_user_context(self):
-#        """ test user context """
-#
-#        # login testuser
-#        login = self.client.login(username='testuser_systemuser_api', password='Yij2up4yTV2BU6x9xKZV')
-#        # get response
-#        response = self.client.get('/api/systemusers/')
-#        # compare
-#        self.assertEqual(str(response.context['user']), 'testuser_systemuser_api')
-
     def test_systemuser_detail_api_unauthorized (self):
         """ unauthorized access is forbidden"""
 
@@ -159,15 +149,3 @@ class SystemuserAPIViewTestCase(TestCase):
         response = self.client.get('/api/systemusers/' + str(systemuser_api_1.systemuser_id), follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
-
-#    def test_systemuser_detail_api_get_user_context(self):
-#        """ test user context """
-#
-#        # get object
-#        systemuser_api_1 = Systemuser.objects.get(systemuser_name='systemuser_api_1')
-#        # login testuser
-#        login = self.client.login(username='testuser_systemuser_api', password='Yij2up4yTV2BU6x9xKZV')
-#        # get response
-#        response = self.client.get('/api/systemusers/' + str(systemuser_api_1.systemuser_id) + '/')
-#        # compare
-#        self.assertEqual(str(response.context['user']), 'testuser_systemuser_api')

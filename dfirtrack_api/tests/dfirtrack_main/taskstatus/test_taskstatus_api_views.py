@@ -56,16 +56,6 @@ class TaskstatusAPIViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
-#    def test_taskstatus_list_api_get_user_context(self):
-#        """ test user context """
-#
-#        # login testuser
-#        login = self.client.login(username='testuser_taskstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
-#        # get response
-#        response = self.client.get('/api/taskstatuss/')
-#        # compare
-#        self.assertEqual(str(response.context['user']), 'testuser_taskstatus_api')
-
     def test_taskstatus_detail_api_unauthorized (self):
         """ unauthorized access is forbidden"""
 
@@ -129,15 +119,3 @@ class TaskstatusAPIViewTestCase(TestCase):
         response = self.client.get('/api/taskstatuss/' + str(taskstatus_api_1.taskstatus_id), follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
-
-#    def test_taskstatus_detail_api_get_user_context(self):
-#        """ test user context """
-#
-#        # get object
-#        taskstatus_api_1 = Taskstatus.objects.get(taskstatus_name='taskstatus_api_1')
-#        # login testuser
-#        login = self.client.login(username='testuser_taskstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
-#        # get response
-#        response = self.client.get('/api/taskstatuss/' + str(taskstatus_api_1.taskstatus_id) + '/')
-#        # compare
-#        self.assertEqual(str(response.context['user']), 'testuser_taskstatus_api')

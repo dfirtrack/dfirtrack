@@ -56,16 +56,6 @@ class TagcolorAPIViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
-#    def test_tagcolor_list_api_get_user_context(self):
-#        """ test user context """
-#
-#        # login testuser
-#        login = self.client.login(username='testuser_tagcolor_api', password='twvVpQ4LBNN9swnJcy2f')
-#        # get response
-#        response = self.client.get('/api/tagcolors/')
-#        # compare
-#        self.assertEqual(str(response.context['user']), 'testuser_tagcolor_api')
-
     def test_tagcolor_detail_api_unauthorized (self):
         """ unauthorized access is forbidden"""
 
@@ -129,15 +119,3 @@ class TagcolorAPIViewTestCase(TestCase):
         response = self.client.get('/api/tagcolors/' + str(tagcolor_api_1.tagcolor_id), follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
-
-#    def test_tagcolor_detail_api_get_user_context(self):
-#        """ test user context """
-#
-#        # get object
-#        tagcolor_api_1 = Tagcolor.objects.get(tagcolor_name='tagcolor_api_1')
-#        # login testuser
-#        login = self.client.login(username='testuser_tagcolor_api', password='twvVpQ4LBNN9swnJcy2f')
-#        # get response
-#        response = self.client.get('/api/tagcolors/' + str(tagcolor_api_1.tagcolor_id) + '/')
-#        # compare
-#        self.assertEqual(str(response.context['user']), 'testuser_tagcolor_api')

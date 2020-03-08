@@ -56,16 +56,6 @@ class ServiceproviderAPIViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
-#    def test_serviceprovider_list_api_get_user_context(self):
-#        """ test user context """
-#
-#        # login testuser
-#        login = self.client.login(username='testuser_serviceprovider_api', password='ILKjadN2mA971kHquiuI')
-#        # get response
-#        response = self.client.get('/api/serviceproviders/')
-#        # compare
-#        self.assertEqual(str(response.context['user']), 'testuser_serviceprovider_api')
-
     def test_serviceprovider_detail_api_unauthorized (self):
         """ unauthorized access is forbidden"""
 
@@ -129,15 +119,3 @@ class ServiceproviderAPIViewTestCase(TestCase):
         response = self.client.get('/api/serviceproviders/' + str(serviceprovider_api_1.serviceprovider_id), follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
-
-#    def test_serviceprovider_detail_api_get_user_context(self):
-#        """ test user context """
-#
-#        # get object
-#        serviceprovider_api_1 = Serviceprovider.objects.get(serviceprovider_name='serviceprovider_api_1')
-#        # login testuser
-#        login = self.client.login(username='testuser_serviceprovider_api', password='ILKjadN2mA971kHquiuI')
-#        # get response
-#        response = self.client.get('/api/serviceproviders/' + str(serviceprovider_api_1.serviceprovider_id) + '/')
-#        # compare
-#        self.assertEqual(str(response.context['user']), 'testuser_serviceprovider_api')

@@ -56,16 +56,6 @@ class IpAPIViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
-#    def test_ip_list_api_get_user_context(self):
-#        """ test user context """
-#
-#        # login testuser
-#        login = self.client.login(username='testuser_ip_api', password='2SxcYh8yo3rGs4PBqhg9')
-#        # get response
-#        response = self.client.get('/api/ips/')
-#        # compare
-#        self.assertEqual(str(response.context['user']), 'testuser_ip_api')
-
     def test_ip_detail_api_unauthorized (self):
         """ unauthorized access is forbidden"""
 
@@ -129,15 +119,3 @@ class IpAPIViewTestCase(TestCase):
         response = self.client.get('/api/ips/' + str(ip_api_1.ip_id), follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
-
-#    def test_ip_detail_api_get_user_context(self):
-#        """ test user context """
-#
-#        # get object
-#        ip_api_1 = Ip.objects.get(ip_ip='127.0.0.1')
-#        # login testuser
-#        login = self.client.login(username='testuser_ip_api', password='2SxcYh8yo3rGs4PBqhg9')
-#        # get response
-#        response = self.client.get('/api/ips/' + str(ip_api_1.ip_id) + '/')
-#        # compare
-#        self.assertEqual(str(response.context['user']), 'testuser_ip_api')

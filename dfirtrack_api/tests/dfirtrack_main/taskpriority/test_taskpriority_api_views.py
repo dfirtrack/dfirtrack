@@ -56,16 +56,6 @@ class TaskpriorityAPIViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
-#    def test_taskpriority_list_api_get_user_context(self):
-#        """ test user context """
-#
-#        # login testuser
-#        login = self.client.login(username='testuser_taskpriority_api', password='XyVSKtfXKwyyprt2b8Ej')
-#        # get response
-#        response = self.client.get('/api/taskprioritys/')
-#        # compare
-#        self.assertEqual(str(response.context['user']), 'testuser_taskpriority_api')
-
     def test_taskpriority_detail_api_unauthorized (self):
         """ unauthorized access is forbidden"""
 
@@ -129,15 +119,3 @@ class TaskpriorityAPIViewTestCase(TestCase):
         response = self.client.get('/api/taskprioritys/' + str(taskpriority_api_1.taskpriority_id), follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
-
-#    def test_taskpriority_detail_api_get_user_context(self):
-#        """ test user context """
-#
-#        # get object
-#        taskpriority_api_1 = Taskpriority.objects.get(taskpriority_name='tp_1')
-#        # login testuser
-#        login = self.client.login(username='testuser_taskpriority_api', password='XyVSKtfXKwyyprt2b8Ej')
-#        # get response
-#        response = self.client.get('/api/taskprioritys/' + str(taskpriority_api_1.taskpriority_id) + '/')
-#        # compare
-#        self.assertEqual(str(response.context['user']), 'testuser_taskpriority_api')

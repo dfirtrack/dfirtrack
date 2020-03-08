@@ -67,16 +67,6 @@ class CaseAPIViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
-#    def test_case_list_api_get_user_context(self):
-#        """ test user context """
-#
-#        # login testuser
-#        login = self.client.login(username='testuser_case_api', password='nkeZDU2qGKXWR49sAVf5')
-#        # get response
-#        response = self.client.get('/api/cases/')
-#        # compare
-#        self.assertEqual(str(response.context['user']), 'testuser_case_api')
-
     def test_case_detail_api_unauthorized (self):
         """ unauthorized access is forbidden"""
 
@@ -146,15 +136,3 @@ class CaseAPIViewTestCase(TestCase):
         response = self.client.get('/api/cases/' + str(case_api_1.case_id), follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
-
-#    def test_case_detail_api_get_user_context(self):
-#        """ test user context """
-#
-#        # get object
-#        case_api_1 = Case.objects.get(case_name='case_api_1')
-#        # login testuser
-#        login = self.client.login(username='testuser_case_api', password='nkeZDU2qGKXWR49sAVf5')
-#        # get response
-#        response = self.client.get('/api/cases/' + str(case_api_1.case_id) + '/')
-#        # compare
-#        self.assertEqual(str(response.context['user']), 'testuser_case_api')

@@ -68,16 +68,6 @@ class TagAPIViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
-#    def test_tag_list_api_get_user_context(self):
-#        """ test user context """
-#
-#        # login testuser
-#        login = self.client.login(username='testuser_tag_api', password='2SxcYh8yo3rGs4PBqhg9')
-#        # get response
-#        response = self.client.get('/api/tags/')
-#        # compare
-#        self.assertEqual(str(response.context['user']), 'testuser_tag_api')
-
     def test_tag_detail_api_unauthorized (self):
         """ unauthorized access is forbidden"""
 
@@ -146,15 +136,3 @@ class TagAPIViewTestCase(TestCase):
         response = self.client.get('/api/tags/' + str(tag_api_1.tag_id), follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
-
-#    def test_tag_detail_api_get_user_context(self):
-#        """ test user context """
-#
-#        # get object
-#        tag_api_1 = Tag.objects.get(tag_name='tag_api_1')
-#        # login testuser
-#        login = self.client.login(username='testuser_tag_api', password='2SxcYh8yo3rGs4PBqhg9')
-#        # get response
-#        response = self.client.get('/api/tags/' + str(tag_api_1.tag_id) + '/')
-#        # compare
-#        self.assertEqual(str(response.context['user']), 'testuser_tag_api')
