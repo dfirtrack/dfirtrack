@@ -316,13 +316,17 @@ class SystemuserSerializer(serializers.ModelSerializer):
     # redefine representation
     def to_representation(self, instance):
 
+        # get serializers of foreignkey relationsships
+        self.fields['system'] =  dfirtrack_main_fk.SystemFkSerializer(read_only=True)
+
+        # get exsiting to_representation
+        representation = super(SystemuserSerializer, self).to_representation(instance)
+
         # change optional time strings
         if instance.systemuser_lastlogon_time:
             representation['systemuser_lastlogon_time'] = instance.systemuser_lastlogon_time.strftime('%Y-%m-%dT%H:%M')
 
-        # get serializers of foreignkey relationsships
-        self.fields['system'] =  dfirtrack_main_fk.SystemFkSerializer(read_only=True)
-        return super(SystemuserSerializer, self).to_representation(instance)
+        return representation
 
     class Meta:
         model = Systemuser
