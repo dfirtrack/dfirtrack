@@ -1,4 +1,4 @@
-from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Domain, Domainuser, Ip, Location, Os, Osarch, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Systemuser, Tag, Tagcolor, Taskname, Taskpriority, Taskstatus
+from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Domain, Domainuser, Ip, Location, Os, Osarch, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Systemuser, Tag, Tagcolor, Task, Taskname, Taskpriority, Taskstatus
 from . import dfirtrack_main_fk
 from rest_framework import serializers
 
@@ -225,6 +225,7 @@ class SystemSerializer(serializers.ModelSerializer):
         if instance.system_deprecated_time:
             representation['system_deprecated_time'] = instance.system_deprecated_time.strftime('%Y-%m-%dT%H:%M')
 
+        # TODO: display of username does not work
         # get usernames
         representation['system_created_by_user_id'] = instance.system_created_by_user_id.username
         representation['system_modified_by_user_id'] = instance.system_modified_by_user_id.username
@@ -239,7 +240,7 @@ class SystemSerializer(serializers.ModelSerializer):
         self.fields['contact'] =  dfirtrack_main_fk.ContactFkSerializer(many=False, read_only=True)
         self.fields['dnsname'] =  dfirtrack_main_fk.DnsnameFkSerializer(many=False, read_only=True)
         self.fields['domain'] =  dfirtrack_main_fk.DomainFkSerializer(many=False, read_only=True)
-        self.fields['hostsystem'] =  dfirtrack_main_fk.HostSystemFkSerializer(many=False, read_only=True)
+        self.fields['host_system'] =  dfirtrack_main_fk.HostSystemFkSerializer(many=False, read_only=True)
         self.fields['ip'] =  dfirtrack_main_fk.IpFkSerializer(many=True, read_only=True)
         self.fields['location'] =  dfirtrack_main_fk.LocationFkSerializer(many=False, read_only=True)
         self.fields['os'] =  dfirtrack_main_fk.OsFkSerializer(many=False, read_only=True)
@@ -363,6 +364,65 @@ class TagcolorSerializer(serializers.ModelSerializer):
         fields = (
             'tagcolor_id',
             'tagcolor_name',
+        )
+
+class TaskSerializer(serializers.ModelSerializer):
+    """ create serializer for model instance """
+
+    # redefine representation
+    def to_representation(self, instance):
+
+        # get serializers of foreignkey relationsships
+        self.fields['parent_task'] =  dfirtrack_main_fk.ParentTaskFkSerializer(many=False, read_only=True)
+        self.fields['system'] =  dfirtrack_main_fk.SystemFkSerializer(many=False, read_only=True)
+        self.fields['tag'] =  dfirtrack_main_fk.TagFkSerializer(many=True, read_only=True)
+        self.fields['taskname'] =  dfirtrack_main_fk.TasknameFkSerializer(many=False, read_only=True)
+        self.fields['taskpriority'] =  dfirtrack_main_fk.TaskpriorityFkSerializer(many=False, read_only=True)
+        self.fields['taskstatus'] =  dfirtrack_main_fk.TaskstatusFkSerializer(many=False, read_only=True)
+
+        # get exsiting to_representation
+        representation = super(TaskSerializer, self).to_representation(instance)
+
+        # change mandatory time strings
+        representation['task_create_time'] = instance.task_create_time.strftime('%Y-%m-%dT%H:%M')
+        representation['task_modify_time'] = instance.task_modify_time.strftime('%Y-%m-%dT%H:%M')
+
+        # change optional time strings
+        if instance.task_scheduled_time:
+            representation['task_scheduled_time'] = instance.task_scheduled_time.strftime('%Y-%m-%dT%H:%M')
+        if instance.task_started_time:
+            representation['task_started_time'] = instance.task_started_time.strftime('%Y-%m-%dT%H:%M')
+        if instance.task_finished_time:
+            representation['task_finished_time'] = instance.task_finished_time.strftime('%Y-%m-%dT%H:%M')
+        if instance.task_due_time:
+            representation['task_due_time'] = instance.task_due_time.strftime('%Y-%m-%dT%H:%M')
+
+        # get usernames
+        representation['task_created_by_user_id'] = instance.task_created_by_user_id.username
+        representation['task_modified_by_user_id'] = instance.task_modified_by_user_id.username
+
+        return representation
+
+    class Meta:
+        model = Task
+        # attributes made available for api
+        fields = (
+            'task_id',
+            'parent_task',
+            'taskname',
+            'taskpriority',
+            'taskstatus',
+            'system',
+            'task_assigned_to_user_id',
+            'tag',
+            'task_scheduled_time',
+            'task_started_time',
+            'task_finished_time',
+            'task_due_time',
+            'task_create_time',
+            'task_modify_time',
+            'task_created_by_user_id',
+            'task_modified_by_user_id',
         )
 
 class TasknameSerializer(serializers.ModelSerializer):

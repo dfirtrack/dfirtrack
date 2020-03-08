@@ -1,4 +1,4 @@
-from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Domain, Domainuser, Ip, Location, Os, Osarch, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Systemuser, Tag, Tagcolor, Taskname, Taskpriority, Taskstatus
+from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Domain, Domainuser, Ip, Location, Os, Osarch, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Systemuser, Tag, Tagcolor, Task, Taskname, Taskpriority, Taskstatus
 from rest_framework import serializers
 
 # serializers for foreignkey relationsships
@@ -80,6 +80,7 @@ class HostSystemFkSerializer(serializers.ModelSerializer):
         model = System
         # attributes made available for api
         fields = (
+            'system_id',
             'system_name',
         )
 
@@ -121,6 +122,16 @@ class OsarchFkSerializer(serializers.ModelSerializer):
         # attributes made available for api
         fields = (
             'osarch_name',
+        )
+
+class ParentTaskFkSerializer(serializers.ModelSerializer):
+    """ create serializer for foreignkey relationsship """
+
+    class Meta:
+        model = Task
+        # attributes made available for api
+        fields = (
+            'task_id',
         )
 
 class ReasonFkSerializer(serializers.ModelSerializer):

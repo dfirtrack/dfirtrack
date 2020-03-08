@@ -1,5 +1,5 @@
-from dfirtrack_api.serializers.dfirtrack_main import AnalysisstatusSerializer, CaseSerializer, CompanySerializer, ContactSerializer, DivisionSerializer, DnsnameSerializer, DomainSerializer, DomainuserSerializer, IpSerializer, LocationSerializer, OsSerializer, OsarchSerializer, ReasonSerializer, RecommendationSerializer, ServiceproviderSerializer, SystemSerializer, SystemstatusSerializer, SystemtypeSerializer, SystemuserSerializer, TagSerializer, TagcolorSerializer, TasknameSerializer, TaskprioritySerializer, TaskstatusSerializer
-from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Domain, Domainuser, Ip, Location, Os, Osarch, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Systemuser, Tag, Tagcolor, Taskname, Taskpriority, Taskstatus
+from dfirtrack_api.serializers.dfirtrack_main import AnalysisstatusSerializer, CaseSerializer, CompanySerializer, ContactSerializer, DivisionSerializer, DnsnameSerializer, DomainSerializer, DomainuserSerializer, IpSerializer, LocationSerializer, OsSerializer, OsarchSerializer, ReasonSerializer, RecommendationSerializer, ServiceproviderSerializer, SystemSerializer, SystemstatusSerializer, SystemtypeSerializer, SystemuserSerializer, TagSerializer, TagcolorSerializer, TaskSerializer, TasknameSerializer, TaskprioritySerializer, TaskstatusSerializer
+from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Domain, Domainuser, Ip, Location, Os, Osarch, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Systemuser, Tag, Tagcolor, Task, Taskname, Taskpriority, Taskstatus
 from rest_framework import generics
 
 class AnalysisstatusListApi(generics.ListAPIView):
@@ -253,6 +253,18 @@ class TagcolorDetailApi(generics.RetrieveAPIView):
 
     queryset = Tagcolor.objects.all()
     serializer_class = TagcolorSerializer
+
+class TaskListApi(generics.ListCreateAPIView):
+    """ all objects, allowed: GET + POST """
+
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+
+class TaskDetailApi(generics.RetrieveUpdateAPIView):
+    """ single object, allowed: GET + PUT """
+
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
 
 class TasknameListApi(generics.ListCreateAPIView):
     """ all objects, allowed: GET + POST """
