@@ -210,30 +210,7 @@ class SystemSerializer(serializers.ModelSerializer):
     # redefine representation
     def to_representation(self, instance):
 
-        # get exsiting to_representation
-        representation = super(SystemSerializer, self).to_representation(instance)
-
-        # change mandatory time strings
-        representation['system_create_time'] = instance.system_create_time.strftime('%Y-%m-%dT%H:%M')
-        representation['system_modify_time'] = instance.system_modify_time.strftime('%Y-%m-%dT%H:%M')
-
-        # change optional time strings
-        if instance.system_install_time:
-            representation['system_install_time'] = instance.system_install_time.strftime('%Y-%m-%dT%H:%M')
-        if instance.system_lastbooted_time:
-            representation['system_lastbooted_time'] = instance.system_lastbooted_time.strftime('%Y-%m-%dT%H:%M')
-        if instance.system_deprecated_time:
-            representation['system_deprecated_time'] = instance.system_deprecated_time.strftime('%Y-%m-%dT%H:%M')
-
-        # TODO: display of username does not work
-        # get usernames
-        representation['system_created_by_user_id'] = instance.system_created_by_user_id.username
-        representation['system_modified_by_user_id'] = instance.system_modified_by_user_id.username
-
-        return representation
-
-    # get serializers of foreignkey relationsships
-    def to_representation(self, instance):
+        # get serializers of foreignkey relationsships
         self.fields['analysisstatus'] =  dfirtrack_main_fk.AnalysisstatusFkSerializer(many=False, read_only=True)
         self.fields['case'] =  dfirtrack_main_fk.CaseFkSerializer(many=True, read_only=True)
         self.fields['company'] =  dfirtrack_main_fk.CompanyFkSerializer(many=True, read_only=True)
@@ -251,7 +228,27 @@ class SystemSerializer(serializers.ModelSerializer):
         self.fields['systemstatus'] =  dfirtrack_main_fk.SystemstatusFkSerializer(many=False, read_only=True)
         self.fields['systemtype'] =  dfirtrack_main_fk.SystemtypeFkSerializer(many=False, read_only=True)
         self.fields['tag'] =  dfirtrack_main_fk.TagFkSerializer(many=True, read_only=True)
-        return super(SystemSerializer, self).to_representation(instance)
+
+        # get exsiting to_representation
+        representation = super(SystemSerializer, self).to_representation(instance)
+
+        # change mandatory time strings
+        representation['system_create_time'] = instance.system_create_time.strftime('%Y-%m-%dT%H:%M')
+        representation['system_modify_time'] = instance.system_modify_time.strftime('%Y-%m-%dT%H:%M')
+
+        # change optional time strings
+        if instance.system_install_time:
+            representation['system_install_time'] = instance.system_install_time.strftime('%Y-%m-%dT%H:%M')
+        if instance.system_lastbooted_time:
+            representation['system_lastbooted_time'] = instance.system_lastbooted_time.strftime('%Y-%m-%dT%H:%M')
+        if instance.system_deprecated_time:
+            representation['system_deprecated_time'] = instance.system_deprecated_time.strftime('%Y-%m-%dT%H:%M')
+
+        # get usernames
+        representation['system_created_by_user_id'] = instance.system_created_by_user_id.username
+        representation['system_modified_by_user_id'] = instance.system_modified_by_user_id.username
+
+        return representation
 
     class Meta:
         model = System
