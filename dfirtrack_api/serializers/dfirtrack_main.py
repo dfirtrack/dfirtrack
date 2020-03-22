@@ -402,7 +402,8 @@ class TaskSerializer(serializers.ModelSerializer):
             representation['task_due_time'] = instance.task_due_time.strftime('%Y-%m-%dT%H:%M')
 
         # get usernames
-        representation['task_assigned_to_user_id'] = instance.task_assigned_to_user_id.username
+        if instance.task_assigned_to_user_id:
+            representation['task_assigned_to_user_id'] = instance.task_assigned_to_user_id.username
         representation['task_created_by_user_id'] = instance.task_created_by_user_id.username
         representation['task_modified_by_user_id'] = instance.task_modified_by_user_id.username
 
