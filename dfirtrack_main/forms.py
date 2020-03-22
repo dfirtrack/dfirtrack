@@ -569,6 +569,14 @@ class TagForm(forms.ModelForm):
             'tag_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
         }
 
+class TagCreatorForm(forms.Form):
+
+    # show all existing tag objects as multiple choice field
+    tag = forms.ModelMultipleChoiceField(queryset=Tag.objects.all(), widget=forms.CheckboxSelectMultiple())
+
+    # show all existing system objects as multiple choice field
+    system = forms.ModelMultipleChoiceField(queryset=System.objects.all(), widget=forms.CheckboxSelectMultiple())
+
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task

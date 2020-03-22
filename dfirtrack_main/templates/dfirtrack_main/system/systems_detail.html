@@ -40,12 +40,25 @@
     </div>
 
     <!-- edit button -->
-    <div class="col-6">
+    <div class="col-3">
         <a href="/systems/{{ system.system_id }}/edit" type="button" class="btn btn-light copy-false">
             <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon right-distance copy-false" alt="icon">
             Edit
         </a>
     </div>
+
+    <!-- check for dfirtrack_api -->
+    {% if dfirtrack_api == True %}
+
+    <!-- show api view button -->
+    <div class="col-3">
+        <a href="/api/systems/{{ system.system_id }}/" type="button" class="btn btn-light copy-false">
+            <img src="{% static 'dfirtrack_main/icons/project.svg' %}" class="icon right-distance copy-false" alt="icon">
+            API view
+        </a>
+    </div>
+
+    {% endif %}
 
 <!-- upper buttons row -->
 </div>
@@ -597,6 +610,51 @@
             {% endif %}
         </div>
 
+    <!-- status information row -->
+    </div>
+
+    <!-- systemhistory headline row -->
+    <div class="row top-distance bottom-distance">
+        <div class="col">
+            <a href="#systemhistory" data-toggle="collapse">
+                Systemhistory
+                <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+            </a>
+        </div>
+    </div>
+
+    <!-- systemhistory collapse -->
+    <div id="systemhistory" class="collapse">
+
+        <!-- datatable systemhistory -->
+        <table id="table_systemhistory" class="display" width="100%">
+
+            <!-- table head -->
+            <thead>
+                {% include "dfirtrack_main/includes/datatable_thead_table_systemhistory.html" %}
+            </thead>
+
+            <!-- table body -->
+            <tbody>
+                {% if system.systemhistory_set.all %}
+                    {% for i in system.systemhistory_set.all %}
+                        {% include "dfirtrack_main/includes/datatable_tbody_table_systemhistory.html" %}
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td>---</td>
+                        <td>---</td>
+                        <td>---</td>
+                        <td>---</td>
+                        <td>---</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+
+        <!-- datatable systemhistory -->
+        </table>
+
+    <!-- systemhistory collapse -->
     </div>
 
 <!-- status information end -->
@@ -657,15 +715,15 @@
         <!-- javascript for datatables -->
         <script src="{% static 'dfirtrack_artifacts/datatables_artifacts.js' %}"></script>
 
-    <!-- add artifact button -->
-    <div class="row bottom-distance top-distance">
-        <div class="col-1">
-            <a href="/artifacts/artifact/create?system={{ system.system_id }}" type="button" class="btn btn-light btn-sm copy-false">
-                <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm copy-false right-distance" alt="icon">
-                Add artifact
-            </a>
+        <!-- add artifact button -->
+        <div class="row bottom-distance top-distance">
+            <div class="col-1">
+                <a href="/artifacts/artifact/create?system={{ system.system_id }}" type="button" class="btn btn-light btn-sm copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm copy-false right-distance" alt="icon">
+                    Add artifact
+                </a>
+            </div>
         </div>
-    </div>
 
     <!-- artifacts collapse -->
     </div>
@@ -1386,12 +1444,25 @@
     </div>
 
     <!-- edit button -->
-    <div class="col-6">
+    <div class="col-3">
         <a href="/systems/{{ system.system_id }}/edit" type="button" class="btn btn-light copy-false">
             <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon right-distance copy-false" alt="icon">
             Edit
         </a>
     </div>
+
+    <!-- check for dfirtrack_api -->
+    {% if dfirtrack_api == True %}
+
+    <!-- show api view button -->
+    <div class="col-3">
+        <a href="/api/systems/{{ system.system_id }}/" type="button" class="btn btn-light copy-false">
+            <img src="{% static 'dfirtrack_main/icons/project.svg' %}" class="icon right-distance copy-false" alt="icon">
+            API view
+        </a>
+    </div>
+
+    {% endif %}
 
 <!-- lower buttons row -->
 </div>
