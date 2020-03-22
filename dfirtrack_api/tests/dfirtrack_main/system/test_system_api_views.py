@@ -189,9 +189,14 @@ class SystemAPIViewTestCase(TestCase):
             "tag": [
                 tag_id,
             ],
+            "system_lastbooted_time": timezone.now().strftime('%Y-%m-%dT%H:%M'),
+            "system_deprecated_time": timezone.now().strftime('%Y-%m-%dT%H:%M'),
+            "system_is_vm": True,
             "system_modify_time": timezone.now().strftime('%Y-%m-%dT%H:%M'),
             "system_created_by_user_id": test_user_id,
             "system_modified_by_user_id": test_user_id,
+            "system_export_markdown": False,
+            "system_export_spreadsheet": False,
         }
         # get response
         response = self.client.post('/api/systems/', data=poststring, content_type='application/json')
@@ -371,9 +376,14 @@ class SystemAPIViewTestCase(TestCase):
             "tag": [
                 tag_id,
             ],
+            "system_lastbooted_time": timezone.now().strftime('%Y-%m-%dT%H:%M'),
+            "system_deprecated_time": timezone.now().strftime('%Y-%m-%dT%H:%M'),
+            "system_is_vm": True,
             "system_modify_time": timezone.now().strftime('%Y-%m-%dT%H:%M'),
             "system_created_by_user_id": test_user_id,
             "system_modified_by_user_id": test_user_id,
+            "system_export_markdown": False,
+            "system_export_spreadsheet": False,
         }
         # get response
         response = self.client.put(destination, data=putstring, content_type='application/json')
