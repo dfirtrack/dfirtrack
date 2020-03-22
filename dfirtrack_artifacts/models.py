@@ -57,7 +57,7 @@ class Artifact(models.Model):
     # string representation
     def __str__(self):
         return 'Artifact {0} ({1})'.format(str(self.artifact_id), self.system)
-        
+
     def __unicode__(self):
         return u'%s' % self.artifact_name
 
@@ -76,12 +76,12 @@ class Artifact(models.Model):
             "|artifact_slug:" + str(artifact.artifact_slug) +
             "|artifact_requested_time:" + str(artifact.artifact_requested_time) +
             "|artifact_acquisition_time:" + str(artifact.artifact_acquisition_time) +
-	    "|artifact_md5:" + str(artifact.artifact_md5) +
-	    "|artifact_sha1:" + str(artifact.artifact_sha1) +
-	    "|artifact_sha256:" + str(artifact.artifact_sha256) +
-	    "|artifact_source_path:" + str(artifact.artifact_source_path) +
-	    "|artifact_storage_path:" + str(artifact.artifact_storage_path) +
-	    "|artifact_uuid:" + str(artifact.artifact_uuid)
+            "|artifact_md5:" + str(artifact.artifact_md5) +
+            "|artifact_sha1:" + str(artifact.artifact_sha1) +
+            "|artifact_sha256:" + str(artifact.artifact_sha256) +
+            "|artifact_source_path:" + str(artifact.artifact_source_path) +
+            "|artifact_storage_path:" + str(artifact.artifact_storage_path) +
+            "|artifact_uuid:" + str(artifact.artifact_uuid)
         )
 
     def save(self, *args, **kwargs):
@@ -204,7 +204,7 @@ class Artifactstatus(models.Model):
         # generate slug
         self.artifactstatus_slug = slugify(self.artifactstatus_name)
         return super().save(*args, **kwargs)
-    
+
     def get_absolute_url(self):
         return reverse('artifacts_artifactstatus_detail', args=(self.pk,))
 
@@ -245,7 +245,7 @@ class Artifacttype(models.Model):
 
     def get_update_url(self):
         return reverse('artifacts_artifacttype_update', args=(self.pk,))
-    
+
     def save(self, *args, **kwargs):
         # generate slug
         self.artifacttype_slug = slugify(self.artifacttype_name)
