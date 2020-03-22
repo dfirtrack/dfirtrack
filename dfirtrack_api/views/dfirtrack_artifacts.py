@@ -2,14 +2,14 @@ from dfirtrack_api.serializers.dfirtrack_artifacts import ArtifactSerializer, Ar
 from dfirtrack_artifacts.models import Artifact, Artifactstatus, Artifacttype
 from rest_framework import generics
 
-class ArtifactListApi(generics.ListAPIView):
-    """ all objects, allowed: GET """
+class ArtifactListApi(generics.ListCreateAPIView):
+    """ all objects, allowed: GET + POST """
 
     queryset = Artifact.objects.all()
     serializer_class = ArtifactSerializer
 
-class ArtifactDetailApi(generics.RetrieveAPIView):
-    """ single object, allowed: GET """
+class ArtifactDetailApi(generics.RetrieveUpdateAPIView):
+    """ single object, allowed: GET + PUT """
 
     queryset = Artifact.objects.all()
     serializer_class = ArtifactSerializer

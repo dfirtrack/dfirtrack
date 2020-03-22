@@ -27,14 +27,14 @@ class ArtifacttypeSerializer(serializers.ModelSerializer):
 class ArtifactSerializer(serializers.ModelSerializer):
     """ create serializer for artifact """
 
-    # get serializers of foreignkey relationsships
-    artifactstatus = ArtifactstatusSerializer(many=False, read_only=True)
-    artifacttype = ArtifacttypeSerializer(many=False, read_only=True)
-    case = CaseFkSerializer(many=False, read_only=True)
-    system = SystemFkSerializer(many=False, read_only=True)
-
     # redefine representation
     def to_representation(self, instance):
+
+        # get serializers of foreignkey relationsships
+        self.fields['artifactstatus'] = ArtifactstatusSerializer(many=False, read_only=True)
+        self.fields['artifacttype'] = ArtifacttypeSerializer(many=False, read_only=True)
+        self.fields['case'] = CaseFkSerializer(many=False, read_only=True)
+        self.fields['system'] = SystemFkSerializer(many=False, read_only=True)
 
         # get exsiting to_representation
         representation = super(ArtifactSerializer, self).to_representation(instance)
@@ -66,11 +66,9 @@ class ArtifactSerializer(serializers.ModelSerializer):
             'artifacttype',
             'case',
             'system',
-            'artifact_note',
             'artifact_md5',
             'artifact_sha1',
             'artifact_sha256',
-            'artifact_slug',
             'artifact_source_path',
             'artifact_storage_path',
             'artifact_acquisition_time',
@@ -79,4 +77,8 @@ class ArtifactSerializer(serializers.ModelSerializer):
             'artifact_created_by_user_id',
             'artifact_modify_time',
             'artifact_modified_by_user_id',
+        )
+        read_only_fields = (
+            'artifact_uuid',
+            'artifact_storage_path',
         )
