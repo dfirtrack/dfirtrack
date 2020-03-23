@@ -241,7 +241,7 @@ class Artifacttype(models.Model):
         )
 
     def get_absolute_url(self):
-            return reverse('artifacts_artifacttype_detail', args=(self.pk,))
+        return reverse('artifacts_artifacttype_detail', args=(self.pk,))
 
     def get_update_url(self):
         return reverse('artifacts_artifacttype_update', args=(self.pk,))
