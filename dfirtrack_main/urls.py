@@ -15,8 +15,8 @@ urlpatterns = [
     url(r'^about/$', generic_views.AboutView.as_view(), name='about'),
     url(r'^faq/$', generic_views.FaqView.as_view(), name='faq'),
 
-    url(r'^analysisstatuss/$', analysisstatus_views.AnalysisstatusList.as_view(), name='analysisstatuslist'),
-    url(r'^analysisstatuss/(?P<pk>\d+)$', analysisstatus_views.AnalysisstatusDetail.as_view(), name='analysisstatusdetail'),
+    url(r'^analysisstatus/$', analysisstatus_views.AnalysisstatusList.as_view(), name='analysisstatuslist'),
+    url(r'^analysisstatus/(?P<pk>\d+)/', analysisstatus_views.AnalysisstatusDetail.as_view(), name='analysisstatusdetail'),
 
     url(r'^analystmemos/$', analystmemo_views.AnalystmemoList.as_view(), name='analystmemolist'),
     url(r'^analystmemos/(?P<pk>\d+)$', analystmemo_views.AnalystmemoDetail.as_view(), name='analystmemodetail'),

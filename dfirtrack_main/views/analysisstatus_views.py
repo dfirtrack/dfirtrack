@@ -6,7 +6,7 @@ from dfirtrack_main.models import Analysisstatus
 class AnalysisstatusList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Analysisstatus
-    template_name = 'dfirtrack_main/analysisstatus/analysisstatuss_list.html'
+    template_name = 'dfirtrack_main/analysisstatus/analysisstatus_list.html'
     context_object_name = 'analysisstatus_list'
     def get_queryset(self):
         debug_logger(str(self.request.user), " ANALYSISSTATUS_ENTERED")
@@ -15,7 +15,7 @@ class AnalysisstatusList(LoginRequiredMixin, ListView):
 class AnalysisstatusDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Analysisstatus
-    template_name = 'dfirtrack_main/analysisstatus/analysisstatuss_detail.html'
+    template_name = 'dfirtrack_main/analysisstatus/analysisstatus_detail.html'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         analysisstatus = self.object
