@@ -82,6 +82,18 @@ class ArtifactViewTestCase(TestCase):
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_artifact')
 
+    def test_artifact_list_redirect(self):
+        """ test list view """
+
+        # login testuser
+        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        # create url
+        destination = urllib.parse.quote('/artifacts/artifact/', safe='/')
+        # get response
+        response = self.client.get('/artifacts/artifact', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
     def test_artifact_detail_not_logged_in(self):
         """ test detail view """
 
@@ -130,6 +142,20 @@ class ArtifactViewTestCase(TestCase):
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_artifact')
 
+    def test_artifact_detail_redirect(self):
+        """ test detail view """
+
+        # get object
+        artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
+        # login testuser
+        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        # create url
+        destination = urllib.parse.quote('/artifacts/artifact/detail/' + str(artifact_1.artifact_id) + '/', safe='/')
+        # get response
+        response = self.client.get('/artifacts/artifact/detail/' + str(artifact_1.artifact_id), follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
     def test_artifact_create_not_logged_in(self):
         """ test create view """
 
@@ -169,6 +195,18 @@ class ArtifactViewTestCase(TestCase):
         response = self.client.get('/artifacts/artifact/create/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_artifact')
+
+    def test_artifact_create_redirect(self):
+        """ test create view """
+
+        # login testuser
+        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        # create url
+        destination = urllib.parse.quote('/artifacts/artifact/create/', safe='/')
+        # get response
+        response = self.client.get('/artifacts/artifact/create', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
     def test_artifact_update_not_logged_in(self):
         """ test update view """
@@ -217,3 +255,17 @@ class ArtifactViewTestCase(TestCase):
         response = self.client.get('/artifacts/artifact/update/' + str(artifact_1.artifact_id) + '/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_artifact')
+
+    def test_artifact_update_redirect(self):
+        """ test update view """
+
+        # get object
+        artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
+        # login testuser
+        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        # create url
+        destination = urllib.parse.quote('/artifacts/artifact/update/' + str(artifact_1.artifact_id) + '/', safe='/')
+        # get response
+        response = self.client.get('/artifacts/artifact/update/' + str(artifact_1.artifact_id), follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
