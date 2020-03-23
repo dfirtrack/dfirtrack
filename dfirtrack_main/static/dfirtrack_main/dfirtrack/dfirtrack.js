@@ -39,9 +39,9 @@ function contacts_add_popup() {
 }
 
 // popup window for adding domain
-var domains_add_popup;
-function domains_add_popup() {
-    domains_add_popup = window.open("/domains/add_popup", "domains_add_popup", "height=600, width=1000");
+var domain_add_popup;
+function domain_add_popup() {
+    domain_add_popup = window.open("/domain/add_popup", "domain_add_popup", "height=600, width=1000");
 }
 
 // popup window for adding dnsname

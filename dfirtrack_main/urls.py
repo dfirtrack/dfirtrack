@@ -16,7 +16,7 @@ urlpatterns = [
     url(r'^faq/$', generic_views.FaqView.as_view(), name='faq'),
 
     url(r'^analysisstatus/$', analysisstatus_views.AnalysisstatusList.as_view(), name='analysisstatuslist'),
-    url(r'^analysisstatus/(?P<pk>\d+)/', analysisstatus_views.AnalysisstatusDetail.as_view(), name='analysisstatusdetail'),
+    url(r'^analysisstatus/(?P<pk>\d+)/$', analysisstatus_views.AnalysisstatusDetail.as_view(), name='analysisstatusdetail'),
 
     url(r'^analystmemos/$', analystmemo_views.AnalystmemoList.as_view(), name='analystmemolist'),
     url(r'^analystmemos/(?P<pk>\d+)$', analystmemo_views.AnalystmemoDetail.as_view(), name='analystmemodetail'),
@@ -51,11 +51,11 @@ urlpatterns = [
     url(r'^dnsnames/add_popup$', dnsname_views.DnsnameCreatePopup.as_view(), name='dnsnames_add_popup'),
     url(r'^dnsnames/(?P<pk>\d+)/edit/$', dnsname_views.DnsnameUpdate.as_view(), name='dnsnames_edit'),
 
-    url(r'^domains/$', domain_views.DomainList.as_view(), name='domainlist'),
-    url(r'^domains/(?P<pk>\d+)$', domain_views.DomainDetail.as_view(), name='domaindetail'),
-    url(r'^domains/add/$', domain_views.DomainCreate.as_view(), name='domains_add'),
-    url(r'^domains/add_popup$', domain_views.DomainCreatePopup.as_view(), name='domains_add_popup'),
-    url(r'^domains/(?P<pk>\d+)/edit/$', domain_views.DomainUpdate.as_view(), name='domains_edit'),
+    url(r'^domain/$', domain_views.DomainList.as_view(), name='domainlist'),
+    url(r'^domain/(?P<pk>\d+)/$', domain_views.DomainDetail.as_view(), name='domaindetail'),
+    url(r'^domain/add/$', domain_views.DomainCreate.as_view(), name='domain_add'),
+    url(r'^domain/add_popup/$', domain_views.DomainCreatePopup.as_view(), name='domain_add_popup'),
+    url(r'^domain/(?P<pk>\d+)/edit/$', domain_views.DomainUpdate.as_view(), name='domain_edit'),
 
     url(r'^domainusers/$', domainuser_views.DomainuserList.as_view(), name='domainuserlist'),
     url(r'^domainusers/(?P<pk>\d+)$', domainuser_views.DomainuserDetail.as_view(), name='domainuserdetail'),

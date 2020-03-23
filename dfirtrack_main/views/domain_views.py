@@ -11,7 +11,7 @@ from dfirtrack_main.models import Domain
 class DomainList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Domain
-    template_name = 'dfirtrack_main/domain/domains_list.html'
+    template_name = 'dfirtrack_main/domain/domain_list.html'
     context_object_name = 'domain_list'
 
     def get_queryset(self):
@@ -21,7 +21,7 @@ class DomainList(LoginRequiredMixin, ListView):
 class DomainDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Domain
-    template_name = 'dfirtrack_main/domain/domains_detail.html'
+    template_name = 'dfirtrack_main/domain/domain_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -33,7 +33,7 @@ class DomainCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Domain
     form_class = DomainForm
-    template_name = 'dfirtrack_main/domain/domains_add.html'
+    template_name = 'dfirtrack_main/domain/domain_add.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -47,7 +47,7 @@ class DomainCreate(LoginRequiredMixin, CreateView):
             domain.save()
             domain.logger(str(request.user), " DOMAIN_ADD_EXECUTED")
             messages.success(request, 'Domain added')
-            return redirect('/domains/' + str(domain.domain_id))
+            return redirect('/domain/' + str(domain.domain_id) + '/')
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -55,7 +55,7 @@ class DomainCreatePopup(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Domain
     form_class = DomainForm
-    template_name = 'dfirtrack_main/domain/domains_add_popup.html'
+    template_name = 'dfirtrack_main/domain/domain_add_popup.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -77,7 +77,7 @@ class DomainUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Domain
     form_class = DomainForm
-    template_name = 'dfirtrack_main/domain/domains_edit.html'
+    template_name = 'dfirtrack_main/domain/domain_edit.html'
 
     def get(self, request, *args, **kwargs):
         domain = self.get_object()
@@ -93,6 +93,6 @@ class DomainUpdate(LoginRequiredMixin, UpdateView):
             domain.save()
             domain.logger(str(request.user), " DOMAIN_EDIT_EXECUTED")
             messages.success(request, 'Domain edited')
-            return redirect('/domains/' + str(domain.domain_id))
+            return redirect('/domain/' + str(domain.domain_id) + '/')
         else:
             return render(request, self.template_name, {'form': form})
