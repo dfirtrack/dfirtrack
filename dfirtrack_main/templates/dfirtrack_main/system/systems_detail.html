@@ -1244,7 +1244,7 @@
                         {{ i.analystmemo_note|linebreaks }}
 
                         <!-- analystmemo edit button -->
-                        <a href="/analystmemos/{{ i.analystmemo_id }}/edit" type="button" class="btn btn-light btn-sm copy-false">
+                        <a href="/analystmemo/{{ i.analystmemo_id }}/edit/" type="button" class="btn btn-light btn-sm copy-false">
                             <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                             Edit
                         </a>
@@ -1263,7 +1263,7 @@
         <!-- analystmemo add button -->
         <div class="row">
             <div class="col-1">
-                <a href="/analystmemos/add?system={{ system.system_id }}" type="button" class="btn btn-light btn-sm top-distance copy-false">
+                <a href="/analystmemo/add?system={{ system.system_id }}" type="button" class="btn btn-light btn-sm top-distance copy-false">
                     <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                     Add analystmemo
                 </a>

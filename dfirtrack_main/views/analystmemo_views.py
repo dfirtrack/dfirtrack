@@ -10,7 +10,7 @@ from dfirtrack_main.models import Analystmemo
 class AnalystmemoList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Analystmemo
-    template_name = 'dfirtrack_main/analystmemo/analystmemos_list.html'
+    template_name = 'dfirtrack_main/analystmemo/analystmemo_list.html'
     context_object_name = 'analystmemo_list'
 
     def get_queryset(self):
@@ -20,7 +20,7 @@ class AnalystmemoList(LoginRequiredMixin, ListView):
 class AnalystmemoDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Analystmemo
-    template_name = 'dfirtrack_main/analystmemo/analystmemos_detail.html'
+    template_name = 'dfirtrack_main/analystmemo/analystmemo_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -32,7 +32,7 @@ class AnalystmemoCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Analystmemo
     form_class = AnalystmemoForm
-    template_name = 'dfirtrack_main/analystmemo/analystmemos_add.html'
+    template_name = 'dfirtrack_main/analystmemo/analystmemo_add.html'
 
     def get(self, request, *args, **kwargs):
         if 'system' in request.GET:
@@ -54,7 +54,7 @@ class AnalystmemoCreate(LoginRequiredMixin, CreateView):
             analystmemo.save()
             analystmemo.logger(str(request.user), " ANALYSTMEMO_ADD_EXECUTED")
             messages.success(request, 'Analystmemo added')
-            return redirect('/systems/' + str(analystmemo.system.system_id))
+            return redirect('/systems/' + str(analystmemo.system.system_id) + '/')
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -62,7 +62,7 @@ class AnalystmemoUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Analystmemo
     form_class = AnalystmemoForm
-    template_name = 'dfirtrack_main/analystmemo/analystmemos_edit.html'
+    template_name = 'dfirtrack_main/analystmemo/analystmemo_edit.html'
 
     def get(self, request, *args, **kwargs):
         analystmemo = self.get_object()
@@ -79,6 +79,6 @@ class AnalystmemoUpdate(LoginRequiredMixin, UpdateView):
             analystmemo.save()
             analystmemo.logger(str(request.user), " ANALYSTMEMO_EDIT_EXECUTED")
             messages.success(request, 'Analystmemo edited')
-            return redirect('/systems/' + str(analystmemo.system.system_id))
+            return redirect('/systems/' + str(analystmemo.system.system_id) + '/')
         else:
             return render(request, self.template_name, {'form': form})
