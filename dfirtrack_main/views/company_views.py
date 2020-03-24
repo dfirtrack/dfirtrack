@@ -11,7 +11,7 @@ from dfirtrack_main.models import Company
 class CompanyList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Company
-    template_name = 'dfirtrack_main/company/companys_list.html'
+    template_name = 'dfirtrack_main/company/company_list.html'
     context_object_name = 'company_list'
 
     def get_queryset(self):
@@ -21,7 +21,7 @@ class CompanyList(LoginRequiredMixin, ListView):
 class CompanyDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Company
-    template_name = 'dfirtrack_main/company/companys_detail.html'
+    template_name = 'dfirtrack_main/company/company_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -33,7 +33,7 @@ class CompanyCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Company
     form_class = CompanyForm
-    template_name = 'dfirtrack_main/company/companys_add.html'
+    template_name = 'dfirtrack_main/company/company_add.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -47,7 +47,7 @@ class CompanyCreate(LoginRequiredMixin, CreateView):
             company.save()
             company.logger(str(request.user), " COMPANY_ADD_EXECUTED")
             messages.success(request, 'Company added')
-            return redirect('/companys/' + str(company.company_id))
+            return redirect('/company/' + str(company.company_id) + '/')
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -55,7 +55,7 @@ class CompanyCreatePopup(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Company
     form_class = CompanyForm
-    template_name = 'dfirtrack_main/company/companys_add_popup.html'
+    template_name = 'dfirtrack_main/company/company_add_popup.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -77,7 +77,7 @@ class CompanyUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Company
     form_class = CompanyForm
-    template_name = 'dfirtrack_main/company/companys_edit.html'
+    template_name = 'dfirtrack_main/company/company_edit.html'
 
     def get(self, request, *args, **kwargs):
         company = self.get_object()
@@ -93,6 +93,6 @@ class CompanyUpdate(LoginRequiredMixin, UpdateView):
             company.save()
             company.logger(str(request.user), " COMPANY_EDIT_EXECUTED")
             messages.success(request, 'Company edited')
-            return redirect('/companys/' + str(company.company_id))
+            return redirect('/company/' + str(company.company_id) + '/')
         else:
             return render(request, self.template_name, {'form': form})

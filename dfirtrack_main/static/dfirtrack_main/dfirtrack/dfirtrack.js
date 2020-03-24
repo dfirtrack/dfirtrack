@@ -27,9 +27,9 @@ function refreshParent() {
 // ####################################
 
 // popup window for adding company
-var companys_add_popup;
-function companys_add_popup() {
-    companys_add_popup = window.open("/companys/add_popup", "companys_add_popup", "height=600, width=1000");
+var company_add_popup;
+function company_add_popup() {
+    company_add_popup = window.open("/company/add_popup/", "company_add_popup", "height=600, width=1000");
 }
 
 // popup window for adding contact
@@ -41,7 +41,7 @@ function contacts_add_popup() {
 // popup window for adding domain
 var domain_add_popup;
 function domain_add_popup() {
-    domain_add_popup = window.open("/domain/add_popup", "domain_add_popup", "height=600, width=1000");
+    domain_add_popup = window.open("/domain/add_popup/", "domain_add_popup", "height=600, width=1000");
 }
 
 // popup window for adding dnsname

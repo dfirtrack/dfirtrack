@@ -28,11 +28,11 @@ urlpatterns = [
     url(r'^case/add/$', case_views.CaseCreate.as_view(), name='case_add'),
     url(r'^case/(?P<pk>\d+)/edit/$', case_views.CaseUpdate.as_view(), name='case_edit'),
 
-    url(r'^companys/$', company_views.CompanyList.as_view(), name='companylist'),
-    url(r'^companys/(?P<pk>\d+)$', company_views.CompanyDetail.as_view(), name='companydetail'),
-    url(r'^companys/add/$', company_views.CompanyCreate.as_view(), name='companys_add'),
-    url(r'^companys/add_popup$', company_views.CompanyCreatePopup.as_view(), name='companys_add_popup'),
-    url(r'^companys/(?P<pk>\d+)/edit/$', company_views.CompanyUpdate.as_view(), name='companys_edit'),
+    url(r'^company/$', company_views.CompanyList.as_view(), name='companylist'),
+    url(r'^company/(?P<pk>\d+)/$', company_views.CompanyDetail.as_view(), name='companydetail'),
+    url(r'^company/add/$', company_views.CompanyCreate.as_view(), name='company_add'),
+    url(r'^company/add_popup/$', company_views.CompanyCreatePopup.as_view(), name='company_add_popup'),
+    url(r'^company/(?P<pk>\d+)/edit/$', company_views.CompanyUpdate.as_view(), name='company_edit'),
 
     url(r'^contacts/$', contact_views.ContactList.as_view(), name='contactlist'),
     url(r'^contacts/(?P<pk>\d+)$', contact_views.ContactDetail.as_view(), name='contactdetail'),
