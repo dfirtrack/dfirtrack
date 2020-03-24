@@ -10,7 +10,7 @@ from dfirtrack_main.models import Case
 class CaseList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Case
-    template_name = 'dfirtrack_main/case/cases_list.html'
+    template_name = 'dfirtrack_main/case/case_list.html'
     context_object_name = 'case_list'
 
     def get_queryset(self):
@@ -20,7 +20,7 @@ class CaseList(LoginRequiredMixin, ListView):
 class CaseDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Case
-    template_name = 'dfirtrack_main/case/cases_detail.html'
+    template_name = 'dfirtrack_main/case/case_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -32,11 +32,11 @@ class CaseCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Case
     form_class = CaseForm
-    template_name = 'dfirtrack_main/case/cases_add.html'
+    template_name = 'dfirtrack_main/case/case_add.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
-        debug_logger(str(request.user), " CASES_ADD_ENTERED")
+        debug_logger(str(request.user), " CASE_ADD_ENTERED")
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
@@ -45,9 +45,9 @@ class CaseCreate(LoginRequiredMixin, CreateView):
             case = form.save(commit=False)
             case.case_created_by_user_id = request.user
             case.save()
-            case.logger(str(request.user), " CASES_ADD_EXECUTED")
+            case.logger(str(request.user), " CASE_ADD_EXECUTED")
             messages.success(request, 'Case added')
-            return redirect('/cases/' + str(case.case_id))
+            return redirect('/case/' + str(case.case_id) + '/')
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -55,12 +55,12 @@ class CaseUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Case
     form_class = CaseForm
-    template_name = 'dfirtrack_main/case/cases_edit.html'
+    template_name = 'dfirtrack_main/case/case_edit.html'
 
     def get(self, request, *args, **kwargs):
         case = self.get_object()
         form = self.form_class(instance=case)
-        case.logger(str(request.user), " CASES_EDIT_ENTERED")
+        case.logger(str(request.user), " CASE_EDIT_ENTERED")
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
@@ -70,8 +70,8 @@ class CaseUpdate(LoginRequiredMixin, UpdateView):
             case = form.save(commit=False)
             case.case_created_by_user_id = request.user
             case.save()
-            case.logger(str(request.user), " CASES_EDIT_EXECUTED")
+            case.logger(str(request.user), " CASE_EDIT_EXECUTED")
             messages.success(request, 'Case edited')
-            return redirect('/cases/' + str(case.case_id))
+            return redirect('/case/' + str(case.case_id) + '/')
         else:
             return render(request, self.template_name, {'form': form})

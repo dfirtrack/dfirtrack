@@ -209,7 +209,7 @@
         <div class="font-weight-bold">Cases:</div>
         {% if system.case.all %}
             {% for i in system.case.all %}
-                <a href="/cases/{{ i.case_id }}">
+                <a href="/case/{{ i.case_id }}/">
                     {{ i }}
                 </a>
             {% endfor %}

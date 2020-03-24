@@ -23,10 +23,10 @@ urlpatterns = [
     url(r'^analystmemo/add/$', analystmemo_views.AnalystmemoCreate.as_view(), name='analystmemo_add'),
     url(r'^analystmemo/(?P<pk>\d+)/edit/$', analystmemo_views.AnalystmemoUpdate.as_view(), name='analystmemo_edit'),
 
-    url(r'^cases/$', case_views.CaseList.as_view(), name='caselist'),
-    url(r'^cases/(?P<pk>\d+)$', case_views.CaseDetail.as_view(), name='casedetail'),
-    url(r'^cases/add/$', case_views.CaseCreate.as_view(), name='cases_add'),
-    url(r'^cases/(?P<pk>\d+)/edit/$', case_views.CaseUpdate.as_view(), name='cases_edit'),
+    url(r'^case/$', case_views.CaseList.as_view(), name='caselist'),
+    url(r'^case/(?P<pk>\d+)/$', case_views.CaseDetail.as_view(), name='casedetail'),
+    url(r'^case/add/$', case_views.CaseCreate.as_view(), name='case_add'),
+    url(r'^case/(?P<pk>\d+)/edit/$', case_views.CaseUpdate.as_view(), name='case_edit'),
 
     url(r'^companys/$', company_views.CompanyList.as_view(), name='companylist'),
     url(r'^companys/(?P<pk>\d+)$', company_views.CompanyDetail.as_view(), name='companydetail'),
