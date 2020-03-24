@@ -11,7 +11,7 @@ from dfirtrack_main.models import Contact
 class ContactList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Contact
-    template_name = 'dfirtrack_main/contact/contacts_list.html'
+    template_name = 'dfirtrack_main/contact/contact_list.html'
     context_object_name = 'contact_list'
 
     def get_queryset(self):
@@ -21,7 +21,7 @@ class ContactList(LoginRequiredMixin, ListView):
 class ContactDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Contact
-    template_name = 'dfirtrack_main/contact/contacts_detail.html'
+    template_name = 'dfirtrack_main/contact/contact_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -33,12 +33,12 @@ class ContactCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Contact
     form_class = ContactForm
-    template_name = 'dfirtrack_main/contact/contacts_add.html'
+    template_name = 'dfirtrack_main/contact/contact_add.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " CONTACT_ADD_ENTERED")
-        return render(request, 'dfirtrack_main/contact/contacts_add.html', {'form': form})
+        return render(request, 'dfirtrack_main/contact/contact_add.html', {'form': form})
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -47,7 +47,7 @@ class ContactCreate(LoginRequiredMixin, CreateView):
             contact.save()
             contact.logger(str(request.user), " CONTACT_ADD_EXECUTED")
             messages.success(request, 'Contact added')
-            return redirect('/contacts/' + str(contact.contact_id))
+            return redirect('/contact/' + str(contact.contact_id) + '/')
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -55,12 +55,12 @@ class ContactCreatePopup(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Contact
     form_class = ContactForm
-    template_name = 'dfirtrack_main/contact/contacts_add_popup.html'
+    template_name = 'dfirtrack_main/contact/contact_add_popup.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " CONTACT_ADD_POPUP_ENTERED")
-        return render(request, 'dfirtrack_main/contact/contacts_add_popup.html', {'form': form})
+        return render(request, 'dfirtrack_main/contact/contact_add_popup.html', {'form': form})
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -77,13 +77,13 @@ class ContactUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Contact
     form_class = ContactForm
-    template_name = 'dfirtrack_main/contact/contacts_edit.html'
+    template_name = 'dfirtrack_main/contact/contact_edit.html'
 
     def get(self, request, *args, **kwargs):
         contact = self.get_object()
         form = self.form_class(instance=contact)
         contact.logger(str(request.user), " CONTACT_EDIT_ENTERED")
-        return render(request, 'dfirtrack_main/contact/contacts_edit.html', {'form': form})
+        return render(request, 'dfirtrack_main/contact/contact_edit.html', {'form': form})
 
     def post(self, request, *args, **kwargs):
         contact = self.get_object()
@@ -93,6 +93,6 @@ class ContactUpdate(LoginRequiredMixin, UpdateView):
             contact.save()
             contact.logger(str(request.user), " CONTACT_EDIT_EXECUTED")
             messages.success(request, 'Contact edited')
-            return redirect('/contacts/' + str(contact.contact_id))
+            return redirect('/contact/' + str(contact.contact_id) + '/')
         else:
-            return render(request, 'dfirtrack_main/contact/contacts_edit.html', {'form': form})
+            return render(request, 'dfirtrack_main/contact/contact_edit.html', {'form': form})

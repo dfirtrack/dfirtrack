@@ -33,9 +33,9 @@ function company_add_popup() {
 }
 
 // popup window for adding contact
-var contacts_add_popup;
-function contacts_add_popup() {
-    contacts_add_popup = window.open("/contacts/add_popup", "contacts_add_popup", "height=600, width=1000");
+var contact_add_popup;
+function contact_add_popup() {
+    contact_add_popup = window.open("/contact/add_popup", "contact_add_popup", "height=600, width=1000");
 }
 
 // popup window for adding domain
