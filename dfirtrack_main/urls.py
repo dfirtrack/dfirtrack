@@ -40,10 +40,10 @@ urlpatterns = [
     url(r'^contact/add_popup/$', contact_views.ContactCreatePopup.as_view(), name='contact_add_popup'),
     url(r'^contact/(?P<pk>\d+)/edit/$', contact_views.ContactUpdate.as_view(), name='contact_edit'),
 
-    url(r'^divisions/$', division_views.DivisionList.as_view(), name='divisionlist'),
-    url(r'^divisions/(?P<pk>\d+)$', division_views.DivisionDetail.as_view(), name='divisiondetail'),
-    url(r'^divisions/add/$', division_views.DivisionCreate.as_view(), name='divisions_add'),
-    url(r'^divisions/(?P<pk>\d+)/edit/$', division_views.DivisionUpdate.as_view(), name='divisions_edit'),
+    url(r'^division/$', division_views.DivisionList.as_view(), name='divisionlist'),
+    url(r'^division/(?P<pk>\d+)/$', division_views.DivisionDetail.as_view(), name='divisiondetail'),
+    url(r'^division/add/$', division_views.DivisionCreate.as_view(), name='division_add'),
+    url(r'^division/(?P<pk>\d+)/edit/$', division_views.DivisionUpdate.as_view(), name='division_edit'),
 
     url(r'^dnsnames/$', dnsname_views.DnsnameList.as_view(), name='dnsnamelist'),
     url(r'^dnsnames/(?P<pk>\d+)$', dnsname_views.DnsnameDetail.as_view(), name='dnsnamedetail'),
