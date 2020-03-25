@@ -8,7 +8,7 @@ import hashlib
 from io import TextIOWrapper
 
 @login_required(login_url="/login")
-def entrys(request):
+def entry(request):
     """ this form parses a file and tries to get entries for a single system """
 
     # form was valid to post
@@ -123,5 +123,5 @@ def entrys(request):
 
         # call logger
         debug_logger(str(request.user), " ENTRY_TXT_IMPORTER_ENTERED")
-    return render(request, 'dfirtrack_main/entry/entrys_file_importer.html', {'form': form})
+    return render(request, 'dfirtrack_main/entry/entry_file_importer.html', {'form': form})
 

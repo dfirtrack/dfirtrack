@@ -88,7 +88,7 @@
 
                 <!-- entry id -->
                 <td>
-                    <a href="/entrys/{{ i.entry_id}}">
+                    <a href="/entry/{{ i.entry_id}}/">
                         {{ i.entry_id }}
                     </a>
                 </td>
@@ -139,7 +139,7 @@
 
     <!-- entry add button -->
     <div class="col-1">
-        <a href="/entrys/add" type="button" class="btn btn-light copy-false">
+        <a href="/entry/add/" type="button" class="btn btn-light copy-false">
             <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon right-distance copy-false" alt="icon">
             Add entry
         </a>
@@ -147,7 +147,7 @@
 
     <!-- giraf import button -->
     <div class="col-2">
-        <a href="/entrys/importer/api/giraf/entrys?redirector=entrys" type="button" class="btn btn-light copy-false">
+        <a href="/entry/importer/api/giraf/entry?redirector=entry" type="button" class="btn btn-light copy-false">
             <img src="{% static 'dfirtrack_main/icons/cloud-download.svg' %}" class="icon right-distance copy-false" alt="icon">
             Import GIRAF
         </a>

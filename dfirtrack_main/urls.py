@@ -62,13 +62,13 @@ urlpatterns = [
     url(r'^domainuser/add/$', domainuser_views.DomainuserCreate.as_view(), name='domainuser_add'),
     url(r'^domainuser/(?P<pk>\d+)/edit/$', domainuser_views.DomainuserUpdate.as_view(), name='domainuser_edit'),
 
-    url(r'^entrys/$', entry_views.EntryList.as_view(), name='entrylist'),
-    url(r'^entrys/(?P<pk>\d+)$', entry_views.EntryDetail.as_view(), name='entrydetail'),
-    url(r'^entrys/add/$', entry_views.EntryCreate.as_view(), name='entrys_add'),
-    url(r'^entrys/(?P<pk>\d+)/edit/$', entry_views.EntryUpdate.as_view(), name='entrys_edit'),
+    url(r'^entry/$', entry_views.EntryList.as_view(), name='entrylist'),
+    url(r'^entry/(?P<pk>\d+)/$', entry_views.EntryDetail.as_view(), name='entrydetail'),
+    url(r'^entry/add/$', entry_views.EntryCreate.as_view(), name='entry_add'),
+    url(r'^entry/(?P<pk>\d+)/edit/$', entry_views.EntryUpdate.as_view(), name='entry_edit'),
 
-    url(r'^entrys/importer/api/giraf/entrys/$', giraf.entrys, name='entrys_importer_api_giraf'),
-    url(r'^entrys/importer/file/markdown/entrys/$', markdown.entrys, name='entrys_importer_file_markdown'),
+    url(r'^entry/importer/api/giraf/entry/$', giraf.entry, name='entry_importer_api_giraf'),
+    url(r'^entry/importer/file/markdown/entry/$', markdown.entry, name='entry_importer_file_markdown'),
 
     url(r'^headlines/$', headline_views.HeadlineList.as_view(), name='headlinelist'),
     url(r'^headlines/(?P<pk>\d+)$', headline_views.HeadlineDetail.as_view(), name='headlinedetail'),

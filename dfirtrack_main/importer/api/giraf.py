@@ -260,7 +260,7 @@ def systems(request):
     return redirect('/systems')
 
 @login_required(login_url="/login")
-def entrys(request):
+def entry(request):
 
     # get user string
     request_user = str(request.user)
