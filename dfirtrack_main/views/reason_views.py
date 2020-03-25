@@ -11,7 +11,7 @@ from dfirtrack_main.models import Reason
 class ReasonList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Reason
-    template_name = 'dfirtrack_main/reason/reasons_list.html'
+    template_name = 'dfirtrack_main/reason/reason_list.html'
     context_object_name = 'reason_list'
 
     def get_queryset(self):
@@ -21,7 +21,7 @@ class ReasonList(LoginRequiredMixin, ListView):
 class ReasonDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Reason
-    template_name = 'dfirtrack_main/reason/reasons_detail.html'
+    template_name = 'dfirtrack_main/reason/reason_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -33,7 +33,7 @@ class ReasonCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Reason
     form_class = ReasonForm
-    template_name = 'dfirtrack_main/reason/reasons_add.html'
+    template_name = 'dfirtrack_main/reason/reason_add.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -47,7 +47,7 @@ class ReasonCreate(LoginRequiredMixin, CreateView):
             reason.save()
             reason.logger(str(request.user), " REASON_ADD_EXECUTED")
             messages.success(request, 'Reason added')
-            return redirect('/reasons/' + str(reason.reason_id))
+            return redirect('/reason/' + str(reason.reason_id) + '/')
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -55,7 +55,7 @@ class ReasonCreatePopup(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Reason
     form_class = ReasonForm
-    template_name = 'dfirtrack_main/reason/reasons_add_popup.html'
+    template_name = 'dfirtrack_main/reason/reason_add_popup.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -77,7 +77,7 @@ class ReasonUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Reason
     form_class = ReasonForm
-    template_name = 'dfirtrack_main/reason/reasons_edit.html'
+    template_name = 'dfirtrack_main/reason/reason_edit.html'
 
     def get(self, request, *args, **kwargs):
         reason = self.get_object()
@@ -93,6 +93,6 @@ class ReasonUpdate(LoginRequiredMixin, UpdateView):
             reason.save()
             reason.logger(str(request.user), " REASON_EDIT_EXECUTED")
             messages.success(request, 'Reason edited')
-            return redirect('/reasons/' + str(reason.reason_id))
+            return redirect('/reason/' + str(reason.reason_id) + '/')
         else:
             return render(request, self.template_name, {'form': form})

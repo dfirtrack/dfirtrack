@@ -94,11 +94,11 @@ urlpatterns = [
     url(r'^osimportname/add/$', osimportname_views.OsimportnameCreate.as_view(), name='osimportname_add'),
     url(r'^osimportname/(?P<pk>\d+)/edit/$', osimportname_views.OsimportnameUpdate.as_view(), name='osimportname_edit'),
 
-    url(r'^reasons/$', reason_views.ReasonList.as_view(), name='reasonlist'),
-    url(r'^reasons/(?P<pk>\d+)$', reason_views.ReasonDetail.as_view(), name='reasondetail'),
-    url(r'^reasons/add/$', reason_views.ReasonCreate.as_view(), name='reasons_add'),
-    url(r'^reasons/add_popup$', reason_views.ReasonCreatePopup.as_view(), name='reasons_add_popup'),
-    url(r'^reasons/(?P<pk>\d+)/edit/$', reason_views.ReasonUpdate.as_view(), name='reasons_edit'),
+    url(r'^reason/$', reason_views.ReasonList.as_view(), name='reasonlist'),
+    url(r'^reason/(?P<pk>\d+)/$', reason_views.ReasonDetail.as_view(), name='reasondetail'),
+    url(r'^reason/add/$', reason_views.ReasonCreate.as_view(), name='reason_add'),
+    url(r'^reason/add_popup/$', reason_views.ReasonCreatePopup.as_view(), name='reason_add_popup'),
+    url(r'^reason/(?P<pk>\d+)/edit/$', reason_views.ReasonUpdate.as_view(), name='reason_edit'),
 
     url(r'^recommendations/$', recommendation_views.RecommendationList.as_view(), name='recommendationlist'),
     url(r'^recommendations/(?P<pk>\d+)$', recommendation_views.RecommendationDetail.as_view(), name='recommendationdetail'),

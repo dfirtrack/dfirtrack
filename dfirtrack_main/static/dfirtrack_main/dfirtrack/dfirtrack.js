@@ -53,19 +53,19 @@ function dnsname_add_popup() {
 // popup window for adding location
 var location_add_popup;
 function location_add_popup() {
-    location_add_popup = window.open("/location/add_popup", "location_add_popup", "height=600, width=1000");
+    location_add_popup = window.open("/location/add_popup/", "location_add_popup", "height=600, width=1000");
 }
 
 // popup window for adding operating system
 var os_add_popup;
 function os_add_popup() {
-    os_add_popup = window.open("/os/add_popup", "os_add_popup", "height=600, width=1000");
+    os_add_popup = window.open("/os/add_popup/", "os_add_popup", "height=600, width=1000");
 }
 
 // popup window for adding reason
-var reasons_add_popup;
-function reasons_add_popup() {
-    reasons_add_popup = window.open("/reasons/add_popup", "reasons_add_popup", "height=600, width=1000");
+var reason_add_popup;
+function reason_add_popup() {
+    reason_add_popup = window.open("/reason/add_popup/", "reason_add_popup", "height=600, width=1000");
 }
 
 // popup window for adding recommendation

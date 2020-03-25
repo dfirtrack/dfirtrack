@@ -63,7 +63,7 @@
 
         <!-- reason name headline -->
         <div class="col-2">
-            <a href="/reasons/{{ i.reason_id }}">
+            <a href="/reason/{{ i.reason_id }}/">
                 {{ i.reason_name }}
             </a>
         </div>
@@ -79,7 +79,7 @@
 
         <!-- edit button -->
         <div class="col-1">
-            <a href="/reasons/{{ i.reason_id }}/edit" type="button" class="btn btn-sm btn-light copy-false">
+            <a href="/reason/{{ i.reason_id }}/edit/" type="button" class="btn btn-sm btn-light copy-false">
                 <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                 Edit
             </a>
@@ -94,7 +94,7 @@
 <!-- add button -->
 <div class="row top-distance">
     <div class="col-1">
-        <a href="/reasons/add" type="button" class="btn btn-light copy-false">
+        <a href="/reason/add/" type="button" class="btn btn-light copy-false">
             <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon right-distance copy-false" alt="icon">
             Add reason
         </a>
