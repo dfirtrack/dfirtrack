@@ -10,7 +10,7 @@ from dfirtrack_main.models import Headline
 class HeadlineList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Headline
-    template_name = 'dfirtrack_main/headline/headlines_list.html'
+    template_name = 'dfirtrack_main/headline/headline_list.html'
     context_object_name = 'headline_list'
 
     def get_queryset(self):
@@ -20,7 +20,7 @@ class HeadlineList(LoginRequiredMixin, ListView):
 class HeadlineDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Headline
-    template_name = 'dfirtrack_main/headline/headlines_detail.html'
+    template_name = 'dfirtrack_main/headline/headline_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -32,7 +32,7 @@ class HeadlineCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Headline
     form_class = HeadlineForm
-    template_name = 'dfirtrack_main/headline/headlines_add.html'
+    template_name = 'dfirtrack_main/headline/headline_add.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -46,7 +46,7 @@ class HeadlineCreate(LoginRequiredMixin, CreateView):
             headline.save()
             headline.logger(str(request.user), " HEADLINE_ADD_EXECUTED")
             messages.success(request, 'Headline added')
-            return redirect('/headlines/' + str(headline.headline_id))
+            return redirect('/headline/' + str(headline.headline_id) + '/')
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -54,7 +54,7 @@ class HeadlineUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Headline
     form_class = HeadlineForm
-    template_name = 'dfirtrack_main/headline/headlines_edit.html'
+    template_name = 'dfirtrack_main/headline/headline_edit.html'
 
     def get(self, request, *args, **kwargs):
         headline = self.get_object()
@@ -70,6 +70,6 @@ class HeadlineUpdate(LoginRequiredMixin, UpdateView):
             headline.save()
             headline.logger(str(request.user), " HEADLINE_EDIT_EXECUTED")
             messages.success(request, 'Headline edited')
-            return redirect('/headlines/' + str(headline.headline_id))
+            return redirect('/headline/' + str(headline.headline_id) + '/')
         else:
             return render(request, self.template_name, {'form': form})

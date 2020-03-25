@@ -70,10 +70,10 @@ urlpatterns = [
     url(r'^entry/importer/api/giraf/entry/$', giraf.entry, name='entry_importer_api_giraf'),
     url(r'^entry/importer/file/markdown/entry/$', markdown.entry, name='entry_importer_file_markdown'),
 
-    url(r'^headlines/$', headline_views.HeadlineList.as_view(), name='headlinelist'),
-    url(r'^headlines/(?P<pk>\d+)$', headline_views.HeadlineDetail.as_view(), name='headlinedetail'),
-    url(r'^headlines/add/$', headline_views.HeadlineCreate.as_view(), name='headlines_add'),
-    url(r'^headlines/(?P<pk>\d+)/edit/$', headline_views.HeadlineUpdate.as_view(), name='headlines_edit'),
+    url(r'^headline/$', headline_views.HeadlineList.as_view(), name='headlinelist'),
+    url(r'^headline/(?P<pk>\d+)/$', headline_views.HeadlineDetail.as_view(), name='headlinedetail'),
+    url(r'^headline/add/$', headline_views.HeadlineCreate.as_view(), name='headline_add'),
+    url(r'^headline/(?P<pk>\d+)/edit/$', headline_views.HeadlineUpdate.as_view(), name='headline_edit'),
 
     url(r'^ips/$', ip_views.IpList.as_view(), name='iplist'),
     url(r'^ips/(?P<pk>\d+)$', ip_views.IpDetail.as_view(), name='ipdetail'),
