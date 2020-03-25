@@ -904,7 +904,7 @@
                 <div class="font-weight-bold">IP addresses:</div>
                 {% if system.ip.all %}
                     {% for i in system.ip.all %}
-                        <a href="/ips/{{ i.ip_id }}">
+                        <a href="/ip/{{ i.ip_id }}/">
                             {{ i.ip_ip }}<br>
                         </a>
                     {% endfor %}

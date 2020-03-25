@@ -15,7 +15,7 @@ from io import TextIOWrapper
 
 
 @login_required(login_url="/login")
-def systems_ips(request):
+def systems_ip(request):
     """ this function parses a csv file and tries to import systems and corresponding ips """
 
     # form was valid to post

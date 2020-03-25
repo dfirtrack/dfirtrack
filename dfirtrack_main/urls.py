@@ -75,8 +75,8 @@ urlpatterns = [
     url(r'^headline/add/$', headline_views.HeadlineCreate.as_view(), name='headline_add'),
     url(r'^headline/(?P<pk>\d+)/edit/$', headline_views.HeadlineUpdate.as_view(), name='headline_edit'),
 
-    url(r'^ips/$', ip_views.IpList.as_view(), name='iplist'),
-    url(r'^ips/(?P<pk>\d+)$', ip_views.IpDetail.as_view(), name='ipdetail'),
+    url(r'^ip/$', ip_views.IpList.as_view(), name='iplist'),
+    url(r'^ip/(?P<pk>\d+)/$', ip_views.IpDetail.as_view(), name='ipdetail'),
 
     url(r'^locations/$', location_views.LocationList.as_view(), name='locationlist'),
     url(r'^locations/(?P<pk>\d+)$', location_views.LocationDetail.as_view(), name='locationdetail'),
@@ -130,7 +130,7 @@ urlpatterns = [
     url(r'^systems/exporter/spreadsheet/csv/systems/$', spreadsheet_csv.systems, name='systems_exporter_spreadsheet_csv'),
     url(r'^systems/exporter/spreadsheet/xls/systems/$', xls.systems, name='systems_exporter_spreadsheet_xls'),
     url(r'^systems/importer/api/giraf/systems/$', giraf.systems, name='systems_importer_api_giraf'),
-    url(r'^systems/importer/file/csv/systems_ips/$', file_csv.systems_ips, name='systems_importer_file_csv_systems_ips'),
+    url(r'^systems/importer/file/csv/systems_ip/$', file_csv.systems_ip, name='systems_importer_file_csv_systems_ip'),
     url(r'^systems/importer/file/csv/systems_tags/$', file_csv.systems_tags, name='systems_importer_file_csv_systems_tags'),
 
     url(r'^systemstatuss/$', systemstatus_views.SystemstatusList.as_view(), name='systemstatuslist'),
