@@ -11,7 +11,7 @@ from dfirtrack_main.models import Dnsname
 class DnsnameList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Dnsname
-    template_name = 'dfirtrack_main/dnsname/dnsnames_list.html'
+    template_name = 'dfirtrack_main/dnsname/dnsname_list.html'
     context_object_name = 'dnsname_list'
 
     def get_queryset(self):
@@ -21,7 +21,7 @@ class DnsnameList(LoginRequiredMixin, ListView):
 class DnsnameDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Dnsname
-    template_name = 'dfirtrack_main/dnsname/dnsnames_detail.html'
+    template_name = 'dfirtrack_main/dnsname/dnsname_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -33,7 +33,7 @@ class DnsnameCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Dnsname
     form_class = DnsnameForm
-    template_name = 'dfirtrack_main/dnsname/dnsnames_add.html'
+    template_name = 'dfirtrack_main/dnsname/dnsname_add.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -47,7 +47,7 @@ class DnsnameCreate(LoginRequiredMixin, CreateView):
             dnsname.save()
             dnsname.logger(str(request.user), " DNSNAME_ADD_EXECUTED")
             messages.success(request, 'DNS name added')
-            return redirect('/dnsnames/' + str(dnsname.dnsname_id))
+            return redirect('/dnsname/' + str(dnsname.dnsname_id) + '/')
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -55,7 +55,7 @@ class DnsnameCreatePopup(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Dnsname
     form_class = DnsnameForm
-    template_name = 'dfirtrack_main/dnsname/dnsnames_add_popup.html'
+    template_name = 'dfirtrack_main/dnsname/dnsname_add_popup.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -77,7 +77,7 @@ class DnsnameUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Dnsname
     form_class = DnsnameForm
-    template_name = 'dfirtrack_main/dnsname/dnsnames_edit.html'
+    template_name = 'dfirtrack_main/dnsname/dnsname_edit.html'
 
     def get(self, request, *args, **kwargs):
         dnsname = self.get_object()
@@ -93,6 +93,6 @@ class DnsnameUpdate(LoginRequiredMixin, UpdateView):
             dnsname.save()
             dnsname.logger(str(request.user), " DNSNAME_EDIT_EXECUTED")
             messages.success(request, 'DNS name edited')
-            return redirect('/dnsnames/' + str(dnsname.dnsname_id))
+            return redirect('/dnsname/' + str(dnsname.dnsname_id) + '/')
         else:
             return render(request, self.template_name, {'form': form})

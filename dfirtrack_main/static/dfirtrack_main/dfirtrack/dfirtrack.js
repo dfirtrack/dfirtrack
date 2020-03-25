@@ -35,7 +35,7 @@ function company_add_popup() {
 // popup window for adding contact
 var contact_add_popup;
 function contact_add_popup() {
-    contact_add_popup = window.open("/contact/add_popup", "contact_add_popup", "height=600, width=1000");
+    contact_add_popup = window.open("/contact/add_popup/", "contact_add_popup", "height=600, width=1000");
 }
 
 // popup window for adding domain
@@ -45,9 +45,9 @@ function domain_add_popup() {
 }
 
 // popup window for adding dnsname
-var dnsnames_add_popup;
-function dnsnames_add_popup() {
-    dnsnames_add_popup = window.open("/dnsnames/add_popup", "dnsnames_add_popup", "height=600, width=1000");
+var dnsname_add_popup;
+function dnsname_add_popup() {
+    dnsname_add_popup = window.open("/dnsname/add_popup/", "dnsname_add_popup", "height=600, width=1000");
 }
 
 // popup window for adding location
