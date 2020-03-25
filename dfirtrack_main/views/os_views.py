@@ -11,7 +11,7 @@ from dfirtrack_main.models import Os
 class OsList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Os
-    template_name = 'dfirtrack_main/os/oss_list.html'
+    template_name = 'dfirtrack_main/os/os_list.html'
     context_object_name = 'os_list'
 
     def get_queryset(self):
@@ -21,7 +21,7 @@ class OsList(LoginRequiredMixin, ListView):
 class OsDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Os
-    template_name = 'dfirtrack_main/os/oss_detail.html'
+    template_name = 'dfirtrack_main/os/os_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -33,7 +33,7 @@ class OsCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Os
     form_class = OsForm
-    template_name = 'dfirtrack_main/os/oss_add.html'
+    template_name = 'dfirtrack_main/os/os_add.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -47,7 +47,7 @@ class OsCreate(LoginRequiredMixin, CreateView):
             os.save()
             os.logger(str(request.user), " OS_ADD_EXECUTED")
             messages.success(request, 'OS added')
-            return redirect('/oss/' + str(os.os_id))
+            return redirect('/os/' + str(os.os_id) + '/')
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -55,7 +55,7 @@ class OsCreatePopup(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Os
     form_class = OsForm
-    template_name = 'dfirtrack_main/os/oss_add_popup.html'
+    template_name = 'dfirtrack_main/os/os_add_popup.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -77,7 +77,7 @@ class OsUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Os
     form_class = OsForm
-    template_name = 'dfirtrack_main/os/oss_edit.html'
+    template_name = 'dfirtrack_main/os/os_edit.html'
 
     def get(self, request, *args, **kwargs):
         os = self.get_object()
@@ -93,6 +93,6 @@ class OsUpdate(LoginRequiredMixin, UpdateView):
             os.save()
             os.logger(str(request.user), " OS_EDIT_EXECUTED")
             messages.success(request, 'OS edited')
-            return redirect('/oss/' + str(os.os_id))
+            return redirect('/os/' + str(os.os_id) + '/')
         else:
             return render(request, self.template_name, {'form': form})

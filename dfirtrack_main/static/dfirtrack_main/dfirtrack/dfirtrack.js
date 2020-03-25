@@ -51,15 +51,15 @@ function dnsname_add_popup() {
 }
 
 // popup window for adding location
-var locations_add_popup;
-function locations_add_popup() {
-    locations_add_popup = window.open("/locations/add_popup", "locations_add_popup", "height=600, width=1000");
+var location_add_popup;
+function location_add_popup() {
+    location_add_popup = window.open("/location/add_popup", "location_add_popup", "height=600, width=1000");
 }
 
 // popup window for adding operating system
-var oss_add_popup;
-function oss_add_popup() {
-    oss_add_popup = window.open("/oss/add_popup", "oss_add_popup", "height=600, width=1000");
+var os_add_popup;
+function os_add_popup() {
+    os_add_popup = window.open("/os/add_popup", "os_add_popup", "height=600, width=1000");
 }
 
 // popup window for adding reason
