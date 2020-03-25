@@ -63,7 +63,7 @@
 
         <!-- serviceprovider name -->
         <div class="col-2">
-            <a href="/serviceproviders/{{ i.serviceprovider_id }}">
+            <a href="/serviceprovider/{{ i.serviceprovider_id }}/">
                 {{ i.serviceprovider_name }}
             </a>
         </div>
@@ -79,7 +79,7 @@
 
         <!-- edit button -->
         <div class="col-1">
-            <a href="/serviceproviders/{{ i.serviceprovider_id }}/edit" type="button" class="btn btn-sm btn-light copy-false">
+            <a href="/serviceprovider/{{ i.serviceprovider_id }}/edit/" type="button" class="btn btn-sm btn-light copy-false">
                 <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                 Edit
             </a>
@@ -94,7 +94,7 @@
 <!-- add button -->
 <div class="row top-distance">
     <div class="col-1">
-        <a href="/serviceproviders/add" type="button" class="btn btn-light">
+        <a href="/serviceprovider/add/" type="button" class="btn btn-light">
             <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon" alt="icon">
             Add serviceprovider
         </a>

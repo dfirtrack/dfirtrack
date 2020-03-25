@@ -113,11 +113,11 @@ urlpatterns = [
 
     url(r'^reportitem/importer/file/filesystem/reportitem/$', filesystem.reportitem, name='reportitem_importer_file_filesystem'),
 
-    url(r'^serviceproviders/$', serviceprovider_views.ServiceproviderList.as_view(), name='serviceproviderlist'),
-    url(r'^serviceproviders/(?P<pk>\d+)$', serviceprovider_views.ServiceproviderDetail.as_view(), name='serviceproviderdetail'),
-    url(r'^serviceproviders/add/$', serviceprovider_views.ServiceproviderCreate.as_view(), name='serviceproviders_add'),
-    url(r'^serviceproviders/add_popup$', serviceprovider_views.ServiceproviderCreatePopup.as_view(), name='serviceproviders_add_popup'),
-    url(r'^serviceproviders/(?P<pk>\d+)/edit/$', serviceprovider_views.ServiceproviderUpdate.as_view(), name='serviceproviders_edit'),
+    url(r'^serviceprovider/$', serviceprovider_views.ServiceproviderList.as_view(), name='serviceproviderlist'),
+    url(r'^serviceprovider/(?P<pk>\d+)/$', serviceprovider_views.ServiceproviderDetail.as_view(), name='serviceproviderdetail'),
+    url(r'^serviceprovider/add/$', serviceprovider_views.ServiceproviderCreate.as_view(), name='serviceprovider_add'),
+    url(r'^serviceprovider/add_popup/$', serviceprovider_views.ServiceproviderCreatePopup.as_view(), name='serviceprovider_add_popup'),
+    url(r'^serviceprovider/(?P<pk>\d+)/edit/$', serviceprovider_views.ServiceproviderUpdate.as_view(), name='serviceprovider_edit'),
 
     url(r'^systems/$', system_views.SystemList.as_view(), name='systemlist'),
     url(r'^systems/(?P<pk>\d+)$', system_views.SystemDetail.as_view(), name='systemdetail'),

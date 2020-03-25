@@ -75,9 +75,9 @@ function recommendation_add_popup() {
 }
 
 // popup window for adding serviceprovider
-var serviceproviders_add_popup;
-function serviceproviders_add_popup() {
-    serviceproviders_add_popup = window.open("/serviceproviders/add_popup", "serviceproviders_add_popup", "height=600, width=1000");
+var serviceprovider_add_popup;
+function serviceprovider_add_popup() {
+    serviceprovider_add_popup = window.open("/serviceprovider/add_popup/", "serviceprovider_add_popup", "height=600, width=1000");
 }
 
 // popup window for adding systemtype
