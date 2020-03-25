@@ -1336,7 +1336,7 @@
                         {{ i.reportitem_note|linebreaks }}
 
                         <!-- reportitem edit button -->
-                        <a href="/reportitems/{{ i.reportitem_id }}/edit" type="button" class="btn btn-light btn-sm top-distance copy-false">
+                        <a href="/reportitem/{{ i.reportitem_id }}/edit/" type="button" class="btn btn-light btn-sm top-distance copy-false">
                             <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                             Edit
                         </a>
@@ -1355,7 +1355,7 @@
         <!-- reportitem add button -->
         <div class="row">
             <div class="col-1">
-                <a href="/reportitems/add?system={{ system.system_id }}" type="button" class="btn btn-light btn-sm top-distance copy-false">
+                <a href="/reportitem/add?system={{ system.system_id }}" type="button" class="btn btn-light btn-sm top-distance copy-false">
                     <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                     Add reportitem
                 </a>

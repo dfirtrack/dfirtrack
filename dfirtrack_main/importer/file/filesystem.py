@@ -10,7 +10,7 @@ from dfirtrack_main.models import Headline, Reportitem, System
 import os.path
 
 @login_required(login_url="/login")
-def reportitems(request):
+def reportitem(request):
     """ this function checks for every system the existence of a markdown file with information about the and imports the content of this file as reportitem for the corresponding system """
 
     # call logger

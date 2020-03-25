@@ -106,12 +106,12 @@ urlpatterns = [
     url(r'^recommendation/add_popup/$', recommendation_views.RecommendationCreatePopup.as_view(), name='recommendation_add_popup'),
     url(r'^recommendation/(?P<pk>\d+)/edit/$', recommendation_views.RecommendationUpdate.as_view(), name='recommendation_edit'),
 
-    url(r'^reportitems/$', reportitem_views.ReportitemList.as_view(), name='reportitemlist'),
-    url(r'^reportitems/(?P<pk>\d+)$', reportitem_views.ReportitemDetail.as_view(), name='reportitemdetail'),
-    url(r'^reportitems/add/$', reportitem_views.ReportitemCreate.as_view(), name='reportitems_add'),
-    url(r'^reportitems/(?P<pk>\d+)/edit/$', reportitem_views.ReportitemUpdate.as_view(), name='reportitems_edit'),
+    url(r'^reportitem/$', reportitem_views.ReportitemList.as_view(), name='reportitemlist'),
+    url(r'^reportitem/(?P<pk>\d+)/$', reportitem_views.ReportitemDetail.as_view(), name='reportitemdetail'),
+    url(r'^reportitem/add/$', reportitem_views.ReportitemCreate.as_view(), name='reportitem_add'),
+    url(r'^reportitem/(?P<pk>\d+)/edit/$', reportitem_views.ReportitemUpdate.as_view(), name='reportitem_edit'),
 
-    url(r'^reportitems/importer/file/filesystem/reportitems/$', filesystem.reportitems, name='reportitems_importer_file_filesystem'),
+    url(r'^reportitem/importer/file/filesystem/reportitem/$', filesystem.reportitem, name='reportitem_importer_file_filesystem'),
 
     url(r'^serviceproviders/$', serviceprovider_views.ServiceproviderList.as_view(), name='serviceproviderlist'),
     url(r'^serviceproviders/(?P<pk>\d+)$', serviceprovider_views.ServiceproviderDetail.as_view(), name='serviceproviderdetail'),

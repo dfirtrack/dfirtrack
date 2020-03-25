@@ -10,7 +10,7 @@ from dfirtrack_main.models import Reportitem
 class ReportitemList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Reportitem
-    template_name = 'dfirtrack_main/reportitem/reportitems_list.html'
+    template_name = 'dfirtrack_main/reportitem/reportitem_list.html'
     context_object_name = 'reportitem_list'
 
     def get_queryset(self):
@@ -20,7 +20,7 @@ class ReportitemList(LoginRequiredMixin, ListView):
 class ReportitemDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Reportitem
-    template_name = 'dfirtrack_main/reportitem/reportitems_detail.html'
+    template_name = 'dfirtrack_main/reportitem/reportitem_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -32,7 +32,7 @@ class ReportitemCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Reportitem
     form_class = ReportitemForm
-    template_name = 'dfirtrack_main/reportitem/reportitems_add.html'
+    template_name = 'dfirtrack_main/reportitem/reportitem_add.html'
 
     def get(self, request, *args, **kwargs):
         if 'system' in request.GET:
@@ -54,7 +54,7 @@ class ReportitemCreate(LoginRequiredMixin, CreateView):
             reportitem.save()
             reportitem.logger(str(request.user), " REPORTITEM_ADD_EXECUTED")
             messages.success(request, 'Reportitem added')
-            return redirect('/systems/' + str(reportitem.system.system_id))
+            return redirect('/systems/' + str(reportitem.system.system_id) + '/')
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -62,7 +62,7 @@ class ReportitemUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Reportitem
     form_class = ReportitemForm
-    template_name = 'dfirtrack_main/reportitem/reportitems_edit.html'
+    template_name = 'dfirtrack_main/reportitem/reportitem_edit.html'
 
     def get(self, request, *args, **kwargs):
         reportitem = self.get_object()
@@ -79,6 +79,6 @@ class ReportitemUpdate(LoginRequiredMixin, UpdateView):
             reportitem.save()
             reportitem.logger(str(request.user), " REPORTITEM_EDIT_EXECUTED")
             messages.success(request, 'Reportitem edited')
-            return redirect('/systems/' + str(reportitem.system.system_id))
+            return redirect('/systems/' + str(reportitem.system.system_id) + '/')
         else:
             return render(request, self.template_name, {'form': form})
