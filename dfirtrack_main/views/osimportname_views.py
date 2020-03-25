@@ -10,7 +10,7 @@ from dfirtrack_main.models import Osimportname
 class OsimportnameList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Osimportname
-    template_name = 'dfirtrack_main/osimportname/osimportnames_list.html'
+    template_name = 'dfirtrack_main/osimportname/osimportname_list.html'
     context_object_name = 'osimportname_list'
 
     def get_queryset(self):
@@ -21,7 +21,7 @@ class OsimportnameCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Osimportname
     form_class = OsimportnameForm
-    template_name = 'dfirtrack_main/osimportname/osimportnames_add.html'
+    template_name = 'dfirtrack_main/osimportname/osimportname_add.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -35,7 +35,7 @@ class OsimportnameCreate(LoginRequiredMixin, CreateView):
             osimportname.save()
             osimportname.logger(str(request.user), " OSIMPORTNAME_ADD_EXECUTED")
             messages.success(request, 'OS-Importname added')
-            return redirect('/osimportnames')
+            return redirect('/osimportname/')
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -43,7 +43,7 @@ class OsimportnameUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Osimportname
     form_class = OsimportnameForm
-    template_name = 'dfirtrack_main/osimportname/osimportnames_edit.html'
+    template_name = 'dfirtrack_main/osimportname/osimportname_edit.html'
 
     def get(self, request, *args, **kwargs):
         osimportname = self.get_object()
@@ -59,6 +59,6 @@ class OsimportnameUpdate(LoginRequiredMixin, UpdateView):
             osimportname.save()
             osimportname.logger(str(request.user), " OSIMPORTNAME_EDIT_EXECUTED")
             messages.success(request, 'OS-Importname edited')
-            return redirect('/osimportnames')
+            return redirect('/osimportname/')
         else:
             return render(request, self.template_name, {'form': form})
