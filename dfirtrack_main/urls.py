@@ -78,11 +78,11 @@ urlpatterns = [
     url(r'^ip/$', ip_views.IpList.as_view(), name='iplist'),
     url(r'^ip/(?P<pk>\d+)/$', ip_views.IpDetail.as_view(), name='ipdetail'),
 
-    url(r'^locations/$', location_views.LocationList.as_view(), name='locationlist'),
-    url(r'^locations/(?P<pk>\d+)$', location_views.LocationDetail.as_view(), name='locationdetail'),
-    url(r'^locations/add/$', location_views.LocationCreate.as_view(), name='locations_add'),
-    url(r'^locations/add_popup$', location_views.LocationCreatePopup.as_view(), name='locations_add_popup'),
-    url(r'^locations/(?P<pk>\d+)/edit/$', location_views.LocationUpdate.as_view(), name='locations_edit'),
+    url(r'^location/$', location_views.LocationList.as_view(), name='locationlist'),
+    url(r'^location/(?P<pk>\d+)/$', location_views.LocationDetail.as_view(), name='locationdetail'),
+    url(r'^location/add/$', location_views.LocationCreate.as_view(), name='location_add'),
+    url(r'^location/add_popup/$', location_views.LocationCreatePopup.as_view(), name='location_add_popup'),
+    url(r'^location/(?P<pk>\d+)/edit/$', location_views.LocationUpdate.as_view(), name='location_edit'),
 
     url(r'^oss/$', os_views.OsList.as_view(), name='oslist'),
     url(r'^oss/(?P<pk>\d+)$', os_views.OsDetail.as_view(), name='osdetail'),

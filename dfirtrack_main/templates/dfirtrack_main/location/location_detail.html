@@ -22,7 +22,7 @@
 <!-- up button -->
 <div class="row bottom-distance">
     <div class="col-3">
-        <a href="/locations" type="button" class="btn btn-light copy-false">
+        <a href="/location/" type="button" class="btn btn-light copy-false">
             <img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon right-distance copy-false" alt="icon">
             Up to locations
         </a>
@@ -119,7 +119,7 @@
 <!-- systems -->
 {% endif %}
 
-<a href="/locations/{{ location.location_id }}/edit" type="button" class="btn btn-light top-distance copy-false">
+<a href="/location/{{ location.location_id }}/edit/" type="button" class="btn btn-light top-distance copy-false">
     <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon right-distance copy-false" alt="icon">
     Edit
 </a>
