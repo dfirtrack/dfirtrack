@@ -69,9 +69,9 @@ function reason_add_popup() {
 }
 
 // popup window for adding recommendation
-var recommendations_add_popup;
-function recommendations_add_popup() {
-    recommendations_add_popup = window.open("/recommendations/add_popup", "recommendations_add_popup", "height=600, width=1000");
+var recommendation_add_popup;
+function recommendation_add_popup() {
+    recommendation_add_popup = window.open("/recommendation/add_popup/", "recommendation_add_popup", "height=600, width=1000");
 }
 
 // popup window for adding serviceprovider

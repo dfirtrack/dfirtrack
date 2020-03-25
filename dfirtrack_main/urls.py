@@ -100,11 +100,11 @@ urlpatterns = [
     url(r'^reason/add_popup/$', reason_views.ReasonCreatePopup.as_view(), name='reason_add_popup'),
     url(r'^reason/(?P<pk>\d+)/edit/$', reason_views.ReasonUpdate.as_view(), name='reason_edit'),
 
-    url(r'^recommendations/$', recommendation_views.RecommendationList.as_view(), name='recommendationlist'),
-    url(r'^recommendations/(?P<pk>\d+)$', recommendation_views.RecommendationDetail.as_view(), name='recommendationdetail'),
-    url(r'^recommendations/add/$', recommendation_views.RecommendationCreate.as_view(), name='recommendations_add'),
-    url(r'^recommendations/add_popup$', recommendation_views.RecommendationCreatePopup.as_view(), name='recommendations_add_popup'),
-    url(r'^recommendations/(?P<pk>\d+)/edit/$', recommendation_views.RecommendationUpdate.as_view(), name='recommendations_edit'),
+    url(r'^recommendation/$', recommendation_views.RecommendationList.as_view(), name='recommendationlist'),
+    url(r'^recommendation/(?P<pk>\d+)/$', recommendation_views.RecommendationDetail.as_view(), name='recommendationdetail'),
+    url(r'^recommendation/add/$', recommendation_views.RecommendationCreate.as_view(), name='recommendation_add'),
+    url(r'^recommendation/add_popup/$', recommendation_views.RecommendationCreatePopup.as_view(), name='recommendation_add_popup'),
+    url(r'^recommendation/(?P<pk>\d+)/edit/$', recommendation_views.RecommendationUpdate.as_view(), name='recommendation_edit'),
 
     url(r'^reportitems/$', reportitem_views.ReportitemList.as_view(), name='reportitemlist'),
     url(r'^reportitems/(?P<pk>\d+)$', reportitem_views.ReportitemDetail.as_view(), name='reportitemdetail'),
