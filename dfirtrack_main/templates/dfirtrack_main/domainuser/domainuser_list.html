@@ -67,7 +67,7 @@
 
         <!-- domainuser name -->
         <div class="col-2">
-            <a href="/domainusers/{{ i.domainuser_id }}">
+            <a href="/domainuser/{{ i.domainuser_id }}/">
                 {{ i.domainuser_name }} | {{ i.domain }}
             </a>
         </div>
@@ -91,7 +91,7 @@
 
         <!-- edit button -->
         <div class="col-1">
-            <a href="/domainusers/{{ i.domainuser_id }}/edit" type="button" class="btn btn-sm btn-light copy-false">
+            <a href="/domainuser/{{ i.domainuser_id }}/edit/" type="button" class="btn btn-sm btn-light copy-false">
                 <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                 Edit
             </a>
@@ -106,7 +106,7 @@
 <!-- add button -->
 <div class="row top-distance">
     <div class="col-1">
-        <a href="/domainusers/add" type="button" class="btn btn-light copy-false">
+        <a href="/domainuser/add/" type="button" class="btn btn-light copy-false">
             <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon right-distance copy-false" alt="icon">
             Add domainuser
         </a>
