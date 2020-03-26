@@ -81,9 +81,9 @@ function serviceprovider_add_popup() {
 }
 
 // popup window for adding systemtype
-var systemtypes_add_popup;
-function systemtypes_add_popup() {
-    systemtypes_add_popup = window.open("/systemtypes/add_popup", "systemtypes_add_popup", "height=600, width=1000");
+var systemtype_add_popup;
+function systemtype_add_popup() {
+    systemtype_add_popup = window.open("/systemtype/add_popup/", "systemtype_add_popup", "height=600, width=1000");
 }
 
 // ####################################

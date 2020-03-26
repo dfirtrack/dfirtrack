@@ -11,7 +11,7 @@ from dfirtrack_main.models import Systemtype
 class SystemtypeList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Systemtype
-    template_name = 'dfirtrack_main/systemtype/systemtypes_list.html'
+    template_name = 'dfirtrack_main/systemtype/systemtype_list.html'
     context_object_name = 'systemtype_list'
 
     def get_queryset(self):
@@ -21,7 +21,7 @@ class SystemtypeList(LoginRequiredMixin, ListView):
 class SystemtypeDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Systemtype
-    template_name = 'dfirtrack_main/systemtype/systemtypes_detail.html'
+    template_name = 'dfirtrack_main/systemtype/systemtype_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -33,7 +33,7 @@ class SystemtypeCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Systemtype
     form_class = SystemtypeForm
-    template_name = 'dfirtrack_main/systemtype/systemtypes_add.html'
+    template_name = 'dfirtrack_main/systemtype/systemtype_add.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -47,7 +47,7 @@ class SystemtypeCreate(LoginRequiredMixin, CreateView):
             systemtype.save()
             systemtype.logger(str(request.user), " SYSTEMTYPE_ADD_EXECUTED")
             messages.success(request, 'Systemtype added')
-            return redirect('/systemtypes/' + str(systemtype.systemtype_id))
+            return redirect('/systemtype/' + str(systemtype.systemtype_id) + '/')
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -55,7 +55,7 @@ class SystemtypeCreatePopup(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Systemtype
     form_class = SystemtypeForm
-    template_name = 'dfirtrack_main/systemtype/systemtypes_add_popup.html'
+    template_name = 'dfirtrack_main/systemtype/systemtype_add_popup.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -77,7 +77,7 @@ class SystemtypeUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Systemtype
     form_class = SystemtypeForm
-    template_name = 'dfirtrack_main/systemtype/systemtypes_edit.html'
+    template_name = 'dfirtrack_main/systemtype/systemtype_edit.html'
 
     def get(self, request, *args, **kwargs):
         systemtype = self.get_object()
@@ -93,6 +93,6 @@ class SystemtypeUpdate(LoginRequiredMixin, UpdateView):
             systemtype.save()
             systemtype.logger(str(request.user), " SYSTEMTYPE_EDIT_EXECUTED")
             messages.success(request, 'Systemtype edited')
-            return redirect('/systemtypes/' + str(systemtype.systemtype_id))
+            return redirect('/systemtype/' + str(systemtype.systemtype_id) + '/')
         else:
             return render(request, self.template_name, {'form': form})

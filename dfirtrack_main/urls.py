@@ -136,11 +136,11 @@ urlpatterns = [
     url(r'^systemstatus/$', systemstatus_views.SystemstatusList.as_view(), name='systemstatuslist'),
     url(r'^systemstatus/(?P<pk>\d+)/$', systemstatus_views.SystemstatusDetail.as_view(), name='systemstatusdetail'),
 
-    url(r'^systemtypes/$', systemtype_views.SystemtypeList.as_view(), name='systemtypelist'),
-    url(r'^systemtypes/(?P<pk>\d+)$', systemtype_views.SystemtypeDetail.as_view(), name='systemtypedetail'),
-    url(r'^systemtypes/add/$', systemtype_views.SystemtypeCreate.as_view(), name='systemtypes_add'),
-    url(r'^systemtypes/add_popup$', systemtype_views.SystemtypeCreatePopup.as_view(), name='systemtypes_add_popup'),
-    url(r'^systemtypes/(?P<pk>\d+)/edit/$', systemtype_views.SystemtypeUpdate.as_view(), name='systemtypes_edit'),
+    url(r'^systemtype/$', systemtype_views.SystemtypeList.as_view(), name='systemtypelist'),
+    url(r'^systemtype/(?P<pk>\d+)/$', systemtype_views.SystemtypeDetail.as_view(), name='systemtypedetail'),
+    url(r'^systemtype/add/$', systemtype_views.SystemtypeCreate.as_view(), name='systemtype_add'),
+    url(r'^systemtype/add_popup/$', systemtype_views.SystemtypeCreatePopup.as_view(), name='systemtype_add_popup'),
+    url(r'^systemtype/(?P<pk>\d+)/edit/$', systemtype_views.SystemtypeUpdate.as_view(), name='systemtype_edit'),
 
     url(r'^systemusers/$', systemuser_views.SystemuserList.as_view(), name='systemuserlist'),
     url(r'^systemusers/(?P<pk>\d+)$', systemuser_views.SystemuserDetail.as_view(), name='systemuserdetail'),
