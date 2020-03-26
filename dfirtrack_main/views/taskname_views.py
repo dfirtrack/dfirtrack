@@ -10,7 +10,7 @@ from dfirtrack_main.models import Taskname
 class TasknameList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Taskname
-    template_name = 'dfirtrack_main/taskname/tasknames_list.html'
+    template_name = 'dfirtrack_main/taskname/taskname_list.html'
     context_object_name = 'taskname_list'
 
     def get_queryset(self):
@@ -20,7 +20,7 @@ class TasknameList(LoginRequiredMixin, ListView):
 class TasknameDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Taskname
-    template_name = 'dfirtrack_main/taskname/tasknames_detail.html'
+    template_name = 'dfirtrack_main/taskname/taskname_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -32,7 +32,7 @@ class TasknameCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Taskname
     form_class = TasknameForm
-    template_name = 'dfirtrack_main/taskname/tasknames_add.html'
+    template_name = 'dfirtrack_main/taskname/taskname_add.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -46,7 +46,7 @@ class TasknameCreate(LoginRequiredMixin, CreateView):
             taskname.save()
             taskname.logger(str(request.user), " TASKNAME_ADD_EXECUTED")
             messages.success(request, 'Taskname added')
-            return redirect('/tasknames/' + str (taskname.taskname_id))
+            return redirect('/taskname/' + str (taskname.taskname_id) + '/')
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -54,7 +54,7 @@ class TasknameUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Taskname
     form_class = TasknameForm
-    template_name = 'dfirtrack_main/taskname/tasknames_edit.html'
+    template_name = 'dfirtrack_main/taskname/taskname_edit.html'
 
     def get(self, request, *args, **kwargs):
         taskname = self.get_object()
@@ -70,6 +70,6 @@ class TasknameUpdate(LoginRequiredMixin, UpdateView):
             taskname.save()
             taskname.logger(str(request.user), " TASKNAME_EDIT_EXECUTED")
             messages.success(request, 'Taskname edited')
-            return redirect('/tasknames/' + str (taskname.taskname_id))
+            return redirect('/taskname/' + str (taskname.taskname_id) + '/')
         else:
             return render(request, self.template_name, {'form': form})
