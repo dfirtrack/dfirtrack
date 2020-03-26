@@ -133,8 +133,8 @@ urlpatterns = [
     url(r'^systems/importer/file/csv/systems_ip/$', file_csv.systems_ip, name='systems_importer_file_csv_systems_ip'),
     url(r'^systems/importer/file/csv/systems_tags/$', file_csv.systems_tags, name='systems_importer_file_csv_systems_tags'),
 
-    url(r'^systemstatuss/$', systemstatus_views.SystemstatusList.as_view(), name='systemstatuslist'),
-    url(r'^systemstatuss/(?P<pk>\d+)$', systemstatus_views.SystemstatusDetail.as_view(), name='systemstatusdetail'),
+    url(r'^systemstatus/$', systemstatus_views.SystemstatusList.as_view(), name='systemstatuslist'),
+    url(r'^systemstatus/(?P<pk>\d+)/$', systemstatus_views.SystemstatusDetail.as_view(), name='systemstatusdetail'),
 
     url(r'^systemtypes/$', systemtype_views.SystemtypeList.as_view(), name='systemtypelist'),
     url(r'^systemtypes/(?P<pk>\d+)$', systemtype_views.SystemtypeDetail.as_view(), name='systemtypedetail'),
