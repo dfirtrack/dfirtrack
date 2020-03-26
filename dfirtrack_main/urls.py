@@ -142,10 +142,10 @@ urlpatterns = [
     url(r'^systemtype/add_popup/$', systemtype_views.SystemtypeCreatePopup.as_view(), name='systemtype_add_popup'),
     url(r'^systemtype/(?P<pk>\d+)/edit/$', systemtype_views.SystemtypeUpdate.as_view(), name='systemtype_edit'),
 
-    url(r'^systemusers/$', systemuser_views.SystemuserList.as_view(), name='systemuserlist'),
-    url(r'^systemusers/(?P<pk>\d+)$', systemuser_views.SystemuserDetail.as_view(), name='systemuserdetail'),
-    url(r'^systemusers/add/$', systemuser_views.SystemuserCreate.as_view(), name='systemusers_add'),
-    url(r'^systemusers/(?P<pk>\d+)/edit/$', systemuser_views.SystemuserUpdate.as_view(), name='systemusers_edit'),
+    url(r'^systemuser/$', systemuser_views.SystemuserList.as_view(), name='systemuserlist'),
+    url(r'^systemuser/(?P<pk>\d+)/$', systemuser_views.SystemuserDetail.as_view(), name='systemuserdetail'),
+    url(r'^systemuser/add/$', systemuser_views.SystemuserCreate.as_view(), name='systemuser_add'),
+    url(r'^systemuser/(?P<pk>\d+)/edit/$', systemuser_views.SystemuserUpdate.as_view(), name='systemuser_edit'),
 
     url(r'^tags/$', tag_views.TagList.as_view(), name='taglist'),
     url(r'^tags/(?P<pk>\d+)$', tag_views.TagDetail.as_view(), name='tagdetail'),

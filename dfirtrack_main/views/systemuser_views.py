@@ -10,7 +10,7 @@ from dfirtrack_main.models import Systemuser
 class SystemuserList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Systemuser
-    template_name = 'dfirtrack_main/systemuser/systemusers_list.html'
+    template_name = 'dfirtrack_main/systemuser/systemuser_list.html'
     context_object_name = 'systemuser_list'
 
     def get_queryset(self):
@@ -20,7 +20,7 @@ class SystemuserList(LoginRequiredMixin, ListView):
 class SystemuserDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Systemuser
-    template_name = 'dfirtrack_main/systemuser/systemusers_detail.html'
+    template_name = 'dfirtrack_main/systemuser/systemuser_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -32,7 +32,7 @@ class SystemuserCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Systemuser
     form_class = SystemuserForm
-    template_name = 'dfirtrack_main/systemuser/systemusers_add.html'
+    template_name = 'dfirtrack_main/systemuser/systemuser_add.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -46,7 +46,7 @@ class SystemuserCreate(LoginRequiredMixin, CreateView):
             systemuser.save()
             systemuser.logger(str(request.user), " SYSTEMUSER_ADD_EXECUTED")
             messages.success(request, 'Systemuser added')
-            return redirect('/systemusers/' + str(systemuser.systemuser_id))
+            return redirect('/systemuser/' + str(systemuser.systemuser_id) + '/')
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -54,7 +54,7 @@ class SystemuserUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Systemuser
     form_class = SystemuserForm
-    template_name = 'dfirtrack_main/systemuser/systemusers_edit.html'
+    template_name = 'dfirtrack_main/systemuser/systemuser_edit.html'
 
     def get(self, request, *args, **kwargs):
         systemuser = self.get_object()
@@ -70,6 +70,6 @@ class SystemuserUpdate(LoginRequiredMixin, UpdateView):
             systemuser.save()
             systemuser.logger(str(request.user), " SYSTEMUSER_EDIT_EXECUTED")
             messages.success(request, 'Systemuser edited')
-            return redirect('/systemusers/' + str(systemuser.systemuser_id))
+            return redirect('/systemuser/' + str(systemuser.systemuser_id) + '/')
         else:
             return render(request, self.template_name, {'form': form})
