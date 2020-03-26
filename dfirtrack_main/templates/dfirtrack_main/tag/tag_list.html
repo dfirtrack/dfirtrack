@@ -67,7 +67,7 @@
 
         <!-- tag name -->
         <div class="col-2">
-            <a href="/tags/{{ i.tag_id }}" type="button" class="btn btn-{{ i.tagcolor }} btn-sm round copy-true">
+            <a href="/tag/{{ i.tag_id }}/" type="button" class="btn btn-{{ i.tagcolor }} btn-sm round copy-true">
                 <!-- black tag icon for white tag (black color of font is defined in corresponding CSS for button) -->
                 {% if i.tagcolor.tagcolor_name == 'white' %}
                     <img src="{% static 'dfirtrack_main/icons/tag.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
@@ -99,7 +99,7 @@
 
         <!-- edit button -->
         <div class="col-1">
-            <a href="/tags/{{ i.tag_id }}/edit" type="button" class="btn btn-sm btn-light copy-false">
+            <a href="/tag/{{ i.tag_id }}/edit/" type="button" class="btn btn-sm btn-light copy-false">
                 <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                 Edit
             </a>
@@ -116,7 +116,7 @@
 
     <!-- add button -->
     <div class="col-1">
-        <a href="/tags/add" type="button" class="btn btn-light top-distance copy-false">
+        <a href="/tag/add/" type="button" class="btn btn-light top-distance copy-false">
             <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon right-distance copy-false" alt="icon">
             Add tag
         </a>
@@ -124,7 +124,7 @@
 
     <!-- creator button -->
     <div class="col-1">
-        <a href="/tags/creator" type="button" class="btn btn-light top-distance copy-false">
+        <a href="/tag/creator/" type="button" class="btn btn-light top-distance copy-false">
             <img src="{% static 'dfirtrack_main/icons/box.svg' %}" class="icon right-distance copy-false" alt="icon">
             Creator
         </a>

@@ -10,7 +10,7 @@ from dfirtrack_main.models import Tag
 class TagList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Tag
-    template_name = 'dfirtrack_main/tag/tags_list.html'
+    template_name = 'dfirtrack_main/tag/tag_list.html'
     context_object_name = 'tag_list'
 
     def get_queryset(self):
@@ -20,7 +20,7 @@ class TagList(LoginRequiredMixin, ListView):
 class TagDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Tag
-    template_name = 'dfirtrack_main/tag/tags_detail.html'
+    template_name = 'dfirtrack_main/tag/tag_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -32,7 +32,7 @@ class TagCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Tag
     form_class = TagForm
-    template_name = 'dfirtrack_main/tag/tags_add.html'
+    template_name = 'dfirtrack_main/tag/tag_add.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -47,14 +47,14 @@ class TagCreate(LoginRequiredMixin, CreateView):
             tag.save()
             tag.logger(str(request.user), " TAG_ADD_EXECUTED")
             messages.success(request, 'Tag added')
-            return redirect('/tags/' + str(tag.tag_id))
+            return redirect('/tag/' + str(tag.tag_id) + '/')
         else:
             return render(request, self.template_name, {'form': form})
 
 class TagDelete(LoginRequiredMixin, DeleteView):
     login_url = '/login'
     model = Tag
-    template_name = 'dfirtrack_main/tag/tags_delete.html'
+    template_name = 'dfirtrack_main/tag/tag_delete.html'
 
     def get(self, request, *args, **kwargs):
         tag = self.get_object()
@@ -66,13 +66,13 @@ class TagDelete(LoginRequiredMixin, DeleteView):
         tag.logger(str(request.user), " TAG_DELETE_EXECUTED")
         tag.delete()
         messages.success(request, 'Tag deleted')
-        return redirect('/tags')
+        return redirect('/tag')
 
 class TagUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Tag
     form_class = TagForm
-    template_name = 'dfirtrack_main/tag/tags_edit.html'
+    template_name = 'dfirtrack_main/tag/tag_edit.html'
 
     def get(self, request, *args, **kwargs):
         tag = self.get_object()
@@ -89,6 +89,6 @@ class TagUpdate(LoginRequiredMixin, UpdateView):
             tag.save()
             tag.logger(str(request.user), " TAG_EDIT_EXECUTED")
             messages.success(request, 'Tag edited')
-            return redirect('/tags/' + str(tag.tag_id))
+            return redirect('/tag/' + str(tag.tag_id) + '/')
         else:
             return render(request, self.template_name, {'form': form})

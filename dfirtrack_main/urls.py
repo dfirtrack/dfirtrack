@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from dfirtrack_main.views import generic_views
 from dfirtrack_main.views import analysisstatus_views, analystmemo_views, case_views, company_views, contact_views, division_views, dnsname_views, domain_views, domainuser_views, entry_views, headline_views, ip_views, location_views, os_views, osimportname_views, reason_views, recommendation_views, reportitem_views, serviceprovider_views, system_views, systemstatus_views, systemtype_views, systemuser_views, tag_views, task_views, taskname_views, taskpriority_views, taskstatus_views
-from dfirtrack_main.creator import systems_creator, tags_creator, tasks_creator
+from dfirtrack_main.creator import systems_creator, tag_creator, tasks_creator
 from dfirtrack_main.exporter.spreadsheet import csv as spreadsheet_csv
 from dfirtrack_main.exporter.spreadsheet import xls
 from dfirtrack_main.exporter.markdown import domainsorted, systemsorted
@@ -131,7 +131,7 @@ urlpatterns = [
     url(r'^systems/exporter/spreadsheet/xls/systems/$', xls.systems, name='systems_exporter_spreadsheet_xls'),
     url(r'^systems/importer/api/giraf/systems/$', giraf.systems, name='systems_importer_api_giraf'),
     url(r'^systems/importer/file/csv/systems_ip/$', file_csv.systems_ip, name='systems_importer_file_csv_systems_ip'),
-    url(r'^systems/importer/file/csv/systems_tags/$', file_csv.systems_tags, name='systems_importer_file_csv_systems_tags'),
+    url(r'^systems/importer/file/csv/systems_tag/$', file_csv.systems_tag, name='systems_importer_file_csv_systems_tag'),
 
     url(r'^systemstatus/$', systemstatus_views.SystemstatusList.as_view(), name='systemstatuslist'),
     url(r'^systemstatus/(?P<pk>\d+)/$', systemstatus_views.SystemstatusDetail.as_view(), name='systemstatusdetail'),
@@ -147,13 +147,13 @@ urlpatterns = [
     url(r'^systemuser/add/$', systemuser_views.SystemuserCreate.as_view(), name='systemuser_add'),
     url(r'^systemuser/(?P<pk>\d+)/edit/$', systemuser_views.SystemuserUpdate.as_view(), name='systemuser_edit'),
 
-    url(r'^tags/$', tag_views.TagList.as_view(), name='taglist'),
-    url(r'^tags/(?P<pk>\d+)$', tag_views.TagDetail.as_view(), name='tagdetail'),
-    url(r'^tags/add/$', tag_views.TagCreate.as_view(), name='tags_add'),
-    url(r'^tags/(?P<pk>\d+)/edit/$', tag_views.TagUpdate.as_view(), name='tags_edit'),
-    url(r'^tags/(?P<pk>\d+)/delete/$', tag_views.TagDelete.as_view(), name='tags_delete'),
+    url(r'^tag/$', tag_views.TagList.as_view(), name='taglist'),
+    url(r'^tag/(?P<pk>\d+)/$', tag_views.TagDetail.as_view(), name='tagdetail'),
+    url(r'^tag/add/$', tag_views.TagCreate.as_view(), name='tag_add'),
+    url(r'^tag/(?P<pk>\d+)/edit/$', tag_views.TagUpdate.as_view(), name='tag_edit'),
+    url(r'^tag/(?P<pk>\d+)/delete/$', tag_views.TagDelete.as_view(), name='tag_delete'),
 
-    url(r'^tags/creator$', tags_creator.tags_creator, name='tags_creator'),
+    url(r'^tag/creator$', tag_creator.tag_creator, name='tag_creator'),
 
     url(r'^tasks/$', task_views.TaskList.as_view(), name='tasklist'),
     url(r'^tasks/closed$', task_views.TaskClosed.as_view(), name='taskclosed'),

@@ -87,7 +87,7 @@
     <div class="row">
         <div class="col-6">
             {% for i in task.tag.all %}
-                <a href="/tags/{{ i.tag_id }}" type="button" class="btn btn-{{ i.tagcolor }} btn-sm round top-distance copy-true">
+                <a href="/tag/{{ i.tag_id }}/" type="button" class="btn btn-{{ i.tagcolor }} btn-sm round top-distance copy-true">
                     <!-- black tag icon for white tag (black color of font is defined in corresponding CSS for button) -->
                     {% if i.tagcolor.tagcolor_name == 'white' %}
                         <img src="{% static 'dfirtrack_main/icons/tag.svg' %}" class="icon-sm right-distance copy-false" alt="icon">

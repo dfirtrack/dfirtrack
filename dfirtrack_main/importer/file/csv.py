@@ -130,7 +130,7 @@ def systems_ip(request):
 
 
 @login_required(login_url="/login")
-def systems_tags(request):
+def systems_tag(request):
     """ this function imports a csv file with multiple systems and relevant tags """
 
     """

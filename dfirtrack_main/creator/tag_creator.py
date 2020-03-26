@@ -7,7 +7,7 @@ from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Tag, System
 
 @login_required(login_url="/login")
-def tags_creator(request):
+def tag_creator(request):
     """ function to create many tags for many systems at once (helper function to call the real function) """
 
     # form was valid to post
@@ -17,12 +17,12 @@ def tags_creator(request):
 
         # call async function
         async_task(
-            "dfirtrack_main.creator.tags_creator.tags_creator_async",
+            "dfirtrack_main.creator.tag_creator.tag_creator_async",
             request_post,
             request_user,
         )
 
-        return redirect('/tags')
+        return redirect('/tag/')
 
     # show empty form
     else:
@@ -30,9 +30,9 @@ def tags_creator(request):
 
         # call logger
         debug_logger(str(request.user), " TAG_CREATOR_ENTERED")
-    return render(request, 'dfirtrack_main/tag/tags_creator.html', {'form': form})
+    return render(request, 'dfirtrack_main/tag/tag_creator.html', {'form': form})
 
-def tags_creator_async(request_post, request_user):
+def tag_creator_async(request_post, request_user):
     """ function to create many tags for many systems at once """
 
     # call logger
