@@ -177,7 +177,7 @@ urlpatterns = [
     url(r'^taskpriority/$', taskpriority_views.TaskpriorityList.as_view(), name='taskprioritylist'),
     url(r'^taskpriority/(?P<pk>\d+)/$', taskpriority_views.TaskpriorityDetail.as_view(), name='taskprioritydetail'),
 
-    url(r'^taskstatuss/$', taskstatus_views.TaskstatusList.as_view(), name='taskstatuslist'),
-    url(r'^taskstatuss/(?P<pk>\d+)$', taskstatus_views.TaskstatusDetail.as_view(), name='taskstatusdetail'),
+    url(r'^taskstatus/$', taskstatus_views.TaskstatusList.as_view(), name='taskstatuslist'),
+    url(r'^taskstatus/(?P<pk>\d+)/$', taskstatus_views.TaskstatusDetail.as_view(), name='taskstatusdetail'),
 
 ]

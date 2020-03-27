@@ -124,7 +124,7 @@
             <div class="font-weight-bold">
                 Status:
             </div>
-            <a href="/taskstatuss/{{ task.taskstatus.taskstatus_id }}">
+            <a href="/taskstatus/{{ task.taskstatus.taskstatus_id }}/">
                 {% with taskstatus=task.taskstatus %}
                     {% include "dfirtrack_main/includes/button_taskstatus.html" %}
                 {% endwith %}
