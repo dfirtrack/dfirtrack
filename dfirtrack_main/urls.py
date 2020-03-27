@@ -174,8 +174,8 @@ urlpatterns = [
     url(r'^taskname/add/$', taskname_views.TasknameCreate.as_view(), name='taskname_add'),
     url(r'^taskname/(?P<pk>\d+)/edit/$', taskname_views.TasknameUpdate.as_view(), name='taskname_edit'),
 
-    url(r'^taskprioritys/$', taskpriority_views.TaskpriorityList.as_view(), name='taskprioritylist'),
-    url(r'^taskprioritys/(?P<pk>\d+)$', taskpriority_views.TaskpriorityDetail.as_view(), name='taskprioritydetail'),
+    url(r'^taskpriority/$', taskpriority_views.TaskpriorityList.as_view(), name='taskprioritylist'),
+    url(r'^taskpriority/(?P<pk>\d+)/$', taskpriority_views.TaskpriorityDetail.as_view(), name='taskprioritydetail'),
 
     url(r'^taskstatuss/$', taskstatus_views.TaskstatusList.as_view(), name='taskstatuslist'),
     url(r'^taskstatuss/(?P<pk>\d+)$', taskstatus_views.TaskstatusDetail.as_view(), name='taskstatusdetail'),

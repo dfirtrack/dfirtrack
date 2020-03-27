@@ -137,7 +137,7 @@
             <div class="font-weight-bold">
                 Priority:
             </div>
-            <a href="/taskprioritys/{{ task.taskpriority.taskpriority_id }}">
+            <a href="/taskpriority/{{ task.taskpriority.taskpriority_id }}/">
                 {% with taskpriority=task.taskpriority %}
                     {% include "dfirtrack_main/includes/button_taskpriority.html" %}
                 {% endwith %}
