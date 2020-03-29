@@ -23,7 +23,7 @@ def config_check(request):
         # call logger for consistency
         debug_logger(str(request.user), " API_GIRAF_SYSTEMS_END")
         # leave importer
-        return redirect('/systems/')
+        return redirect('/system/')
 
     # check GIRAF_URL
     if giraf_url == '':
@@ -33,7 +33,7 @@ def config_check(request):
         # call logger for consistency
         debug_logger(str(request.user), " API_GIRAF_SYSTEMS_END")
         # leave importer
-        return redirect('/systems/')
+        return redirect('/system/')
 
     # check GIRAF_USER
     if giraf_user == '':
@@ -43,11 +43,11 @@ def config_check(request):
         # call logger for consistency
         debug_logger(str(request.user), " API_GIRAF_SYSTEMS_END")
         # leave importer
-        return redirect('/systems/')
+        return redirect('/system/')
 
 
 @login_required(login_url="/login")
-def systems(request):
+def system(request):
 
     # get user string
     request_user = str(request.user)
@@ -67,7 +67,7 @@ def systems(request):
         messages.error(request, "GIRAF API URL not available.")
         # call logger (for consistency purposes to show end of api call)
         debug_logger(request_user, " API_GIRAF_SYSTEMS_END")
-        return redirect('/systems')
+        return redirect('/system/')
 
     # get JSON from GIRAF API (returns <class 'requests.models.Response'>)
     system_json = requests.get(giraf_url + '/api/systems/systems/', auth=(giraf_user,giraf_pass))
@@ -83,7 +83,7 @@ def systems(request):
         messages.error(request, "GIRAF API possible authentication error.")
         # call logger (for consistency purposes to show end of api call)
         debug_logger(request_user, " API_GIRAF_SYSTEMS_END")
-        return redirect('/systems')
+        return redirect('/system/')
 
     # iterate over systems
     for system_dict in system_list:
@@ -257,7 +257,7 @@ def systems(request):
     # call logger
     debug_logger(request_user, " API_GIRAF_SYSTEMS_END")
 
-    return redirect('/systems')
+    return redirect('/system/')
 
 @login_required(login_url="/login")
 def entry(request):

@@ -33,7 +33,7 @@
 
     <!-- up button -->
     <div class="col-6">
-        <a href="/systems" type="button" class="btn btn-light copy-false">
+        <a href="/system/" type="button" class="btn btn-light copy-false">
             <img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon right-distance copy-false" alt="icon">
             Up to systems
         </a>
@@ -41,7 +41,7 @@
 
     <!-- edit button -->
     <div class="col-3">
-        <a href="/systems/{{ system.system_id }}/edit" type="button" class="btn btn-light copy-false">
+        <a href="/system/{{ system.system_id }}/edit/" type="button" class="btn btn-light copy-false">
             <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon right-distance copy-false" alt="icon">
             Edit
         </a>
@@ -1031,7 +1031,7 @@
             <div class="col-3">
                 <div class="font-weight-bold">Host system:</div>
                 {% if system.host_system %}
-                    <a href="/systems/{{ system.host_system.system_id }}" type="button" class="btn btn-primary btn-sm top-distance copy-true">
+                    <a href="/system/{{ system.host_system.system_id }}/" type="button" class="btn btn-primary btn-sm top-distance copy-true">
                         <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                         {{ system.host_system.system_name }}
                     </a>
@@ -1437,7 +1437,7 @@
 
     <!-- up to systems button -->
     <div class="col-6">
-        <a href="/systems" type="button" class="btn btn-light copy-false">
+        <a href="/system/" type="button" class="btn btn-light copy-false">
             <img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon right-distance copy-false" alt="icon">
             Up to systems
         </a>
@@ -1445,7 +1445,7 @@
 
     <!-- edit button -->
     <div class="col-3">
-        <a href="/systems/{{ system.system_id }}/edit" type="button" class="btn btn-light copy-false">
+        <a href="/system/{{ system.system_id }}/edit/" type="button" class="btn btn-light copy-false">
             <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon right-distance copy-false" alt="icon">
             Edit
         </a>

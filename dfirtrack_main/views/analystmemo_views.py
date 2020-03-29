@@ -54,7 +54,7 @@ class AnalystmemoCreate(LoginRequiredMixin, CreateView):
             analystmemo.save()
             analystmemo.logger(str(request.user), " ANALYSTMEMO_ADD_EXECUTED")
             messages.success(request, 'Analystmemo added')
-            return redirect('/systems/' + str(analystmemo.system.system_id) + '/')
+            return redirect('/system/' + str(analystmemo.system.system_id) + '/')
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -79,6 +79,6 @@ class AnalystmemoUpdate(LoginRequiredMixin, UpdateView):
             analystmemo.save()
             analystmemo.logger(str(request.user), " ANALYSTMEMO_EDIT_EXECUTED")
             messages.success(request, 'Analystmemo edited')
-            return redirect('/systems/' + str(analystmemo.system.system_id) + '/')
+            return redirect('/system/' + str(analystmemo.system.system_id) + '/')
         else:
             return render(request, self.template_name, {'form': form})

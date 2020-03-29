@@ -81,7 +81,7 @@ class TaskCreate(LoginRequiredMixin, CreateView):
             # conditional redirect
             if 'system' in request.GET:
                 system = request.GET['system']
-                return redirect('/systems/' + str(system))
+                return redirect('/system/' + str(system) + '/')
             else:
                 return redirect('/tasks/' + str(task.task_id))
         else:
@@ -123,7 +123,7 @@ class TaskUpdate(LoginRequiredMixin, UpdateView):
             # conditional redirect
             if 'system' in request.GET:
                 system = request.GET['system']
-                return redirect('/systems/' + str(system))
+                return redirect('/system/' + str(system) + '/')
             else:
                 return redirect('/tasks/' + str(task.task_id))
         else:
@@ -142,7 +142,7 @@ class TaskStart(LoginRequiredMixin, UpdateView):
         messages.success(request, 'Task started')
         if 'system' in request.GET:
             system = request.GET['system']
-            return redirect('/systems/' + str(system))
+            return redirect('/system/' + str(system) + '/')
         else:
             return redirect('/tasks/' + str(task.task_id))
 
@@ -162,7 +162,7 @@ class TaskFinish(LoginRequiredMixin, UpdateView):
         messages.success(request, 'Task finished')
         if 'system' in request.GET:
             system = request.GET['system']
-            return redirect('/systems/' + str(system))
+            return redirect('/system/' + str(system) + '/')
         else:
             return redirect('/tasks/' + str(task.task_id))
 
@@ -181,7 +181,7 @@ class TaskRenew(LoginRequiredMixin, UpdateView):
         messages.warning(request, 'Task renewed')
         if 'system' in request.GET:
             system = request.GET['system']
-            return redirect('/systems/' + str(system))
+            return redirect('/system/' + str(system) + '/')
         else:
             return redirect('/tasks/' + str(task.task_id))
 
@@ -197,7 +197,7 @@ class TaskSetUser(LoginRequiredMixin, UpdateView):
         messages.success(request, 'Task assigned to you')
         if 'system' in request.GET:
             system = request.GET['system']
-            return redirect('/systems/' + str(system))
+            return redirect('/system/' + str(system) + '/')
         else:
             return redirect('/tasks/' + str(task.task_id))
 
@@ -213,6 +213,6 @@ class TaskUnsetUser(LoginRequiredMixin, UpdateView):
         messages.warning(request, 'User assignment for task deleted')
         if 'system' in request.GET:
             system = request.GET['system']
-            return redirect('/systems/' + str(system))
+            return redirect('/system/' + str(system) + '/')
         else:
             return redirect('/tasks/' + str(task.task_id))

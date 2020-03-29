@@ -7,7 +7,7 @@ from dfirtrack_main.logger.default_logger import debug_logger, error_logger, war
 from dfirtrack_main.models import System
 
 @login_required(login_url="/login")
-def systems_creator(request):
+def system_creator(request):
     """ function to create many systems at once (helper function to call the real function) """
 
     # form was valid to post
@@ -17,12 +17,12 @@ def systems_creator(request):
 
         # call async function
         async_task(
-            "dfirtrack_main.creator.systems_creator.systems_creator_async",
+            "dfirtrack_main.creator.system_creator.system_creator_async",
             request_post,
             request_user,
         )
 
-        return redirect('/systems')
+        return redirect('/system/')
 
     # show empty form
     else:
@@ -33,9 +33,9 @@ def systems_creator(request):
 
     # call logger
     debug_logger(str(request.user), " SYSTEM_CREATOR_ENTERED")
-    return render(request, 'dfirtrack_main/system/systems_creator.html', {'form': form})
+    return render(request, 'dfirtrack_main/system/system_creator.html', {'form': form})
 
-def systems_creator_async(request_post, request_user):
+def system_creator_async(request_post, request_user):
     """ function to create many systems at once """
 
     # call logger

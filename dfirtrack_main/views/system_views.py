@@ -15,7 +15,7 @@ import ipaddress
 class SystemList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = System
-    template_name = 'dfirtrack_main/system/systems_list.html'
+    template_name = 'dfirtrack_main/system/system_list.html'
     context_object_name = 'system_list'
 
     def get_queryset(self):
@@ -40,7 +40,7 @@ class SystemList(LoginRequiredMixin, ListView):
 class SystemDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = System
-    template_name = 'dfirtrack_main/system/systems_detail.html'
+    template_name = 'dfirtrack_main/system/system_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -67,7 +67,7 @@ class SystemCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = System
     form_class = SystemNameForm
-    template_name = 'dfirtrack_main/system/systems_add.html'
+    template_name = 'dfirtrack_main/system/system_add.html'
 
     def get(self, request, *args, **kwargs):
         # show empty form with default values for convenience and speed reasons
@@ -97,14 +97,14 @@ class SystemCreate(LoginRequiredMixin, CreateView):
             # call logger
             system.logger(str(request.user), ' SYSTEM_ADD_EXECUTED')
             messages.success(request, 'System added')
-            return redirect('/systems/' + str(system.system_id))
+            return redirect('/system/' + str(system.system_id) + '/')
         else:
             return render(request, self.template_name, {'form': form})
 
 class SystemUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = System
-    template_name = 'dfirtrack_main/system/systems_edit.html'
+    template_name = 'dfirtrack_main/system/system_edit.html'
 
     # choose form class depending on variable
     if system_name_editable is False:
@@ -189,7 +189,7 @@ class SystemUpdate(LoginRequiredMixin, UpdateView):
             # call logger
             system.logger(str(request.user), ' SYSTEM_EDIT_EXECUTED')
             messages.success(request, 'System edited')
-            return redirect('/systems/' + str(system.system_id))
+            return redirect('/system/' + str(system.system_id) + '/')
         else:
             return render(request, self.template_name, {'form': form})
 

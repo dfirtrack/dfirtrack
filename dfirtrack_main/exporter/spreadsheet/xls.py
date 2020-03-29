@@ -6,7 +6,7 @@ import xlwt
 from time import strftime
 
 @login_required(login_url="/login")
-def systems(request):
+def system(request):
 
     # create xls MIME type object
     sod = HttpResponse(content_type='application/ms-excel')

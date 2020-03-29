@@ -37,7 +37,7 @@
             <!-- systemuser name -->
             Systemuser "{{ systemuser.systemuser_name }}" at system
             <!-- system -->
-            <a href="/systems/{{ systemuser.system.system_id }}" type="button" class="btn btn-primary btn-sm btn-lg copy-true">
+            <a href="/system/{{ systemuser.system.system_id }}/" type="button" class="btn btn-primary btn-sm btn-lg copy-true">
                 <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                 {{ systemuser.system.system_name }}
             </a>

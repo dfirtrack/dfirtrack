@@ -62,7 +62,7 @@
     {% for i in ip.system_set.all %}
         <div class="row top-distance">
             <div class="col-3">
-                <a href="/systems/{{ i.system_id}}" type="button" class="btn btn-primary btn-sm copy-true">
+                <a href="/system/{{ i.system_id}}/" type="button" class="btn btn-primary btn-sm copy-true">
                     <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                     {{ i.system_name }}
                 </a>

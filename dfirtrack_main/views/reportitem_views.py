@@ -54,7 +54,7 @@ class ReportitemCreate(LoginRequiredMixin, CreateView):
             reportitem.save()
             reportitem.logger(str(request.user), " REPORTITEM_ADD_EXECUTED")
             messages.success(request, 'Reportitem added')
-            return redirect('/systems/' + str(reportitem.system.system_id) + '/')
+            return redirect('/system/' + str(reportitem.system.system_id) + '/')
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -79,6 +79,6 @@ class ReportitemUpdate(LoginRequiredMixin, UpdateView):
             reportitem.save()
             reportitem.logger(str(request.user), " REPORTITEM_EDIT_EXECUTED")
             messages.success(request, 'Reportitem edited')
-            return redirect('/systems/' + str(reportitem.system.system_id) + '/')
+            return redirect('/system/' + str(reportitem.system.system_id) + '/')
         else:
             return render(request, self.template_name, {'form': form})

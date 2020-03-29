@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from dfirtrack_main.views import generic_views
 from dfirtrack_main.views import analysisstatus_views, analystmemo_views, case_views, company_views, contact_views, division_views, dnsname_views, domain_views, domainuser_views, entry_views, headline_views, ip_views, location_views, os_views, osimportname_views, reason_views, recommendation_views, reportitem_views, serviceprovider_views, system_views, systemstatus_views, systemtype_views, systemuser_views, tag_views, task_views, taskname_views, taskpriority_views, taskstatus_views
-from dfirtrack_main.creator import systems_creator, tag_creator, tasks_creator
+from dfirtrack_main.creator import system_creator, tag_creator, tasks_creator
 from dfirtrack_main.exporter.spreadsheet import csv as spreadsheet_csv
 from dfirtrack_main.exporter.spreadsheet import xls
 from dfirtrack_main.exporter.markdown import domainsorted, systemsorted
@@ -119,19 +119,19 @@ urlpatterns = [
     url(r'^serviceprovider/add_popup/$', serviceprovider_views.ServiceproviderCreatePopup.as_view(), name='serviceprovider_add_popup'),
     url(r'^serviceprovider/(?P<pk>\d+)/edit/$', serviceprovider_views.ServiceproviderUpdate.as_view(), name='serviceprovider_edit'),
 
-    url(r'^systems/$', system_views.SystemList.as_view(), name='systemlist'),
-    url(r'^systems/(?P<pk>\d+)$', system_views.SystemDetail.as_view(), name='systemdetail'),
-    url(r'^systems/add/$', system_views.SystemCreate.as_view(), name='systems_add'),
-    url(r'^systems/(?P<pk>\d+)/edit/$', system_views.SystemUpdate.as_view(), name='systems_edit'),
+    url(r'^system/$', system_views.SystemList.as_view(), name='systemlist'),
+    url(r'^system/(?P<pk>\d+)/$', system_views.SystemDetail.as_view(), name='systemdetail'),
+    url(r'^system/add/$', system_views.SystemCreate.as_view(), name='system_add'),
+    url(r'^system/(?P<pk>\d+)/edit/$', system_views.SystemUpdate.as_view(), name='system_edit'),
 
-    url(r'^systems/creator/$', systems_creator.systems_creator, name='systems_creator'),
-    url(r'^systems/exporter/markdown/domainsorted/$', domainsorted.domainsorted, name='systems_exporter_markdown_domainsorted'),
-    url(r'^systems/exporter/markdown/systemsorted/$', systemsorted.systemsorted, name='systems_exporter_markdown_systemsorted'),
-    url(r'^systems/exporter/spreadsheet/csv/systems/$', spreadsheet_csv.systems, name='systems_exporter_spreadsheet_csv'),
-    url(r'^systems/exporter/spreadsheet/xls/systems/$', xls.systems, name='systems_exporter_spreadsheet_xls'),
-    url(r'^systems/importer/api/giraf/systems/$', giraf.systems, name='systems_importer_api_giraf'),
-    url(r'^systems/importer/file/csv/systems_ip/$', file_csv.systems_ip, name='systems_importer_file_csv_systems_ip'),
-    url(r'^systems/importer/file/csv/systems_tag/$', file_csv.systems_tag, name='systems_importer_file_csv_systems_tag'),
+    url(r'^system/creator/$', system_creator.system_creator, name='system_creator'),
+    url(r'^system/exporter/markdown/domainsorted/$', domainsorted.domainsorted, name='system_exporter_markdown_domainsorted'),
+    url(r'^system/exporter/markdown/systemsorted/$', systemsorted.systemsorted, name='system_exporter_markdown_systemorted'),
+    url(r'^system/exporter/spreadsheet/csv/system/$', spreadsheet_csv.system, name='system_exporter_spreadsheet_csv'),
+    url(r'^system/exporter/spreadsheet/xls/system/$', xls.system, name='system_exporter_spreadsheet_xls'),
+    url(r'^system/importer/api/giraf/system/$', giraf.system, name='system_importer_api_giraf'),
+    url(r'^system/importer/file/csv/system_ip/$', file_csv.system_ip, name='system_importer_file_csv_system_ip'),
+    url(r'^system/importer/file/csv/system_tag/$', file_csv.system_tag, name='system_importer_file_csv_system_tag'),
 
     url(r'^systemstatus/$', systemstatus_views.SystemstatusList.as_view(), name='systemstatuslist'),
     url(r'^systemstatus/(?P<pk>\d+)/$', systemstatus_views.SystemstatusDetail.as_view(), name='systemstatusdetail'),

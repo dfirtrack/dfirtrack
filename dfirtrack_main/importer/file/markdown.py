@@ -108,7 +108,7 @@ def entry(request):
         # call logger
         debug_logger(str(request.user), " ENTRY_TXT_IMPORTER_END")
 
-        return redirect('/systems/'+ system)
+        return redirect('/system/'+ system)
 
     else:
         # show empty form with preselected system

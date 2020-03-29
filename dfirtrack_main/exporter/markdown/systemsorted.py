@@ -81,13 +81,13 @@ def systemsorted(request):
     # check for existing variable MARKDOWN_PATH
     mp_var_exists = config_check.config_check(request)
     if not mp_var_exists:
-        return redirect('/systems')
+        return redirect('/system/')
         exit()
 
     # check for existing path
     mp_path_exists = path_check.path_check(request)
     if not mp_path_exists:
-        return redirect('/systems')
+        return redirect('/system/')
         exit()
 
     # call async function
@@ -96,7 +96,7 @@ def systemsorted(request):
         request_user,
     )
 
-    return redirect('/systems')
+    return redirect('/system/')
 
 
 def systemsorted_async(request_user):

@@ -15,7 +15,7 @@ from io import TextIOWrapper
 
 
 @login_required(login_url="/login")
-def systems_ip(request):
+def system_ip(request):
     """ this function parses a csv file and tries to import systems and corresponding ips """
 
     # form was valid to post
@@ -115,7 +115,7 @@ def systems_ip(request):
         # call logger
         debug_logger(str(request.user), " SYSTEM_IP_IMPORTER_END")
 
-        return redirect('/systems')
+        return redirect('/system/')
 
     else:
         # show empty form
@@ -126,11 +126,11 @@ def systems_ip(request):
 
         # call logger
         debug_logger(str(request.user), " SYSTEM_IP_IMPORTER_ENTERED")
-    return render(request, 'dfirtrack_main/system/systems_ip_importer.html', {'form': form})
+    return render(request, 'dfirtrack_main/system/system_ip_importer.html', {'form': form})
 
 
 @login_required(login_url="/login")
-def systems_tag(request):
+def system_tag(request):
     """ this function imports a csv file with multiple systems and relevant tags """
 
     """
@@ -165,7 +165,7 @@ def systems_tag(request):
             messages.error(request, "No relevant tags defined. Check `TAGLIST` in `dfirtrack.config`!")
             # call logger
             error_logger(str(request.user), " SYSTEM_TAG_IMPORTER_NO_TAGS_DEFINED.")
-            return redirect('/systems/')
+            return redirect('/system/')
         else:
             taglist = TAGLIST
 
@@ -174,7 +174,7 @@ def systems_tag(request):
             messages.error(request, "No prefix string defined. Check `TAGPREFIX` in `dfirtrack.config`!")
             # call logger
             error_logger(str(request.user), " SYSTEM_TAG_IMPORTER_NO_TAGPREFIX_DEFINED.")
-            return redirect('/systems/')
+            return redirect('/system/')
         # expand the string by an underscore
         else:
             tagprefix = TAGPREFIX + "_"
@@ -185,7 +185,7 @@ def systems_tag(request):
             error_logger(str(request.user), " SYSTEMTAG_HEADLINE_VARIABLE_UNDEFINED")
             messages.error(request, "The variable SYSTEMTAG_HEADLINE seems to be undefined. Check `dfirtrack.config`!")
             # leave importer
-            return redirect('/systems/')
+            return redirect('/system/')
 
         # check whether SYSTEMTAG_SUBHEADLINE is defined in `dfirtrack.config`
         if systemtag_subheadline == '':
@@ -193,7 +193,7 @@ def systems_tag(request):
             error_logger(str(request.user), " SYSTEMTAG_SUBHEADLINE_VARIABLE_UNDEFINED")
             messages.error(request, "The variable SYSTEMTAG_SUBHEADLINE seems to be undefined. Check `dfirtrack.config`!")
             # leave importer
-            return redirect('/systems/')
+            return redirect('/system/')
 
         # get text out of file (variable results from request object via file upload field)
         systemtagcsv = TextIOWrapper(request.FILES['systemtagcsv'].file, encoding=request.encoding)
@@ -443,7 +443,7 @@ def systems_tag(request):
         # call logger
         debug_logger(str(request.user), " SYSTEM_TAG_IMPORTER_END")
 
-        return redirect('/systems/')
+        return redirect('/system/')
 
     else:
         # show empty form
@@ -452,5 +452,4 @@ def systems_tag(request):
         # call logger
         debug_logger(str(request.user), " SYSTEM_TAG_IMPORTER_ENTERED")
 
-    return render(request, 'dfirtrack_main/system/systems_tag_importer.html', {'form': form})
-
+    return render(request, 'dfirtrack_main/system/system_tag_importer.html', {'form': form})

@@ -22,7 +22,7 @@ def reportitem(request):
         error_logger(str(request.user), " REPORTITEMS_FILESYSTEMPATH_VARIABLE_UNDEFINED")
         messages.error(request, "The variable REPORTITEMS_FILESYSTEMPATH seems to be undefined. Check `dfirtrack.config`!")
         # leave importer
-        return redirect('/systems/')
+        return redirect('/system/')
 
     # check whether REPORTITEMS_FILESYSTEMPATH points to non-existing directory
     if not os.path.isdir(reportitems_filesystempath):
@@ -30,7 +30,7 @@ def reportitem(request):
         error_logger(str(request.user), " REPORTITEMS_FILESYSTEM_IMPORTER_WRONG_PATH")
         messages.error(request, "The variable REPORTITEMS_FILESYSTEMPATH points to a non-existing directory. Check `dfirtrack.config`!")
         # leave importer
-        return redirect('/systems/')
+        return redirect('/system/')
 
     # check whether REPORTITEMS_HEADLINE is defined in `dfirtrack.config`
     if reportitems_headline == '':
@@ -38,7 +38,7 @@ def reportitem(request):
         error_logger(str(request.user), " REPORTITEMS_HEADLINE_VARIABLE_UNDEFINED")
         messages.error(request, "The variable REPORTITEMS_HEADLINE seems to be undefined. Check `dfirtrack.config`!")
         # leave importer
-        return redirect('/systems/')
+        return redirect('/system/')
 
     # check whether REPORTITEMS_SUBHEADLINE is defined in `dfirtrack.config`
     if reportitems_subheadline == '':
@@ -46,7 +46,7 @@ def reportitem(request):
         error_logger(str(request.user), " REPORTITEMS_SUBHEADLINE_VARIABLE_UNDEFINED")
         messages.error(request, "The variable REPORTITEMS_SUBHEADLINE seems to be undefined. Check `dfirtrack.config`!")
         # leave importer
-        return redirect('/systems/')
+        return redirect('/system/')
 
     # check whether REPORTITEMS_DELETE is defined in `dfirtrack.config`
     if not isinstance(reportitems_delete, bool):
@@ -54,7 +54,7 @@ def reportitem(request):
         error_logger(str(request.user), " REPORTITEMS_DELETE_VARIABLE_UNDEFINED")
         messages.error(request, "The variable REPORTITEMS_DELETE seems to be undefined or not a boolean. Check `dfirtrack.config`!")
         # leave importer
-        return redirect('/systems/')
+        return redirect('/system/')
 
     # get all system objects
     systems = System.objects.all()
@@ -152,4 +152,4 @@ def reportitem(request):
         else:
             messages.success(request, str(reportitems_deleted_counter) + ' reportitems were deleted.')
 
-    return redirect('/systems/')
+    return redirect('/system/')

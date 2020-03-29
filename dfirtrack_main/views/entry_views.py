@@ -54,7 +54,7 @@ class EntryCreate(LoginRequiredMixin, CreateView):
             entry.save()
             entry.logger(str(request.user), " ENTRY_ADD_EXECUTED")
             messages.success(request, 'Entry added')
-            return redirect('/systems/' + str(entry.system.system_id) + '/')
+            return redirect('/system/' + str(entry.system.system_id) + '/')
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -79,6 +79,6 @@ class EntryUpdate(LoginRequiredMixin, UpdateView):
             entry.save()
             entry.logger(str(request.user), " ENTRY_EDIT_EXECUTED")
             messages.success(request, 'Entry edited')
-            return redirect('/systems/' + str(entry.system.system_id) + '/')
+            return redirect('/system/' + str(entry.system.system_id) + '/')
         else:
             return render(request, self.template_name, {'form': form})

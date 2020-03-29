@@ -6,7 +6,7 @@ import csv
 from time import strftime
 
 @login_required(login_url="/login")
-def systems(request):
+def system(request):
 
     # create csv MIME type object
     sod = HttpResponse(content_type='text/csv')
