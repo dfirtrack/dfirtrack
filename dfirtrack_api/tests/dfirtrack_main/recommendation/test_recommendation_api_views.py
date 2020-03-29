@@ -18,7 +18,7 @@ class RecommendationAPIViewTestCase(TestCase):
         """ unauthorized access is forbidden"""
 
         # get response
-        response = self.client.get('/api/recommendations/')
+        response = self.client.get('/api/recommendation/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -28,7 +28,7 @@ class RecommendationAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_recommendation_api', password='tvjnIPBlhP9P3ixDHVE7')
         # get response
-        response = self.client.get('/api/recommendations/')
+        response = self.client.get('/api/recommendation/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -40,7 +40,7 @@ class RecommendationAPIViewTestCase(TestCase):
         # create POST string
         poststring = {"recommendation_name": "recommendation_api_2"}
         # get response
-        response = self.client.post('/api/recommendations/', data=poststring)
+        response = self.client.post('/api/recommendation/', data=poststring)
         # compare
         self.assertEqual(response.status_code, 201)
 
@@ -50,9 +50,9 @@ class RecommendationAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_recommendation_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create url
-        destination = urllib.parse.quote('/api/recommendations/', safe='/')
+        destination = urllib.parse.quote('/api/recommendation/', safe='/')
         # get response
-        response = self.client.get('/api/recommendations', follow=True)
+        response = self.client.get('/api/recommendation', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
@@ -62,7 +62,7 @@ class RecommendationAPIViewTestCase(TestCase):
         # get object
         recommendation_api_1 = Recommendation.objects.get(recommendation_name='recommendation_api_1')
         # get response
-        response = self.client.get('/api/recommendations/' + str(recommendation_api_1.recommendation_id) + '/')
+        response = self.client.get('/api/recommendation/' + str(recommendation_api_1.recommendation_id) + '/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -74,7 +74,7 @@ class RecommendationAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_recommendation_api', password='tvjnIPBlhP9P3ixDHVE7')
         # get response
-        response = self.client.get('/api/recommendations/' + str(recommendation_api_1.recommendation_id) + '/')
+        response = self.client.get('/api/recommendation/' + str(recommendation_api_1.recommendation_id) + '/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -86,7 +86,7 @@ class RecommendationAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_recommendation_api', password='tvjnIPBlhP9P3ixDHVE7')
         # get response
-        response = self.client.delete('/api/recommendations/' + str(recommendation_api_1.recommendation_id) + '/')
+        response = self.client.delete('/api/recommendation/' + str(recommendation_api_1.recommendation_id) + '/')
         # compare
         self.assertEqual(response.status_code, 405)
 
@@ -98,7 +98,7 @@ class RecommendationAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_recommendation_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create url
-        destination = urllib.parse.quote('/api/recommendations/' + str(recommendation_api_1.recommendation_id) + '/', safe='/')
+        destination = urllib.parse.quote('/api/recommendation/' + str(recommendation_api_1.recommendation_id) + '/', safe='/')
         # create PUT string
         putstring = {"recommendation_name": "new_recommendation_api_1"}
         # get response
@@ -114,8 +114,8 @@ class RecommendationAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_recommendation_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create url
-        destination = urllib.parse.quote('/api/recommendations/' + str(recommendation_api_1.recommendation_id) + '/', safe='/')
+        destination = urllib.parse.quote('/api/recommendation/' + str(recommendation_api_1.recommendation_id) + '/', safe='/')
         # get response
-        response = self.client.get('/api/recommendations/' + str(recommendation_api_1.recommendation_id), follow=True)
+        response = self.client.get('/api/recommendation/' + str(recommendation_api_1.recommendation_id), follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)

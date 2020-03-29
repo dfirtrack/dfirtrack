@@ -18,7 +18,7 @@ class LocationAPIViewTestCase(TestCase):
         """ unauthorized access is forbidden"""
 
         # get response
-        response = self.client.get('/api/locations/')
+        response = self.client.get('/api/location/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -28,7 +28,7 @@ class LocationAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_location_api', password='tvjnIPBlhP9P3ixDHVE7')
         # get response
-        response = self.client.get('/api/locations/')
+        response = self.client.get('/api/location/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -40,7 +40,7 @@ class LocationAPIViewTestCase(TestCase):
         # create POST string
         poststring = {"location_name": "location_api_2"}
         # get response
-        response = self.client.post('/api/locations/', data=poststring)
+        response = self.client.post('/api/location/', data=poststring)
         # compare
         self.assertEqual(response.status_code, 201)
 
@@ -50,9 +50,9 @@ class LocationAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_location_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create url
-        destination = urllib.parse.quote('/api/locations/', safe='/')
+        destination = urllib.parse.quote('/api/location/', safe='/')
         # get response
-        response = self.client.get('/api/locations', follow=True)
+        response = self.client.get('/api/location', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
@@ -62,7 +62,7 @@ class LocationAPIViewTestCase(TestCase):
         # get object
         location_api_1 = Location.objects.get(location_name='location_api_1')
         # get response
-        response = self.client.get('/api/locations/' + str(location_api_1.location_id) + '/')
+        response = self.client.get('/api/location/' + str(location_api_1.location_id) + '/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -74,7 +74,7 @@ class LocationAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_location_api', password='tvjnIPBlhP9P3ixDHVE7')
         # get response
-        response = self.client.get('/api/locations/' + str(location_api_1.location_id) + '/')
+        response = self.client.get('/api/location/' + str(location_api_1.location_id) + '/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -86,7 +86,7 @@ class LocationAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_location_api', password='tvjnIPBlhP9P3ixDHVE7')
         # get response
-        response = self.client.delete('/api/locations/' + str(location_api_1.location_id) + '/')
+        response = self.client.delete('/api/location/' + str(location_api_1.location_id) + '/')
         # compare
         self.assertEqual(response.status_code, 405)
 
@@ -98,7 +98,7 @@ class LocationAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_location_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create url
-        destination = urllib.parse.quote('/api/locations/' + str(location_api_1.location_id) + '/', safe='/')
+        destination = urllib.parse.quote('/api/location/' + str(location_api_1.location_id) + '/', safe='/')
         # create PUT string
         putstring = {"location_name": "new_location_api_1"}
         # get response
@@ -114,8 +114,8 @@ class LocationAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_location_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create url
-        destination = urllib.parse.quote('/api/locations/' + str(location_api_1.location_id) + '/', safe='/')
+        destination = urllib.parse.quote('/api/location/' + str(location_api_1.location_id) + '/', safe='/')
         # get response
-        response = self.client.get('/api/locations/' + str(location_api_1.location_id), follow=True)
+        response = self.client.get('/api/location/' + str(location_api_1.location_id), follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)

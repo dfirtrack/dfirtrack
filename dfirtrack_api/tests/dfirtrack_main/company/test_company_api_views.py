@@ -24,7 +24,7 @@ class CompanyAPIViewTestCase(TestCase):
         """ unauthorized access is forbidden"""
 
         # get response
-        response = self.client.get('/api/companys/')
+        response = self.client.get('/api/company/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -34,7 +34,7 @@ class CompanyAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_company_api', password='tvjnIPBlhP9P3ixDHVE7')
         # get response
-        response = self.client.get('/api/companys/')
+        response = self.client.get('/api/company/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -51,7 +51,7 @@ class CompanyAPIViewTestCase(TestCase):
             "division": division_id,
         }
         # get response
-        response = self.client.post('/api/companys/', data=poststring)
+        response = self.client.post('/api/company/', data=poststring)
         # compare
         self.assertEqual(response.status_code, 201)
 
@@ -61,9 +61,9 @@ class CompanyAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_company_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create url
-        destination = urllib.parse.quote('/api/companys/', safe='/')
+        destination = urllib.parse.quote('/api/company/', safe='/')
         # get response
-        response = self.client.get('/api/companys', follow=True)
+        response = self.client.get('/api/company', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
@@ -73,7 +73,7 @@ class CompanyAPIViewTestCase(TestCase):
         # get object
         company_api_1 = Company.objects.get(company_name='company_api_1')
         # get response
-        response = self.client.get('/api/companys/' + str(company_api_1.company_id) + '/')
+        response = self.client.get('/api/company/' + str(company_api_1.company_id) + '/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -85,7 +85,7 @@ class CompanyAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_company_api', password='tvjnIPBlhP9P3ixDHVE7')
         # get response
-        response = self.client.get('/api/companys/' + str(company_api_1.company_id) + '/')
+        response = self.client.get('/api/company/' + str(company_api_1.company_id) + '/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -97,7 +97,7 @@ class CompanyAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_company_api', password='tvjnIPBlhP9P3ixDHVE7')
         # get response
-        response = self.client.delete('/api/companys/' + str(company_api_1.company_id) + '/')
+        response = self.client.delete('/api/company/' + str(company_api_1.company_id) + '/')
         # compare
         self.assertEqual(response.status_code, 405)
 
@@ -111,7 +111,7 @@ class CompanyAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_company_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create url
-        destination = urllib.parse.quote('/api/companys/' + str(company_api_1.company_id) + '/', safe='/')
+        destination = urllib.parse.quote('/api/company/' + str(company_api_1.company_id) + '/', safe='/')
         # create PUT string
         putstring = {
             "company_name": "new_company_api_1",
@@ -130,8 +130,8 @@ class CompanyAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_company_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create url
-        destination = urllib.parse.quote('/api/companys/' + str(company_api_1.company_id) + '/', safe='/')
+        destination = urllib.parse.quote('/api/company/' + str(company_api_1.company_id) + '/', safe='/')
         # get response
-        response = self.client.get('/api/companys/' + str(company_api_1.company_id), follow=True)
+        response = self.client.get('/api/company/' + str(company_api_1.company_id), follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)

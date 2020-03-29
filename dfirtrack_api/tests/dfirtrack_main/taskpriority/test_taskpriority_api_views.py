@@ -18,7 +18,7 @@ class TaskpriorityAPIViewTestCase(TestCase):
         """ unauthorized access is forbidden"""
 
         # get response
-        response = self.client.get('/api/taskprioritys/')
+        response = self.client.get('/api/taskpriority/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -28,7 +28,7 @@ class TaskpriorityAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_taskpriority_api', password='XyVSKtfXKwyyprt2b8Ej')
         # get response
-        response = self.client.get('/api/taskprioritys/')
+        response = self.client.get('/api/taskpriority/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -40,7 +40,7 @@ class TaskpriorityAPIViewTestCase(TestCase):
         # create POST string
         poststring = {"taskpriority_name": "tp_2"}
         # get response
-        response = self.client.post('/api/taskprioritys/', data=poststring)
+        response = self.client.post('/api/taskpriority/', data=poststring)
         # compare
         self.assertEqual(response.status_code, 405)
 
@@ -50,9 +50,9 @@ class TaskpriorityAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_taskpriority_api', password='XyVSKtfXKwyyprt2b8Ej')
         # create url
-        destination = urllib.parse.quote('/api/taskprioritys/', safe='/')
+        destination = urllib.parse.quote('/api/taskpriority/', safe='/')
         # get response
-        response = self.client.get('/api/taskprioritys', follow=True)
+        response = self.client.get('/api/taskpriority', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
@@ -62,7 +62,7 @@ class TaskpriorityAPIViewTestCase(TestCase):
         # get object
         taskpriority_api_1 = Taskpriority.objects.get(taskpriority_name='tp_1')
         # get response
-        response = self.client.get('/api/taskprioritys/' + str(taskpriority_api_1.taskpriority_id) + '/')
+        response = self.client.get('/api/taskpriority/' + str(taskpriority_api_1.taskpriority_id) + '/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -74,7 +74,7 @@ class TaskpriorityAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_taskpriority_api', password='XyVSKtfXKwyyprt2b8Ej')
         # get response
-        response = self.client.get('/api/taskprioritys/' + str(taskpriority_api_1.taskpriority_id) + '/')
+        response = self.client.get('/api/taskpriority/' + str(taskpriority_api_1.taskpriority_id) + '/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -86,7 +86,7 @@ class TaskpriorityAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_taskpriority_api', password='XyVSKtfXKwyyprt2b8Ej')
         # get response
-        response = self.client.delete('/api/taskprioritys/' + str(taskpriority_api_1.taskpriority_id) + '/')
+        response = self.client.delete('/api/taskpriority/' + str(taskpriority_api_1.taskpriority_id) + '/')
         # compare
         self.assertEqual(response.status_code, 405)
 
@@ -98,7 +98,7 @@ class TaskpriorityAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_taskpriority_api', password='XyVSKtfXKwyyprt2b8Ej')
         # create url
-        destination = urllib.parse.quote('/api/taskprioritys/' + str(taskpriority_api_1.taskpriority_id) + '/', safe='/')
+        destination = urllib.parse.quote('/api/taskpriority/' + str(taskpriority_api_1.taskpriority_id) + '/', safe='/')
         # create PUT string
         putstring = {"taskpriority_name": "tp_3"}
         # get response
@@ -114,8 +114,8 @@ class TaskpriorityAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_taskpriority_api', password='XyVSKtfXKwyyprt2b8Ej')
         # create url
-        destination = urllib.parse.quote('/api/taskprioritys/' + str(taskpriority_api_1.taskpriority_id) + '/', safe='/')
+        destination = urllib.parse.quote('/api/taskpriority/' + str(taskpriority_api_1.taskpriority_id) + '/', safe='/')
         # get response
-        response = self.client.get('/api/taskprioritys/' + str(taskpriority_api_1.taskpriority_id), follow=True)
+        response = self.client.get('/api/taskpriority/' + str(taskpriority_api_1.taskpriority_id), follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)

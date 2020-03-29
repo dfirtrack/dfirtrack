@@ -18,7 +18,7 @@ class TasknameAPIViewTestCase(TestCase):
         """ unauthorized access is forbidden"""
 
         # get response
-        response = self.client.get('/api/tasknames/')
+        response = self.client.get('/api/taskname/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -28,7 +28,7 @@ class TasknameAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_taskname_api', password='JUsV9RlTdQkAjLgB4hD1')
         # get response
-        response = self.client.get('/api/tasknames/')
+        response = self.client.get('/api/taskname/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -40,7 +40,7 @@ class TasknameAPIViewTestCase(TestCase):
         # create POST string
         poststring = {"taskname_name": "taskname_api_2"}
         # get response
-        response = self.client.post('/api/tasknames/', data=poststring)
+        response = self.client.post('/api/taskname/', data=poststring)
         # compare
         self.assertEqual(response.status_code, 201)
 
@@ -50,9 +50,9 @@ class TasknameAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_taskname_api', password='JUsV9RlTdQkAjLgB4hD1')
         # create url
-        destination = urllib.parse.quote('/api/tasknames/', safe='/')
+        destination = urllib.parse.quote('/api/taskname/', safe='/')
         # get response
-        response = self.client.get('/api/tasknames', follow=True)
+        response = self.client.get('/api/taskname', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
@@ -62,7 +62,7 @@ class TasknameAPIViewTestCase(TestCase):
         # get object
         taskname_api_1 = Taskname.objects.get(taskname_name='taskname_api_1')
         # get response
-        response = self.client.get('/api/tasknames/' + str(taskname_api_1.taskname_id) + '/')
+        response = self.client.get('/api/taskname/' + str(taskname_api_1.taskname_id) + '/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -74,7 +74,7 @@ class TasknameAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_taskname_api', password='JUsV9RlTdQkAjLgB4hD1')
         # get response
-        response = self.client.get('/api/tasknames/' + str(taskname_api_1.taskname_id) + '/')
+        response = self.client.get('/api/taskname/' + str(taskname_api_1.taskname_id) + '/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -86,7 +86,7 @@ class TasknameAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_taskname_api', password='JUsV9RlTdQkAjLgB4hD1')
         # get response
-        response = self.client.delete('/api/tasknames/' + str(taskname_api_1.taskname_id) + '/')
+        response = self.client.delete('/api/taskname/' + str(taskname_api_1.taskname_id) + '/')
         # compare
         self.assertEqual(response.status_code, 405)
 
@@ -98,7 +98,7 @@ class TasknameAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_taskname_api', password='JUsV9RlTdQkAjLgB4hD1')
         # create url
-        destination = urllib.parse.quote('/api/tasknames/' + str(taskname_api_1.taskname_id) + '/', safe='/')
+        destination = urllib.parse.quote('/api/taskname/' + str(taskname_api_1.taskname_id) + '/', safe='/')
         # create PUT string
         putstring = {"taskname_name": "new_taskname_api_1"}
         # get response
@@ -114,8 +114,8 @@ class TasknameAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_taskname_api', password='JUsV9RlTdQkAjLgB4hD1')
         # create url
-        destination = urllib.parse.quote('/api/tasknames/' + str(taskname_api_1.taskname_id) + '/', safe='/')
+        destination = urllib.parse.quote('/api/taskname/' + str(taskname_api_1.taskname_id) + '/', safe='/')
         # get response
-        response = self.client.get('/api/tasknames/' + str(taskname_api_1.taskname_id), follow=True)
+        response = self.client.get('/api/taskname/' + str(taskname_api_1.taskname_id), follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)

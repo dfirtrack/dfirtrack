@@ -28,7 +28,7 @@ class DomainuserAPIViewTestCase(TestCase):
         """ unauthorized access is forbidden"""
 
         # get response
-        response = self.client.get('/api/domainusers/')
+        response = self.client.get('/api/domainuser/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -38,7 +38,7 @@ class DomainuserAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_domainuser_api', password='pzJk89y9aQYUkAfwJ5KN')
         # get response
-        response = self.client.get('/api/domainusers/')
+        response = self.client.get('/api/domainuser/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -56,7 +56,7 @@ class DomainuserAPIViewTestCase(TestCase):
             "domain": domain_id,
         }
         # get response
-        response = self.client.post('/api/domainusers/', data=poststring)
+        response = self.client.post('/api/domainuser/', data=poststring)
         # compare
         self.assertEqual(response.status_code, 201)
 
@@ -66,9 +66,9 @@ class DomainuserAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_domainuser_api', password='pzJk89y9aQYUkAfwJ5KN')
         # create url
-        destination = urllib.parse.quote('/api/domainusers/', safe='/')
+        destination = urllib.parse.quote('/api/domainuser/', safe='/')
         # get response
-        response = self.client.get('/api/domainusers', follow=True)
+        response = self.client.get('/api/domainuser', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
@@ -78,7 +78,7 @@ class DomainuserAPIViewTestCase(TestCase):
         # get object
         domainuser_api_1 = Domainuser.objects.get(domainuser_name='domainuser_api_1')
         # get response
-        response = self.client.get('/api/domainusers/' + str(domainuser_api_1.domainuser_id) + '/')
+        response = self.client.get('/api/domainuser/' + str(domainuser_api_1.domainuser_id) + '/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -90,7 +90,7 @@ class DomainuserAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_domainuser_api', password='pzJk89y9aQYUkAfwJ5KN')
         # get response
-        response = self.client.get('/api/domainusers/' + str(domainuser_api_1.domainuser_id) + '/')
+        response = self.client.get('/api/domainuser/' + str(domainuser_api_1.domainuser_id) + '/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -102,7 +102,7 @@ class DomainuserAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_domainuser_api', password='pzJk89y9aQYUkAfwJ5KN')
         # get response
-        response = self.client.delete('/api/domainusers/' + str(domainuser_api_1.domainuser_id) + '/')
+        response = self.client.delete('/api/domainuser/' + str(domainuser_api_1.domainuser_id) + '/')
         # compare
         self.assertEqual(response.status_code, 405)
 
@@ -116,7 +116,7 @@ class DomainuserAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_domainuser_api', password='pzJk89y9aQYUkAfwJ5KN')
         # create url
-        destination = urllib.parse.quote('/api/domainusers/' + str(domainuser_api_1.domainuser_id) + '/', safe='/')
+        destination = urllib.parse.quote('/api/domainuser/' + str(domainuser_api_1.domainuser_id) + '/', safe='/')
         # create PUT string
         putstring = {
             "domainuser_name": "domainuser_api_3",
@@ -136,8 +136,8 @@ class DomainuserAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_domainuser_api', password='pzJk89y9aQYUkAfwJ5KN')
         # create url
-        destination = urllib.parse.quote('/api/domainusers/' + str(domainuser_api_1.domainuser_id) + '/', safe='/')
+        destination = urllib.parse.quote('/api/domainuser/' + str(domainuser_api_1.domainuser_id) + '/', safe='/')
         # get response
-        response = self.client.get('/api/domainusers/' + str(domainuser_api_1.domainuser_id), follow=True)
+        response = self.client.get('/api/domainuser/' + str(domainuser_api_1.domainuser_id), follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)

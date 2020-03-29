@@ -21,7 +21,7 @@ class ContactAPIViewTestCase(TestCase):
         """ unauthorized access is forbidden"""
 
         # get response
-        response = self.client.get('/api/contacts/')
+        response = self.client.get('/api/contact/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -31,7 +31,7 @@ class ContactAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_contact_api', password='tvjnIPBlhP9P3ixDHVE7')
         # get response
-        response = self.client.get('/api/contacts/')
+        response = self.client.get('/api/contact/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -46,7 +46,7 @@ class ContactAPIViewTestCase(TestCase):
             'contact_email': 'contact2@example.com',
         }
         # get response
-        response = self.client.post('/api/contacts/', data=poststring)
+        response = self.client.post('/api/contact/', data=poststring)
         # compare
         self.assertEqual(response.status_code, 201)
 
@@ -56,9 +56,9 @@ class ContactAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_contact_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create url
-        destination = urllib.parse.quote('/api/contacts/', safe='/')
+        destination = urllib.parse.quote('/api/contact/', safe='/')
         # get response
-        response = self.client.get('/api/contacts', follow=True)
+        response = self.client.get('/api/contact', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
@@ -68,7 +68,7 @@ class ContactAPIViewTestCase(TestCase):
         # get object
         contact_api_1 = Contact.objects.get(contact_name='contact_api_1')
         # get response
-        response = self.client.get('/api/contacts/' + str(contact_api_1.contact_id) + '/')
+        response = self.client.get('/api/contact/' + str(contact_api_1.contact_id) + '/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -80,7 +80,7 @@ class ContactAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_contact_api', password='tvjnIPBlhP9P3ixDHVE7')
         # get response
-        response = self.client.get('/api/contacts/' + str(contact_api_1.contact_id) + '/')
+        response = self.client.get('/api/contact/' + str(contact_api_1.contact_id) + '/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -92,7 +92,7 @@ class ContactAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_contact_api', password='tvjnIPBlhP9P3ixDHVE7')
         # get response
-        response = self.client.delete('/api/contacts/' + str(contact_api_1.contact_id) + '/')
+        response = self.client.delete('/api/contact/' + str(contact_api_1.contact_id) + '/')
         # compare
         self.assertEqual(response.status_code, 405)
 
@@ -104,7 +104,7 @@ class ContactAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_contact_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create url
-        destination = urllib.parse.quote('/api/contacts/' + str(contact_api_1.contact_id) + '/', safe='/')
+        destination = urllib.parse.quote('/api/contact/' + str(contact_api_1.contact_id) + '/', safe='/')
         # create PUT string
         putstring = {
             'contact_name': 'new_contact_api_1',
@@ -123,8 +123,8 @@ class ContactAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_contact_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create url
-        destination = urllib.parse.quote('/api/contacts/' + str(contact_api_1.contact_id) + '/', safe='/')
+        destination = urllib.parse.quote('/api/contact/' + str(contact_api_1.contact_id) + '/', safe='/')
         # get response
-        response = self.client.get('/api/contacts/' + str(contact_api_1.contact_id), follow=True)
+        response = self.client.get('/api/contact/' + str(contact_api_1.contact_id), follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
