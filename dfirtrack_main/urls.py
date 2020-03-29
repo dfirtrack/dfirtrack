@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from dfirtrack_main.views import generic_views
 from dfirtrack_main.views import analysisstatus_views, analystmemo_views, case_views, company_views, contact_views, division_views, dnsname_views, domain_views, domainuser_views, entry_views, headline_views, ip_views, location_views, os_views, osimportname_views, reason_views, recommendation_views, reportitem_views, serviceprovider_views, system_views, systemstatus_views, systemtype_views, systemuser_views, tag_views, task_views, taskname_views, taskpriority_views, taskstatus_views
-from dfirtrack_main.creator import system_creator, tag_creator, tasks_creator
+from dfirtrack_main.creator import system_creator, tag_creator, task_creator
 from dfirtrack_main.exporter.spreadsheet import csv as spreadsheet_csv
 from dfirtrack_main.exporter.spreadsheet import xls
 from dfirtrack_main.exporter.markdown import domainsorted, systemsorted
@@ -153,21 +153,21 @@ urlpatterns = [
     url(r'^tag/(?P<pk>\d+)/edit/$', tag_views.TagUpdate.as_view(), name='tag_edit'),
     url(r'^tag/(?P<pk>\d+)/delete/$', tag_views.TagDelete.as_view(), name='tag_delete'),
 
-    url(r'^tag/creator$', tag_creator.tag_creator, name='tag_creator'),
+    url(r'^tag/creator/$', tag_creator.tag_creator, name='tag_creator'),
 
-    url(r'^tasks/$', task_views.TaskList.as_view(), name='tasklist'),
-    url(r'^tasks/closed$', task_views.TaskClosed.as_view(), name='taskclosed'),
-    url(r'^tasks/(?P<pk>\d+)$', task_views.TaskDetail.as_view(), name='taskdetail'),
-    url(r'^tasks/add/$', task_views.TaskCreate.as_view(), name='tasks_add'),
-    url(r'^tasks/(?P<pk>\d+)/edit/$', task_views.TaskUpdate.as_view(), name='tasks_edit'),
+    url(r'^task/$', task_views.TaskList.as_view(), name='tasklist'),
+    url(r'^task/closed/$', task_views.TaskClosed.as_view(), name='taskclosed'),
+    url(r'^task/(?P<pk>\d+)/$', task_views.TaskDetail.as_view(), name='taskdetail'),
+    url(r'^task/add/$', task_views.TaskCreate.as_view(), name='task_add'),
+    url(r'^task/(?P<pk>\d+)/edit/$', task_views.TaskUpdate.as_view(), name='task_edit'),
 
-    url(r'^tasks/(?P<pk>\d+)/start/$', task_views.TaskStart.as_view(), name='tasks_start'),
-    url(r'^tasks/(?P<pk>\d+)/finish/$', task_views.TaskFinish.as_view(), name='tasks_finish'),
-    url(r'^tasks/(?P<pk>\d+)/renew/$', task_views.TaskRenew.as_view(), name='tasks_renew'),
-    url(r'^tasks/(?P<pk>\d+)/set_user/$', task_views.TaskSetUser.as_view(), name='tasks_set_user'),
-    url(r'^tasks/(?P<pk>\d+)/unset_user/$', task_views.TaskUnsetUser.as_view(), name='tasks_unset_user'),
+    url(r'^task/(?P<pk>\d+)/start/$', task_views.TaskStart.as_view(), name='task_start'),
+    url(r'^task/(?P<pk>\d+)/finish/$', task_views.TaskFinish.as_view(), name='task_finish'),
+    url(r'^task/(?P<pk>\d+)/renew/$', task_views.TaskRenew.as_view(), name='task_renew'),
+    url(r'^task/(?P<pk>\d+)/set_user/$', task_views.TaskSetUser.as_view(), name='task_set_user'),
+    url(r'^task/(?P<pk>\d+)/unset_user/$', task_views.TaskUnsetUser.as_view(), name='task_unset_user'),
 
-    url(r'^tasks/creator$', tasks_creator.tasks_creator, name='tasks_creator'),
+    url(r'^task/creator/$', task_creator.task_creator, name='task_creator'),
 
     url(r'^taskname/$', taskname_views.TasknameList.as_view(), name='tasknamelist'),
     url(r'^taskname/(?P<pk>\d+)/$', taskname_views.TasknameDetail.as_view(), name='tasknamedetail'),

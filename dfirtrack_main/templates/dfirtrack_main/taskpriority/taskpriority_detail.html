@@ -70,7 +70,7 @@
     {% for i in taskpriority.task_set.all %}
         <div class="row top-distance">
             <div class="col-3">
-                <a href="/tasks/{{ i.task_id}}" type="button" class="btn btn-primary btn-sm sharp copy-true">
+                <a href="/task/{{ i.task_id}}/" type="button" class="btn btn-primary btn-sm sharp copy-true">
                     <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                     {{ i.taskname }}
                     {% if i.system %}

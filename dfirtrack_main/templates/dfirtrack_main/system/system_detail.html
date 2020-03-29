@@ -275,7 +275,7 @@
 
                             <!-- task name -->
                             <td>
-                                <a href="/tasks/{{ i.task_id }}" type="button" class="btn btn-primary btn-sm sharp copy-true">
+                                <a href="/task/{{ i.task_id }}/" type="button" class="btn btn-primary btn-sm sharp copy-true">
                                     <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                                     {{ i.taskname }}
                                 </a>
@@ -303,13 +303,13 @@
                             <td>
                                 <!-- assign button -->
                                 {% if not i.task_assigned_to_user_id %}
-                                    <a href="/tasks/{{ i.task_id }}/set_user?system={{ system.system_id }}" type="button" class="btn btn-sm btn-light copy-false">
+                                    <a href="/task/{{ i.task_id }}/set_user?system={{ system.system_id }}" type="button" class="btn btn-sm btn-light copy-false">
                                         <img src="{% static 'dfirtrack_main/icons/person.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                                         Grab
                                     </a>
                                 <!-- free button -->
                                 {% else %}
-                                    <a href="/tasks/{{ i.task_id }}/unset_user?system={{ system.system_id }}" type="button" class="btn btn-sm btn-light copy-false">
+                                    <a href="/task/{{ i.task_id }}/unset_user?system={{ system.system_id }}" type="button" class="btn btn-sm btn-light copy-false">
                                         <img src="{% static 'dfirtrack_main/icons/delete.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                                         Free
                                     </a>
@@ -329,7 +329,7 @@
                             <!-- task start button -->
                             <td>
                                 {% if not i.task_started_time %}
-                                    <a href="/tasks/{{ i.task_id }}/start?system={{ system.system_id }}" type="button" class="btn btn-sm btn-light copy-false">
+                                    <a href="/task/{{ i.task_id }}/start?system={{ system.system_id }}" type="button" class="btn btn-sm btn-light copy-false">
                                         <img src="{% static 'dfirtrack_main/icons/play-circle.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                                         Start
                                     </a>
@@ -338,7 +338,7 @@
 
                             <!-- task finish button -->
                             <td>
-                                <a href="/tasks/{{ i.task_id }}/finish?system={{ system.system_id }}" type="button" class="btn btn-sm btn-light copy-false">
+                                <a href="/task/{{ i.task_id }}/finish?system={{ system.system_id }}" type="button" class="btn btn-sm btn-light copy-false">
                                     <img src="{% static 'dfirtrack_main/icons/circle-check.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                                     Finish
                                 </a>
@@ -356,7 +356,7 @@
 
                             <!-- task edit button -->
                             <td>
-                                <a href="/tasks/{{ i.task_id }}/edit?system={{ system.system_id }}" type="button" class="btn btn-sm btn-light copy-false">
+                                <a href="/task/{{ i.task_id }}/edit?system={{ system.system_id }}" type="button" class="btn btn-sm btn-light copy-false">
                                     <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                                     Edit
                                 </a>
@@ -394,7 +394,7 @@
     <!-- add task button -->
     <div class="row bottom-distance top-distance">
         <div class="col-1">
-            <a href="/tasks/add?system={{ system.system_id }}" type="button" class="btn btn-light btn-sm copy-false">
+            <a href="/task/add?system={{ system.system_id }}" type="button" class="btn btn-light btn-sm copy-false">
                 <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm copy-false right-distance" alt="icon">
                 Add task
             </a>
@@ -449,7 +449,7 @@
 
                                 <!-- task name -->
                                 <td>
-                                    <a href="/tasks/{{ i.task_id }}" type="button" class="btn btn-primary btn-sm sharp copy-true">
+                                    <a href="/task/{{ i.task_id }}/" type="button" class="btn btn-primary btn-sm sharp copy-true">
                                         <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                                         {{ i.taskname }}
                                     </a>
@@ -485,7 +485,7 @@
 
                                 <!-- task renew button -->
                                 <td>
-                                    <a href="/tasks/{{ i.task_id }}/renew?system={{ system.system_id }}" type="button" class="btn btn-sm btn-secondary copy-false">
+                                    <a href="/task/{{ i.task_id }}/renew?system={{ system.system_id }}" type="button" class="btn btn-sm btn-secondary copy-false">
                                         <img src="{% static 'dfirtrack_main/icons/circle-x.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                                         Renew
                                     </a>

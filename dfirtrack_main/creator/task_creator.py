@@ -6,7 +6,7 @@ from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Taskname, System
 
 @login_required(login_url="/login")
-def tasks_creator(request):
+def task_creator(request):
     """ function to create many tasks for many systems at once (helper function to call the real function) """
 
     # form was valid to post
@@ -16,12 +16,12 @@ def tasks_creator(request):
 
         # call async function
         async_task(
-            "dfirtrack_main.creator.tasks_creator.tasks_creator_async",
+            "dfirtrack_main.creator.task_creator.task_creator_async",
             request_post,
             request_user,
         )
 
-        return redirect('/tasks')
+        return redirect('/task/')
 
     # show empty form
     else:
@@ -32,9 +32,9 @@ def tasks_creator(request):
 
         # call logger
         debug_logger(str(request.user), " TASK_CREATOR_ENTERED")
-    return render(request, 'dfirtrack_main/task/tasks_creator.html', {'form': form})
+    return render(request, 'dfirtrack_main/task/task_creator.html', {'form': form})
 
-def tasks_creator_async(request_post, request_user):
+def task_creator_async(request_post, request_user):
     """ function to create many tasks for many systems at once """
 
     # call logger
