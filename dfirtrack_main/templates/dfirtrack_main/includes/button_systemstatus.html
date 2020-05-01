@@ -5,47 +5,47 @@ FOR NEW SYSTEMSTATUSES ADD NEW BUTTON HERE
 
     <!-- systemstatus 'Clean' -->
     {% if systemstatus.systemstatus_name == 'Clean' %}
-        <a href="/systemstatus/{{ systemstatus.systemstatus_id }}/" class="btn btn-green btn-sm round copy-true">
+        <a href="{{ systemstatus.get_absolute_url }}" class="btn btn-green btn-sm round copy-true">
             <img src="{% static 'dfirtrack_main/icons/shield-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
 
     <!-- systemstatus 'Removed' -->
     {% elif systemstatus.systemstatus_name == 'Removed' %}
-        <a href="/systemstatus/{{ systemstatus.systemstatus_id }}/" class="btn btn-green btn-sm round copy-true">
+        <a href="{{ systemstatus.get_absolute_url }}" class="btn btn-green btn-sm round copy-true">
             <img src="{% static 'dfirtrack_main/icons/trash-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
 
     <!-- systemstatus 'Reinstalled' -->
     {% elif systemstatus.systemstatus_name == 'Reinstalled' %}
-        <a href="/systemstatus/{{ systemstatus.systemstatus_id }}/" class="btn btn-green btn-sm round copy-true">
+        <a href="{{ systemstatus.get_absolute_url }}" class="btn btn-green btn-sm round copy-true">
             <img src="{% static 'dfirtrack_main/icons/shield-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
 
     <!-- systemstatus 'Remediation done' -->
     {% elif systemstatus.systemstatus_name == 'Remediation done' %}
-        <a href="/systemstatus/{{ systemstatus.systemstatus_id }}/" class="btn btn-green btn-sm round copy-true">
+        <a href="{{ systemstatus.get_absolute_url }}" class="btn btn-green btn-sm round copy-true">
             <img src="{% static 'dfirtrack_main/icons/shield-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
 
     <!-- systemstatus 'Analysis ongoing' -->
     {% elif systemstatus.systemstatus_name == 'Analysis ongoing' %}
-        <a href="/systemstatus/{{ systemstatus.systemstatus_id }}/" class="btn btn-orange btn-sm round copy-true">
+        <a href="{{ systemstatus.get_absolute_url }}" class="btn btn-orange btn-sm round copy-true">
             <img src="{% static 'dfirtrack_main/icons/pulse-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
 
     <!-- systemstatus 'Unknown' -->
     {% elif systemstatus.systemstatus_name == 'Unknown' %}
-        <a href="/systemstatus/{{ systemstatus.systemstatus_id }}/" class="btn btn-orange btn-sm round copy-true">
+        <a href="{{ systemstatus.get_absolute_url }}" class="btn btn-orange btn-sm round copy-true">
             <img src="{% static 'dfirtrack_main/icons/flag-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
 
     <!-- systemstatus 'Not analyzed' -->
     {% elif systemstatus.systemstatus_name == 'Not analyzed' %}
-        <a href="/systemstatus/{{ systemstatus.systemstatus_id }}/" class="btn btn-orange btn-sm round copy-true">
+        <a href="{{ systemstatus.get_absolute_url }}" class="btn btn-orange btn-sm round copy-true">
             <img src="{% static 'dfirtrack_main/icons/ban-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
 
     <!-- systemstatus 'Compromised' -->
     {% elif systemstatus.systemstatus_name == 'Compromised' %}
-        <a href="/systemstatus/{{ systemstatus.systemstatus_id }}/" class="btn btn-red btn-sm round copy-true">
+        <a href="{{ systemstatus.get_absolute_url }}" class="btn btn-red btn-sm round copy-true">
             <img src="{% static 'dfirtrack_main/icons/fire-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
 
     <!-- show blank text if systemstatus has no button defined -->
     {% else %}
-        <a href="/systemstatus/{{ systemstatus.systemstatus_id }}/" class="copy-true">
+        <a href="{{ systemstatus.get_absolute_url }}" class="copy-true">
 
     {% endif %}
 

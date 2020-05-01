@@ -13,7 +13,7 @@
 
     <!-- task name -->
     <td>
-        <a href="/task/{{ i.task_id }}/" type="button" class="btn btn-primary btn-sm sharp copy-true">
+        <a href="{{ i.get_absolute_url }}" type="button" class="btn btn-primary btn-sm sharp copy-true">
             <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
             {{ i.taskname }}
         </a>
@@ -22,7 +22,7 @@
     <!-- system -->
     <td>
         {% if i.system %}
-            <a href="/system/{{ i.system.system_id }}/" type="button" class="btn btn-primary btn-sm copy-true">
+            <a href="{{ i.system.get_absolute_url }}" type="button" class="btn btn-primary btn-sm copy-true">
                 <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                 {{ i.system.system_name }}
             </a>
@@ -42,7 +42,7 @@
 
     <!-- taskstatus -->
     <td>
-        <a href="/taskstatus/{{ i.taskstatus.taskstatus_id }}/">
+        <a href="{{ i.taskstatus.get_absolute_url }}">
             {% with taskstatus=i.taskstatus %}
                 {% include "dfirtrack_main/includes/button_taskstatus.html" %}
             {% endwith %}
@@ -52,7 +52,7 @@
 
     <!-- taskpriority -->
     <td>
-        <a href="/taskpriority/{{ i.taskpriority.taskpriority_id }}/">
+        <a href="{{ i.taskpriority.get_absolute_url }}">
             {% with taskpriority=i.taskpriority %}
                 {% include "dfirtrack_main/includes/button_taskpriority.html" %}
             {% endwith %}
