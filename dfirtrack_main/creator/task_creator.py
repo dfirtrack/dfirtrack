@@ -39,7 +39,7 @@ def task_creator_async(request_post, request_user):
 
     # call logger
     debug_logger(str(request_user), " TASK_CREATOR_BEGIN")
-                
+
     # extract tasknames (list results from request object via multiple choice field)
     tasknames = request_post.getlist('taskname')
 

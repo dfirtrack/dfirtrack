@@ -1,4 +1,4 @@
-from django.urls import include, path
+from django.urls import path
 from dfirtrack_artifacts.views import artifact_view, artifactstatus_view, artifacttype_view
 
 urlpatterns = (
