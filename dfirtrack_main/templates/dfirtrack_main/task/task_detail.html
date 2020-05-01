@@ -193,14 +193,14 @@
 
             <!-- grab button -->
             {% if not task.task_assigned_to_user_id %}
-                <a href="/task/{{ task.task_id }}/set_user/" type="button" class="btn btn-sm btn-light copy-false">
+                <a href="{{ task.get_set_user_url }}" type="button" class="btn btn-sm btn-light copy-false">
                     <img src="{% static 'dfirtrack_main/icons/person.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                     Grab
                 </a>
 
             <!-- free button -->
             {% else %}
-                <a href="/task/{{ task.task_id }}/unset_user/" type="button" class="btn btn-sm btn-light copy-false">
+                <a href="{{ task.get_unset_user_url }}" type="button" class="btn btn-sm btn-light copy-false">
                     <img src="{% static 'dfirtrack_main/icons/delete.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                     Free
                 </a>
@@ -299,7 +299,7 @@
             <!-- task start button -->
             <div class="col-3">
                 {% if not task.task_started_time %}
-                    <a href="/task/{{ task.task_id }}/start/" type="button" class="btn btn-sm btn-light copy-false">
+                    <a href="{{ task.get_start_url }}" type="button" class="btn btn-sm btn-light copy-false">
                         <img src="{% static 'dfirtrack_main/icons/play-circle.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                         Start
                     </a>
@@ -309,7 +309,7 @@
             <!-- task finish button -->
             <div class="col-1">
                 {% if not task.task_finished_time %}
-                    <a href="/task/{{ task.task_id }}/finish/" type="button" class="btn btn-sm btn-light copy-false">
+                    <a href="{{ task.get_finish_url }}" type="button" class="btn btn-sm btn-light copy-false">
                         <img src="{% static 'dfirtrack_main/icons/circle-check.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                         Finish
                     </a>
@@ -319,7 +319,7 @@
             <!-- task renew button -->
             <div class="col-1">
                 {% if task.task_started_time or task.task_finished_time %}
-                    <a href="/task/{{ task.task_id }}/renew/" type="button" class="btn btn-sm btn-secondary">
+                    <a href="{{ task.get_renew_url }}" type="button" class="btn btn-sm btn-secondary">
                         <img src="{% static 'dfirtrack_main/icons/circle-x.svg' %}" class="icon-sm" alt="icon">
                         Renew
                     </a>

@@ -1101,6 +1101,9 @@ class Tag(models.Model):
     def get_update_url(self):
         return reverse('tag_update', args=(self.pk,))
 
+    def get_delete_url(self):
+        return reverse('tag_delete', args=(self.pk,))
+
 class Tagcolor(models.Model):
 
     # primary key
@@ -1221,6 +1224,21 @@ class Task(models.Model):
 
     def get_update_url(self):
         return reverse('task_update', args=(self.pk,))
+
+    def get_start_url(self):
+        return reverse('task_start', args=(self.pk,))
+
+    def get_finish_url(self):
+        return reverse('task_finish', args=(self.pk,))
+
+    def get_renew_url(self):
+        return reverse('task_renew', args=(self.pk,))
+
+    def get_set_user_url(self):
+        return reverse('task_set_user', args=(self.pk,))
+
+    def get_unset_user_url(self):
+        return reverse('task_unset_user', args=(self.pk,))
 
 class Taskname(models.Model):
 
