@@ -22,7 +22,7 @@
 <!-- up button -->
 <div class="row bottom-distance">
     <div class="col-3">
-        <a href="/contact/" type="button" class="btn btn-light copy-false">
+        <a href="{% url 'contact_list' %}" type="button" class="btn btn-light copy-false">
             <img src="{%static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon right-distance copy-false" alt="icon">
             Up to contacts
         </a>
@@ -133,7 +133,7 @@
     {% for i in contact.system_set.all %}
         <div class="row top-distance">
             <div class="col-3">
-                <a href="/system/{{ i.system_id}}/" type="button" class="btn btn-primary btn-sm copy-true">
+                <a href="{{ i.get_absolute_url }}" type="button" class="btn btn-primary btn-sm copy-true">
                     <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                     {{ i.system_name }}
                 </a>
@@ -153,7 +153,7 @@
 {% endif %}
 
 <!-- edit button -->
-<a href="/contact/{{ contact.contact_id }}/edit/////////" type="button" class="btn btn-light top-distance copy-false">
+<a href="{{ contact.get_update_url }}" type="button" class="btn btn-light top-distance copy-false">
     <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon right-distance copy-false" alt="icon">
     Edit
 </a>

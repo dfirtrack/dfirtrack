@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_main.forms import ContactForm
@@ -47,7 +48,7 @@ class ContactCreate(LoginRequiredMixin, CreateView):
             contact.save()
             contact.logger(str(request.user), " CONTACT_ADD_EXECUTED")
             messages.success(request, 'Contact added')
-            return redirect('/contact/' + str(contact.contact_id) + '/')
+            return redirect(reverse('contact_detail', args=(contact.contact_id,)))
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -93,6 +94,6 @@ class ContactUpdate(LoginRequiredMixin, UpdateView):
             contact.save()
             contact.logger(str(request.user), " CONTACT_EDIT_EXECUTED")
             messages.success(request, 'Contact edited')
-            return redirect('/contact/' + str(contact.contact_id) + '/')
+            return redirect(reverse('contact_detail', args=(contact.contact_id,)))
         else:
             return render(request, 'dfirtrack_main/contact/contact_edit.html', {'form': form})

@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_main.forms import DnsnameForm
@@ -47,7 +48,7 @@ class DnsnameCreate(LoginRequiredMixin, CreateView):
             dnsname.save()
             dnsname.logger(str(request.user), " DNSNAME_ADD_EXECUTED")
             messages.success(request, 'DNS name added')
-            return redirect('/dnsname/' + str(dnsname.dnsname_id) + '/')
+            return redirect(reverse('dnsname_detail', args=(dnsname.dnsname_id,)))
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -93,6 +94,6 @@ class DnsnameUpdate(LoginRequiredMixin, UpdateView):
             dnsname.save()
             dnsname.logger(str(request.user), " DNSNAME_EDIT_EXECUTED")
             messages.success(request, 'DNS name edited')
-            return redirect('/dnsname/' + str(dnsname.dnsname_id) + '/')
+            return redirect(reverse('dnsname_detail', args=(dnsname.dnsname_id,)))
         else:
             return render(request, self.template_name, {'form': form})

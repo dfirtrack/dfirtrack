@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_main.forms import OsForm
@@ -47,7 +48,7 @@ class OsCreate(LoginRequiredMixin, CreateView):
             os.save()
             os.logger(str(request.user), " OS_ADD_EXECUTED")
             messages.success(request, 'OS added')
-            return redirect('/os/' + str(os.os_id) + '/')
+            return redirect(reverse('os_detail', args=(os.os_id,)))
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -93,6 +94,6 @@ class OsUpdate(LoginRequiredMixin, UpdateView):
             os.save()
             os.logger(str(request.user), " OS_EDIT_EXECUTED")
             messages.success(request, 'OS edited')
-            return redirect('/os/' + str(os.os_id) + '/')
+            return redirect(reverse('os_detail', args=(os.os_id,)))
         else:
             return render(request, self.template_name, {'form': form})

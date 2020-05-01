@@ -67,7 +67,7 @@
 
         <!-- dnsname name -->
         <div class="col-2">
-            <a href="/dnsname/{{ i.dnsname_id }}/">
+            <a href="{{ i.get_absolute_url }}">
                 {{ i.dnsname_name }}
             </a>
         </div>
@@ -75,7 +75,7 @@
         <!-- domain -->
         <div class="col-2">
             {% if i.domain %}
-                <a href="/domain/{{ i.domain.domain_id }}/">
+                <a href="{{ i.domain.get_absolute_url }}">
                     {{ i.domain.domain_name }}
                 </a>
             {% else %}
@@ -94,7 +94,7 @@
 
         <!-- edit button -->
         <div class="col-1">
-            <a href="/dnsname/{{ i.dnsname_id }}/edit/" type="button" class="btn btn-sm btn-light copy-false">
+            <a href="{{ i.get_update_url }}" type="button" class="btn btn-sm btn-light copy-false">
                 <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                 Edit
             </a>
@@ -109,7 +109,7 @@
 <!-- add button -->
 <div class="row top-distance">
     <div class="col-1">
-        <a href="/dnsname/add/" type="button" class="btn btn-light copy-false">
+        <a href="{% url 'dnsname_create' %}" type="button" class="btn btn-light copy-false">
             <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon right-distance copy-false" alt="icon">
             Add DNS name
         </a>

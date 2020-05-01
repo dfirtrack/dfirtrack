@@ -22,7 +22,7 @@
 <!-- up button -->
 <div class="row bottom-distance">
     <div class="col-3">
-        <a href="/reportitem/" type="button" class="btn btn-light copy-false">
+        <a href="{% url 'reportitem_list' %}" type="button" class="btn btn-light copy-false">
             <img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon right-distance copy-false" alt="icon">
             Up to reportitems
         </a>
@@ -42,7 +42,7 @@
             {% endif %}
 
             <!-- system -->
-            <a href="/system/{{ reportitem.system.system_id }}/" type="button" class="btn btn-primary btn-sm btn-lg copy-true">
+            <a href="{{ reportitem.system.get_absolute_url }}" type="button" class="btn btn-primary btn-sm btn-lg copy-true">
                 <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                 {{ reportitem.system.system_name }}
             </a>
@@ -126,7 +126,7 @@
 </div>
 
 <!-- edit button -->
-<a href="/reportitem/{{ reportitem.reportitem_id }}/edit/" type="button" class="btn btn-light top-distance copy-false">
+<a href="{{ reportitem.get_update_url }}" type="button" class="btn btn-light top-distance copy-false">
     <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon right-distance copy-false" alt="icon">
     Edit
 </a>

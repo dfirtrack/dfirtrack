@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_main.forms import SystemuserForm
@@ -46,7 +47,7 @@ class SystemuserCreate(LoginRequiredMixin, CreateView):
             systemuser.save()
             systemuser.logger(str(request.user), " SYSTEMUSER_ADD_EXECUTED")
             messages.success(request, 'Systemuser added')
-            return redirect('/systemuser/' + str(systemuser.systemuser_id) + '/')
+            return redirect(reverse('systemuser_detail', args=(systemuser.systemuser_id,)))
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -70,6 +71,6 @@ class SystemuserUpdate(LoginRequiredMixin, UpdateView):
             systemuser.save()
             systemuser.logger(str(request.user), " SYSTEMUSER_EDIT_EXECUTED")
             messages.success(request, 'Systemuser edited')
-            return redirect('/systemuser/' + str(systemuser.systemuser_id) + '/')
+            return redirect(reverse('systemuser_detail', args=(systemuser.systemuser_id,)))
         else:
             return render(request, self.template_name, {'form': form})

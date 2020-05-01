@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_main.forms import EntryForm
@@ -54,7 +55,7 @@ class EntryCreate(LoginRequiredMixin, CreateView):
             entry.save()
             entry.logger(str(request.user), " ENTRY_ADD_EXECUTED")
             messages.success(request, 'Entry added')
-            return redirect('/system/' + str(entry.system.system_id) + '/')
+            return redirect(reverse('system_detail', args=(entry.system.system_id,)))
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -79,6 +80,6 @@ class EntryUpdate(LoginRequiredMixin, UpdateView):
             entry.save()
             entry.logger(str(request.user), " ENTRY_EDIT_EXECUTED")
             messages.success(request, 'Entry edited')
-            return redirect('/system/' + str(entry.system.system_id) + '/')
+            return redirect(reverse('system_detail', args=(entry.system.system_id,)))
         else:
             return render(request, self.template_name, {'form': form})

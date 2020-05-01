@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_main.forms import HeadlineForm
@@ -46,7 +47,7 @@ class HeadlineCreate(LoginRequiredMixin, CreateView):
             headline.save()
             headline.logger(str(request.user), " HEADLINE_ADD_EXECUTED")
             messages.success(request, 'Headline added')
-            return redirect('/headline/' + str(headline.headline_id) + '/')
+            return redirect(reverse('headline_detail', args=(headline.headline_id,)))
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -70,6 +71,6 @@ class HeadlineUpdate(LoginRequiredMixin, UpdateView):
             headline.save()
             headline.logger(str(request.user), " HEADLINE_EDIT_EXECUTED")
             messages.success(request, 'Headline edited')
-            return redirect('/headline/' + str(headline.headline_id) + '/')
+            return redirect(reverse('headline_detail', args=(headline.headline_id,)))
         else:
             return render(request, self.template_name, {'form': form})

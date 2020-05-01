@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_main.forms import OsimportnameForm
@@ -35,7 +36,7 @@ class OsimportnameCreate(LoginRequiredMixin, CreateView):
             osimportname.save()
             osimportname.logger(str(request.user), " OSIMPORTNAME_ADD_EXECUTED")
             messages.success(request, 'OS-Importname added')
-            return redirect('/osimportname/')
+            return redirect(reverse('osimportname_list'))
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -59,6 +60,6 @@ class OsimportnameUpdate(LoginRequiredMixin, UpdateView):
             osimportname.save()
             osimportname.logger(str(request.user), " OSIMPORTNAME_EDIT_EXECUTED")
             messages.success(request, 'OS-Importname edited')
-            return redirect('/osimportname/')
+            return redirect(reverse('osimportname_list'))
         else:
             return render(request, self.template_name, {'form': form})

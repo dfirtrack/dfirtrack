@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_main.forms import DivisionForm
@@ -46,7 +47,7 @@ class DivisionCreate(LoginRequiredMixin, CreateView):
             division.save()
             division.logger(str(request.user), " DIVISION_ADD_EXECUTED")
             messages.success(request, 'Division added')
-            return redirect('/division/' + str(division.division_id) + '/')
+            return redirect(reverse('division_detail', args=(division.division_id,)))
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -70,6 +71,6 @@ class DivisionUpdate(LoginRequiredMixin, UpdateView):
             division.save()
             division.logger(str(request.user), " DIVISION_EDIT_EXECUTED")
             messages.success(request, 'Division edited')
-            return redirect('/division/' + str(division.division_id) + '/')
+            return redirect(reverse('division_detail', args=(division.division_id,)))
         else:
             return render(request, self.template_name, {'form': form})

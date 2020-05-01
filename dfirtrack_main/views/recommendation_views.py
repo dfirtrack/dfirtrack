@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_main.forms import RecommendationForm
@@ -47,7 +48,7 @@ class RecommendationCreate(LoginRequiredMixin, CreateView):
             recommendation.save()
             recommendation.logger(str(request.user), " RECOMMENDATION_ADD_EXECUTED")
             messages.success(request, 'Recommendation added')
-            return redirect('/recommendation/' + str(recommendation.recommendation_id) + '/')
+            return redirect(reverse('recommendation_detail', args=(recommendation.recommendation_id,)))
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -93,6 +94,6 @@ class RecommendationUpdate(LoginRequiredMixin, UpdateView):
             recommendation.save()
             recommendation.logger(str(request.user), " RECOMMENDATION_EDIT_EXECUTED")
             messages.success(request, 'Recommendation edited')
-            return redirect('/recommendation/' + str(recommendation.recommendation_id) + '/')
+            return redirect(reverse('recommendation_detail', args=(recommendation.recommendation_id,)))
         else:
             return render(request, self.template_name, {'form': form})

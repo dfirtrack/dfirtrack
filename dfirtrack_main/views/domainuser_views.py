@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_main.forms import DomainuserForm
@@ -47,7 +48,7 @@ class DomainuserCreate(LoginRequiredMixin, CreateView):
             form.save_m2m()
             domainuser.logger(str(request.user), " DOMAINUSER_ADD_EXECUTED")
             messages.success(request, 'Domainuser added')
-            return redirect('/domainuser/' + str(domainuser.domainuser_id) + '/')
+            return redirect(reverse('domainuser_detail', args=(domainuser.domainuser_id,)))
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -72,6 +73,6 @@ class DomainuserUpdate(LoginRequiredMixin, UpdateView):
             form.save_m2m()
             domainuser.logger(str(request.user), " DOMAINUSER_EDIT_EXECUTED")
             messages.success(request, 'Domainuser edited')
-            return redirect('/domainuser/' + str(domainuser.domainuser_id) + '/')
+            return redirect(reverse('domainuser_detail', args=(domainuser.domainuser_id,)))
         else:
             return render(request, self.template_name, {'form': form})

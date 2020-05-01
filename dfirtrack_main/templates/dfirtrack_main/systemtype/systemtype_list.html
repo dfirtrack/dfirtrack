@@ -57,14 +57,14 @@
 
         <!-- systemtype name -->
         <div class="col-10">
-            <a href="/systemtype/{{ i.systemtype_id }}/">
+            <a href="{{ i.get_absolute_url }}">
                 {{ i.systemtype_name }}
             </a>
         </div>
 
         <!-- edit button -->
         <div class="col-1">
-            <a href="/systemtype/{{ i.systemtype_id }}/edit/" type="button" class="btn btn-light copy-false">
+            <a href="{{ i.get_update_url }}" type="button" class="btn btn-light copy-false">
                 <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                 Edit
             </a>
@@ -79,7 +79,7 @@
 <!-- add button -->
 <div class="row top-distance">
     <div class="col-1">
-        <a href="/systemtype/add/" type="button" class="btn btn-light copy-false">
+        <a href="{% url 'systemtype_create' %}" type="button" class="btn btn-light copy-false">
             <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon right-distance copy-false" alt="icon">
             Add systemtype
         </a>

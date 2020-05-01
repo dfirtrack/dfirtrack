@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_main.forms import CaseForm
@@ -47,7 +48,7 @@ class CaseCreate(LoginRequiredMixin, CreateView):
             case.save()
             case.logger(str(request.user), " CASE_ADD_EXECUTED")
             messages.success(request, 'Case added')
-            return redirect('/case/' + str(case.case_id) + '/')
+            return redirect(reverse('case_detail', args=(case.case_id,)))
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -72,6 +73,6 @@ class CaseUpdate(LoginRequiredMixin, UpdateView):
             case.save()
             case.logger(str(request.user), " CASE_EDIT_EXECUTED")
             messages.success(request, 'Case edited')
-            return redirect('/case/' + str(case.case_id) + '/')
+            return redirect(reverse('case_detail', args=(case.case_id,)))
         else:
             return render(request, self.template_name, {'form': form})

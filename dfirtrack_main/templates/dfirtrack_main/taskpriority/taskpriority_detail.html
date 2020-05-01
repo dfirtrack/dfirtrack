@@ -22,7 +22,7 @@
 <!-- up button -->
 <div class="row bottom-distance">
     <div class="col-3">
-        <a href="/taskpriority/" type="button" class="btn btn-light">
+        <a href="{% url 'taskpriority_list' %}" type="button" class="btn btn-light">
             <img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon" alt="icon">
             Up to taskpriorities
         </a>
@@ -70,7 +70,7 @@
     {% for i in taskpriority.task_set.all %}
         <div class="row top-distance">
             <div class="col-3">
-                <a href="/task/{{ i.task_id}}/" type="button" class="btn btn-primary btn-sm sharp copy-true">
+                <a href="{{ i.get_absolute_url }}" type="button" class="btn btn-primary btn-sm sharp copy-true">
                     <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                     {{ i.taskname }}
                     {% if i.system %}

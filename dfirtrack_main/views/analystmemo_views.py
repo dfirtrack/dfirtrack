@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_main.forms import AnalystmemoForm
@@ -54,7 +55,7 @@ class AnalystmemoCreate(LoginRequiredMixin, CreateView):
             analystmemo.save()
             analystmemo.logger(str(request.user), " ANALYSTMEMO_ADD_EXECUTED")
             messages.success(request, 'Analystmemo added')
-            return redirect('/system/' + str(analystmemo.system.system_id) + '/')
+            return redirect(reverse('system_detail', args=(analystmemo.system.system_id,)))
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -79,6 +80,6 @@ class AnalystmemoUpdate(LoginRequiredMixin, UpdateView):
             analystmemo.save()
             analystmemo.logger(str(request.user), " ANALYSTMEMO_EDIT_EXECUTED")
             messages.success(request, 'Analystmemo edited')
-            return redirect('/system/' + str(analystmemo.system.system_id) + '/')
+            return redirect(reverse('system_detail', args=(analystmemo.system.system_id,)))
         else:
             return render(request, self.template_name, {'form': form})

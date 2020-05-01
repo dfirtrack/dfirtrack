@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_main.forms import LocationForm
@@ -47,7 +48,7 @@ class LocationCreate(LoginRequiredMixin, CreateView):
             location.save()
             location.logger(str(request.user), " LOCATION_ADD_EXECUTED")
             messages.success(request, 'Location added')
-            return redirect('/location/' + str(location.location_id) + '/')
+            return redirect(reverse('location_detail', args=(location.location_id,)))
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -93,6 +94,6 @@ class LocationUpdate(LoginRequiredMixin, UpdateView):
             location.save()
             location.logger(str(request.user), " LOCATION_EDIT_EXECUTED")
             messages.success(request, 'Location edited')
-            return redirect('/location/' + str(location.location_id) + '/')
+            return redirect(reverse('location_detail', args=(location.location_id,)))
         else:
             return render(request, self.template_name, {'form': form})

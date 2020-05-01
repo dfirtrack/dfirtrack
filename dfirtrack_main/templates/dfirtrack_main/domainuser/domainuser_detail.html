@@ -22,7 +22,7 @@
 <!-- up button -->
 <div class="row bottom-distance">
     <div class="col-3">
-        <a href="/domainuser/" type="button" class="btn btn-light copy-false">
+        <a href="{% url 'domainuser_list' %}" type="button" class="btn btn-light copy-false">
             <img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon right-distance copy-false" alt="icon">
             Up to domainusers
         </a>
@@ -42,7 +42,7 @@
             <!-- domainuser name -->
             domainuser "{{ domainuser.domainuser_name }}" at domain
             <!-- domain -->
-            <a href="/domain/{{ domainuser.domain.domain_id }}/">
+            <a href="{{ domainuser.domain.get_absolute_url }}">
                 {{ domainuser.domain.domain_name }}
             </a>
             <!-- domainuser admin -->
@@ -88,7 +88,7 @@
     {% for i in domainuser.system_was_logged_on.all %}
         <div class="row top-distance">
             <div class="col-3">
-                <a href="/system/{{ i.system_id}}/" type="button" class="btn btn-primary btn-sm copy-true">
+                <a href="{{ i.get_absolute_url }}" type="button" class="btn btn-primary btn-sm copy-true">
                     <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                     {{ i.system_name }}
                 </a>
@@ -108,7 +108,7 @@
 {% endif %}
 
 <!-- edit button -->
-<a href="/domainuser/{{ domainuser.domainuser_id }}/edit/" type="button" class="btn btn-light top-distance copy-false">
+<a href="{{ domainuser.get_update_url }}" type="button" class="btn btn-light top-distance copy-false">
     <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon right-distance copy-false" alt="icon">
     Edit
 </a>

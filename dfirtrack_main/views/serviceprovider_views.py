@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_main.forms import ServiceproviderForm
@@ -47,7 +48,7 @@ class ServiceproviderCreate(LoginRequiredMixin, CreateView):
             serviceprovider.save()
             serviceprovider.logger(str(request.user), " SERVICEPROVIDER_ADD_EXECUTED")
             messages.success(request, 'Serviceprovider added')
-            return redirect('/serviceprovider/' + str(serviceprovider.serviceprovider_id) + '/')
+            return redirect(reverse('serviceprovider_detail', args=(serviceprovider.serviceprovider_id,)))
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -93,6 +94,6 @@ class ServiceproviderUpdate(LoginRequiredMixin, UpdateView):
             serviceprovider.save()
             serviceprovider.logger(str(request.user), " SERVICEPROVIDER_EDIT_EXECUTED")
             messages.success(request, 'Serviceprovider edited')
-            return redirect('/serviceprovider/' + str(serviceprovider.serviceprovider_id) + '/')
+            return redirect(reverse('serviceprovider_detail', args=(serviceprovider.serviceprovider_id,)))
         else:
             return render(request, self.template_name, {'form': form})

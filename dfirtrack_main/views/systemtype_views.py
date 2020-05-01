@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_main.forms import SystemtypeForm
@@ -47,7 +48,7 @@ class SystemtypeCreate(LoginRequiredMixin, CreateView):
             systemtype.save()
             systemtype.logger(str(request.user), " SYSTEMTYPE_ADD_EXECUTED")
             messages.success(request, 'Systemtype added')
-            return redirect('/systemtype/' + str(systemtype.systemtype_id) + '/')
+            return redirect(reverse('systemtype_detail', args=(systemtype.systemtype_id,)))
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -93,6 +94,6 @@ class SystemtypeUpdate(LoginRequiredMixin, UpdateView):
             systemtype.save()
             systemtype.logger(str(request.user), " SYSTEMTYPE_EDIT_EXECUTED")
             messages.success(request, 'Systemtype edited')
-            return redirect('/systemtype/' + str(systemtype.systemtype_id) + '/')
+            return redirect(reverse('systemtype_detail', args=(systemtype.systemtype_id,)))
         else:
             return render(request, self.template_name, {'form': form})

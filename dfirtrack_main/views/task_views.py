@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
@@ -81,9 +82,9 @@ class TaskCreate(LoginRequiredMixin, CreateView):
             # conditional redirect
             if 'system' in request.GET:
                 system = request.GET['system']
-                return redirect('/system/' + str(system) + '/')
+                return redirect(reverse('system_detail', args=(system,)))
             else:
-                return redirect('/task/' + str(task.task_id) + '/')
+                return redirect(reverse('task_detail', args=(task.task_id,)))
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -123,9 +124,9 @@ class TaskUpdate(LoginRequiredMixin, UpdateView):
             # conditional redirect
             if 'system' in request.GET:
                 system = request.GET['system']
-                return redirect('/system/' + str(system) + '/')
+                return redirect(reverse('system_detail', args=(system,)))
             else:
-                return redirect('/task/' + str(task.task_id) + '/')
+                return redirect(reverse('task_detail', args=(task.task_id,)))
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -142,9 +143,9 @@ class TaskStart(LoginRequiredMixin, UpdateView):
         messages.success(request, 'Task started')
         if 'system' in request.GET:
             system = request.GET['system']
-            return redirect('/system/' + str(system) + '/')
+            return redirect(reverse('system_detail', args=(system,)))
         else:
-            return redirect('/task/' + str(task.task_id) + '/')
+            return redirect(reverse('task_detail', args=(task.task_id,)))
 
 class TaskFinish(LoginRequiredMixin, UpdateView):
     login_url = '/login'
@@ -162,9 +163,9 @@ class TaskFinish(LoginRequiredMixin, UpdateView):
         messages.success(request, 'Task finished')
         if 'system' in request.GET:
             system = request.GET['system']
-            return redirect('/system/' + str(system) + '/')
+            return redirect(reverse('system_detail', args=(system,)))
         else:
-            return redirect('/task/' + str(task.task_id) + '/')
+            return redirect(reverse('task_detail', args=(task.task_id,)))
 
 class TaskRenew(LoginRequiredMixin, UpdateView):
     login_url = '/login'
@@ -181,9 +182,9 @@ class TaskRenew(LoginRequiredMixin, UpdateView):
         messages.warning(request, 'Task renewed')
         if 'system' in request.GET:
             system = request.GET['system']
-            return redirect('/system/' + str(system) + '/')
+            return redirect(reverse('system_detail', args=(system,)))
         else:
-            return redirect('/task/' + str(task.task_id) + '/')
+            return redirect(reverse('task_detail', args=(task.task_id,)))
 
 class TaskSetUser(LoginRequiredMixin, UpdateView):
     login_url = '/login'
@@ -197,9 +198,9 @@ class TaskSetUser(LoginRequiredMixin, UpdateView):
         messages.success(request, 'Task assigned to you')
         if 'system' in request.GET:
             system = request.GET['system']
-            return redirect('/system/' + str(system) + '/')
+            return redirect(reverse('system_detail', args=(system,)))
         else:
-            return redirect('/task/' + str(task.task_id) + '/')
+            return redirect(reverse('task_detail', args=(task.task_id,)))
 
 class TaskUnsetUser(LoginRequiredMixin, UpdateView):
     login_url = '/login'
@@ -213,6 +214,6 @@ class TaskUnsetUser(LoginRequiredMixin, UpdateView):
         messages.warning(request, 'User assignment for task deleted')
         if 'system' in request.GET:
             system = request.GET['system']
-            return redirect('/system/' + str(system) + '/')
+            return redirect(reverse('system_detail', args=(system,)))
         else:
-            return redirect('/task/' + str(task.task_id) + '/')
+            return redirect(reverse('task_detail', args=(task.task_id,)))

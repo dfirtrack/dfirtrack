@@ -88,7 +88,7 @@
 
                 <!-- entry id -->
                 <td>
-                    <a href="/entry/{{ i.entry_id}}/">
+                    <a href="{{ i.get_absolute_url }}">
                         {{ i.entry_id }}
                     </a>
                 </td>
@@ -139,7 +139,7 @@
 
     <!-- entry add button -->
     <div class="col-1">
-        <a href="/entry/add/" type="button" class="btn btn-light copy-false">
+        <a href="{% url 'entry_create' %}" type="button" class="btn btn-light copy-false">
             <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon right-distance copy-false" alt="icon">
             Add entry
         </a>

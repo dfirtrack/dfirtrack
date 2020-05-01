@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_main.forms import CompanyForm
@@ -47,7 +48,7 @@ class CompanyCreate(LoginRequiredMixin, CreateView):
             company.save()
             company.logger(str(request.user), " COMPANY_ADD_EXECUTED")
             messages.success(request, 'Company added')
-            return redirect('/company/' + str(company.company_id) + '/')
+            return redirect(reverse('company_detail', args=(company.company_id,)))
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -93,6 +94,6 @@ class CompanyUpdate(LoginRequiredMixin, UpdateView):
             company.save()
             company.logger(str(request.user), " COMPANY_EDIT_EXECUTED")
             messages.success(request, 'Company edited')
-            return redirect('/company/' + str(company.company_id) + '/')
+            return redirect(reverse('company_detail', args=(company.company_id,)))
         else:
             return render(request, self.template_name, {'form': form})

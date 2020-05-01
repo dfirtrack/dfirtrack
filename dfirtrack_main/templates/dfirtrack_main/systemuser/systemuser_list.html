@@ -72,7 +72,7 @@
 
         <!-- systemuser name -->
         <div class="col-2">
-            <a href="/systemuser/{{ i.systemuser_id }}/">
+            <a href="{{ i.get_absolute_url }}">
                 {{ i.systemuser_name }} | {{ i.system }}
             </a>
         </div>
@@ -91,7 +91,7 @@
 
         <!-- system -->
         <div class="col-1">
-            <a href="/system/{{ i.system.system_id }}/" type="button" class="btn btn-primary btn-sm copy-true">
+            <a href="{{ i.system.get_absolute_url }}" type="button" class="btn btn-primary btn-sm copy-true">
                 <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                     {{ i.system.system_name }}
                 </a>
@@ -102,7 +102,7 @@
 
         <!-- edit button -->
         <div class="col-1">
-            <a href="/systemuser/{{ i.systemuser_id }}/edit/" type="button" class="btn btn-sm btn-light copy-false">
+            <a href="{{ i.get_update_url }}" type="button" class="btn btn-sm btn-light copy-false">
                 <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                 Edit
             </a>
@@ -117,7 +117,7 @@
 <!-- add button -->
 <div class="row top-distance">
     <div class="col-1">
-        <a href="/systemuser/add/" type="button" class="btn btn-light copy-false">
+        <a href="{% url 'systemuser_create' %}" type="button" class="btn btn-light copy-false">
             <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon right-distance copy-false" alt="icon">
             Add systemuser
         </a>

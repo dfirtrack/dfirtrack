@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_main.forms import ReasonForm
@@ -47,7 +48,7 @@ class ReasonCreate(LoginRequiredMixin, CreateView):
             reason.save()
             reason.logger(str(request.user), " REASON_ADD_EXECUTED")
             messages.success(request, 'Reason added')
-            return redirect('/reason/' + str(reason.reason_id) + '/')
+            return redirect(reverse('reason_detail', args=(reason.reason_id,)))
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -93,6 +94,6 @@ class ReasonUpdate(LoginRequiredMixin, UpdateView):
             reason.save()
             reason.logger(str(request.user), " REASON_EDIT_EXECUTED")
             messages.success(request, 'Reason edited')
-            return redirect('/reason/' + str(reason.reason_id) + '/')
+            return redirect(reverse('reason_detail', args=(reason.reason_id,)))
         else:
             return render(request, self.template_name, {'form': form})

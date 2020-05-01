@@ -62,7 +62,7 @@
 
         <!-- ip address -->
         <div class="col-2">
-            <a href="/ip/{{ i.ip_id }}/">
+            <a href="{{ i.get_absolute_url }}">
                 {{ i.ip_ip }}
             </a>
         </div>

@@ -34,6 +34,9 @@ class Analysisstatus(models.Model):
             "|analysisstatus_note:" + str(analysisstatus.analysisstatus_note)
         )
 
+    def get_absolute_url(self):
+        return reverse('analysisstatus_detail', args=(self.pk,))
+
 class Analystmemo(models.Model):
 
     # primary key
@@ -65,6 +68,12 @@ class Analystmemo(models.Model):
             "|analystmemo_note:" + str(analystmemo.analystmemo_note)
         )
 
+    def get_absolute_url(self):
+        return reverse('analystmemo_detail', args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse('analystmemo_update', args=(self.pk,))
+
 class Case(models.Model):
 
     # primary key
@@ -93,10 +102,10 @@ class Case(models.Model):
         )
 
     def get_absolute_url(self):
-        return reverse('casesdetail', args=(self.pk,))
+        return reverse('case_detail', args=(self.pk,))
 
     def get_update_url(self):
-        return reverse('cases_edit', args=(self.pk,))
+        return reverse('case_update', args=(self.pk,))
 
 class Company(models.Model):
 
@@ -125,6 +134,12 @@ class Company(models.Model):
             "|company_note:" + str(company.company_note)
         )
 
+    def get_absolute_url(self):
+        return reverse('company_detail', args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse('company_update', args=(self.pk,))
+
 class Contact(models.Model):
 
     # primary key
@@ -152,6 +167,12 @@ class Contact(models.Model):
             "|contact_note:" + str(contact.contact_note)
         )
 
+    def get_absolute_url(self):
+        return reverse('contact_detail', args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse('contact_update', args=(self.pk,))
+
 class Division(models.Model):
 
     # primary key
@@ -174,6 +195,12 @@ class Division(models.Model):
             "|division_name:" + str(division.division_name) +
             "|division_note:" + str(division.division_note)
         )
+
+    def get_absolute_url(self):
+        return reverse('division_detail', args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse('division_update', args=(self.pk,))
 
 class Dnsname(models.Model):
 
@@ -202,6 +229,12 @@ class Dnsname(models.Model):
             "|domain:" + str(dnsname.domain)
         )
 
+    def get_absolute_url(self):
+        return reverse('dnsname_detail', args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse('dnsname_update', args=(self.pk,))
+
 class Domain(models.Model):
 
     # primary key
@@ -224,6 +257,12 @@ class Domain(models.Model):
             "|domain_name:" + str(domain.domain_name) +
             "|domain_note:" + str(domain.domain_note)
         )
+
+    def get_absolute_url(self):
+        return reverse('domain_detail', args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse('domain_update', args=(self.pk,))
 
 class Domainuser(models.Model):
 
@@ -278,6 +317,12 @@ class Domainuser(models.Model):
             "|system_was_logged_on:" + systemstring
         )
 
+    def get_absolute_url(self):
+        return reverse('domainuser_detail', args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse('domainuser_update', args=(self.pk,))
+
 class Entry(models.Model):
 
     # primary key
@@ -324,6 +369,12 @@ class Entry(models.Model):
             "|case:" + str(entry.case)
         )
 
+    def get_absolute_url(self):
+        return reverse('entry_detail', args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse('entry_update', args=(self.pk,))
+
 class Headline(models.Model):
 
     # primary key
@@ -345,6 +396,12 @@ class Headline(models.Model):
             "|headline_name:" + str(headline.headline_name)
         )
 
+    def get_absolute_url(self):
+        return reverse('headline_detail', args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse('headline_update', args=(self.pk,))
+
 class Ip(models.Model):
 
     # primary key
@@ -365,6 +422,9 @@ class Ip(models.Model):
             " ip_id:" + str(ip.ip_id) +
             "|ip_ip:" + str(ip.ip_ip)
         )
+
+    def get_absolute_url(self):
+        return reverse('ip_detail', args=(self.pk,))
 
 class Location(models.Model):
 
@@ -389,6 +449,12 @@ class Location(models.Model):
             "|location_note:" + str(location.location_note)
         )
 
+    def get_absolute_url(self):
+        return reverse('location_detail', args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse('location_update', args=(self.pk,))
+
 class Os(models.Model):
 
     # primary key
@@ -410,6 +476,12 @@ class Os(models.Model):
             "|os_name:" + str(os.os_name)
         )
 
+    def get_absolute_url(self):
+        return reverse('os_detail', args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse('os_update', args=(self.pk,))
+
 class Osarch(models.Model):
 
     # primary key
@@ -430,6 +502,12 @@ class Osarch(models.Model):
             " osarch_id:" + str(osarch.osarch_id) +
             "|osarch_name:" + str(osarch.osarch_name)
         )
+
+    def get_absolute_url(self):
+        return reverse('osarch_detail', args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse('osarch_update', args=(self.pk,))
 
 class Osimportname(models.Model):
 
@@ -458,6 +536,9 @@ class Osimportname(models.Model):
             "|os:" + str(osimportname.os)
         )
 
+    def get_update_url(self):
+        return reverse('osimportname_update', args=(self.pk,))
+
 class Reason(models.Model):
 
     # primary key
@@ -481,6 +562,12 @@ class Reason(models.Model):
             "|reason_note:" + str(reason.reason_note)
         )
 
+    def get_absolute_url(self):
+        return reverse('reason_detail', args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse('reason_update', args=(self.pk,))
+
 class Recommendation(models.Model):
 
     # primary key
@@ -503,6 +590,12 @@ class Recommendation(models.Model):
             "|recommendation_name:" + str(recommendation.recommendation_name) +
             "|recommendation_note:" + str(recommendation.recommendation_note)
         )
+
+    def get_absolute_url(self):
+        return reverse('recommendation_detail', args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse('recommendation_update', args=(self.pk,))
 
 class Reportitem(models.Model):
 
@@ -543,6 +636,12 @@ class Reportitem(models.Model):
             "|reportitem_note:" + str(reportitem.reportitem_note)
         )
 
+    def get_absolute_url(self):
+        return reverse('reportitem_detail', args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse('reportitem_update', args=(self.pk,))
+
 class Serviceprovider(models.Model):
 
     # primary key
@@ -565,6 +664,12 @@ class Serviceprovider(models.Model):
             "|serviceprovider_name:" + str(serviceprovider.serviceprovider_name) +
             "|serviceprovider_note:" + str(serviceprovider.serviceprovider_note)
         )
+
+    def get_absolute_url(self):
+        return reverse('serviceprovider_detail', args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse('serviceprovider_update', args=(self.pk,))
 
 class System(models.Model):
 
@@ -842,10 +947,10 @@ class System(models.Model):
             return True
 
     def get_absolute_url(self):
-        return reverse('systemdetail', args=(self.pk,))
+        return reverse('system_detail', args=(self.pk,))
 
     def get_update_url(self):
-        return reverse('systems_edit', args=(self.pk,))
+        return reverse('system_update', args=(self.pk,))
 
 class Systemhistory(models.Model):
 
@@ -891,6 +996,9 @@ class Systemstatus(models.Model):
             "|systemstatus_note:" + str(systemstatus.systemstatus_note)
         )
 
+    def get_absolute_url(self):
+        return reverse('systemstatus_detail', args=(self.pk,))
+
 class Systemtype(models.Model):
 
     # primary key
@@ -911,6 +1019,12 @@ class Systemtype(models.Model):
             " systemtype_id:" + str(systemtype.systemtype_id) +
             "|systemtype_name:" + str(systemtype.systemtype_name)
         )
+
+    def get_absolute_url(self):
+        return reverse('systemtype_detail', args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse('systemtype_update', args=(self.pk,))
 
 class Systemuser(models.Model):
 
@@ -945,6 +1059,12 @@ class Systemuser(models.Model):
             "|systemuser_is_systemadmin:" + str(systemuser.systemuser_is_systemadmin)
         )
 
+    def get_absolute_url(self):
+        return reverse('systemuser_detail', args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse('systemuser_update', args=(self.pk,))
+
 class Tag(models.Model):
 
     # primary key
@@ -974,6 +1094,12 @@ class Tag(models.Model):
             "|tag_note:" + str(tag.tag_note) +
             "|tagcolor:" + str(tag.tagcolor)
         )
+
+    def get_absolute_url(self):
+        return reverse('tag_detail', args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse('tag_update', args=(self.pk,))
 
 class Tagcolor(models.Model):
 
@@ -1090,6 +1216,12 @@ class Task(models.Model):
             "|tag:" + tagstring
         )
 
+    def get_absolute_url(self):
+        return reverse('task_detail', args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse('task_update', args=(self.pk,))
+
 class Taskname(models.Model):
 
     # primary key
@@ -1110,6 +1242,12 @@ class Taskname(models.Model):
             " taskname_id:" + str(taskname.taskname_id) +
             "|taskname_name:" + str(taskname.taskname_name)
         )
+
+    def get_absolute_url(self):
+        return reverse('taskname_detail', args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse('taskname_update', args=(self.pk,))
 
 class Taskpriority(models.Model):
 
@@ -1132,6 +1270,9 @@ class Taskpriority(models.Model):
             "|taskpriority_name:" + str(taskpriority.taskpriority_name)
         )
 
+    def get_absolute_url(self):
+        return reverse('taskpriority_detail', args=(self.pk,))
+
 class Taskstatus(models.Model):
 
     # primary key
@@ -1153,3 +1294,5 @@ class Taskstatus(models.Model):
             "|taskstatus_name:" + str(taskstatus.taskstatus_name)
         )
 
+    def get_absolute_url(self):
+        return reverse('taskstatus_detail', args=(self.pk,))

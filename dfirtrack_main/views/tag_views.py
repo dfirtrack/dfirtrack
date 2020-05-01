@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from dfirtrack_main.forms import TagForm
@@ -47,7 +48,7 @@ class TagCreate(LoginRequiredMixin, CreateView):
             tag.save()
             tag.logger(str(request.user), " TAG_ADD_EXECUTED")
             messages.success(request, 'Tag added')
-            return redirect('/tag/' + str(tag.tag_id) + '/')
+            return redirect(reverse('tag_detail', args=(tag.tag_id,)))
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -66,7 +67,7 @@ class TagDelete(LoginRequiredMixin, DeleteView):
         tag.logger(str(request.user), " TAG_DELETE_EXECUTED")
         tag.delete()
         messages.success(request, 'Tag deleted')
-        return redirect('/tag')
+        return redirect(reverse('tag_list'))
 
 class TagUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
@@ -89,6 +90,6 @@ class TagUpdate(LoginRequiredMixin, UpdateView):
             tag.save()
             tag.logger(str(request.user), " TAG_EDIT_EXECUTED")
             messages.success(request, 'Tag edited')
-            return redirect('/tag/' + str(tag.tag_id) + '/')
+            return redirect(reverse('tag_detail', args=(tag.tag_id,)))
         else:
             return render(request, self.template_name, {'form': form})

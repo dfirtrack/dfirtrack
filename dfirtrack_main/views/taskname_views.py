@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_main.forms import TasknameForm
@@ -46,7 +47,7 @@ class TasknameCreate(LoginRequiredMixin, CreateView):
             taskname.save()
             taskname.logger(str(request.user), " TASKNAME_ADD_EXECUTED")
             messages.success(request, 'Taskname added')
-            return redirect('/taskname/' + str (taskname.taskname_id) + '/')
+            return redirect(reverse('taskname_detail', args=(taskname.taskname_id,)))
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -70,6 +71,6 @@ class TasknameUpdate(LoginRequiredMixin, UpdateView):
             taskname.save()
             taskname.logger(str(request.user), " TASKNAME_EDIT_EXECUTED")
             messages.success(request, 'Taskname edited')
-            return redirect('/taskname/' + str (taskname.taskname_id) + '/')
+            return redirect(reverse('taskname_detail', args=(taskname.taskname_id,)))
         else:
             return render(request, self.template_name, {'form': form})

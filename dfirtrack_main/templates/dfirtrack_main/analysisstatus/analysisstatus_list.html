@@ -62,7 +62,7 @@
 
         <!-- analysisstatus name -->
         <div class="col-2">
-            <a href="/analysisstatus/{{ i.analysisstatus_id }}/">
+            <a href="{{ i.get_absolute_url }}">
                 {{ i.analysisstatus_name }}
             </a>
         </div>

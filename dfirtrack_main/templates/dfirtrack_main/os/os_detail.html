@@ -22,7 +22,7 @@
 <!-- up button -->
 <div class="row bottom-distance">
     <div class="col-3">
-        <a href="/os/" type="button" class="btn btn-light copy-false">
+        <a href="{% url 'os_list' %}" type="button" class="btn btn-light copy-false">
             <img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon right-distance copy-false" alt="icon">
             Up to operating systems
         </a>
@@ -80,7 +80,7 @@
     {% for i in os.system_set.all %}
         <div class="row top-distance">
             <div class="col-3">
-                <a href="/system/{{ i.system_id}}/" type="button" class="btn btn-primary btn-sm copy-true">
+                <a href="{{ i.get_absolute_url }}" type="button" class="btn btn-primary btn-sm copy-true">
                     <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                     {{ i.system_name }}
                 </a>
@@ -112,7 +112,7 @@
     {% for i in os.osimportname_set.all %}
         <div class="row top-distance">
             <div class="col-3">
-                <a href="/osimportname/">
+                <a href="{% url 'osimportname_list' %}">
                     {{ i.osimportname_name }}
                 </a>
             </div>
@@ -131,7 +131,7 @@
 {% endif %}
 
 <!-- edit button -->
-<a href="/os/{{ os.os_id }}/edit/" type="button" class="btn btn-light copy-false">
+<a href="{{ os.get_update_url }}" type="button" class="btn btn-light copy-false">
     <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon right-distance copy-false" alt="icon">
     Edit
 </a>

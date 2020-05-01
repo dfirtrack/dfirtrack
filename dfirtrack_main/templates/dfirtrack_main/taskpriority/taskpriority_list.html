@@ -57,7 +57,7 @@
 
         <!-- taskpriority name -->
         <div class="col-11">
-            <a href="/taskpriority/{{ i.taskpriority_id }}/">
+            <a href="{{ i.get_absolute_url }}">
                 {% with taskpriority=i %}
                     {% include "dfirtrack_main/includes/button_taskpriority.html" %}
                 {% endwith %}

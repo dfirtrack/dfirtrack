@@ -96,7 +96,7 @@
 
                 <!-- system -->
                 <td>
-                    <a href="/system/{{ i.system.system_id }}/" type="button" class="btn btn-primary btn-sm top-distance copy-true">
+                    <a href="{{ i.system.get_absolute_url }}" type="button" class="btn btn-primary btn-sm top-distance copy-true">
                         <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                         {{ i.system.system_name }}
                     </a>
@@ -104,7 +104,7 @@
 
                 <!-- analystmemo string -->
                 <td>
-                    <a href="/analystmemo/{{ i.analystmemo_id }}/">
+                    <a href="{{ i.get_absolute_url }}">
                         {{ i }}
                     </a>
                 </td>

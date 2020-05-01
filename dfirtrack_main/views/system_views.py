@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
@@ -97,7 +98,7 @@ class SystemCreate(LoginRequiredMixin, CreateView):
             # call logger
             system.logger(str(request.user), ' SYSTEM_ADD_EXECUTED')
             messages.success(request, 'System added')
-            return redirect('/system/' + str(system.system_id) + '/')
+            return redirect(reverse('system_detail', args=(system.system_id,)))
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -189,7 +190,7 @@ class SystemUpdate(LoginRequiredMixin, UpdateView):
             # call logger
             system.logger(str(request.user), ' SYSTEM_EDIT_EXECUTED')
             messages.success(request, 'System edited')
-            return redirect('/system/' + str(system.system_id) + '/')
+            return redirect(reverse('system_detail', args=(system.system_id,)))
         else:
             return render(request, self.template_name, {'form': form})
 

@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_main.forms import ReportitemForm
@@ -54,7 +55,7 @@ class ReportitemCreate(LoginRequiredMixin, CreateView):
             reportitem.save()
             reportitem.logger(str(request.user), " REPORTITEM_ADD_EXECUTED")
             messages.success(request, 'Reportitem added')
-            return redirect('/system/' + str(reportitem.system.system_id) + '/')
+            return redirect(reverse('system_detail', args=(reportitem.system.system_id,)))
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -79,6 +80,6 @@ class ReportitemUpdate(LoginRequiredMixin, UpdateView):
             reportitem.save()
             reportitem.logger(str(request.user), " REPORTITEM_EDIT_EXECUTED")
             messages.success(request, 'Reportitem edited')
-            return redirect('/system/' + str(reportitem.system.system_id) + '/')
+            return redirect(reverse('system_detail', args=(reportitem.system.system_id,)))
         else:
             return render(request, self.template_name, {'form': form})

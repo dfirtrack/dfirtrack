@@ -67,7 +67,7 @@
 
         <!-- company name -->
         <div class="col-2">
-            <a href="/company/{{ i.company_id }}/">
+            <a href="{{ i.get_absolute_url }}">
                 {{ i.company_name }}
             </a>
         </div>
@@ -75,7 +75,7 @@
         <!-- division -->
         <div class="col-2">
             {% if i.division %}
-                <a href="/division/{{ i.division.division_id }}/">
+                <a href="{{ i.division.get_absolute_url }}">
                     {{ i.division.division_name }}
                 </a>
             {% else %}
@@ -94,7 +94,7 @@
 
         <!-- edit button -->
         <div class="col-1">
-            <a href="/company/{{ i.company_id }}/edit/" type="button" class="btn btn-sm btn-light copy-false">
+            <a href="{{ i.get_update_url }}" type="button" class="btn btn-sm btn-light copy-false">
                 <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                 Edit
             </a>
@@ -109,7 +109,7 @@
 <!-- add button -->
 <div class="row top-distance">
     <div class="col-1">
-        <a href="/company/add/" type="button" class="btn btn-light copy-false">
+        <a href="{% url 'company_create' %}" type="button" class="btn btn-light copy-false">
             <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon right-distance copy-false" alt="icon">
             Add company
         </a>

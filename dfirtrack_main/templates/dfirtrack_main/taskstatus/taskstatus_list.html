@@ -57,7 +57,7 @@
 
         <!-- taskstatus name -->
         <div class="col-11">
-            <a href="/taskstatus/{{ i.taskstatus_id }}/">
+            <a href="{{ i.get_absolute_url }}">
                 {% with taskstatus=i %}
                     {% include "dfirtrack_main/includes/button_taskstatus.html" %}
                 {% endwith %}

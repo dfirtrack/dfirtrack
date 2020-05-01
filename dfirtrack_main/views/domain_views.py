@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_main.forms import DomainForm
@@ -47,7 +48,7 @@ class DomainCreate(LoginRequiredMixin, CreateView):
             domain.save()
             domain.logger(str(request.user), " DOMAIN_ADD_EXECUTED")
             messages.success(request, 'Domain added')
-            return redirect('/domain/' + str(domain.domain_id) + '/')
+            return redirect(reverse('domain_detail', args=(domain.domain_id,)))
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -93,6 +94,6 @@ class DomainUpdate(LoginRequiredMixin, UpdateView):
             domain.save()
             domain.logger(str(request.user), " DOMAIN_EDIT_EXECUTED")
             messages.success(request, 'Domain edited')
-            return redirect('/domain/' + str(domain.domain_id) + '/')
+            return redirect(reverse('domain_detail', args=(domain.domain_id,)))
         else:
             return render(request, self.template_name, {'form': form})
