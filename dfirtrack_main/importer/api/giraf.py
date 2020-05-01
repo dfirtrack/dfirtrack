@@ -2,6 +2,7 @@ import dateutil.parser
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
+from django.urls import reverse
 from django.utils import timezone
 from dfirtrack.config import GIRAF_PASS as giraf_pass
 from dfirtrack.config import GIRAF_URL as giraf_url
@@ -23,7 +24,7 @@ def config_check(request):
         # call logger for consistency
         debug_logger(str(request.user), " API_GIRAF_SYSTEMS_END")
         # leave importer
-        return redirect('/system/')
+        return redirect(reverse('system_list'))
 
     # check GIRAF_URL
     if giraf_url == '':
@@ -33,7 +34,7 @@ def config_check(request):
         # call logger for consistency
         debug_logger(str(request.user), " API_GIRAF_SYSTEMS_END")
         # leave importer
-        return redirect('/system/')
+        return redirect(reverse('system_list'))
 
     # check GIRAF_USER
     if giraf_user == '':
@@ -43,7 +44,7 @@ def config_check(request):
         # call logger for consistency
         debug_logger(str(request.user), " API_GIRAF_SYSTEMS_END")
         # leave importer
-        return redirect('/system/')
+        return redirect(reverse('system_list'))
 
 
 @login_required(login_url="/login")
@@ -67,7 +68,7 @@ def system(request):
         messages.error(request, "GIRAF API URL not available.")
         # call logger (for consistency purposes to show end of api call)
         debug_logger(request_user, " API_GIRAF_SYSTEMS_END")
-        return redirect('/system/')
+        return redirect(reverse('system_list'))
 
     # get JSON from GIRAF API (returns <class 'requests.models.Response'>)
     system_json = requests.get(giraf_url + '/api/systems/systems/', auth=(giraf_user,giraf_pass))
@@ -83,7 +84,7 @@ def system(request):
         messages.error(request, "GIRAF API possible authentication error.")
         # call logger (for consistency purposes to show end of api call)
         debug_logger(request_user, " API_GIRAF_SYSTEMS_END")
-        return redirect('/system/')
+        return redirect(reverse('system_list'))
 
     # iterate over systems
     for system_dict in system_list:
@@ -257,7 +258,7 @@ def system(request):
     # call logger
     debug_logger(request_user, " API_GIRAF_SYSTEMS_END")
 
-    return redirect('/system/')
+    return redirect(reverse('system_list'))
 
 @login_required(login_url="/login")
 def entry(request):
@@ -283,7 +284,10 @@ def entry(request):
         messages.error(request, "GIRAF API URL not available.")
         # call logger (for consistency purposes to show end of api call)
         debug_logger(request_user, " API_GIRAF_SYSTEMS_END")
-        return redirect('/' + redirector)
+        if redirector == 'entry':
+            return redirect(reverse('entry_list'))
+        elif redirector == 'system':
+            return redirect(reverse('system_list'))
 
     # get JSON from GIRAF API (returns <class 'requests.models.Response'>)
     entry_json = requests.get(giraf_url + '/api/systems/timelines/', auth=(giraf_user,giraf_pass))
@@ -300,7 +304,10 @@ def entry(request):
         # call logger (for consistency purposes to show end of api call)
         debug_logger(request_user, " API_GIRAF_ENTRIES_END")
         # redirect depending on redirector from GET request
-        return redirect('/' + redirector)
+        if redirector == 'entry':
+            return redirect(reverse('entry_list'))
+        elif redirector == 'system':
+            return redirect(reverse('system_list'))
 
     # iterate over entries
     for entry_dict in entry_list:
@@ -373,4 +380,7 @@ def entry(request):
     debug_logger(request_user, " API_GIRAF_ENTRIES_END")
 
     # redirect depending on redirector from GET request
-    return redirect('/' + redirector)
+    if redirector == 'entry':
+        return redirect(reverse('entry_list'))
+    elif redirector == 'system':
+        return redirect(reverse('system_list'))

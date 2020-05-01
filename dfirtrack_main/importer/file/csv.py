@@ -2,6 +2,7 @@ import csv
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.utils import timezone
 from dfirtrack.config import SYSTEMTAG_HEADLINE as systemtag_headline
 from dfirtrack.config import SYSTEMTAG_SUBHEADLINE as systemtag_subheadline
@@ -115,7 +116,7 @@ def system_ip(request):
         # call logger
         debug_logger(str(request.user), " SYSTEM_IP_IMPORTER_END")
 
-        return redirect('/system/')
+        return redirect(reverse('system_list'))
 
     else:
         # show empty form
@@ -165,7 +166,7 @@ def system_tag(request):
             messages.error(request, "No relevant tags defined. Check `TAGLIST` in `dfirtrack.config`!")
             # call logger
             error_logger(str(request.user), " SYSTEM_TAG_IMPORTER_NO_TAGS_DEFINED.")
-            return redirect('/system/')
+            return redirect(reverse('system_list'))
         else:
             taglist = TAGLIST
 
@@ -174,7 +175,7 @@ def system_tag(request):
             messages.error(request, "No prefix string defined. Check `TAGPREFIX` in `dfirtrack.config`!")
             # call logger
             error_logger(str(request.user), " SYSTEM_TAG_IMPORTER_NO_TAGPREFIX_DEFINED.")
-            return redirect('/system/')
+            return redirect(reverse('system_list'))
         # expand the string by an underscore
         else:
             tagprefix = TAGPREFIX + "_"
@@ -185,7 +186,7 @@ def system_tag(request):
             error_logger(str(request.user), " SYSTEMTAG_HEADLINE_VARIABLE_UNDEFINED")
             messages.error(request, "The variable SYSTEMTAG_HEADLINE seems to be undefined. Check `dfirtrack.config`!")
             # leave importer
-            return redirect('/system/')
+            return redirect(reverse('system_list'))
 
         # check whether SYSTEMTAG_SUBHEADLINE is defined in `dfirtrack.config`
         if systemtag_subheadline == '':
@@ -193,7 +194,7 @@ def system_tag(request):
             error_logger(str(request.user), " SYSTEMTAG_SUBHEADLINE_VARIABLE_UNDEFINED")
             messages.error(request, "The variable SYSTEMTAG_SUBHEADLINE seems to be undefined. Check `dfirtrack.config`!")
             # leave importer
-            return redirect('/system/')
+            return redirect(reverse('system_list'))
 
         # get text out of file (variable results from request object via file upload field)
         systemtagcsv = TextIOWrapper(request.FILES['systemtagcsv'].file, encoding=request.encoding)
@@ -443,7 +444,7 @@ def system_tag(request):
         # call logger
         debug_logger(str(request.user), " SYSTEM_TAG_IMPORTER_END")
 
-        return redirect('/system/')
+        return redirect(reverse('system_list'))
 
     else:
         # show empty form

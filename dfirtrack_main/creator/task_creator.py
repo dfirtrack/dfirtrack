@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django_q.tasks import async_task
 from dfirtrack_main.forms import TaskCreatorForm
 from dfirtrack_main.logger.default_logger import debug_logger
@@ -21,7 +22,7 @@ def task_creator(request):
             request_user,
         )
 
-        return redirect('/task/')
+        return redirect(reverse('task_list'))
 
     # show empty form
     else:

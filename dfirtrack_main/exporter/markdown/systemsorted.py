@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.core.files import File
 from django.shortcuts import redirect
+from django.urls import reverse
 from django_q.tasks import async_task
 from dfirtrack.config import MARKDOWN_PATH as markdown_path
 from dfirtrack_main.exporter.markdown import clean_directory, config_check, path_check, write_report
@@ -81,13 +82,13 @@ def systemsorted(request):
     # check for existing variable MARKDOWN_PATH
     mp_var_exists = config_check.config_check(request)
     if not mp_var_exists:
-        return redirect('/system/')
+        return redirect(reverse('system_list'))
         exit()
 
     # check for existing path
     mp_path_exists = path_check.path_check(request)
     if not mp_path_exists:
-        return redirect('/system/')
+        return redirect(reverse('system_list'))
         exit()
 
     # call async function
@@ -96,7 +97,7 @@ def systemsorted(request):
         request_user,
     )
 
-    return redirect('/system/')
+    return redirect(reverse('system_list'))
 
 
 def systemsorted_async(request_user):

@@ -1,6 +1,7 @@
 from dateutil.parser import parse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from dfirtrack_main.forms import EntryFileImport
 from dfirtrack_main.logger.default_logger import debug_logger, warning_logger
 from dfirtrack_main.models import Entry
@@ -108,7 +109,7 @@ def entry(request):
         # call logger
         debug_logger(str(request.user), " ENTRY_TXT_IMPORTER_END")
 
-        return redirect('/system/'+ system)
+        return redirect(reverse('system_detail', args=(system,)))
 
     else:
         # show empty form with preselected system

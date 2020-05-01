@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.utils import timezone
 from django_q.tasks import async_task
 from dfirtrack_main.forms import TagCreatorForm
@@ -22,7 +23,7 @@ def tag_creator(request):
             request_user,
         )
 
-        return redirect('/tag/')
+        return redirect(reverse('tag_list'))
 
     # show empty form
     else:
