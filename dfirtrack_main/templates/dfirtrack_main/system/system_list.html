@@ -70,7 +70,7 @@
 
         <!-- system add button -->
         <div class="col-2">
-            <a href="/system/add/" type="button" class="btn btn-light copy-false">
+            <a href="{% url 'system_create' %}" type="button" class="btn btn-light copy-false">
                 <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon right-distance copy-false" alt="icon">
                 Add system
             </a>
@@ -78,7 +78,7 @@
 
         <!-- system creator button -->
         <div class="col-2">
-            <a href="/system/creator/" type="button" class="btn btn-light copy-false">
+            <a href="{% url 'system_creator' %}" type="button" class="btn btn-light copy-false">
                 <img src="{% static 'dfirtrack_main/icons/box.svg' %}" class="icon right-distance copy-false" alt="icon">
                 Creator
             </a>
@@ -90,7 +90,7 @@
 
         <!-- system ips importer button -->
         <div class="col-2">
-            <a href="/system/importer/file/csv/system_ip/" type="button" class="btn btn-light copy-false">
+            <a href="{% url 'system_importer_file_csv_system_ip' %}" type="button" class="btn btn-light copy-false">
                 <img src="{% static 'dfirtrack_main/icons/list.svg' %}" class="icon right-distance copy-false" alt="icon">
                 Import CSV with IPs
             </a>
@@ -98,7 +98,7 @@
 
         <!-- system tags importer button -->
         <div class="col-2">
-            <a href="/system/importer/file/csv/system_tag/" type="button" class="btn btn-light copy-false">
+            <a href="{% url 'system_importer_file_csv_system_tag' %}" type="button" class="btn btn-light copy-false">
                 <img src="{% static 'dfirtrack_main/icons/list.svg' %}" class="icon right-distance copy-false" alt="icon">
                 Import CSV with tags
             </a>
@@ -125,7 +125,7 @@
 
         <!-- system tags importer button -->
         <div class="col-2">
-            <a href="/reportitem/importer/file/filesystem/reportitem/" type="button" class="btn btn-light copy-false">
+            <a href="{% url 'reportitem_importer_file_filesystem' %}" type="button" class="btn btn-light copy-false">
                 <img src="{% static 'dfirtrack_main/icons/list.svg' %}" class="icon right-distance copy-false" alt="icon">
                 Import from filesystem
             </a>
@@ -155,12 +155,12 @@
 
         <!-- export CSV button -->
         <div class="col-2">
-            <a href="/system/exporter/spreadsheet/csv/system/" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/list.svg' %}" class="icon right-distance copy-false" alt="icon">  Export CSV</a>
+            <a href="{% url 'system_exporter_spreadsheet_csv' %}" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/list.svg' %}" class="icon right-distance copy-false" alt="icon">  Export CSV</a>
         </div>
 
         <!-- export XLS button -->
         <div class="col-4">
-            <a href="/system/exporter/spreadsheet/xls/system/" type="button" class="btn btn-light copy-false">
+            <a href="{% url 'system_exporter_spreadsheet_xls' %}" type="button" class="btn btn-light copy-false">
                 <img src="{% static 'dfirtrack_main/icons/spreadsheet.svg' %}" class="icon right-distance copy-false" alt="icon">
                 Export XLS
             </a>
@@ -168,7 +168,7 @@
 
         <!-- export markdown (system) button -->
         <div class="col-2">
-            <a href="/system/exporter/markdown/systemsorted/" type="button" class="btn btn-light copy-false">
+            <a href="{% url 'system_exporter_markdown_systemorted' %}" type="button" class="btn btn-light copy-false">
                 <img src="{% static 'dfirtrack_main/icons/list-rich.svg' %}" class="icon right-distance copy-false" alt="icon">
                 Export sorted by system
             </a>
@@ -176,7 +176,7 @@
 
         <!-- export markdown (domain) button -->
         <div class="col-3">
-            <a href="/system/exporter/markdown/domainsorted/" type="button" class="btn btn-light copy-false">
+            <a href="{% url 'system_exporter_markdown_domainsorted' %}" type="button" class="btn btn-light copy-false">
                 <img src="{% static 'dfirtrack_main/icons/list-rich.svg' %}" class="icon right-distance copy-false" alt="icon">
                 Export sorted by domain
             </a>
@@ -209,7 +209,7 @@
 
             <!-- import systems button -->
             <div class="col-2">
-                <a href="/system/importer/api/giraf/system/" type="button" class="btn btn-light copy-false">
+                <a href="{% url 'system_importer_api_giraf' %}" type="button" class="btn btn-light copy-false">
                     <img src="{% static 'dfirtrack_main/icons/cloud-download.svg' %}" class="icon right-distance copy-false" alt="icon">
                     Import systems
                 </a>

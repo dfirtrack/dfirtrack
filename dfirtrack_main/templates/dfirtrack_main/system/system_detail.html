@@ -33,7 +33,7 @@
 
     <!-- up button -->
     <div class="col-6">
-        <a href="/system/" type="button" class="btn btn-light copy-false">
+        <a href="{% url 'system_list' %}" type="button" class="btn btn-light copy-false">
             <img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon right-distance copy-false" alt="icon">
             Up to systems
         </a>
@@ -41,7 +41,7 @@
 
     <!-- edit button -->
     <div class="col-3">
-        <a href="/system/{{ system.system_id }}/edit/" type="button" class="btn btn-light copy-false">
+        <a href="{{ system.get_update_url }}" type="button" class="btn btn-light copy-false">
             <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon right-distance copy-false" alt="icon">
             Edit
         </a>
@@ -85,7 +85,7 @@
         {% if system.dnsname %}
             <!-- tooltip with dnsname note -->
             <span data-toggle="tooltip" data-placement="auto" title="{{ system.dnsname.dnsname_note }}">
-                <a href="/dnsname/{{ system.dnsname.dnsname_id}}/">
+                <a href="{{ system.dnsname.get_absolute_url }}">
                     {{ system.dnsname }}
                 </a>
             </span>
@@ -189,7 +189,7 @@
             {% for i in system.tag.all %}
                 <!-- tooltip with tag note -->
                 <span data-toggle="tooltip" data-placement="auto" title="{{ i.tag_note }}">
-                    <a href="/tag/{{ i.tag_id }}/" type="button" class="btn btn-sm btn-{{ i.tagcolor }} round copy-true">
+                    <a href="{{ i.get_absolute_url }}" type="button" class="btn btn-sm btn-{{ i.tagcolor }} round copy-true">
                         <!-- black tag icon for white tag (black color of font is defined in corresponding CSS for button) -->
                         {% if i.tagcolor.tagcolor_name == 'white' %}
                             <img src="{% static 'dfirtrack_main/icons/tag.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
@@ -209,7 +209,7 @@
         <div class="font-weight-bold">Cases:</div>
         {% if system.case.all %}
             {% for i in system.case.all %}
-                <a href="/case/{{ i.case_id }}/">
+                <a href="{{ i.get_absolute_url }}">
                     {{ i }}
                 </a>
             {% endfor %}
@@ -275,7 +275,7 @@
 
                             <!-- task name -->
                             <td>
-                                <a href="/task/{{ i.task_id }}/" type="button" class="btn btn-primary btn-sm sharp copy-true">
+                                <a href="{{ i.get_absolute_url }}" type="button" class="btn btn-primary btn-sm sharp copy-true">
                                     <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                                     {{ i.taskname }}
                                 </a>
@@ -318,7 +318,7 @@
 
                             <!-- task status -->
                             <td>
-                                <a href="/taskstatus/{{ i.taskstatus.taskstatus_id }}/">
+                                <a href="{{ i.taskstatus.get_absolute_url }}">
                                     {% with taskstatus=i.taskstatus %}
                                         {% include "dfirtrack_main/includes/button_taskstatus.html" %}
                                     {% endwith %}
@@ -346,7 +346,7 @@
 
                             <!-- task priority -->
                             <td>
-                                <a href="/taskpriority/{{ i.taskpriority.taskpriority_id }}/">
+                                <a href="{{ i.taskpriority.get_absolute_url }}">
                                     {% with taskpriority=i.taskpriority %}
                                         {% include "dfirtrack_main/includes/button_taskpriority.html" %}
                                     {% endwith %}
@@ -449,7 +449,7 @@
 
                                 <!-- task name -->
                                 <td>
-                                    <a href="/task/{{ i.task_id }}/" type="button" class="btn btn-primary btn-sm sharp copy-true">
+                                    <a href="{{ i.get_absolute_url }}" type="button" class="btn btn-primary btn-sm sharp copy-true">
                                         <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                                         {{ i.taskname }}
                                     </a>
@@ -475,7 +475,7 @@
 
                                 <!-- task status -->
                                 <td>
-                                    <a href="/taskstatus/{{ i.taskstatus.taskstatus_id }}/">
+                                    <a href="{{ i.taskstatus.get_absolute_url }}">
                                         {% with taskstatus=i.taskstatus %}
                                             {% include "dfirtrack_main/includes/button_taskstatus.html" %}
                                         {% endwith %}
@@ -493,7 +493,7 @@
 
                                 <!-- task priority -->
                                 <td>
-                                    <a href="/taskpriority/{{ i.taskpriority.taskpriority_id }}/">
+                                    <a href="{{ i.taskpriority.get_absolute_url }}">
                                         {% with taskpriority=i.taskpriority %}
                                             {% include "dfirtrack_main/includes/button_taskpriority.html" %}
                                         {% endwith %}
@@ -571,7 +571,7 @@
             {% if system.analysisstatus %}
                 <!-- tooltip with analysisstatus note -->
                 <span data-toggle="tooltip" data-placement="auto" title="{{ system.analysisstatus.analysisstatus_note }}">
-                    <a href="/analysisstatus/{{ system.analysisstatus.analysisstatus_id }}/">
+                    <a href="{{ system.analysisstatus.get_absolute_url }}">
                         {{ system.analysisstatus }}
                     </a>
                 </span>
@@ -586,7 +586,7 @@
             {% if system.reason %}
                 <!-- tooltip with reason note -->
                 <span data-toggle="tooltip" data-placement="auto" title="{{ system.reason.reason_note }}">
-                    <a href="/reason/{{ system.reason.reason_id }}/">
+                    <a href="{{ system.reason.get_absolute_url }}">
                         {{ system.reason }}
                     </a>
                 </span>
@@ -601,7 +601,7 @@
             {% if system.recommendation %}
                 <!-- tooltip with recommendation note -->
                 <span data-toggle="tooltip" data-placement="auto" title="{{ system.recommendation.recommendation_note }}">
-                    <a href="/recommendation/{{ system.recommendation.recommendation_id }}/">
+                    <a href="{{ system.recommendation.get_absolute_url }}">
                         {{ system.recommendation }}
                     </a>
                 </span>
@@ -780,7 +780,7 @@
 
                             <!-- entry id -->
                             <td>
-                                <a href="/entry/{{ i.entry_id}}/">
+                                <a href="{{ i.get_absolute_url }}">
                                     {{ i.entry_id }}
                                 </a>
                             </td>
@@ -891,7 +891,7 @@
             <div class="col-3">
                 <div class="font-weight-bold">Systemtype:</div>
                 {% if system.systemtype %}
-                    <a href="/systemtype/{{ system.systemtype.systemtype_id }}/">
+                    <a href="{{ system.systemtype.get_absolute_url }}">
                         {{ system.systemtype }}
                     </a>
                 {% else %}
@@ -904,7 +904,7 @@
                 <div class="font-weight-bold">IP addresses:</div>
                 {% if system.ip.all %}
                     {% for i in system.ip.all %}
-                        <a href="/ip/{{ i.ip_id }}/">
+                        <a href="{{ i.get_absolute_url }}">
                             {{ i.ip_ip }}<br>
                         </a>
                     {% endfor %}
@@ -919,7 +919,7 @@
                 {% if system.domain %}
                     <!-- tooltip with domain note -->
                     <span data-toggle="tooltip" data-placement="auto" title="{{ system.domain.domain_note }}">
-                        <a href="/domain/{{ system.domain.domain_id }}/">
+                        <a href="{{ system.domain.get_absolute_url }}">
                             {{ system.domain.domain_name }}
                         </a>
                     </span>
@@ -932,7 +932,7 @@
             <div class="col-3">
                 <div class="font-weight-bold">Operating system:</div>
                 {% if system.os %}
-                    <a href="/os/{{ system.os.os_id }}/">
+                    <a href="{{ system.os.get_absolute_url }}">
                         {{ system.os.os_name }}
                     </a>
                 {% else %}
@@ -1031,7 +1031,7 @@
             <div class="col-3">
                 <div class="font-weight-bold">Host system:</div>
                 {% if system.host_system %}
-                    <a href="/system/{{ system.host_system.system_id }}/" type="button" class="btn btn-primary btn-sm top-distance copy-true">
+                    <a href="{{ system.host_system.get_absolute_url }}" type="button" class="btn btn-primary btn-sm top-distance copy-true">
                         <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                         {{ system.host_system.system_name }}
                     </a>
@@ -1078,7 +1078,7 @@
                     {% for i in system.company.all %}
                         <!-- tooltip with company note -->
                         <span data-toggle="tooltip" data-placement="auto" title="{{ i.company_note }}">
-                            <a href="/company/{{ i.company_id }}/">
+                            <a href="{{ i.get_absolute_url }}">
                                 {{ i.company_name }}<br>
                             </a>
                         </span>
@@ -1094,7 +1094,7 @@
                 {% if system.location %}
                     <!-- tooltip with location note -->
                     <span data-toggle="tooltip" data-placement="auto" title="{{ system.location.location_note }}">
-                        <a href="/location/{{ system.location.location_id }}/">
+                        <a href="{{ system.location.get_absolute_url }}">
                             {{ system.location }}
                         </a>
                     </span>
@@ -1109,7 +1109,7 @@
                 {% if system.serviceprovider %}
                     <!-- tooltip with serviceprovider note -->
                     <span data-toggle="tooltip" data-placement="auto" title="{{ system.serviceprovider.serviceprovider_note }}">
-                        <a href="/serviceprovider/{{ system.serviceprovider.serviceprovider_id }}/">
+                        <a href="{{ system.serviceprovider.get_absolute_url }}">
                             {{ system.serviceprovider }}
                         </a>
                     </span>
@@ -1124,7 +1124,7 @@
                 {% if system.contact %}
                     <!-- tooltip with contact note -->
                     <span data-toggle="tooltip" data-placement="auto" title="{{ system.contact.contact_note }}">
-                        <a href="/contact/{{ system.contact.contact_id }}/">
+                        <a href="{{ system.contact.get_absolute_url }}">
                             {{ system.contact.contact_name }}
                         </a>
                     </span>
@@ -1244,7 +1244,7 @@
                         {{ i.analystmemo_note|linebreaks }}
 
                         <!-- analystmemo edit button -->
-                        <a href="/analystmemo/{{ i.analystmemo_id }}/edit/" type="button" class="btn btn-light btn-sm copy-false">
+                        <a href="{{ i.get_update_url }}" type="button" class="btn btn-light btn-sm copy-false">
                             <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                             Edit
                         </a>
@@ -1336,7 +1336,7 @@
                         {{ i.reportitem_note|linebreaks }}
 
                         <!-- reportitem edit button -->
-                        <a href="/reportitem/{{ i.reportitem_id }}/edit/" type="button" class="btn btn-light btn-sm top-distance copy-false">
+                        <a href="{{ i.get_update_url }}" type="button" class="btn btn-light btn-sm top-distance copy-false">
                             <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                             Edit
                         </a>
@@ -1437,7 +1437,7 @@
 
     <!-- up to systems button -->
     <div class="col-6">
-        <a href="/system/" type="button" class="btn btn-light copy-false">
+        <a href="{% url 'system_list' %}" type="button" class="btn btn-light copy-false">
             <img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon right-distance copy-false" alt="icon">
             Up to systems
         </a>
@@ -1445,7 +1445,7 @@
 
     <!-- edit button -->
     <div class="col-3">
-        <a href="/system/{{ system.system_id }}/edit/" type="button" class="btn btn-light copy-false">
+        <a href="{{ system.get_update_url }}" type="button" class="btn btn-light copy-false">
             <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon right-distance copy-false" alt="icon">
             Edit
         </a>
