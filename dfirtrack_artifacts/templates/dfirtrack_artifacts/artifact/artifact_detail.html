@@ -28,7 +28,7 @@
 
     <!-- up button -->
     <div class="col-6">
-        <a href="/artifacts/artifact" type="button" class="btn btn-light copy-false">
+        <a href="{% url 'artifacts_artifact_list' %}" type="button" class="btn btn-light copy-false">
             <img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon right-distance copy-false" alt="icon">
             Up to artifacts
         </a>
@@ -36,7 +36,7 @@
 
     <!-- edit button -->
     <div class="col-6">
-        <a href="/artifacts/artifact/update/{{ artifact.artifact_id }}" type="button" class="btn btn-light copy-false">
+        <a href="{{ artifact.get_update_url }}" type="button" class="btn btn-light copy-false">
             <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon right-distance copy-false" alt="icon">
             Edit
         </a>
@@ -62,7 +62,7 @@
 
     <!-- system -->
     <div class="col-3">
-        <a href="/systems/{{ artifact.system.system_id}}" type="button" class="btn btn-primary btn-sm copy-true">
+        <a href="{{ artifact.system.get_absolute_url }}" type="button" class="btn btn-primary btn-sm copy-true">
             <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
             {{ artifact.system.system_name }}
         </a>
@@ -103,7 +103,7 @@
     <div class="col">
         <div class="font-weight-bold">Case:</div>
         {% if artifact.case %}
-            <a href="/cases/{{ i.case_id }}">
+            <a href="{{ artifact.case.get_absolute_url }}">
                 {{ artifact.case.case_name }}
             </a>
         {% else %}
@@ -132,7 +132,7 @@
         <!-- artifactstatus -->
         <div class="col-3">
             <div class="font-weight-bold">Artifactstatus:</div>
-            <a href="/artifacts/artifactstatus/detail/{{ artifact.artifactstatus.artifactstatus_id }}">
+            <a href="{{ artifact.artifactstatus.get_absolute_url }}">
                 {{ artifact.artifactstatus.artifactstatus_name }}
             </a>
         </div>
@@ -140,7 +140,7 @@
         <!-- artifacttype -->
         <div class="col-3">
             <div class="font-weight-bold">Artifacttype:</div>
-            <a href="/artifacts/artifacttype/detail/{{ artifact.artifacttype.artifacttype_id }}">
+            <a href="{{ artifact.artifacttype.get_absolute_url }}">
                 {{ artifact.artifacttype.artifacttype_name }}
             </a>
         </div>
@@ -355,7 +355,7 @@
 
     <!-- up button -->
     <div class="col-6">
-        <a href="/artifacts/artifact" type="button" class="btn btn-light copy-false">
+        <a href="{% url 'artifacts_artifact_list' %}" type="button" class="btn btn-light copy-false">
             <img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon right-distance copy-false" alt="icon">
             Up to artifacts
         </a>
@@ -363,7 +363,7 @@
 
     <!-- edit button -->
     <div class="col-6">
-        <a href="/artifacts/artifact/update/{{ artifact.artifact_id }}" type="button" class="btn btn-light copy-false">
+        <a href="{{ artifact.get_update_url }}" type="button" class="btn btn-light copy-false">
             <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon right-distance copy-false" alt="icon">
             Edit
         </a>
