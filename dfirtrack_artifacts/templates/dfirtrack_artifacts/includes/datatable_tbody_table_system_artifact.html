@@ -13,21 +13,21 @@
 
     <!-- artifact name -->
     <td>
-        <a href="/artifacts/artifact/detail/{{ i.artifact_id }}">
+        <a href="{{ i.get_absolute_url }}">
             {{ i.artifact_name }}
         </a>
     </td>
 
     <!-- artifactstatus -->
     <td>
-        <a href="/artifacts/artifactstatus/detail/{{ i.artifactstatus.artifactstatus_id }}">
+        <a href="{{ i.artifactstatus.get_absolute_url }}">
             {{ i.artifactstatus.artifactstatus_name }}
         </a>
     </td>
 
     <!-- artifacttype -->
     <td>
-        <a href="/artifacts/artifacttype/detail/{{ i.artifacttype.artifacttype_id }}">
+        <a href="{{ i.artifacttype.get_absolute_url }}">
             {{ i.artifacttype.artifacttype_name }}
         </a>
     </td>
