@@ -319,7 +319,11 @@ class ReportitemForm(forms.ModelForm):
         }
         # special form type or option
         widgets = {
-            'reportitem_note': forms.Textarea(attrs={'autofocus': 'autofocus','rows': 20}),
+            'reportitem_note': forms.Textarea(attrs={
+                'autofocus': 'autofocus',
+                'rows': 20,
+                'style': 'font-family: monospace',
+            }),
         }
 
 class ServiceproviderForm(forms.ModelForm):
