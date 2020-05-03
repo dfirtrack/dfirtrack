@@ -12,7 +12,7 @@ def system(request):
     sod = HttpResponse(content_type='text/csv')
 
     # define filename
-    sod['Content-Disposition'] = 'attachment; filename="sod.csv"'
+    sod['Content-Disposition'] = 'attachment; filename="systems.csv"'
 
     # create file object for writing lines
     sod_writer = csv.writer(sod)
