@@ -288,6 +288,9 @@ def system(request):
     worksheet.write(row_num, 0, 'Created by:', style)
     worksheet.write(row_num, 1, creator, style)
 
+    #print("rows: " + str(len(worksheet._Worksheet__rows)))
+    #print("cols: " + str(len(worksheet._Worksheet__cols))) # --> does not work
+
     # close file
     workbook.save(sod)
 
