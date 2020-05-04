@@ -33,10 +33,9 @@ def system(request):
 
     # define styling for headline
     style = xlwt.XFStyle()
-    font = xlwt.Font()
-    font.bold = True
-    style.font = font
-    borders = xlwt.Borders()
+    style = xlwt.easyxf(
+        'font: bold on; alignment: horizontal center'
+    )
 
     """ start with headline """
 
@@ -92,6 +91,9 @@ def system(request):
 
     # clear styling to default
     style = xlwt.XFStyle()
+    style = xlwt.easyxf(
+        'alignment: vertical top, horizontal left'
+    )
 
     """ append systems """
 
@@ -245,7 +247,7 @@ def system(request):
                     i = i + 1
             entryline.append(tag)
         # case
-        if dfirtrack_config.SPREAD_TAG:
+        if dfirtrack_config.SPREAD_CASE:
             cases_all = system.case.all()
             # count cases
             n = system.case.count()
