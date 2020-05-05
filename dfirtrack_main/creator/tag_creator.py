@@ -1,7 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from django.utils import timezone
 from django_q.tasks import async_task
 from dfirtrack_main.forms import TagCreatorForm
 from dfirtrack_main.logger.default_logger import debug_logger
