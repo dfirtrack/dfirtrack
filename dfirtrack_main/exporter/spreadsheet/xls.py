@@ -27,9 +27,10 @@ def system(request):
     # define filename
     sod['Content-Disposition'] = 'attachment; filename="systems.xls"'
 
-    # preamble
+    # create workbook object with UTF-8 encoding
     workbook = xlwt.Workbook(encoding='utf-8')
-    worksheet = workbook.add_sheet('Systems')
+    # define name of worksheet within file
+    worksheet = workbook.add_sheet('systems')
 
     # define styling for headline
     style = xlwt.XFStyle()
@@ -267,11 +268,11 @@ def system(request):
         # system create time
         if dfirtrack_config.SPREAD_SYSTEM_CREATE_TIME:
             systeme_create_time = system.system_create_time.strftime('%Y-%m-%d %H:%M')
-            entryline.append(systeme_create_time )
+            entryline.append(systeme_create_time)
         # system modify time
         if dfirtrack_config.SPREAD_SYSTEM_MODIFY_TIME:
             system_modify_time = system.system_modify_time.strftime('%Y-%m-%d %H:%M')
-            entryline.append(system_modify_time )
+            entryline.append(system_modify_time)
 
         # write line for system
         worksheet = write_row(worksheet, entryline, row_num, style)
