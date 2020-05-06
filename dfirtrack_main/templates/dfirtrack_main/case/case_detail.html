@@ -11,6 +11,10 @@
 
 {% load staticfiles %}
 
+<!-- javascript and CSS for datatables -->
+<link rel="stylesheet" type="text/css" href="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.css' %}"/>
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.js' %}"></script>
+
 <!-- HTML head in maintemplate -->
 {% endblock %}
 
@@ -86,16 +90,27 @@
 <!-- systems -->
 {% if case.system_set.all %}
 
-    {% for i in case.system_set.all %}
-        <div class="row top-distance">
-            <div class="col-3">
-                <a href="{{ i.get_absolute_url }}" type="button" class="btn btn-primary btn-sm copy-true">
-                    <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                    {{ i.system_name }}
-                </a>
-            </div>
-        </div>
-    {% endfor %}
+    <!-- datatable system -->
+    <table id="table_system" class="display" width="100%">
+
+        <!-- table head -->
+        <thead>
+            {% include "dfirtrack_main/includes/datatable_thead_table_system.html" %}
+        </thead>
+
+        <!-- table body -->
+        <tbody>
+            <!-- iterate over rows -->
+            {% for i in case.system_set.all %}
+                {% include "dfirtrack_main/includes/datatable_tbody_table_system.html" %}
+            {% endfor %}
+        </tbody>
+
+    <!-- datatable system -->
+    </table>
+
+    <!-- javascript for datatables -->
+    <script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
 
 <!-- no systems -->
 {% else %}
@@ -107,6 +122,62 @@
 
 <!-- systems -->
 {% endif %}
+
+<!-- check for artifacts app -->
+{% if dfirtrack_artifacts == True %}
+
+<!-- artifacts headline row -->
+<div class="row bottom-distance top-distance">
+    <div class="col-3">
+        <h5>
+            Artifacts associated with this case{% if artifacts %} ({{ artifacts|length }}){% endif %}
+        </h5>
+    </div>
+</div>
+
+<!-- artifacts -->
+{% if artifacts %}
+
+    <!-- datatable artifact -->
+    <table id="table_artifact" class="display" width="100%">
+
+        <!-- table head -->
+        <thead>
+            {% include "dfirtrack_artifacts/includes/datatable_thead_table_artifact.html" %}
+        </thead>
+
+        <!-- table body -->
+        <tbody>
+            <!-- iterate over rows -->
+            {% for i in artifacts %}
+                {% include "dfirtrack_artifacts/includes/datatable_tbody_table_artifact.html" %}
+            {% endfor %}
+        </tbody>
+
+    <!-- datatable artifact -->
+    </table>
+
+    <!-- javascript for datatables -->
+    <script src="{% static 'dfirtrack_artifacts/datatables_artifacts.js' %}"></script>
+
+<!-- no artifacts -->
+{% else %}
+    <div class="row top-distance">
+        <div class="col-3">
+            ---
+        </div>
+    </div>
+
+<!-- artifacts -->
+{% endif %}
+
+<!-- check for artifacts app -->
+{% endif %}
+
+<!-- javascript for datatables -->
+{% block datatables %}
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.js' %}"></script>
+{% endblock %}
 
 <!-- edit button -->
 <a href="{{ case.get_update_url }}" type="button" class="btn btn-light top-distance copy-false">

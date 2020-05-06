@@ -4,9 +4,11 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
+from dfirtrack_artifacts.models import Artifact
 from dfirtrack_main.forms import CaseForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Case
+from dfirtrack.settings import INSTALLED_APPS as installed_apps
 
 class CaseList(LoginRequiredMixin, ListView):
     login_url = '/login'
@@ -26,6 +28,15 @@ class CaseDetail(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         case = self.object
+
+        # set dfirtrack_artifacts for template
+        if 'dfirtrack_artifacts' in installed_apps:
+            context['dfirtrack_artifacts'] = True
+            context['artifacts'] = Artifact.objects.filter(case=case)
+        else:
+            context['dfirtrack_artifacts'] = False
+
+        # call logger
         case.logger(str(self.request.user), " CASE_DETAIL_ENTERED")
         return context
 
