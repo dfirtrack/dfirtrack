@@ -366,4 +366,4 @@ $RECYCLE.BIN/
 venv/
 
 # Vagrant
-./vagrant/
+.vagrant/
