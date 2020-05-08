@@ -168,41 +168,56 @@
     <!-- artifact information row -->
     </div>
 
-    <!-- artifact path row -->
-    <div class="row bottom-distance">
+    <!-- artifact source path row -->
+    <div class="row">
 
         <!-- artifact source path -->
-        <div class="col-6">
+        <div class="col-12">
             <div class="font-weight-bold">Artifact source path:</div>
             {% if artifact.artifact_source_path %}
-                {{ artifact.artifact_source_path }}
+                <p style="font-family:'Lucida Console', monospace">{{ artifact.artifact_source_path }}</p>
             {% else %}
                 ---
             {% endif  %}
         </div>
 
-        <!-- artifact storage path -->
-        <div class="col-6">
-            <div class="font-weight-bold">Artifact storage path:</div>
-            {% if artifact.artifact_storage_path %}
-                {{ artifact.artifact_storage_path }}
-            {% else %}
-                ---
-            {% endif  %}
-        </div>
-
-    <!-- artifact path row -->
+    <!-- artifact source path row -->
     </div>
 
     <!-- copy button row-->
-    <div class="row top-distance bottom-distance">
-
-        <!-- placeholder -->
-        <div class="col-6">
-        </div>
+    <div class="row bottom-distance">
 
         <!-- copy button -->
-        <div class="col-6">
+        <div class="col-12">
+                <button class="btn btn-outline-success btn-sm" data-clipboard-text="{{ artifact.artifact_source_path }}">
+                    Copy path
+                </button>
+        </div>
+
+    <!-- copy button row-->
+    </div>
+
+    <!-- artifact storage path row -->
+    <div class="row">
+
+        <!-- artifact storage path -->
+        <div class="col-12">
+            <div class="font-weight-bold">Artifact storage path:</div>
+            {% if artifact.artifact_storage_path %}
+                <p style="font-family:'Lucida Console', monospace">{{ artifact.artifact_storage_path }}</p>
+            {% else %}
+                ---
+            {% endif  %}
+        </div>
+
+    <!-- artifact storage path row -->
+    </div>
+
+    <!-- copy button row-->
+    <div class="row bottom-distance">
+
+        <!-- copy button -->
+        <div class="col-12">
                 <button class="btn btn-outline-success btn-sm" data-clipboard-text="{{ artifact.artifact_storage_path }}">
                     Copy path
                 </button>
@@ -218,7 +233,7 @@
         <div class="col-3">
             <div class="font-weight-bold">MD5:</div>
             {% if artifact.artifact_md5 %}
-                {{ artifact.artifact_md5 }}
+                <p style="font-family:'Lucida Console', monospace">{{ artifact.artifact_md5 }}</p>
             {% else %}
                 ---
             {% endif  %}
@@ -228,7 +243,7 @@
         <div class="col-3">
             <div class="font-weight-bold">SHA1:</div>
             {% if artifact.artifact_sha1 %}
-                {{ artifact.artifact_sha1 }}
+                <p style="font-family:'Lucida Console', monospace">{{ artifact.artifact_sha1 }}</p>
             {% else %}
                 ---
             {% endif  %}
@@ -238,7 +253,7 @@
         <div class="col-6">
             <div class="font-weight-bold">SHA256:</div>
             {% if artifact.artifact_sha256 %}
-                {{ artifact.artifact_sha256 }}
+                <p style="font-family:'Lucida Console', monospace">{{ artifact.artifact_sha256 }}</p>
             {% else %}
                 ---
             {% endif  %}
@@ -248,7 +263,7 @@
     </div>
 
     <!-- copy button row-->
-    <div class="row top-distance">
+    <div class="row">
 
         <!-- copy button -->
         <div class="col-3">
