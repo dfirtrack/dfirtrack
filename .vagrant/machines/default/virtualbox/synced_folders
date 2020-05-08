@@ -1,0 +1,1 @@
+{"rsync":{"/vagrant":{"type":"rsync","guestpath":"/vagrant","hostpath":"/home/n3x/git/stuhli/dfirtrack","disabled":false,"__vagrantfile":true,"owner":"vagrant","group":"vagrant"}}}
