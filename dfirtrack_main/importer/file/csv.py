@@ -10,7 +10,7 @@ from dfirtrack.config import TAGLIST
 from dfirtrack.config import TAGPREFIX
 from dfirtrack_main.forms import SystemIpFileImport, SystemTagFileImport
 from dfirtrack_main.logger.default_logger import critical_logger, debug_logger, error_logger, warning_logger
-from dfirtrack_main.models import Domain, Headline, Ip, Reportitem, System, Systemstatus, Tag, Tagcolor
+from dfirtrack_main.models import Analysisstatus, Domain, Headline, Ip, Reportitem, System, Systemstatus, Tag, Tagcolor
 import ipaddress
 from io import TextIOWrapper
 
@@ -166,7 +166,7 @@ def system_tag(request):
             messages.error(request, "No relevant tags defined. Check `TAGLIST` in `dfirtrack.config`!")
             # call logger
             error_logger(str(request.user), " SYSTEM_TAG_IMPORTER_NO_TAGS_DEFINED.")
-            return redirect(reverse('system_list'))
+            return redirect('/system/')
         else:
             taglist = TAGLIST
 
@@ -175,26 +175,32 @@ def system_tag(request):
             messages.error(request, "No prefix string defined. Check `TAGPREFIX` in `dfirtrack.config`!")
             # call logger
             error_logger(str(request.user), " SYSTEM_TAG_IMPORTER_NO_TAGPREFIX_DEFINED.")
-            return redirect(reverse('system_list'))
+            return redirect('/system/')
         # expand the string by an underscore
         else:
-            tagprefix = TAGPREFIX + "_"
+#            tagprefix = TAGPREFIX + "_"
+            tagprefix = TAGPREFIX + "-"
 
-        # check whether SYSTEMTAG_HEADLINE is defined in `dfirtrack.config`
-        if systemtag_headline == '':
-            # call logger
-            error_logger(str(request.user), " SYSTEMTAG_HEADLINE_VARIABLE_UNDEFINED")
-            messages.error(request, "The variable SYSTEMTAG_HEADLINE seems to be undefined. Check `dfirtrack.config`!")
-            # leave importer
-            return redirect(reverse('system_list'))
+        # create tagaddlist to append for every new system
+        tagaddlist = []
+        for tag in taglist:
+                tagaddlist.append(tagprefix + tag)
 
-        # check whether SYSTEMTAG_SUBHEADLINE is defined in `dfirtrack.config`
-        if systemtag_subheadline == '':
-            # call logger
-            error_logger(str(request.user), " SYSTEMTAG_SUBHEADLINE_VARIABLE_UNDEFINED")
-            messages.error(request, "The variable SYSTEMTAG_SUBHEADLINE seems to be undefined. Check `dfirtrack.config`!")
-            # leave importer
-            return redirect(reverse('system_list'))
+#        # check whether SYSTEMTAG_HEADLINE is defined in `dfirtrack.config`
+#        if systemtag_headline == '':
+#            # call logger
+#            error_logger(str(request.user), " SYSTEMTAG_HEADLINE_VARIABLE_UNDEFINED")
+#            messages.error(request, "The variable SYSTEMTAG_HEADLINE seems to be undefined. Check `dfirtrack.config`!")
+#            # leave importer
+#            return redirect('/systems/')
+#
+#        # check whether SYSTEMTAG_SUBHEADLINE is defined in `dfirtrack.config`
+#        if systemtag_subheadline == '':
+#            # call logger
+#            error_logger(str(request.user), " SYSTEMTAG_SUBHEADLINE_VARIABLE_UNDEFINED")
+#            messages.error(request, "The variable SYSTEMTAG_SUBHEADLINE seems to be undefined. Check `dfirtrack.config`!")
+#            # leave importer
+#            return redirect('/systems/')
 
         # get text out of file (variable results from request object via file upload field)
         systemtagcsv = TextIOWrapper(request.FILES['systemtagcsv'].file, encoding=request.encoding)
@@ -203,33 +209,33 @@ def system_tag(request):
         rows = csv.reader(systemtagcsv)
 
         # create empty list (this list is used to store every line as single dict: {system_name: row}), because if there are multiple rows with the same system they are added to the same reportitem
-        rowlist = []
+#        rowlist = []
 
-        """ remove all tags for systems beginning with 'TAGPREFIX' (if there are any) """
-
-        # get all systems that have tags beginning with 'TAGPREFIX' | prefixtagsystems -> queryset
-        prefixtagsystems=System.objects.filter(tag__tag_name__startswith=tagprefix)
-
-        # iterate over systems in queryset | prefixtagsystem  -> system object
-        for prefixtagsystem in prefixtagsystems:
-
-            # get all tags beginning with 'TAGPREFIX' that belong to the actual system | systemprefixtags -> queryset
-            systemprefixtags=prefixtagsystem.tag.filter(tag_name__startswith=tagprefix)
-
-            # iterate over queryset | systemprefixtag -> tag object
-            for systemprefixtag in systemprefixtags:
-                # delete all existing tags (the m2m relationship) beginning with 'TAGPREFIX' for this system (so that removed tags from csv will be removed as well)
-                systemprefixtag.system_set.remove(prefixtagsystem)
-
-        # create headline if it does not exist
-        headline, created = Headline.objects.get_or_create(headline_name=systemtag_headline)
-        if created == True:
-            headline.logger(str(request.user), " SYSTEMS_TAG_IMPORTER_HEADLINE_CREATED")
-
-        """ remove all reportitems """
-
-        # delete reportitems (so no reportitems with legacy information / tags will be left)
-        Reportitem.objects.filter(headline = headline, reportitem_subheadline = systemtag_subheadline).delete()
+#        """ remove all tags for systems beginning with 'TAGPREFIX' (if there are any) """
+#
+#        # get all systems that have tags beginning with 'TAGPREFIX' | prefixtagsystems -> queryset
+#        prefixtagsystems=System.objects.filter(tag__tag_name__startswith=tagprefix)
+#
+#        # iterate over systems in queryset | prefixtagsystem  -> system object
+#        for prefixtagsystem in prefixtagsystems:
+#
+#            # get all tags beginning with 'TAGPREFIX' that belong to the actual system | systemprefixtags -> queryset
+#            systemprefixtags=prefixtagsystem.tag.filter(tag_name__startswith=tagprefix)
+#
+#            # iterate over queryset | systemprefixtag -> tag object
+#            for systemprefixtag in systemprefixtags:
+#                # delete all existing tags (the m2m relationship) beginning with 'TAGPREFIX' for this system (so that removed tags from csv will be removed as well)
+#                systemprefixtag.system_set.remove(prefixtagsystem)
+#
+#        # create headline if it does not exist
+#        headline, created = Headline.objects.get_or_create(headline_name=systemtag_headline)
+#        if created == True:
+#            headline.logger(str(request.user), " SYSTEMS_TAG_IMPORTER_HEADLINE_CREATED")
+#
+#        """ remove all reportitems """
+#
+#        # delete reportitems (so no reportitems with legacy information / tags will be left)
+#        Reportitem.objects.filter(headline = headline, reportitem_subheadline = systemtag_subheadline).delete()
 
         """ prepare and start loop """
 
@@ -251,67 +257,72 @@ def system_tag(request):
                 row_counter += 1
                 continue
 
-            # get system_name and change to lowercase
-            system_name = row[8].lower()
+#            # get system_name and change to lowercase
+#            system_name = row[8].lower()
+            # get system_name
+            system_name_full = row[0]
+            system_name_without_domain = system_name_full.split('.')[0]
+            system_name_without_timestamp = system_name_without_domain.split('_')[0]
+            system_name = system_name_without_timestamp
 
-            # get tags from csv
-            tagcsvstring = row[9]
-            if tagcsvstring == '':
-                # autoincrement systems_skipped_counter
-                systems_skipped_counter += 1
-                # autoincrement row_counter
-                row_counter += 1
-                # leave because systems without tags are not relevant
-                continue
-            else:
-                # convert string (at whitespaces) to list
-                tagcsvlist = tagcsvstring.split()
+#            # get tags from csv
+#            tagcsvstring = row[9]
+#            if tagcsvstring == '':
+#                # autoincrement systems_skipped_counter
+#                systems_skipped_counter += 1
+#                # autoincrement row_counter
+#                row_counter += 1
+#                # leave because systems without tags are not relevant
+#                continue
+#            else:
+#                # convert string (at whitespaces) to list
+#                tagcsvlist = tagcsvstring.split()
 
-            # create empty list for mapping
-            tagaddlist = []
-            # check for relevant tags and add to list
-            for tag in taglist:
-                if tag in tagcsvlist:
-                    tagaddlist.append(tagprefix + tag)
+#            # create empty list for mapping
+#            tagaddlist = []
+#            # check for relevant tags and add to list
+#            for tag in taglist:
+#                if tag in tagcsvlist:
+#                    tagaddlist.append(tagprefix + tag)
+#
+#            # check if tagaddlist is empty
+#            if not tagaddlist:
+#                # autoincrement systems_skipped_counter
+#                systems_skipped_counter += 1
+#                # autoincrement row_counter
+#                row_counter += 1
+#                # leave because there are no relevant tags
+#                continue
+#
+#            # get domain from csv
+#            domain_name = row[7]
+#            # change domain_name to empty string if incorrect domain_name ('NT AUTHORITY') was provided
+#            if domain_name == 'NT AUTHORITY':
+#                domain_name = ''
+#            # clear domain if domain_name equals system_name
+#            elif domain_name.lower() == system_name:
+#                domain_name = ''
 
-            # check if tagaddlist is empty
-            if not tagaddlist:
-                # autoincrement systems_skipped_counter
-                systems_skipped_counter += 1
-                # autoincrement row_counter
-                row_counter += 1
-                # leave because there are no relevant tags
-                continue
+#            # get or create domain object if some valid name was provided
+#            if domain_name != '':
+#                # create domain
+#                domain, created = Domain.objects.get_or_create(domain_name=domain_name)
+#                # call logger if created
+#                if created == True:
+#                    domain.logger(str(request.user), " SYSTEMS_TAG_IMPORTER_DOMAIN_CREATED")
+#                    messages.success(request, 'Domain "' + domain.domain_name + '" created.')
+#            else:
+#                # set domain to None to avoid further errors (domain is needed later)
+#                domain = None
 
-            # get domain from csv
-            domain_name = row[7]
-            # change domain_name to empty string if incorrect domain_name ('NT AUTHORITY') was provided
-            if domain_name == 'NT AUTHORITY':
-                domain_name = ''
-            # clear domain if domain_name equals system_name
-            elif domain_name.lower() == system_name:
-                domain_name = ''
-
-            # get or create domain object if some valid name was provided
-            if domain_name != '':
-                # create domain
-                domain, created = Domain.objects.get_or_create(domain_name=domain_name)
-                # call logger if created
-                if created == True:
-                    domain.logger(str(request.user), " SYSTEMS_TAG_IMPORTER_DOMAIN_CREATED")
-                    messages.success(request, 'Domain "' + domain.domain_name + '" created.')
-            else:
-                # set domain to None to avoid further errors (domain is needed later)
-                domain = None
-
-            # create empty dict
-            rowdict = {}
-
-            # put the actual row to the dict (dict with only ONE key-value-pair)
-            rowdict[system_name] = row
-
-            # append dict to the global list (because if there are multiple rows with the same system, needed for reportitem SYSTEMTAG_SUBHEADLINE)
-            rowlist.append(rowdict)
+#            # create empty dict
+#            rowdict = {}
+#
+#            # put the actual row to the dict (dict with only ONE key-value-pair)
+#            rowdict[system_name] = row
+#
+#            # append dict to the global list (because if there are multiple rows with the same system, needed for reportitem SYSTEMTAG_SUBHEADLINE)
+#            rowlist.append(rowdict)
 
             # get all systems with this system_name
             systemquery = System.objects.filter(system_name=system_name)
@@ -320,21 +331,23 @@ def system_tag(request):
 
             # if there is only one system
             if len(systemquery) == 1:
-                # get system object
-                system = System.objects.get(system_name=system_name)
-
-                """ add domain from CSV only if system does not already has a domain """
-
-                # check whether system has existing domain and CSV submitted a domain
-                if system.domain is None and domain is not None:
-
-                    # if system has no existing domain set domain of system to domain submitted by tag csv
-                    system.domain = domain
-                    system.system_modify_time = timezone.now()
-                    system.system_modified_by_user_id = request.user
-                    system.save()
-                    # call logger
-                    system.logger(str(request.user), " SYSTEMS_TAG_IMPORTER_SYSTEM_DOMAIN_ADDED")
+                # autoincrement systems_skipped_counter
+                systems_skipped_counter += 1
+#                # get system object
+#                system = System.objects.get(system_name=system_name)
+#
+#                """ add domain from CSV only if system does not already has a domain """
+#
+#                # check whether system has existing domain and CSV submitted a domain
+#                if system.domain is None and domain is not None:
+#
+#                    # if system has no existing domain set domain of system to domain submitted by tag csv
+#                    system.domain = domain
+#                    system.system_modify_time = timezone.now()
+#                    system.system_modified_by_user_id = request.user
+#                    system.save()
+#                    # call logger
+#                    system.logger(str(request.user), " SYSTEMS_TAG_IMPORTER_SYSTEM_DOMAIN_ADDED")
 
             # if there is more than one system
             elif len(systemquery) > 1:
@@ -349,11 +362,13 @@ def system_tag(request):
                 # create entire new system object
                 system = System()
                 system.system_name = system_name
-                system.systemstatus = Systemstatus.objects.get(systemstatus_name = "Unknown")
-                #system.analysisstatus = Analysisstatus.objects.get(analysisstatus_name = "Needs anaylsis")
-                # add domain if submitted
-                if domain is not None:
-                    system.domain = domain
+#                #system.systemstatus = Systemstatus.objects.get(systemstatus_name = "Unknown")
+                system.systemstatus = Systemstatus.objects.get(systemstatus_name = "Analysis ongoing")
+#                #system.analysisstatus = Analysisstatus.objects.get(analysisstatus_name = "Needs anaylsis")
+                system.analysisstatus = Analysisstatus.objects.get(analysisstatus_name = "Ready for analysis")
+#                # add domain if submitted
+#                if domain is not None:
+#                    system.domain = domain
                 system.system_modify_time = timezone.now()
                 system.system_created_by_user_id = request.user
                 system.system_modified_by_user_id = request.user
@@ -365,69 +380,89 @@ def system_tag(request):
                 # call logger
                 system.logger(str(request.user), " SYSTEMS_TAG_IMPORTER_SYSTEM_CREATED")
 
-            # iterate over tags in tagaddlist
-            for tag_name in tagaddlist:
-                # get tagcolor object
-                tagcolor = Tagcolor.objects.get(tagcolor_name='primary')
-
-                # create tag if needed
-                tag, created = Tag.objects.get_or_create(tag_name=tag_name, tagcolor=tagcolor)
-                # call logger if created
+                # create ip
+                ip, created = Ip.objects.get_or_create(ip_ip=row[12])
                 if created == True:
-                    tag.logger(str(request.user), " SYSTEMS_TAG_IMPORTER_TAG_CREATED")
-                    messages.success(request, 'Tag "' + tag.tag_name + '" created.')
+                    ip.logger(str(request.user), " SYSTEMS_TAG_IMPORTER_IP_CREATED")
+                ip.system_set.add(system)
 
-                # add tag to system
-                tag.system_set.add(system)
+                # get errors
+                if not row[10]:
+                    # continue if there is an empty string
+                    pass
+                else:
+                    # get object
+                    tag_error = Tag.objects.get(tag_name=tagprefix + 'Error')
+                    # add error tag to system
+                    tag_error.system_set.add(system)
 
-            # call logger
-            system.logger(str(request.user), " SYSTEMS_TAG_IMPORTER_SYSTEM_MODIFIED")
+                # iterate over tags in tagaddlist
+                for tag_name in tagaddlist:
+                    # get object
+                    tag = Tag.objects.get(tag_name=tag_name)
+                    # add tag to system
+                    tag.system_set.add(system)
+#                # get tagcolor object
+#                tagcolor = Tagcolor.objects.get(tagcolor_name='primary')
+#
+#                # create tag if needed
+#                tag, created = Tag.objects.get_or_create(tag_name=tag_name, tagcolor=tagcolor)
+#                # call logger if created
+#                if created == True:
+#                    tag.logger(str(request.user), " SYSTEMS_TAG_IMPORTER_TAG_CREATED")
+#                    messages.success(request, 'Tag "' + tag.tag_name + '" created.')
+#
+#                # add tag to system
+#                tag.system_set.add(system)
 
-            # create reportitem if it does not exist (get_or_create won't work in this context because of needed user objects for saving)
-            try:
-                reportitem = Reportitem.objects.get(system = system, headline = headline, reportitem_subheadline = systemtag_subheadline)
-            except Reportitem.DoesNotExist:
-                reportitem = Reportitem()
-                reportitem.system = system
-                reportitem.headline = headline
-                reportitem.reportitem_subheadline = (systemtag_subheadline)
-                reportitem.reportitem_created_by_user_id = request.user
+                # call logger
+                system.logger(str(request.user), " SYSTEMS_TAG_IMPORTER_SYSTEM_MODIFIED")
 
-            # create empty list (used to store elements of markdown table)
-            notelist = []
-
-            # put head of markdown table into list
-            notelist.append("|File|Type|Version|Started|Duration|Lines|Checked|Domain|Host|Tags|Errors|FirstTrace|LastToolUsage|UsageTime|MalwareInstall")
-            notelist.append("|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|")
-
-            # iterate over entries in list (dictionaries)
-            for item in rowlist:
-                # if this single key-value-pair dict contains the system
-                if system_name in item:
-                    # get row
-                    entry = item[system_name]
-                    # convert row
-                    entry = "|" + "|".join(entry) + "|"
-                    # fill empty fields with '---' (otherwise mkdocs skips these)
-                    entry = entry.replace("||", "| --- |")
-                    # repeat last step to catch empty fields lying next to each other
-                    entry = entry.replace("||", "| --- |")
-                    # put entry to markdown table
-                    notelist.append(entry)
-
-            # join list to string with linebreaks
-            notestring = "\n".join(notelist)
-
-            # add changing values (existing reportitem_note will be overwritten)
-            reportitem.reportitem_note = notestring
-            reportitem.reportitem_modified_by_user_id = request.user
-            reportitem.save()
-
-            # call logger
-            reportitem.logger(str(request.user), " SYSTEMS_TAG_IMPORTER_REPORTITEM_CREATED_OR_MODIFIED")
-
-            # autoincrement row_counter
-            row_counter += 1
+#            # create reportitem if it does not exist (get_or_create won't work in this context because of needed user objects for saving)
+#            try:
+#                reportitem = Reportitem.objects.get(system = system, headline = headline, reportitem_subheadline = systemtag_subheadline)
+#            except Reportitem.DoesNotExist:
+#                reportitem = Reportitem()
+#                reportitem.system = system
+#                reportitem.headline = headline
+#                reportitem.reportitem_subheadline = (systemtag_subheadline)
+#                reportitem.reportitem_created_by_user_id = request.user
+#
+#            # create empty list (used to store elements of markdown table)
+#            notelist = []
+#
+#            # put head of markdown table into list
+#            notelist.append("|File|Type|Version|Started|Duration|Lines|Checked|Domain|Host|Tags|Errors|FirstTrace|LastToolUsage|UsageTime|MalwareInstall")
+#            notelist.append("|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|")
+#
+#            # iterate over entries in list (dictionaries)
+#            for item in rowlist:
+#                # if this single key-value-pair dict contains the system
+#                if system_name in item:
+#                    # get row
+#                    entry = item[system_name]
+#                    # convert row
+#                    entry = "|" + "|".join(entry) + "|"
+#                    # fill empty fields with '---' (otherwise mkdocs skips these)
+#                    entry = entry.replace("||", "| --- |")
+#                    # repeat last step to catch empty fields lying next to each other
+#                    entry = entry.replace("||", "| --- |")
+#                    # put entry to markdown table
+#                    notelist.append(entry)
+#
+#            # join list to string with linebreaks
+#            notestring = "\n".join(notelist)
+#
+#            # add changing values (existing reportitem_note will be overwritten)
+#            reportitem.reportitem_note = notestring
+#            reportitem.reportitem_modified_by_user_id = request.user
+#            reportitem.save()
+#
+#            # call logger
+#            reportitem.logger(str(request.user), " SYSTEMS_TAG_IMPORTER_REPORTITEM_CREATED_OR_MODIFIED")
+#
+#            # autoincrement row_counter
+#            row_counter += 1
 
         # call final messages
         if systems_created_counter > 0:
@@ -437,9 +472,11 @@ def system_tag(request):
                 messages.success(request, str(systems_created_counter) + ' systems were created.')
         if systems_skipped_counter > 0:
             if systems_skipped_counter  == 1:
-                messages.warning(request, str(systems_skipped_counter) + ' system was skipped or cleaned (no relevant tags).')
+                #messages.warning(request, str(systems_skipped_counter) + ' system was skipped or cleaned (no relevant tags).')
+                messages.warning(request, str(systems_skipped_counter) + ' system was skipped (already existent).')
             else:
-                messages.warning(request, str(systems_skipped_counter) + ' systems were skipped or cleaned (no relevant tags).')
+                #messages.warning(request, str(systems_skipped_counter) + ' systems were skipped or cleaned (no relevant tags).')
+                messages.warning(request, str(systems_skipped_counter) + ' systems were skipped (already existent).')
 
         # call logger
         debug_logger(str(request.user), " SYSTEM_TAG_IMPORTER_END")
