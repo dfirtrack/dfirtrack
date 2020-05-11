@@ -52,6 +52,20 @@ GIRAF_USER = ''
 ## add a password for giraf api user
 GIRAF_PASS = ''
 
+# IMPORT SYSTEMS FROM CLIENT CSV FILE (dfirtrack_main.importer.file.csv.system)
+## CSV contains a headline (True) or not (False)
+CSV_HEADLINE = True
+## skip (True) or not (False) systems, that already exist
+CSV_SKIP_EXISTING_SYSTEM = True
+## column of system rather system_name (numerical value starting with 0 [zero] for first column)
+CSV_COLUMN_SYSTEM = 0
+## 'Systemstatus' for imported systems (choose from 'Clean', 'Unknown', 'Analysis ongoing', 'Compromised', 'Remediation done', 'Reinstalled', 'Removed', 'Not analyzed' or your custom values)
+CSV_DEFAULT_SYSTEMSTATUS = 'Unknown'
+## 'Analysisstatus' should be set (True) or not (false)
+CSV_CHOICE_ANALYSISSTATUS = True
+## 'Analysisstatus' for imported systems (choose from 'Needs analysis', 'Ready for analysis', 'Ongoing analysis', 'Nothing to do', 'Main analysis finished' or your custom values)
+CSV_DEFAULT_ANALYSISSTATUS = 'Needs analysis'
+
 # IMPORT SYSTEMS WITH TAGS FROM CLIENT CSV FILE (dfirtrack_main.importer.file.csv.systems_tags)
 ## add a list of strings representing the relevant tags you want to automatically import
 TAGLIST = []

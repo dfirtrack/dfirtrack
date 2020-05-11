@@ -425,6 +425,11 @@ class SystemNameForm(SystemForm):
             }
         )
 
+class SystemImporterFileCsv(forms.Form):
+
+    # file upload field (variable is used in request object)
+    systemcsv = forms.FileField()
+
 class SystemIpFileImport(forms.ModelForm):
 
     # file upload field (variable is used in request object)

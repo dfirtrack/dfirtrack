@@ -4,16 +4,141 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils import timezone
+import dfirtrack.config as dfirtrack_config
 from dfirtrack.config import SYSTEMTAG_HEADLINE as systemtag_headline
 from dfirtrack.config import SYSTEMTAG_SUBHEADLINE as systemtag_subheadline
 from dfirtrack.config import TAGLIST
 from dfirtrack.config import TAGPREFIX
-from dfirtrack_main.forms import SystemIpFileImport, SystemTagFileImport
+from dfirtrack_main.forms import SystemImporterFileCsv, SystemIpFileImport, SystemTagFileImport
 from dfirtrack_main.logger.default_logger import critical_logger, debug_logger, error_logger, warning_logger
 from dfirtrack_main.models import Analysisstatus, Domain, Headline, Ip, Reportitem, System, Systemstatus, Tag, Tagcolor
 import ipaddress
 from io import TextIOWrapper
 
+@login_required(login_url="/login")
+def system(request):
+
+    # form was valid to post
+    if request.method == "POST":
+
+        # call logger
+        debug_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_BEGAN")
+
+        """ check variables of dfirtrack.config """
+
+        # CSV_SKIP_EXISTING_SYSTEM
+        if not type(dfirtrack_config.CSV_SKIP_EXISTING_SYSTEM) is bool:
+            messages.error(request, "Deformed `CSV_SKIP_EXISTING_SYSTEM` Check `dfirtrack.config`!")
+            # call logger
+            error_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_SKIP_EXISTING_SYSTEM deformed")
+            return redirect(reverse('system_list'))
+
+        # get text out of file (variable results from request object via file upload field)
+        systemcsv = TextIOWrapper(request.FILES['systemcsv'].file, encoding=request.encoding)
+
+        # read rows out of csv
+        rows = csv.reader(systemcsv, quotechar="'")
+
+        """ prepare and start loop """
+
+        # set row_counter (needed for logger)
+        row_counter = 1
+
+        # set systems_created_counter (needed for messages)
+        systems_created_counter = 0
+
+        # set systems_updated_counter (needed for messages)
+        systems_updated_counter = 0
+
+        # set systems_skipped_counter (needed for messages)
+        systems_skipped_counter = 0
+
+        # iterate over rows
+        for row in rows:
+
+            # skip first row in case of headline
+            if row_counter == 1 and dfirtrack_config.CSV_HEADLINE is True:
+                # autoincrement row counter
+                row_counter += 1
+                # leave loop for headline row
+                continue
+
+            # get system name
+            system_name = row[dfirtrack_config.CSV_COLUMN_SYSTEM]
+
+            # get all systems with this system_name
+            systemquery = System.objects.filter(system_name=system_name)
+
+            """ check how many systems were returned """
+
+            # if there is only one system
+            if len(systemquery) == 1:
+                # get system object
+                #system = System.objects.get(system_name=system_name)
+
+                if dfirtrack_config.CSV_SKIP_EXISTING_SYSTEM:
+                    # autoincrement counter
+                    systems_skipped_counter += 1
+                    # leave loop
+                    continue
+                elif not dfirtrack_config.CSV_SKIP_EXISTING_SYSTEM:
+                    systems_updated_counter += 1
+
+            # if there is more than one system
+            elif len(systemquery) > 1:
+                pass
+
+            # if there is no system
+            else:
+                # create new system object
+                system = System()
+                system.system_name = system_name
+                system.systemstatus = Systemstatus.objects.get(systemstatus_name = dfirtrack_config.CSV_DEFAULT_SYSTEMSTATUS)
+                if dfirtrack_config.CSV_CHOICE_ANALYSISSTATUS:
+                    system.analysisstatus = Analysisstatus.objects.get(analysisstatus_name = dfirtrack_config.CSV_DEFAULT_ANALYSISSTATUS)
+
+                # add mandatory meta information
+                system.system_modify_time = timezone.now()
+                system.system_created_by_user_id = request.user
+                system.system_modified_by_user_id = request.user
+                system.save()
+
+                # autoincrement systems_created_counter
+                systems_created_counter += 1
+
+                # call logger
+                system.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_CREATED")
+
+        # call final messages
+        if systems_created_counter > 0:
+            if systems_created_counter  == 1:
+                messages.success(request, str(systems_created_counter) + ' system was created.')
+            else:
+                messages.success(request, str(systems_created_counter) + ' systems were created.')
+        if systems_updated_counter > 0:
+            if systems_updated_counter  == 1:
+                messages.success(request, str(systems_updated_counter) + ' system was updated.')
+            else:
+                messages.success(request, str(systems_updated_counter) + ' systems were updated.')
+        if systems_skipped_counter > 0:
+            if systems_skipped_counter  == 1:
+                messages.warning(request, str(systems_skipped_counter) + ' system was skipped.')
+            else:
+                messages.warning(request, str(systems_skipped_counter) + ' systems were skipped.')
+
+        # call logger
+        debug_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_END")
+
+        return redirect(reverse('system_list'))
+
+    else:
+        # show empty form
+        form = SystemImporterFileCsv()
+
+        # call logger
+        debug_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_ENTERED")
+
+    return render(request, 'dfirtrack_main/system/system_importer_file_csv.html', {'form': form})
 
 @login_required(login_url="/login")
 def system_ip(request):
