@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 import dfirtrack.config as dfirtrack_config
 from dfirtrack_main.logger.default_logger import info_logger
-from dfirtrack_main.models import Analysisstatus, Reason, System, Systemstatus, Tag
+from dfirtrack_main.models import Analysisstatus, Reason, Recommendation, System, Systemstatus, Tag
 from time import strftime
 import xlwt
 
@@ -468,6 +468,58 @@ def system(request):
 
             # write line for reason
             worksheet_reason = write_row(worksheet_reason, entryline_reason, row_num, style)
+
+    """ add worksheet for recommendation """
+
+    # check all conditions
+    if dfirtrack_config.SPREAD_WORKSHEET_RECOMMENDATION and dfirtrack_config.SPREAD_RECOMMENDATION and Recommendation.objects.count() != 0:
+
+        # define name of worksheet within file
+        worksheet_recommendation = workbook.add_sheet('recommendations')
+
+        # create empty list
+        headline_recommendation = []
+
+        # append attributes
+        headline_recommendation.append('ID')
+        headline_recommendation.append('Recommendation')
+        headline_recommendation.append('Note')
+
+        # define styling for headline
+        style = style_headline()
+
+        # set counter
+        row_num = 0
+
+        # write headline
+        worksheet_recommendation = write_row(worksheet_recommendation, headline_recommendation, row_num, style)
+
+        # clear styling to default
+        style = style_default()
+
+        """ append recommendations """
+
+        # get all Recommendation objects ordered by recommendation_name
+        recommendations = Recommendation.objects.all().order_by("recommendation_name")
+
+        # iterate over recommendations
+        for recommendation in recommendations:
+
+            # autoincrement row counter
+            row_num += 1
+
+            # set column counter
+            col_num = 1
+
+            # create empty list for line
+            entryline_recommendation = []
+
+            entryline_recommendation.append(recommendation.recommendation_id)
+            entryline_recommendation.append(recommendation.recommendation_name)
+            entryline_recommendation.append(recommendation.recommendation_note)
+
+            # write line for recommendation
+            worksheet_recommendation = write_row(worksheet_recommendation, entryline_recommendation, row_num, style)
 
     """ add worksheet for tag """
 
