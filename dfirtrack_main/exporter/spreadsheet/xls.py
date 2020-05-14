@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 import dfirtrack.config as dfirtrack_config
 from dfirtrack_main.logger.default_logger import info_logger
-from dfirtrack_main.models import Reason, System, Systemstatus, Tag
+from dfirtrack_main.models import Analysisstatus, Reason, System, Systemstatus, Tag
 from time import strftime
 import xlwt
 
@@ -365,6 +365,57 @@ def system(request):
             # write line for systemstatus
             worksheet_systemstatus = write_row(worksheet_systemstatus, entryline_systemstatus, row_num, style)
 
+    """ add worksheet for analysisstatus """
+
+    # check all conditions
+    if dfirtrack_config.SPREAD_WORKSHEET_ANALYSISSTATUS and dfirtrack_config.SPREAD_ANALYSISSTATUS and Analysisstatus.objects.count() != 0:
+
+        # define name of worksheet within file
+        worksheet_analysisstatus = workbook.add_sheet('analysisstatus')
+
+        # create empty list
+        headline_analysisstatus = []
+
+        # append attributes
+        headline_analysisstatus.append('ID')
+        headline_analysisstatus.append('Analysisstatus')
+        headline_analysisstatus.append('Note')
+
+        # define styling for headline
+        style = style_headline()
+
+        # set counter
+        row_num = 0
+
+        # write headline
+        worksheet_analysisstatus = write_row(worksheet_analysisstatus, headline_analysisstatus, row_num, style)
+
+        # clear styling to default
+        style = style_default()
+
+        """ append analysisstatus """
+
+        # get all Analysisstatus objects ordered by analysisstatus_name
+        analysisstatuss = Analysisstatus.objects.all().order_by("analysisstatus_name")
+
+        # iterate over analysisstatus
+        for analysisstatus in analysisstatuss:
+
+            # autoincrement row counter
+            row_num += 1
+
+            # set column counter
+            col_num = 1
+
+            # create empty list for line
+            entryline_analysisstatus = []
+
+            entryline_analysisstatus.append(analysisstatus.analysisstatus_id)
+            entryline_analysisstatus.append(analysisstatus.analysisstatus_name)
+            entryline_analysisstatus.append(analysisstatus.analysisstatus_note)
+
+            # write line for analysisstatus
+            worksheet_analysisstatus = write_row(worksheet_analysisstatus, entryline_analysisstatus, row_num, style)
 
     """ add worksheet for reason """
 
