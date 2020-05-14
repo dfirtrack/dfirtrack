@@ -344,7 +344,7 @@ def system(request):
         """ append systemstatus """
 
         # get all Systemstatus objects ordered by systemstatus_name
-        systemstatuss = Systemstatus.objects.all().order_by("systemstatus_name")
+        systemstatuss = Systemstatus.objects.all().order_by("systemstatus_id")
 
         # iterate over systemstatus
         for systemstatus in systemstatuss:
@@ -396,7 +396,7 @@ def system(request):
         """ append analysisstatus """
 
         # get all Analysisstatus objects ordered by analysisstatus_name
-        analysisstatuss = Analysisstatus.objects.all().order_by("analysisstatus_name")
+        analysisstatuss = Analysisstatus.objects.all().order_by("analysisstatus_id")
 
         # iterate over analysisstatus
         for analysisstatus in analysisstatuss:
