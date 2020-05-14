@@ -2,11 +2,12 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 import dfirtrack.config as dfirtrack_config
 from dfirtrack_main.logger.default_logger import info_logger
-from dfirtrack_main.models import System
+from dfirtrack_main.models import Reason, System, Tag
 from time import strftime
 import xlwt
 
 def write_row(worksheet, content, row_num, style):
+    """ write single row to worksheet """
 
     # write row depending on column number
     for col_num in range(len(content)):
@@ -14,6 +15,32 @@ def write_row(worksheet, content, row_num, style):
 
     # return worksheet object
     return worksheet
+
+
+def style_headline():
+    """ change style to headline """
+
+    # define styling for headline
+    style = xlwt.XFStyle()
+    style = xlwt.easyxf(
+        'font: bold on; alignment: horizontal center'
+    )
+
+    # return style object
+    return style
+
+
+def style_default():
+    """ change style to default """
+
+    # clear styling to default
+    style = xlwt.XFStyle()
+    style = xlwt.easyxf(
+        'alignment: vertical top, horizontal left'
+    )
+
+    # return style object
+    return style
 
 
 @login_required(login_url="/login")
@@ -33,10 +60,7 @@ def system(request):
     worksheet = workbook.add_sheet('systems')
 
     # define styling for headline
-    style = xlwt.XFStyle()
-    style = xlwt.easyxf(
-        'font: bold on; alignment: horizontal center'
-    )
+    style = style_headline()
 
     """ start with headline """
 
@@ -91,10 +115,7 @@ def system(request):
     worksheet = write_row(worksheet, headline, row_num, style)
 
     # clear styling to default
-    style = xlwt.XFStyle()
-    style = xlwt.easyxf(
-        'alignment: vertical top, horizontal left'
-    )
+    style = style_default()
 
     """ append systems """
 
@@ -291,6 +312,116 @@ def system(request):
 
     #print("rows: " + str(len(worksheet._Worksheet__rows)))
     #print("cols: " + str(len(worksheet._Worksheet__cols))) # --> does not work
+
+    """ add worksheet for reason """
+
+    # check for reason
+    if dfirtrack_config.SPREAD_REASON:
+
+        # check for reason objects
+        if Reason.objects.count() != 0:
+
+            # define name of worksheet within file
+            worksheet_reason = workbook.add_sheet('reasons')
+
+            # create empty list
+            headline_reason = []
+
+            # append attributes
+            headline_reason.append('ID')
+            headline_reason.append('Reason')
+            headline_reason.append('Note')
+
+            # define styling for headline
+            style = style_headline()
+
+            # set counter
+            row_num = 0
+
+            # write headline
+            worksheet_reason = write_row(worksheet_reason, headline_reason, row_num, style)
+
+            # clear styling to default
+            style = style_default()
+
+            """ append reasons """
+
+            # get all Reason objects ordered by reason_name
+            reasons = Reason.objects.all().order_by("reason_name")
+
+            # iterate over reasons
+            for reason in reasons:
+
+                # autoincrement row counter
+                row_num += 1
+
+                # set column counter
+                col_num = 1
+
+                # create empty list for line
+                entryline_reason = []
+
+                entryline_reason.append(reason.reason_id)
+                entryline_reason.append(reason.reason_name)
+                entryline_reason.append(reason.reason_note)
+
+                # write line for reason
+                worksheet_reason = write_row(worksheet_reason, entryline_reason, row_num, style)
+
+    """ add worksheet for tag """
+
+    # check for tag
+    if dfirtrack_config.SPREAD_TAG:
+
+        # check for tag objects
+        if Tag.objects.count() != 0:
+
+            # define name of worksheet within file
+            worksheet_tag = workbook.add_sheet('tags')
+
+            # create empty list
+            headline_tag = []
+
+            # append attributes
+            headline_tag.append('ID')
+            headline_tag.append('Tag')
+            headline_tag.append('Note')
+
+            # define styling for headline
+            style = style_headline()
+
+            # set counter
+            row_num = 0
+
+            # write headline
+            worksheet_tag = write_row(worksheet_tag, headline_tag, row_num, style)
+
+            # clear styling to default
+            style = style_default()
+
+            """ append tags """
+
+            # get all Tag objects ordered by tag_name
+            tags = Tag.objects.all().order_by("tag_name")
+
+            # iterate over tags
+            for tag in tags:
+
+                # autoincrement row counter
+                row_num += 1
+
+                # set column counter
+                col_num = 1
+
+                # create empty list for line
+                entryline_tag = []
+
+                entryline_tag.append(tag.tag_id)
+                entryline_tag.append(tag.tag_name)
+                entryline_tag.append(tag.tag_note)
+
+                # write line for tag
+                worksheet_tag = write_row(worksheet_tag, entryline_tag, row_num, style)
 
     # close file
     workbook.save(sod)
