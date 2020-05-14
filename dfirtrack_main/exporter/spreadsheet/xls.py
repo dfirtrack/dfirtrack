@@ -57,7 +57,7 @@ def system(request):
     # create workbook object with UTF-8 encoding
     workbook = xlwt.Workbook(encoding='utf-8')
     # define name of worksheet within file
-    worksheet = workbook.add_sheet('systems')
+    worksheet_system = workbook.add_sheet('systems')
 
     # define styling for headline
     style = style_headline()
@@ -112,7 +112,7 @@ def system(request):
         headline.append('Modified')
 
     # write headline
-    worksheet = write_row(worksheet, headline, row_num, style)
+    worksheet_system = write_row(worksheet_system, headline, row_num, style)
 
     # clear styling to default
     style = style_default()
@@ -296,22 +296,22 @@ def system(request):
             entryline.append(system_modify_time)
 
         # write line for system
-        worksheet = write_row(worksheet, entryline, row_num, style)
+        worksheet_system = write_row(worksheet_system, entryline, row_num, style)
 
     # write an empty row
     row_num += 2
 
     # write meta information for file creation
     actualtime = strftime('%Y-%m-%d %H:%M')
-    worksheet.write(row_num, 0, 'SOD created:', style)
-    worksheet.write(row_num, 1, actualtime, style)
+    worksheet_system.write(row_num, 0, 'SOD created:', style)
+    worksheet_system.write(row_num, 1, actualtime, style)
     row_num += 1
     creator = str(request.user)
-    worksheet.write(row_num, 0, 'Created by:', style)
-    worksheet.write(row_num, 1, creator, style)
+    worksheet_system.write(row_num, 0, 'Created by:', style)
+    worksheet_system.write(row_num, 1, creator, style)
 
-    #print("rows: " + str(len(worksheet._Worksheet__rows)))
-    #print("cols: " + str(len(worksheet._Worksheet__cols))) # --> does not work
+    #print("rows: " + str(len(worksheet_system._Worksheet__rows)))
+    #print("cols: " + str(len(worksheet_system._Worksheet__cols))) # --> does not work
 
     """ add worksheet for reason """
 
