@@ -1,13 +1,147 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.shortcuts import redirect
+from django.urls import reverse
 import dfirtrack.config as dfirtrack_config
-from dfirtrack_main.logger.default_logger import info_logger
+from dfirtrack_main.logger.default_logger import info_logger, warning_logger
 from dfirtrack_main.models import System
 import csv
 from time import strftime
 
 @login_required(login_url="/login")
 def system(request):
+
+    """ check variables of dfirtrack.config """
+
+    # reset stop condition
+    stop_system_exporter_spreadsheet_csv = False
+
+    # check SPREAD_SYSTEM_ID for bool
+    if not isinstance(dfirtrack_config.SPREAD_SYSTEM_ID, bool):
+        messages.error(request, "Deformed `SPREAD_SYSTEM_ID` Check `dfirtrack.config`!")
+        # call logger
+        warning_logger(str(request.user), " SYSTEM_EXPORTER_SPREADSHEET_CSV variable SPREAD_SYSTEM_ID deformed")
+        stop_system_exporter_spreadsheet_csv = True
+
+    # check SPREAD_DNSNAME for bool
+    if not isinstance(dfirtrack_config.SPREAD_DNSNAME, bool):
+        messages.error(request, "Deformed `SPREAD_DNSNAME` Check `dfirtrack.config`!")
+        # call logger
+        warning_logger(str(request.user), " SYSTEM_EXPORTER_SPREADSHEET_CSV variable SPREAD_DNSNAME deformed")
+        stop_system_exporter_spreadsheet_csv = True
+
+    # check SPREAD_DOMAIN for bool
+    if not isinstance(dfirtrack_config.SPREAD_DOMAIN, bool):
+        messages.error(request, "Deformed `SPREAD_DOMAIN` Check `dfirtrack.config`!")
+        # call logger
+        warning_logger(str(request.user), " SYSTEM_EXPORTER_SPREADSHEET_CSV variable SPREAD_DOMAIN deformed")
+        stop_system_exporter_spreadsheet_csv = True
+
+    # check SPREAD_SYSTEMSTATUS for bool
+    if not isinstance(dfirtrack_config.SPREAD_SYSTEMSTATUS, bool):
+        messages.error(request, "Deformed `SPREAD_SYSTEMSTATUS` Check `dfirtrack.config`!")
+        # call logger
+        warning_logger(str(request.user), " SYSTEM_EXPORTER_SPREADSHEET_CSV variable SPREAD_SYSTEMSTATUS deformed")
+        stop_system_exporter_spreadsheet_csv = True
+
+    # check SPREAD_ANALYSISSTATUS for bool
+    if not isinstance(dfirtrack_config.SPREAD_ANALYSISSTATUS, bool):
+        messages.error(request, "Deformed `SPREAD_ANALYSISSTATUS` Check `dfirtrack.config`!")
+        # call logger
+        warning_logger(str(request.user), " SYSTEM_EXPORTER_SPREADSHEET_CSV variable SPREAD_ANALYSISSTATUS deformed")
+        stop_system_exporter_spreadsheet_csv = True
+
+    # check SPREAD_REASON for bool
+    if not isinstance(dfirtrack_config.SPREAD_REASON, bool):
+        messages.error(request, "Deformed `SPREAD_REASON` Check `dfirtrack.config`!")
+        # call logger
+        warning_logger(str(request.user), " SYSTEM_EXPORTER_SPREADSHEET_CSV variable SPREAD_REASON deformed")
+        stop_system_exporter_spreadsheet_csv = True
+
+    # check SPREAD_RECOMMENDATION for bool
+    if not isinstance(dfirtrack_config.SPREAD_RECOMMENDATION, bool):
+        messages.error(request, "Deformed `SPREAD_RECOMMENDATION` Check `dfirtrack.config`!")
+        # call logger
+        warning_logger(str(request.user), " SYSTEM_EXPORTER_SPREADSHEET_CSV variable SPREAD_RECOMMENDATION deformed")
+        stop_system_exporter_spreadsheet_csv = True
+
+    # check SPREAD_SYSTEMTYPE for bool
+    if not isinstance(dfirtrack_config.SPREAD_SYSTEMTYPE, bool):
+        messages.error(request, "Deformed `SPREAD_SYSTEMTYPE` Check `dfirtrack.config`!")
+        # call logger
+        warning_logger(str(request.user), " SYSTEM_EXPORTER_SPREADSHEET_CSV variable SPREAD_SYSTEMTYPE deformed")
+        stop_system_exporter_spreadsheet_csv = True
+
+    # check SPREAD_IP for bool
+    if not isinstance(dfirtrack_config.SPREAD_IP, bool):
+        messages.error(request, "Deformed `SPREAD_IP` Check `dfirtrack.config`!")
+        # call logger
+        warning_logger(str(request.user), " SYSTEM_EXPORTER_SPREADSHEET_CSV variable SPREAD_IP deformed")
+        stop_system_exporter_spreadsheet_csv = True
+
+    # check SPREAD_OS for bool
+    if not isinstance(dfirtrack_config.SPREAD_OS, bool):
+        messages.error(request, "Deformed `SPREAD_OS` Check `dfirtrack.config`!")
+        # call logger
+        warning_logger(str(request.user), " SYSTEM_EXPORTER_SPREADSHEET_CSV variable SPREAD_OS deformed")
+        stop_system_exporter_spreadsheet_csv = True
+
+    # check SPREAD_COMPANY for bool
+    if not isinstance(dfirtrack_config.SPREAD_COMPANY, bool):
+        messages.error(request, "Deformed `SPREAD_COMPANY` Check `dfirtrack.config`!")
+        # call logger
+        warning_logger(str(request.user), " SYSTEM_EXPORTER_SPREADSHEET_CSV variable SPREAD_COMPANY deformed")
+        stop_system_exporter_spreadsheet_csv = True
+
+    # check SPREAD_LOCATION for bool
+    if not isinstance(dfirtrack_config.SPREAD_LOCATION, bool):
+        messages.error(request, "Deformed `SPREAD_LOCATION` Check `dfirtrack.config`!")
+        # call logger
+        warning_logger(str(request.user), " SYSTEM_EXPORTER_SPREADSHEET_CSV variable SPREAD_LOCATION deformed")
+        stop_system_exporter_spreadsheet_csv = True
+
+    # check SPREAD_SERVICEPROVIDER for bool
+    if not isinstance(dfirtrack_config.SPREAD_SERVICEPROVIDER, bool):
+        messages.error(request, "Deformed `SPREAD_SERVICEPROVIDER` Check `dfirtrack.config`!")
+        # call logger
+        warning_logger(str(request.user), " SYSTEM_EXPORTER_SPREADSHEET_CSV variable SPREAD_SERVICEPROVIDER deformed")
+        stop_system_exporter_spreadsheet_csv = True
+
+    # check SPREAD_TAG for bool
+    if not isinstance(dfirtrack_config.SPREAD_TAG, bool):
+        messages.error(request, "Deformed `SPREAD_TAG` Check `dfirtrack.config`!")
+        # call logger
+        warning_logger(str(request.user), " SYSTEM_EXPORTER_SPREADSHEET_CSV variable SPREAD_TAG deformed")
+        stop_system_exporter_spreadsheet_csv = True
+
+    # check SPREAD_CASE for bool
+    if not isinstance(dfirtrack_config.SPREAD_CASE, bool):
+        messages.error(request, "Deformed `SPREAD_CASE` Check `dfirtrack.config`!")
+        # call logger
+        warning_logger(str(request.user), " SYSTEM_EXPORTER_SPREADSHEET_CSV variable SPREAD_CASE deformed")
+        stop_system_exporter_spreadsheet_csv = True
+
+    # check SPREAD_SYSTEM_CREATE_TIME for bool
+    if not isinstance(dfirtrack_config.SPREAD_SYSTEM_CREATE_TIME, bool):
+        messages.error(request, "Deformed `SPREAD_SYSTEM_CREATE_TIME` Check `dfirtrack.config`!")
+        # call logger
+        warning_logger(str(request.user), " SYSTEM_EXPORTER_SPREADSHEET_CSV variable SPREAD_SYSTEM_CREATE_TIME deformed")
+        stop_system_exporter_spreadsheet_csv = True
+
+    # check SPREAD_SYSTEM_MODIFY_TIME for bool
+    if not isinstance(dfirtrack_config.SPREAD_SYSTEM_MODIFY_TIME, bool):
+        messages.error(request, "Deformed `SPREAD_SYSTEM_MODIFY_TIME` Check `dfirtrack.config`!")
+        # call logger
+        warning_logger(str(request.user), " SYSTEM_EXPORTER_SPREADSHEET_CSV variable SPREAD_SYSTEM_MODIFY_TIME deformed")
+        stop_system_exporter_spreadsheet_csv = True
+
+    # leave system_exporter_spreadsheet_csv if variables caused errors
+    if stop_system_exporter_spreadsheet_csv:
+
+        # call logger
+        warning_logger(str(request.user), " SYSTEM_EXPORTER_SPREADSHEET_CSV_END_WITH_ERRORS")
+        return redirect(reverse('system_list'))
 
     """ prepare file """
 
