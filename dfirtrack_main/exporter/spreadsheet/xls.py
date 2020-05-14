@@ -315,113 +315,107 @@ def system(request):
 
     """ add worksheet for reason """
 
-    # check for reason
-    if dfirtrack_config.SPREAD_REASON:
+    # check all conditions
+    if dfirtrack_config.SPREAD_WORKSHEET_REASON and dfirtrack_config.SPREAD_REASON and Reason.objects.count() != 0:
 
-        # check for reason objects
-        if Reason.objects.count() != 0:
+        # define name of worksheet within file
+        worksheet_reason = workbook.add_sheet('reasons')
 
-            # define name of worksheet within file
-            worksheet_reason = workbook.add_sheet('reasons')
+        # create empty list
+        headline_reason = []
 
-            # create empty list
-            headline_reason = []
+        # append attributes
+        headline_reason.append('ID')
+        headline_reason.append('Reason')
+        headline_reason.append('Note')
 
-            # append attributes
-            headline_reason.append('ID')
-            headline_reason.append('Reason')
-            headline_reason.append('Note')
+        # define styling for headline
+        style = style_headline()
 
-            # define styling for headline
-            style = style_headline()
+        # set counter
+        row_num = 0
 
-            # set counter
-            row_num = 0
+        # write headline
+        worksheet_reason = write_row(worksheet_reason, headline_reason, row_num, style)
 
-            # write headline
-            worksheet_reason = write_row(worksheet_reason, headline_reason, row_num, style)
+        # clear styling to default
+        style = style_default()
 
-            # clear styling to default
-            style = style_default()
+        """ append reasons """
 
-            """ append reasons """
+        # get all Reason objects ordered by reason_name
+        reasons = Reason.objects.all().order_by("reason_name")
 
-            # get all Reason objects ordered by reason_name
-            reasons = Reason.objects.all().order_by("reason_name")
+        # iterate over reasons
+        for reason in reasons:
 
-            # iterate over reasons
-            for reason in reasons:
+            # autoincrement row counter
+            row_num += 1
 
-                # autoincrement row counter
-                row_num += 1
+            # set column counter
+            col_num = 1
 
-                # set column counter
-                col_num = 1
+            # create empty list for line
+            entryline_reason = []
 
-                # create empty list for line
-                entryline_reason = []
+            entryline_reason.append(reason.reason_id)
+            entryline_reason.append(reason.reason_name)
+            entryline_reason.append(reason.reason_note)
 
-                entryline_reason.append(reason.reason_id)
-                entryline_reason.append(reason.reason_name)
-                entryline_reason.append(reason.reason_note)
-
-                # write line for reason
-                worksheet_reason = write_row(worksheet_reason, entryline_reason, row_num, style)
+            # write line for reason
+            worksheet_reason = write_row(worksheet_reason, entryline_reason, row_num, style)
 
     """ add worksheet for tag """
 
-    # check for tag
-    if dfirtrack_config.SPREAD_TAG:
+    # check all conditions
+    if dfirtrack_config.SPREAD_WORKSHEET_TAG and dfirtrack_config.SPREAD_TAG and Tag.objects.count() != 0:
 
-        # check for tag objects
-        if Tag.objects.count() != 0:
+        # define name of worksheet within file
+        worksheet_tag = workbook.add_sheet('tags')
 
-            # define name of worksheet within file
-            worksheet_tag = workbook.add_sheet('tags')
+        # create empty list
+        headline_tag = []
 
-            # create empty list
-            headline_tag = []
+        # append attributes
+        headline_tag.append('ID')
+        headline_tag.append('Tag')
+        headline_tag.append('Note')
 
-            # append attributes
-            headline_tag.append('ID')
-            headline_tag.append('Tag')
-            headline_tag.append('Note')
+        # define styling for headline
+        style = style_headline()
 
-            # define styling for headline
-            style = style_headline()
+        # set counter
+        row_num = 0
 
-            # set counter
-            row_num = 0
+        # write headline
+        worksheet_tag = write_row(worksheet_tag, headline_tag, row_num, style)
 
-            # write headline
-            worksheet_tag = write_row(worksheet_tag, headline_tag, row_num, style)
+        # clear styling to default
+        style = style_default()
 
-            # clear styling to default
-            style = style_default()
+        """ append tags """
 
-            """ append tags """
+        # get all Tag objects ordered by tag_name
+        tags = Tag.objects.all().order_by("tag_name")
 
-            # get all Tag objects ordered by tag_name
-            tags = Tag.objects.all().order_by("tag_name")
+        # iterate over tags
+        for tag in tags:
 
-            # iterate over tags
-            for tag in tags:
+            # autoincrement row counter
+            row_num += 1
 
-                # autoincrement row counter
-                row_num += 1
+            # set column counter
+            col_num = 1
 
-                # set column counter
-                col_num = 1
+            # create empty list for line
+            entryline_tag = []
 
-                # create empty list for line
-                entryline_tag = []
+            entryline_tag.append(tag.tag_id)
+            entryline_tag.append(tag.tag_name)
+            entryline_tag.append(tag.tag_note)
 
-                entryline_tag.append(tag.tag_id)
-                entryline_tag.append(tag.tag_name)
-                entryline_tag.append(tag.tag_note)
-
-                # write line for tag
-                worksheet_tag = write_row(worksheet_tag, entryline_tag, row_num, style)
+            # write line for tag
+            worksheet_tag = write_row(worksheet_tag, entryline_tag, row_num, style)
 
     # close file
     workbook.save(sod)

@@ -41,6 +41,9 @@ SPREAD_TAG = True
 SPREAD_CASE = False
 SPREAD_SYSTEM_CREATE_TIME = True
 SPREAD_SYSTEM_MODIFY_TIME = True
+# choose optional worksheets with notes --> works only if corresponding attribute above is activated (XLS only)
+SPREAD_WORKSHEET_REASON = False
+SPREAD_WORKSHEET_TAG = False
 
 # IMPORTER
 
