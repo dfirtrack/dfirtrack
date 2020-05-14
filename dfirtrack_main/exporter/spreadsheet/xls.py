@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 import dfirtrack.config as dfirtrack_config
 from dfirtrack_main.logger.default_logger import info_logger
-from dfirtrack_main.models import Reason, System, Tag
+from dfirtrack_main.models import Reason, System, Systemstatus, Tag
 from time import strftime
 import xlwt
 
@@ -312,6 +312,59 @@ def system(request):
 
     #print("rows: " + str(len(worksheet_system._Worksheet__rows)))
     #print("cols: " + str(len(worksheet_system._Worksheet__cols))) # --> does not work
+
+    """ add worksheet for systemstatus """
+
+    # check all conditions
+    if dfirtrack_config.SPREAD_WORKSHEET_SYSTEMSTATUS and dfirtrack_config.SPREAD_SYSTEMSTATUS and Systemstatus.objects.count() != 0:
+
+        # define name of worksheet within file
+        worksheet_systemstatus = workbook.add_sheet('systemstatus')
+
+        # create empty list
+        headline_systemstatus = []
+
+        # append attributes
+        headline_systemstatus.append('ID')
+        headline_systemstatus.append('Systemstatus')
+        headline_systemstatus.append('Note')
+
+        # define styling for headline
+        style = style_headline()
+
+        # set counter
+        row_num = 0
+
+        # write headline
+        worksheet_systemstatus = write_row(worksheet_systemstatus, headline_systemstatus, row_num, style)
+
+        # clear styling to default
+        style = style_default()
+
+        """ append systemstatus """
+
+        # get all Systemstatus objects ordered by systemstatus_name
+        systemstatuss = Systemstatus.objects.all().order_by("systemstatus_name")
+
+        # iterate over systemstatus
+        for systemstatus in systemstatuss:
+
+            # autoincrement row counter
+            row_num += 1
+
+            # set column counter
+            col_num = 1
+
+            # create empty list for line
+            entryline_systemstatus = []
+
+            entryline_systemstatus.append(systemstatus.systemstatus_id)
+            entryline_systemstatus.append(systemstatus.systemstatus_name)
+            entryline_systemstatus.append(systemstatus.systemstatus_note)
+
+            # write line for systemstatus
+            worksheet_systemstatus = write_row(worksheet_systemstatus, entryline_systemstatus, row_num, style)
+
 
     """ add worksheet for reason """
 
