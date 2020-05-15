@@ -73,6 +73,14 @@ CSV_DEFAULT_REASON = 1
 CSV_CHOICE_IP = True
 ## column of ip address (numerical value starting with 0 [zero] for first column)
 CSV_COLUMN_IP = 1
+## 'Domain' should be set (True) or not (false) during import
+CSV_CHOICE_DOMAIN = True
+## 'Domain' (ID) for imported systems (IMPORTANT: Domain has to be created manually beforehand!)
+CSV_DEFAULT_DOMAIN = 1
+## 'Dnsname' should be set (True) or not (false) during import
+CSV_CHOICE_DNSNAME = True
+## 'Dnsname' (ID) for imported systems (IMPORTANT: Dnsname has to be created manually beforehand!)
+CSV_DEFAULT_DNSNAME = 1
 
 # IMPORT SYSTEMS WITH TAGS FROM CLIENT CSV FILE (dfirtrack_main.importer.file.csv.systems_tags)
 ## add a list of strings representing the relevant tags you want to automatically import

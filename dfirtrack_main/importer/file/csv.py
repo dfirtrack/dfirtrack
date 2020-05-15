@@ -11,7 +11,7 @@ from dfirtrack.config import TAGLIST
 from dfirtrack.config import TAGPREFIX
 from dfirtrack_main.forms import SystemImporterFileCsv, SystemIpFileImport, SystemTagFileImport
 from dfirtrack_main.logger.default_logger import critical_logger, debug_logger, error_logger, warning_logger
-from dfirtrack_main.models import Analysisstatus, Domain, Headline, Ip, Reason, Reportitem, System, Systemstatus, Tag, Tagcolor
+from dfirtrack_main.models import Analysisstatus, Dnsname, Domain, Headline, Ip, Reason, Reportitem, System, Systemstatus, Tag, Tagcolor
 import ipaddress
 from io import TextIOWrapper
 # TODO: remove not needed imports
@@ -131,6 +131,50 @@ def system(request):
             warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_COLUMN_IP deformed")
             stop_system_importer_file_csv = True
 
+        # check CSV_CHOICE_DOMAIN for bool
+        if not isinstance(dfirtrack_config.CSV_CHOICE_DOMAIN, bool):
+            messages.error(request, "Deformed `CSV_CHOICE_DOMAIN` Check `dfirtrack.config`!")
+            # call logger
+            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_DOMAIN deformed")
+            stop_system_importer_file_csv = True
+
+        # check CSV_DEFAULT_DOMAIN (check only if CSV_CHOICE_DOMAIN is True) for existence
+        if dfirtrack_config.CSV_CHOICE_DOMAIN:
+            try:
+                Domain.objects.get(domain_id = dfirtrack_config.CSV_DEFAULT_DOMAIN)
+            except Domain.DoesNotExist:
+                messages.warning(request, "Domain with configured ID does not exist. Check `dfirtrack.config` or create domain!")
+                # call logger
+                warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV domain for variable CSV_DEFAULT_DOMAIN does not exist")
+                stop_system_importer_file_csv = True
+            except ValueError:
+                messages.error(request, "Deformed `CSV_DEFAULT_DOMAIN` Check `dfirtrack.config`!")
+                # call logger
+                warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_DOMAIN deformed")
+                stop_system_importer_file_csv = True
+
+        # check CSV_CHOICE_DNSNAME for bool
+        if not isinstance(dfirtrack_config.CSV_CHOICE_DNSNAME, bool):
+            messages.error(request, "Deformed `CSV_CHOICE_DNSNAME` Check `dfirtrack.config`!")
+            # call logger
+            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_DNSNAME deformed")
+            stop_system_importer_file_csv = True
+
+        # check CSV_DEFAULT_DNSNAME (check only if CSV_CHOICE_DNSNAME is True) for existence
+        if dfirtrack_config.CSV_CHOICE_DNSNAME:
+            try:
+                Dnsname.objects.get(dnsname_id = dfirtrack_config.CSV_DEFAULT_DNSNAME)
+            except Dnsname.DoesNotExist:
+                messages.warning(request, "Dnsname with configured ID does not exist. Check `dfirtrack.config` or create dnsname!")
+                # call logger
+                warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV dnsname for variable CSV_DEFAULT_DNSNAME does not exist")
+                stop_system_importer_file_csv = True
+            except ValueError:
+                messages.error(request, "Deformed `CSV_DEFAULT_DNSNAME` Check `dfirtrack.config`!")
+                # call logger
+                warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_DNSNAME deformed")
+                stop_system_importer_file_csv = True
+
         # leave system_importer_file_csv if variables caused errors
         if stop_system_importer_file_csv:
 
@@ -205,6 +249,10 @@ def system(request):
                         system.analysisstatus = Analysisstatus.objects.get(analysisstatus_name = dfirtrack_config.CSV_DEFAULT_ANALYSISSTATUS)
                     if dfirtrack_config.CSV_CHOICE_REASON:
                         system.reason = Reason.objects.get(reason_id = dfirtrack_config.CSV_DEFAULT_REASON)
+                    if dfirtrack_config.CSV_CHOICE_DOMAIN:
+                        system.domain = Domain.objects.get(domain_id = dfirtrack_config.CSV_DEFAULT_DOMAIN)
+                    if dfirtrack_config.CSV_CHOICE_DNSNAME:
+                        system.dnsname = Dnsname.objects.get(dnsname_id = dfirtrack_config.CSV_DEFAULT_DNSNAME)
 
                     # get ip address
                     if dfirtrack_config.CSV_CHOICE_IP:
@@ -248,6 +296,10 @@ def system(request):
                     system.analysisstatus = Analysisstatus.objects.get(analysisstatus_name = dfirtrack_config.CSV_DEFAULT_ANALYSISSTATUS)
                 if dfirtrack_config.CSV_CHOICE_REASON:
                     system.reason = Reason.objects.get(reason_id = dfirtrack_config.CSV_DEFAULT_REASON)
+                if dfirtrack_config.CSV_CHOICE_DOMAIN:
+                    system.domain = Domain.objects.get(domain_id = dfirtrack_config.CSV_DEFAULT_DOMAIN)
+                    if dfirtrack_config.CSV_CHOICE_DNSNAME:
+                        system.dnsname = Dnsname.objects.get(dnsname_id = dfirtrack_config.CSV_DEFAULT_DNSNAME)
 
                 # get ip address
                 if dfirtrack_config.CSV_CHOICE_IP:
