@@ -74,13 +74,29 @@ CSV_CHOICE_IP = True
 ## column of ip address (numerical value starting with 0 [zero] for first column)
 CSV_COLUMN_IP = 1
 ## 'Domain' should be set (True) or not (false) during import
-CSV_CHOICE_DOMAIN = True
+CSV_CHOICE_DOMAIN = False
 ## 'Domain' (ID) for imported systems (IMPORTANT: Domain has to be created manually beforehand!)
 CSV_DEFAULT_DOMAIN = 1
 ## 'Dnsname' should be set (True) or not (false) during import
-CSV_CHOICE_DNSNAME = True
+CSV_CHOICE_DNSNAME = False
 ## 'Dnsname' (ID) for imported systems (IMPORTANT: Dnsname has to be created manually beforehand!)
 CSV_DEFAULT_DNSNAME = 1
+## 'Systemtype' should be set (True) or not (false) during import
+CSV_CHOICE_SYSTEMTYPE = False
+## 'Systemtype' (ID) for imported systems (IMPORTANT: Systemtype has to be created manually beforehand!)
+CSV_DEFAULT_SYSTEMTYPE = 1
+## 'OS' should be set (True) or not (false) during import
+CSV_CHOICE_OS = False
+## 'OS' (ID) for imported systems (IMPORTANT: OS has to be created manually beforehand!)
+CSV_DEFAULT_OS = 1
+## 'Location' should be set (True) or not (false) during import
+CSV_CHOICE_LOCATION = False
+## 'Location' (ID) for imported systems (IMPORTANT: Location has to be created manually beforehand!)
+CSV_DEFAULT_LOCATION = 1
+## 'Serviceprovider' should be set (True) or not (false) during import
+CSV_CHOICE_SERVICEPROVIDER = False
+## 'Serviceprovider' (ID) for imported systems (IMPORTANT: Serviceprovider has to be created manually beforehand!)
+CSV_DEFAULT_SERVICEPROVIDER = 1
 
 # IMPORT SYSTEMS WITH TAGS FROM CLIENT CSV FILE (dfirtrack_main.importer.file.csv.systems_tags)
 ## add a list of strings representing the relevant tags you want to automatically import

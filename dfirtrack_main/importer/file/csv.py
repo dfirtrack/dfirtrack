@@ -11,7 +11,7 @@ from dfirtrack.config import TAGLIST
 from dfirtrack.config import TAGPREFIX
 from dfirtrack_main.forms import SystemImporterFileCsv, SystemIpFileImport, SystemTagFileImport
 from dfirtrack_main.logger.default_logger import critical_logger, debug_logger, error_logger, warning_logger
-from dfirtrack_main.models import Analysisstatus, Dnsname, Domain, Headline, Ip, Reason, Reportitem, System, Systemstatus, Tag, Tagcolor
+from dfirtrack_main.models import Analysisstatus, Dnsname, Domain, Headline, Ip, Location, Os, Reason, Reportitem, Serviceprovider, System, Systemstatus, Systemtype, Tag, Tagcolor
 import ipaddress
 from io import TextIOWrapper
 # TODO: remove not needed imports
@@ -33,6 +33,28 @@ def check_and_create_ip(column_ip, request, row_counter):
         ip.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_IP_CREATED")
 
     return ip
+
+def optional_system_attributes(system):
+
+    # add optional attributes if applicable
+    if dfirtrack_config.CSV_CHOICE_ANALYSISSTATUS:
+        system.analysisstatus = Analysisstatus.objects.get(analysisstatus_name = dfirtrack_config.CSV_DEFAULT_ANALYSISSTATUS)
+    if dfirtrack_config.CSV_CHOICE_REASON:
+        system.reason = Reason.objects.get(reason_id = dfirtrack_config.CSV_DEFAULT_REASON)
+    if dfirtrack_config.CSV_CHOICE_DOMAIN:
+        system.domain = Domain.objects.get(domain_id = dfirtrack_config.CSV_DEFAULT_DOMAIN)
+    if dfirtrack_config.CSV_CHOICE_DNSNAME:
+        system.dnsname = Dnsname.objects.get(dnsname_id = dfirtrack_config.CSV_DEFAULT_DNSNAME)
+    if dfirtrack_config.CSV_CHOICE_SYSTEMTYPE:
+        system.systemtype = Systemtype.objects.get(systemtype_id = dfirtrack_config.CSV_DEFAULT_SYSTEMTYPE)
+    if dfirtrack_config.CSV_CHOICE_OS:
+        system.os = Os.objects.get(os_id = dfirtrack_config.CSV_DEFAULT_OS)
+    if dfirtrack_config.CSV_CHOICE_LOCATION:
+        system.location = Location.objects.get(location_id = dfirtrack_config.CSV_DEFAULT_LOCATION)
+    if dfirtrack_config.CSV_CHOICE_SERVICEPROVIDER:
+        system.serviceprovider = Serviceprovider.objects.get(serviceprovider_id = dfirtrack_config.CSV_DEFAULT_SERVICEPROVIDER)
+
+    return system
 
 @login_required(login_url="/login")
 def system(request):
@@ -175,6 +197,94 @@ def system(request):
                 warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_DNSNAME deformed")
                 stop_system_importer_file_csv = True
 
+        # check CSV_CHOICE_SYSTEMTYPE for bool
+        if not isinstance(dfirtrack_config.CSV_CHOICE_SYSTEMTYPE, bool):
+            messages.error(request, "Deformed `CSV_CHOICE_SYSTEMTYPE` Check `dfirtrack.config`!")
+            # call logger
+            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_SYSTEMTYPE deformed")
+            stop_system_importer_file_csv = True
+
+        # check CSV_DEFAULT_SYSTEMTYPE (check only if CSV_CHOICE_SYSTEMTYPE is True) for existence
+        if dfirtrack_config.CSV_CHOICE_SYSTEMTYPE:
+            try:
+                Systemtype.objects.get(systemtype_id = dfirtrack_config.CSV_DEFAULT_SYSTEMTYPE)
+            except Systemtype.DoesNotExist:
+                messages.warning(request, "Systemtype with configured ID does not exist. Check `dfirtrack.config` or create systemtype!")
+                # call logger
+                warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV systemtype for variable CSV_DEFAULT_SYSTEMTYPE does not exist")
+                stop_system_importer_file_csv = True
+            except ValueError:
+                messages.error(request, "Deformed `CSV_DEFAULT_SYSTEMTYPE` Check `dfirtrack.config`!")
+                # call logger
+                warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_SYSTEMTYPE deformed")
+                stop_system_importer_file_csv = True
+
+        # check CSV_CHOICE_OS for bool
+        if not isinstance(dfirtrack_config.CSV_CHOICE_OS, bool):
+            messages.error(request, "Deformed `CSV_CHOICE_OS` Check `dfirtrack.config`!")
+            # call logger
+            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_OS deformed")
+            stop_system_importer_file_csv = True
+
+        # check CSV_DEFAULT_OS (check only if CSV_CHOICE_OS is True) for existence
+        if dfirtrack_config.CSV_CHOICE_OS:
+            try:
+                Os.objects.get(os_id = dfirtrack_config.CSV_DEFAULT_OS)
+            except Os.DoesNotExist:
+                messages.warning(request, "OS with configured ID does not exist. Check `dfirtrack.config` or create OS!")
+                # call logger
+                warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV OS for variable CSV_DEFAULT_OS does not exist")
+                stop_system_importer_file_csv = True
+            except ValueError:
+                messages.error(request, "Deformed `CSV_DEFAULT_OS` Check `dfirtrack.config`!")
+                # call logger
+                warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_OS deformed")
+                stop_system_importer_file_csv = True
+
+        # check CSV_CHOICE_LOCATION for bool
+        if not isinstance(dfirtrack_config.CSV_CHOICE_LOCATION, bool):
+            messages.error(request, "Deformed `CSV_CHOICE_LOCATION` Check `dfirtrack.config`!")
+            # call logger
+            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_LOCATION deformed")
+            stop_system_importer_file_csv = True
+
+        # check CSV_DEFAULT_LOCATION (check only if CSV_CHOICE_LOCATION is True) for existence
+        if dfirtrack_config.CSV_CHOICE_LOCATION:
+            try:
+                Location.objects.get(location_id = dfirtrack_config.CSV_DEFAULT_LOCATION)
+            except Location.DoesNotExist:
+                messages.warning(request, "Location with configured ID does not exist. Check `dfirtrack.config` or create location!")
+                # call logger
+                warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV location for variable CSV_DEFAULT_LOCATION does not exist")
+                stop_system_importer_file_csv = True
+            except ValueError:
+                messages.error(request, "Deformed `CSV_DEFAULT_LOCATION` Check `dfirtrack.config`!")
+                # call logger
+                warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_LOCATION deformed")
+                stop_system_importer_file_csv = True
+
+        # check CSV_CHOICE_SERVICEPROVIDER for bool
+        if not isinstance(dfirtrack_config.CSV_CHOICE_SERVICEPROVIDER, bool):
+            messages.error(request, "Deformed `CSV_CHOICE_SERVICEPROVIDER` Check `dfirtrack.config`!")
+            # call logger
+            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_SERVICEPROVIDER deformed")
+            stop_system_importer_file_csv = True
+
+        # check CSV_DEFAULT_SERVICEPROVIDER (check only if CSV_CHOICE_SERVICEPROVIDER is True) for existence
+        if dfirtrack_config.CSV_CHOICE_SERVICEPROVIDER:
+            try:
+                Serviceprovider.objects.get(serviceprovider_id = dfirtrack_config.CSV_DEFAULT_SERVICEPROVIDER)
+            except Serviceprovider.DoesNotExist:
+                messages.warning(request, "Serviceprovider with configured ID does not exist. Check `dfirtrack.config` or create serviceprovider!")
+                # call logger
+                warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV serviceprovider for variable CSV_DEFAULT_SERVICEPROVIDER does not exist")
+                stop_system_importer_file_csv = True
+            except ValueError:
+                messages.error(request, "Deformed `CSV_DEFAULT_SERVICEPROVIDER` Check `dfirtrack.config`!")
+                # call logger
+                warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_SERVICEPROVIDER deformed")
+                stop_system_importer_file_csv = True
+
         # leave system_importer_file_csv if variables caused errors
         if stop_system_importer_file_csv:
 
@@ -241,32 +351,26 @@ def system(request):
                     # get system object
                     system = System.objects.get(system_name=system_name)
 
-                    # change mandatory information
+                    # change mandatory attribute
                     system.systemstatus = Systemstatus.objects.get(systemstatus_name = dfirtrack_config.CSV_DEFAULT_SYSTEMSTATUS)
 
-                    # add optional information if applicable
-                    if dfirtrack_config.CSV_CHOICE_ANALYSISSTATUS:
-                        system.analysisstatus = Analysisstatus.objects.get(analysisstatus_name = dfirtrack_config.CSV_DEFAULT_ANALYSISSTATUS)
-                    if dfirtrack_config.CSV_CHOICE_REASON:
-                        system.reason = Reason.objects.get(reason_id = dfirtrack_config.CSV_DEFAULT_REASON)
-                    if dfirtrack_config.CSV_CHOICE_DOMAIN:
-                        system.domain = Domain.objects.get(domain_id = dfirtrack_config.CSV_DEFAULT_DOMAIN)
-                    if dfirtrack_config.CSV_CHOICE_DNSNAME:
-                        system.dnsname = Dnsname.objects.get(dnsname_id = dfirtrack_config.CSV_DEFAULT_DNSNAME)
+                    # change optional attributes if applicable
+                    system = optional_system_attributes(system)
 
-                    # get ip address
-                    if dfirtrack_config.CSV_CHOICE_IP:
-                        column_ip = row[dfirtrack_config.CSV_COLUMN_IP]
-                        ip_address = check_and_create_ip(column_ip, request, row_counter)
-
-                    # change mandatory meta information
+                    # change mandatory meta attributes
                     system.system_modify_time = timezone.now()
                     system.system_modified_by_user_id = request.user
 
                     # save object
                     system.save()
 
+                    # get ip address
+                    if dfirtrack_config.CSV_CHOICE_IP:
+                        column_ip = row[dfirtrack_config.CSV_COLUMN_IP]
+                        ip_address = check_and_create_ip(column_ip, request, row_counter)
+
                     # TODO: maybe remove previously linked IPs because of many to many relation
+                    # TODO: test showed that ips will be added to previous existing --> maybe choice overwrite or add?
                     # save ip for system (if valid value was provided)
                     if dfirtrack_config.CSV_CHOICE_IP:
                         if ip_address:
@@ -281,6 +385,7 @@ def system(request):
             # if there is more than one system
             elif len(systemquery) > 1:
                 pass
+                # TODO: add routine for duplicate systems (add least some kind of message / log)
 
             # if there is no system
             else:
@@ -288,25 +393,13 @@ def system(request):
                 system = System()
                 system.system_name = system_name
 
-                # add mandatory information
+                # add mandatory attributes
                 system.systemstatus = Systemstatus.objects.get(systemstatus_name = dfirtrack_config.CSV_DEFAULT_SYSTEMSTATUS)
 
-                # add optional information if applicable
-                if dfirtrack_config.CSV_CHOICE_ANALYSISSTATUS:
-                    system.analysisstatus = Analysisstatus.objects.get(analysisstatus_name = dfirtrack_config.CSV_DEFAULT_ANALYSISSTATUS)
-                if dfirtrack_config.CSV_CHOICE_REASON:
-                    system.reason = Reason.objects.get(reason_id = dfirtrack_config.CSV_DEFAULT_REASON)
-                if dfirtrack_config.CSV_CHOICE_DOMAIN:
-                    system.domain = Domain.objects.get(domain_id = dfirtrack_config.CSV_DEFAULT_DOMAIN)
-                    if dfirtrack_config.CSV_CHOICE_DNSNAME:
-                        system.dnsname = Dnsname.objects.get(dnsname_id = dfirtrack_config.CSV_DEFAULT_DNSNAME)
+                # add optional attributes if applicable
+                system = optional_system_attributes(system)
 
-                # get ip address
-                if dfirtrack_config.CSV_CHOICE_IP:
-                    column_ip = row[dfirtrack_config.CSV_COLUMN_IP]
-                    ip_address = check_and_create_ip(column_ip, request, row_counter)
-
-                # add mandatory meta information
+                # add mandatory meta attributes
                 system.system_modify_time = timezone.now()
                 system.system_created_by_user_id = request.user
                 system.system_modified_by_user_id = request.user
@@ -314,7 +407,11 @@ def system(request):
                 # save object
                 system.save()
 
-                # TODO: maybe remove previously linked IPs because of many to many relation
+                # get ip address
+                if dfirtrack_config.CSV_CHOICE_IP:
+                    column_ip = row[dfirtrack_config.CSV_COLUMN_IP]
+                    ip_address = check_and_create_ip(column_ip, request, row_counter)
+
                 # save ip for system (if valid value was provided)
                 if dfirtrack_config.CSV_CHOICE_IP:
                     if ip_address:
