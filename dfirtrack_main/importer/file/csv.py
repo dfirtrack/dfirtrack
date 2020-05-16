@@ -5,6 +5,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils import timezone
 import dfirtrack.config as dfirtrack_config
+from . import csv_check_config
 from dfirtrack.config import SYSTEMTAG_HEADLINE as systemtag_headline
 from dfirtrack.config import SYSTEMTAG_SUBHEADLINE as systemtag_subheadline
 from dfirtrack.config import TAGLIST
@@ -64,234 +65,6 @@ def system(request):
 
         # call logger
         debug_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_BEGAN")
-
-        """ check variables of dfirtrack.config """
-
-        # reset stop condition
-        stop_system_importer_file_csv = False
-
-        # check CSV_HEADLINE for bool
-        if not isinstance(dfirtrack_config.CSV_HEADLINE, bool):
-            messages.error(request, "Deformed `CSV_HEADLINE` Check `dfirtrack.config`!")
-            # call logger
-            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_HEADLINE deformed")
-            stop_system_importer_file_csv = True
-
-        # check CSV_SKIP_EXISTING_SYSTEM for bool
-        if not isinstance(dfirtrack_config.CSV_SKIP_EXISTING_SYSTEM, bool):
-            messages.error(request, "Deformed `CSV_SKIP_EXISTING_SYSTEM` Check `dfirtrack.config`!")
-            # call logger
-            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_SKIP_EXISTING_SYSTEM deformed")
-            stop_system_importer_file_csv = True
-
-        # check CSV_COLUMN_SYSTEM for int
-        if not isinstance(dfirtrack_config.CSV_COLUMN_SYSTEM, int):
-            messages.error(request, "Deformed `CSV_COLUMN_SYSTEM` Check `dfirtrack.config`!")
-            # call logger
-            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_COLUMN_SYSTEM deformed")
-            stop_system_importer_file_csv = True
-
-        # check CSV_DEFAULT_SYSTEMSTATUS for existence
-        try:
-            Systemstatus.objects.get(systemstatus_name = dfirtrack_config.CSV_DEFAULT_SYSTEMSTATUS)
-        except Systemstatus.DoesNotExist:
-            messages.warning(request, "Systemstatus with configured name does not exist. Check `dfirtrack.config` or create systemstatus!")
-            # call logger
-            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV systemstatus for variable CSV_DEFAULT_SYSTEMSTATUS does not exist")
-            stop_system_importer_file_csv = True
-
-        # check CSV_CHOICE_ANALYSISSTATUS for bool
-        if not isinstance(dfirtrack_config.CSV_CHOICE_ANALYSISSTATUS, bool):
-            messages.error(request, "Deformed `CSV_CHOICE_ANALYSISSTATUS` Check `dfirtrack.config`!")
-            # call logger
-            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_ANALYSISSTATUS deformed")
-            stop_system_importer_file_csv = True
-
-        # check CSV_DEFAULT_ANALYSISSTATUS (check only if CSV_CHOICE_ANALYSISSTATUS is True) for existence
-        if dfirtrack_config.CSV_CHOICE_ANALYSISSTATUS:
-            try:
-                Analysisstatus.objects.get(analysisstatus_name = dfirtrack_config.CSV_DEFAULT_ANALYSISSTATUS)
-            except Analysisstatus.DoesNotExist:
-                messages.warning(request, "Analysisstatus with configured name does not exist. Check `dfirtrack.config` or create analysisstatus!")
-                # call logger
-                warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV analysisstatus for variable CSV_DEFAULT_ANALYSISSTATUS does not exist")
-                stop_system_importer_file_csv = True
-
-        # check CSV_CHOICE_REASON for bool
-        if not isinstance(dfirtrack_config.CSV_CHOICE_REASON, bool):
-            messages.error(request, "Deformed `CSV_CHOICE_REASON` Check `dfirtrack.config`!")
-            # call logger
-            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_REASON deformed")
-            stop_system_importer_file_csv = True
-
-        # check CSV_DEFAULT_REASON (check only if CSV_CHOICE_REASON is True) for existence
-        if dfirtrack_config.CSV_CHOICE_REASON:
-            try:
-                Reason.objects.get(reason_id = dfirtrack_config.CSV_DEFAULT_REASON)
-            except Reason.DoesNotExist:
-                messages.warning(request, "Reason with configured ID does not exist. Check `dfirtrack.config` or create reason!")
-                # call logger
-                warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV reason for variable CSV_DEFAULT_REASON does not exist")
-                stop_system_importer_file_csv = True
-            except ValueError:
-                messages.error(request, "Deformed `CSV_DEFAULT_REASON` Check `dfirtrack.config`!")
-                # call logger
-                warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_REASON deformed")
-                stop_system_importer_file_csv = True
-
-        # check CSV_CHOICE_IP for bool
-        if not isinstance(dfirtrack_config.CSV_CHOICE_IP, bool):
-            messages.error(request, "Deformed `CSV_CHOICE_IP` Check `dfirtrack.config`!")
-            # call logger
-            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_IP deformed")
-            stop_system_importer_file_csv = True
-
-        # check CSV_COLUMN_IP for int
-        if not isinstance(dfirtrack_config.CSV_COLUMN_IP, int):
-            messages.error(request, "Deformed `CSV_COLUMN_IP` Check `dfirtrack.config`!")
-            # call logger
-            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_COLUMN_IP deformed")
-            stop_system_importer_file_csv = True
-
-        # check CSV_CHOICE_DOMAIN for bool
-        if not isinstance(dfirtrack_config.CSV_CHOICE_DOMAIN, bool):
-            messages.error(request, "Deformed `CSV_CHOICE_DOMAIN` Check `dfirtrack.config`!")
-            # call logger
-            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_DOMAIN deformed")
-            stop_system_importer_file_csv = True
-
-        # check CSV_DEFAULT_DOMAIN (check only if CSV_CHOICE_DOMAIN is True) for existence
-        if dfirtrack_config.CSV_CHOICE_DOMAIN:
-            try:
-                Domain.objects.get(domain_id = dfirtrack_config.CSV_DEFAULT_DOMAIN)
-            except Domain.DoesNotExist:
-                messages.warning(request, "Domain with configured ID does not exist. Check `dfirtrack.config` or create domain!")
-                # call logger
-                warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV domain for variable CSV_DEFAULT_DOMAIN does not exist")
-                stop_system_importer_file_csv = True
-            except ValueError:
-                messages.error(request, "Deformed `CSV_DEFAULT_DOMAIN` Check `dfirtrack.config`!")
-                # call logger
-                warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_DOMAIN deformed")
-                stop_system_importer_file_csv = True
-
-        # check CSV_CHOICE_DNSNAME for bool
-        if not isinstance(dfirtrack_config.CSV_CHOICE_DNSNAME, bool):
-            messages.error(request, "Deformed `CSV_CHOICE_DNSNAME` Check `dfirtrack.config`!")
-            # call logger
-            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_DNSNAME deformed")
-            stop_system_importer_file_csv = True
-
-        # check CSV_DEFAULT_DNSNAME (check only if CSV_CHOICE_DNSNAME is True) for existence
-        if dfirtrack_config.CSV_CHOICE_DNSNAME:
-            try:
-                Dnsname.objects.get(dnsname_id = dfirtrack_config.CSV_DEFAULT_DNSNAME)
-            except Dnsname.DoesNotExist:
-                messages.warning(request, "Dnsname with configured ID does not exist. Check `dfirtrack.config` or create dnsname!")
-                # call logger
-                warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV dnsname for variable CSV_DEFAULT_DNSNAME does not exist")
-                stop_system_importer_file_csv = True
-            except ValueError:
-                messages.error(request, "Deformed `CSV_DEFAULT_DNSNAME` Check `dfirtrack.config`!")
-                # call logger
-                warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_DNSNAME deformed")
-                stop_system_importer_file_csv = True
-
-        # check CSV_CHOICE_SYSTEMTYPE for bool
-        if not isinstance(dfirtrack_config.CSV_CHOICE_SYSTEMTYPE, bool):
-            messages.error(request, "Deformed `CSV_CHOICE_SYSTEMTYPE` Check `dfirtrack.config`!")
-            # call logger
-            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_SYSTEMTYPE deformed")
-            stop_system_importer_file_csv = True
-
-        # check CSV_DEFAULT_SYSTEMTYPE (check only if CSV_CHOICE_SYSTEMTYPE is True) for existence
-        if dfirtrack_config.CSV_CHOICE_SYSTEMTYPE:
-            try:
-                Systemtype.objects.get(systemtype_id = dfirtrack_config.CSV_DEFAULT_SYSTEMTYPE)
-            except Systemtype.DoesNotExist:
-                messages.warning(request, "Systemtype with configured ID does not exist. Check `dfirtrack.config` or create systemtype!")
-                # call logger
-                warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV systemtype for variable CSV_DEFAULT_SYSTEMTYPE does not exist")
-                stop_system_importer_file_csv = True
-            except ValueError:
-                messages.error(request, "Deformed `CSV_DEFAULT_SYSTEMTYPE` Check `dfirtrack.config`!")
-                # call logger
-                warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_SYSTEMTYPE deformed")
-                stop_system_importer_file_csv = True
-
-        # check CSV_CHOICE_OS for bool
-        if not isinstance(dfirtrack_config.CSV_CHOICE_OS, bool):
-            messages.error(request, "Deformed `CSV_CHOICE_OS` Check `dfirtrack.config`!")
-            # call logger
-            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_OS deformed")
-            stop_system_importer_file_csv = True
-
-        # check CSV_DEFAULT_OS (check only if CSV_CHOICE_OS is True) for existence
-        if dfirtrack_config.CSV_CHOICE_OS:
-            try:
-                Os.objects.get(os_id = dfirtrack_config.CSV_DEFAULT_OS)
-            except Os.DoesNotExist:
-                messages.warning(request, "OS with configured ID does not exist. Check `dfirtrack.config` or create OS!")
-                # call logger
-                warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV OS for variable CSV_DEFAULT_OS does not exist")
-                stop_system_importer_file_csv = True
-            except ValueError:
-                messages.error(request, "Deformed `CSV_DEFAULT_OS` Check `dfirtrack.config`!")
-                # call logger
-                warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_OS deformed")
-                stop_system_importer_file_csv = True
-
-        # check CSV_CHOICE_LOCATION for bool
-        if not isinstance(dfirtrack_config.CSV_CHOICE_LOCATION, bool):
-            messages.error(request, "Deformed `CSV_CHOICE_LOCATION` Check `dfirtrack.config`!")
-            # call logger
-            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_LOCATION deformed")
-            stop_system_importer_file_csv = True
-
-        # check CSV_DEFAULT_LOCATION (check only if CSV_CHOICE_LOCATION is True) for existence
-        if dfirtrack_config.CSV_CHOICE_LOCATION:
-            try:
-                Location.objects.get(location_id = dfirtrack_config.CSV_DEFAULT_LOCATION)
-            except Location.DoesNotExist:
-                messages.warning(request, "Location with configured ID does not exist. Check `dfirtrack.config` or create location!")
-                # call logger
-                warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV location for variable CSV_DEFAULT_LOCATION does not exist")
-                stop_system_importer_file_csv = True
-            except ValueError:
-                messages.error(request, "Deformed `CSV_DEFAULT_LOCATION` Check `dfirtrack.config`!")
-                # call logger
-                warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_LOCATION deformed")
-                stop_system_importer_file_csv = True
-
-        # check CSV_CHOICE_SERVICEPROVIDER for bool
-        if not isinstance(dfirtrack_config.CSV_CHOICE_SERVICEPROVIDER, bool):
-            messages.error(request, "Deformed `CSV_CHOICE_SERVICEPROVIDER` Check `dfirtrack.config`!")
-            # call logger
-            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_SERVICEPROVIDER deformed")
-            stop_system_importer_file_csv = True
-
-        # check CSV_DEFAULT_SERVICEPROVIDER (check only if CSV_CHOICE_SERVICEPROVIDER is True) for existence
-        if dfirtrack_config.CSV_CHOICE_SERVICEPROVIDER:
-            try:
-                Serviceprovider.objects.get(serviceprovider_id = dfirtrack_config.CSV_DEFAULT_SERVICEPROVIDER)
-            except Serviceprovider.DoesNotExist:
-                messages.warning(request, "Serviceprovider with configured ID does not exist. Check `dfirtrack.config` or create serviceprovider!")
-                # call logger
-                warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV serviceprovider for variable CSV_DEFAULT_SERVICEPROVIDER does not exist")
-                stop_system_importer_file_csv = True
-            except ValueError:
-                messages.error(request, "Deformed `CSV_DEFAULT_SERVICEPROVIDER` Check `dfirtrack.config`!")
-                # call logger
-                warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_SERVICEPROVIDER deformed")
-                stop_system_importer_file_csv = True
-
-        # leave system_importer_file_csv if variables caused errors
-        if stop_system_importer_file_csv:
-
-            messages.warning(request, "Nothing was changed.")
-            # call logger
-            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_END_WITH_ERRORS")
-            return redirect(reverse('system_list'))
 
         # get text out of file (variable results from request object via file upload field)
         systemcsv = TextIOWrapper(request.FILES['systemcsv'].file, encoding=request.encoding)
@@ -449,6 +222,14 @@ def system(request):
         return redirect(reverse('system_list'))
 
     else:
+
+        # check config before showing form
+        stop_system_importer_file_csv = csv_check_config.check_config(request)
+
+        # leave system_importer_file_csv if variables caused errors
+        if stop_system_importer_file_csv:
+            return redirect(reverse('system_list'))
+
         # show empty form
         form = SystemImporterFileCsv()
 
