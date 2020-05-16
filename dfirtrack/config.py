@@ -61,39 +61,39 @@ CSV_SKIP_EXISTING_SYSTEM = True
 CSV_COLUMN_SYSTEM = 0
 ## 'Systemstatus' for imported systems (choose from 'Clean', 'Unknown', 'Analysis ongoing', 'Compromised', 'Remediation done', 'Reinstalled', 'Removed', 'Not analyzed' or your custom values)
 CSV_DEFAULT_SYSTEMSTATUS = 'Unknown'
-## 'Analysisstatus' should be set (True) or not (false) during import
+## 'Analysisstatus' should be set (True) or not (False) during import
 CSV_CHOICE_ANALYSISSTATUS = True
 ## 'Analysisstatus' for imported systems (choose from 'Needs analysis', 'Ready for analysis', 'Ongoing analysis', 'Nothing to do', 'Main analysis finished' or your custom values)
 CSV_DEFAULT_ANALYSISSTATUS = 'Needs analysis'
-## 'Reason' should be set (True) or not (false) during import
+## 'Reason' should be set (True) or not (False) during import
 CSV_CHOICE_REASON = True
 ## 'Reason' (ID) for imported systems (IMPORTANT: Reason has to be created manually beforehand!)
 CSV_DEFAULT_REASON = 1
-## 'IP' should be set (True) or not (false) during import
+## 'IP' should be set (True) or not (False) during import
 CSV_CHOICE_IP = True
 ## column of ip address (numerical value starting with 0 [zero] for first column)
 CSV_COLUMN_IP = 1
-## 'Domain' should be set (True) or not (false) during import
+## 'Domain' should be set (True) or not (False) during import
 CSV_CHOICE_DOMAIN = False
 ## 'Domain' (ID) for imported systems (IMPORTANT: Domain has to be created manually beforehand!)
 CSV_DEFAULT_DOMAIN = 1
-## 'Dnsname' should be set (True) or not (false) during import
+## 'Dnsname' should be set (True) or not (False) during import
 CSV_CHOICE_DNSNAME = False
 ## 'Dnsname' (ID) for imported systems (IMPORTANT: Dnsname has to be created manually beforehand!)
 CSV_DEFAULT_DNSNAME = 1
-## 'Systemtype' should be set (True) or not (false) during import
+## 'Systemtype' should be set (True) or not (False) during import
 CSV_CHOICE_SYSTEMTYPE = False
 ## 'Systemtype' (ID) for imported systems (IMPORTANT: Systemtype has to be created manually beforehand!)
 CSV_DEFAULT_SYSTEMTYPE = 1
-## 'OS' should be set (True) or not (false) during import
+## 'OS' should be set (True) or not (False) during import
 CSV_CHOICE_OS = False
 ## 'OS' (ID) for imported systems (IMPORTANT: OS has to be created manually beforehand!)
 CSV_DEFAULT_OS = 1
-## 'Location' should be set (True) or not (false) during import
+## 'Location' should be set (True) or not (False) during import
 CSV_CHOICE_LOCATION = False
 ## 'Location' (ID) for imported systems (IMPORTANT: Location has to be created manually beforehand!)
 CSV_DEFAULT_LOCATION = 1
-## 'Serviceprovider' should be set (True) or not (false) during import
+## 'Serviceprovider' should be set (True) or not (False) during import
 CSV_CHOICE_SERVICEPROVIDER = False
 ## 'Serviceprovider' (ID) for imported systems (IMPORTANT: Serviceprovider has to be created manually beforehand!)
 CSV_DEFAULT_SERVICEPROVIDER = 1
