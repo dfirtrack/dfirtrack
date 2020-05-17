@@ -137,15 +137,18 @@ def system(request):
                     # save object
                     system.save()
 
-                    # get ip address
-                    if dfirtrack_config.CSV_CHOICE_IP:
-                        column_ip = row[dfirtrack_config.CSV_COLUMN_IP]
-                        ip_address = check_and_create_ip(column_ip, request, row_counter)
 
                     # TODO: maybe remove previously linked IPs because of many to many relation
                     # TODO: test showed that ips will be added to previous existing --> maybe choice overwrite or add?
-                    # save ip for system (if valid value was provided)
+
+                    # handle ip address many to many relationship
                     if dfirtrack_config.CSV_CHOICE_IP:
+
+                        # get ip address from CSV
+                        column_ip = row[dfirtrack_config.CSV_COLUMN_IP]
+                        # check and create ip address
+                        ip_address = check_and_create_ip(column_ip, request, row_counter)
+                        # add ip address
                         if ip_address:
                             system.ip.add(ip_address)
 
@@ -180,13 +183,14 @@ def system(request):
                 # save object
                 system.save()
 
-                # get ip address
+                # handle ip address many to many relationship
                 if dfirtrack_config.CSV_CHOICE_IP:
-                    column_ip = row[dfirtrack_config.CSV_COLUMN_IP]
-                    ip_address = check_and_create_ip(column_ip, request, row_counter)
 
-                # save ip for system (if valid value was provided)
-                if dfirtrack_config.CSV_CHOICE_IP:
+                    # get ip address from CSV
+                    column_ip = row[dfirtrack_config.CSV_COLUMN_IP]
+                    # check and create ip address
+                    ip_address = check_and_create_ip(column_ip, request, row_counter)
+                    # add ip address
                     if ip_address:
                         system.ip.add(ip_address)
 
