@@ -5,12 +5,12 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils import timezone
 import dfirtrack.config as dfirtrack_config
-from . import csv_check_data
+from .csv_check_data import check_config, check_file, check_row
+from .csv_importer_forms import SystemImporterFileCsv, SystemIpFileImport, SystemTagFileImport
 from dfirtrack.config import SYSTEMTAG_HEADLINE as systemtag_headline
 from dfirtrack.config import SYSTEMTAG_SUBHEADLINE as systemtag_subheadline
 from dfirtrack.config import TAGLIST
 from dfirtrack.config import TAGPREFIX
-from dfirtrack_main.forms import SystemImporterFileCsv, SystemIpFileImport, SystemTagFileImport
 from dfirtrack_main.logger.default_logger import critical_logger, debug_logger, error_logger, warning_logger
 from dfirtrack_main.models import Analysisstatus, Dnsname, Domain, Headline, Ip, Location, Os, Reason, Reportitem, Serviceprovider, System, Systemstatus, Systemtype, Tag, Tagcolor
 import ipaddress
@@ -77,7 +77,7 @@ def system(request):
         rows = csv.reader(systemcsv, quotechar="'")
 
         # check file for csv respectively some kind of text file
-        file_check = csv_check_data.check_file(request, rows)
+        file_check = check_file(request, rows)
         # leave system_importer_file_csv if file check throws errors
         if not file_check:
             return redirect(reverse('system_list'))
@@ -109,7 +109,7 @@ def system(request):
                 continue
 
             # check row for valid values
-            continue_system_importer_file_csv = csv_check_data.check_row(request, row, row_counter)
+            continue_system_importer_file_csv = check_row(request, row, row_counter)
             # leave loop for this row if there are invalid values
             if continue_system_importer_file_csv:
                 # autoincrement row counter
@@ -247,7 +247,7 @@ def system(request):
     else:
 
         # check config before showing form
-        stop_system_importer_file_csv = csv_check_data.check_config(request)
+        stop_system_importer_file_csv = check_config(request)
 
         # leave system_importer_file_csv if variables caused errors
         if stop_system_importer_file_csv:
