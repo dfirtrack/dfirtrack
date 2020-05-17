@@ -5,7 +5,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils import timezone
 import dfirtrack.config as dfirtrack_config
-from . import csv_check_config
+from . import csv_check_data
 from dfirtrack.config import SYSTEMTAG_HEADLINE as systemtag_headline
 from dfirtrack.config import SYSTEMTAG_SUBHEADLINE as systemtag_subheadline
 from dfirtrack.config import TAGLIST
@@ -16,6 +16,8 @@ from dfirtrack_main.models import Analysisstatus, Dnsname, Domain, Headline, Ip,
 import ipaddress
 from io import TextIOWrapper
 # TODO: remove not needed imports
+
+# TODO: add companies (needs extra function like ip address because of many to many relation)
 
 def check_and_create_ip(column_ip, request, row_counter):
 
@@ -36,6 +38,8 @@ def check_and_create_ip(column_ip, request, row_counter):
     return ip
 
 def optional_system_attributes(system):
+
+    # TODO: some kind of create routine?
 
     # add optional attributes if applicable
     if dfirtrack_config.CSV_CHOICE_ANALYSISSTATUS:
@@ -228,7 +232,7 @@ def system(request):
     else:
 
         # check config before showing form
-        stop_system_importer_file_csv = csv_check_config.check_config(request)
+        stop_system_importer_file_csv = csv_check_data.check_config(request)
 
         # leave system_importer_file_csv if variables caused errors
         if stop_system_importer_file_csv:
