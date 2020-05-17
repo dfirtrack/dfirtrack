@@ -25,7 +25,7 @@ def check_and_create_ip(column_ip, request, row_counter):
     try:
         ipaddress.ip_address(column_ip)
     except ValueError:
-        messages.error(request, "Value in row " + str(row_counter) + " was not a valid IP address.")
+        messages.error(request, "Value for ip address in row " + str(row_counter) + " was not a valid IP address.")
         # call logger
         warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_IP_COLUMN " + "row_" + str(row_counter) + ":invalid_ip")
         return None
@@ -100,8 +100,13 @@ def system(request):
                 # leave loop for headline row
                 continue
 
-            # TODO: check rows
-            # TODO: check columns for values
+            # check row for valid values
+            continue_system_importer_file_csv = csv_check_data.check_row(request, row, row_counter)
+            # leave loop for this row if there are invalid values
+            if continue_system_importer_file_csv:
+                # autoincrement row counter
+                row_counter += 1
+                continue
 
             # get system name
             system_name = row[dfirtrack_config.CSV_COLUMN_SYSTEM]
@@ -119,6 +124,8 @@ def system(request):
 
                     # autoincrement counter
                     systems_skipped_counter += 1
+                    # autoincrement row counter
+                    row_counter += 1
                     # leave loop
                     continue
 

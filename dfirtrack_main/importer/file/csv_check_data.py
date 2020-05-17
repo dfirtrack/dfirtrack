@@ -234,3 +234,33 @@ def check_config(request):
 
     else:
         return stop_system_importer_file_csv
+
+def check_row(request, row, row_counter):
+    """ check some values of csv rows """
+
+    # reset continue condition
+    continue_system_importer_file_csv = False
+
+    # check system column for empty value
+    if row[dfirtrack_config.CSV_COLUMN_SYSTEM] == '':
+        messages.error(request, "Value for system in row " + str(row_counter) + " was an empty string. System not created.")
+        # call logger
+        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_SYSTEM_COLUMN " + "row_" + str(row_counter) + ":empty_column")
+        continue_system_importer_file_csv = True
+
+    # TODO: falls-check for string does not work as expected (even true-check for int does not yield the expected result)
+    ## check system column for string
+    #if not isinstance(row[dfirtrack_config.CSV_COLUMN_SYSTEM], str):
+    #    messages.error(request, "Value for system in row " + str(row_counter) + " was not a string. System not created.")
+    #    # call logger
+    #    warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_SYSTEM_COLUMN " + "row_" + str(i) + ":no_string")
+    #    continue_system_importer_file_csv = True
+
+    # check system column for length of string
+    if len(row[dfirtrack_config.CSV_COLUMN_SYSTEM]) > 50:
+        messages.error(request, "Value for system in row " + str(row_counter) + " was too long. System not created.")
+        # call logger
+        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_SYSTEM_COLUMN " + "row_" + str(row_counter) + ":long_string")
+        continue_system_importer_file_csv = True
+
+    return continue_system_importer_file_csv
