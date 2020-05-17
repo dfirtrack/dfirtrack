@@ -66,7 +66,7 @@ CSV_CHOICE_ANALYSISSTATUS = True
 ## 'Analysisstatus' for imported systems (choose from 'Needs analysis', 'Ready for analysis', 'Ongoing analysis', 'Nothing to do', 'Main analysis finished' or your custom values)
 CSV_DEFAULT_ANALYSISSTATUS = 'Needs analysis'
 ## 'Reason' should be set (True) or not (False) during import
-CSV_CHOICE_REASON = True
+CSV_CHOICE_REASON = False
 ## 'Reason' (ID) for imported systems (IMPORTANT: Reason has to be created manually beforehand!)
 CSV_DEFAULT_REASON = 1
 ## 'IP' should be set (True) or not (False) during import
