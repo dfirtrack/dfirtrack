@@ -121,7 +121,7 @@ def system(request):
                 # modify existing system (depending on CSV_SKIP_EXISTING_SYSTEM)
                 elif not dfirtrack_config.CSV_SKIP_EXISTING_SYSTEM:
 
-                    # get system object
+                    # get existing system object
                     system = System.objects.get(system_name=system_name)
 
                     # change mandatory attribute
@@ -136,7 +136,6 @@ def system(request):
 
                     # save object
                     system.save()
-
 
                     # TODO: maybe remove previously linked IPs because of many to many relation
                     # TODO: test showed that ips will be added to previous existing --> maybe choice overwrite or add?
@@ -165,11 +164,12 @@ def system(request):
 
             # if there is no system
             else:
+
                 # create new system object
                 system = System()
                 system.system_name = system_name
 
-                # add mandatory attributes
+                # add mandatory attribute
                 system.systemstatus = Systemstatus.objects.get(systemstatus_name = dfirtrack_config.CSV_DEFAULT_SYSTEMSTATUS)
 
                 # add optional attributes if applicable
