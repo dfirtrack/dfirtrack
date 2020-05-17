@@ -76,6 +76,14 @@ def system(request):
         # read rows out of csv
         rows = csv.reader(systemcsv, quotechar="'")
 
+        # check file for csv respectively some kind of text file
+        file_check = csv_check_data.check_file(request, rows)
+        # leave system_importer_file_csv if file check throws errors
+        if not file_check:
+            return redirect(reverse('system_list'))
+        # jump to begin of file again after iterating in file check
+        systemcsv.seek(0)
+
         """ prepare and start loop """
 
         # set row_counter (needed for logger)
