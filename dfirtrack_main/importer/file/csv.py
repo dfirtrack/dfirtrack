@@ -259,7 +259,22 @@ def system(request):
         # call logger
         debug_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_ENTERED")
 
-    return render(request, 'dfirtrack_main/system/system_importer_file_csv.html', {'form': form})
+    return render(
+        request,
+        'dfirtrack_main/system/system_importer_file_csv.html',
+        {
+            'form': form,
+            'csv_choice_analysisstatus': dfirtrack_config.CSV_CHOICE_ANALYSISSTATUS,
+            'csv_choice_reason': dfirtrack_config.CSV_CHOICE_REASON,
+            'csv_choice_domain': dfirtrack_config.CSV_CHOICE_DOMAIN,
+            'csv_choice_dnsname': dfirtrack_config.CSV_CHOICE_DNSNAME,
+            'csv_choice_systemtype': dfirtrack_config.CSV_CHOICE_SYSTEMTYPE,
+            'csv_choice_os': dfirtrack_config.CSV_CHOICE_OS,
+            'csv_choice_location': dfirtrack_config.CSV_CHOICE_LOCATION,
+            'csv_choice_serviceprovider': dfirtrack_config.CSV_CHOICE_SERVICEPROVIDER,
+        }
+    )
+
 
 @login_required(login_url="/login")
 def system_ip(request):
