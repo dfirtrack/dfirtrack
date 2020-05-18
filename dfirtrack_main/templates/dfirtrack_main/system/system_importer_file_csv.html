@@ -240,6 +240,10 @@
                     Analysisstatus:
                 </div>
             </div>
+            {% else %}
+            <!-- placeholder -->
+            <div class="col-3">
+            </div>
             {% endif %}
 
             {% if csv_choice_reason == False %}
@@ -286,6 +290,10 @@
                         {{ i }}<br>
                     {% endfor %}
                 </div>
+            </div>
+            {% else %}
+            <!-- placeholder -->
+            <div class="col-3">
             </div>
             {% endif %}
 
@@ -339,7 +347,6 @@
 
     <!-- ############################################ -->
 
-    {% if csv_choice_systemtype == False and csv_choice_domain == False and csv_choice_os == False %}
     <!-- technical information -->
     <div class="card card-body bg-dark border-light top-distance">
 
@@ -361,6 +368,10 @@
                 <div class="font-weight-bold">
                     Systemtype:
                 </div>
+            </div>
+            {% else %}
+            <!-- placeholder -->
+            <div class="col-3">
             </div>
             {% endif %}
 
@@ -404,6 +415,10 @@
                         {{ i }}<br>
                     {% endfor %}
                 </div>
+            </div>
+            {% else %}
+            <!-- placeholder -->
+            <div class="col-3">
             </div>
             {% endif %}
 
@@ -455,6 +470,10 @@
                     Add systemtype
                 </button>
             </div>
+            {% else %}
+            <!-- placeholder -->
+            <div class="col-3">
+            </div>
             {% endif %}
 
             <!-- placeholder -->
@@ -486,7 +505,6 @@
 
     <!-- technical information -->
     </div>
-    {% endif %}
 
     <!-- ############################################ -->
 
@@ -518,6 +536,10 @@
                 <div class="font-weight-bold">
                     Location:
                 </div>
+            </div>
+            {% else %}
+            <!-- placeholder -->
+            <div class="col-3">
             </div>
             {% endif %}
 
@@ -562,6 +584,10 @@
                     {% endfor %}
                 </div>
             </div>
+            {% else %}
+            <!-- placeholder -->
+            <div class="col-3">
+            </div>
             {% endif %}
 
             {% if csv_choice_serviceprovider == False %}
@@ -598,6 +624,10 @@
                     <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm" alt="icon">
                     Add location
                 </button>
+            </div>
+            {% else %}
+            <!-- placeholder -->
+            <div class="col-3">
             </div>
             {% endif %}
 
