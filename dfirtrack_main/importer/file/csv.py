@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.utils import timezone
 import dfirtrack.config as dfirtrack_config
 from .csv_check_data import check_config, check_file, check_row
-from .csv_importer_forms import SystemImporterFileCsv, SystemIpFileImport, SystemTagFileImport
+from .csv_importer_forms import SystemImporterFileCsv, SystemTagFileImport
 from dfirtrack.config import SYSTEMTAG_HEADLINE as systemtag_headline
 from dfirtrack.config import SYSTEMTAG_SUBHEADLINE as systemtag_subheadline
 from dfirtrack.config import TAGLIST
@@ -339,121 +339,6 @@ def system(request):
             'csv_choice_serviceprovider': dfirtrack_config.CSV_CHOICE_SERVICEPROVIDER,
         }
     )
-
-
-@login_required(login_url="/login")
-def system_ip(request):
-    """ this function parses a csv file and tries to import systems and corresponding ips """
-
-    # form was valid to post
-    if request.method == "POST":
-
-        # call logger
-        debug_logger(str(request.user), " SYSTEM_IP_IMPORTER_BEGIN")
-
-        # get text out of file (variable results from request object via file upload field)
-        systemipcsv = TextIOWrapper(request.FILES['systemipcsv'].file, encoding=request.encoding)
-
-        # read rows out of csv
-        rows = csv.reader(systemipcsv, quotechar="'")
-
-        # set row counter (needed for logger)
-        i = 0
-
-        # check for wrong file type
-        try:
-            # iterate over rows
-            for row in rows:
-
-                # autoincrement row counter
-                i += 1
-
-                # check for empty rows
-                try:
-                    # check system column for empty value
-                    if row[0] == '':
-                        warning_logger(str(request.user), " SYSTEM_IP_IMPORTER_SYSTEM_COLUMN " + "row_" + str(i) + ":empty_column")
-                        continue
-                except IndexError:
-                    warning_logger(str(request.user), " SYSTEM_IP_IMPORTER_ROW row_" + str(i) + ":empty_row")
-                    continue
-
-                # check system column for string
-                if not isinstance(row[0], str):
-                    warning_logger(str(request.user), " SYSTEM_IP_IMPORTER_SYSTEM_COLUMN " + "row_" + str(i) + ":no_string")
-                    continue
-
-                # check system column for length of string
-                if len(row[0]) > 50:
-                    warning_logger(str(request.user), " SYSTEM_IP_IMPORTER_SYSTEM_COLUMN " + "row_" + str(i) + ":long_string")
-                    continue
-
-                # check ip column for ip
-                try:
-                    ipaddress.ip_address(row[1])
-                except ValueError:
-                    warning_logger(str(request.user), " SYSTEM_IP_IMPORTER_IP_COLUMN " + "row_" + str(i) + ":invalid_ip")
-                    continue
-
-                # create ip
-                ip, created = Ip.objects.get_or_create(ip_ip=row[1])
-                if created == True:
-                    ip.logger(str(request.user), " SYSTEMS_IP_IMPORTER_IP_CREATED")
-
-                # check for existence of system
-                system = System.objects.filter(system_name = row[0], ip = ip)
-                if system.count() > 0:
-                    error_logger(str(request.user), " SYSTEM_IP_IMPORTER_SYSTEM_EXISTS " + "row_" + str(i) + ":system_exists|system_name:" + row[0] + "|ip:" + str(row[1]))
-                    continue
-
-                # create form with request data
-                form = SystemIpFileImport(request.POST, request.FILES)
-
-                # create system
-                if form.is_valid():
-
-                    # don't save form yet
-                    system = form.save(commit=False)
-
-                    # set system_name
-                    system.system_name = row[0]
-
-                    # set auto values
-                    system.system_created_by_user_id = request.user
-                    system.system_modified_by_user_id = request.user
-                    system.system_modify_time = timezone.now()
-
-                    # save object
-                    system.save()
-
-                    # save manytomany
-                    form.save_m2m()
-
-                    # save ip for system
-                    system.ip.add(ip)
-
-                    # call logger
-                    system.logger(str(request.user), ' SYSTEM_IP_IMPORTER_EXECUTED')
-
-        # wrong file type
-        except UnicodeDecodeError:
-            critical_logger(str(request.user), " SYSTEM_IP_IMPORTER_WRONG_FILE_TYPE")
-
-        # call logger
-        debug_logger(str(request.user), " SYSTEM_IP_IMPORTER_END")
-
-        return redirect(reverse('system_list'))
-
-    else:
-        # show empty form
-        form = SystemIpFileImport(initial={
-            'systemstatus': 2,
-            'analysisstatus': 1,
-        })
-
-        # call logger
-        debug_logger(str(request.user), " SYSTEM_IP_IMPORTER_ENTERED")
-    return render(request, 'dfirtrack_main/system/system_ip_importer.html', {'form': form})
 
 
 @login_required(login_url="/login")
