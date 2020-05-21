@@ -23,6 +23,7 @@ EVIDENCE_PATH = expanduser('~') + '/dfirtrack_artifact_storage'
 # EXPORTER
 
 # SPREADSHEET (CSV and XLS)
+
 # choose optional system attributes to export to spreadsheet
 SPREAD_SYSTEM_ID = True
 SPREAD_DNSNAME = True
@@ -53,51 +54,45 @@ GIRAF_USER = ''
 GIRAF_PASS = ''
 
 # IMPORT SYSTEMS FROM CLIENT CSV FILE (dfirtrack_main.importer.file.csv.system)
-## CSV contains a headline (True) or not (False)
+
+# CSV contains a headline (True) or not (False)
 CSV_HEADLINE = True
-## skip (True) or not (False) systems, that already exist
+# skip (True) or not (False) systems, that already exist
 CSV_SKIP_EXISTING_SYSTEM = True
-## column of system rather system_name (numerical value starting with 0 [zero] for first column)
-CSV_COLUMN_SYSTEM = 0
-## 'Systemstatus' should be set (True) or not (False) during import
-CSV_CHOICE_SYSTEMSTATUS = True
-## 'Systemstatus' for imported systems (choose from 'Clean', 'Unknown', 'Analysis ongoing', 'Compromised', 'Remediation done', 'Reinstalled', 'Removed', 'Not analyzed' or your custom values)
-CSV_DEFAULT_SYSTEMSTATUS = 'Unknown'
-## 'Analysisstatus' should be set (True) or not (False) during import
-CSV_CHOICE_ANALYSISSTATUS = True
-## 'Analysisstatus' for imported systems (choose from 'Needs analysis', 'Ready for analysis', 'Ongoing analysis', 'Nothing to do', 'Main analysis finished' or your custom values)
-CSV_DEFAULT_ANALYSISSTATUS = 'Needs analysis'
-## 'Reason' should be set (True) or not (False) during import
-CSV_CHOICE_REASON = False
-## 'Reason' (ID) for imported systems (IMPORTANT: Reason has to be created manually beforehand!)
-CSV_DEFAULT_REASON = 1
-## 'IP' should be set (True) or not (False) during import
+
+# ip should be set via CSV column (True) or not at all (False) (import via web form not possible for multiple systems)
 CSV_CHOICE_IP = True
-## column of ip address (numerical value starting with 0 [zero] for first column)
+
+# column of system rather system_name (numerical value starting with 0 [zero] for first column)
+CSV_COLUMN_SYSTEM = 0
+# column of ip address (numerical value starting with 0 [zero] for first column) (only used if CSV_CHOICE_IP is set to True)
 CSV_COLUMN_IP = 1
-## 'Domain' should be set (True) or not (False) during import
+
+# attribute should be set via this config (True) or via web form (False) during import
+CSV_CHOICE_SYSTEMSTATUS = True
+CSV_CHOICE_ANALYSISSTATUS = True
+CSV_CHOICE_REASON = False
 CSV_CHOICE_DOMAIN = False
-## 'Domain' (ID) for imported systems (IMPORTANT: Domain has to be created manually beforehand!)
-CSV_DEFAULT_DOMAIN = 1
-## 'Dnsname' should be set (True) or not (False) during import
 CSV_CHOICE_DNSNAME = False
-## 'Dnsname' (ID) for imported systems (IMPORTANT: Dnsname has to be created manually beforehand!)
-CSV_DEFAULT_DNSNAME = 1
-## 'Systemtype' should be set (True) or not (False) during import
 CSV_CHOICE_SYSTEMTYPE = False
-## 'Systemtype' (ID) for imported systems (IMPORTANT: Systemtype has to be created manually beforehand!)
-CSV_DEFAULT_SYSTEMTYPE = 1
-## 'OS' should be set (True) or not (False) during import
 CSV_CHOICE_OS = False
-## 'OS' (ID) for imported systems (IMPORTANT: OS has to be created manually beforehand!)
-CSV_DEFAULT_OS = 1
-## 'Location' should be set (True) or not (False) during import
 CSV_CHOICE_LOCATION = False
-## 'Location' (ID) for imported systems (IMPORTANT: Location has to be created manually beforehand!)
-CSV_DEFAULT_LOCATION = 1
-## 'Serviceprovider' should be set (True) or not (False) during import
 CSV_CHOICE_SERVICEPROVIDER = False
-## 'Serviceprovider' (ID) for imported systems (IMPORTANT: Serviceprovider has to be created manually beforehand!)
+
+# attributes with fixed values (used if CSV_CHOICE_... is set to True)
+
+# 'Systemstatus' for imported systems (choose from 'Clean', 'Unknown', 'Analysis ongoing', 'Compromised', 'Remediation done', 'Reinstalled', 'Removed', 'Not analyzed' or your custom values)
+CSV_DEFAULT_SYSTEMSTATUS = 'Unknown'
+# 'Analysisstatus' for imported systems (choose from 'Needs analysis', 'Ready for analysis', 'Ongoing analysis', 'Nothing to do', 'Main analysis finished' or your custom values)
+CSV_DEFAULT_ANALYSISSTATUS = 'Needs analysis'
+
+# attributes with chooseable values (choose string for attribute name, non-existing attributes will be created)
+CSV_DEFAULT_REASON = 1
+CSV_DEFAULT_DOMAIN = 1
+CSV_DEFAULT_DNSNAME = 1
+CSV_DEFAULT_SYSTEMTYPE = 1
+CSV_DEFAULT_OS = 1
+CSV_DEFAULT_LOCATION = 1
 CSV_DEFAULT_SERVICEPROVIDER = 1
 
 # IMPORT SYSTEMS WITH TAGS FROM CLIENT CSV FILE (dfirtrack_main.importer.file.csv.systems_tags)
