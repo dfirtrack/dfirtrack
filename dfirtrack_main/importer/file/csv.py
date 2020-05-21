@@ -37,30 +37,52 @@ def check_and_create_ip(column_ip, request, row_counter):
 
     return ip
 
-def optional_system_attributes(system):
+def optional_system_attributes(system, request):
     """ system attributes are set depending on dfirtrack.config """
 
-    # TODO: some kind of create routine?
-
     # add or change attributes (if set via dfirtrack.config)
+
+    # systemstatus
     if dfirtrack_config.CSV_CHOICE_SYSTEMSTATUS:
         system.systemstatus = Systemstatus.objects.get(systemstatus_name = dfirtrack_config.CSV_DEFAULT_SYSTEMSTATUS)
+    # analysisstatus
     if dfirtrack_config.CSV_CHOICE_ANALYSISSTATUS:
         system.analysisstatus = Analysisstatus.objects.get(analysisstatus_name = dfirtrack_config.CSV_DEFAULT_ANALYSISSTATUS)
+    # reason
     if dfirtrack_config.CSV_CHOICE_REASON:
-        system.reason = Reason.objects.get(reason_id = dfirtrack_config.CSV_DEFAULT_REASON)
+        system.reason, created = Reason.objects.get_or_create(reason_name = dfirtrack_config.CSV_DEFAULT_REASON)
+        if created == True:
+            system.reason.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_REASON_CREATED")
+    # domain
     if dfirtrack_config.CSV_CHOICE_DOMAIN:
-        system.domain = Domain.objects.get(domain_id = dfirtrack_config.CSV_DEFAULT_DOMAIN)
+        system.domain, created = Domain.objects.get_or_create(domain_name = dfirtrack_config.CSV_DEFAULT_DOMAIN)
+        if created == True:
+            system.domain.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_DOMAIN_CREATED")
+    # dnsname
     if dfirtrack_config.CSV_CHOICE_DNSNAME:
-        system.dnsname = Dnsname.objects.get(dnsname_id = dfirtrack_config.CSV_DEFAULT_DNSNAME)
+        system.dnsname, created = Dnsname.objects.get_or_create(dnsname_name = dfirtrack_config.CSV_DEFAULT_DNSNAME)
+        if created == True:
+            system.dnsname.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_DNSNAME_CREATED")
+    # systemtype
     if dfirtrack_config.CSV_CHOICE_SYSTEMTYPE:
-        system.systemtype = Systemtype.objects.get(systemtype_id = dfirtrack_config.CSV_DEFAULT_SYSTEMTYPE)
+        system.systemtype, created = Systemtype.objects.get_or_create(systemtype_name = dfirtrack_config.CSV_DEFAULT_SYSTEMTYPE)
+        if created == True:
+            system.systemtype.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_SYSTEMTYPE_CREATED")
+    # os
     if dfirtrack_config.CSV_CHOICE_OS:
-        system.os = Os.objects.get(os_id = dfirtrack_config.CSV_DEFAULT_OS)
+        system.os, created = Os.objects.get_or_create(os_name = dfirtrack_config.CSV_DEFAULT_OS)
+        if created == True:
+            system.os.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_OS_CREATED")
+    # location
     if dfirtrack_config.CSV_CHOICE_LOCATION:
-        system.location = Location.objects.get(location_id = dfirtrack_config.CSV_DEFAULT_LOCATION)
+        system.location, created = Location.objects.get_or_create(location_name = dfirtrack_config.CSV_DEFAULT_LOCATION)
+        if created == True:
+            system.location.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_LOCATION_CREATED")
+    # serviceprovider
     if dfirtrack_config.CSV_CHOICE_SERVICEPROVIDER:
-        system.serviceprovider = Serviceprovider.objects.get(serviceprovider_id = dfirtrack_config.CSV_DEFAULT_SERVICEPROVIDER)
+        system.serviceprovider, created = Serviceprovider.objects.get_or_create(serviceprovider_name = dfirtrack_config.CSV_DEFAULT_SERVICEPROVIDER)
+        if created == True:
+            system.serviceprovider.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_SERVICEPROVIDER_CREATED")
 
     return system
 
@@ -170,7 +192,7 @@ def system(request):
                     if form.is_valid():
 
                         # change attributes (if set via dfirtrack.config)
-                        system = optional_system_attributes(system)
+                        system = optional_system_attributes(system, request)
 
                         # change mandatory meta attributes
                         system.system_modify_time = timezone.now()
@@ -226,7 +248,7 @@ def system(request):
                     system.system_name = system_name
 
                     # add attributes (if set via dfirtrack.config)
-                    system = optional_system_attributes(system)
+                    system = optional_system_attributes(system, request)
 
                     # add mandatory meta attributes
                     system.system_modify_time = timezone.now()

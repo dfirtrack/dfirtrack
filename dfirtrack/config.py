@@ -87,13 +87,13 @@ CSV_DEFAULT_SYSTEMSTATUS = 'Unknown'
 CSV_DEFAULT_ANALYSISSTATUS = 'Needs analysis'
 
 # attributes with chooseable values (choose string for attribute name, non-existing attributes will be created)
-CSV_DEFAULT_REASON = 1
-CSV_DEFAULT_DOMAIN = 1
-CSV_DEFAULT_DNSNAME = 1
-CSV_DEFAULT_SYSTEMTYPE = 1
-CSV_DEFAULT_OS = 1
-CSV_DEFAULT_LOCATION = 1
-CSV_DEFAULT_SERVICEPROVIDER = 1
+CSV_DEFAULT_REASON = ''
+CSV_DEFAULT_DOMAIN = ''
+CSV_DEFAULT_DNSNAME = ''
+CSV_DEFAULT_SYSTEMTYPE = ''
+CSV_DEFAULT_OS = ''
+CSV_DEFAULT_LOCATION = ''
+CSV_DEFAULT_SERVICEPROVIDER = ''
 
 # IMPORT SYSTEMS WITH TAGS FROM CLIENT CSV FILE (dfirtrack_main.importer.file.csv.systems_tags)
 ## add a list of strings representing the relevant tags you want to automatically import
