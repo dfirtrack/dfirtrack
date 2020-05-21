@@ -211,6 +211,7 @@
 
     <!-- ############################################ -->
 
+    {% if not csv_choice_analysisstatus == True or not csv_choice_reason == True %}
     <!-- status information -->
     <div class="card card-body bg-dark border-light top-distance">
 
@@ -344,9 +345,11 @@
 
     <!-- status information -->
     </div>
+    {% endif %}
 
     <!-- ############################################ -->
 
+    {% if not csv_choice_systemtype == True or not csv_choice_domain == True or not csv_choice_os == True %}
     <!-- technical information -->
     <div class="card card-body bg-dark border-light top-distance">
 
@@ -505,9 +508,11 @@
 
     <!-- technical information -->
     </div>
+    {% endif %}
 
     <!-- ############################################ -->
 
+    {% if not csv_choice_location == True or not csv_choice_serviceprovider == True %}
     <!-- company information -->
     <div class="card card-body bg-dark border-light top-distance">
 
@@ -645,6 +650,7 @@
 
     <!-- company information -->
     </div>
+    {% endif %}
 
     <!-- ############################################ -->
 
