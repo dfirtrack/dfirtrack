@@ -155,38 +155,44 @@ def system(request):
                     # get existing system object
                     system = System.objects.get(system_name=system_name)
 
-                    # change mandatory attribute
-                    system.systemstatus = Systemstatus.objects.get(systemstatus_name = dfirtrack_config.CSV_DEFAULT_SYSTEMSTATUS)
+                    # create form with request data
+                    form = SystemImporterFileCsv(request_post, request.FILES, instance=system)
 
-                    # change optional attributes if applicable (if set via dfirtrack.config)
-                    system = optional_system_attributes(system)
+                    # create system
+                    if form.is_valid():
 
-                    # change mandatory meta attributes
-                    system.system_modify_time = timezone.now()
-                    system.system_modified_by_user_id = request.user
+                        # change mandatory attribute
+                        system.systemstatus = Systemstatus.objects.get(systemstatus_name = dfirtrack_config.CSV_DEFAULT_SYSTEMSTATUS)
 
-                    # save object
-                    system.save()
+                        # change optional attributes if applicable (if set via dfirtrack.config)
+                        system = optional_system_attributes(system)
 
-                    # TODO: maybe remove previously linked IPs because of many to many relation
-                    # TODO: test showed that ips will be added to previous existing --> maybe choice overwrite or add?
+                        # change mandatory meta attributes
+                        system.system_modify_time = timezone.now()
+                        system.system_modified_by_user_id = request.user
 
-                    # handle ip address many to many relationship
-                    if dfirtrack_config.CSV_CHOICE_IP:
+                        # save object
+                        system.save()
 
-                        # get ip address from CSV
-                        column_ip = row[dfirtrack_config.CSV_COLUMN_IP]
-                        # check and create ip address
-                        ip_address = check_and_create_ip(column_ip, request, row_counter)
-                        # add ip address
-                        if ip_address:
-                            system.ip.add(ip_address)
+                        # TODO: maybe remove previously linked IPs because of many to many relation
+                        # TODO: test showed that ips will be added to previous existing --> maybe choice overwrite or add?
 
-                    # autoincrement systems_updated_counter
-                    systems_updated_counter += 1
+                        # handle ip address many to many relationship
+                        if dfirtrack_config.CSV_CHOICE_IP:
 
-                    # call logger
-                    system.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_SYSTEM_MODIFIED")
+                            # get ip address from CSV
+                            column_ip = row[dfirtrack_config.CSV_COLUMN_IP]
+                            # check and create ip address
+                            ip_address = check_and_create_ip(column_ip, request, row_counter)
+                            # add ip address
+                            if ip_address:
+                                system.ip.add(ip_address)
+
+                        # autoincrement systems_updated_counter
+                        systems_updated_counter += 1
+
+                        # call logger
+                        system.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_SYSTEM_MODIFIED")
 
             # if there is more than one system
             elif len(systemquery) > 1:
