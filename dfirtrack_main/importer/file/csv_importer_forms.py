@@ -9,13 +9,14 @@ class SystemImporterFileCsv(forms.ModelForm):
 
     class Meta:
         model = System
-        # this HTML forms are shown
-        fields = ()
 
         """
-        The following attributes are shown only if they are not selected for filling via CSV.
+        The following attributes are only shown if they are not selected for filling via CSV.
         That means the corresponding variable CSV_CHOICE_... in dfirtrack.config is set to False.
         """
+
+        # this HTML forms are shown
+        fields = ()
 
         # add attributes as fields for manual editing if not automatically filled
         if not dfirtrack_config.CSV_CHOICE_ANALYSISSTATUS:

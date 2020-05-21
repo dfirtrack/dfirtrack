@@ -38,6 +38,7 @@ def check_and_create_ip(column_ip, request, row_counter):
     return ip
 
 def optional_system_attributes(system):
+    """ system attributes are set depending on dfirtrack.config """
 
     # TODO: some kind of create routine?
 
@@ -69,6 +70,17 @@ def system(request):
 
         # call logger
         debug_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_BEGAN")
+
+        # TODO: change the following behavior
+        """
+        set dummy value for 'systemstatus' because this field has 'blank=False' in dfirtrack_main.models
+        because dfirtrack_main.importer.file.csv_importer_forms.SystemImporterFileCsv is a ModelForm it relies on the attributes of dfirtrack_main.models
+        changing blank would require extensive changes throughout the code
+        """
+        # copy request object because object self is immutable
+        request_post = request.POST.copy()
+        # set dummy value (not used in the further course)
+        request_post.update({'systemstatus': 1})
 
         # get text out of file (variable results from request object via file upload field)
         systemcsv = TextIOWrapper(request.FILES['systemcsv'].file, encoding=request.encoding)
@@ -146,7 +158,7 @@ def system(request):
                     # change mandatory attribute
                     system.systemstatus = Systemstatus.objects.get(systemstatus_name = dfirtrack_config.CSV_DEFAULT_SYSTEMSTATUS)
 
-                    # change optional attributes if applicable
+                    # change optional attributes if applicable (if set via dfirtrack.config)
                     system = optional_system_attributes(system)
 
                     # change mandatory meta attributes
@@ -184,40 +196,51 @@ def system(request):
             # if there is no system
             else:
 
-                # create new system object
-                system = System()
-                system.system_name = system_name
+                # create form with request data
+                form = SystemImporterFileCsv(request_post, request.FILES)
 
-                # add mandatory attribute
-                system.systemstatus = Systemstatus.objects.get(systemstatus_name = dfirtrack_config.CSV_DEFAULT_SYSTEMSTATUS)
+                # create system
+                if form.is_valid():
 
-                # add optional attributes if applicable
-                system = optional_system_attributes(system)
+                    # create new system object
+                    system = System()
 
-                # add mandatory meta attributes
-                system.system_modify_time = timezone.now()
-                system.system_created_by_user_id = request.user
-                system.system_modified_by_user_id = request.user
+                    # don't save form yet
+                    system = form.save(commit=False)
 
-                # save object
-                system.save()
+                    # add system_name from csv
+                    system.system_name = system_name
 
-                # handle ip address many to many relationship
-                if dfirtrack_config.CSV_CHOICE_IP:
+                    # add mandatory attribute
+                    system.systemstatus = Systemstatus.objects.get(systemstatus_name = dfirtrack_config.CSV_DEFAULT_SYSTEMSTATUS)
 
-                    # get ip address from CSV
-                    column_ip = row[dfirtrack_config.CSV_COLUMN_IP]
-                    # check and create ip address
-                    ip_address = check_and_create_ip(column_ip, request, row_counter)
-                    # add ip address
-                    if ip_address:
-                        system.ip.add(ip_address)
+                    # add optional attributes if applicable (if set via dfirtrack.config)
+                    system = optional_system_attributes(system)
 
-                # autoincrement systems_created_counter
-                systems_created_counter += 1
+                    # add mandatory meta attributes
+                    system.system_modify_time = timezone.now()
+                    system.system_created_by_user_id = request.user
+                    system.system_modified_by_user_id = request.user
 
-                # call logger
-                system.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_SYSTEM_CREATED")
+                    # save object
+                    system.save()
+
+                    # handle ip address many to many relationship
+                    if dfirtrack_config.CSV_CHOICE_IP:
+
+                        # get ip address from CSV
+                        column_ip = row[dfirtrack_config.CSV_COLUMN_IP]
+                        # check and create ip address
+                        ip_address = check_and_create_ip(column_ip, request, row_counter)
+                        # add ip address
+                        if ip_address:
+                            system.ip.add(ip_address)
+
+                    # autoincrement systems_created_counter
+                    systems_created_counter += 1
+
+                    # call logger
+                    system.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_SYSTEM_CREATED")
 
             # autoincrement row counter
             row_counter += 1
@@ -259,6 +282,7 @@ def system(request):
         # call logger
         debug_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_ENTERED")
 
+    # show form and submit bools from dfirtrack.config needed as variables in template
     return render(
         request,
         'dfirtrack_main/system/system_importer_file_csv.html',
