@@ -211,7 +211,7 @@
 
     <!-- ############################################ -->
 
-    {% if not csv_choice_analysisstatus == True or not csv_choice_reason == True %}
+    {% if not csv_choice_systemstatus == True or not csv_choice_analysisstatus == True or not csv_choice_reason == True %}
     <!-- status information -->
     <div class="card card-body bg-dark border-light top-distance">
 
@@ -227,12 +227,18 @@
         <!-- status information row  -->
         <div class="row">
 
+            {% if csv_choice_systemstatus == False %}
             <!-- systemstatus headline -->
             <div class="col-3">
                 <div class="font-weight-bold">
                     Systemstatus (*):
                 </div>
             </div>
+            {% else %}
+            <!-- placeholder -->
+            <div class="col-3">
+            </div>
+            {% endif %}
 
             {% if csv_choice_analysisstatus == False %}
             <!-- analysisstatus headline -->
@@ -266,6 +272,7 @@
         <!-- status information row  -->
         <div class="row">
 
+            {% if csv_choice_systemstatus == False %}
             <!-- systemstatus -->
             <div class="col-3">
                 <div class="card card-body bg-dark border-light top-distance">
@@ -278,6 +285,11 @@
                     {% endfor %}
                 </div>
             </div>
+            {% else %}
+            <!-- placeholder -->
+            <div class="col-3">
+            </div>
+            {% endif %}
 
             {% if csv_choice_analysisstatus == False %}
             <!-- analysisstatus -->

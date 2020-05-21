@@ -42,7 +42,9 @@ def optional_system_attributes(system):
 
     # TODO: some kind of create routine?
 
-    # add optional attributes if applicable
+    # add or change attributes (if set via dfirtrack.config)
+    if dfirtrack_config.CSV_CHOICE_SYSTEMSTATUS:
+        system.systemstatus = Systemstatus.objects.get(systemstatus_name = dfirtrack_config.CSV_DEFAULT_SYSTEMSTATUS)
     if dfirtrack_config.CSV_CHOICE_ANALYSISSTATUS:
         system.analysisstatus = Analysisstatus.objects.get(analysisstatus_name = dfirtrack_config.CSV_DEFAULT_ANALYSISSTATUS)
     if dfirtrack_config.CSV_CHOICE_REASON:
@@ -71,16 +73,19 @@ def system(request):
         # call logger
         debug_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_BEGAN")
 
-        # TODO: change the following behavior
-        """
-        set dummy value for 'systemstatus' because this field has 'blank=False' in dfirtrack_main.models
-        because dfirtrack_main.importer.file.csv_importer_forms.SystemImporterFileCsv is a ModelForm it relies on the attributes of dfirtrack_main.models
-        changing blank would require extensive changes throughout the code
-        """
-        # copy request object because object self is immutable
-        request_post = request.POST.copy()
-        # set dummy value (not used in the further course)
-        request_post.update({'systemstatus': 1})
+        if dfirtrack_config.CSV_CHOICE_SYSTEMSTATUS:
+            """
+            set dummy value for 'systemstatus' because this field has 'blank=False' in dfirtrack_main.models
+            because dfirtrack_main.importer.file.csv_importer_forms.SystemImporterFileCsv is a ModelForm it relies on the attributes of dfirtrack_main.models
+            changing blank would require extensive changes throughout the code
+            """
+
+            # TODO: change the following behavior
+
+            # copy request object because object self is immutable
+            request_post = request.POST.copy()
+            # set dummy value (not used in the further course)
+            request_post.update({'systemstatus': 1})
 
         # get text out of file (variable results from request object via file upload field)
         systemcsv = TextIOWrapper(request.FILES['systemcsv'].file, encoding=request.encoding)
@@ -156,15 +161,15 @@ def system(request):
                     system = System.objects.get(system_name=system_name)
 
                     # create form with request data
-                    form = SystemImporterFileCsv(request_post, request.FILES, instance=system)
+                    if dfirtrack_config.CSV_CHOICE_SYSTEMSTATUS:
+                        form = SystemImporterFileCsv(request_post, request.FILES, instance=system)
+                    else:
+                        form = SystemImporterFileCsv(request.POST, request.FILES, instance=system)
 
                     # create system
                     if form.is_valid():
 
-                        # change mandatory attribute
-                        system.systemstatus = Systemstatus.objects.get(systemstatus_name = dfirtrack_config.CSV_DEFAULT_SYSTEMSTATUS)
-
-                        # change optional attributes if applicable (if set via dfirtrack.config)
+                        # change attributes (if set via dfirtrack.config)
                         system = optional_system_attributes(system)
 
                         # change mandatory meta attributes
@@ -203,7 +208,10 @@ def system(request):
             else:
 
                 # create form with request data
-                form = SystemImporterFileCsv(request_post, request.FILES)
+                if dfirtrack_config.CSV_CHOICE_SYSTEMSTATUS:
+                    form = SystemImporterFileCsv(request_post, request.FILES)
+                else:
+                    form = SystemImporterFileCsv(request.POST, request.FILES)
 
                 # create system
                 if form.is_valid():
@@ -217,10 +225,7 @@ def system(request):
                     # add system_name from csv
                     system.system_name = system_name
 
-                    # add mandatory attribute
-                    system.systemstatus = Systemstatus.objects.get(systemstatus_name = dfirtrack_config.CSV_DEFAULT_SYSTEMSTATUS)
-
-                    # add optional attributes if applicable (if set via dfirtrack.config)
+                    # add attributes (if set via dfirtrack.config)
                     system = optional_system_attributes(system)
 
                     # add mandatory meta attributes
@@ -282,8 +287,11 @@ def system(request):
         if stop_system_importer_file_csv:
             return redirect(reverse('system_list'))
 
-        # show empty form
-        form = SystemImporterFileCsv()
+        # show empty form with default values (if CSV_CHOICE_ANALYSISSTATUS or CSV_CHOICE_SYSTEMSTATUS is set to True in dfirtrack.config they are simply ignored)
+        form = SystemImporterFileCsv(initial={
+            'systemstatus': 2,
+            'analysisstatus': 1,
+        })
 
         # call logger
         debug_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_ENTERED")
@@ -294,6 +302,7 @@ def system(request):
         'dfirtrack_main/system/system_importer_file_csv.html',
         {
             'form': form,
+            'csv_choice_systemstatus': dfirtrack_config.CSV_CHOICE_SYSTEMSTATUS,
             'csv_choice_analysisstatus': dfirtrack_config.CSV_CHOICE_ANALYSISSTATUS,
             'csv_choice_reason': dfirtrack_config.CSV_CHOICE_REASON,
             'csv_choice_domain': dfirtrack_config.CSV_CHOICE_DOMAIN,

@@ -59,6 +59,8 @@ CSV_HEADLINE = True
 CSV_SKIP_EXISTING_SYSTEM = True
 ## column of system rather system_name (numerical value starting with 0 [zero] for first column)
 CSV_COLUMN_SYSTEM = 0
+## 'Systemstatus' should be set (True) or not (False) during import
+CSV_CHOICE_SYSTEMSTATUS = True
 ## 'Systemstatus' for imported systems (choose from 'Clean', 'Unknown', 'Analysis ongoing', 'Compromised', 'Remediation done', 'Reinstalled', 'Removed', 'Not analyzed' or your custom values)
 CSV_DEFAULT_SYSTEMSTATUS = 'Unknown'
 ## 'Analysisstatus' should be set (True) or not (False) during import

@@ -11,7 +11,7 @@ class SystemImporterFileCsv(forms.ModelForm):
         model = System
 
         """
-        The following attributes are only shown if they are not selected for filling via CSV.
+        The following attributes are only shown if they are not selected for filling via CSV or dfirtrack.config.
         That means the corresponding variable CSV_CHOICE_... in dfirtrack.config is set to False.
         """
 
@@ -19,6 +19,8 @@ class SystemImporterFileCsv(forms.ModelForm):
         fields = ()
 
         # add attributes as fields for manual editing if not automatically filled
+        if not dfirtrack_config.CSV_CHOICE_SYSTEMSTATUS:
+            fields += ('systemstatus',)
         if not dfirtrack_config.CSV_CHOICE_ANALYSISSTATUS:
             fields += ('analysisstatus',)
         if not dfirtrack_config.CSV_CHOICE_REASON:
@@ -40,6 +42,8 @@ class SystemImporterFileCsv(forms.ModelForm):
         widgets = {}
 
         # define widgets for choosen fields
+        if not dfirtrack_config.CSV_CHOICE_SYSTEMSTATUS:
+            widgets['systemstatus'] = forms.RadioSelect()
         if not dfirtrack_config.CSV_CHOICE_ANALYSISSTATUS:
             widgets['analysisstatus'] = forms.RadioSelect()
         if not dfirtrack_config.CSV_CHOICE_REASON:
