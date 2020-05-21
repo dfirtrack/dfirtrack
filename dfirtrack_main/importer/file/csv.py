@@ -18,6 +18,7 @@ from io import TextIOWrapper
 # TODO: remove not needed imports
 
 # TODO: add companies (needs extra function like ip address because of many to many relation)
+# TODO: add tags
 
 def check_and_create_ip(column_ip, request, row_counter):
 
@@ -223,8 +224,7 @@ def system(request):
 
             # if there is more than one system
             elif len(systemquery) > 1:
-                pass
-                # TODO: add routine for duplicate systems (add least some kind of message / log)
+                messages.error(request, "System " + system_name + " already exists multiple times. Nothing was changed for this system.")
 
             # if there is no system
             else:
