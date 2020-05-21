@@ -309,6 +309,10 @@ def system(request):
         if stop_system_importer_file_csv:
             return redirect(reverse('system_list'))
 
+        # show warning if existing systems will be updated
+        if not dfirtrack_config.CSV_SKIP_EXISTING_SYSTEM:
+            messages.warning(request, 'WARNING: Existing systems will be updated!')
+
         # show empty form with default values (if CSV_CHOICE_ANALYSISSTATUS or CSV_CHOICE_SYSTEMSTATUS is set to True in dfirtrack.config they are simply ignored)
         form = SystemImporterFileCsv(initial={
             'systemstatus': 2,
