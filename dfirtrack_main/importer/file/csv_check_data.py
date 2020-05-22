@@ -30,6 +30,13 @@ def check_config(request):
         warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_IP deformed")
         stop_system_importer_file_csv = True
 
+    # check CSV_REMOVE_IP for bool
+    if not isinstance(dfirtrack_config.CSV_REMOVE_IP, bool):
+        messages.error(request, "Deformed `CSV_REMOVE_IP` Check `dfirtrack.config`!")
+        # call logger
+        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_REMOVE_IP deformed")
+        stop_system_importer_file_csv = True
+
     # check CSV_COLUMN_SYSTEM for int
     if not isinstance(dfirtrack_config.CSV_COLUMN_SYSTEM, int):
         messages.error(request, "Deformed `CSV_COLUMN_SYSTEM` Check `dfirtrack.config`!")

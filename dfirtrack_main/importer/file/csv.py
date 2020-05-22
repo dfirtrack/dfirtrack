@@ -85,6 +85,7 @@ def optional_system_attributes(system, request):
         if created == True:
             system.serviceprovider.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_SERVICEPROVIDER_CREATED")
 
+    # return system object enriched with attributes
     return system
 
 @login_required(login_url="/login")
@@ -202,11 +203,13 @@ def system(request):
                         # save object
                         system.save()
 
-                        # TODO: maybe remove previously linked IPs because of many to many relation
-                        # TODO: test showed that ips will be added to previous existing --> maybe choice overwrite or add?
-
                         # handle ip address many to many relationship
                         if dfirtrack_config.CSV_CHOICE_IP:
+
+                            # remove existing IP address / addresses for this system (not relevant for newly created systems in condition below)
+                            if dfirtrack_config.CSV_REMOVE_IP:
+                                # remove many to many relation between system and ip without deleting existing ip objects (important if other systems have the same IP address)
+                                system.ip.clear()
 
                             # get ip address from CSV
                             column_ip = row[dfirtrack_config.CSV_COLUMN_IP]
@@ -260,6 +263,8 @@ def system(request):
 
                     # handle ip address many to many relationship
                     if dfirtrack_config.CSV_CHOICE_IP:
+
+                        # CSV_REMOVE_IP not relevant for newly created systems (in contrast to condition above)
 
                         # get ip address from CSV
                         column_ip = row[dfirtrack_config.CSV_COLUMN_IP]

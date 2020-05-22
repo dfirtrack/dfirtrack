@@ -60,8 +60,10 @@ CSV_HEADLINE = True
 # skip (True) or not (False) systems, that already exist
 CSV_SKIP_EXISTING_SYSTEM = True
 
-# ip should be set via CSV column (True) or not at all (False) (import via web form not possible for multiple systems)
+# IP should be set via CSV column (True) or not at all (False) (import via web form not possible for multiple systems)
 CSV_CHOICE_IP = True
+# remove existing IP addresses for already existing systems (only used if CSV_SKIP_EXISTING_SYSTEM is set to False and CSV_CHOICE_IP is set to True)
+CSV_REMOVE_IP = True
 
 # column of system rather system_name (numerical value starting with 0 [zero] for first column)
 CSV_COLUMN_SYSTEM = 0
