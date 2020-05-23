@@ -38,6 +38,17 @@ def check_and_create_ip(column_ip, request, row_counter):
 
     return ip
 
+def check_and_create_tag(tag, request):
+
+    # get tagcolor
+    tagcolor = Tagcolor.objects.get(tagcolor_name='primary')
+    # create tag
+    tag, created = Tag.objects.get_or_create(tag_name=tag, tagcolor=tagcolor)
+    if created == True:
+        tag.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_TAG_CREATED")
+
+    return tag
+
 def optional_system_attributes(system, request):
     """ system attributes are set depending on dfirtrack.config """
 
@@ -219,6 +230,21 @@ def system(request):
                             if ip_address:
                                 system.ip.add(ip_address)
 
+                        # handle tag many to many relationship
+                        if dfirtrack_config.CSV_CHOICE_TAG:
+
+                            # remove existing tags (not relevant for newly created systems in condition below)
+                            if dfirtrack_config.CSV_REMOVE_TAG:
+                                # remove many to many relation between system and tag without deleting existing tag objects (important if other systems have the same tags)
+                                system.tag.clear()
+
+                            # iterate through taglist from dfirtrack.config
+                            for tag in dfirtrack_config.CSV_DEFAULT_TAG:
+                                # get or create tag
+                                newtag = check_and_create_tag(tag, request)
+                                # add tag
+                                system.tag.add(newtag)
+
                         # autoincrement systems_updated_counter
                         systems_updated_counter += 1
 
@@ -273,6 +299,18 @@ def system(request):
                         # add ip address
                         if ip_address:
                             system.ip.add(ip_address)
+
+                    # handle tag many to many relationship
+                    if dfirtrack_config.CSV_CHOICE_TAG:
+
+                        # CSV_REMOVE_TAG not relevant for newly created systems (in contrast to condition above)
+
+                        # iterate through taglist from dfirtrack.config
+                        for tag in dfirtrack_config.CSV_DEFAULT_TAG:
+                            # get or create tag
+                            newtag = check_and_create_tag(tag, request)
+                            # add tag
+                            system.tag.add(newtag)
 
                     # autoincrement systems_created_counter
                     systems_created_counter += 1

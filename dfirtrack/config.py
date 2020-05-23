@@ -80,6 +80,7 @@ CSV_CHOICE_SYSTEMTYPE = False
 CSV_CHOICE_OS = False
 CSV_CHOICE_LOCATION = False
 CSV_CHOICE_SERVICEPROVIDER = False
+CSV_CHOICE_TAG = True
 
 # attributes with fixed values (used if CSV_CHOICE_... is set to True)
 
@@ -96,6 +97,10 @@ CSV_DEFAULT_SYSTEMTYPE = ''
 CSV_DEFAULT_OS = ''
 CSV_DEFAULT_LOCATION = ''
 CSV_DEFAULT_SERVICEPROVIDER = ''
+# remove existing tags for already existing systems (only used if CSV_SKIP_EXISTING_SYSTEM is set to False and CSV_CHOICE_TAG is set to True)
+CSV_REMOVE_TAG = True
+# comma separated list of tags to add for every sytem (non-existing tags will be created)
+CSV_DEFAULT_TAG = ['tag_1', 'tag_2', 'tag_3']
 
 # IMPORT SYSTEMS WITH TAGS FROM CLIENT CSV FILE (dfirtrack_main.importer.file.csv.systems_tags)
 ## add a list of strings representing the relevant tags you want to automatically import

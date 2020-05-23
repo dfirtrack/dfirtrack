@@ -114,6 +114,13 @@ def check_config(request):
         warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_SERVICEPROVIDER deformed")
         stop_system_importer_file_csv = True
 
+    # check CSV_CHOICE_TAG for bool
+    if not isinstance(dfirtrack_config.CSV_CHOICE_TAG, bool):
+        messages.error(request, "Deformed `CSV_CHOICE_TAG` Check `dfirtrack.config`!")
+        # call logger
+        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_TAG deformed")
+        stop_system_importer_file_csv = True
+
     # check CSV_DEFAULT_SYSTEMSTATUS for existence (check only if CSV_CHOICE_SYSTEMSTATUS is True) for existence
     if dfirtrack_config.CSV_CHOICE_SYSTEMSTATUS:
         try:
@@ -132,6 +139,21 @@ def check_config(request):
             messages.warning(request, "Analysisstatus with configured name does not exist. Check `dfirtrack.config` or create analysisstatus!")
             # call logger
             warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV analysisstatus for variable CSV_DEFAULT_ANALYSISSTATUS does not exist")
+            stop_system_importer_file_csv = True
+
+    # check CSV_REMOVE_TAG for bool
+    if not isinstance(dfirtrack_config.CSV_REMOVE_TAG, bool):
+        messages.error(request, "Deformed `CSV_REMOVE_TAG` Check `dfirtrack.config`!")
+        # call logger
+        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_REMOVE_TAG deformed")
+        stop_system_importer_file_csv = True
+
+    # check CSV_DEFAULT_TAG for list (check only if CSV_CHOICE_TAG is True)
+    if dfirtrack_config.CSV_CHOICE_TAG:
+        if not isinstance(dfirtrack_config.CSV_DEFAULT_TAG, list):
+            messages.error(request, "`CSV_DEFAULT_TAG` is not a list. Check `dfirtrack.config`!")
+            # call logger
+            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_TAG no list")
             stop_system_importer_file_csv = True
 
     # leave system_importer_file_csv if variables caused errors
