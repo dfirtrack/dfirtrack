@@ -214,6 +214,9 @@ def system(request):
                         # save object
                         system.save()
 
+                        # save many to many
+                        form.save_m2m()
+
                         # handle ip address many to many relationship
                         if dfirtrack_config.CSV_CHOICE_IP:
 
@@ -286,6 +289,9 @@ def system(request):
 
                     # save object
                     system.save()
+
+                    # save many to many
+                    form.save_m2m()
 
                     # handle ip address many to many relationship
                     if dfirtrack_config.CSV_CHOICE_IP:
@@ -380,6 +386,7 @@ def system(request):
             'csv_choice_os': dfirtrack_config.CSV_CHOICE_OS,
             'csv_choice_location': dfirtrack_config.CSV_CHOICE_LOCATION,
             'csv_choice_serviceprovider': dfirtrack_config.CSV_CHOICE_SERVICEPROVIDER,
+            'csv_choice_tag': dfirtrack_config.CSV_CHOICE_TAG,
         }
     )
 

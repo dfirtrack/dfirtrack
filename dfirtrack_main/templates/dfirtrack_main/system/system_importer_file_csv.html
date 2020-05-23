@@ -154,12 +154,18 @@
         <!-- tag / case headline row -->
         <div class="row">
 
+            {% if csv_choice_tag == False %}
             <!-- tag headline -->
             <div class="col-6">
                 <h5>
                     Tags
                 </h5>
             </div>
+            {% else %}
+            <!-- placeholder -->
+            <div class="col-6">
+            </div>
+            {% endif %}
 
             <!-- case headline -->
             <div class="col-6">
@@ -174,6 +180,7 @@
         <!-- tag / case row -->
         <div class="row">
 
+            {% if csv_choice_tag == False %}
             <!-- tag -->
             <div class="col-3">
                 <div class="card card-body bg-dark border-light top-distance">
@@ -186,6 +193,11 @@
                     {% endfor %}
                 </div>
             </div>
+            {% else %}
+            <!-- placeholder -->
+            <div class="col-3">
+            </div>
+            {% endif %}
 
             <!-- placeholder -->
             <div class="col-3">
