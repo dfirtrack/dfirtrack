@@ -102,16 +102,11 @@ CSV_REMOVE_TAG = True
 # comma separated list of tags to add for every sytem (non-existing tags will be created)
 CSV_DEFAULT_TAG = ['tag_1', 'tag_2', 'tag_3']
 
-# IMPORT SYSTEMS WITH TAGS FROM CLIENT CSV FILE (dfirtrack_main.importer.file.csv.systems_tags)
+# TODO: possibly use regarding tag handling (dfirtrack_main.importer.file.csv.system)
 ## add a list of strings representing the relevant tags you want to automatically import
-TAGLIST = []
+#TAGLIST = []
 ## add a string used as prefix for clearly identifying previously automatically imported tags (e. g. "AUTO" leads to "AUTO_TAG")
-TAGPREFIX = ''
-## add a headline for the systems to import by tags
-SYSTEMTAG_HEADLINE = ''
-## add a subheadline for the systems to import by tags
-SYSTEMTAG_SUBHEADLINE = ''
-
+#TAGPREFIX = ''
 
 # IMPORT REPORTITEMS FROM SERVER FILESYSTEM (dfirtrack_main.importer.file.filesystem.reportitems)
 ## add a server path (without trailing slash!) where reportitems (preferably in markdown syntax) are stored as <system_name>.md (lowercase!)

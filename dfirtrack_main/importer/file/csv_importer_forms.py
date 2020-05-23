@@ -64,8 +64,3 @@ class SystemImporterFileCsv(forms.ModelForm):
             widgets['serviceprovider'] = forms.RadioSelect()
         if not dfirtrack_config.CSV_CHOICE_TAG:
             widgets['tag'] = forms.CheckboxSelectMultiple()
-
-class SystemTagFileImport(forms.Form):
-
-    # file upload field (variable is used in request object)
-    systemtagcsv = forms.FileField()
