@@ -11,114 +11,114 @@ def check_config(request):
 
     # check CSV_HEADLINE for bool
     if not isinstance(dfirtrack_config.CSV_HEADLINE, bool):
-        messages.error(request, "Deformed `CSV_HEADLINE` Check `dfirtrack.config`!")
+        messages.error(request, "`CSV_HEADLINE` is not boolean. Check `dfirtrack.config`!")
         # call logger
-        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_HEADLINE deformed")
+        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_HEADLINE not boolean")
         stop_system_importer_file_csv = True
 
     # check CSV_SKIP_EXISTING_SYSTEM for bool
     if not isinstance(dfirtrack_config.CSV_SKIP_EXISTING_SYSTEM, bool):
-        messages.error(request, "Deformed `CSV_SKIP_EXISTING_SYSTEM` Check `dfirtrack.config`!")
+        messages.error(request, "`CSV_SKIP_EXISTING_SYSTEM` is not boolean. Check `dfirtrack.config`!")
         # call logger
-        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_SKIP_EXISTING_SYSTEM deformed")
+        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_SKIP_EXISTING_SYSTEM not boolean")
         stop_system_importer_file_csv = True
 
     # check CSV_CHOICE_IP for bool
     if not isinstance(dfirtrack_config.CSV_CHOICE_IP, bool):
-        messages.error(request, "Deformed `CSV_CHOICE_IP` Check `dfirtrack.config`!")
+        messages.error(request, "`CSV_CHOICE_IP` is not boolean. Check `dfirtrack.config`!")
         # call logger
-        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_IP deformed")
+        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_IP not boolean")
         stop_system_importer_file_csv = True
 
     # check CSV_REMOVE_IP for bool
     if not isinstance(dfirtrack_config.CSV_REMOVE_IP, bool):
-        messages.error(request, "Deformed `CSV_REMOVE_IP` Check `dfirtrack.config`!")
+        messages.error(request, "`CSV_REMOVE_IP` is not boolean. Check `dfirtrack.config`!")
         # call logger
-        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_REMOVE_IP deformed")
+        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_REMOVE_IP not boolean")
         stop_system_importer_file_csv = True
 
     # check CSV_COLUMN_SYSTEM for int
     if not isinstance(dfirtrack_config.CSV_COLUMN_SYSTEM, int):
-        messages.error(request, "Deformed `CSV_COLUMN_SYSTEM` Check `dfirtrack.config`!")
+        messages.error(request, "`CSV_COLUMN_SYSTEM` is not an integer. Check `dfirtrack.config`!")
         # call logger
-        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_COLUMN_SYSTEM deformed")
+        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_COLUMN_SYSTEM no integer")
         stop_system_importer_file_csv = True
 
     # check CSV_COLUMN_IP for int
     if not isinstance(dfirtrack_config.CSV_COLUMN_IP, int):
-        messages.error(request, "Deformed `CSV_COLUMN_IP` Check `dfirtrack.config`!")
+        messages.error(request, "`CSV_COLUMN_IP` is not an integer. Check `dfirtrack.config`!")
         # call logger
-        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_COLUMN_IP deformed")
+        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_COLUMN_IP no integer")
         stop_system_importer_file_csv = True
 
     # check CSV_CHOICE_SYSTEMSTATUS for bool
     if not isinstance(dfirtrack_config.CSV_CHOICE_SYSTEMSTATUS, bool):
-        messages.error(request, "Deformed `CSV_CHOICE_SYSTEMSTATUS` Check `dfirtrack.config`!")
+        messages.error(request, "`CSV_CHOICE_SYSTEMSTATUS` is not boolean. Check `dfirtrack.config`!")
         # call logger
-        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_SYSTEMSTATUS deformed")
+        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_SYSTEMSTATUS not boolean")
         stop_system_importer_file_csv = True
 
     # check CSV_CHOICE_ANALYSISSTATUS for bool
     if not isinstance(dfirtrack_config.CSV_CHOICE_ANALYSISSTATUS, bool):
-        messages.error(request, "Deformed `CSV_CHOICE_ANALYSISSTATUS` Check `dfirtrack.config`!")
+        messages.error(request, "`CSV_CHOICE_ANALYSISSTATUS` is not boolean. Check `dfirtrack.config`!")
         # call logger
-        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_ANALYSISSTATUS deformed")
+        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_ANALYSISSTATUS not boolean")
         stop_system_importer_file_csv = True
 
     # check CSV_CHOICE_REASON for bool
     if not isinstance(dfirtrack_config.CSV_CHOICE_REASON, bool):
-        messages.error(request, "Deformed `CSV_CHOICE_REASON` Check `dfirtrack.config`!")
+        messages.error(request, "`CSV_CHOICE_REASON` is not boolean. Check `dfirtrack.config`!")
         # call logger
-        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_REASON deformed")
+        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_REASON not boolean")
         stop_system_importer_file_csv = True
 
     # check CSV_CHOICE_DOMAIN for bool
     if not isinstance(dfirtrack_config.CSV_CHOICE_DOMAIN, bool):
-        messages.error(request, "Deformed `CSV_CHOICE_DOMAIN` Check `dfirtrack.config`!")
+        messages.error(request, "`CSV_CHOICE_DOMAIN` is not boolean. Check `dfirtrack.config`!")
         # call logger
-        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_DOMAIN deformed")
+        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_DOMAIN not boolean")
         stop_system_importer_file_csv = True
 
     # check CSV_CHOICE_DNSNAME for bool
     if not isinstance(dfirtrack_config.CSV_CHOICE_DNSNAME, bool):
-        messages.error(request, "Deformed `CSV_CHOICE_DNSNAME` Check `dfirtrack.config`!")
+        messages.error(request, "`CSV_CHOICE_DNSNAME` is not boolean. Check `dfirtrack.config`!")
         # call logger
-        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_DNSNAME deformed")
+        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_DNSNAME not boolean")
         stop_system_importer_file_csv = True
 
     # check CSV_CHOICE_SYSTEMTYPE for bool
     if not isinstance(dfirtrack_config.CSV_CHOICE_SYSTEMTYPE, bool):
-        messages.error(request, "Deformed `CSV_CHOICE_SYSTEMTYPE` Check `dfirtrack.config`!")
+        messages.error(request, "`CSV_CHOICE_SYSTEMTYPE` is not boolean. Check `dfirtrack.config`!")
         # call logger
-        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_SYSTEMTYPE deformed")
+        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_SYSTEMTYPE not boolean")
         stop_system_importer_file_csv = True
 
     # check CSV_CHOICE_OS for bool
     if not isinstance(dfirtrack_config.CSV_CHOICE_OS, bool):
-        messages.error(request, "Deformed `CSV_CHOICE_OS` Check `dfirtrack.config`!")
+        messages.error(request, "`CSV_CHOICE_OS` is not boolean. Check `dfirtrack.config`!")
         # call logger
-        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_OS deformed")
+        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_OS not boolean")
         stop_system_importer_file_csv = True
 
     # check CSV_CHOICE_LOCATION for bool
     if not isinstance(dfirtrack_config.CSV_CHOICE_LOCATION, bool):
-        messages.error(request, "Deformed `CSV_CHOICE_LOCATION` Check `dfirtrack.config`!")
+        messages.error(request, "`CSV_CHOICE_LOCATION` is not boolean. Check `dfirtrack.config`!")
         # call logger
-        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_LOCATION deformed")
+        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_LOCATION not boolean")
         stop_system_importer_file_csv = True
 
     # check CSV_CHOICE_SERVICEPROVIDER for bool
     if not isinstance(dfirtrack_config.CSV_CHOICE_SERVICEPROVIDER, bool):
-        messages.error(request, "Deformed `CSV_CHOICE_SERVICEPROVIDER` Check `dfirtrack.config`!")
+        messages.error(request, "`CSV_CHOICE_SERVICEPROVIDER` is not boolean. Check `dfirtrack.config`!")
         # call logger
-        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_SERVICEPROVIDER deformed")
+        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_SERVICEPROVIDER not boolean")
         stop_system_importer_file_csv = True
 
     # check CSV_CHOICE_TAG for bool
     if not isinstance(dfirtrack_config.CSV_CHOICE_TAG, bool):
-        messages.error(request, "Deformed `CSV_CHOICE_TAG` Check `dfirtrack.config`!")
+        messages.error(request, "`CSV_CHOICE_TAG` is not boolean. Check `dfirtrack.config`!")
         # call logger
-        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_TAG deformed")
+        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_TAG not boolean")
         stop_system_importer_file_csv = True
 
     # check CSV_DEFAULT_SYSTEMSTATUS for existence (check only if CSV_CHOICE_SYSTEMSTATUS is True) for existence
@@ -143,9 +143,9 @@ def check_config(request):
 
     # check CSV_REMOVE_TAG for bool
     if not isinstance(dfirtrack_config.CSV_REMOVE_TAG, bool):
-        messages.error(request, "Deformed `CSV_REMOVE_TAG` Check `dfirtrack.config`!")
+        messages.error(request, "`CSV_REMOVE_TAG` is not boolean. Check `dfirtrack.config`!")
         # call logger
-        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_REMOVE_TAG deformed")
+        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_REMOVE_TAG not boolean")
         stop_system_importer_file_csv = True
 
     # check CSV_DEFAULT_TAG for list (check only if CSV_CHOICE_TAG is True)
@@ -161,7 +161,7 @@ def check_config(request):
 
         messages.warning(request, "Nothing was changed.")
         # call logger
-        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_END_WITH_ERRORS")
+        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_ENDED_WITH_ERRORS")
         return stop_system_importer_file_csv
 
     else:
