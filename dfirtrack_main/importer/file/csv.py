@@ -7,14 +7,12 @@ from django.utils import timezone
 import dfirtrack.config as dfirtrack_config
 from .csv_check_data import check_config, check_file, check_row
 from .csv_importer_forms import SystemImporterFileCsv
-from dfirtrack_main.logger.default_logger import critical_logger, debug_logger, error_logger, warning_logger
-from dfirtrack_main.models import Analysisstatus, Dnsname, Domain, Headline, Ip, Location, Os, Reason, Reportitem, Serviceprovider, System, Systemstatus, Systemtype, Tag, Tagcolor
+from dfirtrack_main.logger.default_logger import debug_logger, warning_logger
+from dfirtrack_main.models import Analysisstatus, Dnsname, Domain, Ip, Location, Os, Reason, Serviceprovider, System, Systemstatus, Systemtype, Tag, Tagcolor
 import ipaddress
 from io import TextIOWrapper
-# TODO: remove not needed imports
 
 # TODO: add companies (needs extra function like ip address because of many to many relation)
-# TODO: add tags
 
 def check_and_create_ip(column_ip, request, row_counter):
 
