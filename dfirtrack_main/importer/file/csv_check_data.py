@@ -114,6 +114,13 @@ def check_config(request):
         warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_SERVICEPROVIDER not boolean")
         stop_system_importer_file_csv = True
 
+    # check CSV_CHOICE_COMPANY for bool
+    if not isinstance(dfirtrack_config.CSV_CHOICE_COMPANY, bool):
+        messages.error(request, "`CSV_CHOICE_COMPANY` is not boolean. Check `dfirtrack.config`!")
+        # call logger
+        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_COMPANY not boolean")
+        stop_system_importer_file_csv = True
+
     # check CSV_CHOICE_TAG for bool
     if not isinstance(dfirtrack_config.CSV_CHOICE_TAG, bool):
         messages.error(request, "`CSV_CHOICE_TAG` is not boolean. Check `dfirtrack.config`!")
@@ -197,6 +204,23 @@ def check_config(request):
             warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_SERVICEPROVIDER contains empty string")
             stop_system_importer_file_csv = True
 
+    # check CSV_REMOVE_COMPANY for bool
+    if not isinstance(dfirtrack_config.CSV_REMOVE_COMPANY, bool):
+        messages.error(request, "`CSV_REMOVE_COMPANY` is not boolean. Check `dfirtrack.config`!")
+        # call logger
+        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_REMOVE_COMPANY not boolean")
+        stop_system_importer_file_csv = True
+
+    # check CSV_DEFAULT_COMPANY for list (check only if CSV_CHOICE_COMPANY is True)
+    if dfirtrack_config.CSV_CHOICE_COMPANY:
+        if not isinstance(dfirtrack_config.CSV_DEFAULT_COMPANY, list):
+            messages.error(request, "`CSV_DEFAULT_COMPANY` is not a list. Check `dfirtrack.config`!")
+            # call logger
+            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_COMPANY no list")
+            stop_system_importer_file_csv = True
+
+    # TODO: check CSV_DEFAULT_COMPANY list elements for empty string (check only if CSV_DEFAULT_COMPANY is True)
+
     # check CSV_REMOVE_TAG for bool
     if not isinstance(dfirtrack_config.CSV_REMOVE_TAG, bool):
         messages.error(request, "`CSV_REMOVE_TAG` is not boolean. Check `dfirtrack.config`!")
@@ -211,6 +235,8 @@ def check_config(request):
             # call logger
             warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_TAG no list")
             stop_system_importer_file_csv = True
+
+    # TODO: check CSV_DEFAULT_TAG list elements for empty string (check only if CSV_DEFAULT_TAG is True)
 
     # leave system_importer_file_csv if variables caused errors
     if stop_system_importer_file_csv:

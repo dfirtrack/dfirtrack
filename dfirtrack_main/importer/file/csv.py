@@ -8,11 +8,18 @@ import dfirtrack.config as dfirtrack_config
 from .csv_check_data import check_config, check_file, check_row
 from .csv_importer_forms import SystemImporterFileCsv
 from dfirtrack_main.logger.default_logger import debug_logger, warning_logger
-from dfirtrack_main.models import Analysisstatus, Dnsname, Domain, Ip, Location, Os, Reason, Serviceprovider, System, Systemstatus, Systemtype, Tag, Tagcolor
+from dfirtrack_main.models import Analysisstatus, Company, Dnsname, Domain, Ip, Location, Os, Reason, Serviceprovider, System, Systemstatus, Systemtype, Tag, Tagcolor
 import ipaddress
 from io import TextIOWrapper
 
-# TODO: add companies (needs extra function like ip address because of many to many relation)
+def check_and_create_company(company, request):
+
+    # create company
+    company, created = Company.objects.get_or_create(company_name=company)
+    if created == True:
+        company.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_COMPANY_CREATED")
+
+    return company
 
 def check_and_create_ip(column_ip, request, row_counter):
 
@@ -214,6 +221,21 @@ def system(request):
                         # save many to many
                         form.save_m2m()
 
+                        # handle company many to many relationship
+                        if dfirtrack_config.CSV_CHOICE_COMPANY:
+
+                            # remove existing companies (not relevant for newly created systems in condition below)
+                            if dfirtrack_config.CSV_REMOVE_COMPANY:
+                                # remove many to many relation between system and company without deleting existing company objects (important if other systems have the same companies)
+                                system.company.clear()
+
+                            # iterate through companylist from dfirtrack.config
+                            for company in dfirtrack_config.CSV_DEFAULT_COMPANY:
+                                # get or create company
+                                newcompany = check_and_create_company(company, request)
+                                # add company
+                                system.company.add(newcompany)
+
                         # handle ip address many to many relationship
                         if dfirtrack_config.CSV_CHOICE_IP:
 
@@ -289,6 +311,18 @@ def system(request):
 
                     # save many to many
                     form.save_m2m()
+
+                    # handle company many to many relationship
+                    if dfirtrack_config.CSV_CHOICE_COMPANY:
+
+                        # CSV_REMOVE_COMPANY not relevant for newly created systems (in contrast to condition above)
+
+                        # iterate through companylist from dfirtrack.config
+                        for company in dfirtrack_config.CSV_DEFAULT_COMPANY:
+                            # get or create company
+                            newcompany = check_and_create_company(company, request)
+                            # add company
+                            system.company.add(newcompany)
 
                     # handle ip address many to many relationship
                     if dfirtrack_config.CSV_CHOICE_IP:
@@ -383,6 +417,7 @@ def system(request):
             'csv_choice_os': dfirtrack_config.CSV_CHOICE_OS,
             'csv_choice_location': dfirtrack_config.CSV_CHOICE_LOCATION,
             'csv_choice_serviceprovider': dfirtrack_config.CSV_CHOICE_SERVICEPROVIDER,
+            'csv_choice_company': dfirtrack_config.CSV_CHOICE_COMPANY,
             'csv_choice_tag': dfirtrack_config.CSV_CHOICE_TAG,
         }
     )

@@ -536,7 +536,7 @@
 
     <!-- ############################################ -->
 
-    {% if not csv_choice_location == True or not csv_choice_serviceprovider == True %}
+    {% if not csv_choice_company == True or not csv_choice_location == True or not csv_choice_serviceprovider == True %}
     <!-- company information -->
     <div class="card card-body bg-dark border-light top-distance">
 
@@ -552,12 +552,18 @@
         <!-- company information row -->
         <div class="row">
 
+            {% if csv_choice_company == False %}
             <!-- company headline -->
             <div class="col-3">
                 <div class="font-weight-bold">
                     Company:
                 </div>
             </div>
+            {% else %}
+            <!-- placeholder -->
+            <div class="col-3">
+            </div>
+            {% endif %}
 
             {% if csv_choice_location == False %}
             <!-- location headline -->
@@ -587,6 +593,7 @@
         <!-- company information row -->
         <div class="row">
 
+            {% if csv_choice_company == False %}
             <!-- company -->
             <div class="col-3">
                 <div class="card card-body bg-dark border-light top-distance">
@@ -599,6 +606,11 @@
                     {% endfor %}
                 </div>
             </div>
+            {% else %}
+            <!-- placeholder -->
+            <div class="col-3">
+            </div>
+            {% endif %}
 
             {% if csv_choice_location == False %}
             <!-- location -->
@@ -640,12 +652,18 @@
         <!-- button row -->
         <div class="row">
 
+            {% if csv_choice_company == False %}
             <div class="col-3">
                 <button onclick="company_add_popup()" type="button" class="btn btn-light btn-sm top-distance">
                     <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm" alt="icon">
                     Add company
                 </button>
             </div>
+            {% else %}
+            <!-- placeholder -->
+            <div class="col-3">
+            </div>
+            {% endif %}
 
             {% if csv_choice_location == False %}
             <div class="col-3">
