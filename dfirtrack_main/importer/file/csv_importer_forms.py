@@ -37,6 +37,8 @@ class SystemImporterFileCsv(forms.ModelForm):
             fields += ('location',)
         if not dfirtrack_config.CSV_CHOICE_SERVICEPROVIDER:
             fields += ('serviceprovider',)
+        if not dfirtrack_config.CSV_CHOICE_CASE:
+            fields += ('case',)
         if not dfirtrack_config.CSV_CHOICE_COMPANY:
             fields += ('company',)
         if not dfirtrack_config.CSV_CHOICE_TAG:
@@ -64,6 +66,8 @@ class SystemImporterFileCsv(forms.ModelForm):
             widgets['location'] = forms.RadioSelect()
         if not dfirtrack_config.CSV_CHOICE_SERVICEPROVIDER:
             widgets['serviceprovider'] = forms.RadioSelect()
+        if not dfirtrack_config.CSV_CHOICE_CASE:
+            widgets['case'] = forms.CheckboxSelectMultiple()
         if not dfirtrack_config.CSV_CHOICE_COMPANY:
             widgets['company'] = forms.CheckboxSelectMultiple()
         if not dfirtrack_config.CSV_CHOICE_TAG:

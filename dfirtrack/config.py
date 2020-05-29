@@ -80,6 +80,7 @@ CSV_CHOICE_SYSTEMTYPE = False
 CSV_CHOICE_OS = False
 CSV_CHOICE_LOCATION = False
 CSV_CHOICE_SERVICEPROVIDER = False
+CSV_CHOICE_CASE = False
 CSV_CHOICE_COMPANY = False
 CSV_CHOICE_TAG = True
 
@@ -99,6 +100,10 @@ CSV_DEFAULT_OS = ''
 CSV_DEFAULT_LOCATION = ''
 CSV_DEFAULT_SERVICEPROVIDER = ''
 # TODO: remove default values from list
+# remove existing companies for already existing systems (only used if CSV_SKIP_EXISTING_SYSTEM is set to False and CSV_CHOICE_CASE is set to True)
+CSV_REMOVE_CASE = True
+# comma separated list of companies to add for every sytem (non-existing companies will be created)
+CSV_DEFAULT_CASE = ['case_1', 'case_2', 'case_3']
 # remove existing companies for already existing systems (only used if CSV_SKIP_EXISTING_SYSTEM is set to False and CSV_CHOICE_COMPANY is set to True)
 CSV_REMOVE_COMPANY = True
 # comma separated list of companies to add for every sytem (non-existing companies will be created)

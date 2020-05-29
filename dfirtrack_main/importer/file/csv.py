@@ -8,9 +8,18 @@ import dfirtrack.config as dfirtrack_config
 from .csv_check_data import check_config, check_file, check_row
 from .csv_importer_forms import SystemImporterFileCsv
 from dfirtrack_main.logger.default_logger import debug_logger, warning_logger
-from dfirtrack_main.models import Analysisstatus, Company, Dnsname, Domain, Ip, Location, Os, Reason, Serviceprovider, System, Systemstatus, Systemtype, Tag, Tagcolor
+from dfirtrack_main.models import Analysisstatus, Case, Company, Dnsname, Domain, Ip, Location, Os, Reason, Serviceprovider, System, Systemstatus, Systemtype, Tag, Tagcolor
 import ipaddress
 from io import TextIOWrapper
+
+def check_and_create_case(case, request):
+
+    # create case
+    case, created = Case.objects.get_or_create(case_name=case)
+    if created == True:
+        case.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_CASE_CREATED")
+
+    return case
 
 def check_and_create_company(company, request):
 
@@ -221,6 +230,22 @@ def system(request):
                         # save many to many
                         form.save_m2m()
 
+                        # handle case many to many relationship
+                        if dfirtrack_config.CSV_CHOICE_CASE:
+
+                            # remove existing companies (not relevant for newly created systems in condition below)
+                            # also not relevant in case of CSV_CHOICE_CASE is False because it is changed via form either way
+                            if dfirtrack_config.CSV_REMOVE_CASE:
+                                # remove many to many relation between system and case without deleting existing case objects (important if other systems have the same companies)
+                                system.case.clear()
+
+                            # iterate through caselist from dfirtrack.config
+                            for case in dfirtrack_config.CSV_DEFAULT_CASE:
+                                # get or create case
+                                newcase = check_and_create_case(case, request)
+                                # add case
+                                system.case.add(newcase)
+
                         # handle company many to many relationship
                         if dfirtrack_config.CSV_CHOICE_COMPANY:
 
@@ -314,6 +339,18 @@ def system(request):
 
                     # save many to many
                     form.save_m2m()
+
+                    # handle case many to many relationship
+                    if dfirtrack_config.CSV_CHOICE_CASE:
+
+                        # CSV_REMOVE_CASE not relevant for newly created systems (in contrast to condition above)
+
+                        # iterate through caselist from dfirtrack.config
+                        for case in dfirtrack_config.CSV_DEFAULT_CASE:
+                            # get or create case
+                            newcase = check_and_create_case(case, request)
+                            # add case
+                            system.case.add(newcase)
 
                     # handle company many to many relationship
                     if dfirtrack_config.CSV_CHOICE_COMPANY:
@@ -420,6 +457,7 @@ def system(request):
             'csv_choice_os': dfirtrack_config.CSV_CHOICE_OS,
             'csv_choice_location': dfirtrack_config.CSV_CHOICE_LOCATION,
             'csv_choice_serviceprovider': dfirtrack_config.CSV_CHOICE_SERVICEPROVIDER,
+            'csv_choice_case': dfirtrack_config.CSV_CHOICE_CASE,
             'csv_choice_company': dfirtrack_config.CSV_CHOICE_COMPANY,
             'csv_choice_tag': dfirtrack_config.CSV_CHOICE_TAG,
         }

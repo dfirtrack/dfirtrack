@@ -114,6 +114,13 @@ def check_config(request):
         warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_SERVICEPROVIDER not boolean")
         stop_system_importer_file_csv = True
 
+    # check CSV_CHOICE_CASE for bool
+    if not isinstance(dfirtrack_config.CSV_CHOICE_CASE, bool):
+        messages.error(request, "`CSV_CHOICE_CASE` is not boolean. Check `dfirtrack.config`!")
+        # call logger
+        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_CASE not boolean")
+        stop_system_importer_file_csv = True
+
     # check CSV_CHOICE_COMPANY for bool
     if not isinstance(dfirtrack_config.CSV_CHOICE_COMPANY, bool):
         messages.error(request, "`CSV_CHOICE_COMPANY` is not boolean. Check `dfirtrack.config`!")
@@ -203,6 +210,23 @@ def check_config(request):
             # call logger
             warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_SERVICEPROVIDER contains empty string")
             stop_system_importer_file_csv = True
+
+    # check CSV_REMOVE_CASE for bool
+    if not isinstance(dfirtrack_config.CSV_REMOVE_CASE, bool):
+        messages.error(request, "`CSV_REMOVE_CASE` is not boolean. Check `dfirtrack.config`!")
+        # call logger
+        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_REMOVE_CASE not boolean")
+        stop_system_importer_file_csv = True
+
+    # check CSV_DEFAULT_CASE for list (check only if CSV_CHOICE_CASE is True)
+    if dfirtrack_config.CSV_CHOICE_CASE:
+        if not isinstance(dfirtrack_config.CSV_DEFAULT_CASE, list):
+            messages.error(request, "`CSV_DEFAULT_CASE` is not a list. Check `dfirtrack.config`!")
+            # call logger
+            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_CASE no list")
+            stop_system_importer_file_csv = True
+
+    # TODO: check CSV_DEFAULT_CASE list elements for empty string (check only if CSV_DEFAULT_CASE is True)
 
     # check CSV_REMOVE_COMPANY for bool
     if not isinstance(dfirtrack_config.CSV_REMOVE_COMPANY, bool):
