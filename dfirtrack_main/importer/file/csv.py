@@ -225,6 +225,7 @@ def system(request):
                         if dfirtrack_config.CSV_CHOICE_COMPANY:
 
                             # remove existing companies (not relevant for newly created systems in condition below)
+                            # also not relevant in case of CSV_CHOICE_COMPANY is False because it is changed via form either way
                             if dfirtrack_config.CSV_REMOVE_COMPANY:
                                 # remove many to many relation between system and company without deleting existing company objects (important if other systems have the same companies)
                                 system.company.clear()
@@ -240,6 +241,7 @@ def system(request):
                         if dfirtrack_config.CSV_CHOICE_IP:
 
                             # remove existing IP address / addresses for this system (not relevant for newly created systems in condition below)
+                            # existing IP addresses will be left if nothing is provided by CSV
                             if dfirtrack_config.CSV_REMOVE_IP:
                                 # remove many to many relation between system and ip without deleting existing ip objects (important if other systems have the same IP address)
                                 system.ip.clear()
@@ -256,6 +258,7 @@ def system(request):
                         if dfirtrack_config.CSV_CHOICE_TAG:
 
                             # remove existing tags (not relevant for newly created systems in condition below)
+                            # also not relevant in case of CSV_CHOICE_TAG is False because it is changed via form either way
                             if dfirtrack_config.CSV_REMOVE_TAG:
                                 # remove many to many relation between system and tag without deleting existing tag objects (important if other systems have the same tags)
                                 system.tag.clear()
