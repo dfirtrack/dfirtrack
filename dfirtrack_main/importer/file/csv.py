@@ -195,8 +195,11 @@ def system(request):
                     else:
                         form = SystemImporterFileCsv(request.POST, request.FILES, instance=system)
 
-                    # create system
+                    # change system
                     if form.is_valid():
+
+                        # don't save form yet
+                        system = form.save(commit=False)
 
                         # change attributes (if set via dfirtrack.config)
                         system = optional_system_attributes(system, request)
