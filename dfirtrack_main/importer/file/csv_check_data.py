@@ -157,11 +157,11 @@ def check_config(request):
 
     # check CSV_DEFAULT_REASON for string (check only if CSV_CHOICE_REASON is True)
     if dfirtrack_config.CSV_CHOICE_REASON:
-       if not isinstance(dfirtrack_config.CSV_DEFAULT_REASON, str):
-           messages.error(request, "`CSV_DEFAULT_REASON` is not a string. Check `dfirtrack.config`!")
-           # call logger
-           warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_REASON no string")
-           stop_system_importer_file_csv = True
+        if not isinstance(dfirtrack_config.CSV_DEFAULT_REASON, str):
+            messages.error(request, "`CSV_DEFAULT_REASON` is not a string. Check `dfirtrack.config`!")
+            # call logger
+            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_REASON no string")
+            stop_system_importer_file_csv = True
 
     # check CSV_DEFAULT_REASON for empty string (check only if CSV_CHOICE_REASON is True and it actually is a string)
     if dfirtrack_config.CSV_CHOICE_REASON:
@@ -173,11 +173,11 @@ def check_config(request):
 
     # check CSV_DEFAULT_DOMAIN for string (check only if CSV_CHOICE_DOMAIN is True)
     if dfirtrack_config.CSV_CHOICE_DOMAIN:
-       if not isinstance(dfirtrack_config.CSV_DEFAULT_DOMAIN, str):
-           messages.error(request, "`CSV_DEFAULT_DOMAIN` is not a string. Check `dfirtrack.config`!")
-           # call logger
-           warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_DOMAIN no string")
-           stop_system_importer_file_csv = True
+        if not isinstance(dfirtrack_config.CSV_DEFAULT_DOMAIN, str):
+            messages.error(request, "`CSV_DEFAULT_DOMAIN` is not a string. Check `dfirtrack.config`!")
+            # call logger
+            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_DOMAIN no string")
+            stop_system_importer_file_csv = True
 
     # check CSV_DEFAULT_DOMAIN for empty string (check only if CSV_CHOICE_DOMAIN is True and it actually is a string)
     if dfirtrack_config.CSV_CHOICE_DOMAIN:
@@ -189,11 +189,11 @@ def check_config(request):
 
     # check CSV_DEFAULT_DNSNAME for string (check only if CSV_CHOICE_DNSNAME is True)
     if dfirtrack_config.CSV_CHOICE_DNSNAME:
-       if not isinstance(dfirtrack_config.CSV_DEFAULT_DNSNAME, str):
-           messages.error(request, "`CSV_DEFAULT_DNSNAME` is not a string. Check `dfirtrack.config`!")
-           # call logger
-           warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_DNSNAME no string")
-           stop_system_importer_file_csv = True
+        if not isinstance(dfirtrack_config.CSV_DEFAULT_DNSNAME, str):
+            messages.error(request, "`CSV_DEFAULT_DNSNAME` is not a string. Check `dfirtrack.config`!")
+            # call logger
+            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_DNSNAME no string")
+            stop_system_importer_file_csv = True
 
     # check CSV_DEFAULT_DNSNAME for empty string (check only if CSV_CHOICE_DNSNAME is True and it actually is a string)
     if dfirtrack_config.CSV_CHOICE_DNSNAME:
@@ -205,11 +205,11 @@ def check_config(request):
 
     # check CSV_DEFAULT_SYSTEMTYPE for string (check only if CSV_CHOICE_SYSTEMTYPE is True)
     if dfirtrack_config.CSV_CHOICE_SYSTEMTYPE:
-       if not isinstance(dfirtrack_config.CSV_DEFAULT_SYSTEMTYPE, str):
-           messages.error(request, "`CSV_DEFAULT_SYSTEMTYPE` is not a string. Check `dfirtrack.config`!")
-           # call logger
-           warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_SYSTEMTYPE no string")
-           stop_system_importer_file_csv = True
+        if not isinstance(dfirtrack_config.CSV_DEFAULT_SYSTEMTYPE, str):
+            messages.error(request, "`CSV_DEFAULT_SYSTEMTYPE` is not a string. Check `dfirtrack.config`!")
+            # call logger
+            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_SYSTEMTYPE no string")
+            stop_system_importer_file_csv = True
 
     # check CSV_DEFAULT_SYSTEMTYPE for empty string (check only if CSV_CHOICE_SYSTEMTYPE is True and it actually is a string)
     if dfirtrack_config.CSV_CHOICE_SYSTEMTYPE:
@@ -221,11 +221,11 @@ def check_config(request):
 
     # check CSV_DEFAULT_OS for string (check only if CSV_CHOICE_OS is True)
     if dfirtrack_config.CSV_CHOICE_OS:
-       if not isinstance(dfirtrack_config.CSV_DEFAULT_OS, str):
-           messages.error(request, "`CSV_DEFAULT_OS` is not a string. Check `dfirtrack.config`!")
-           # call logger
-           warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_OS no string")
-           stop_system_importer_file_csv = True
+        if not isinstance(dfirtrack_config.CSV_DEFAULT_OS, str):
+            messages.error(request, "`CSV_DEFAULT_OS` is not a string. Check `dfirtrack.config`!")
+            # call logger
+            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_OS no string")
+            stop_system_importer_file_csv = True
 
     # check CSV_DEFAULT_OS for empty string (check only if CSV_CHOICE_OS is True and it actually is a string)
     if dfirtrack_config.CSV_CHOICE_OS:
@@ -237,11 +237,11 @@ def check_config(request):
 
     # check CSV_DEFAULT_LOCATION for string (check only if CSV_CHOICE_LOCATION is True)
     if dfirtrack_config.CSV_CHOICE_LOCATION:
-       if not isinstance(dfirtrack_config.CSV_DEFAULT_LOCATION, str):
-           messages.error(request, "`CSV_DEFAULT_LOCATION` is not a string. Check `dfirtrack.config`!")
-           # call logger
-           warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_LOCATION no string")
-           stop_system_importer_file_csv = True
+        if not isinstance(dfirtrack_config.CSV_DEFAULT_LOCATION, str):
+            messages.error(request, "`CSV_DEFAULT_LOCATION` is not a string. Check `dfirtrack.config`!")
+            # call logger
+            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_LOCATION no string")
+            stop_system_importer_file_csv = True
 
     # check CSV_DEFAULT_LOCATION for empty string (check only if CSV_CHOICE_LOCATION is True and it actually is a string)
     if dfirtrack_config.CSV_CHOICE_LOCATION:
@@ -253,11 +253,11 @@ def check_config(request):
 
     # check CSV_DEFAULT_SERVICEPROVIDER for string (check only if CSV_CHOICE_SERVICEPROVIDER is True)
     if dfirtrack_config.CSV_CHOICE_SERVICEPROVIDER:
-       if not isinstance(dfirtrack_config.CSV_DEFAULT_SERVICEPROVIDER, str):
-           messages.error(request, "`CSV_DEFAULT_SERVICEPROVIDER` is not a string. Check `dfirtrack.config`!")
-           # call logger
-           warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_SERVICEPROVIDER no string")
-           stop_system_importer_file_csv = True
+        if not isinstance(dfirtrack_config.CSV_DEFAULT_SERVICEPROVIDER, str):
+            messages.error(request, "`CSV_DEFAULT_SERVICEPROVIDER` is not a string. Check `dfirtrack.config`!")
+            # call logger
+            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_SERVICEPROVIDER no string")
+            stop_system_importer_file_csv = True
 
     # check CSV_DEFAULT_SERVICEPROVIDER for empty string (check only if CSV_CHOICE_SERVICEPROVIDER is True and it actually is a string)
     if dfirtrack_config.CSV_CHOICE_SERVICEPROVIDER:
