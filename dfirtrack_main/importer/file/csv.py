@@ -15,7 +15,11 @@ from io import TextIOWrapper
 def check_and_create_case(case, request):
 
     # create case
-    case, created = Case.objects.get_or_create(case_name=case)
+    case, created = Case.objects.get_or_create(
+        case_name = case,
+        case_is_incident = dfirtrack_config.CSV_INCIDENT_CASE,
+        case_created_by_user_id = request.user,
+    )
     if created == True:
         case.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_CASE_CREATED")
 

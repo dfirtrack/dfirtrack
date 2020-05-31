@@ -212,11 +212,12 @@ def check_config(request):
             stop_system_importer_file_csv = True
 
     # check CSV_REMOVE_CASE for bool
-    if not isinstance(dfirtrack_config.CSV_REMOVE_CASE, bool):
-        messages.error(request, "`CSV_REMOVE_CASE` is not boolean. Check `dfirtrack.config`!")
-        # call logger
-        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_REMOVE_CASE not boolean")
-        stop_system_importer_file_csv = True
+    if dfirtrack_config.CSV_CHOICE_CASE:
+        if not isinstance(dfirtrack_config.CSV_REMOVE_CASE, bool):
+            messages.error(request, "`CSV_REMOVE_CASE` is not boolean. Check `dfirtrack.config`!")
+            # call logger
+            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_REMOVE_CASE not boolean")
+            stop_system_importer_file_csv = True
 
     # check CSV_DEFAULT_CASE for list (check only if CSV_CHOICE_CASE is True)
     if dfirtrack_config.CSV_CHOICE_CASE:
@@ -228,12 +229,21 @@ def check_config(request):
 
     # TODO: check CSV_DEFAULT_CASE list elements for empty string (check only if CSV_DEFAULT_CASE is True)
 
+    # check CSV_INCIDENT_CASE for bool
+    if dfirtrack_config.CSV_CHOICE_CASE:
+        if not isinstance(dfirtrack_config.CSV_INCIDENT_CASE, bool):
+            messages.error(request, "`CSV_INCIDENT_CASE` is not boolean. Check `dfirtrack.config`!")
+            # call logger
+            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_INCIDENT_CASE not boolean")
+            stop_system_importer_file_csv = True
+
     # check CSV_REMOVE_COMPANY for bool
-    if not isinstance(dfirtrack_config.CSV_REMOVE_COMPANY, bool):
-        messages.error(request, "`CSV_REMOVE_COMPANY` is not boolean. Check `dfirtrack.config`!")
-        # call logger
-        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_REMOVE_COMPANY not boolean")
-        stop_system_importer_file_csv = True
+    if dfirtrack_config.CSV_CHOICE_COMPANY:
+        if not isinstance(dfirtrack_config.CSV_REMOVE_COMPANY, bool):
+            messages.error(request, "`CSV_REMOVE_COMPANY` is not boolean. Check `dfirtrack.config`!")
+            # call logger
+            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_REMOVE_COMPANY not boolean")
+            stop_system_importer_file_csv = True
 
     # check CSV_DEFAULT_COMPANY for list (check only if CSV_CHOICE_COMPANY is True)
     if dfirtrack_config.CSV_CHOICE_COMPANY:
@@ -246,11 +256,12 @@ def check_config(request):
     # TODO: check CSV_DEFAULT_COMPANY list elements for empty string (check only if CSV_DEFAULT_COMPANY is True)
 
     # check CSV_REMOVE_TAG for bool
-    if not isinstance(dfirtrack_config.CSV_REMOVE_TAG, bool):
-        messages.error(request, "`CSV_REMOVE_TAG` is not boolean. Check `dfirtrack.config`!")
-        # call logger
-        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_REMOVE_TAG not boolean")
-        stop_system_importer_file_csv = True
+    if dfirtrack_config.CSV_CHOICE_TAG:
+        if not isinstance(dfirtrack_config.CSV_REMOVE_TAG, bool):
+            messages.error(request, "`CSV_REMOVE_TAG` is not boolean. Check `dfirtrack.config`!")
+            # call logger
+            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_REMOVE_TAG not boolean")
+            stop_system_importer_file_csv = True
 
     # check CSV_DEFAULT_TAG for list (check only if CSV_CHOICE_TAG is True)
     if dfirtrack_config.CSV_CHOICE_TAG:

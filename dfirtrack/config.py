@@ -90,7 +90,6 @@ CSV_CHOICE_TAG = True
 CSV_DEFAULT_SYSTEMSTATUS = 'Unknown'
 # 'Analysisstatus' for imported systems (choose from 'Needs analysis', 'Ready for analysis', 'Ongoing analysis', 'Nothing to do', 'Main analysis finished' or your custom values)
 CSV_DEFAULT_ANALYSISSTATUS = 'Needs analysis'
-
 # attributes with chooseable values (choose string for attribute name, non-existing attributes will be created)
 CSV_DEFAULT_REASON = ''
 CSV_DEFAULT_DOMAIN = ''
@@ -104,6 +103,8 @@ CSV_DEFAULT_SERVICEPROVIDER = ''
 CSV_REMOVE_CASE = True
 # comma separated list of companies to add for every sytem (non-existing companies will be created)
 CSV_DEFAULT_CASE = ['case_1', 'case_2', 'case_3']
+# incident for cases from CSV_DEFAULT_CASE should be set to True of False if created
+CSV_INCIDENT_CASE = True
 # remove existing companies for already existing systems (only used if CSV_SKIP_EXISTING_SYSTEM is set to False and CSV_CHOICE_COMPANY is set to True)
 CSV_REMOVE_COMPANY = True
 # comma separated list of companies to add for every sytem (non-existing companies will be created)
