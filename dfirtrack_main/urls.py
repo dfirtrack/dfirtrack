@@ -130,8 +130,7 @@ urlpatterns = [
     path(r'system/exporter/spreadsheet/csv/system/', spreadsheet_csv.system, name='system_exporter_spreadsheet_csv'),
     path(r'system/exporter/spreadsheet/xls/system/', xls.system, name='system_exporter_spreadsheet_xls'),
     path(r'system/importer/api/giraf/system/', giraf.system, name='system_importer_api_giraf'),
-    path(r'system/importer/file/csv/system_ip/', file_csv.system_ip, name='system_importer_file_csv_system_ip'),
-    path(r'system/importer/file/csv/system_tag/', file_csv.system_tag, name='system_importer_file_csv_system_tag'),
+    path(r'system/importer/file/csv/', file_csv.system, name='system_importer_file_csv'),
 
     path(r'systemstatus/', systemstatus_views.SystemstatusList.as_view(), name='systemstatus_list'),
     path(r'systemstatus/<int:pk>/', systemstatus_views.SystemstatusDetail.as_view(), name='systemstatus_detail'),

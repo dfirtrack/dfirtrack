@@ -90,17 +90,9 @@
 
         <!-- system ips importer button -->
         <div class="col-2">
-            <a href="{% url 'system_importer_file_csv_system_ip' %}" type="button" class="btn btn-light copy-false">
+            <a href="{% url 'system_importer_file_csv' %}" type="button" class="btn btn-light copy-false">
                 <img src="{% static 'dfirtrack_main/icons/list.svg' %}" class="icon right-distance copy-false" alt="icon">
-                Import CSV with IPs
-            </a>
-        </div>
-
-        <!-- system tags importer button -->
-        <div class="col-2">
-            <a href="{% url 'system_importer_file_csv_system_tag' %}" type="button" class="btn btn-light copy-false">
-                <img src="{% static 'dfirtrack_main/icons/list.svg' %}" class="icon right-distance copy-false" alt="icon">
-                Import CSV with tags
+                Import CSV
             </a>
         </div>
 
