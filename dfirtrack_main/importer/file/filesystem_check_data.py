@@ -9,39 +9,39 @@ def check_config(request):
     # reset stop condition
     stop_reportitem_importer_file_filesystem = False
 
-    # check whether REPORTITEM_FILESYSTEMPATH is defined in `dfirtrack.config`
-    if dfirtrack_config.REPORTITEM_FILESYSTEMPATH == '':
-        messages.error(request, "The variable REPORTITEM_FILESYSTEMPATH seems to be undefined. Check `dfirtrack.config`!")
+    # check REPORTITEM_FILESYSTEMPATH for empty string
+    if not dfirtrack_config.REPORTITEM_FILESYSTEMPATH:
+        messages.error(request, "`REPORTITEM_FILESYSTEMPATH` contains an empty string. Check `dfirtrack.config`!")
         # call logger
-        warning_logger(str(request.user), " REPORTITEM_FILESYSTEMPATH_VARIABLE_UNDEFINED")
+        warning_logger(str(request.user), " REPORTITEM_IMPORTER_FILE_FILESYSTEM variable REPORTITEM_FILESYSTEMPATH contains empty string")
         stop_reportitem_importer_file_filesystem = True
 
-    # check whether REPORTITEM_FILESYSTEMPATH points to non-existing directory
+    # check REPORTITEM_FILESYSTEMPATH existing directory
     if not os.path.isdir(dfirtrack_config.REPORTITEM_FILESYSTEMPATH):
-        messages.error(request, "The variable REPORTITEM_FILESYSTEMPATH points to a non-existing directory. Check `dfirtrack.config`!")
+        messages.error(request, "`REPORTITEM_FILESYSTEMPATH` points to a non-existing directory. Check `dfirtrack.config`!")
         # call logger
-        warning_logger(str(request.user), " REPORTITEM_FILESYSTEM_IMPORTER_WRONG_PATH")
+        warning_logger(str(request.user), " REPORTITEM_IMPORTER_FILE_FILESYSTEM variable REPORTITEM_FILESYSTEMPATH path does not exist")
         stop_reportitem_importer_file_filesystem = True
 
-    # check whether REPORTITEM_HEADLINE is defined in `dfirtrack.config`
-    if dfirtrack_config.REPORTITEM_HEADLINE == '':
-        messages.error(request, "The variable REPORTITEM_HEADLINE seems to be undefined. Check `dfirtrack.config`!")
+    # check REPORTITEM_HEADLINE for empty string
+    if not dfirtrack_config.REPORTITEM_HEADLINE:
+        messages.error(request, "`REPORTITEM_HEADLINE` contains an empty string. Check `dfirtrack.config`!")
         # call logger
-        warning_logger(str(request.user), " REPORTITEM_HEADLINE_VARIABLE_UNDEFINED")
+        warning_logger(str(request.user), " REPORTITEM_IMPORTER_FILE_FILESYSTEM variable REPORTITEM_HEADLINE contains empty string")
         stop_reportitem_importer_file_filesystem = True
 
-    # check whether REPORTITEM_SUBHEADLINE is defined in `dfirtrack.config`
-    if dfirtrack_config.REPORTITEM_SUBHEADLINE == '':
-        messages.error(request, "The variable REPORTITEM_SUBHEADLINE seems to be undefined. Check `dfirtrack.config`!")
+    # check REPORTITEM_SUBHEADLINE for empty string
+    if not dfirtrack_config.REPORTITEM_SUBHEADLINE:
+        messages.error(request, "`REPORTITEM_SUBHEADLINE` contains an empty string. Check `dfirtrack.config`!")
         # call logger
-        warning_logger(str(request.user), " REPORTITEM_SUBHEADLINE_VARIABLE_UNDEFINED")
+        warning_logger(str(request.user), " REPORTITEM_IMPORTER_FILE_FILESYSTEM variable REPORTITEM_SUBHEADLINE contains empty string")
         stop_reportitem_importer_file_filesystem = True
 
-    # check whether REPORTITEM_DELETE is defined in `dfirtrack.config`
+    # check REPORTITEM_DELETE for bool
     if not isinstance(dfirtrack_config.REPORTITEM_DELETE, bool):
-        messages.error(request, "The variable REPORTITEM_DELETE seems to be undefined or not a boolean. Check `dfirtrack.config`!")
+        messages.error(request, "`REPORTITEM_DELETE` is not boolean. Check `dfirtrack.config`!")
         # call logger
-        warning_logger(str(request.user), " REPORTITEM_DELETE_VARIABLE_UNDEFINED")
+        warning_logger(str(request.user), " REPORTITEM_IMPORTER_FILE_FILESYSTEM variable REPORTITEM_DELETE not boolean")
         stop_reportitem_importer_file_filesystem = True
 
     return stop_reportitem_importer_file_filesystem 

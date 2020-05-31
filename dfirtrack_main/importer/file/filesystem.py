@@ -13,7 +13,7 @@ def reportitem(request):
     """ this function checks for every system the existence of a markdown file with information about system the and imports the content of this file as reportitem for the corresponding system """
 
     # call logger
-    debug_logger(str(request.user), " REPORTITEM_FILESYSTEM_IMPORTER_BEGIN")
+    debug_logger(str(request.user), " REPORTITEM_IMPORTER_FILE_FILESYSTEM_BEGAN")
 
     # check config before continuing
     stop_reportitem_importer_file_filesystem = check_config(request)
@@ -29,7 +29,7 @@ def reportitem(request):
     headline, created = Headline.objects.get_or_create(headline_name=dfirtrack_config.REPORTITEM_HEADLINE)
     if created == True:
         # call logger
-        headline.logger(str(request.user), " REPORTITEM_FILESYSTEM_IMPORTER_HEADLINE_CREATED")
+        headline.logger(str(request.user), " REPORTITEM_IMPORTER_FILE_FILESYSTEM_HEADLINE_CREATED")
 
     # set counter for non-existing files (needed for messages)
     nofile_found_counter = 0
@@ -52,7 +52,7 @@ def reportitem(request):
         # check whether a file is existing for this system
         if not os.path.isfile(reportpath):
             # call logger
-            warning_logger(str(request.user), " REPORTITEM_FILESYSTEM_IMPORTER_NO_FILE system_name:" + system.system_name)
+            warning_logger(str(request.user), " REPORTITEM_IMPORTER_FILE_FILESYSTEM_NO_FILE system_name:" + system.system_name)
             # autoincrement counter
             nofile_found_counter += 1
 
@@ -62,7 +62,7 @@ def reportitem(request):
                 try:
                     reportitem = Reportitem.objects.get(system = system, headline = headline, reportitem_subheadline = dfirtrack_config.REPORTITEM_SUBHEADLINE)
                     # call logger (before deleting instance)
-                    reportitem.logger(str(request.user), " REPORTITEM_FILESYSTEM_IMPORTER_REPORTITEM_DELETED")
+                    reportitem.logger(str(request.user), " REPORTITEM_IMPORTER_FILE_FILESYSTEM_REPORTITEM_DELETED")
                     reportitem.delete()
                     # autoincrement counter
                     reportitems_deleted_counter += 1
@@ -94,7 +94,7 @@ def reportitem(request):
         reportitem.save()
 
         # call logger
-        reportitem.logger(str(request.user), " REPORTITEM_FILESYSTEM_IMPORTER_REPORTITEM_CREATED_OR_MODIFIED")
+        reportitem.logger(str(request.user), " REPORTITEM_IMPORTER_FILE_FILESYSTEM_REPORTITEM_CREATED_OR_MODIFIED")
 
     # call final messages
     if nofile_found_counter > 0:
