@@ -71,8 +71,8 @@ CSV_COLUMN_SYSTEM = 0
 CSV_COLUMN_IP = 1
 
 # attribute should be set via this config (True) or via web form (False) during import
-CSV_CHOICE_SYSTEMSTATUS = True
-CSV_CHOICE_ANALYSISSTATUS = True
+CSV_CHOICE_SYSTEMSTATUS = False
+CSV_CHOICE_ANALYSISSTATUS = False
 CSV_CHOICE_REASON = False
 CSV_CHOICE_DOMAIN = False
 CSV_CHOICE_DNSNAME = False
@@ -82,7 +82,7 @@ CSV_CHOICE_LOCATION = False
 CSV_CHOICE_SERVICEPROVIDER = False
 CSV_CHOICE_CASE = False
 CSV_CHOICE_COMPANY = False
-CSV_CHOICE_TAG = True
+CSV_CHOICE_TAG = False
 
 # attributes with fixed values (used if CSV_CHOICE_... is set to True)
 
