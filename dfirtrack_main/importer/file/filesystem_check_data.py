@@ -16,12 +16,13 @@ def check_config(request):
         warning_logger(str(request.user), " REPORTITEM_IMPORTER_FILE_FILESYSTEM variable REPORTITEM_FILESYSTEMPATH contains empty string")
         stop_reportitem_importer_file_filesystem = True
 
-    # check REPORTITEM_FILESYSTEMPATH existing directory
-    if not os.path.isdir(dfirtrack_config.REPORTITEM_FILESYSTEMPATH):
-        messages.error(request, "`REPORTITEM_FILESYSTEMPATH` points to a non-existing directory. Check `dfirtrack.config`!")
-        # call logger
-        warning_logger(str(request.user), " REPORTITEM_IMPORTER_FILE_FILESYSTEM variable REPORTITEM_FILESYSTEMPATH path does not exist")
-        stop_reportitem_importer_file_filesystem = True
+    # check REPORTITEM_FILESYSTEMPATH existing directory (check only if REPORTITEM_FILESYSTEMPATH is not an empty string)
+    if dfirtrack_config.REPORTITEM_FILESYSTEMPATH:
+        if not os.path.isdir(dfirtrack_config.REPORTITEM_FILESYSTEMPATH):
+            messages.error(request, "`REPORTITEM_FILESYSTEMPATH` points to a non-existing directory. Check `dfirtrack.config`!")
+            # call logger
+            warning_logger(str(request.user), " REPORTITEM_IMPORTER_FILE_FILESYSTEM variable REPORTITEM_FILESYSTEMPATH path does not exist")
+            stop_reportitem_importer_file_filesystem = True
 
     # check REPORTITEM_HEADLINE for empty string
     if not dfirtrack_config.REPORTITEM_HEADLINE:
