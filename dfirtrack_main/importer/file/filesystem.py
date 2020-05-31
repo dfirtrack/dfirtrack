@@ -3,7 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.urls import reverse
 import dfirtrack.config as dfirtrack_config
-from dfirtrack_main.logger.default_logger import debug_logger, error_logger, warning_logger
+from .filesystem_check_data import check_config
+from dfirtrack_main.logger.default_logger import debug_logger, warning_logger
 from dfirtrack_main.models import Headline, Reportitem, System
 import os.path
 
@@ -14,44 +15,11 @@ def reportitem(request):
     # call logger
     debug_logger(str(request.user), " REPORTITEM_FILESYSTEM_IMPORTER_BEGIN")
 
-    # check whether REPORTITEM_FILESYSTEMPATH is defined in `dfirtrack.config`
-    if dfirtrack_config.REPORTITEM_FILESYSTEMPATH == '':
-        # call logger
-        error_logger(str(request.user), " REPORTITEM_FILESYSTEMPATH_VARIABLE_UNDEFINED")
-        messages.error(request, "The variable REPORTITEM_FILESYSTEMPATH seems to be undefined. Check `dfirtrack.config`!")
-        # leave importer
-        return redirect(reverse('system_list'))
+    # check config before continuing
+    stop_reportitem_importer_file_filesystem = check_config(request)
 
-    # check whether REPORTITEM_FILESYSTEMPATH points to non-existing directory
-    if not os.path.isdir(dfirtrack_config.REPORTITEM_FILESYSTEMPATH):
-        # call logger
-        error_logger(str(request.user), " REPORTITEM_FILESYSTEM_IMPORTER_WRONG_PATH")
-        messages.error(request, "The variable REPORTITEM_FILESYSTEMPATH points to a non-existing directory. Check `dfirtrack.config`!")
-        # leave importer
-        return redirect(reverse('system_list'))
-
-    # check whether REPORTITEM_HEADLINE is defined in `dfirtrack.config`
-    if dfirtrack_config.REPORTITEM_HEADLINE == '':
-        # call logger
-        error_logger(str(request.user), " REPORTITEM_HEADLINE_VARIABLE_UNDEFINED")
-        messages.error(request, "The variable REPORTITEM_HEADLINE seems to be undefined. Check `dfirtrack.config`!")
-        # leave importer
-        return redirect(reverse('system_list'))
-
-    # check whether REPORTITEM_SUBHEADLINE is defined in `dfirtrack.config`
-    if dfirtrack_config.REPORTITEM_SUBHEADLINE == '':
-        # call logger
-        error_logger(str(request.user), " REPORTITEM_SUBHEADLINE_VARIABLE_UNDEFINED")
-        messages.error(request, "The variable REPORTITEM_SUBHEADLINE seems to be undefined. Check `dfirtrack.config`!")
-        # leave importer
-        return redirect(reverse('system_list'))
-
-    # check whether REPORTITEM_DELETE is defined in `dfirtrack.config`
-    if not isinstance(dfirtrack_config.REPORTITEM_DELETE, bool):
-        # call logger
-        error_logger(str(request.user), " REPORTITEM_DELETE_VARIABLE_UNDEFINED")
-        messages.error(request, "The variable REPORTITEM_DELETE seems to be undefined or not a boolean. Check `dfirtrack.config`!")
-        # leave importer
+    # leave reportitem_importer_file_filesystem if variables caused errors
+    if stop_reportitem_importer_file_filesystem:
         return redirect(reverse('system_list'))
 
     # get all system objects
