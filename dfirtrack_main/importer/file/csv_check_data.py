@@ -273,16 +273,13 @@ def check_config(request):
 
     # TODO: check CSV_DEFAULT_TAG list elements for empty string (check only if CSV_DEFAULT_TAG is True)
 
-    # leave system_importer_file_csv if variables caused errors
+    # create final message and log
     if stop_system_importer_file_csv:
-
         messages.warning(request, "Nothing was changed.")
         # call logger
         warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_ENDED_WITH_ERRORS")
-        return stop_system_importer_file_csv
 
-    else:
-        return stop_system_importer_file_csv
+    return stop_system_importer_file_csv
 
 def check_file(request, rows):
     """ check file for csv respectively some kind of text file """

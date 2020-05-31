@@ -45,4 +45,10 @@ def check_config(request):
         warning_logger(str(request.user), " REPORTITEM_IMPORTER_FILE_FILESYSTEM variable REPORTITEM_DELETE not boolean")
         stop_reportitem_importer_file_filesystem = True
 
+    # create final message and log
+    if stop_reportitem_importer_file_filesystem:
+        messages.warning(request, "Nothing was changed.")
+        # call logger
+        warning_logger(str(request.user), " REPORTITEM_IMPORTER_FILE_FILESYSTEM_ENDED_WITH_ERRORS")
+
     return stop_reportitem_importer_file_filesystem 
