@@ -283,7 +283,25 @@ def check_config(request):
             warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_CASE no list")
             stop_system_importer_file_csv = True
 
-    # TODO: check CSV_DEFAULT_CASE list elements for empty string (check only if CSV_DEFAULT_CASE is True)
+    # check CSV_DEFAULT_CASE list elements for string and empty string (check only if CSV_CHOICE_CASE is True and it actually is a list)
+    if dfirtrack_config.CSV_CHOICE_CASE and isinstance(dfirtrack_config.CSV_DEFAULT_CASE, list):
+        for default_case in dfirtrack_config.CSV_DEFAULT_CASE:
+            # check for string
+            if not isinstance(default_case, str):
+                messages.error(request, "`CSV_DEFAULT_CASE` list contains one ore more no string values. Check `dfirtrack.config`!")
+                # call logger
+                warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_CASE list contains no string")
+                stop_system_importer_file_csv = True
+                # leave loop to get only one error per list
+                break
+            # check for empty string
+            if isinstance(default_case, str) and not default_case:
+                messages.error(request, "`CSV_DEFAULT_CASE` list contains one ore more empty strings. Check `dfirtrack.config`!")
+                # call logger
+                warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_CASE list contains empty string")
+                stop_system_importer_file_csv = True
+                # leave loop to get only one error per list
+                break
 
     # check CSV_INCIDENT_CASE for bool
     if dfirtrack_config.CSV_CHOICE_CASE:
@@ -309,7 +327,25 @@ def check_config(request):
             warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_COMPANY no list")
             stop_system_importer_file_csv = True
 
-    # TODO: check CSV_DEFAULT_COMPANY list elements for empty string (check only if CSV_DEFAULT_COMPANY is True)
+    # check CSV_DEFAULT_COMPANY list elements for string and empty string (check only if CSV_CHOICE_COMPANY is True and it actually is a list)
+    if dfirtrack_config.CSV_CHOICE_COMPANY and isinstance(dfirtrack_config.CSV_DEFAULT_COMPANY, list):
+        for default_company in dfirtrack_config.CSV_DEFAULT_COMPANY:
+            # check for string
+            if not isinstance(default_company, str):
+                messages.error(request, "`CSV_DEFAULT_COMPANY` list contains one ore more no string values. Check `dfirtrack.config`!")
+                # call logger
+                warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_COMPANY list contains no string")
+                stop_system_importer_file_csv = True
+                # leave loop to get only one error per list
+                break
+            # check for empty string
+            if isinstance(default_company, str) and not default_company:
+                messages.error(request, "`CSV_DEFAULT_COMPANY` list contains one ore more empty strings. Check `dfirtrack.config`!")
+                # call logger
+                warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_COMPANY list contains empty string")
+                stop_system_importer_file_csv = True
+                # leave loop to get only one error per list
+                break
 
     # check CSV_REMOVE_TAG for bool
     if dfirtrack_config.CSV_CHOICE_TAG:
@@ -327,7 +363,25 @@ def check_config(request):
             warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_TAG no list")
             stop_system_importer_file_csv = True
 
-    # TODO: check CSV_DEFAULT_TAG list elements for empty string (check only if CSV_DEFAULT_TAG is True)
+    # check CSV_DEFAULT_TAG list elements for string and empty string (check only if CSV_CHOICE_TAG is True and it actually is a list)
+    if dfirtrack_config.CSV_CHOICE_TAG and isinstance(dfirtrack_config.CSV_DEFAULT_TAG, list):
+        for default_tag in dfirtrack_config.CSV_DEFAULT_TAG:
+            # check for string
+            if not isinstance(default_tag, str):
+                messages.error(request, "`CSV_DEFAULT_TAG` list contains one ore more no string values. Check `dfirtrack.config`!")
+                # call logger
+                warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_TAG list contains no string")
+                stop_system_importer_file_csv = True
+                # leave loop to get only one error per list
+                break
+            # check for empty string
+            if isinstance(default_tag, str) and not default_tag:
+                messages.error(request, "`CSV_DEFAULT_TAG` list contains one ore more empty strings. Check `dfirtrack.config`!")
+                # call logger
+                warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_DEFAULT_TAG list contains empty string")
+                stop_system_importer_file_csv = True
+                # leave loop to get only one error per list
+                break
 
     # create final message and log
     if stop_system_importer_file_csv:
