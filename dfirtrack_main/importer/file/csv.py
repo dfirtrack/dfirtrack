@@ -467,8 +467,7 @@ def system(request):
         }
     )
 
-
-# TODO: check for useful stuff regarding tag handling
+# deprecated, TODO: check for useful stuff regarding tag handling
 #
 #from dfirtrack.config import TAGLIST
 #from dfirtrack.config import TAGPREFIX

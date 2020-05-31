@@ -113,8 +113,7 @@ CSV_DEFAULT_COMPANY = ['company_1', 'company_2', 'company_3']
 CSV_REMOVE_TAG = True
 # comma separated list of tags to add for every sytem (non-existing tags will be created)
 CSV_DEFAULT_TAG = ['tag_1', 'tag_2', 'tag_3']
-
-# TODO: possibly use regarding tag handling (dfirtrack_main.importer.file.csv.system)
+# deprecated, TODO: possibly use regarding tag handling (dfirtrack_main.importer.file.csv.system)
 ## add a list of strings representing the relevant tags you want to automatically import
 #TAGLIST = []
 ## add a string used as prefix for clearly identifying previously automatically imported tags (e. g. "AUTO" leads to "AUTO_TAG")
