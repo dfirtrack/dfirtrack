@@ -119,12 +119,12 @@ CSV_DEFAULT_TAG = ['tag_1', 'tag_2', 'tag_3']
 ## add a string used as prefix for clearly identifying previously automatically imported tags (e. g. "AUTO" leads to "AUTO_TAG")
 #TAGPREFIX = ''
 
-# IMPORT REPORTITEMS FROM SERVER FILESYSTEM (dfirtrack_main.importer.file.filesystem.reportitems)
+# IMPORT REPORTITEMS FROM SERVER FILESYSTEM (dfirtrack_main.importer.file.filesystem.reportitem)
 ## add a server path (without trailing slash!) where reportitems (preferably in markdown syntax) are stored as <system_name>.md (lowercase!)
-REPORTITEMS_FILESYSTEMPATH = ''
+REPORTITEM_FILESYSTEMPATH = ''
 ## add a headline for the reportitems to import
-REPORTITEMS_HEADLINE = ''
+REPORTITEM_HEADLINE = ''
 ## add a subheadline for the reportitems to import
-REPORTITEMS_SUBHEADLINE = ''
+REPORTITEM_SUBHEADLINE = ''
 ## if 'True' the reportitem will be deleted from DFIRTrack if it disappears from the filesystem, change to 'False' to change this behaviour
-REPORTITEMS_DELETE = True
+REPORTITEM_DELETE = True

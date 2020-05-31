@@ -2,58 +2,58 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.urls import reverse
-from dfirtrack.config import REPORTITEMS_DELETE as reportitems_delete
-from dfirtrack.config import REPORTITEMS_FILESYSTEMPATH as reportitems_filesystempath
-from dfirtrack.config import REPORTITEMS_HEADLINE as reportitems_headline
-from dfirtrack.config import REPORTITEMS_SUBHEADLINE as reportitems_subheadline
+from dfirtrack.config import REPORTITEM_DELETE as reportitem_delete
+from dfirtrack.config import REPORTITEM_FILESYSTEMPATH as reportitem_filesystempath
+from dfirtrack.config import REPORTITEM_HEADLINE as reportitem_headline
+from dfirtrack.config import REPORTITEM_SUBHEADLINE as reportitem_subheadline
 from dfirtrack_main.logger.default_logger import debug_logger, error_logger, warning_logger
 from dfirtrack_main.models import Headline, Reportitem, System
 import os.path
 
 @login_required(login_url="/login")
 def reportitem(request):
-    """ this function checks for every system the existence of a markdown file with information about the and imports the content of this file as reportitem for the corresponding system """
+    """ this function checks for every system the existence of a markdown file with information about system the and imports the content of this file as reportitem for the corresponding system """
 
     # call logger
     debug_logger(str(request.user), " REPORTITEM_FILESYSTEM_IMPORTER_BEGIN")
 
-    # check whether REPORTITEMS_FILESYSTEMPATH is defined in `dfirtrack.config`
-    if reportitems_filesystempath == '':
+    # check whether REPORTITEM_FILESYSTEMPATH is defined in `dfirtrack.config`
+    if reportitem_filesystempath == '':
         # call logger
-        error_logger(str(request.user), " REPORTITEMS_FILESYSTEMPATH_VARIABLE_UNDEFINED")
-        messages.error(request, "The variable REPORTITEMS_FILESYSTEMPATH seems to be undefined. Check `dfirtrack.config`!")
+        error_logger(str(request.user), " REPORTITEM_FILESYSTEMPATH_VARIABLE_UNDEFINED")
+        messages.error(request, "The variable REPORTITEM_FILESYSTEMPATH seems to be undefined. Check `dfirtrack.config`!")
         # leave importer
         return redirect(reverse('system_list'))
 
-    # check whether REPORTITEMS_FILESYSTEMPATH points to non-existing directory
-    if not os.path.isdir(reportitems_filesystempath):
+    # check whether REPORTITEM_FILESYSTEMPATH points to non-existing directory
+    if not os.path.isdir(reportitem_filesystempath):
         # call logger
-        error_logger(str(request.user), " REPORTITEMS_FILESYSTEM_IMPORTER_WRONG_PATH")
-        messages.error(request, "The variable REPORTITEMS_FILESYSTEMPATH points to a non-existing directory. Check `dfirtrack.config`!")
+        error_logger(str(request.user), " REPORTITEM_FILESYSTEM_IMPORTER_WRONG_PATH")
+        messages.error(request, "The variable REPORTITEM_FILESYSTEMPATH points to a non-existing directory. Check `dfirtrack.config`!")
         # leave importer
         return redirect(reverse('system_list'))
 
-    # check whether REPORTITEMS_HEADLINE is defined in `dfirtrack.config`
-    if reportitems_headline == '':
+    # check whether REPORTITEM_HEADLINE is defined in `dfirtrack.config`
+    if reportitem_headline == '':
         # call logger
-        error_logger(str(request.user), " REPORTITEMS_HEADLINE_VARIABLE_UNDEFINED")
-        messages.error(request, "The variable REPORTITEMS_HEADLINE seems to be undefined. Check `dfirtrack.config`!")
+        error_logger(str(request.user), " REPORTITEM_HEADLINE_VARIABLE_UNDEFINED")
+        messages.error(request, "The variable REPORTITEM_HEADLINE seems to be undefined. Check `dfirtrack.config`!")
         # leave importer
         return redirect(reverse('system_list'))
 
-    # check whether REPORTITEMS_SUBHEADLINE is defined in `dfirtrack.config`
-    if reportitems_subheadline == '':
+    # check whether REPORTITEM_SUBHEADLINE is defined in `dfirtrack.config`
+    if reportitem_subheadline == '':
         # call logger
-        error_logger(str(request.user), " REPORTITEMS_SUBHEADLINE_VARIABLE_UNDEFINED")
-        messages.error(request, "The variable REPORTITEMS_SUBHEADLINE seems to be undefined. Check `dfirtrack.config`!")
+        error_logger(str(request.user), " REPORTITEM_SUBHEADLINE_VARIABLE_UNDEFINED")
+        messages.error(request, "The variable REPORTITEM_SUBHEADLINE seems to be undefined. Check `dfirtrack.config`!")
         # leave importer
         return redirect(reverse('system_list'))
 
-    # check whether REPORTITEMS_DELETE is defined in `dfirtrack.config`
-    if not isinstance(reportitems_delete, bool):
+    # check whether REPORTITEM_DELETE is defined in `dfirtrack.config`
+    if not isinstance(reportitem_delete, bool):
         # call logger
-        error_logger(str(request.user), " REPORTITEMS_DELETE_VARIABLE_UNDEFINED")
-        messages.error(request, "The variable REPORTITEMS_DELETE seems to be undefined or not a boolean. Check `dfirtrack.config`!")
+        error_logger(str(request.user), " REPORTITEM_DELETE_VARIABLE_UNDEFINED")
+        messages.error(request, "The variable REPORTITEM_DELETE seems to be undefined or not a boolean. Check `dfirtrack.config`!")
         # leave importer
         return redirect(reverse('system_list'))
 
@@ -61,10 +61,10 @@ def reportitem(request):
     systems = System.objects.all()
 
     # create headline if it does not exist
-    headline, created = Headline.objects.get_or_create(headline_name=reportitems_headline )
+    headline, created = Headline.objects.get_or_create(headline_name=reportitem_headline )
     if created == True:
         # call logger
-        headline.logger(str(request.user), " REPORTITEMS_FILESYSTEM_IMPORTER_HEADLINE_CREATED")
+        headline.logger(str(request.user), " REPORTITEM_FILESYSTEM_IMPORTER_HEADLINE_CREATED")
 
     # set counter for non-existing files (needed for messages)
     nofile_found_counter = 0
@@ -82,22 +82,22 @@ def reportitem(request):
     for system in systems:
 
         # create path for reportfile
-        reportpath = reportitems_filesystempath + "/" + system.system_name + ".md"
+        reportpath = reportitem_filesystempath + "/" + system.system_name + ".md"
 
         # check whether a file is existing for this system
         if not os.path.isfile(reportpath):
             # call logger
-            warning_logger(str(request.user), " REPORTITEMS_FILESYSTEM_IMPORTER_NO_FILE system_name:" + system.system_name)
+            warning_logger(str(request.user), " REPORTITEM_FILESYSTEM_IMPORTER_NO_FILE system_name:" + system.system_name)
             # autoincrement counter
             nofile_found_counter += 1
 
             # check whether already existing reportitem for this system should be deleted if no file was provided
-            if reportitems_delete:
+            if reportitem_delete:
                 # delete already existing reportitem for this system if no file was provided
                 try:
-                    reportitem = Reportitem.objects.get(system = system, headline = headline, reportitem_subheadline = reportitems_subheadline)
+                    reportitem = Reportitem.objects.get(system = system, headline = headline, reportitem_subheadline = reportitem_subheadline)
                     # call logger (before deleting instance)
-                    reportitem.logger(str(request.user), " REPORTITEMS_FILESYSTEM_IMPORTER_REPORTITEM_DELETED")
+                    reportitem.logger(str(request.user), " REPORTITEM_FILESYSTEM_IMPORTER_REPORTITEM_DELETED")
                     reportitem.delete()
                     # autoincrement counter
                     reportitems_deleted_counter += 1
@@ -109,14 +109,14 @@ def reportitem(request):
 
         # create reportitem if it does not exist (get_or_create won't work in this context because of needed user objects for saving)
         try:
-            reportitem = Reportitem.objects.get(system = system, headline = headline, reportitem_subheadline = reportitems_subheadline)
+            reportitem = Reportitem.objects.get(system = system, headline = headline, reportitem_subheadline = reportitem_subheadline)
             reportitems_modified_counter += 1
         except Reportitem.DoesNotExist:
             reportitem = Reportitem()
             reportitems_created_counter += 1
             reportitem.system = system
             reportitem.headline = headline
-            reportitem.reportitem_subheadline = reportitems_subheadline
+            reportitem.reportitem_subheadline = reportitem_subheadline
             reportitem.reportitem_created_by_user_id = request.user
 
         # open file
@@ -129,7 +129,7 @@ def reportitem(request):
         reportitem.save()
 
         # call logger
-        reportitem.logger(str(request.user), " REPORTITEMS_FILESYSTEM_IMPORTER_REPORTITEM_CREATED_OR_MODIFIED")
+        reportitem.logger(str(request.user), " REPORTITEM_FILESYSTEM_IMPORTER_REPORTITEM_CREATED_OR_MODIFIED")
 
     # call final messages
     if nofile_found_counter > 0:
