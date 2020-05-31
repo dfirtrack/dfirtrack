@@ -20,7 +20,7 @@ def check_config(request):
     if isinstance(dfirtrack_config.REPORTITEM_FILESYSTEMPATH, str) and not dfirtrack_config.REPORTITEM_FILESYSTEMPATH:
         messages.error(request, "`REPORTITEM_FILESYSTEMPATH` contains an empty string. Check `dfirtrack.config`!")
         # call logger
-        warning_logger(str(request.user), " REPORTITEM_IMPORTER_FILE_FILESYSTEM variable REPORTITEM_FILESYSTEMPATH contains empty string")
+        warning_logger(str(request.user), " REPORTITEM_IMPORTER_FILE_FILESYSTEM variable REPORTITEM_FILESYSTEMPATH empty string")
         stop_reportitem_importer_file_filesystem = True
 
     # check REPORTITEM_FILESYSTEMPATH existing directory (check only if REPORTITEM_FILESYSTEMPATH is a string and not an empty string)
@@ -42,7 +42,7 @@ def check_config(request):
     if isinstance(dfirtrack_config.REPORTITEM_HEADLINE, str) and not dfirtrack_config.REPORTITEM_HEADLINE:
         messages.error(request, "`REPORTITEM_HEADLINE` contains an empty string. Check `dfirtrack.config`!")
         # call logger
-        warning_logger(str(request.user), " REPORTITEM_IMPORTER_FILE_FILESYSTEM variable REPORTITEM_HEADLINE contains empty string")
+        warning_logger(str(request.user), " REPORTITEM_IMPORTER_FILE_FILESYSTEM variable REPORTITEM_HEADLINE empty string")
         stop_reportitem_importer_file_filesystem = True
 
     # check REPORTITEM_SUBHEADLINE for string
@@ -56,7 +56,7 @@ def check_config(request):
     if isinstance(dfirtrack_config.REPORTITEM_SUBHEADLINE, str) and not dfirtrack_config.REPORTITEM_SUBHEADLINE:
         messages.error(request, "`REPORTITEM_SUBHEADLINE` contains an empty string. Check `dfirtrack.config`!")
         # call logger
-        warning_logger(str(request.user), " REPORTITEM_IMPORTER_FILE_FILESYSTEM variable REPORTITEM_SUBHEADLINE contains empty string")
+        warning_logger(str(request.user), " REPORTITEM_IMPORTER_FILE_FILESYSTEM variable REPORTITEM_SUBHEADLINE empty string")
         stop_reportitem_importer_file_filesystem = True
 
     # check REPORTITEM_DELETE for bool
