@@ -94,8 +94,27 @@
         {% endif %}
     </div>
 
-    <!-- placeholder -->
-    <div class="col-3"></div>
+    <!-- IP addresses w/o link w copy button -->
+    <div class="col-3">
+        <div class="font-weight-bold">IP addresses:</div>
+        {% if system.ip.all %}
+            {% for i in system.ip.all %}
+                <div class="row top-distance">
+                    <div class="col-3 col-sm-3">
+                    {{ i.ip_ip }}
+                    </div>
+                    <!-- copy button -->
+                    <div class="col-9 col-sm-9">
+                        <button class="btn btn-outline-primary btn-sm" data-clipboard-text="{{ i.ip_ip }}">
+                            Copy
+                        </button>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            ---
+        {% endif %}
+    </div>
 
     <!-- system export values -->
     <div class="col-3">
