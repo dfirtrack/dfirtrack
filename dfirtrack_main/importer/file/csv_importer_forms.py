@@ -1,11 +1,90 @@
 from django import forms
+from django.utils.translation import gettext_lazy
 import dfirtrack.config as dfirtrack_config
-from dfirtrack_main.models import System
+from dfirtrack_main.models import Domain, Dnsname, Location, Os, Reason, Serviceprovider, System, Systemtype
 
 class SystemImporterFileCsv(forms.ModelForm):
 
     # file upload field (variable is used in request object)
     systemcsv = forms.FileField()
+
+    # reorder field choices
+    if not dfirtrack_config.CSV_CHOICE_REASON:
+        reason = forms.ModelChoiceField(
+            label = gettext_lazy('Reason'),
+            queryset = Reason.objects.order_by('reason_name'),
+            required = False,
+            widget = forms.RadioSelect(),
+        )
+    if not dfirtrack_config.CSV_CHOICE_DOMAIN:
+        domain = forms.ModelChoiceField(
+            label = gettext_lazy('Domain'),
+            queryset = Domain.objects.order_by('domain_name'),
+            required = False,
+            widget = forms.RadioSelect(),
+        )
+    if not dfirtrack_config.CSV_CHOICE_DNSNAME:
+        dnsname = forms.ModelChoiceField(
+            label = gettext_lazy('Dnsname'),
+            queryset = Dnsname.objects.order_by('dnsname_name'),
+            required = False,
+            widget = forms.RadioSelect(),
+        )
+    if not dfirtrack_config.CSV_CHOICE_SYSTEMTYPE:
+        systemtype = forms.ModelChoiceField(
+            label = gettext_lazy('Systemtype'),
+            queryset = Systemtype.objects.order_by('systemtype_name'),
+            required = False,
+            widget = forms.RadioSelect(),
+        )
+    if not dfirtrack_config.CSV_CHOICE_OS:
+        os = forms.ModelChoiceField(
+            label = gettext_lazy('Os'),
+            queryset = Os.objects.order_by('os_name'),
+            required = False,
+            widget = forms.RadioSelect(),
+        )
+    if not dfirtrack_config.CSV_CHOICE_LOCATION:
+        location = forms.ModelChoiceField(
+            label = gettext_lazy('Location'),
+            queryset = Location.objects.order_by('location_name'),
+            required = False,
+            widget = forms.RadioSelect(),
+        )
+    if not dfirtrack_config.CSV_CHOICE_SERVICEPROVIDER:
+        serviceprovider = forms.ModelChoiceField(
+            label = gettext_lazy('Serviceprovider'),
+            queryset = Serviceprovider.objects.order_by('serviceprovider_name'),
+            required = False,
+            widget = forms.RadioSelect(),
+        )
+
+# TODO: CheckboxSelectMultiple does not work properly
+#    # reorder field choices
+#    case = forms.ModelChoiceField(
+#        label = gettext_lazy('Case'),
+#        queryset = Case.objects.order_by('case_name'),
+#        required = False,
+#        widget=forms.CheckboxSelectMultiple(),
+#    )
+
+# TODO: CheckboxSelectMultiple does not work properly
+#    # reorder field choices
+#    company = forms.ModelChoiceField(
+#        label = gettext_lazy('Company'),
+#        queryset = Company.objects.order_by('company_name'),
+#        required = False,
+#        widget=forms.CheckboxSelectMultiple(),
+#    )
+
+# TODO: CheckboxSelectMultiple does not work properly
+#    # reorder field choices
+#    tag = forms.ModelChoiceField(
+#        label = gettext_lazy('Tag'),
+#        queryset = Tag.objects.order_by('tag_name'),
+#        required = False,
+#        widget=forms.CheckboxSelectMultiple(),
+#    )
 
     class Meta:
         model = System
@@ -52,20 +131,6 @@ class SystemImporterFileCsv(forms.ModelForm):
             widgets['systemstatus'] = forms.RadioSelect()
         if not dfirtrack_config.CSV_CHOICE_ANALYSISSTATUS:
             widgets['analysisstatus'] = forms.RadioSelect()
-        if not dfirtrack_config.CSV_CHOICE_REASON:
-            widgets['reason'] = forms.RadioSelect()
-        if not dfirtrack_config.CSV_CHOICE_DOMAIN:
-            widgets['domain'] = forms.RadioSelect()
-        if not dfirtrack_config.CSV_CHOICE_DNSNAME:
-            widgets['dnsname'] = forms.RadioSelect()
-        if not dfirtrack_config.CSV_CHOICE_SYSTEMTYPE:
-            widgets['systemtype'] = forms.RadioSelect()
-        if not dfirtrack_config.CSV_CHOICE_OS:
-            widgets['os'] = forms.RadioSelect()
-        if not dfirtrack_config.CSV_CHOICE_LOCATION:
-            widgets['location'] = forms.RadioSelect()
-        if not dfirtrack_config.CSV_CHOICE_SERVICEPROVIDER:
-            widgets['serviceprovider'] = forms.RadioSelect()
         if not dfirtrack_config.CSV_CHOICE_CASE:
             widgets['case'] = forms.CheckboxSelectMultiple()
         if not dfirtrack_config.CSV_CHOICE_COMPANY:
