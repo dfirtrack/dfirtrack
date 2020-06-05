@@ -5,7 +5,10 @@ from dfirtrack_main.models import Analystmemo, Case, Company, Contact, Division,
 class AnalystmemoForm(forms.ModelForm):
 
     # reorder field choices
-    system = forms.ModelChoiceField(queryset=System.objects.order_by('system_name'))
+    system = forms.ModelChoiceField(
+        label = gettext_lazy('System (*)'),
+        queryset = System.objects.order_by('system_name'),
+    )
 
     class Meta:
 
@@ -20,7 +23,6 @@ class AnalystmemoForm(forms.ModelForm):
 
         # non default form labeling
         labels = {
-            'system': gettext_lazy('System (*)'),
             'analystmemo_note': gettext_lazy('Analystmemo note (*)'),
         }
 
@@ -55,7 +57,11 @@ class CaseForm(forms.ModelForm):
 class CompanyForm(forms.ModelForm):
 
     # reorder field choices
-    division = forms.ModelChoiceField(queryset=Division.objects.order_by('division_name'))
+    division = forms.ModelChoiceField(
+        label = gettext_lazy('Division'),
+        queryset = Division.objects.order_by('division_name'),
+        required = False,
+    )
 
     class Meta:
 
@@ -131,7 +137,11 @@ class DivisionForm(forms.ModelForm):
 class DnsnameForm(forms.ModelForm):
 
     # reorder field choices
-    domain = forms.ModelChoiceField(queryset=Domain.objects.order_by('domain_name'))
+    domain = forms.ModelChoiceField(
+        label = gettext_lazy('Domain'),
+        queryset = Domain.objects.order_by('domain_name'),
+        required = False,
+    )
 
     class Meta:
 
@@ -182,10 +192,19 @@ class DomainForm(forms.ModelForm):
 class DomainuserForm(forms.ModelForm):
 
     # reorder field choices
-    domain = forms.ModelChoiceField(queryset=Domain.objects.order_by('domain_name'))
+    domain = forms.ModelChoiceField(
+        label = gettext_lazy('Domain (*)'),
+        queryset = Domain.objects.order_by('domain_name'),
+    )
 
-    # reorder field choices
-    system_was_logged_on = forms.ModelChoiceField(queryset=System.objects.order_by('system_name'), widget=forms.CheckboxSelectMultiple())
+# TODO: CheckboxSelectMultiple does not work properly
+#    # reorder field choices
+#    system_was_logged_on = forms.ModelChoiceField(
+#        label = gettext_lazy('Systems where this domainuser was logged on'),
+#        queryset = System.objects.order_by('system_name'),
+#        required = False,
+#        widget = forms.CheckboxSelectMultiple(),
+#    )
 
     class Meta:
 
@@ -203,23 +222,31 @@ class DomainuserForm(forms.ModelForm):
         # non default form labeling
         labels = {
             'domainuser_name': gettext_lazy('Domainuser name (*)'),
-            'domain': gettext_lazy('Domain (*)'),
+            # TODO: remove when CheckboxSelectMultiple is fixed
             'system_was_logged_on': gettext_lazy('Systems where this domainuser was logged on'),
         }
 
         # special form type or option
         widgets = {
             'domainuser_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
+            # TODO: remove when CheckboxSelectMultiple is fixed
             'system_was_logged_on': forms.CheckboxSelectMultiple(),
         }
 
 class EntryForm(forms.ModelForm):
 
     # reorder field choices
-    case = forms.ModelChoiceField(queryset=Case.objects.order_by('case_name'))
+    case = forms.ModelChoiceField(
+        label = gettext_lazy('Case'),
+        queryset = Case.objects.order_by('case_name'),
+        required = False,
+    )
 
     # reorder field choices
-    system = forms.ModelChoiceField(queryset=System.objects.order_by('system_name'))
+    system = forms.ModelChoiceField(
+        label = gettext_lazy('System (*)'),
+        queryset = System.objects.order_by('system_name'),
+    )
 
     class Meta:
 
@@ -243,7 +270,6 @@ class EntryForm(forms.ModelForm):
         # non default form labeling
         labels = {
             'entry_time': gettext_lazy('Entry time (for sorting) (YYYY-MM-DD HH:MM:SS) (*)'),
-            'system': gettext_lazy('System (*)'),
             'entry_date': gettext_lazy('Entry date (YYYY-MM-DD)'),
             'entry_utc': gettext_lazy('Entry time (for report) (HH:MM:SS)'),
             'entry_system': gettext_lazy('Entry system (for report)'),
@@ -347,7 +373,10 @@ class OsForm(forms.ModelForm):
 class OsimportnameForm(forms.ModelForm):
 
     # reorder field choices
-    os = forms.ModelChoiceField(queryset=Os.objects.order_by('os_name'))
+    os = forms.ModelChoiceField(
+        label = gettext_lazy('Operating system (*)'),
+        queryset = Os.objects.order_by('os_name'),
+    )
 
     class Meta:
 
@@ -364,7 +393,6 @@ class OsimportnameForm(forms.ModelForm):
         # non default form labeling
         labels = {
             'osimportname_name': gettext_lazy('Importname (*)'),
-            'os': gettext_lazy('Operating system (*)'),
             'osimportname_importer': gettext_lazy('Importer (*)'),
         }
 
@@ -422,10 +450,16 @@ class RecommendationForm(forms.ModelForm):
 class ReportitemForm(forms.ModelForm):
 
     # reorder field choices
-    headline = forms.ModelChoiceField(queryset=Headline.objects.order_by('headline_name'))
+    headline = forms.ModelChoiceField(
+        label = gettext_lazy('Headline (*)'),
+        queryset = Headline.objects.order_by('headline_name'),
+    )
 
     # reorder field choices
-    system = forms.ModelChoiceField(queryset=System.objects.order_by('system_name'))
+    system = forms.ModelChoiceField(
+        label = gettext_lazy('System (*)'),
+        queryset = System.objects.order_by('system_name'),
+    )
 
     class Meta:
 
@@ -442,8 +476,6 @@ class ReportitemForm(forms.ModelForm):
 
         # non default form labeling
         labels = {
-            'system': gettext_lazy('System (*)'),
-            'headline': gettext_lazy('Headline (*)'),
             'reportitem_subheadline': gettext_lazy('Subheadline'),
             'reportitem_note': gettext_lazy('Note (*)'),
         }
@@ -484,9 +516,29 @@ class SystemForm(forms.ModelForm):
     """ this form does not allow editing of system_name """
 
     # reorder field choices
-    reason = forms.ModelChoiceField(queryset=Reason.objects.order_by('reason_name'), widget=forms.RadioSelect())
-    recommendation = forms.ModelChoiceField(queryset=Recommendation.objects.order_by('recommendation_name'), widget=forms.RadioSelect())
-    tag = forms.ModelChoiceField(queryset=Tag.objects.order_by('tag_name'), widget=forms.CheckboxSelectMultiple())
+    reason = forms.ModelChoiceField(
+        label = gettext_lazy('Reason'),
+        queryset = Reason.objects.order_by('reason_name'),
+        required = False,
+        widget = forms.RadioSelect(),
+    )
+
+    # reorder field choices
+    recommendation = forms.ModelChoiceField(
+        label = gettext_lazy('Recommendation'),
+        queryset = Recommendation.objects.order_by('recommendation_name'),
+        required = False,
+        widget = forms.RadioSelect(),
+    )
+
+# TODO: CheckboxSelectMultiple does not work properly
+#    # reorder field choices
+#    tag = forms.ModelChoiceField(
+#        label = gettext_lazy('Tag'),
+#        queryset = Tag.objects.order_by('tag_name'),
+#        required = False,
+#        widget=forms.CheckboxSelectMultiple(),
+#    )
 
     # large text area for line separated iplist
     iplist = forms.CharField(
@@ -549,6 +601,8 @@ class SystemForm(forms.ModelForm):
             'location': forms.RadioSelect(),
             'serviceprovider': forms.RadioSelect(),
             'contact': forms.RadioSelect(),
+            # TODO: remove when CheckboxSelectMultiple is fixed
+            'tag': forms.CheckboxSelectMultiple(),
             'case': forms.CheckboxSelectMultiple(),
         }
 
