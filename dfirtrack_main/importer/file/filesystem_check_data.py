@@ -72,4 +72,4 @@ def check_config(request):
         # call logger
         warning_logger(str(request.user), " REPORTITEM_IMPORTER_FILE_FILESYSTEM_ENDED_WITH_ERRORS")
 
-    return stop_reportitem_importer_file_filesystem 
+    return stop_reportitem_importer_file_filesystem

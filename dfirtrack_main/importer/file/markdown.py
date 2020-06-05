@@ -88,13 +88,13 @@ def entry(request):
                 entry = form.save(commit=False)
 
                 # set values from file (row / column)
-                entry.entry_time = entry_time 
+                entry.entry_time = entry_time
                 entry.entry_sha1 = entry_sha1
-                entry.entry_date = entry_date 
-                entry.entry_utc = entry_utc 
-                entry.entry_system = entry_system 
-                entry.entry_type = entry_type 
-                entry.entry_content = entry_content 
+                entry.entry_date = entry_date
+                entry.entry_utc = entry_utc
+                entry.entry_system = entry_system
+                entry.entry_type = entry_type
+                entry.entry_content = entry_content
 
                 # set auto values
                 entry.entry_created_by_user_id = request.user

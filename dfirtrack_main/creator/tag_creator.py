@@ -37,7 +37,7 @@ def tag_creator_async(request_post, request_user):
 
     # call logger
     debug_logger(str(request_user), " TAG_CREATOR_BEGIN")
-                
+
     # extract tags (list results from request object via multiple choice field)
     tags = request_post.getlist('tag')
 
