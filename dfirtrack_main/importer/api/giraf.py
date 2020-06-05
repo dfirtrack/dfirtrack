@@ -4,48 +4,12 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils import timezone
-from dfirtrack.config import GIRAF_PASS as giraf_pass
-from dfirtrack.config import GIRAF_URL as giraf_url
-from dfirtrack.config import GIRAF_USER as giraf_user
 from dfirtrack_main.logger.default_logger import debug_logger, error_logger
 from dfirtrack_main.models import Domain, Entry, Ip, Os, Osarch, Osimportname, System, Systemstatus, Systemuser
+from .giraf_check_data import check_config
 import json
 import requests
 import urllib
-
-def config_check(request):
-    """ check variables in `dfirtrack.config` """
-
-    # check GIRAF_PASS
-    if giraf_pass == '':
-        # call logger
-        error_logger(str(request.user), " GIRAF_PASS_VARIABLE_UNDEFINED")
-        messages.error(request, "The variable GIRAF_PASS seems to be undefined. Check `dfirtrack.config`!")
-        # call logger for consistency
-        debug_logger(str(request.user), " API_GIRAF_SYSTEMS_END")
-        # leave importer
-        return redirect(reverse('system_list'))
-
-    # check GIRAF_URL
-    if giraf_url == '':
-        # call logger
-        error_logger(str(request.user), " GIRAF_URL_VARIABLE_UNDEFINED")
-        messages.error(request, "The variable GIRAF_URL seems to be undefined. Check `dfirtrack.config`!")
-        # call logger for consistency
-        debug_logger(str(request.user), " API_GIRAF_SYSTEMS_END")
-        # leave importer
-        return redirect(reverse('system_list'))
-
-    # check GIRAF_USER
-    if giraf_user == '':
-        # call logger
-        error_logger(str(request.user), " GIRAF_USER_VARIABLE_UNDEFINED")
-        messages.error(request, "The variable GIRAF_USER seems to be undefined. Check `dfirtrack.config`!")
-        # call logger for consistency
-        debug_logger(str(request.user), " API_GIRAF_SYSTEMS_END")
-        # leave importer
-        return redirect(reverse('system_list'))
-
 
 @login_required(login_url="/login")
 def system(request):
@@ -57,11 +21,15 @@ def system(request):
     debug_logger(request_user, " API_GIRAF_SYSTEMS_BEGIN")
 
     # check variables in `dfirtrack.config`
-    config_check(request)
+    stop_importer_api_giraf = check_config(request)
+
+    # leave importer_api_giraf if variables caused errors
+    if stop_importer_api_giraf:
+        return redirect(reverse('system_list'))
 
     # check connection
     try:
-        urllib.request.urlopen(giraf_url, timeout=2)
+        urllib.request.urlopen(dfirtrack_config.GIRAF_URL, timeout=2)
     except:
         # call logger
         error_logger(request_user, " API_GIRAF_SYSTEMS_URL_NOT_AVAILABLE")
@@ -71,7 +39,7 @@ def system(request):
         return redirect(reverse('system_list'))
 
     # get JSON from GIRAF API (returns <class 'requests.models.Response'>)
-    system_json = requests.get(giraf_url + '/api/systems/systems/', auth=(giraf_user,giraf_pass))
+    system_json = requests.get(dfirtrack_config.GIRAF_URL + '/api/systems/systems/', auth=(dfirtrack_config.GIRAF_USER, dfirtrack_config.GIRAF_PASS))
 
     # load JSON to list (returns list if authenticated, returns dict else)
     system_list = system_json.json()
@@ -141,7 +109,7 @@ def system(request):
             last_booted_at = dateutil.parser.parse(last_booted_at)
 
         # check for uuid
-        system = System.objects.filter(system_uuid=uuid)    
+        system = System.objects.filter(system_uuid=uuid)
         if not system:      # uuid:no
 
             # check for hostname
@@ -164,7 +132,7 @@ def system(request):
 
             system = System.objects.get(system_name=hostname)   # Get system for the case uuid:no hostname:yes
             system.system_uuid = uuid   # uuid:yes
-    
+
             # iterate over ips
             for ip_dict in ip_list:
                 ip = ip_dict['ip_address']
@@ -209,9 +177,9 @@ def system(request):
             system.logger(request_user, ' API_GIRAF_SYSTEMS_EXECUTED')
 
         else:           # uuid:yes
-    
+
             system = System.objects.get(system_uuid=uuid)
-    
+
             # iterate over ips
             for ip_dict in ip_list:
                 ip = ip_dict['ip_address']
@@ -273,11 +241,15 @@ def entry(request):
     debug_logger(request_user, " API_GIRAF_ENTRIES_BEGIN")
 
     # check variables in `dfirtrack.config`
-    config_check(request)
+    stop_importer_api_giraf = check_config(request)
+
+    # leave importer_api_giraf if variables caused errors
+    if stop_importer_api_giraf:
+        return redirect(reverse('system_list'))
 
     # check connection
     try:
-        urllib.request.urlopen(giraf_url, timeout=2)
+        urllib.request.urlopen(dfirtrack_config.GIRAF_URL, timeout=2)
     except:
         # call logger
         error_logger(request_user, " API_GIRAF_ENTRIES_URL_NOT_AVAILABLE")
@@ -290,7 +262,7 @@ def entry(request):
             return redirect(reverse('system_list'))
 
     # get JSON from GIRAF API (returns <class 'requests.models.Response'>)
-    entry_json = requests.get(giraf_url + '/api/systems/timelines/', auth=(giraf_user,giraf_pass))
+    entry_json = requests.get(dfirtrack_config.GIRAF_URL + '/api/systems/timelines/', auth=(dfirtrack_config.GIRAF_USER, dfirtrack_config.GIRAF_PASS))
 
     # load JSON to list (returns list if authenticated, returns dict else)
     entry_list = entry_json.json()
