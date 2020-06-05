@@ -1,15 +1,6 @@
-import dateutil.parser
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect
-from django.urls import reverse
-from django.utils import timezone
 import dfirtrack.config as dfirtrack_config
-from dfirtrack_main.logger.default_logger import debug_logger, warning_logger
-from dfirtrack_main.models import Domain, Entry, Ip, Os, Osarch, Osimportname, System, Systemstatus, Systemuser
-import json
-import requests
-import urllib
+from dfirtrack_main.logger.default_logger import warning_logger
 
 def check_config(request):
     """ check variables in `dfirtrack.config` """
