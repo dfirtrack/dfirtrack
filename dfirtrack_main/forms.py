@@ -1,6 +1,7 @@
 from django import forms
+from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy
-from dfirtrack_main.models import Analystmemo, Case, Company, Contact, Division, Dnsname, Domain, Domainuser, Entry, Headline, Location, Os, Osimportname, Reason, Recommendation, Reportitem, Serviceprovider, System, Systemtype, Systemuser, Tag, Task, Taskname
+from dfirtrack_main.models import Analystmemo, Case, Company, Contact, Division, Dnsname, Domain, Domainuser, Entry, Headline, Location, Os, Osimportname, Reason, Recommendation, Reportitem, Serviceprovider, System, Systemtype, Systemuser, Tag, Tagcolor, Task, Taskname
 
 class AnalystmemoForm(forms.ModelForm):
 
@@ -660,11 +661,7 @@ class SystemForm(forms.ModelForm):
         widgets = {
             'systemstatus': forms.RadioSelect(),
             'analysisstatus': forms.RadioSelect(),
-            'systemtype': forms.RadioSelect(),
             'ip': forms.GenericIPAddressField(),
-            'domain': forms.RadioSelect(),
-            'dnsname': forms.RadioSelect(),
-            'os': forms.RadioSelect(),
             'osarch': forms.RadioSelect(),
             'system_install_time': forms.DateTimeInput(),
             'system_lastbooted_time': forms.DateTimeInput(),
@@ -673,9 +670,6 @@ class SystemForm(forms.ModelForm):
             'host_system': forms.Select(),
             # TODO: remove when CheckboxSelectMultiple is fixed
             'company': forms.CheckboxSelectMultiple(),
-            'location': forms.RadioSelect(),
-            'serviceprovider': forms.RadioSelect(),
-            'contact': forms.RadioSelect(),
             # TODO: remove when CheckboxSelectMultiple is fixed
             'tag': forms.CheckboxSelectMultiple(),
             # TODO: remove when CheckboxSelectMultiple is fixed
@@ -823,6 +817,12 @@ class SystemtypeForm(forms.ModelForm):
 
 class SystemuserForm(forms.ModelForm):
 
+    # reorder field choices
+    system = forms.ModelChoiceField(
+        label = gettext_lazy('System (*)'),
+        queryset = System.objects.order_by('system_name'),
+    )
+
     class Meta:
 
         # model
@@ -840,7 +840,6 @@ class SystemuserForm(forms.ModelForm):
         labels = {
             'systemuser_name': gettext_lazy('Systemuser name (*)'),
             'systemuser_lastlogon_time': gettext_lazy('Last logon time (YYYY-MM-DD HH:MM:SS)'),
-            'system': gettext_lazy('System (*)'),
         }
 
         # special form type or option
@@ -849,6 +848,12 @@ class SystemuserForm(forms.ModelForm):
         }
 
 class TagForm(forms.ModelForm):
+
+    # reorder field choices
+    tagcolor = forms.ModelChoiceField(
+        label = gettext_lazy('Tag color (*)'),
+        queryset = Tagcolor.objects.order_by('tagcolor_name'),
+    )
 
     class Meta:
 
@@ -865,7 +870,6 @@ class TagForm(forms.ModelForm):
         # non default form labeling
         labels = {
             'tag_name': gettext_lazy('Tag name (*)'),
-            'tagcolor': gettext_lazy('Tag color (*)'),
             'tag_note': gettext_lazy('Tag note'),
         }
 
@@ -890,6 +894,36 @@ class TagCreatorForm(forms.Form):
 
 class TaskForm(forms.ModelForm):
 
+    # reorder field choices
+    taskname = forms.ModelChoiceField(
+        label = gettext_lazy('Taskname'),
+        queryset = Taskname.objects.order_by('taskname_name'),
+    )
+
+    # reorder field choices
+    system = forms.ModelChoiceField(
+        label = gettext_lazy('System'),
+        queryset = System.objects.order_by('system_name'),
+        required = False,
+    )
+
+    # reorder field choices
+    task_assigned_to_user_id = forms.ModelChoiceField(
+        label = gettext_lazy('Task assigned to user id'),
+        queryset = User.objects.order_by('username'),
+        required = False,
+        widget = forms.RadioSelect(),
+    )
+
+# TODO: CheckboxSelectMultiple does not work properly
+#    # reorder field choices
+#    tag = forms.ModelChoiceField(
+#        label = gettext_lazy('Tag'),
+#        queryset = Tag.objects.order_by('tag_name'),
+#        required = False,
+#        widget=forms.CheckboxSelectMultiple(),
+#    )
+
     class Meta:
 
         # model
@@ -911,13 +945,11 @@ class TaskForm(forms.ModelForm):
 
         # special form type or option
         widgets = {
-            'taskname': forms.Select(),
             'parent_task': forms.Select(),
             'taskpriority': forms.RadioSelect(),
             'taskstatus': forms.RadioSelect(),
-            'system': forms.Select(),
-            'task_assigned_to_user_id': forms.RadioSelect(),
             'task_note': forms.Textarea(attrs={'rows': 10}),
+            # TODO: remove when CheckboxSelectMultiple is fixed
             'tag': forms.CheckboxSelectMultiple(),
             'task_scheduled_time': forms.DateTimeInput(),
             'task_due_time': forms.DateTimeInput(),
@@ -937,6 +969,23 @@ class TaskCreatorForm(forms.ModelForm):
         widget = forms.CheckboxSelectMultiple(),
     )
 
+    # reorder field choices
+    task_assigned_to_user_id = forms.ModelChoiceField(
+        label = gettext_lazy('Task assigned to user id'),
+        queryset = User.objects.order_by('username'),
+        required = False,
+        widget = forms.RadioSelect(),
+    )
+
+# TODO: CheckboxSelectMultiple does not work properly
+#    # reorder field choices
+#    tag = forms.ModelChoiceField(
+#        label = gettext_lazy('Tag'),
+#        queryset = Tag.objects.order_by('tag_name'),
+#        required = False,
+#        widget=forms.CheckboxSelectMultiple(),
+#    )
+
     class Meta:
 
         # model
@@ -954,7 +1003,7 @@ class TaskCreatorForm(forms.ModelForm):
         widgets = {
             'taskpriority': forms.RadioSelect(),
             'taskstatus': forms.RadioSelect(),
-            'task_assigned_to_user_id': forms.RadioSelect(),
+            # TODO: remove when CheckboxSelectMultiple is fixed
             'tag': forms.CheckboxSelectMultiple(),
         }
 
