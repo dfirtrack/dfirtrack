@@ -185,16 +185,32 @@ def write_timeline_table(django_report, system):
 def write_entries_to_table(django_report, system):
     """ write all entries to table """
 
+    # TODO: change behavior, currently check for entry attributes is necessary because of 'null=True'
     entrys = system.entry_set.all().order_by('entry_date', 'entry_utc')
     if entrys.exists():
         # iterate over entries
         for entry in entrys:
             # print entries line by line
-            django_report.write("| " + entry.entry_date + " ")
-            django_report.write("| " + entry.entry_utc + " ")
-            django_report.write("| " + entry.entry_system + " ")
-            django_report.write("| " + entry.entry_type + " ")
-            django_report.write("| " + entry.entry_content + "|\n")
+            if entry.entry_date:
+                django_report.write("| " + entry.entry_date + " ")
+            else:
+                django_report.write("| ")
+            if entry.entry_utc:
+                django_report.write("| " + entry.entry_utc + " ")
+            else:
+                django_report.write("| ")
+            if entry.entry_system:
+                django_report.write("| " + entry.entry_system + " ")
+            else:
+                django_report.write("| ")
+            if entry.entry_type:
+                django_report.write("| " + entry.entry_type + " ")
+            else:
+                django_report.write("| ")
+            if entry.entry_content:
+                django_report.write("| " + entry.entry_content + "|\n")
+            else:
+                django_report.write("| |\n")
     else:
         # place holder
         django_report.write("| \---      | \---         | \---         | \---         | \---         |\n")
