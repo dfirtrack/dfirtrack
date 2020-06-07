@@ -9,7 +9,7 @@
     Taskpriority '{{ taskpriority.taskpriority_name }}'{% if taskpriority.task_set.all %} (t: {{ taskpriority.task_set.all|length }}){% endif %}
 </title>
 
-{% load staticfiles %}
+{% load static %}
 
 <!-- HTML head in maintemplate -->
 {% endblock %}

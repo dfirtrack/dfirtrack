@@ -9,7 +9,7 @@
     Systemuser '{{ systemuser.systemuser_name }}' ({{ systemuser.system.system_name }}{% if systemuser.system.dnsname %}.{{ systemuser.system.dnsname }}{% endif %})
 </title>
 
-{% load staticfiles %}
+{% load static %}
 
 <!-- HTML head in maintemplate -->
 {% endblock %}

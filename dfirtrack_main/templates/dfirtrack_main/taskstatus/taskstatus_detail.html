@@ -9,7 +9,7 @@
     Taskstatus '{{ taskstatus.taskstatus_name }}'{% if taskstatus.task_set.all %} (t: {{ taskstatus.task_set.all|length }}){% endif %}
 </title>
 
-{% load staticfiles %}
+{% load static %}
 
 <!-- HTML head in maintemplate -->
 {% endblock %}
