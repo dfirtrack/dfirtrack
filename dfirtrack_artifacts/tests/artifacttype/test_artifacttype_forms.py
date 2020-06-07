@@ -10,7 +10,7 @@ class ArtifacttypeFormTestCase(TestCase):
         # get object
         form = ArtifacttypeForm()
         # compare
-        self.assertEquals(form.fields['artifacttype_name'].label, 'Artifacttype name (*)')
+        self.assertEqual(form.fields['artifacttype_name'].label, 'Artifacttype name (*)')
 
     def test_artifacttype_note_form_label(self):
         """ test form label """
@@ -18,7 +18,7 @@ class ArtifacttypeFormTestCase(TestCase):
         # get object
         form = ArtifacttypeForm()
         # compare
-        self.assertEquals(form.fields['artifacttype_note'].label, 'Artifacttype note')
+        self.assertEqual(form.fields['artifacttype_note'].label, 'Artifacttype note')
 
     def test_artifacttype_form_empty(self):
         """ test minimum form requirements / INVALID """

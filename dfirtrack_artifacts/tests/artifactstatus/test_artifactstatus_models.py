@@ -26,7 +26,7 @@ class ArtifactstatusModelTestCase(TestCase):
         # get label
         field_label = artifactstatus_1._meta.get_field('artifactstatus_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'artifactstatus id')
+        self.assertEqual(field_label, 'artifactstatus id')
 
     def test_artifactstatus_name_attribute_label(self):
         """ test attribute label """
@@ -36,7 +36,7 @@ class ArtifactstatusModelTestCase(TestCase):
         # get label
         field_label = artifactstatus_1._meta.get_field('artifactstatus_name').verbose_name
         # compare
-        self.assertEquals(field_label, 'artifactstatus name')
+        self.assertEqual(field_label, 'artifactstatus name')
 
     def test_artifactstatus_note_attribute_label(self):
         """ test attribute label """
@@ -46,7 +46,7 @@ class ArtifactstatusModelTestCase(TestCase):
         # get label
         field_label = artifactstatus_1._meta.get_field('artifactstatus_note').verbose_name
         # compare
-        self.assertEquals(field_label, 'artifactstatus note')
+        self.assertEqual(field_label, 'artifactstatus note')
 
     def test_artifactstatus_slug_attribute_label(self):
         """ test attribute label """
@@ -56,7 +56,7 @@ class ArtifactstatusModelTestCase(TestCase):
         # get label
         field_label = artifactstatus_1._meta.get_field('artifactstatus_slug').verbose_name
         # compare
-        self.assertEquals(field_label, 'artifactstatus slug')
+        self.assertEqual(field_label, 'artifactstatus slug')
 
     def test_artifactstatus_name_length(self):
         """ test for max length """
@@ -66,7 +66,7 @@ class ArtifactstatusModelTestCase(TestCase):
         # get max length
         max_length = artifactstatus_1._meta.get_field('artifactstatus_name').max_length
         # compare
-        self.assertEquals(max_length, 255)
+        self.assertEqual(max_length, 255)
 
     def test_artifactstatus_slug_length(self):
         """ test for max length """
@@ -76,4 +76,4 @@ class ArtifactstatusModelTestCase(TestCase):
         # get max length
         max_length = artifactstatus_1._meta.get_field('artifactstatus_slug').max_length
         # compare
-        self.assertEquals(max_length, 255)
+        self.assertEqual(max_length, 255)
