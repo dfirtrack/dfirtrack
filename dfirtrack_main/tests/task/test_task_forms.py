@@ -60,7 +60,7 @@ class TaskFormTestCase(TestCase):
         # get object
         form = TaskForm()
         # compare
-        self.assertEquals(form.fields['taskname'].label, 'Taskname')
+        self.assertEqual(form.fields['taskname'].label, 'Taskname')
 
     def test_task_parent_task_form_label(self):
         """ test form label """
@@ -68,7 +68,7 @@ class TaskFormTestCase(TestCase):
         # get object
         form = TaskForm()
         # compare
-        self.assertEquals(form.fields['parent_task'].label, 'Parent task')
+        self.assertEqual(form.fields['parent_task'].label, 'Parent task')
 
     def test_task_taskpriority_form_label(self):
         """ test form label """
@@ -76,7 +76,7 @@ class TaskFormTestCase(TestCase):
         # get object
         form = TaskForm()
         # compare
-        self.assertEquals(form.fields['taskpriority'].label, 'Taskpriority')
+        self.assertEqual(form.fields['taskpriority'].label, 'Taskpriority')
 
     def test_task_taskstatus_form_label(self):
         """ test form label """
@@ -84,7 +84,7 @@ class TaskFormTestCase(TestCase):
         # get object
         form = TaskForm()
         # compare
-        self.assertEquals(form.fields['taskstatus'].label, 'Taskstatus')
+        self.assertEqual(form.fields['taskstatus'].label, 'Taskstatus')
 
     def test_task_system_form_label(self):
         """ test form label """
@@ -92,7 +92,7 @@ class TaskFormTestCase(TestCase):
         # get object
         form = TaskForm()
         # compare
-        self.assertEquals(form.fields['system'].label, 'System')
+        self.assertEqual(form.fields['system'].label, 'System')
 
     def test_task_assigned_to_user_id_form_label(self):
         """ test form label """
@@ -100,7 +100,7 @@ class TaskFormTestCase(TestCase):
         # get object
         form = TaskForm()
         # compare
-        self.assertEquals(form.fields['task_assigned_to_user_id'].label, 'Task assigned to user id')
+        self.assertEqual(form.fields['task_assigned_to_user_id'].label, 'Task assigned to user id')
 
     def test_task_note_form_label(self):
         """ test form label """
@@ -108,7 +108,7 @@ class TaskFormTestCase(TestCase):
         # get object
         form = TaskForm()
         # compare
-        self.assertEquals(form.fields['task_note'].label, 'Task note')
+        self.assertEqual(form.fields['task_note'].label, 'Task note')
 
     def test_task_tag_form_label(self):
         """ test form label """
@@ -116,7 +116,7 @@ class TaskFormTestCase(TestCase):
         # get object
         form = TaskForm()
         # compare
-        self.assertEquals(form.fields['tag'].label, 'Tag')
+        self.assertEqual(form.fields['tag'].label, 'Tag')
 
     def test_task_scheduled_time_form_label(self):
         """ test form label """
@@ -124,7 +124,7 @@ class TaskFormTestCase(TestCase):
         # get object
         form = TaskForm()
         # compare
-        self.assertEquals(form.fields['task_scheduled_time'].label, 'Task scheduled time')
+        self.assertEqual(form.fields['task_scheduled_time'].label, 'Task scheduled time')
 
     def test_task_due_time_form_label(self):
         """ test form label """
@@ -132,7 +132,7 @@ class TaskFormTestCase(TestCase):
         # get object
         form = TaskForm()
         # compare
-        self.assertEquals(form.fields['task_due_time'].label, 'Task due time')
+        self.assertEqual(form.fields['task_due_time'].label, 'Task due time')
 
     def test_task_form_empty(self):
         """ test minimum form requirements / INVALID """

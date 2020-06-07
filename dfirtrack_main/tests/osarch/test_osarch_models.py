@@ -26,7 +26,7 @@ class OsarchModelTestCase(TestCase):
         # get label
         field_label = osarch_1._meta.get_field('osarch_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'osarch id')
+        self.assertEqual(field_label, 'osarch id')
 
     def test_osarch_name_attribute_label(self):
         """ test attribute label """
@@ -36,7 +36,7 @@ class OsarchModelTestCase(TestCase):
         # get label
         field_label = osarch_1._meta.get_field('osarch_name').verbose_name
         # compare
-        self.assertEquals(field_label, 'osarch name')
+        self.assertEqual(field_label, 'osarch name')
 
     def test_osarch_name_length(self):
         """ test for max length """
@@ -46,4 +46,4 @@ class OsarchModelTestCase(TestCase):
         # get max length
         max_length = osarch_1._meta.get_field('osarch_name').max_length
         # compare
-        self.assertEquals(max_length, 10)
+        self.assertEqual(max_length, 10)

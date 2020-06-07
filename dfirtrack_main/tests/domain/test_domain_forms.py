@@ -10,7 +10,7 @@ class DomainFormTestCase(TestCase):
         # get object
         form = DomainForm()
         # compare
-        self.assertEquals(form.fields['domain_name'].label, 'Domain name (*)')
+        self.assertEqual(form.fields['domain_name'].label, 'Domain name (*)')
 
     def test_domain_note_form_label(self):
         """ test form label """
@@ -18,7 +18,7 @@ class DomainFormTestCase(TestCase):
         # get object
         form = DomainForm()
         # compare
-        self.assertEquals(form.fields['domain_note'].label, 'Domain note')
+        self.assertEqual(form.fields['domain_note'].label, 'Domain note')
 
     def test_domain_form_empty(self):
         """ test minimum form requirements / INVALID """

@@ -10,7 +10,7 @@ class SystemtypeFormTestCase(TestCase):
         # get object
         form = SystemtypeForm()
         # compare
-        self.assertEquals(form.fields['systemtype_name'].label, 'Systemtype name (*)')
+        self.assertEqual(form.fields['systemtype_name'].label, 'Systemtype name (*)')
 
     def test_systemtype_form_empty(self):
         """ test minimum form requirements / INVALID """

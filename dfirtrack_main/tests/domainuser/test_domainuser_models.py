@@ -31,7 +31,7 @@ class DomainuserModelTestCase(TestCase):
         # get label
         field_label = domainuser_1._meta.get_field('domainuser_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'domainuser id')
+        self.assertEqual(field_label, 'domainuser id')
 
     def test_domainuser_domain_attribute_label(self):
         """ test attribute label """
@@ -41,7 +41,7 @@ class DomainuserModelTestCase(TestCase):
         # get label
         field_label = domainuser_1._meta.get_field('domain').verbose_name
         # compare
-        self.assertEquals(field_label, 'domain')
+        self.assertEqual(field_label, 'domain')
 
     def test_domainuser_system_was_logged_on_attribute_label(self):
         """ test attribute label """
@@ -51,7 +51,7 @@ class DomainuserModelTestCase(TestCase):
         # get label
         field_label = domainuser_1._meta.get_field('system_was_logged_on').verbose_name
         # compare
-        self.assertEquals(field_label, 'system was logged on')
+        self.assertEqual(field_label, 'system was logged on')
 
     def test_domainuser_name_attribute_label(self):
         """ test attribute label """
@@ -61,7 +61,7 @@ class DomainuserModelTestCase(TestCase):
         # get label
         field_label = domainuser_1._meta.get_field('domainuser_name').verbose_name
         # compare
-        self.assertEquals(field_label, 'domainuser name')
+        self.assertEqual(field_label, 'domainuser name')
 
     def test_domainuser_is_domainadmin_attribute_label(self):
         """ test attribute label """
@@ -71,7 +71,7 @@ class DomainuserModelTestCase(TestCase):
         # get label
         field_label = domainuser_1._meta.get_field('domainuser_is_domainadmin').verbose_name
         # compare
-        self.assertEquals(field_label, 'domainuser is domainadmin')
+        self.assertEqual(field_label, 'domainuser is domainadmin')
 
     def test_domainuser_name_length(self):
         """ test for max length """
@@ -81,4 +81,4 @@ class DomainuserModelTestCase(TestCase):
         # get max length
         max_length = domainuser_1._meta.get_field('domainuser_name').max_length
         # compare
-        self.assertEquals(max_length, 50)
+        self.assertEqual(max_length, 50)

@@ -29,7 +29,7 @@ class TagModelTestCase(TestCase):
         # get label
         field_label = tag_1._meta.get_field('tag_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'tag id')
+        self.assertEqual(field_label, 'tag id')
 
     def test_tag_tagcolor_attribute_label(self):
         """ test attribute label """
@@ -39,7 +39,7 @@ class TagModelTestCase(TestCase):
         # get label
         field_label = tag_1._meta.get_field('tagcolor').verbose_name
         # compare
-        self.assertEquals(field_label, 'tagcolor')
+        self.assertEqual(field_label, 'tagcolor')
 
     def test_tag_name_attribute_label(self):
         """ test attribute label """
@@ -49,7 +49,7 @@ class TagModelTestCase(TestCase):
         # get label
         field_label = tag_1._meta.get_field('tag_name').verbose_name
         # compare
-        self.assertEquals(field_label, 'tag name')
+        self.assertEqual(field_label, 'tag name')
 
     def test_tag_note_attribute_label(self):
         """ test attribute label """
@@ -59,7 +59,7 @@ class TagModelTestCase(TestCase):
         # get label
         field_label = tag_1._meta.get_field('tag_note').verbose_name
         # compare
-        self.assertEquals(field_label, 'tag note')
+        self.assertEqual(field_label, 'tag note')
 
     def test_tag_name_length(self):
         """ test for max length """
@@ -69,4 +69,4 @@ class TagModelTestCase(TestCase):
         # get max length
         max_length = tag_1._meta.get_field('tag_name').max_length
         # compare
-        self.assertEquals(max_length, 50)
+        self.assertEqual(max_length, 50)

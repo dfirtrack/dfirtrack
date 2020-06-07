@@ -34,7 +34,7 @@ class CaseModelTestCase(TestCase):
         # get label
         field_label = case_1._meta.get_field('case_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'case id')
+        self.assertEqual(field_label, 'case id')
 
     def test_case_name_attribute_label(self):
         """ test attribute label """
@@ -44,7 +44,7 @@ class CaseModelTestCase(TestCase):
         # get label
         field_label = case_1._meta.get_field('case_name').verbose_name
         # compare
-        self.assertEquals(field_label, 'case name')
+        self.assertEqual(field_label, 'case name')
 
     def test_case_is_incident_attribute_label(self):
         """ test attribute label """
@@ -54,7 +54,7 @@ class CaseModelTestCase(TestCase):
         # get label
         field_label = case_1._meta.get_field('case_is_incident').verbose_name
         # compare
-        self.assertEquals(field_label, 'case is incident')
+        self.assertEqual(field_label, 'case is incident')
 
     def test_case_create_time_attribute_label(self):
         """ test attribute label """
@@ -64,7 +64,7 @@ class CaseModelTestCase(TestCase):
         # get label
         field_label = case_1._meta.get_field('case_create_time').verbose_name
         # compare
-        self.assertEquals(field_label, 'case create time')
+        self.assertEqual(field_label, 'case create time')
 
     def test_case_created_by_user_id_attribute_label(self):
         """ test attribute label """
@@ -74,7 +74,7 @@ class CaseModelTestCase(TestCase):
         # get label
         field_label = case_1._meta.get_field('case_created_by_user_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'case created by user id')
+        self.assertEqual(field_label, 'case created by user id')
 
     def test_case_name_length(self):
         """ test for max length """
@@ -84,4 +84,4 @@ class CaseModelTestCase(TestCase):
         # get max length
         max_length = case_1._meta.get_field('case_name').max_length
         # compare
-        self.assertEquals(max_length, 50)
+        self.assertEqual(max_length, 50)

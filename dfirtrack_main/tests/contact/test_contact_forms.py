@@ -10,7 +10,7 @@ class ContactFormTestCase(TestCase):
         # get object
         form = ContactForm()
         # compare
-        self.assertEquals(form.fields['contact_name'].label, 'Contact name (*)')
+        self.assertEqual(form.fields['contact_name'].label, 'Contact name (*)')
 
     def test_contact_phone_form_label(self):
         """ test form label """
@@ -18,7 +18,7 @@ class ContactFormTestCase(TestCase):
         # get object
         form = ContactForm()
         # compare
-        self.assertEquals(form.fields['contact_phone'].label, 'Contact phone')
+        self.assertEqual(form.fields['contact_phone'].label, 'Contact phone')
 
     def test_contact_email_form_label(self):
         """ test form label """
@@ -26,7 +26,7 @@ class ContactFormTestCase(TestCase):
         # get object
         form = ContactForm()
         # compare
-        self.assertEquals(form.fields['contact_email'].label, 'Contact email (*)')
+        self.assertEqual(form.fields['contact_email'].label, 'Contact email (*)')
 
     def test_contact_note_form_label(self):
         """ test form label """
@@ -34,7 +34,7 @@ class ContactFormTestCase(TestCase):
         # get object
         form = ContactForm()
         # compare
-        self.assertEquals(form.fields['contact_note'].label, 'Contact note')
+        self.assertEqual(form.fields['contact_note'].label, 'Contact note')
 
     def test_contact_form_empty(self):
         """ test minimum form requirements / INVALID """

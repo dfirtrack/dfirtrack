@@ -52,7 +52,7 @@ class ReportitemModelTestCase(TestCase):
         # get label
         field_label = reportitem_1._meta.get_field('reportitem_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'reportitem id')
+        self.assertEqual(field_label, 'reportitem id')
 
     def test_reportitem_system_attribute_label(self):
         """ test attribute label """
@@ -62,7 +62,7 @@ class ReportitemModelTestCase(TestCase):
         # get label
         field_label = reportitem_1._meta.get_field('system').verbose_name
         # compare
-        self.assertEquals(field_label, 'system')
+        self.assertEqual(field_label, 'system')
 
     def test_reportitem_headline_attribute_label(self):
         """ test attribute label """
@@ -72,7 +72,7 @@ class ReportitemModelTestCase(TestCase):
         # get label
         field_label = reportitem_1._meta.get_field('headline').verbose_name
         # compare
-        self.assertEquals(field_label, 'headline')
+        self.assertEqual(field_label, 'headline')
 
     def test_reportitem_subheadline_attribute_label(self):
         """ test attribute label """
@@ -82,7 +82,7 @@ class ReportitemModelTestCase(TestCase):
         # get label
         field_label = reportitem_1._meta.get_field('reportitem_subheadline').verbose_name
         # compare
-        self.assertEquals(field_label, 'reportitem subheadline')
+        self.assertEqual(field_label, 'reportitem subheadline')
 
     def test_reportitem_note_attribute_label(self):
         """ test attribute label """
@@ -92,7 +92,7 @@ class ReportitemModelTestCase(TestCase):
         # get label
         field_label = reportitem_1._meta.get_field('reportitem_note').verbose_name
         # compare
-        self.assertEquals(field_label, 'reportitem note')
+        self.assertEqual(field_label, 'reportitem note')
 
     def test_reportitem_create_time_attribute_label(self):
         """ test attribute label """
@@ -102,7 +102,7 @@ class ReportitemModelTestCase(TestCase):
         # get label
         field_label = reportitem_1._meta.get_field('reportitem_create_time').verbose_name
         # compare
-        self.assertEquals(field_label, 'reportitem create time')
+        self.assertEqual(field_label, 'reportitem create time')
 
     def test_reportitem_modify_time_attribute_label(self):
         """ test attribute label """
@@ -112,7 +112,7 @@ class ReportitemModelTestCase(TestCase):
         # get label
         field_label = reportitem_1._meta.get_field('reportitem_modify_time').verbose_name
         # compare
-        self.assertEquals(field_label, 'reportitem modify time')
+        self.assertEqual(field_label, 'reportitem modify time')
 
     def test_reportitem_created_by_user_id_attribute_label(self):
         """ test attribute label """
@@ -122,7 +122,7 @@ class ReportitemModelTestCase(TestCase):
         # get label
         field_label = reportitem_1._meta.get_field('reportitem_created_by_user_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'reportitem created by user id')
+        self.assertEqual(field_label, 'reportitem created by user id')
 
     def test_reportitem_modified_by_user_id_attribute_label(self):
         """ test attribute label """
@@ -132,7 +132,7 @@ class ReportitemModelTestCase(TestCase):
         # get label
         field_label = reportitem_1._meta.get_field('reportitem_modified_by_user_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'reportitem modified by user id')
+        self.assertEqual(field_label, 'reportitem modified by user id')
 
     def test_reportitem_subheadline_length(self):
         """ test for max length """
@@ -142,4 +142,4 @@ class ReportitemModelTestCase(TestCase):
         # get max length
         max_length = reportitem_1._meta.get_field('reportitem_subheadline').max_length
         # compare
-        self.assertEquals(max_length, 100)
+        self.assertEqual(max_length, 100)

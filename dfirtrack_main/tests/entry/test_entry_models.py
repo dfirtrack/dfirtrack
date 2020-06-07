@@ -51,7 +51,7 @@ class EntryModelTestCase(TestCase):
         # get label
         field_label = entry_1._meta.get_field('entry_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'entry id')
+        self.assertEqual(field_label, 'entry id')
 
     def test_system_attribute_label(self):
         """ test attribute label """
@@ -61,7 +61,7 @@ class EntryModelTestCase(TestCase):
         # get label
         field_label = entry_1._meta.get_field('system').verbose_name
         # compare
-        self.assertEquals(field_label, 'system')
+        self.assertEqual(field_label, 'system')
 
     def test_entry_case_attribute_label(self):
         """ test attribute label """
@@ -71,7 +71,7 @@ class EntryModelTestCase(TestCase):
         # get label
         field_label = entry_1._meta.get_field('case').verbose_name
         # compare
-        self.assertEquals(field_label, 'case')
+        self.assertEqual(field_label, 'case')
 
     def test_entry_time_attribute_label(self):
         """ test attribute label """
@@ -81,7 +81,7 @@ class EntryModelTestCase(TestCase):
         # get label
         field_label = entry_1._meta.get_field('entry_time').verbose_name
         # compare
-        self.assertEquals(field_label, 'entry time')
+        self.assertEqual(field_label, 'entry time')
 
     def test_entry_sha1_attribute_label(self):
         """ test attribute label """
@@ -91,7 +91,7 @@ class EntryModelTestCase(TestCase):
         # get label
         field_label = entry_1._meta.get_field('entry_sha1').verbose_name
         # compare
-        self.assertEquals(field_label, 'entry sha1')
+        self.assertEqual(field_label, 'entry sha1')
 
     def test_entry_date_attribute_label(self):
         """ test attribute label """
@@ -101,7 +101,7 @@ class EntryModelTestCase(TestCase):
         # get label
         field_label = entry_1._meta.get_field('entry_date').verbose_name
         # compare
-        self.assertEquals(field_label, 'entry date')
+        self.assertEqual(field_label, 'entry date')
 
     def test_entry_utc_attribute_label(self):
         """ test attribute label """
@@ -111,7 +111,7 @@ class EntryModelTestCase(TestCase):
         # get label
         field_label = entry_1._meta.get_field('entry_utc').verbose_name
         # compare
-        self.assertEquals(field_label, 'entry utc')
+        self.assertEqual(field_label, 'entry utc')
 
     def test_entry_system_attribute_label(self):
         """ test attribute label """
@@ -121,7 +121,7 @@ class EntryModelTestCase(TestCase):
         # get label
         field_label = entry_1._meta.get_field('entry_system').verbose_name
         # compare
-        self.assertEquals(field_label, 'entry system')
+        self.assertEqual(field_label, 'entry system')
 
     def test_entry_type_attribute_label(self):
         """ test attribute label """
@@ -131,7 +131,7 @@ class EntryModelTestCase(TestCase):
         # get label
         field_label = entry_1._meta.get_field('entry_type').verbose_name
         # compare
-        self.assertEquals(field_label, 'entry type')
+        self.assertEqual(field_label, 'entry type')
 
     def test_entry_content_attribute_label(self):
         """ test attribute label """
@@ -141,7 +141,7 @@ class EntryModelTestCase(TestCase):
         # get label
         field_label = entry_1._meta.get_field('entry_content').verbose_name
         # compare
-        self.assertEquals(field_label, 'entry content')
+        self.assertEqual(field_label, 'entry content')
 
     def test_entry_note_attribute_label(self):
         """ test attribute label """
@@ -151,7 +151,7 @@ class EntryModelTestCase(TestCase):
         # get label
         field_label = entry_1._meta.get_field('entry_note').verbose_name
         # compare
-        self.assertEquals(field_label, 'entry note')
+        self.assertEqual(field_label, 'entry note')
 
     def test_entry_create_time_attribute_label(self):
         """ test attribute label """
@@ -161,7 +161,7 @@ class EntryModelTestCase(TestCase):
         # get label
         field_label = entry_1._meta.get_field('entry_create_time').verbose_name
         # compare
-        self.assertEquals(field_label, 'entry create time')
+        self.assertEqual(field_label, 'entry create time')
 
     def test_entry_modify_time_attribute_label(self):
         """ test attribute label """
@@ -171,7 +171,7 @@ class EntryModelTestCase(TestCase):
         # get label
         field_label = entry_1._meta.get_field('entry_modify_time').verbose_name
         # compare
-        self.assertEquals(field_label, 'entry modify time')
+        self.assertEqual(field_label, 'entry modify time')
 
     def test_entry_api_time_attribute_label(self):
         """ test attribute label """
@@ -181,7 +181,7 @@ class EntryModelTestCase(TestCase):
         # get label
         field_label = entry_1._meta.get_field('entry_api_time').verbose_name
         # compare
-        self.assertEquals(field_label, 'entry api time')
+        self.assertEqual(field_label, 'entry api time')
 
     def test_entry_created_by_user_id_attribute_label(self):
         """ test attribute label """
@@ -191,7 +191,7 @@ class EntryModelTestCase(TestCase):
         # get label
         field_label = entry_1._meta.get_field('entry_created_by_user_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'entry created by user id')
+        self.assertEqual(field_label, 'entry created by user id')
 
     def test_entry_modified_by_user_id_attribute_label(self):
         """ test attribute label """
@@ -201,7 +201,7 @@ class EntryModelTestCase(TestCase):
         # get label
         field_label = entry_1._meta.get_field('entry_modified_by_user_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'entry modified by user id')
+        self.assertEqual(field_label, 'entry modified by user id')
 
     def test_entry_sha1_length(self):
         """ test for max length """
@@ -211,7 +211,7 @@ class EntryModelTestCase(TestCase):
         # get max length
         max_length = entry_1._meta.get_field('entry_sha1').max_length
         # compare
-        self.assertEquals(max_length, 40)
+        self.assertEqual(max_length, 40)
 
     def test_entry_date_length(self):
         """ test for max length """
@@ -221,7 +221,7 @@ class EntryModelTestCase(TestCase):
         # get max length
         max_length = entry_1._meta.get_field('entry_date').max_length
         # compare
-        self.assertEquals(max_length, 10)
+        self.assertEqual(max_length, 10)
 
     def test_entry_utc_length(self):
         """ test for max length """
@@ -231,7 +231,7 @@ class EntryModelTestCase(TestCase):
         # get max length
         max_length = entry_1._meta.get_field('entry_utc').max_length
         # compare
-        self.assertEquals(max_length, 8)
+        self.assertEqual(max_length, 8)
 
     def test_entry_system_length(self):
         """ test for max length """
@@ -241,7 +241,7 @@ class EntryModelTestCase(TestCase):
         # get max length
         max_length = entry_1._meta.get_field('entry_system').max_length
         # compare
-        self.assertEquals(max_length, 30)
+        self.assertEqual(max_length, 30)
 
     def test_entry_type_length(self):
         """ test for max length """
@@ -251,4 +251,4 @@ class EntryModelTestCase(TestCase):
         # get max length
         max_length = entry_1._meta.get_field('entry_type').max_length
         # compare
-        self.assertEquals(max_length, 30)
+        self.assertEqual(max_length, 30)

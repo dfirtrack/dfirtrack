@@ -26,7 +26,7 @@ class ContactModelTestCase(TestCase):
         # get label
         field_label = contact_1._meta.get_field('contact_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'contact id')
+        self.assertEqual(field_label, 'contact id')
 
     def test_contact_name_attribute_label(self):
         """ test attribute label """
@@ -36,7 +36,7 @@ class ContactModelTestCase(TestCase):
         # get label
         field_label = contact_1._meta.get_field('contact_name').verbose_name
         # compare
-        self.assertEquals(field_label, 'contact name')
+        self.assertEqual(field_label, 'contact name')
 
     def test_contact_phone_attribute_label(self):
         """ test attribute label """
@@ -46,7 +46,7 @@ class ContactModelTestCase(TestCase):
         # get label
         field_label = contact_1._meta.get_field('contact_phone').verbose_name
         # compare
-        self.assertEquals(field_label, 'contact phone')
+        self.assertEqual(field_label, 'contact phone')
 
     def test_contact_email_attribute_label(self):
         """ test attribute label """
@@ -56,7 +56,7 @@ class ContactModelTestCase(TestCase):
         # get label
         field_label = contact_1._meta.get_field('contact_email').verbose_name
         # compare
-        self.assertEquals(field_label, 'contact email')
+        self.assertEqual(field_label, 'contact email')
 
     def test_contact_note_attribute_label(self):
         """ test attribute label """
@@ -66,7 +66,7 @@ class ContactModelTestCase(TestCase):
         # get label
         field_label = contact_1._meta.get_field('contact_note').verbose_name
         # compare
-        self.assertEquals(field_label, 'contact note')
+        self.assertEqual(field_label, 'contact note')
 
     def test_contact_name_length(self):
         """ test for max length """
@@ -76,7 +76,7 @@ class ContactModelTestCase(TestCase):
         # get max length
         max_length = contact_1._meta.get_field('contact_name').max_length
         # compare
-        self.assertEquals(max_length, 100)
+        self.assertEqual(max_length, 100)
 
     def test_contact_phone_length(self):
         """ test for max length """
@@ -86,7 +86,7 @@ class ContactModelTestCase(TestCase):
         # get max length
         max_length = contact_1._meta.get_field('contact_phone').max_length
         # compare
-        self.assertEquals(max_length, 50)
+        self.assertEqual(max_length, 50)
 
     def test_contact_email_length(self):
         """ test for max length """
@@ -96,4 +96,4 @@ class ContactModelTestCase(TestCase):
         # get max length
         max_length = contact_1._meta.get_field('contact_email').max_length
         # compare
-        self.assertEquals(max_length, 100)
+        self.assertEqual(max_length, 100)

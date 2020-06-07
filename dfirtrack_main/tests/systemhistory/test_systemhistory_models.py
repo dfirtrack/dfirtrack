@@ -53,7 +53,7 @@ class SystemhistoryModelTestCase(TestCase):
         # get label
         field_label = systemhistory_1._meta.get_field('systemhistory_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'systemhistory id')
+        self.assertEqual(field_label, 'systemhistory id')
 
     def test_systemhistory_system_attribute_label(self):
         """ test attribute label """
@@ -65,7 +65,7 @@ class SystemhistoryModelTestCase(TestCase):
         # get label
         field_label = systemhistory_1._meta.get_field('system').verbose_name
         # compare
-        self.assertEquals(field_label, 'system')
+        self.assertEqual(field_label, 'system')
 
     def test_systemhistory_type_attribute_label(self):
         """ test attribute label """
@@ -77,7 +77,7 @@ class SystemhistoryModelTestCase(TestCase):
         # get label
         field_label = systemhistory_1._meta.get_field('systemhistory_type').verbose_name
         # compare
-        self.assertEquals(field_label, 'systemhistory type')
+        self.assertEqual(field_label, 'systemhistory type')
 
     def test_systemhistory_old_value_attribute_label(self):
         """ test attribute label """
@@ -89,7 +89,7 @@ class SystemhistoryModelTestCase(TestCase):
         # get label
         field_label = systemhistory_1._meta.get_field('systemhistory_old_value').verbose_name
         # compare
-        self.assertEquals(field_label, 'systemhistory old value')
+        self.assertEqual(field_label, 'systemhistory old value')
 
     def test_systemhistory_new_value_attribute_label(self):
         """ test attribute label """
@@ -101,7 +101,7 @@ class SystemhistoryModelTestCase(TestCase):
         # get label
         field_label = systemhistory_1._meta.get_field('systemhistory_new_value').verbose_name
         # compare
-        self.assertEquals(field_label, 'systemhistory new value')
+        self.assertEqual(field_label, 'systemhistory new value')
 
     def test_systemhistory_time_attribute_label(self):
         """ test attribute label """
@@ -113,7 +113,7 @@ class SystemhistoryModelTestCase(TestCase):
         # get label
         field_label = systemhistory_1._meta.get_field('systemhistory_time').verbose_name
         # compare
-        self.assertEquals(field_label, 'systemhistory time')
+        self.assertEqual(field_label, 'systemhistory time')
 
     def test_systemhistory_type_length(self):
         """ test for max length """
@@ -125,7 +125,7 @@ class SystemhistoryModelTestCase(TestCase):
         # get max length
         max_length = systemhistory_1._meta.get_field('systemhistory_type').max_length
         # compare
-        self.assertEquals(max_length, 30)
+        self.assertEqual(max_length, 30)
 
     def test_systemhistory_old_value_length(self):
         """ test for max length """
@@ -137,7 +137,7 @@ class SystemhistoryModelTestCase(TestCase):
         # get max length
         max_length = systemhistory_1._meta.get_field('systemhistory_old_value').max_length
         # compare
-        self.assertEquals(max_length, 30)
+        self.assertEqual(max_length, 30)
 
     def test_systemhistory_new_value_length(self):
         """ test for max length """
@@ -149,4 +149,4 @@ class SystemhistoryModelTestCase(TestCase):
         # get max length
         max_length = systemhistory_1._meta.get_field('systemhistory_new_value').max_length
         # compare
-        self.assertEquals(max_length, 30)
+        self.assertEqual(max_length, 30)

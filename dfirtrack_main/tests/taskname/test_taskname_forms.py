@@ -10,7 +10,7 @@ class TasknameFormTestCase(TestCase):
         # get object
         form = TasknameForm()
         # compare
-        self.assertEquals(form.fields['taskname_name'].label, 'Taskname (*)')
+        self.assertEqual(form.fields['taskname_name'].label, 'Taskname (*)')
 
     def test_taskname_form_empty(self):
         """ test minimum form requirements / INVALID """

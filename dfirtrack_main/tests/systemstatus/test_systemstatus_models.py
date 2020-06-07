@@ -26,7 +26,7 @@ class SystemstatusModelTestCase(TestCase):
         # get label
         field_label = systemstatus_1._meta.get_field('systemstatus_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'systemstatus id')
+        self.assertEqual(field_label, 'systemstatus id')
 
     def test_systemstatus_name_attribute_label(self):
         """ test attribute label """
@@ -36,7 +36,7 @@ class SystemstatusModelTestCase(TestCase):
         # get label
         field_label = systemstatus_1._meta.get_field('systemstatus_name').verbose_name
         # compare
-        self.assertEquals(field_label, 'systemstatus name')
+        self.assertEqual(field_label, 'systemstatus name')
 
     def test_systemstatus_note_attribute_label(self):
         """ test attribute label """
@@ -46,7 +46,7 @@ class SystemstatusModelTestCase(TestCase):
         # get label
         field_label = systemstatus_1._meta.get_field('systemstatus_note').verbose_name
         # compare
-        self.assertEquals(field_label, 'systemstatus note')
+        self.assertEqual(field_label, 'systemstatus note')
 
     def test_systemstatus_name_length(self):
         """ test for max length """
@@ -56,4 +56,4 @@ class SystemstatusModelTestCase(TestCase):
         # get max length
         max_length = systemstatus_1._meta.get_field('systemstatus_name').max_length
         # compare
-        self.assertEquals(max_length, 30)
+        self.assertEqual(max_length, 30)

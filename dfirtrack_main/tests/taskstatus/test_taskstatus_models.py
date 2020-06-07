@@ -26,7 +26,7 @@ class TaskstatusModelTestCase(TestCase):
         # get label
         field_label = taskstatus_1._meta.get_field('taskstatus_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'taskstatus id')
+        self.assertEqual(field_label, 'taskstatus id')
 
     def test_taskstatus_name_attribute_label(self):
         """ test attribute label """
@@ -36,7 +36,7 @@ class TaskstatusModelTestCase(TestCase):
         # get label
         field_label = taskstatus_1._meta.get_field('taskstatus_name').verbose_name
         # compare
-        self.assertEquals(field_label, 'taskstatus name')
+        self.assertEqual(field_label, 'taskstatus name')
 
     def test_taskstatus_name_length(self):
         """ test for max length """
@@ -46,4 +46,4 @@ class TaskstatusModelTestCase(TestCase):
         # get max length
         max_length = taskstatus_1._meta.get_field('taskstatus_name').max_length
         # compare
-        self.assertEquals(max_length, 50)
+        self.assertEqual(max_length, 50)

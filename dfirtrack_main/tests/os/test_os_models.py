@@ -26,7 +26,7 @@ class OsModelTestCase(TestCase):
         # get label
         field_label = os_1._meta.get_field('os_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'os id')
+        self.assertEqual(field_label, 'os id')
 
     def test_os_name_attribute_label(self):
         """ test attribute label """
@@ -36,7 +36,7 @@ class OsModelTestCase(TestCase):
         # get label
         field_label = os_1._meta.get_field('os_name').verbose_name
         # compare
-        self.assertEquals(field_label, 'os name')
+        self.assertEqual(field_label, 'os name')
 
     def test_os_name_length(self):
         """ test for max length """
@@ -46,4 +46,4 @@ class OsModelTestCase(TestCase):
         # get max length
         max_length = os_1._meta.get_field('os_name').max_length
         # compare
-        self.assertEquals(max_length, 30)
+        self.assertEqual(max_length, 30)

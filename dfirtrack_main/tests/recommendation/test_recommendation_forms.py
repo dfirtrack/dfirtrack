@@ -10,7 +10,7 @@ class RecommendationFormTestCase(TestCase):
         # get object
         form = RecommendationForm()
         # compare
-        self.assertEquals(form.fields['recommendation_name'].label, 'Recommendation name (*)')
+        self.assertEqual(form.fields['recommendation_name'].label, 'Recommendation name (*)')
 
     def test_recommendation_note_form_label(self):
         """ test form label """
@@ -18,7 +18,7 @@ class RecommendationFormTestCase(TestCase):
         # get object
         form = RecommendationForm()
         # compare
-        self.assertEquals(form.fields['recommendation_note'].label, 'Recommendation note')
+        self.assertEqual(form.fields['recommendation_note'].label, 'Recommendation note')
 
     def test_recommendation_form_empty(self):
         """ test minimum form requirements / INVALID """

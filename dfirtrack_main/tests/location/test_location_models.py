@@ -26,7 +26,7 @@ class LocationModelTestCase(TestCase):
         # get label
         field_label = location_1._meta.get_field('location_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'location id')
+        self.assertEqual(field_label, 'location id')
 
     def test_location_name_attribute_label(self):
         """ test attribute label """
@@ -36,7 +36,7 @@ class LocationModelTestCase(TestCase):
         # get label
         field_label = location_1._meta.get_field('location_name').verbose_name
         # compare
-        self.assertEquals(field_label, 'location name')
+        self.assertEqual(field_label, 'location name')
 
     def test_location_note_attribute_label(self):
         """ test attribute label """
@@ -46,7 +46,7 @@ class LocationModelTestCase(TestCase):
         # get label
         field_label = location_1._meta.get_field('location_note').verbose_name
         # compare
-        self.assertEquals(field_label, 'location note')
+        self.assertEqual(field_label, 'location note')
 
     def test_location_name_length(self):
         """ test for max length """
@@ -56,4 +56,4 @@ class LocationModelTestCase(TestCase):
         # get max length
         max_length = location_1._meta.get_field('location_name').max_length
         # compare
-        self.assertEquals(max_length, 50)
+        self.assertEqual(max_length, 50)

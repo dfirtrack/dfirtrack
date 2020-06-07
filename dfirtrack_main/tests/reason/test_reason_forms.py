@@ -10,7 +10,7 @@ class ReasonFormTestCase(TestCase):
         # get object
         form = ReasonForm()
         # compare
-        self.assertEquals(form.fields['reason_name'].label, 'Reason name (*)')
+        self.assertEqual(form.fields['reason_name'].label, 'Reason name (*)')
 
     def test_reason_note_form_label(self):
         """ test form label """
@@ -18,7 +18,7 @@ class ReasonFormTestCase(TestCase):
         # get object
         form = ReasonForm()
         # compare
-        self.assertEquals(form.fields['reason_note'].label, 'Reason note')
+        self.assertEqual(form.fields['reason_note'].label, 'Reason note')
 
     def test_reason_form_empty(self):
         """ test minimum form requirements / INVALID """

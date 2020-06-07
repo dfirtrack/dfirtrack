@@ -38,7 +38,7 @@ class EntryFormTestCase(TestCase):
         # get object
         form = EntryForm()
         # compare
-        self.assertEquals(form.fields['entry_time'].label, 'Entry time (for sorting) (YYYY-MM-DD HH:MM:SS) (*)')
+        self.assertEqual(form.fields['entry_time'].label, 'Entry time (for sorting) (YYYY-MM-DD HH:MM:SS) (*)')
 
     def test_system_form_label(self):
         """ test form label """
@@ -46,7 +46,7 @@ class EntryFormTestCase(TestCase):
         # get object
         form = EntryForm()
         # compare
-        self.assertEquals(form.fields['system'].label, 'System (*)')
+        self.assertEqual(form.fields['system'].label, 'System (*)')
 
     def test_entry_sha1_form_label(self):
         """ test form label """
@@ -54,7 +54,7 @@ class EntryFormTestCase(TestCase):
         # get object
         form = EntryForm()
         # compare
-        self.assertEquals(form.fields['entry_sha1'].label, 'Entry sha1')
+        self.assertEqual(form.fields['entry_sha1'].label, 'Entry sha1')
 
     def test_entry_date_form_label(self):
         """ test form label """
@@ -62,7 +62,7 @@ class EntryFormTestCase(TestCase):
         # get object
         form = EntryForm()
         # compare
-        self.assertEquals(form.fields['entry_date'].label, 'Entry date (YYYY-MM-DD)')
+        self.assertEqual(form.fields['entry_date'].label, 'Entry date (YYYY-MM-DD)')
 
     def test_entry_utc_form_label(self):
         """ test form label """
@@ -70,7 +70,7 @@ class EntryFormTestCase(TestCase):
         # get object
         form = EntryForm()
         # compare
-        self.assertEquals(form.fields['entry_utc'].label, 'Entry time (for report) (HH:MM:SS)')
+        self.assertEqual(form.fields['entry_utc'].label, 'Entry time (for report) (HH:MM:SS)')
 
     def test_entry_system_form_label(self):
         """ test form label """
@@ -78,7 +78,7 @@ class EntryFormTestCase(TestCase):
         # get object
         form = EntryForm()
         # compare
-        self.assertEquals(form.fields['entry_system'].label, 'Entry system (for report)')
+        self.assertEqual(form.fields['entry_system'].label, 'Entry system (for report)')
 
     def test_entry_type_form_label(self):
         """ test form label """
@@ -86,7 +86,7 @@ class EntryFormTestCase(TestCase):
         # get object
         form = EntryForm()
         # compare
-        self.assertEquals(form.fields['entry_type'].label, 'Entry type')
+        self.assertEqual(form.fields['entry_type'].label, 'Entry type')
 
     def test_entry_content_form_label(self):
         """ test form label """
@@ -94,7 +94,7 @@ class EntryFormTestCase(TestCase):
         # get object
         form = EntryForm()
         # compare
-        self.assertEquals(form.fields['entry_content'].label, 'Entry content')
+        self.assertEqual(form.fields['entry_content'].label, 'Entry content')
 
     def test_entry_note_form_label(self):
         """ test form label """
@@ -102,7 +102,7 @@ class EntryFormTestCase(TestCase):
         # get object
         form = EntryForm()
         # compare
-        self.assertEquals(form.fields['entry_note'].label, 'Entry note')
+        self.assertEqual(form.fields['entry_note'].label, 'Entry note')
 
     def test_case_form_label(self):
         """ test form label """
@@ -110,7 +110,7 @@ class EntryFormTestCase(TestCase):
         # get object
         form = EntryForm()
         # compare
-        self.assertEquals(form.fields['case'].label, 'Case')
+        self.assertEqual(form.fields['case'].label, 'Case')
 
     def test_entry_form_empty(self):
         """ test minimum form requirements / INVALID """

@@ -10,7 +10,7 @@ class CaseFormTestCase(TestCase):
         # get object
         form = CaseForm()
         # compare
-        self.assertEquals(form.fields['case_name'].label, 'Case name (*)')
+        self.assertEqual(form.fields['case_name'].label, 'Case name (*)')
 
     def test_case_is_incident_form_label(self):
         """ test form label """
@@ -18,7 +18,7 @@ class CaseFormTestCase(TestCase):
         # get object
         form = CaseForm()
         # compare
-        self.assertEquals(form.fields['case_is_incident'].label, 'Case is incident')
+        self.assertEqual(form.fields['case_is_incident'].label, 'Case is incident')
 
     def test_case_form_empty(self):
         """ test minimum form requirements / INVALID """

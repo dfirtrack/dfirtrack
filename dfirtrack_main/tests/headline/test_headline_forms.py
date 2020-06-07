@@ -10,7 +10,7 @@ class HeadlineFormTestCase(TestCase):
         # get object
         form = HeadlineForm()
         # compare
-        self.assertEquals(form.fields['headline_name'].label, 'Headline (*)')
+        self.assertEqual(form.fields['headline_name'].label, 'Headline (*)')
 
     def test_headline_form_empty(self):
         """ test minimum form requirements / INVALID """

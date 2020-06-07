@@ -21,7 +21,7 @@ class DomainuserFormTestCase(TestCase):
         # get object
         form = DomainuserForm()
         # compare
-        self.assertEquals(form.fields['domainuser_name'].label, 'Domainuser name (*)')
+        self.assertEqual(form.fields['domainuser_name'].label, 'Domainuser name (*)')
 
     def test_domainuser_is_domainadmin_form_label(self):
         """ test form label """
@@ -29,7 +29,7 @@ class DomainuserFormTestCase(TestCase):
         # get object
         form = DomainuserForm()
         # compare
-        self.assertEquals(form.fields['domainuser_is_domainadmin'].label, 'Domainuser is domainadmin')
+        self.assertEqual(form.fields['domainuser_is_domainadmin'].label, 'Domainuser is domainadmin')
 
     def test_domainuser_domain_form_label(self):
         """ test form label """
@@ -37,7 +37,7 @@ class DomainuserFormTestCase(TestCase):
         # get object
         form = DomainuserForm()
         # compare
-        self.assertEquals(form.fields['domain'].label, 'Domain (*)')
+        self.assertEqual(form.fields['domain'].label, 'Domain (*)')
 
     def test_domainuser_system_was_logged_on_form_label(self):
         """ test form label """
@@ -45,7 +45,7 @@ class DomainuserFormTestCase(TestCase):
         # get object
         form = DomainuserForm()
         # compare
-        self.assertEquals(form.fields['system_was_logged_on'].label, 'Systems where this domainuser was logged on')
+        self.assertEqual(form.fields['system_was_logged_on'].label, 'Systems where this domainuser was logged on')
 
     def test_domainuser_form_empty(self):
         """ test minimum form requirements / INVALID """
