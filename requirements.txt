@@ -1,5 +1,5 @@
-django==2.*
-django_q
+django==2.2.5
+django_q==1.0.1
 djangorestframework
 gunicorn
 psycopg2-binary
