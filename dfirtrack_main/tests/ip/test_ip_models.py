@@ -26,7 +26,7 @@ class IpModelTestCase(TestCase):
         # get label
         field_label = ip_1._meta.get_field('ip_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'ip id')
+        self.assertEqual(field_label, 'ip id')
 
     def test_ip_ip_attribute_label(self):
         """ test attribute label """
@@ -36,4 +36,4 @@ class IpModelTestCase(TestCase):
         # get label
         field_label = ip_1._meta.get_field('ip_ip').verbose_name
         # compare
-        self.assertEquals(field_label, 'ip ip')
+        self.assertEqual(field_label, 'ip ip')

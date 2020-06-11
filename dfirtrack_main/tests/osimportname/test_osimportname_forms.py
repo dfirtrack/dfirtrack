@@ -17,7 +17,7 @@ class OsimportnameFormTestCase(TestCase):
         # get object
         form = OsimportnameForm()
         # compare
-        self.assertEquals(form.fields['osimportname_name'].label, 'Importname (*)')
+        self.assertEqual(form.fields['osimportname_name'].label, 'Importname (*)')
 
     def test_osimportname_os_form_label(self):
         """ test form label """
@@ -25,7 +25,7 @@ class OsimportnameFormTestCase(TestCase):
         # get object
         form = OsimportnameForm()
         # compare
-        self.assertEquals(form.fields['os'].label, 'Operating system (*)')
+        self.assertEqual(form.fields['os'].label, 'Operating system (*)')
 
     def test_osimportname_importer_form_label(self):
         """ test form label """
@@ -33,7 +33,7 @@ class OsimportnameFormTestCase(TestCase):
         # get object
         form = OsimportnameForm()
         # compare
-        self.assertEquals(form.fields['osimportname_importer'].label, 'Importer (*)')
+        self.assertEqual(form.fields['osimportname_importer'].label, 'Importer (*)')
 
     def test_osimportname_form_empty(self):
         """ test minimum form requirements / INVALID """

@@ -18,7 +18,7 @@ class ServiceproviderAPIViewTestCase(TestCase):
         """ unauthorized access is forbidden"""
 
         # get response
-        response = self.client.get('/api/serviceproviders/')
+        response = self.client.get('/api/serviceprovider/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -28,7 +28,7 @@ class ServiceproviderAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_serviceprovider_api', password='ILKjadN2mA971kHquiuI')
         # get response
-        response = self.client.get('/api/serviceproviders/')
+        response = self.client.get('/api/serviceprovider/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -40,7 +40,7 @@ class ServiceproviderAPIViewTestCase(TestCase):
         # create POST string
         poststring = {"serviceprovider_name": "serviceprovider_api_2"}
         # get response
-        response = self.client.post('/api/serviceproviders/', data=poststring)
+        response = self.client.post('/api/serviceprovider/', data=poststring)
         # compare
         self.assertEqual(response.status_code, 201)
 
@@ -50,9 +50,9 @@ class ServiceproviderAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_serviceprovider_api', password='ILKjadN2mA971kHquiuI')
         # create url
-        destination = urllib.parse.quote('/api/serviceproviders/', safe='/')
+        destination = urllib.parse.quote('/api/serviceprovider/', safe='/')
         # get response
-        response = self.client.get('/api/serviceproviders', follow=True)
+        response = self.client.get('/api/serviceprovider', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
@@ -62,7 +62,7 @@ class ServiceproviderAPIViewTestCase(TestCase):
         # get object
         serviceprovider_api_1 = Serviceprovider.objects.get(serviceprovider_name='serviceprovider_api_1')
         # get response
-        response = self.client.get('/api/serviceproviders/' + str(serviceprovider_api_1.serviceprovider_id) + '/')
+        response = self.client.get('/api/serviceprovider/' + str(serviceprovider_api_1.serviceprovider_id) + '/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -74,7 +74,7 @@ class ServiceproviderAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_serviceprovider_api', password='ILKjadN2mA971kHquiuI')
         # get response
-        response = self.client.get('/api/serviceproviders/' + str(serviceprovider_api_1.serviceprovider_id) + '/')
+        response = self.client.get('/api/serviceprovider/' + str(serviceprovider_api_1.serviceprovider_id) + '/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -86,7 +86,7 @@ class ServiceproviderAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_serviceprovider_api', password='ILKjadN2mA971kHquiuI')
         # get response
-        response = self.client.delete('/api/serviceproviders/' + str(serviceprovider_api_1.serviceprovider_id) + '/')
+        response = self.client.delete('/api/serviceprovider/' + str(serviceprovider_api_1.serviceprovider_id) + '/')
         # compare
         self.assertEqual(response.status_code, 405)
 
@@ -98,7 +98,7 @@ class ServiceproviderAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_serviceprovider_api', password='ILKjadN2mA971kHquiuI')
         # create url
-        destination = urllib.parse.quote('/api/serviceproviders/' + str(serviceprovider_api_1.serviceprovider_id) + '/', safe='/')
+        destination = urllib.parse.quote('/api/serviceprovider/' + str(serviceprovider_api_1.serviceprovider_id) + '/', safe='/')
         # create PUT string
         putstring = {"serviceprovider_name": "new_serviceprovider_api_1"}
         # get response
@@ -114,8 +114,8 @@ class ServiceproviderAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_serviceprovider_api', password='ILKjadN2mA971kHquiuI')
         # create url
-        destination = urllib.parse.quote('/api/serviceproviders/' + str(serviceprovider_api_1.serviceprovider_id) + '/', safe='/')
+        destination = urllib.parse.quote('/api/serviceprovider/' + str(serviceprovider_api_1.serviceprovider_id) + '/', safe='/')
         # get response
-        response = self.client.get('/api/serviceproviders/' + str(serviceprovider_api_1.serviceprovider_id), follow=True)
+        response = self.client.get('/api/serviceprovider/' + str(serviceprovider_api_1.serviceprovider_id), follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)

@@ -26,7 +26,7 @@ class DnsnameModelTestCase(TestCase):
         # get label
         field_label = dnsname_1._meta.get_field('dnsname_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'dnsname id')
+        self.assertEqual(field_label, 'dnsname id')
 
     def test_dnsname_domain_attribute_label(self):
         """ test attribute label """
@@ -36,7 +36,7 @@ class DnsnameModelTestCase(TestCase):
         # get label
         field_label = dnsname_1._meta.get_field('domain').verbose_name
         # compare
-        self.assertEquals(field_label, 'domain')
+        self.assertEqual(field_label, 'domain')
 
     def test_dnsname_name_attribute_label(self):
         """ test attribute label """
@@ -46,7 +46,7 @@ class DnsnameModelTestCase(TestCase):
         # get label
         field_label = dnsname_1._meta.get_field('dnsname_name').verbose_name
         # compare
-        self.assertEquals(field_label, 'dnsname name')
+        self.assertEqual(field_label, 'dnsname name')
 
     def test_dnsname_note_attribute_label(self):
         """ test attribute label """
@@ -56,7 +56,7 @@ class DnsnameModelTestCase(TestCase):
         # get label
         field_label = dnsname_1._meta.get_field('dnsname_note').verbose_name
         # compare
-        self.assertEquals(field_label, 'dnsname note')
+        self.assertEqual(field_label, 'dnsname note')
 
     def test_dnsname_name_length(self):
         """ test for max length """
@@ -66,4 +66,4 @@ class DnsnameModelTestCase(TestCase):
         # get max length
         max_length = dnsname_1._meta.get_field('dnsname_name').max_length
         # compare
-        self.assertEquals(max_length, 100)
+        self.assertEqual(max_length, 100)

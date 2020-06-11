@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_main.forms import LocationForm
@@ -11,7 +12,7 @@ from dfirtrack_main.models import Location
 class LocationList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Location
-    template_name = 'dfirtrack_main/location/locations_list.html'
+    template_name = 'dfirtrack_main/location/location_list.html'
     context_object_name = 'location_list'
 
     def get_queryset(self):
@@ -21,7 +22,7 @@ class LocationList(LoginRequiredMixin, ListView):
 class LocationDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Location
-    template_name = 'dfirtrack_main/location/locations_detail.html'
+    template_name = 'dfirtrack_main/location/location_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -33,7 +34,7 @@ class LocationCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Location
     form_class = LocationForm
-    template_name = 'dfirtrack_main/location/locations_add.html'
+    template_name = 'dfirtrack_main/location/location_add.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -47,7 +48,7 @@ class LocationCreate(LoginRequiredMixin, CreateView):
             location.save()
             location.logger(str(request.user), " LOCATION_ADD_EXECUTED")
             messages.success(request, 'Location added')
-            return redirect('/locations/' + str(location.location_id))
+            return redirect(reverse('location_detail', args=(location.location_id,)))
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -55,7 +56,7 @@ class LocationCreatePopup(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Location
     form_class = LocationForm
-    template_name = 'dfirtrack_main/location/locations_add_popup.html'
+    template_name = 'dfirtrack_main/location/location_add_popup.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -77,7 +78,7 @@ class LocationUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Location
     form_class = LocationForm
-    template_name = 'dfirtrack_main/location/locations_edit.html'
+    template_name = 'dfirtrack_main/location/location_edit.html'
 
     def get(self, request, *args, **kwargs):
         location = self.get_object()
@@ -93,6 +94,6 @@ class LocationUpdate(LoginRequiredMixin, UpdateView):
             location.save()
             location.logger(str(request.user), " LOCATION_EDIT_EXECUTED")
             messages.success(request, 'Location edited')
-            return redirect('/locations/' + str(location.location_id))
+            return redirect(reverse('location_detail', args=(location.location_id,)))
         else:
             return render(request, self.template_name, {'form': form})

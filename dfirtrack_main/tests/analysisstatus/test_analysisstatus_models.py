@@ -26,7 +26,7 @@ class AnalysisstatusModelTestCase(TestCase):
         # get label
         field_label = analysisstatus_1._meta.get_field('analysisstatus_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'analysisstatus id')
+        self.assertEqual(field_label, 'analysisstatus id')
 
     def test_analysisstatus_name_attribute_label(self):
         """ test attribute label """
@@ -36,7 +36,7 @@ class AnalysisstatusModelTestCase(TestCase):
         # get label
         field_label = analysisstatus_1._meta.get_field('analysisstatus_name').verbose_name
         # compare
-        self.assertEquals(field_label, 'analysisstatus name')
+        self.assertEqual(field_label, 'analysisstatus name')
 
     def test_analysisstatus_note_attribute_label(self):
         """ test attribute label """
@@ -46,7 +46,7 @@ class AnalysisstatusModelTestCase(TestCase):
         # get label
         field_label = analysisstatus_1._meta.get_field('analysisstatus_note').verbose_name
         # compare
-        self.assertEquals(field_label, 'analysisstatus note')
+        self.assertEqual(field_label, 'analysisstatus note')
 
     def test_analysisstatus_name_length(self):
         """ test attribute label """
@@ -56,4 +56,4 @@ class AnalysisstatusModelTestCase(TestCase):
         # get max length
         max_length = analysisstatus_1._meta.get_field('analysisstatus_name').max_length
         # compare
-        self.assertEquals(max_length, 30)
+        self.assertEqual(max_length, 30)

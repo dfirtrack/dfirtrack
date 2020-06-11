@@ -10,7 +10,7 @@ class LocationFormTestCase(TestCase):
         # get object
         form = LocationForm()
         # compare
-        self.assertEquals(form.fields['location_name'].label, 'Location name (*)')
+        self.assertEqual(form.fields['location_name'].label, 'Location name (*)')
 
     def test_location_note_form_label(self):
         """ test form label """
@@ -18,7 +18,7 @@ class LocationFormTestCase(TestCase):
         # get object
         form = LocationForm()
         # compare
-        self.assertEquals(form.fields['location_note'].label, 'Location note')
+        self.assertEqual(form.fields['location_note'].label, 'Location note')
 
     def test_location_form_empty(self):
         """ test minimum form requirements / INVALID """

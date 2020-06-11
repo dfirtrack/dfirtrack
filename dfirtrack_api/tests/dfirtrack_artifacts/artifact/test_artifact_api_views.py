@@ -53,7 +53,7 @@ class ArtifactAPIViewTestCase(TestCase):
         """ unauthorized access is forbidden"""
 
         # get response
-        response = self.client.get('/api/artifacts/')
+        response = self.client.get('/api/artifact/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -63,7 +63,7 @@ class ArtifactAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_artifact_api', password='rQeyaRKd7Lt6D518TTzv')
         # get response
-        response = self.client.get('/api/artifacts/')
+        response = self.client.get('/api/artifact/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -90,7 +90,7 @@ class ArtifactAPIViewTestCase(TestCase):
             "artifact_modified_by_user_id": test_user_id,
         }
         # get response
-        response = self.client.post('/api/artifacts/', data=poststring, content_type='application/json')
+        response = self.client.post('/api/artifact/', data=poststring, content_type='application/json')
         # compare
         self.assertEqual(response.status_code, 201)
 
@@ -126,7 +126,7 @@ class ArtifactAPIViewTestCase(TestCase):
             "artifact_modified_by_user_id": test_user_id,
         }
         # get response
-        response = self.client.post('/api/artifacts/', data=poststring, content_type='application/json')
+        response = self.client.post('/api/artifact/', data=poststring, content_type='application/json')
         # compare
         self.assertEqual(response.status_code, 201)
 
@@ -136,9 +136,9 @@ class ArtifactAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_artifact_api', password='rQeyaRKd7Lt6D518TTzv')
         # create url
-        destination = urllib.parse.quote('/api/artifacts/', safe='/')
+        destination = urllib.parse.quote('/api/artifact/', safe='/')
         # get response
-        response = self.client.get('/api/artifacts', follow=True)
+        response = self.client.get('/api/artifact', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
@@ -148,7 +148,7 @@ class ArtifactAPIViewTestCase(TestCase):
         # get object
         artifact_api_1 = Artifact.objects.get(artifact_name='artifact_api_1')
         # get response
-        response = self.client.get('/api/artifacts/' + str(artifact_api_1.artifact_id) + '/')
+        response = self.client.get('/api/artifact/' + str(artifact_api_1.artifact_id) + '/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -160,7 +160,7 @@ class ArtifactAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_artifact_api', password='rQeyaRKd7Lt6D518TTzv')
         # get response
-        response = self.client.get('/api/artifacts/' + str(artifact_api_1.artifact_id) + '/')
+        response = self.client.get('/api/artifact/' + str(artifact_api_1.artifact_id) + '/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -172,7 +172,7 @@ class ArtifactAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_artifact_api', password='rQeyaRKd7Lt6D518TTzv')
         # get response
-        response = self.client.delete('/api/artifacts/' + str(artifact_api_1.artifact_id) + '/')
+        response = self.client.delete('/api/artifact/' + str(artifact_api_1.artifact_id) + '/')
         # compare
         self.assertEqual(response.status_code, 405)
 
@@ -192,7 +192,7 @@ class ArtifactAPIViewTestCase(TestCase):
         # get object
         system_id = System.objects.get(system_name='system_1').system_id
         # create url
-        destination = urllib.parse.quote('/api/artifacts/' + str(artifact_api_1.artifact_id) + '/', safe='/')
+        destination = urllib.parse.quote('/api/artifact/' + str(artifact_api_1.artifact_id) + '/', safe='/')
         # create PUT string
         putstring = {
             "artifact_name": "new_artifact_api_1",
@@ -225,7 +225,7 @@ class ArtifactAPIViewTestCase(TestCase):
         # get object
         system_id = System.objects.get(system_name='system_1').system_id
         # create url
-        destination = urllib.parse.quote('/api/artifacts/' + str(artifact_api_1.artifact_id) + '/', safe='/')
+        destination = urllib.parse.quote('/api/artifact/' + str(artifact_api_1.artifact_id) + '/', safe='/')
         # create PUT string
         putstring = {
             "artifact_name": "new_artifact_api_1",
@@ -255,8 +255,8 @@ class ArtifactAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_artifact_api', password='rQeyaRKd7Lt6D518TTzv')
         # create url
-        destination = urllib.parse.quote('/api/artifacts/' + str(artifact_api_1.artifact_id) + '/', safe='/')
+        destination = urllib.parse.quote('/api/artifact/' + str(artifact_api_1.artifact_id) + '/', safe='/')
         # get response
-        response = self.client.get('/api/artifacts/' + str(artifact_api_1.artifact_id), follow=True)
+        response = self.client.get('/api/artifact/' + str(artifact_api_1.artifact_id), follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)

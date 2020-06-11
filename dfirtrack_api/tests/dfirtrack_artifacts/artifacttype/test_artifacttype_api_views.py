@@ -18,7 +18,7 @@ class ArtifacttypeAPIViewTestCase(TestCase):
         """ unauthorized access is forbidden"""
 
         # get response
-        response = self.client.get('/api/artifacttypes/')
+        response = self.client.get('/api/artifacttype/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -28,7 +28,7 @@ class ArtifacttypeAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_artifacttype_api', password='bYicpcLzwAvz66D1FbhF')
         # get response
-        response = self.client.get('/api/artifacttypes/')
+        response = self.client.get('/api/artifacttype/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -40,7 +40,7 @@ class ArtifacttypeAPIViewTestCase(TestCase):
         # create POST string
         poststring = {"artifacttype_name": "artifacttype_api_2"}
         # get response
-        response = self.client.post('/api/artifacttypes/', data=poststring)
+        response = self.client.post('/api/artifacttype/', data=poststring)
         # compare
         self.assertEqual(response.status_code, 201)
 
@@ -50,9 +50,9 @@ class ArtifacttypeAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_artifacttype_api', password='bYicpcLzwAvz66D1FbhF')
         # create url
-        destination = urllib.parse.quote('/api/artifacttypes/', safe='/')
+        destination = urllib.parse.quote('/api/artifacttype/', safe='/')
         # get response
-        response = self.client.get('/api/artifacttypes', follow=True)
+        response = self.client.get('/api/artifacttype', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
@@ -62,7 +62,7 @@ class ArtifacttypeAPIViewTestCase(TestCase):
         # get object
         artifacttype_api_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_api_1')
         # get response
-        response = self.client.get('/api/artifacttypes/' + str(artifacttype_api_1.artifacttype_id) + '/')
+        response = self.client.get('/api/artifacttype/' + str(artifacttype_api_1.artifacttype_id) + '/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -74,7 +74,7 @@ class ArtifacttypeAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_artifacttype_api', password='bYicpcLzwAvz66D1FbhF')
         # get response
-        response = self.client.get('/api/artifacttypes/' + str(artifacttype_api_1.artifacttype_id) + '/')
+        response = self.client.get('/api/artifacttype/' + str(artifacttype_api_1.artifacttype_id) + '/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -86,7 +86,7 @@ class ArtifacttypeAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_artifacttype_api', password='bYicpcLzwAvz66D1FbhF')
         # get response
-        response = self.client.delete('/api/artifacttypes/' + str(artifacttype_api_1.artifacttype_id) + '/')
+        response = self.client.delete('/api/artifacttype/' + str(artifacttype_api_1.artifacttype_id) + '/')
         # compare
         self.assertEqual(response.status_code, 405)
 
@@ -98,7 +98,7 @@ class ArtifacttypeAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_artifacttype_api', password='bYicpcLzwAvz66D1FbhF')
         # create url
-        destination = urllib.parse.quote('/api/artifacttypes/' + str(artifacttype_api_1.artifacttype_id) + '/', safe='/')
+        destination = urllib.parse.quote('/api/artifacttype/' + str(artifacttype_api_1.artifacttype_id) + '/', safe='/')
         # create PUT string
         putstring = {"artifacttype_name": "new_artifacttype_api_1"}
         # get response
@@ -114,8 +114,8 @@ class ArtifacttypeAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_artifacttype_api', password='bYicpcLzwAvz66D1FbhF')
         # create url
-        destination = urllib.parse.quote('/api/artifacttypes/' + str(artifacttype_api_1.artifacttype_id) + '/', safe='/')
+        destination = urllib.parse.quote('/api/artifacttype/' + str(artifacttype_api_1.artifacttype_id) + '/', safe='/')
         # get response
-        response = self.client.get('/api/artifacttypes/' + str(artifacttype_api_1.artifacttype_id), follow=True)
+        response = self.client.get('/api/artifacttype/' + str(artifacttype_api_1.artifacttype_id), follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)

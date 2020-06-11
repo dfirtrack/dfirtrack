@@ -18,7 +18,7 @@ class IpAPIViewTestCase(TestCase):
         """ unauthorized access is forbidden"""
 
         # get response
-        response = self.client.get('/api/ips/')
+        response = self.client.get('/api/ip/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -28,7 +28,7 @@ class IpAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_ip_api', password='2SxcYh8yo3rGs4PBqhg9')
         # get response
-        response = self.client.get('/api/ips/')
+        response = self.client.get('/api/ip/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -40,7 +40,7 @@ class IpAPIViewTestCase(TestCase):
         # create POST string
         poststring = {"ip_ip": "127.0.0.2"}
         # get response
-        response = self.client.post('/api/ips/', data=poststring)
+        response = self.client.post('/api/ip/', data=poststring)
         # compare
         self.assertEqual(response.status_code, 201)
 
@@ -50,9 +50,9 @@ class IpAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_ip_api', password='2SxcYh8yo3rGs4PBqhg9')
         # create url
-        destination = urllib.parse.quote('/api/ips/', safe='/')
+        destination = urllib.parse.quote('/api/ip/', safe='/')
         # get response
-        response = self.client.get('/api/ips', follow=True)
+        response = self.client.get('/api/ip', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
@@ -62,7 +62,7 @@ class IpAPIViewTestCase(TestCase):
         # get object
         ip_api_1 = Ip.objects.get(ip_ip='127.0.0.1')
         # get response
-        response = self.client.get('/api/ips/' + str(ip_api_1.ip_id) + '/')
+        response = self.client.get('/api/ip/' + str(ip_api_1.ip_id) + '/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -74,7 +74,7 @@ class IpAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_ip_api', password='2SxcYh8yo3rGs4PBqhg9')
         # get response
-        response = self.client.get('/api/ips/' + str(ip_api_1.ip_id) + '/')
+        response = self.client.get('/api/ip/' + str(ip_api_1.ip_id) + '/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -86,7 +86,7 @@ class IpAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_ip_api', password='2SxcYh8yo3rGs4PBqhg9')
         # get response
-        response = self.client.delete('/api/ips/' + str(ip_api_1.ip_id) + '/')
+        response = self.client.delete('/api/ip/' + str(ip_api_1.ip_id) + '/')
         # compare
         self.assertEqual(response.status_code, 405)
 
@@ -98,7 +98,7 @@ class IpAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_ip_api', password='2SxcYh8yo3rGs4PBqhg9')
         # create url
-        destination = urllib.parse.quote('/api/ips/' + str(ip_api_1.ip_id) + '/', safe='/')
+        destination = urllib.parse.quote('/api/ip/' + str(ip_api_1.ip_id) + '/', safe='/')
         # create PUT string
         putstring = {"ip_ip": "127.0.0.3"}
         # get response
@@ -114,8 +114,8 @@ class IpAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_ip_api', password='2SxcYh8yo3rGs4PBqhg9')
         # create url
-        destination = urllib.parse.quote('/api/ips/' + str(ip_api_1.ip_id) + '/', safe='/')
+        destination = urllib.parse.quote('/api/ip/' + str(ip_api_1.ip_id) + '/', safe='/')
         # get response
-        response = self.client.get('/api/ips/' + str(ip_api_1.ip_id), follow=True)
+        response = self.client.get('/api/ip/' + str(ip_api_1.ip_id), follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)

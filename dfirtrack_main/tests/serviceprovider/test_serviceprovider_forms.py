@@ -10,7 +10,7 @@ class ServiceproviderFormTestCase(TestCase):
         # get object
         form = ServiceproviderForm()
         # compare
-        self.assertEquals(form.fields['serviceprovider_name'].label, 'Serviceprovider name (*)')
+        self.assertEqual(form.fields['serviceprovider_name'].label, 'Serviceprovider name (*)')
 
     def test_serviceprovider_note_form_label(self):
         """ test form label """
@@ -18,7 +18,7 @@ class ServiceproviderFormTestCase(TestCase):
         # get object
         form = ServiceproviderForm()
         # compare
-        self.assertEquals(form.fields['serviceprovider_note'].label, 'Serviceprovider note')
+        self.assertEqual(form.fields['serviceprovider_note'].label, 'Serviceprovider note')
 
     def test_serviceprovider_form_empty(self):
         """ test minimum form requirements / INVALID """

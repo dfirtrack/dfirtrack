@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_main.forms import DivisionForm
@@ -10,7 +11,7 @@ from dfirtrack_main.models import Division
 class DivisionList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Division
-    template_name = 'dfirtrack_main/division/divisions_list.html'
+    template_name = 'dfirtrack_main/division/division_list.html'
     context_object_name = 'division_list'
 
     def get_queryset(self):
@@ -20,7 +21,7 @@ class DivisionList(LoginRequiredMixin, ListView):
 class DivisionDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Division
-    template_name = 'dfirtrack_main/division/divisions_detail.html'
+    template_name = 'dfirtrack_main/division/division_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -32,7 +33,7 @@ class DivisionCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Division
     form_class = DivisionForm
-    template_name = 'dfirtrack_main/division/divisions_add.html'
+    template_name = 'dfirtrack_main/division/division_add.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -46,7 +47,7 @@ class DivisionCreate(LoginRequiredMixin, CreateView):
             division.save()
             division.logger(str(request.user), " DIVISION_ADD_EXECUTED")
             messages.success(request, 'Division added')
-            return redirect('/divisions/' + str(division.division_id))
+            return redirect(reverse('division_detail', args=(division.division_id,)))
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -54,7 +55,7 @@ class DivisionUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Division
     form_class = DivisionForm
-    template_name = 'dfirtrack_main/division/divisions_edit.html'
+    template_name = 'dfirtrack_main/division/division_edit.html'
 
     def get(self, request, *args, **kwargs):
         division = self.get_object()
@@ -70,6 +71,6 @@ class DivisionUpdate(LoginRequiredMixin, UpdateView):
             division.save()
             division.logger(str(request.user), " DIVISION_EDIT_EXECUTED")
             messages.success(request, 'Division edited')
-            return redirect('/divisions/' + str(division.division_id))
+            return redirect(reverse('division_detail', args=(division.division_id,)))
         else:
             return render(request, self.template_name, {'form': form})

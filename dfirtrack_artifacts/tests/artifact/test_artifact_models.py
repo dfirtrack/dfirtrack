@@ -61,7 +61,7 @@ class ArtifactModelTestCase(TestCase):
         # get label
         field_label = artifact_1._meta.get_field('artifact_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'artifact id')
+        self.assertEqual(field_label, 'artifact id')
 
     def test_artifact_artifactstatus_attribute_label(self):
         """ test attribute label """
@@ -71,7 +71,7 @@ class ArtifactModelTestCase(TestCase):
         # get label
         field_label = artifact_1._meta.get_field('artifactstatus').verbose_name
         # compare
-        self.assertEquals(field_label, 'artifactstatus')
+        self.assertEqual(field_label, 'artifactstatus')
 
     def test_artifact_artifacttype_attribute_label(self):
         """ test attribute label """
@@ -81,7 +81,7 @@ class ArtifactModelTestCase(TestCase):
         # get label
         field_label = artifact_1._meta.get_field('artifacttype').verbose_name
         # compare
-        self.assertEquals(field_label, 'artifacttype')
+        self.assertEqual(field_label, 'artifacttype')
 
     def test_artifact_case_attribute_label(self):
         """ test attribute label """
@@ -91,7 +91,7 @@ class ArtifactModelTestCase(TestCase):
         # get label
         field_label = artifact_1._meta.get_field('case').verbose_name
         # compare
-        self.assertEquals(field_label, 'case')
+        self.assertEqual(field_label, 'case')
 
     def test_artifact_system_attribute_label(self):
         """ test attribute label """
@@ -101,7 +101,7 @@ class ArtifactModelTestCase(TestCase):
         # get label
         field_label = artifact_1._meta.get_field('system').verbose_name
         # compare
-        self.assertEquals(field_label, 'system')
+        self.assertEqual(field_label, 'system')
 
     def test_artifact_acquisition_time_attribute_label(self):
         """ test attribute label """
@@ -111,7 +111,7 @@ class ArtifactModelTestCase(TestCase):
         # get label
         field_label = artifact_1._meta.get_field('artifact_acquisition_time').verbose_name
         # compare
-        self.assertEquals(field_label, 'artifact acquisition time')
+        self.assertEqual(field_label, 'artifact acquisition time')
 
     def test_artifact_md5_attribute_label(self):
         """ test attribute label """
@@ -121,7 +121,7 @@ class ArtifactModelTestCase(TestCase):
         # get label
         field_label = artifact_1._meta.get_field('artifact_md5').verbose_name
         # compare
-        self.assertEquals(field_label, 'artifact md5')
+        self.assertEqual(field_label, 'artifact md5')
 
     def test_artifact_name_attribute_label(self):
         """ test attribute label """
@@ -131,7 +131,7 @@ class ArtifactModelTestCase(TestCase):
         # get label
         field_label = artifact_1._meta.get_field('artifact_name').verbose_name
         # compare
-        self.assertEquals(field_label, 'artifact name')
+        self.assertEqual(field_label, 'artifact name')
 
     def test_artifact_note_attribute_label(self):
         """ test attribute label """
@@ -141,7 +141,7 @@ class ArtifactModelTestCase(TestCase):
         # get label
         field_label = artifact_1._meta.get_field('artifact_note').verbose_name
         # compare
-        self.assertEquals(field_label, 'artifact note')
+        self.assertEqual(field_label, 'artifact note')
 
     def test_artifact_requested_time_attribute_label(self):
         """ test attribute label """
@@ -151,7 +151,7 @@ class ArtifactModelTestCase(TestCase):
         # get label
         field_label = artifact_1._meta.get_field('artifact_requested_time').verbose_name
         # compare
-        self.assertEquals(field_label, 'artifact requested time')
+        self.assertEqual(field_label, 'artifact requested time')
 
     def test_artifact_sha1_attribute_label(self):
         """ test attribute label """
@@ -161,7 +161,7 @@ class ArtifactModelTestCase(TestCase):
         # get label
         field_label = artifact_1._meta.get_field('artifact_sha1').verbose_name
         # compare
-        self.assertEquals(field_label, 'artifact sha1')
+        self.assertEqual(field_label, 'artifact sha1')
 
     def test_artifact_sha256_attribute_label(self):
         """ test attribute label """
@@ -171,7 +171,7 @@ class ArtifactModelTestCase(TestCase):
         # get label
         field_label = artifact_1._meta.get_field('artifact_sha256').verbose_name
         # compare
-        self.assertEquals(field_label, 'artifact sha256')
+        self.assertEqual(field_label, 'artifact sha256')
 
     def test_artifact_slug_attribute_label(self):
         """ test attribute label """
@@ -181,7 +181,7 @@ class ArtifactModelTestCase(TestCase):
         # get label
         field_label = artifact_1._meta.get_field('artifact_slug').verbose_name
         # compare
-        self.assertEquals(field_label, 'artifact slug')
+        self.assertEqual(field_label, 'artifact slug')
 
     def test_artifact_storage_path_attribute_label(self):
         """ test attribute label """
@@ -191,7 +191,7 @@ class ArtifactModelTestCase(TestCase):
         # get label
         field_label = artifact_1._meta.get_field('artifact_storage_path').verbose_name
         # compare
-        self.assertEquals(field_label, 'artifact storage path')
+        self.assertEqual(field_label, 'artifact storage path')
 
     def test_artifact_uuid_attribute_label(self):
         """ test attribute label """
@@ -201,7 +201,7 @@ class ArtifactModelTestCase(TestCase):
         # get label
         field_label = artifact_1._meta.get_field('artifact_uuid').verbose_name
         # compare
-        self.assertEquals(field_label, 'artifact uuid')
+        self.assertEqual(field_label, 'artifact uuid')
 
     def test_artifact_create_time_attribute_label(self):
         """ test attribute label """
@@ -211,7 +211,7 @@ class ArtifactModelTestCase(TestCase):
         # get label
         field_label = artifact_1._meta.get_field('artifact_create_time').verbose_name
         # compare
-        self.assertEquals(field_label, 'artifact create time')
+        self.assertEqual(field_label, 'artifact create time')
 
     def test_artifact_modify_time_attribute_label(self):
         """ test attribute label """
@@ -221,7 +221,7 @@ class ArtifactModelTestCase(TestCase):
         # get label
         field_label = artifact_1._meta.get_field('artifact_modify_time').verbose_name
         # compare
-        self.assertEquals(field_label, 'artifact modify time')
+        self.assertEqual(field_label, 'artifact modify time')
 
     def test_artifact_created_by_user_id_attribute_label(self):
         """ test attribute label """
@@ -231,7 +231,7 @@ class ArtifactModelTestCase(TestCase):
         # get label
         field_label = artifact_1._meta.get_field('artifact_created_by_user_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'artifact created by user id')
+        self.assertEqual(field_label, 'artifact created by user id')
 
     def test_artifact_modified_by_user_id_attribute_label(self):
         """ test attribute label """
@@ -241,7 +241,7 @@ class ArtifactModelTestCase(TestCase):
         # get label
         field_label = artifact_1._meta.get_field('artifact_modified_by_user_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'artifact modified by user id')
+        self.assertEqual(field_label, 'artifact modified by user id')
 
     def test_artifact_md5_length(self):
         """ test for max length """
@@ -251,7 +251,7 @@ class ArtifactModelTestCase(TestCase):
         # get max length
         max_length = artifact_1._meta.get_field('artifact_md5').max_length
         # compare
-        self.assertEquals(max_length, 32)
+        self.assertEqual(max_length, 32)
 
     def test_artifact_name_length(self):
         """ test for max length """
@@ -261,7 +261,7 @@ class ArtifactModelTestCase(TestCase):
         # get max length
         max_length = artifact_1._meta.get_field('artifact_name').max_length
         # compare
-        self.assertEquals(max_length, 4096)
+        self.assertEqual(max_length, 4096)
 
     def test_artifact_sha1_length(self):
         """ test for max length """
@@ -271,7 +271,7 @@ class ArtifactModelTestCase(TestCase):
         # get max length
         max_length = artifact_1._meta.get_field('artifact_sha1').max_length
         # compare
-        self.assertEquals(max_length, 40)
+        self.assertEqual(max_length, 40)
 
     def test_artifact_sha256_length(self):
         """ test for max length """
@@ -281,4 +281,4 @@ class ArtifactModelTestCase(TestCase):
         # get max length
         max_length = artifact_1._meta.get_field('artifact_sha256').max_length
         # compare
-        self.assertEquals(max_length, 64)
+        self.assertEqual(max_length, 64)

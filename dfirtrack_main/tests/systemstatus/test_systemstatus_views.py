@@ -14,59 +14,71 @@ class SystemstatusViewTestCase(TestCase):
         # create user
         test_user = User.objects.create_user(username='testuser_systemstatus', password='kWAvcuNoU97qpEy7UpDT')
 
-    def test_systemstatuss_list_not_logged_in(self):
+    def test_systemstatus_list_not_logged_in(self):
         """ test list view """
 
         # create url
-        destination = '/login/?next=' + urllib.parse.quote('/systemstatuss/', safe='')
+        destination = '/login/?next=' + urllib.parse.quote('/systemstatus/', safe='')
         # get response
-        response = self.client.get('/systemstatuss/', follow=True)
+        response = self.client.get('/systemstatus/', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
-    def test_systemstatuss_list_logged_in(self):
+    def test_systemstatus_list_logged_in(self):
         """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_systemstatus', password='kWAvcuNoU97qpEy7UpDT')
         # get response
-        response = self.client.get('/systemstatuss/')
+        response = self.client.get('/systemstatus/')
         # compare
         self.assertEqual(response.status_code, 200)
 
-    def test_systemstatuss_list_template(self):
+    def test_systemstatus_list_template(self):
         """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_systemstatus', password='kWAvcuNoU97qpEy7UpDT')
         # get response
-        response = self.client.get('/systemstatuss/')
+        response = self.client.get('/systemstatus/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/systemstatus/systemstatuss_list.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/systemstatus/systemstatus_list.html')
 
-    def test_systemstatuss_list_get_user_context(self):
+    def test_systemstatus_list_get_user_context(self):
         """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_systemstatus', password='kWAvcuNoU97qpEy7UpDT')
         # get response
-        response = self.client.get('/systemstatuss/')
+        response = self.client.get('/systemstatus/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_systemstatus')
 
-    def test_systemstatuss_detail_not_logged_in(self):
+    def test_systemstatus_list_redirect(self):
+        """ test list view """
+
+        # login testuser
+        login = self.client.login(username='testuser_systemstatus', password='kWAvcuNoU97qpEy7UpDT')
+        # create url
+        destination = urllib.parse.quote('/systemstatus/', safe='/')
+        # get response
+        response = self.client.get('/systemstatus', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_systemstatus_detail_not_logged_in(self):
         """ test detail view """
 
         # get object
         systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
         # create url
-        destination = '/login/?next=' + urllib.parse.quote('/systemstatuss/' + str(systemstatus_1.systemstatus_id), safe='')
+        destination = '/login/?next=' + urllib.parse.quote('/systemstatus/' + str(systemstatus_1.systemstatus_id) + '/', safe='')
         # get response
-        response = self.client.get('/systemstatuss/' + str(systemstatus_1.systemstatus_id), follow=True)
+        response = self.client.get('/systemstatus/' + str(systemstatus_1.systemstatus_id) + '/', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
-    def test_systemstatuss_detail_logged_in(self):
+    def test_systemstatus_detail_logged_in(self):
         """ test detail view """
 
         # get object
@@ -74,11 +86,11 @@ class SystemstatusViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_systemstatus', password='kWAvcuNoU97qpEy7UpDT')
         # get response
-        response = self.client.get('/systemstatuss/' + str(systemstatus_1.systemstatus_id))
+        response = self.client.get('/systemstatus/' + str(systemstatus_1.systemstatus_id) + '/')
         # compare
         self.assertEqual(response.status_code, 200)
 
-    def test_systemstatuss_detail_template(self):
+    def test_systemstatus_detail_template(self):
         """ test detail view """
 
         # get object
@@ -86,11 +98,11 @@ class SystemstatusViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_systemstatus', password='kWAvcuNoU97qpEy7UpDT')
         # get response
-        response = self.client.get('/systemstatuss/' + str(systemstatus_1.systemstatus_id))
+        response = self.client.get('/systemstatus/' + str(systemstatus_1.systemstatus_id) + '/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/systemstatus/systemstatuss_detail.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/systemstatus/systemstatus_detail.html')
 
-    def test_systemstatuss_detail_get_user_context(self):
+    def test_systemstatus_detail_get_user_context(self):
         """ test detail view """
 
         # get object
@@ -98,6 +110,20 @@ class SystemstatusViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_systemstatus', password='kWAvcuNoU97qpEy7UpDT')
         # get response
-        response = self.client.get('/systemstatuss/' + str(systemstatus_1.systemstatus_id))
+        response = self.client.get('/systemstatus/' + str(systemstatus_1.systemstatus_id) + '/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_systemstatus')
+
+    def test_systemstatus_detail_redirect(self):
+        """ test detail view """
+
+        # get object
+        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+        # login testuser
+        login = self.client.login(username='testuser_systemstatus', password='kWAvcuNoU97qpEy7UpDT')
+        # create url
+        destination = urllib.parse.quote('/systemstatus/' + str(systemstatus_1.systemstatus_id) + '/', safe='/')
+        # get response
+        response = self.client.get('/systemstatus/' + str(systemstatus_1.systemstatus_id), follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)

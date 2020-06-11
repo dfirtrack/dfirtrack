@@ -17,7 +17,7 @@ class CompanyFormTestCase(TestCase):
         # get object
         form = CompanyForm()
         # compare
-        self.assertEquals(form.fields['company_name'].label, 'Company name (*)')
+        self.assertEqual(form.fields['company_name'].label, 'Company name (*)')
 
     def test_company_division_form_label(self):
         """ test form label """
@@ -25,7 +25,7 @@ class CompanyFormTestCase(TestCase):
         # get object
         form = CompanyForm()
         # compare
-        self.assertEquals(form.fields['division'].label, 'Division')
+        self.assertEqual(form.fields['division'].label, 'Division')
 
     def test_company_note_form_label(self):
         """ test form label """
@@ -33,7 +33,7 @@ class CompanyFormTestCase(TestCase):
         # get object
         form = CompanyForm()
         # compare
-        self.assertEquals(form.fields['company_note'].label, 'Company note')
+        self.assertEqual(form.fields['company_note'].label, 'Company note')
 
     def test_company_form_empty(self):
         """ test minimum form requirements / INVALID """

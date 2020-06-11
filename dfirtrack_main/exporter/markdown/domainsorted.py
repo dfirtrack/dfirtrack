@@ -1,9 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.core.files import File
 from django.shortcuts import redirect
+from django.urls import reverse
 from django_q.tasks import async_task
 from dfirtrack.config import MARKDOWN_PATH as markdown_path
-from dfirtrack_main.exporter.markdown import clean_directory, config_check, path_check, write_report
+from .markdown_check_data import check_config
+from . import clean_directory, write_report
 from dfirtrack_main.logger.default_logger import debug_logger, info_logger
 from dfirtrack_main.models import Domain, System
 import fileinput
@@ -92,19 +94,14 @@ def domainsorted(request):
     request_user = str(request.user)
 
     # call logger
-    debug_logger(request_user, " SYSTEM_MARKDOWN_ALL_SYSTEMS_SORTEDBYDOMAIN_BEGIN")
+    debug_logger(request_user, " SYSTEM_EXPORTER_MARKDOWN_DOMAINSORTED_BEGIN")
 
-    # check for existing variable MARKDOWN_PATH
-    mp_var_exists = config_check.config_check(request)
-    if not mp_var_exists:
-        return redirect('/systems')
-        exit()
+    # check variables in `dfirtrack.config`
+    stop_exporter_markdown = check_config(request)
 
-    # check for existing path
-    mp_path_exists = path_check.path_check(request)
-    if not mp_path_exists:
-        return redirect('/systems')
-        exit()
+    # leave importer_api_giraf if variables caused errors
+    if stop_exporter_markdown:
+        return redirect(reverse('system_list'))
 
     # call async function
     async_task(
@@ -112,7 +109,7 @@ def domainsorted(request):
         request_user,
     )
 
-    return redirect('/systems')
+    return redirect(reverse('system_list'))
 
 
 def domainsorted_async(request_user):
@@ -264,4 +261,4 @@ def domainsorted_async(request_user):
         filehandle.writelines(lines)
 
     # call logger
-    debug_logger(request_user, " SYSTEM_MARKDOWN_ALL_SYSTEMS_END")
+    debug_logger(request_user, " SYSTEM_EXPORTER_MARKDOWN_DOMAINSORTED_END")

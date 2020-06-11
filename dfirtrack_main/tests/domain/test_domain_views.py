@@ -14,83 +14,71 @@ class DomainViewTestCase(TestCase):
         # create user
         test_user = User.objects.create_user(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
 
-    def test_domains_list_not_logged_in(self):
+    def test_domain_list_not_logged_in(self):
         """ test list view """
 
         # create url
-        destination = '/login/?next=' + urllib.parse.quote('/domains/', safe='')
+        destination = '/login/?next=' + urllib.parse.quote('/domain/', safe='')
         # get response
-        response = self.client.get('/domains/', follow=True)
+        response = self.client.get('/domain/', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
-    def test_domains_list_logged_in(self):
+    def test_domain_list_logged_in(self):
         """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
         # get response
-        response = self.client.get('/domains/')
+        response = self.client.get('/domain/')
         # compare
         self.assertEqual(response.status_code, 200)
 
-    def test_domains_list_template(self):
+    def test_domain_list_template(self):
         """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
         # get response
-        response = self.client.get('/domains/')
+        response = self.client.get('/domain/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/domain/domains_list.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/domain/domain_list.html')
 
-    def test_domains_list_get_user_context(self):
+    def test_domain_list_get_user_context(self):
         """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
         # get response
-        response = self.client.get('/domains/')
+        response = self.client.get('/domain/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_domain')
 
-    def test_domains_detail_not_logged_in(self):
+    def test_domain_list_redirect(self):
+        """ test list view """
+
+        # login testuser
+        login = self.client.login(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
+        # create url
+        destination = urllib.parse.quote('/domain/', safe='/')
+        # get response
+        response = self.client.get('/domain', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_domain_detail_not_logged_in(self):
         """ test detail view """
 
         # get object
         domain_1 = Domain.objects.get(domain_name='domain_1')
         # create url
-        destination = '/login/?next=' + urllib.parse.quote('/domains/' + str(domain_1.domain_id), safe='')
+        destination = '/login/?next=' + urllib.parse.quote('/domain/' + str(domain_1.domain_id) + '/', safe='')
         # get response
-        response = self.client.get('/domains/' + str(domain_1.domain_id), follow=True)
+        response = self.client.get('/domain/' + str(domain_1.domain_id) + '/', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
-    def test_domains_detail_logged_in(self):
-        """ test detail view """
-
-        # get object
-        domain_1 = Domain.objects.get(domain_name='domain_1')
-        # login testuser
-        login = self.client.login(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
-        # get response
-        response = self.client.get('/domains/' + str(domain_1.domain_id))
-        # compare
-        self.assertEqual(response.status_code, 200)
-
-    def test_domains_detail_template(self):
-        """ test detail view """
-
-        # get object
-        domain_1 = Domain.objects.get(domain_name='domain_1')
-        # login testuser
-        login = self.client.login(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
-        # get response
-        response = self.client.get('/domains/' + str(domain_1.domain_id))
-        # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/domain/domains_detail.html')
-
-    def test_domains_detail_get_user_context(self):
+    def test_domain_detail_logged_in(self):
         """ test detail view """
 
         # get object
@@ -98,63 +86,113 @@ class DomainViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
         # get response
-        response = self.client.get('/domains/' + str(domain_1.domain_id))
-        # compare
-        self.assertEqual(str(response.context['user']), 'testuser_domain')
-
-    def test_domains_add_not_logged_in(self):
-        """ test add view """
-
-        # create url
-        destination = '/login/?next=' + urllib.parse.quote('/domains/add/', safe='')
-        # get response
-        response = self.client.get('/domains/add/', follow=True)
-        # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-
-    def test_domains_add_logged_in(self):
-        """ test add view """
-
-        # login testuser
-        login = self.client.login(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
-        # get response
-        response = self.client.get('/domains/add/')
+        response = self.client.get('/domain/' + str(domain_1.domain_id) + '/')
         # compare
         self.assertEqual(response.status_code, 200)
 
-    def test_domains_add_template(self):
-        """ test add view """
+    def test_domain_detail_template(self):
+        """ test detail view """
 
+        # get object
+        domain_1 = Domain.objects.get(domain_name='domain_1')
         # login testuser
         login = self.client.login(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
         # get response
-        response = self.client.get('/domains/add/')
+        response = self.client.get('/domain/' + str(domain_1.domain_id) + '/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/domain/domains_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/domain/domain_detail.html')
 
-    def test_domains_add_get_user_context(self):
-        """ test add view """
+    def test_domain_detail_get_user_context(self):
+        """ test detail view """
 
+        # get object
+        domain_1 = Domain.objects.get(domain_name='domain_1')
         # login testuser
         login = self.client.login(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
         # get response
-        response = self.client.get('/domains/add/')
+        response = self.client.get('/domain/' + str(domain_1.domain_id) + '/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_domain')
 
-    def test_domains_edit_not_logged_in(self):
+    def test_domain_detail_redirect(self):
+        """ test detail view """
+
+        # get object
+        domain_1 = Domain.objects.get(domain_name='domain_1')
+        # login testuser
+        login = self.client.login(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
+        # create url
+        destination = urllib.parse.quote('/domain/' + str(domain_1.domain_id) + '/', safe='/')
+        # get response
+        response = self.client.get('/domain/' + str(domain_1.domain_id), follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_domain_add_not_logged_in(self):
+        """ test add view """
+
+        # create url
+        destination = '/login/?next=' + urllib.parse.quote('/domain/add/', safe='')
+        # get response
+        response = self.client.get('/domain/add/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_domain_add_logged_in(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
+        # get response
+        response = self.client.get('/domain/add/')
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_domain_add_template(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
+        # get response
+        response = self.client.get('/domain/add/')
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/domain/domain_add.html')
+
+    def test_domain_add_get_user_context(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
+        # get response
+        response = self.client.get('/domain/add/')
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_domain')
+
+    def test_domain_add_redirect(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
+        # create url
+        destination = urllib.parse.quote('/domain/add/', safe='/')
+        # get response
+        response = self.client.get('/domain/add', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_domain_edit_not_logged_in(self):
         """ test edit view """
 
         # get object
         domain_1 = Domain.objects.get(domain_name='domain_1')
         # create url
-        destination = '/login/?next=' + urllib.parse.quote('/domains/' + str(domain_1.domain_id) + '/edit/', safe='')
+        destination = '/login/?next=' + urllib.parse.quote('/domain/' + str(domain_1.domain_id) + '/edit/', safe='')
         # get response
-        response = self.client.get('/domains/' + str(domain_1.domain_id) + '/edit/', follow=True)
+        response = self.client.get('/domain/' + str(domain_1.domain_id) + '/edit/', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
-    def test_domains_edit_logged_in(self):
+    def test_domain_edit_logged_in(self):
         """ test edit view """
 
         # get object
@@ -162,11 +200,11 @@ class DomainViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
         # get response
-        response = self.client.get('/domains/' + str(domain_1.domain_id) + '/edit/')
+        response = self.client.get('/domain/' + str(domain_1.domain_id) + '/edit/')
         # compare
         self.assertEqual(response.status_code, 200)
 
-    def test_domains_edit_template(self):
+    def test_domain_edit_template(self):
         """ test edit view """
 
         # get object
@@ -174,11 +212,11 @@ class DomainViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
         # get response
-        response = self.client.get('/domains/' + str(domain_1.domain_id) + '/edit/')
+        response = self.client.get('/domain/' + str(domain_1.domain_id) + '/edit/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/domain/domains_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/domain/domain_edit.html')
 
-    def test_domains_edit_get_user_context(self):
+    def test_domain_edit_get_user_context(self):
         """ test edit view """
 
         # get object
@@ -186,6 +224,20 @@ class DomainViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
         # get response
-        response = self.client.get('/domains/' + str(domain_1.domain_id) + '/edit/')
+        response = self.client.get('/domain/' + str(domain_1.domain_id) + '/edit/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_domain')
+
+    def test_domain_edit_redirect(self):
+        """ test edit view """
+
+        # get object
+        domain_1 = Domain.objects.get(domain_name='domain_1')
+        # login testuser
+        login = self.client.login(username='testuser_domain', password='jjSeshxL17aDEdqkt8tP')
+        # create url
+        destination = urllib.parse.quote('/domain/' + str(domain_1.domain_id) + '/edit/', safe='/')
+        # get response
+        response = self.client.get('/domain/' + str(domain_1.domain_id) + '/edit', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)

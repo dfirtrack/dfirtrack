@@ -45,7 +45,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm()
         # compare
-        self.assertEquals(form.fields['artifact_name'].label, 'Artifact name (*)')
+        self.assertEqual(form.fields['artifact_name'].label, 'Artifact name (*)')
 
     def test_artifact_artifactstatus_form_label(self):
         """ test form label """
@@ -53,7 +53,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm()
         # compare
-        self.assertEquals(form.fields['artifactstatus'].label, 'Artifactstatus (*)')
+        self.assertEqual(form.fields['artifactstatus'].label, 'Artifactstatus (*)')
 
     def test_artifact_artifacttype_form_label(self):
         """ test form label """
@@ -61,7 +61,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm()
         # compare
-        self.assertEquals(form.fields['artifacttype'].label, 'Artifacttype (*)')
+        self.assertEqual(form.fields['artifacttype'].label, 'Artifacttype (*)')
 
     def test_artifact_source_path_form_label(self):
         """ test form label """
@@ -69,7 +69,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm()
         # compare
-        self.assertEquals(form.fields['artifact_source_path'].label, 'Artifact source path')
+        self.assertEqual(form.fields['artifact_source_path'].label, 'Artifact source path')
 
     def test_artifact_system_form_label(self):
         """ test form label """
@@ -77,7 +77,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm()
         # compare
-        self.assertEquals(form.fields['system'].label, 'System (*)')
+        self.assertEqual(form.fields['system'].label, 'System (*)')
 
     def test_artifact_case_form_label(self):
         """ test form label """
@@ -85,7 +85,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm()
         # compare
-        self.assertEquals(form.fields['case'].label, 'Case')
+        self.assertEqual(form.fields['case'].label, 'Case')
 
     def test_artifact_requested_time_form_label(self):
         """ test form label """
@@ -93,7 +93,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm()
         # compare
-        self.assertEquals(form.fields['artifact_requested_time'].label, 'Artifact requested time (YYYY-MM-DD HH:MM:SS)')
+        self.assertEqual(form.fields['artifact_requested_time'].label, 'Artifact requested time (YYYY-MM-DD HH:MM:SS)')
 
     def test_artifact_acquisition_time_form_label(self):
         """ test form label """
@@ -101,7 +101,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm()
         # compare
-        self.assertEquals(form.fields['artifact_acquisition_time'].label, 'Artifact acquisition time (YYYY-MM-DD HH:MM:SS)')
+        self.assertEqual(form.fields['artifact_acquisition_time'].label, 'Artifact acquisition time (YYYY-MM-DD HH:MM:SS)')
 
     def test_artifact_md5_form_label(self):
         """ test form label """
@@ -109,7 +109,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm()
         # compare
-        self.assertEquals(form.fields['artifact_md5'].label, 'MD5')
+        self.assertEqual(form.fields['artifact_md5'].label, 'MD5')
 
     def test_artifact_sha1_form_label(self):
         """ test form label """
@@ -117,7 +117,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm()
         # compare
-        self.assertEquals(form.fields['artifact_sha1'].label, 'SHA1')
+        self.assertEqual(form.fields['artifact_sha1'].label, 'SHA1')
 
     def test_artifact_sha256_form_label(self):
         """ test form label """
@@ -125,7 +125,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm()
         # compare
-        self.assertEquals(form.fields['artifact_sha256'].label, 'SHA256')
+        self.assertEqual(form.fields['artifact_sha256'].label, 'SHA256')
 
     def test_artifact_note_form_label(self):
         """ test form label """
@@ -133,7 +133,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm()
         # compare
-        self.assertEquals(form.fields['artifact_note'].label, 'Artifact note')
+        self.assertEqual(form.fields['artifact_note'].label, 'Artifact note')
 
     def test_artifact_form_empty(self):
         """ test minimum form requirements / INVALID """

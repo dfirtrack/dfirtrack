@@ -10,7 +10,7 @@ class OsFormTestCase(TestCase):
         # get object
         form = OsForm()
         # compare
-        self.assertEquals(form.fields['os_name'].label, 'Os name (*)')
+        self.assertEqual(form.fields['os_name'].label, 'Os name (*)')
 
     def test_os_form_empty(self):
         """ test minimum form requirements / INVALID """

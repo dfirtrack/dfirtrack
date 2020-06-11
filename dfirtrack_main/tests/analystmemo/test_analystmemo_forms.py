@@ -31,7 +31,7 @@ class AnalystmemoFormTestCase(TestCase):
         # get object
         form = AnalystmemoForm()
         # compare
-        self.assertEquals(form.fields['analystmemo_note'].label, 'Analystmemo note (*)')
+        self.assertEqual(form.fields['analystmemo_note'].label, 'Analystmemo note (*)')
 
     def test_analystmemo_system_form_label(self):
         """ test form label """
@@ -39,7 +39,7 @@ class AnalystmemoFormTestCase(TestCase):
         # get object
         form = AnalystmemoForm()
         # compare
-        self.assertEquals(form.fields['system'].label, 'System (*)')
+        self.assertEqual(form.fields['system'].label, 'System (*)')
 
     def test_analystmemo_form_empty(self):
         """ test minimum form requirements / INVALID """

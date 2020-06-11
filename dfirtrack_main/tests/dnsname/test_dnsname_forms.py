@@ -17,7 +17,7 @@ class DnsnameFormTestCase(TestCase):
         # get object
         form = DnsnameForm()
         # compare
-        self.assertEquals(form.fields['domain'].label, 'Domain')
+        self.assertEqual(form.fields['domain'].label, 'Domain')
 
     def test_dnsname_name_form_label(self):
         """ test form label """
@@ -25,7 +25,7 @@ class DnsnameFormTestCase(TestCase):
         # get object
         form = DnsnameForm()
         # compare
-        self.assertEquals(form.fields['dnsname_name'].label, 'DNS name (*)')
+        self.assertEqual(form.fields['dnsname_name'].label, 'DNS name (*)')
 
     def test_dnsname_note_form_label(self):
         """ test form label """
@@ -33,7 +33,7 @@ class DnsnameFormTestCase(TestCase):
         # get object
         form = DnsnameForm()
         # compare
-        self.assertEquals(form.fields['dnsname_note'].label, 'Note')
+        self.assertEqual(form.fields['dnsname_note'].label, 'Note')
 
     def test_dnsname_form_empty(self):
         """ test minimum form requirements / INVALID """

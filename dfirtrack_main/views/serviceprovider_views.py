@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_main.forms import ServiceproviderForm
@@ -11,7 +12,7 @@ from dfirtrack_main.models import Serviceprovider
 class ServiceproviderList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Serviceprovider
-    template_name = 'dfirtrack_main/serviceprovider/serviceproviders_list.html'
+    template_name = 'dfirtrack_main/serviceprovider/serviceprovider_list.html'
     context_object_name = 'serviceprovider_list'
 
     def get_queryset(self):
@@ -21,7 +22,7 @@ class ServiceproviderList(LoginRequiredMixin, ListView):
 class ServiceproviderDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Serviceprovider
-    template_name = 'dfirtrack_main/serviceprovider/serviceproviders_detail.html'
+    template_name = 'dfirtrack_main/serviceprovider/serviceprovider_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -33,7 +34,7 @@ class ServiceproviderCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Serviceprovider
     form_class = ServiceproviderForm
-    template_name = 'dfirtrack_main/serviceprovider/serviceproviders_add.html'
+    template_name = 'dfirtrack_main/serviceprovider/serviceprovider_add.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -47,7 +48,7 @@ class ServiceproviderCreate(LoginRequiredMixin, CreateView):
             serviceprovider.save()
             serviceprovider.logger(str(request.user), " SERVICEPROVIDER_ADD_EXECUTED")
             messages.success(request, 'Serviceprovider added')
-            return redirect('/serviceproviders/' + str(serviceprovider.serviceprovider_id))
+            return redirect(reverse('serviceprovider_detail', args=(serviceprovider.serviceprovider_id,)))
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -55,7 +56,7 @@ class ServiceproviderCreatePopup(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Serviceprovider
     form_class = ServiceproviderForm
-    template_name = 'dfirtrack_main/serviceprovider/serviceproviders_add_popup.html'
+    template_name = 'dfirtrack_main/serviceprovider/serviceprovider_add_popup.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -77,7 +78,7 @@ class ServiceproviderUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Serviceprovider
     form_class = ServiceproviderForm
-    template_name = 'dfirtrack_main/serviceprovider/serviceproviders_edit.html'
+    template_name = 'dfirtrack_main/serviceprovider/serviceprovider_edit.html'
 
     def get(self, request, *args, **kwargs):
         serviceprovider = self.get_object()
@@ -93,6 +94,6 @@ class ServiceproviderUpdate(LoginRequiredMixin, UpdateView):
             serviceprovider.save()
             serviceprovider.logger(str(request.user), " SERVICEPROVIDER_EDIT_EXECUTED")
             messages.success(request, 'Serviceprovider edited')
-            return redirect('/serviceproviders/' + str(serviceprovider.serviceprovider_id))
+            return redirect(reverse('serviceprovider_detail', args=(serviceprovider.serviceprovider_id,)))
         else:
             return render(request, self.template_name, {'form': form})

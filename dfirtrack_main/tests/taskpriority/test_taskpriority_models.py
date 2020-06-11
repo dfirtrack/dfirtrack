@@ -26,7 +26,7 @@ class TaskpriorityModelTestCase(TestCase):
         # get label
         field_label = taskpriority_1._meta.get_field('taskpriority_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'taskpriority id')
+        self.assertEqual(field_label, 'taskpriority id')
 
     def test_taskpriority_name_attribute_label(self):
         """ test attribute label """
@@ -36,7 +36,7 @@ class TaskpriorityModelTestCase(TestCase):
         # get label
         field_label = taskpriority_1._meta.get_field('taskpriority_name').verbose_name
         # compare
-        self.assertEquals(field_label, 'taskpriority name')
+        self.assertEqual(field_label, 'taskpriority name')
 
     def test_taskpriority_name_length(self):
         """ test for max length """
@@ -46,4 +46,4 @@ class TaskpriorityModelTestCase(TestCase):
         # get max length
         max_length = taskpriority_1._meta.get_field('taskpriority_name').max_length
         # compare
-        self.assertEquals(max_length, 6)
+        self.assertEqual(max_length, 6)

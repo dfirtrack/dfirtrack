@@ -14,59 +14,71 @@ class TaskpriorityViewTestCase(TestCase):
         # create user
         test_user = User.objects.create_user(username='testuser_taskpriority', password='VxuP85UUDkfXwRuwRFqA')
 
-    def test_taskprioritys_list_not_logged_in(self):
+    def test_taskpriority_list_not_logged_in(self):
         """ test list view """
 
         # create url
-        destination = '/login/?next=' + urllib.parse.quote('/taskprioritys/', safe='')
+        destination = '/login/?next=' + urllib.parse.quote('/taskpriority/', safe='')
         # get response
-        response = self.client.get('/taskprioritys/', follow=True)
+        response = self.client.get('/taskpriority/', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
-    def test_taskprioritys_list_logged_in(self):
+    def test_taskpriority_list_logged_in(self):
         """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_taskpriority', password='VxuP85UUDkfXwRuwRFqA')
         # get response
-        response = self.client.get('/taskprioritys/')
+        response = self.client.get('/taskpriority/')
         # compare
         self.assertEqual(response.status_code, 200)
 
-    def test_taskprioritys_list_template(self):
+    def test_taskpriority_list_template(self):
         """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_taskpriority', password='VxuP85UUDkfXwRuwRFqA')
         # get response
-        response = self.client.get('/taskprioritys/')
+        response = self.client.get('/taskpriority/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/taskpriority/taskprioritys_list.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/taskpriority/taskpriority_list.html')
 
-    def test_taskprioritys_list_get_user_context(self):
+    def test_taskpriority_list_get_user_context(self):
         """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_taskpriority', password='VxuP85UUDkfXwRuwRFqA')
         # get response
-        response = self.client.get('/taskprioritys/')
+        response = self.client.get('/taskpriority/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_taskpriority')
 
-    def test_taskprioritys_detail_not_logged_in(self):
+    def test_taskpriority_list_redirect(self):
+        """ test list view """
+
+        # login testuser
+        login = self.client.login(username='testuser_taskpriority', password='VxuP85UUDkfXwRuwRFqA')
+        # create url
+        destination = urllib.parse.quote('/taskpriority/', safe='/')
+        # get response
+        response = self.client.get('/taskpriority', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_taskpriority_detail_not_logged_in(self):
         """ test detail view """
 
         # get object
         taskpriority_1 = Taskpriority.objects.get(taskpriority_name='prio_1')
         # create url
-        destination = '/login/?next=' + urllib.parse.quote('/taskprioritys/' + str(taskpriority_1.taskpriority_id), safe='')
+        destination = '/login/?next=' + urllib.parse.quote('/taskpriority/' + str(taskpriority_1.taskpriority_id) + '/', safe='')
         # get response
-        response = self.client.get('/taskprioritys/' + str(taskpriority_1.taskpriority_id), follow=True)
+        response = self.client.get('/taskpriority/' + str(taskpriority_1.taskpriority_id) + '/', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
-    def test_taskprioritys_detail_logged_in(self):
+    def test_taskpriority_detail_logged_in(self):
         """ test detail view """
 
         # get object
@@ -74,11 +86,11 @@ class TaskpriorityViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_taskpriority', password='VxuP85UUDkfXwRuwRFqA')
         # get response
-        response = self.client.get('/taskprioritys/' + str(taskpriority_1.taskpriority_id))
+        response = self.client.get('/taskpriority/' + str(taskpriority_1.taskpriority_id) + '/')
         # compare
         self.assertEqual(response.status_code, 200)
 
-    def test_taskprioritys_detail_template(self):
+    def test_taskpriority_detail_template(self):
         """ test detail view """
 
         # get object
@@ -86,11 +98,11 @@ class TaskpriorityViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_taskpriority', password='VxuP85UUDkfXwRuwRFqA')
         # get response
-        response = self.client.get('/taskprioritys/' + str(taskpriority_1.taskpriority_id))
+        response = self.client.get('/taskpriority/' + str(taskpriority_1.taskpriority_id) + '/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/taskpriority/taskprioritys_detail.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/taskpriority/taskpriority_detail.html')
 
-    def test_taskprioritys_detail_get_user_context(self):
+    def test_taskpriority_detail_get_user_context(self):
         """ test detail view """
 
         # get object
@@ -98,6 +110,20 @@ class TaskpriorityViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_taskpriority', password='VxuP85UUDkfXwRuwRFqA')
         # get response
-        response = self.client.get('/taskprioritys/' + str(taskpriority_1.taskpriority_id))
+        response = self.client.get('/taskpriority/' + str(taskpriority_1.taskpriority_id) + '/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_taskpriority')
+
+    def test_taskpriority_detail_redirect(self):
+        """ test detail view """
+
+        # get object
+        taskpriority_1 = Taskpriority.objects.get(taskpriority_name='prio_1')
+        # login testuser
+        login = self.client.login(username='testuser_taskpriority', password='VxuP85UUDkfXwRuwRFqA')
+        # create url
+        destination = urllib.parse.quote('/taskpriority/' + str(taskpriority_1.taskpriority_id) + '/', safe='/')
+        # get response
+        response = self.client.get('/taskpriority/' + str(taskpriority_1.taskpriority_id), follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)

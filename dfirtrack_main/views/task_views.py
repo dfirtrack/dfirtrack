@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
@@ -12,7 +13,7 @@ from dfirtrack_main.models import Task, Taskstatus
 class TaskList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Task
-    template_name = 'dfirtrack_main/task/tasks_list.html'
+    template_name = 'dfirtrack_main/task/task_list.html'
     context_object_name = 'task_list'
 
     def get_queryset(self):
@@ -22,7 +23,7 @@ class TaskList(LoginRequiredMixin, ListView):
 class TaskClosed(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Task
-    template_name = 'dfirtrack_main/task/tasks_closed_list.html'
+    template_name = 'dfirtrack_main/task/task_closed_list.html'
     context_object_name = 'task_list'
 
     def get_queryset(self):
@@ -32,7 +33,7 @@ class TaskClosed(LoginRequiredMixin, ListView):
 class TaskDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Task
-    template_name = 'dfirtrack_main/task/tasks_detail.html'
+    template_name = 'dfirtrack_main/task/task_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -44,7 +45,7 @@ class TaskCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Task
     form_class = TaskForm
-    template_name = 'dfirtrack_main/task/tasks_add.html'
+    template_name = 'dfirtrack_main/task/task_add.html'
 
     def get(self, request, *args, **kwargs):
         if 'system' in request.GET:
@@ -81,9 +82,9 @@ class TaskCreate(LoginRequiredMixin, CreateView):
             # conditional redirect
             if 'system' in request.GET:
                 system = request.GET['system']
-                return redirect('/systems/' + str(system))
+                return redirect(reverse('system_detail', args=(system,)))
             else:
-                return redirect('/tasks/' + str(task.task_id))
+                return redirect(reverse('task_detail', args=(task.task_id,)))
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -91,7 +92,7 @@ class TaskUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Task
     form_class = TaskForm
-    template_name = 'dfirtrack_main/task/tasks_edit.html'
+    template_name = 'dfirtrack_main/task/task_edit.html'
 
     def get(self, request, *args, **kwargs):
         task = self.get_object()
@@ -123,9 +124,9 @@ class TaskUpdate(LoginRequiredMixin, UpdateView):
             # conditional redirect
             if 'system' in request.GET:
                 system = request.GET['system']
-                return redirect('/systems/' + str(system))
+                return redirect(reverse('system_detail', args=(system,)))
             else:
-                return redirect('/tasks/' + str(task.task_id))
+                return redirect(reverse('task_detail', args=(task.task_id,)))
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -142,9 +143,9 @@ class TaskStart(LoginRequiredMixin, UpdateView):
         messages.success(request, 'Task started')
         if 'system' in request.GET:
             system = request.GET['system']
-            return redirect('/systems/' + str(system))
+            return redirect(reverse('system_detail', args=(system,)))
         else:
-            return redirect('/tasks/' + str(task.task_id))
+            return redirect(reverse('task_detail', args=(task.task_id,)))
 
 class TaskFinish(LoginRequiredMixin, UpdateView):
     login_url = '/login'
@@ -162,9 +163,9 @@ class TaskFinish(LoginRequiredMixin, UpdateView):
         messages.success(request, 'Task finished')
         if 'system' in request.GET:
             system = request.GET['system']
-            return redirect('/systems/' + str(system))
+            return redirect(reverse('system_detail', args=(system,)))
         else:
-            return redirect('/tasks/' + str(task.task_id))
+            return redirect(reverse('task_detail', args=(task.task_id,)))
 
 class TaskRenew(LoginRequiredMixin, UpdateView):
     login_url = '/login'
@@ -181,9 +182,9 @@ class TaskRenew(LoginRequiredMixin, UpdateView):
         messages.warning(request, 'Task renewed')
         if 'system' in request.GET:
             system = request.GET['system']
-            return redirect('/systems/' + str(system))
+            return redirect(reverse('system_detail', args=(system,)))
         else:
-            return redirect('/tasks/' + str(task.task_id))
+            return redirect(reverse('task_detail', args=(task.task_id,)))
 
 class TaskSetUser(LoginRequiredMixin, UpdateView):
     login_url = '/login'
@@ -197,9 +198,9 @@ class TaskSetUser(LoginRequiredMixin, UpdateView):
         messages.success(request, 'Task assigned to you')
         if 'system' in request.GET:
             system = request.GET['system']
-            return redirect('/systems/' + str(system))
+            return redirect(reverse('system_detail', args=(system,)))
         else:
-            return redirect('/tasks/' + str(task.task_id))
+            return redirect(reverse('task_detail', args=(task.task_id,)))
 
 class TaskUnsetUser(LoginRequiredMixin, UpdateView):
     login_url = '/login'
@@ -213,6 +214,6 @@ class TaskUnsetUser(LoginRequiredMixin, UpdateView):
         messages.warning(request, 'User assignment for task deleted')
         if 'system' in request.GET:
             system = request.GET['system']
-            return redirect('/systems/' + str(system))
+            return redirect(reverse('system_detail', args=(system,)))
         else:
-            return redirect('/tasks/' + str(task.task_id))
+            return redirect(reverse('task_detail', args=(task.task_id,)))

@@ -11,7 +11,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'CHANGEME'
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -96,7 +95,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = '/var/www/html/static/'
 
-LOGIN_REDIRECT_URL = '/systems'
+LOGIN_REDIRECT_URL = '/system/'
 
 LOGGING = {
     'version': 1,

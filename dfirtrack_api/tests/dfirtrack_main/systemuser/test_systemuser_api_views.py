@@ -36,7 +36,7 @@ class SystemuserAPIViewTestCase(TestCase):
         """ unauthorized access is forbidden"""
 
         # get response
-        response = self.client.get('/api/systemusers/')
+        response = self.client.get('/api/systemuser/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -46,7 +46,7 @@ class SystemuserAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_systemuser_api', password='Yij2up4yTV2BU6x9xKZV')
         # get response
-        response = self.client.get('/api/systemusers/')
+        response = self.client.get('/api/systemuser/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -64,7 +64,7 @@ class SystemuserAPIViewTestCase(TestCase):
             "system": system_id,
         }
         # get response
-        response = self.client.post('/api/systemusers/', data=poststring)
+        response = self.client.post('/api/systemuser/', data=poststring)
         # compare
         self.assertEqual(response.status_code, 201)
 
@@ -74,9 +74,9 @@ class SystemuserAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_systemuser_api', password='Yij2up4yTV2BU6x9xKZV')
         # create url
-        destination = urllib.parse.quote('/api/systemusers/', safe='/')
+        destination = urllib.parse.quote('/api/systemuser/', safe='/')
         # get response
-        response = self.client.get('/api/systemusers', follow=True)
+        response = self.client.get('/api/systemuser', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
@@ -86,7 +86,7 @@ class SystemuserAPIViewTestCase(TestCase):
         # get object
         systemuser_api_1 = Systemuser.objects.get(systemuser_name='systemuser_api_1')
         # get response
-        response = self.client.get('/api/systemusers/' + str(systemuser_api_1.systemuser_id) + '/')
+        response = self.client.get('/api/systemuser/' + str(systemuser_api_1.systemuser_id) + '/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -98,7 +98,7 @@ class SystemuserAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_systemuser_api', password='Yij2up4yTV2BU6x9xKZV')
         # get response
-        response = self.client.get('/api/systemusers/' + str(systemuser_api_1.systemuser_id) + '/')
+        response = self.client.get('/api/systemuser/' + str(systemuser_api_1.systemuser_id) + '/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -110,7 +110,7 @@ class SystemuserAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_systemuser_api', password='Yij2up4yTV2BU6x9xKZV')
         # get response
-        response = self.client.delete('/api/systemusers/' + str(systemuser_api_1.systemuser_id) + '/')
+        response = self.client.delete('/api/systemuser/' + str(systemuser_api_1.systemuser_id) + '/')
         # compare
         self.assertEqual(response.status_code, 405)
 
@@ -124,7 +124,7 @@ class SystemuserAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_systemuser_api', password='Yij2up4yTV2BU6x9xKZV')
         # create url
-        destination = urllib.parse.quote('/api/systemusers/' + str(systemuser_api_1.systemuser_id) + '/', safe='/')
+        destination = urllib.parse.quote('/api/systemuser/' + str(systemuser_api_1.systemuser_id) + '/', safe='/')
         # create PUT string
         putstring = {
             "systemuser_name": "systemuser_api_3",
@@ -144,8 +144,8 @@ class SystemuserAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_systemuser_api', password='Yij2up4yTV2BU6x9xKZV')
         # create url
-        destination = urllib.parse.quote('/api/systemusers/' + str(systemuser_api_1.systemuser_id) + '/', safe='/')
+        destination = urllib.parse.quote('/api/systemuser/' + str(systemuser_api_1.systemuser_id) + '/', safe='/')
         # get response
-        response = self.client.get('/api/systemusers/' + str(systemuser_api_1.systemuser_id), follow=True)
+        response = self.client.get('/api/systemuser/' + str(systemuser_api_1.systemuser_id), follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)

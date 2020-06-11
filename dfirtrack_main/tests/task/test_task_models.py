@@ -63,7 +63,7 @@ class TaskModelTestCase(TestCase):
         # get label
         field_label = task_1._meta.get_field('task_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'task id')
+        self.assertEqual(field_label, 'task id')
 
     def test_task_parent_task_attribute_label(self):
         """ test attribute label """
@@ -75,7 +75,7 @@ class TaskModelTestCase(TestCase):
         # get label
         field_label = task_1._meta.get_field('parent_task').verbose_name
         # compare
-        self.assertEquals(field_label, 'parent task')
+        self.assertEqual(field_label, 'parent task')
 
     def test_task_taskname_attribute_label(self):
         """ test attribute label """
@@ -87,7 +87,7 @@ class TaskModelTestCase(TestCase):
         # get label
         field_label = task_1._meta.get_field('taskname').verbose_name
         # compare
-        self.assertEquals(field_label, 'taskname')
+        self.assertEqual(field_label, 'taskname')
 
     def test_task_taskpriority_attribute_label(self):
         """ test attribute label """
@@ -99,7 +99,7 @@ class TaskModelTestCase(TestCase):
         # get label
         field_label = task_1._meta.get_field('taskpriority').verbose_name
         # compare
-        self.assertEquals(field_label, 'taskpriority')
+        self.assertEqual(field_label, 'taskpriority')
 
     def test_task_taskstatus_attribute_label(self):
         """ test attribute label """
@@ -111,7 +111,7 @@ class TaskModelTestCase(TestCase):
         # get label
         field_label = task_1._meta.get_field('taskstatus').verbose_name
         # compare
-        self.assertEquals(field_label, 'taskstatus')
+        self.assertEqual(field_label, 'taskstatus')
 
     def test_task_system_attribute_label(self):
         """ test attribute label """
@@ -123,7 +123,7 @@ class TaskModelTestCase(TestCase):
         # get label
         field_label = task_1._meta.get_field('system').verbose_name
         # compare
-        self.assertEquals(field_label, 'system')
+        self.assertEqual(field_label, 'system')
 
     def test_task_assigned_to_user_id_attribute_label(self):
         """ test attribute label """
@@ -135,7 +135,7 @@ class TaskModelTestCase(TestCase):
         # get label
         field_label = task_1._meta.get_field('task_assigned_to_user_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'task assigned to user id')
+        self.assertEqual(field_label, 'task assigned to user id')
 
     def test_task_tag_attribute_label(self):
         """ test attribute label """
@@ -147,7 +147,7 @@ class TaskModelTestCase(TestCase):
         # get label
         field_label = task_1._meta.get_field('tag').verbose_name
         # compare
-        self.assertEquals(field_label, 'tag')
+        self.assertEqual(field_label, 'tag')
 
     def test_task_note_attribute_label(self):
         """ test attribute label """
@@ -159,7 +159,7 @@ class TaskModelTestCase(TestCase):
         # get label
         field_label = task_1._meta.get_field('task_note').verbose_name
         # compare
-        self.assertEquals(field_label, 'task note')
+        self.assertEqual(field_label, 'task note')
 
     def test_task_scheduled_time_attribute_label(self):
         """ test attribute label """
@@ -171,7 +171,7 @@ class TaskModelTestCase(TestCase):
         # get label
         field_label = task_1._meta.get_field('task_scheduled_time').verbose_name
         # compare
-        self.assertEquals(field_label, 'task scheduled time')
+        self.assertEqual(field_label, 'task scheduled time')
 
     def test_task_started_time_attribute_label(self):
         """ test attribute label """
@@ -183,7 +183,7 @@ class TaskModelTestCase(TestCase):
         # get label
         field_label = task_1._meta.get_field('task_started_time').verbose_name
         # compare
-        self.assertEquals(field_label, 'task started time')
+        self.assertEqual(field_label, 'task started time')
 
     def test_task_finished_time_attribute_label(self):
         """ test attribute label """
@@ -195,7 +195,7 @@ class TaskModelTestCase(TestCase):
         # get label
         field_label = task_1._meta.get_field('task_finished_time').verbose_name
         # compare
-        self.assertEquals(field_label, 'task finished time')
+        self.assertEqual(field_label, 'task finished time')
 
     def test_task_due_time_attribute_label(self):
         """ test attribute label """
@@ -207,7 +207,7 @@ class TaskModelTestCase(TestCase):
         # get label
         field_label = task_1._meta.get_field('task_due_time').verbose_name
         # compare
-        self.assertEquals(field_label, 'task due time')
+        self.assertEqual(field_label, 'task due time')
 
     def test_task_create_time_attribute_label(self):
         """ test attribute label """
@@ -219,7 +219,7 @@ class TaskModelTestCase(TestCase):
         # get label
         field_label = task_1._meta.get_field('task_create_time').verbose_name
         # compare
-        self.assertEquals(field_label, 'task create time')
+        self.assertEqual(field_label, 'task create time')
 
     def test_task_modify_time_attribute_label(self):
         """ test attribute label """
@@ -231,7 +231,7 @@ class TaskModelTestCase(TestCase):
         # get label
         field_label = task_1._meta.get_field('task_modify_time').verbose_name
         # compare
-        self.assertEquals(field_label, 'task modify time')
+        self.assertEqual(field_label, 'task modify time')
 
     def test_task_created_by_user_id_attribute_label(self):
         """ test attribute label """
@@ -243,7 +243,7 @@ class TaskModelTestCase(TestCase):
         # get label
         field_label = task_1._meta.get_field('task_created_by_user_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'task created by user id')
+        self.assertEqual(field_label, 'task created by user id')
 
     def test_task_modified_by_user_id_attribute_label(self):
         """ test attribute label """
@@ -255,4 +255,4 @@ class TaskModelTestCase(TestCase):
         # get label
         field_label = task_1._meta.get_field('task_modified_by_user_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'task modified by user id')
+        self.assertEqual(field_label, 'task modified by user id')

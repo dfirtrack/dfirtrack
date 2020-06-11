@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_main.forms import RecommendationForm
@@ -11,7 +12,7 @@ from dfirtrack_main.models import Recommendation
 class RecommendationList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Recommendation
-    template_name = 'dfirtrack_main/recommendation/recommendations_list.html'
+    template_name = 'dfirtrack_main/recommendation/recommendation_list.html'
     context_object_name = 'recommendation_list'
 
     def get_queryset(self):
@@ -21,7 +22,7 @@ class RecommendationList(LoginRequiredMixin, ListView):
 class RecommendationDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Recommendation
-    template_name = 'dfirtrack_main/recommendation/recommendations_detail.html'
+    template_name = 'dfirtrack_main/recommendation/recommendation_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -33,7 +34,7 @@ class RecommendationCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Recommendation
     form_class = RecommendationForm
-    template_name = 'dfirtrack_main/recommendation/recommendations_add.html'
+    template_name = 'dfirtrack_main/recommendation/recommendation_add.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -47,7 +48,7 @@ class RecommendationCreate(LoginRequiredMixin, CreateView):
             recommendation.save()
             recommendation.logger(str(request.user), " RECOMMENDATION_ADD_EXECUTED")
             messages.success(request, 'Recommendation added')
-            return redirect('/recommendations/' + str(recommendation.recommendation_id))
+            return redirect(reverse('recommendation_detail', args=(recommendation.recommendation_id,)))
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -55,7 +56,7 @@ class RecommendationCreatePopup(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Recommendation
     form_class = RecommendationForm
-    template_name = 'dfirtrack_main/recommendation/recommendations_add_popup.html'
+    template_name = 'dfirtrack_main/recommendation/recommendation_add_popup.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -77,7 +78,7 @@ class RecommendationUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Recommendation
     form_class = RecommendationForm
-    template_name = 'dfirtrack_main/recommendation/recommendations_edit.html'
+    template_name = 'dfirtrack_main/recommendation/recommendation_edit.html'
 
     def get(self, request, *args, **kwargs):
         recommendation = self.get_object()
@@ -93,6 +94,6 @@ class RecommendationUpdate(LoginRequiredMixin, UpdateView):
             recommendation.save()
             recommendation.logger(str(request.user), " RECOMMENDATION_EDIT_EXECUTED")
             messages.success(request, 'Recommendation edited')
-            return redirect('/recommendations/' + str(recommendation.recommendation_id))
+            return redirect(reverse('recommendation_detail', args=(recommendation.recommendation_id,)))
         else:
             return render(request, self.template_name, {'form': form})

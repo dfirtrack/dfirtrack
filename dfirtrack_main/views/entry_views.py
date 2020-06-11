@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_main.forms import EntryForm
@@ -10,7 +11,7 @@ from dfirtrack_main.models import Entry
 class EntryList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Entry
-    template_name = 'dfirtrack_main/entry/entrys_list.html'
+    template_name = 'dfirtrack_main/entry/entry_list.html'
     context_object_name = 'entry_list'
 
     def get_queryset(self):
@@ -20,7 +21,7 @@ class EntryList(LoginRequiredMixin, ListView):
 class EntryDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Entry
-    template_name = 'dfirtrack_main/entry/entrys_detail.html'
+    template_name = 'dfirtrack_main/entry/entry_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -32,7 +33,7 @@ class EntryCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Entry
     form_class = EntryForm
-    template_name = 'dfirtrack_main/entry/entrys_add.html'
+    template_name = 'dfirtrack_main/entry/entry_add.html'
 
     def get(self, request, *args, **kwargs):
         if 'system' in request.GET:
@@ -54,7 +55,7 @@ class EntryCreate(LoginRequiredMixin, CreateView):
             entry.save()
             entry.logger(str(request.user), " ENTRY_ADD_EXECUTED")
             messages.success(request, 'Entry added')
-            return redirect('/systems/' + str(entry.system.system_id))
+            return redirect(reverse('system_detail', args=(entry.system.system_id,)))
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -62,7 +63,7 @@ class EntryUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Entry
     form_class = EntryForm
-    template_name = 'dfirtrack_main/entry/entrys_edit.html'
+    template_name = 'dfirtrack_main/entry/entry_edit.html'
 
     def get(self, request, *args, **kwargs):
         entry = self.get_object()
@@ -79,6 +80,6 @@ class EntryUpdate(LoginRequiredMixin, UpdateView):
             entry.save()
             entry.logger(str(request.user), " ENTRY_EDIT_EXECUTED")
             messages.success(request, 'Entry edited')
-            return redirect('/systems/' + str(entry.system.system_id))
+            return redirect(reverse('system_detail', args=(entry.system.system_id,)))
         else:
             return render(request, self.template_name, {'form': form})

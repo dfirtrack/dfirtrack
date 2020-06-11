@@ -18,7 +18,7 @@ class OsarchAPIViewTestCase(TestCase):
         """ unauthorized access is forbidden"""
 
         # get response
-        response = self.client.get('/api/osarchs/')
+        response = self.client.get('/api/osarch/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -28,7 +28,7 @@ class OsarchAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_osarch_api', password='baxmijIgjTfCzy9w8lrF')
         # get response
-        response = self.client.get('/api/osarchs/')
+        response = self.client.get('/api/osarch/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -40,7 +40,7 @@ class OsarchAPIViewTestCase(TestCase):
         # create POST string
         poststring = {"osarch_name": "osarch_2"}
         # get response
-        response = self.client.post('/api/osarchs/', data=poststring)
+        response = self.client.post('/api/osarch/', data=poststring)
         # compare
         self.assertEqual(response.status_code, 201)
 
@@ -50,9 +50,9 @@ class OsarchAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_osarch_api', password='baxmijIgjTfCzy9w8lrF')
         # create url
-        destination = urllib.parse.quote('/api/osarchs/', safe='/')
+        destination = urllib.parse.quote('/api/osarch/', safe='/')
         # get response
-        response = self.client.get('/api/osarchs', follow=True)
+        response = self.client.get('/api/osarch', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
@@ -62,7 +62,7 @@ class OsarchAPIViewTestCase(TestCase):
         # get object
         osarch_api_1 = Osarch.objects.get(osarch_name='osarch_1')
         # get response
-        response = self.client.get('/api/osarchs/' + str(osarch_api_1.osarch_id) + '/')
+        response = self.client.get('/api/osarch/' + str(osarch_api_1.osarch_id) + '/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -74,7 +74,7 @@ class OsarchAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_osarch_api', password='baxmijIgjTfCzy9w8lrF')
         # get response
-        response = self.client.get('/api/osarchs/' + str(osarch_api_1.osarch_id) + '/')
+        response = self.client.get('/api/osarch/' + str(osarch_api_1.osarch_id) + '/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -86,7 +86,7 @@ class OsarchAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_osarch_api', password='baxmijIgjTfCzy9w8lrF')
         # get response
-        response = self.client.delete('/api/osarchs/' + str(osarch_api_1.osarch_id) + '/')
+        response = self.client.delete('/api/osarch/' + str(osarch_api_1.osarch_id) + '/')
         # compare
         self.assertEqual(response.status_code, 405)
 
@@ -98,7 +98,7 @@ class OsarchAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_osarch_api', password='baxmijIgjTfCzy9w8lrF')
         # create url
-        destination = urllib.parse.quote('/api/osarchs/' + str(osarch_api_1.osarch_id) + '/', safe='/')
+        destination = urllib.parse.quote('/api/osarch/' + str(osarch_api_1.osarch_id) + '/', safe='/')
         # create PUT string
         putstring = {"osarch_name": "osarch_3"}
         # get response
@@ -114,8 +114,8 @@ class OsarchAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_osarch_api', password='baxmijIgjTfCzy9w8lrF')
         # create url
-        destination = urllib.parse.quote('/api/osarchs/' + str(osarch_api_1.osarch_id) + '/', safe='/')
+        destination = urllib.parse.quote('/api/osarch/' + str(osarch_api_1.osarch_id) + '/', safe='/')
         # get response
-        response = self.client.get('/api/osarchs/' + str(osarch_api_1.osarch_id), follow=True)
+        response = self.client.get('/api/osarch/' + str(osarch_api_1.osarch_id), follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)

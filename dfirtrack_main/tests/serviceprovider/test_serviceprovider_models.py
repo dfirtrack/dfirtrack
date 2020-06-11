@@ -26,7 +26,7 @@ class ServiceproviderModelTestCase(TestCase):
         # get label
         field_label = serviceprovider_1._meta.get_field('serviceprovider_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'serviceprovider id')
+        self.assertEqual(field_label, 'serviceprovider id')
 
     def test_serviceprovider_name_attribute_label(self):
         """ test attribute label """
@@ -36,7 +36,7 @@ class ServiceproviderModelTestCase(TestCase):
         # get label
         field_label = serviceprovider_1._meta.get_field('serviceprovider_name').verbose_name
         # compare
-        self.assertEquals(field_label, 'serviceprovider name')
+        self.assertEqual(field_label, 'serviceprovider name')
 
     def test_serviceprovider_note_attribute_label(self):
         """ test attribute label """
@@ -46,7 +46,7 @@ class ServiceproviderModelTestCase(TestCase):
         # get label
         field_label = serviceprovider_1._meta.get_field('serviceprovider_note').verbose_name
         # compare
-        self.assertEquals(field_label, 'serviceprovider note')
+        self.assertEqual(field_label, 'serviceprovider note')
 
     def test_serviceprovider_name_length(self):
         """ test for max length """
@@ -56,4 +56,4 @@ class ServiceproviderModelTestCase(TestCase):
         # get max length
         max_length = serviceprovider_1._meta.get_field('serviceprovider_name').max_length
         # compare
-        self.assertEquals(max_length, 50)
+        self.assertEqual(max_length, 50)

@@ -30,7 +30,7 @@ class OsimportnameModelTestCase(TestCase):
         # get label
         field_label = osimportname_1._meta.get_field('osimportname_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'osimportname id')
+        self.assertEqual(field_label, 'osimportname id')
 
     def test_osimportname_os_attribute_label(self):
         """ test attribute label """
@@ -40,7 +40,7 @@ class OsimportnameModelTestCase(TestCase):
         # get label
         field_label = osimportname_1._meta.get_field('os').verbose_name
         # compare
-        self.assertEquals(field_label, 'os')
+        self.assertEqual(field_label, 'os')
 
     def test_osimportname_name_attribute_label(self):
         """ test attribute label """
@@ -50,7 +50,7 @@ class OsimportnameModelTestCase(TestCase):
         # get label
         field_label = osimportname_1._meta.get_field('osimportname_name').verbose_name
         # compare
-        self.assertEquals(field_label, 'osimportname name')
+        self.assertEqual(field_label, 'osimportname name')
 
     def test_osimportname_importer_attribute_label(self):
         """ test attribute label """
@@ -60,7 +60,7 @@ class OsimportnameModelTestCase(TestCase):
         # get label
         field_label = osimportname_1._meta.get_field('osimportname_importer').verbose_name
         # compare
-        self.assertEquals(field_label, 'osimportname importer')
+        self.assertEqual(field_label, 'osimportname importer')
 
     def test_osimportname_name_length(self):
         """ test for max length """
@@ -70,7 +70,7 @@ class OsimportnameModelTestCase(TestCase):
         # get max length
         max_length = osimportname_1._meta.get_field('osimportname_name').max_length
         # compare
-        self.assertEquals(max_length, 30)
+        self.assertEqual(max_length, 30)
 
     def test_osimportname_importer_length(self):
         """ test for max length """
@@ -80,4 +80,4 @@ class OsimportnameModelTestCase(TestCase):
         # get max length
         max_length = osimportname_1._meta.get_field('osimportname_importer').max_length
         # compare
-        self.assertEquals(max_length, 30)
+        self.assertEqual(max_length, 30)

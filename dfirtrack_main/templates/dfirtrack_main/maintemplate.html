@@ -10,7 +10,7 @@
 
 <meta charset="utf-8" />
 
-{% load staticfiles %}
+{% load static %}
 <link rel="stylesheet" href="{% static 'dfirtrack_main/bootstrap-4.0.0/css/bootstrap.min.css' %}" type = "text/css"/>
 
 <meta name="viewport" content = "width=device-width, initial-scale=1.0">
@@ -113,7 +113,7 @@
 
                 <!-- nav bar item -->
                 <li class="nav-item">
-                    <a class="nav-link active" href="/systems">
+                    <a class="nav-link active" href="{% url 'system_list' %}">
                         Systems
                     </a>
                 </li>
@@ -131,46 +131,46 @@
 
                         <!-- section -->
                         <div class="dropdown-header">Status information</div>
-                        <a class="dropdown-item" href="/systemstatuss">Systemstatus</a>
-                        <a class="dropdown-item" href="/analysisstatuss">Analysisstatus</a>
-                        <a class="dropdown-item" href="/reasons">Reasons</a>
-                        <a class="dropdown-item" href="/recommendations">Recommendations</a>
+                        <a class="dropdown-item" href="{% url 'systemstatus_list' %}">Systemstatus</a>
+                        <a class="dropdown-item" href="{% url 'analysisstatus_list' %}">Analysisstatus</a>
+                        <a class="dropdown-item" href="{% url 'reason_list' %}">Reasons</a>
+                        <a class="dropdown-item" href="{% url 'recommendation_list' %}">Recommendations</a>
 
                         <!-- section -->
                         <div class="dropdown-header">Technical information</div>
-                        <a class="dropdown-item" href="/systemtypes">Systemtypes</a>
-                        <a class="dropdown-item" href="/ips">IPs</a>
-                        <a class="dropdown-item" href="/domains">Domains</a>
-                        <a class="dropdown-item" href="/dnsnames">DNS names</a>
-                        <a class="dropdown-item" href="/oss">OS</a>
+                        <a class="dropdown-item" href="{% url 'systemtype_list' %}">Systemtypes</a>
+                        <a class="dropdown-item" href="{% url 'ip_list' %}">IPs</a>
+                        <a class="dropdown-item" href="{% url 'domain_list' %}">Domains</a>
+                        <a class="dropdown-item" href="{% url 'dnsname_list' %}">DNS names</a>
+                        <a class="dropdown-item" href="{% url 'os_list' %}">OS</a>
 
                         <!-- section -->
                         <div class="dropdown-header">Company information</div>
-                        <a class="dropdown-item" href="/companys">Companies</a>
-                        <a class="dropdown-item" href="/locations">Locations</a>
-                        <a class="dropdown-item" href="/serviceproviders">Serviceproviders</a>
-                        <a class="dropdown-item" href="/contacts">Contacts</a>
-                        <a class="dropdown-item" href="/divisions">Divisions</a>
+                        <a class="dropdown-item" href="{% url 'company_list' %}">Companies</a>
+                        <a class="dropdown-item" href="{% url 'location_list' %}">Locations</a>
+                        <a class="dropdown-item" href="{% url 'serviceprovider_list' %}">Serviceproviders</a>
+                        <a class="dropdown-item" href="{% url 'contact_list' %}">Contacts</a>
+                        <a class="dropdown-item" href="{% url 'division_list' %}">Divisions</a>
 
                         <!-- section -->
                         <div class="dropdown-header">Users</div>
-                        <a class="dropdown-item" href="/domainusers">Domainusers</a>
-                        <a class="dropdown-item" href="/systemusers">Systemusers</a>
+                        <a class="dropdown-item" href="{% url 'domainuser_list' %}">Domainusers</a>
+                        <a class="dropdown-item" href="{% url 'systemuser_list' %}">Systemusers</a>
 
                         <!-- section -->
                         <div class="dropdown-header">System information</div>
-                        <a class="dropdown-item" href="/analystmemos">Analystmemos</a>
-                        <a class="dropdown-item" href="/reportitems">Reportitems</a>
+                        <a class="dropdown-item" href="{% url 'analystmemo_list' %}">Analystmemos</a>
+                        <a class="dropdown-item" href="{% url 'reportitem_list' %}">Reportitems</a>
 
                         <!-- section -->
                         <div class="dropdown-header">Case information</div>
-                        <a class="dropdown-item" href="/cases">Cases</a>
-                        <a class="dropdown-item" href="/entrys">Entries</a>
+                        <a class="dropdown-item" href="{% url 'case_list' %}">Cases</a>
+                        <a class="dropdown-item" href="{% url 'entry_list' %}">Entries</a>
 
                         <!-- section -->
                         <div class="dropdown-header">Meta utilities</div>
-                        <a class="dropdown-item" href="/headlines">Headlines</a>
-                        <a class="dropdown-item" href="/osimportnames">OS-Importnames</a>
+                        <a class="dropdown-item" href="{% url 'headline_list' %}">Headlines</a>
+                        <a class="dropdown-item" href="{% url 'osimportname_list' %}">OS-Importnames</a>
 
                     <!-- nav bar dropdown menu -->
                     </div>
@@ -179,7 +179,7 @@
 
                 <!-- nav bar item -->
                 <li class="nav-item">
-                    <a class="nav-link active top-distance" href="/artifacts/artifact">
+                    <a class="nav-link active top-distance" href="{% url 'artifacts_artifact_list' %}">
                         Artifacts
                     </a>
                 </li>
@@ -207,7 +207,7 @@
 
                 <!-- nav bar item -->
                 <li class="nav-item">
-                    <a class="nav-link active top-distance" href="/tasks">
+                    <a class="nav-link active top-distance" href="{% url 'task_list' %}">
                         Tasks
                     </a>
                 </li>
@@ -225,12 +225,12 @@
 
                         <!-- section -->
                         <div class="dropdown-header">Status information</div>
-                        <a class="dropdown-item" href="/taskprioritys">Taskpriorities</a>
-                        <a class="dropdown-item" href="/taskstatuss">Taskstatus</a>
+                        <a class="dropdown-item" href="{% url 'taskpriority_list' %}">Taskpriorities</a>
+                        <a class="dropdown-item" href="{% url 'taskstatus_list' %}">Taskstatus</a>
 
                         <!-- section -->
                         <div class="dropdown-header">Meta utilities</div>
-                        <a class="dropdown-item" href="/tasknames">Tasknames</a>
+                        <a class="dropdown-item" href="{% url 'taskname_list' %}">Tasknames</a>
 
                     <!-- nav bar dropdown menu -->
                     </div>
@@ -240,7 +240,7 @@
 
                 <!-- nav bar item -->
                 <li class="nav-item">
-                    <a class="nav-link active top-distance" href="/tags">
+                    <a class="nav-link active top-distance" href="{% url 'tag_list' %}">
                         Tags
                     </a>
                 </li>

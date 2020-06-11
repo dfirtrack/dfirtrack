@@ -25,7 +25,7 @@ class TagAPIViewTestCase(TestCase):
         """ unauthorized access is forbidden"""
 
         # get response
-        response = self.client.get('/api/tags/')
+        response = self.client.get('/api/tag/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -35,7 +35,7 @@ class TagAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_tag_api', password='2SxcYh8yo3rGs4PBqhg9')
         # get response
-        response = self.client.get('/api/tags/')
+        response = self.client.get('/api/tag/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -52,7 +52,7 @@ class TagAPIViewTestCase(TestCase):
             "tagcolor": tagcolor_id,
         }
         # get response
-        response = self.client.post('/api/tags/', data=poststring)
+        response = self.client.post('/api/tag/', data=poststring)
         # compare
         self.assertEqual(response.status_code, 201)
 
@@ -62,9 +62,9 @@ class TagAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_tag_api', password='2SxcYh8yo3rGs4PBqhg9')
         # create url
-        destination = urllib.parse.quote('/api/tags/', safe='/')
+        destination = urllib.parse.quote('/api/tag/', safe='/')
         # get response
-        response = self.client.get('/api/tags', follow=True)
+        response = self.client.get('/api/tag', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
@@ -74,7 +74,7 @@ class TagAPIViewTestCase(TestCase):
         # get object
         tag_api_1 = Tag.objects.get(tag_name='tag_api_1')
         # get response
-        response = self.client.get('/api/tags/' + str(tag_api_1.tag_id) + '/')
+        response = self.client.get('/api/tag/' + str(tag_api_1.tag_id) + '/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -86,7 +86,7 @@ class TagAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_tag_api', password='2SxcYh8yo3rGs4PBqhg9')
         # get response
-        response = self.client.get('/api/tags/' + str(tag_api_1.tag_id) + '/')
+        response = self.client.get('/api/tag/' + str(tag_api_1.tag_id) + '/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -98,7 +98,7 @@ class TagAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_tag_api', password='2SxcYh8yo3rGs4PBqhg9')
         # get response
-        response = self.client.delete('/api/tags/' + str(tag_api_1.tag_id) + '/')
+        response = self.client.delete('/api/tag/' + str(tag_api_1.tag_id) + '/')
         # compare
         self.assertEqual(response.status_code, 405)
 
@@ -112,7 +112,7 @@ class TagAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_tag_api', password='2SxcYh8yo3rGs4PBqhg9')
         # create url
-        destination = urllib.parse.quote('/api/tags/' + str(tag_api_1.tag_id) + '/', safe='/')
+        destination = urllib.parse.quote('/api/tag/' + str(tag_api_1.tag_id) + '/', safe='/')
         # create PUT string
         putstring = {
             "tag_name": "new_tag_api_1",
@@ -131,8 +131,8 @@ class TagAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_tag_api', password='2SxcYh8yo3rGs4PBqhg9')
         # create url
-        destination = urllib.parse.quote('/api/tags/' + str(tag_api_1.tag_id) + '/', safe='/')
+        destination = urllib.parse.quote('/api/tag/' + str(tag_api_1.tag_id) + '/', safe='/')
         # get response
-        response = self.client.get('/api/tags/' + str(tag_api_1.tag_id), follow=True)
+        response = self.client.get('/api/tag/' + str(tag_api_1.tag_id), follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)

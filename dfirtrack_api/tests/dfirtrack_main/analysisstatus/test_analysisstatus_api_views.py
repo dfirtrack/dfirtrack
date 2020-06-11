@@ -18,7 +18,7 @@ class AnalysisstatusAPIViewTestCase(TestCase):
         """ unauthorized access is forbidden"""
 
         # get response
-        response = self.client.get('/api/analysisstatuss/')
+        response = self.client.get('/api/analysisstatus/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -28,7 +28,7 @@ class AnalysisstatusAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_analysisstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
         # get response
-        response = self.client.get('/api/analysisstatuss/')
+        response = self.client.get('/api/analysisstatus/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -40,7 +40,7 @@ class AnalysisstatusAPIViewTestCase(TestCase):
         # create POST string
         poststring = {"analysisstatus_name": "analysisstatus_api_2"}
         # get response
-        response = self.client.post('/api/analysisstatuss/', data=poststring)
+        response = self.client.post('/api/analysisstatus/', data=poststring)
         # compare
         self.assertEqual(response.status_code, 405)
 
@@ -50,9 +50,9 @@ class AnalysisstatusAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_analysisstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
         # create url
-        destination = urllib.parse.quote('/api/analysisstatuss/', safe='/')
+        destination = urllib.parse.quote('/api/analysisstatus/', safe='/')
         # get response
-        response = self.client.get('/api/analysisstatuss', follow=True)
+        response = self.client.get('/api/analysisstatus', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
@@ -62,7 +62,7 @@ class AnalysisstatusAPIViewTestCase(TestCase):
         # get object
         analysisstatus_api_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_api_1')
         # get response
-        response = self.client.get('/api/analysisstatuss/' + str(analysisstatus_api_1.analysisstatus_id) + '/')
+        response = self.client.get('/api/analysisstatus/' + str(analysisstatus_api_1.analysisstatus_id) + '/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -74,7 +74,7 @@ class AnalysisstatusAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_analysisstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
         # get response
-        response = self.client.get('/api/analysisstatuss/' + str(analysisstatus_api_1.analysisstatus_id) + '/')
+        response = self.client.get('/api/analysisstatus/' + str(analysisstatus_api_1.analysisstatus_id) + '/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -86,7 +86,7 @@ class AnalysisstatusAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_analysisstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
         # get response
-        response = self.client.delete('/api/analysisstatuss/' + str(analysisstatus_api_1.analysisstatus_id) + '/')
+        response = self.client.delete('/api/analysisstatus/' + str(analysisstatus_api_1.analysisstatus_id) + '/')
         # compare
         self.assertEqual(response.status_code, 405)
 
@@ -98,7 +98,7 @@ class AnalysisstatusAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_analysisstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
         # create url
-        destination = urllib.parse.quote('/api/analysisstatuss/' + str(analysisstatus_api_1.analysisstatus_id) + '/', safe='/')
+        destination = urllib.parse.quote('/api/analysisstatus/' + str(analysisstatus_api_1.analysisstatus_id) + '/', safe='/')
         # create PUT string
         putstring = {"analysisstatus_name": "new_analysisstatus_api_1"}
         # get response
@@ -114,8 +114,8 @@ class AnalysisstatusAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_analysisstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
         # create url
-        destination = urllib.parse.quote('/api/analysisstatuss/' + str(analysisstatus_api_1.analysisstatus_id) + '/', safe='/')
+        destination = urllib.parse.quote('/api/analysisstatus/' + str(analysisstatus_api_1.analysisstatus_id) + '/', safe='/')
         # get response
-        response = self.client.get('/api/analysisstatuss/' + str(analysisstatus_api_1.analysisstatus_id), follow=True)
+        response = self.client.get('/api/analysisstatus/' + str(analysisstatus_api_1.analysisstatus_id), follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)

@@ -27,63 +27,63 @@ function refreshParent() {
 // ####################################
 
 // popup window for adding company
-var companys_add_popup;
-function companys_add_popup() {
-    companys_add_popup = window.open("/companys/add_popup", "companys_add_popup", "height=600, width=1000");
+var company_add_popup;
+function company_add_popup() {
+    company_add_popup = window.open("/company/add_popup/", "company_add_popup", "height=600, width=1000");
 }
 
 // popup window for adding contact
-var contacts_add_popup;
-function contacts_add_popup() {
-    contacts_add_popup = window.open("/contacts/add_popup", "contacts_add_popup", "height=600, width=1000");
+var contact_add_popup;
+function contact_add_popup() {
+    contact_add_popup = window.open("/contact/add_popup/", "contact_add_popup", "height=600, width=1000");
 }
 
 // popup window for adding domain
-var domains_add_popup;
-function domains_add_popup() {
-    domains_add_popup = window.open("/domains/add_popup", "domains_add_popup", "height=600, width=1000");
+var domain_add_popup;
+function domain_add_popup() {
+    domain_add_popup = window.open("/domain/add_popup/", "domain_add_popup", "height=600, width=1000");
 }
 
 // popup window for adding dnsname
-var dnsnames_add_popup;
-function dnsnames_add_popup() {
-    dnsnames_add_popup = window.open("/dnsnames/add_popup", "dnsnames_add_popup", "height=600, width=1000");
+var dnsname_add_popup;
+function dnsname_add_popup() {
+    dnsname_add_popup = window.open("/dnsname/add_popup/", "dnsname_add_popup", "height=600, width=1000");
 }
 
 // popup window for adding location
-var locations_add_popup;
-function locations_add_popup() {
-    locations_add_popup = window.open("/locations/add_popup", "locations_add_popup", "height=600, width=1000");
+var location_add_popup;
+function location_add_popup() {
+    location_add_popup = window.open("/location/add_popup/", "location_add_popup", "height=600, width=1000");
 }
 
 // popup window for adding operating system
-var oss_add_popup;
-function oss_add_popup() {
-    oss_add_popup = window.open("/oss/add_popup", "oss_add_popup", "height=600, width=1000");
+var os_add_popup;
+function os_add_popup() {
+    os_add_popup = window.open("/os/add_popup/", "os_add_popup", "height=600, width=1000");
 }
 
 // popup window for adding reason
-var reasons_add_popup;
-function reasons_add_popup() {
-    reasons_add_popup = window.open("/reasons/add_popup", "reasons_add_popup", "height=600, width=1000");
+var reason_add_popup;
+function reason_add_popup() {
+    reason_add_popup = window.open("/reason/add_popup/", "reason_add_popup", "height=600, width=1000");
 }
 
 // popup window for adding recommendation
-var recommendations_add_popup;
-function recommendations_add_popup() {
-    recommendations_add_popup = window.open("/recommendations/add_popup", "recommendations_add_popup", "height=600, width=1000");
+var recommendation_add_popup;
+function recommendation_add_popup() {
+    recommendation_add_popup = window.open("/recommendation/add_popup/", "recommendation_add_popup", "height=600, width=1000");
 }
 
 // popup window for adding serviceprovider
-var serviceproviders_add_popup;
-function serviceproviders_add_popup() {
-    serviceproviders_add_popup = window.open("/serviceproviders/add_popup", "serviceproviders_add_popup", "height=600, width=1000");
+var serviceprovider_add_popup;
+function serviceprovider_add_popup() {
+    serviceprovider_add_popup = window.open("/serviceprovider/add_popup/", "serviceprovider_add_popup", "height=600, width=1000");
 }
 
 // popup window for adding systemtype
-var systemtypes_add_popup;
-function systemtypes_add_popup() {
-    systemtypes_add_popup = window.open("/systemtypes/add_popup", "systemtypes_add_popup", "height=600, width=1000");
+var systemtype_add_popup;
+function systemtype_add_popup() {
+    systemtype_add_popup = window.open("/systemtype/add_popup/", "systemtype_add_popup", "height=600, width=1000");
 }
 
 // ####################################

@@ -1,0 +1,245 @@
+<!-- extending maintemplate -->
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+<!-- HTML head in maintemplate -->
+{% block head %}
+
+<!-- page title -->
+<title>
+    DFIRTrack - Systems
+</title>
+
+<!-- javascript and CSS for datatables -->
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.css' %}"/>
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.js' %}"></script>
+
+<!-- HTML head in maintemplate -->
+{% endblock %}
+
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
+{% block content %}
+
+<!-- headline -->
+<div class="row bottom-distance">
+    <div class="col">
+        <h5>
+            Systems
+        </h5>
+    </div>
+</div>
+
+<!-- datatable system -->
+<table id="table_system" class="display" width="100%">
+
+    <!-- table head -->
+    <thead>
+        {% include "dfirtrack_main/includes/datatable_thead_table_system.html" %}
+    </thead>
+
+    <!-- table body -->
+    <tbody>
+        {% for i in system_list %}
+            {% include "dfirtrack_main/includes/datatable_tbody_table_system.html" %}
+        {% endfor %}
+    </tbody>
+
+<!-- datatable system -->
+</table>
+
+<!-- javascript for datatables -->
+<script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
+
+<!-- button block -->
+<div class="card card-body bg-dark border-light top-distance copy-false">
+
+    <!-- headlines -->
+    <div class="row copy-false">
+        <div class="col-6">
+            <h5>Create systems</h5>
+        </div>
+        <div class="col-4">
+            <h5>Import systems</h5>
+        </div>
+    </div>
+
+    <!-- button row -->
+    <div class="row copy-false">
+
+        <!-- system add button -->
+        <div class="col-2">
+            <a href="{% url 'system_create' %}" type="button" class="btn btn-light copy-false">
+                <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon right-distance copy-false" alt="icon">
+                Add system
+            </a>
+        </div>
+
+        <!-- system creator button -->
+        <div class="col-2">
+            <a href="{% url 'system_creator' %}" type="button" class="btn btn-light copy-false">
+                <img src="{% static 'dfirtrack_main/icons/box.svg' %}" class="icon right-distance copy-false" alt="icon">
+                Creator
+            </a>
+        </div>
+
+        <!-- placeholder -->
+        <div class="col-2">
+        </div>
+
+        <!-- system ips importer button -->
+        <div class="col-2">
+            <a href="{% url 'system_importer_file_csv' %}" type="button" class="btn btn-light copy-false">
+                <img src="{% static 'dfirtrack_main/icons/list.svg' %}" class="icon right-distance copy-false" alt="icon">
+                Import CSV
+            </a>
+        </div>
+
+    <!-- button row -->
+    </div>
+
+    <!-- headlines -->
+    <div class="row top-distance copy-false">
+        <div class="col-6">
+        </div>
+        <div class="col-2">
+            <h5>Import reportitems</h5>
+        </div>
+    </div>
+
+    <!-- button row -->
+    <div class="row copy-false">
+
+        <!-- placeholder -->
+        <div class="col-6">
+        </div>
+
+        <!-- system tags importer button -->
+        <div class="col-2">
+            <a href="{% url 'reportitem_importer_file_filesystem' %}" type="button" class="btn btn-light copy-false">
+                <img src="{% static 'dfirtrack_main/icons/list.svg' %}" class="icon right-distance copy-false" alt="icon">
+                Import from filesystem
+            </a>
+        </div>
+
+    <!-- button row -->
+    </div>
+
+<!-- button block -->
+</div>
+
+<!-- button block -->
+<div class="card card-body bg-dark border-light top-distance copy-false">
+
+    <!-- headlines -->
+    <div class="row copy-false">
+        <div class="col-6">
+            <h5>Export to spreadsheet</h5>
+        </div>
+        <div class="col-6">
+            <h5>Export to markdown</h5>
+        </div>
+    </div>
+
+    <!-- button row -->
+    <div class="row copy-false">
+
+        <!-- export CSV button -->
+        <div class="col-2">
+            <a href="{% url 'system_exporter_spreadsheet_csv' %}" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/list.svg' %}" class="icon right-distance copy-false" alt="icon">  Export CSV</a>
+        </div>
+
+        <!-- export XLS button -->
+        <div class="col-4">
+            <a href="{% url 'system_exporter_spreadsheet_xls' %}" type="button" class="btn btn-light copy-false">
+                <img src="{% static 'dfirtrack_main/icons/spreadsheet.svg' %}" class="icon right-distance copy-false" alt="icon">
+                Export XLS
+            </a>
+        </div>
+
+        <!-- export markdown (system) button -->
+        <div class="col-2">
+            <a href="{% url 'system_exporter_markdown_systemsorted' %}" type="button" class="btn btn-light copy-false">
+                <img src="{% static 'dfirtrack_main/icons/list-rich.svg' %}" class="icon right-distance copy-false" alt="icon">
+                Export sorted by system
+            </a>
+        </div>
+
+        <!-- export markdown (domain) button -->
+        <div class="col-3">
+            <a href="{% url 'system_exporter_markdown_domainsorted' %}" type="button" class="btn btn-light copy-false">
+                <img src="{% static 'dfirtrack_main/icons/list-rich.svg' %}" class="icon right-distance copy-false" alt="icon">
+                Export sorted by domain
+            </a>
+        </div>
+
+    <!-- button row -->
+    </div>
+
+<!-- button block -->
+</div>
+
+<!-- check for dfirtrack_api -->
+{% if dfirtrack_api == True %}
+
+    <!-- button block -->
+    <div class="card card-body bg-dark border-light top-distance copy-false">
+
+        <!-- headlines -->
+        <div class="row">
+            <div class="col-6">
+                <h5>Import via GIRAF API</h5>
+            </div>
+            <div class="col-6">
+                <h5>Show API view</h5>
+            </div>
+        </div>
+
+        <!-- button row -->
+        <div class="row">
+
+            <!-- import systems button -->
+            <div class="col-2">
+                <a href="{% url 'system_importer_api_giraf' %}" type="button" class="btn btn-light copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/cloud-download.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    Import systems
+                </a>
+            </div>
+
+            <!-- import timeline entries button -->
+            <div class="col-2">
+                <a href="{% url 'entry_importer_api_giraf' %}?redirector=system" type="button" class="btn btn-light copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/cloud-download.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    Import timeline entries
+                </a>
+            </div>
+
+            <!-- placeholder -->
+            <div class="col-2">
+            </div>
+
+            <!-- show api view button -->
+            <div class="col-2">
+                <a href="/api/system/" type="button" class="btn btn-light copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/project.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    API view
+                </a>
+            </div>
+
+        <!-- button row -->
+        </div>
+
+    <!-- button block -->
+    </div>
+
+<!-- check for dfirtrack_api -->
+{% endif %}
+
+<!-- javascript for datatables -->
+{% block datatables %}
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.js' %}"></script>
+{% endblock %}
+
+<!-- HTML body in maintemplate -->
+{% endblock %}

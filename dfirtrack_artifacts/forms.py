@@ -37,9 +37,22 @@ class ArtifactForm(forms.ModelForm):
         # special form type or option
         widgets = {
             'artifact_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
-            'artifact_md5': forms.TextInput(attrs={'size': '32'}),
-            'artifact_sha1': forms.TextInput(attrs={'size': '40'}),
-            'artifact_sha256': forms.TextInput(attrs={'size': '64'}),
+            'artifact_source_path': forms.TextInput(attrs={
+                'size': '100',
+                'style': 'font-family: monospace',
+            }),
+            'artifact_md5': forms.TextInput(attrs={
+                'size': '32',
+                'style': 'font-family: monospace',
+            }),
+            'artifact_sha1': forms.TextInput(attrs={
+                'size': '40',
+                'style': 'font-family: monospace',
+            }),
+            'artifact_sha256': forms.TextInput(attrs={
+                'size': '64',
+                'style': 'font-family: monospace',
+            }),
         }
 
     def clean(self):

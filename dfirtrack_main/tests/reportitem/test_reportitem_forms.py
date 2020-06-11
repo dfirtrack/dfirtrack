@@ -34,7 +34,7 @@ class ReportitemFormTestCase(TestCase):
         # get object
         form = ReportitemForm()
         # compare
-        self.assertEquals(form.fields['system'].label, 'System (*)')
+        self.assertEqual(form.fields['system'].label, 'System (*)')
 
     def test_reportitem_headline_form_label(self):
         """ test form label """
@@ -42,7 +42,7 @@ class ReportitemFormTestCase(TestCase):
         # get object
         form = ReportitemForm()
         # compare
-        self.assertEquals(form.fields['headline'].label, 'Headline (*)')
+        self.assertEqual(form.fields['headline'].label, 'Headline (*)')
 
     def test_reportitem_subheadline_form_label(self):
         """ test form label """
@@ -50,7 +50,7 @@ class ReportitemFormTestCase(TestCase):
         # get object
         form = ReportitemForm()
         # compare
-        self.assertEquals(form.fields['reportitem_subheadline'].label, 'Subheadline')
+        self.assertEqual(form.fields['reportitem_subheadline'].label, 'Subheadline')
 
     def test_reportitem_note_form_label(self):
         """ test form label """
@@ -58,7 +58,7 @@ class ReportitemFormTestCase(TestCase):
         # get object
         form = ReportitemForm()
         # compare
-        self.assertEquals(form.fields['reportitem_note'].label, 'Note (*)')
+        self.assertEqual(form.fields['reportitem_note'].label, 'Note (*)')
 
     def test_reportitem_form_empty(self):
         """ test minimum form requirements / INVALID """

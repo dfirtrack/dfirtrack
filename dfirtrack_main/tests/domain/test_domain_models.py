@@ -26,7 +26,7 @@ class DomainModelTestCase(TestCase):
         # get label
         field_label = domain_1._meta.get_field('domain_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'domain id')
+        self.assertEqual(field_label, 'domain id')
 
     def test_domain_name_attribute_label(self):
         """ test attribute label """
@@ -36,7 +36,7 @@ class DomainModelTestCase(TestCase):
         # get label
         field_label = domain_1._meta.get_field('domain_name').verbose_name
         # compare
-        self.assertEquals(field_label, 'domain name')
+        self.assertEqual(field_label, 'domain name')
 
     def test_domain_note_attribute_label(self):
         """ test attribute label """
@@ -46,7 +46,7 @@ class DomainModelTestCase(TestCase):
         # get label
         field_label = domain_1._meta.get_field('domain_note').verbose_name
         # compare
-        self.assertEquals(field_label, 'domain note')
+        self.assertEqual(field_label, 'domain note')
 
     def test_domain_name_length(self):
         """ test for max length """
@@ -56,4 +56,4 @@ class DomainModelTestCase(TestCase):
         # get max length
         max_length = domain_1._meta.get_field('domain_name').max_length
         # compare
-        self.assertEquals(max_length, 100)
+        self.assertEqual(max_length, 100)

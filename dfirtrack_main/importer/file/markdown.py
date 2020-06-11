@@ -1,6 +1,7 @@
 from dateutil.parser import parse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from dfirtrack_main.forms import EntryFileImport
 from dfirtrack_main.logger.default_logger import debug_logger, warning_logger
 from dfirtrack_main.models import Entry
@@ -8,7 +9,7 @@ import hashlib
 from io import TextIOWrapper
 
 @login_required(login_url="/login")
-def entrys(request):
+def entry(request):
     """ this form parses a file and tries to get entries for a single system """
 
     # form was valid to post
@@ -87,13 +88,13 @@ def entrys(request):
                 entry = form.save(commit=False)
 
                 # set values from file (row / column)
-                entry.entry_time = entry_time 
+                entry.entry_time = entry_time
                 entry.entry_sha1 = entry_sha1
-                entry.entry_date = entry_date 
-                entry.entry_utc = entry_utc 
-                entry.entry_system = entry_system 
-                entry.entry_type = entry_type 
-                entry.entry_content = entry_content 
+                entry.entry_date = entry_date
+                entry.entry_utc = entry_utc
+                entry.entry_system = entry_system
+                entry.entry_type = entry_type
+                entry.entry_content = entry_content
 
                 # set auto values
                 entry.entry_created_by_user_id = request.user
@@ -108,7 +109,7 @@ def entrys(request):
         # call logger
         debug_logger(str(request.user), " ENTRY_TXT_IMPORTER_END")
 
-        return redirect('/systems/'+ system)
+        return redirect(reverse('system_detail', args=(system,)))
 
     else:
         # show empty form with preselected system
@@ -123,5 +124,5 @@ def entrys(request):
 
         # call logger
         debug_logger(str(request.user), " ENTRY_TXT_IMPORTER_ENTERED")
-    return render(request, 'dfirtrack_main/entry/entrys_file_importer.html', {'form': form})
+    return render(request, 'dfirtrack_main/entry/entry_file_importer.html', {'form': form})
 

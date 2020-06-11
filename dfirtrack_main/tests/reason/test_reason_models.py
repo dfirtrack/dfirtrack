@@ -26,7 +26,7 @@ class ReasonModelTestCase(TestCase):
         # get label
         field_label = reason_1._meta.get_field('reason_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'reason id')
+        self.assertEqual(field_label, 'reason id')
 
     def test_reason_name_attribute_label(self):
         """ test attribute label """
@@ -36,7 +36,7 @@ class ReasonModelTestCase(TestCase):
         # get label
         field_label = reason_1._meta.get_field('reason_name').verbose_name
         # compare
-        self.assertEquals(field_label, 'reason name')
+        self.assertEqual(field_label, 'reason name')
 
     def test_reason_note_attribute_label(self):
         """ test attribute label """
@@ -46,7 +46,7 @@ class ReasonModelTestCase(TestCase):
         # get label
         field_label = reason_1._meta.get_field('reason_note').verbose_name
         # compare
-        self.assertEquals(field_label, 'reason note')
+        self.assertEqual(field_label, 'reason note')
 
     def test_reason_name_length(self):
         """ test for max length """
@@ -56,4 +56,4 @@ class ReasonModelTestCase(TestCase):
         # get max length
         max_length = reason_1._meta.get_field('reason_name').max_length
         # compare
-        self.assertEquals(max_length, 30)
+        self.assertEqual(max_length, 30)

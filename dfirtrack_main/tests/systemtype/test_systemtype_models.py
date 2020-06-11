@@ -26,7 +26,7 @@ class SystemtypeModelTestCase(TestCase):
         # get label
         field_label = systemtype_1._meta.get_field('systemtype_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'systemtype id')
+        self.assertEqual(field_label, 'systemtype id')
 
     def test_systemtype_name_attribute_label(self):
         """ test attribute label """
@@ -36,7 +36,7 @@ class SystemtypeModelTestCase(TestCase):
         # get label
         field_label = systemtype_1._meta.get_field('systemtype_name').verbose_name
         # compare
-        self.assertEquals(field_label, 'systemtype name')
+        self.assertEqual(field_label, 'systemtype name')
 
     def test_systemtype_name_length(self):
         """ test for max length """
@@ -46,4 +46,4 @@ class SystemtypeModelTestCase(TestCase):
         # get max length
         max_length = systemtype_1._meta.get_field('systemtype_name').max_length
         # compare
-        self.assertEquals(max_length, 50)
+        self.assertEqual(max_length, 50)

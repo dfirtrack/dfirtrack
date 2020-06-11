@@ -31,7 +31,7 @@ class SystemuserFormTestCase(TestCase):
         # get object
         form = SystemuserForm()
         # compare
-        self.assertEquals(form.fields['systemuser_name'].label, 'Systemuser name (*)')
+        self.assertEqual(form.fields['systemuser_name'].label, 'Systemuser name (*)')
 
     def test_systemuser_lastlogon_time_form_label(self):
         """ test form label """
@@ -39,7 +39,7 @@ class SystemuserFormTestCase(TestCase):
         # get object
         form = SystemuserForm()
         # compare
-        self.assertEquals(form.fields['systemuser_lastlogon_time'].label, 'Last logon time (YYYY-MM-DD HH:MM:SS)')
+        self.assertEqual(form.fields['systemuser_lastlogon_time'].label, 'Last logon time (YYYY-MM-DD HH:MM:SS)')
 
     def test_systemuser_is_systemadmin_form_label(self):
         """ test form label """
@@ -47,7 +47,7 @@ class SystemuserFormTestCase(TestCase):
         # get object
         form = SystemuserForm()
         # compare
-        self.assertEquals(form.fields['systemuser_is_systemadmin'].label, 'Systemuser is systemadmin')
+        self.assertEqual(form.fields['systemuser_is_systemadmin'].label, 'Systemuser is systemadmin')
 
     def test_systemuser_system_form_label(self):
         """ test form label """
@@ -55,7 +55,7 @@ class SystemuserFormTestCase(TestCase):
         # get object
         form = SystemuserForm()
         # compare
-        self.assertEquals(form.fields['system'].label, 'System (*)')
+        self.assertEqual(form.fields['system'].label, 'System (*)')
 
     def test_systemuser_form_empty(self):
         """ test minimum form requirements / INVALID """

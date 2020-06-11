@@ -17,7 +17,7 @@ class TagFormTestCase(TestCase):
         # get object
         form = TagForm()
         # compare
-        self.assertEquals(form.fields['tag_name'].label, 'Tag name (*)')
+        self.assertEqual(form.fields['tag_name'].label, 'Tag name (*)')
 
     def test_tag_tagcolor_form_label(self):
         """ test form label """
@@ -25,7 +25,7 @@ class TagFormTestCase(TestCase):
         # get object
         form = TagForm()
         # compare
-        self.assertEquals(form.fields['tagcolor'].label, 'Tag color (*)')
+        self.assertEqual(form.fields['tagcolor'].label, 'Tag color (*)')
 
     def test_tag_note_form_label(self):
         """ test form label """
@@ -33,7 +33,7 @@ class TagFormTestCase(TestCase):
         # get object
         form = TagForm()
         # compare
-        self.assertEquals(form.fields['tag_note'].label, 'Tag note')
+        self.assertEqual(form.fields['tag_note'].label, 'Tag note')
 
     def test_tag_form_empty(self):
         """ test minimum form requirements / INVALID """

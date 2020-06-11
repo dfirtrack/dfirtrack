@@ -10,7 +10,7 @@ class DivisionFormTestCase(TestCase):
         # get object
         form = DivisionForm()
         # compare
-        self.assertEquals(form.fields['division_name'].label, 'Division name (*)')
+        self.assertEqual(form.fields['division_name'].label, 'Division name (*)')
 
     def test_division_note_label(self):
         """ test form label """
@@ -18,7 +18,7 @@ class DivisionFormTestCase(TestCase):
         # get object
         form = DivisionForm()
         # compare
-        self.assertEquals(form.fields['division_note'].label, 'Division note')
+        self.assertEqual(form.fields['division_note'].label, 'Division note')
 
     def test_division_form_empty(self):
         """ test minimum form requirements / INVALID """

@@ -43,7 +43,7 @@ class SystemuserModelTestCase(TestCase):
         # get label
         field_label = systemuser_1._meta.get_field('systemuser_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'systemuser id')
+        self.assertEqual(field_label, 'systemuser id')
 
     def test_systemuser_system_attribute_label(self):
         """ test attribute label """
@@ -53,7 +53,7 @@ class SystemuserModelTestCase(TestCase):
         # get label
         field_label = systemuser_1._meta.get_field('system').verbose_name
         # compare
-        self.assertEquals(field_label, 'system')
+        self.assertEqual(field_label, 'system')
 
     def test_systemuser_name_attribute_label(self):
         """ test attribute label """
@@ -63,7 +63,7 @@ class SystemuserModelTestCase(TestCase):
         # get label
         field_label = systemuser_1._meta.get_field('systemuser_name').verbose_name
         # compare
-        self.assertEquals(field_label, 'systemuser name')
+        self.assertEqual(field_label, 'systemuser name')
 
     def test_systemuser_lastlogon_time_attribute_label(self):
         """ test attribute label """
@@ -73,7 +73,7 @@ class SystemuserModelTestCase(TestCase):
         # get label
         field_label = systemuser_1._meta.get_field('systemuser_lastlogon_time').verbose_name
         # compare
-        self.assertEquals(field_label, 'systemuser lastlogon time')
+        self.assertEqual(field_label, 'systemuser lastlogon time')
 
     def test_systemuser_is_systemadmin_attribute_label(self):
         """ test attribute label """
@@ -83,7 +83,7 @@ class SystemuserModelTestCase(TestCase):
         # get label
         field_label = systemuser_1._meta.get_field('systemuser_is_systemadmin').verbose_name
         # compare
-        self.assertEquals(field_label, 'systemuser is systemadmin')
+        self.assertEqual(field_label, 'systemuser is systemadmin')
 
     def test_systemuser_name_length(self):
         """ test for max length """
@@ -93,4 +93,4 @@ class SystemuserModelTestCase(TestCase):
         # get max length
         max_length = systemuser_1._meta.get_field('systemuser_name').max_length
         # compare
-        self.assertEquals(max_length, 50)
+        self.assertEqual(max_length, 50)

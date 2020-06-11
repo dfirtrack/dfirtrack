@@ -23,7 +23,7 @@ class CaseAPIViewTestCase(TestCase):
         """ unauthorized access is forbidden"""
 
         # get response
-        response = self.client.get('/api/cases/')
+        response = self.client.get('/api/case/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -33,7 +33,7 @@ class CaseAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_case_api', password='nkeZDU2qGKXWR49sAVf5')
         # get response
-        response = self.client.get('/api/cases/')
+        response = self.client.get('/api/case/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -51,7 +51,7 @@ class CaseAPIViewTestCase(TestCase):
             "case_created_by_user_id": test_user_id,
         }
         # get response
-        response = self.client.post('/api/cases/', data=poststring)
+        response = self.client.post('/api/case/', data=poststring)
         # compare
         self.assertEqual(response.status_code, 201)
 
@@ -61,9 +61,9 @@ class CaseAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_case_api', password='nkeZDU2qGKXWR49sAVf5')
         # create url
-        destination = urllib.parse.quote('/api/cases/', safe='/')
+        destination = urllib.parse.quote('/api/case/', safe='/')
         # get response
-        response = self.client.get('/api/cases', follow=True)
+        response = self.client.get('/api/case', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
@@ -73,7 +73,7 @@ class CaseAPIViewTestCase(TestCase):
         # get object
         case_api_1 = Case.objects.get(case_name='case_api_1')
         # get response
-        response = self.client.get('/api/cases/' + str(case_api_1.case_id) + '/')
+        response = self.client.get('/api/case/' + str(case_api_1.case_id) + '/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -85,7 +85,7 @@ class CaseAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_case_api', password='nkeZDU2qGKXWR49sAVf5')
         # get response
-        response = self.client.get('/api/cases/' + str(case_api_1.case_id) + '/')
+        response = self.client.get('/api/case/' + str(case_api_1.case_id) + '/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -97,7 +97,7 @@ class CaseAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_case_api', password='nkeZDU2qGKXWR49sAVf5')
         # get response
-        response = self.client.delete('/api/cases/' + str(case_api_1.case_id) + '/')
+        response = self.client.delete('/api/case/' + str(case_api_1.case_id) + '/')
         # compare
         self.assertEqual(response.status_code, 405)
 
@@ -111,7 +111,7 @@ class CaseAPIViewTestCase(TestCase):
         # get user
         test_user_id = str(User.objects.get(username='testuser_case_api').id)
         # create url
-        destination = urllib.parse.quote('/api/cases/' + str(case_api_1.case_id) + '/', safe='/')
+        destination = urllib.parse.quote('/api/case/' + str(case_api_1.case_id) + '/', safe='/')
         # create PUT string
         putstring = {
             "case_name": "case_api_3",
@@ -131,8 +131,8 @@ class CaseAPIViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_case_api', password='nkeZDU2qGKXWR49sAVf5')
         # create url
-        destination = urllib.parse.quote('/api/cases/' + str(case_api_1.case_id) + '/', safe='/')
+        destination = urllib.parse.quote('/api/case/' + str(case_api_1.case_id) + '/', safe='/')
         # get response
-        response = self.client.get('/api/cases/' + str(case_api_1.case_id), follow=True)
+        response = self.client.get('/api/case/' + str(case_api_1.case_id), follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)

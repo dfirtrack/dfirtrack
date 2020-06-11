@@ -26,7 +26,7 @@ class HeadlineModelTestCase(TestCase):
         # get label
         field_label = headline_1._meta.get_field('headline_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'headline id')
+        self.assertEqual(field_label, 'headline id')
 
     def test_headline_name_attribute_label(self):
         """ test attribute label """
@@ -36,7 +36,7 @@ class HeadlineModelTestCase(TestCase):
         # get label
         field_label = headline_1._meta.get_field('headline_name').verbose_name
         # compare
-        self.assertEquals(field_label, 'headline name')
+        self.assertEqual(field_label, 'headline name')
 
     def test_headline_name_length(self):
         """ test for max length """
@@ -46,4 +46,4 @@ class HeadlineModelTestCase(TestCase):
         # get max length
         max_length = headline_1._meta.get_field('headline_name').max_length
         # compare
-        self.assertEquals(max_length, 100)
+        self.assertEqual(max_length, 100)

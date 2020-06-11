@@ -14,59 +14,71 @@ class TaskstatusViewTestCase(TestCase):
         # create user
         test_user = User.objects.create_user(username='testuser_taskstatus', password='TZjmjiUQviOnIEral6l9')
 
-    def test_taskstatuss_list_not_logged_in(self):
+    def test_taskstatus_list_not_logged_in(self):
         """ test list view """
 
         # create url
-        destination = '/login/?next=' + urllib.parse.quote('/taskstatuss/', safe='')
+        destination = '/login/?next=' + urllib.parse.quote('/taskstatus/', safe='')
         # get response
-        response = self.client.get('/taskstatuss/', follow=True)
+        response = self.client.get('/taskstatus/', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
-    def test_taskstatuss_list_logged_in(self):
+    def test_taskstatus_list_logged_in(self):
         """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_taskstatus', password='TZjmjiUQviOnIEral6l9')
         # get response
-        response = self.client.get('/taskstatuss/')
+        response = self.client.get('/taskstatus/')
         # compare
         self.assertEqual(response.status_code, 200)
 
-    def test_taskstatuss_list_template(self):
+    def test_taskstatus_list_template(self):
         """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_taskstatus', password='TZjmjiUQviOnIEral6l9')
         # get response
-        response = self.client.get('/taskstatuss/')
+        response = self.client.get('/taskstatus/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/taskstatus/taskstatuss_list.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/taskstatus/taskstatus_list.html')
 
-    def test_taskstatuss_list_get_user_context(self):
+    def test_taskstatus_list_get_user_context(self):
         """ test list view """
 
         # login testuser
         login = self.client.login(username='testuser_taskstatus', password='TZjmjiUQviOnIEral6l9')
         # get response
-        response = self.client.get('/taskstatuss/')
+        response = self.client.get('/taskstatus/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_taskstatus')
 
-    def test_taskstatuss_detail_not_logged_in(self):
+    def test_taskstatus_list_redirect(self):
+        """ test list view """
+
+        # login testuser
+        login = self.client.login(username='testuser_taskstatus', password='TZjmjiUQviOnIEral6l9')
+        # create url
+        destination = urllib.parse.quote('/taskstatus/', safe='/')
+        # get response
+        response = self.client.get('/taskstatus', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_taskstatus_detail_not_logged_in(self):
         """ test detail view """
 
         # get object
         taskstatus_1 = Taskstatus.objects.get(taskstatus_name='taskstatus_1')
         # create url
-        destination = '/login/?next=' + urllib.parse.quote('/taskstatuss/' + str(taskstatus_1.taskstatus_id), safe='')
+        destination = '/login/?next=' + urllib.parse.quote('/taskstatus/' + str(taskstatus_1.taskstatus_id) + '/', safe='')
         # get response
-        response = self.client.get('/taskstatuss/' + str(taskstatus_1.taskstatus_id), follow=True)
+        response = self.client.get('/taskstatus/' + str(taskstatus_1.taskstatus_id) + '/', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
-    def test_taskstatuss_detail_logged_in(self):
+    def test_taskstatus_detail_logged_in(self):
         """ test detail view """
 
         # get object
@@ -74,11 +86,11 @@ class TaskstatusViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_taskstatus', password='TZjmjiUQviOnIEral6l9')
         # get response
-        response = self.client.get('/taskstatuss/' + str(taskstatus_1.taskstatus_id))
+        response = self.client.get('/taskstatus/' + str(taskstatus_1.taskstatus_id) + '/')
         # compare
         self.assertEqual(response.status_code, 200)
 
-    def test_taskstatuss_detail_template(self):
+    def test_taskstatus_detail_template(self):
         """ test detail view """
 
         # get object
@@ -86,11 +98,11 @@ class TaskstatusViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_taskstatus', password='TZjmjiUQviOnIEral6l9')
         # get response
-        response = self.client.get('/taskstatuss/' + str(taskstatus_1.taskstatus_id))
+        response = self.client.get('/taskstatus/' + str(taskstatus_1.taskstatus_id) + '/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/taskstatus/taskstatuss_detail.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/taskstatus/taskstatus_detail.html')
 
-    def test_taskstatuss_detail_get_user_context(self):
+    def test_taskstatus_detail_get_user_context(self):
         """ test detail view """
 
         # get object
@@ -98,6 +110,20 @@ class TaskstatusViewTestCase(TestCase):
         # login testuser
         login = self.client.login(username='testuser_taskstatus', password='TZjmjiUQviOnIEral6l9')
         # get response
-        response = self.client.get('/taskstatuss/' + str(taskstatus_1.taskstatus_id))
+        response = self.client.get('/taskstatus/' + str(taskstatus_1.taskstatus_id) + '/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_taskstatus')
+
+    def test_taskstatus_detail_redirect(self):
+        """ test detail view """
+
+        # get object
+        taskstatus_1 = Taskstatus.objects.get(taskstatus_name='taskstatus_1')
+        # login testuser
+        login = self.client.login(username='testuser_taskstatus', password='TZjmjiUQviOnIEral6l9')
+        # create url
+        destination = urllib.parse.quote('/taskstatus/' + str(taskstatus_1.taskstatus_id) + '/', safe='/')
+        # get response
+        response = self.client.get('/taskstatus/' + str(taskstatus_1.taskstatus_id), follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)

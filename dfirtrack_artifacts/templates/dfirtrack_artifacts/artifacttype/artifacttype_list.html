@@ -9,7 +9,7 @@
     DFIRTrack - Artifacttypes
 </title>
 
-{% load staticfiles %}
+{% load static %}
 
 <!-- HTML head in maintemplate -->
 {% endblock %}
@@ -62,7 +62,7 @@
 
         <!-- artifacttype name -->
         <div class="col-2">
-            <a href="/artifacts/artifacttype/detail/{{ i.artifacttype_id }}/">
+            <a href="{{ i.get_absolute_url }}">
                 {{ i.artifacttype_name }}
             </a>
         </div>
@@ -78,7 +78,7 @@
 
         <!-- edit button -->
         <div class="col-1">
-            <a href="/artifacts/artifacttype/update/{{ i.artifacttype_id }}" type="button" class="btn btn-light copy-false">
+            <a href="{{ i.get_update_url }}" type="button" class="btn btn-light copy-false">
                 <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                 Edit
             </a>
@@ -93,7 +93,7 @@
 <!-- add button -->
 <div class="row top-distance">
     <div class="col-1">
-        <a href="/artifacts/artifacttype/create" type="button" class="btn btn-light copy-false">
+        <a href="{% url 'artifacts_artifacttype_create' %}" type="button" class="btn btn-light copy-false">
             <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon right-distance copy-false" alt="icon">
             Add artifacttype
         </a>

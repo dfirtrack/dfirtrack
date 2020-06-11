@@ -1,6 +1,6 @@
 <!-- table body for datatable system -->
 
-{% load staticfiles %}
+{% load static %}
 
 <!-- table row -->
 <!-- (just one row, iterating over rows is done outside of this include file) -->
@@ -13,7 +13,7 @@
 
     <!-- system name -->
     <td>
-        <a href="/systems/{{ i.system_id }}" type="button" class="btn btn-primary btn-sm top-distance copy-true">
+        <a href="{{ i.get_absolute_url }}" type="button" class="btn btn-primary btn-sm top-distance copy-true">
             <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon right-distance copy-false" alt="icon">
             {{ i.system_name }}
         </a>
@@ -31,7 +31,7 @@
         {% if i.analysisstatus %}
             <!-- tooltip with analysisstatus note -->
             <span data-toggle="tooltip" data-placement="auto" title="{{ i.analysisstatus.analysisstatus_note }}">
-                <a href="/analysisstatuss/{{ i.analysisstatus.analysisstatus_id }}">
+                <a href="{{ i.analysisstatus.get_absolute_url }}">
                     {{ i.analysisstatus }}
                 </a>
             </span>

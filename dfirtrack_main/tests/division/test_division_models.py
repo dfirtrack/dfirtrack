@@ -26,7 +26,7 @@ class DivisionModelTestCase(TestCase):
         # get label
         field_label = division_1._meta.get_field('division_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'division id')
+        self.assertEqual(field_label, 'division id')
 
     def test_division_name_attribute_label(self):
         """ test attribute label """
@@ -36,7 +36,7 @@ class DivisionModelTestCase(TestCase):
         # get label
         field_label = division_1._meta.get_field('division_name').verbose_name
         # compare
-        self.assertEquals(field_label, 'division name')
+        self.assertEqual(field_label, 'division name')
 
     def test_division_note_attribute_label(self):
         """ test attribute label """
@@ -46,7 +46,7 @@ class DivisionModelTestCase(TestCase):
         # get label
         field_label = division_1._meta.get_field('division_note').verbose_name
         # compare
-        self.assertEquals(field_label, 'division note')
+        self.assertEqual(field_label, 'division note')
 
     def test_division_name_length(self):
         """ test for max length """
@@ -56,4 +56,4 @@ class DivisionModelTestCase(TestCase):
         # get max length
         max_length = division_1._meta.get_field('division_name').max_length
         # compare
-        self.assertEquals(max_length, 50)
+        self.assertEqual(max_length, 50)

@@ -1,3 +1,7 @@
+# Ansible files
+*.retry
+hosts_local
+
 # Backup files
 *.backup
 *.bak
@@ -365,5 +369,5 @@ $RECYCLE.BIN/
 # Venv
 venv/
 
-#Vagrant
+# Vagrant
 .vagrant/

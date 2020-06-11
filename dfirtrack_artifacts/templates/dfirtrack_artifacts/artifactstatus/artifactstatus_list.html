@@ -9,7 +9,7 @@
     DFIRTrack - Artifactstatus
 </title>
 
-{% load staticfiles %}
+{% load static %}
 
 <!-- HTML head in maintemplate -->
 {% endblock %}
@@ -62,7 +62,7 @@
 
         <!-- artifactstatus name -->
         <div class="col-2">
-            <a href="/artifacts/artifactstatus/detail/{{ i.artifactstatus_id }}">
+            <a href="{{ i.get_absolute_url }}">
                 {{ i.artifactstatus_name }}
             </a>
         </div>

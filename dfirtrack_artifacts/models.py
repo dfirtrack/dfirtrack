@@ -208,9 +208,6 @@ class Artifactstatus(models.Model):
     def get_absolute_url(self):
         return reverse('artifacts_artifactstatus_detail', args=(self.pk,))
 
-    def get_update_url(self):
-        return reverse('artifacts_artifactstatus_update', args=(self.pk,))
-
 class Artifacttype(models.Model):
     ''' Artifacttype like File, Registry-Key, Registry-Hive, etc. '''
 
@@ -241,7 +238,7 @@ class Artifacttype(models.Model):
         )
 
     def get_absolute_url(self):
-            return reverse('artifacts_artifacttype_detail', args=(self.pk,))
+        return reverse('artifacts_artifacttype_detail', args=(self.pk,))
 
     def get_update_url(self):
         return reverse('artifacts_artifacttype_update', args=(self.pk,))

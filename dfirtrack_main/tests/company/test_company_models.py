@@ -26,7 +26,7 @@ class CompanyModelTestCase(TestCase):
         # get label
         field_label = company_1._meta.get_field('company_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'company id')
+        self.assertEqual(field_label, 'company id')
 
     def test_company_division_attribute_label(self):
         """ test attribute label """
@@ -36,7 +36,7 @@ class CompanyModelTestCase(TestCase):
         # get label
         field_label = company_1._meta.get_field('division').verbose_name
         # compare
-        self.assertEquals(field_label, 'division')
+        self.assertEqual(field_label, 'division')
 
     def test_company_name_attribute_label(self):
         """ test attribute label """
@@ -46,7 +46,7 @@ class CompanyModelTestCase(TestCase):
         # get label
         field_label = company_1._meta.get_field('company_name').verbose_name
         # compare
-        self.assertEquals(field_label, 'company name')
+        self.assertEqual(field_label, 'company name')
 
     def test_company_note_attribute_label(self):
         """ test attribute label """
@@ -56,7 +56,7 @@ class CompanyModelTestCase(TestCase):
         # get label
         field_label = company_1._meta.get_field('company_note').verbose_name
         # compare
-        self.assertEquals(field_label, 'company note')
+        self.assertEqual(field_label, 'company note')
 
     def test_company_name_length(self):
         """ test for max length """
@@ -66,4 +66,4 @@ class CompanyModelTestCase(TestCase):
         # get max length
         max_length = company_1._meta.get_field('company_name').max_length
         # compare
-        self.assertEquals(max_length, 50)
+        self.assertEqual(max_length, 50)

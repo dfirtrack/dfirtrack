@@ -48,7 +48,7 @@ class AnalystmemoModelTestCase(TestCase):
         # get label
         field_label = analystmemo_1._meta.get_field('analystmemo_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'analystmemo id')
+        self.assertEqual(field_label, 'analystmemo id')
 
     def test_analystmemo_system_attribute_label(self):
         """ test attribute label """
@@ -58,7 +58,7 @@ class AnalystmemoModelTestCase(TestCase):
         # get label
         field_label = analystmemo_1._meta.get_field('system').verbose_name
         # compare
-        self.assertEquals(field_label, 'system')
+        self.assertEqual(field_label, 'system')
 
     def test_analystmemo_note_attribute_label(self):
         """ test attribute label """
@@ -68,7 +68,7 @@ class AnalystmemoModelTestCase(TestCase):
         # get label
         field_label = analystmemo_1._meta.get_field('analystmemo_note').verbose_name
         # compare
-        self.assertEquals(field_label, 'analystmemo note')
+        self.assertEqual(field_label, 'analystmemo note')
 
     def test_analystmemo_create_time_attribute_label(self):
         """ test attribute label """
@@ -78,7 +78,7 @@ class AnalystmemoModelTestCase(TestCase):
         # get label
         field_label = analystmemo_1._meta.get_field('analystmemo_create_time').verbose_name
         # compare
-        self.assertEquals(field_label, 'analystmemo create time')
+        self.assertEqual(field_label, 'analystmemo create time')
 
     def test_analystmemo_modify_time_attribute_label(self):
         """ test attribute label """
@@ -88,7 +88,7 @@ class AnalystmemoModelTestCase(TestCase):
         # get label
         field_label = analystmemo_1._meta.get_field('analystmemo_modify_time').verbose_name
         # compare
-        self.assertEquals(field_label, 'analystmemo modify time')
+        self.assertEqual(field_label, 'analystmemo modify time')
 
     def test_analystmemo_created_by_user_id_attribute_label(self):
         """ test attribute label """
@@ -98,7 +98,7 @@ class AnalystmemoModelTestCase(TestCase):
         # get label
         field_label = analystmemo_1._meta.get_field('analystmemo_created_by_user_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'analystmemo created by user id')
+        self.assertEqual(field_label, 'analystmemo created by user id')
 
     def test_analystmemo_modified_by_user_id_attribute_label(self):
         """ test attribute label """
@@ -108,4 +108,4 @@ class AnalystmemoModelTestCase(TestCase):
         # get label
         field_label = analystmemo_1._meta.get_field('analystmemo_modified_by_user_id').verbose_name
         # compare
-        self.assertEquals(field_label, 'analystmemo modified by user id')
+        self.assertEqual(field_label, 'analystmemo modified by user id')
