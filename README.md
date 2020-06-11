@@ -38,7 +38,9 @@ DFIRTrack is developed for deploying on **Debian** or **Ubuntu**.
 Other distributions may work but were not tested yet.
 At the moment the project will be focused on Ubuntu LTS and Debian releases.
 
-For fast and uncomplicated installation on a dedicated server including all dependencies an [Ansible](https://docs.ansible.com/ansible/latest/) playbook and role was written (available [here](https://github.com/stuhli/dfirtrack_ansible)).
+For fast and uncomplicated installation on a dedicated server including all dependencies an [Ansible](https://docs.ansible.com/ansible/latest/) playbook and role were written (available in `ansible`).
+For information about deployment with Ansible look at the  [Wiki - Ansible](https://github.com/stuhli/dfirtrack/wiki/Ansible).
+
 For testing a docker environment was prepared (see below).
 
 For installation with your own setup or for testing look at the [Wiki - Installation](https://github.com/stuhli/dfirtrack/wiki/Installation).
@@ -82,7 +84,6 @@ There are two main branches:
 The master branch should be stable (as you can expect from an alpha version).
 New features and changes are added to the develop branch and merged into master from time to time.
 Everything merged into develop should run too but might need manual changes (e. g. config).
-[devolop branch](https://github.com/stuhli/dfirtrack_ansible/tree/develop) of DFIRTrack Ansible should follow these changes.
 So if you want to see the latest features and progress: "check out" develop.
 
 ## License
