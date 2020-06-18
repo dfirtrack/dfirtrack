@@ -1033,6 +1033,7 @@ class TaskCreatorForm(forms.ModelForm):
             'taskpriority',
             'taskstatus',
             'task_assigned_to_user_id',
+            'task_note',
             'tag',
         )
 
@@ -1040,6 +1041,7 @@ class TaskCreatorForm(forms.ModelForm):
         widgets = {
             'taskpriority': forms.RadioSelect(),
             'taskstatus': forms.RadioSelect(),
+            'task_note': forms.Textarea(attrs={'rows': 10}),
             # TODO: remove when CheckboxSelectMultiple is fixed
             'tag': forms.CheckboxSelectMultiple(),
         }
