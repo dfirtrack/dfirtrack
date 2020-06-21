@@ -5,7 +5,7 @@ from django.urls import reverse
 from django_q.tasks import async_task
 from dfirtrack.config import MARKDOWN_PATH as markdown_path
 from .markdown_check_data import check_config
-from . import clean_directory, write_report
+from . import clean_directory, read_or_create_mkdocs_yml, write_report
 from dfirtrack_main.logger.default_logger import debug_logger, info_logger
 from dfirtrack_main.models import Domain, System
 import fileinput
@@ -177,14 +177,8 @@ def domainsorted_async(request_user):
     # get path for mkdocs.yml
     mkdconfpath = markdown_path + "/mkdocs.yml"
 
-    # open mkdocs.yml for reading
-    mkdconffile = open(mkdconfpath, "r")
-
-    # read YAML to dict
-    mkdconfdict = yaml.load(mkdconffile)
-
-    # close mkdocs.yml
-    mkdconffile.close()
+    # read content (dictionary) of mkdocs.yml if existent, else create dummy content
+    mkdconfdict = read_or_create_mkdocs_yml.read_or_create_mkdocs_yml(request_user, mkdconfpath)
 
     # get pages list
     mkdconflist = mkdconfdict['pages']

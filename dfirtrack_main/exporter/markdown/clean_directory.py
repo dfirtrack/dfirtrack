@@ -17,6 +17,6 @@ def clean_directory(request_user):
         debug_logger(request_user, " SYSTEM_MARKDOWN_ALL_SYSTEMS_DIRECTORY_CLEANED")
     else:
         # create markdown directory
-        os.mkdir(markdown_path + "/docs/systems/")
+        os.makedirs(markdown_path + "/docs/systems/")
         # call logger
         info_logger(request_user, " SYSTEM_MARKDOWN_FOLDER_CREATED")
