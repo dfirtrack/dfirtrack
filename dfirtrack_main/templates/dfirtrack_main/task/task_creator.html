@@ -227,6 +227,34 @@
     <!-- status information block -->
     </div>
 
+    <!-- task note block -->
+    <div class="card card-body bg-dark border-light top-distance bottom-distance">
+
+        <!-- task note headline -->
+        <div class="row">
+            <div class="col">
+                <h5>
+                    Note
+                </h5>
+            </div>
+        </div>
+
+        <!-- task note -->
+        <div class="row">
+            <div class="col">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- task note errors -->
+                    <div class="text-danger">
+                        {{ form.task_note.errors }}
+                    </div>
+                    {{ form.task_note }}
+                </div>
+            </div>
+        </div>
+
+    <!-- task note block -->
+    </div>
+
     <!-- button row -->
     <div class="row top-distance">
 
