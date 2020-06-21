@@ -108,11 +108,13 @@
   become_method: sudo
   become_user: postgres
 
+# CREATEDB necessary for creating test database
 - name: POSTGRESQL | Create dedicated user
   postgresql_user:
     name: "{{ postgresql_user }}"
     password: "{{ postgresql_user_password }}"
     encrypted: yes
+    role_attr_flags: CREATEDB
   become: yes
   become_method: sudo
   become_user: postgres
