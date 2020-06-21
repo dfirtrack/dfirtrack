@@ -31,4 +31,11 @@ def check_config(request):
             warning_logger(str(request.user), " EXPORTER_MARKDOWN path MARKDOWN_PATH not existing")
             stop_exporter_markdown = True
 
+    # check MARKDOWN_PATH for write permission
+    if not os.access(dfirtrack_config.MARKDOWN_PATH, os.W_OK):
+        messages.error(request, "`MARKDOWN_PATH` is not writeable. Check `dfirtrack.config` or filesystem!")
+        # call logger
+        warning_logger(str(request.user), " EXPORTER_MARKDOWN path MARKDOWN_PATH not writeable")
+        stop_exporter_markdown = True
+
     return stop_exporter_markdown
