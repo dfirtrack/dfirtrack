@@ -28,7 +28,7 @@
       - python-setuptools
       - python3-pip
       - python3-virtualenv
-    state: latest
+    state: present
   become: yes
   become_method: sudo
 
@@ -253,11 +253,6 @@
   become: yes
   become_method: sudo
 
-- name: GUNICORN | Enable service
-  command: "systemctl enable gunicorn"
-  become: yes
-  become_method: sudo
-
 - name: QCLUSTER | Create file for service
   template:
     src: qcluster.service.j2
@@ -268,28 +263,24 @@
   become: yes
   become_method: sudo
 
-- name: QCLUSTER | Enable service
-  command: "systemctl enable qcluster"
-  become: yes
-  become_method: sudo
-
 - name: SYSTEMCTL | Reload systemctl daemon
-  command: "systemctl daemon-reload"
+  systemd:
+    daemon-reload: yes
   become: yes
   become_method: sudo
 
 - name: GUNICORN | Enable and start service
-  service:
-    name: gunicorn.service
+  systemd:
+    name: 'gunicorn'
     enabled: yes
     state: started
   become: yes
   become_method: sudo
 
 - name: QCLUSTER | Enable and start service
-  service:
-    name: qcluster.service
-    enabled: true
+  systemd:
+    name: 'qcluster'
+    enabled: yes
     state: started
   become: yes
   become_method: sudo
