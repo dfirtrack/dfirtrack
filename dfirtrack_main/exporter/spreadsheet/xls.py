@@ -305,8 +305,8 @@ def system(request):
             entryline.append(case)
         # system create time
         if dfirtrack_config.SPREAD_SYSTEM_CREATE_TIME:
-            systeme_create_time = system.system_create_time.strftime('%Y-%m-%d %H:%M')
-            entryline.append(systeme_create_time)
+            system_create_time = system.system_create_time.strftime('%Y-%m-%d %H:%M')
+            entryline.append(system_create_time)
         # system modify time
         if dfirtrack_config.SPREAD_SYSTEM_MODIFY_TIME:
             system_modify_time = system.system_modify_time.strftime('%Y-%m-%d %H:%M')
@@ -360,7 +360,7 @@ def system(request):
 
         """ append systemstatus """
 
-        # get all Systemstatus objects ordered by systemstatus_name
+        # get all Systemstatus objects ordered by systemstatus_id
         systemstatuss = Systemstatus.objects.all().order_by("systemstatus_id")
 
         # iterate over systemstatus
@@ -412,7 +412,7 @@ def system(request):
 
         """ append analysisstatus """
 
-        # get all Analysisstatus objects ordered by analysisstatus_name
+        # get all Analysisstatus objects ordered by analysisstatus_id
         analysisstatuss = Analysisstatus.objects.all().order_by("analysisstatus_id")
 
         # iterate over analysisstatus
