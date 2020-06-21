@@ -129,7 +129,11 @@ def system(request):
             entryline.append(system.systemstatus.systemstatus_name)
         # analysisstatus
         if dfirtrack_config.SPREAD_ANALYSISSTATUS:
-            entryline.append(system.analysisstatus.analysisstatus_name)
+            if system.analysisstatus == None:
+                analysisstatus = ''
+            else:
+                analysisstatus = system.analysisstatus.analysisstatus_name
+            entryline.append(analysisstatus)
         # reason
         if dfirtrack_config.SPREAD_REASON:
             if system.reason == None:
