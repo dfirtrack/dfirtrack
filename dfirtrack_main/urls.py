@@ -4,6 +4,7 @@ from dfirtrack_main.views import analysisstatus_views, analystmemo_views, case_v
 from dfirtrack_main.creator import system_creator, tag_creator, task_creator
 from dfirtrack_main.exporter.spreadsheet import csv as spreadsheet_csv
 from dfirtrack_main.exporter.spreadsheet import xls
+from dfirtrack_main.exporter.spreadsheet import spreadsheet_config_editor
 from dfirtrack_main.exporter.markdown import domainsorted, systemsorted
 from dfirtrack_main.importer.api import giraf
 from dfirtrack_main.importer.file import csv as file_csv
@@ -128,6 +129,7 @@ urlpatterns = [
     path(r'system/exporter/markdown/domainsorted/', domainsorted.domainsorted, name='system_exporter_markdown_domainsorted'),
     path(r'system/exporter/markdown/systemsorted/', systemsorted.systemsorted, name='system_exporter_markdown_systemsorted'),
     path(r'system/exporter/spreadsheet/csv/system/', spreadsheet_csv.system, name='system_exporter_spreadsheet_csv'),
+    path(r'system/exporter/spreadsheet/csv/system/config/', spreadsheet_config_editor.config_view, name='system_exporter_spreadsheet_csv_system_config'),
     path(r'system/exporter/spreadsheet/xls/system/', xls.system, name='system_exporter_spreadsheet_xls'),
     path(r'system/importer/api/giraf/system/', giraf.system, name='system_importer_api_giraf'),
     path(r'system/importer/file/csv/', file_csv.system, name='system_importer_file_csv'),
