@@ -86,10 +86,10 @@ function systemtype_add_popup() {
     systemtype_add_popup = window.open("/systemtype/add_popup/", "systemtype_add_popup", "height=600, width=1000");
 }
 
-// popup window for system exporter spreadsheet csv system config
-var system_exporter_spreadsheet_csv_system_config_popup;
-function system_exporter_spreadsheet_csv_system_config_popup() {
-    system_exporter_spreadsheet_csv_system_config_popup = window.open("/system/exporter/spreadsheet/csv/system/config/", "system_exporter_spreadsheet_csv_system_config_popup", "height=800, width=600");
+// popup window for system exporter spreadsheet csv config
+var system_exporter_spreadsheet_csv_config_popup;
+function system_exporter_spreadsheet_csv_config_popup() {
+    system_exporter_spreadsheet_csv_config_popup = window.open("/system/exporter/spreadsheet/csv/config/", "system_exporter_spreadsheet_csv_config_popup", "height=800, width=600");
 }
 
 // ####################################

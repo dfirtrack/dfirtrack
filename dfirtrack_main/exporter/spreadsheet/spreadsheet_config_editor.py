@@ -66,7 +66,7 @@ def config_view(request):
     # show form page
     return render(
         request,
-        'dfirtrack_main/system/system_exporter_spreadsheet_csv_system_config_popup.html',
+        'dfirtrack_main/system/system_exporter_spreadsheet_csv_config_popup.html',
         {
             'form': form,
         }
