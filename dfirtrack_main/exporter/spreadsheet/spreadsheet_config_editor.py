@@ -1,5 +1,6 @@
 from constance import config
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from dfirtrack_main.config_forms import ExporterSpreadsheetCsvSystemForm
@@ -34,8 +35,8 @@ def config_view(request):
             config.SPREAD_SYSTEM_CREATE_TIME = form.cleaned_data['spread_system_create_time']
             config.SPREAD_SYSTEM_MODIFY_TIME = form.cleaned_data['spread_system_modify_time']
 
-        # return to system list
-        return redirect(reverse('system_list'))
+        # close popup
+        return HttpResponse('<script type="text/javascript">window.close();</script>')
 
     else:
 
@@ -65,7 +66,7 @@ def config_view(request):
     # show form page
     return render(
         request,
-        'dfirtrack_main/system/system_exporter_spreadsheet_csv_system_config.html',
+        'dfirtrack_main/system/system_exporter_spreadsheet_csv_system_config_popup.html',
         {
             'form': form,
         }
