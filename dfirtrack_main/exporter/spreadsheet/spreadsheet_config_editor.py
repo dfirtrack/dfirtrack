@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from dfirtrack_main.config_forms import ExporterSpreadsheetCsvSystemForm
+from dfirtrack_main.config_forms import SystemExporterSpreadsheetCsvForm
 
 
 @login_required(login_url="/login")
@@ -12,7 +12,7 @@ def config_view(request):
     # form was valid to post
     if request.method == "POST":
 
-        form = ExporterSpreadsheetCsvSystemForm(request.POST)
+        form = SystemExporterSpreadsheetCsvForm(request.POST)
 
         if form.is_valid():
 
@@ -41,7 +41,7 @@ def config_view(request):
     else:
 
         # submit existing values to form
-        form = ExporterSpreadsheetCsvSystemForm(
+        form = SystemExporterSpreadsheetCsvForm(
             initial = {
                 'spread_system_id': config.SPREAD_SYSTEM_ID,
                 'spread_dnsname': config.SPREAD_DNSNAME,

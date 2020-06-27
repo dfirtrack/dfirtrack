@@ -1,6 +1,6 @@
 from django import forms
 
-class ExporterSpreadsheetCsvSystemForm(forms.Form):
+class SystemExporterSpreadsheetCsvForm(forms.Form):
 
     spread_system_id = forms.BooleanField(
         required = False,
