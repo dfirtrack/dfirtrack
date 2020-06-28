@@ -1003,12 +1003,14 @@ class TaskCreatorForm(forms.ModelForm):
     taskname = forms.ModelMultipleChoiceField(
         queryset = Taskname.objects.order_by('taskname_name'),
         widget = forms.CheckboxSelectMultiple(),
+        label = 'Tasknames',
     )
 
     # show all existing system objects as multiple choice field
     system = forms.ModelMultipleChoiceField(
         queryset = System.objects.order_by('system_name'),
         widget = forms.CheckboxSelectMultiple(),
+        label = 'Systems',
     )
 
     # reorder field choices
