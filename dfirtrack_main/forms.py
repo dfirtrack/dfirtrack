@@ -788,11 +788,16 @@ class SystemCreatorForm(forms.ModelForm):
 #    )
 
     # large text area for line separated systemlist
-    systemlist = forms.CharField(widget=forms.Textarea(attrs={
-        'rows': 20,
-        'placeholder': 'One systemname per line',
-        'autofocus': 'autofocus',
-    }))
+    systemlist = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'rows': 20,
+                'placeholder': 'One systemname per line',
+                'autofocus': 'autofocus',
+            },
+        ),
+        label = 'System list',
+    )
 
     class Meta:
 
