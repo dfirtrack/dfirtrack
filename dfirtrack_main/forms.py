@@ -926,12 +926,14 @@ class TagCreatorForm(forms.Form):
     tag = forms.ModelMultipleChoiceField(
         queryset = Tag.objects.order_by('tag_name'),
         widget = forms.CheckboxSelectMultiple(),
+        label = 'Tags (*)',
     )
 
     # show all existing system objects as multiple choice field
     system = forms.ModelMultipleChoiceField(
         queryset = System.objects.order_by('system_name'),
         widget = forms.CheckboxSelectMultiple(),
+        label = 'Systems (*)',
     )
 
 class TaskForm(forms.ModelForm):
