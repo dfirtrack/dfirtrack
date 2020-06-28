@@ -1,5 +1,5 @@
 from django.test import TestCase
-from dfirtrack_main.config_forms import SystemExporterSpreadsheetCsvForm
+from dfirtrack_main.config_forms import SystemExporterSpreadsheetCsvForm, SystemExporterSpreadsheetXlsForm
 
 class SystemExporterSpreadsheetCsvFormTestCase(TestCase):
     """ system exporter spreadsheet CSV form tests """
@@ -139,3 +139,46 @@ class SystemExporterSpreadsheetCsvFormTestCase(TestCase):
         form = SystemExporterSpreadsheetCsvForm()
         # compare
         self.assertEqual(form.fields['spread_system_modify_time'].label, 'Export system modify time')
+
+class SystemExporterSpreadsheetXlsFormTestCase(TestCase):
+    """ system exporter spreadsheet XLS form tests """
+
+    def test_spread_worksheet_systemstatus_form_label(self):
+        """ test form label """
+
+        # get object
+        form = SystemExporterSpreadsheetXlsForm()
+        # compare
+        self.assertEqual(form.fields['spread_worksheet_systemstatus'].label, 'Export worksheet to explain systemstatus')
+
+    def test_spread_worksheet_analysisstatus_form_label(self):
+        """ test form label """
+
+        # get object
+        form = SystemExporterSpreadsheetXlsForm()
+        # compare
+        self.assertEqual(form.fields['spread_worksheet_analysisstatus'].label, 'Export worksheet to explain analysisstatus')
+
+    def test_spread_worksheet_reason_form_label(self):
+        """ test form label """
+
+        # get object
+        form = SystemExporterSpreadsheetXlsForm()
+        # compare
+        self.assertEqual(form.fields['spread_worksheet_reason'].label, 'Export worksheet to explain reason')
+
+    def test_spread_worksheet_recommendation_form_label(self):
+        """ test form label """
+
+        # get object
+        form = SystemExporterSpreadsheetXlsForm()
+        # compare
+        self.assertEqual(form.fields['spread_worksheet_recommendation'].label, 'Export worksheet to explain recommendation')
+
+    def test_spread_worksheet_tag_form_label(self):
+        """ test form label """
+
+        # get object
+        form = SystemExporterSpreadsheetXlsForm()
+        # compare
+        self.assertEqual(form.fields['spread_worksheet_tag'].label, 'Export worksheet to explain tag')
