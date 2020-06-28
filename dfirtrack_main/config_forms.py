@@ -86,3 +86,30 @@ class SystemExporterSpreadsheetCsvForm(forms.Form):
         required = False,
         label = 'Export system modify time',
     )
+
+class SystemExporterSpreadsheetXlsForm(SystemExporterSpreadsheetCsvForm):
+
+    spread_worksheet_systemstatus = forms.BooleanField(
+        required = False,
+        label = 'Export worksheet to explain systemstatus',
+    )
+
+    spread_worksheet_analysisstatus = forms.BooleanField(
+        required = False,
+        label = 'Export worksheet to explain analysisstatus',
+    )
+
+    spread_worksheet_reason = forms.BooleanField(
+        required = False,
+        label = 'Export worksheet to explain reason',
+    )
+
+    spread_worksheet_recommendation = forms.BooleanField(
+        required = False,
+        label = 'Export worksheet to explain recommendation',
+    )
+
+    spread_worksheet_tag = forms.BooleanField(
+        required = False,
+        label = 'Export worksheet to explain tag',
+    )

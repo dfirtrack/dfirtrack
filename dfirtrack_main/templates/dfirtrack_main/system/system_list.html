@@ -152,11 +152,9 @@
         </div>
 
         <!-- export XLS button -->
-        <div class="col-4">
-            <a href="{% url 'system_exporter_spreadsheet_xls' %}" type="button" class="btn btn-light copy-false">
-                <img src="{% static 'dfirtrack_main/icons/spreadsheet.svg' %}" class="icon right-distance copy-false" alt="icon">
-                Export XLS
-            </a>
+        <div class="col-4 btn-group">
+            <a href="{% url 'system_exporter_spreadsheet_xls' %}" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/spreadsheet.svg' %}" class="icon right-distance copy-false" alt="icon"> Export XLS</a>
+            <button onclick="system_exporter_spreadsheet_xls_config_popup()" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/wrench.svg' %}" class="icon copy-false" alt="icon"> </a>
         </div>
 
         <!-- export markdown (system) button -->

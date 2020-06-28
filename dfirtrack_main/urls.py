@@ -129,8 +129,9 @@ urlpatterns = [
     path(r'system/exporter/markdown/domainsorted/', domainsorted.domainsorted, name='system_exporter_markdown_domainsorted'),
     path(r'system/exporter/markdown/systemsorted/', systemsorted.systemsorted, name='system_exporter_markdown_systemsorted'),
     path(r'system/exporter/spreadsheet/csv/system/', spreadsheet_csv.system, name='system_exporter_spreadsheet_csv'),
-    path(r'system/exporter/spreadsheet/csv/config/', spreadsheet_config_editor.config_view, name='system_exporter_spreadsheet_csv_config_popup'),
+    path(r'system/exporter/spreadsheet/csv/config/', spreadsheet_config_editor.system_exporter_spreadsheet_csv_config_view, name='system_exporter_spreadsheet_csv_config_popup'),
     path(r'system/exporter/spreadsheet/xls/system/', xls.system, name='system_exporter_spreadsheet_xls'),
+    path(r'system/exporter/spreadsheet/xls/config/', spreadsheet_config_editor.system_exporter_spreadsheet_xls_config_view, name='system_exporter_spreadsheet_xls_config_popup'),
     path(r'system/importer/api/giraf/system/', giraf.system, name='system_importer_api_giraf'),
     path(r'system/importer/file/csv/', file_csv.system, name='system_importer_file_csv'),
 
