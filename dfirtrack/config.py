@@ -23,33 +23,6 @@ EVIDENCE_PATH = expanduser('~') + '/dfirtrack_artifact_storage'
 ## change path for the markdown documentation export (used in `dfirtrack_main.exporter.markdown`)
 MARKDOWN_PATH = ''
 
-# EXPORTER - SYSTEM SPREADSHEET (CSV and XLS)
-
-## choose optional system attributes to export to spreadsheet (used in `dfirtrack_main.exporter.spreadsheet`)
-SPREAD_SYSTEM_ID = True
-SPREAD_DNSNAME = True
-SPREAD_DOMAIN = True
-SPREAD_SYSTEMSTATUS = True
-SPREAD_ANALYSISSTATUS = False
-SPREAD_REASON = False
-SPREAD_RECOMMENDATION = False
-SPREAD_SYSTEMTYPE = True
-SPREAD_IP = True
-SPREAD_OS = False
-SPREAD_COMPANY = False
-SPREAD_LOCATION = False
-SPREAD_SERVICEPROVIDER = False
-SPREAD_TAG = True
-SPREAD_CASE = False
-SPREAD_SYSTEM_CREATE_TIME = True
-SPREAD_SYSTEM_MODIFY_TIME = True
-## choose optional worksheets with notes --> works only if corresponding attribute above is activated (XLS only)
-SPREAD_WORKSHEET_SYSTEMSTATUS = False
-SPREAD_WORKSHEET_ANALYSISSTATUS = False
-SPREAD_WORKSHEET_REASON = False
-SPREAD_WORKSHEET_RECOMMENDATION = False
-SPREAD_WORKSHEET_TAG = False
-
 # EXPORTER - ARTIFACT SPREADSHEET (XLS)
 
 ## choose optional artifact attributes to export to spreadsheet (used in `dfirtrack_artifacts.exporter.spreadsheet`)

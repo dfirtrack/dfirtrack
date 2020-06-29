@@ -5,7 +5,6 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from dfirtrack_main.logger.default_logger import info_logger, warning_logger
 from dfirtrack_main.models import Analysisstatus, Reason, Recommendation, System, Systemstatus, Tag
-from .spreadsheet_check_data import check_config, check_worksheet
 from time import strftime
 import xlwt
 
@@ -48,20 +47,6 @@ def style_default():
 
 @login_required(login_url="/login")
 def system(request):
-
-    # check_config
-    stop_system_exporter_spreadsheet = check_config(request)
-
-    # check_config regarding worksheet variables (only xls exporter)
-    stop_system_exporter_spreadsheet_worksheet = check_worksheet(request)
-
-    # leave system_exporter_spreadsheet_xls if variables caused errors
-    if stop_system_exporter_spreadsheet or stop_system_exporter_spreadsheet_worksheet:
-
-        # call logger
-        warning_logger(str(request.user), " SYSTEM_EXPORTER_SPREADSHEET_XLS_END_WITH_ERRORS")
-        return redirect(reverse('system_list'))
-
 
     """ prepare file including formatting """
 

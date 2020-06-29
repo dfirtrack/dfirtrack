@@ -5,22 +5,11 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from dfirtrack_main.logger.default_logger import info_logger, warning_logger
 from dfirtrack_main.models import System
-from .spreadsheet_check_data import check_config
 import csv
 from time import strftime
 
 @login_required(login_url="/login")
 def system(request):
-
-    # check config
-    stop_system_exporter_spreadsheet = check_config(request)
-
-    # leave system_exporter_spreadsheet_csv if variables caused errors
-    if stop_system_exporter_spreadsheet:
-
-        # call logger
-        warning_logger(str(request.user), " SYSTEM_EXPORTER_SPREADSHEET_CSV_END_WITH_ERRORS")
-        return redirect(reverse('system_list'))
 
     """ prepare file """
 
