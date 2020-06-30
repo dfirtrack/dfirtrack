@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 import urllib.parse
 
-class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
+class SystemExporterSpreadsheetCsvConfigViewTestCase(TestCase):
     """ config view tests """
 
     @classmethod
@@ -63,7 +63,7 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
-class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
+class SystemExporterSpreadsheetXlsConfigViewTestCase(TestCase):
     """ config view tests """
 
     @classmethod

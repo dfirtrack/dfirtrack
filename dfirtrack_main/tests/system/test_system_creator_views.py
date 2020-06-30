@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 import urllib.parse
 
-class SystemViewTestCase(TestCase):
+class SystemCreatorViewTestCase(TestCase):
     """ system view tests """
 
     @classmethod

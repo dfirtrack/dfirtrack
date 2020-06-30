@@ -3,7 +3,7 @@ from django.test import TestCase
 from dfirtrack_main.importer.file.csv_importer_forms import SystemImporterFileCsv
 from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Dnsname, Domain, Location, Os, Osarch, Reason, Serviceprovider, Systemstatus, Systemtype, Tag, Tagcolor
 
-class SystemFormTestCase(TestCase):
+class SystemImporterFileCsvFormTestCase(TestCase):
     """ system form tests """
 
     @classmethod

@@ -1,7 +1,7 @@
 from django.test import TestCase
 from dfirtrack_main.config_forms import SystemExporterSpreadsheetCsvForm, SystemExporterSpreadsheetXlsForm
 
-class SystemExporterSpreadsheetCsvFormTestCase(TestCase):
+class SystemExporterSpreadsheetCsvConfigFormTestCase(TestCase):
     """ system exporter spreadsheet CSV form tests """
 
     def test_spread_system_id_form_label(self):
@@ -140,7 +140,7 @@ class SystemExporterSpreadsheetCsvFormTestCase(TestCase):
         # compare
         self.assertEqual(form.fields['spread_system_modify_time'].label, 'Export system modify time')
 
-class SystemExporterSpreadsheetXlsFormTestCase(TestCase):
+class SystemExporterSpreadsheetXlsConfigFormTestCase(TestCase):
     """ system exporter spreadsheet XLS form tests """
 
     def test_spread_worksheet_systemstatus_form_label(self):

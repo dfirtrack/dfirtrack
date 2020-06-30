@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 import urllib.parse
 
-class TagViewTestCase(TestCase):
+class TagCreatorViewTestCase(TestCase):
     """ tag view tests """
 
     @classmethod
