@@ -5,7 +5,7 @@ from dfirtrack_main.forms import TaskCreatorForm
 from dfirtrack_main.models import System, Systemstatus, Tag, Tagcolor, Taskname, Taskpriority, Taskstatus
 
 class TaskCreatorFormTestCase(TestCase):
-    """ task form tests """
+    """ task creator form tests """
 
     @classmethod
     def setUpTestData(cls):

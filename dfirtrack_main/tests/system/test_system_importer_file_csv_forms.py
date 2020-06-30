@@ -4,7 +4,7 @@ from dfirtrack_main.importer.file.csv_importer_forms import SystemImporterFileCs
 from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Dnsname, Domain, Location, Os, Osarch, Reason, Serviceprovider, Systemstatus, Systemtype, Tag, Tagcolor
 
 class SystemImporterFileCsvFormTestCase(TestCase):
-    """ system form tests """
+    """ system importer file CSV form tests """
 
     @classmethod
     def setUpTestData(cls):

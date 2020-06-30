@@ -3,7 +3,7 @@ from django.test import TestCase
 import urllib.parse
 
 class TagCreatorViewTestCase(TestCase):
-    """ tag view tests """
+    """ tag creator view tests """
 
     @classmethod
     def setUpTestData(cls):

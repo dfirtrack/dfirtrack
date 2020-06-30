@@ -3,7 +3,7 @@ from django.test import TestCase
 import urllib.parse
 
 class SystemExporterSpreadsheetCsvConfigViewTestCase(TestCase):
-    """ config view tests """
+    """ system exporter spreadsheet CSV config view tests """
 
     @classmethod
     def setUpTestData(cls):
@@ -64,7 +64,7 @@ class SystemExporterSpreadsheetCsvConfigViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
 class SystemExporterSpreadsheetXlsConfigViewTestCase(TestCase):
-    """ config view tests """
+    """ system exporter spreadsheet XLS config view tests """
 
     @classmethod
     def setUpTestData(cls):

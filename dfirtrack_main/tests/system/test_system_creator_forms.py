@@ -4,7 +4,7 @@ from dfirtrack_main.forms import SystemCreatorForm
 from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Dnsname, Domain, Location, Os, Osarch, Reason, Serviceprovider, Systemstatus, Systemtype, Tag, Tagcolor
 
 class SystemCreatorFormTestCase(TestCase):
-    """ system form tests """
+    """ system creator form tests """
 
     @classmethod
     def setUpTestData(cls):

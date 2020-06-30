@@ -2,7 +2,7 @@ from django.test import TestCase
 from dfirtrack_main.forms import TagCreatorForm
 
 class TagCreatorFormTestCase(TestCase):
-    """ tag form tests """
+    """ tag creator form tests """
 
     @classmethod
     def setUpTestData(cls):

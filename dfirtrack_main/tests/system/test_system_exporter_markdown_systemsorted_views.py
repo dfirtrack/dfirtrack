@@ -3,7 +3,7 @@ from django.test import TestCase
 import urllib.parse
 
 class SystemExporterMarkdownSystemsortedViewTestCase(TestCase):
-    """ system view tests """
+    """ system exporter markdown systemsorted view tests """
 
     @classmethod
     def setUpTestData(cls):
@@ -12,7 +12,7 @@ class SystemExporterMarkdownSystemsortedViewTestCase(TestCase):
         test_user = User.objects.create_user(username='testuser_system_exporter_markdown_systemsorted', password='2anJuuSjzjLmb2pOYuLf')
 
     def test_system_exporter_markdown_systemsorted_not_logged_in(self):
-        """ test list view """
+        """ test exporter view """
 
         # create url
         destination = '/login/?next=' + urllib.parse.quote('/system/exporter/markdown/systemsorted/', safe='')
@@ -22,7 +22,7 @@ class SystemExporterMarkdownSystemsortedViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_system_exporter_markdown_systemsorted_logged_in(self):
-        """ test list view """
+        """ test exporter view """
 
         # login testuser
         login = self.client.login(username='testuser_system_exporter_markdown_systemsorted', password='2anJuuSjzjLmb2pOYuLf')
@@ -34,7 +34,7 @@ class SystemExporterMarkdownSystemsortedViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_system_exporter_markdown_systemsorted_redirect(self):
-        """ test list view """
+        """ test exporter view """
 
         # login testuser
         login = self.client.login(username='testuser_system_exporter_markdown_systemsorted', password='2anJuuSjzjLmb2pOYuLf')

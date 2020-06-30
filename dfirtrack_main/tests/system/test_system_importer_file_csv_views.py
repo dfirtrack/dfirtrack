@@ -3,7 +3,7 @@ from django.test import TestCase
 import urllib.parse
 
 class SystemImporterFileCsvViewTestCase(TestCase):
-    """ system view tests """
+    """ system importer file CSV view tests """
 
     @classmethod
     def setUpTestData(cls):
@@ -12,7 +12,7 @@ class SystemImporterFileCsvViewTestCase(TestCase):
         test_user = User.objects.create_user(username='testuser_system_importer_file_csv', password='dWPkpsI6NodS9xIdS0BK')
 
     def test_system_importer_file_csv_not_logged_in(self):
-        """ test list view """
+        """ test importer view """
 
         # create url
         destination = '/login/?next=' + urllib.parse.quote('/system/importer/file/csv/', safe='')
@@ -22,7 +22,7 @@ class SystemImporterFileCsvViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_system_importer_file_csv_logged_in(self):
-        """ test list view """
+        """ test importer view """
 
         # login testuser
         login = self.client.login(username='testuser_system_importer_file_csv', password='dWPkpsI6NodS9xIdS0BK')
@@ -32,7 +32,7 @@ class SystemImporterFileCsvViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_system_importer_file_csv_template(self):
-        """ test list view """
+        """ test importer view """
 
         # login testuser
         login = self.client.login(username='testuser_system_importer_file_csv', password='dWPkpsI6NodS9xIdS0BK')
@@ -42,7 +42,7 @@ class SystemImporterFileCsvViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_main/system/system_importer_file_csv.html')
 
     def test_system_importer_file_csv_get_user_context(self):
-        """ test list view """
+        """ test importer view """
 
         # login testuser
         login = self.client.login(username='testuser_system_importer_file_csv', password='dWPkpsI6NodS9xIdS0BK')
@@ -52,7 +52,7 @@ class SystemImporterFileCsvViewTestCase(TestCase):
         self.assertEqual(str(response.context['user']), 'testuser_system_importer_file_csv')
 
     def test_system_importer_file_csv_redirect(self):
-        """ test list view """
+        """ test importer view """
 
         # login testuser
         login = self.client.login(username='testuser_system_importer_file_csv', password='dWPkpsI6NodS9xIdS0BK')
