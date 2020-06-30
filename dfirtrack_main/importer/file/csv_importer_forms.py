@@ -6,7 +6,9 @@ from dfirtrack_main.models import Domain, Dnsname, Location, Os, Reason, Service
 class SystemImporterFileCsv(forms.ModelForm):
 
     # file upload field (variable is used in request object)
-    systemcsv = forms.FileField()
+    systemcsv = forms.FileField(
+        label = 'CSV with systems (*)',
+    )
 
     # reorder field choices
     if not dfirtrack_config.CSV_CHOICE_REASON:
