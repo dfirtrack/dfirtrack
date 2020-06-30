@@ -1,9 +1,7 @@
 from constance import config as constance_config
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from django.shortcuts import redirect
-from django.urls import reverse
-from dfirtrack_main.logger.default_logger import info_logger, warning_logger
+from dfirtrack_main.logger.default_logger import info_logger
 from dfirtrack_main.models import System
 import csv
 from time import strftime
