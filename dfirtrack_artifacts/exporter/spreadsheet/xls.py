@@ -1,8 +1,8 @@
+from constance import config as constance_config
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse
-import dfirtrack.config as dfirtrack_config
 from dfirtrack_artifacts.models import Artifact, Artifactstatus, Artifacttype
 from dfirtrack_main.exporter.spreadsheet.xls import style_default, style_headline, write_row
 from dfirtrack_main.logger.default_logger import info_logger, warning_logger
@@ -54,36 +54,36 @@ def artifact(request):
     headline = []
 
     # check for attribute id
-    if dfirtrack_config.ARTIFACTLIST_ARTIFACT_ID:
+    if constance_config.ARTIFACTLIST_ARTIFACT_ID:
         headline.append('Artifact ID')
 
     # append mandatory attribute
     headline.append('Artifact')
 
     # check for remaining attributes
-    if dfirtrack_config.ARTIFACTLIST_SYSTEM_ID:
+    if constance_config.ARTIFACTLIST_SYSTEM_ID:
         headline.append('System ID')
-    if dfirtrack_config.ARTIFACTLIST_SYSTEM_NAME:
+    if constance_config.ARTIFACTLIST_SYSTEM_NAME:
         headline.append('System')
-    if dfirtrack_config.ARTIFACTLIST_ARTIFACTSTATUS:
+    if constance_config.ARTIFACTLIST_ARTIFACTSTATUS:
         headline.append('Artifactstatus')
-    if dfirtrack_config.ARTIFACTLIST_ARTIFACTTYPE:
+    if constance_config.ARTIFACTLIST_ARTIFACTTYPE:
         headline.append('Artifacttype')
-    if dfirtrack_config.ARTIFACTLIST_ARTIFACT_SOURCE_PATH:
+    if constance_config.ARTIFACTLIST_ARTIFACT_SOURCE_PATH:
         headline.append('Source path')
-    if dfirtrack_config.ARTIFACTLIST_ARTIFACT_STORAGE_PATH:
+    if constance_config.ARTIFACTLIST_ARTIFACT_STORAGE_PATH:
         headline.append('Storage path')
-    if dfirtrack_config.ARTIFACTLIST_ARTIFACT_NOTE:
+    if constance_config.ARTIFACTLIST_ARTIFACT_NOTE:
         headline.append('Note')
-    if dfirtrack_config.ARTIFACTLIST_ARTIFACT_MD5:
+    if constance_config.ARTIFACTLIST_ARTIFACT_MD5:
         headline.append('MD5')
-    if dfirtrack_config.ARTIFACTLIST_ARTIFACT_SHA1:
+    if constance_config.ARTIFACTLIST_ARTIFACT_SHA1:
         headline.append('SHA1')
-    if dfirtrack_config.ARTIFACTLIST_ARTIFACT_SHA256:
+    if constance_config.ARTIFACTLIST_ARTIFACT_SHA256:
         headline.append('SHA256')
-    if dfirtrack_config.ARTIFACTLIST_ARTIFACT_CREATE_TIME:
+    if constance_config.ARTIFACTLIST_ARTIFACT_CREATE_TIME:
         headline.append('Created')
-    if dfirtrack_config.ARTIFACTLIST_ARTIFACT_MODIFY_TIME:
+    if constance_config.ARTIFACTLIST_ARTIFACT_MODIFY_TIME:
         headline.append('Modified')
 
     # write headline
@@ -112,7 +112,7 @@ def artifact(request):
         """ check for attribute """
 
         # artifact id
-        if dfirtrack_config.ARTIFACTLIST_ARTIFACT_ID:
+        if constance_config.ARTIFACTLIST_ARTIFACT_ID:
             entryline.append(artifact.artifact_id)
 
         """ append mandatory attribute """
@@ -123,65 +123,65 @@ def artifact(request):
         """ check for remaining attributes """
 
         # system id
-        if dfirtrack_config.ARTIFACTLIST_SYSTEM_ID:
+        if constance_config.ARTIFACTLIST_SYSTEM_ID:
             entryline.append(artifact.system.system_id)
         # system name
-        if dfirtrack_config.ARTIFACTLIST_SYSTEM_NAME:
+        if constance_config.ARTIFACTLIST_SYSTEM_NAME:
             entryline.append(artifact.system.system_name)
         # artifactstatus
-        if dfirtrack_config.ARTIFACTLIST_ARTIFACTSTATUS:
+        if constance_config.ARTIFACTLIST_ARTIFACTSTATUS:
             entryline.append(artifact.artifactstatus.artifactstatus_name)
         # artifacttype
-        if dfirtrack_config.ARTIFACTLIST_ARTIFACTTYPE:
+        if constance_config.ARTIFACTLIST_ARTIFACTTYPE:
             entryline.append(artifact.artifacttype.artifacttype_name)
         # artifact source path
-        if dfirtrack_config.ARTIFACTLIST_ARTIFACT_SOURCE_PATH:
+        if constance_config.ARTIFACTLIST_ARTIFACT_SOURCE_PATH:
             if artifact.artifact_source_path == None:
                 artifact_source_path = ''
             else:
                 artifact_source_path = artifact.artifact_source_path
             entryline.append(artifact_source_path)
         # artifact storage path
-        if dfirtrack_config.ARTIFACTLIST_ARTIFACT_STORAGE_PATH:
+        if constance_config.ARTIFACTLIST_ARTIFACT_STORAGE_PATH:
             if artifact.artifact_storage_path == None:
                 artifact_storage_path = ''
             else:
                 artifact_storage_path = artifact.artifact_storage_path
             entryline.append(artifact_storage_path)
         # artifact note
-        if dfirtrack_config.ARTIFACTLIST_ARTIFACT_NOTE:
+        if constance_config.ARTIFACTLIST_ARTIFACT_NOTE:
             if artifact.artifact_note == None:
                 artifact_note = ''
             else:
                 artifact_note = artifact.artifact_note
             entryline.append(artifact_note)
         # artifact md5
-        if dfirtrack_config.ARTIFACTLIST_ARTIFACT_MD5:
+        if constance_config.ARTIFACTLIST_ARTIFACT_MD5:
             if artifact.artifact_md5 == None:
                 artifact_md5 = ''
             else:
                 artifact_md5 = artifact.artifact_md5
             entryline.append(artifact_md5)
         # artifact sha1
-        if dfirtrack_config.ARTIFACTLIST_ARTIFACT_SHA1:
+        if constance_config.ARTIFACTLIST_ARTIFACT_SHA1:
             if artifact.artifact_sha1 == None:
                 artifact_sha1 = ''
             else:
                 artifact_sha1 = artifact.artifact_sha1
             entryline.append(artifact_sha1)
         # artifact sha256
-        if dfirtrack_config.ARTIFACTLIST_ARTIFACT_SHA256:
+        if constance_config.ARTIFACTLIST_ARTIFACT_SHA256:
             if artifact.artifact_sha256 == None:
                 artifact_sha256 = ''
             else:
                 artifact_sha256 = artifact.artifact_sha256
             entryline.append(artifact_sha256)
         # artifact create time
-        if dfirtrack_config.ARTIFACTLIST_ARTIFACT_CREATE_TIME:
+        if constance_config.ARTIFACTLIST_ARTIFACT_CREATE_TIME:
             artifact_create_time = artifact.artifact_create_time.strftime('%Y-%m-%d %H:%M')
             entryline.append(artifact_create_time)
         # artifact modify time
-        if dfirtrack_config.ARTIFACTLIST_ARTIFACT_MODIFY_TIME:
+        if constance_config.ARTIFACTLIST_ARTIFACT_MODIFY_TIME:
             artifact_modify_time = artifact.artifact_modify_time.strftime('%Y-%m-%d %H:%M')
             entryline.append(artifact_modify_time)
 
@@ -203,7 +203,7 @@ def artifact(request):
     """ add worksheet for artifactstatus """
 
     # check all conditions
-    if dfirtrack_config.ARTIFACTLIST_WORKSHEET_ARTIFACTSTATUS and dfirtrack_config.ARTIFACTLIST_ARTIFACTSTATUS and Artifactstatus.objects.count() != 0:
+    if constance_config.ARTIFACTLIST_WORKSHEET_ARTIFACTSTATUS and constance_config.ARTIFACTLIST_ARTIFACTSTATUS and Artifactstatus.objects.count() != 0:
 
         # define name of worksheet within file
         worksheet_artifactstatus = workbook.add_sheet('artifactstatus')
@@ -259,7 +259,7 @@ def artifact(request):
     """ add worksheet for artifacttype """
 
     # check all conditions
-    if dfirtrack_config.ARTIFACTLIST_WORKSHEET_ARTIFACTTYPE and dfirtrack_config.ARTIFACTLIST_ARTIFACTTYPE and Artifacttype.objects.count() != 0:
+    if constance_config.ARTIFACTLIST_WORKSHEET_ARTIFACTTYPE and constance_config.ARTIFACTLIST_ARTIFACTTYPE and Artifacttype.objects.count() != 0:
 
         # define name of worksheet within file
         worksheet_artifacttype = workbook.add_sheet('artifacttype')

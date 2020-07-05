@@ -113,6 +113,81 @@ CONSTANCE_CONFIG = {
         'Add additional worksheet to explain tag',
         bool,
     ),
+    'ARTIFACTLIST_ARTIFACT_ID': (
+        True,
+        'Add artifact ID to spreadsheet export',
+        bool,
+    ),
+    'ARTIFACTLIST_SYSTEM_ID': (
+        True,
+        'Add system IDto spreadsheet export',
+        bool,
+    ),
+    'ARTIFACTLIST_SYSTEM_NAME': (
+        True,
+        'Add system name to spreadsheet export',
+        bool,
+    ),
+    'ARTIFACTLIST_ARTIFACTSTATUS': (
+        True,
+        'Add artifactstatus to spreadsheet export',
+        bool,
+    ),
+    'ARTIFACTLIST_ARTIFACTTYPE': (
+        True,
+        'Add artifacttype to spreadsheet export',
+        bool,
+    ),
+    'ARTIFACTLIST_ARTIFACT_SOURCE_PATH': (
+        True,
+        'Add source path to spreadsheet export',
+        bool,
+    ),
+    'ARTIFACTLIST_ARTIFACT_STORAGE_PATH': (
+        False,
+        'Add storage path to spreadsheet export',
+        bool,
+    ),
+    'ARTIFACTLIST_ARTIFACT_NOTE': (
+        False,
+        'Add note to spreadsheet export',
+        bool,
+    ),
+    'ARTIFACTLIST_ARTIFACT_MD5': (
+        False,
+        'Add MD5 to spreadsheet export',
+        bool,
+    ),
+    'ARTIFACTLIST_ARTIFACT_SHA1': (
+        False,
+        'Add SHA1 to spreadsheet export',
+        bool,
+    ),
+    'ARTIFACTLIST_ARTIFACT_SHA256': (
+        False,
+        'Add SHA256 to spreadsheet export',
+        bool,
+    ),
+    'ARTIFACTLIST_ARTIFACT_CREATE_TIME': (
+        False,
+        'Add create time to spreadsheet export',
+        bool,
+    ),
+    'ARTIFACTLIST_ARTIFACT_MODIFY_TIME': (
+        False,
+        'Add modify time to spreadsheet export',
+        bool,
+    ),
+    'ARTIFACTLIST_WORKSHEET_ARTIFACTSTATUS': (
+        True,
+        'Add additional worksheet to explain artifactstatus',
+        bool,
+    ),
+    'ARTIFACTLIST_WORKSHEET_ARTIFACTTYPE': (
+        True,
+        'Add additional worksheet to explain artifacttype',
+        bool,
+    ),
 }
 
 CONSTANCE_CONFIG_FIELDSETS = {
@@ -141,5 +216,24 @@ CONSTANCE_CONFIG_FIELDSETS = {
         'SPREAD_WORKSHEET_REASON',
         'SPREAD_WORKSHEET_RECOMMENDATION',
         'SPREAD_WORKSHEET_TAG',
+    ),
+    'Artifact spreadsheet exporter (CSV, XLS) options': (
+        'ARTIFACTLIST_ARTIFACT_ID',
+        'ARTIFACTLIST_SYSTEM_ID',
+        'ARTIFACTLIST_SYSTEM_NAME',
+        'ARTIFACTLIST_ARTIFACTSTATUS',
+        'ARTIFACTLIST_ARTIFACTTYPE',
+        'ARTIFACTLIST_ARTIFACT_SOURCE_PATH',
+        'ARTIFACTLIST_ARTIFACT_STORAGE_PATH',
+        'ARTIFACTLIST_ARTIFACT_NOTE',
+        'ARTIFACTLIST_ARTIFACT_MD5',
+        'ARTIFACTLIST_ARTIFACT_SHA1',
+        'ARTIFACTLIST_ARTIFACT_SHA256',
+        'ARTIFACTLIST_ARTIFACT_CREATE_TIME',
+        'ARTIFACTLIST_ARTIFACT_MODIFY_TIME',
+    ),
+    'Artifact spreadsheet exporter (XLS only) options': (
+        'ARTIFACTLIST_WORKSHEET_ARTIFACTSTATUS',
+        'ARTIFACTLIST_WORKSHEET_ARTIFACTTYPE',
     ),
 }
