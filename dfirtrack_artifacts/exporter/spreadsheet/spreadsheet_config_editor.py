@@ -60,7 +60,7 @@ def artifact_exporter_spreadsheet_xls_config_view(request):
     # show form page
     return render(
         request,
-        'dfirtrack_artifacts/system/artifact_exporter_spreadsheet_xls_config_popup.html',
+        'dfirtrack_artifacts/artifact/artifact_exporter_spreadsheet_xls_config_popup.html',
         {
             'form': form,
         }

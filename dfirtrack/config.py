@@ -25,24 +25,7 @@ MARKDOWN_PATH = ''
 
 # EXPORTER - ARTIFACT SPREADSHEET (XLS)
 
-## choose optional artifact attributes to export to spreadsheet (used in `dfirtrack_artifacts.exporter.spreadsheet`)
-ARTIFACTLIST_ARTIFACT_ID = True
-ARTIFACTLIST_SYSTEM_ID = True
-ARTIFACTLIST_SYSTEM_NAME = True
-ARTIFACTLIST_ARTIFACTSTATUS = True
-ARTIFACTLIST_ARTIFACTTYPE = True
-ARTIFACTLIST_ARTIFACT_SOURCE_PATH = True
-ARTIFACTLIST_ARTIFACT_STORAGE_PATH = False
-ARTIFACTLIST_ARTIFACT_NOTE = False
-ARTIFACTLIST_ARTIFACT_MD5 = False
-ARTIFACTLIST_ARTIFACT_SHA1 = False
-ARTIFACTLIST_ARTIFACT_SHA256 = False
-ARTIFACTLIST_ARTIFACT_CREATE_TIME = False
-ARTIFACTLIST_ARTIFACT_MODIFY_TIME = False
-## choose optional worksheets with notes --> works only if corresponding attribute above is activated (XLS only)
-ARTIFACTLIST_WORKSHEET_ARTIFACTSTATUS = True
-ARTIFACTLIST_WORKSHEET_ARTIFACTTYPE = True
-## comma separated list of artifactstatus (these artifacts are exported to the spreadsheet)
+## comma separated list of artifactstatus (these artifacts are exported to the spreadsheet) (used in `dfirtrack_artifacts.exporter.spreadsheet`)
 ARTIFACTLIST_CHOICE_ARTIFACTSTATUS = ['Needs analysis', 'Requested from customer']
 
 # IMPORTER - SYSTEMS AND ENTRIES VIA GIRAF API (used in `dfirtrack_main.importer.api.giraf`)
