@@ -188,6 +188,39 @@ CONSTANCE_CONFIG = {
         'Add additional worksheet to explain artifacttype',
         bool,
     ),
+    'ARTIFACTLIST_CHOICE_ARTIFACTSTATUS': (
+        '1',
+        'Export only artifacts with this artifactstatus',
+        'artifactstatus_field',
+    ),
+}
+
+"""
+TODO:
+this needs to be filled by a model query,
+does not work at the moment because 'from dfirtrack_artifacts.models import Artifactstatus' is not allowed here or in 'dfirtrack.settings',
+nevertheless that is not so relevant because the choices defined here are only shown in admin page,
+what is shown in the form is defined in 'dfirtrack_artifacts.config_forms'
+"""
+# create custom field types
+CONSTANCE_ADDITIONAL_FIELDS = {
+    # artifactstatus
+    'artifactstatus_field': [
+        'django.forms.fields.MultipleChoiceField', {
+            'widget': 'django.forms.CheckboxSelectMultiple',
+            'choices': (
+                ("1", "Needs analysis"),
+                ("2", "Requested from customer"),
+                ("3", "Collecting through EDR"),
+                ("4", "Processing ongoing"),
+                ("5", "Import ongoing"),
+                ("6", "Ready for analysis"),
+                ("7", "Analysis ongoing"),
+                ("8", "Analysis finished"),
+                ("9", "Not available"),
+            ),
+        },
+    ],
 }
 
 CONSTANCE_CONFIG_FIELDSETS = {
@@ -218,6 +251,7 @@ CONSTANCE_CONFIG_FIELDSETS = {
         'SPREAD_WORKSHEET_TAG',
     ),
     'Artifact spreadsheet exporter (CSV, XLS) options': (
+        'ARTIFACTLIST_CHOICE_ARTIFACTSTATUS',
         'ARTIFACTLIST_ARTIFACT_ID',
         'ARTIFACTLIST_SYSTEM_ID',
         'ARTIFACTLIST_SYSTEM_NAME',

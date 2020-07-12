@@ -1,6 +1,24 @@
 from django import forms
+from dfirtrack_artifacts.models import Artifactstatus
 
 class ArtifactExporterSpreadsheetCsvForm(forms.Form):
+
+    # create empty list for available artifactstatus
+    artifactstatus_choices = []
+
+    # get all artifactstatus
+    artifactstatus_all = Artifactstatus.objects.order_by('artifactstatus_id')
+
+    # append tupel (consisting of artifactstatus_id and artifactstatus_name) to list (therefore double brackets)
+    for artifactstatus in artifactstatus_all:
+        artifactstatus_choices.append((artifactstatus.artifactstatus_id, artifactstatus.artifactstatus_name))
+
+    artifactlist_choice_artifactstatus = forms.MultipleChoiceField(
+        required = False,
+        widget = forms.CheckboxSelectMultiple(),
+        label = 'Export only artifacts with this artifactstatus',
+        choices = artifactstatus_choices,
+    )
 
     artifactlist_artifact_id = forms.BooleanField(
         required = False,

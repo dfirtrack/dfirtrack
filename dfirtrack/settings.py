@@ -4,6 +4,7 @@ Django settings for DFIRTrack project.
 
 from dfirtrack.config import LOGGING_PATH
 from dfirtrack.constance_config import CONSTANCE_CONFIG as constance_config
+from dfirtrack.constance_config import CONSTANCE_ADDITIONAL_FIELDS as constance_additional_fields
 from dfirtrack.constance_config import CONSTANCE_CONFIG_FIELDSETS as constance_config_fieldsets
 import os
 
@@ -33,6 +34,7 @@ INSTALLED_APPS = [
 ]
 
 CONSTANCE_CONFIG = constance_config
+CONSTANCE_ADDITIONAL_FIELDS = constance_additional_fields
 CONSTANCE_CONFIG_FIELDSETS = constance_config_fieldsets
 
 CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'

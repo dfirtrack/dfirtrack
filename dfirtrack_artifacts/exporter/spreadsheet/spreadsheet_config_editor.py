@@ -15,6 +15,7 @@ def artifact_exporter_spreadsheet_xls_config_view(request):
         if form.is_valid():
 
             # assign values
+            config.ARTIFACTLIST_CHOICE_ARTIFACTSTATUS = form.cleaned_data['artifactlist_choice_artifactstatus']
             config.ARTIFACTLIST_ARTIFACT_ID = form.cleaned_data['artifactlist_artifact_id']
             config.ARTIFACTLIST_SYSTEM_ID = form.cleaned_data['artifactlist_system_id']
             config.ARTIFACTLIST_SYSTEM_NAME = form.cleaned_data['artifactlist_system_name']
@@ -39,6 +40,7 @@ def artifact_exporter_spreadsheet_xls_config_view(request):
         # submit existing values to form
         form = ArtifactExporterSpreadsheetXlsForm(
             initial = {
+                'artifactlist_choice_artifactstatus': config.ARTIFACTLIST_CHOICE_ARTIFACTSTATUS,
                 'artifactlist_artifact_id': config.ARTIFACTLIST_ARTIFACT_ID,
                 'artifactlist_system_id': config.ARTIFACTLIST_SYSTEM_ID,
                 'artifactlist_system_name': config.ARTIFACTLIST_SYSTEM_NAME,
