@@ -23,11 +23,6 @@ EVIDENCE_PATH = expanduser('~') + '/dfirtrack_artifact_storage'
 ## change path for the markdown documentation export (used in `dfirtrack_main.exporter.markdown`)
 MARKDOWN_PATH = ''
 
-# EXPORTER - ARTIFACT SPREADSHEET (XLS)
-
-## comma separated list of artifactstatus (these artifacts are exported to the spreadsheet) (used in `dfirtrack_artifacts.exporter.spreadsheet`)
-ARTIFACTLIST_CHOICE_ARTIFACTSTATUS = ['Needs analysis', 'Requested from customer']
-
 # IMPORTER - SYSTEMS AND ENTRIES VIA GIRAF API (used in `dfirtrack_main.importer.api.giraf`)
 
 ## add an url for giraf (e. g. 'https://giraf.testing.vm')

@@ -6,22 +6,11 @@ from django.urls import reverse
 from dfirtrack_artifacts.models import Artifact, Artifactstatus, Artifacttype
 from dfirtrack_main.exporter.spreadsheet.xls import style_default, style_headline, write_row
 from dfirtrack_main.logger.default_logger import info_logger, warning_logger
-from .spreadsheet_check_data import check_artifactstatus
 from time import strftime
 import xlwt
 
 @login_required(login_url="/login")
 def artifact(request):
-
-    # check_config regarding choosen artifactstatus
-    stop_artifact_exporter_spreadsheet_artifactstatus = check_artifactstatus(request)
-
-    # leave artifact_exporter_spreadsheet_xls if variables caused errors
-    if stop_artifact_exporter_spreadsheet_artifactstatus:
-
-        # call logger
-        warning_logger(str(request.user), " ARTIFACT_EXPORTER_SPREADSHEET_XLS_END_WITH_ERRORS")
-        return redirect(reverse('artifacts_artifact_list'))
 
     """ prepare file including formatting """
 
