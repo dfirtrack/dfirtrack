@@ -83,6 +83,10 @@ def artifact(request):
     # iterate over artifacts
     for artifact in artifacts:
 
+        # leave loop if artifactstatus of this artifact is not configured for export (values in constance list are strings)
+        if str(artifact.artifactstatus_id) not in constance_config.ARTIFACTLIST_CHOICE_ARTIFACTSTATUS:
+            continue
+
         # autoincrement row counter
         row_num += 1
 
