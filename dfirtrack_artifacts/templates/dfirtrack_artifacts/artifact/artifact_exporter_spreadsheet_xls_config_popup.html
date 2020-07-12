@@ -20,17 +20,21 @@
 {% block content %}
 
 <!-- headline -->
-<div class="bottom-distance">
+<div class="row col-6 bottom-distance">
     <h4>
         Spreadsheet XLS export config
     </h4>
 </div>
 
 <!-- explanation text -->
-<div class="col-6 card card-body bg-dark border-light top-distance bottom-distance copy-false">
-    Define the artifact attributes for exporting to a XLS file here.
-    Note that the artifact name is mandatory of course.
-    Different worksheets can also be selected for export.
+<div class="row">
+    <div class="col-6">
+        <div class="card card-body bg-dark border-light top-distance bottom-distance copy-false">
+            Define the artifact attributes for exporting to a XLS file here.
+            Note that the artifact name is mandatory of course.
+            Different worksheets can also be selected for export.
+        </div>
+    </div>
 </div>
 
 <!-- form -->
@@ -38,8 +42,94 @@
 
     {% csrf_token %}
 
-    <!-- include standard form -->
-    {% include "dfirtrack_main/includes/form.html" %}
+    <!-- general errors -->
+    {% if form.non_field.errors %}
+        <div class="row">
+            <div class="col">
+                <div class="text-danger">
+                    Non field errors:<br>
+                    {{ form.non_field.errors }}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- row -->
+    <div class="row">
+
+        <!-- artifactstatus choice block -->
+        <div class="col-6">
+            <div class="card card-body bg-dark border-light top-distance">
+
+                <h5>
+                    {{ form.artifactlist_choice_artifactstatus.label }}
+                </h5>
+
+                <!-- errors -->
+                <div class="text-danger">
+                    {{ form.artifactlist_choice_artifactstatus.errors }}
+                </div>
+                {% for i in form.artifactlist_choice_artifactstatus %}
+                    {{ i }}<br>
+                {% endfor  %}
+
+            <!-- artifactstatus choice block -->
+            </div>
+        </div>
+
+        <!-- artifact attributes block -->
+        <div class="col-6">
+            <div class="card card-body bg-dark border-light top-distance">
+
+                <h5>
+                    Choose artifact attributes to export
+                </h5>
+
+                <table>
+                    <tr><td>{{ form.artifactlist_artifact_id }}</td> <td>{{ form.artifactlist_artifact_id.label }}</td></tr>
+                    <tr><td>{{ form.artifactlist_system_id }}</td> <td>{{ form.artifactlist_system_id.label }}</td></tr>
+                    <tr><td>{{ form.artifactlist_system_name }}</td> <td>{{ form.artifactlist_system_name.label }}</td></tr>
+                    <tr><td>{{ form.artifactlist_artifactstatus }}</td> <td>{{ form.artifactlist_artifactstatus.label }}</td></tr>
+                    <tr><td>{{ form.artifactlist_artifacttype }}</td> <td>{{ form.artifactlist_artifacttype.label }}</td></tr>
+                    <tr><td>{{ form.artifactlist_artifact_source_path }}</td> <td>{{ form.artifactlist_artifact_source_path.label }}</td></tr>
+                    <tr><td>{{ form.artifactlist_artifact_storage_path }}</td> <td>{{ form.artifactlist_artifact_storage_path.label }}</td></tr>
+                    <tr><td>{{ form.artifactlist_artifact_note }}</td> <td>{{ form.artifactlist_artifact_note.label }}</td></tr>
+                    <tr><td>{{ form.artifactlist_artifact_md5 }}</td> <td>{{ form.artifactlist_artifact_md5.label }}</td></tr>
+                    <tr><td>{{ form.artifactlist_artifact_sha1 }}</td> <td>{{ form.artifactlist_artifact_sha1.label }}</td></tr>
+                    <tr><td>{{ form.artifactlist_artifact_sha256 }}</td> <td>{{ form.artifactlist_artifact_sha256.label }}</td></tr>
+                    <tr><td>{{ form.artifactlist_artifact_create_time }}</td> <td>{{ form.artifactlist_artifact_create_time.label }}</td></tr>
+                    <tr><td>{{ form.artifactlist_artifact_modify_time }}</td> <td>{{ form.artifactlist_artifact_modify_time.label }}</td></tr>
+                </table>
+
+            <!-- artifact attributes block -->
+            </div>
+        </div>
+
+    <!-- row -->
+    </div>
+
+    <!-- row -->
+    <div class="row">
+
+        <!-- artifact attributes block -->
+        <div class="col-6">
+            <div class="card card-body bg-dark border-light top-distance">
+
+                <h5>
+                    Export additional worksheets that explain some attributes
+                </h5>
+
+                <table>
+                    <tr><td>{{ form.artifactlist_worksheet_artifactstatus }}</td> <td>{{ form.artifactlist_worksheet_artifactstatus.label }}</td></tr>
+                    <tr><td>{{ form.artifactlist_worksheet_artifacttype }}</td> <td>{{ form.artifactlist_worksheet_artifacttype.label }}</td></tr>
+                </table>
+
+            <!-- artifact attributes block -->
+            </div>
+        </div>
+
+    <!-- row -->
+    </div>
 
     <!-- button row -->
     <div class="row top-distance">

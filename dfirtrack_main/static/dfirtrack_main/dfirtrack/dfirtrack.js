@@ -102,7 +102,7 @@ function system_exporter_spreadsheet_xls_config_popup() {
 // TODO: move to 'dfirtrack/dfirtrack_artifacts/static/dfirtrack_artifacts/dfirtrack_artifacts.js' (did not work so far)
 var artifact_exporter_spreadsheet_xls_config_popup;
 function artifact_exporter_spreadsheet_xls_config_popup() {
-        artifact_exporter_spreadsheet_xls_config_popup = window.open("/artifacts/artifact/exporter/spreadsheet/xls/config/", "artifact_exporter_spreadsheet_xls_config_popup", "height=900, width=600");
+        artifact_exporter_spreadsheet_xls_config_popup = window.open("/artifacts/artifact/exporter/spreadsheet/xls/config/", "artifact_exporter_spreadsheet_xls_config_popup", "height=900, width=1200");
 }
 
 // ####################################
