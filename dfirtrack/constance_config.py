@@ -3,6 +3,7 @@ Configuration used in DFIRTrack with django-constance.
 """
 
 CONSTANCE_CONFIG = {
+    # used in dfirtrack_main.exporter.spreadsheet.csv
     'SPREAD_SYSTEM_ID': (
         True,
         'Add system ID to spreadsheet export',
@@ -88,6 +89,7 @@ CONSTANCE_CONFIG = {
         'Add system modify time to spreadsheet export',
         bool,
     ),
+    # used in dfirtrack_main.exporter.spreadsheet.xls
     'SPREAD_WORKSHEET_SYSTEMSTATUS': (
         False,
         'Add additional worksheet to explain systemstatus',
@@ -113,6 +115,7 @@ CONSTANCE_CONFIG = {
         'Add additional worksheet to explain tag',
         bool,
     ),
+    # used in dfirtrack_artifacts.exporter.spreadsheet.xls
     'ARTIFACTLIST_ARTIFACT_ID': (
         True,
         'Add artifact ID to spreadsheet export',
@@ -209,15 +212,15 @@ CONSTANCE_ADDITIONAL_FIELDS = {
         'django.forms.fields.MultipleChoiceField', {
             'widget': 'django.forms.CheckboxSelectMultiple',
             'choices': (
-                ("1", "Needs analysis"),
-                ("2", "Requested from customer"),
-                ("3", "Collecting through EDR"),
-                ("4", "Processing ongoing"),
-                ("5", "Import ongoing"),
-                ("6", "Ready for analysis"),
-                ("7", "Analysis ongoing"),
-                ("8", "Analysis finished"),
-                ("9", "Not available"),
+                ('1', 'Needs analysis'),
+                ('2', 'Requested from customer'),
+                ('3', 'Collecting through EDR'),
+                ('4', 'Processing ongoing'),
+                ('5', 'Import ongoing'),
+                ('6', 'Ready for analysis'),
+                ('7', 'Analysis ongoing'),
+                ('8', 'Analysis finished'),
+                ('9', 'Not available'),
             ),
         },
     ],
