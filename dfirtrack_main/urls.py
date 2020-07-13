@@ -5,7 +5,8 @@ from dfirtrack_main.creator import system_creator, tag_creator, task_creator
 from dfirtrack_main.exporter.spreadsheet import csv as spreadsheet_csv
 from dfirtrack_main.exporter.spreadsheet import xls
 from dfirtrack_main.exporter.spreadsheet import spreadsheet_config_editor
-from dfirtrack_main.exporter.markdown import domainsorted, systemsorted
+from dfirtrack_main.exporter.markdown import markdown as markdown_exporter
+from dfirtrack_main.exporter.markdown import markdown_config_editor
 from dfirtrack_main.importer.api import giraf
 from dfirtrack_main.importer.file import csv as file_csv
 from dfirtrack_main.importer.file import filesystem, markdown
@@ -127,8 +128,8 @@ urlpatterns = [
     path(r'system/<int:pk>/edit/', system_views.SystemUpdate.as_view(), name='system_update'),
 
     path(r'system/creator/', system_creator.system_creator, name='system_creator'),
-    path(r'system/exporter/markdown/domainsorted/', domainsorted.domainsorted, name='system_exporter_markdown_domainsorted'),
-    path(r'system/exporter/markdown/systemsorted/', systemsorted.systemsorted, name='system_exporter_markdown_systemsorted'),
+    path(r'system/exporter/markdown/system/', markdown_exporter.system, name='system_exporter_markdown'),
+    path(r'system/exporter/markdown/config/', markdown_config_editor.system_exporter_markdown_config_view, name='system_exporter_markdown_config_popup'),
     path(r'system/exporter/spreadsheet/csv/system/', spreadsheet_csv.system, name='system_exporter_spreadsheet_csv'),
     path(r'system/exporter/spreadsheet/csv/config/', spreadsheet_config_editor.system_exporter_spreadsheet_csv_config_view, name='system_exporter_spreadsheet_csv_config_popup'),
     path(r'system/exporter/spreadsheet/xls/system/', xls.system, name='system_exporter_spreadsheet_xls'),

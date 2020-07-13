@@ -1,8 +1,5 @@
 from constance import config as constance_config
-from django.contrib.auth.decorators import login_required
 from django.core.files import File
-from django.shortcuts import redirect
-from django.urls import reverse
 from django_q.tasks import async_task
 from .markdown_check_data import check_config
 from . import clean_directory, read_or_create_mkdocs_yml, write_report
@@ -71,7 +68,6 @@ def write_report_systemsorted(system, request_user):
     return(rid, rfqdn, rpath)
 
 
-@login_required(login_url="/login")
 def systemsorted(request):
     """ exports markdown report for all systems (helper function to call the real function) """
 
@@ -85,7 +81,7 @@ def systemsorted(request):
 
     # leave importer_api_giraf if variables caused errors
     if stop_exporter_markdown:
-        return redirect(reverse('system_list'))
+        return
 
     # call async function
     async_task(
@@ -93,7 +89,7 @@ def systemsorted(request):
         request_user,
     )
 
-    return redirect(reverse('system_list'))
+    return
 
 
 def systemsorted_async(request_user):

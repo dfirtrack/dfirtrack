@@ -1,5 +1,28 @@
 from django import forms
 
+class SystemExporterMarkdownForm(forms.Form):
+
+    markdown_path = forms.CharField(
+        required = True,
+        widget = forms.TextInput(attrs={
+            'size': '55',
+            'style': 'font-family: monospace',
+        }),
+        label = 'Path for the markdown documentation export',
+    )
+
+    markdown_sorting_choices = [
+        ('domainsorted', 'Sorted by domain'),
+        ('systemsorted', 'Sorted by system'),
+    ]
+
+    markdown_sorting = forms.ChoiceField(
+        required = True,
+        widget = forms.RadioSelect(),
+        label = 'Choose sorting for system markdown export',
+        choices = markdown_sorting_choices,
+    )
+
 class SystemExporterSpreadsheetCsvForm(forms.Form):
 
     spread_system_id = forms.BooleanField(

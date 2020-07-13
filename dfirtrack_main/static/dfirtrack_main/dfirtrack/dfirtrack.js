@@ -98,6 +98,12 @@ function system_exporter_spreadsheet_xls_config_popup() {
     system_exporter_spreadsheet_xls_config_popup = window.open("/system/exporter/spreadsheet/xls/config/", "system_exporter_spreadsheet_xls_config_popup", "height=800, width=1200");
 }
 
+// popup window for system exporter markdown config
+var system_exporter_markdown_config_popup;
+function system_exporter_markdown_config_popup() {
+    system_exporter_markdown_config_popup = window.open("/system/exporter/markdown/config/", "system_exporter_markdown_config_popup", "height=800, width=600");
+}
+
 // popup window for artifact exporter spreadsheet xls config
 // TODO: move to 'dfirtrack/dfirtrack_artifacts/static/dfirtrack_artifacts/dfirtrack_artifacts.js' (did not work so far)
 var artifact_exporter_spreadsheet_xls_config_popup;

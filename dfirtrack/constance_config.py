@@ -202,6 +202,11 @@ CONSTANCE_CONFIG = {
         'Path for the markdown documentation export',
         str,
     ),
+    'MARKDOWN_SORTING': (
+        'systemsorted',
+        'Choose sorting for system markdown export',
+        'markdown_sorting_field',
+    ),
 }
 
 """
@@ -227,6 +232,16 @@ CONSTANCE_ADDITIONAL_FIELDS = {
                 ('7', 'Analysis ongoing'),
                 ('8', 'Analysis finished'),
                 ('9', 'Not available'),
+            ),
+        },
+    ],
+    # markdown sorting for system markdown exporter
+    'markdown_sorting_field': [
+        'django.forms.fields.ChoiceField', {
+            'widget': 'django.forms.RadioSelect',
+            'choices': (
+                ('domainsorted', 'Sorted by domain'),
+                ('systemsorted', 'Sorted by system'),
             ),
         },
     ],
@@ -261,6 +276,7 @@ CONSTANCE_CONFIG_FIELDSETS = {
     ),
     'System markdown exporter options': (
         'MARKDOWN_PATH',
+        'MARKDOWN_SORTING',
     ),
     'Artifact spreadsheet exporter (CSV, XLS) options': (
         'ARTIFACTLIST_CHOICE_ARTIFACTSTATUS',
