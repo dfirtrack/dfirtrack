@@ -6,7 +6,7 @@
 
 <!-- page title -->
 <title>
-    Spreadsheet XLS export config
+    System spreadsheet export config (XLS)
 </title>
 
 {% load static %}
@@ -20,17 +20,21 @@
 {% block content %}
 
 <!-- headline -->
-<div class="bottom-distance">
+<div class="row col bottom-distance">
     <h4>
-        Spreadsheet XLS export config
+        System spreadsheet export config (XLS)
     </h4>
 </div>
 
 <!-- explanation text -->
-<div class="col-6 card card-body bg-dark border-light top-distance bottom-distance copy-false">
-    Define the system attributes for exporting to a XLS file here.
-    Note that the system name is mandatory of course.
-    Different worksheets can also be selected for export.
+<div class="row">
+    <div class="col-6">
+        <div class="card card-body bg-dark border-light top-distance bottom-distance copy-false">
+            Define the system attributes for exporting to a XLS file here.
+            Note that the system name is mandatory of course.
+            Different worksheets can also be selected for export.
+        </div>
+    </div>
 </div>
 
 <!-- form -->
@@ -38,8 +42,59 @@
 
     {% csrf_token %}
 
-    <!-- include standard form -->
-    {% include "dfirtrack_main/includes/form.html" %}
+    <!-- general errors -->
+    {% if form.non_field.errors %}
+        <div class="row">
+            <div class="col">
+                <div class="text-danger">
+                    Non field errors:<br>
+                    {{ form.non_field.errors }}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- system attributes block -->
+    <div class="row">
+
+        <div class="col-6">
+            <div class="card card-body bg-dark border-light top-distance">
+
+                <h5>
+                    Choose system attributes to export
+                </h5>
+
+                <table>
+                    {% for i in form %}
+                        {% if 'worksheet' not in i.label %}
+                            <tr><td>{{ i }}</td> <td>{{ i.label }}</td></tr>
+                        {% endif %}
+                    {% endfor %}
+                </table>
+
+            </div>
+        </div>
+
+        <div class="col-6">
+            <div class="card card-body bg-dark border-light top-distance">
+
+                <h5>
+                    Export additional worksheets that explain some attributes
+                </h5>
+
+                <table>
+                    {% for i in form %}
+                        {% if 'worksheet' in i.label %}
+                            <tr><td>{{ i }}</td> <td>{{ i.label }}</td></tr>
+                        {% endif %}
+                    {% endfor %}
+                </table>
+
+            </div>
+        </div>
+
+    <!-- system attributes block -->
+    </div>
 
     <!-- button row -->
     <div class="row top-distance">

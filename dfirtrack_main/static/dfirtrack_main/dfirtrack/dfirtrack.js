@@ -89,20 +89,20 @@ function systemtype_add_popup() {
 // popup window for system exporter spreadsheet csv config
 var system_exporter_spreadsheet_csv_config_popup;
 function system_exporter_spreadsheet_csv_config_popup() {
-    system_exporter_spreadsheet_csv_config_popup = window.open("/system/exporter/spreadsheet/csv/config/", "system_exporter_spreadsheet_csv_config_popup", "height=700, width=600");
+    system_exporter_spreadsheet_csv_config_popup = window.open("/system/exporter/spreadsheet/csv/config/", "system_exporter_spreadsheet_csv_config_popup", "height=800, width=600");
 }
 
 // popup window for system exporter spreadsheet xls config
 var system_exporter_spreadsheet_xls_config_popup;
 function system_exporter_spreadsheet_xls_config_popup() {
-    system_exporter_spreadsheet_xls_config_popup = window.open("/system/exporter/spreadsheet/xls/config/", "system_exporter_spreadsheet_xls_config_popup", "height=900, width=600");
+    system_exporter_spreadsheet_xls_config_popup = window.open("/system/exporter/spreadsheet/xls/config/", "system_exporter_spreadsheet_xls_config_popup", "height=800, width=1200");
 }
 
 // popup window for artifact exporter spreadsheet xls config
 // TODO: move to 'dfirtrack/dfirtrack_artifacts/static/dfirtrack_artifacts/dfirtrack_artifacts.js' (did not work so far)
 var artifact_exporter_spreadsheet_xls_config_popup;
 function artifact_exporter_spreadsheet_xls_config_popup() {
-        artifact_exporter_spreadsheet_xls_config_popup = window.open("/artifacts/artifact/exporter/spreadsheet/xls/config/", "artifact_exporter_spreadsheet_xls_config_popup", "height=900, width=1200");
+        artifact_exporter_spreadsheet_xls_config_popup = window.open("/artifacts/artifact/exporter/spreadsheet/xls/config/", "artifact_exporter_spreadsheet_xls_config_popup", "height=800, width=1200");
 }
 
 // ####################################

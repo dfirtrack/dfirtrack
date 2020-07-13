@@ -6,7 +6,7 @@
 
 <!-- page title -->
 <title>
-    Spreadsheet CSV export config
+    System spreadsheet export config (CSV)
 </title>
 
 {% load static %}
@@ -20,16 +20,20 @@
 {% block content %}
 
 <!-- headline -->
-<div class="bottom-distance">
+<div class="row col bottom-distance">
     <h4>
-        Spreadsheet CSV export config
+        System spreadsheet export config (CSV)
     </h4>
 </div>
 
 <!-- explanation text -->
-<div class="col-6 card card-body bg-dark border-light top-distance bottom-distance copy-false">
-    Define the system attributes for exporting to a CSV file here.
-    Note that the system name is mandatory of course.
+<div class="row">
+    <div class="col-12">
+        <div class="card card-body bg-dark border-light top-distance bottom-distance copy-false">
+            Define the system attributes for exporting to a CSV file here.
+            Note that the system name is mandatory of course.
+        </div>
+    </div>
 </div>
 
 <!-- form -->
@@ -37,8 +41,36 @@
 
     {% csrf_token %}
 
-    <!-- include standard form -->
-    {% include "dfirtrack_main/includes/form.html" %}
+    <!-- general errors -->
+    {% if form.non_field.errors %}
+        <div class="row">
+            <div class="col">
+                <div class="text-danger">
+                    Non field errors:<br>
+                    {{ form.non_field.errors }}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- artifact attributes block -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-body bg-dark border-light top-distance">
+
+                <h5>
+                    Choose system attributes to export
+                </h5>
+
+                <table>
+                    {% for i in form %}
+                        <tr><td>{{ i }}</td> <td>{{ i.label }}</td></tr>
+                    {% endfor %}
+                </table>
+
+            </div>
+        </div>
+    </div>
 
     <!-- button row -->
     <div class="row top-distance">
