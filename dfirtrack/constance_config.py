@@ -196,6 +196,12 @@ CONSTANCE_CONFIG = {
         'Export only artifacts with this artifactstatus',
         'artifactstatus_field',
     ),
+    # used in `dfirtrack_main.exporter.markdown`
+    'MARKDOWN_PATH': (
+        '',
+        'Path for the markdown documentation export',
+        str,
+    ),
 }
 
 """
@@ -252,6 +258,9 @@ CONSTANCE_CONFIG_FIELDSETS = {
         'SPREAD_WORKSHEET_REASON',
         'SPREAD_WORKSHEET_RECOMMENDATION',
         'SPREAD_WORKSHEET_TAG',
+    ),
+    'System markdown exporter options': (
+        'MARKDOWN_PATH',
     ),
     'Artifact spreadsheet exporter (CSV, XLS) options': (
         'ARTIFACTLIST_CHOICE_ARTIFACTSTATUS',

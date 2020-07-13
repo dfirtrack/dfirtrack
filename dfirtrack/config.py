@@ -18,11 +18,6 @@ SYSTEM_NAME_EDITABLE = False
 ## folder to store artifacts on DFIRTrack server (used in `dfirtrack_artifacs.models` and `dfirtrack_main.models`)
 EVIDENCE_PATH = expanduser('~') + '/dfirtrack_artifact_storage'
 
-# EXPORTER - MARKDOWN
-
-## change path for the markdown documentation export (used in `dfirtrack_main.exporter.markdown`)
-MARKDOWN_PATH = ''
-
 # IMPORTER - SYSTEMS AND ENTRIES VIA GIRAF API (used in `dfirtrack_main.importer.api.giraf`)
 
 ## add an url for giraf (e. g. 'https://giraf.testing.vm')
