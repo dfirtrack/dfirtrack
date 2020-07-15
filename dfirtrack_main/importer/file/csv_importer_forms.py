@@ -1,3 +1,4 @@
+from constance import config as constance_config
 from django import forms
 from django.utils.translation import gettext_lazy
 import dfirtrack.config as dfirtrack_config
@@ -100,7 +101,7 @@ class SystemImporterFileCsv(forms.ModelForm):
         fields = ()
 
         # add attributes as fields for manual editing if not automatically filled
-        if not dfirtrack_config.CSV_CHOICE_SYSTEMSTATUS:
+        if not constance_config.CSV_CHOICE_SYSTEMSTATUS:
             fields += ('systemstatus',)
         if not dfirtrack_config.CSV_CHOICE_ANALYSISSTATUS:
             fields += ('analysisstatus',)
@@ -129,7 +130,7 @@ class SystemImporterFileCsv(forms.ModelForm):
         widgets = {}
 
         # define widgets for choosen fields
-        if not dfirtrack_config.CSV_CHOICE_SYSTEMSTATUS:
+        if not constance_config.CSV_CHOICE_SYSTEMSTATUS:
             widgets['systemstatus'] = forms.RadioSelect()
         if not dfirtrack_config.CSV_CHOICE_ANALYSISSTATUS:
             widgets['analysisstatus'] = forms.RadioSelect()

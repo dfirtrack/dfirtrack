@@ -207,6 +207,12 @@ CONSTANCE_CONFIG = {
         'Choose sorting for system markdown export',
         'markdown_sorting_field',
     ),
+    # used in `dfirtrack_main.importer.file.csv`
+    'CSV_CHOICE_SYSTEMSTATUS': (
+        False,
+        'Define systemstatus via this config (True) or via web form (False)',
+        bool,
+    ),
 }
 
 """
@@ -277,6 +283,9 @@ CONSTANCE_CONFIG_FIELDSETS = {
     'System markdown exporter options': (
         'MARKDOWN_PATH',
         'MARKDOWN_SORTING',
+    ),
+    'System file importer (CSV) options': (
+        'CSV_CHOICE_SYSTEMSTATUS',
     ),
     'Artifact spreadsheet exporter (CSV, XLS) options': (
         'ARTIFACTLIST_CHOICE_ARTIFACTSTATUS',

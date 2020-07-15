@@ -92,12 +92,10 @@
             </a>
         </div>
 
-        <!-- system ips importer button -->
-        <div class="col-2">
-            <a href="{% url 'system_importer_file_csv' %}" type="button" class="btn btn-light copy-false">
-                <img src="{% static 'dfirtrack_main/icons/list.svg' %}" class="icon right-distance copy-false" alt="icon">
-                Import CSV
-            </a>
+        <!-- system importer file csv button -->
+        <div class="col-2 btn-group">
+            <a href="{% url 'system_importer_file_csv' %}" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/list.svg' %}" class="icon right-distance copy-false" alt="icon"> Import CSV</a>
+            <button onclick="system_importer_file_csv_config_popup()" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/wrench.svg' %}" class="icon copy-false" alt="icon"> </a>
         </div>
 
     <!-- button row -->
@@ -119,7 +117,7 @@
         <div class="col-6">
         </div>
 
-        <!-- system tags importer button -->
+        <!-- reportitem filesystem importer button -->
         <div class="col-2">
             <a href="{% url 'reportitem_importer_file_filesystem' %}" type="button" class="btn btn-light copy-false">
                 <img src="{% static 'dfirtrack_main/icons/list.svg' %}" class="icon right-distance copy-false" alt="icon">

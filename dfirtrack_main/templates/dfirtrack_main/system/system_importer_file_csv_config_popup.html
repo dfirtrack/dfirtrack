@@ -1,0 +1,98 @@
+<!-- extending maintemplate -->
+{% extends "dfirtrack_main/mainpopup.html" %}
+
+<!-- HTML head in maintemplate -->
+{% block head %}
+
+<!-- page title -->
+<title>
+    System CSV file import config
+</title>
+
+{% load static %}
+
+<!-- HTML head in maintemplate -->
+{% endblock %}
+
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
+{% block content %}
+
+<!-- headline -->
+<div class="row col bottom-distance">
+    <h4>
+        System CSV file import config
+    </h4>
+</div>
+
+<!-- explanation text -->
+<div class="row">
+    <div class="col-12">
+        <div class="card card-body bg-dark border-light top-distance bottom-distance copy-false">
+        You can choose whether attributes should be set via this configuration (option selected / true) or the web interface (option deselected / false).
+        </div>
+    </div>
+</div>
+
+<!-- form -->
+<form method="POST" class="post-form">
+
+    {% csrf_token %}
+
+    <!-- general errors -->
+    {% if form.non_field.errors %}
+        <div class="row">
+            <div class="col">
+                <div class="text-danger">
+                    Non field errors:<br>
+                    {{ form.non_field.errors }}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- configuration block -->
+    <div class="row">
+
+        <div class="col-12">
+            <div class="card card-body bg-dark border-light top-distance">
+
+                <h5>
+                    Choose between this configuration or web interface
+                </h5>
+
+                    <table>
+                        <tr><td>{{ form.csv_choice_systemstatus }}</td> <td>{{ form.csv_choice_systemstatus.label }}</td></tr>
+                    </table>
+
+                <!-- csv_choice_systemstatus -->
+                </div>
+
+            </div>
+        </div>
+
+    <!-- configuration block -->
+    </div>
+
+    <!-- button row -->
+    <div class="row top-distance">
+
+        <!-- save button -->
+        <div class="col-2">
+            {% include "dfirtrack_main/includes/button_save.html" %}
+        </div>
+
+        <!-- cancel button -->
+        <div class="col-1">
+            {% include "dfirtrack_main/includes/button_cancel_popup.html" %}
+        </div>
+
+    <!-- button row -->
+    </div>
+
+<!-- form -->
+</form>
+
+<!-- HTML body in maintemplate -->
+{% endblock %}

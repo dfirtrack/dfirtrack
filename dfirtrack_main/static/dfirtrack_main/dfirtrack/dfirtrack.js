@@ -86,6 +86,12 @@ function systemtype_add_popup() {
     systemtype_add_popup = window.open("/systemtype/add_popup/", "systemtype_add_popup", "height=600, width=1000");
 }
 
+// popup window for system exporter markdown config
+var system_exporter_markdown_config_popup;
+function system_exporter_markdown_config_popup() {
+    system_exporter_markdown_config_popup = window.open("/system/exporter/markdown/config/", "system_exporter_markdown_config_popup", "height=800, width=600");
+}
+
 // popup window for system exporter spreadsheet csv config
 var system_exporter_spreadsheet_csv_config_popup;
 function system_exporter_spreadsheet_csv_config_popup() {
@@ -98,10 +104,10 @@ function system_exporter_spreadsheet_xls_config_popup() {
     system_exporter_spreadsheet_xls_config_popup = window.open("/system/exporter/spreadsheet/xls/config/", "system_exporter_spreadsheet_xls_config_popup", "height=800, width=1200");
 }
 
-// popup window for system exporter markdown config
-var system_exporter_markdown_config_popup;
-function system_exporter_markdown_config_popup() {
-    system_exporter_markdown_config_popup = window.open("/system/exporter/markdown/config/", "system_exporter_markdown_config_popup", "height=800, width=600");
+// popup window for system importer file csv config
+var system_importer_file_csv_config_popup;
+function system_importer_file_csv_config_popup() {
+    system_importer_file_csv_config_popup = window.open("/system/importer/file/csv/config/", "system_importer_file_csv_config_popup", "height=800, width=600");
 }
 
 // popup window for artifact exporter spreadsheet xls config

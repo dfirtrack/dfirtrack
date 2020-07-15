@@ -51,13 +51,6 @@ def check_config(request):
         warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_COLUMN_IP no integer")
         stop_system_importer_file_csv = True
 
-    # check CSV_CHOICE_SYSTEMSTATUS for bool
-    if not isinstance(dfirtrack_config.CSV_CHOICE_SYSTEMSTATUS, bool):
-        messages.error(request, "`CSV_CHOICE_SYSTEMSTATUS` is not boolean. Check `dfirtrack.config`!")
-        # call logger
-        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_SYSTEMSTATUS not boolean")
-        stop_system_importer_file_csv = True
-
     # check CSV_CHOICE_ANALYSISSTATUS for bool
     if not isinstance(dfirtrack_config.CSV_CHOICE_ANALYSISSTATUS, bool):
         messages.error(request, "`CSV_CHOICE_ANALYSISSTATUS` is not boolean. Check `dfirtrack.config`!")
@@ -135,15 +128,14 @@ def check_config(request):
         warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_CHOICE_TAG not boolean")
         stop_system_importer_file_csv = True
 
-    # check CSV_DEFAULT_SYSTEMSTATUS for existence (check only if CSV_CHOICE_SYSTEMSTATUS is True)
-    if dfirtrack_config.CSV_CHOICE_SYSTEMSTATUS:
-        try:
-            Systemstatus.objects.get(systemstatus_name = dfirtrack_config.CSV_DEFAULT_SYSTEMSTATUS)
-        except Systemstatus.DoesNotExist:
-            messages.warning(request, "Systemstatus with configured name does not exist. Check `dfirtrack.config` or create systemstatus!")
-            # call logger
-            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV systemstatus for variable CSV_DEFAULT_SYSTEMSTATUS does not exist")
-            stop_system_importer_file_csv = True
+    # check CSV_DEFAULT_SYSTEMSTATUS for existence
+    try:
+        Systemstatus.objects.get(systemstatus_name = dfirtrack_config.CSV_DEFAULT_SYSTEMSTATUS)
+    except Systemstatus.DoesNotExist:
+        messages.warning(request, "Systemstatus with configured name does not exist. Check `dfirtrack.config` or create systemstatus!")
+        # call logger
+        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV systemstatus for variable CSV_DEFAULT_SYSTEMSTATUS does not exist")
+        stop_system_importer_file_csv = True
 
     # check CSV_DEFAULT_ANALYSISSTATUS for existence (check only if CSV_CHOICE_ANALYSISSTATUS is True)
     if dfirtrack_config.CSV_CHOICE_ANALYSISSTATUS:

@@ -136,3 +136,10 @@ class SystemExporterSpreadsheetXlsForm(SystemExporterSpreadsheetCsvForm):
         required = False,
         label = 'Export worksheet to explain tag',
     )
+
+class SystemImporterFileCsvForm(forms.Form):
+
+    csv_choice_systemstatus = forms.BooleanField(
+        required = False,
+        label = 'Systemstatus',
+    )

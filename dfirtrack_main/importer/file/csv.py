@@ -1,3 +1,4 @@
+from constance import config as constance_config
 import csv
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -69,7 +70,7 @@ def optional_system_attributes(system, request):
     # add or change attributes (if set via dfirtrack.config)
 
     # systemstatus
-    if dfirtrack_config.CSV_CHOICE_SYSTEMSTATUS:
+    if constance_config.CSV_CHOICE_SYSTEMSTATUS:
         system.systemstatus = Systemstatus.objects.get(systemstatus_name = dfirtrack_config.CSV_DEFAULT_SYSTEMSTATUS)
     # analysisstatus
     if dfirtrack_config.CSV_CHOICE_ANALYSISSTATUS:
@@ -122,7 +123,7 @@ def system(request):
         # call logger
         debug_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_BEGAN")
 
-        if dfirtrack_config.CSV_CHOICE_SYSTEMSTATUS:
+        if constance_config.CSV_CHOICE_SYSTEMSTATUS:
             """
             set dummy value for 'systemstatus' because this field has 'blank=False' in dfirtrack_main.models
             because dfirtrack_main.importer.file.csv_importer_forms.SystemImporterFileCsv is a ModelForm it relies on the attributes of dfirtrack_main.models
@@ -210,7 +211,7 @@ def system(request):
                     system = System.objects.get(system_name=system_name)
 
                     # create form with request data
-                    if dfirtrack_config.CSV_CHOICE_SYSTEMSTATUS:
+                    if constance_config.CSV_CHOICE_SYSTEMSTATUS:
                         form = SystemImporterFileCsv(request_post, request.FILES, instance=system)
                     else:
                         form = SystemImporterFileCsv(request.POST, request.FILES, instance=system)
@@ -313,7 +314,7 @@ def system(request):
             else:
 
                 # create form with request data
-                if dfirtrack_config.CSV_CHOICE_SYSTEMSTATUS:
+                if constance_config.CSV_CHOICE_SYSTEMSTATUS:
                     form = SystemImporterFileCsv(request_post, request.FILES)
                 else:
                     form = SystemImporterFileCsv(request.POST, request.FILES)
@@ -452,7 +453,7 @@ def system(request):
         'dfirtrack_main/system/system_importer_file_csv.html',
         {
             'form': form,
-            'csv_choice_systemstatus': dfirtrack_config.CSV_CHOICE_SYSTEMSTATUS,
+            'csv_choice_systemstatus': constance_config.CSV_CHOICE_SYSTEMSTATUS,
             'csv_choice_analysisstatus': dfirtrack_config.CSV_CHOICE_ANALYSISSTATUS,
             'csv_choice_reason': dfirtrack_config.CSV_CHOICE_REASON,
             'csv_choice_domain': dfirtrack_config.CSV_CHOICE_DOMAIN,
