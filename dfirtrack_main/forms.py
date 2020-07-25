@@ -838,17 +838,23 @@ class SystemCreatorForm(forms.ModelForm):
 class SystemModificatorForm(forms.ModelForm):
 
     # large text area for line separated systemlist
-    systemlist = forms.CharField(widget=forms.Textarea(attrs={
-        'rows': 20,
-        'placeholder': 'One systemname per line',
-        'autofocus': 'autofocus',
-    }))
+    systemlist = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'rows': 20,
+                'placeholder': 'One systemname per line',
+                'autofocus': 'autofocus',
+            },
+        ),
+        label = 'System list',
+    )
 
     # show all existing tag objects as multiple choice field
     tag = forms.ModelMultipleChoiceField(
         queryset=Tag.objects.all(),
         widget=forms.CheckboxSelectMultiple(),
         required = False,
+        label = 'Tag',
     )
 
     class Meta:
