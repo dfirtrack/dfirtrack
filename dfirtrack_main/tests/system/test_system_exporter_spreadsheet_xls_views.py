@@ -42,33 +42,3 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
         response = self.client.get('/system/exporter/spreadsheet/xls/system', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
-
-    def test_system_exporter_spreadsheet_xls_config_not_logged_in(self):
-        """ test exporter view """
-
-        # create url
-        destination = '/login/?next=' + urllib.parse.quote('/system/exporter/spreadsheet/xls/config/', safe='')
-        # get response
-        response = self.client.get('/system/exporter/spreadsheet/xls/config/', follow=True)
-        # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-
-    def test_system_exporter_spreadsheet_xls_config_template(self):
-        """ test exporter view """
-
-        # login testuser
-        login = self.client.login(username='testuser_system_exporter_spreadsheet_xls', password='AIsOtQ2zchYhNZBfWIHu')
-        # get response
-        response = self.client.get('/system/exporter/spreadsheet/xls/config/')
-        # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/system/system_exporter_spreadsheet_xls_config_popup.html')
-
-    def test_system_exporter_spreadsheet_xls_config_get_user_context(self):
-        """ test exporter view """
-
-        # login testuser
-        login = self.client.login(username='testuser_system_exporter_spreadsheet_xls', password='AIsOtQ2zchYhNZBfWIHu')
-        # get response
-        response = self.client.get('/system/exporter/spreadsheet/xls/config/')
-        # compare
-        self.assertEqual(str(response.context['user']), 'testuser_system_exporter_spreadsheet_xls')

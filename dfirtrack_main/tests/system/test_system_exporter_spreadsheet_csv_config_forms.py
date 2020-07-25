@@ -1,13 +1,8 @@
 from django.test import TestCase
 from dfirtrack_main.config_forms import SystemExporterSpreadsheetCsvForm
 
-class SystemExporterSpreadsheetCsvFormTestCase(TestCase):
-    """ system exporter spreadsheet CSV form tests """
-
-    @classmethod
-    def setUpTestData(cls):
-
-        pass
+class SystemExporterSpreadsheetCsvConfigFormTestCase(TestCase):
+    """ system exporter spreadsheet CSV config form tests """
 
     def test_system_exporter_spreadsheet_csv_config_spread_system_id_form_label(self):
         """ test form label """

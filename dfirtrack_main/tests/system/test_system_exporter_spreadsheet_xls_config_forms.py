@@ -1,13 +1,8 @@
 from django.test import TestCase
 from dfirtrack_main.config_forms import SystemExporterSpreadsheetXlsForm
 
-class SystemExporterSpreadsheetXlsFormTestCase(TestCase):
-    """ system exporter spreadsheet XLS form tests """
-
-    @classmethod
-    def setUpTestData(cls):
-
-        pass
+class SystemExporterSpreadsheetXlsConfigFormTestCase(TestCase):
+    """ system exporter spreadsheet XLS config form tests """
 
     def test_system_exporter_spreadsheet_xls_config_spread_worksheet_systemstatus_form_label(self):
         """ test form label """

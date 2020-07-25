@@ -1,13 +1,8 @@
 from django.test import TestCase
 from dfirtrack_main.config_forms import SystemExporterMarkdownForm
 
-class SystemExporterMarkdownFormTestCase(TestCase):
-    """ system exporter markdown form tests """
-
-    @classmethod
-    def setUpTestData(cls):
-
-        pass
+class SystemExporterMarkdownConfigFormTestCase(TestCase):
+    """ system exporter markdown config form tests """
 
     def test_system_exporter_markdown_config_markdown_path_form_label(self):
         """ test form label """
