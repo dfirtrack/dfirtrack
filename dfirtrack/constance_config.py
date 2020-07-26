@@ -213,18 +213,23 @@ CONSTANCE_CONFIG = {
         'Define systemstatus via this config (True) or via web form (False)',
         bool,
     ),
+    'CSV_CHOICE_ANALYSISSTATUS': (
+        False,
+        'Define analysisstatus via this config (True) or via web form (False)',
+        bool,
+    ),
 }
 
 """
 TODO:
 this needs to be filled by a model query,
 does not work at the moment because 'from dfirtrack_artifacts.models import Artifactstatus' is not allowed here or in 'dfirtrack.settings',
-nevertheless that is not so relevant because the choices defined here are only shown in admin page,
-what is shown in the form is defined in 'dfirtrack_artifacts.config_forms'
+nevertheless that is not so relevant because the choices defined here are only statically shown in admin page,
+what is shown in the form is dynamically generated in 'dfirtrack_artifacts.config_forms'
 """
 # create custom field types
 CONSTANCE_ADDITIONAL_FIELDS = {
-    # artifactstatus
+    # artifactstatus (custom list)
     'artifactstatus_field': [
         'django.forms.fields.MultipleChoiceField', {
             'widget': 'django.forms.CheckboxSelectMultiple',
@@ -241,7 +246,7 @@ CONSTANCE_ADDITIONAL_FIELDS = {
             ),
         },
     ],
-    # markdown sorting for system markdown exporter
+    # markdown sorting for system markdown exporter (custom list)
     'markdown_sorting_field': [
         'django.forms.fields.ChoiceField', {
             'widget': 'django.forms.RadioSelect',
@@ -286,6 +291,7 @@ CONSTANCE_CONFIG_FIELDSETS = {
     ),
     'System file importer (CSV) options': (
         'CSV_CHOICE_SYSTEMSTATUS',
+        'CSV_CHOICE_ANALYSISSTATUS',
     ),
     'Artifact spreadsheet exporter (CSV, XLS) options': (
         'ARTIFACTLIST_CHOICE_ARTIFACTSTATUS',

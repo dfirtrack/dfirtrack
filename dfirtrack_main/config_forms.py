@@ -1,6 +1,6 @@
 from django import forms
 
-class SystemExporterMarkdownForm(forms.Form):
+class SystemExporterMarkdownConfigForm(forms.Form):
 
     markdown_path = forms.CharField(
         required = True,
@@ -23,7 +23,7 @@ class SystemExporterMarkdownForm(forms.Form):
         choices = markdown_sorting_choices,
     )
 
-class SystemExporterSpreadsheetCsvForm(forms.Form):
+class SystemExporterSpreadsheetCsvConfigForm(forms.Form):
 
     spread_system_id = forms.BooleanField(
         required = False,
@@ -110,7 +110,7 @@ class SystemExporterSpreadsheetCsvForm(forms.Form):
         label = 'Export system modify time',
     )
 
-class SystemExporterSpreadsheetXlsForm(SystemExporterSpreadsheetCsvForm):
+class SystemExporterSpreadsheetXlsConfigForm(SystemExporterSpreadsheetCsvConfigForm):
 
     spread_worksheet_systemstatus = forms.BooleanField(
         required = False,
@@ -137,9 +137,14 @@ class SystemExporterSpreadsheetXlsForm(SystemExporterSpreadsheetCsvForm):
         label = 'Export worksheet to explain tag',
     )
 
-class SystemImporterFileCsvForm(forms.Form):
+class SystemImporterFileCsvConfigForm(forms.Form):
 
     csv_choice_systemstatus = forms.BooleanField(
         required = False,
         label = 'Systemstatus',
+    )
+
+    csv_choice_analysisstatus = forms.BooleanField(
+        required = False,
+        label = 'Analysisstatus',
     )

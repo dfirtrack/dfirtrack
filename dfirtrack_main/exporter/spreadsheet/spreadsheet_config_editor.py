@@ -2,7 +2,7 @@ from constance import config
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
-from dfirtrack_main.config_forms import SystemExporterSpreadsheetCsvForm, SystemExporterSpreadsheetXlsForm
+from dfirtrack_main.config_forms import SystemExporterSpreadsheetCsvConfigForm, SystemExporterSpreadsheetXlsConfigForm
 
 @login_required(login_url="/login")
 def system_exporter_spreadsheet_csv_config_view(request):
@@ -10,7 +10,7 @@ def system_exporter_spreadsheet_csv_config_view(request):
     # form was valid to post
     if request.method == "POST":
 
-        form = SystemExporterSpreadsheetCsvForm(request.POST)
+        form = SystemExporterSpreadsheetCsvConfigForm(request.POST)
 
         if form.is_valid():
 
@@ -39,7 +39,7 @@ def system_exporter_spreadsheet_csv_config_view(request):
     else:
 
         # submit existing values to form
-        form = SystemExporterSpreadsheetCsvForm(
+        form = SystemExporterSpreadsheetCsvConfigForm(
             initial = {
                 'spread_system_id': config.SPREAD_SYSTEM_ID,
                 'spread_dnsname': config.SPREAD_DNSNAME,
@@ -76,7 +76,7 @@ def system_exporter_spreadsheet_xls_config_view(request):
     # form was valid to post
     if request.method == "POST":
 
-        form = SystemExporterSpreadsheetXlsForm(request.POST)
+        form = SystemExporterSpreadsheetXlsConfigForm(request.POST)
 
         if form.is_valid():
 
@@ -110,7 +110,7 @@ def system_exporter_spreadsheet_xls_config_view(request):
     else:
 
         # submit existing values to form
-        form = SystemExporterSpreadsheetXlsForm(
+        form = SystemExporterSpreadsheetXlsConfigForm(
             initial = {
                 'spread_system_id': config.SPREAD_SYSTEM_ID,
                 'spread_dnsname': config.SPREAD_DNSNAME,

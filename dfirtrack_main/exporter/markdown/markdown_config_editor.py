@@ -2,7 +2,7 @@ from constance import config as constance_config
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
-from dfirtrack_main.config_forms import SystemExporterMarkdownForm
+from dfirtrack_main.config_forms import SystemExporterMarkdownConfigForm
 
 @login_required(login_url="/login")
 def system_exporter_markdown_config_view(request):
@@ -10,7 +10,7 @@ def system_exporter_markdown_config_view(request):
     # form was valid to post
     if request.method == "POST":
 
-        form = SystemExporterMarkdownForm(request.POST)
+        form = SystemExporterMarkdownConfigForm(request.POST)
 
         if form.is_valid():
 
@@ -24,7 +24,7 @@ def system_exporter_markdown_config_view(request):
     else:
 
         # submit existing values to form
-        form = SystemExporterMarkdownForm(
+        form = SystemExporterMarkdownConfigForm(
             initial = {
                 'markdown_path': constance_config.MARKDOWN_PATH,
                 'markdown_sorting': constance_config.MARKDOWN_SORTING,

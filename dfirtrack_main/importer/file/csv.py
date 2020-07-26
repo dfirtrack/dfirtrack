@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.utils import timezone
 import dfirtrack.config as dfirtrack_config
 from .csv_check_data import check_config, check_file, check_row
-from .csv_importer_forms import SystemImporterFileCsv
+from .csv_importer_forms import SystemImporterFileCsvForm
 from dfirtrack_main.logger.default_logger import debug_logger, warning_logger
 from dfirtrack_main.models import Analysisstatus, Case, Company, Dnsname, Domain, Ip, Location, Os, Reason, Serviceprovider, System, Systemstatus, Systemtype, Tag, Tagcolor
 import ipaddress
@@ -73,7 +73,7 @@ def optional_system_attributes(system, request):
     if constance_config.CSV_CHOICE_SYSTEMSTATUS:
         system.systemstatus = Systemstatus.objects.get(systemstatus_name = dfirtrack_config.CSV_DEFAULT_SYSTEMSTATUS)
     # analysisstatus
-    if dfirtrack_config.CSV_CHOICE_ANALYSISSTATUS:
+    if constance_config.CSV_CHOICE_ANALYSISSTATUS:
         system.analysisstatus = Analysisstatus.objects.get(analysisstatus_name = dfirtrack_config.CSV_DEFAULT_ANALYSISSTATUS)
     # reason
     if dfirtrack_config.CSV_CHOICE_REASON:
@@ -126,7 +126,7 @@ def system(request):
         if constance_config.CSV_CHOICE_SYSTEMSTATUS:
             """
             set dummy value for 'systemstatus' because this field has 'blank=False' in dfirtrack_main.models
-            because dfirtrack_main.importer.file.csv_importer_forms.SystemImporterFileCsv is a ModelForm it relies on the attributes of dfirtrack_main.models
+            because dfirtrack_main.importer.file.csv_importer_forms.SystemImporterFileCsvForm is a ModelForm it relies on the attributes of dfirtrack_main.models
             changing blank would require extensive changes throughout the code
             """
 
@@ -212,9 +212,9 @@ def system(request):
 
                     # create form with request data
                     if constance_config.CSV_CHOICE_SYSTEMSTATUS:
-                        form = SystemImporterFileCsv(request_post, request.FILES, instance=system)
+                        form = SystemImporterFileCsvForm(request_post, request.FILES, instance=system)
                     else:
-                        form = SystemImporterFileCsv(request.POST, request.FILES, instance=system)
+                        form = SystemImporterFileCsvForm(request.POST, request.FILES, instance=system)
 
                     # change system
                     if form.is_valid():
@@ -315,9 +315,9 @@ def system(request):
 
                 # create form with request data
                 if constance_config.CSV_CHOICE_SYSTEMSTATUS:
-                    form = SystemImporterFileCsv(request_post, request.FILES)
+                    form = SystemImporterFileCsvForm(request_post, request.FILES)
                 else:
-                    form = SystemImporterFileCsv(request.POST, request.FILES)
+                    form = SystemImporterFileCsvForm(request.POST, request.FILES)
 
                 # create system
                 if form.is_valid():
@@ -439,7 +439,7 @@ def system(request):
             messages.warning(request, 'WARNING: Existing systems will be updated!')
 
         # show empty form with default values (if CSV_CHOICE_ANALYSISSTATUS or CSV_CHOICE_SYSTEMSTATUS is set to True in dfirtrack.config they are simply ignored)
-        form = SystemImporterFileCsv(initial={
+        form = SystemImporterFileCsvForm(initial={
             'systemstatus': 2,
             'analysisstatus': 1,
         })
@@ -454,7 +454,7 @@ def system(request):
         {
             'form': form,
             'csv_choice_systemstatus': constance_config.CSV_CHOICE_SYSTEMSTATUS,
-            'csv_choice_analysisstatus': dfirtrack_config.CSV_CHOICE_ANALYSISSTATUS,
+            'csv_choice_analysisstatus': constance_config.CSV_CHOICE_ANALYSISSTATUS,
             'csv_choice_reason': dfirtrack_config.CSV_CHOICE_REASON,
             'csv_choice_domain': dfirtrack_config.CSV_CHOICE_DOMAIN,
             'csv_choice_dnsname': dfirtrack_config.CSV_CHOICE_DNSNAME,

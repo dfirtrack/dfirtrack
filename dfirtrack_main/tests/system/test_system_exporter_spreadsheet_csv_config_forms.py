@@ -1,5 +1,5 @@
 from django.test import TestCase
-from dfirtrack_main.config_forms import SystemExporterSpreadsheetCsvForm
+from dfirtrack_main.config_forms import SystemExporterSpreadsheetCsvConfigForm
 
 class SystemExporterSpreadsheetCsvConfigFormTestCase(TestCase):
     """ system exporter spreadsheet CSV config form tests """
@@ -8,7 +8,7 @@ class SystemExporterSpreadsheetCsvConfigFormTestCase(TestCase):
         """ test form label """
 
         # get object
-        form = SystemExporterSpreadsheetCsvForm()
+        form = SystemExporterSpreadsheetCsvConfigForm()
         # compare
         self.assertEqual(form.fields['spread_system_id'].label, 'Export system ID')
 
@@ -16,7 +16,7 @@ class SystemExporterSpreadsheetCsvConfigFormTestCase(TestCase):
         """ test form label """
 
         # get object
-        form = SystemExporterSpreadsheetCsvForm()
+        form = SystemExporterSpreadsheetCsvConfigForm()
         # compare
         self.assertEqual(form.fields['spread_dnsname'].label, 'Export DNS name')
 
@@ -24,7 +24,7 @@ class SystemExporterSpreadsheetCsvConfigFormTestCase(TestCase):
         """ test form label """
 
         # get object
-        form = SystemExporterSpreadsheetCsvForm()
+        form = SystemExporterSpreadsheetCsvConfigForm()
         # compare
         self.assertEqual(form.fields['spread_domain'].label, 'Export domain')
 
@@ -32,7 +32,7 @@ class SystemExporterSpreadsheetCsvConfigFormTestCase(TestCase):
         """ test form label """
 
         # get object
-        form = SystemExporterSpreadsheetCsvForm()
+        form = SystemExporterSpreadsheetCsvConfigForm()
         # compare
         self.assertEqual(form.fields['spread_systemstatus'].label, 'Export systemstatus')
 
@@ -40,7 +40,7 @@ class SystemExporterSpreadsheetCsvConfigFormTestCase(TestCase):
         """ test form label """
 
         # get object
-        form = SystemExporterSpreadsheetCsvForm()
+        form = SystemExporterSpreadsheetCsvConfigForm()
         # compare
         self.assertEqual(form.fields['spread_analysisstatus'].label, 'Export analysisstatus')
 
@@ -48,7 +48,7 @@ class SystemExporterSpreadsheetCsvConfigFormTestCase(TestCase):
         """ test form label """
 
         # get object
-        form = SystemExporterSpreadsheetCsvForm()
+        form = SystemExporterSpreadsheetCsvConfigForm()
         # compare
         self.assertEqual(form.fields['spread_reason'].label, 'Export reason')
 
@@ -56,7 +56,7 @@ class SystemExporterSpreadsheetCsvConfigFormTestCase(TestCase):
         """ test form label """
 
         # get object
-        form = SystemExporterSpreadsheetCsvForm()
+        form = SystemExporterSpreadsheetCsvConfigForm()
         # compare
         self.assertEqual(form.fields['spread_recommendation'].label, 'Export recommendation')
 
@@ -64,7 +64,7 @@ class SystemExporterSpreadsheetCsvConfigFormTestCase(TestCase):
         """ test form label """
 
         # get object
-        form = SystemExporterSpreadsheetCsvForm()
+        form = SystemExporterSpreadsheetCsvConfigForm()
         # compare
         self.assertEqual(form.fields['spread_systemtype'].label, 'Export systemtype')
 
@@ -72,7 +72,7 @@ class SystemExporterSpreadsheetCsvConfigFormTestCase(TestCase):
         """ test form label """
 
         # get object
-        form = SystemExporterSpreadsheetCsvForm()
+        form = SystemExporterSpreadsheetCsvConfigForm()
         # compare
         self.assertEqual(form.fields['spread_ip'].label, 'Export IP')
 
@@ -80,7 +80,7 @@ class SystemExporterSpreadsheetCsvConfigFormTestCase(TestCase):
         """ test form label """
 
         # get object
-        form = SystemExporterSpreadsheetCsvForm()
+        form = SystemExporterSpreadsheetCsvConfigForm()
         # compare
         self.assertEqual(form.fields['spread_os'].label, 'Export OS')
 
@@ -88,7 +88,7 @@ class SystemExporterSpreadsheetCsvConfigFormTestCase(TestCase):
         """ test form label """
 
         # get object
-        form = SystemExporterSpreadsheetCsvForm()
+        form = SystemExporterSpreadsheetCsvConfigForm()
         # compare
         self.assertEqual(form.fields['spread_company'].label, 'Export company')
 
@@ -96,7 +96,7 @@ class SystemExporterSpreadsheetCsvConfigFormTestCase(TestCase):
         """ test form label """
 
         # get object
-        form = SystemExporterSpreadsheetCsvForm()
+        form = SystemExporterSpreadsheetCsvConfigForm()
         # compare
         self.assertEqual(form.fields['spread_location'].label, 'Export location')
 
@@ -104,7 +104,7 @@ class SystemExporterSpreadsheetCsvConfigFormTestCase(TestCase):
         """ test form label """
 
         # get object
-        form = SystemExporterSpreadsheetCsvForm()
+        form = SystemExporterSpreadsheetCsvConfigForm()
         # compare
         self.assertEqual(form.fields['spread_serviceprovider'].label, 'Export serviceprovider')
 
@@ -112,7 +112,7 @@ class SystemExporterSpreadsheetCsvConfigFormTestCase(TestCase):
         """ test form label """
 
         # get object
-        form = SystemExporterSpreadsheetCsvForm()
+        form = SystemExporterSpreadsheetCsvConfigForm()
         # compare
         self.assertEqual(form.fields['spread_tag'].label, 'Export tag')
 
@@ -120,7 +120,7 @@ class SystemExporterSpreadsheetCsvConfigFormTestCase(TestCase):
         """ test form label """
 
         # get object
-        form = SystemExporterSpreadsheetCsvForm()
+        form = SystemExporterSpreadsheetCsvConfigForm()
         # compare
         self.assertEqual(form.fields['spread_case'].label, 'Export case')
 
@@ -128,7 +128,7 @@ class SystemExporterSpreadsheetCsvConfigFormTestCase(TestCase):
         """ test form label """
 
         # get object
-        form = SystemExporterSpreadsheetCsvForm()
+        form = SystemExporterSpreadsheetCsvConfigForm()
         # compare
         self.assertEqual(form.fields['spread_system_create_time'].label, 'Export system create time')
 
@@ -136,7 +136,7 @@ class SystemExporterSpreadsheetCsvConfigFormTestCase(TestCase):
         """ test form label """
 
         # get object
-        form = SystemExporterSpreadsheetCsvForm()
+        form = SystemExporterSpreadsheetCsvConfigForm()
         # compare
         self.assertEqual(form.fields['spread_system_modify_time'].label, 'Export system modify time')
 
@@ -144,6 +144,6 @@ class SystemExporterSpreadsheetCsvConfigFormTestCase(TestCase):
         """ test minimum form requirements / VALID """
 
         # get object
-        form = SystemExporterSpreadsheetCsvForm(data = {})
+        form = SystemExporterSpreadsheetCsvConfigForm(data = {})
         # compare
         self.assertTrue(form.is_valid())

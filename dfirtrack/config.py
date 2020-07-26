@@ -45,7 +45,6 @@ CSV_COLUMN_SYSTEM = 0
 CSV_COLUMN_IP = 1
 
 ## attribute should be set via this config (True) or via web form (False) during import
-CSV_CHOICE_ANALYSISSTATUS = False
 CSV_CHOICE_REASON = False
 CSV_CHOICE_DOMAIN = False
 CSV_CHOICE_DNSNAME = False

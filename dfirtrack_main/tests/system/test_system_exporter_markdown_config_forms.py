@@ -1,5 +1,5 @@
 from django.test import TestCase
-from dfirtrack_main.config_forms import SystemExporterMarkdownForm
+from dfirtrack_main.config_forms import SystemExporterMarkdownConfigForm
 
 class SystemExporterMarkdownConfigFormTestCase(TestCase):
     """ system exporter markdown config form tests """
@@ -8,7 +8,7 @@ class SystemExporterMarkdownConfigFormTestCase(TestCase):
         """ test form label """
 
         # get object
-        form = SystemExporterMarkdownForm()
+        form = SystemExporterMarkdownConfigForm()
         # compare
         self.assertEqual(form.fields['markdown_path'].label, 'Path for the markdown documentation export')
 
@@ -16,7 +16,7 @@ class SystemExporterMarkdownConfigFormTestCase(TestCase):
         """ test form label """
 
         # get object
-        form = SystemExporterMarkdownForm()
+        form = SystemExporterMarkdownConfigForm()
         # compare
         self.assertEqual(form.fields['markdown_sorting'].label, 'Choose sorting for system markdown export')
 
@@ -24,7 +24,7 @@ class SystemExporterMarkdownConfigFormTestCase(TestCase):
         """ test minimum form requirements / INVALID """
 
         # get object
-        form = SystemExporterMarkdownForm(data = {})
+        form = SystemExporterMarkdownConfigForm(data = {})
         # compare
         self.assertFalse(form.is_valid())
 
@@ -32,7 +32,7 @@ class SystemExporterMarkdownConfigFormTestCase(TestCase):
         """ test minimum form requirements / INVALID """
 
         # get object
-        form = SystemExporterMarkdownForm(data = {
+        form = SystemExporterMarkdownConfigForm(data = {
             'markdown_path': '/tmp',
         })
         # compare
@@ -42,7 +42,7 @@ class SystemExporterMarkdownConfigFormTestCase(TestCase):
         """ test minimum form requirements / INVALID """
 
         # get object
-        form = SystemExporterMarkdownForm(data = {
+        form = SystemExporterMarkdownConfigForm(data = {
             'markdown_sorting': '/tmp',
         })
         # compare
@@ -52,7 +52,7 @@ class SystemExporterMarkdownConfigFormTestCase(TestCase):
         """ test minimum form requirements / VALID """
 
         # get object
-        form = SystemExporterMarkdownForm(data = {
+        form = SystemExporterMarkdownConfigForm(data = {
             'markdown_path': '/tmp',
             'markdown_sorting': 'systemsorted',
         })

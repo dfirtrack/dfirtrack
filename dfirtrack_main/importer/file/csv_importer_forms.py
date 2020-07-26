@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy
 import dfirtrack.config as dfirtrack_config
 from dfirtrack_main.models import Domain, Dnsname, Location, Os, Reason, Serviceprovider, System, Systemtype
 
-class SystemImporterFileCsv(forms.ModelForm):
+class SystemImporterFileCsvForm(forms.ModelForm):
 
     # file upload field (variable is used in request object)
     systemcsv = forms.FileField(
@@ -103,7 +103,7 @@ class SystemImporterFileCsv(forms.ModelForm):
         # add attributes as fields for manual editing if not automatically filled
         if not constance_config.CSV_CHOICE_SYSTEMSTATUS:
             fields += ('systemstatus',)
-        if not dfirtrack_config.CSV_CHOICE_ANALYSISSTATUS:
+        if not constance_config.CSV_CHOICE_ANALYSISSTATUS:
             fields += ('analysisstatus',)
         if not dfirtrack_config.CSV_CHOICE_REASON:
             fields += ('reason',)
@@ -132,7 +132,7 @@ class SystemImporterFileCsv(forms.ModelForm):
         # define widgets for choosen fields
         if not constance_config.CSV_CHOICE_SYSTEMSTATUS:
             widgets['systemstatus'] = forms.RadioSelect()
-        if not dfirtrack_config.CSV_CHOICE_ANALYSISSTATUS:
+        if not constance_config.CSV_CHOICE_ANALYSISSTATUS:
             widgets['analysisstatus'] = forms.RadioSelect()
         if not dfirtrack_config.CSV_CHOICE_CASE:
             widgets['case'] = forms.CheckboxSelectMultiple()

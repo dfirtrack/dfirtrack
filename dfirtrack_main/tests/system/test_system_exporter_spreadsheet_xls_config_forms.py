@@ -1,5 +1,5 @@
 from django.test import TestCase
-from dfirtrack_main.config_forms import SystemExporterSpreadsheetXlsForm
+from dfirtrack_main.config_forms import SystemExporterSpreadsheetXlsConfigForm
 
 class SystemExporterSpreadsheetXlsConfigFormTestCase(TestCase):
     """ system exporter spreadsheet XLS config form tests """
@@ -8,7 +8,7 @@ class SystemExporterSpreadsheetXlsConfigFormTestCase(TestCase):
         """ test form label """
 
         # get object
-        form = SystemExporterSpreadsheetXlsForm()
+        form = SystemExporterSpreadsheetXlsConfigForm()
         # compare
         self.assertEqual(form.fields['spread_worksheet_systemstatus'].label, 'Export worksheet to explain systemstatus')
 
@@ -16,7 +16,7 @@ class SystemExporterSpreadsheetXlsConfigFormTestCase(TestCase):
         """ test form label """
 
         # get object
-        form = SystemExporterSpreadsheetXlsForm()
+        form = SystemExporterSpreadsheetXlsConfigForm()
         # compare
         self.assertEqual(form.fields['spread_worksheet_analysisstatus'].label, 'Export worksheet to explain analysisstatus')
 
@@ -24,7 +24,7 @@ class SystemExporterSpreadsheetXlsConfigFormTestCase(TestCase):
         """ test form label """
 
         # get object
-        form = SystemExporterSpreadsheetXlsForm()
+        form = SystemExporterSpreadsheetXlsConfigForm()
         # compare
         self.assertEqual(form.fields['spread_worksheet_reason'].label, 'Export worksheet to explain reason')
 
@@ -32,7 +32,7 @@ class SystemExporterSpreadsheetXlsConfigFormTestCase(TestCase):
         """ test form label """
 
         # get object
-        form = SystemExporterSpreadsheetXlsForm()
+        form = SystemExporterSpreadsheetXlsConfigForm()
         # compare
         self.assertEqual(form.fields['spread_worksheet_recommendation'].label, 'Export worksheet to explain recommendation')
 
@@ -40,7 +40,7 @@ class SystemExporterSpreadsheetXlsConfigFormTestCase(TestCase):
         """ test form label """
 
         # get object
-        form = SystemExporterSpreadsheetXlsForm()
+        form = SystemExporterSpreadsheetXlsConfigForm()
         # compare
         self.assertEqual(form.fields['spread_worksheet_tag'].label, 'Export worksheet to explain tag')
 
@@ -48,6 +48,6 @@ class SystemExporterSpreadsheetXlsConfigFormTestCase(TestCase):
         """ test minimum form requirements / VALID """
 
         # get object
-        form = SystemExporterSpreadsheetXlsForm(data = {})
+        form = SystemExporterSpreadsheetXlsConfigForm(data = {})
         # compare
         self.assertTrue(form.is_valid())
