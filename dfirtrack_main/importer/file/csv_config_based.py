@@ -10,7 +10,6 @@ from dfirtrack_main.importer.file.csv_importer_forms import SystemImporterFileCs
 from dfirtrack_main.importer.file.csv_set_system_attributes import optional_system_attributes, many_to_many_system_attributes
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import System
-import ipaddress
 from io import TextIOWrapper
 
 @login_required(login_url="/login")
