@@ -135,8 +135,8 @@ urlpatterns = [
     path(r'system/exporter/spreadsheet/xls/system/', xls.system, name='system_exporter_spreadsheet_xls'),
     path(r'system/exporter/spreadsheet/xls/config/', spreadsheet_config_editor.system_exporter_spreadsheet_xls_config_view, name='system_exporter_spreadsheet_xls_config_popup'),
     path(r'system/importer/api/giraf/system/', giraf.system, name='system_importer_api_giraf'),
-    path(r'system/importer/file/csv/', csv_config_based.system, name='system_importer_file_csv_config_based'),
-    path(r'system/importer/file/csv/', csv_form_based.system, name='system_importer_file_csv_form_based'),
+    path(r'system/importer/file/csv/configbased/', csv_config_based.system, name='system_importer_file_csv_config_based'),
+    path(r'system/importer/file/csv/formbased/', csv_form_based.system, name='system_importer_file_csv_form_based'),
     path(r'system/importer/file/csv/config/', csv_config_editor.system_importer_file_csv_config_view, name='system_importer_file_csv_config_popup'),
     path(r'system/modificator/', system_modificator.system_modificator, name='system_modificator'),
 

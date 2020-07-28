@@ -4,7 +4,14 @@ from django.utils.translation import gettext_lazy
 import dfirtrack.config as dfirtrack_config
 from dfirtrack_main.models import Domain, Dnsname, Location, Os, Reason, Serviceprovider, System, Systemtype
 
-class SystemImporterFileCsvForm(forms.ModelForm):
+class SystemImporterFileCsvConfigbasedForm(forms.Form):
+
+    # file upload field (variable is used in request object)
+    systemcsv = forms.FileField(
+        label = 'CSV with systems (*)',
+    )
+
+class SystemImporterFileCsvFormbasedForm(forms.ModelForm):
 
     # file upload field (variable is used in request object)
     systemcsv = forms.FileField(

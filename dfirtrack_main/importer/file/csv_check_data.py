@@ -125,7 +125,7 @@ def check_config(request):
     try:
         Systemstatus.objects.get(systemstatus_name = dfirtrack_config.CSV_DEFAULT_SYSTEMSTATUS)
     except Systemstatus.DoesNotExist:
-        messages.warning(request, "Systemstatus with configured name does not exist. Check `dfirtrack.config` or create systemstatus!")
+        messages.warning(request, "Systemstatus with configured name '" + dfirtrack_config.CSV_DEFAULT_SYSTEMSTATUS + "' does not exist. Check `dfirtrack.config` or create systemstatus!")
         # call logger
         warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV systemstatus for variable CSV_DEFAULT_SYSTEMSTATUS does not exist")
         stop_system_importer_file_csv = True
