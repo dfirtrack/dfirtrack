@@ -11,12 +11,7 @@ class SystemImporterFileCsvConfigbasedForm(forms.Form):
         label = 'CSV with systems (*)',
     )
 
-class SystemImporterFileCsvFormbasedForm(forms.ModelForm):
-
-    # file upload field (variable is used in request object)
-    systemcsv = forms.FileField(
-        label = 'CSV with systems (*)',
-    )
+class SystemImporterFileCsvFormbasedForm(forms.ModelForm, SystemImporterFileCsvConfigbasedForm):
 
     # reorder field choices
     if not dfirtrack_config.CSV_CHOICE_REASON:
