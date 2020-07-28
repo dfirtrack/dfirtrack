@@ -1,4 +1,3 @@
-from constance import config as constance_config
 import csv
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -6,113 +5,11 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils import timezone
 import dfirtrack.config as dfirtrack_config
-from .csv_check_data import check_config, check_file, check_row
-from .csv_importer_forms import SystemImporterFileCsvFormbasedForm
-from dfirtrack_main.logger.default_logger import debug_logger, warning_logger
-from dfirtrack_main.models import Analysisstatus, Case, Company, Dnsname, Domain, Ip, Location, Os, Reason, Serviceprovider, System, Systemstatus, Systemtype, Tag, Tagcolor
-import ipaddress
+from dfirtrack_main.importer.file.csv_check_data import check_config, check_file, check_row
+from dfirtrack_main.importer.file.csv_importer_forms import SystemImporterFileCsvFormbasedForm
+from dfirtrack_main.logger.default_logger import debug_logger
+from dfirtrack_main.models import System
 from io import TextIOWrapper
-
-def check_and_create_case(case, request):
-
-    # create case
-    case, created = Case.objects.get_or_create(
-        case_name = case,
-        case_is_incident = dfirtrack_config.CSV_INCIDENT_CASE,
-        case_created_by_user_id = request.user,
-    )
-    if created == True:
-        case.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_CASE_CREATED")
-
-    return case
-
-def check_and_create_company(company, request):
-
-    # create company
-    company, created = Company.objects.get_or_create(company_name=company)
-    if created == True:
-        company.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_COMPANY_CREATED")
-
-    return company
-
-def check_and_create_ip(column_ip, request, row_counter):
-
-    # check ip column for ip
-    try:
-        ipaddress.ip_address(column_ip)
-    except ValueError:
-        messages.error(request, "Value for ip address in row " + str(row_counter) + " was not a valid IP address.")
-        # call logger
-        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_IP_COLUMN " + "row_" + str(row_counter) + ":invalid_ip")
-        return None
-
-    # create ip
-    ip, created = Ip.objects.get_or_create(ip_ip=column_ip)
-    if created == True:
-        ip.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_IP_CREATED")
-
-    return ip
-
-def check_and_create_tag(tag, request):
-
-    # get tagcolor
-    tagcolor = Tagcolor.objects.get(tagcolor_name='primary')
-    # create tag
-    tag, created = Tag.objects.get_or_create(tag_name=tag, tagcolor=tagcolor)
-    if created == True:
-        tag.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_TAG_CREATED")
-
-    return tag
-
-def optional_system_attributes(system, request):
-    """ system attributes are set depending on dfirtrack.config """
-
-    # add or change attributes (if set via dfirtrack.config)
-
-    # systemstatus
-    if constance_config.CSV_CHOICE_SYSTEMSTATUS:
-        system.systemstatus = Systemstatus.objects.get(systemstatus_name = dfirtrack_config.CSV_DEFAULT_SYSTEMSTATUS)
-    # analysisstatus
-    if constance_config.CSV_CHOICE_ANALYSISSTATUS:
-        system.analysisstatus = Analysisstatus.objects.get(analysisstatus_name = dfirtrack_config.CSV_DEFAULT_ANALYSISSTATUS)
-    # reason
-    if dfirtrack_config.CSV_CHOICE_REASON:
-        system.reason, created = Reason.objects.get_or_create(reason_name = dfirtrack_config.CSV_DEFAULT_REASON)
-        if created == True:
-            system.reason.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_REASON_CREATED")
-    # domain
-    if dfirtrack_config.CSV_CHOICE_DOMAIN:
-        system.domain, created = Domain.objects.get_or_create(domain_name = dfirtrack_config.CSV_DEFAULT_DOMAIN)
-        if created == True:
-            system.domain.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_DOMAIN_CREATED")
-    # dnsname
-    if dfirtrack_config.CSV_CHOICE_DNSNAME:
-        system.dnsname, created = Dnsname.objects.get_or_create(dnsname_name = dfirtrack_config.CSV_DEFAULT_DNSNAME)
-        if created == True:
-            system.dnsname.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_DNSNAME_CREATED")
-    # systemtype
-    if dfirtrack_config.CSV_CHOICE_SYSTEMTYPE:
-        system.systemtype, created = Systemtype.objects.get_or_create(systemtype_name = dfirtrack_config.CSV_DEFAULT_SYSTEMTYPE)
-        if created == True:
-            system.systemtype.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_SYSTEMTYPE_CREATED")
-    # os
-    if dfirtrack_config.CSV_CHOICE_OS:
-        system.os, created = Os.objects.get_or_create(os_name = dfirtrack_config.CSV_DEFAULT_OS)
-        if created == True:
-            system.os.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_OS_CREATED")
-    # location
-    if dfirtrack_config.CSV_CHOICE_LOCATION:
-        system.location, created = Location.objects.get_or_create(location_name = dfirtrack_config.CSV_DEFAULT_LOCATION)
-        if created == True:
-            system.location.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_LOCATION_CREATED")
-    # serviceprovider
-    if dfirtrack_config.CSV_CHOICE_SERVICEPROVIDER:
-        system.serviceprovider, created = Serviceprovider.objects.get_or_create(serviceprovider_name = dfirtrack_config.CSV_DEFAULT_SERVICEPROVIDER)
-        if created == True:
-            system.serviceprovider.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_SERVICEPROVIDER_CREATED")
-
-    # return system object enriched with attributes
-    return system
 
 @login_required(login_url="/login")
 def system(request):
@@ -122,20 +19,6 @@ def system(request):
 
         # call logger
         debug_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_BEGAN")
-
-        if constance_config.CSV_CHOICE_SYSTEMSTATUS:
-            """
-            set dummy value for 'systemstatus' because this field has 'blank=False' in dfirtrack_main.models
-            because dfirtrack_main.importer.file.csv_importer_forms.SystemImporterFileCsvFormbasedForm is a ModelForm it relies on the attributes of dfirtrack_main.models
-            changing blank would require extensive changes throughout the code
-            """
-
-            # TODO: change the following behavior
-
-            # copy request object because object self is immutable
-            request_post = request.POST.copy()
-            # set dummy value (not used in the further course)
-            request_post.update({'systemstatus': 1})
 
         # get text out of file (variable results from request object via file upload field)
         systemcsv = TextIOWrapper(request.FILES['systemcsv'].file, encoding=request.encoding)
@@ -175,7 +58,7 @@ def system(request):
                 # leave loop for headline row
                 continue
 
-            # check row for valid values
+            # check row for valid system values
             continue_system_importer_file_csv = check_row(request, row, row_counter)
             # leave loop for this row if there are invalid values
             if continue_system_importer_file_csv:
@@ -211,19 +94,13 @@ def system(request):
                     system = System.objects.get(system_name=system_name)
 
                     # create form with request data
-                    if constance_config.CSV_CHOICE_SYSTEMSTATUS:
-                        form = SystemImporterFileCsvFormbasedForm(request_post, request.FILES, instance=system)
-                    else:
-                        form = SystemImporterFileCsvFormbasedForm(request.POST, request.FILES, instance=system)
+                    form = SystemImporterFileCsvFormbasedForm(request.POST, request.FILES, instance=system)
 
                     # change system
                     if form.is_valid():
 
                         # don't save form yet
                         system = form.save(commit=False)
-
-                        # change attributes (if set via dfirtrack.config)
-                        system = optional_system_attributes(system, request)
 
                         # change mandatory meta attributes
                         system.system_modify_time = timezone.now()
@@ -234,71 +111,9 @@ def system(request):
 
                         # save many to many
                         form.save_m2m()
-
-                        # handle case many to many relationship
-                        if dfirtrack_config.CSV_CHOICE_CASE:
-
-                            # remove existing companies (not relevant for newly created systems in condition below)
-                            # also not relevant in case of CSV_CHOICE_CASE is False because it is changed via form either way
-                            if dfirtrack_config.CSV_REMOVE_CASE:
-                                # remove many to many relation between system and case without deleting existing case objects (important if other systems have the same companies)
-                                system.case.clear()
-
-                            # iterate through caselist from dfirtrack.config
-                            for case in dfirtrack_config.CSV_DEFAULT_CASE:
-                                # get or create case
-                                newcase = check_and_create_case(case, request)
-                                # add case
-                                system.case.add(newcase)
-
-                        # handle company many to many relationship
-                        if dfirtrack_config.CSV_CHOICE_COMPANY:
-
-                            # remove existing companies (not relevant for newly created systems in condition below)
-                            # also not relevant in case of CSV_CHOICE_COMPANY is False because it is changed via form either way
-                            if dfirtrack_config.CSV_REMOVE_COMPANY:
-                                # remove many to many relation between system and company without deleting existing company objects (important if other systems have the same companies)
-                                system.company.clear()
-
-                            # iterate through companylist from dfirtrack.config
-                            for company in dfirtrack_config.CSV_DEFAULT_COMPANY:
-                                # get or create company
-                                newcompany = check_and_create_company(company, request)
-                                # add company
-                                system.company.add(newcompany)
-
-                        # handle ip address many to many relationship
-                        if dfirtrack_config.CSV_CHOICE_IP:
-
-                            # remove existing IP address / addresses for this system (not relevant for newly created systems in condition below)
-                            # existing IP addresses will be left if nothing is provided by CSV
-                            if dfirtrack_config.CSV_REMOVE_IP:
-                                # remove many to many relation between system and ip without deleting existing ip objects (important if other systems have the same IP address)
-                                system.ip.clear()
-
-                            # get ip address from CSV
-                            column_ip = row[dfirtrack_config.CSV_COLUMN_IP]
-                            # check and create ip address
-                            ip_address = check_and_create_ip(column_ip, request, row_counter)
-                            # add ip address
-                            if ip_address:
-                                system.ip.add(ip_address)
-
-                        # handle tag many to many relationship
-                        if dfirtrack_config.CSV_CHOICE_TAG:
-
-                            # remove existing tags (not relevant for newly created systems in condition below)
-                            # also not relevant in case of CSV_CHOICE_TAG is False because it is changed via form either way
-                            if dfirtrack_config.CSV_REMOVE_TAG:
-                                # remove many to many relation between system and tag without deleting existing tag objects (important if other systems have the same tags)
-                                system.tag.clear()
-
-                            # iterate through taglist from dfirtrack.config
-                            for tag in dfirtrack_config.CSV_DEFAULT_TAG:
-                                # get or create tag
-                                newtag = check_and_create_tag(tag, request)
-                                # add tag
-                                system.tag.add(newtag)
+                        # TODO: this way existing many2many relations will be removed in every case
+                        ## change many2many (if set via dfirtrack.config)
+                        #system = many_to_many_system_attributes(system, request)
 
                         # autoincrement systems_updated_counter
                         systems_updated_counter += 1
@@ -314,10 +129,7 @@ def system(request):
             else:
 
                 # create form with request data
-                if constance_config.CSV_CHOICE_SYSTEMSTATUS:
-                    form = SystemImporterFileCsvFormbasedForm(request_post, request.FILES)
-                else:
-                    form = SystemImporterFileCsvFormbasedForm(request.POST, request.FILES)
+                form = SystemImporterFileCsvFormbasedForm(request.POST, request.FILES)
 
                 # create system
                 if form.is_valid():
@@ -331,9 +143,6 @@ def system(request):
                     # add system_name from csv
                     system.system_name = system_name
 
-                    # add attributes (if set via dfirtrack.config)
-                    system = optional_system_attributes(system, request)
-
                     # add mandatory meta attributes
                     system.system_modify_time = timezone.now()
                     system.system_created_by_user_id = request.user
@@ -344,55 +153,9 @@ def system(request):
 
                     # save many to many
                     form.save_m2m()
-
-                    # handle case many to many relationship
-                    if dfirtrack_config.CSV_CHOICE_CASE:
-
-                        # CSV_REMOVE_CASE not relevant for newly created systems (in contrast to condition above)
-
-                        # iterate through caselist from dfirtrack.config
-                        for case in dfirtrack_config.CSV_DEFAULT_CASE:
-                            # get or create case
-                            newcase = check_and_create_case(case, request)
-                            # add case
-                            system.case.add(newcase)
-
-                    # handle company many to many relationship
-                    if dfirtrack_config.CSV_CHOICE_COMPANY:
-
-                        # CSV_REMOVE_COMPANY not relevant for newly created systems (in contrast to condition above)
-
-                        # iterate through companylist from dfirtrack.config
-                        for company in dfirtrack_config.CSV_DEFAULT_COMPANY:
-                            # get or create company
-                            newcompany = check_and_create_company(company, request)
-                            # add company
-                            system.company.add(newcompany)
-
-                    # handle ip address many to many relationship
-                    if dfirtrack_config.CSV_CHOICE_IP:
-
-                        # CSV_REMOVE_IP not relevant for newly created systems (in contrast to condition above)
-
-                        # get ip address from CSV
-                        column_ip = row[dfirtrack_config.CSV_COLUMN_IP]
-                        # check and create ip address
-                        ip_address = check_and_create_ip(column_ip, request, row_counter)
-                        # add ip address
-                        if ip_address:
-                            system.ip.add(ip_address)
-
-                    # handle tag many to many relationship
-                    if dfirtrack_config.CSV_CHOICE_TAG:
-
-                        # CSV_REMOVE_TAG not relevant for newly created systems (in contrast to condition above)
-
-                        # iterate through taglist from dfirtrack.config
-                        for tag in dfirtrack_config.CSV_DEFAULT_TAG:
-                            # get or create tag
-                            newtag = check_and_create_tag(tag, request)
-                            # add tag
-                            system.tag.add(newtag)
+                    # TODO: this way existing many2many relations will be removed in every case
+                    ## change many2many (if set via dfirtrack.config)
+                    #system = many_to_many_system_attributes(system, request)
 
                     # autoincrement systems_created_counter
                     systems_created_counter += 1
@@ -453,18 +216,6 @@ def system(request):
         'dfirtrack_main/system/system_importer_file_csv_form_based.html',
         {
             'form': form,
-            'csv_choice_systemstatus': constance_config.CSV_CHOICE_SYSTEMSTATUS,
-            'csv_choice_analysisstatus': constance_config.CSV_CHOICE_ANALYSISSTATUS,
-            'csv_choice_reason': dfirtrack_config.CSV_CHOICE_REASON,
-            'csv_choice_domain': dfirtrack_config.CSV_CHOICE_DOMAIN,
-            'csv_choice_dnsname': dfirtrack_config.CSV_CHOICE_DNSNAME,
-            'csv_choice_systemtype': dfirtrack_config.CSV_CHOICE_SYSTEMTYPE,
-            'csv_choice_os': dfirtrack_config.CSV_CHOICE_OS,
-            'csv_choice_location': dfirtrack_config.CSV_CHOICE_LOCATION,
-            'csv_choice_serviceprovider': dfirtrack_config.CSV_CHOICE_SERVICEPROVIDER,
-            'csv_choice_case': dfirtrack_config.CSV_CHOICE_CASE,
-            'csv_choice_company': dfirtrack_config.CSV_CHOICE_COMPANY,
-            'csv_choice_tag': dfirtrack_config.CSV_CHOICE_TAG,
         }
     )
 
