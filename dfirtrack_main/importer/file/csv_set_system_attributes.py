@@ -70,7 +70,7 @@ def optional_system_attributes(system, request):
     system.systemstatus = Systemstatus.objects.get(systemstatus_name = dfirtrack_config.CSV_DEFAULT_SYSTEMSTATUS)
     # analysisstatus
     system.analysisstatus = Analysisstatus.objects.get(analysisstatus_name = dfirtrack_config.CSV_DEFAULT_ANALYSISSTATUS)
-    # reason
+    # reason (create only, if something was submitted)
     if dfirtrack_config.CSV_DEFAULT_REASON:
         system.reason, created = Reason.objects.get_or_create(reason_name = dfirtrack_config.CSV_DEFAULT_REASON)
         if created == True:
