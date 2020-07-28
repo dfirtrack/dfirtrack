@@ -44,18 +44,6 @@ CSV_COLUMN_SYSTEM = 0
 ## column of ip address (numerical value starting with 0 [zero] for first column) (only used if CSV_CHOICE_IP is set to True)
 CSV_COLUMN_IP = 1
 
-## attribute should be set via this config (True) or via web form (False) during import
-CSV_CHOICE_REASON = False
-CSV_CHOICE_DOMAIN = False
-CSV_CHOICE_DNSNAME = False
-CSV_CHOICE_SYSTEMTYPE = False
-CSV_CHOICE_OS = False
-CSV_CHOICE_LOCATION = False
-CSV_CHOICE_SERVICEPROVIDER = False
-CSV_CHOICE_CASE = False
-CSV_CHOICE_COMPANY = False
-CSV_CHOICE_TAG = False
-
 ## attributes with fixed values (used if CSV_CHOICE_... is set to True)
 
 ## 'Systemstatus' for imported systems (choose from 'Clean', 'Unknown', 'Analysis ongoing', 'Compromised', 'Remediation done', 'Reinstalled', 'Removed', 'Not analyzed' or your custom values)
