@@ -198,7 +198,7 @@ def system(request):
         if not dfirtrack_config.CSV_SKIP_EXISTING_SYSTEM:
             messages.warning(request, 'WARNING: Existing systems will be updated!')
 
-        # show empty form with default values (if CSV_CHOICE_ANALYSISSTATUS or CSV_CHOICE_SYSTEMSTATUS is set to True in dfirtrack.config they are simply ignored)
+        # show empty form with default values
         form = SystemImporterFileCsvFormbasedForm(initial={
             'systemstatus': 2,
             'analysisstatus': 1,
