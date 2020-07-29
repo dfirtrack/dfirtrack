@@ -165,8 +165,8 @@ def ip_attributes(system, request, row, row_counter):
         # remove many to many relation between system and ip without deleting existing ip objects (important if other systems have the same IP address)
         system.ip.clear()
 
-    # get ip address from CSV
-    column_ip = row[dfirtrack_config.CSV_COLUMN_IP]
+    # get ip address from CSV (decremented by one because index starts with zero: user provides 2 -> second column in CSV has index 1)
+    column_ip = row[dfirtrack_config.CSV_COLUMN_IP - 1]
     # check and create ip address
     ip_address = check_and_create_ip(column_ip, request, row_counter)
     # add ip address

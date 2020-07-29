@@ -68,8 +68,8 @@ def system(request):
                 row_counter += 1
                 continue
 
-            # get system name
-            system_name = row[dfirtrack_config.CSV_COLUMN_SYSTEM]
+            # get system name (decremented by one because index starts with zero: user provides 1 -> first column in CSV has index 0)
+            system_name = row[dfirtrack_config.CSV_COLUMN_SYSTEM - 1]
 
             # get all systems with this system_name
             systemquery = System.objects.filter(system_name=system_name)
