@@ -7,6 +7,7 @@ from django.utils import timezone
 import dfirtrack.config as dfirtrack_config
 from dfirtrack_main.importer.file.csv_check_data import check_config, check_file, check_row
 from dfirtrack_main.importer.file.csv_importer_forms import SystemImporterFileCsvConfigbasedForm
+from dfirtrack_main.importer.file.csv_messages import final_messages
 from dfirtrack_main.importer.file.csv_set_system_attributes import ip_attributes, many_to_many_system_attributes, optional_system_attributes
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import System
@@ -158,21 +159,7 @@ def system(request):
             row_counter += 1
 
         # call final messages
-        if systems_created_counter > 0:
-            if systems_created_counter  == 1:
-                messages.success(request, str(systems_created_counter) + ' system was created.')
-            else:
-                messages.success(request, str(systems_created_counter) + ' systems were created.')
-        if systems_updated_counter > 0:
-            if systems_updated_counter  == 1:
-                messages.success(request, str(systems_updated_counter) + ' system was updated.')
-            else:
-                messages.success(request, str(systems_updated_counter) + ' systems were updated.')
-        if systems_skipped_counter > 0:
-            if systems_skipped_counter  == 1:
-                messages.warning(request, str(systems_skipped_counter) + ' system was skipped.')
-            else:
-                messages.warning(request, str(systems_skipped_counter) + ' systems were skipped.')
+        final_messages(request, systems_created_counter, systems_updated_counter, systems_skipped_counter)
 
         # call logger
         debug_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_END")
