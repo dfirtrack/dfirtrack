@@ -117,7 +117,8 @@ def system(request):
                         #system = many_to_many_system_attributes(system, request)
 
                         # set ip addresses (if set via dfirtrack.config)
-                        system = ip_attributes(system, request, row, row_counter)
+                        if dfirtrack_config.CSV_CHOICE_IP:
+                            system = ip_attributes(system, request, row, row_counter)
 
                         # autoincrement systems_updated_counter
                         systems_updated_counter += 1
@@ -162,7 +163,8 @@ def system(request):
                     #system = many_to_many_system_attributes(system, request)
 
                     # set ip addresses (if set via dfirtrack.config)
-                    system = ip_attributes(system, request, row, row_counter)
+                    if dfirtrack_config.CSV_CHOICE_IP:
+                        system = ip_attributes(system, request, row, row_counter)
 
                     # autoincrement systems_created_counter
                     systems_created_counter += 1
