@@ -118,7 +118,7 @@ def many_to_many_system_attributes(system, request):
     if dfirtrack_config.CSV_REMOVE_CASE:
         # remove many to many relation between system and case without deleting existing case objects (important if other systems have the same companies)
         system.case.clear()
-    
+
     # iterate through caselist from dfirtrack.config
     for case in dfirtrack_config.CSV_DEFAULT_CASE:
         # get or create case
@@ -132,7 +132,7 @@ def many_to_many_system_attributes(system, request):
     if dfirtrack_config.CSV_REMOVE_COMPANY:
         # remove many to many relation between system and company without deleting existing company objects (important if other systems have the same companies)
         system.company.clear()
-    
+
     # iterate through companylist from dfirtrack.config
     for company in dfirtrack_config.CSV_DEFAULT_COMPANY:
         # get or create company
@@ -140,24 +140,8 @@ def many_to_many_system_attributes(system, request):
         # add company
         system.company.add(newcompany)
 
-    """ ip """
-
-# TODO: make ip work again (arguments missing for check_and_create_ip())
-#    # remove existing IP addresses for this system (not relevant for newly created systems)
-#    if dfirtrack_config.CSV_REMOVE_IP:
-#        # remove many to many relation between system and ip without deleting existing ip objects (important if other systems have the same IP address)
-#        system.ip.clear()
-#    
-#    # get ip address from CSV
-#    column_ip = row[dfirtrack_config.CSV_COLUMN_IP]
-#    # check and create ip address
-#    ip_address = check_and_create_ip(column_ip, request, row_counter)
-#    # add ip address
-#    if ip_address:
-#        system.ip.add(ip_address)
-
     """ tag """
-    
+
     # remove existing tags (not relevant for newly created systems)
     if dfirtrack_config.CSV_REMOVE_TAG:
         # remove many to many relation between system and tag without deleting existing tag objects (important if other systems have the same tags)
@@ -171,4 +155,23 @@ def many_to_many_system_attributes(system, request):
         system.tag.add(newtag)
 
     # return system object enriched with attributes
+    return system
+
+def ip_attributes(system, request, row, row_counter):
+    """ IP addresses are set depending on dfirtrack.config """
+
+    # remove existing IP addresses for this system (not relevant for newly created systems)
+    if dfirtrack_config.CSV_REMOVE_IP:
+        # remove many to many relation between system and ip without deleting existing ip objects (important if other systems have the same IP address)
+        system.ip.clear()
+
+    # get ip address from CSV
+    column_ip = row[dfirtrack_config.CSV_COLUMN_IP]
+    # check and create ip address
+    ip_address = check_and_create_ip(column_ip, request, row_counter)
+    # add ip address
+    if ip_address:
+        system.ip.add(ip_address)
+
+    # return system object enriched with IP
     return system

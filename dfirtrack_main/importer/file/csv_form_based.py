@@ -7,6 +7,7 @@ from django.utils import timezone
 import dfirtrack.config as dfirtrack_config
 from dfirtrack_main.importer.file.csv_check_data import check_config, check_file, check_row
 from dfirtrack_main.importer.file.csv_importer_forms import SystemImporterFileCsvFormbasedForm
+from dfirtrack_main.importer.file.csv_set_system_attributes import ip_attributes, many_to_many_system_attributes
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import System
 from io import TextIOWrapper
@@ -115,6 +116,9 @@ def system(request):
                         ## change many2many (if set via dfirtrack.config)
                         #system = many_to_many_system_attributes(system, request)
 
+                        # set ip addresses (if set via dfirtrack.config)
+                        system = ip_attributes(system, request, row, row_counter)
+
                         # autoincrement systems_updated_counter
                         systems_updated_counter += 1
 
@@ -157,6 +161,9 @@ def system(request):
                     ## change many2many (if set via dfirtrack.config)
                     #system = many_to_many_system_attributes(system, request)
 
+                    # set ip addresses (if set via dfirtrack.config)
+                    system = ip_attributes(system, request, row, row_counter)
+
                     # autoincrement systems_created_counter
                     systems_created_counter += 1
 
@@ -191,11 +198,12 @@ def system(request):
     else:
 
         # check config before showing form
-        stop_system_importer_file_csv = check_config(request)
+        # TODO: remove after implementing django-constance
+        #stop_system_importer_file_csv = check_config(request)
 
         # leave system_importer_file_csv if variables caused errors
-        if stop_system_importer_file_csv:
-            return redirect(reverse('system_list'))
+        #if stop_system_importer_file_csv:
+            #return redirect(reverse('system_list'))
 
         # show warning if existing systems will be updated
         if not dfirtrack_config.CSV_SKIP_EXISTING_SYSTEM:
