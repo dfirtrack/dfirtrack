@@ -15,8 +15,7 @@ def system_importer_file_csv_config_view(request):
         if form.is_valid():
 
             # assign values
-            constance_config.CSV_CHOICE_SYSTEMSTATUS = form.cleaned_data['csv_choice_systemstatus']
-            constance_config.CSV_CHOICE_ANALYSISSTATUS = form.cleaned_data['csv_choice_analysisstatus']
+            constance_config.CSV_CHOICE_IP = form.cleaned_data['csv_choice_ip']
 
         # close popup
         return HttpResponse('<script type="text/javascript">window.close();</script>')
@@ -26,8 +25,7 @@ def system_importer_file_csv_config_view(request):
         # submit existing values to form
         form = SystemImporterFileCsvConfigForm(
             initial = {
-                'csv_choice_systemstatus': constance_config.CSV_CHOICE_SYSTEMSTATUS,
-                'csv_choice_analysisstatus': constance_config.CSV_CHOICE_ANALYSISSTATUS,
+                'csv_choice_ip': constance_config.CSV_CHOICE_IP,
             }
         )
 

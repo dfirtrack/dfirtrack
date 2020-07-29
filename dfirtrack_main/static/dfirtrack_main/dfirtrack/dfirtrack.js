@@ -107,7 +107,7 @@ function system_exporter_spreadsheet_xls_config_popup() {
 // popup window for system importer file csv config
 var system_importer_file_csv_config_popup;
 function system_importer_file_csv_config_popup() {
-    system_importer_file_csv_config_popup = window.open("/system/importer/file/csv/config/", "system_importer_file_csv_config_popup", "height=800, width=600");
+    system_importer_file_csv_config_popup = window.open("/system/importer/file/csv/config/", "system_importer_file_csv_config_popup", "height=800, width=1200");
 }
 
 // popup window for artifact exporter spreadsheet xls config

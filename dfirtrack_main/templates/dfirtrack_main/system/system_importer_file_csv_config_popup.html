@@ -30,7 +30,7 @@
 <div class="row">
     <div class="col-12">
         <div class="card card-body bg-dark border-light top-distance bottom-distance copy-false">
-        You can choose whether attributes should be set via this configuration (option selected / true) or the web interface (option deselected / false).
+        You can choose how different system attributes are handlet during CSV file import.
         </div>
     </div>
 </div>
@@ -55,17 +55,18 @@
     <!-- configuration block -->
     <div class="row">
 
-        <div class="col-12">
+        <div class="col-6">
             <div class="card card-body bg-dark border-light top-distance">
 
                 <h5>
-                    Choose between this configuration or web interface
+                    IP related settings
                 </h5>
 
-                    <table>
-                        <tr><td>{{ form.csv_choice_systemstatus }}</td> <td>{{ form.csv_choice_systemstatus.label }}</td></tr>
-                        <tr><td>{{ form.csv_choice_analysisstatus }}</td> <td>{{ form.csv_choice_analysisstatus.label }}</td></tr>
+                    <table class="bottom-distance">
+                        <tr><td>{{ form.csv_choice_ip }}</td> <td>{{ form.csv_choice_ip.label }}</td></tr>
                     </table>
+
+                    The following settings are only taken into account if IP addresses have been selected.
 
 
             </div>

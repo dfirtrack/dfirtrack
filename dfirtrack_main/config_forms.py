@@ -139,12 +139,7 @@ class SystemExporterSpreadsheetXlsConfigForm(SystemExporterSpreadsheetCsvConfigF
 
 class SystemImporterFileCsvConfigForm(forms.Form):
 
-    csv_choice_systemstatus = forms.BooleanField(
+    csv_choice_ip = forms.BooleanField(
         required = False,
-        label = 'Systemstatus',
-    )
-
-    csv_choice_analysisstatus = forms.BooleanField(
-        required = False,
-        label = 'Analysisstatus',
+        label = 'CSV file contains IP addresses',
     )

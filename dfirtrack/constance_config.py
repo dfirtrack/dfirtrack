@@ -3,7 +3,7 @@ Configuration used in DFIRTrack with django-constance.
 """
 
 CONSTANCE_CONFIG = {
-    # used in dfirtrack_main.exporter.spreadsheet.csv
+    # used in dfirtrack_main.exporter.spreadsheet.csv and dfirtrack_main.exporter.spreadsheet.xls
     'SPREAD_SYSTEM_ID': (
         True,
         'Add system ID to spreadsheet export',
@@ -207,15 +207,10 @@ CONSTANCE_CONFIG = {
         'Choose sorting for system markdown export',
         'markdown_sorting_field',
     ),
-    # used in `dfirtrack_main.importer.file.csv`
-    'CSV_CHOICE_SYSTEMSTATUS': (
+    # used in `dfirtrack_main.importer.file.csv_config_based` and `dfirtrack_main.importer.file.csv_form_based`
+    'CSV_CHOICE_IP': (
         False,
         'Define systemstatus via this config (True) or via web form (False)',
-        bool,
-    ),
-    'CSV_CHOICE_ANALYSISSTATUS': (
-        False,
-        'Define analysisstatus via this config (True) or via web form (False)',
         bool,
     ),
 }
@@ -290,8 +285,7 @@ CONSTANCE_CONFIG_FIELDSETS = {
         'MARKDOWN_SORTING',
     ),
     'System file importer (CSV) options': (
-        'CSV_CHOICE_SYSTEMSTATUS',
-        'CSV_CHOICE_ANALYSISSTATUS',
+        'CSV_CHOICE_IP',
     ),
     'Artifact spreadsheet exporter (CSV, XLS) options': (
         'ARTIFACTLIST_CHOICE_ARTIFACTSTATUS',
