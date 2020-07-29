@@ -1,7 +1,5 @@
-from constance import config as constance_config
 from django import forms
 from django.utils.translation import gettext_lazy
-import dfirtrack.config as dfirtrack_config
 from dfirtrack_main.models import Domain, Dnsname, Location, Os, Reason, Serviceprovider, System, Systemtype
 
 class SystemImporterFileCsvConfigbasedForm(forms.Form):
@@ -88,14 +86,9 @@ class SystemImporterFileCsvFormbasedForm(forms.ModelForm, SystemImporterFileCsvC
         model = System
 
         # this HTML forms are shown
-        fields = ()
-
-        # add attributes as fields for manual editing if not automatically filled
-        if not constance_config.CSV_CHOICE_SYSTEMSTATUS:
-            fields += ('systemstatus',)
-        if not constance_config.CSV_CHOICE_ANALYSISSTATUS:
-            fields += ('analysisstatus',)
-        fields += (
+        fields = (
+            'systemstatus',
+            'analysisstatus',
             'reason',
             'domain',
             'dnsname',
