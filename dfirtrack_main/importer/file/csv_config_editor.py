@@ -16,6 +16,8 @@ def system_importer_file_csv_config_view(request):
 
             # assign values
             constance_config.CSV_CHOICE_IP = form.cleaned_data['csv_choice_ip']
+            constance_config.CSV_REMOVE_IP = form.cleaned_data['csv_remove_ip']
+            constance_config.CSV_COLUMN_IP = form.cleaned_data['csv_column_ip']
 
         # close popup
         return HttpResponse('<script type="text/javascript">window.close();</script>')
@@ -26,6 +28,8 @@ def system_importer_file_csv_config_view(request):
         form = SystemImporterFileCsvConfigForm(
             initial = {
                 'csv_choice_ip': constance_config.CSV_CHOICE_IP,
+                'csv_remove_ip': constance_config.CSV_REMOVE_IP,
+                'csv_column_ip': constance_config.CSV_COLUMN_IP,
             }
         )
 

@@ -143,3 +143,17 @@ class SystemImporterFileCsvConfigForm(forms.Form):
         required = False,
         label = 'CSV file contains IP addresses',
     )
+    csv_remove_ip = forms.BooleanField(
+        required = False,
+        label = 'Remove / overwrite existing IP addresses for already existing systems',
+    )
+    csv_column_ip = forms.IntegerField(
+        required = False,
+        label = 'Number of the column in the csv file that contains the IP addresses',
+        widget = forms.NumberInput(attrs={
+            #'style': 'width:6ch',
+            'size': '3',
+        }),
+        min_value = 1,
+        max_value = 256,
+    )

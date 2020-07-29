@@ -210,8 +210,18 @@ CONSTANCE_CONFIG = {
     # used in `dfirtrack_main.importer.file.csv_config_based` and `dfirtrack_main.importer.file.csv_form_based`
     'CSV_CHOICE_IP': (
         False,
-        'Define systemstatus via this config (True) or via web form (False)',
+        'CSV file contains IP addresses',
         bool,
+    ),
+    'CSV_REMOVE_IP': (
+        False,
+        'Remove / overwrite existing IP addresses for already existing systems',
+        bool,
+    ),
+    'CSV_COLUMN_IP': (
+        2,
+        'Number of the column in the csv file that contains the IP addresses',
+        int,
     ),
 }
 
@@ -286,6 +296,8 @@ CONSTANCE_CONFIG_FIELDSETS = {
     ),
     'System file importer (CSV) options': (
         'CSV_CHOICE_IP',
+        'CSV_REMOVE_IP',
+        'CSV_COLUMN_IP',
     ),
     'Artifact spreadsheet exporter (CSV, XLS) options': (
         'ARTIFACTLIST_CHOICE_ARTIFACTSTATUS',

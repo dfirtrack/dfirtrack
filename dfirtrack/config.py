@@ -40,9 +40,9 @@ CSV_CHOICE_IP = True
 CSV_REMOVE_IP = True
 
 ## column of system rather system_name (numerical value starting with 0 [zero] for first column)
-CSV_COLUMN_SYSTEM = 0
+CSV_COLUMN_SYSTEM = 1
 ## column of ip address (numerical value starting with 0 [zero] for first column) (only used if CSV_CHOICE_IP is set to True)
-CSV_COLUMN_IP = 1
+CSV_COLUMN_IP = 2
 
 ## attributes with fixed values (used if CSV_CHOICE_... is set to True)
 
