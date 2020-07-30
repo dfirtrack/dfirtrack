@@ -62,13 +62,18 @@
             </a>
         </div>
 
-        <!-- edit button -->
+        <!-- edit & close button -->
         <div class="col-1">
             <a href="{{ i.get_update_url }}" type="button" class="btn btn-sm btn-light copy-false">
                 <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                 Edit
             </a>
+            <a href="{{ i.get_close_url }}" type="button" class="btn btn-sm btn-light copy-false">
+                <img src="{% static 'dfirtrack_main/icons/check.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                Close All
+            </a>
         </div>
+
 
     <!-- taskname row -->
     </div>

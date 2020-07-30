@@ -1266,6 +1266,9 @@ class Taskname(models.Model):
 
     def get_update_url(self):
         return reverse('taskname_update', args=(self.pk,))
+        
+   def get_close_url(self):
+        return reverse('taskname_close', args=(self.pk,))
 
 class Taskpriority(models.Model):
 

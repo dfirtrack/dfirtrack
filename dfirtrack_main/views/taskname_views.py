@@ -2,11 +2,13 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from django.utils import timezone
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_main.forms import TasknameForm
 from dfirtrack_main.logger.default_logger import debug_logger
-from dfirtrack_main.models import Taskname
+from dfirtrack_main.models import Taskname, Task, Taskstatus
+import requests
 
 class TasknameList(LoginRequiredMixin, ListView):
     login_url = '/login'
@@ -74,3 +76,31 @@ class TasknameUpdate(LoginRequiredMixin, UpdateView):
             return redirect(reverse('taskname_detail', args=(taskname.taskname_id,)))
         else:
             return render(request, self.template_name, {'form': form})
+
+class TasknameClose(LoginRequiredMixin, UpdateView):
+    login_url = '/login'
+    model = Taskname
+    template_name = 'dfirtrack_main/taskname/taskname_close.html'
+
+    def get(self, request, *args, **kwargs):
+        taskname = self.get_object()
+        taskname.logger(str(request.user), " TASKNAME_CLOSE_ENTERED")
+        return render(request, self.template_name, {'taskname': taskname, 'show_button': True})
+
+    def post(self, request, *args, **kwargs):
+        taskname = self.get_object()
+        tasks = Task.objects.filter(taskname=taskname)
+        task_ids = []
+        for task in tasks:
+            # Note: Code duplication from task_views.TaskFinish.get() -> move this to helper method? best place for this?
+            if task.task_started_time == None:
+                task.task_started_time = timezone.now()
+            task.task_finished_time = timezone.now()
+            task.taskstatus = Taskstatus.objects.get(taskstatus_name="Done")
+            task.save()
+            task.logger(str(request.user), " TASK_FINISH_EXECUTED")
+            # Append ID of closed task to list to show in finish message
+            task_ids.append(task.task_id)
+        taskname.logger(str(request.user), " TASKNAME_CLOSE_EXECUTED")
+        messages.success(request, f'Closed task IDs: {task_ids}')
+        return render(request, self.template_name, {'taskname': taskname, 'show_button': False})
