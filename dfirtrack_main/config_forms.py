@@ -156,7 +156,7 @@ class SystemImporterFileCsvConfigForm(forms.Form):
     )
     csv_headline = forms.BooleanField(
         required = False,
-        label = 'CSV file contains headline',
+        label = 'CSV file contains a headline row',
     )
     # IP related settings
     csv_choice_ip = forms.BooleanField(
@@ -176,4 +176,17 @@ class SystemImporterFileCsvConfigForm(forms.Form):
         }),
         min_value = 1,
         max_value = 256,
+    )
+    # overriding settings
+    csv_remove_case = forms.BooleanField(
+        required = False,
+        label = 'Remove / overwrite existing cases for already existing systems',
+    )
+    csv_remove_company = forms.BooleanField(
+        required = False,
+        label = 'Remove / overwrite existing companies for already existing systems',
+    )
+    csv_remove_tag = forms.BooleanField(
+        required = False,
+        label = 'Remove / overwrite existing tags for already existing systems',
     )

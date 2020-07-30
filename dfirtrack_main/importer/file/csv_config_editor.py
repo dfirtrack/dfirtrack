@@ -24,6 +24,10 @@ def system_importer_file_csv_config_view(request):
             constance_config.CSV_CHOICE_IP = form.cleaned_data['csv_choice_ip']
             constance_config.CSV_REMOVE_IP = form.cleaned_data['csv_remove_ip']
             constance_config.CSV_COLUMN_IP = form.cleaned_data['csv_column_ip']
+            # overriding settings
+            constance_config.CSV_REMOVE_CASE = form.cleaned_data['csv_remove_case']
+            constance_config.CSV_REMOVE_COMPANY = form.cleaned_data['csv_remove_company']
+            constance_config.CSV_REMOVE_TAG = form.cleaned_data['csv_remove_tag']
 
         # close popup
         return HttpResponse('<script type="text/javascript">window.close();</script>')
@@ -41,6 +45,10 @@ def system_importer_file_csv_config_view(request):
                 'csv_choice_ip': constance_config.CSV_CHOICE_IP,
                 'csv_remove_ip': constance_config.CSV_REMOVE_IP,
                 'csv_column_ip': constance_config.CSV_COLUMN_IP,
+                # overriding settings
+                'csv_remove_case': constance_config.CSV_REMOVE_CASE,
+                'csv_remove_company': constance_config.CSV_REMOVE_COMPANY,
+                'csv_remove_tag': constance_config.CSV_REMOVE_TAG,
             }
         )
 

@@ -220,7 +220,7 @@ CONSTANCE_CONFIG = {
     ),
     'CSV_HEADLINE': (
         True,
-        'CSV file contains headline',
+        'CSV file contains a headline row',
         bool,
     ),
     'CSV_CHOICE_IP': (
@@ -237,6 +237,21 @@ CONSTANCE_CONFIG = {
         2,
         'Number of the column in the CSV file that contains the IP addresses',
         int,
+    ),
+    'CSV_REMOVE_CASE': (
+        False,
+        'Remove / overwrite existing cases for already existing systems',
+        bool,
+    ),
+    'CSV_REMOVE_COMPANY': (
+        False,
+        'Remove / overwrite existing companies for already existing systems',
+        bool,
+    ),
+    'CSV_REMOVE_TAG': (
+        False,
+        'Remove / overwrite existing tags for already existing systems',
+        bool,
     ),
 }
 
@@ -316,6 +331,9 @@ CONSTANCE_CONFIG_FIELDSETS = {
         'CSV_CHOICE_IP',
         'CSV_REMOVE_IP',
         'CSV_COLUMN_IP',
+        'CSV_REMOVE_CASE',
+        'CSV_REMOVE_COMPANY',
+        'CSV_REMOVE_TAG',
     ),
     'Artifact spreadsheet exporter (CSV, XLS) options': (
         'ARTIFACTLIST_CHOICE_ARTIFACTSTATUS',
