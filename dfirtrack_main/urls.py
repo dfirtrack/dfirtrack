@@ -174,7 +174,6 @@ urlpatterns = [
     path(r'taskname/<int:pk>/edit/', taskname_views.TasknameUpdate.as_view(), name='taskname_update'),
     path(r'taskname/<int:pk>/close/', taskname_views.TasknameClose.as_view(), name='taskname_close'),
 
-
     path(r'taskpriority/', taskpriority_views.TaskpriorityList.as_view(), name='taskpriority_list'),
     path(r'taskpriority/<int:pk>/', taskpriority_views.TaskpriorityDetail.as_view(), name='taskpriority_detail'),
 
