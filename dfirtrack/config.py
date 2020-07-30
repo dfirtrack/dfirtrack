@@ -47,9 +47,9 @@ CSV_COLUMN_IP = 2    # TODO: DONE
 ## attributes with fixed values (used if CSV_CHOICE_... is set to True)
 
 ## 'Systemstatus' for imported systems (choose from 'Clean', 'Unknown', 'Analysis ongoing', 'Compromised', 'Remediation done', 'Reinstalled', 'Removed', 'Not analyzed' or your custom values)
-CSV_DEFAULT_SYSTEMSTATUS = 'Unknown'
+CSV_DEFAULT_SYSTEMSTATUS = 'Unknown'    # TODO: DONE
 ## 'Analysisstatus' for imported systems (choose from 'Needs analysis', 'Ready for analysis', 'Ongoing analysis', 'Nothing to do', 'Main analysis finished' or your custom values)
-CSV_DEFAULT_ANALYSISSTATUS = 'Needs analysis'
+CSV_DEFAULT_ANALYSISSTATUS = 'Needs analysis'   # TODO: DONE
 ## attributes with chooseable values (choose string for attribute name, non-existing attributes will be created)
 CSV_DEFAULT_REASON = ''
 CSV_DEFAULT_DOMAIN = ''

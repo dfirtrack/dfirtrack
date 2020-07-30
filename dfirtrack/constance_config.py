@@ -253,18 +253,29 @@ CONSTANCE_CONFIG = {
         'Remove / overwrite existing tags for already existing systems',
         bool,
     ),
+    'CSV_DEFAULT_SYSTEMSTATUS': (
+        '2',
+        'Set systemstatus',
+        'systemstatus_field',
+    ),
+    'CSV_DEFAULT_ANALYSISSTATUS': (
+        '1',
+        'Set analysisstatus',
+        'analysisstatus_field',
+    ),
 }
 
 """
 TODO:
 this needs to be filled by a model query,
-does not work at the moment because 'from dfirtrack_artifacts.models import Artifactstatus' is not allowed here or in 'dfirtrack.settings',
+does not work at the moment because e. g. 'from dfirtrack_artifacts.models import Artifactstatus' is not allowed here or in 'dfirtrack.settings',
 nevertheless that is not so relevant because the choices defined here are only statically shown in admin page,
-what is shown in the form is dynamically generated in 'dfirtrack_artifacts.config_forms'
+what is shown in the form is dynamically generated in 'dfirtrack_artifacts.config_forms',
+server restart might be necessary after changing values
 """
-# create custom field types
+# create custom field types / lists
 CONSTANCE_ADDITIONAL_FIELDS = {
-    # artifactstatus (custom list)
+    # artifactstatus - multiple choice
     'artifactstatus_field': [
         'django.forms.fields.MultipleChoiceField', {
             'widget': 'django.forms.CheckboxSelectMultiple',
@@ -281,7 +292,35 @@ CONSTANCE_ADDITIONAL_FIELDS = {
             ),
         },
     ],
-    # markdown sorting for system markdown exporter (custom list)
+    # systemstatus - single choice
+    'systemstatus_field': [
+        'django.forms.fields.ChoiceField', {
+            'widget': 'django.forms.RadioSelect',
+            'choices': (
+                ('1', 'Clean'),
+                ('2', 'Unknown'),
+                ('3', 'Analysis ongoing'),
+                ('4', 'Compromised'),
+                ('5', 'Remediation done'),
+                ('6', 'Reinstalled'),
+                ('7', 'Removed'),
+                ('8', 'Not analyzed'),
+            ),
+        },
+    ],
+    'analysisstatus_field': [
+        'django.forms.fields.ChoiceField', {
+            'widget': 'django.forms.RadioSelect',
+            'choices': (
+                ('1', 'Needs analysis'),
+                ('2', 'Ready for analysis'),
+                ('3', 'Ongoing analysis'),
+                ('4', 'Nothing to do'),
+                ('5', 'Main analysis finished'),
+            ),
+        },
+    ],
+    # markdown sorting for system markdown exporter - single choice
     'markdown_sorting_field': [
         'django.forms.fields.ChoiceField', {
             'widget': 'django.forms.RadioSelect',
@@ -334,6 +373,8 @@ CONSTANCE_CONFIG_FIELDSETS = {
         'CSV_REMOVE_CASE',
         'CSV_REMOVE_COMPANY',
         'CSV_REMOVE_TAG',
+        'CSV_DEFAULT_SYSTEMSTATUS',
+        'CSV_DEFAULT_ANALYSISSTATUS',
     ),
     'Artifact spreadsheet exporter (CSV, XLS) options': (
         'ARTIFACTLIST_CHOICE_ARTIFACTSTATUS',

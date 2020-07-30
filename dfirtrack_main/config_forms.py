@@ -1,4 +1,5 @@
 from django import forms
+from dfirtrack_main.models import Analysisstatus, Systemstatus
 
 class SystemExporterMarkdownConfigForm(forms.Form):
 
@@ -11,11 +12,12 @@ class SystemExporterMarkdownConfigForm(forms.Form):
         label = 'Path for the markdown documentation export',
     )
 
+    # prepare choices
     markdown_sorting_choices = [
         ('domainsorted', 'Sorted by domain'),
         ('systemsorted', 'Sorted by system'),
     ]
-
+    # create field
     markdown_sorting = forms.ChoiceField(
         required = True,
         widget = forms.RadioSelect(),
@@ -139,6 +141,8 @@ class SystemExporterSpreadsheetXlsConfigForm(SystemExporterSpreadsheetCsvConfigF
 
 class SystemImporterFileCsvConfigForm(forms.Form):
 
+    """ config and form based settings """
+
     # general settings
     csv_skip_existing_system = forms.BooleanField(
         required = False,
@@ -189,4 +193,40 @@ class SystemImporterFileCsvConfigForm(forms.Form):
     csv_remove_tag = forms.BooleanField(
         required = False,
         label = 'Remove / overwrite existing tags for already existing systems',
+    )
+
+    """ only config based settings """
+
+    # systemstatus
+
+    # create empty list for available systemstatus
+    systemstatus_choices = []
+    # get all systemstatus
+    systemstatus_all = Systemstatus.objects.order_by('systemstatus_id')
+    # prepare choices (append tupel consisting of systemstatus_id and systemstatus_name to list (therefore double brackets))
+    for systemstatus in systemstatus_all:
+        systemstatus_choices.append((systemstatus.systemstatus_id, systemstatus.systemstatus_name))
+    # create field
+    csv_default_systemstatus = forms.ChoiceField(
+        required = True,
+        widget = forms.RadioSelect(),
+        choices = systemstatus_choices,
+        label = 'Set systemstatus',
+    )
+
+    # analysisstatus
+
+    # create empty list for available analysisstatus
+    analysisstatus_choices = []
+    # get all analysisstatus
+    analysisstatus_all = Analysisstatus.objects.order_by('analysisstatus_id')
+    # prepare choices (append tupel consisting of analysisstatus_id and analysisstatus_name to list (therefore double brackets))
+    for analysisstatus in analysisstatus_all:
+        analysisstatus_choices.append((analysisstatus.analysisstatus_id, analysisstatus.analysisstatus_name))
+    # create field
+    csv_default_analysisstatus = forms.ChoiceField(
+        required = True,
+        widget = forms.RadioSelect(),
+        choices = analysisstatus_choices,
+        label = 'Set analysisstatus',
     )

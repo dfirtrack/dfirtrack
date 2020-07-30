@@ -28,6 +28,9 @@ def system_importer_file_csv_config_view(request):
             constance_config.CSV_REMOVE_CASE = form.cleaned_data['csv_remove_case']
             constance_config.CSV_REMOVE_COMPANY = form.cleaned_data['csv_remove_company']
             constance_config.CSV_REMOVE_TAG = form.cleaned_data['csv_remove_tag']
+            # config based settings
+            constance_config.CSV_DEFAULT_SYSTEMSTATUS = form.cleaned_data['csv_default_systemstatus']
+            constance_config.CSV_DEFAULT_ANALYSISSTATUS = form.cleaned_data['csv_default_analysisstatus']
 
         # close popup
         return HttpResponse('<script type="text/javascript">window.close();</script>')
@@ -49,6 +52,9 @@ def system_importer_file_csv_config_view(request):
                 'csv_remove_case': constance_config.CSV_REMOVE_CASE,
                 'csv_remove_company': constance_config.CSV_REMOVE_COMPANY,
                 'csv_remove_tag': constance_config.CSV_REMOVE_TAG,
+                # config based settings
+                'csv_default_systemstatus': constance_config.CSV_DEFAULT_SYSTEMSTATUS,
+                'csv_default_analysisstatus': constance_config.CSV_DEFAULT_ANALYSISSTATUS,
             }
         )
 

@@ -62,11 +62,11 @@
                     General settings
                 </h5>
 
-                    <table>
-                        <tr><td>{{ form.csv_skip_existing_system }}</td> <td>{{ form.csv_skip_existing_system.label }}</td></tr>
-                        <tr><td>{{ form.csv_column_system }}</td> <td>{{ form.csv_column_system.label }}</td></tr>
-                        <tr><td>{{ form.csv_headline }}</td> <td>{{ form.csv_headline.label }}</td></tr>
-                    </table>
+                <table>
+                    <tr><td>{{ form.csv_skip_existing_system }}</td> <td>{{ form.csv_skip_existing_system.label }}</td></tr>
+                    <tr><td>{{ form.csv_column_system }}</td> <td>{{ form.csv_column_system.label }}</td></tr>
+                    <tr><td>{{ form.csv_headline }}</td> <td>{{ form.csv_headline.label }}</td></tr>
+                </table>
 
             </div>
         </div>
@@ -84,16 +84,16 @@
                     IP related settings
                 </h5>
 
-                    <table class="bottom-distance">
-                        <tr><td>{{ form.csv_choice_ip }}</td> <td>{{ form.csv_choice_ip.label }}</td></tr>
-                    </table>
+                <table class="bottom-distance">
+                    <tr><td>{{ form.csv_choice_ip }}</td> <td>{{ form.csv_choice_ip.label }}</td></tr>
+                </table>
 
-                    The following settings are only taken into account if IP addresses have been selected.
+                The following settings are only taken into account if IP addresses have been selected.
 
-                    <table class="top-distance">
-                        <tr><td>{{ form.csv_remove_ip }}</td> <td>{{ form.csv_remove_ip.label }}</td></tr>
-                        <tr><td>{{ form.csv_column_ip }}</td> <td>{{ form.csv_column_ip.label }}</td></tr>
-                    </table>
+                <table class="top-distance">
+                    <tr><td>{{ form.csv_remove_ip }}</td> <td>{{ form.csv_remove_ip.label }}</td></tr>
+                    <tr><td>{{ form.csv_column_ip }}</td> <td>{{ form.csv_column_ip.label }}</td></tr>
+                </table>
 
             </div>
         </div>
@@ -111,18 +111,55 @@
                     Overriding settings
                 </h5>
 
-                    The following settings will remove existing many-to-many relationships, before adding new ones (only applies for already existing systems).
+                The following settings will remove existing many-to-many relationships, before adding new ones (only applies for already existing systems).
 
-                    <table class="top-distance">
-                        <tr><td>{{ form.csv_remove_case }}</td> <td>{{ form.csv_remove_case.label }}</td></tr>
-                        <tr><td>{{ form.csv_remove_company }}</td> <td>{{ form.csv_remove_company.label }}</td></tr>
-                        <tr><td>{{ form.csv_remove_tag }}</td> <td>{{ form.csv_remove_tag.label }}</td></tr>
-                    </table>
+                <table class="top-distance">
+                    <tr><td>{{ form.csv_remove_case }}</td> <td>{{ form.csv_remove_case.label }}</td></tr>
+                    <tr><td>{{ form.csv_remove_company }}</td> <td>{{ form.csv_remove_company.label }}</td></tr>
+                    <tr><td>{{ form.csv_remove_tag }}</td> <td>{{ form.csv_remove_tag.label }}</td></tr>
+                </table>
 
             </div>
         </div>
 
     <!-- overriding settings block -->
+    </div>
+
+    <!-- config based settings block -->
+    <div class="row">
+
+        <div class="col-6">
+            <div class="card card-body bg-dark border-light top-distance">
+
+                <h5>
+                    Config based settings
+                </h5>
+
+                The following settings will be used for config-based system CSV file import.
+
+                <h6 class="top-distance">
+                    {{ form.csv_default_systemstatus.label }}
+                </h6>
+
+                {% for i in form.csv_default_systemstatus %}
+                    {{ i }}<br>
+                {% endfor %}
+
+                <h6 class="top-distance">
+                    {{ form.csv_default_analysisstatus.label }}
+                </h6>
+
+                {% for i in form.csv_default_analysisstatus %}
+                    {{ i }}<br>
+                {% endfor %}
+
+            </div>
+        </div>
+
+            </div>
+        </div>
+
+    <!-- config based settings block -->
     </div>
 
     <!-- button row -->
