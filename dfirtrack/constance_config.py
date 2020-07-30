@@ -208,6 +208,21 @@ CONSTANCE_CONFIG = {
         'markdown_sorting_field',
     ),
     # used in `dfirtrack_main.importer.file.csv_config_based` and `dfirtrack_main.importer.file.csv_form_based`
+    'CSV_SKIP_EXISTING_SYSTEM': (
+        True,
+        'Skip existing systems',
+        bool,
+    ),
+    'CSV_COLUMN_SYSTEM': (
+        1,
+        'Number of the column in the CSV file that contains the system name',
+        int,
+    ),
+    'CSV_HEADLINE': (
+        True,
+        'CSV file contains headline',
+        bool,
+    ),
     'CSV_CHOICE_IP': (
         False,
         'CSV file contains IP addresses',
@@ -220,7 +235,7 @@ CONSTANCE_CONFIG = {
     ),
     'CSV_COLUMN_IP': (
         2,
-        'Number of the column in the csv file that contains the IP addresses',
+        'Number of the column in the CSV file that contains the IP addresses',
         int,
     ),
 }
@@ -295,6 +310,9 @@ CONSTANCE_CONFIG_FIELDSETS = {
         'MARKDOWN_SORTING',
     ),
     'System file importer (CSV) options': (
+        'CSV_SKIP_EXISTING_SYSTEM',
+        'CSV_COLUMN_SYSTEM',
+        'CSV_HEADLINE',
         'CSV_CHOICE_IP',
         'CSV_REMOVE_IP',
         'CSV_COLUMN_IP',

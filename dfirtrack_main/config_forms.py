@@ -139,6 +139,26 @@ class SystemExporterSpreadsheetXlsConfigForm(SystemExporterSpreadsheetCsvConfigF
 
 class SystemImporterFileCsvConfigForm(forms.Form):
 
+    # general settings
+    csv_skip_existing_system = forms.BooleanField(
+        required = False,
+        label = 'Skip existing systems',
+    )
+    csv_column_system = forms.IntegerField(
+        required = False,
+        label = 'Number of the column in the CSV file that contains the system name',
+        widget = forms.NumberInput(attrs={
+            #'style': 'width:6ch',
+            'size': '3',
+        }),
+        min_value = 1,
+        max_value = 256,
+    )
+    csv_headline = forms.BooleanField(
+        required = False,
+        label = 'CSV file contains headline',
+    )
+    # IP related settings
     csv_choice_ip = forms.BooleanField(
         required = False,
         label = 'CSV file contains IP addresses',
@@ -149,7 +169,7 @@ class SystemImporterFileCsvConfigForm(forms.Form):
     )
     csv_column_ip = forms.IntegerField(
         required = False,
-        label = 'Number of the column in the csv file that contains the IP addresses',
+        label = 'Number of the column in the CSV file that contains the IP addresses',
         widget = forms.NumberInput(attrs={
             #'style': 'width:6ch',
             'size': '3',

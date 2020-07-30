@@ -30,7 +30,7 @@
 <div class="row">
     <div class="col-12">
         <div class="card card-body bg-dark border-light top-distance bottom-distance copy-false">
-        You can choose how different system attributes are handlet during CSV file import.
+        You can choose how different system attributes are handled during CSV file import.
         </div>
     </div>
 </div>
@@ -52,7 +52,29 @@
         </div>
     {% endif %}
 
-    <!-- configuration block -->
+    <!-- general settings block -->
+    <div class="row">
+
+        <div class="col-6">
+            <div class="card card-body bg-dark border-light top-distance">
+
+                <h5>
+                    General settings
+                </h5>
+
+                    <table>
+                        <tr><td>{{ form.csv_skip_existing_system }}</td> <td>{{ form.csv_skip_existing_system.label }}</td></tr>
+                        <tr><td>{{ form.csv_column_system }}</td> <td>{{ form.csv_column_system.label }}</td></tr>
+                        <tr><td>{{ form.csv_headline }}</td> <td>{{ form.csv_headline.label }}</td></tr>
+                    </table>
+
+            </div>
+        </div>
+
+    <!-- general settings block -->
+    </div>
+
+    <!-- IP related settings block -->
     <div class="row">
 
         <div class="col-6">
@@ -77,7 +99,7 @@
             </div>
         </div>
 
-    <!-- configuration block -->
+    <!-- IP related settings block -->
     </div>
 
     <!-- button row -->

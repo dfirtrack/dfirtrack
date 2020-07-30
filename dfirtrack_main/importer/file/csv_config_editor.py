@@ -14,7 +14,13 @@ def system_importer_file_csv_config_view(request):
 
         if form.is_valid():
 
-            # assign values
+            """ assign values """
+
+            # general settings
+            constance_config.CSV_SKIP_EXISTING_SYSTEM = form.cleaned_data['csv_skip_existing_system']
+            constance_config.CSV_COLUMN_SYSTEM = form.cleaned_data['csv_column_system']
+            constance_config.CSV_HEADLINE = form.cleaned_data['csv_headline']
+            # IP related settings
             constance_config.CSV_CHOICE_IP = form.cleaned_data['csv_choice_ip']
             constance_config.CSV_REMOVE_IP = form.cleaned_data['csv_remove_ip']
             constance_config.CSV_COLUMN_IP = form.cleaned_data['csv_column_ip']
@@ -27,6 +33,11 @@ def system_importer_file_csv_config_view(request):
         # submit existing values to form
         form = SystemImporterFileCsvConfigForm(
             initial = {
+                # general settings
+                'csv_skip_existing_system': constance_config.CSV_SKIP_EXISTING_SYSTEM,
+                'csv_column_system': constance_config.CSV_COLUMN_SYSTEM,
+                'csv_headline': constance_config.CSV_HEADLINE,
+                # IP related settings
                 'csv_choice_ip': constance_config.CSV_CHOICE_IP,
                 'csv_remove_ip': constance_config.CSV_REMOVE_IP,
                 'csv_column_ip': constance_config.CSV_COLUMN_IP,

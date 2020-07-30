@@ -169,13 +169,11 @@ def system(request):
     else:
 
         # check config before showing form
-        # TODO: remove after implementing django-constance
-        #stop_system_importer_file_csv = check_config(request)
+        stop_system_importer_file_csv = check_config(request)
 
         # leave system_importer_file_csv if variables caused errors
-        # TODO: remove after implementing django-constance
-        #if stop_system_importer_file_csv:
-        #    return redirect(reverse('system_list'))
+        if stop_system_importer_file_csv:
+            return redirect(reverse('system_list'))
 
         # show warning if existing systems will be updated
         if not dfirtrack_config.CSV_SKIP_EXISTING_SYSTEM:

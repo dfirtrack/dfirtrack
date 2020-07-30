@@ -30,19 +30,19 @@ GIRAF_PASS = ''
 # IMPORTER - SYSTEMS FROM CLIENT (FILE UPLOAD) CSV FILE (used in `dfirtrack_main.importer.file.csv.system`)
 
 ## CSV contains a headline (True) or not (False)
-CSV_HEADLINE = True
+CSV_HEADLINE = True    # TODO: DONE
 ## skip (True) or not (False) systems, that already exist
-CSV_SKIP_EXISTING_SYSTEM = True
+CSV_SKIP_EXISTING_SYSTEM = True    # TODO: DONE
 
 ## IP should be set via CSV column (True) or not at all (False) (import via web form not possible for multiple systems)
-CSV_CHOICE_IP = True
+CSV_CHOICE_IP = True    # TODO: DONE
 ## remove existing IP addresses for already existing systems (only used if CSV_SKIP_EXISTING_SYSTEM is set to False and CSV_CHOICE_IP is set to True)
-CSV_REMOVE_IP = True
+CSV_REMOVE_IP = True    # TODO: DONE
 
 ## column of system rather system_name (numerical value starting with 0 [zero] for first column)
-CSV_COLUMN_SYSTEM = 1
+CSV_COLUMN_SYSTEM = 1   # TODO: DONE
 ## column of ip address (numerical value starting with 0 [zero] for first column) (only used if CSV_CHOICE_IP is set to True)
-CSV_COLUMN_IP = 2
+CSV_COLUMN_IP = 2    # TODO: DONE
 
 ## attributes with fixed values (used if CSV_CHOICE_... is set to True)
 
