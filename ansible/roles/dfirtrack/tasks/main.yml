@@ -99,6 +99,21 @@
     name: python-psycopg2
   become: yes
   become_method: sudo
+  when: not (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.04')
+
+- name: POSTGRESQL | Install psycopg2 to make ansible talk with postgresql (Ubuntu 20)
+  apt:
+    name: python3-psycopg2
+  become: yes
+  become_method: sudo
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.04'
+
+- name: POSTGRESQL | Install acl to make user switching work (Ubuntu 20)
+  apt:
+    name: acl
+  become: yes
+  become_method: sudo
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.04'
 
 - name: POSTGRESQL | Install postgresql
   apt:
@@ -156,6 +171,11 @@
   set_fact:
     postgresql_config: "/etc/postgresql/10/main/pg_hba.conf"
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '18.04'
+
+- name: POSTGRESQL | Set path of config (Ubuntu 20.04)
+  set_fact:
+    postgresql_config: "/etc/postgresql/12/main/pg_hba.conf"
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.04'
 
 - name: POSTGRESQL | Edit config for backup
   replace:
