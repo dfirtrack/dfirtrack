@@ -101,5 +101,5 @@ class TasknameClose(LoginRequiredMixin, UpdateView):
             # Append ID of closed task to list to show in finish message
             task_ids.append(task.task_id)
         taskname.logger(str(request.user), " TASKNAME_CLOSE_EXECUTED")
-        messages.success(request, f'Closed task IDs: {task_ids}')
+        messages.success(request, 'Closed task IDs: {}'.format(task_ids) )
         return render(request, self.template_name, {'taskname': taskname, 'show_button': False})
