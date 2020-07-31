@@ -8,7 +8,6 @@ from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_main.forms import TasknameForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Taskname, Task, Taskstatus
-import requests
 
 class TasknameList(LoginRequiredMixin, ListView):
     login_url = '/login'
