@@ -263,6 +263,26 @@ CONSTANCE_CONFIG = {
         'Set analysisstatus',
         'analysisstatus_field',
     ),
+    'CSV_DEFAULT_REASON': (
+        '2',
+        'Set reason',
+        'reason_field',
+    ),
+    'CSV_DEFAULT_DOMAIN': (
+        '2',
+        'Set domain',
+        'domain_field',
+    ),
+    'CSV_DEFAULT_DNSNAME': (
+        '2',
+        'Set dnsname',
+        'dnsname_field',
+    ),
+    'CSV_DEFAULT_SYSTEMTYPE': (
+        '2',
+        'Set systemtype',
+        'systemtype_field',
+    ),
 }
 
 """
@@ -276,6 +296,7 @@ server restart might be necessary after changing values
 # create custom field types / lists
 CONSTANCE_ADDITIONAL_FIELDS = {
     # artifactstatus - multiple choice
+    # TODO: find a way for dynamically setting values
     'artifactstatus_field': [
         'django.forms.fields.MultipleChoiceField', {
             'widget': 'django.forms.CheckboxSelectMultiple',
@@ -293,6 +314,7 @@ CONSTANCE_ADDITIONAL_FIELDS = {
         },
     ],
     # systemstatus - single choice
+    # TODO: find a way for dynamically setting values
     'systemstatus_field': [
         'django.forms.fields.ChoiceField', {
             'widget': 'django.forms.RadioSelect',
@@ -308,6 +330,8 @@ CONSTANCE_ADDITIONAL_FIELDS = {
             ),
         },
     ],
+    # analysisstatus - single choice
+    # TODO: find a way for dynamically setting values
     'analysisstatus_field': [
         'django.forms.fields.ChoiceField', {
             'widget': 'django.forms.RadioSelect',
@@ -317,6 +341,46 @@ CONSTANCE_ADDITIONAL_FIELDS = {
                 ('3', 'Ongoing analysis'),
                 ('4', 'Nothing to do'),
                 ('5', 'Main analysis finished'),
+            ),
+        },
+    ],
+    # reason - single choice
+    # TODO: find a way for dynamically setting values
+    'reason_field': [
+        'django.forms.fields.ChoiceField', {
+            'widget': 'django.forms.RadioSelect',
+            'choices': (
+                ('', 'None selected'),
+            ),
+        },
+    ],
+    # domain - single choice
+    # TODO: find a way for dynamically setting values
+    'domain_field': [
+        'django.forms.fields.ChoiceField', {
+            'widget': 'django.forms.RadioSelect',
+            'choices': (
+                ('', 'None selected'),
+            ),
+        },
+    ],
+    # dnsname - single choice
+    # TODO: find a way for dynamically setting values
+    'dnsname_field': [
+        'django.forms.fields.ChoiceField', {
+            'widget': 'django.forms.RadioSelect',
+            'choices': (
+                ('', 'None selected'),
+            ),
+        },
+    ],
+    # systemtype - single choice
+    # TODO: find a way for dynamically setting values
+    'systemtype_field': [
+        'django.forms.fields.ChoiceField', {
+            'widget': 'django.forms.RadioSelect',
+            'choices': (
+                ('', 'None selected'),
             ),
         },
     ],
@@ -375,6 +439,10 @@ CONSTANCE_CONFIG_FIELDSETS = {
         'CSV_REMOVE_TAG',
         'CSV_DEFAULT_SYSTEMSTATUS',
         'CSV_DEFAULT_ANALYSISSTATUS',
+        'CSV_DEFAULT_REASON',
+        'CSV_DEFAULT_DOMAIN',
+        'CSV_DEFAULT_DNSNAME',
+        'CSV_DEFAULT_SYSTEMTYPE',
     ),
     'Artifact spreadsheet exporter (CSV, XLS) options': (
         'ARTIFACTLIST_CHOICE_ARTIFACTSTATUS',

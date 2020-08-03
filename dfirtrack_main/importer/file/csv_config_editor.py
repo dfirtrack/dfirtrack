@@ -31,6 +31,10 @@ def system_importer_file_csv_config_view(request):
             # config based settings
             constance_config.CSV_DEFAULT_SYSTEMSTATUS = form.cleaned_data['csv_default_systemstatus']
             constance_config.CSV_DEFAULT_ANALYSISSTATUS = form.cleaned_data['csv_default_analysisstatus']
+            constance_config.CSV_DEFAULT_REASON = form.cleaned_data['csv_default_reason']
+            constance_config.CSV_DEFAULT_DOMAIN = form.cleaned_data['csv_default_domain']
+            constance_config.CSV_DEFAULT_DNSNAME = form.cleaned_data['csv_default_dnsname']
+            constance_config.CSV_DEFAULT_SYSTEMTYPE = form.cleaned_data['csv_default_systemtype']
 
         # close popup
         return HttpResponse('<script type="text/javascript">window.close();</script>')
@@ -55,6 +59,10 @@ def system_importer_file_csv_config_view(request):
                 # config based settings
                 'csv_default_systemstatus': constance_config.CSV_DEFAULT_SYSTEMSTATUS,
                 'csv_default_analysisstatus': constance_config.CSV_DEFAULT_ANALYSISSTATUS,
+                'csv_default_reason': constance_config.CSV_DEFAULT_REASON,
+                'csv_default_domain': constance_config.CSV_DEFAULT_DOMAIN,
+                'csv_default_dnsname': constance_config.CSV_DEFAULT_DNSNAME,
+                'csv_default_systemtype': constance_config.CSV_DEFAULT_SYSTEMTYPE,
             }
         )
 

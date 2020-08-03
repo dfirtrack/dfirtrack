@@ -1,5 +1,5 @@
 from django import forms
-from dfirtrack_main.models import Analysisstatus, Systemstatus
+from dfirtrack_main.models import Analysisstatus, Dnsname, Domain, Reason, Systemstatus, Systemtype
 
 class SystemExporterMarkdownConfigForm(forms.Form):
 
@@ -229,4 +229,76 @@ class SystemImporterFileCsvConfigForm(forms.Form):
         widget = forms.RadioSelect(),
         choices = analysisstatus_choices,
         label = 'Set analysisstatus',
+    )
+
+    # reason
+
+    # create empty list for available reason
+    reason_choices = []
+    # append empty choice
+    reason_choices.append(('', 'None selected'))
+    # get all reasons
+    reason_all = Reason.objects.order_by('reason_id')
+    # prepare choices (append tupel consisting of reason_id and reason_name to list (therefore double brackets))
+    for reason in reason_all:
+        reason_choices.append((reason.reason_id, reason.reason_name))
+    # create field
+    csv_default_reason = forms.ChoiceField(
+        required = False,
+        choices = reason_choices,
+        label = 'Set reason',
+    )
+
+    # domain
+
+    # create empty list for available domain
+    domain_choices = []
+    # append empty choice
+    domain_choices.append(('', 'None selected'))
+    # get all domains
+    domain_all = Domain.objects.order_by('domain_id')
+    # prepare choices (append tupel consisting of domain_id and domain_name to list (therefore double brackets))
+    for domain in domain_all:
+        domain_choices.append((domain.domain_id, domain.domain_name))
+    # create field
+    csv_default_domain = forms.ChoiceField(
+        required = True,
+        choices = domain_choices,
+        label = 'Set domain',
+    )
+
+    # dnsname
+
+    # create empty list for available dnsname
+    dnsname_choices = []
+    # append empty choice
+    dnsname_choices.append(('', 'None selected'))
+    # get all dnsnames
+    dnsname_all = Dnsname.objects.order_by('dnsname_id')
+    # prepare choices (append tupel consisting of dnsname_id and dnsname_name to list (therefore double brackets))
+    for dnsname in dnsname_all:
+        dnsname_choices.append((dnsname.dnsname_id, dnsname.dnsname_name))
+    # create field
+    csv_default_dnsname = forms.ChoiceField(
+        required = True,
+        choices = dnsname_choices,
+        label = 'Set dnsname',
+    )
+
+    # systemtype
+
+    # create empty list for available systemtype
+    systemtype_choices = []
+    # append empty choice
+    systemtype_choices.append(('', 'None selected'))
+    # get all systemtypes
+    systemtype_all = Systemtype.objects.order_by('systemtype_id')
+    # prepare choices (append tupel consisting of systemtype_id and systemtype_name to list (therefore double brackets))
+    for systemtype in systemtype_all:
+        systemtype_choices.append((systemtype.systemtype_id, systemtype.systemtype_name))
+    # create field
+    csv_default_systemtype = forms.ChoiceField(
+        required = True,
+        choices = systemtype_choices,
+        label = 'Set systemtype',
     )
