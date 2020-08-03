@@ -241,7 +241,7 @@ class SystemImporterFileCsvConfigbasedConfigForm(SystemImporterFileCsvFormbasedC
     # append empty choice
     reason_choices.append(('', 'None selected'))
     # get all reasons
-    reason_all = Reason.objects.order_by('reason_id')
+    reason_all = Reason.objects.order_by('reason_name')
     # prepare choices (append tupel consisting of reason_id and reason_name to list (therefore double brackets))
     for reason in reason_all:
         reason_choices.append((reason.reason_id, reason.reason_name))
@@ -259,7 +259,7 @@ class SystemImporterFileCsvConfigbasedConfigForm(SystemImporterFileCsvFormbasedC
     # append empty choice
     domain_choices.append(('', 'None selected'))
     # get all domains
-    domain_all = Domain.objects.order_by('domain_id')
+    domain_all = Domain.objects.order_by('domain_name')
     # prepare choices (append tupel consisting of domain_id and domain_name to list (therefore double brackets))
     for domain in domain_all:
         domain_choices.append((domain.domain_id, domain.domain_name))
@@ -277,7 +277,7 @@ class SystemImporterFileCsvConfigbasedConfigForm(SystemImporterFileCsvFormbasedC
     # append empty choice
     dnsname_choices.append(('', 'None selected'))
     # get all dnsnames
-    dnsname_all = Dnsname.objects.order_by('dnsname_id')
+    dnsname_all = Dnsname.objects.order_by('dnsname_name')
     # prepare choices (append tupel consisting of dnsname_id and dnsname_name to list (therefore double brackets))
     for dnsname in dnsname_all:
         dnsname_choices.append((dnsname.dnsname_id, dnsname.dnsname_name))
@@ -295,7 +295,7 @@ class SystemImporterFileCsvConfigbasedConfigForm(SystemImporterFileCsvFormbasedC
     # append empty choice
     systemtype_choices.append(('', 'None selected'))
     # get all systemtypes
-    systemtype_all = Systemtype.objects.order_by('systemtype_id')
+    systemtype_all = Systemtype.objects.order_by('systemtype_name')
     # prepare choices (append tupel consisting of systemtype_id and systemtype_name to list (therefore double brackets))
     for systemtype in systemtype_all:
         systemtype_choices.append((systemtype.systemtype_id, systemtype.systemtype_name))
@@ -313,7 +313,7 @@ class SystemImporterFileCsvConfigbasedConfigForm(SystemImporterFileCsvFormbasedC
     # append empty choice
     os_choices.append(('', 'None selected'))
     # get all oss
-    os_all = Os.objects.order_by('os_id')
+    os_all = Os.objects.order_by('os_name')
     # prepare choices (append tupel consisting of os_id and os_name to list (therefore double brackets))
     for os in os_all:
         os_choices.append((os.os_id, os.os_name))
@@ -331,7 +331,7 @@ class SystemImporterFileCsvConfigbasedConfigForm(SystemImporterFileCsvFormbasedC
     # append empty choice
     location_choices.append(('', 'None selected'))
     # get all locations
-    location_all = Location.objects.order_by('location_id')
+    location_all = Location.objects.order_by('location_name')
     # prepare choices (append tupel consisting of location_id and location_name to list (therefore double brackets))
     for location in location_all:
         location_choices.append((location.location_id, location.location_name))
@@ -349,7 +349,7 @@ class SystemImporterFileCsvConfigbasedConfigForm(SystemImporterFileCsvFormbasedC
     # append empty choice
     serviceprovider_choices.append(('', 'None selected'))
     # get all serviceproviders
-    serviceprovider_all = Serviceprovider.objects.order_by('serviceprovider_id')
+    serviceprovider_all = Serviceprovider.objects.order_by('serviceprovider_name')
     # prepare choices (append tupel consisting of serviceprovider_id and serviceprovider_name to list (therefore double brackets))
     for serviceprovider in serviceprovider_all:
         serviceprovider_choices.append((serviceprovider.serviceprovider_id, serviceprovider.serviceprovider_name))
@@ -365,7 +365,7 @@ class SystemImporterFileCsvConfigbasedConfigForm(SystemImporterFileCsvFormbasedC
     # create empty list for available case
     case_choices = []
     # get all cases
-    case_all = Case.objects.order_by('case_id')
+    case_all = Case.objects.order_by('case_name')
     # prepare choices (append tupel consisting of case_id and case_name to list (therefore double brackets))
     for case in case_all:
         case_choices.append((case.case_id, case.case_name))
@@ -382,7 +382,7 @@ class SystemImporterFileCsvConfigbasedConfigForm(SystemImporterFileCsvFormbasedC
     # create empty list for available company
     company_choices = []
     # get all companies
-    company_all = Company.objects.order_by('company_id')
+    company_all = Company.objects.order_by('company_name')
     # prepare choices (append tupel consisting of company_id and company_name to list (therefore double brackets))
     for company in company_all:
         company_choices.append((company.company_id, company.company_name))
@@ -399,7 +399,7 @@ class SystemImporterFileCsvConfigbasedConfigForm(SystemImporterFileCsvFormbasedC
     # create empty list for available tag
     tag_choices = []
     # get all tags
-    tag_all = Tag.objects.order_by('tag_id')
+    tag_all = Tag.objects.order_by('tag_name')
     # prepare choices (append tupel consisting of tag_id and tag_name to list (therefore double brackets))
     for tag in tag_all:
         tag_choices.append((tag.tag_id, tag.tag_name))
