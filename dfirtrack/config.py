@@ -27,51 +27,6 @@ GIRAF_USER = ''
 ## add a password for giraf api user
 GIRAF_PASS = ''
 
-# IMPORTER - SYSTEMS FROM CLIENT (FILE UPLOAD) CSV FILE (used in `dfirtrack_main.importer.file.csv.system`)
-
-## CSV contains a headline (True) or not (False)
-CSV_HEADLINE = True    # TODO: DONE
-## skip (True) or not (False) systems, that already exist
-CSV_SKIP_EXISTING_SYSTEM = True    # TODO: DONE
-
-## IP should be set via CSV column (True) or not at all (False) (import via web form not possible for multiple systems)
-CSV_CHOICE_IP = True    # TODO: DONE
-## remove existing IP addresses for already existing systems (only used if CSV_SKIP_EXISTING_SYSTEM is set to False and CSV_CHOICE_IP is set to True)
-CSV_REMOVE_IP = True    # TODO: DONE
-
-## column of system rather system_name (numerical value starting with 0 [zero] for first column)
-CSV_COLUMN_SYSTEM = 1   # TODO: DONE
-## column of ip address (numerical value starting with 0 [zero] for first column) (only used if CSV_CHOICE_IP is set to True)
-CSV_COLUMN_IP = 2    # TODO: DONE
-
-## attributes with fixed values (used if CSV_CHOICE_... is set to True)
-
-## 'Systemstatus' for imported systems (choose from 'Clean', 'Unknown', 'Analysis ongoing', 'Compromised', 'Remediation done', 'Reinstalled', 'Removed', 'Not analyzed' or your custom values)
-CSV_DEFAULT_SYSTEMSTATUS = 'Unknown'    # TODO: DONE
-## 'Analysisstatus' for imported systems (choose from 'Needs analysis', 'Ready for analysis', 'Ongoing analysis', 'Nothing to do', 'Main analysis finished' or your custom values)
-CSV_DEFAULT_ANALYSISSTATUS = 'Needs analysis'   # TODO: DONE
-## attributes with chooseable values (choose string for attribute name, non-existing attributes will be created)
-CSV_DEFAULT_REASON = '' # TODO: DONE
-CSV_DEFAULT_DOMAIN = '' # TODO: DONE
-CSV_DEFAULT_DNSNAME = ''    # TODO: DONE
-CSV_DEFAULT_SYSTEMTYPE = '' # TODO: DONE
-CSV_DEFAULT_OS = '' # TODO: DONE
-CSV_DEFAULT_LOCATION = ''   # TODO: DONE
-CSV_DEFAULT_SERVICEPROVIDER = ''    # TODO: DONE
-## remove existing companies for already existing systems (only used if CSV_SKIP_EXISTING_SYSTEM is set to False and CSV_CHOICE_CASE is set to True)
-CSV_REMOVE_CASE = True  # TODO: DONE
-## comma separated list of companies to add for every sytem (non-existing companies will be created)
-CSV_DEFAULT_CASE = ['case_1', 'case_2', 'case_3']   # TODO: DONE
-## incident for cases from CSV_DEFAULT_CASE should be set to True of False if created
-CSV_INCIDENT_CASE = True # TODO: löschen
-## remove existing companies for already existing systems (only used if CSV_SKIP_EXISTING_SYSTEM is set to False and CSV_CHOICE_COMPANY is set to True)
-CSV_REMOVE_COMPANY = True   # TODO: DONE
-## comma separated list of companies to add for every sytem (non-existing companies will be created)
-CSV_DEFAULT_COMPANY = ['company_1', 'company_2', 'company_3']   # TODO: DONE
-## remove existing tags for already existing systems (only used if CSV_SKIP_EXISTING_SYSTEM is set to False and CSV_CHOICE_TAG is set to True)
-CSV_REMOVE_TAG = True   # TODO: DONE
-## comma separated list of tags to add for every sytem (non-existing tags will be created)
-CSV_DEFAULT_TAG = ['tag_1', 'tag_2', 'tag_3']   # TODO: DONE
 # deprecated, TODO: possibly use regarding tag handling (dfirtrack_main.importer.file.csv.system)
 ## add a list of strings representing the relevant tags you want to automatically import
 #TAGLIST = []
