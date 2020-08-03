@@ -1,5 +1,5 @@
 from django import forms
-from dfirtrack_main.models import Analysisstatus, Dnsname, Domain, Reason, Systemstatus, Systemtype
+from dfirtrack_main.models import Analysisstatus, Dnsname, Domain, Location, Os, Reason, Serviceprovider, Systemstatus, Systemtype
 
 class SystemExporterMarkdownConfigForm(forms.Form):
     """ system exporter markdown config form """
@@ -285,7 +285,7 @@ class SystemImporterFileCsvConfigbasedConfigForm(SystemImporterFileCsvFormbasedC
     csv_default_dnsname = forms.ChoiceField(
         required = True,
         choices = dnsname_choices,
-        label = 'Set dnsname',
+        label = 'Set DNS name',
     )
 
     # systemtype
@@ -304,4 +304,58 @@ class SystemImporterFileCsvConfigbasedConfigForm(SystemImporterFileCsvFormbasedC
         required = True,
         choices = systemtype_choices,
         label = 'Set systemtype',
+    )
+
+    # os
+
+    # create empty list for available os
+    os_choices = []
+    # append empty choice
+    os_choices.append(('', 'None selected'))
+    # get all oss
+    os_all = Os.objects.order_by('os_id')
+    # prepare choices (append tupel consisting of os_id and os_name to list (therefore double brackets))
+    for os in os_all:
+        os_choices.append((os.os_id, os.os_name))
+    # create field
+    csv_default_os = forms.ChoiceField(
+        required = True,
+        choices = os_choices,
+        label = 'Set OS',
+    )
+
+    # location
+
+    # create empty list for available location
+    location_choices = []
+    # append empty choice
+    location_choices.append(('', 'None selected'))
+    # get all locations
+    location_all = Location.objects.order_by('location_id')
+    # prepare choices (append tupel consisting of location_id and location_name to list (therefore double brackets))
+    for location in location_all:
+        location_choices.append((location.location_id, location.location_name))
+    # create field
+    csv_default_location = forms.ChoiceField(
+        required = True,
+        choices = location_choices,
+        label = 'Set location',
+    )
+
+    # serviceprovider
+
+    # create empty list for available serviceprovider
+    serviceprovider_choices = []
+    # append empty choice
+    serviceprovider_choices.append(('', 'None selected'))
+    # get all serviceproviders
+    serviceprovider_all = Serviceprovider.objects.order_by('serviceprovider_id')
+    # prepare choices (append tupel consisting of serviceprovider_id and serviceprovider_name to list (therefore double brackets))
+    for serviceprovider in serviceprovider_all:
+        serviceprovider_choices.append((serviceprovider.serviceprovider_id, serviceprovider.serviceprovider_name))
+    # create field
+    csv_default_serviceprovider = forms.ChoiceField(
+        required = True,
+        choices = serviceprovider_choices,
+        label = 'Set serviceprovider',
     )

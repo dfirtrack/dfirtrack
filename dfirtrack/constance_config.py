@@ -264,24 +264,39 @@ CONSTANCE_CONFIG = {
         'analysisstatus_field',
     ),
     'CSV_DEFAULT_REASON': (
-        '2',
+        '',
         'Set reason',
         'reason_field',
     ),
     'CSV_DEFAULT_DOMAIN': (
-        '2',
+        '',
         'Set domain',
         'domain_field',
     ),
     'CSV_DEFAULT_DNSNAME': (
-        '2',
+        '',
         'Set dnsname',
         'dnsname_field',
     ),
     'CSV_DEFAULT_SYSTEMTYPE': (
-        '2',
+        '',
         'Set systemtype',
         'systemtype_field',
+    ),
+    'CSV_DEFAULT_OS': (
+        '',
+        'Set OS',
+        'os_field',
+    ),
+    'CSV_DEFAULT_LOCATION': (
+        '',
+        'Set location',
+        'location_field',
+    ),
+    'CSV_DEFAULT_SERVICEPROVIDER': (
+        '',
+        'Set serviceprovider',
+        'serviceprovider_field',
     ),
 }
 
@@ -352,6 +367,7 @@ CONSTANCE_ADDITIONAL_FIELDS = {
             'choices': (
                 ('', 'None selected'),
             ),
+            'required': False,
         },
     ],
     # domain - single choice
@@ -362,6 +378,7 @@ CONSTANCE_ADDITIONAL_FIELDS = {
             'choices': (
                 ('', 'None selected'),
             ),
+            'required': False,
         },
     ],
     # dnsname - single choice
@@ -372,6 +389,7 @@ CONSTANCE_ADDITIONAL_FIELDS = {
             'choices': (
                 ('', 'None selected'),
             ),
+            'required': False,
         },
     ],
     # systemtype - single choice
@@ -382,6 +400,40 @@ CONSTANCE_ADDITIONAL_FIELDS = {
             'choices': (
                 ('', 'None selected'),
             ),
+            'required': False,
+        },
+    ],
+    # os - single choice
+    # TODO: find a way for dynamically setting values
+    'os_field': [
+        'django.forms.fields.ChoiceField', {
+            'widget': 'django.forms.RadioSelect',
+            'choices': (
+                ('', 'None selected'),
+            ),
+            'required': False,
+        },
+    ],
+    # location - single choice
+    # TODO: find a way for dynamically setting values
+    'location_field': [
+        'django.forms.fields.ChoiceField', {
+            'widget': 'django.forms.RadioSelect',
+            'choices': (
+                ('', 'None selected'),
+            ),
+            'required': False,
+        },
+    ],
+    # serviceprovider - single choice
+    # TODO: find a way for dynamically setting values
+    'serviceprovider_field': [
+        'django.forms.fields.ChoiceField', {
+            'widget': 'django.forms.RadioSelect',
+            'choices': (
+                ('', 'None selected'),
+            ),
+            'required': False,
         },
     ],
     # markdown sorting for system markdown exporter - single choice
@@ -443,6 +495,9 @@ CONSTANCE_CONFIG_FIELDSETS = {
         'CSV_DEFAULT_DOMAIN',
         'CSV_DEFAULT_DNSNAME',
         'CSV_DEFAULT_SYSTEMTYPE',
+        'CSV_DEFAULT_OS',
+        'CSV_DEFAULT_LOCATION',
+        'CSV_DEFAULT_SERVICEPROVIDER',
     ),
     'Artifact spreadsheet exporter (CSV, XLS) options': (
         'ARTIFACTLIST_CHOICE_ARTIFACTSTATUS',

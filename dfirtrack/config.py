@@ -51,13 +51,13 @@ CSV_DEFAULT_SYSTEMSTATUS = 'Unknown'    # TODO: DONE
 ## 'Analysisstatus' for imported systems (choose from 'Needs analysis', 'Ready for analysis', 'Ongoing analysis', 'Nothing to do', 'Main analysis finished' or your custom values)
 CSV_DEFAULT_ANALYSISSTATUS = 'Needs analysis'   # TODO: DONE
 ## attributes with chooseable values (choose string for attribute name, non-existing attributes will be created)
-CSV_DEFAULT_REASON = ''
-CSV_DEFAULT_DOMAIN = ''
-CSV_DEFAULT_DNSNAME = ''
-CSV_DEFAULT_SYSTEMTYPE = ''
-CSV_DEFAULT_OS = ''
-CSV_DEFAULT_LOCATION = ''
-CSV_DEFAULT_SERVICEPROVIDER = ''
+CSV_DEFAULT_REASON = '' # TODO: DONE
+CSV_DEFAULT_DOMAIN = '' # TODO: DONE
+CSV_DEFAULT_DNSNAME = ''    # TODO: DONE
+CSV_DEFAULT_SYSTEMTYPE = '' # TODO: DONE
+CSV_DEFAULT_OS = '' # TODO: DONE
+CSV_DEFAULT_LOCATION = ''   # TODO: DONE
+CSV_DEFAULT_SERVICEPROVIDER = ''    # TODO: DONE
 # TODO: remove default values from list
 ## remove existing companies for already existing systems (only used if CSV_SKIP_EXISTING_SYSTEM is set to False and CSV_CHOICE_CASE is set to True)
 CSV_REMOVE_CASE = True  # TODO: DONE
