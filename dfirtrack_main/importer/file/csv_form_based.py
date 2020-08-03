@@ -8,7 +8,7 @@ from django.utils import timezone
 from dfirtrack_main.importer.file.csv_check_data import check_config, check_file, check_row
 from dfirtrack_main.importer.file.csv_importer_forms import SystemImporterFileCsvFormbasedForm
 from dfirtrack_main.importer.file.csv_messages import final_messages
-from dfirtrack_main.importer.file.csv_set_system_attributes import ip_attributes, many_to_many_system_attributes
+from dfirtrack_main.importer.file.csv_set_system_attributes import case_attributes, company_attributes, ip_attributes, tag_attributes
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import System
 from io import TextIOWrapper
@@ -111,11 +111,10 @@ def system(request):
                         # save object
                         system.save()
 
-                        # save many to many
-                        form.save_m2m()
-                        # TODO: this way existing many2many relations will be removed in every case
-                        ## change many2many (if set via dfirtrack.config)
-                        #system = many_to_many_system_attributes(system, request)
+                        # change many2many (classic 'form.save_m2m()' would remove existing relationships regardless config)
+                        system = case_attributes(system, request, request.POST.getlist('case'))
+                        system = company_attributes(system, request, request.POST.getlist('company'))
+                        system = tag_attributes(system, request, request.POST.getlist('tag'))
 
                         # set ip addresses (if set via dfirtrack.config)
                         if constance_config.CSV_CHOICE_IP:
@@ -157,11 +156,10 @@ def system(request):
                     # save object
                     system.save()
 
-                    # save many to many
-                    form.save_m2m()
-                    # TODO: this way existing many2many relations will be removed in every case
-                    ## change many2many (if set via dfirtrack.config)
-                    #system = many_to_many_system_attributes(system, request)
+                    # add many2many
+                    system = case_attributes(system, request, request.POST.getlist('case'))
+                    system = company_attributes(system, request, request.POST.getlist('company'))
+                    system = tag_attributes(system, request, request.POST.getlist('tag'))
 
                     # set ip addresses (if set via dfirtrack.config)
                     if constance_config.CSV_CHOICE_IP:
