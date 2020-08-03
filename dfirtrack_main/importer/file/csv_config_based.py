@@ -96,7 +96,7 @@ def system(request):
                     system = System.objects.get(system_name=system_name)
 
                     # change attributes (if set via dfirtrack.config)
-                    system = optional_system_attributes(system, request)
+                    system = optional_system_attributes(system)
 
                     # change mandatory meta attributes
                     system.system_modify_time = timezone.now()
@@ -106,9 +106,9 @@ def system(request):
                     system.save()
 
                     # change many2many
-                    system = case_attributes(system, request, constance_config.CSV_DEFAULT_CASE)
-                    system = company_attributes(system, request, constance_config.CSV_DEFAULT_COMPANY)
-                    system = tag_attributes(system, request, constance_config.CSV_DEFAULT_TAG)
+                    system = case_attributes(system, constance_config.CSV_DEFAULT_CASE)
+                    system = company_attributes(system, constance_config.CSV_DEFAULT_COMPANY)
+                    system = tag_attributes(system, constance_config.CSV_DEFAULT_TAG)
 
                     # set ip addresses (if set via dfirtrack.config)
                     if constance_config.CSV_CHOICE_IP:
@@ -134,7 +134,7 @@ def system(request):
                 system.system_name = system_name
                 
                 # add attributes (if set via dfirtrack.config)
-                system = optional_system_attributes(system, request)
+                system = optional_system_attributes(system)
                 
                 # add mandatory meta attributes
                 system.system_modify_time = timezone.now()
@@ -145,9 +145,9 @@ def system(request):
                 system.save()
                 
                 # add many2many
-                system = case_attributes(system, request, constance_config.CSV_DEFAULT_CASE)
-                system = company_attributes(system, request, constance_config.CSV_DEFAULT_COMPANY)
-                system = tag_attributes(system, request, constance_config.CSV_DEFAULT_TAG)
+                system = case_attributes(system, constance_config.CSV_DEFAULT_CASE)
+                system = company_attributes(system, constance_config.CSV_DEFAULT_COMPANY)
+                system = tag_attributes(system, constance_config.CSV_DEFAULT_TAG)
 
                 # set ip addresses (if set via dfirtrack.config)
                 if constance_config.CSV_CHOICE_IP:

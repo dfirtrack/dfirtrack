@@ -112,9 +112,9 @@ def system(request):
                         system.save()
 
                         # change many2many (classic 'form.save_m2m()' would remove existing relationships regardless config)
-                        system = case_attributes(system, request, request.POST.getlist('case'))
-                        system = company_attributes(system, request, request.POST.getlist('company'))
-                        system = tag_attributes(system, request, request.POST.getlist('tag'))
+                        system = case_attributes(system, request.POST.getlist('case'))
+                        system = company_attributes(system, request.POST.getlist('company'))
+                        system = tag_attributes(system, request.POST.getlist('tag'))
 
                         # set ip addresses (if set via dfirtrack.config)
                         if constance_config.CSV_CHOICE_IP:
@@ -157,9 +157,9 @@ def system(request):
                     system.save()
 
                     # add many2many
-                    system = case_attributes(system, request, request.POST.getlist('case'))
-                    system = company_attributes(system, request, request.POST.getlist('company'))
-                    system = tag_attributes(system, request, request.POST.getlist('tag'))
+                    system = case_attributes(system, request.POST.getlist('case'))
+                    system = company_attributes(system, request.POST.getlist('company'))
+                    system = tag_attributes(system, request.POST.getlist('tag'))
 
                     # set ip addresses (if set via dfirtrack.config)
                     if constance_config.CSV_CHOICE_IP:

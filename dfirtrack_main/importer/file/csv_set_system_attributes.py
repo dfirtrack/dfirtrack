@@ -22,7 +22,7 @@ def check_and_create_ip(column_ip, request, row_counter):
 
     return ip
 
-def optional_system_attributes(system, request):
+def optional_system_attributes(system):
     """ system attributes are set depending on config """
 
     # add or change attributes (set via config)
@@ -56,7 +56,7 @@ def optional_system_attributes(system, request):
     # return system object enriched with attributes
     return system
 
-def case_attributes(system, request, caselist):
+def case_attributes(system, caselist):
 
     # remove existing companies (not relevant for newly created systems)
     if constance_config.CSV_REMOVE_CASE:
@@ -73,7 +73,7 @@ def case_attributes(system, request, caselist):
     # return system object enriched with attributes
     return system
 
-def company_attributes(system, request, companylist):
+def company_attributes(system, companylist):
 
     # remove existing companies (not relevant for newly created systems)
     if constance_config.CSV_REMOVE_COMPANY:
@@ -90,7 +90,7 @@ def company_attributes(system, request, companylist):
     # return system object enriched with attributes
     return system
 
-def tag_attributes(system, request, taglist):
+def tag_attributes(system, taglist):
 
     # remove existing tags (not relevant for newly created systems)
     if constance_config.CSV_REMOVE_TAG:
