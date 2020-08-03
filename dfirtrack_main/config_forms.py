@@ -2,6 +2,7 @@ from django import forms
 from dfirtrack_main.models import Analysisstatus, Dnsname, Domain, Reason, Systemstatus, Systemtype
 
 class SystemExporterMarkdownConfigForm(forms.Form):
+    """ system exporter markdown config form """
 
     markdown_path = forms.CharField(
         required = True,
@@ -26,6 +27,7 @@ class SystemExporterMarkdownConfigForm(forms.Form):
     )
 
 class SystemExporterSpreadsheetCsvConfigForm(forms.Form):
+    """ system exporter spreadsheet config form (CSV and XLS) """
 
     spread_system_id = forms.BooleanField(
         required = False,
@@ -113,6 +115,7 @@ class SystemExporterSpreadsheetCsvConfigForm(forms.Form):
     )
 
 class SystemExporterSpreadsheetXlsConfigForm(SystemExporterSpreadsheetCsvConfigForm):
+    """ system exporter spreadsheet config form (XLS only) """
 
     spread_worksheet_systemstatus = forms.BooleanField(
         required = False,
@@ -139,9 +142,8 @@ class SystemExporterSpreadsheetXlsConfigForm(SystemExporterSpreadsheetCsvConfigF
         label = 'Export worksheet to explain tag',
     )
 
-class SystemImporterFileCsvConfigForm(forms.Form):
-
-    """ config and form based settings """
+class SystemImporterFileCsvFormbasedConfigForm(forms.Form):
+    """ system importer CSV config form (config and form based) """
 
     # general settings
     csv_skip_existing_system = forms.BooleanField(
@@ -195,7 +197,8 @@ class SystemImporterFileCsvConfigForm(forms.Form):
         label = 'Remove / overwrite existing tags for already existing systems',
     )
 
-    """ only config based settings """
+class SystemImporterFileCsvConfigbasedConfigForm(SystemImporterFileCsvFormbasedConfigForm):
+    """ system importer CSV config form (config based only) """
 
     # systemstatus
 

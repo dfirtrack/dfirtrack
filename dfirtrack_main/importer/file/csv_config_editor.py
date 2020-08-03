@@ -2,15 +2,15 @@ from constance import config as constance_config
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
-from dfirtrack_main.config_forms import SystemImporterFileCsvConfigForm
+from dfirtrack_main.config_forms import SystemImporterFileCsvConfigbasedConfigForm, SystemImporterFileCsvFormbasedConfigForm
 
 @login_required(login_url="/login")
-def system_importer_file_csv_config_view(request):
+def system_importer_file_csv_config_based_config_view(request):
 
     # form was valid to post
     if request.method == "POST":
 
-        form = SystemImporterFileCsvConfigForm(request.POST)
+        form = SystemImporterFileCsvConfigbasedConfigForm(request.POST)
 
         if form.is_valid():
 
@@ -42,7 +42,7 @@ def system_importer_file_csv_config_view(request):
     else:
 
         # submit existing values to form
-        form = SystemImporterFileCsvConfigForm(
+        form = SystemImporterFileCsvConfigbasedConfigForm(
             initial = {
                 # general settings
                 'csv_skip_existing_system': constance_config.CSV_SKIP_EXISTING_SYSTEM,
@@ -69,7 +69,64 @@ def system_importer_file_csv_config_view(request):
     # show form page
     return render(
         request,
-        'dfirtrack_main/system/system_importer_file_csv_config_popup.html',
+        'dfirtrack_main/system/system_importer_file_csv_config_based_config_popup.html',
+        {
+            'form': form,
+        }
+    )
+
+@login_required(login_url="/login")
+def system_importer_file_csv_form_based_config_view(request):
+
+    # form was valid to post
+    if request.method == "POST":
+
+        form = SystemImporterFileCsvFormbasedConfigForm(request.POST)
+
+        if form.is_valid():
+
+            """ assign values """
+
+            # general settings
+            constance_config.CSV_SKIP_EXISTING_SYSTEM = form.cleaned_data['csv_skip_existing_system']
+            constance_config.CSV_COLUMN_SYSTEM = form.cleaned_data['csv_column_system']
+            constance_config.CSV_HEADLINE = form.cleaned_data['csv_headline']
+            # IP related settings
+            constance_config.CSV_CHOICE_IP = form.cleaned_data['csv_choice_ip']
+            constance_config.CSV_REMOVE_IP = form.cleaned_data['csv_remove_ip']
+            constance_config.CSV_COLUMN_IP = form.cleaned_data['csv_column_ip']
+            # overriding settings
+            constance_config.CSV_REMOVE_CASE = form.cleaned_data['csv_remove_case']
+            constance_config.CSV_REMOVE_COMPANY = form.cleaned_data['csv_remove_company']
+            constance_config.CSV_REMOVE_TAG = form.cleaned_data['csv_remove_tag']
+
+        # close popup
+        return HttpResponse('<script type="text/javascript">window.close();</script>')
+
+    else:
+
+        # submit existing values to form
+        form = SystemImporterFileCsvFormbasedConfigForm(
+            initial = {
+                # general settings
+                'csv_skip_existing_system': constance_config.CSV_SKIP_EXISTING_SYSTEM,
+                'csv_column_system': constance_config.CSV_COLUMN_SYSTEM,
+                'csv_headline': constance_config.CSV_HEADLINE,
+                # IP related settings
+                'csv_choice_ip': constance_config.CSV_CHOICE_IP,
+                'csv_remove_ip': constance_config.CSV_REMOVE_IP,
+                'csv_column_ip': constance_config.CSV_COLUMN_IP,
+                # overriding settings
+                'csv_remove_case': constance_config.CSV_REMOVE_CASE,
+                'csv_remove_company': constance_config.CSV_REMOVE_COMPANY,
+                'csv_remove_tag': constance_config.CSV_REMOVE_TAG,
+            }
+        )
+
+    # show form page
+    return render(
+        request,
+        'dfirtrack_main/system/system_importer_file_csv_form_based_config_popup.html',
         {
             'form': form,
         }

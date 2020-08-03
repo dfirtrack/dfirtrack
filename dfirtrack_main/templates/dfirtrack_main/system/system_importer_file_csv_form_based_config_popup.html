@@ -6,7 +6,7 @@
 
 <!-- page title -->
 <title>
-    System CSV file import config
+    System CSV file import config (form-based)
 </title>
 
 {% load static %}
@@ -22,7 +22,7 @@
 <!-- headline -->
 <div class="row col bottom-distance">
     <h4>
-        System CSV file import config
+        System CSV file import config (form-based)
     </h4>
 </div>
 
@@ -123,92 +123,6 @@
         </div>
 
     <!-- overriding settings block -->
-    </div>
-
-    <!-- config based settings block -->
-    <div class="row">
-
-        <div class="col-6">
-            <div class="card card-body bg-dark border-light top-distance">
-
-                <h5>
-                    Config based settings
-                </h5>
-
-                <h5>
-                    Mandatory settings
-                </h5>
-
-                The following settings will be used for config-based system CSV file import.
-
-                <!-- systemstatus -->
-
-                <h6 class="top-distance">
-                    {{ form.csv_default_systemstatus.label }}
-                </h6>
-
-                {% for i in form.csv_default_systemstatus %}
-                    {{ i }}<br>
-                {% endfor %}
-
-                <!-- analysisstatus -->
-
-                <h6 class="top-distance">
-                    {{ form.csv_default_analysisstatus.label }}
-                </h6>
-
-                {% for i in form.csv_default_analysisstatus %}
-                    {{ i }}<br>
-                {% endfor %}
-
-            </div>
-        </div>
-
-        <div class="col-6">
-            <div class="card card-body bg-dark border-light top-distance">
-
-                <h5>
-                    Optional settings
-                </h5>
-
-                The following settings will be used for config-based system CSV file import.
-
-                <!-- reason -->
-
-                <h6 class="top-distance">
-                    {{ form.csv_default_reason.label }}
-                </h6>
-
-                {{ form.csv_default_reason }}
-
-                <!-- dnsname -->
-
-                <h6 class="top-distance">
-                    {{ form.csv_default_dnsname.label }}
-                </h6>
-
-                {{ form.csv_default_dnsname }}
-
-                <!-- domain -->
-
-                <h6 class="top-distance">
-                    {{ form.csv_default_domain.label }}
-                </h6>
-
-                {{ form.csv_default_domain }}
-
-                <!-- systemtype -->
-
-                <h6 class="top-distance">
-                    {{ form.csv_default_systemtype.label }}
-                </h6>
-
-                {{ form.csv_default_systemtype }}
-
-            </div>
-        </div>
-
-    <!-- config based settings block -->
     </div>
 
     <!-- button row -->
