@@ -95,7 +95,7 @@ def system(request):
                     # get existing system object
                     system = System.objects.get(system_name=system_name)
 
-                    # change attributes (if set via dfirtrack.config)
+                    # change attributes
                     system = optional_system_attributes(system)
 
                     # change mandatory meta attributes
@@ -110,7 +110,7 @@ def system(request):
                     system = company_attributes(system, constance_config.CSV_DEFAULT_COMPANY)
                     system = tag_attributes(system, constance_config.CSV_DEFAULT_TAG)
 
-                    # set ip addresses (if set via dfirtrack.config)
+                    # change ip addresses
                     if constance_config.CSV_CHOICE_IP:
                         system = ip_attributes(system, request, row, row_counter)
 
@@ -133,7 +133,7 @@ def system(request):
                 # add system_name from csv
                 system.system_name = system_name
                 
-                # add attributes (if set via dfirtrack.config)
+                # add attributes
                 system = optional_system_attributes(system)
                 
                 # add mandatory meta attributes
@@ -149,7 +149,7 @@ def system(request):
                 system = company_attributes(system, constance_config.CSV_DEFAULT_COMPANY)
                 system = tag_attributes(system, constance_config.CSV_DEFAULT_TAG)
 
-                # set ip addresses (if set via dfirtrack.config)
+                # add ip addresses
                 if constance_config.CSV_CHOICE_IP:
                     system = ip_attributes(system, request, row, row_counter)
 
@@ -189,7 +189,7 @@ def system(request):
         # call logger
         debug_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_ENTERED")
 
-    # show form and submit bools from dfirtrack.config needed as variables in template
+    # show form
     return render(
         request,
         'dfirtrack_main/system/system_importer_file_csv_config_based.html',

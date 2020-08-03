@@ -116,7 +116,7 @@ def system(request):
                         system = company_attributes(system, request.POST.getlist('company'))
                         system = tag_attributes(system, request.POST.getlist('tag'))
 
-                        # set ip addresses (if set via dfirtrack.config)
+                        # change ip addresses
                         if constance_config.CSV_CHOICE_IP:
                             system = ip_attributes(system, request, row, row_counter)
 
@@ -161,7 +161,7 @@ def system(request):
                     system = company_attributes(system, request.POST.getlist('company'))
                     system = tag_attributes(system, request.POST.getlist('tag'))
 
-                    # set ip addresses (if set via dfirtrack.config)
+                    # add ip addresses
                     if constance_config.CSV_CHOICE_IP:
                         system = ip_attributes(system, request, row, row_counter)
 
@@ -204,7 +204,7 @@ def system(request):
         # call logger
         debug_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_ENTERED")
 
-    # show form and submit bools from dfirtrack.config needed as variables in template
+    # show form
     return render(
         request,
         'dfirtrack_main/system/system_importer_file_csv_form_based.html',
