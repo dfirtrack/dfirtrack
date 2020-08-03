@@ -298,6 +298,21 @@ CONSTANCE_CONFIG = {
         'Set serviceprovider',
         'serviceprovider_field',
     ),
+    'CSV_DEFAULT_CASE': (
+        '',
+        'Set case',
+        'case_field',
+    ),
+    'CSV_DEFAULT_COMPANY': (
+        '',
+        'Set company',
+        'company_field',
+    ),
+    'CSV_DEFAULT_TAG': (
+        '',
+        'Set tag',
+        'tag_field',
+    ),
 }
 
 """
@@ -436,6 +451,37 @@ CONSTANCE_ADDITIONAL_FIELDS = {
             'required': False,
         },
     ],
+    # case - multiple choice
+    # TODO: find a way for dynamically setting values
+    'case_field': [
+        'django.forms.fields.MultipleChoiceField', {
+            'widget': 'django.forms.CheckboxSelectMultiple',
+            'choices': (
+                ('', 'None selected'),
+            ),
+            'required': False,
+        },
+    ],
+    # company - multiple choice
+    # TODO: find a way for dynamically setting values
+    'company_field': [
+        'django.forms.fields.MultipleChoiceField', {
+            'widget': 'django.forms.CheckboxSelectMultiple',
+            'choices': (
+                ('', 'None selected'),
+            ),
+        },
+    ],
+    # tag - multiple choice
+    # TODO: find a way for dynamically setting values
+    'tag_field': [
+        'django.forms.fields.MultipleChoiceField', {
+            'widget': 'django.forms.CheckboxSelectMultiple',
+            'choices': (
+                ('', 'None selected'),
+            ),
+        },
+    ],
     # markdown sorting for system markdown exporter - single choice
     'markdown_sorting_field': [
         'django.forms.fields.ChoiceField', {
@@ -498,6 +544,9 @@ CONSTANCE_CONFIG_FIELDSETS = {
         'CSV_DEFAULT_OS',
         'CSV_DEFAULT_LOCATION',
         'CSV_DEFAULT_SERVICEPROVIDER',
+        'CSV_DEFAULT_CASE',
+        'CSV_DEFAULT_COMPANY',
+        'CSV_DEFAULT_TAG',
     ),
     'Artifact spreadsheet exporter (CSV, XLS) options': (
         'ARTIFACTLIST_CHOICE_ARTIFACTSTATUS',

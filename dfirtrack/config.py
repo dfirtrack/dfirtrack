@@ -58,21 +58,20 @@ CSV_DEFAULT_SYSTEMTYPE = '' # TODO: DONE
 CSV_DEFAULT_OS = '' # TODO: DONE
 CSV_DEFAULT_LOCATION = ''   # TODO: DONE
 CSV_DEFAULT_SERVICEPROVIDER = ''    # TODO: DONE
-# TODO: remove default values from list
 ## remove existing companies for already existing systems (only used if CSV_SKIP_EXISTING_SYSTEM is set to False and CSV_CHOICE_CASE is set to True)
 CSV_REMOVE_CASE = True  # TODO: DONE
 ## comma separated list of companies to add for every sytem (non-existing companies will be created)
-CSV_DEFAULT_CASE = ['case_1', 'case_2', 'case_3']
+CSV_DEFAULT_CASE = ['case_1', 'case_2', 'case_3']   # TODO: DONE
 ## incident for cases from CSV_DEFAULT_CASE should be set to True of False if created
-CSV_INCIDENT_CASE = True
+CSV_INCIDENT_CASE = True # TODO: löschen
 ## remove existing companies for already existing systems (only used if CSV_SKIP_EXISTING_SYSTEM is set to False and CSV_CHOICE_COMPANY is set to True)
 CSV_REMOVE_COMPANY = True   # TODO: DONE
 ## comma separated list of companies to add for every sytem (non-existing companies will be created)
-CSV_DEFAULT_COMPANY = ['company_1', 'company_2', 'company_3']
+CSV_DEFAULT_COMPANY = ['company_1', 'company_2', 'company_3']   # TODO: DONE
 ## remove existing tags for already existing systems (only used if CSV_SKIP_EXISTING_SYSTEM is set to False and CSV_CHOICE_TAG is set to True)
 CSV_REMOVE_TAG = True   # TODO: DONE
 ## comma separated list of tags to add for every sytem (non-existing tags will be created)
-CSV_DEFAULT_TAG = ['tag_1', 'tag_2', 'tag_3']
+CSV_DEFAULT_TAG = ['tag_1', 'tag_2', 'tag_3']   # TODO: DONE
 # deprecated, TODO: possibly use regarding tag handling (dfirtrack_main.importer.file.csv.system)
 ## add a list of strings representing the relevant tags you want to automatically import
 #TAGLIST = []

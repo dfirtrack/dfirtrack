@@ -38,9 +38,21 @@ def system_importer_file_csv_config_based_config_view(request):
             constance_config.CSV_DEFAULT_OS = form.cleaned_data['csv_default_os']
             constance_config.CSV_DEFAULT_LOCATION = form.cleaned_data['csv_default_location']
             constance_config.CSV_DEFAULT_SERVICEPROVIDER = form.cleaned_data['csv_default_serviceprovider']
+            constance_config.CSV_DEFAULT_CASE = form.cleaned_data['csv_default_case']
+            constance_config.CSV_DEFAULT_COMPANY = form.cleaned_data['csv_default_company']
+            constance_config.CSV_DEFAULT_TAG = form.cleaned_data['csv_default_tag']
 
-        # close popup
-        return HttpResponse('<script type="text/javascript">window.close();</script>')
+            # close popup
+            return HttpResponse('<script type="text/javascript">window.close();</script>')
+        else:
+            # show form page
+            return render(
+                request,
+                'dfirtrack_main/system/system_importer_file_csv_config_based_config_popup.html',
+                {
+                    'form': form,
+                }
+            )
 
     else:
 
@@ -69,6 +81,9 @@ def system_importer_file_csv_config_based_config_view(request):
                 'csv_default_os': constance_config.CSV_DEFAULT_OS,
                 'csv_default_location': constance_config.CSV_DEFAULT_LOCATION,
                 'csv_default_serviceprovider': constance_config.CSV_DEFAULT_SERVICEPROVIDER,
+                'csv_default_case': constance_config.CSV_DEFAULT_CASE,
+                'csv_default_company': constance_config.CSV_DEFAULT_COMPANY,
+                'csv_default_tag': constance_config.CSV_DEFAULT_TAG,
             }
         )
 

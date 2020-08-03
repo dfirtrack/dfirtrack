@@ -1,5 +1,5 @@
 from django import forms
-from dfirtrack_main.models import Analysisstatus, Dnsname, Domain, Location, Os, Reason, Serviceprovider, Systemstatus, Systemtype
+from dfirtrack_main.models import Analysisstatus, Case, Company, Dnsname, Domain, Location, Os, Reason, Serviceprovider, Systemstatus, Systemtype, Tag
 
 class SystemExporterMarkdownConfigForm(forms.Form):
     """ system exporter markdown config form """
@@ -265,7 +265,7 @@ class SystemImporterFileCsvConfigbasedConfigForm(SystemImporterFileCsvFormbasedC
         domain_choices.append((domain.domain_id, domain.domain_name))
     # create field
     csv_default_domain = forms.ChoiceField(
-        required = True,
+        required = False,
         choices = domain_choices,
         label = 'Set domain',
     )
@@ -283,7 +283,7 @@ class SystemImporterFileCsvConfigbasedConfigForm(SystemImporterFileCsvFormbasedC
         dnsname_choices.append((dnsname.dnsname_id, dnsname.dnsname_name))
     # create field
     csv_default_dnsname = forms.ChoiceField(
-        required = True,
+        required = False,
         choices = dnsname_choices,
         label = 'Set DNS name',
     )
@@ -301,7 +301,7 @@ class SystemImporterFileCsvConfigbasedConfigForm(SystemImporterFileCsvFormbasedC
         systemtype_choices.append((systemtype.systemtype_id, systemtype.systemtype_name))
     # create field
     csv_default_systemtype = forms.ChoiceField(
-        required = True,
+        required = False,
         choices = systemtype_choices,
         label = 'Set systemtype',
     )
@@ -319,7 +319,7 @@ class SystemImporterFileCsvConfigbasedConfigForm(SystemImporterFileCsvFormbasedC
         os_choices.append((os.os_id, os.os_name))
     # create field
     csv_default_os = forms.ChoiceField(
-        required = True,
+        required = False,
         choices = os_choices,
         label = 'Set OS',
     )
@@ -337,7 +337,7 @@ class SystemImporterFileCsvConfigbasedConfigForm(SystemImporterFileCsvFormbasedC
         location_choices.append((location.location_id, location.location_name))
     # create field
     csv_default_location = forms.ChoiceField(
-        required = True,
+        required = False,
         choices = location_choices,
         label = 'Set location',
     )
@@ -355,7 +355,58 @@ class SystemImporterFileCsvConfigbasedConfigForm(SystemImporterFileCsvFormbasedC
         serviceprovider_choices.append((serviceprovider.serviceprovider_id, serviceprovider.serviceprovider_name))
     # create field
     csv_default_serviceprovider = forms.ChoiceField(
-        required = True,
+        required = False,
         choices = serviceprovider_choices,
         label = 'Set serviceprovider',
+    )
+
+    # case
+
+    # create empty list for available case
+    case_choices = []
+    # get all cases
+    case_all = Case.objects.order_by('case_id')
+    # prepare choices (append tupel consisting of case_id and case_name to list (therefore double brackets))
+    for case in case_all:
+        case_choices.append((case.case_id, case.case_name))
+    # create field
+    csv_default_case = forms.MultipleChoiceField(
+        widget = forms.CheckboxSelectMultiple(),
+        required = False,
+        choices = case_choices,
+        label = 'Set cases',
+    )
+
+    # company
+
+    # create empty list for available company
+    company_choices = []
+    # get all companies
+    company_all = Company.objects.order_by('company_id')
+    # prepare choices (append tupel consisting of company_id and company_name to list (therefore double brackets))
+    for company in company_all:
+        company_choices.append((company.company_id, company.company_name))
+    # create field
+    csv_default_company = forms.MultipleChoiceField(
+        widget = forms.CheckboxSelectMultiple(),
+        required = False,
+        choices = company_choices,
+        label = 'Set companies',
+    )
+
+    # tag
+
+    # create empty list for available tag
+    tag_choices = []
+    # get all tags
+    tag_all = Tag.objects.order_by('tag_id')
+    # prepare choices (append tupel consisting of tag_id and tag_name to list (therefore double brackets))
+    for tag in tag_all:
+        tag_choices.append((tag.tag_id, tag.tag_name))
+    # create field
+    csv_default_tag = forms.MultipleChoiceField(
+        widget = forms.CheckboxSelectMultiple(),
+        required = False,
+        choices = tag_choices,
+        label = 'Set tags',
     )

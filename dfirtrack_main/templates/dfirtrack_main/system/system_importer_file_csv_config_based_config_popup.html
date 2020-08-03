@@ -52,6 +52,18 @@
         </div>
     {% endif %}
 
+    <!-- field errors -->
+    {% if form.errors %}
+        <div class="row">
+            <div class="col">
+                <div class="text-danger">
+                    Field errors:<br>
+                    {{ form.errors }}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
     <!-- general settings block -->
     <div class="row">
 
@@ -228,6 +240,36 @@
                 </h6>
 
                 {{ form.csv_default_serviceprovider }}
+
+                <!-- case -->
+
+                <h6 class="top-distance">
+                    {{ form.csv_default_case.label }}
+                </h6>
+
+                {% for i in form.csv_default_case %}
+                    {{ i }}<br>
+                {% endfor %}
+
+                <!-- company -->
+
+                <h6 class="top-distance">
+                    {{ form.csv_default_company.label }}
+                </h6>
+
+                {% for i in form.csv_default_company %}
+                    {{ i }}<br>
+                {% endfor %}
+
+                <!-- tag -->
+
+                <h6 class="top-distance">
+                    {{ form.csv_default_tag.label }}
+                </h6>
+
+                {% for i in form.csv_default_tag %}
+                    {{ i }}<br>
+                {% endfor %}
 
             </div>
         </div>
