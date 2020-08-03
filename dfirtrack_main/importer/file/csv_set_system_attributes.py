@@ -1,31 +1,8 @@
 from constance import config as constance_config
 from django.contrib import messages
-import dfirtrack.config as dfirtrack_config
 from dfirtrack_main.logger.default_logger import warning_logger
 from dfirtrack_main.models import Analysisstatus, Case, Company, Dnsname, Domain, Ip, Location, Os, Reason, Serviceprovider, System, Systemstatus, Systemtype, Tag, Tagcolor
 import ipaddress
-
-def check_and_create_case(case, request):
-
-    # create case
-    case, created = Case.objects.get_or_create(
-        case_name = case,
-        case_is_incident = dfirtrack_config.CSV_INCIDENT_CASE,
-        case_created_by_user_id = request.user,
-    )
-    if created == True:
-        case.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_CASE_CREATED")
-
-    return case
-
-def check_and_create_company(company, request):
-
-    # create company
-    company, created = Company.objects.get_or_create(company_name=company)
-    if created == True:
-        company.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_COMPANY_CREATED")
-
-    return company
 
 def check_and_create_ip(column_ip, request, row_counter):
 
@@ -45,73 +22,42 @@ def check_and_create_ip(column_ip, request, row_counter):
 
     return ip
 
-def check_and_create_tag(tag, request):
-
-    # check whether tag already exists (necessary, if tag exists with another tagcolor than default)
-    tagquery = Tag.objects.filter(tag_name=tag)
-    if len(tagquery) == 1:
-        # get tag
-        tag = Tag.objects.get(tag_name=tag)
-    else:
-        # get tagcolor
-        tagcolor = Tagcolor.objects.get(tagcolor_name='primary')
-        # create tag
-        tag, created = Tag.objects.get_or_create(tag_name=tag, tagcolor=tagcolor)
-        if created == True:
-            tag.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_TAG_CREATED")
-
-    return tag
-
 def optional_system_attributes(system, request):
-    """ system attributes are set depending on dfirtrack.config """
+    """ system attributes are set depending on config """
 
-    # add or change attributes (set via dfirtrack.config)
+    # add or change attributes (set via config)
 
     # systemstatus
-    system.systemstatus = Systemstatus.objects.get(systemstatus_name = constance_config.CSV_DEFAULT_SYSTEMSTATUS)
+    system.systemstatus = Systemstatus.objects.get(systemstatus_id = constance_config.CSV_DEFAULT_SYSTEMSTATUS)
     # analysisstatus
-    system.analysisstatus = Analysisstatus.objects.get(analysisstatus_name = constance_config.CSV_DEFAULT_ANALYSISSTATUS)
-    # reason (create only, if something was submitted)
+    system.analysisstatus = Analysisstatus.objects.get(analysisstatus_id = constance_config.CSV_DEFAULT_ANALYSISSTATUS)
+    # reason (set only, if something was submitted)
     if constance_config.CSV_DEFAULT_REASON:
-        system.reason, created = Reason.objects.get_or_create(reason_name = constance_config.CSV_DEFAULT_REASON)
-        if created == True:
-            system.reason.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_REASON_CREATED")
-    # domain (create only, if something was submitted)
+        system.reason = Reason.objects.get(reason_id = constance_config.CSV_DEFAULT_REASON)
+    # domain (set only, if something was submitted)
     if constance_config.CSV_DEFAULT_DOMAIN:
-        system.domain, created = Domain.objects.get_or_create(domain_name = constance_config.CSV_DEFAULT_DOMAIN)
-        if created == True:
-            system.domain.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_DOMAIN_CREATED")
-    # dnsname (create only, if something was submitted)
+        system.domain = Domain.objects.get(domain_id = constance_config.CSV_DEFAULT_DOMAIN)
+    # dnsname (set only, if something was submitted)
     if constance_config.CSV_DEFAULT_DNSNAME:
-        system.dnsname, created = Dnsname.objects.get_or_create(dnsname_name = constance_config.CSV_DEFAULT_DNSNAME)
-        if created == True:
-            system.dnsname.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_DNSNAME_CREATED")
-    # systemtype (create only, if something was submitted)
+        system.dnsname = Dnsname.objects.get(dnsname_id = constance_config.CSV_DEFAULT_DNSNAME)
+    # systemtype (set only, if something was submitted)
     if constance_config.CSV_DEFAULT_SYSTEMTYPE:
-        system.systemtype, created = Systemtype.objects.get_or_create(systemtype_name = constance_config.CSV_DEFAULT_SYSTEMTYPE)
-        if created == True:
-            system.systemtype.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_SYSTEMTYPE_CREATED")
-    # os (create only, if something was submitted)
+        system.systemtype = Systemtype.objects.get(systemtype_id = constance_config.CSV_DEFAULT_SYSTEMTYPE)
+    # os (set only, if something was submitted)
     if constance_config.CSV_DEFAULT_OS:
-        system.os, created = Os.objects.get_or_create(os_name = constance_config.CSV_DEFAULT_OS)
-        if created == True:
-            system.os.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_OS_CREATED")
-    # location (create only, if something was submitted)
+        system.os = Os.objects.get(os_id = constance_config.CSV_DEFAULT_OS)
+    # location (set only, if something was submitted)
     if constance_config.CSV_DEFAULT_LOCATION:
-        system.location, created = Location.objects.get_or_create(location_name = constance_config.CSV_DEFAULT_LOCATION)
-        if created == True:
-            system.location.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_LOCATION_CREATED")
-    # serviceprovider (create only, if something was submitted)
+        system.location = Location.objects.get(location_id = constance_config.CSV_DEFAULT_LOCATION)
+    # serviceprovider (set only, if something was submitted)
     if constance_config.CSV_DEFAULT_SERVICEPROVIDER:
-        system.serviceprovider, created = Serviceprovider.objects.get_or_create(serviceprovider_name = constance_config.CSV_DEFAULT_SERVICEPROVIDER)
-        if created == True:
-            system.serviceprovider.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_SERVICEPROVIDER_CREATED")
+        system.serviceprovider = Serviceprovider.objects.get(serviceprovider_id = constance_config.CSV_DEFAULT_SERVICEPROVIDER)
 
     # return system object enriched with attributes
     return system
 
 def many_to_many_system_attributes(system, request):
-    """ many2many system attributes are set depending on dfirtrack.config """
+    """ many2many system attributes are set depending on config """
 
     """ case """
 
@@ -120,12 +66,12 @@ def many_to_many_system_attributes(system, request):
         # remove many to many relation between system and case without deleting existing case objects (important if other systems have the same companies)
         system.case.clear()
 
-    # iterate through caselist from dfirtrack.config
-    for case in constance_config.CSV_DEFAULT_CASE:
+    # iterate through caselist from config
+    for case_id in constance_config.CSV_DEFAULT_CASE:
         # get or create case
-        newcase = check_and_create_case(case, request)
+        case = Case.objects.get(case_id = case_id)
         # add case
-        system.case.add(newcase)
+        system.case.add(case)
 
     """ company """
 
@@ -134,12 +80,12 @@ def many_to_many_system_attributes(system, request):
         # remove many to many relation between system and company without deleting existing company objects (important if other systems have the same companies)
         system.company.clear()
 
-    # iterate through companylist from dfirtrack.config
-    for company in constance_config.CSV_DEFAULT_COMPANY:
+    # iterate through companylist from config
+    for company_id in constance_config.CSV_DEFAULT_COMPANY:
         # get or create company
-        newcompany = check_and_create_company(company, request)
+        company = Company.objects.get(company_id = company_id)
         # add company
-        system.company.add(newcompany)
+        system.company.add(company)
 
     """ tag """
 
@@ -148,18 +94,18 @@ def many_to_many_system_attributes(system, request):
         # remove many to many relation between system and tag without deleting existing tag objects (important if other systems have the same tags)
         system.tag.clear()
 
-    # iterate through taglist from dfirtrack.config
-    for tag in constance_config.CSV_DEFAULT_TAG:
+    # iterate through taglist from config
+    for tag_id in constance_config.CSV_DEFAULT_TAG:
         # get or create tag
-        newtag = check_and_create_tag(tag, request)
+        tag = Tag.objects.get(tag_id = tag_id)
         # add tag
-        system.tag.add(newtag)
+        system.tag.add(tag)
 
     # return system object enriched with attributes
     return system
 
 def ip_attributes(system, request, row, row_counter):
-    """ IP addresses are set depending on dfirtrack.config """
+    """ IP addresses are set depending on config """
 
     # remove existing IP addresses for this system (not relevant for newly created systems)
     if constance_config.CSV_REMOVE_IP:
