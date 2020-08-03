@@ -56,10 +56,7 @@ def optional_system_attributes(system, request):
     # return system object enriched with attributes
     return system
 
-def many_to_many_system_attributes(system, request):
-    """ many2many system attributes are set depending on config """
-
-    """ case """
+def case_attributes(system, request, caselist):
 
     # remove existing companies (not relevant for newly created systems)
     if constance_config.CSV_REMOVE_CASE:
@@ -67,13 +64,16 @@ def many_to_many_system_attributes(system, request):
         system.case.clear()
 
     # iterate through caselist from config
-    for case_id in constance_config.CSV_DEFAULT_CASE:
+    for case_id in caselist:
         # get or create case
         case = Case.objects.get(case_id = case_id)
         # add case
         system.case.add(case)
 
-    """ company """
+    # return system object enriched with attributes
+    return system
+
+def company_attributes(system, request, companylist):
 
     # remove existing companies (not relevant for newly created systems)
     if constance_config.CSV_REMOVE_COMPANY:
@@ -81,13 +81,16 @@ def many_to_many_system_attributes(system, request):
         system.company.clear()
 
     # iterate through companylist from config
-    for company_id in constance_config.CSV_DEFAULT_COMPANY:
+    for company_id in companylist:
         # get or create company
         company = Company.objects.get(company_id = company_id)
         # add company
         system.company.add(company)
 
-    """ tag """
+    # return system object enriched with attributes
+    return system
+
+def tag_attributes(system, request, taglist):
 
     # remove existing tags (not relevant for newly created systems)
     if constance_config.CSV_REMOVE_TAG:
@@ -95,7 +98,7 @@ def many_to_many_system_attributes(system, request):
         system.tag.clear()
 
     # iterate through taglist from config
-    for tag_id in constance_config.CSV_DEFAULT_TAG:
+    for tag_id in taglist:
         # get or create tag
         tag = Tag.objects.get(tag_id = tag_id)
         # add tag
