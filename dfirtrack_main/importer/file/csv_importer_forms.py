@@ -1,6 +1,6 @@
 from django import forms
 from django.utils.translation import gettext_lazy
-from dfirtrack_main.models import Domain, Dnsname, Location, Os, Reason, Serviceprovider, System, Systemtype
+from dfirtrack_main.models import Case, Company, Domain, Dnsname, Location, Os, Reason, Serviceprovider, System, Systemtype, Tag
 
 class SystemImporterFileCsvConfigbasedForm(forms.Form):
 
@@ -55,32 +55,56 @@ class SystemImporterFileCsvFormbasedForm(forms.ModelForm, SystemImporterFileCsvC
         widget = forms.RadioSelect(),
     )
 
-# TODO: CheckboxSelectMultiple does not work properly
-#    # reorder field choices
-#    case = forms.ModelChoiceField(
-#        label = gettext_lazy('Case'),
-#        queryset = Case.objects.order_by('case_name'),
-#        required = False,
-#        widget=forms.CheckboxSelectMultiple(),
-#    )
+    # case
 
-# TODO: CheckboxSelectMultiple does not work properly
-#    # reorder field choices
-#    company = forms.ModelChoiceField(
-#        label = gettext_lazy('Company'),
-#        queryset = Company.objects.order_by('company_name'),
-#        required = False,
-#        widget=forms.CheckboxSelectMultiple(),
-#    )
+    # create empty list for available case
+    case_choices = []
+    # get all cases
+    case_all = Case.objects.order_by('case_name')
+    # prepare choices (append tupel consisting of case_id and case_name to list (therefore double brackets))
+    for case in case_all:
+        case_choices.append((case.case_id, case.case_name))
+    # create field
+    case = forms.MultipleChoiceField(
+        widget = forms.CheckboxSelectMultiple(),
+        required = False,
+        choices = case_choices,
+        label = 'Set cases',
+    )
 
-# TODO: CheckboxSelectMultiple does not work properly
-#    # reorder field choices
-#    tag = forms.ModelChoiceField(
-#        label = gettext_lazy('Tag'),
-#        queryset = Tag.objects.order_by('tag_name'),
-#        required = False,
-#        widget=forms.CheckboxSelectMultiple(),
-#    )
+    # company
+
+    # create empty list for available company
+    company_choices = []
+    # get all companies
+    company_all = Company.objects.order_by('company_name')
+    # prepare choices (append tupel consisting of company_id and company_name to list (therefore double brackets))
+    for company in company_all:
+        company_choices.append((company.company_id, company.company_name))
+    # create field
+    company = forms.MultipleChoiceField(
+        widget = forms.CheckboxSelectMultiple(),
+        required = False,
+        choices = company_choices,
+        label = 'Set companies',
+    )
+
+    # tag
+
+    # create empty list for available tag
+    tag_choices = []
+    # get all tags
+    tag_all = Tag.objects.order_by('tag_name')
+    # prepare choices (append tupel consisting of tag_id and tag_name to list (therefore double brackets))
+    for tag in tag_all:
+        tag_choices.append((tag.tag_id, tag.tag_name))
+    # create field
+    tag = forms.MultipleChoiceField(
+        widget = forms.CheckboxSelectMultiple(),
+        required = False,
+        choices = tag_choices,
+        label = 'Set tags',
+    )
 
     class Meta:
         model = System
@@ -96,9 +120,6 @@ class SystemImporterFileCsvFormbasedForm(forms.ModelForm, SystemImporterFileCsvC
             'os',
             'location',
             'serviceprovider',
-            'case',
-            'company',
-            'tag',
         )
 
 
@@ -106,7 +127,4 @@ class SystemImporterFileCsvFormbasedForm(forms.ModelForm, SystemImporterFileCsvC
         widgets = {
             'systemstatus': forms.RadioSelect(),
             'analysisstatus': forms.RadioSelect(),
-            'case': forms.CheckboxSelectMultiple(),
-            'company': forms.CheckboxSelectMultiple(),
-            'tag': forms.CheckboxSelectMultiple(),
         }
