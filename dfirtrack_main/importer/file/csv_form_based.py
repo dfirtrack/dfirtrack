@@ -1,10 +1,10 @@
+from constance import config as constance_config
 import csv
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils import timezone
-import dfirtrack.config as dfirtrack_config
 from dfirtrack_main.importer.file.csv_check_data import check_config, check_file, check_row
 from dfirtrack_main.importer.file.csv_importer_forms import SystemImporterFileCsvFormbasedForm
 from dfirtrack_main.importer.file.csv_messages import final_messages
@@ -54,7 +54,7 @@ def system(request):
         for row in rows:
 
             # skip first row in case of headline
-            if row_counter == 1 and dfirtrack_config.CSV_HEADLINE is True:
+            if row_counter == 1 and constance_config.CSV_HEADLINE is True:
                 # autoincrement row counter
                 row_counter += 1
                 # leave loop for headline row
@@ -69,7 +69,7 @@ def system(request):
                 continue
 
             # get system name (decremented by one because index starts with zero: user provides 1 -> first column in CSV has index 0)
-            system_name = row[dfirtrack_config.CSV_COLUMN_SYSTEM - 1]
+            system_name = row[constance_config.CSV_COLUMN_SYSTEM - 1]
 
             # get all systems with this system_name
             systemquery = System.objects.filter(system_name=system_name)
@@ -80,7 +80,7 @@ def system(request):
             if len(systemquery) == 1:
 
                 # skip if system already exists (depending on CSV_SKIP_EXISTING_SYSTEM)
-                if dfirtrack_config.CSV_SKIP_EXISTING_SYSTEM:
+                if constance_config.CSV_SKIP_EXISTING_SYSTEM:
 
                     # autoincrement counter
                     systems_skipped_counter += 1
@@ -90,7 +90,7 @@ def system(request):
                     continue
 
                 # modify existing system (depending on CSV_SKIP_EXISTING_SYSTEM)
-                elif not dfirtrack_config.CSV_SKIP_EXISTING_SYSTEM:
+                elif not constance_config.CSV_SKIP_EXISTING_SYSTEM:
 
                     # get existing system object
                     system = System.objects.get(system_name=system_name)
@@ -118,7 +118,7 @@ def system(request):
                         #system = many_to_many_system_attributes(system, request)
 
                         # set ip addresses (if set via dfirtrack.config)
-                        if dfirtrack_config.CSV_CHOICE_IP:
+                        if constance_config.CSV_CHOICE_IP:
                             system = ip_attributes(system, request, row, row_counter)
 
                         # autoincrement systems_updated_counter
@@ -164,7 +164,7 @@ def system(request):
                     #system = many_to_many_system_attributes(system, request)
 
                     # set ip addresses (if set via dfirtrack.config)
-                    if dfirtrack_config.CSV_CHOICE_IP:
+                    if constance_config.CSV_CHOICE_IP:
                         system = ip_attributes(system, request, row, row_counter)
 
                     # autoincrement systems_created_counter
@@ -194,7 +194,7 @@ def system(request):
             return redirect(reverse('system_list'))
 
         # show warning if existing systems will be updated
-        if not dfirtrack_config.CSV_SKIP_EXISTING_SYSTEM:
+        if not constance_config.CSV_SKIP_EXISTING_SYSTEM:
             messages.warning(request, 'WARNING: Existing systems will be updated!')
 
         # show empty form with default values

@@ -1,14 +1,7 @@
 from constance import config as constance_config
 from django.contrib import messages
-import dfirtrack.config as dfirtrack_config
 from dfirtrack_main.logger.default_logger import warning_logger, critical_logger
 from dfirtrack_main.models import Analysisstatus, Dnsname, Domain, Location, Os, Reason, Serviceprovider, Systemstatus, Systemtype
-
-def check_system_importer_file_csv_config_based_variables(request):
-    pass
-
-def check_system_importer_file_csv_form_based_variables(request):
-    pass
 
 def check_config(request):
     """ check variables of dfirtrack.config """
@@ -65,7 +58,7 @@ def check_row(request, row, row_counter):
     continue_system_importer_file_csv = False
 
     # check system column for empty value
-    if row[dfirtrack_config.CSV_COLUMN_SYSTEM] == '':
+    if row[constance_config.CSV_COLUMN_SYSTEM] == '':
         messages.error(request, "Value for system in row " + str(row_counter) + " was an empty string. System not created.")
         # call logger
         warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_SYSTEM_COLUMN " + "row_" + str(row_counter) + ":empty_column")
@@ -73,14 +66,14 @@ def check_row(request, row, row_counter):
 
     # TODO: falls-check for string does not work as expected (even true-check for int does not yield the expected result)
     ## check system column for string
-    #if not isinstance(row[dfirtrack_config.CSV_COLUMN_SYSTEM], str):
+    #if not isinstance(row[constance_config.CSV_COLUMN_SYSTEM], str):
     #    messages.error(request, "Value for system in row " + str(row_counter) + " was not a string. System not created.")
     #    # call logger
     #    warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_SYSTEM_COLUMN " + "row_" + str(i) + ":no_string")
     #    continue_system_importer_file_csv = True
 
     # check system column for length of string
-    if len(row[dfirtrack_config.CSV_COLUMN_SYSTEM]) > 50:
+    if len(row[constance_config.CSV_COLUMN_SYSTEM]) > 50:
         messages.error(request, "Value for system in row " + str(row_counter) + " was too long. System not created.")
         # call logger
         warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_SYSTEM_COLUMN " + "row_" + str(row_counter) + ":long_string")
