@@ -44,8 +44,9 @@ def system_importer_file_csv_config_based_config_view(request):
 
             # close popup
             return HttpResponse('<script type="text/javascript">window.close();</script>')
+
         else:
-            # show form page
+            # show form page again
             return render(
                 request,
                 'dfirtrack_main/system/system_importer_file_csv_config_based_config_popup.html',
@@ -121,8 +122,18 @@ def system_importer_file_csv_form_based_config_view(request):
             constance_config.CSV_REMOVE_COMPANY = form.cleaned_data['csv_remove_company']
             constance_config.CSV_REMOVE_TAG = form.cleaned_data['csv_remove_tag']
 
-        # close popup
-        return HttpResponse('<script type="text/javascript">window.close();</script>')
+            # close popup
+            return HttpResponse('<script type="text/javascript">window.close();</script>')
+
+        else:
+            # show form page again
+            return render(
+                request,
+                'dfirtrack_main/system/system_importer_file_csv_form_based_config_popup.html',
+                {
+                    'form': form,
+                }
+            )
 
     else:
 

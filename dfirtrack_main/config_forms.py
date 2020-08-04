@@ -197,6 +197,22 @@ class SystemImporterFileCsvFormbasedConfigForm(forms.Form):
         label = 'Remove / overwrite existing tags for already existing systems',
     )
 
+    def clean(self):
+        """ custom field validation """
+
+        # get form data
+        cleaned_data = super().clean()
+
+        # get relevant values
+        csv_column_system = self.cleaned_data['csv_column_system']
+        csv_column_ip = self.cleaned_data['csv_column_ip']
+
+        # compare column values
+        if csv_column_system == csv_column_ip:
+            raise forms.ValidationError('The columns for system and IP should not have the same values.')
+
+        return cleaned_data
+
 class SystemImporterFileCsvConfigbasedConfigForm(SystemImporterFileCsvFormbasedConfigForm):
     """ system importer CSV config form (config based only) """
 

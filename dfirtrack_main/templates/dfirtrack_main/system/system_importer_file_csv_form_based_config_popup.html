@@ -52,6 +52,18 @@
         </div>
     {% endif %}
 
+    <!-- field errors -->
+    {% if form.errors %}
+        <div class="row">
+            <div class="col">
+                <div class="text-danger">
+                    Field errors:<br>
+                    {{ form.errors }}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
     <!-- general settings block -->
     <div class="row">
 
