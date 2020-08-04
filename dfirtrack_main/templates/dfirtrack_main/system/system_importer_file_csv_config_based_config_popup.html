@@ -40,29 +40,8 @@
 
     {% csrf_token %}
 
-    <!-- general errors -->
-    {% if form.non_field.errors %}
-        <div class="row">
-            <div class="col">
-                <div class="text-danger">
-                    Non field errors:<br>
-                    {{ form.non_field.errors }}
-                </div>
-            </div>
-        </div>
-    {% endif %}
-
-    <!-- field errors -->
-    {% if form.errors %}
-        <div class="row">
-            <div class="col">
-                <div class="text-danger">
-                    Field errors:<br>
-                    {{ form.errors }}
-                </div>
-            </div>
-        </div>
-    {% endif %}
+    <!-- show form related errors -->
+    {% include "dfirtrack_main/includes/form_errors.html" %}
 
     <!-- general settings block -->
     <div class="row">
