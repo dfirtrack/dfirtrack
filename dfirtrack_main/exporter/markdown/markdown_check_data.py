@@ -9,22 +9,15 @@ def check_config(request):
     # reset stop condition
     stop_exporter_markdown = False
 
-    # check MARKDOWN_PATH for string
-    if not isinstance(constance_config.MARKDOWN_PATH, str):
-        messages.error(request, "`MARKDOWN_PATH` is not a string. Check config!")
-        # call logger
-        warning_logger(str(request.user), " EXPORTER_MARKDOWN variable MARKDOWN_PATH no string")
-        stop_exporter_markdown = True
-
-    # check MARKDOWN_PATH for empty string (check only if it actually is a string)
-    if isinstance(constance_config.MARKDOWN_PATH, str) and not constance_config.MARKDOWN_PATH:
+    # check MARKDOWN_PATH for empty string
+    if not constance_config.MARKDOWN_PATH:
         messages.error(request, "`MARKDOWN_PATH` contains an emtpy string. Check config!")
         # call logger
         warning_logger(str(request.user), " EXPORTER_MARKDOWN variable MARKDOWN_PATH empty string")
         stop_exporter_markdown = True
 
     # check MARKDOWN_PATH for existence in file system (check only if it actually is a non-empty string)
-    if isinstance(constance_config.MARKDOWN_PATH, str) and constance_config.MARKDOWN_PATH:
+    if constance_config.MARKDOWN_PATH:
         if not os.path.isdir(constance_config.MARKDOWN_PATH):
             messages.error(request, "`MARKDOWN_PATH` does not exist in file system. Check config or filesystem!")
             # call logger
