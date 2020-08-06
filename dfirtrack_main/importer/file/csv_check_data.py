@@ -1,7 +1,6 @@
 from constance import config as constance_config
 from django.contrib import messages
 from dfirtrack_main.logger.default_logger import warning_logger, critical_logger
-from dfirtrack_main.models import Analysisstatus, Dnsname, Domain, Location, Os, Reason, Serviceprovider, Systemstatus, Systemtype
 
 def check_config(request):
     """ check variables of dfirtrack.config """
