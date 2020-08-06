@@ -86,6 +86,43 @@ function systemtype_add_popup() {
     systemtype_add_popup = window.open("/systemtype/add_popup/", "systemtype_add_popup", "height=600, width=1000");
 }
 
+// popup window for system exporter markdown config
+var system_exporter_markdown_config_popup;
+function system_exporter_markdown_config_popup() {
+    system_exporter_markdown_config_popup = window.open("/system/exporter/markdown/config/", "system_exporter_markdown_config_popup", "height=800, width=600");
+}
+
+// popup window for system exporter spreadsheet csv config
+var system_exporter_spreadsheet_csv_config_popup;
+function system_exporter_spreadsheet_csv_config_popup() {
+    system_exporter_spreadsheet_csv_config_popup = window.open("/system/exporter/spreadsheet/csv/config/", "system_exporter_spreadsheet_csv_config_popup", "height=800, width=600");
+}
+
+// popup window for system exporter spreadsheet xls config
+var system_exporter_spreadsheet_xls_config_popup;
+function system_exporter_spreadsheet_xls_config_popup() {
+    system_exporter_spreadsheet_xls_config_popup = window.open("/system/exporter/spreadsheet/xls/config/", "system_exporter_spreadsheet_xls_config_popup", "height=800, width=1200");
+}
+
+// popup window for system importer file csv config (config-based)
+var system_importer_file_csv_config_based_config_popup;
+function system_importer_file_csv_config_based_config_popup() {
+    system_importer_file_csv_config_based_config_popup = window.open("/system/importer/file/csv/configbased/config/", "system_importer_file_csv_config_based_config_popup", "height=800, width=1800");
+}
+
+// popup window for system importer file csv config (form-based)
+var system_importer_file_csv_form_based_config_popup;
+function system_importer_file_csv_form_based_config_popup() {
+    system_importer_file_csv_form_based_config_popup = window.open("/system/importer/file/csv/formbased/config/", "system_importer_file_csv_form_based_config_popup", "height=800, width=600");
+}
+
+// popup window for artifact exporter spreadsheet xls config
+// TODO: move to 'dfirtrack/dfirtrack_artifacts/static/dfirtrack_artifacts/dfirtrack_artifacts.js' (did not work so far)
+var artifact_exporter_spreadsheet_xls_config_popup;
+function artifact_exporter_spreadsheet_xls_config_popup() {
+        artifact_exporter_spreadsheet_xls_config_popup = window.open("/artifacts/artifact/exporter/spreadsheet/xls/config/", "artifact_exporter_spreadsheet_xls_config_popup", "height=800, width=1200");
+}
+
 // ####################################
 // #
 // # go to top of page button

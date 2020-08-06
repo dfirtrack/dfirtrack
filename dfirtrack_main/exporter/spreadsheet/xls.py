@@ -1,11 +1,8 @@
+from constance import config as constance_config
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from django.shortcuts import redirect
-from django.urls import reverse
-import dfirtrack.config as dfirtrack_config
-from dfirtrack_main.logger.default_logger import info_logger, warning_logger
+from dfirtrack_main.logger.default_logger import info_logger
 from dfirtrack_main.models import Analysisstatus, Reason, Recommendation, System, Systemstatus, Tag
-from .spreadsheet_check_data import check_config, check_worksheet
 from time import strftime
 import xlwt
 
@@ -49,20 +46,6 @@ def style_default():
 @login_required(login_url="/login")
 def system(request):
 
-    # check_config
-    stop_system_exporter_spreadsheet = check_config(request)
-
-    # check_config regarding worksheet variables (only xls exporter)
-    stop_system_exporter_spreadsheet_worksheet = check_worksheet(request)
-
-    # leave system_exporter_spreadsheet_xls if variables caused errors
-    if stop_system_exporter_spreadsheet or stop_system_exporter_spreadsheet_worksheet:
-
-        # call logger
-        warning_logger(str(request.user), " SYSTEM_EXPORTER_SPREADSHEET_XLS_END_WITH_ERRORS")
-        return redirect(reverse('system_list'))
-
-
     """ prepare file including formatting """
 
     # create xls MIME type object
@@ -88,44 +71,44 @@ def system(request):
     headline = []
 
     # check for attribute id
-    if dfirtrack_config.SPREAD_SYSTEM_ID:
+    if constance_config.SPREAD_SYSTEM_ID:
         headline.append('ID')
 
     # append mandatory attribute
     headline.append('System')
 
     # check for remaining attributes
-    if dfirtrack_config.SPREAD_DNSNAME:
+    if constance_config.SPREAD_DNSNAME:
         headline.append('DNS name')
-    if dfirtrack_config.SPREAD_DOMAIN:
+    if constance_config.SPREAD_DOMAIN:
         headline.append('Domain')
-    if dfirtrack_config.SPREAD_SYSTEMSTATUS:
+    if constance_config.SPREAD_SYSTEMSTATUS:
         headline.append('Systemstatus')
-    if dfirtrack_config.SPREAD_ANALYSISSTATUS:
+    if constance_config.SPREAD_ANALYSISSTATUS:
         headline.append('Analysisstatus')
-    if dfirtrack_config.SPREAD_REASON:
+    if constance_config.SPREAD_REASON:
         headline.append('Reason')
-    if dfirtrack_config.SPREAD_RECOMMENDATION:
+    if constance_config.SPREAD_RECOMMENDATION:
         headline.append('Recommendation')
-    if dfirtrack_config.SPREAD_SYSTEMTYPE:
+    if constance_config.SPREAD_SYSTEMTYPE:
         headline.append('Systemtype')
-    if dfirtrack_config.SPREAD_IP:
+    if constance_config.SPREAD_IP:
         headline.append('IP')
-    if dfirtrack_config.SPREAD_OS:
+    if constance_config.SPREAD_OS:
         headline.append('OS')
-    if dfirtrack_config.SPREAD_COMPANY:
+    if constance_config.SPREAD_COMPANY:
         headline.append('Company')
-    if dfirtrack_config.SPREAD_LOCATION:
+    if constance_config.SPREAD_LOCATION:
         headline.append('Location')
-    if dfirtrack_config.SPREAD_SERVICEPROVIDER:
+    if constance_config.SPREAD_SERVICEPROVIDER:
         headline.append('Serviceprovider')
-    if dfirtrack_config.SPREAD_TAG:
+    if constance_config.SPREAD_TAG:
         headline.append('Tag')
-    if dfirtrack_config.SPREAD_CASE:
+    if constance_config.SPREAD_CASE:
         headline.append('Case')
-    if dfirtrack_config.SPREAD_SYSTEM_CREATE_TIME:
+    if constance_config.SPREAD_SYSTEM_CREATE_TIME:
         headline.append('Created')
-    if dfirtrack_config.SPREAD_SYSTEM_MODIFY_TIME:
+    if constance_config.SPREAD_SYSTEM_MODIFY_TIME:
         headline.append('Modified')
 
     # write headline
@@ -158,7 +141,7 @@ def system(request):
         """ check for attribute """
 
         # system id
-        if dfirtrack_config.SPREAD_SYSTEM_ID:
+        if constance_config.SPREAD_SYSTEM_ID:
             entryline.append(system.system_id)
 
         """ append mandatory attribute """
@@ -169,52 +152,52 @@ def system(request):
         """ check for remaining attributes """
 
         # dnsname
-        if dfirtrack_config.SPREAD_DNSNAME:
+        if constance_config.SPREAD_DNSNAME:
             if system.dnsname == None:
                 dnsname = ''
             else:
                 dnsname = system.dnsname.dnsname_name
             entryline.append(dnsname)
         # domain
-        if dfirtrack_config.SPREAD_DOMAIN:
+        if constance_config.SPREAD_DOMAIN:
             if system.domain == None:
                 domain = ''
             else:
                 domain = system.domain.domain_name
             entryline.append(domain)
         # systemstatus
-        if dfirtrack_config.SPREAD_SYSTEMSTATUS:
+        if constance_config.SPREAD_SYSTEMSTATUS:
             entryline.append(system.systemstatus.systemstatus_name)
         # analysisstatus
-        if dfirtrack_config.SPREAD_ANALYSISSTATUS:
+        if constance_config.SPREAD_ANALYSISSTATUS:
             if system.analysisstatus == None:
                 analysisstatus = ''
             else:
                 analysisstatus = system.analysisstatus.analysisstatus_name
             entryline.append(analysisstatus)
         # reason
-        if dfirtrack_config.SPREAD_REASON:
+        if constance_config.SPREAD_REASON:
             if system.reason == None:
                 reason = ''
             else:
                 reason = system.reason.reason_name
             entryline.append(reason)
         # recommendation
-        if dfirtrack_config.SPREAD_RECOMMENDATION:
+        if constance_config.SPREAD_RECOMMENDATION:
             if system.recommendation== None:
                 recommendation = ''
             else:
                 recommendation = system.recommendation.recommendation_name
             entryline.append(recommendation)
         # systemtype
-        if dfirtrack_config.SPREAD_SYSTEMTYPE:
+        if constance_config.SPREAD_SYSTEMTYPE:
             if system.systemtype == None:
                 systemtype = ''
             else:
                 systemtype = system.systemtype.systemtype_name
             entryline.append(systemtype)
         # ip
-        if dfirtrack_config.SPREAD_IP:
+        if constance_config.SPREAD_IP:
             # get all ips of system
             ips_all = system.ip.all()
             # count ips
@@ -233,14 +216,14 @@ def system(request):
                     i = i + 1
             entryline.append(ip)
         # os
-        if dfirtrack_config.SPREAD_OS:
+        if constance_config.SPREAD_OS:
             if system.os == None:
                 os = ''
             else:
                 os = system.os.os_name
             entryline.append(os)
         # company
-        if dfirtrack_config.SPREAD_COMPANY:
+        if constance_config.SPREAD_COMPANY:
             companys_all = system.company.all()
             # count companies
             n = system.company.count()
@@ -258,21 +241,21 @@ def system(request):
                     i = i + 1
             entryline.append(company)
         # location
-        if dfirtrack_config.SPREAD_LOCATION:
+        if constance_config.SPREAD_LOCATION:
             if system.location == None:
                 location = ''
             else:
                 location = system.location.location_name
             entryline.append(location)
         # serviceprovider
-        if dfirtrack_config.SPREAD_SERVICEPROVIDER:
+        if constance_config.SPREAD_SERVICEPROVIDER:
             if system.serviceprovider == None:
                 serviceprovider = ''
             else:
                 serviceprovider = system.serviceprovider.serviceprovider_name
             entryline.append(serviceprovider)
         # tag
-        if dfirtrack_config.SPREAD_TAG:
+        if constance_config.SPREAD_TAG:
             tags_all = system.tag.all()
             # count tags
             n = system.tag.count()
@@ -290,7 +273,7 @@ def system(request):
                     i = i + 1
             entryline.append(tag)
         # case
-        if dfirtrack_config.SPREAD_CASE:
+        if constance_config.SPREAD_CASE:
             cases_all = system.case.all()
             # count cases
             n = system.case.count()
@@ -308,11 +291,11 @@ def system(request):
                     i = i + 1
             entryline.append(case)
         # system create time
-        if dfirtrack_config.SPREAD_SYSTEM_CREATE_TIME:
+        if constance_config.SPREAD_SYSTEM_CREATE_TIME:
             system_create_time = system.system_create_time.strftime('%Y-%m-%d %H:%M')
             entryline.append(system_create_time)
         # system modify time
-        if dfirtrack_config.SPREAD_SYSTEM_MODIFY_TIME:
+        if constance_config.SPREAD_SYSTEM_MODIFY_TIME:
             system_modify_time = system.system_modify_time.strftime('%Y-%m-%d %H:%M')
             entryline.append(system_modify_time)
 
@@ -337,7 +320,7 @@ def system(request):
     """ add worksheet for systemstatus """
 
     # check all conditions
-    if dfirtrack_config.SPREAD_WORKSHEET_SYSTEMSTATUS and dfirtrack_config.SPREAD_SYSTEMSTATUS and Systemstatus.objects.count() != 0:
+    if constance_config.SPREAD_WORKSHEET_SYSTEMSTATUS and constance_config.SPREAD_SYSTEMSTATUS and Systemstatus.objects.count() != 0:
 
         # define name of worksheet within file
         worksheet_systemstatus = workbook.add_sheet('systemstatus')
@@ -389,7 +372,7 @@ def system(request):
     """ add worksheet for analysisstatus """
 
     # check all conditions
-    if dfirtrack_config.SPREAD_WORKSHEET_ANALYSISSTATUS and dfirtrack_config.SPREAD_ANALYSISSTATUS and Analysisstatus.objects.count() != 0:
+    if constance_config.SPREAD_WORKSHEET_ANALYSISSTATUS and constance_config.SPREAD_ANALYSISSTATUS and Analysisstatus.objects.count() != 0:
 
         # define name of worksheet within file
         worksheet_analysisstatus = workbook.add_sheet('analysisstatus')
@@ -441,7 +424,7 @@ def system(request):
     """ add worksheet for reason """
 
     # check all conditions
-    if dfirtrack_config.SPREAD_WORKSHEET_REASON and dfirtrack_config.SPREAD_REASON and Reason.objects.count() != 0:
+    if constance_config.SPREAD_WORKSHEET_REASON and constance_config.SPREAD_REASON and Reason.objects.count() != 0:
 
         # define name of worksheet within file
         worksheet_reason = workbook.add_sheet('reasons')
@@ -493,7 +476,7 @@ def system(request):
     """ add worksheet for recommendation """
 
     # check all conditions
-    if dfirtrack_config.SPREAD_WORKSHEET_RECOMMENDATION and dfirtrack_config.SPREAD_RECOMMENDATION and Recommendation.objects.count() != 0:
+    if constance_config.SPREAD_WORKSHEET_RECOMMENDATION and constance_config.SPREAD_RECOMMENDATION and Recommendation.objects.count() != 0:
 
         # define name of worksheet within file
         worksheet_recommendation = workbook.add_sheet('recommendations')
@@ -545,7 +528,7 @@ def system(request):
     """ add worksheet for tag """
 
     # check all conditions
-    if dfirtrack_config.SPREAD_WORKSHEET_TAG and dfirtrack_config.SPREAD_TAG and Tag.objects.count() != 0:
+    if constance_config.SPREAD_WORKSHEET_TAG and constance_config.SPREAD_TAG and Tag.objects.count() != 0:
 
         # define name of worksheet within file
         worksheet_tag = workbook.add_sheet('tags')
