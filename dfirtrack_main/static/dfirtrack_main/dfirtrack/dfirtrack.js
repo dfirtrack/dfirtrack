@@ -107,13 +107,13 @@ function system_exporter_spreadsheet_xls_config_popup() {
 // popup window for system importer file csv config (config-based)
 var system_importer_file_csv_config_based_config_popup;
 function system_importer_file_csv_config_based_config_popup() {
-    system_importer_file_csv_config_based_config_popup = window.open("/system/importer/file/csv/configbased/config/", "system_importer_file_csv_config_based_config_popup", "height=800, width=1200");
+    system_importer_file_csv_config_based_config_popup = window.open("/system/importer/file/csv/configbased/config/", "system_importer_file_csv_config_based_config_popup", "height=800, width=1800");
 }
 
 // popup window for system importer file csv config (form-based)
 var system_importer_file_csv_form_based_config_popup;
 function system_importer_file_csv_form_based_config_popup() {
-    system_importer_file_csv_form_based_config_popup = window.open("/system/importer/file/csv/formbased/config/", "system_importer_file_csv_form_based_config_popup", "height=800, width=1200");
+    system_importer_file_csv_form_based_config_popup = window.open("/system/importer/file/csv/formbased/config/", "system_importer_file_csv_form_based_config_popup", "height=800, width=600");
 }
 
 // popup window for artifact exporter spreadsheet xls config

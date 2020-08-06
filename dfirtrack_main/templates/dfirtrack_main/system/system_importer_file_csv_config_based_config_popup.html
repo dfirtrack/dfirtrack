@@ -28,9 +28,11 @@
 
 <!-- explanation text -->
 <div class="row">
-    <div class="col-12">
+    <div class="col">
         <div class="card card-body bg-dark border-light top-distance bottom-distance copy-false">
         You can choose how different system attributes are handled during CSV file import.
+        No other settings will be set in the file upload form.
+        All configuration takes place here.
         </div>
     </div>
 </div>
@@ -43,88 +45,89 @@
     <!-- show form related errors -->
     {% include "dfirtrack_main/includes/form_errors.html" %}
 
-    <!-- general settings block -->
+    <!-- outer row -->
     <div class="row">
 
-        <div class="col-6">
-            <div class="card card-body bg-dark border-light top-distance">
+    <!-- TODO: fix arrangement of blocks / cards -->
 
-                <h5>
-                    General settings
-                </h5>
+        <!-- left column -->
+        <div class="col-4">
 
-                <table>
-                    <tr><td>{{ form.csv_skip_existing_system }}</td> <td>{{ form.csv_skip_existing_system.label }}</td></tr>
-                    <tr><td>{{ form.csv_column_system }}</td> <td>{{ form.csv_column_system.label }}</td></tr>
-                    <tr><td>{{ form.csv_headline }}</td> <td>{{ form.csv_headline.label }}</td></tr>
-                </table>
+            <!-- general settings block -->
+            <div class="row">
 
+                <div class="card card-body bg-dark border-light top-distance">
+
+                    <h5>
+                        General settings
+                    </h5>
+
+                    <table>
+                        <tr><td>{{ form.csv_skip_existing_system }}</td> <td>{{ form.csv_skip_existing_system.label }}</td></tr>
+                        <tr><td>{{ form.csv_column_system }}</td> <td>{{ form.csv_column_system.label }}</td></tr>
+                        <tr><td>{{ form.csv_headline }}</td> <td>{{ form.csv_headline.label }}</td></tr>
+                    </table>
+
+                </div>
+
+            <!-- general settings block -->
             </div>
+
+            <!-- IP related settings block -->
+            <div class="row">
+
+                <div class="card card-body bg-dark border-light top-distance">
+
+                    <h5>
+                        IP related settings
+                    </h5>
+
+                    <table class="bottom-distance">
+                        <tr><td>{{ form.csv_choice_ip }}</td> <td>{{ form.csv_choice_ip.label }}</td></tr>
+                    </table>
+
+                    The following settings are only taken into account if IP addresses have been selected.
+
+                    <table class="top-distance">
+                        <tr><td>{{ form.csv_remove_ip }}</td> <td>{{ form.csv_remove_ip.label }}</td></tr>
+                        <tr><td>{{ form.csv_column_ip }}</td> <td>{{ form.csv_column_ip.label }}</td></tr>
+                    </table>
+
+                </div>
+
+            <!-- IP related settings block -->
+            </div>
+
+            <!-- overriding settings block -->
+            <div class="row">
+
+                <div class="card card-body bg-dark border-light top-distance">
+
+                    <h5>
+                        Overriding settings
+                    </h5>
+
+                    The following settings will remove existing many-to-many relationships, before adding new ones (only applies for already existing systems).
+
+                    <table class="top-distance">
+                        <tr><td>{{ form.csv_remove_case }}</td> <td>{{ form.csv_remove_case.label }}</td></tr>
+                        <tr><td>{{ form.csv_remove_company }}</td> <td>{{ form.csv_remove_company.label }}</td></tr>
+                        <tr><td>{{ form.csv_remove_tag }}</td> <td>{{ form.csv_remove_tag.label }}</td></tr>
+                    </table>
+
+                </div>
+
+            <!-- overriding settings block -->
+            </div>
+
+        <!-- left column -->
         </div>
 
-    <!-- general settings block -->
-    </div>
+        <!-- middle column -->
+        <div class="col-4">
 
-    <!-- IP related settings block -->
-    <div class="row">
-
-        <div class="col-6">
+            <!-- config based settings block -->
             <div class="card card-body bg-dark border-light top-distance">
-
-                <h5>
-                    IP related settings
-                </h5>
-
-                <table class="bottom-distance">
-                    <tr><td>{{ form.csv_choice_ip }}</td> <td>{{ form.csv_choice_ip.label }}</td></tr>
-                </table>
-
-                The following settings are only taken into account if IP addresses have been selected.
-
-                <table class="top-distance">
-                    <tr><td>{{ form.csv_remove_ip }}</td> <td>{{ form.csv_remove_ip.label }}</td></tr>
-                    <tr><td>{{ form.csv_column_ip }}</td> <td>{{ form.csv_column_ip.label }}</td></tr>
-                </table>
-
-            </div>
-        </div>
-
-    <!-- IP related settings block -->
-    </div>
-
-    <!-- overriding settings block -->
-    <div class="row">
-
-        <div class="col-6">
-            <div class="card card-body bg-dark border-light top-distance">
-
-                <h5>
-                    Overriding settings
-                </h5>
-
-                The following settings will remove existing many-to-many relationships, before adding new ones (only applies for already existing systems).
-
-                <table class="top-distance">
-                    <tr><td>{{ form.csv_remove_case }}</td> <td>{{ form.csv_remove_case.label }}</td></tr>
-                    <tr><td>{{ form.csv_remove_company }}</td> <td>{{ form.csv_remove_company.label }}</td></tr>
-                    <tr><td>{{ form.csv_remove_tag }}</td> <td>{{ form.csv_remove_tag.label }}</td></tr>
-                </table>
-
-            </div>
-        </div>
-
-    <!-- overriding settings block -->
-    </div>
-
-    <!-- config based settings block -->
-    <div class="row">
-
-        <div class="col-6">
-            <div class="card card-body bg-dark border-light top-distance">
-
-                <h5>
-                    Config based settings
-                </h5>
 
                 <h5>
                     Mandatory settings
@@ -153,9 +156,14 @@
                 {% endfor %}
 
             </div>
+            <!-- config based settings block -->
+
+        <!-- middle column -->
         </div>
 
-        <div class="col-6">
+        <!-- right column -->
+        <div class="col-4">
+
             <div class="card card-body bg-dark border-light top-distance">
 
                 <h5>
@@ -251,9 +259,11 @@
                 {% endfor %}
 
             </div>
+
+        <!-- right column -->
         </div>
 
-    <!-- config based settings block -->
+    <!-- outer row -->
     </div>
 
     <!-- button row -->
