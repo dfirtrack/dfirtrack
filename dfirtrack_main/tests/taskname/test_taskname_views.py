@@ -241,3 +241,65 @@ class TasknameViewTestCase(TestCase):
         response = self.client.get('/taskname/' + str(taskname_1.taskname_id) + '/edit', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_taskname_close_not_logged_in(self):
+        """ test close view """
+
+        # get object
+        taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
+        # create url
+        destination = '/login/?next=' + urllib.parse.quote('/taskname/' + str(taskname_1.taskname_id) + '/close/', safe='')
+        # get response
+        response = self.client.get('/taskname/' + str(taskname_1.taskname_id) + '/close/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_taskname_close_logged_in(self):
+        """ test close view """
+
+        # get object
+        taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
+        # login testuser
+        login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        # get response
+        response = self.client.get('/taskname/' + str(taskname_1.taskname_id) + '/close/')
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_taskname_close_template(self):
+        """ test close view """
+
+        # get object
+        taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
+        # login testuser
+        login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        # get response
+        response = self.client.get('/taskname/' + str(taskname_1.taskname_id) + '/close/')
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/taskname/taskname_close.html')
+
+    def test_taskname_close_get_user_context(self):
+        """ test close view """
+
+        # get object
+        taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
+        # login testuser
+        login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        # get response
+        response = self.client.get('/taskname/' + str(taskname_1.taskname_id) + '/close/')
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_taskname')
+
+    def test_taskname_close_redirect(self):
+        """ test close view """
+
+        # get object
+        taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
+        # login testuser
+        login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        # create url
+        destination = urllib.parse.quote('/taskname/' + str(taskname_1.taskname_id) + '/close/', safe='/')
+        # get response
+        response = self.client.get('/taskname/' + str(taskname_1.taskname_id) + '/close', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
