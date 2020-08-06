@@ -88,7 +88,9 @@ class TasknameClose(LoginRequiredMixin, UpdateView):
 
     def post(self, request, *args, **kwargs):
         taskname = self.get_object()
-        tasks = Task.objects.filter(taskname=taskname)
+        # TODO: at the moment all tasks with this taskname are queried and touched (especially `task_finished_time` and `task_modify_time`)
+        # something like `tasks = Task.objects.filter(Q(taskname=taskname) & ~Q(taskstatus_done_id)).order_by('task_id')` is necessary here
+        tasks = Task.objects.filter(taskname=taskname).order_by('task_id')
         task_ids = []
         for task in tasks:
             # Note: Code duplication from task_views.TaskFinish.get() -> move this to helper method? best place for this?
