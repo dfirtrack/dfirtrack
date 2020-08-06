@@ -13,7 +13,7 @@ class SystemImporterFileCsvFormbasedForm(forms.ModelForm, SystemImporterFileCsvC
 
     # reorder field choices
     reason = forms.ModelChoiceField(
-        label = gettext_lazy('Reason'),
+        label = gettext_lazy('Reason for investigation'),
         queryset = Reason.objects.order_by('reason_name'),
         required = False,
         widget = forms.RadioSelect(),
@@ -25,7 +25,7 @@ class SystemImporterFileCsvFormbasedForm(forms.ModelForm, SystemImporterFileCsvC
         widget = forms.RadioSelect(),
     )
     dnsname = forms.ModelChoiceField(
-        label = gettext_lazy('Dnsname'),
+        label = gettext_lazy('DNS name'),
         queryset = Dnsname.objects.order_by('dnsname_name'),
         required = False,
         widget = forms.RadioSelect(),
@@ -57,7 +57,7 @@ class SystemImporterFileCsvFormbasedForm(forms.ModelForm, SystemImporterFileCsvC
 
     # case
 
-    # create empty list for available case
+    # create empty list for available cases
     case_choices = []
     # get all cases
     case_all = Case.objects.order_by('case_name')
@@ -69,12 +69,12 @@ class SystemImporterFileCsvFormbasedForm(forms.ModelForm, SystemImporterFileCsvC
         widget = forms.CheckboxSelectMultiple(),
         required = False,
         choices = case_choices,
-        label = 'Set cases',
+        label = 'Cases',
     )
 
     # company
 
-    # create empty list for available company
+    # create empty list for available companies
     company_choices = []
     # get all companies
     company_all = Company.objects.order_by('company_name')
@@ -86,12 +86,12 @@ class SystemImporterFileCsvFormbasedForm(forms.ModelForm, SystemImporterFileCsvC
         widget = forms.CheckboxSelectMultiple(),
         required = False,
         choices = company_choices,
-        label = 'Set companies',
+        label = 'Companies',
     )
 
     # tag
 
-    # create empty list for available tag
+    # create empty list for available tags
     tag_choices = []
     # get all tags
     tag_all = Tag.objects.order_by('tag_name')
@@ -103,7 +103,7 @@ class SystemImporterFileCsvFormbasedForm(forms.ModelForm, SystemImporterFileCsvC
         widget = forms.CheckboxSelectMultiple(),
         required = False,
         choices = tag_choices,
-        label = 'Set tags',
+        label = 'Tags',
     )
 
     class Meta:
@@ -122,6 +122,10 @@ class SystemImporterFileCsvFormbasedForm(forms.ModelForm, SystemImporterFileCsvC
             'serviceprovider',
         )
 
+        # non default form labeling
+        labels = {
+            'systemstatus': gettext_lazy('Systemstatus (*)'),
+        }
 
         # define widgets for choosen fields
         widgets = {
