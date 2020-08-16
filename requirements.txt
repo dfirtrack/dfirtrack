@@ -1,5 +1,4 @@
 django==2.2.13
-django-constance
 django_q==1.1.0
 djangorestframework
 gunicorn
