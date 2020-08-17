@@ -1,6 +1,7 @@
 django==2.2.13
 django_q==1.1.0
 djangorestframework
+gitpython
 gunicorn
 psycopg2-binary
 PyYAML
