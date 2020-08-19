@@ -8,9 +8,6 @@ from dfirtrack_main.models import System
 from time import strftime
 import yaml
 
-# get config model
-model = SystemExporterMarkdownConfigModel.objects.get(system_exporter_markdown_config_name = 'SystemExporterMarkdownConfig')
-
 def write_report_systemsorted(system, request_user):
     """ function that prepares return values and pathes """
 
@@ -48,6 +45,9 @@ def write_report_systemsorted(system, request_user):
 
     # return shortened path for mkdocs.yml ('value')
     rpath = "systems/" + path + ".md"
+
+    # get config model
+    model = SystemExporterMarkdownConfigModel.objects.get(system_exporter_markdown_config_name = 'SystemExporterMarkdownConfig')
 
     # finish path for markdown file
     path = model.markdown_path + "/docs/systems/" + path + ".md"
@@ -125,6 +125,9 @@ def systemsorted_async(request_user):
         systemlist.append(systemdict)
         # set dict to empty dict (needed for mkdocs.yml)
         systemdict = {}
+
+    # get config model
+    model = SystemExporterMarkdownConfigModel.objects.get(system_exporter_markdown_config_name = 'SystemExporterMarkdownConfig')
 
     # get path for mkdocs.yml
     mkdconfpath = model.markdown_path + "/mkdocs.yml"

@@ -11,9 +11,6 @@ import re
 from time import strftime
 import yaml
 
-# get config model
-model = SystemExporterMarkdownConfigModel.objects.get(system_exporter_markdown_config_name = 'SystemExporterMarkdownConfig')
-
 def write_report_domainsorted(system, request_user):
     """ function that prepares return values and pathes """
 
@@ -61,6 +58,9 @@ def write_report_domainsorted(system, request_user):
         rpath = "systems/" + domain_name + "/" + path + ".md"
     else:
         rpath = "systems/" + "other_domains/" + path + ".md"
+
+    # get config model
+    model = SystemExporterMarkdownConfigModel.objects.get(system_exporter_markdown_config_name = 'SystemExporterMarkdownConfig')
 
     # finish path for markdown file
     if system.domain != None:
@@ -118,6 +118,9 @@ def domainsorted_async(request_user):
 
     # get all domains
     domains = Domain.objects.all()
+
+    # get config model
+    model = SystemExporterMarkdownConfigModel.objects.get(system_exporter_markdown_config_name = 'SystemExporterMarkdownConfig')
 
     # (re)create markdown directory for existing domains
     if len(domains) > 0:
