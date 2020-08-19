@@ -97,3 +97,48 @@ class SystemExporterSpreadsheetXlsConfigModel(models.Model):
     spread_xls_worksheet_reason = models.BooleanField(blank=True)
     spread_xls_worksheet_recommendation = models.BooleanField(blank=True)
     spread_xls_worksheet_tag = models.BooleanField(blank=True)
+
+class SystemImporterFileCsvConfigbasedConfigModel(models.Model):
+
+    # primary key
+    system_importer_file_csv_configbased_config_name = models.CharField(max_length=50, primary_key=True)
+
+    # config fields
+    csv_skip_existing_system = models.BooleanField(blank=True)
+    csv_column_system = models.IntegerField()
+    csv_headline = models.BooleanField(blank=True)
+    csv_choice_ip = models.BooleanField(blank=True)
+    csv_remove_ip = models.BooleanField(blank=True)
+    csv_column_ip = models.IntegerField()
+    csv_remove_case = models.BooleanField(blank=True)
+    csv_remove_company = models.BooleanField(blank=True)
+    csv_remove_tag = models.BooleanField(blank=True)
+    # TODO: find an alternative for the selection
+    csv_default_systemstatus = models.IntegerField()
+    csv_default_analysisstatus = models.IntegerField()
+    csv_default_reason = models.IntegerField()
+    csv_default_domain = models.IntegerField()
+    csv_default_dnsname = models.IntegerField()
+    csv_default_systemtype = models.IntegerField()
+    csv_default_os = models.IntegerField()
+    csv_default_location = models.IntegerField()
+    csv_default_serviceprovider = models.IntegerField()
+    csv_default_case = models.IntegerField()
+    csv_default_company = models.IntegerField()
+    csv_default_tag = models.IntegerField()
+
+class SystemImporterFileCsvFormbasedConfigModel(models.Model):
+
+    # primary key
+    system_importer_file_csv_formbased_config_name = models.CharField(max_length=50, primary_key=True)
+
+    # config fields
+    csv_skip_existing_system = models.BooleanField(blank=True)
+    csv_column_system = models.IntegerField()
+    csv_headline = models.BooleanField(blank=True)
+    csv_choice_ip = models.BooleanField(blank=True)
+    csv_remove_ip = models.BooleanField(blank=True)
+    csv_column_ip = models.IntegerField()
+    csv_remove_case = models.BooleanField(blank=True)
+    csv_remove_company = models.BooleanField(blank=True)
+    csv_remove_tag = models.BooleanField(blank=True)

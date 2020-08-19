@@ -1,22 +1,21 @@
-from constance import config as constance_config
 from django.contrib import messages
 from dfirtrack_main.logger.default_logger import warning_logger, critical_logger
 
-def check_config(request):
+def check_config(request, model):
     """ check variables of dfirtrack.config """
 
     # reset stop condition
     stop_system_importer_file_csv = False
 
     # check CSV_COLUMN_SYSTEM for value
-    if not 1<= constance_config.CSV_COLUMN_SYSTEM <= 256:
+    if not 1<= model.csv_column_system <= 256:
         messages.error(request, "`CSV_COLUMN_SYSTEM` is outside the allowed range. Check config!")
         # call logger
         warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_COLUMN_SYSTEM out of range")
         stop_system_importer_file_csv = True
 
     # check CSV_COLUMN_IP for value
-    if not 1<= constance_config.CSV_COLUMN_IP <= 256:
+    if not 1<= model.csv_column_ip <= 256:
         messages.error(request, "`CSV_COLUMN_IP` is outside the allowed range. Check config!")
         # call logger
         warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_COLUMN_IP out of range")
@@ -50,21 +49,21 @@ def check_file(request, rows):
         # return False if not successful
         return False
 
-def check_row(request, row, row_counter):
+def check_row(request, row, row_counter, model):
     """ check some values of csv rows """
 
     # reset continue condition
     continue_system_importer_file_csv = False
 
     # check system column for empty string
-    if not row[constance_config.CSV_COLUMN_SYSTEM - 1]:
+    if not row[model.csv_column_system - 1]:
         messages.error(request, "Value for system in row " + str(row_counter) + " was an empty string. System not created.")
         # call logger
         warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_SYSTEM_COLUMN " + "row_" + str(row_counter) + ":empty_column")
         continue_system_importer_file_csv = True
 
     # check system column for length of string
-    if len(row[constance_config.CSV_COLUMN_SYSTEM - 1]) > 50:
+    if len(row[model.csv_column_system - 1]) > 50:
         messages.error(request, "Value for system in row " + str(row_counter) + " was too long. System not created.")
         # call logger
         warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_SYSTEM_COLUMN " + "row_" + str(row_counter) + ":long_string")

@@ -1,10 +1,10 @@
-from constance import config as constance_config
 import csv
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils import timezone
+from dfirtrack_config.models import SystemImporterFileCsvConfigbasedConfigModel
 from dfirtrack_main.importer.file.csv_check_data import check_config, check_file, check_row
 from dfirtrack_main.importer.file.csv_importer_forms import SystemImporterFileCsvConfigbasedForm
 from dfirtrack_main.importer.file.csv_messages import final_messages
@@ -15,6 +15,9 @@ from io import TextIOWrapper
 
 @login_required(login_url="/login")
 def system(request):
+
+    # get config model
+    model = SystemImporterFileCsvConfigbasedConfigModel.objects.get(system_importer_file_csv_configbased_config_name = 'SystemImporterFileCsvConfigbasedConfig')
 
     # form was valid to post
     if request.method == "POST":
@@ -54,14 +57,14 @@ def system(request):
         for row in rows:
 
             # skip first row in case of headline
-            if row_counter == 1 and constance_config.CSV_HEADLINE is True:
+            if row_counter == 1 and model.csv_headline is True:
                 # autoincrement row counter
                 row_counter += 1
                 # leave loop for headline row
                 continue
 
             # check row for valid system values
-            continue_system_importer_file_csv = check_row(request, row, row_counter)
+            continue_system_importer_file_csv = check_row(request, row, row_counter, model)
             # leave loop for this row if there are invalid values
             if continue_system_importer_file_csv:
                 # autoincrement row counter
@@ -69,7 +72,7 @@ def system(request):
                 continue
 
             # get system name (decremented by one because index starts with zero: user provides 1 -> first column in CSV has index 0)
-            system_name = row[constance_config.CSV_COLUMN_SYSTEM - 1]
+            system_name = row[model.csv_column_system - 1]
 
             # get all systems with this system_name
             systemquery = System.objects.filter(system_name=system_name)
@@ -80,7 +83,7 @@ def system(request):
             if len(systemquery) == 1:
 
                 # skip if system already exists (depending on CSV_SKIP_EXISTING_SYSTEM)
-                if constance_config.CSV_SKIP_EXISTING_SYSTEM:
+                if model.csv_skip_existing_system:
 
                     # autoincrement counter
                     systems_skipped_counter += 1
@@ -90,13 +93,13 @@ def system(request):
                     continue
 
                 # modify existing system (depending on CSV_SKIP_EXISTING_SYSTEM)
-                elif not constance_config.CSV_SKIP_EXISTING_SYSTEM:
+                elif not model.csv_skip_existing_system:
 
                     # get existing system object
                     system = System.objects.get(system_name=system_name)
 
                     # change attributes
-                    system = optional_system_attributes(system)
+                    system = optional_system_attributes(system, model)
 
                     # change mandatory meta attributes
                     system.system_modify_time = timezone.now()
@@ -106,13 +109,13 @@ def system(request):
                     system.save()
 
                     # change many2many
-                    system = case_attributes(system, constance_config.CSV_DEFAULT_CASE)
-                    system = company_attributes(system, constance_config.CSV_DEFAULT_COMPANY)
-                    system = tag_attributes(system, constance_config.CSV_DEFAULT_TAG)
+                    system = case_attributes(system, model.csv_default_case, model)
+                    system = company_attributes(system, model.csv_default_company, model)
+                    system = tag_attributes(system, model.csv_default_tag, model)
 
                     # change ip addresses
-                    if constance_config.CSV_CHOICE_IP:
-                        system = ip_attributes(system, request, row, row_counter)
+                    if model.csv_choice_ip:
+                        system = ip_attributes(system, request, row, row_counter, model)
 
                     # autoincrement systems_updated_counter
                     systems_updated_counter += 1
@@ -134,7 +137,7 @@ def system(request):
                 system.system_name = system_name
                 
                 # add attributes
-                system = optional_system_attributes(system)
+                system = optional_system_attributes(system, model)
                 
                 # add mandatory meta attributes
                 system.system_modify_time = timezone.now()
@@ -145,13 +148,13 @@ def system(request):
                 system.save()
                 
                 # add many2many
-                system = case_attributes(system, constance_config.CSV_DEFAULT_CASE)
-                system = company_attributes(system, constance_config.CSV_DEFAULT_COMPANY)
-                system = tag_attributes(system, constance_config.CSV_DEFAULT_TAG)
+                system = case_attributes(system, model.csv_default_case, model)
+                system = company_attributes(system, model.csv_default_company, model)
+                system = tag_attributes(system, model.csv_default_tag, model)
 
                 # add ip addresses
-                if constance_config.CSV_CHOICE_IP:
-                    system = ip_attributes(system, request, row, row_counter)
+                if model.csv_choice_ip:
+                    system = ip_attributes(system, request, row, row_counter, model)
 
                 # autoincrement systems_created_counter
                 systems_created_counter += 1
@@ -172,15 +175,18 @@ def system(request):
 
     else:
 
+        # get config model
+        model = SystemImporterFileCsvConfigbasedConfigModel.objects.get(system_importer_file_csv_configbased_config_name = 'SystemImporterFileCsvConfigbasedConfig')
+
         # check config before showing form
-        stop_system_importer_file_csv = check_config(request)
+        stop_system_importer_file_csv = check_config(request, model)
 
         # leave system_importer_file_csv if variables caused errors
         if stop_system_importer_file_csv:
             return redirect(reverse('system_list'))
 
         # show warning if existing systems will be updated
-        if not constance_config.CSV_SKIP_EXISTING_SYSTEM:
+        if not model.csv_skip_existing_system:
             messages.warning(request, 'WARNING: Existing systems will be updated!')
 
         # get empty form

@@ -1,4 +1,3 @@
-from constance import config as constance_config
 from django.contrib import messages
 from dfirtrack_main.logger.default_logger import warning_logger
 from dfirtrack_main.models import Analysisstatus, Case, Company, Dnsname, Domain, Ip, Location, Os, Reason, Serviceprovider, System, Systemstatus, Systemtype, Tag, Tagcolor
@@ -22,44 +21,44 @@ def check_and_create_ip(column_ip, request, row_counter):
 
     return ip
 
-def optional_system_attributes(system):
+def optional_system_attributes(system, model):
     """ system attributes are set depending on config """
 
     # add or change attributes (set via config)
 
     # systemstatus
-    system.systemstatus = Systemstatus.objects.get(systemstatus_id = constance_config.CSV_DEFAULT_SYSTEMSTATUS)
+    system.systemstatus = Systemstatus.objects.get(systemstatus_id = model.csv_default_systemstatus)
     # analysisstatus
-    system.analysisstatus = Analysisstatus.objects.get(analysisstatus_id = constance_config.CSV_DEFAULT_ANALYSISSTATUS)
+    system.analysisstatus = Analysisstatus.objects.get(analysisstatus_id = model.csv_default_analysisstatus)
     # reason (set only, if something was submitted)
-    if constance_config.CSV_DEFAULT_REASON:
-        system.reason = Reason.objects.get(reason_id = constance_config.CSV_DEFAULT_REASON)
+    if model.csv_default_reason:
+        system.reason = Reason.objects.get(reason_id = model.csv_default_reason)
     # domain (set only, if something was submitted)
-    if constance_config.CSV_DEFAULT_DOMAIN:
-        system.domain = Domain.objects.get(domain_id = constance_config.CSV_DEFAULT_DOMAIN)
+    if model.csv_default_domain:
+        system.domain = Domain.objects.get(domain_id = model.csv_default_domain)
     # dnsname (set only, if something was submitted)
-    if constance_config.CSV_DEFAULT_DNSNAME:
-        system.dnsname = Dnsname.objects.get(dnsname_id = constance_config.CSV_DEFAULT_DNSNAME)
+    if model.csv_default_dnsname:
+        system.dnsname = Dnsname.objects.get(dnsname_id = model.csv_default_dnsname)
     # systemtype (set only, if something was submitted)
-    if constance_config.CSV_DEFAULT_SYSTEMTYPE:
-        system.systemtype = Systemtype.objects.get(systemtype_id = constance_config.CSV_DEFAULT_SYSTEMTYPE)
+    if model.csv_default_systemtype:
+        system.systemtype = Systemtype.objects.get(systemtype_id = model.csv_default_systemtype)
     # os (set only, if something was submitted)
-    if constance_config.CSV_DEFAULT_OS:
-        system.os = Os.objects.get(os_id = constance_config.CSV_DEFAULT_OS)
+    if model.csv_default_os:
+        system.os = Os.objects.get(os_id = model.csv_default_os)
     # location (set only, if something was submitted)
-    if constance_config.CSV_DEFAULT_LOCATION:
-        system.location = Location.objects.get(location_id = constance_config.CSV_DEFAULT_LOCATION)
+    if model.csv_default_location:
+        system.location = Location.objects.get(location_id = model.csv_default_location)
     # serviceprovider (set only, if something was submitted)
-    if constance_config.CSV_DEFAULT_SERVICEPROVIDER:
-        system.serviceprovider = Serviceprovider.objects.get(serviceprovider_id = constance_config.CSV_DEFAULT_SERVICEPROVIDER)
+    if model.csv_default_serviceprovider:
+        system.serviceprovider = Serviceprovider.objects.get(serviceprovider_id = model.csv_default_serviceprovider)
 
     # return system object enriched with attributes
     return system
 
-def case_attributes(system, caselist):
+def case_attributes(system, caselist, model):
 
     # remove existing companies (not relevant for newly created systems)
-    if constance_config.CSV_REMOVE_CASE:
+    if model.csv_remove_case:
         # remove many to many relation between system and case without deleting existing case objects (important if other systems have the same companies)
         system.case.clear()
 
@@ -73,10 +72,10 @@ def case_attributes(system, caselist):
     # return system object enriched with attributes
     return system
 
-def company_attributes(system, companylist):
+def company_attributes(system, companylist, model):
 
     # remove existing companies (not relevant for newly created systems)
-    if constance_config.CSV_REMOVE_COMPANY:
+    if model.csv_remove_company:
         # remove many to many relation between system and company without deleting existing company objects (important if other systems have the same companies)
         system.company.clear()
 
@@ -90,10 +89,10 @@ def company_attributes(system, companylist):
     # return system object enriched with attributes
     return system
 
-def tag_attributes(system, taglist):
+def tag_attributes(system, taglist, model):
 
     # remove existing tags (not relevant for newly created systems)
-    if constance_config.CSV_REMOVE_TAG:
+    if model.csv_remove_tag:
         # remove many to many relation between system and tag without deleting existing tag objects (important if other systems have the same tags)
         system.tag.clear()
 
@@ -107,16 +106,16 @@ def tag_attributes(system, taglist):
     # return system object enriched with attributes
     return system
 
-def ip_attributes(system, request, row, row_counter):
+def ip_attributes(system, request, row, row_counter, model):
     """ IP addresses are set depending on config """
 
     # remove existing IP addresses for this system (not relevant for newly created systems)
-    if constance_config.CSV_REMOVE_IP:
+    if model.csv_remove_ip:
         # remove many to many relation between system and ip without deleting existing ip objects (important if other systems have the same IP address)
         system.ip.clear()
 
     # get ip address from CSV (decremented by one because index starts with zero: user provides 2 -> second column in CSV has index 1)
-    column_ip = row[constance_config.CSV_COLUMN_IP - 1]
+    column_ip = row[model.csv_column_ip - 1]
     # check and create ip address
     ip_address = check_and_create_ip(column_ip, request, row_counter)
     # add ip address

@@ -238,80 +238,83 @@ class SystemExporterSpreadsheetXlsConfigForm(SystemExporterSpreadsheetCsvConfigF
         label = 'Export worksheet to explain tag',
     )
 
-#class SystemImporterFileCsvFormbasedConfigForm(forms.Form):
-#    """ system importer CSV config form (config and form based) """
-#
-#    # general settings
-#    csv_skip_existing_system = forms.BooleanField(
-#        required = False,
-#        label = 'Skip existing systems',
-#    )
-#    csv_column_system = forms.IntegerField(
-#        required = False,
-#        label = 'Number of the column in the CSV file that contains the system name',
-#        widget = forms.NumberInput(attrs={
-#            #'style': 'width:6ch',
-#            'size': '3',
-#        }),
-#        min_value = 1,
-#        max_value = 256,
-#    )
-#    csv_headline = forms.BooleanField(
-#        required = False,
-#        label = 'CSV file contains a headline row',
-#    )
-#    # IP related settings
-#    csv_choice_ip = forms.BooleanField(
-#        required = False,
-#        label = 'CSV file contains IP addresses',
-#    )
-#    csv_remove_ip = forms.BooleanField(
-#        required = False,
-#        label = 'Remove / overwrite existing IP addresses for already existing systems',
-#    )
-#    csv_column_ip = forms.IntegerField(
-#        required = False,
-#        label = 'Number of the column in the CSV file that contains the IP addresses',
-#        widget = forms.NumberInput(attrs={
-#            #'style': 'width:6ch',
-#            'size': '3',
-#        }),
-#        min_value = 1,
-#        max_value = 256,
-#    )
-#    # overriding settings
-#    csv_remove_case = forms.BooleanField(
-#        required = False,
-#        label = 'Remove / overwrite existing cases for already existing systems',
-#    )
-#    csv_remove_company = forms.BooleanField(
-#        required = False,
-#        label = 'Remove / overwrite existing companies for already existing systems',
-#    )
-#    csv_remove_tag = forms.BooleanField(
-#        required = False,
-#        label = 'Remove / overwrite existing tags for already existing systems',
-#    )
-#
-#    def clean(self):
-#        """ custom field validation """
-#
-#        # get form data
-#        cleaned_data = super().clean()
-#
-#        # get relevant values
-#        csv_column_system = self.cleaned_data['csv_column_system']
-#        csv_column_ip = self.cleaned_data['csv_column_ip']
-#
-#        # compare column values
-#        if csv_column_system == csv_column_ip:
-#            raise forms.ValidationError('The columns for system and IP should not have the same values.')
-#
-#        return cleaned_data
+class SystemImporterFileCsvFormbasedConfigForm(forms.Form):
+    """ system importer CSV config form (config and form based) """
 
-#class SystemImporterFileCsvConfigbasedConfigForm(SystemImporterFileCsvFormbasedConfigForm):
-#    """ system importer CSV config form (config based only) """
-#
+    # general settings
+    csv_skip_existing_system = forms.BooleanField(
+        required = False,
+        label = 'Skip existing systems',
+    )
+    csv_column_system = forms.IntegerField(
+        required = False,
+        label = 'Number of the column in the CSV file that contains the system name',
+        widget = forms.NumberInput(attrs={
+            #'style': 'width:6ch',
+            'size': '3',
+        }),
+        min_value = 1,
+        max_value = 256,
+    )
+    csv_headline = forms.BooleanField(
+        required = False,
+        label = 'CSV file contains a headline row',
+    )
+    # IP related settings
+    csv_choice_ip = forms.BooleanField(
+        required = False,
+        label = 'CSV file contains IP addresses',
+    )
+    csv_remove_ip = forms.BooleanField(
+        required = False,
+        label = 'Remove / overwrite existing IP addresses for already existing systems',
+    )
+    csv_column_ip = forms.IntegerField(
+        required = False,
+        label = 'Number of the column in the CSV file that contains the IP addresses',
+        widget = forms.NumberInput(attrs={
+            #'style': 'width:6ch',
+            'size': '3',
+        }),
+        min_value = 1,
+        max_value = 256,
+    )
+    # overriding settings
+    csv_remove_case = forms.BooleanField(
+        required = False,
+        label = 'Remove / overwrite existing cases for already existing systems',
+    )
+    csv_remove_company = forms.BooleanField(
+        required = False,
+        label = 'Remove / overwrite existing companies for already existing systems',
+    )
+    csv_remove_tag = forms.BooleanField(
+        required = False,
+        label = 'Remove / overwrite existing tags for already existing systems',
+    )
+
+    def clean(self):
+        """ custom field validation """
+
+        # get form data
+        cleaned_data = super().clean()
+
+        # get relevant values
+        csv_column_system = self.cleaned_data['csv_column_system']
+        csv_column_ip = self.cleaned_data['csv_column_ip']
+
+        # compare column values
+        if csv_column_system == csv_column_ip:
+            raise forms.ValidationError('The columns for system and IP should not have the same values.')
+
+        return cleaned_data
+
+class SystemImporterFileCsvConfigbasedConfigForm(SystemImporterFileCsvFormbasedConfigForm):
+    """ system importer CSV config form (config based only) """
+
+    pass
+
+# TODO: find an alternative for the selection
 #    # systemstatus
 #
 #    # create empty list for available systemstatus

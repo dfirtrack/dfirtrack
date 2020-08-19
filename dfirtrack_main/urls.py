@@ -6,7 +6,7 @@ from dfirtrack_main.exporter.spreadsheet import csv as spreadsheet_csv
 from dfirtrack_main.exporter.spreadsheet import xls
 from dfirtrack_main.exporter.markdown import markdown as markdown_exporter
 from dfirtrack_main.importer.api import giraf
-#from dfirtrack_main.importer.file import csv_config_based, csv_form_based
+from dfirtrack_main.importer.file import csv_config_based, csv_form_based
 from dfirtrack_main.importer.file import filesystem, markdown
 from dfirtrack_main.models import Analysisstatus, Analystmemo, Case, Company, Contact, Division, Dnsname, Domain, Domainuser, Entry, Headline, Ip, Location, Os, Osimportname, Reason, Recommendation, Reportitem, Serviceprovider, System, Systemstatus, Systemtype, Systemuser, Tag, Task, Taskname, Taskpriority, Taskstatus
 from dfirtrack_main.modificator import system_modificator
@@ -130,8 +130,8 @@ urlpatterns = [
     path(r'system/exporter/spreadsheet/csv/system/', spreadsheet_csv.system, name='system_exporter_spreadsheet_csv'),
     path(r'system/exporter/spreadsheet/xls/system/', xls.system, name='system_exporter_spreadsheet_xls'),
     path(r'system/importer/api/giraf/system/', giraf.system, name='system_importer_api_giraf'),
-    #path(r'system/importer/file/csv/configbased/', csv_config_based.system, name='system_importer_file_csv_config_based'),
-    #path(r'system/importer/file/csv/formbased/', csv_form_based.system, name='system_importer_file_csv_form_based'),
+    path(r'system/importer/file/csv/configbased/', csv_config_based.system, name='system_importer_file_csv_config_based'),
+    path(r'system/importer/file/csv/formbased/', csv_form_based.system, name='system_importer_file_csv_form_based'),
     path(r'system/modificator/', system_modificator.system_modificator, name='system_modificator'),
 
     path(r'systemstatus/', systemstatus_views.SystemstatusList.as_view(), name='systemstatus_list'),
