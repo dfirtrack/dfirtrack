@@ -1,6 +1,6 @@
-from constance import config as constance_config
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from dfirtrack_config.models import SystemExporterSpreadsheetXlsConfigModel
 from dfirtrack_main.logger.default_logger import info_logger
 from dfirtrack_main.models import Analysisstatus, Reason, Recommendation, System, Systemstatus, Tag
 from time import strftime
@@ -62,6 +62,9 @@ def system(request):
     # define styling for headline
     style = style_headline()
 
+    # get config model
+    model = SystemExporterSpreadsheetXlsConfigModel.objects.get(system_exporter_spreadsheet_xls_config_name = 'SystemExporterSpreadsheetXlsConfig')
+
     """ start with headline """
 
     # set counter
@@ -71,44 +74,44 @@ def system(request):
     headline = []
 
     # check for attribute id
-    if constance_config.SPREAD_SYSTEM_ID:
+    if model.spread_xls_system_id:
         headline.append('ID')
 
     # append mandatory attribute
     headline.append('System')
 
     # check for remaining attributes
-    if constance_config.SPREAD_DNSNAME:
+    if model.spread_xls_dnsname:
         headline.append('DNS name')
-    if constance_config.SPREAD_DOMAIN:
+    if model.spread_xls_domain:
         headline.append('Domain')
-    if constance_config.SPREAD_SYSTEMSTATUS:
+    if model.spread_xls_systemstatus:
         headline.append('Systemstatus')
-    if constance_config.SPREAD_ANALYSISSTATUS:
+    if model.spread_xls_analysisstatus:
         headline.append('Analysisstatus')
-    if constance_config.SPREAD_REASON:
+    if model.spread_xls_reason:
         headline.append('Reason')
-    if constance_config.SPREAD_RECOMMENDATION:
+    if model.spread_xls_recommendation:
         headline.append('Recommendation')
-    if constance_config.SPREAD_SYSTEMTYPE:
+    if model.spread_xls_systemtype:
         headline.append('Systemtype')
-    if constance_config.SPREAD_IP:
+    if model.spread_xls_ip:
         headline.append('IP')
-    if constance_config.SPREAD_OS:
+    if model.spread_xls_os:
         headline.append('OS')
-    if constance_config.SPREAD_COMPANY:
+    if model.spread_xls_company:
         headline.append('Company')
-    if constance_config.SPREAD_LOCATION:
+    if model.spread_xls_location:
         headline.append('Location')
-    if constance_config.SPREAD_SERVICEPROVIDER:
+    if model.spread_xls_serviceprovider:
         headline.append('Serviceprovider')
-    if constance_config.SPREAD_TAG:
+    if model.spread_xls_tag:
         headline.append('Tag')
-    if constance_config.SPREAD_CASE:
+    if model.spread_xls_case:
         headline.append('Case')
-    if constance_config.SPREAD_SYSTEM_CREATE_TIME:
+    if model.spread_xls_system_create_time:
         headline.append('Created')
-    if constance_config.SPREAD_SYSTEM_MODIFY_TIME:
+    if model.spread_xls_system_modify_time:
         headline.append('Modified')
 
     # write headline
@@ -141,7 +144,7 @@ def system(request):
         """ check for attribute """
 
         # system id
-        if constance_config.SPREAD_SYSTEM_ID:
+        if model.spread_xls_system_id:
             entryline.append(system.system_id)
 
         """ append mandatory attribute """
@@ -152,52 +155,52 @@ def system(request):
         """ check for remaining attributes """
 
         # dnsname
-        if constance_config.SPREAD_DNSNAME:
+        if model.spread_xls_dnsname:
             if system.dnsname == None:
                 dnsname = ''
             else:
                 dnsname = system.dnsname.dnsname_name
             entryline.append(dnsname)
         # domain
-        if constance_config.SPREAD_DOMAIN:
+        if model.spread_xls_domain:
             if system.domain == None:
                 domain = ''
             else:
                 domain = system.domain.domain_name
             entryline.append(domain)
         # systemstatus
-        if constance_config.SPREAD_SYSTEMSTATUS:
+        if model.spread_xls_systemstatus:
             entryline.append(system.systemstatus.systemstatus_name)
         # analysisstatus
-        if constance_config.SPREAD_ANALYSISSTATUS:
+        if model.spread_xls_analysisstatus:
             if system.analysisstatus == None:
                 analysisstatus = ''
             else:
                 analysisstatus = system.analysisstatus.analysisstatus_name
             entryline.append(analysisstatus)
         # reason
-        if constance_config.SPREAD_REASON:
+        if model.spread_xls_reason:
             if system.reason == None:
                 reason = ''
             else:
                 reason = system.reason.reason_name
             entryline.append(reason)
         # recommendation
-        if constance_config.SPREAD_RECOMMENDATION:
+        if model.spread_xls_recommendation:
             if system.recommendation== None:
                 recommendation = ''
             else:
                 recommendation = system.recommendation.recommendation_name
             entryline.append(recommendation)
         # systemtype
-        if constance_config.SPREAD_SYSTEMTYPE:
+        if model.spread_xls_systemtype:
             if system.systemtype == None:
                 systemtype = ''
             else:
                 systemtype = system.systemtype.systemtype_name
             entryline.append(systemtype)
         # ip
-        if constance_config.SPREAD_IP:
+        if model.spread_xls_ip:
             # get all ips of system
             ips_all = system.ip.all()
             # count ips
@@ -216,14 +219,14 @@ def system(request):
                     i = i + 1
             entryline.append(ip)
         # os
-        if constance_config.SPREAD_OS:
+        if model.spread_xls_os:
             if system.os == None:
                 os = ''
             else:
                 os = system.os.os_name
             entryline.append(os)
         # company
-        if constance_config.SPREAD_COMPANY:
+        if model.spread_xls_company:
             companys_all = system.company.all()
             # count companies
             n = system.company.count()
@@ -241,21 +244,21 @@ def system(request):
                     i = i + 1
             entryline.append(company)
         # location
-        if constance_config.SPREAD_LOCATION:
+        if model.spread_xls_location:
             if system.location == None:
                 location = ''
             else:
                 location = system.location.location_name
             entryline.append(location)
         # serviceprovider
-        if constance_config.SPREAD_SERVICEPROVIDER:
+        if model.spread_xls_serviceprovider:
             if system.serviceprovider == None:
                 serviceprovider = ''
             else:
                 serviceprovider = system.serviceprovider.serviceprovider_name
             entryline.append(serviceprovider)
         # tag
-        if constance_config.SPREAD_TAG:
+        if model.spread_xls_tag:
             tags_all = system.tag.all()
             # count tags
             n = system.tag.count()
@@ -273,7 +276,7 @@ def system(request):
                     i = i + 1
             entryline.append(tag)
         # case
-        if constance_config.SPREAD_CASE:
+        if model.spread_xls_case:
             cases_all = system.case.all()
             # count cases
             n = system.case.count()
@@ -291,11 +294,11 @@ def system(request):
                     i = i + 1
             entryline.append(case)
         # system create time
-        if constance_config.SPREAD_SYSTEM_CREATE_TIME:
+        if model.spread_xls_system_create_time:
             system_create_time = system.system_create_time.strftime('%Y-%m-%d %H:%M')
             entryline.append(system_create_time)
         # system modify time
-        if constance_config.SPREAD_SYSTEM_MODIFY_TIME:
+        if model.spread_xls_system_modify_time:
             system_modify_time = system.system_modify_time.strftime('%Y-%m-%d %H:%M')
             entryline.append(system_modify_time)
 
@@ -320,7 +323,7 @@ def system(request):
     """ add worksheet for systemstatus """
 
     # check all conditions
-    if constance_config.SPREAD_WORKSHEET_SYSTEMSTATUS and constance_config.SPREAD_SYSTEMSTATUS and Systemstatus.objects.count() != 0:
+    if model.spread_xls_worksheet_systemstatus and model.spread_xls_systemstatus and Systemstatus.objects.count() != 0:
 
         # define name of worksheet within file
         worksheet_systemstatus = workbook.add_sheet('systemstatus')
@@ -372,7 +375,7 @@ def system(request):
     """ add worksheet for analysisstatus """
 
     # check all conditions
-    if constance_config.SPREAD_WORKSHEET_ANALYSISSTATUS and constance_config.SPREAD_ANALYSISSTATUS and Analysisstatus.objects.count() != 0:
+    if model.spread_xls_worksheet_analysisstatus and model.spread_xls_analysisstatus and Analysisstatus.objects.count() != 0:
 
         # define name of worksheet within file
         worksheet_analysisstatus = workbook.add_sheet('analysisstatus')
@@ -424,7 +427,7 @@ def system(request):
     """ add worksheet for reason """
 
     # check all conditions
-    if constance_config.SPREAD_WORKSHEET_REASON and constance_config.SPREAD_REASON and Reason.objects.count() != 0:
+    if model.spread_xls_worksheet_reason and model.spread_xls_reason and Reason.objects.count() != 0:
 
         # define name of worksheet within file
         worksheet_reason = workbook.add_sheet('reasons')
@@ -476,7 +479,7 @@ def system(request):
     """ add worksheet for recommendation """
 
     # check all conditions
-    if constance_config.SPREAD_WORKSHEET_RECOMMENDATION and constance_config.SPREAD_RECOMMENDATION and Recommendation.objects.count() != 0:
+    if model.spread_xls_worksheet_recommendation and model.spread_xls_recommendation and Recommendation.objects.count() != 0:
 
         # define name of worksheet within file
         worksheet_recommendation = workbook.add_sheet('recommendations')
@@ -528,7 +531,7 @@ def system(request):
     """ add worksheet for tag """
 
     # check all conditions
-    if constance_config.SPREAD_WORKSHEET_TAG and constance_config.SPREAD_TAG and Tag.objects.count() != 0:
+    if model.spread_xls_worksheet_tag and model.spread_xls_tag and Tag.objects.count() != 0:
 
         # define name of worksheet within file
         worksheet_tag = workbook.add_sheet('tags')

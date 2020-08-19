@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     'dfirtrack_main',
     'dfirtrack_artifacts',
     'dfirtrack_api',
+    'dfirtrack_config',
     'rest_framework',
     'django_q',
     'django.contrib.admin',
