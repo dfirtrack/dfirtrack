@@ -3,9 +3,6 @@ Django settings for DFIRTrack project.
 """
 
 from dfirtrack.config import LOGGING_PATH
-#from dfirtrack.constance_config import CONSTANCE_CONFIG as constance_config
-#from dfirtrack.constance_config import CONSTANCE_ADDITIONAL_FIELDS as constance_additional_fields
-#from dfirtrack.constance_config import CONSTANCE_CONFIG_FIELDSETS as constance_config_fieldsets
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -17,7 +14,6 @@ SECRET_KEY = 'CHANGEME'
 # Application definition
 
 INSTALLED_APPS = [
-    #'constance',
     'dfirtrack_main',
     'dfirtrack_artifacts',
     'dfirtrack_api',
@@ -31,14 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'constance.backends.database',
 ]
-
-#CONSTANCE_CONFIG = constance_config
-#CONSTANCE_ADDITIONAL_FIELDS = constance_additional_fields
-#CONSTANCE_CONFIG_FIELDSETS = constance_config_fieldsets
-
-#CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
