@@ -1,8 +1,8 @@
-from constance import config as constance_config
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
-from dfirtrack_main.config_forms import SystemExporterMarkdownConfigForm
+from dfirtrack_config.forms import SystemExporterMarkdownConfigForm
+from dfirtrack_config.models import SystemExporterMarkdownConfigModel
 
 @login_required(login_url="/login")
 def system_exporter_markdown_config_view(request):
@@ -11,23 +11,27 @@ def system_exporter_markdown_config_view(request):
     if request.method == "POST":
 
         form = SystemExporterMarkdownConfigForm(request.POST)
+        model = SystemExporterMarkdownConfigModel.objects.get(system_exporter_markdown_config_name = 'SystemExporterMarkdownConfig')
 
         if form.is_valid():
 
             # assign values
-            constance_config.MARKDOWN_PATH = form.cleaned_data['markdown_path']
-            constance_config.MARKDOWN_SORTING = form.cleaned_data['markdown_sorting']
+            model.markdown_path = form.cleaned_data['markdown_path']
+            model.markdown_sorting = form.cleaned_data['markdown_sorting']
+            model.save()
 
         # close popup
         return HttpResponse('<script type="text/javascript">window.close();</script>')
 
     else:
 
+        # get config model
+        model = SystemExporterMarkdownConfigModel.objects.get(system_exporter_markdown_config_name = 'SystemExporterMarkdownConfig')
         # submit existing values to form
         form = SystemExporterMarkdownConfigForm(
             initial = {
-                'markdown_path': constance_config.MARKDOWN_PATH,
-                'markdown_sorting': constance_config.MARKDOWN_SORTING,
+                'markdown_path': model.markdown_path,
+                'markdown_sorting': model.markdown_sorting,
             }
         )
 

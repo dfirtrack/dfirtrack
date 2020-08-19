@@ -85,7 +85,6 @@ class ArtifactExporterSpreadsheetCsvConfigForm(forms.Form):
         label = 'Export modify time',
     )
 
-
 class ArtifactExporterSpreadsheetXlsConfigForm(ArtifactExporterSpreadsheetCsvConfigForm):
 
     artifactlist_worksheet_artifactstatus = forms.BooleanField(
@@ -98,30 +97,30 @@ class ArtifactExporterSpreadsheetXlsConfigForm(ArtifactExporterSpreadsheetCsvCon
         label = 'Export worksheet to explain artifacttype',
     )
 
-#class SystemExporterMarkdownConfigForm(forms.Form):
-#    """ system exporter markdown config form """
-#
-#    markdown_path = forms.CharField(
-#        required = True,
-#        widget = forms.TextInput(attrs={
-#            'size': '55',
-#            'style': 'font-family: monospace',
-#        }),
-#        label = 'Path for the markdown documentation export',
-#    )
-#
-#    # prepare choices
-#    markdown_sorting_choices = [
-#        ('domainsorted', 'Sorted by domain'),
-#        ('systemsorted', 'Sorted by system'),
-#    ]
-#    # create field
-#    markdown_sorting = forms.ChoiceField(
-#        required = True,
-#        widget = forms.RadioSelect(),
-#        label = 'Choose sorting for system markdown export',
-#        choices = markdown_sorting_choices,
-#    )
+class SystemExporterMarkdownConfigForm(forms.Form):
+    """ system exporter markdown config form """
+
+    markdown_path = forms.CharField(
+        required = True,
+        widget = forms.TextInput(attrs={
+            'size': '55',
+            'style': 'font-family: monospace',
+        }),
+        label = 'Path for the markdown documentation export',
+    )
+
+    # prepare choices
+    markdown_sorting_choices = [
+        ('dom', 'Sorted by domain'),
+        ('sys', 'Sorted by system'),
+    ]
+    # create field
+    markdown_sorting = forms.ChoiceField(
+        required = True,
+        widget = forms.RadioSelect(),
+        label = 'Choose sorting for system markdown export',
+        choices = markdown_sorting_choices,
+    )
 
 class SystemExporterSpreadsheetCsvConfigForm(forms.Form):
     """ system exporter spreadsheet config form (CSV and XLS) """

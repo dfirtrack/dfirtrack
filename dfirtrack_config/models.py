@@ -24,6 +24,27 @@ class ArtifactExporterSpreadsheetXlsConfigModel(models.Model):
     # TODO: find an alternative for the selection
     artifactlist_xls_choice_artifactstatus = models.IntegerField()
 
+class SystemExporterMarkdownConfigModel(models.Model):
+
+    # primary key
+    system_exporter_markdown_config_name = models.CharField(max_length=50, primary_key=True)
+
+    # prepare choices
+    DOMAINSORTED = 'dom'
+    SYSTEMSORTED = 'sys'
+    MARKDOWN_SORTING_CHOICES = [
+        (DOMAINSORTED, 'Sorted by domain'),
+        (SYSTEMSORTED, 'Sorted by system'),
+    ]
+
+    # config fields
+    markdown_path = models.CharField(max_length=4096, blank=True, null=True)
+    markdown_sorting = models.CharField(
+        max_length = 3,
+        choices = MARKDOWN_SORTING_CHOICES,
+        default = SYSTEMSORTED,
+    )
+
 class SystemExporterSpreadsheetCsvConfigModel(models.Model):
 
     # primary key
