@@ -55,7 +55,7 @@ class SystemImporterFileCsvFormbasedForm(forms.ModelForm, SystemImporterFileCsvC
         widget = forms.RadioSelect(),
     )
 
-    # TODO: find an alternative for the selection
+    # TODO: find an alternative for the selection (reactivate the tests afterwards)
     ## case
 
     ## create empty list for available cases
@@ -73,7 +73,7 @@ class SystemImporterFileCsvFormbasedForm(forms.ModelForm, SystemImporterFileCsvC
     #    label = 'Cases',
     #)
 
-    # TODO: find an alternative for the selection
+    # TODO: find an alternative for the selection (reactivate the tests afterwards)
     ## company
 
     ## create empty list for available companies
@@ -91,7 +91,7 @@ class SystemImporterFileCsvFormbasedForm(forms.ModelForm, SystemImporterFileCsvC
     #    label = 'Companies',
     #)
 
-    # TODO: find an alternative for the selection
+    # TODO: find an alternative for the selection (reactivate the tests afterwards)
     ## tag
 
     ## create empty list for available tags
