@@ -1,5 +1,5 @@
 from django.test import TestCase
-from dfirtrack_main.config_forms import SystemExporterSpreadsheetXlsConfigForm
+from dfirtrack_config.forms import SystemExporterSpreadsheetXlsConfigForm
 
 class SystemExporterSpreadsheetXlsConfigFormTestCase(TestCase):
     """ system exporter spreadsheet XLS config form tests """

@@ -121,6 +121,6 @@ class ArtifactExporterSpreadsheetCsvConfigFormTestCase(TestCase):
         """ test minimum form requirements / VALID """
 
         # get object
-        form = ArtifactExporterSpreadsheetCsvConfigForm()
+        form = ArtifactExporterSpreadsheetCsvConfigForm(data = {})
         # compare
         self.assertTrue(form.is_valid())

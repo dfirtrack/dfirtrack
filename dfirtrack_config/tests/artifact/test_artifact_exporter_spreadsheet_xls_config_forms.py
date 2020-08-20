@@ -1,5 +1,5 @@
 from django.test import TestCase
-from dfirtrack_artifacts.config_forms import ArtifactExporterSpreadsheetXlsForm
+from dfirtrack_config.forms import ArtifactExporterSpreadsheetXlsConfigForm
 
 class ArtifactExporterSpreadsheetXlsConfigFormTestCase(TestCase):
     """ artifact exporter spreadsheet XLS config form tests """
@@ -8,7 +8,7 @@ class ArtifactExporterSpreadsheetXlsConfigFormTestCase(TestCase):
         """ test form label """
 
         # get object
-        form = ArtifactExporterSpreadsheetXlsForm()
+        form = ArtifactExporterSpreadsheetXlsConfigForm()
         # compare
         self.assertEqual(form.fields['artifactlist_worksheet_artifactstatus'].label, 'Export worksheet to explain artifactstatus')
 
@@ -16,7 +16,7 @@ class ArtifactExporterSpreadsheetXlsConfigFormTestCase(TestCase):
         """ test form label """
 
         # get object
-        form = ArtifactExporterSpreadsheetXlsForm()
+        form = ArtifactExporterSpreadsheetXlsConfigForm()
         # compare
         self.assertEqual(form.fields['artifactlist_worksheet_artifacttype'].label, 'Export worksheet to explain artifacttype')
 
@@ -24,6 +24,6 @@ class ArtifactExporterSpreadsheetXlsConfigFormTestCase(TestCase):
         """ test minimum form requirements / VALID """
 
         # get object
-        form = ArtifactExporterSpreadsheetXlsForm(data = {})
+        form = ArtifactExporterSpreadsheetXlsConfigForm(data = {})
         # compare
         self.assertTrue(form.is_valid())

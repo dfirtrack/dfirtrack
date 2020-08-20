@@ -1,5 +1,5 @@
 from django.test import TestCase
-from dfirtrack_main.config_forms import SystemExporterMarkdownConfigForm
+from dfirtrack_config.forms import SystemExporterMarkdownConfigForm
 
 class SystemExporterMarkdownConfigFormTestCase(TestCase):
     """ system exporter markdown config form tests """
@@ -54,7 +54,7 @@ class SystemExporterMarkdownConfigFormTestCase(TestCase):
         # get object
         form = SystemExporterMarkdownConfigForm(data = {
             'markdown_path': '/tmp',
-            'markdown_sorting': 'systemsorted',
+            'markdown_sorting': 'sys',
         })
         # compare
         self.assertTrue(form.is_valid())

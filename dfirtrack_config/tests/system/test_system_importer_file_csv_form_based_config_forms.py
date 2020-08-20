@@ -1,5 +1,5 @@
 from django.test import TestCase
-from dfirtrack_main.config_forms import SystemImporterFileCsvFormbasedConfigForm
+from dfirtrack_config.forms import SystemImporterFileCsvFormbasedConfigForm
 from dfirtrack_main.models import Analysisstatus, Systemstatus
 
 class SystemImporterFileCsvFormbasedConfigFormTestCase(TestCase):

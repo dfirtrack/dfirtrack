@@ -52,7 +52,7 @@ def system_importer_file_csv_config_based_config_view(request):
             # show form page again
             return render(
                 request,
-                'dfirtrack_main/system/system_importer_file_csv_config_based_config_popup.html',
+                'dfirtrack_config/system/system_importer_file_csv_config_based_config_popup.html',
                 {
                     'form': form,
                 }
@@ -97,7 +97,7 @@ def system_importer_file_csv_config_based_config_view(request):
     # show form page
     return render(
         request,
-        'dfirtrack_main/system/system_importer_file_csv_config_based_config_popup.html',
+        'dfirtrack_config/system/system_importer_file_csv_config_based_config_popup.html',
         {
             'form': form,
         }
@@ -137,7 +137,7 @@ def system_importer_file_csv_form_based_config_view(request):
             # show form page again
             return render(
                 request,
-                'dfirtrack_main/system/system_importer_file_csv_form_based_config_popup.html',
+                'dfirtrack_config/system/system_importer_file_csv_form_based_config_popup.html',
                 {
                     'form': form,
                 }
@@ -168,7 +168,7 @@ def system_importer_file_csv_form_based_config_view(request):
     # show form page
     return render(
         request,
-        'dfirtrack_main/system/system_importer_file_csv_form_based_config_popup.html',
+        'dfirtrack_config/system/system_importer_file_csv_form_based_config_popup.html',
         {
             'form': form,
         }

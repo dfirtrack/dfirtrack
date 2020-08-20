@@ -38,7 +38,7 @@ def system_exporter_markdown_config_view(request):
     # show form page
     return render(
         request,
-        'dfirtrack_main/system/system_exporter_markdown_config_popup.html',
+        'dfirtrack_config/system/system_exporter_markdown_config_popup.html',
         {
             'form': form,
         }

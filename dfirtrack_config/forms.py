@@ -314,7 +314,7 @@ class SystemImporterFileCsvConfigbasedConfigForm(SystemImporterFileCsvFormbasedC
 
     pass
 
-# TODO: find an alternative for the selection
+# TODO: find an alternative for the selection (reactivate the tests afterwards)
 #    # systemstatus
 #
 #    # create empty list for available systemstatus
