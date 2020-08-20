@@ -4,7 +4,7 @@ from dfirtrack_artifacts.models import Artifactstatus
 
 class ArtifactExporterSpreadsheetCsvConfigForm(forms.Form):
 
-# TODO: find an alternative for the selection
+# TODO: find an alternative for the selection (reactivate the tests afterwards)
 #    # create empty list for available artifactstatus
 #    artifactstatus_choices = []
 #    # get all artifactstatus
