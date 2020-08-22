@@ -3,6 +3,7 @@ django_q==1.1.0
 djangorestframework
 gitpython
 gunicorn
+psycopg2
 psycopg2-binary
 PyYAML
 requests
