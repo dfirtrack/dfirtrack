@@ -3,7 +3,7 @@ from django.db import models
 class ArtifactExporterSpreadsheetXlsConfigModel(models.Model):
 
     # primary key
-    artifact_exporter_spreadsheet_xls_config_name = models.CharField(max_length=50, primary_key=True)
+    artifact_exporter_spreadsheet_xls_config_name = models.CharField(max_length=50, primary_key=True, editable=False)
 
     # config fields
     artifactlist_xls_artifact_id = models.BooleanField(blank=True)
@@ -27,7 +27,7 @@ class ArtifactExporterSpreadsheetXlsConfigModel(models.Model):
 class SystemExporterMarkdownConfigModel(models.Model):
 
     # primary key
-    system_exporter_markdown_config_name = models.CharField(max_length=50, primary_key=True)
+    system_exporter_markdown_config_name = models.CharField(max_length=50, primary_key=True, editable=False)
 
     # prepare choices
     DOMAINSORTED = 'dom'
@@ -48,7 +48,7 @@ class SystemExporterMarkdownConfigModel(models.Model):
 class SystemExporterSpreadsheetCsvConfigModel(models.Model):
 
     # primary key
-    system_exporter_spreadsheet_csv_config_name = models.CharField(max_length=50, primary_key=True)
+    system_exporter_spreadsheet_csv_config_name = models.CharField(max_length=50, primary_key=True, editable=False)
 
     # config fields
     spread_csv_system_id = models.BooleanField(blank=True)
@@ -72,7 +72,7 @@ class SystemExporterSpreadsheetCsvConfigModel(models.Model):
 class SystemExporterSpreadsheetXlsConfigModel(models.Model):
 
     # primary key
-    system_exporter_spreadsheet_xls_config_name = models.CharField(max_length=50, primary_key=True)
+    system_exporter_spreadsheet_xls_config_name = models.CharField(max_length=50, primary_key=True, editable=False)
 
     # config fields
     spread_xls_system_id = models.BooleanField(blank=True)
@@ -101,7 +101,7 @@ class SystemExporterSpreadsheetXlsConfigModel(models.Model):
 class SystemImporterFileCsvConfigbasedConfigModel(models.Model):
 
     # primary key
-    system_importer_file_csv_configbased_config_name = models.CharField(max_length=50, primary_key=True)
+    system_importer_file_csv_configbased_config_name = models.CharField(max_length=50, primary_key=True, editable=False)
 
     # config fields
     csv_skip_existing_system = models.BooleanField(blank=True)
@@ -130,7 +130,7 @@ class SystemImporterFileCsvConfigbasedConfigModel(models.Model):
 class SystemImporterFileCsvFormbasedConfigModel(models.Model):
 
     # primary key
-    system_importer_file_csv_formbased_config_name = models.CharField(max_length=50, primary_key=True)
+    system_importer_file_csv_formbased_config_name = models.CharField(max_length=50, primary_key=True, editable=False)
 
     # config fields
     csv_skip_existing_system = models.BooleanField(blank=True)

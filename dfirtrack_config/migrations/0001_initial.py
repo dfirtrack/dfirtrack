@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ArtifactExporterSpreadsheetXlsConfigModel',
             fields=[
-                ('artifact_exporter_spreadsheet_xls_config_name', models.CharField(max_length=50, primary_key=True, serialize=False)),
+                ('artifact_exporter_spreadsheet_xls_config_name', models.CharField(editable=False, max_length=50, primary_key=True, serialize=False)),
                 ('artifactlist_xls_artifact_id', models.BooleanField(blank=True)),
                 ('artifactlist_xls_system_id', models.BooleanField(blank=True)),
                 ('artifactlist_xls_system_name', models.BooleanField(blank=True)),
@@ -34,7 +34,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='SystemExporterMarkdownConfigModel',
             fields=[
-                ('system_exporter_markdown_config_name', models.CharField(max_length=50, primary_key=True, serialize=False)),
+                ('system_exporter_markdown_config_name', models.CharField(editable=False, max_length=50, primary_key=True, serialize=False)),
                 ('markdown_path', models.CharField(blank=True, max_length=4096, null=True)),
                 ('markdown_sorting', models.CharField(choices=[('dom', 'Sorted by domain'), ('sys', 'Sorted by system')], default='sys', max_length=3)),
             ],
@@ -42,7 +42,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='SystemExporterSpreadsheetCsvConfigModel',
             fields=[
-                ('system_exporter_spreadsheet_csv_config_name', models.CharField(max_length=50, primary_key=True, serialize=False)),
+                ('system_exporter_spreadsheet_csv_config_name', models.CharField(editable=False, max_length=50, primary_key=True, serialize=False)),
                 ('spread_csv_system_id', models.BooleanField(blank=True)),
                 ('spread_csv_dnsname', models.BooleanField(blank=True)),
                 ('spread_csv_domain', models.BooleanField(blank=True)),
@@ -65,7 +65,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='SystemExporterSpreadsheetXlsConfigModel',
             fields=[
-                ('system_exporter_spreadsheet_xls_config_name', models.CharField(max_length=50, primary_key=True, serialize=False)),
+                ('system_exporter_spreadsheet_xls_config_name', models.CharField(editable=False, max_length=50, primary_key=True, serialize=False)),
                 ('spread_xls_system_id', models.BooleanField(blank=True)),
                 ('spread_xls_dnsname', models.BooleanField(blank=True)),
                 ('spread_xls_domain', models.BooleanField(blank=True)),
@@ -93,7 +93,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='SystemImporterFileCsvConfigbasedConfigModel',
             fields=[
-                ('system_importer_file_csv_configbased_config_name', models.CharField(max_length=50, primary_key=True, serialize=False)),
+                ('system_importer_file_csv_configbased_config_name', models.CharField(editable=False, max_length=50, primary_key=True, serialize=False)),
                 ('csv_skip_existing_system', models.BooleanField(blank=True)),
                 ('csv_column_system', models.IntegerField()),
                 ('csv_headline', models.BooleanField(blank=True)),
@@ -120,7 +120,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='SystemImporterFileCsvFormbasedConfigModel',
             fields=[
-                ('system_importer_file_csv_formbased_config_name', models.CharField(max_length=50, primary_key=True, serialize=False)),
+                ('system_importer_file_csv_formbased_config_name', models.CharField(editable=False, max_length=50, primary_key=True, serialize=False)),
                 ('csv_skip_existing_system', models.BooleanField(blank=True)),
                 ('csv_column_system', models.IntegerField()),
                 ('csv_headline', models.BooleanField(blank=True)),
