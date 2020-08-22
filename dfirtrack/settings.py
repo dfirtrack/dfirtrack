@@ -161,9 +161,19 @@ except ImportError:
     ALLOWED_HOSTS = ['localhost']
 
     # Database
+    #DATABASES = {
+    #    'default': {
+    #        'ENGINE': 'django.db.backends.sqlite3',
+    #        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    #    }
+    #}
     DATABASES = {
-    	'default': {
-    	    'ENGINE': 'django.db.backends.sqlite3',
-    	    'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    	}
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'github_actions',
+            'USER': 'forensics',
+            'PASSWORD': 'T0pp_s3cr3t!',
+            'HOST': '127.0.0.1',
+            'PORT': '5432',
+        }
     }

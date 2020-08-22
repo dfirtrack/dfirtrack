@@ -5,6 +5,7 @@ on:
     branches:
     - master
     - develop
+    - fix-develop
   pull_request:
     branches:
     - master
@@ -26,6 +27,8 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: ${{ matrix.python-version }}
+    - name: psycopg2 prerequisites
+      run: sudo apt-get install python-dev libpq-dev
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
