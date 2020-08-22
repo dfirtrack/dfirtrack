@@ -1,4 +1,4 @@
-name: Django Tests
+name: Django Tests - PostgreSQL
 
 on:
   push:

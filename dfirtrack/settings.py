@@ -161,19 +161,24 @@ except ImportError:
     ALLOWED_HOSTS = ['localhost']
 
     # Database
-    #DATABASES = {
-    #    'default': {
-    #        'ENGINE': 'django.db.backends.sqlite3',
-    #        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    #    }
-    #}
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'github_actions',
-            'USER': 'dfirtrack',
-            'PASSWORD': 'dfirtrack',
-            'HOST': '127.0.0.1',
-            'PORT': '5432',
+    # check environment variable for GitHub action
+    if "CI" in os.environ:
+        # use PostgreSQL for GitHub action
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql',
+                'NAME': 'github_actions',
+                'USER': 'dfirtrack',
+                'PASSWORD': 'dfirtrack',
+                'HOST': '127.0.0.1',
+                'PORT': '5432',
+            }
         }
-    }
+    else:
+        # use SQLite3 otherwise (for local setup without local_settings)
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': os.path.join(BASE_DIR, 'dfirtrack.sqlite3'),
+            }
+        }
