@@ -171,8 +171,8 @@ except ImportError:
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': 'github_actions',
-            'USER': 'forensics',
-            'PASSWORD': 'T0pp_s3cr3t!',
+            'USER': 'dfirtrack',
+            'PASSWORD': 'dfirtrack',
             'HOST': '127.0.0.1',
             'PORT': '5432',
         }
