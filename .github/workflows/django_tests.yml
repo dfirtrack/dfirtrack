@@ -5,7 +5,6 @@ on:
     branches:
     - master
     - develop
-    - fix_develop
   pull_request:
     branches:
     - master
@@ -47,4 +46,4 @@ jobs:
         pip install -r requirements.txt
     - name: Run Tests
       run: |
-        python manage.py test -v2
+        python manage.py test
