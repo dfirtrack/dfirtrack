@@ -1,4 +1,5 @@
 from django.db import migrations, models
+import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
@@ -7,6 +8,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('dfirtrack_artifacts', '0002_default_values'),
+        ('dfirtrack_main', '0010_status_history_for_system'),
     ]
 
     operations = [
@@ -70,33 +72,6 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='SystemImporterFileCsvConfigbasedConfigModel',
-            fields=[
-                ('system_importer_file_csv_configbased_config_name', models.CharField(editable=False, max_length=50, primary_key=True, serialize=False)),
-                ('csv_skip_existing_system', models.BooleanField(blank=True)),
-                ('csv_column_system', models.IntegerField()),
-                ('csv_headline', models.BooleanField(blank=True)),
-                ('csv_choice_ip', models.BooleanField(blank=True)),
-                ('csv_remove_ip', models.BooleanField(blank=True)),
-                ('csv_column_ip', models.IntegerField()),
-                ('csv_remove_case', models.BooleanField(blank=True)),
-                ('csv_remove_company', models.BooleanField(blank=True)),
-                ('csv_remove_tag', models.BooleanField(blank=True)),
-                ('csv_default_systemstatus', models.IntegerField()),
-                ('csv_default_analysisstatus', models.IntegerField()),
-                ('csv_default_reason', models.IntegerField()),
-                ('csv_default_domain', models.IntegerField()),
-                ('csv_default_dnsname', models.IntegerField()),
-                ('csv_default_systemtype', models.IntegerField()),
-                ('csv_default_os', models.IntegerField()),
-                ('csv_default_location', models.IntegerField()),
-                ('csv_default_serviceprovider', models.IntegerField()),
-                ('csv_default_case', models.IntegerField()),
-                ('csv_default_company', models.IntegerField()),
-                ('csv_default_tag', models.IntegerField()),
-            ],
-        ),
-        migrations.CreateModel(
             name='SystemImporterFileCsvFormbasedConfigModel',
             fields=[
                 ('system_importer_file_csv_formbased_config_name', models.CharField(editable=False, max_length=50, primary_key=True, serialize=False)),
@@ -109,6 +84,33 @@ class Migration(migrations.Migration):
                 ('csv_remove_case', models.BooleanField(blank=True)),
                 ('csv_remove_company', models.BooleanField(blank=True)),
                 ('csv_remove_tag', models.BooleanField(blank=True)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='SystemImporterFileCsvConfigbasedConfigModel',
+            fields=[
+                ('system_importer_file_csv_configbased_config_name', models.CharField(editable=False, max_length=50, primary_key=True, serialize=False)),
+                ('csv_skip_existing_system', models.BooleanField(blank=True)),
+                ('csv_column_system', models.IntegerField()),
+                ('csv_headline', models.BooleanField(blank=True)),
+                ('csv_choice_ip', models.BooleanField(blank=True)),
+                ('csv_remove_ip', models.BooleanField(blank=True)),
+                ('csv_column_ip', models.IntegerField()),
+                ('csv_remove_case', models.BooleanField(blank=True)),
+                ('csv_remove_company', models.BooleanField(blank=True)),
+                ('csv_remove_tag', models.BooleanField(blank=True)),
+                ('csv_default_analysisstatus', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='system_importer_file_csv_configbased_config_analysisstatus', to='dfirtrack_main.Analysisstatus')),
+                ('csv_default_case', models.ManyToManyField(related_name='artifact_exporter_spreadsheet_xls_config_case', to='dfirtrack_main.Case')),
+                ('csv_default_company', models.ManyToManyField(related_name='artifact_exporter_spreadsheet_xls_config_company', to='dfirtrack_main.Company')),
+                ('csv_default_dnsname', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='system_importer_file_csv_configbased_config_dnsname', to='dfirtrack_main.Dnsname')),
+                ('csv_default_domain', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='system_importer_file_csv_configbased_config_domain', to='dfirtrack_main.Domain')),
+                ('csv_default_location', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='system_importer_file_csv_configbased_config_location', to='dfirtrack_main.Location')),
+                ('csv_default_os', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='system_importer_file_csv_configbased_config_os', to='dfirtrack_main.Os')),
+                ('csv_default_reason', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='system_importer_file_csv_configbased_config_reason', to='dfirtrack_main.Reason')),
+                ('csv_default_serviceprovider', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='system_importer_file_csv_configbased_config_serviceprovider', to='dfirtrack_main.Serviceprovider')),
+                ('csv_default_systemstatus', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='system_importer_file_csv_configbased_config_systemstatus', to='dfirtrack_main.Systemstatus')),
+                ('csv_default_systemtype', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='system_importer_file_csv_configbased_config_systemtype', to='dfirtrack_main.Systemtype')),
+                ('csv_default_tag', models.ManyToManyField(related_name='artifact_exporter_spreadsheet_xls_config_tag', to='dfirtrack_main.Tag')),
             ],
         ),
         migrations.CreateModel(
