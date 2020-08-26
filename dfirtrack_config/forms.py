@@ -1,101 +1,66 @@
 from django import forms
 from dfirtrack_artifacts.models import Artifactstatus
+from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel
 #from dfirtrack_main.models import Analysisstatus, Case, Company, Dnsname, Domain, Location, Os, Reason, Serviceprovider, Systemstatus, Systemtype, Tag
 
-class ArtifactExporterSpreadsheetCsvConfigForm(forms.Form):
+class ArtifactExporterSpreadsheetXlsConfigForm(forms.ModelForm):
 
-# TODO: find an alternative for the selection (reactivate the tests afterwards)
-#    # create empty list for available artifactstatus
-#    artifactstatus_choices = []
-#    # get all artifactstatus
-#    artifactstatus_all = Artifactstatus.objects.order_by('artifactstatus_id')
-#    # prepare choices (append tupel consisting of artifactstatus_id and artifactstatus_name to list (therefore double brackets))
-#    for artifactstatus in artifactstatus_all:
-#        artifactstatus_choices.append((artifactstatus.artifactstatus_id, artifactstatus.artifactstatus_name))
-#    # create field
-#    artifactlist_choice_artifactstatus = forms.MultipleChoiceField(
+# TODO: CheckboxSelectMultiple does not work properly
+#    # reorder field choices
+#    artifactlist_choice_artifactstatus = forms.ModelChoiceField(
 #        required = False,
 #        widget = forms.CheckboxSelectMultiple(),
 #        label = 'Export only artifacts with this artifactstatus',
-#        choices = artifactstatus_choices,
+#        queryset = Artifactstatus.objects.all()
 #    )
 
-    artifactlist_artifact_id = forms.BooleanField(
-        required = False,
-        label = 'Export artifact ID',
-    )
+    class Meta:
 
-    artifactlist_system_id = forms.BooleanField(
-        required = False,
-        label = 'Export system ID',
-    )
+        # model
+        model = ArtifactExporterSpreadsheetXlsConfigModel
 
-    artifactlist_system_name = forms.BooleanField(
-        required = False,
-        label = 'Export system name',
-    )
+        # this HTML forms are shown
+        fields = (
+            'artifactlist_xls_choice_artifactstatus',
+            'artifactlist_xls_artifact_id',
+            'artifactlist_xls_system_id',
+            'artifactlist_xls_system_name',
+            'artifactlist_xls_artifactstatus',
+            'artifactlist_xls_artifacttype',
+            'artifactlist_xls_artifact_source_path',
+            'artifactlist_xls_artifact_storage_path',
+            'artifactlist_xls_artifact_note',
+            'artifactlist_xls_artifact_md5',
+            'artifactlist_xls_artifact_sha1',
+            'artifactlist_xls_artifact_sha256',
+            'artifactlist_xls_artifact_create_time',
+            'artifactlist_xls_artifact_modify_time',
+            'artifactlist_xls_worksheet_artifactstatus',
+            'artifactlist_xls_worksheet_artifacttype',
+        )
 
-    artifactlist_artifactstatus = forms.BooleanField(
-        required = False,
-        label = 'Export artifactstatus',
-    )
+        labels = {
+            'artifactlist_xls_choice_artifactstatus': 'Export only artifacts with this artifactstatus',
+            'artifactlist_xls_artifact_id': 'Export artifact ID',
+            'artifactlist_xls_system_id': 'Export system ID',
+            'artifactlist_xls_system_name': 'Export system name',
+            'artifactlist_xls_artifactstatus': 'Export artifactstatus',
+            'artifactlist_xls_artifacttype': 'Export artifacttype',
+            'artifactlist_xls_artifact_source_path': 'Export source path',
+            'artifactlist_xls_artifact_storage_path': 'Export storage path',
+            'artifactlist_xls_artifact_note': 'Export note',
+            'artifactlist_xls_artifact_md5': 'Export MD5',
+            'artifactlist_xls_artifact_sha1': 'Export SHA1',
+            'artifactlist_xls_artifact_sha256': 'Export SHA256',
+            'artifactlist_xls_artifact_create_time': 'Export create time',
+            'artifactlist_xls_artifact_modify_time': 'Export modify time',
+            'artifactlist_xls_worksheet_artifactstatus': 'Export worksheet to explain artifactstatus',
+            'artifactlist_xls_worksheet_artifacttype': 'Export worksheet to explain artifacttype',
+        }
 
-    artifactlist_artifacttype = forms.BooleanField(
-        required = False,
-        label = 'Export artifacttype',
-    )
-
-    artifactlist_artifact_source_path = forms.BooleanField(
-        required = False,
-        label = 'Export source path',
-    )
-
-    artifactlist_artifact_storage_path = forms.BooleanField(
-        required = False,
-        label = 'Export storage path',
-    )
-
-    artifactlist_artifact_note = forms.BooleanField(
-        required = False,
-        label = 'Export note',
-    )
-
-    artifactlist_artifact_md5 = forms.BooleanField(
-        required = False,
-        label = 'Export MD5',
-    )
-
-    artifactlist_artifact_sha1 = forms.BooleanField(
-        required = False,
-        label = 'Export SHA1',
-    )
-
-    artifactlist_artifact_sha256 = forms.BooleanField(
-        required = False,
-        label = 'Export SHA256',
-    )
-
-    artifactlist_artifact_create_time = forms.BooleanField(
-        required = False,
-        label = 'Export create time',
-    )
-
-    artifactlist_artifact_modify_time = forms.BooleanField(
-        required = False,
-        label = 'Export modify time',
-    )
-
-class ArtifactExporterSpreadsheetXlsConfigForm(ArtifactExporterSpreadsheetCsvConfigForm):
-
-    artifactlist_worksheet_artifactstatus = forms.BooleanField(
-        required = False,
-        label = 'Export worksheet to explain artifactstatus',
-    )
-
-    artifactlist_worksheet_artifacttype = forms.BooleanField(
-        required = False,
-        label = 'Export worksheet to explain artifacttype',
-    )
+        widgets = {
+            'artifactlist_xls_choice_artifactstatus': forms.CheckboxSelectMultiple(),
+        }
 
 class SystemExporterMarkdownConfigForm(forms.Form):
     """ system exporter markdown config form """

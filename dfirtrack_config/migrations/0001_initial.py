@@ -6,31 +6,10 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
+        ('dfirtrack_artifacts', '0002_default_values'),
     ]
 
     operations = [
-        migrations.CreateModel(
-            name='ArtifactExporterSpreadsheetXlsConfigModel',
-            fields=[
-                ('artifact_exporter_spreadsheet_xls_config_name', models.CharField(editable=False, max_length=50, primary_key=True, serialize=False)),
-                ('artifactlist_xls_artifact_id', models.BooleanField(blank=True)),
-                ('artifactlist_xls_system_id', models.BooleanField(blank=True)),
-                ('artifactlist_xls_system_name', models.BooleanField(blank=True)),
-                ('artifactlist_xls_artifactstatus', models.BooleanField(blank=True)),
-                ('artifactlist_xls_artifacttype', models.BooleanField(blank=True)),
-                ('artifactlist_xls_artifact_source_path', models.BooleanField(blank=True)),
-                ('artifactlist_xls_artifact_storage_path', models.BooleanField(blank=True)),
-                ('artifactlist_xls_artifact_note', models.BooleanField(blank=True)),
-                ('artifactlist_xls_artifact_md5', models.BooleanField(blank=True)),
-                ('artifactlist_xls_artifact_sha1', models.BooleanField(blank=True)),
-                ('artifactlist_xls_artifact_sha256', models.BooleanField(blank=True)),
-                ('artifactlist_xls_artifact_create_time', models.BooleanField(blank=True)),
-                ('artifactlist_xls_artifact_modify_time', models.BooleanField(blank=True)),
-                ('artifactlist_xls_worksheet_artifactstatus', models.BooleanField(blank=True)),
-                ('artifactlist_xls_worksheet_artifacttype', models.BooleanField(blank=True)),
-                ('artifactlist_xls_choice_artifactstatus', models.IntegerField()),
-            ],
-        ),
         migrations.CreateModel(
             name='SystemExporterMarkdownConfigModel',
             fields=[
@@ -130,6 +109,28 @@ class Migration(migrations.Migration):
                 ('csv_remove_case', models.BooleanField(blank=True)),
                 ('csv_remove_company', models.BooleanField(blank=True)),
                 ('csv_remove_tag', models.BooleanField(blank=True)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='ArtifactExporterSpreadsheetXlsConfigModel',
+            fields=[
+                ('artifact_exporter_spreadsheet_xls_config_name', models.CharField(editable=False, max_length=50, primary_key=True, serialize=False)),
+                ('artifactlist_xls_artifact_id', models.BooleanField(blank=True)),
+                ('artifactlist_xls_system_id', models.BooleanField(blank=True)),
+                ('artifactlist_xls_system_name', models.BooleanField(blank=True)),
+                ('artifactlist_xls_artifactstatus', models.BooleanField(blank=True)),
+                ('artifactlist_xls_artifacttype', models.BooleanField(blank=True)),
+                ('artifactlist_xls_artifact_source_path', models.BooleanField(blank=True)),
+                ('artifactlist_xls_artifact_storage_path', models.BooleanField(blank=True)),
+                ('artifactlist_xls_artifact_note', models.BooleanField(blank=True)),
+                ('artifactlist_xls_artifact_md5', models.BooleanField(blank=True)),
+                ('artifactlist_xls_artifact_sha1', models.BooleanField(blank=True)),
+                ('artifactlist_xls_artifact_sha256', models.BooleanField(blank=True)),
+                ('artifactlist_xls_artifact_create_time', models.BooleanField(blank=True)),
+                ('artifactlist_xls_artifact_modify_time', models.BooleanField(blank=True)),
+                ('artifactlist_xls_worksheet_artifactstatus', models.BooleanField(blank=True)),
+                ('artifactlist_xls_worksheet_artifacttype', models.BooleanField(blank=True)),
+                ('artifactlist_xls_choice_artifactstatus', models.ManyToManyField(related_name='artifact_exporter_spreadsheet_xls_config_artifactstatus', to='dfirtrack_artifacts.Artifactstatus')),
             ],
         ),
     ]

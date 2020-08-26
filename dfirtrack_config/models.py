@@ -6,6 +6,7 @@ class ArtifactExporterSpreadsheetXlsConfigModel(models.Model):
     artifact_exporter_spreadsheet_xls_config_name = models.CharField(max_length=50, primary_key=True, editable=False)
 
     # config fields
+    artifactlist_xls_choice_artifactstatus = models.ManyToManyField('dfirtrack_artifacts.Artifactstatus', related_name='artifact_exporter_spreadsheet_xls_config_artifactstatus')
     artifactlist_xls_artifact_id = models.BooleanField(blank=True)
     artifactlist_xls_system_id = models.BooleanField(blank=True)
     artifactlist_xls_system_name = models.BooleanField(blank=True)
@@ -21,8 +22,6 @@ class ArtifactExporterSpreadsheetXlsConfigModel(models.Model):
     artifactlist_xls_artifact_modify_time = models.BooleanField(blank=True)
     artifactlist_xls_worksheet_artifactstatus = models.BooleanField(blank=True)
     artifactlist_xls_worksheet_artifacttype = models.BooleanField(blank=True)
-    # TODO: find an alternative for the selection
-    artifactlist_xls_choice_artifactstatus = models.IntegerField()
 
 class SystemExporterMarkdownConfigModel(models.Model):
 

@@ -53,14 +53,14 @@
             <div class="card card-body bg-dark border-light top-distance">
 
                 <h5>
-                    {{ form.artifactlist_choice_artifactstatus.label }}
+                    {{ form.artifactlist_xls_choice_artifactstatus.label }}
                 </h5>
 
                 <!-- errors -->
                 <div class="text-danger">
-                    {{ form.artifactlist_choice_artifactstatus.errors }}
+                    {{ form.artifactlist_xls_choice_artifactstatus.errors }}
                 </div>
-                {% for i in form.artifactlist_choice_artifactstatus %}
+                {% for i in form.artifactlist_xls_choice_artifactstatus %}
                     {{ i }}<br>
                 {% endfor  %}
 
@@ -77,19 +77,19 @@
                 </h5>
 
                 <table>
-                    <tr><td>{{ form.artifactlist_artifact_id }}</td> <td>{{ form.artifactlist_artifact_id.label }}</td></tr>
-                    <tr><td>{{ form.artifactlist_system_id }}</td> <td>{{ form.artifactlist_system_id.label }}</td></tr>
-                    <tr><td>{{ form.artifactlist_system_name }}</td> <td>{{ form.artifactlist_system_name.label }}</td></tr>
-                    <tr><td>{{ form.artifactlist_artifactstatus }}</td> <td>{{ form.artifactlist_artifactstatus.label }}</td></tr>
-                    <tr><td>{{ form.artifactlist_artifacttype }}</td> <td>{{ form.artifactlist_artifacttype.label }}</td></tr>
-                    <tr><td>{{ form.artifactlist_artifact_source_path }}</td> <td>{{ form.artifactlist_artifact_source_path.label }}</td></tr>
-                    <tr><td>{{ form.artifactlist_artifact_storage_path }}</td> <td>{{ form.artifactlist_artifact_storage_path.label }}</td></tr>
-                    <tr><td>{{ form.artifactlist_artifact_note }}</td> <td>{{ form.artifactlist_artifact_note.label }}</td></tr>
-                    <tr><td>{{ form.artifactlist_artifact_md5 }}</td> <td>{{ form.artifactlist_artifact_md5.label }}</td></tr>
-                    <tr><td>{{ form.artifactlist_artifact_sha1 }}</td> <td>{{ form.artifactlist_artifact_sha1.label }}</td></tr>
-                    <tr><td>{{ form.artifactlist_artifact_sha256 }}</td> <td>{{ form.artifactlist_artifact_sha256.label }}</td></tr>
-                    <tr><td>{{ form.artifactlist_artifact_create_time }}</td> <td>{{ form.artifactlist_artifact_create_time.label }}</td></tr>
-                    <tr><td>{{ form.artifactlist_artifact_modify_time }}</td> <td>{{ form.artifactlist_artifact_modify_time.label }}</td></tr>
+                    <tr><td>{{ form.artifactlist_xls_artifact_id }}</td> <td>{{ form.artifactlist_xls_artifact_id.label }}</td></tr>
+                    <tr><td>{{ form.artifactlist_xls_system_id }}</td> <td>{{ form.artifactlist_xls_system_id.label }}</td></tr>
+                    <tr><td>{{ form.artifactlist_xls_system_name }}</td> <td>{{ form.artifactlist_xls_system_name.label }}</td></tr>
+                    <tr><td>{{ form.artifactlist_xls_artifactstatus }}</td> <td>{{ form.artifactlist_xls_artifactstatus.label }}</td></tr>
+                    <tr><td>{{ form.artifactlist_xls_artifacttype }}</td> <td>{{ form.artifactlist_xls_artifacttype.label }}</td></tr>
+                    <tr><td>{{ form.artifactlist_xls_artifact_source_path }}</td> <td>{{ form.artifactlist_xls_artifact_source_path.label }}</td></tr>
+                    <tr><td>{{ form.artifactlist_xls_artifact_storage_path }}</td> <td>{{ form.artifactlist_xls_artifact_storage_path.label }}</td></tr>
+                    <tr><td>{{ form.artifactlist_xls_artifact_note }}</td> <td>{{ form.artifactlist_xls_artifact_note.label }}</td></tr>
+                    <tr><td>{{ form.artifactlist_xls_artifact_md5 }}</td> <td>{{ form.artifactlist_xls_artifact_md5.label }}</td></tr>
+                    <tr><td>{{ form.artifactlist_xls_artifact_sha1 }}</td> <td>{{ form.artifactlist_xls_artifact_sha1.label }}</td></tr>
+                    <tr><td>{{ form.artifactlist_xls_artifact_sha256 }}</td> <td>{{ form.artifactlist_xls_artifact_sha256.label }}</td></tr>
+                    <tr><td>{{ form.artifactlist_xls_artifact_create_time }}</td> <td>{{ form.artifactlist_xls_artifact_create_time.label }}</td></tr>
+                    <tr><td>{{ form.artifactlist_xls_artifact_modify_time }}</td> <td>{{ form.artifactlist_xls_artifact_modify_time.label }}</td></tr>
                 </table>
 
             <!-- artifact attributes block -->
@@ -111,8 +111,8 @@
                 </h5>
 
                 <table>
-                    <tr><td>{{ form.artifactlist_worksheet_artifactstatus }}</td> <td>{{ form.artifactlist_worksheet_artifactstatus.label }}</td></tr>
-                    <tr><td>{{ form.artifactlist_worksheet_artifacttype }}</td> <td>{{ form.artifactlist_worksheet_artifacttype.label }}</td></tr>
+                    <tr><td>{{ form.artifactlist_xls_worksheet_artifactstatus }}</td> <td>{{ form.artifactlist_xls_worksheet_artifactstatus.label }}</td></tr>
+                    <tr><td>{{ form.artifactlist_xls_worksheet_artifacttype }}</td> <td>{{ form.artifactlist_xls_worksheet_artifacttype.label }}</td></tr>
                 </table>
 
             <!-- artifact attributes block -->
