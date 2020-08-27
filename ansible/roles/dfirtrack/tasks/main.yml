@@ -25,6 +25,7 @@
 - name: DJANGO | Install python dependencies
   apt:
     name:
+      - libpq-dev
       - python-setuptools
       - python3-pip
       - python3-virtualenv
