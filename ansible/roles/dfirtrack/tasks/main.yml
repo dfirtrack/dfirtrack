@@ -14,13 +14,19 @@
     dest: "{{ dfirtrack_dir }}"
     version: "{{ dfirtrack_branch }}"
 
-- name: DFIRTRACK | Copy settings.py
+- name: DFIRTRACK | Copy local_settings.py
   template:
-    src: settings.py.j2
-    dest: "{{ dfirtrack_dir }}/dfirtrack/settings.py"
+    src: local_settings.py.j2
+    dest: "{{ dfirtrack_dir }}/dfirtrack/local_settings.py"
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: "0640"
+
+- name: DFIRTRACK | Change secret key
+  lineinfile:
+    path: "{{ dfirtrack_dir }}/dfirtrack/settings.py"
+    regexp: "^SECRET_KEY"
+    line: "SECRET_KEY = {{ secret_key }}"
 
 - name: DJANGO | Install python dependencies
   apt:

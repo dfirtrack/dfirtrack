@@ -1,0 +1,23 @@
+"""
+Django settings for DFIRTrack project provided with Ansible.
+
+These settings extend the defaul dfirtrack.settings.
+"""
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = False
+
+ALLOWED_HOSTS = ['{{ fqdn }}','localhost']
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': '{{ postgresql_database }}',
+        'USER': '{{ postgresql_user }}',
+        'PASSWORD': '{{ postgresql_user_password }}',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+}
+
+STATIC_ROOT = '{{ www_dir }}/static/'

@@ -94,7 +94,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '/var/www/html/static/'
 
 LOGIN_REDIRECT_URL = '/system/'
 
@@ -182,3 +181,5 @@ except ImportError:
                 'NAME': os.path.join(BASE_DIR, 'dfirtrack.sqlite3'),
             }
         }
+
+    STATIC_ROOT = '/var/www/html/static/'
