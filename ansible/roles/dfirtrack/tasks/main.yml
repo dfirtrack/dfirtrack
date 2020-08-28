@@ -29,6 +29,7 @@
       - python-setuptools
       - python3-pip
       - python3-virtualenv
+      - virtualenv
     state: present
   become: yes
   become_method: sudo
