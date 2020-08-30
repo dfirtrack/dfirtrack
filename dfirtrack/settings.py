@@ -148,7 +148,7 @@ REST_FRAMEWORK = {
 
 # import local settings for development
 try:
-    from .local_settings import ALLOWED_HOSTS, DATABASES, DEBUG
+    from .local_settings import ALLOWED_HOSTS, DATABASES, DEBUG, STATIC_ROOT
 
 except ImportError:
     ''' default values for testing purposes '''
