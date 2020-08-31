@@ -1,6 +1,6 @@
 from django import forms
 from dfirtrack_artifacts.models import Artifactstatus
-from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel, SystemImporterFileCsvConfigbasedConfigModel, SystemImporterFileCsvFormbasedConfigModel
+from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel, SystemExporterSpreadsheetCsvConfigModel, SystemExporterSpreadsheetXlsConfigModel, SystemImporterFileCsvConfigbasedConfigModel, SystemImporterFileCsvFormbasedConfigModel
 
 class ArtifactExporterSpreadsheetXlsConfigForm(forms.ModelForm):
     """ artifact exporter spreadsheet xls config form """
@@ -62,6 +62,7 @@ class ArtifactExporterSpreadsheetXlsConfigForm(forms.ModelForm):
             'artifactlist_xls_choice_artifactstatus': forms.CheckboxSelectMultiple(),
         }
 
+# TODO: switch to model form
 class SystemExporterMarkdownConfigForm(forms.Form):
     """ system exporter markdown config form """
 
@@ -87,123 +88,113 @@ class SystemExporterMarkdownConfigForm(forms.Form):
         choices = markdown_sorting_choices,
     )
 
-# TODO: switch to model form
-class SystemExporterSpreadsheetCsvConfigForm(forms.Form):
-    """ system exporter spreadsheet config form (CSV and XLS) """
+class SystemExporterSpreadsheetCsvConfigForm(forms.ModelForm):
+    """ system exporter spreadsheet CSV config form """
 
-    spread_system_id = forms.BooleanField(
-        required = False,
-        label = 'Export system ID',
-    )
+    class Meta:
 
-    spread_dnsname = forms.BooleanField(
-        required = False,
-        label = 'Export DNS name',
-    )
+        # model
+        model = SystemExporterSpreadsheetCsvConfigModel
 
-    spread_domain = forms.BooleanField(
-        required = False,
-        label = 'Export domain',
-    )
+        # this HTML forms are shown
+        fields = (
+            'spread_csv_system_id',
+            'spread_csv_dnsname',
+            'spread_csv_domain',
+            'spread_csv_systemstatus',
+            'spread_csv_analysisstatus',
+            'spread_csv_reason',
+            'spread_csv_recommendation',
+            'spread_csv_systemtype',
+            'spread_csv_ip',
+            'spread_csv_os',
+            'spread_csv_company',
+            'spread_csv_location',
+            'spread_csv_serviceprovider',
+            'spread_csv_tag',
+            'spread_csv_case',
+            'spread_csv_system_create_time',
+            'spread_csv_system_modify_time',
+        )
 
-    spread_systemstatus = forms.BooleanField(
-        required = False,
-        label = 'Export systemstatus',
-    )
+        labels = {
+            'spread_csv_system_id': 'Export system ID',
+            'spread_csv_dnsname': 'Export DNS name',
+            'spread_csv_domain': 'Export domain',
+            'spread_csv_systemstatus': 'Export systemstatus',
+            'spread_csv_analysisstatus': 'Export analysisstatus',
+            'spread_csv_reason': 'Export reason',
+            'spread_csv_recommendation': 'Export recommendation',
+            'spread_csv_systemtype': 'Export systemtype',
+            'spread_csv_ip': 'Export IP',
+            'spread_csv_os': 'Export OS',
+            'spread_csv_company': 'Export company',
+            'spread_csv_location': 'Export location',
+            'spread_csv_serviceprovider': 'Export serviceprovider',
+            'spread_csv_tag': 'Export tag',
+            'spread_csv_case': 'Export case',
+            'spread_csv_system_create_time': 'Export system create time',
+            'spread_csv_system_modify_time': 'Export system modify time',
+        }
 
-    spread_analysisstatus = forms.BooleanField(
-        required = False,
-        label = 'Export analysisstatus',
-    )
+class SystemExporterSpreadsheetXlsConfigForm(forms.ModelForm):
+    """ system exporter spreadsheet XLS config form """
 
-    spread_reason = forms.BooleanField(
-        required = False,
-        label = 'Export reason',
-    )
+    class Meta:
 
-    spread_recommendation = forms.BooleanField(
-        required = False,
-        label = 'Export recommendation',
-    )
+        # model
+        model = SystemExporterSpreadsheetXlsConfigModel
 
-    spread_systemtype = forms.BooleanField(
-        required = False,
-        label = 'Export systemtype',
-    )
+        # this HTML forms are shown
+        fields = (
+            'spread_xls_system_id',
+            'spread_xls_dnsname',
+            'spread_xls_domain',
+            'spread_xls_systemstatus',
+            'spread_xls_analysisstatus',
+            'spread_xls_reason',
+            'spread_xls_recommendation',
+            'spread_xls_systemtype',
+            'spread_xls_ip',
+            'spread_xls_os',
+            'spread_xls_company',
+            'spread_xls_location',
+            'spread_xls_serviceprovider',
+            'spread_xls_tag',
+            'spread_xls_case',
+            'spread_xls_system_create_time',
+            'spread_xls_system_modify_time',
+            'spread_xls_worksheet_systemstatus',
+            'spread_xls_worksheet_analysisstatus',
+            'spread_xls_worksheet_reason',
+            'spread_xls_worksheet_recommendation',
+            'spread_xls_worksheet_tag',
+        )
 
-    spread_ip = forms.BooleanField(
-        required = False,
-        label = 'Export IP',
-    )
-
-    spread_os = forms.BooleanField(
-        required = False,
-        label = 'Export OS',
-    )
-
-    spread_company = forms.BooleanField(
-        required = False,
-        label = 'Export company',
-    )
-
-    spread_location = forms.BooleanField(
-        required = False,
-        label = 'Export location',
-    )
-
-    spread_serviceprovider = forms.BooleanField(
-        required = False,
-        label = 'Export serviceprovider',
-    )
-
-    spread_tag = forms.BooleanField(
-        required = False,
-        label = 'Export tag',
-    )
-
-    spread_case = forms.BooleanField(
-        required = False,
-        label = 'Export case',
-    )
-
-    spread_system_create_time = forms.BooleanField(
-        required = False,
-        label = 'Export system create time',
-    )
-
-    spread_system_modify_time = forms.BooleanField(
-        required = False,
-        label = 'Export system modify time',
-    )
-
-# TODO: switch to model form
-class SystemExporterSpreadsheetXlsConfigForm(SystemExporterSpreadsheetCsvConfigForm):
-    """ system exporter spreadsheet config form (XLS only) """
-
-    spread_worksheet_systemstatus = forms.BooleanField(
-        required = False,
-        label = 'Export worksheet to explain systemstatus',
-    )
-
-    spread_worksheet_analysisstatus = forms.BooleanField(
-        required = False,
-        label = 'Export worksheet to explain analysisstatus',
-    )
-
-    spread_worksheet_reason = forms.BooleanField(
-        required = False,
-        label = 'Export worksheet to explain reason',
-    )
-
-    spread_worksheet_recommendation = forms.BooleanField(
-        required = False,
-        label = 'Export worksheet to explain recommendation',
-    )
-
-    spread_worksheet_tag = forms.BooleanField(
-        required = False,
-        label = 'Export worksheet to explain tag',
-    )
+        labels = {
+            'spread_xls_system_id': 'Export system ID',
+            'spread_xls_dnsname': 'Export DNS name',
+            'spread_xls_domain': 'Export domain',
+            'spread_xls_systemstatus': 'Export systemstatus',
+            'spread_xls_analysisstatus': 'Export analysisstatus',
+            'spread_xls_reason': 'Export reason',
+            'spread_xls_recommendation': 'Export recommendation',
+            'spread_xls_systemtype': 'Export systemtype',
+            'spread_xls_ip': 'Export IP',
+            'spread_xls_os': 'Export OS',
+            'spread_xls_company': 'Export company',
+            'spread_xls_location': 'Export location',
+            'spread_xls_serviceprovider': 'Export serviceprovider',
+            'spread_xls_tag': 'Export tag',
+            'spread_xls_case': 'Export case',
+            'spread_xls_system_create_time': 'Export system create time',
+            'spread_xls_system_modify_time': 'Export system modify time',
+            'spread_xls_worksheet_systemstatus': 'Export worksheet to explain systemstatus',
+            'spread_xls_worksheet_analysisstatus': 'Export worksheet to explain analysisstatus',
+            'spread_xls_worksheet_reason': 'Export worksheet to explain reason',
+            'spread_xls_worksheet_recommendation': 'Export worksheet to explain recommendation',
+            'spread_xls_worksheet_tag': 'Export worksheet to explain tag',
+        }
 
 class SystemImporterFileCsvConfigbasedConfigForm(forms.ModelForm):
     """ system importer CSV config form (config based only) """
