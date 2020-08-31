@@ -5,15 +5,6 @@ from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel, S
 class ArtifactExporterSpreadsheetXlsConfigForm(forms.ModelForm):
     """ artifact exporter spreadsheet xls config form """
 
-# TODO: CheckboxSelectMultiple does not work properly
-#    # reorder field choices
-#    artifactlist_choice_artifactstatus = forms.ModelChoiceField(
-#        required = False,
-#        widget = forms.CheckboxSelectMultiple(),
-#        label = 'Export only artifacts with this artifactstatus',
-#        queryset = Artifactstatus.objects.all()
-#    )
-
     class Meta:
 
         # model

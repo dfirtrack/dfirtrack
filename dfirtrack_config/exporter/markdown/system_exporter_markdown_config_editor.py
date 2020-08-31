@@ -20,8 +20,18 @@ def system_exporter_markdown_config_view(request):
             model.markdown_sorting = form.cleaned_data['markdown_sorting']
             model.save()
 
-        # close popup
-        return HttpResponse('<script type="text/javascript">window.close();</script>')
+            # close popup
+            return HttpResponse('<script type="text/javascript">window.close();</script>')
+
+        else:
+            # show form page again
+            return render(
+                request,
+                'dfirtrack_config/system/system_exporter_markdown_config_popup.html',
+                {
+                    'form': form,
+                }
+            )
 
     else:
 
