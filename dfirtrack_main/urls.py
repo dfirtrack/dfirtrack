@@ -4,11 +4,12 @@ from dfirtrack_main.views import analysisstatus_views, analystmemo_views, case_v
 from dfirtrack_main.creator import system_creator, tag_creator, task_creator
 from dfirtrack_main.exporter.spreadsheet import csv as spreadsheet_csv
 from dfirtrack_main.exporter.spreadsheet import xls
-from dfirtrack_main.exporter.markdown import domainsorted, systemsorted
+from dfirtrack_main.exporter.markdown import markdown as markdown_exporter
 from dfirtrack_main.importer.api import giraf
-from dfirtrack_main.importer.file import csv as file_csv
+from dfirtrack_main.importer.file import csv_config_based, csv_form_based
 from dfirtrack_main.importer.file import filesystem, markdown
 from dfirtrack_main.models import Analysisstatus, Analystmemo, Case, Company, Contact, Division, Dnsname, Domain, Domainuser, Entry, Headline, Ip, Location, Os, Osimportname, Reason, Recommendation, Reportitem, Serviceprovider, System, Systemstatus, Systemtype, Systemuser, Tag, Task, Taskname, Taskpriority, Taskstatus
+from dfirtrack_main.modificator import system_modificator
 
 urlpatterns = [
 
@@ -125,12 +126,13 @@ urlpatterns = [
     path(r'system/<int:pk>/edit/', system_views.SystemUpdate.as_view(), name='system_update'),
 
     path(r'system/creator/', system_creator.system_creator, name='system_creator'),
-    path(r'system/exporter/markdown/domainsorted/', domainsorted.domainsorted, name='system_exporter_markdown_domainsorted'),
-    path(r'system/exporter/markdown/systemsorted/', systemsorted.systemsorted, name='system_exporter_markdown_systemsorted'),
+    path(r'system/exporter/markdown/system/', markdown_exporter.system, name='system_exporter_markdown'),
     path(r'system/exporter/spreadsheet/csv/system/', spreadsheet_csv.system, name='system_exporter_spreadsheet_csv'),
     path(r'system/exporter/spreadsheet/xls/system/', xls.system, name='system_exporter_spreadsheet_xls'),
     path(r'system/importer/api/giraf/system/', giraf.system, name='system_importer_api_giraf'),
-    path(r'system/importer/file/csv/', file_csv.system, name='system_importer_file_csv'),
+    path(r'system/importer/file/csv/configbased/', csv_config_based.system, name='system_importer_file_csv_config_based'),
+    path(r'system/importer/file/csv/formbased/', csv_form_based.system, name='system_importer_file_csv_form_based'),
+    path(r'system/modificator/', system_modificator.system_modificator, name='system_modificator'),
 
     path(r'systemstatus/', systemstatus_views.SystemstatusList.as_view(), name='systemstatus_list'),
     path(r'systemstatus/<int:pk>/', systemstatus_views.SystemstatusDetail.as_view(), name='systemstatus_detail'),

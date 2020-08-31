@@ -1,26 +1,13 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from django.shortcuts import redirect
-from django.urls import reverse
-import dfirtrack.config as dfirtrack_config
-from dfirtrack_main.logger.default_logger import info_logger, warning_logger
+from dfirtrack_config.models import SystemExporterSpreadsheetCsvConfigModel
+from dfirtrack_main.logger.default_logger import info_logger
 from dfirtrack_main.models import System
-from .spreadsheet_check_data import check_config
 import csv
 from time import strftime
 
 @login_required(login_url="/login")
 def system(request):
-
-    # check config
-    stop_system_exporter_spreadsheet = check_config(request)
-
-    # leave system_exporter_spreadsheet_csv if variables caused errors
-    if stop_system_exporter_spreadsheet:
-
-        # call logger
-        warning_logger(str(request.user), " SYSTEM_EXPORTER_SPREADSHEET_CSV_END_WITH_ERRORS")
-        return redirect(reverse('system_list'))
 
     """ prepare file """
 
@@ -33,50 +20,53 @@ def system(request):
     # create file object for writing lines
     sod_writer = csv.writer(sod)
 
+    # get config model
+    model = SystemExporterSpreadsheetCsvConfigModel.objects.get(system_exporter_spreadsheet_csv_config_name = 'SystemExporterSpreadsheetCsvConfig')
+
     """ start with headline """
 
     # create empty list
     headline = []
 
     # check for attribute id
-    if dfirtrack_config.SPREAD_SYSTEM_ID:
+    if model.spread_csv_system_id:
         headline.append('ID')
 
     # append mandatory attribute
     headline.append('System')
 
     # check for remaining attributes
-    if dfirtrack_config.SPREAD_DNSNAME:
+    if model.spread_csv_dnsname:
         headline.append('DNS name')
-    if dfirtrack_config.SPREAD_DOMAIN:
+    if model.spread_csv_domain:
         headline.append('Domain')
-    if dfirtrack_config.SPREAD_SYSTEMSTATUS:
+    if model.spread_csv_systemstatus:
         headline.append('Systemstatus')
-    if dfirtrack_config.SPREAD_ANALYSISSTATUS:
+    if model.spread_csv_analysisstatus:
         headline.append('Analysisstatus')
-    if dfirtrack_config.SPREAD_REASON:
+    if model.spread_csv_reason:
         headline.append('Reason')
-    if dfirtrack_config.SPREAD_RECOMMENDATION:
+    if model.spread_csv_recommendation:
         headline.append('Recommendation')
-    if dfirtrack_config.SPREAD_SYSTEMTYPE:
+    if model.spread_csv_systemtype:
         headline.append('Systemtype')
-    if dfirtrack_config.SPREAD_IP:
+    if model.spread_csv_ip:
         headline.append('IP')
-    if dfirtrack_config.SPREAD_OS:
+    if model.spread_csv_os:
         headline.append('OS')
-    if dfirtrack_config.SPREAD_COMPANY:
+    if model.spread_csv_company:
         headline.append('Company')
-    if dfirtrack_config.SPREAD_LOCATION:
+    if model.spread_csv_location:
         headline.append('Location')
-    if dfirtrack_config.SPREAD_SERVICEPROVIDER:
+    if model.spread_csv_serviceprovider:
         headline.append('Serviceprovider')
-    if dfirtrack_config.SPREAD_TAG:
+    if model.spread_csv_tag:
         headline.append('Tag')
-    if dfirtrack_config.SPREAD_CASE:
+    if model.spread_csv_case:
         headline.append('Case')
-    if dfirtrack_config.SPREAD_SYSTEM_CREATE_TIME:
+    if model.spread_csv_system_create_time:
         headline.append('Created')
-    if dfirtrack_config.SPREAD_SYSTEM_MODIFY_TIME:
+    if model.spread_csv_system_modify_time:
         headline.append('Modified')
 
     # write headline
@@ -100,7 +90,7 @@ def system(request):
         """ check for attribute """
 
         # system id
-        if dfirtrack_config.SPREAD_SYSTEM_ID:
+        if model.spread_csv_system_id:
             entryline.append(system.system_id)
 
         """ append mandatory attribute """
@@ -111,52 +101,52 @@ def system(request):
         """ check for remaining attributes """
 
         # dnsname
-        if dfirtrack_config.SPREAD_DNSNAME:
+        if model.spread_csv_dnsname:
             if system.dnsname == None:
                 dnsname = ''
             else:
                 dnsname = system.dnsname.dnsname_name
             entryline.append(dnsname)
         # domain
-        if dfirtrack_config.SPREAD_DOMAIN:
+        if model.spread_csv_domain:
             if system.domain == None:
                 domain = ''
             else:
                 domain = system.domain.domain_name
             entryline.append(domain)
         # systemstatus
-        if dfirtrack_config.SPREAD_SYSTEMSTATUS:
+        if model.spread_csv_systemstatus:
             entryline.append(system.systemstatus.systemstatus_name)
         # analysisstatus
-        if dfirtrack_config.SPREAD_ANALYSISSTATUS:
+        if model.spread_csv_analysisstatus:
             if system.analysisstatus == None:
                 analysisstatus = ''
             else:
                 analysisstatus = system.analysisstatus.analysisstatus_name
             entryline.append(analysisstatus)
         # reason
-        if dfirtrack_config.SPREAD_REASON:
+        if model.spread_csv_reason:
             if system.reason == None:
                 reason = ''
             else:
                 reason = system.reason.reason_name
             entryline.append(reason)
         # recommendation
-        if dfirtrack_config.SPREAD_RECOMMENDATION:
+        if model.spread_csv_recommendation:
             if system.recommendation== None:
                 recommendation = ''
             else:
                 recommendation = system.recommendation.recommendation_name
             entryline.append(recommendation)
         # systemtype
-        if dfirtrack_config.SPREAD_SYSTEMTYPE:
+        if model.spread_csv_systemtype:
             if system.systemtype == None:
                 systemtype = ''
             else:
                 systemtype = system.systemtype.systemtype_name
             entryline.append(systemtype)
         # ip
-        if dfirtrack_config.SPREAD_IP:
+        if model.spread_csv_ip:
             # get all ips of system
             ips_all = system.ip.all()
             # count ips
@@ -175,14 +165,14 @@ def system(request):
                     i = i + 1
             entryline.append(ip)
         # os
-        if dfirtrack_config.SPREAD_OS:
+        if model.spread_csv_os:
             if system.os == None:
                 os = ''
             else:
                 os = system.os.os_name
             entryline.append(os)
         # company
-        if dfirtrack_config.SPREAD_COMPANY:
+        if model.spread_csv_company:
             # get all companies of system
             companys_all = system.company.all()
             # count companies
@@ -201,21 +191,21 @@ def system(request):
                     i = i + 1
             entryline.append(company)
         # location
-        if dfirtrack_config.SPREAD_LOCATION:
+        if model.spread_csv_location:
             if system.location == None:
                 location = ''
             else:
                 location = system.location.location_name
             entryline.append(location)
         # serviceprovider
-        if dfirtrack_config.SPREAD_SERVICEPROVIDER:
+        if model.spread_csv_serviceprovider:
             if system.serviceprovider == None:
                 serviceprovider = ''
             else:
                 serviceprovider = system.serviceprovider.serviceprovider_name
             entryline.append(serviceprovider)
         # tag
-        if dfirtrack_config.SPREAD_TAG:
+        if model.spread_csv_tag:
             # get all tags of system
             tags_all = system.tag.all()
             # count tags
@@ -234,7 +224,7 @@ def system(request):
                     i = i + 1
             entryline.append(tag)
         # case
-        if dfirtrack_config.SPREAD_CASE:
+        if model.spread_csv_case:
             # get all cases of system
             cases_all = system.case.all()
             # count cases
@@ -253,11 +243,11 @@ def system(request):
                     i = i + 1
             entryline.append(case)
         # system create time
-        if dfirtrack_config.SPREAD_SYSTEM_CREATE_TIME:
+        if model.spread_csv_system_create_time:
             system_create_time = system.system_create_time.strftime('%Y-%m-%d %H:%M')
             entryline.append(system_create_time)
         # system modify time
-        if dfirtrack_config.SPREAD_SYSTEM_MODIFY_TIME:
+        if model.spread_csv_system_modify_time:
             system_modify_time = system.system_modify_time.strftime('%Y-%m-%d %H:%M')
             entryline.append(system_modify_time)
 

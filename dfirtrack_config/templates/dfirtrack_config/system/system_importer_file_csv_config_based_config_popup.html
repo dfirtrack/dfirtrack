@@ -1,0 +1,289 @@
+<!-- extending maintemplate -->
+{% extends "dfirtrack_main/mainpopup.html" %}
+
+<!-- HTML head in maintemplate -->
+{% block head %}
+
+<!-- page title -->
+<title>
+    System CSV file import config (config-based)
+</title>
+
+{% load static %}
+
+<!-- HTML head in maintemplate -->
+{% endblock %}
+
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
+{% block content %}
+
+<!-- headline -->
+<div class="row col bottom-distance">
+    <h4>
+        System CSV file import config (config-based)
+    </h4>
+</div>
+
+<!-- explanation text -->
+<div class="row">
+    <div class="col">
+        <div class="card card-body bg-dark border-light top-distance bottom-distance copy-false">
+        You can choose how different system attributes are handled during CSV file import.
+        No other settings will be set in the file upload form.
+        All configuration takes place here.
+        </div>
+    </div>
+</div>
+
+<!-- form -->
+<form method="POST" class="post-form">
+
+    {% csrf_token %}
+
+    <!-- show form related errors -->
+    {% include "dfirtrack_main/includes/form_errors.html" %}
+
+    <!-- outer row -->
+    <div class="row">
+
+    <!-- TODO: fix arrangement of blocks / cards -->
+
+        <!-- left column -->
+        <div class="col-4">
+
+            <!-- general settings block -->
+            <div class="row">
+
+                <div class="card card-body bg-dark border-light top-distance">
+
+                    <h5>
+                        General settings
+                    </h5>
+
+                    <table>
+                        <tr><td>{{ form.csv_skip_existing_system }}</td> <td>{{ form.csv_skip_existing_system.label }}</td></tr>
+                        <tr><td>{{ form.csv_column_system }}</td> <td>{{ form.csv_column_system.label }}</td></tr>
+                        <tr><td>{{ form.csv_headline }}</td> <td>{{ form.csv_headline.label }}</td></tr>
+                    </table>
+
+                </div>
+
+            <!-- general settings block -->
+            </div>
+
+            <!-- IP related settings block -->
+            <div class="row">
+
+                <div class="card card-body bg-dark border-light top-distance">
+
+                    <h5>
+                        IP related settings
+                    </h5>
+
+                    <table class="bottom-distance">
+                        <tr><td>{{ form.csv_choice_ip }}</td> <td>{{ form.csv_choice_ip.label }}</td></tr>
+                    </table>
+
+                    The following settings are only taken into account if IP addresses have been selected.
+
+                    <table class="top-distance">
+                        <tr><td>{{ form.csv_remove_ip }}</td> <td>{{ form.csv_remove_ip.label }}</td></tr>
+                        <tr><td>{{ form.csv_column_ip }}</td> <td>{{ form.csv_column_ip.label }}</td></tr>
+                    </table>
+
+                </div>
+
+            <!-- IP related settings block -->
+            </div>
+
+            <!-- overriding settings block -->
+            <div class="row">
+
+                <div class="card card-body bg-dark border-light top-distance">
+
+                    <h5>
+                        Overriding settings
+                    </h5>
+
+                    The following settings will remove existing many-to-many relationships, before adding new ones (only applies for already existing systems).
+
+                    <table class="top-distance">
+                        <tr><td>{{ form.csv_remove_case }}</td> <td>{{ form.csv_remove_case.label }}</td></tr>
+                        <tr><td>{{ form.csv_remove_company }}</td> <td>{{ form.csv_remove_company.label }}</td></tr>
+                        <tr><td>{{ form.csv_remove_tag }}</td> <td>{{ form.csv_remove_tag.label }}</td></tr>
+                    </table>
+
+                </div>
+
+            <!-- overriding settings block -->
+            </div>
+
+        <!-- left column -->
+        </div>
+
+        <!-- middle column -->
+        <div class="col-4">
+
+            <!-- config based settings block -->
+            <div class="card card-body bg-dark border-light top-distance">
+
+                <h5>
+                    Mandatory settings
+                </h5>
+
+                The following settings will be used for config-based system CSV file import.
+
+                <!-- systemstatus -->
+
+                <h6 class="top-distance">
+                    {{ form.csv_default_systemstatus.label }}
+                </h6>
+
+                {% for i in form.csv_default_systemstatus %}
+                    {{ i }}<br>
+                {% endfor %}
+
+                <!-- analysisstatus -->
+
+                <h6 class="top-distance">
+                    {{ form.csv_default_analysisstatus.label }}
+                </h6>
+
+                {% for i in form.csv_default_analysisstatus %}
+                    {{ i }}<br>
+                {% endfor %}
+
+            </div>
+            <!-- config based settings block -->
+
+        <!-- middle column -->
+        </div>
+
+        <!-- right column -->
+        <div class="col-4">
+
+            <div class="card card-body bg-dark border-light top-distance">
+
+                <h5>
+                    Optional settings
+                </h5>
+
+                The following settings will be used for config-based system CSV file import.
+
+                <!-- reason -->
+
+                <h6 class="top-distance">
+                    {{ form.csv_default_reason.label }}
+                </h6>
+
+                {{ form.csv_default_reason }}
+
+                <!-- dnsname -->
+
+                <h6 class="top-distance">
+                    {{ form.csv_default_dnsname.label }}
+                </h6>
+
+                {{ form.csv_default_dnsname }}
+
+                <!-- domain -->
+
+                <h6 class="top-distance">
+                    {{ form.csv_default_domain.label }}
+                </h6>
+
+                {{ form.csv_default_domain }}
+
+                <!-- systemtype -->
+
+                <h6 class="top-distance">
+                    {{ form.csv_default_systemtype.label }}
+                </h6>
+
+                {{ form.csv_default_systemtype }}
+
+                <!-- os -->
+
+                <h6 class="top-distance">
+                    {{ form.csv_default_os.label }}
+                </h6>
+
+                {{ form.csv_default_os }}
+
+                <!-- location -->
+
+                <h6 class="top-distance">
+                    {{ form.csv_default_location.label }}
+                </h6>
+
+                {{ form.csv_default_location }}
+
+                <!-- serviceprovider -->
+
+                <h6 class="top-distance">
+                    {{ form.csv_default_serviceprovider.label }}
+                </h6>
+
+                {{ form.csv_default_serviceprovider }}
+
+                <!-- case -->
+
+                <h6 class="top-distance">
+                    {{ form.csv_default_case.label }}
+                </h6>
+
+                {% for i in form.csv_default_case %}
+                    {{ i }}<br>
+                {% endfor %}
+
+                <!-- company -->
+
+                <h6 class="top-distance">
+                    {{ form.csv_default_company.label }}
+                </h6>
+
+                {% for i in form.csv_default_company %}
+                    {{ i }}<br>
+                {% endfor %}
+
+                <!-- tag -->
+
+                <h6 class="top-distance">
+                    {{ form.csv_default_tag.label }}
+                </h6>
+
+                {% for i in form.csv_default_tag %}
+                    {{ i }}<br>
+                {% endfor %}
+
+            </div>
+
+        <!-- right column -->
+        </div>
+
+    <!-- outer row -->
+    </div>
+
+    <!-- button row -->
+    <div class="row top-distance">
+
+        <!-- save button -->
+        <div class="col-2">
+            {% include "dfirtrack_main/includes/button_save.html" %}
+        </div>
+
+        <!-- cancel button -->
+        <div class="col-1">
+            {% include "dfirtrack_main/includes/button_cancel_popup.html" %}
+        </div>
+
+    <!-- button row -->
+    </div>
+
+<!-- form -->
+</form>
+
+<!-- HTML body in maintemplate -->
+{% endblock %}

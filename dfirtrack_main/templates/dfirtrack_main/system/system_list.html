@@ -61,7 +61,7 @@
             <h5>Create systems</h5>
         </div>
         <div class="col-4">
-            <h5>Import systems</h5>
+            <h5>Import systems via CSV</h5>
         </div>
     </div>
 
@@ -84,16 +84,24 @@
             </a>
         </div>
 
-        <!-- placeholder -->
+        <!-- system modificator button -->
         <div class="col-2">
+            <a href="{% url 'system_modificator' %}" type="button" class="btn btn-light copy-false">
+                <img src="{% static 'dfirtrack_main/icons/box.svg' %}" class="icon right-distance copy-false" alt="icon">
+                Modificator
+            </a>
         </div>
 
-        <!-- system ips importer button -->
-        <div class="col-2">
-            <a href="{% url 'system_importer_file_csv' %}" type="button" class="btn btn-light copy-false">
-                <img src="{% static 'dfirtrack_main/icons/list.svg' %}" class="icon right-distance copy-false" alt="icon">
-                Import CSV
-            </a>
+        <!-- system importer file csv form based button -->
+        <div class="col-2 btn-group">
+            <a href="{% url 'system_list' %}" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/list.svg' %}" class="icon right-distance copy-false" alt="icon"> Form-based</a>
+            <button onclick="system_importer_file_csv_form_based_config_popup()" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/wrench.svg' %}" class="icon copy-false" alt="icon"> </a>
+        </div>
+
+        <!-- system importer file csv config based button -->
+        <div class="col-2 btn-group">
+            <a href="{% url 'system_list' %}" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/list.svg' %}" class="icon right-distance copy-false" alt="icon"> Config-based</a>
+            <button onclick="system_importer_file_csv_config_based_config_popup()" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/wrench.svg' %}" class="icon copy-false" alt="icon"> </a>
         </div>
 
     <!-- button row -->
@@ -115,7 +123,7 @@
         <div class="col-6">
         </div>
 
-        <!-- system tags importer button -->
+        <!-- reportitem filesystem importer button -->
         <div class="col-2">
             <a href="{% url 'reportitem_importer_file_filesystem' %}" type="button" class="btn btn-light copy-false">
                 <img src="{% static 'dfirtrack_main/icons/list.svg' %}" class="icon right-distance copy-false" alt="icon">
@@ -146,32 +154,21 @@
     <div class="row copy-false">
 
         <!-- export CSV button -->
-        <div class="col-2">
+        <div class="col-2 btn-group">
             <a href="{% url 'system_exporter_spreadsheet_csv' %}" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/list.svg' %}" class="icon right-distance copy-false" alt="icon">  Export CSV</a>
+            <button onclick="system_exporter_spreadsheet_csv_config_popup()" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/wrench.svg' %}" class="icon copy-false" alt="icon"> </a>
         </div>
 
         <!-- export XLS button -->
-        <div class="col-4">
-            <a href="{% url 'system_exporter_spreadsheet_xls' %}" type="button" class="btn btn-light copy-false">
-                <img src="{% static 'dfirtrack_main/icons/spreadsheet.svg' %}" class="icon right-distance copy-false" alt="icon">
-                Export XLS
-            </a>
+        <div class="col-4 btn-group">
+            <a href="{% url 'system_exporter_spreadsheet_xls' %}" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/spreadsheet.svg' %}" class="icon right-distance copy-false" alt="icon"> Export XLS</a>
+            <button onclick="system_exporter_spreadsheet_xls_config_popup()" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/wrench.svg' %}" class="icon copy-false" alt="icon"> </a>
         </div>
 
-        <!-- export markdown (system) button -->
-        <div class="col-2">
-            <a href="{% url 'system_exporter_markdown_systemsorted' %}" type="button" class="btn btn-light copy-false">
-                <img src="{% static 'dfirtrack_main/icons/list-rich.svg' %}" class="icon right-distance copy-false" alt="icon">
-                Export sorted by system
-            </a>
-        </div>
-
-        <!-- export markdown (domain) button -->
-        <div class="col-3">
-            <a href="{% url 'system_exporter_markdown_domainsorted' %}" type="button" class="btn btn-light copy-false">
-                <img src="{% static 'dfirtrack_main/icons/list-rich.svg' %}" class="icon right-distance copy-false" alt="icon">
-                Export sorted by domain
-            </a>
+        <!-- export markdown button -->
+        <div class="col-6 btn-group">
+            <a href="{% url 'system_exporter_markdown' %}" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/list-rich.svg' %}" class="icon right-distance copy-false" alt="icon"> Export markdown</a>
+            <button onclick="system_exporter_markdown_config_popup()" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/wrench.svg' %}" class="icon copy-false" alt="icon"> </a>
         </div>
 
     <!-- button row -->

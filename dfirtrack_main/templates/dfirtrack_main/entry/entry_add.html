@@ -31,9 +31,11 @@
 
     {% csrf_token %}
 
+    <!-- show form related errors -->
+    {% include "dfirtrack_main/includes/form_errors.html" %}
+
     <!-- include standard form -->
     {% include "dfirtrack_main/includes/form.html" %}
-
 
     <!-- button row -->
     <div class="row top-distance">

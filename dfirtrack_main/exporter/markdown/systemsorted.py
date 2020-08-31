@@ -1,16 +1,12 @@
-from django.contrib.auth.decorators import login_required
 from django.core.files import File
-from django.shortcuts import redirect
-from django.urls import reverse
 from django_q.tasks import async_task
-from dfirtrack.config import MARKDOWN_PATH as markdown_path
-from .markdown_check_data import check_config
-from . import clean_directory, read_or_create_mkdocs_yml, write_report
+from dfirtrack_config.models import SystemExporterMarkdownConfigModel
+from dfirtrack_main.exporter.markdown.markdown_check_data import check_config
+from dfirtrack_main.exporter.markdown import clean_directory, read_or_create_mkdocs_yml, write_report
 from dfirtrack_main.logger.default_logger import debug_logger, info_logger
 from dfirtrack_main.models import System
 from time import strftime
 import yaml
-
 
 def write_report_systemsorted(system, request_user):
     """ function that prepares return values and pathes """
@@ -50,8 +46,11 @@ def write_report_systemsorted(system, request_user):
     # return shortened path for mkdocs.yml ('value')
     rpath = "systems/" + path + ".md"
 
+    # get config model
+    model = SystemExporterMarkdownConfigModel.objects.get(system_exporter_markdown_config_name = 'SystemExporterMarkdownConfig')
+
     # finish path for markdown file
-    path = markdown_path + "/docs/systems/" + path + ".md"
+    path = model.markdown_path + "/docs/systems/" + path + ".md"
 
     # open file for system
     report = open(path, "w")
@@ -70,8 +69,6 @@ def write_report_systemsorted(system, request_user):
     # return strings for mkdocs.yml (only used in systemsorted_async)
     return(rid, rfqdn, rpath)
 
-
-@login_required(login_url="/login")
 def systemsorted(request):
     """ exports markdown report for all systems (helper function to call the real function) """
 
@@ -80,12 +77,12 @@ def systemsorted(request):
     # call logger
     debug_logger(request_user, " SYSTEM_EXPORTER_MARKDOWN_SYSTEMSORTED_BEGIN")
 
-    # check variables in `dfirtrack.config`
+    # check variables
     stop_exporter_markdown = check_config(request)
 
     # leave importer_api_giraf if variables caused errors
     if stop_exporter_markdown:
-        return redirect(reverse('system_list'))
+        return
 
     # call async function
     async_task(
@@ -93,8 +90,7 @@ def systemsorted(request):
         request_user,
     )
 
-    return redirect(reverse('system_list'))
-
+    return
 
 def systemsorted_async(request_user):
     """ exports markdown report for all systems """
@@ -130,8 +126,11 @@ def systemsorted_async(request_user):
         # set dict to empty dict (needed for mkdocs.yml)
         systemdict = {}
 
+    # get config model
+    model = SystemExporterMarkdownConfigModel.objects.get(system_exporter_markdown_config_name = 'SystemExporterMarkdownConfig')
+
     # get path for mkdocs.yml
-    mkdconfpath = markdown_path + "/mkdocs.yml"
+    mkdconfpath = model.markdown_path + "/mkdocs.yml"
 
     # read content (dictionary) of mkdocs.yml if existent, else create dummy content
     mkdconfdict = read_or_create_mkdocs_yml.read_or_create_mkdocs_yml(request_user, mkdconfpath)
