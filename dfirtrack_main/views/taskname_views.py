@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils import timezone
@@ -8,6 +9,7 @@ from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_main.forms import TasknameForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Taskname, Task, Taskstatus
+from dfirtrack_main.views.task_views import TaskFinish
 
 class TasknameList(LoginRequiredMixin, ListView):
     login_url = '/login'
