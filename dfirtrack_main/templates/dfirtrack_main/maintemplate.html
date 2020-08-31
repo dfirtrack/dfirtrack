@@ -65,10 +65,14 @@
                         The Incident Response Tracking Application
                     </small>
 
-                    <!-- DFIRTrack version number -->
+                    <!-- DFIRTrack version number and branch -->
                     <!-- dfirtrack_main.templatetags.dfirtrack_main_tags.dfirtrack_version   -->
                     <small>
                         {% dfirtrack_version %}
+                    </small>
+                    <!-- dfirtrack_main.templatetags.dfirtrack_main_tags.dfirtrack_branch   -->
+                    <small class="text-muted">
+                        ({% dfirtrack_branch %})
                     </small>
                 </h3>
             </center>

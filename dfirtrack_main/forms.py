@@ -788,11 +788,16 @@ class SystemCreatorForm(forms.ModelForm):
 #    )
 
     # large text area for line separated systemlist
-    systemlist = forms.CharField(widget=forms.Textarea(attrs={
-        'rows': 20,
-        'placeholder': 'One systemname per line',
-        'autofocus': 'autofocus',
-    }))
+    systemlist = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'rows': 20,
+                'placeholder': 'One systemname per line',
+                'autofocus': 'autofocus',
+            },
+        ),
+        label = 'System list',
+    )
 
     class Meta:
 
@@ -828,6 +833,41 @@ class SystemCreatorForm(forms.ModelForm):
             'tag': forms.CheckboxSelectMultiple(),
             # TODO: remove when CheckboxSelectMultiple is fixed
             'case': forms.CheckboxSelectMultiple(),
+        }
+
+class SystemModificatorForm(forms.ModelForm):
+
+    # large text area for line separated systemlist
+    systemlist = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'rows': 20,
+                'placeholder': 'One systemname per line',
+                'autofocus': 'autofocus',
+            },
+        ),
+        label = 'System list',
+    )
+
+    # show all existing tag objects as multiple choice field
+    tag = forms.ModelMultipleChoiceField(
+        queryset=Tag.objects.all(),
+        widget=forms.CheckboxSelectMultiple(),
+        required = False,
+        label = 'Tag',
+    )
+
+    class Meta:
+        model = System
+        # this HTML forms are shown
+        fields = (
+            'systemstatus',
+            'analysisstatus',
+        )
+        # special form type or option
+        widgets = {
+            'systemstatus': forms.RadioSelect(),
+            'analysisstatus': forms.RadioSelect(),
         }
 
 class SystemtypeForm(forms.ModelForm):
@@ -921,12 +961,14 @@ class TagCreatorForm(forms.Form):
     tag = forms.ModelMultipleChoiceField(
         queryset = Tag.objects.order_by('tag_name'),
         widget = forms.CheckboxSelectMultiple(),
+        label = 'Tags (*)',
     )
 
     # show all existing system objects as multiple choice field
     system = forms.ModelMultipleChoiceField(
         queryset = System.objects.order_by('system_name'),
         widget = forms.CheckboxSelectMultiple(),
+        label = 'Systems (*)',
     )
 
 class TaskForm(forms.ModelForm):
@@ -998,12 +1040,14 @@ class TaskCreatorForm(forms.ModelForm):
     taskname = forms.ModelMultipleChoiceField(
         queryset = Taskname.objects.order_by('taskname_name'),
         widget = forms.CheckboxSelectMultiple(),
+        label = 'Tasknames',
     )
 
     # show all existing system objects as multiple choice field
     system = forms.ModelMultipleChoiceField(
         queryset = System.objects.order_by('system_name'),
         widget = forms.CheckboxSelectMultiple(),
+        label = 'Systems',
     )
 
     # reorder field choices

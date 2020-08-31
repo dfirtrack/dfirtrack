@@ -56,7 +56,7 @@
         </div>
 
         <!-- taskname name -->
-        <div class="col-10">
+        <div class="col-9">
             <a href="{{ i.get_absolute_url }}">
                 {{ i.taskname_name }}
             </a>
@@ -68,12 +68,13 @@
                 <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                 Edit
             </a>
+        </div>
+        <div class="col-1">
             <a href="{{ i.get_close_url }}" type="button" class="btn btn-sm btn-light copy-false">
                 <img src="{% static 'dfirtrack_main/icons/check.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                Close All
+                Close all
             </a>
         </div>
-
 
     <!-- taskname row -->
     </div>

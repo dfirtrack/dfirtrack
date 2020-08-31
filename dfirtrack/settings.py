@@ -17,6 +17,7 @@ INSTALLED_APPS = [
     'dfirtrack_main',
     'dfirtrack_artifacts',
     'dfirtrack_api',
+    'dfirtrack_config',
     'rest_framework',
     'django_q',
     'django.contrib.admin',
@@ -93,7 +94,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '/var/www/html/static/'
 
 LOGIN_REDIRECT_URL = '/system/'
 
@@ -148,7 +148,7 @@ REST_FRAMEWORK = {
 
 # import local settings for development
 try:
-    from .local_settings import ALLOWED_HOSTS, DATABASES, DEBUG
+    from .local_settings import ALLOWED_HOSTS, DATABASES, DEBUG, STATIC_ROOT
 
 except ImportError:
     ''' default values for testing purposes '''
@@ -160,9 +160,26 @@ except ImportError:
     ALLOWED_HOSTS = ['localhost']
 
     # Database
-    DATABASES = {
-    	'default': {
-    	    'ENGINE': 'django.db.backends.sqlite3',
-    	    'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    	}
-    }
+    # check environment variable for GitHub action
+    if "CI" in os.environ:
+        # use PostgreSQL for GitHub action
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql',
+                'NAME': 'github_actions',
+                'USER': 'dfirtrack',
+                'PASSWORD': 'dfirtrack',
+                'HOST': '127.0.0.1',
+                'PORT': '5432',
+            }
+        }
+    else:
+        # use SQLite3 otherwise (for local setup without local_settings)
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': os.path.join(BASE_DIR, 'dfirtrack.sqlite3'),
+            }
+        }
+
+    STATIC_ROOT = '/var/www/html/static/'
