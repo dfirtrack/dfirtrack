@@ -1,6 +1,6 @@
 from django import forms
 from dfirtrack_artifacts.models import Artifactstatus
-from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel, SystemExporterSpreadsheetCsvConfigModel, SystemExporterSpreadsheetXlsConfigModel, SystemImporterFileCsvConfigbasedConfigModel, SystemImporterFileCsvFormbasedConfigModel
+from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel, SystemExporterMarkdownConfigModel, SystemExporterSpreadsheetCsvConfigModel, SystemExporterSpreadsheetXlsConfigModel, SystemImporterFileCsvConfigbasedConfigModel, SystemImporterFileCsvFormbasedConfigModel
 
 class ArtifactExporterSpreadsheetXlsConfigForm(forms.ModelForm):
     """ artifact exporter spreadsheet xls config form """
@@ -53,31 +53,32 @@ class ArtifactExporterSpreadsheetXlsConfigForm(forms.ModelForm):
             'artifactlist_xls_choice_artifactstatus': forms.CheckboxSelectMultiple(),
         }
 
-# TODO: switch to model form
-class SystemExporterMarkdownConfigForm(forms.Form):
+class SystemExporterMarkdownConfigForm(forms.ModelForm):
     """ system exporter markdown config form """
 
-    markdown_path = forms.CharField(
-        required = True,
-        widget = forms.TextInput(attrs={
-            'size': '55',
-            'style': 'font-family: monospace',
-        }),
-        label = 'Path for the markdown documentation export',
-    )
+    class Meta:
 
-    # prepare choices
-    markdown_sorting_choices = [
-        ('dom', 'Sorted by domain'),
-        ('sys', 'Sorted by system'),
-    ]
-    # create field
-    markdown_sorting = forms.ChoiceField(
-        required = True,
-        widget = forms.RadioSelect(),
-        label = 'Choose sorting for system markdown export',
-        choices = markdown_sorting_choices,
-    )
+        # model
+        model = SystemExporterMarkdownConfigModel
+
+        # this HTML forms are shown
+        fields = (
+            'markdown_path',
+            'markdown_sorting',
+        )
+
+        labels = {
+            'markdown_path': 'Path for the markdown documentation export',
+            'markdown_sorting': 'Choose sorting for system markdown export',
+        }
+
+        widgets = {
+            'markdown_path': forms.TextInput(attrs={
+                'size': '55',
+                'style': 'font-family: monospace',
+            }),
+            'markdown_sorting': forms.RadioSelect(),
+        }
 
 class SystemExporterSpreadsheetCsvConfigForm(forms.ModelForm):
     """ system exporter spreadsheet CSV config form """
