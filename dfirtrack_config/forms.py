@@ -262,17 +262,20 @@ class SystemImporterFileCsvConfigbasedConfigForm(forms.ModelForm):
             'csv_default_tag': 'Set tags',
         }
 
-        # TODO: add min and max value
         widgets = {
             'csv_column_system': forms.NumberInput(
                 attrs={
                     #'style': 'width:6ch',
+                    'min': '1',
+                    'max': '99',
                     'size': '3',
                 },
             ),
             'csv_column_ip': forms.NumberInput(
                 attrs={
                     #'style': 'width:6ch',
+                    'min': '1',
+                    'max': '99',
                     'size': '3',
                 },
             ),
@@ -332,17 +335,20 @@ class SystemImporterFileCsvFormbasedConfigForm(forms.ModelForm):
             'csv_remove_tag': 'Remove / overwrite existing tags for already existing systems',
         }
 
-        # TODO: add min and max value
         widgets = {
             'csv_column_system': forms.NumberInput(
                 attrs={
                     #'style': 'width:6ch',
+                    'min': '1',
+                    'max': '99',
                     'size': '3',
                 },
             ),
             'csv_column_ip': forms.NumberInput(
                 attrs={
                     #'style': 'width:6ch',
+                    'min': '1',
+                    'max': '99',
                     'size': '3',
                 },
             ),
