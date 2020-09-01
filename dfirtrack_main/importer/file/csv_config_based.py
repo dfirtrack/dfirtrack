@@ -8,7 +8,7 @@ from dfirtrack_config.models import SystemImporterFileCsvConfigbasedConfigModel
 from dfirtrack_main.importer.file.csv_check_data import check_config, check_file, check_row
 from dfirtrack_main.importer.file.csv_importer_forms import SystemImporterFileCsvConfigbasedForm
 from dfirtrack_main.importer.file.csv_messages import final_messages
-from dfirtrack_main.importer.file.csv_set_system_attributes import case_attributes, company_attributes, ip_attributes, optional_system_attributes, tag_attributes
+from dfirtrack_main.importer.file.csv_set_system_attributes import case_attributes_config_based, company_attributes_config_based, ip_attributes, optional_system_attributes, tag_attributes_config_based
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import System
 from io import TextIOWrapper
@@ -109,9 +109,9 @@ def system(request):
                     system.save()
 
                     # change many2many
-                    system = case_attributes(system, model.csv_default_case, model)
-                    system = company_attributes(system, model.csv_default_company, model)
-                    system = tag_attributes(system, model.csv_default_tag, model)
+                    system = case_attributes_config_based(system, model.csv_default_case, model)
+                    system = company_attributes_config_based(system, model.csv_default_company, model)
+                    system = tag_attributes_config_based(system, model.csv_default_tag, model)
 
                     # change ip addresses
                     if model.csv_choice_ip:
@@ -148,9 +148,9 @@ def system(request):
                 system.save()
                 
                 # add many2many
-                system = case_attributes(system, model.csv_default_case, model)
-                system = company_attributes(system, model.csv_default_company, model)
-                system = tag_attributes(system, model.csv_default_tag, model)
+                system = case_attributes_config_based(system, model.csv_default_case, model)
+                system = company_attributes_config_based(system, model.csv_default_company, model)
+                system = tag_attributes_config_based(system, model.csv_default_tag, model)
 
                 # add ip addresses
                 if model.csv_choice_ip:
