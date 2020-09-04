@@ -56,53 +56,26 @@ class SystemImporterFileCsvFormbasedForm(forms.ModelForm, SystemImporterFileCsvC
     )
 
     # case
-
-    # create empty list for available cases
-    case_choices = []
-    # get all cases
-    case_all = Case.objects.order_by('case_name')
-    # prepare choices (append tupel consisting of case_id and case_name to list (therefore double brackets))
-    for case in case_all:
-        case_choices.append((case.case_id, case.case_name))
-    # create field
-    case = forms.MultipleChoiceField(
+    case = forms.ModelMultipleChoiceField(
         widget = forms.CheckboxSelectMultiple(),
         required = False,
-        choices = case_choices,
+        queryset = Case.objects.order_by('case_name'),
         label = 'Cases',
     )
 
     # company
-
-    # create empty list for available companies
-    company_choices = []
-    # get all companies
-    company_all = Company.objects.order_by('company_name')
-    # prepare choices (append tupel consisting of company_id and company_name to list (therefore double brackets))
-    for company in company_all:
-        company_choices.append((company.company_id, company.company_name))
-    # create field
-    company = forms.MultipleChoiceField(
+    company = forms.ModelMultipleChoiceField(
         widget = forms.CheckboxSelectMultiple(),
         required = False,
-        choices = company_choices,
+        queryset = Company.objects.order_by('company_name'),
         label = 'Companies',
     )
 
     # tag
-
-    # create empty list for available tags
-    tag_choices = []
-    # get all tags
-    tag_all = Tag.objects.order_by('tag_name')
-    # prepare choices (append tupel consisting of tag_id and tag_name to list (therefore double brackets))
-    for tag in tag_all:
-        tag_choices.append((tag.tag_id, tag.tag_name))
-    # create field
-    tag = forms.MultipleChoiceField(
+    tag = forms.ModelMultipleChoiceField(
         widget = forms.CheckboxSelectMultiple(),
         required = False,
-        choices = tag_choices,
+        queryset = Tag.objects.order_by('tag_name'),
         label = 'Tags',
     )
 
