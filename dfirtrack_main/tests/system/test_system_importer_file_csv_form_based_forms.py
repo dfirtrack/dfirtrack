@@ -199,6 +199,8 @@ class SystemImporterFileCsvFormbasedFormbasedFormTestCase(TestCase):
             data = data_dict,
             files = file_dict,
         )
+        # close file
+        upload_csv.close()
         # compare
         self.assertFalse(form.is_valid())
 
@@ -221,6 +223,8 @@ class SystemImporterFileCsvFormbasedFormbasedFormTestCase(TestCase):
             data = data_dict,
             files = file_dict,
         )
+        # close file
+        upload_csv.close()
         # compare
         self.assertTrue(form.is_valid())
 
@@ -246,6 +250,8 @@ class SystemImporterFileCsvFormbasedFormbasedFormTestCase(TestCase):
             data = data_dict,
             files = file_dict,
         )
+        # close file
+        upload_csv.close()
         # compare
         self.assertTrue(form.is_valid())
 
@@ -271,6 +277,8 @@ class SystemImporterFileCsvFormbasedFormbasedFormTestCase(TestCase):
             data = data_dict,
             files = file_dict,
         )
+        # close file
+        upload_csv.close()
         # compare
         self.assertTrue(form.is_valid())
 
@@ -296,6 +304,8 @@ class SystemImporterFileCsvFormbasedFormbasedFormTestCase(TestCase):
             data = data_dict,
             files = file_dict,
         )
+        # close file
+        upload_csv.close()
         # compare
         self.assertTrue(form.is_valid())
 
@@ -321,6 +331,8 @@ class SystemImporterFileCsvFormbasedFormbasedFormTestCase(TestCase):
             data = data_dict,
             files = file_dict,
         )
+        # close file
+        upload_csv.close()
         # compare
         self.assertTrue(form.is_valid())
 
@@ -346,6 +358,8 @@ class SystemImporterFileCsvFormbasedFormbasedFormTestCase(TestCase):
             data = data_dict,
             files = file_dict,
         )
+        # close file
+        upload_csv.close()
         # compare
         self.assertTrue(form.is_valid())
 
@@ -371,6 +385,8 @@ class SystemImporterFileCsvFormbasedFormbasedFormTestCase(TestCase):
             data = data_dict,
             files = file_dict,
         )
+        # close file
+        upload_csv.close()
         # compare
         self.assertTrue(form.is_valid())
 
@@ -396,6 +412,8 @@ class SystemImporterFileCsvFormbasedFormbasedFormTestCase(TestCase):
             data = data_dict,
             files = file_dict,
         )
+        # close file
+        upload_csv.close()
         # compare
         self.assertTrue(form.is_valid())
 
@@ -421,6 +439,8 @@ class SystemImporterFileCsvFormbasedFormbasedFormTestCase(TestCase):
             data = data_dict,
             files = file_dict,
         )
+        # close file
+        upload_csv.close()
         # compare
         self.assertTrue(form.is_valid())
 
