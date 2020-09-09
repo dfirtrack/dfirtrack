@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from dfirtrack_main.forms import SystemModificatorForm
-from dfirtrack_main.models import Analysisstatus, Systemstatus
+from dfirtrack_main.models import Analysisstatus, Systemstatus, Tag, Tagcolor
 
 class SystemModificatorFormTestCase(TestCase):
     """ system modificator form tests """
@@ -14,6 +14,19 @@ class SystemModificatorFormTestCase(TestCase):
 
         # create object
         Analysisstatus.objects.create(analysisstatus_name='analysisstatus_1')
+
+        # create object
+        tagcolor_1 = Tagcolor.objects.create(tagcolor_name='tagcolor_1')
+
+        # create object
+        Tag.objects.create(
+            tag_name = 'tag_1',
+            tagcolor = tagcolor_1,
+        )
+        Tag.objects.create(
+            tag_name = 'tag_2',
+            tagcolor = tagcolor_1,
+        )
 
 
     def test_system_modificator_systemlist_form_label(self):
@@ -95,7 +108,22 @@ class SystemModificatorFormTestCase(TestCase):
         # compare
         self.assertTrue(form.is_valid())
 
-# TODO: add test for tag: 'test_system_modificator_tag_form_filled'
+    def test_system_modificator_tag_form_filled(self):
+        """ test additional form content """
+
+        # get object
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
+        # get object
+        tag_1_id = Tag.objects.get(tag_name='tag_1').tag_id
+        tag_2_id = Tag.objects.get(tag_name='tag_2').tag_id
+        # get object
+        form = SystemModificatorForm(data = {
+            'systemlist': 'system_1',
+            'systemstatus': systemstatus_id,
+            'tag': [tag_1_id, tag_2_id],
+        })
+        # compare
+        self.assertTrue(form.is_valid())
 
     def test_system_modificator_systemlist_multi_line(self):
         """ test for multiple line input """

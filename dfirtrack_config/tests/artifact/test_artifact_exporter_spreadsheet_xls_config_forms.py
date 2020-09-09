@@ -147,15 +147,14 @@ class ArtifactExporterSpreadsheetXlsConfigFormTestCase(TestCase):
         # compare
         self.assertFalse(form.is_valid())
 
-# TODO: test does not work as expected, returns false instead of true
-#    def test_artifact_exporter_spreadsheet_xls_config_artifactstatus_form_empty(self):
-#        """ test minimum form requirements / VALID """
-#
-#        # get object
-#        artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1')
-#        # get object
-#        form = ArtifactExporterSpreadsheetXlsConfigForm(data = {
-#            'artifactstatus': [artifactstatus_id],
-#        })
-#        # compare
-#        self.assertTrue(form.is_valid())
+    def test_artifact_exporter_spreadsheet_xls_config_artifactlist_xls_choice_artifactstatus_form_filled(self):
+        """ test minimum form requirements / VALID """
+
+        # get object
+        artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1')
+        # get object
+        form = ArtifactExporterSpreadsheetXlsConfigForm(data = {
+            'artifactlist_xls_choice_artifactstatus': [artifactstatus_id, ],
+        })
+        # compare
+        self.assertTrue(form.is_valid())
