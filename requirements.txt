@@ -1,5 +1,5 @@
-django==2.2.13
-django_q==1.1.0
+django
+django_q
 djangorestframework
 gitpython
 gunicorn

@@ -275,7 +275,7 @@ class Domainuser(models.Model):
 
     # main entity information
     domainuser_name = models.CharField(max_length=50)
-    domainuser_is_domainadmin = models.NullBooleanField(blank=True, null=True)
+    domainuser_is_domainadmin = models.BooleanField(blank=True, null=True)
 
     # define unique together
     class Meta:
@@ -703,7 +703,7 @@ class System(models.Model):
     system_install_time = models.DateTimeField(blank=True, null=True)
     system_lastbooted_time = models.DateTimeField(blank=True, null=True)
     system_deprecated_time = models.DateTimeField(blank=True, null=True)
-    system_is_vm = models.NullBooleanField(blank=True, null=True)
+    system_is_vm = models.BooleanField(blank=True, null=True)
 
     # history information
     previous_systemstatus = models.ForeignKey('Systemstatus', on_delete=models.PROTECT, null=True, related_name='previous_systemstatus')
@@ -1037,7 +1037,7 @@ class Systemuser(models.Model):
     # main entity information
     systemuser_name = models.CharField(max_length=50)
     systemuser_lastlogon_time = models.DateTimeField(blank=True, null=True)
-    systemuser_is_systemadmin = models.NullBooleanField(blank=True, null=True)
+    systemuser_is_systemadmin = models.BooleanField(blank=True, null=True)
 
     # define unique together
     class Meta:
