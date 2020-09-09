@@ -1,297 +1,273 @@
 from django import forms
 from dfirtrack_artifacts.models import Artifactstatus
-#from dfirtrack_main.models import Analysisstatus, Case, Company, Dnsname, Domain, Location, Os, Reason, Serviceprovider, Systemstatus, Systemtype, Tag
+from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel, SystemExporterMarkdownConfigModel, SystemExporterSpreadsheetCsvConfigModel, SystemExporterSpreadsheetXlsConfigModel, SystemImporterFileCsvConfigbasedConfigModel, SystemImporterFileCsvFormbasedConfigModel
 
-class ArtifactExporterSpreadsheetCsvConfigForm(forms.Form):
+class ArtifactExporterSpreadsheetXlsConfigForm(forms.ModelForm):
+    """ artifact exporter spreadsheet xls config form """
 
-# TODO: find an alternative for the selection (reactivate the tests afterwards)
-#    # create empty list for available artifactstatus
-#    artifactstatus_choices = []
-#    # get all artifactstatus
-#    artifactstatus_all = Artifactstatus.objects.order_by('artifactstatus_id')
-#    # prepare choices (append tupel consisting of artifactstatus_id and artifactstatus_name to list (therefore double brackets))
-#    for artifactstatus in artifactstatus_all:
-#        artifactstatus_choices.append((artifactstatus.artifactstatus_id, artifactstatus.artifactstatus_name))
-#    # create field
-#    artifactlist_choice_artifactstatus = forms.MultipleChoiceField(
-#        required = False,
-#        widget = forms.CheckboxSelectMultiple(),
-#        label = 'Export only artifacts with this artifactstatus',
-#        choices = artifactstatus_choices,
-#    )
+    class Meta:
 
-    artifactlist_artifact_id = forms.BooleanField(
-        required = False,
-        label = 'Export artifact ID',
-    )
+        # model
+        model = ArtifactExporterSpreadsheetXlsConfigModel
 
-    artifactlist_system_id = forms.BooleanField(
-        required = False,
-        label = 'Export system ID',
-    )
+        # this HTML forms are shown
+        fields = (
+            'artifactlist_xls_choice_artifactstatus',
+            'artifactlist_xls_artifact_id',
+            'artifactlist_xls_system_id',
+            'artifactlist_xls_system_name',
+            'artifactlist_xls_artifactstatus',
+            'artifactlist_xls_artifacttype',
+            'artifactlist_xls_artifact_source_path',
+            'artifactlist_xls_artifact_storage_path',
+            'artifactlist_xls_artifact_note',
+            'artifactlist_xls_artifact_md5',
+            'artifactlist_xls_artifact_sha1',
+            'artifactlist_xls_artifact_sha256',
+            'artifactlist_xls_artifact_create_time',
+            'artifactlist_xls_artifact_modify_time',
+            'artifactlist_xls_worksheet_artifactstatus',
+            'artifactlist_xls_worksheet_artifacttype',
+        )
 
-    artifactlist_system_name = forms.BooleanField(
-        required = False,
-        label = 'Export system name',
-    )
+        labels = {
+            'artifactlist_xls_choice_artifactstatus': 'Export only artifacts with this artifactstatus',
+            'artifactlist_xls_artifact_id': 'Export artifact ID',
+            'artifactlist_xls_system_id': 'Export system ID',
+            'artifactlist_xls_system_name': 'Export system name',
+            'artifactlist_xls_artifactstatus': 'Export artifactstatus',
+            'artifactlist_xls_artifacttype': 'Export artifacttype',
+            'artifactlist_xls_artifact_source_path': 'Export source path',
+            'artifactlist_xls_artifact_storage_path': 'Export storage path',
+            'artifactlist_xls_artifact_note': 'Export note',
+            'artifactlist_xls_artifact_md5': 'Export MD5',
+            'artifactlist_xls_artifact_sha1': 'Export SHA1',
+            'artifactlist_xls_artifact_sha256': 'Export SHA256',
+            'artifactlist_xls_artifact_create_time': 'Export create time',
+            'artifactlist_xls_artifact_modify_time': 'Export modify time',
+            'artifactlist_xls_worksheet_artifactstatus': 'Export worksheet to explain artifactstatus',
+            'artifactlist_xls_worksheet_artifacttype': 'Export worksheet to explain artifacttype',
+        }
 
-    artifactlist_artifactstatus = forms.BooleanField(
-        required = False,
-        label = 'Export artifactstatus',
-    )
+        widgets = {
+            'artifactlist_xls_choice_artifactstatus': forms.CheckboxSelectMultiple(),
+        }
 
-    artifactlist_artifacttype = forms.BooleanField(
-        required = False,
-        label = 'Export artifacttype',
-    )
-
-    artifactlist_artifact_source_path = forms.BooleanField(
-        required = False,
-        label = 'Export source path',
-    )
-
-    artifactlist_artifact_storage_path = forms.BooleanField(
-        required = False,
-        label = 'Export storage path',
-    )
-
-    artifactlist_artifact_note = forms.BooleanField(
-        required = False,
-        label = 'Export note',
-    )
-
-    artifactlist_artifact_md5 = forms.BooleanField(
-        required = False,
-        label = 'Export MD5',
-    )
-
-    artifactlist_artifact_sha1 = forms.BooleanField(
-        required = False,
-        label = 'Export SHA1',
-    )
-
-    artifactlist_artifact_sha256 = forms.BooleanField(
-        required = False,
-        label = 'Export SHA256',
-    )
-
-    artifactlist_artifact_create_time = forms.BooleanField(
-        required = False,
-        label = 'Export create time',
-    )
-
-    artifactlist_artifact_modify_time = forms.BooleanField(
-        required = False,
-        label = 'Export modify time',
-    )
-
-class ArtifactExporterSpreadsheetXlsConfigForm(ArtifactExporterSpreadsheetCsvConfigForm):
-
-    artifactlist_worksheet_artifactstatus = forms.BooleanField(
-        required = False,
-        label = 'Export worksheet to explain artifactstatus',
-    )
-
-    artifactlist_worksheet_artifacttype = forms.BooleanField(
-        required = False,
-        label = 'Export worksheet to explain artifacttype',
-    )
-
-class SystemExporterMarkdownConfigForm(forms.Form):
+class SystemExporterMarkdownConfigForm(forms.ModelForm):
     """ system exporter markdown config form """
 
-    markdown_path = forms.CharField(
-        required = True,
-        widget = forms.TextInput(attrs={
-            'size': '55',
-            'style': 'font-family: monospace',
-        }),
-        label = 'Path for the markdown documentation export',
-    )
+    class Meta:
 
-    # prepare choices
-    markdown_sorting_choices = [
-        ('dom', 'Sorted by domain'),
-        ('sys', 'Sorted by system'),
-    ]
-    # create field
-    markdown_sorting = forms.ChoiceField(
-        required = True,
-        widget = forms.RadioSelect(),
-        label = 'Choose sorting for system markdown export',
-        choices = markdown_sorting_choices,
-    )
+        # model
+        model = SystemExporterMarkdownConfigModel
 
-class SystemExporterSpreadsheetCsvConfigForm(forms.Form):
-    """ system exporter spreadsheet config form (CSV and XLS) """
+        # this HTML forms are shown
+        fields = (
+            'markdown_path',
+            'markdown_sorting',
+        )
 
-    spread_system_id = forms.BooleanField(
-        required = False,
-        label = 'Export system ID',
-    )
+        labels = {
+            'markdown_path': 'Path for the markdown documentation export',
+            'markdown_sorting': 'Choose sorting for system markdown export',
+        }
 
-    spread_dnsname = forms.BooleanField(
-        required = False,
-        label = 'Export DNS name',
-    )
+        widgets = {
+            'markdown_path': forms.TextInput(attrs={
+                'size': '55',
+                'style': 'font-family: monospace',
+            }),
+            'markdown_sorting': forms.RadioSelect(),
+        }
 
-    spread_domain = forms.BooleanField(
-        required = False,
-        label = 'Export domain',
-    )
+class SystemExporterSpreadsheetCsvConfigForm(forms.ModelForm):
+    """ system exporter spreadsheet CSV config form """
 
-    spread_systemstatus = forms.BooleanField(
-        required = False,
-        label = 'Export systemstatus',
-    )
+    class Meta:
 
-    spread_analysisstatus = forms.BooleanField(
-        required = False,
-        label = 'Export analysisstatus',
-    )
+        # model
+        model = SystemExporterSpreadsheetCsvConfigModel
 
-    spread_reason = forms.BooleanField(
-        required = False,
-        label = 'Export reason',
-    )
+        # this HTML forms are shown
+        fields = (
+            'spread_csv_system_id',
+            'spread_csv_dnsname',
+            'spread_csv_domain',
+            'spread_csv_systemstatus',
+            'spread_csv_analysisstatus',
+            'spread_csv_reason',
+            'spread_csv_recommendation',
+            'spread_csv_systemtype',
+            'spread_csv_ip',
+            'spread_csv_os',
+            'spread_csv_company',
+            'spread_csv_location',
+            'spread_csv_serviceprovider',
+            'spread_csv_tag',
+            'spread_csv_case',
+            'spread_csv_system_create_time',
+            'spread_csv_system_modify_time',
+        )
 
-    spread_recommendation = forms.BooleanField(
-        required = False,
-        label = 'Export recommendation',
-    )
+        labels = {
+            'spread_csv_system_id': 'Export system ID',
+            'spread_csv_dnsname': 'Export DNS name',
+            'spread_csv_domain': 'Export domain',
+            'spread_csv_systemstatus': 'Export systemstatus',
+            'spread_csv_analysisstatus': 'Export analysisstatus',
+            'spread_csv_reason': 'Export reason',
+            'spread_csv_recommendation': 'Export recommendation',
+            'spread_csv_systemtype': 'Export systemtype',
+            'spread_csv_ip': 'Export IP',
+            'spread_csv_os': 'Export OS',
+            'spread_csv_company': 'Export company',
+            'spread_csv_location': 'Export location',
+            'spread_csv_serviceprovider': 'Export serviceprovider',
+            'spread_csv_tag': 'Export tag',
+            'spread_csv_case': 'Export case',
+            'spread_csv_system_create_time': 'Export system create time',
+            'spread_csv_system_modify_time': 'Export system modify time',
+        }
 
-    spread_systemtype = forms.BooleanField(
-        required = False,
-        label = 'Export systemtype',
-    )
+class SystemExporterSpreadsheetXlsConfigForm(forms.ModelForm):
+    """ system exporter spreadsheet XLS config form """
 
-    spread_ip = forms.BooleanField(
-        required = False,
-        label = 'Export IP',
-    )
+    class Meta:
 
-    spread_os = forms.BooleanField(
-        required = False,
-        label = 'Export OS',
-    )
+        # model
+        model = SystemExporterSpreadsheetXlsConfigModel
 
-    spread_company = forms.BooleanField(
-        required = False,
-        label = 'Export company',
-    )
+        # this HTML forms are shown
+        fields = (
+            'spread_xls_system_id',
+            'spread_xls_dnsname',
+            'spread_xls_domain',
+            'spread_xls_systemstatus',
+            'spread_xls_analysisstatus',
+            'spread_xls_reason',
+            'spread_xls_recommendation',
+            'spread_xls_systemtype',
+            'spread_xls_ip',
+            'spread_xls_os',
+            'spread_xls_company',
+            'spread_xls_location',
+            'spread_xls_serviceprovider',
+            'spread_xls_tag',
+            'spread_xls_case',
+            'spread_xls_system_create_time',
+            'spread_xls_system_modify_time',
+            'spread_xls_worksheet_systemstatus',
+            'spread_xls_worksheet_analysisstatus',
+            'spread_xls_worksheet_reason',
+            'spread_xls_worksheet_recommendation',
+            'spread_xls_worksheet_tag',
+        )
 
-    spread_location = forms.BooleanField(
-        required = False,
-        label = 'Export location',
-    )
+        labels = {
+            'spread_xls_system_id': 'Export system ID',
+            'spread_xls_dnsname': 'Export DNS name',
+            'spread_xls_domain': 'Export domain',
+            'spread_xls_systemstatus': 'Export systemstatus',
+            'spread_xls_analysisstatus': 'Export analysisstatus',
+            'spread_xls_reason': 'Export reason',
+            'spread_xls_recommendation': 'Export recommendation',
+            'spread_xls_systemtype': 'Export systemtype',
+            'spread_xls_ip': 'Export IP',
+            'spread_xls_os': 'Export OS',
+            'spread_xls_company': 'Export company',
+            'spread_xls_location': 'Export location',
+            'spread_xls_serviceprovider': 'Export serviceprovider',
+            'spread_xls_tag': 'Export tag',
+            'spread_xls_case': 'Export case',
+            'spread_xls_system_create_time': 'Export system create time',
+            'spread_xls_system_modify_time': 'Export system modify time',
+            'spread_xls_worksheet_systemstatus': 'Export worksheet to explain systemstatus',
+            'spread_xls_worksheet_analysisstatus': 'Export worksheet to explain analysisstatus',
+            'spread_xls_worksheet_reason': 'Export worksheet to explain reason',
+            'spread_xls_worksheet_recommendation': 'Export worksheet to explain recommendation',
+            'spread_xls_worksheet_tag': 'Export worksheet to explain tag',
+        }
 
-    spread_serviceprovider = forms.BooleanField(
-        required = False,
-        label = 'Export serviceprovider',
-    )
+class SystemImporterFileCsvConfigbasedConfigForm(forms.ModelForm):
+    """ system importer CSV config form (config based only) """
 
-    spread_tag = forms.BooleanField(
-        required = False,
-        label = 'Export tag',
-    )
+    class Meta:
 
-    spread_case = forms.BooleanField(
-        required = False,
-        label = 'Export case',
-    )
+        # model
+        model = SystemImporterFileCsvConfigbasedConfigModel
 
-    spread_system_create_time = forms.BooleanField(
-        required = False,
-        label = 'Export system create time',
-    )
+        # this HTML forms are shown
+        fields = (
+            'csv_skip_existing_system',
+            'csv_column_system',
+            'csv_headline',
+            'csv_choice_ip',
+            'csv_remove_ip',
+            'csv_column_ip',
+            'csv_remove_case',
+            'csv_remove_company',
+            'csv_remove_tag',
+            'csv_default_systemstatus',
+            'csv_default_analysisstatus',
+            'csv_default_reason',
+            'csv_default_domain',
+            'csv_default_dnsname',
+            'csv_default_systemtype',
+            'csv_default_os',
+            'csv_default_location',
+            'csv_default_serviceprovider',
+            'csv_default_case',
+            'csv_default_company',
+            'csv_default_tag',
+        )
 
-    spread_system_modify_time = forms.BooleanField(
-        required = False,
-        label = 'Export system modify time',
-    )
+        labels = {
+            'csv_skip_existing_system': 'Skip existing systems',
+            'csv_column_system': 'Number of the column in the CSV file that contains the system name',
+            'csv_headline': 'CSV file contains a headline row',
+            'csv_choice_ip': 'CSV file contains IP addresses',
+            'csv_remove_ip': 'Remove / overwrite existing IP addresses for already existing systems',
+            'csv_column_ip': 'Number of the column in the CSV file that contains the IP addresses',
+            'csv_remove_case': 'Remove / overwrite existing cases for already existing systems',
+            'csv_remove_company': 'Remove / overwrite existing companies for already existing systems',
+            'csv_remove_tag': 'Remove / overwrite existing tags for already existing systems',
+            'csv_default_systemstatus': 'Set systemstatus (*)',
+            'csv_default_analysisstatus': 'Set analysisstatus (*)',
+            'csv_default_reason': 'Set reason',
+            'csv_default_domain': 'Set domain',
+            'csv_default_dnsname': 'Set DNS name',
+            'csv_default_systemtype': 'Set systemtype',
+            'csv_default_os': 'Set OS',
+            'csv_default_location': 'Set location',
+            'csv_default_serviceprovider': 'Set serviceprovider',
+            'csv_default_case': 'Set cases',
+            'csv_default_company': 'Set companies',
+            'csv_default_tag': 'Set tags',
+        }
 
-class SystemExporterSpreadsheetXlsConfigForm(SystemExporterSpreadsheetCsvConfigForm):
-    """ system exporter spreadsheet config form (XLS only) """
-
-    spread_worksheet_systemstatus = forms.BooleanField(
-        required = False,
-        label = 'Export worksheet to explain systemstatus',
-    )
-
-    spread_worksheet_analysisstatus = forms.BooleanField(
-        required = False,
-        label = 'Export worksheet to explain analysisstatus',
-    )
-
-    spread_worksheet_reason = forms.BooleanField(
-        required = False,
-        label = 'Export worksheet to explain reason',
-    )
-
-    spread_worksheet_recommendation = forms.BooleanField(
-        required = False,
-        label = 'Export worksheet to explain recommendation',
-    )
-
-    spread_worksheet_tag = forms.BooleanField(
-        required = False,
-        label = 'Export worksheet to explain tag',
-    )
-
-class SystemImporterFileCsvFormbasedConfigForm(forms.Form):
-    """ system importer CSV config form (config and form based) """
-
-    # general settings
-    csv_skip_existing_system = forms.BooleanField(
-        required = False,
-        label = 'Skip existing systems',
-    )
-    csv_column_system = forms.IntegerField(
-        required = False,
-        label = 'Number of the column in the CSV file that contains the system name',
-        widget = forms.NumberInput(attrs={
-            #'style': 'width:6ch',
-            'size': '3',
-        }),
-        min_value = 1,
-        max_value = 256,
-    )
-    csv_headline = forms.BooleanField(
-        required = False,
-        label = 'CSV file contains a headline row',
-    )
-    # IP related settings
-    csv_choice_ip = forms.BooleanField(
-        required = False,
-        label = 'CSV file contains IP addresses',
-    )
-    csv_remove_ip = forms.BooleanField(
-        required = False,
-        label = 'Remove / overwrite existing IP addresses for already existing systems',
-    )
-    csv_column_ip = forms.IntegerField(
-        required = False,
-        label = 'Number of the column in the CSV file that contains the IP addresses',
-        widget = forms.NumberInput(attrs={
-            #'style': 'width:6ch',
-            'size': '3',
-        }),
-        min_value = 1,
-        max_value = 256,
-    )
-    # overriding settings
-    csv_remove_case = forms.BooleanField(
-        required = False,
-        label = 'Remove / overwrite existing cases for already existing systems',
-    )
-    csv_remove_company = forms.BooleanField(
-        required = False,
-        label = 'Remove / overwrite existing companies for already existing systems',
-    )
-    csv_remove_tag = forms.BooleanField(
-        required = False,
-        label = 'Remove / overwrite existing tags for already existing systems',
-    )
+        widgets = {
+            'csv_column_system': forms.NumberInput(
+                attrs={
+                    #'style': 'width:6ch',
+                    'min': '1',
+                    'max': '99',
+                    'size': '3',
+                },
+            ),
+            'csv_column_ip': forms.NumberInput(
+                attrs={
+                    #'style': 'width:6ch',
+                    'min': '1',
+                    'max': '99',
+                    'size': '3',
+                },
+            ),
+            'csv_default_systemstatus': forms.RadioSelect(),
+            'csv_default_analysisstatus': forms.RadioSelect(),
+            'csv_default_case': forms.CheckboxSelectMultiple(),
+            'csv_default_company': forms.CheckboxSelectMultiple(),
+            'csv_default_tag': forms.CheckboxSelectMultiple(),
+        }
 
     def clean(self):
         """ custom field validation """
@@ -305,223 +281,74 @@ class SystemImporterFileCsvFormbasedConfigForm(forms.Form):
 
         # compare column values
         if csv_column_system == csv_column_ip:
-            raise forms.ValidationError('The columns for system and IP should not have the same values.')
+            raise forms.ValidationError('The columns for system and IP must not have the same values.')
 
         return cleaned_data
 
-class SystemImporterFileCsvConfigbasedConfigForm(SystemImporterFileCsvFormbasedConfigForm):
-    """ system importer CSV config form (config based only) """
+class SystemImporterFileCsvFormbasedConfigForm(forms.ModelForm):
+    """ system importer CSV config form (form based only) """
 
-    pass
+    class Meta:
 
-# TODO: find an alternative for the selection (reactivate the tests afterwards)
-#    # systemstatus
-#
-#    # create empty list for available systemstatus
-#    systemstatus_choices = []
-#    # get all systemstatus
-#    systemstatus_all = Systemstatus.objects.order_by('systemstatus_id')
-#    # prepare choices (append tupel consisting of systemstatus_id and systemstatus_name to list (therefore double brackets))
-#    for systemstatus in systemstatus_all:
-#        systemstatus_choices.append((systemstatus.systemstatus_id, systemstatus.systemstatus_name))
-#    # create field
-#    csv_default_systemstatus = forms.ChoiceField(
-#        required = True,
-#        widget = forms.RadioSelect(),
-#        choices = systemstatus_choices,
-#        label = 'Set systemstatus',
-#    )
-#
-#    # analysisstatus
-#
-#    # create empty list for available analysisstatus
-#    analysisstatus_choices = []
-#    # get all analysisstatus
-#    analysisstatus_all = Analysisstatus.objects.order_by('analysisstatus_id')
-#    # prepare choices (append tupel consisting of analysisstatus_id and analysisstatus_name to list (therefore double brackets))
-#    for analysisstatus in analysisstatus_all:
-#        analysisstatus_choices.append((analysisstatus.analysisstatus_id, analysisstatus.analysisstatus_name))
-#    # create field
-#    csv_default_analysisstatus = forms.ChoiceField(
-#        required = True,
-#        widget = forms.RadioSelect(),
-#        choices = analysisstatus_choices,
-#        label = 'Set analysisstatus',
-#    )
-#
-#    # reason
-#
-#    # create empty list for available reason
-#    reason_choices = []
-#    # append empty choice
-#    reason_choices.append(('', 'None selected'))
-#    # get all reasons
-#    reason_all = Reason.objects.order_by('reason_name')
-#    # prepare choices (append tupel consisting of reason_id and reason_name to list (therefore double brackets))
-#    for reason in reason_all:
-#        reason_choices.append((reason.reason_id, reason.reason_name))
-#    # create field
-#    csv_default_reason = forms.ChoiceField(
-#        required = False,
-#        choices = reason_choices,
-#        label = 'Set reason',
-#    )
-#
-#    # domain
-#
-#    # create empty list for available domain
-#    domain_choices = []
-#    # append empty choice
-#    domain_choices.append(('', 'None selected'))
-#    # get all domains
-#    domain_all = Domain.objects.order_by('domain_name')
-#    # prepare choices (append tupel consisting of domain_id and domain_name to list (therefore double brackets))
-#    for domain in domain_all:
-#        domain_choices.append((domain.domain_id, domain.domain_name))
-#    # create field
-#    csv_default_domain = forms.ChoiceField(
-#        required = False,
-#        choices = domain_choices,
-#        label = 'Set domain',
-#    )
-#
-#    # dnsname
-#
-#    # create empty list for available dnsname
-#    dnsname_choices = []
-#    # append empty choice
-#    dnsname_choices.append(('', 'None selected'))
-#    # get all dnsnames
-#    dnsname_all = Dnsname.objects.order_by('dnsname_name')
-#    # prepare choices (append tupel consisting of dnsname_id and dnsname_name to list (therefore double brackets))
-#    for dnsname in dnsname_all:
-#        dnsname_choices.append((dnsname.dnsname_id, dnsname.dnsname_name))
-#    # create field
-#    csv_default_dnsname = forms.ChoiceField(
-#        required = False,
-#        choices = dnsname_choices,
-#        label = 'Set DNS name',
-#    )
-#
-#    # systemtype
-#
-#    # create empty list for available systemtype
-#    systemtype_choices = []
-#    # append empty choice
-#    systemtype_choices.append(('', 'None selected'))
-#    # get all systemtypes
-#    systemtype_all = Systemtype.objects.order_by('systemtype_name')
-#    # prepare choices (append tupel consisting of systemtype_id and systemtype_name to list (therefore double brackets))
-#    for systemtype in systemtype_all:
-#        systemtype_choices.append((systemtype.systemtype_id, systemtype.systemtype_name))
-#    # create field
-#    csv_default_systemtype = forms.ChoiceField(
-#        required = False,
-#        choices = systemtype_choices,
-#        label = 'Set systemtype',
-#    )
-#
-#    # os
-#
-#    # create empty list for available os
-#    os_choices = []
-#    # append empty choice
-#    os_choices.append(('', 'None selected'))
-#    # get all oss
-#    os_all = Os.objects.order_by('os_name')
-#    # prepare choices (append tupel consisting of os_id and os_name to list (therefore double brackets))
-#    for os in os_all:
-#        os_choices.append((os.os_id, os.os_name))
-#    # create field
-#    csv_default_os = forms.ChoiceField(
-#        required = False,
-#        choices = os_choices,
-#        label = 'Set OS',
-#    )
-#
-#    # location
-#
-#    # create empty list for available location
-#    location_choices = []
-#    # append empty choice
-#    location_choices.append(('', 'None selected'))
-#    # get all locations
-#    location_all = Location.objects.order_by('location_name')
-#    # prepare choices (append tupel consisting of location_id and location_name to list (therefore double brackets))
-#    for location in location_all:
-#        location_choices.append((location.location_id, location.location_name))
-#    # create field
-#    csv_default_location = forms.ChoiceField(
-#        required = False,
-#        choices = location_choices,
-#        label = 'Set location',
-#    )
-#
-#    # serviceprovider
-#
-#    # create empty list for available serviceprovider
-#    serviceprovider_choices = []
-#    # append empty choice
-#    serviceprovider_choices.append(('', 'None selected'))
-#    # get all serviceproviders
-#    serviceprovider_all = Serviceprovider.objects.order_by('serviceprovider_name')
-#    # prepare choices (append tupel consisting of serviceprovider_id and serviceprovider_name to list (therefore double brackets))
-#    for serviceprovider in serviceprovider_all:
-#        serviceprovider_choices.append((serviceprovider.serviceprovider_id, serviceprovider.serviceprovider_name))
-#    # create field
-#    csv_default_serviceprovider = forms.ChoiceField(
-#        required = False,
-#        choices = serviceprovider_choices,
-#        label = 'Set serviceprovider',
-#    )
-#
-#    # case
-#
-#    # create empty list for available case
-#    case_choices = []
-#    # get all cases
-#    case_all = Case.objects.order_by('case_name')
-#    # prepare choices (append tupel consisting of case_id and case_name to list (therefore double brackets))
-#    for case in case_all:
-#        case_choices.append((case.case_id, case.case_name))
-#    # create field
-#    csv_default_case = forms.MultipleChoiceField(
-#        widget = forms.CheckboxSelectMultiple(),
-#        required = False,
-#        choices = case_choices,
-#        label = 'Set cases',
-#    )
-#
-#    # company
-#
-#    # create empty list for available company
-#    company_choices = []
-#    # get all companies
-#    company_all = Company.objects.order_by('company_name')
-#    # prepare choices (append tupel consisting of company_id and company_name to list (therefore double brackets))
-#    for company in company_all:
-#        company_choices.append((company.company_id, company.company_name))
-#    # create field
-#    csv_default_company = forms.MultipleChoiceField(
-#        widget = forms.CheckboxSelectMultiple(),
-#        required = False,
-#        choices = company_choices,
-#        label = 'Set companies',
-#    )
-#
-#    # tag
-#
-#    # create empty list for available tag
-#    tag_choices = []
-#    # get all tags
-#    tag_all = Tag.objects.order_by('tag_name')
-#    # prepare choices (append tupel consisting of tag_id and tag_name to list (therefore double brackets))
-#    for tag in tag_all:
-#        tag_choices.append((tag.tag_id, tag.tag_name))
-#    # create field
-#    csv_default_tag = forms.MultipleChoiceField(
-#        widget = forms.CheckboxSelectMultiple(),
-#        required = False,
-#        choices = tag_choices,
-#        label = 'Set tags',
-#    )
+        # model
+        model = SystemImporterFileCsvFormbasedConfigModel
+
+        # this HTML forms are shown
+        fields = (
+            'csv_skip_existing_system',
+            'csv_column_system',
+            'csv_headline',
+            'csv_choice_ip',
+            'csv_remove_ip',
+            'csv_column_ip',
+            'csv_remove_case',
+            'csv_remove_company',
+            'csv_remove_tag',
+        )
+
+        labels = {
+            'csv_skip_existing_system': 'Skip existing systems',
+            'csv_column_system': 'Number of the column in the CSV file that contains the system name',
+            'csv_headline': 'CSV file contains a headline row',
+            'csv_choice_ip': 'CSV file contains IP addresses',
+            'csv_remove_ip': 'Remove / overwrite existing IP addresses for already existing systems',
+            'csv_column_ip': 'Number of the column in the CSV file that contains the IP addresses',
+            'csv_remove_case': 'Remove / overwrite existing cases for already existing systems',
+            'csv_remove_company': 'Remove / overwrite existing companies for already existing systems',
+            'csv_remove_tag': 'Remove / overwrite existing tags for already existing systems',
+        }
+
+        widgets = {
+            'csv_column_system': forms.NumberInput(
+                attrs={
+                    #'style': 'width:6ch',
+                    'min': '1',
+                    'max': '99',
+                    'size': '3',
+                },
+            ),
+            'csv_column_ip': forms.NumberInput(
+                attrs={
+                    #'style': 'width:6ch',
+                    'min': '1',
+                    'max': '99',
+                    'size': '3',
+                },
+            ),
+        }
+
+    def clean(self):
+        """ custom field validation """
+
+        # get form data
+        cleaned_data = super().clean()
+
+        # get relevant values
+        csv_column_system = self.cleaned_data['csv_column_system']
+        csv_column_ip = self.cleaned_data['csv_column_ip']
+
+        # compare column values
+        if csv_column_system == csv_column_ip:
+            raise forms.ValidationError('The columns for system and IP must not have the same values.')
+
+        return cleaned_data

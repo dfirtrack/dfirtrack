@@ -33,6 +33,10 @@ class TaskFormTestCase(TestCase):
             tag_name = 'tag_1',
             tagcolor = tagcolor_1,
         )
+        Tag.objects.create(
+            tag_name = 'tag_2',
+            tagcolor = tagcolor_1,
+        )
 
         # create object
         taskname_1 = Taskname.objects.create(taskname_name='taskname_1')
@@ -271,27 +275,27 @@ class TaskFormTestCase(TestCase):
         # compare
         self.assertTrue(form.is_valid())
 
-# TODO: test does not work as expected, returns false instead of true
-#    def test_task_tag_form_filled(self):
-#        """ test additional form content """
-#
-#        # get object
-#        taskname_id = Taskname.objects.get(taskname_name='taskname_1').taskname_id
-#        # get object
-#        taskpriority_id = Taskpriority.objects.get(taskpriority_name='prio_1').taskpriority_id
-#        # get object
-#        taskstatus_id = Taskstatus.objects.get(taskstatus_name='taskstatus_1').taskstatus_id
-#        # get object
-#        tag_id = Tag.objects.get(tag_name='tag_1').tag_id
-#        # get object
-#        form = TaskForm(data = {
-#            'taskname': taskname_id,
-#            'taskpriority': taskpriority_id,
-#            'taskstatus': taskstatus_id,
-#            'tag': tag_id,
-#        })
-#        # compare
-#        self.assertTrue(form.is_valid())
+    def test_task_tag_form_filled(self):
+        """ test additional form content """
+
+        # get object
+        taskname_id = Taskname.objects.get(taskname_name='taskname_1').taskname_id
+        # get object
+        taskpriority_id = Taskpriority.objects.get(taskpriority_name='prio_1').taskpriority_id
+        # get object
+        taskstatus_id = Taskstatus.objects.get(taskstatus_name='taskstatus_1').taskstatus_id
+        # get object
+        tag_1_id = Tag.objects.get(tag_name='tag_1').tag_id
+        tag_2_id = Tag.objects.get(tag_name='tag_2').tag_id
+        # get object
+        form = TaskForm(data = {
+            'taskname': taskname_id,
+            'taskpriority': taskpriority_id,
+            'taskstatus': taskstatus_id,
+            'tag': [tag_1_id, tag_2_id],
+        })
+        # compare
+        self.assertTrue(form.is_valid())
 
     def test_task_scheduled_time_form_filled(self):
         """ test additional form content """

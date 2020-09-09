@@ -6,6 +6,7 @@ class ArtifactExporterSpreadsheetXlsConfigModel(models.Model):
     artifact_exporter_spreadsheet_xls_config_name = models.CharField(max_length=50, primary_key=True, editable=False)
 
     # config fields
+    artifactlist_xls_choice_artifactstatus = models.ManyToManyField('dfirtrack_artifacts.Artifactstatus', related_name='artifact_exporter_spreadsheet_xls_config_artifactstatus')
     artifactlist_xls_artifact_id = models.BooleanField(blank=True)
     artifactlist_xls_system_id = models.BooleanField(blank=True)
     artifactlist_xls_system_name = models.BooleanField(blank=True)
@@ -21,8 +22,6 @@ class ArtifactExporterSpreadsheetXlsConfigModel(models.Model):
     artifactlist_xls_artifact_modify_time = models.BooleanField(blank=True)
     artifactlist_xls_worksheet_artifactstatus = models.BooleanField(blank=True)
     artifactlist_xls_worksheet_artifacttype = models.BooleanField(blank=True)
-    # TODO: find an alternative for the selection
-    artifactlist_xls_choice_artifactstatus = models.IntegerField()
 
 class SystemExporterMarkdownConfigModel(models.Model):
 
@@ -113,19 +112,18 @@ class SystemImporterFileCsvConfigbasedConfigModel(models.Model):
     csv_remove_case = models.BooleanField(blank=True)
     csv_remove_company = models.BooleanField(blank=True)
     csv_remove_tag = models.BooleanField(blank=True)
-    # TODO: find an alternative for the selection
-    csv_default_systemstatus = models.IntegerField()
-    csv_default_analysisstatus = models.IntegerField()
-    csv_default_reason = models.IntegerField()
-    csv_default_domain = models.IntegerField()
-    csv_default_dnsname = models.IntegerField()
-    csv_default_systemtype = models.IntegerField()
-    csv_default_os = models.IntegerField()
-    csv_default_location = models.IntegerField()
-    csv_default_serviceprovider = models.IntegerField()
-    csv_default_case = models.IntegerField()
-    csv_default_company = models.IntegerField()
-    csv_default_tag = models.IntegerField()
+    csv_default_systemstatus = models.ForeignKey('dfirtrack_main.Systemstatus', on_delete=models.PROTECT, related_name='system_importer_file_csv_configbased_config_systemstatus')
+    csv_default_analysisstatus = models.ForeignKey('dfirtrack_main.Analysisstatus', on_delete=models.PROTECT, related_name='system_importer_file_csv_configbased_config_analysisstatus')
+    csv_default_reason = models.ForeignKey('dfirtrack_main.Reason', on_delete=models.SET_NULL, related_name='system_importer_file_csv_configbased_config_reason', blank=True, null=True)
+    csv_default_domain = models.ForeignKey('dfirtrack_main.Domain', on_delete=models.SET_NULL, related_name='system_importer_file_csv_configbased_config_domain', blank=True, null=True)
+    csv_default_dnsname = models.ForeignKey('dfirtrack_main.Dnsname', on_delete=models.SET_NULL, related_name='system_importer_file_csv_configbased_config_dnsname', blank=True, null=True)
+    csv_default_systemtype = models.ForeignKey('dfirtrack_main.Systemtype', on_delete=models.SET_NULL, related_name='system_importer_file_csv_configbased_config_systemtype', blank=True, null=True)
+    csv_default_os = models.ForeignKey('dfirtrack_main.Os', on_delete=models.SET_NULL, related_name='system_importer_file_csv_configbased_config_os', blank=True, null=True)
+    csv_default_location = models.ForeignKey('dfirtrack_main.Location', on_delete=models.SET_NULL, related_name='system_importer_file_csv_configbased_config_location', blank=True, null=True)
+    csv_default_serviceprovider = models.ForeignKey('dfirtrack_main.Serviceprovider', on_delete=models.SET_NULL, related_name='system_importer_file_csv_configbased_config_serviceprovider', blank=True, null=True)
+    csv_default_case = models.ManyToManyField('dfirtrack_main.Case', related_name='artifact_exporter_spreadsheet_xls_config_case', blank=True)
+    csv_default_company = models.ManyToManyField('dfirtrack_main.Company', related_name='artifact_exporter_spreadsheet_xls_config_company', blank=True)
+    csv_default_tag = models.ManyToManyField('dfirtrack_main.Tag', related_name='artifact_exporter_spreadsheet_xls_config_tag', blank=True)
 
 class SystemImporterFileCsvFormbasedConfigModel(models.Model):
 

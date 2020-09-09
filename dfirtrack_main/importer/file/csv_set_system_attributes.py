@@ -27,35 +27,50 @@ def optional_system_attributes(system, model):
     # add or change attributes (set via config)
 
     # systemstatus
-    system.systemstatus = Systemstatus.objects.get(systemstatus_id = model.csv_default_systemstatus)
+    system.systemstatus = model.csv_default_systemstatus
     # analysisstatus
-    system.analysisstatus = Analysisstatus.objects.get(analysisstatus_id = model.csv_default_analysisstatus)
+    system.analysisstatus = model.csv_default_analysisstatus
     # reason (set only, if something was submitted)
     if model.csv_default_reason:
-        system.reason = Reason.objects.get(reason_id = model.csv_default_reason)
+        system.reason = model.csv_default_reason
     # domain (set only, if something was submitted)
     if model.csv_default_domain:
-        system.domain = Domain.objects.get(domain_id = model.csv_default_domain)
+        system.domain = model.csv_default_domain
     # dnsname (set only, if something was submitted)
     if model.csv_default_dnsname:
-        system.dnsname = Dnsname.objects.get(dnsname_id = model.csv_default_dnsname)
+        system.dnsname = model.csv_default_dnsname
     # systemtype (set only, if something was submitted)
     if model.csv_default_systemtype:
-        system.systemtype = Systemtype.objects.get(systemtype_id = model.csv_default_systemtype)
+        system.systemtype = model.csv_default_systemtype
     # os (set only, if something was submitted)
     if model.csv_default_os:
-        system.os = Os.objects.get(os_id = model.csv_default_os)
+        system.os = model.csv_default_os
     # location (set only, if something was submitted)
     if model.csv_default_location:
-        system.location = Location.objects.get(location_id = model.csv_default_location)
+        system.location = model.csv_default_location
     # serviceprovider (set only, if something was submitted)
     if model.csv_default_serviceprovider:
-        system.serviceprovider = Serviceprovider.objects.get(serviceprovider_id = model.csv_default_serviceprovider)
+        system.serviceprovider = model.csv_default_serviceprovider
 
     # return system object enriched with attributes
     return system
 
-def case_attributes(system, caselist, model):
+def case_attributes_config_based(system, caselist, model):
+
+    # remove existing companies (not relevant for newly created systems)
+    if model.csv_remove_case:
+        # remove many to many relation between system and case without deleting existing case objects (important if other systems have the same companies)
+        system.case.clear()
+
+    # iterate through caselist from config
+    for case in caselist.all():
+        # add case
+        system.case.add(case)
+
+    # return system object enriched with attributes
+    return system
+
+def case_attributes_form_based(system, caselist, model):
 
     # remove existing companies (not relevant for newly created systems)
     if model.csv_remove_case:
@@ -72,7 +87,22 @@ def case_attributes(system, caselist, model):
     # return system object enriched with attributes
     return system
 
-def company_attributes(system, companylist, model):
+def company_attributes_config_based(system, companylist, model):
+
+    # remove existing companies (not relevant for newly created systems)
+    if model.csv_remove_company:
+        # remove many to many relation between system and company without deleting existing company objects (important if other systems have the same companies)
+        system.company.clear()
+
+    # iterate through companylist from config
+    for company in companylist.all():
+        # add company
+        system.company.add(company)
+
+    # return system object enriched with attributes
+    return system
+
+def company_attributes_form_based(system, companylist, model):
 
     # remove existing companies (not relevant for newly created systems)
     if model.csv_remove_company:
@@ -89,7 +119,22 @@ def company_attributes(system, companylist, model):
     # return system object enriched with attributes
     return system
 
-def tag_attributes(system, taglist, model):
+def tag_attributes_config_based(system, taglist, model):
+
+    # remove existing tags (not relevant for newly created systems)
+    if model.csv_remove_tag:
+        # remove many to many relation between system and tag without deleting existing tag objects (important if other systems have the same tags)
+        system.tag.clear()
+
+    # iterate through taglist from config
+    for tag in taglist.all():
+        # add tag
+        system.tag.add(tag)
+
+    # return system object enriched with attributes
+    return system
+
+def tag_attributes_form_based(system, taglist, model):
 
     # remove existing tags (not relevant for newly created systems)
     if model.csv_remove_tag:
