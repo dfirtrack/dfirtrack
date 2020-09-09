@@ -9,6 +9,8 @@ services:
         volumes:
             - db-data:/var/lib/postgresql/data
     app:
+        environment:
+            DFIRTRACK_DOCKER: dfirtrack_docker
         build: .
         ports:
             - "8000:8000"

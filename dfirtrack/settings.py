@@ -159,8 +159,7 @@ except ImportError:
     # add IP or FQDN if relevant
     ALLOWED_HOSTS = ['localhost']
 
-    # Database
-    # check environment variable for GitHub action
+    # Database - check environment variables for context
     if "CI" in os.environ:
         # use PostgreSQL for GitHub action
         DATABASES = {
@@ -173,8 +172,20 @@ except ImportError:
                 'PORT': '5432',
             }
         }
+    elif "DFIRTRACK_DOCKER" in os.environ:
+        # use PostgreSQL in Docker context
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql',
+                'NAME': 'dfirtrack',
+                'USER': 'dfirtrack',
+                'PASSWORD': 'dfirtrack',
+                'HOST': 'db',
+                'PORT': '',
+            }
+        }
     else:
-        # use SQLite3 otherwise (for local setup without local_settings)
+        # use SQLite3 otherwise (for local setup without dfirtrack.local_settings)
         DATABASES = {
             'default': {
                 'ENGINE': 'django.db.backends.sqlite3',
