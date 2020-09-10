@@ -199,7 +199,7 @@
   cron:
     name: "dfirtrack"
     user: "{{ ansible_user }}"
-    job: "PGPASSWORD='{{ postgresql_user_password }}' /usr/bin/pg_dump -U {{ postgresql_user }} {{ postgresql_database }} > {{ postgresql_backup_dir }}/`date --utc +\%Y\%m\%d_\%H\%M`_{{ postgresql_database }}.sql"
+    job: "PGPASSWORD='{{ postgresql_user_password }}' /usr/bin/pg_dump -U {{ postgresql_user }} {{ postgresql_database }} > {{ postgresql_backup_dir }}/`date --utc +\\%Y\\%m\\%d_\\%H\\%M`_{{ postgresql_database }}.sql"
     minute: "00"
     hour: "*"
     dom: "*"
