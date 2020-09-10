@@ -27,7 +27,11 @@
 
 <!-- form -->
 <form method="POST" class="post-form">
+
     {% csrf_token %}
+
+    <!-- show form related errors -->
+    {% include "dfirtrack_main/includes/form_errors.html" %}
 
     <!-- include standard form -->
     {% include "dfirtrack_main/includes/form.html" %}

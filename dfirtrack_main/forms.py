@@ -198,14 +198,13 @@ class DomainuserForm(forms.ModelForm):
         queryset = Domain.objects.order_by('domain_name'),
     )
 
-# TODO: CheckboxSelectMultiple does not work properly
-#    # reorder field choices
-#    system_was_logged_on = forms.ModelChoiceField(
-#        label = gettext_lazy('Systems where this domainuser was logged on'),
-#        queryset = System.objects.order_by('system_name'),
-#        required = False,
-#        widget = forms.CheckboxSelectMultiple(),
-#    )
+    # reorder field choices
+    system_was_logged_on = forms.ModelMultipleChoiceField(
+        label = gettext_lazy('Systems where this domainuser was logged on'),
+        queryset = System.objects.order_by('system_name'),
+        required = False,
+        widget = forms.CheckboxSelectMultiple(),
+    )
 
     class Meta:
 
@@ -223,15 +222,11 @@ class DomainuserForm(forms.ModelForm):
         # non default form labeling
         labels = {
             'domainuser_name': gettext_lazy('Domainuser name (*)'),
-            # TODO: remove when CheckboxSelectMultiple is fixed
-            'system_was_logged_on': gettext_lazy('Systems where this domainuser was logged on'),
         }
 
         # special form type or option
         widgets = {
             'domainuser_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
-            # TODO: remove when CheckboxSelectMultiple is fixed
-            'system_was_logged_on': forms.CheckboxSelectMultiple(),
         }
 
 class EntryForm(forms.ModelForm):
@@ -564,14 +559,13 @@ class SystemForm(forms.ModelForm):
         widget = forms.RadioSelect(),
     )
 
-# TODO: CheckboxSelectMultiple does not work properly
-#    # reorder field choices
-#    company = forms.ModelChoiceField(
-#        label = gettext_lazy('Company'),
-#        queryset = Company.objects.order_by('company_name'),
-#        required = False,
-#        widget=forms.CheckboxSelectMultiple(),
-#    )
+    # reorder field choices
+    company = forms.ModelMultipleChoiceField(
+        label = gettext_lazy('Company'),
+        queryset = Company.objects.order_by('company_name'),
+        required = False,
+        widget=forms.CheckboxSelectMultiple(),
+    )
 
     # reorder field choices
     location = forms.ModelChoiceField(
@@ -597,23 +591,21 @@ class SystemForm(forms.ModelForm):
         widget = forms.RadioSelect(),
     )
 
-# TODO: CheckboxSelectMultiple does not work properly
-#    # reorder field choices
-#    tag = forms.ModelChoiceField(
-#        label = gettext_lazy('Tag'),
-#        queryset = Tag.objects.order_by('tag_name'),
-#        required = False,
-#        widget=forms.CheckboxSelectMultiple(),
-#    )
+    # reorder field choices
+    tag = forms.ModelMultipleChoiceField(
+        label = gettext_lazy('Tag'),
+        queryset = Tag.objects.order_by('tag_name'),
+        required = False,
+        widget=forms.CheckboxSelectMultiple(),
+    )
 
-# TODO: CheckboxSelectMultiple does not work properly
-#    # reorder field choices
-#    case = forms.ModelChoiceField(
-#        label = gettext_lazy('Case'),
-#        queryset = Case.objects.order_by('case_name'),
-#        required = False,
-#        widget=forms.CheckboxSelectMultiple(),
-#    )
+    # reorder field choices
+    case = forms.ModelMultipleChoiceField(
+        label = gettext_lazy('Case'),
+        queryset = Case.objects.order_by('case_name'),
+        required = False,
+        widget=forms.CheckboxSelectMultiple(),
+    )
 
     # large text area for line separated iplist
     iplist = forms.CharField(
@@ -668,12 +660,6 @@ class SystemForm(forms.ModelForm):
             'system_deprecated_time': forms.DateTimeInput(),
             'system_is_vm': forms.NullBooleanSelect(),
             'host_system': forms.Select(),
-            # TODO: remove when CheckboxSelectMultiple is fixed
-            'company': forms.CheckboxSelectMultiple(),
-            # TODO: remove when CheckboxSelectMultiple is fixed
-            'tag': forms.CheckboxSelectMultiple(),
-            # TODO: remove when CheckboxSelectMultiple is fixed
-            'case': forms.CheckboxSelectMultiple(),
         }
 
 class SystemNameForm(SystemForm):
@@ -736,14 +722,13 @@ class SystemCreatorForm(forms.ModelForm):
         widget = forms.RadioSelect(),
     )
 
-# TODO: CheckboxSelectMultiple does not work properly
-#    # reorder field choices
-#    company = forms.ModelChoiceField(
-#        label = gettext_lazy('Company'),
-#        queryset = Company.objects.order_by('company_name'),
-#        required = False,
-#        widget=forms.CheckboxSelectMultiple(),
-#    )
+    # reorder field choices
+    company = forms.ModelMultipleChoiceField(
+        label = gettext_lazy('Company'),
+        queryset = Company.objects.order_by('company_name'),
+        required = False,
+        widget=forms.CheckboxSelectMultiple(),
+    )
 
     # reorder field choices
     location = forms.ModelChoiceField(
@@ -769,30 +754,33 @@ class SystemCreatorForm(forms.ModelForm):
         widget = forms.RadioSelect(),
     )
 
-# TODO: CheckboxSelectMultiple does not work properly
-#    # reorder field choices
-#    tag = forms.ModelChoiceField(
-#        label = gettext_lazy('Tag'),
-#        queryset = Tag.objects.order_by('tag_name'),
-#        required = False,
-#        widget=forms.CheckboxSelectMultiple(),
-#    )
+    # reorder field choices
+    tag = forms.ModelMultipleChoiceField(
+        label = gettext_lazy('Tag'),
+        queryset = Tag.objects.order_by('tag_name'),
+        required = False,
+        widget=forms.CheckboxSelectMultiple(),
+    )
 
-# TODO: CheckboxSelectMultiple does not work properly
-#    # reorder field choices
-#    case = forms.ModelChoiceField(
-#        label = gettext_lazy('Case'),
-#        queryset = Case.objects.order_by('case_name'),
-#        required = False,
-#        widget=forms.CheckboxSelectMultiple(),
-#    )
+    # reorder field choices
+    case = forms.ModelMultipleChoiceField(
+        label = gettext_lazy('Case'),
+        queryset = Case.objects.order_by('case_name'),
+        required = False,
+        widget=forms.CheckboxSelectMultiple(),
+    )
 
     # large text area for line separated systemlist
-    systemlist = forms.CharField(widget=forms.Textarea(attrs={
-        'rows': 20,
-        'placeholder': 'One systemname per line',
-        'autofocus': 'autofocus',
-    }))
+    systemlist = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'rows': 20,
+                'placeholder': 'One systemname per line',
+                'autofocus': 'autofocus',
+            },
+        ),
+        label = 'System list',
+    )
 
     class Meta:
 
@@ -822,12 +810,41 @@ class SystemCreatorForm(forms.ModelForm):
             'systemstatus': forms.RadioSelect(),
             'analysisstatus': forms.RadioSelect(),
             'osarch': forms.RadioSelect(),
-            # TODO: remove when CheckboxSelectMultiple is fixed
-            'company': forms.CheckboxSelectMultiple(),
-            # TODO: remove when CheckboxSelectMultiple is fixed
-            'tag': forms.CheckboxSelectMultiple(),
-            # TODO: remove when CheckboxSelectMultiple is fixed
-            'case': forms.CheckboxSelectMultiple(),
+        }
+
+class SystemModificatorForm(forms.ModelForm):
+
+    # large text area for line separated systemlist
+    systemlist = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'rows': 20,
+                'placeholder': 'One systemname per line',
+                'autofocus': 'autofocus',
+            },
+        ),
+        label = 'System list',
+    )
+
+    # show all existing tag objects as multiple choice field
+    tag = forms.ModelMultipleChoiceField(
+        queryset=Tag.objects.all(),
+        widget=forms.CheckboxSelectMultiple(),
+        required = False,
+        label = 'Tag',
+    )
+
+    class Meta:
+        model = System
+        # this HTML forms are shown
+        fields = (
+            'systemstatus',
+            'analysisstatus',
+        )
+        # special form type or option
+        widgets = {
+            'systemstatus': forms.RadioSelect(),
+            'analysisstatus': forms.RadioSelect(),
         }
 
 class SystemtypeForm(forms.ModelForm):
@@ -921,12 +938,14 @@ class TagCreatorForm(forms.Form):
     tag = forms.ModelMultipleChoiceField(
         queryset = Tag.objects.order_by('tag_name'),
         widget = forms.CheckboxSelectMultiple(),
+        label = 'Tags (*)',
     )
 
     # show all existing system objects as multiple choice field
     system = forms.ModelMultipleChoiceField(
         queryset = System.objects.order_by('system_name'),
         widget = forms.CheckboxSelectMultiple(),
+        label = 'Systems (*)',
     )
 
 class TaskForm(forms.ModelForm):
@@ -952,14 +971,13 @@ class TaskForm(forms.ModelForm):
         widget = forms.RadioSelect(),
     )
 
-# TODO: CheckboxSelectMultiple does not work properly
-#    # reorder field choices
-#    tag = forms.ModelChoiceField(
-#        label = gettext_lazy('Tag'),
-#        queryset = Tag.objects.order_by('tag_name'),
-#        required = False,
-#        widget=forms.CheckboxSelectMultiple(),
-#    )
+    # reorder field choices
+    tag = forms.ModelMultipleChoiceField(
+        label = gettext_lazy('Tag'),
+        queryset = Tag.objects.order_by('tag_name'),
+        required = False,
+        widget=forms.CheckboxSelectMultiple(),
+    )
 
     class Meta:
 
@@ -986,8 +1004,6 @@ class TaskForm(forms.ModelForm):
             'taskpriority': forms.RadioSelect(),
             'taskstatus': forms.RadioSelect(),
             'task_note': forms.Textarea(attrs={'rows': 10}),
-            # TODO: remove when CheckboxSelectMultiple is fixed
-            'tag': forms.CheckboxSelectMultiple(),
             'task_scheduled_time': forms.DateTimeInput(),
             'task_due_time': forms.DateTimeInput(),
         }
@@ -998,12 +1014,14 @@ class TaskCreatorForm(forms.ModelForm):
     taskname = forms.ModelMultipleChoiceField(
         queryset = Taskname.objects.order_by('taskname_name'),
         widget = forms.CheckboxSelectMultiple(),
+        label = 'Tasknames',
     )
 
     # show all existing system objects as multiple choice field
     system = forms.ModelMultipleChoiceField(
         queryset = System.objects.order_by('system_name'),
         widget = forms.CheckboxSelectMultiple(),
+        label = 'Systems',
     )
 
     # reorder field choices
@@ -1014,14 +1032,13 @@ class TaskCreatorForm(forms.ModelForm):
         widget = forms.RadioSelect(),
     )
 
-# TODO: CheckboxSelectMultiple does not work properly
-#    # reorder field choices
-#    tag = forms.ModelChoiceField(
-#        label = gettext_lazy('Tag'),
-#        queryset = Tag.objects.order_by('tag_name'),
-#        required = False,
-#        widget=forms.CheckboxSelectMultiple(),
-#    )
+    # reorder field choices
+    tag = forms.ModelMultipleChoiceField(
+        label = gettext_lazy('Tag'),
+        queryset = Tag.objects.order_by('tag_name'),
+        required = False,
+        widget=forms.CheckboxSelectMultiple(),
+    )
 
     class Meta:
 
@@ -1042,8 +1059,6 @@ class TaskCreatorForm(forms.ModelForm):
             'taskpriority': forms.RadioSelect(),
             'taskstatus': forms.RadioSelect(),
             'task_note': forms.Textarea(attrs={'rows': 10}),
-            # TODO: remove when CheckboxSelectMultiple is fixed
-            'tag': forms.CheckboxSelectMultiple(),
         }
 
 class TasknameForm(forms.ModelForm):

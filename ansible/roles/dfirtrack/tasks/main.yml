@@ -14,21 +14,29 @@
     dest: "{{ dfirtrack_dir }}"
     version: "{{ dfirtrack_branch }}"
 
-- name: DFIRTRACK | Copy settings.py
+- name: DFIRTRACK | Copy local_settings.py
   template:
-    src: settings.py.j2
-    dest: "{{ dfirtrack_dir }}/dfirtrack/settings.py"
+    src: local_settings.py.j2
+    dest: "{{ dfirtrack_dir }}/dfirtrack/local_settings.py"
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: "0640"
 
+- name: DFIRTRACK | Change secret key
+  lineinfile:
+    path: "{{ dfirtrack_dir }}/dfirtrack/settings.py"
+    regexp: "^SECRET_KEY"
+    line: "SECRET_KEY = '{{ secret_key }}'"
+
 - name: DJANGO | Install python dependencies
   apt:
     name:
+      - libpq-dev
       - python-setuptools
       - python3-pip
       - python3-virtualenv
-    state: latest
+      - virtualenv
+    state: present
   become: yes
   become_method: sudo
 
@@ -87,11 +95,33 @@
     group: "{{ ansible_user }}"
     mode: '0755'
 
+- name: MARKDOWN | Add markdown path to config.py
+  lineinfile:
+    path: "{{ dfirtrack_dir }}/dfirtrack/config.py"
+    state: present
+    regexp: "^MARKDOWN_PATH"
+    line: "MARKDOWN_PATH = '{{ markdown_dir }}/{{ markdown_proj }}'"
+
 - name: POSTGRESQL | Install psycopg2 to make ansible talk with postgresql
   apt:
     name: python-psycopg2
   become: yes
   become_method: sudo
+  when: not (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.04')
+
+- name: POSTGRESQL | Install psycopg2 to make ansible talk with postgresql (Ubuntu 20)
+  apt:
+    name: python3-psycopg2
+  become: yes
+  become_method: sudo
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.04'
+
+- name: POSTGRESQL | Install acl to make user switching work (Ubuntu 20)
+  apt:
+    name: acl
+  become: yes
+  become_method: sudo
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.04'
 
 - name: POSTGRESQL | Install postgresql
   apt:
@@ -108,11 +138,13 @@
   become_method: sudo
   become_user: postgres
 
+# CREATEDB necessary for creating test database
 - name: POSTGRESQL | Create dedicated user
   postgresql_user:
     name: "{{ postgresql_user }}"
     password: "{{ postgresql_user_password }}"
     encrypted: yes
+    role_attr_flags: CREATEDB
   become: yes
   become_method: sudo
   become_user: postgres
@@ -148,6 +180,11 @@
     postgresql_config: "/etc/postgresql/10/main/pg_hba.conf"
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '18.04'
 
+- name: POSTGRESQL | Set path of config (Ubuntu 20.04)
+  set_fact:
+    postgresql_config: "/etc/postgresql/12/main/pg_hba.conf"
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.04'
+
 - name: POSTGRESQL | Edit config for backup
   replace:
     name: "{{ postgresql_config }}"
@@ -162,9 +199,9 @@
   cron:
     name: "dfirtrack"
     user: "{{ ansible_user }}"
-    job: "PGPASSWORD='{{ postgresql_user_password }}' /usr/bin/pg_dump -U {{ postgresql_user }} {{ postgresql_database }} > {{ postgresql_backup_dir }}/{{ postgresql_database }}.sql"
+    job: "PGPASSWORD='{{ postgresql_user_password }}' /usr/bin/pg_dump -U {{ postgresql_user }} {{ postgresql_database }} > {{ postgresql_backup_dir }}/`date --utc +\%Y\%m\%d_\%H\%M`_{{ postgresql_database }}.sql"
     minute: "00"
-    hour: "1"
+    hour: "*"
     dom: "*"
     month: "*"
     dow: "*"
@@ -244,11 +281,6 @@
   become: yes
   become_method: sudo
 
-- name: GUNICORN | Enable service
-  command: "systemctl enable gunicorn"
-  become: yes
-  become_method: sudo
-
 - name: QCLUSTER | Create file for service
   template:
     src: qcluster.service.j2
@@ -259,28 +291,24 @@
   become: yes
   become_method: sudo
 
-- name: QCLUSTER | Enable service
-  command: "systemctl enable qcluster"
-  become: yes
-  become_method: sudo
-
 - name: SYSTEMCTL | Reload systemctl daemon
-  command: "systemctl daemon-reload"
+  systemd:
+    daemon-reload: yes
   become: yes
   become_method: sudo
 
 - name: GUNICORN | Enable and start service
-  service:
-    name: gunicorn.service
+  systemd:
+    name: 'gunicorn'
     enabled: yes
     state: started
   become: yes
   become_method: sudo
 
 - name: QCLUSTER | Enable and start service
-  service:
-    name: qcluster.service
-    enabled: true
+  systemd:
+    name: 'qcluster'
+    enabled: yes
     state: started
   become: yes
   become_method: sudo

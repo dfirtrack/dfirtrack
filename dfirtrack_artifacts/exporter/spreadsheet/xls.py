@@ -2,32 +2,15 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse
-import dfirtrack.config as dfirtrack_config
 from dfirtrack_artifacts.models import Artifact, Artifactstatus, Artifacttype
+from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel
 from dfirtrack_main.exporter.spreadsheet.xls import style_default, style_headline, write_row
 from dfirtrack_main.logger.default_logger import info_logger, warning_logger
-from .spreadsheet_check_data import check_config, check_worksheet, check_artifactstatus
 from time import strftime
 import xlwt
 
 @login_required(login_url="/login")
 def artifact(request):
-
-    # check_config
-    stop_artifact_exporter_spreadsheet = check_config(request)
-
-    # check_config regarding worksheet variables (only xls exporter)
-    stop_artifact_exporter_spreadsheet_worksheet = check_worksheet(request)
-
-    # check_config regarding choosen artifactstatus
-    stop_artifact_exporter_spreadsheet_artifactstatus = check_artifactstatus(request)
-
-    # leave artifact_exporter_spreadsheet_xls if variables caused errors
-    if stop_artifact_exporter_spreadsheet or stop_artifact_exporter_spreadsheet_worksheet or stop_artifact_exporter_spreadsheet_artifactstatus:
-
-        # call logger
-        warning_logger(str(request.user), " ARTIFACT_EXPORTER_SPREADSHEET_XLS_END_WITH_ERRORS")
-        return redirect(reverse('artifacts_artifact_list'))
 
     """ prepare file including formatting """
 
@@ -45,6 +28,9 @@ def artifact(request):
     # define styling for headline
     style = style_headline()
 
+    # get config model
+    model = ArtifactExporterSpreadsheetXlsConfigModel.objects.get(artifact_exporter_spreadsheet_xls_config_name = 'ArtifactExporterSpreadsheetXlsConfig')
+
     """ start with headline """
 
     # set counter
@@ -54,36 +40,36 @@ def artifact(request):
     headline = []
 
     # check for attribute id
-    if dfirtrack_config.ARTIFACTLIST_ARTIFACT_ID:
+    if model.artifactlist_xls_artifact_id:
         headline.append('Artifact ID')
 
     # append mandatory attribute
     headline.append('Artifact')
 
     # check for remaining attributes
-    if dfirtrack_config.ARTIFACTLIST_SYSTEM_ID:
+    if model.artifactlist_xls_system_id:
         headline.append('System ID')
-    if dfirtrack_config.ARTIFACTLIST_SYSTEM_NAME:
+    if model.artifactlist_xls_system_name:
         headline.append('System')
-    if dfirtrack_config.ARTIFACTLIST_ARTIFACTSTATUS:
+    if model.artifactlist_xls_artifactstatus:
         headline.append('Artifactstatus')
-    if dfirtrack_config.ARTIFACTLIST_ARTIFACTTYPE:
+    if model.artifactlist_xls_artifacttype:
         headline.append('Artifacttype')
-    if dfirtrack_config.ARTIFACTLIST_ARTIFACT_SOURCE_PATH:
+    if model.artifactlist_xls_artifact_source_path:
         headline.append('Source path')
-    if dfirtrack_config.ARTIFACTLIST_ARTIFACT_STORAGE_PATH:
+    if model.artifactlist_xls_artifact_storage_path:
         headline.append('Storage path')
-    if dfirtrack_config.ARTIFACTLIST_ARTIFACT_NOTE:
+    if model.artifactlist_xls_artifact_note:
         headline.append('Note')
-    if dfirtrack_config.ARTIFACTLIST_ARTIFACT_MD5:
+    if model.artifactlist_xls_artifact_md5:
         headline.append('MD5')
-    if dfirtrack_config.ARTIFACTLIST_ARTIFACT_SHA1:
+    if model.artifactlist_xls_artifact_sha1:
         headline.append('SHA1')
-    if dfirtrack_config.ARTIFACTLIST_ARTIFACT_SHA256:
+    if model.artifactlist_xls_artifact_sha256:
         headline.append('SHA256')
-    if dfirtrack_config.ARTIFACTLIST_ARTIFACT_CREATE_TIME:
+    if model.artifactlist_xls_artifact_create_time:
         headline.append('Created')
-    if dfirtrack_config.ARTIFACTLIST_ARTIFACT_MODIFY_TIME:
+    if model.artifactlist_xls_artifact_modify_time:
         headline.append('Modified')
 
     # write headline
@@ -100,6 +86,10 @@ def artifact(request):
     # iterate over artifacts
     for artifact in artifacts:
 
+        # leave loop if artifactstatus of this artifact is not configured for export
+        if artifact.artifactstatus not in model.artifactlist_xls_choice_artifactstatus.all():
+            continue
+
         # autoincrement row counter
         row_num += 1
 
@@ -112,7 +102,7 @@ def artifact(request):
         """ check for attribute """
 
         # artifact id
-        if dfirtrack_config.ARTIFACTLIST_ARTIFACT_ID:
+        if model.artifactlist_xls_artifact_id:
             entryline.append(artifact.artifact_id)
 
         """ append mandatory attribute """
@@ -123,65 +113,65 @@ def artifact(request):
         """ check for remaining attributes """
 
         # system id
-        if dfirtrack_config.ARTIFACTLIST_SYSTEM_ID:
+        if model.artifactlist_xls_system_id:
             entryline.append(artifact.system.system_id)
         # system name
-        if dfirtrack_config.ARTIFACTLIST_SYSTEM_NAME:
+        if model.artifactlist_xls_system_name:
             entryline.append(artifact.system.system_name)
         # artifactstatus
-        if dfirtrack_config.ARTIFACTLIST_ARTIFACTSTATUS:
+        if model.artifactlist_xls_artifactstatus:
             entryline.append(artifact.artifactstatus.artifactstatus_name)
         # artifacttype
-        if dfirtrack_config.ARTIFACTLIST_ARTIFACTTYPE:
+        if model.artifactlist_xls_artifacttype:
             entryline.append(artifact.artifacttype.artifacttype_name)
         # artifact source path
-        if dfirtrack_config.ARTIFACTLIST_ARTIFACT_SOURCE_PATH:
+        if model.artifactlist_xls_artifact_source_path:
             if artifact.artifact_source_path == None:
                 artifact_source_path = ''
             else:
                 artifact_source_path = artifact.artifact_source_path
             entryline.append(artifact_source_path)
         # artifact storage path
-        if dfirtrack_config.ARTIFACTLIST_ARTIFACT_STORAGE_PATH:
+        if model.artifactlist_xls_artifact_storage_path:
             if artifact.artifact_storage_path == None:
                 artifact_storage_path = ''
             else:
                 artifact_storage_path = artifact.artifact_storage_path
             entryline.append(artifact_storage_path)
         # artifact note
-        if dfirtrack_config.ARTIFACTLIST_ARTIFACT_NOTE:
+        if model.artifactlist_xls_artifact_note:
             if artifact.artifact_note == None:
                 artifact_note = ''
             else:
                 artifact_note = artifact.artifact_note
             entryline.append(artifact_note)
         # artifact md5
-        if dfirtrack_config.ARTIFACTLIST_ARTIFACT_MD5:
+        if model.artifactlist_xls_artifact_md5:
             if artifact.artifact_md5 == None:
                 artifact_md5 = ''
             else:
                 artifact_md5 = artifact.artifact_md5
             entryline.append(artifact_md5)
         # artifact sha1
-        if dfirtrack_config.ARTIFACTLIST_ARTIFACT_SHA1:
+        if model.artifactlist_xls_artifact_sha1:
             if artifact.artifact_sha1 == None:
                 artifact_sha1 = ''
             else:
                 artifact_sha1 = artifact.artifact_sha1
             entryline.append(artifact_sha1)
         # artifact sha256
-        if dfirtrack_config.ARTIFACTLIST_ARTIFACT_SHA256:
+        if model.artifactlist_xls_artifact_sha256:
             if artifact.artifact_sha256 == None:
                 artifact_sha256 = ''
             else:
                 artifact_sha256 = artifact.artifact_sha256
             entryline.append(artifact_sha256)
         # artifact create time
-        if dfirtrack_config.ARTIFACTLIST_ARTIFACT_CREATE_TIME:
+        if model.artifactlist_xls_artifact_create_time:
             artifact_create_time = artifact.artifact_create_time.strftime('%Y-%m-%d %H:%M')
             entryline.append(artifact_create_time)
         # artifact modify time
-        if dfirtrack_config.ARTIFACTLIST_ARTIFACT_MODIFY_TIME:
+        if model.artifactlist_xls_artifact_modify_time:
             artifact_modify_time = artifact.artifact_modify_time.strftime('%Y-%m-%d %H:%M')
             entryline.append(artifact_modify_time)
 
@@ -203,7 +193,7 @@ def artifact(request):
     """ add worksheet for artifactstatus """
 
     # check all conditions
-    if dfirtrack_config.ARTIFACTLIST_WORKSHEET_ARTIFACTSTATUS and dfirtrack_config.ARTIFACTLIST_ARTIFACTSTATUS and Artifactstatus.objects.count() != 0:
+    if model.artifactlist_xls_worksheet_artifactstatus and model.artifactlist_xls_artifactstatus and Artifactstatus.objects.count() != 0:
 
         # define name of worksheet within file
         worksheet_artifactstatus = workbook.add_sheet('artifactstatus')
@@ -259,7 +249,7 @@ def artifact(request):
     """ add worksheet for artifacttype """
 
     # check all conditions
-    if dfirtrack_config.ARTIFACTLIST_WORKSHEET_ARTIFACTTYPE and dfirtrack_config.ARTIFACTLIST_ARTIFACTTYPE and Artifacttype.objects.count() != 0:
+    if model.artifactlist_xls_worksheet_artifacttype and model.artifactlist_xls_artifacttype and Artifacttype.objects.count() != 0:
 
         # define name of worksheet within file
         worksheet_artifacttype = workbook.add_sheet('artifacttype')
