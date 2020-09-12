@@ -208,6 +208,68 @@ class ArtifactViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
+    def test_artifact_create_with_system_not_logged_in(self):
+        """ test create view """
+
+        # get object
+        system_id = System.objects.get(system_name = 'system_1').system_id
+        # create url
+        destination = '/login/?next=' + urllib.parse.quote('/artifacts/artifact/create/%3Fsystem%3D' + str(system_id), safe='%')
+        # get response
+        response = self.client.get('/artifacts/artifact/create/?system=' + str(system_id), follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_artifact_create_with_system_logged_in(self):
+        """ test create view """
+
+        # get object
+        system_id = System.objects.get(system_name = 'system_1').system_id
+        # login testuser
+        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        # get response
+        response = self.client.get('/artifacts/artifact/create/?system=' + str(system_id))
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_artifact_create_with_system_template(self):
+        """ test create view """
+
+        # get object
+        system_id = System.objects.get(system_name = 'system_1').system_id
+        # login testuser
+        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        # get response
+        response = self.client.get('/artifacts/artifact/create/?system=' + str(system_id))
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_artifacts/artifact/artifact_add.html')
+
+    def test_artifact_create_with_system_get_user_context(self):
+        """ test create view """
+
+        # get object
+        system_id = System.objects.get(system_name = 'system_1').system_id
+        # login testuser
+        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        # get response
+        response = self.client.get('/artifacts/artifact/create/?system=' + str(system_id))
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_artifact')
+
+    def test_artifact_create_with_system_redirect(self):
+        """ test create view """
+
+        # get object
+        system_id = System.objects.get(system_name = 'system_1').system_id
+        # login testuser
+        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        # create url
+        destination = urllib.parse.quote('/artifacts/artifact/create/?system=' + str(system_id), safe='/=?')
+        # get response
+        response = self.client.get('/artifacts/artifact/create?system=' + str(system_id), follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
     def test_artifact_update_not_logged_in(self):
         """ test update view """
 
