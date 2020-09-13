@@ -71,21 +71,14 @@
         <div class="row">
 
             <!-- systemlist -->
-            <div class="col-3">
-                <div class="card card-body bg-dark border-light top-distance">
-                    <!-- systemlist errors -->
-                    <div class="text-danger">
-                        {{ form.systemlist.errors }}
-                    </div>
-                    {{ form.systemlist }}
+                <!-- systemlist errors -->
+                <div class="text-danger">
+                    {{ form.systemlist.errors }}
                 </div>
-            </div>
-
-            <!-- systemlist requirement description -->
-            <div class="col-3">
-                <p><b>Systems that do not exist won't get created.</b></p>
-                <p>Only one system per line is allowed.</p>
-            </div>
+                <!-- systemlist selector -->
+                {{ form.systemlist }}
+                {{ form.media}}
+                <script type="text/javascript" src="{% url 'jsi18n' %}"></script>
 
         <!-- systemlist row -->
         </div>

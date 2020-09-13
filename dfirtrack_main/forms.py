@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy
 from dfirtrack_main.models import Analystmemo, Case, Company, Contact, Division, Dnsname, Domain, Domainuser, Entry, Headline, Location, Os, Osimportname, Reason, Recommendation, Reportitem, Serviceprovider, System, Systemtype, Systemuser, Tag, Tagcolor, Task, Taskname
@@ -837,17 +838,8 @@ class SystemCreatorForm(forms.ModelForm):
 
 class SystemModificatorForm(forms.ModelForm):
 
-    # large text area for line separated systemlist
-    systemlist = forms.CharField(
-        widget=forms.Textarea(
-            attrs={
-                'rows': 20,
-                'placeholder': 'One systemname per line',
-                'autofocus': 'autofocus',
-            },
-        ),
-        label = 'System list',
-    )
+    # admin UI style system chooser
+    systemlist = forms.ModelMultipleChoiceField(queryset=System.objects.all(), widget=FilteredSelectMultiple("Systems", is_stacked=False), required=True)
 
     # show all existing tag objects as multiple choice field
     tag = forms.ModelMultipleChoiceField(
@@ -857,18 +849,39 @@ class SystemModificatorForm(forms.ModelForm):
         label = 'Tag',
     )
 
+    # show all existing company objects as multiple choice field
+    company = forms.ModelMultipleChoiceField(
+        queryset=Company.objects.all(),
+        widget=forms.CheckboxSelectMultiple(),
+        required = False,
+        label = 'Company',
+    )
+
     class Meta:
         model = System
         # this HTML forms are shown
         fields = (
+            'location',
+            'serviceprovider',
+            'contact',
             'systemstatus',
             'analysisstatus',
         )
         # special form type or option
         widgets = {
+            'location': forms.RadioSelect(),
+            'serviceprovider': forms.RadioSelect(),
+            'contact': forms.RadioSelect(),
             'systemstatus': forms.RadioSelect(),
             'analysisstatus': forms.RadioSelect(),
         }
+
+    # needed for system selector
+    class Media:
+        css = {
+            'all': ('/static/admin/css/widgets.css',),
+        }
+        js = ('/admin/jsi18n',)
 
 class SystemtypeForm(forms.ModelForm):
 
