@@ -29,6 +29,9 @@ class SystemModificatorFormTestCase(TestCase):
             tagcolor = tagcolor_1,
         )
         
+        # create user
+        test_user = User.objects.create_user(username='testuser_system_api', password='Pqtg7fic7FfB2ESEwaPc')
+        
         # create object
         System.objects.create(
             system_name='system_1',
