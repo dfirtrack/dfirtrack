@@ -42,6 +42,7 @@ class SystemFormTestCase(TestCase):
 
         # create object
         Company.objects.create(company_name='company_1')
+        Company.objects.create(company_name='company_2')
 
         # create object
         Location.objects.create(location_name='location_1')
@@ -63,10 +64,19 @@ class SystemFormTestCase(TestCase):
             tag_name = 'tag_1',
             tagcolor = tagcolor_1,
         )
+        Tag.objects.create(
+            tag_name = 'tag_2',
+            tagcolor = tagcolor_1,
+        )
 
         # create object
         Case.objects.create(
             case_name = 'case_1',
+            case_is_incident = True,
+            case_created_by_user_id = test_user,
+        )
+        Case.objects.create(
+            case_name = 'case_2',
             case_is_incident = True,
             case_created_by_user_id = test_user,
         )
@@ -480,22 +490,22 @@ class SystemFormTestCase(TestCase):
         # compare
         self.assertTrue(form.is_valid())
 
-# TODO: test does not work as expected, returns false instead of true
-#    def test_system_company_form_filled(self):
-#        """ test additional form content """
-#
-#        # get object
-#        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
-#        # get object
-#        company_id = Company.objects.get(company_name='company_1').company_id
-#        # get object
-#        form = SystemForm(data = {
-#            'system_name': 'system_1',
-#            'systemstatus': systemstatus_id,
-#            'company': company_id,
-#        })
-#        # compare
-#        self.assertTrue(form.is_valid())
+    def test_system_company_form_filled(self):
+        """ test additional form content """
+
+        # get object
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
+        # get object
+        company_1_id = Company.objects.get(company_name='company_1').company_id
+        company_2_id = Company.objects.get(company_name='company_2').company_id
+        # get object
+        form = SystemForm(data = {
+            'system_name': 'system_1',
+            'systemstatus': systemstatus_id,
+            'company': [company_1_id, company_2_id],
+        })
+        # compare
+        self.assertTrue(form.is_valid())
 
     def test_system_location_form_filled(self):
         """ test additional form content """
@@ -545,39 +555,39 @@ class SystemFormTestCase(TestCase):
         # compare
         self.assertTrue(form.is_valid())
 
-# TODO: test does not work as expected, returns false instead of true
-#    def test_system_tag_form_filled(self):
-#        """ test additional form content """
-#
-#        # get object
-#        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
-#        # get object
-#        tag_id = Tag.objects.get(tag_name='tag_1').tag_id
-#        # get object
-#        form = SystemForm(data = {
-#            'system_name': 'system_1',
-#            'systemstatus': systemstatus_id,
-#            'tag': tag_id,
-#        })
-#        # compare
-#        self.assertTrue(form.is_valid())
+    def test_system_tag_form_filled(self):
+        """ test additional form content """
 
-# TODO: test does not work as expected, returns false instead of true
-#    def test_system_case_form_filled(self):
-#        """ test additional form content """
-#
-#        # get object
-#        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
-#        # get object
-#        case_id = Case.objects.get(case_name='case_1').case_id
-#        # get object
-#        form = SystemForm(data = {
-#            'system_name': 'system_1',
-#            'systemstatus': systemstatus_id,
-#            'case': case_id,
-#        })
-#        # compare
-#        self.assertTrue(form.is_valid())
+        # get object
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
+        # get object
+        tag_1_id = Tag.objects.get(tag_name='tag_1').tag_id
+        tag_2_id = Tag.objects.get(tag_name='tag_2').tag_id
+        # get object
+        form = SystemForm(data = {
+            'system_name': 'system_1',
+            'systemstatus': systemstatus_id,
+            'tag': [tag_1_id, tag_2_id],
+        })
+        # compare
+        self.assertTrue(form.is_valid())
+
+    def test_system_case_form_filled(self):
+        """ test additional form content """
+
+        # get object
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
+        # get object
+        case_1_id = Case.objects.get(case_name='case_1').case_id
+        case_2_id = Case.objects.get(case_name='case_2').case_id
+        # get object
+        form = SystemForm(data = {
+            'system_name': 'system_1',
+            'systemstatus': systemstatus_id,
+            'case': [case_1_id, case_2_id],
+        })
+        # compare
+        self.assertTrue(form.is_valid())
 
     def test_system_name_proper_chars(self):
         """ test for max length """

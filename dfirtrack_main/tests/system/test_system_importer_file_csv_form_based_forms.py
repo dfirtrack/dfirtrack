@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 from dfirtrack_main.importer.file.csv_importer_forms import SystemImporterFileCsvFormbasedForm
-from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Dnsname, Domain, Location, Os, Osarch, Reason, Serviceprovider, Systemstatus, Systemtype, Tag, Tagcolor
+from dfirtrack_main.models import Analysisstatus, Case, Company, Dnsname, Domain, Location, Os, Reason, Serviceprovider, Systemstatus, Systemtype, Tag, Tagcolor
 
 class SystemImporterFileCsvFormbasedFormbasedFormTestCase(TestCase):
     """ system importer file CSV form-based form tests """
@@ -10,8 +10,8 @@ class SystemImporterFileCsvFormbasedFormbasedFormTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
 
-#        # create user
-#        test_user = User.objects.create_user(username='testuser_system_importer_file_csv_config_based', password='kBCV4spAtkHqcmejUBgt')
+        # create user
+        test_user = User.objects.create_user(username='testuser_system_importer_file_csv_config_based', password='kBCV4spAtkHqcmejUBgt')
 
         # create object
         systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
@@ -35,10 +35,8 @@ class SystemImporterFileCsvFormbasedFormbasedFormTestCase(TestCase):
         Os.objects.create(os_name='os_1')
 
         # create object
-        Osarch.objects.create(osarch_name='osarch_1')
-
-        # create object
         Company.objects.create(company_name='company_1')
+        Company.objects.create(company_name='company_2')
 
         # create object
         Location.objects.create(location_name='location_1')
@@ -46,27 +44,30 @@ class SystemImporterFileCsvFormbasedFormbasedFormTestCase(TestCase):
         # create object
         Serviceprovider.objects.create(serviceprovider_name='serviceprovider_1')
 
-#        # create object
-#        Contact.objects.create(
-#            contact_name='contact_1',
-#            contact_email='contact_1@example.com',
-#        )
-#
-#        # create object
-#        tagcolor_1 = Tagcolor.objects.create(tagcolor_name='tagcolor_1')
-#
-#        # create object
-#        Tag.objects.create(
-#            tag_name = 'tag_1',
-#            tagcolor = tagcolor_1,
-#        )
-#
-#        # create object
-#        Case.objects.create(
-#            case_name = 'case_1',
-#            case_is_incident = True,
-#            case_created_by_user_id = test_user,
-#        )
+        # create object
+        tagcolor_1 = Tagcolor.objects.create(tagcolor_name='tagcolor_1')
+
+        # create object
+        Tag.objects.create(
+            tag_name = 'tag_1',
+            tagcolor = tagcolor_1,
+        )
+        Tag.objects.create(
+            tag_name = 'tag_2',
+            tagcolor = tagcolor_1,
+        )
+
+        # create object
+        Case.objects.create(
+            case_name = 'case_1',
+            case_is_incident = True,
+            case_created_by_user_id = test_user,
+        )
+        Case.objects.create(
+            case_name = 'case_2',
+            case_is_incident = True,
+            case_created_by_user_id = test_user,
+        )
 
 
     def test_system_importer_file_csv_form_based_systemcsv_form_label(self):
@@ -149,32 +150,29 @@ class SystemImporterFileCsvFormbasedFormbasedFormTestCase(TestCase):
         # compare
         self.assertEqual(form.fields['serviceprovider'].label, 'Serviceprovider')
 
-    # TODO: reactivate after fixing alternative selection
-    #def test_system_importer_file_csv_form_based_case_form_label(self):
-    #    """ test form label """
+    def test_system_importer_file_csv_form_based_case_form_label(self):
+        """ test form label """
 
-    #    # get object
-    #    form = SystemImporterFileCsvFormbasedForm()
-    #    # compare
-    #    self.assertEqual(form.fields['case'].label, 'Cases')
+        # get object
+        form = SystemImporterFileCsvFormbasedForm()
+        # compare
+        self.assertEqual(form.fields['case'].label, 'Cases')
 
-    # TODO: reactivate after fixing alternative selection
-    #def test_system_importer_file_csv_form_based_company_form_label(self):
-    #    """ test form label """
+    def test_system_importer_file_csv_form_based_company_form_label(self):
+        """ test form label """
 
-    #    # get object
-    #    form = SystemImporterFileCsvFormbasedForm()
-    #    # compare
-    #    self.assertEqual(form.fields['company'].label, 'Companies')
+        # get object
+        form = SystemImporterFileCsvFormbasedForm()
+        # compare
+        self.assertEqual(form.fields['company'].label, 'Companies')
 
-    # TODO: reactivate after fixing alternative selection
-    #def test_system_importer_file_csv_form_based_tag_form_label(self):
-    #    """ test form label """
+    def test_system_importer_file_csv_form_based_tag_form_label(self):
+        """ test form label """
 
-    #    # get object
-    #    form = SystemImporterFileCsvFormbasedForm()
-    #    # compare
-    #    self.assertEqual(form.fields['tag'].label, 'Tags')
+        # get object
+        form = SystemImporterFileCsvFormbasedForm()
+        # compare
+        self.assertEqual(form.fields['tag'].label, 'Tags')
 
     def test_system_importer_file_csv_form_based_form_empty(self):
         """ test minimum form requirements / INVALID """
@@ -199,6 +197,8 @@ class SystemImporterFileCsvFormbasedFormbasedFormTestCase(TestCase):
             data = data_dict,
             files = file_dict,
         )
+        # close file
+        upload_csv.close()
         # compare
         self.assertFalse(form.is_valid())
 
@@ -221,6 +221,8 @@ class SystemImporterFileCsvFormbasedFormbasedFormTestCase(TestCase):
             data = data_dict,
             files = file_dict,
         )
+        # close file
+        upload_csv.close()
         # compare
         self.assertTrue(form.is_valid())
 
@@ -246,6 +248,8 @@ class SystemImporterFileCsvFormbasedFormbasedFormTestCase(TestCase):
             data = data_dict,
             files = file_dict,
         )
+        # close file
+        upload_csv.close()
         # compare
         self.assertTrue(form.is_valid())
 
@@ -271,6 +275,8 @@ class SystemImporterFileCsvFormbasedFormbasedFormTestCase(TestCase):
             data = data_dict,
             files = file_dict,
         )
+        # close file
+        upload_csv.close()
         # compare
         self.assertTrue(form.is_valid())
 
@@ -296,6 +302,8 @@ class SystemImporterFileCsvFormbasedFormbasedFormTestCase(TestCase):
             data = data_dict,
             files = file_dict,
         )
+        # close file
+        upload_csv.close()
         # compare
         self.assertTrue(form.is_valid())
 
@@ -321,6 +329,8 @@ class SystemImporterFileCsvFormbasedFormbasedFormTestCase(TestCase):
             data = data_dict,
             files = file_dict,
         )
+        # close file
+        upload_csv.close()
         # compare
         self.assertTrue(form.is_valid())
 
@@ -346,6 +356,8 @@ class SystemImporterFileCsvFormbasedFormbasedFormTestCase(TestCase):
             data = data_dict,
             files = file_dict,
         )
+        # close file
+        upload_csv.close()
         # compare
         self.assertTrue(form.is_valid())
 
@@ -371,6 +383,8 @@ class SystemImporterFileCsvFormbasedFormbasedFormTestCase(TestCase):
             data = data_dict,
             files = file_dict,
         )
+        # close file
+        upload_csv.close()
         # compare
         self.assertTrue(form.is_valid())
 
@@ -396,6 +410,8 @@ class SystemImporterFileCsvFormbasedFormbasedFormTestCase(TestCase):
             data = data_dict,
             files = file_dict,
         )
+        # close file
+        upload_csv.close()
         # compare
         self.assertTrue(form.is_valid())
 
@@ -421,57 +437,91 @@ class SystemImporterFileCsvFormbasedFormbasedFormTestCase(TestCase):
             data = data_dict,
             files = file_dict,
         )
+        # close file
+        upload_csv.close()
         # compare
         self.assertTrue(form.is_valid())
 
-# TODO: test does not work as expected, returns false instead of true
-#    def test_system_importer_file_csv_form_based_company_form_filled(self):
-#        """ test additional form content """
-#
-#        # get object
-#        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
-#        # get object
-#        company_id = Company.objects.get(company_name='company_1').company_id
-#        # get object
-#        form = SystemImporterFileCsvFormbasedForm(data = {
-#            'system_name': 'system_1',
-#            'systemstatus': systemstatus_id,
-#            'company': company_id,
-#        })
-#        # compare
-#        self.assertTrue(form.is_valid())
+    def test_system_importer_file_csv_form_based_company_form_filled(self):
+        """ test additional form content """
 
+        # get object
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
+        # get object
+        company_1_id = Company.objects.get(company_name='company_1').company_id
+        company_2_id = Company.objects.get(company_name='company_2').company_id
+        # get file
+        upload_csv = open('example_data/dfirtrack_main_importer_file_csv_system__valid.csv', 'rb')
+        # create dictionaries
+        data_dict = {
+            'systemstatus': systemstatus_id,
+            'company': [company_1_id, company_2_id],
+        }
+        file_dict = {
+            'systemcsv': SimpleUploadedFile(upload_csv.name, upload_csv.read()),
+        }
+        # get object
+        form = SystemImporterFileCsvFormbasedForm(
+            data = data_dict,
+            files = file_dict,
+        )
+        # close file
+        upload_csv.close()
+        # compare
+        self.assertTrue(form.is_valid())
 
-# TODO: test does not work as expected, returns false instead of true
-#    def test_system_importer_file_csv_form_based_tag_form_filled(self):
-#        """ test additional form content """
-#
-#        # get object
-#        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
-#        # get object
-#        tag_id = Tag.objects.get(tag_name='tag_1').tag_id
-#        # get object
-#        form = SystemImporterFileCsvFormbasedForm(data = {
-#            'systemlist': 'system_1',
-#            'systemstatus': systemstatus_id,
-#            'tag': tag_id,
-#        })
-#        # compare
-#        self.assertTrue(form.is_valid())
+    def test_system_importer_file_csv_form_based_tag_form_filled(self):
+        """ test additional form content """
 
-# TODO: test does not work as expected, returns false instead of true
-#    def test_system_case_form_filled(self):
-#        """ test additional form content """
-#
-#        # get object
-#        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
-#        # get object
-#        case_id = Case.objects.get(case_name='case_1').case_id
-#        # get object
-#        form = SystemImporterFileCsvFormbasedForm(data = {
-#            'systemlist': 'system_1',
-#            'systemstatus': systemstatus_id,
-#            'case': case_id,
-#        })
-#        # compare
-#        self.assertTrue(form.is_valid())
+        # get object
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
+        # get object
+        tag_1_id = Tag.objects.get(tag_name='tag_1').tag_id
+        tag_2_id = Tag.objects.get(tag_name='tag_2').tag_id
+        # get file
+        upload_csv = open('example_data/dfirtrack_main_importer_file_csv_system__valid.csv', 'rb')
+        # create dictionaries
+        data_dict = {
+            'systemstatus': systemstatus_id,
+            'tag': [tag_1_id, tag_2_id],
+        }
+        file_dict = {
+            'systemcsv': SimpleUploadedFile(upload_csv.name, upload_csv.read()),
+        }
+        # get object
+        form = SystemImporterFileCsvFormbasedForm(
+            data = data_dict,
+            files = file_dict,
+        )
+        # close file
+        upload_csv.close()
+        # compare
+        self.assertTrue(form.is_valid())
+
+    def test_system_importer_file_csv_form_based_case_form_filled(self):
+        """ test additional form content """
+
+        # get object
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
+        # get object
+        case_1_id = Case.objects.get(case_name='case_1').case_id
+        case_2_id = Case.objects.get(case_name='case_2').case_id
+        # get file
+        upload_csv = open('example_data/dfirtrack_main_importer_file_csv_system__valid.csv', 'rb')
+        # create dictionaries
+        data_dict = {
+            'systemstatus': systemstatus_id,
+            'case': [case_1_id, case_2_id],
+        }
+        file_dict = {
+            'systemcsv': SimpleUploadedFile(upload_csv.name, upload_csv.read()),
+        }
+        # get object
+        form = SystemImporterFileCsvFormbasedForm(
+            data = data_dict,
+            files = file_dict,
+        )
+        # close file
+        upload_csv.close()
+        # compare
+        self.assertTrue(form.is_valid())

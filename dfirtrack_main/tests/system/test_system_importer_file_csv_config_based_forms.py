@@ -36,5 +36,7 @@ class SystemImporterFileCsvConfigbasedFormTestCase(TestCase):
             data = data_dict,
             files = file_dict,
         )
+        # close file
+        upload_csv.close()
         # compare
         self.assertTrue(form.is_valid())

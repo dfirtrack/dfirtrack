@@ -86,10 +86,9 @@ def artifact(request):
     # iterate over artifacts
     for artifact in artifacts:
 
-        # TODO: find an alternative for the selection
-        ## leave loop if artifactstatus of this artifact is not configured for export (values in constance list are strings)
-        #if str(artifact.artifactstatus_id) not in model.artifactlist_xls_choice_artifactstatus:
-        #    continue
+        # leave loop if artifactstatus of this artifact is not configured for export
+        if artifact.artifactstatus not in model.artifactlist_xls_choice_artifactstatus.all():
+            continue
 
         # autoincrement row counter
         row_num += 1

@@ -1,16 +1,15 @@
 # DFIRTrack
 
 ![Django Tests](https://github.com/stuhli/dfirtrack/workflows/Django%20Tests/badge.svg?branch=master)
-[![Rawsec's CyberSecurity Inventory](https://inventory.rawsec.ml/img/badges/Rawsec-inventoried-FF5050_flat.svg)](https://inventory.rawsec.ml/tools.html#DFIRTrack)
 
-DFIRTrack (Digital Forensics and Incident Response Tracking application) is an open source web application mainly based on [Django](https://www.djangoproject.com/) using a [PostgreSQL](https://www.postgresql.org/) database backend.
+DFIRTrack (Digital Forensics and Incident Response Tracking application) is an open source web application mainly based on [Django](https://www.djangoproject.com/) using a [PostgreSQL](https://www.postgresql.org/) database back end.
 
 In contrast to other great incident response tools, which are mainly case-based and support the work of CERTs, SOCs etc. in their daily business, DFIRTrack is focused on handling one major incident with a lot of affected systems as it is often observed in APT cases.
 It is meant to be used as a tool for dedicated incident response teams in large cases.
 So, of course, CERTs and SOCs may use DFIRTrack as well, but they may feel it will be more appropriate in special cases instead of every day work.
 
 In contrast to case-based applications, DFIRTrack works in a system-based fashion.
-It keeps track of the status of various systems and the tasks associated with them, keeping the analyst well-informed about the status and number of affected systems at any time during the investigation phase up to the remediation phase of the incident response process.
+It keeps track of the status of various systems and the tasks and forensic artifacts associated with them, keeping the analyst well-informed about the status and number of affected systems at any time during the investigation phase up to the remediation phase of the incident response process.
 
 ![Systems list view](dfirtrack_docs/images/systems_list.png)
 
@@ -23,12 +22,13 @@ Moreover, the goal for exporting systems and their status is to have multiple in
 The following functions are implemented for now:
 
 * Importer
-    * Creator (fast creation of multiple related instances via web interface) for systems and tasks,
-    * CSV (simple and generic CSV based import (either hostname and IP or hostname and tags combined with a web form), should fit for the export capabilities of many tools),
-    * Markdown for entries (one entry per system(report)).
+    * Creator (fast creation of multiple related instances via web interface) for systems and associated tasks and tags,
+    * CSV (modifiable CSV based import, should fit for the export capabilities of many tools).
 * Exporter
     * Markdown for so-called system reports (for use in a [MkDocs](https://www.mkdocs.org/) structure),
-    * Spreadsheet (CSV and XLS).
+    * Spreadsheet for systems (CSV and XLS) and artifacts (XLS).
+* Modificator
+    * quick change of status of systems.
 
 A list of feature ideas is maintained in the [Wiki - Roadmap](https://github.com/stuhli/dfirtrack/wiki/Roadmap).
 
@@ -41,27 +41,9 @@ At the moment the project will be focused on Ubuntu LTS and Debian releases.
 For fast and uncomplicated installation on a dedicated server including all dependencies an [Ansible](https://docs.ansible.com/ansible/latest/) playbook and role were written (available in `ansible`).
 For information about deployment with Ansible look at the  [Wiki - Ansible](https://github.com/stuhli/dfirtrack/wiki/Ansible).
 
-For testing a docker environment was prepared (see below).
+For testing a docker environment was prepared (see [Wiki - Docker](https://github.com/stuhli/dfirtrack/wiki/Docker)).
 
 For installation with your own setup or for testing look at the [Wiki - Installation](https://github.com/stuhli/dfirtrack/wiki/Installation).
-
-## Docker Environment
-
-An experimental Docker Compose environment for local-only usage is provided in this project.
-Run the following command in the project root directory to start the environment:
-
-```
-docker-compose up
-```
-
-A user *admin* is already created.
-A password can be set with:
-
-```
-docker/setup_admin.sh
-```
-
-The application is located at [localhost:8000](http://localhost:8000).
 
 ## Built-in software
 
@@ -81,9 +63,9 @@ There are two main branches:
 * `master` ![Django Tests](https://github.com/stuhli/dfirtrack/workflows/Django%20Tests/badge.svg?branch=master)
 * `develop` ![Django Tests](https://github.com/stuhli/dfirtrack/workflows/Django%20Tests/badge.svg?branch=develop)
 
-The master branch should be stable (as you can expect from an alpha version).
+The master branch should be stable.
 New features and changes are added to the develop branch and merged into master from time to time.
-Everything merged into develop should run too but might need manual changes (e. g. config).
+Everything merged into develop should run too but might need manual changes.
 So if you want to see the latest features and progress: "check out" develop.
 
 ## License
