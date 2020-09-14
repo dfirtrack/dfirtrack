@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
+from django.utils import timezone
 from dfirtrack_main.forms import SystemModificatorForm
-from dfirtrack_main.models import Analysisstatus, Systemstatus, Tag, Tagcolor
+from dfirtrack_main.models import Analysisstatus, Systemstatus, Tag, Tagcolor, System
 
 class SystemModificatorFormTestCase(TestCase):
     """ system modificator form tests """
@@ -26,6 +27,22 @@ class SystemModificatorFormTestCase(TestCase):
         Tag.objects.create(
             tag_name = 'tag_2',
             tagcolor = tagcolor_1,
+        )
+        
+        # create object
+        System.objects.create(
+            system_name='system_1',
+            systemstatus = systemstatus_1,
+            system_modify_time = timezone.now(),
+            system_created_by_user_id = test_user,
+            system_modified_by_user_id = test_user,
+        )
+        System.objects.create(
+            system_name='system_2',
+            systemstatus = systemstatus_1,
+            system_modify_time = timezone.now(),
+            system_created_by_user_id = test_user,
+            system_modified_by_user_id = test_user,
         )
 
 
@@ -74,7 +91,7 @@ class SystemModificatorFormTestCase(TestCase):
 
         # get object
         form = SystemModificatorForm(data = {
-            'systemlist': 'system_1',
+            'systemlist': 1,
         })
         # compare
         self.assertFalse(form.is_valid())
@@ -86,7 +103,7 @@ class SystemModificatorFormTestCase(TestCase):
         systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
         # get object
         form = SystemModificatorForm(data = {
-            'systemlist': 'system_1',
+            'systemlist': 1,
             'systemstatus': systemstatus_id,
         })
         # compare
@@ -101,7 +118,7 @@ class SystemModificatorFormTestCase(TestCase):
         analysisstatus_id = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1').analysisstatus_id
         # get object
         form = SystemModificatorForm(data = {
-            'systemlist': 'system_1',
+            'systemlist': 1,
             'systemstatus': systemstatus_id,
             'analysisstatus': analysisstatus_id,
         })
@@ -118,7 +135,7 @@ class SystemModificatorFormTestCase(TestCase):
         tag_2_id = Tag.objects.get(tag_name='tag_2').tag_id
         # get object
         form = SystemModificatorForm(data = {
-            'systemlist': 'system_1',
+            'systemlist': 1,
             'systemstatus': systemstatus_id,
             'tag': [tag_1_id, tag_2_id],
         })
@@ -132,7 +149,7 @@ class SystemModificatorFormTestCase(TestCase):
         systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
         # get object
         form = SystemModificatorForm(data = {
-            'systemlist': 'system_1\nsystem_2\nsystem_3',
+            'systemlist': [1,2],
             'systemstatus': systemstatus_id,
         })
         # compare
