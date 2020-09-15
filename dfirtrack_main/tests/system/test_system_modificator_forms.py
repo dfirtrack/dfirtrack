@@ -31,7 +31,7 @@ class SystemModificatorFormTestCase(TestCase):
         
         # create user
         test_user = User.objects.create_user(username='testuser_system_api', password='Pqtg7fic7FfB2ESEwaPc')
-        
+
         # create object
         System.objects.create(
             system_name='system_1',
@@ -105,8 +105,10 @@ class SystemModificatorFormTestCase(TestCase):
         # get object
         systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
         # get object
+        system =  System.objects.get(system_name='system_1')
+        # get object
         form = SystemModificatorForm(data = {
-            'systemlist': 1,
+            'systemlist': [str(system.system_id),],
             'systemstatus': systemstatus_id,
         })
         # compare
@@ -120,8 +122,10 @@ class SystemModificatorFormTestCase(TestCase):
         # get object
         analysisstatus_id = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1').analysisstatus_id
         # get object
+        system =  System.objects.get(system_name='system_1')
+        # get object
         form = SystemModificatorForm(data = {
-            'systemlist': 1,
+            'systemlist': [str(system.system_id),],
             'systemstatus': systemstatus_id,
             'analysisstatus': analysisstatus_id,
         })
@@ -137,8 +141,10 @@ class SystemModificatorFormTestCase(TestCase):
         tag_1_id = Tag.objects.get(tag_name='tag_1').tag_id
         tag_2_id = Tag.objects.get(tag_name='tag_2').tag_id
         # get object
+        system =  System.objects.get(system_name='system_1')
+        # get object
         form = SystemModificatorForm(data = {
-            'systemlist': 1,
+            'systemlist': [str(system.system_id),],
             'systemstatus': systemstatus_id,
             'tag': [tag_1_id, tag_2_id],
         })
@@ -151,8 +157,11 @@ class SystemModificatorFormTestCase(TestCase):
         # get object
         systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
         # get object
+        system1 =  System.objects.get(system_name='system_1')
+        system2 =  System.objects.get(system_name='system_2')
+        # get object
         form = SystemModificatorForm(data = {
-            'systemlist': [1,2],
+            'systemlist': [str(system1.system_id),str(system2.system_id),],
             'systemstatus': systemstatus_id,
         })
         # compare
