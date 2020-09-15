@@ -816,7 +816,11 @@ class SystemCreatorForm(forms.ModelForm):
 class SystemModificatorForm(forms.ModelForm):
 
     # admin UI style system chooser
-    systemlist = forms.ModelMultipleChoiceField(queryset=System.objects.all(), widget=FilteredSelectMultiple("Systems", is_stacked=False), required=True)
+    systemlist = forms.ModelMultipleChoiceField(
+        queryset=System.objects.all(), 
+        label = 'System list',
+        widget=FilteredSelectMultiple("Systems", is_stacked=False), 
+        required=True)
 
     # show all existing tag objects as multiple choice field
     tag = forms.ModelMultipleChoiceField(
