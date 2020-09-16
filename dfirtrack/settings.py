@@ -150,7 +150,7 @@ REST_FRAMEWORK = {
 try:
     from .local_settings import ALLOWED_HOSTS, DATABASES, DEBUG, STATIC_ROOT
 
-except ImportError:
+except ImportError:     # coverage: ignore branch
     ''' default values for testing purposes '''
 
     # change to True for debugging

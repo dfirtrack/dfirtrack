@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
         ]
 
     # SQLite3 (uses 1 / 0 as boolean)
-    else:
+    else:       # coverage: ignore branch
 
         operations = [
 
