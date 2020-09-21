@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.contrib.messages import get_messages
 from django.test import TestCase
 from django.utils import timezone
 from dfirtrack_artifacts.models import Artifact, Artifactstatus, Artifacttype
@@ -38,6 +39,9 @@ class ArtifactViewTestCase(TestCase):
             artifactstatus = artifactstatus_1,
             artifacttype = artifacttype_1,
             system = system_1,
+            artifact_md5 = 'd41d8cd98f00b204e9800998ecf8427e',
+            artifact_sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+            artifact_sha256 = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
             artifact_created_by_user_id = test_user,
             artifact_modified_by_user_id = test_user,
         )
@@ -207,6 +211,78 @@ class ArtifactViewTestCase(TestCase):
         response = self.client.get('/artifacts/artifact/create', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_artifact_create_md5_message(self):
+        """ test create view """
+
+        # login testuser
+        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        # get objects
+        artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1').artifactstatus_id
+        artifacttype_id = Artifacttype.objects.get(artifacttype_name = 'artifacttype_1').artifacttype_id
+        system_id = System.objects.get(system_name = 'system_1').system_id
+        # create post data
+        data_dict = {
+            'artifact_name': 'artifact_md5_test',
+            'artifactstatus': artifactstatus_id,
+            'artifacttype': artifacttype_id,
+            'system': system_id,
+            'artifact_md5': 'd41d8cd98f00b204e9800998ecf8427e',
+        }
+        # get response
+        response = self.client.post('/artifacts/artifact/create/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(messages[-1]), 'MD5 already exists for other artifact(s)')
+
+    def test_artifact_create_sha1_message(self):
+        """ test create view """
+
+        # login testuser
+        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        # get objects
+        artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1').artifactstatus_id
+        artifacttype_id = Artifacttype.objects.get(artifacttype_name = 'artifacttype_1').artifacttype_id
+        system_id = System.objects.get(system_name = 'system_1').system_id
+        # create post data
+        data_dict = {
+            'artifact_name': 'artifact_sha1_test',
+            'artifactstatus': artifactstatus_id,
+            'artifacttype': artifacttype_id,
+            'system': system_id,
+            'artifact_sha1': 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+        }
+        # get response
+        response = self.client.post('/artifacts/artifact/create/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(messages[-1]), 'SHA1 already exists for other artifact(s)')
+
+    def test_artifact_create_sha256_message(self):
+        """ test create view """
+
+        # login testuser
+        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        # get objects
+        artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1').artifactstatus_id
+        artifacttype_id = Artifacttype.objects.get(artifacttype_name = 'artifacttype_1').artifacttype_id
+        system_id = System.objects.get(system_name = 'system_1').system_id
+        # create post data
+        data_dict = {
+            'artifact_name': 'artifact_sha256_test',
+            'artifactstatus': artifactstatus_id,
+            'artifacttype': artifacttype_id,
+            'system': system_id,
+            'artifact_sha256': 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
+        }
+        # get response
+        response = self.client.post('/artifacts/artifact/create/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(messages[-1]), 'SHA256 already exists for other artifact(s)')
 
     def test_artifact_create_with_system_not_logged_in(self):
         """ test create view """
