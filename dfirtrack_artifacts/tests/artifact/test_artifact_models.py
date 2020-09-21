@@ -2,7 +2,9 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
 from dfirtrack_artifacts.models import Artifact, Artifactstatus, Artifacttype
+from dfirtrack.config import EVIDENCE_PATH
 from dfirtrack_main.models import System, Systemstatus
+import os
 
 class ArtifactModelTestCase(TestCase):
     """ artifact model tests """
@@ -282,3 +284,15 @@ class ArtifactModelTestCase(TestCase):
         max_length = artifact_1._meta.get_field('artifact_sha256').max_length
         # compare
         self.assertEqual(max_length, 64)
+
+    def test_artifact_storage_path(self):
+        """ test storage path """
+
+        # get object
+        artifact_uuid = Artifact.objects.get(artifact_name = 'artifact_1').artifact_uuid
+        system_uuid = System.objects.get(system_name = 'system_1').system_uuid
+        artifacttype_name = Artifacttype.objects.get(artifacttype_name = 'artifacttype_1').artifacttype_name
+        # build path
+        artifact_storage_path = (EVIDENCE_PATH + '/' + str(system_uuid) + '/' + artifacttype_name + '/' + str(artifact_uuid))
+        # compare
+        self.assertTrue(os.path.exists(artifact_storage_path))
