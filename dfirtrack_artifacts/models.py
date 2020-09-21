@@ -58,9 +58,6 @@ class Artifact(models.Model):
     def __str__(self):
         return 'Artifact {0} ({1})'.format(str(self.artifact_id), self.system)
 
-    def __unicode__(self):
-        return u'%s' % self.artifact_name
-
     # define logger
     def logger(artifact, request_user, log_text):
         stdlogger.info(
