@@ -85,7 +85,7 @@ class ArtifactForm(forms.ModelForm):
         if artifact_sha1:
             # check for length
             if len(artifact_sha1) < 40:
-                self.errors['artifact_sha1'] = self.error_class(['SHA1 is 32 alphanumeric characters in size (' + str(len(artifact_sha1)) + ' were provided)'])
+                self.errors['artifact_sha1'] = self.error_class(['SHA1 is 40 alphanumeric characters in size (' + str(len(artifact_sha1)) + ' were provided)'])
 
         # check SHA256
         artifact_sha256 = self.cleaned_data.get('artifact_sha256')
@@ -93,7 +93,7 @@ class ArtifactForm(forms.ModelForm):
         if artifact_sha256:
             # check for length
             if len(artifact_sha256) < 64:
-                self.errors['artifact_sha256'] = self.error_class(['SHA256 is 32 alphanumeric characters in size (' + str(len(artifact_sha256)) + ' were provided)'])
+                self.errors['artifact_sha256'] = self.error_class(['SHA256 is 60 alphanumeric characters in size (' + str(len(artifact_sha256)) + ' were provided)'])
 
         return self.cleaned_data
 
