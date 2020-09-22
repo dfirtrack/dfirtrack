@@ -212,6 +212,31 @@ class ArtifactViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
+    def test_artifact_create_post_redirect(self):
+        """ test create view """
+
+        # login testuser
+        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        # get objects
+        artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1').artifactstatus_id
+        artifacttype_id = Artifacttype.objects.get(artifacttype_name = 'artifacttype_1').artifacttype_id
+        system_id = System.objects.get(system_name = 'system_1').system_id
+        # create post data
+        data_dict = {
+            'artifact_name': 'artifact_create_post_test',
+            'artifactstatus': artifactstatus_id,
+            'artifacttype': artifacttype_id,
+            'system': system_id,
+        }
+        # get response
+        response = self.client.post('/artifacts/artifact/create/', data_dict)
+        # get artifact
+        artifact_id = Artifact.objects.get(artifact_name = 'artifact_create_post_test').artifact_id
+        # create url
+        destination = urllib.parse.quote('/artifacts/artifact/detail/' + str(artifact_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
     def test_artifact_create_md5_message(self):
         """ test create view """
 
@@ -407,3 +432,37 @@ class ArtifactViewTestCase(TestCase):
         response = self.client.get('/artifacts/artifact/update/' + str(artifact_1.artifact_id), follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_artifact_update_post_redirect(self):
+        """ test update view """
+
+        # login testuser
+        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        # get user
+        test_user = User.objects.get(username='testuser_artifact')
+        # get objects
+        artifactstatus = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1')
+        artifacttype = Artifacttype.objects.get(artifacttype_name = 'artifacttype_1')
+        system = System.objects.get(system_name = 'system_1')
+        # create object
+        artifact = Artifact.objects.create(
+            artifact_name = 'artifact_update_post_test_1',
+            artifactstatus = artifactstatus,
+            artifacttype = artifacttype,
+            system = system,
+            artifact_created_by_user_id = test_user,
+            artifact_modified_by_user_id = test_user,
+        )
+        # create post data
+        data_dict = {
+            'artifact_name': 'artifact_update_post_test_2',
+            'artifactstatus': artifactstatus.artifactstatus_id,
+            'artifacttype': artifacttype.artifacttype_id,
+            'system': system.system_id,
+        }
+        # get response
+        response = self.client.post('/artifacts/artifact/update/' + str(artifact.artifact_id) + '/', data_dict)
+        # create url
+        destination = urllib.parse.quote('/artifacts/artifact/detail/' + str(artifact.artifact_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)

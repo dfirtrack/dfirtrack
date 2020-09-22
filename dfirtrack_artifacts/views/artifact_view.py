@@ -57,9 +57,10 @@ class ArtifactCreateView(LoginRequiredMixin, CreateView):
 
         return super().form_valid(form) 
 
-    def form_invalid(self, form):
-        messages.error(self.request, 'Artifact could not be added')
-        return super().form_invalid(form)
+    # TODO: remove if not used
+    #def form_invalid(self, form):
+    #    messages.error(self.request, 'Artifact could not be added')
+    #    return super().form_invalid(form)
 
 class ArtifactUpdateView(LoginRequiredMixin, UpdateView):
     login_url = '/login'
@@ -85,6 +86,7 @@ class ArtifactUpdateView(LoginRequiredMixin, UpdateView):
 
         return super().form_valid(form)
 
-    def form_invalid(self, form):
-        messages.error(self.request, 'Artifact could not be edited')
-        return super().form_invalid(form)
+    # TODO: remove if not used
+    #def form_invalid(self, form):
+    #    messages.error(self.request, 'Artifact could not be edited')
+    #    return super().form_invalid(form)
