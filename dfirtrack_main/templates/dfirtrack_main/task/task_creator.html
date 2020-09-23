@@ -124,7 +124,7 @@
             </div>
         </div>
 
-        <!-- taskpriority / taskstatus headline -->
+        <!-- taskpriority / taskstatus /user  headline -->
         <div class="row">
             <div class="col-3">
                 <div class="font-weight-bold">
@@ -136,9 +136,13 @@
                     Status (*):
                 </div>
             </div>
+            <div class="col-3">
+                <div class="font-weight-bold">
+                    Assigned to user:
+                </div>
+            </div>
         </div>
-
-        <!-- taskpriority / taskstatus -->
+        <!-- taskpriority / taskstatus / user -->
         <div class="row">
 
             <!-- taskpriority -->
@@ -167,52 +171,49 @@
                 </div>
             </div>
 
-        <!-- taskpriority / taskstatus -->
-        </div>
-
-        <!-- system / user headline -->
-        <div class="row top-distance">
-            <div class="col-3">
-                <div class="font-weight-bold">
-                    Corresponding system:
-                </div>
-            </div>
-            <div class="col-3">
-                <div class="font-weight-bold">
-                    Assigned to user:
-                </div>
-            </div>
-        </div>
-
-        <!-- system / user -->
-        <div class="row">
-
-            <!-- system -->
-            <div class="col-3">
-                <div class="card card-body bg-dark border-light top-distance">
-                    <!-- system errors -->
-                    <div class="text-danger">
-                        {{ form.system.errors }}
-                    </div>
-                    {% for i in form.system %}
-                        {{ i }}
-                    {% endfor %}
-                </div>
-            </div>
-
             <!-- user -->
             <div class="col-3">
                 <div class="card card-body bg-dark border-light top-distance">
                     <div class="text-danger">
                         {{ form.task_assigned_to_user_id.errors }}
                     </div>
-		    {% for i in form.task_assigned_to_user_id %}
+            {% for i in form.task_assigned_to_user_id %}
                         {{ i }}
                     {% endfor %}
                 </div>
             </div>
+        <!-- taskpriority / taskstatus / user -->
+        </div>
 
-        <!-- system / user -->
+        <!-- system headline -->
+        <div class="row top-distance">
+            <div class="col-3">
+                <div class="font-weight-bold">
+                    Corresponding system:
+                </div>
+            </div>
+
+        </div>
+
+        <!-- system -->
+        <div class="row">
+
+            <!-- system -->
+            <div class="col-3">
+                <!-- system errors -->
+                <div class="text-danger">
+                    {{ form.system.errors }}
+                </div>
+            <!-- systemlist selector -->
+            {{ form.system }}
+            {{ form.media}}
+            <script type="text/javascript" src="{% url 'jsi18n' %}"></script>
+
+            </div>
+
+           
+
+        <!-- system -->
         </div>
 
     <!-- status information block -->
