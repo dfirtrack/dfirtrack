@@ -70,7 +70,8 @@
                     <small>
                         {% dfirtrack_version %}
                     </small>
-                    {% if github_ci %}
+                    {% github_ci as ci %}
+                    {% if ci %}
                         <!-- dfirtrack_main.templatetags.dfirtrack_main_tags.dfirtrack_branch   -->                    
                         <small class="text-muted">
                             ({% dfirtrack_branch %})

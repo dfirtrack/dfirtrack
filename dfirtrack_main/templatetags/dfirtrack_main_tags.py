@@ -14,8 +14,8 @@ def github_ci():
     if "CI" in environ:
         ci = False
     else:
-        ci = '1'
-        return ci
+        ci = True
+    return ci
 
 if not "CI" in environ:
     @register.simple_tag
