@@ -153,6 +153,16 @@ class TaskFinish(LoginRequiredMixin, UpdateView):
 
     def get(self, request, *args, **kwargs):
         task = self.get_object()
+        self.setDone(task, request)
+        messages.success(request, 'Task finished')
+        if 'system' in request.GET:
+            system = request.GET['system']
+            return redirect(reverse('system_detail', args=(system,)))
+        else:
+            return redirect(reverse('task_detail', args=(task.task_id,)))
+
+    @staticmethod
+    def setDone(task, request):
         # set starting time if task was not started yet
         if task.task_started_time == None:
             task.task_started_time = timezone.now()
@@ -160,12 +170,6 @@ class TaskFinish(LoginRequiredMixin, UpdateView):
         task.taskstatus = Taskstatus.objects.get(taskstatus_name="Done")
         task.save()
         task.logger(str(request.user), " TASK_FINISH_EXECUTED")
-        messages.success(request, 'Task finished')
-        if 'system' in request.GET:
-            system = request.GET['system']
-            return redirect(reverse('system_detail', args=(system,)))
-        else:
-            return redirect(reverse('task_detail', args=(task.task_id,)))
 
 class TaskRenew(LoginRequiredMixin, UpdateView):
     login_url = '/login'

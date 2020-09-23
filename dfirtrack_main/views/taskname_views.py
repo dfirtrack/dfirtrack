@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils import timezone
@@ -8,6 +9,7 @@ from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_main.forms import TasknameForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Taskname, Task, Taskstatus
+from dfirtrack_main.views.task_views import TaskFinish
 
 class TasknameList(LoginRequiredMixin, ListView):
     login_url = '/login'
@@ -88,18 +90,11 @@ class TasknameClose(LoginRequiredMixin, UpdateView):
 
     def post(self, request, *args, **kwargs):
         taskname = self.get_object()
-        # TODO: at the moment all tasks with this taskname are queried and touched (especially `task_finished_time` and `task_modify_time`)
-        # something like `tasks = Task.objects.filter(Q(taskname=taskname) & ~Q(taskstatus_done_id)).order_by('task_id')` is necessary here
-        tasks = Task.objects.filter(taskname=taskname).order_by('task_id')
+        taskstatus_done = Taskstatus.objects.get(taskstatus_name="Done")
+        tasks = Task.objects.filter(Q(taskname=taskname) & ~Q(taskstatus=taskstatus_done.taskstatus_id)).order_by('task_id')
         task_ids = []
         for task in tasks:
-            # Note: Code duplication from task_views.TaskFinish.get() -> move this to helper method? best place for this?
-            if task.task_started_time == None:
-                task.task_started_time = timezone.now()
-            task.task_finished_time = timezone.now()
-            task.taskstatus = Taskstatus.objects.get(taskstatus_name="Done")
-            task.save()
-            task.logger(str(request.user), " TASK_FINISH_EXECUTED")
+            TaskFinish.setDone(task, request)
             # Append ID of closed task to list to show in finish message
             task_ids.append(task.task_id)
         taskname.logger(str(request.user), " TASKNAME_CLOSE_EXECUTED")

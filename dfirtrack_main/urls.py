@@ -1,3 +1,5 @@
+from django import views as django_views
+from django.conf.urls import url
 from django.urls import path
 from dfirtrack_main.views import generic_views
 from dfirtrack_main.views import analysisstatus_views, analystmemo_views, case_views, company_views, contact_views, division_views, dnsname_views, domain_views, domainuser_views, entry_views, headline_views, ip_views, location_views, os_views, osimportname_views, reason_views, recommendation_views, reportitem_views, serviceprovider_views, system_views, systemstatus_views, systemtype_views, systemuser_views, tag_views, task_views, taskname_views, taskpriority_views, taskstatus_views
@@ -181,5 +183,7 @@ urlpatterns = [
 
     path(r'taskstatus/', taskstatus_views.TaskstatusList.as_view(), name='taskstatus_list'),
     path(r'taskstatus/<int:pk>/', taskstatus_views.TaskstatusDetail.as_view(), name='taskstatus_detail'),
+
+    url(r'^jsi18n/$', django_views.i18n.JavaScriptCatalog.as_view(), name='jsi18n'),
 
 ]
