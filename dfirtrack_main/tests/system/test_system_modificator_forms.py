@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
 from dfirtrack_main.forms import SystemModificatorForm
-from dfirtrack_main.models import Analysisstatus, Systemstatus, Tag, Tagcolor, System
+from dfirtrack_main.models import Analysisstatus, Systemstatus, Tag, Tagcolor, System, Company, Location, Serviceprovider, Contact
 
 class SystemModificatorFormTestCase(TestCase):
     """ system modificator form tests """
@@ -48,6 +48,17 @@ class SystemModificatorFormTestCase(TestCase):
             system_modified_by_user_id = test_user,
         )
 
+        # create object
+        Company.objects.create(company_name='company_1')
+        # create object
+        Location.objects.create(location_name='location_1')
+        # create object
+        Serviceprovider.objects.create(serviceprovider_name='serviceprovider_1')
+        # create object
+        Contact.objects.create(
+            contact_name='contact_1',
+            contact_email='contact@example.com',
+        )
 
     def test_system_modificator_systemlist_form_label(self):
         """ test form label """
@@ -80,6 +91,38 @@ class SystemModificatorFormTestCase(TestCase):
         form = SystemModificatorForm()
         # compare
         self.assertEqual(form.fields['analysisstatus'].label, 'Analysisstatus')
+
+    def test_system_modificator_company_form_label(self):
+        """ test form label """
+
+        # get object
+        form = SystemModificatorForm()
+        # compare
+        self.assertEqual(form.fields['company'].label, 'Company')
+
+    def test_system_modificator_location_form_label(self):
+        """ test form label """
+
+        # get object
+        form = SystemModificatorForm()
+        # compare
+        self.assertEqual(form.fields['location'].label, 'Location')
+
+    def test_system_modificator_serviceprovider_form_label(self):
+        """ test form label """
+
+        # get object
+        form = SystemModificatorForm()
+        # compare
+        self.assertEqual(form.fields['serviceprovider'].label, 'Serviceprovider')
+
+    def test_system_modificator_contact_form_label(self):
+        """ test form label """
+
+        # get object
+        form = SystemModificatorForm()
+        # compare
+        self.assertEqual(form.fields['contact'].label, 'Contact')
 
     def test_system_modificator_form_empty(self):
         """ test minimum form requirements / INVALID """
@@ -163,6 +206,78 @@ class SystemModificatorFormTestCase(TestCase):
         form = SystemModificatorForm(data = {
             'systemlist': [str(system1.system_id),str(system2.system_id),],
             'systemstatus': systemstatus_id,
+        })
+        # compare
+        self.assertTrue(form.is_valid())
+
+    def test_system_modificator_company_form_filled(self):
+        """ test additional form content """
+
+        # get object
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
+        # get object
+        company_id = Company.objects.get(company_name='company_1').company_id
+        # get object
+        system =  System.objects.get(system_name='system_1')
+        # get object
+        form = SystemModificatorForm(data = {
+            'systemlist': [str(system.system_id),],
+            'systemstatus': systemstatus_id,
+            'company': [company_id],
+        })
+        # compare
+        self.assertTrue(form.is_valid())
+
+    def test_system_modificator_location_form_filled(self):
+        """ test additional form content """
+
+        # get object
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
+        # get object
+        location_id = Location.objects.get(location_name='location_1').location_id
+        # get object
+        system =  System.objects.get(system_name='system_1')
+        # get object
+        form = SystemModificatorForm(data = {
+            'systemlist': [str(system.system_id),],
+            'systemstatus': systemstatus_id,
+            'location': location_id,
+        })
+        # compare
+        self.assertTrue(form.is_valid())
+
+    def test_system_modificator_serviceprovider_form_filled(self):
+        """ test additional form content """
+
+        # get object
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
+        # get object
+        serviceprovider_id = Serviceprovider.objects.get(serviceprovider_name='serviceprovider_1').serviceprovider_id
+        # get object
+        system =  System.objects.get(system_name='system_1')
+        # get object
+        form = SystemModificatorForm(data = {
+            'systemlist': [str(system.system_id),],
+            'systemstatus': systemstatus_id,
+            'serviceprovider': serviceprovider_id,
+        })
+        # compare
+        self.assertTrue(form.is_valid())
+
+    def test_system_modificator_contact_form_filled(self):
+        """ test additional form content """
+
+        # get object
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
+        # get object
+        contact_id = Contact.objects.get(contact_name='contact_1').contact_id
+        # get object
+        system =  System.objects.get(system_name='system_1')
+        # get object
+        form = SystemModificatorForm(data = {
+            'systemlist': [str(system.system_id),],
+            'systemstatus': systemstatus_id,
+            'contact': contact_id,
         })
         # compare
         self.assertTrue(form.is_valid())
