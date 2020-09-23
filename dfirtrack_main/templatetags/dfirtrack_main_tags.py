@@ -24,3 +24,7 @@ if not "CI" in environ:
         repo = Repo(working_dir)
         branch = repo.active_branch
         return branch
+else:
+    @register.simple_tag
+    def dfirtrack_branch():
+        return "unknown"
