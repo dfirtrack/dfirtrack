@@ -4,6 +4,17 @@ from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy
 from dfirtrack_main.models import Analystmemo, Case, Company, Contact, Division, Dnsname, Domain, Domainuser, Entry, Headline, Location, Os, Osimportname, Reason, Recommendation, Reportitem, Serviceprovider, System, Systemtype, Systemuser, Tag, Tagcolor, Task, Taskname
 
+
+# inherit from this class if you want to use the ModelMultipleChoiceField with the FilteredSelectMultiple widget
+class AdminStyleSelectorForm(forms.ModelForm):
+
+    # needed for system selector
+    class Media:
+        css = {
+            'all': ('/static/admin/css/widgets.css',),
+        }
+        js = ('/admin/jsi18n',)
+
 class AnalystmemoForm(forms.ModelForm):
 
     # reorder field choices
@@ -813,11 +824,11 @@ class SystemCreatorForm(forms.ModelForm):
             'osarch': forms.RadioSelect(),
         }
 
-class SystemModificatorForm(forms.ModelForm):
+class SystemModificatorForm(AdminStyleSelectorForm):
 
     # admin UI style system chooser
     systemlist = forms.ModelMultipleChoiceField(
-        queryset=System.objects.all(), 
+        queryset=System.objects.order_by('system_name'), 
         label = 'System list',
         widget=FilteredSelectMultiple("Systems", is_stacked=False), 
         required=True)
@@ -856,13 +867,6 @@ class SystemModificatorForm(forms.ModelForm):
             'systemstatus': forms.RadioSelect(),
             'analysisstatus': forms.RadioSelect(),
         }
-
-    # needed for system selector
-    class Media:
-        css = {
-            'all': ('/static/admin/css/widgets.css',),
-        }
-        js = ('/admin/jsi18n',)
 
 class SystemtypeForm(forms.ModelForm):
 
@@ -1025,7 +1029,7 @@ class TaskForm(forms.ModelForm):
             'task_due_time': forms.DateTimeInput(),
         }
 
-class TaskCreatorForm(forms.ModelForm):
+class TaskCreatorForm(AdminStyleSelectorForm):
 
     # show all existing taskname objects as multiple choice field
     taskname = forms.ModelMultipleChoiceField(
@@ -1035,11 +1039,12 @@ class TaskCreatorForm(forms.ModelForm):
     )
 
     # show all existing system objects as multiple choice field
+    # admin UI style system chooser
     system = forms.ModelMultipleChoiceField(
-        queryset = System.objects.order_by('system_name'),
-        widget = forms.CheckboxSelectMultiple(),
+        queryset=System.objects.order_by('system_name'), 
         label = 'Systems',
-    )
+        widget=FilteredSelectMultiple("Systems", is_stacked=False), 
+        )
 
     # reorder field choices
     task_assigned_to_user_id = forms.ModelChoiceField(
