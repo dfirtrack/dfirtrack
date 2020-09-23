@@ -94,10 +94,6 @@ def system_modificator_async(request_post, request_user):
             # don't save form yet
             system = form.save(commit=False)
 
-            # set system_name
-            # TODO: is this acutally needed? there is no possibility to change the name in the regular editor
-            system.system_name = system.system_name
-
             # set auto values
             system.system_modified_by_user_id = request_user
             system.system_modify_time = timezone.now()
