@@ -1,2 +1,3 @@
-codecov:
-  max_report_age: off
+coverage:
+  precision: 0
+  range: "60...80"
