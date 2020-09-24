@@ -47,7 +47,7 @@ def system_modificator_async(request_post, request_user):
     lines = request_post.getlist('systemlist')
     system_char_field_used = False
     # if large text area was used, the list contains only one entry with (one or more) line breaks
-    if len(lines) == 1 and "\r\n" in lines[0]:
+    if len(lines) == 1 and ("\r\n" in lines[0] or not lines[0].isdigit()):
         system_char_field_used = True
         lines=lines[0].splitlines()
 
