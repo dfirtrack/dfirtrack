@@ -95,13 +95,6 @@
     group: "{{ ansible_user }}"
     mode: '0755'
 
-- name: MARKDOWN | Add markdown path to config.py
-  lineinfile:
-    path: "{{ dfirtrack_dir }}/dfirtrack/config.py"
-    state: present
-    regexp: "^MARKDOWN_PATH"
-    line: "MARKDOWN_PATH = '{{ markdown_dir }}/{{ markdown_proj }}'"
-
 - name: POSTGRESQL | Install psycopg2 to make ansible talk with postgresql
   apt:
     name: python-psycopg2

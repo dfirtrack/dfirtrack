@@ -1,7 +1,7 @@
 FROM python:3.7
-RUN mkdir /app
 WORKDIR /app
 COPY . /app
+RUN sed -i 's/DEBUG = False/DEBUG = True/' .dfirtrack/settings.py
 RUN apt-get update && apt-get -y install postgresql-client
 RUN pip install -r requirements.txt
 RUN mkdir log markdown static

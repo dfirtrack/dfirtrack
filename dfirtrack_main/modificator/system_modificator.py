@@ -5,7 +5,7 @@ from django.utils import timezone
 from django_q.tasks import async_task
 from dfirtrack_main.forms import SystemModificatorForm
 from dfirtrack_main.logger.default_logger import debug_logger, error_logger, warning_logger
-from dfirtrack_main.models import System, Tag
+from dfirtrack_main.models import System, Tag, Company
 
 @login_required(login_url="/login")
 def system_modificator(request):
@@ -42,8 +42,8 @@ def system_modificator_async(request_post, request_user):
     # call logger
     debug_logger(str(request_user), " SYSTEM_MODIFICATOR_BEGIN")
 
-    # exctract lines from systemlist (list results from request object via large text area)
-    lines = request_post.get('systemlist').splitlines()
+    # exctract lines from systemlist (list results from request object via multiline selector)
+    lines = request_post.getlist('systemlist')
 
     # iterate over lines
     for line in lines:
@@ -64,20 +64,20 @@ def system_modificator_async(request_post, request_user):
             continue
 
         # check for existence of system
-        system = System.objects.filter(system_name = line)
+        system = System.objects.filter(system_id = line)
         if system.count() == 0:
             # call logger
-            error_logger(str(request_user), " SYSTEM_MODIFICATOR_SYSTEM_DOES_NOT_EXISTS " + "system_name:" + line)
+            error_logger(str(request_user), " SYSTEM_MODIFICATOR_SYSTEM_DOES_NOT_EXISTS " + "system_id:" + line)
             # leave this loop because system with this systemname does not exist
             continue
         elif system.count() > 1:
             # call logger
-            error_logger(str(request_user), " SYSTEM_MODIFICATOR_SYSTEM_NOT_DISTINCT " + "system_name:" + line)
+            error_logger(str(request_user), " SYSTEM_MODIFICATOR_SYSTEM_NOT_DISTINCT " + "system_id:" + line)
             # leave this loop because system with this systemname is not distinct
             continue
 
         # get existing system
-        system = System.objects.get(system_name = line)
+        system = System.objects.get(system_id = line)
 
         # create form with request data
         form = SystemModificatorForm(request_post, instance = system)
@@ -85,14 +85,14 @@ def system_modificator_async(request_post, request_user):
         # extract tags (list results from request object via multiple choice field)
         tags = request_post.getlist('tag')
 
+        # extract companies (list results from request object via multiple choice field)
+        companies = request_post.getlist('company')
+
         # modify system
         if form.is_valid():
 
             # don't save form yet
             system = form.save(commit=False)
-
-            # set system_name
-            system.system_name = line
 
             # set auto values
             system.system_modified_by_user_id = request_user
@@ -111,6 +111,12 @@ def system_modificator_async(request_post, request_user):
                 tag = Tag.objects.get(tag_id=tag_id)
                 # add tag to system
                 system.tag.add(tag)
+
+            for company_id in companies:
+                # get object
+                company = Company.objects.get(company_id=company_id)
+                # add company to system
+                system.company.add(company)
 
     # call logger
     debug_logger(str(request_user), " SYSTEM_MODIFICATOR_END")

@@ -298,7 +298,7 @@ class ArtifactFormTestCase(TestCase):
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
-            'artifact_md5': 'mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm',
+            'artifact_md5': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
         })
         # compare
         self.assertTrue(form.is_valid())
@@ -318,7 +318,7 @@ class ArtifactFormTestCase(TestCase):
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
-            'artifact_sha1': 'ssssssssssssssssssssssssssssssssssssssss',
+            'artifact_sha1': 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
         })
         # compare
         self.assertTrue(form.is_valid())
@@ -338,7 +338,7 @@ class ArtifactFormTestCase(TestCase):
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
-            'artifact_sha256': 'ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss',
+            'artifact_sha256': 'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
         })
         # compare
         self.assertTrue(form.is_valid())
@@ -385,10 +385,30 @@ class ArtifactFormTestCase(TestCase):
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
-            'artifact_md5': 'mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm',
+            'artifact_md5': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
         })
         # compare
         self.assertTrue(form.is_valid())
+
+    def test_artifact_md5_hexadecimal_chars(self):
+        """ test for hexadecimal characters """
+
+        # get object
+        artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1').artifactstatus_id
+        # get object
+        artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
+        # get object
+        system_id = System.objects.get(system_name='system_1').system_id
+        # get object
+        form = ArtifactForm(data = {
+            'artifact_name': 'artifact_1',
+            'artifactstatus': artifactstatus_id,
+            'artifacttype': artifacttype_id,
+            'system': system_id,
+            'artifact_md5': 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+        })
+        # compare
+        self.assertFalse(form.is_valid())
 
     def test_artifact_md5_too_many_chars(self):
         """ test for max length """
@@ -405,7 +425,7 @@ class ArtifactFormTestCase(TestCase):
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
-            'artifact_md5': 'mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm',
+            'artifact_md5': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
         })
         # compare
         self.assertFalse(form.is_valid())
@@ -425,7 +445,7 @@ class ArtifactFormTestCase(TestCase):
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
-            'artifact_md5': 'mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm',
+            'artifact_md5': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
         })
         # compare
         self.assertFalse(form.is_valid())
@@ -445,10 +465,30 @@ class ArtifactFormTestCase(TestCase):
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
-            'artifact_sha1': 'ssssssssssssssssssssssssssssssssssssssss',
+            'artifact_sha1': 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
         })
         # compare
         self.assertTrue(form.is_valid())
+
+    def test_artifact_sha1_hexadecimal_chars(self):
+        """ test for hexadecimal characters """
+
+        # get object
+        artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1').artifactstatus_id
+        # get object
+        artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
+        # get object
+        system_id = System.objects.get(system_name='system_1').system_id
+        # get object
+        form = ArtifactForm(data = {
+            'artifact_name': 'artifact_1',
+            'artifactstatus': artifactstatus_id,
+            'artifacttype': artifacttype_id,
+            'system': system_id,
+            'artifact_sha1': 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+        })
+        # compare
+        self.assertFalse(form.is_valid())
 
     def test_artifact_sha1_too_many_chars(self):
         """ test for max length """
@@ -465,7 +505,7 @@ class ArtifactFormTestCase(TestCase):
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
-            'artifact_sha1': 'sssssssssssssssssssssssssssssssssssssssss',
+            'artifact_sha1': 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
         })
         # compare
         self.assertFalse(form.is_valid())
@@ -485,7 +525,7 @@ class ArtifactFormTestCase(TestCase):
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
-            'artifact_sha1': 'sssssssssssssssssssssssssssssssssssssss',
+            'artifact_sha1': 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
         })
         # compare
         self.assertFalse(form.is_valid())
@@ -505,10 +545,30 @@ class ArtifactFormTestCase(TestCase):
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
-            'artifact_sha256': 'ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss',
+            'artifact_sha256': 'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
         })
         # compare
         self.assertTrue(form.is_valid())
+
+    def test_artifact_sha256_hexadecimal_chars(self):
+        """ test for hexadecimal characters """
+
+        # get object
+        artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1').artifactstatus_id
+        # get object
+        artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
+        # get object
+        system_id = System.objects.get(system_name='system_1').system_id
+        # get object
+        form = ArtifactForm(data = {
+            'artifact_name': 'artifact_1',
+            'artifactstatus': artifactstatus_id,
+            'artifacttype': artifacttype_id,
+            'system': system_id,
+            'artifact_sha256': 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+        })
+        # compare
+        self.assertFalse(form.is_valid())
 
     def test_artifact_sha256_too_many_chars(self):
         """ test for max length """
@@ -525,7 +585,7 @@ class ArtifactFormTestCase(TestCase):
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
-            'artifact_sha256': 'sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss',
+            'artifact_sha256': 'ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
         })
         # compare
         self.assertFalse(form.is_valid())
@@ -545,7 +605,7 @@ class ArtifactFormTestCase(TestCase):
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
-            'artifact_sha256': 'sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss',
+            'artifact_sha256': 'ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
         })
         # compare
         self.assertFalse(form.is_valid())
