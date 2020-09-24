@@ -53,8 +53,13 @@ jobs:
       uses: codecov/codecov-action@v1
       with:
         file: ./.coverage.json
-    - name: Save artifact
+    - name: Save SQLite report for debugging
       uses: actions/upload-artifact@v2
       with:
-        name: coverage
+        name: coverage_sqlite
         path: .coverage
+    - name: Save JSON report for debugging
+      uses: actions/upload-artifact@v2
+      with:
+        name: coverage_json
+        path: .coverage.json
