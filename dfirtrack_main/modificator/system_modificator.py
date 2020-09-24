@@ -27,10 +27,11 @@ def system_modificator(request):
 
     # show empty form
     else:
+        show_systemlist = bool(int(request.GET.get('systemlist', 0)))
         form = SystemModificatorForm(initial={
             'systemstatus': 2,
             'analysisstatus': 1,
-        })
+        }, use_system_charfield = show_systemlist)   
 
     # call logger
     debug_logger(str(request.user), " SYSTEM_MODIFICATOR_ENTERED")
@@ -42,8 +43,13 @@ def system_modificator_async(request_post, request_user):
     # call logger
     debug_logger(str(request_user), " SYSTEM_MODIFICATOR_BEGIN")
 
-    # exctract lines from systemlist (list results from request object via multiline selector)
+    # exctract lines from systemlist (list results either from request object via multiline selector or via large text area)
     lines = request_post.getlist('systemlist')
+    system_char_field_used = False
+    # if large text area was used, the list contains only one entry with (one or more) line breaks
+    if len(lines) == 1 and "\r\n" in lines[0]:
+        system_char_field_used = True
+        lines=lines[0].splitlines()
 
     # iterate over lines
     for line in lines:
@@ -63,24 +69,31 @@ def system_modificator_async(request_post, request_user):
             warning_logger(str(request_user), " SYSTEM_MODIFICATOR_LONG_STRING")
             continue
 
-        # check for existence of system
-        system = System.objects.filter(system_id = line)
+       # check for existence of system
+        if system_char_field_used:
+            system = System.objects.filter(system_name = line)
+        else:
+            system = System.objects.filter(system_id = line)
+
         if system.count() == 0:
             # call logger
-            error_logger(str(request_user), " SYSTEM_MODIFICATOR_SYSTEM_DOES_NOT_EXISTS " + "system_id:" + line)
+            error_logger(str(request_user), " SYSTEM_MODIFICATOR_SYSTEM_DOES_NOT_EXISTS " + "system_id/system_name:" + line)
             # leave this loop because system with this systemname does not exist
             continue
         elif system.count() > 1:
             # call logger
-            error_logger(str(request_user), " SYSTEM_MODIFICATOR_SYSTEM_NOT_DISTINCT " + "system_id:" + line)
+            error_logger(str(request_user), " SYSTEM_MODIFICATOR_SYSTEM_NOT_DISTINCT " + "system_id/system_name:" + line)
             # leave this loop because system with this systemname is not distinct
             continue
 
         # get existing system
-        system = System.objects.get(system_id = line)
+        if system_char_field_used:
+            system = System.objects.get(system_name = line)
+        else:
+            system = System.objects.get(system_id = line)
 
         # create form with request data
-        form = SystemModificatorForm(request_post, instance = system)
+                form = SystemModificatorForm(request_post, instance = system, use_system_charfield = system_char_field_used)
 
         # extract tags (list results from request object via multiple choice field)
         tags = request_post.getlist('tag')
