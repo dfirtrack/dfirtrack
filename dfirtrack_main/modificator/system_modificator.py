@@ -93,7 +93,7 @@ def system_modificator_async(request_post, request_user):
             system = System.objects.get(system_id = line)
 
         # create form with request data
-                form = SystemModificatorForm(request_post, instance = system, use_system_charfield = system_char_field_used)
+        form = SystemModificatorForm(request_post, instance = system, use_system_charfield = system_char_field_used)
 
         # extract tags (list results from request object via multiple choice field)
         tags = request_post.getlist('tag')
