@@ -10,7 +10,7 @@
 
 - name: DFIRTRACK | Clone repo
   git:
-    repo: "https://github.com/stuhli/dfirtrack.git"
+    repo: "https://github.com/fabfaeb/dfirtrack.git"
     dest: "{{ dfirtrack_dir }}"
     version: "{{ dfirtrack_branch }}"
 
