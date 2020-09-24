@@ -44,6 +44,27 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-    - name: Run Tests
+    - name: Run tests using coverage and convert result
       run: |
-        python manage.py test
+        coverage run manage.py test
+        coverage json -o .coverage.json
+        coverage xml -o .coverage.xml
+    - name: Upload result to Codecov
+      uses: codecov/codecov-action@v1
+      with:
+        file: ./.coverage.xml
+    - name: Save JSON report for debugging
+      uses: actions/upload-artifact@v2
+      with:
+        name: coverage_json
+        path: .coverage.json
+    - name: Save SQLite report for debugging
+      uses: actions/upload-artifact@v2
+      with:
+        name: coverage_sqlite
+        path: .coverage
+    - name: Save XML report for debugging
+      uses: actions/upload-artifact@v2
+      with:
+        name: coverage_xml
+        path: .coverage.xml
