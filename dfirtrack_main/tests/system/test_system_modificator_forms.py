@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
 from dfirtrack_main.forms import SystemModificatorForm
-from dfirtrack_main.models import Analysisstatus, Systemstatus, Tag, Tagcolor, System, Company, Location, Serviceprovider, Contact
+from dfirtrack_main.models import Analysisstatus, Company, Contact, Location, Serviceprovider, System, Systemstatus, Tag, Tagcolor
 
 class SystemModificatorFormTestCase(TestCase):
     """ system modificator form tests """
@@ -28,9 +28,9 @@ class SystemModificatorFormTestCase(TestCase):
             tag_name = 'tag_2',
             tagcolor = tagcolor_1,
         )
-        
+
         # create user
-        test_user = User.objects.create_user(username='testuser_system_api', password='Pqtg7fic7FfB2ESEwaPc')
+        test_user = User.objects.create_user(username='testuser_system_modificator', password='1uDZSi3ddTMP9mh4Y8Hc')
 
         # create object
         System.objects.create(
@@ -148,7 +148,7 @@ class SystemModificatorFormTestCase(TestCase):
         # get object
         systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
         # get object
-        system =  System.objects.get(system_name='system_1')
+        system = System.objects.get(system_name='system_1')
         # get object
         form = SystemModificatorForm(data = {
             'systemlist': [str(system.system_id),],
@@ -165,7 +165,7 @@ class SystemModificatorFormTestCase(TestCase):
         # get object
         analysisstatus_id = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1').analysisstatus_id
         # get object
-        system =  System.objects.get(system_name='system_1')
+        system = System.objects.get(system_name='system_1')
         # get object
         form = SystemModificatorForm(data = {
             'systemlist': [str(system.system_id),],
@@ -184,7 +184,7 @@ class SystemModificatorFormTestCase(TestCase):
         tag_1_id = Tag.objects.get(tag_name='tag_1').tag_id
         tag_2_id = Tag.objects.get(tag_name='tag_2').tag_id
         # get object
-        system =  System.objects.get(system_name='system_1')
+        system = System.objects.get(system_name='system_1')
         # get object
         form = SystemModificatorForm(data = {
             'systemlist': [str(system.system_id),],
@@ -200,8 +200,8 @@ class SystemModificatorFormTestCase(TestCase):
         # get object
         systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
         # get object
-        system1 =  System.objects.get(system_name='system_1')
-        system2 =  System.objects.get(system_name='system_2')
+        system1 = System.objects.get(system_name='system_1')
+        system2 = System.objects.get(system_name='system_2')
         # get object
         form = SystemModificatorForm(data = {
             'systemlist': [str(system1.system_id),str(system2.system_id),],
@@ -218,7 +218,7 @@ class SystemModificatorFormTestCase(TestCase):
         # get object
         company_id = Company.objects.get(company_name='company_1').company_id
         # get object
-        system =  System.objects.get(system_name='system_1')
+        system = System.objects.get(system_name='system_1')
         # get object
         form = SystemModificatorForm(data = {
             'systemlist': [str(system.system_id),],
@@ -236,7 +236,7 @@ class SystemModificatorFormTestCase(TestCase):
         # get object
         location_id = Location.objects.get(location_name='location_1').location_id
         # get object
-        system =  System.objects.get(system_name='system_1')
+        system = System.objects.get(system_name='system_1')
         # get object
         form = SystemModificatorForm(data = {
             'systemlist': [str(system.system_id),],
@@ -254,7 +254,7 @@ class SystemModificatorFormTestCase(TestCase):
         # get object
         serviceprovider_id = Serviceprovider.objects.get(serviceprovider_name='serviceprovider_1').serviceprovider_id
         # get object
-        system =  System.objects.get(system_name='system_1')
+        system = System.objects.get(system_name='system_1')
         # get object
         form = SystemModificatorForm(data = {
             'systemlist': [str(system.system_id),],
@@ -272,7 +272,7 @@ class SystemModificatorFormTestCase(TestCase):
         # get object
         contact_id = Contact.objects.get(contact_name='contact_1').contact_id
         # get object
-        system =  System.objects.get(system_name='system_1')
+        system = System.objects.get(system_name='system_1')
         # get object
         form = SystemModificatorForm(data = {
             'systemlist': [str(system.system_id),],

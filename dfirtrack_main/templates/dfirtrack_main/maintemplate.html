@@ -70,8 +70,12 @@
                     <small>
                         {% dfirtrack_version %}
                     </small>
+
+                    <!-- register templatetag, otherwise following if-statement wont work -->
                     {% github_ci as ci %}
-                    {% if ci %}
+
+                    <!-- show current branch only if not in GitHub action -->
+                    {% if not ci %}
                         <!-- dfirtrack_main.templatetags.dfirtrack_main_tags.dfirtrack_branch   -->                    
                         <small class="text-muted">
                             ({% dfirtrack_branch %})

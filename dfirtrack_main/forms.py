@@ -828,23 +828,24 @@ class SystemModificatorForm(AdminStyleSelectorForm):
 
     # admin UI style system chooser
     systemlist = forms.ModelMultipleChoiceField(
-        queryset=System.objects.order_by('system_name'), 
+        queryset = System.objects.order_by('system_name'),
+        widget = FilteredSelectMultiple('Systems', is_stacked=False),
+        required = True,
         label = 'System list',
-        widget=FilteredSelectMultiple("Systems", is_stacked=False), 
-        required=True)
+    )
 
     # show all existing tag objects as multiple choice field
     tag = forms.ModelMultipleChoiceField(
-        queryset=Tag.objects.all(),
-        widget=forms.CheckboxSelectMultiple(),
+        queryset = Tag.objects.all(),
+        widget = forms.CheckboxSelectMultiple(),
         required = False,
         label = 'Tag',
     )
 
     # show all existing company objects as multiple choice field
     company = forms.ModelMultipleChoiceField(
-        queryset=Company.objects.all(),
-        widget=forms.CheckboxSelectMultiple(),
+        queryset = Company.objects.all(),
+        widget = forms.CheckboxSelectMultiple(),
         required = False,
         label = 'Company',
     )
@@ -1038,13 +1039,12 @@ class TaskCreatorForm(AdminStyleSelectorForm):
         label = 'Tasknames',
     )
 
-    # show all existing system objects as multiple choice field
     # admin UI style system chooser
     system = forms.ModelMultipleChoiceField(
-        queryset=System.objects.order_by('system_name'), 
+        queryset = System.objects.order_by('system_name'),
+        widget = FilteredSelectMultiple('Systems', is_stacked=False),
         label = 'Systems',
-        widget=FilteredSelectMultiple("Systems", is_stacked=False), 
-        )
+    )
 
     # reorder field choices
     task_assigned_to_user_id = forms.ModelChoiceField(

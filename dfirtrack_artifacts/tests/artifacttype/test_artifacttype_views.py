@@ -180,6 +180,24 @@ class ArtifacttypeViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
+    def test_artifacttype_create_post_redirect(self):
+        """ test create view """
+
+        # login testuser
+        login = self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
+        # create post data
+        data_dict = {
+            'artifacttype_name': 'artifacttype_create_post_test',
+        }
+        # get response
+        response = self.client.post('/artifacts/artifacttype/create/', data_dict)
+        # get artifacttype
+        artifacttype_id = Artifacttype.objects.get(artifacttype_name = 'artifacttype_create_post_test').artifacttype_id
+        # create url
+        destination = urllib.parse.quote('/artifacts/artifacttype/detail/' + str(artifacttype_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
     def test_artifacttype_update_not_logged_in(self):
         """ test update view """
 
@@ -241,3 +259,21 @@ class ArtifacttypeViewTestCase(TestCase):
         response = self.client.get('/artifacts/artifacttype/update/' + str(artifacttype_1.artifacttype_id), follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_artifacttype_update_post_redirect(self):
+        """ test update view """
+
+        # login testuser
+        login = self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
+        # create object
+        artifacttype_id = Artifacttype.objects.create(artifacttype_name = 'artifacttype_update_post_test_1').artifacttype_id
+        # create post data
+        data_dict = {
+            'artifacttype_name': 'artifacttype_update_post_test_2',
+        }
+        # get response
+        response = self.client.post('/artifacts/artifacttype/update/' + str(artifacttype_id) + '/', data_dict)
+        # create url
+        destination = urllib.parse.quote('/artifacts/artifacttype/detail/' + str(artifacttype_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)

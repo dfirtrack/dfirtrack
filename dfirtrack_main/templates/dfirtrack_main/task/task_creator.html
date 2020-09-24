@@ -16,7 +16,7 @@
 
 <!-- HTML body in maintemplate -->
 {% block content %}
-        
+
 <!-- headline -->
 <div class="bottom-distance">
     <h4>
@@ -55,7 +55,7 @@
         <div class="row">
             <div class="col">
                 <h5>
-                    Taskname (*):
+                    Tasknames (*):
                 </h5>
             </div>
         </div>
@@ -124,7 +124,7 @@
             </div>
         </div>
 
-        <!-- taskpriority / taskstatus /user  headline -->
+        <!-- taskpriority / taskstatus / user  headline -->
         <div class="row">
             <div class="col-3">
                 <div class="font-weight-bold">
@@ -177,22 +177,22 @@
                     <div class="text-danger">
                         {{ form.task_assigned_to_user_id.errors }}
                     </div>
-            {% for i in form.task_assigned_to_user_id %}
+                    {% for i in form.task_assigned_to_user_id %}
                         {{ i }}
                     {% endfor %}
                 </div>
             </div>
+
         <!-- taskpriority / taskstatus / user -->
         </div>
 
         <!-- system headline -->
         <div class="row top-distance">
             <div class="col-3">
-                <div class="font-weight-bold">
-                    Corresponding system:
+                <div class="font-weight-bold top-distance bottom-distance">
+                    Corresponding systems:
                 </div>
             </div>
-
         </div>
 
         <!-- system -->
@@ -200,18 +200,18 @@
 
             <!-- system -->
             <div class="col-3">
+
                 <!-- system errors -->
                 <div class="text-danger">
                     {{ form.system.errors }}
                 </div>
-            <!-- systemlist selector -->
-            {{ form.system }}
-            {{ form.media}}
-            <script type="text/javascript" src="{% url 'jsi18n' %}"></script>
+
+                <!-- systemlist selector -->
+                {{ form.system }}
+                {{ form.media}}
+                <script type="text/javascript" src="{% url 'jsi18n' %}"></script>
 
             </div>
-
-           
 
         <!-- system -->
         </div>
@@ -265,6 +265,6 @@
 
 <!-- form -->
 </form>
-    
+
 <!-- HTML body in maintemplate -->
 {% endblock %}
