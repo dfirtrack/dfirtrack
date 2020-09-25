@@ -31,7 +31,7 @@ def system_modificator(request):
         form = SystemModificatorForm(initial={
             'systemstatus': 2,
             'analysisstatus': 1,
-        }, use_system_charfield = show_systemlist)   
+        }, use_system_charfield = show_systemlist)
 
     # call logger
     debug_logger(str(request.user), " SYSTEM_MODIFICATOR_ENTERED")
@@ -69,7 +69,7 @@ def system_modificator_async(request_post, request_user):
             warning_logger(str(request_user), " SYSTEM_MODIFICATOR_LONG_STRING")
             continue
 
-       # check for existence of system
+        # check for existence of system
         if system_char_field_used:
             system = System.objects.filter(system_name = line)
         else:
