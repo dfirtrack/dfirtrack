@@ -826,6 +826,22 @@ class SystemCreatorForm(forms.ModelForm):
 
 class SystemModificatorForm(AdminStyleSelectorForm):
 
+    def __init__(self, *args, **kwargs):
+        self.use_system_charfield = kwargs.pop('use_system_charfield', False)
+        super(SystemModificatorForm, self).__init__(*args, **kwargs)
+        # if use_system_charfield is set, we replace the ModelMultipleChoiceField with the (old) CharField for system selection
+        if self.use_system_charfield:
+            self.fields['systemlist'] = forms.CharField(
+                widget=forms.Textarea(
+                    attrs={
+                        'rows': 20,
+                        'placeholder': 'One systemname per line',
+                        'autofocus': 'autofocus',
+                    },
+                ),
+                label = 'System list',
+            )
+
     # admin UI style system chooser
     systemlist = forms.ModelMultipleChoiceField(
         queryset = System.objects.order_by('system_name'),
