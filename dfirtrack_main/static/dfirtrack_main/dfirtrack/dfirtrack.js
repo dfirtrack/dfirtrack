@@ -20,6 +20,34 @@ function refreshParent() {
     window.opener.location.reload();
 }
 
+// reload page with possible argument, argument may contain alphanumerical chars as well as '=' and '?'
+function reloadWithArgs(arg) {
+    // regex with allowed chars
+    var allowed = /^[0-9a-zA-Z\?\=]+$/;
+    curr_loc = window.location.href;
+    // if the argument contains only allowed chars
+    if(arg.length > 0 && arg.match(allowed)){
+        // if the current url already includes the argument (without the last two chars, to allow for value assignment, for example ?value=0 or =1)
+        if(curr_loc.includes(arg.slice(0, -2))){
+            // just switch the extension =0 -> =1 and vice versa
+            if(curr_loc.includes('=0')){
+                window.location.href = curr_loc.replace('=0','=1')
+            }
+            else if(curr_loc.includes('=1')){
+                window.location.href = curr_loc.replace('=1','=0')
+            }
+        }
+        // current url does not include argument -> add it
+        else{
+            window.location.href = curr_loc + arg
+        }
+    }
+    // argument doest not exist or contains unexpected chars -> just reload page
+    else {
+        window.location.href = curr_loc
+    }
+}
+
 // ####################################
 // #
 // # popup window related functions
