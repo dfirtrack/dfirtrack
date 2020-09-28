@@ -11,7 +11,8 @@ services:
           
     dfirtrack:
         build: 
-          context: .
+          context: ../
+          dockerfile: ./docker/Dockerfile
           args:
             - pgpass_user=${pg_user}
             - pgpass_pw=${pg_password}
