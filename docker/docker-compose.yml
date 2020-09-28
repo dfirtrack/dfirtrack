@@ -20,6 +20,9 @@ services:
             - openssl_o=${openssl_o}
             - fqdn=${fqdn}
             - openssl_ou=${openssl_ou}
+        ports:
+          - 80:80
+          - 443:443
         depends_on:
           - db
          
