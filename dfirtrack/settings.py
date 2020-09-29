@@ -172,18 +172,6 @@ except ImportError:     # coverage: ignore branch
                 'PORT': '5432',
             }
         }
-    elif "DFIRTRACK_DOCKER" in os.environ:
-        # use PostgreSQL in Docker context
-        DATABASES = {
-            'default': {
-                'ENGINE': 'django.db.backends.postgresql',
-                'NAME': 'dfirtrack',
-                'USER': 'dfirtrack',
-                'PASSWORD': 'dfirtrack',
-                'HOST': 'db',
-                'PORT': '',
-            }
-        }
     else:
         # use SQLite3 otherwise (for local setup without dfirtrack.local_settings)
         DATABASES = {
