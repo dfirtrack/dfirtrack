@@ -180,6 +180,36 @@ class CompanyViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
+    def test_company_add_post_redirect(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_company', password='MbJfulGWGKeqceBtN9Mi')
+        # create post data
+        data_dict = {
+            'company_name': 'company_add_post_test',
+        }
+        # get response
+        response = self.client.post('/company/add/', data_dict)
+        # get object
+        company_id = Company.objects.get(company_name = 'company_add_post_test').company_id
+        # create url
+        destination = urllib.parse.quote('/company/' + str(company_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_company_add_post_invalid_reload(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_company', password='MbJfulGWGKeqceBtN9Mi')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/company/add/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
     def test_company_edit_not_logged_in(self):
         """ test edit view """
 
@@ -241,3 +271,37 @@ class CompanyViewTestCase(TestCase):
         response = self.client.get('/company/' + str(company_1.company_id) + '/edit', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_company_edit_post_redirect(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_company', password='MbJfulGWGKeqceBtN9Mi')
+        # create object
+        company_1 = Company.objects.create(company_name='company_edit_post_test_1')
+        # create post data
+        data_dict = {
+            'company_name': 'company_edit_post_test_2',
+        }
+        # get response
+        response = self.client.post('/company/' + str(company_1.company_id) + '/edit/', data_dict)
+        # get object
+        company_2 = Company.objects.get(company_name='company_edit_post_test_2')
+        # create url
+        destination = urllib.parse.quote('/company/' + str(company_2.company_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_company_edit_post_invalid_reload(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_company', password='MbJfulGWGKeqceBtN9Mi')
+        # get object
+        company_id = Company.objects.get(company_name='company_1').company_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/company/' + str(company_id) + '/edit/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
