@@ -180,6 +180,36 @@ class TasknameViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
+    def test_taskname_add_post_redirect(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        # create post data
+        data_dict = {
+            'taskname_name': 'taskname_add_post_test',
+        }
+        # get response
+        response = self.client.post('/taskname/add/', data_dict)
+        # get object
+        taskname_id = Taskname.objects.get(taskname_name = 'taskname_add_post_test').taskname_id
+        # create url
+        destination = urllib.parse.quote('/taskname/' + str(taskname_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_taskname_add_post_invalid_reload(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/taskname/add/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
     def test_taskname_edit_not_logged_in(self):
         """ test edit view """
 
@@ -241,6 +271,40 @@ class TasknameViewTestCase(TestCase):
         response = self.client.get('/taskname/' + str(taskname_1.taskname_id) + '/edit', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_taskname_edit_post_redirect(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        # create object
+        taskname_1 = Taskname.objects.create(taskname_name='taskname_edit_post_test_1')
+        # create post data
+        data_dict = {
+            'taskname_name': 'taskname_edit_post_test_2',
+        }
+        # get response
+        response = self.client.post('/taskname/' + str(taskname_1.taskname_id) + '/edit/', data_dict)
+        # get object
+        taskname_2 = Taskname.objects.get(taskname_name='taskname_edit_post_test_2')
+        # create url
+        destination = urllib.parse.quote('/taskname/' + str(taskname_2.taskname_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_taskname_edit_post_invalid_reload(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        # get object
+        taskname_id = Taskname.objects.get(taskname_name='taskname_1').taskname_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/taskname/' + str(taskname_id) + '/edit/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
 
     def test_taskname_close_not_logged_in(self):
         """ test close view """
