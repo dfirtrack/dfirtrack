@@ -180,6 +180,36 @@ class OsViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
+    def test_os_add_post_redirect(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
+        # create post data
+        data_dict = {
+            'os_name': 'os_add_post_test',
+        }
+        # get response
+        response = self.client.post('/os/add/', data_dict)
+        # get object
+        os_id = Os.objects.get(os_name = 'os_add_post_test').os_id
+        # create url
+        destination = urllib.parse.quote('/os/' + str(os_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_os_add_post_invalid_reload(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/os/add/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
     def test_os_edit_not_logged_in(self):
         """ test edit view """
 
@@ -241,3 +271,37 @@ class OsViewTestCase(TestCase):
         response = self.client.get('/os/' + str(os_1.os_id) + '/edit', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_os_edit_post_redirect(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
+        # create object
+        os_1 = Os.objects.create(os_name='os_edit_post_test_1')
+        # create post data
+        data_dict = {
+            'os_name': 'os_edit_post_test_2',
+        }
+        # get response
+        response = self.client.post('/os/' + str(os_1.os_id) + '/edit/', data_dict)
+        # get object
+        os_2 = Os.objects.get(os_name='os_edit_post_test_2')
+        # create url
+        destination = urllib.parse.quote('/os/' + str(os_2.os_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_os_edit_post_invalid_reload(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
+        # get object
+        os_id = Os.objects.get(os_name='os_1').os_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/os/' + str(os_id) + '/edit/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
