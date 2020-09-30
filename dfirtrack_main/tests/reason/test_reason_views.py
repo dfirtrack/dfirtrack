@@ -180,6 +180,36 @@ class ReasonViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
+    def test_reason_add_post_redirect(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        # create post data
+        data_dict = {
+            'reason_name': 'reason_add_post_test',
+        }
+        # get response
+        response = self.client.post('/reason/add/', data_dict)
+        # get object
+        reason_id = Reason.objects.get(reason_name = 'reason_add_post_test').reason_id
+        # create url
+        destination = urllib.parse.quote('/reason/' + str(reason_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_reasoreasonst_invalid_reload(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/reason/add/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
     def test_reason_edit_not_logged_in(self):
         """ test edit view """
 
@@ -241,3 +271,37 @@ class ReasonViewTestCase(TestCase):
         response = self.client.get('/reason/' + str(reason_1.reason_id) + '/edit', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_reason_edit_post_redirect(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        # create object
+        reason_1 = Reason.objects.create(reason_name='reason_edit_post_test_1')
+        # create post data
+        data_dict = {
+            'reason_name': 'reason_edit_post_test_2',
+        }
+        # get response
+        response = self.client.post('/reason/' + str(reason_1.reason_id) + '/edit/', data_dict)
+        # get object
+        reason_2 = Reason.objects.get(reason_name='reason_edit_post_test_2')
+        # create url
+        destination = urllib.parse.quote('/reason/' + str(reason_2.reason_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_reason_edit_post_invalid_reload(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        # get object
+        reason_id = Reason.objects.get(reason_name='reason_1').reason_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/reason/' + str(reason_id) + '/edit/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
