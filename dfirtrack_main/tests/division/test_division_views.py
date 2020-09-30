@@ -180,6 +180,36 @@ class DivisionViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
+    def test_division_add_post_redirect(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
+        # create post data
+        data_dict = {
+            'division_name': 'division_add_post_test',
+        }
+        # get response
+        response = self.client.post('/division/add/', data_dict)
+        # get object
+        division_id = Division.objects.get(division_name = 'division_add_post_test').division_id
+        # create url
+        destination = urllib.parse.quote('/division/' + str(division_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_division_add_post_invalid_reload(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/division/add/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
     def test_division_edit_not_logged_in(self):
         """ test edit view """
 
@@ -241,3 +271,37 @@ class DivisionViewTestCase(TestCase):
         response = self.client.get('/division/' + str(division_1.division_id) + '/edit', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_division_edit_post_redirect(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
+        # create object
+        division_1 = Division.objects.create(division_name='division_edit_post_test_1')
+        # create post data
+        data_dict = {
+            'division_name': 'division_edit_post_test_2',
+        }
+        # get response
+        response = self.client.post('/division/' + str(division_1.division_id) + '/edit/', data_dict)
+        # get object
+        division_2 = Division.objects.get(division_name='division_edit_post_test_2')
+        # create url
+        destination = urllib.parse.quote('/division/' + str(division_2.division_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_division_edit_post_invalid_reload(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
+        # get object
+        division_id = Division.objects.get(division_name='division_1').division_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/division/' + str(division_id) + '/edit/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
