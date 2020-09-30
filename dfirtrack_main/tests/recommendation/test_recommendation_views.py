@@ -180,6 +180,36 @@ class RecommendationViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
+    def test_recommendation_add_post_redirect(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
+        # create post data
+        data_dict = {
+            'recommendation_name': 'recommendation_add_post_test',
+        }
+        # get response
+        response = self.client.post('/recommendation/add/', data_dict)
+        # get object
+        recommendation_id = Recommendation.objects.get(recommendation_name = 'recommendation_add_post_test').recommendation_id
+        # create url
+        destination = urllib.parse.quote('/recommendation/' + str(recommendation_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_recommendation_add_post_invalid_reload(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/recommendation/add/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
     def test_recommendation_edit_not_logged_in(self):
         """ test edit view """
 
@@ -241,3 +271,37 @@ class RecommendationViewTestCase(TestCase):
         response = self.client.get('/recommendation/' + str(recommendation_1.recommendation_id) + '/edit', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_recommendation_edit_post_redirect(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
+        # create object
+        recommendation_1 = Recommendation.objects.create(recommendation_name='recommendation_edit_post_t_1')
+        # create post data
+        data_dict = {
+            'recommendation_name': 'recommendation_edit_post_t_2',
+        }
+        # get response
+        response = self.client.post('/recommendation/' + str(recommendation_1.recommendation_id) + '/edit/', data_dict)
+        # get object
+        recommendation_2 = Recommendation.objects.get(recommendation_name='recommendation_edit_post_t_2')
+        # create url
+        destination = urllib.parse.quote('/recommendation/' + str(recommendation_2.recommendation_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_recommendation_edit_post_invalid_reload(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
+        # get object
+        recommendation_id = Recommendation.objects.get(recommendation_name='recommendation_1').recommendation_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/recommendation/' + str(recommendation_id) + '/edit/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
