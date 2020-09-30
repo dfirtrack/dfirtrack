@@ -180,6 +180,36 @@ class SystemtypeViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
+    def test_systemtype_add_post_redirect(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
+        # create post data
+        data_dict = {
+            'systemtype_name': 'systemtype_add_post_test',
+        }
+        # get response
+        response = self.client.post('/systemtype/add/', data_dict)
+        # get object
+        systemtype_id = Systemtype.objects.get(systemtype_name = 'systemtype_add_post_test').systemtype_id
+        # create url
+        destination = urllib.parse.quote('/systemtype/' + str(systemtype_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_systemtype_add_post_invalid_reload(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/systemtype/add/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
     def test_systemtype_edit_not_logged_in(self):
         """ test edit view """
 
@@ -241,3 +271,37 @@ class SystemtypeViewTestCase(TestCase):
         response = self.client.get('/systemtype/' + str(systemtype_1.systemtype_id) + '/edit', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_systemtype_edit_post_redirect(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
+        # create object
+        systemtype_1 = Systemtype.objects.create(systemtype_name='systemtype_edit_post_test_1')
+        # create post data
+        data_dict = {
+            'systemtype_name': 'systemtype_edit_post_test_2',
+        }
+        # get response
+        response = self.client.post('/systemtype/' + str(systemtype_1.systemtype_id) + '/edit/', data_dict)
+        # get object
+        systemtype_2 = Systemtype.objects.get(systemtype_name='systemtype_edit_post_test_2')
+        # create url
+        destination = urllib.parse.quote('/systemtype/' + str(systemtype_2.systemtype_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_systemtype_edit_post_invalid_reload(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
+        # get object
+        systemtype_id = Systemtype.objects.get(systemtype_name='systemtype_1').systemtype_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/systemtype/' + str(systemtype_id) + '/edit/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
