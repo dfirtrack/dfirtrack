@@ -120,6 +120,38 @@ class OsimportnameViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
+    def test_osimportname_add_post_redirect(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
+        # get object
+        os_id = Os.objects.get(os_name='os_1').os_id
+        # create post data
+        data_dict = {
+            'osimportname_name': 'osimportname_add_post_test',
+            'osimportname_importer': 'importer_1',
+            'os': os_id,
+        }
+        # get response
+        response = self.client.post('/osimportname/add/', data_dict)
+        # create url
+        destination = urllib.parse.quote('/osimportname/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_osimportname_add_post_invalid_reload(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/osimportname/add/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
     def test_osimportname_edit_not_logged_in(self):
         """ test edit view """
 
@@ -181,3 +213,43 @@ class OsimportnameViewTestCase(TestCase):
         response = self.client.get('/osimportname/' + str(osimportname_1.osimportname_id) + '/edit', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_osimportname_edit_post_redirect(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
+        # get object
+        os_1 = Os.objects.get(os_name='os_1')
+        # create object
+        osimportname_1 = Osimportname.objects.create(
+            osimportname_name = 'osimportname_edit_post_test_1',
+            osimportname_importer = 'importer_1',
+            os = os_1,
+        )
+        # create post data
+        data_dict = {
+            'osimportname_name': 'osimportname_edit_post_test_2',
+            'osimportname_importer': 'importer_1',
+            'os': os_1.os_id,
+        }
+        # get response
+        response = self.client.post('/osimportname/' + str(osimportname_1.osimportname_id) + '/edit/', data_dict)
+        # create url
+        destination = urllib.parse.quote('/osimportname/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_osimportname_edit_post_invalid_reload(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
+        # get object
+        osimportname_id = Osimportname.objects.get(osimportname_name='osimportname_1').osimportname_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/osimportname/' + str(osimportname_id) + '/edit/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
