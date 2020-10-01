@@ -171,6 +171,18 @@ class ReportitemViewTestCase(TestCase):
         # compare
         self.assertEqual(response.status_code, 200)
 
+    def test_reportitem_add_system_selected(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
+        # get object
+        system_id = System.objects.get(system_name = 'system_1').system_id
+        # get response
+        response = self.client.get('/reportitem/add/?system=' + str(system_id))
+        # compare
+        self.assertEqual(response.status_code, 200)
+
     def test_reportitem_add_template(self):
         """ test add view """
 
@@ -202,6 +214,42 @@ class ReportitemViewTestCase(TestCase):
         response = self.client.get('/reportitem/add', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_reportitem_add_post_redirect(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
+        # get object
+        system_id = System.objects.get(system_name = 'system_1').system_id
+        # get object
+        headline_id = Headline.objects.get(headline_name = 'headline_1').headline_id
+        # create post data
+        data_dict = {
+            'reportitem_note': 'reportitem_add_post_test',
+            'system': system_id,
+            'headline': headline_id,
+        }
+        # get response
+        response = self.client.post('/reportitem/add/', data_dict)
+        # get object
+        reportitem_id = Reportitem.objects.get(reportitem_note = 'reportitem_add_post_test').reportitem_id
+        # create url
+        destination = urllib.parse.quote('/system/' + str(system_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_reportitem_add_post_invalid_reload(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/reportitem/add/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
 
     def test_reportitem_edit_not_logged_in(self):
         """ test edit view """
@@ -264,3 +312,51 @@ class ReportitemViewTestCase(TestCase):
         response = self.client.get('/reportitem/' + str(reportitem_1.reportitem_id) + '/edit', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_reportitem_edit_post_redirect(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
+        # get user
+        test_user = User.objects.get(username='testuser_reportitem')
+        # get object
+        system_1 = System.objects.get(system_name = 'system_1')
+        # get object
+        headline_1 = Headline.objects.get(headline_name = 'headline_1')
+        # create object
+        reportitem_1 = Reportitem.objects.create(
+            reportitem_note = 'reportitem_edit_post_test_1',
+            system = system_1,
+            headline = headline_1,
+            reportitem_created_by_user_id = test_user,
+            reportitem_modified_by_user_id = test_user,
+        )
+        # create post data
+        data_dict = {
+            'reportitem_note': 'reportitem_edit_post_test_2',
+            'system': system_1.system_id,
+            'headline': headline_1.headline_id,
+        }
+        # get response
+        response = self.client.post('/reportitem/' + str(reportitem_1.reportitem_id) + '/edit/', data_dict)
+        # get object
+        reportitem_2 = Reportitem.objects.get(reportitem_note='reportitem_edit_post_test_2')
+        # create url
+        destination = urllib.parse.quote('/system/' + str(system_1.system_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_reportitem_edit_post_invalid_reload(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
+        # get object
+        reportitem_id = Reportitem.objects.get(reportitem_note='lorem ipsum').reportitem_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/reportitem/' + str(reportitem_id) + '/edit/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
