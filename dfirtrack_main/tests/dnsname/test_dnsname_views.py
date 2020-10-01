@@ -306,4 +306,3 @@ class DnsnameViewTestCase(TestCase):
         response = self.client.post('/dnsname/' + str(dnsname_id) + '/edit/', data_dict)
         # compare
         self.assertEqual(response.status_code, 200)
-
