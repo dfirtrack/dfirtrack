@@ -305,6 +305,9 @@ def system(request):
         # write line for system
         worksheet_system = write_row(worksheet_system, entryline, row_num, style)
 
+        # call logger
+        info_logger(str(request.user), ' SYSTEM_XLS SYSTEM ' + str(system.system_id) + '||' + system.system_name)
+
     # write an empty row
     row_num += 2
 

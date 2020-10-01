@@ -254,6 +254,9 @@ def system(request):
         # write entryline
         sod_writer.writerow(entryline)
 
+        # call logger
+        info_logger(str(request.user), ' SYSTEM_CSV SYSTEM ' + str(system.system_id) + '||' + system.system_name)
+
     # write an empty row
     sod_writer.writerow([])
 
