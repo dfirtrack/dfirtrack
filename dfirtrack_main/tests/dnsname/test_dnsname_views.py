@@ -180,6 +180,37 @@ class DnsnameViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
+    def test_dnsname_add_post_redirect(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_dnsname', password='TeWFLE2k6lqoC7c6xc0x')
+        # create post data
+        data_dict = {
+            'dnsname_name': 'dnsname_add_post_test',
+        }
+        # get response
+        response = self.client.post('/dnsname/add/', data_dict)
+        # get object
+        dnsname_id = Dnsname.objects.get(dnsname_name = 'dnsname_add_post_test').dnsname_id
+        # create url
+        destination = urllib.parse.quote('/dnsname/' + str(dnsname_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_dnsname_add_post_invalid_reload(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_dnsname', password='TeWFLE2k6lqoC7c6xc0x')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/dnsname/add/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+
     def test_dnsname_edit_not_logged_in(self):
         """ test edit view """
 
@@ -241,3 +272,38 @@ class DnsnameViewTestCase(TestCase):
         response = self.client.get('/dnsname/' + str(dnsname_1.dnsname_id) + '/edit', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_dnsname_edit_post_redirect(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_dnsname', password='TeWFLE2k6lqoC7c6xc0x')
+        # create object
+        dnsname_1 = Dnsname.objects.create(dnsname_name='dnsname_edit_post_test_1')
+        # create post data
+        data_dict = {
+            'dnsname_name': 'dnsname_edit_post_test_2',
+        }
+        # get response
+        response = self.client.post('/dnsname/' + str(dnsname_1.dnsname_id) + '/edit/', data_dict)
+        # get object
+        dnsname_2 = Dnsname.objects.get(dnsname_name='dnsname_edit_post_test_2')
+        # create url
+        destination = urllib.parse.quote('/dnsname/' + str(dnsname_2.dnsname_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_dnsname_edit_post_invalid_reload(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_dnsname', password='TeWFLE2k6lqoC7c6xc0x')
+        # get object
+        dnsname_id = Dnsname.objects.get(dnsname_name='dnsname_1').dnsname_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/dnsname/' + str(dnsname_id) + '/edit/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
