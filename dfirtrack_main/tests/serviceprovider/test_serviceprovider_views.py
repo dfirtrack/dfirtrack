@@ -180,6 +180,36 @@ class ServiceproviderViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
+    def test_serviceprovider_add_post_redirect(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_serviceprovider', password='KxVbBhKZcvh6IcQUGjr0')
+        # create post data
+        data_dict = {
+            'serviceprovider_name': 'serviceprovider_add_post_test',
+        }
+        # get response
+        response = self.client.post('/serviceprovider/add/', data_dict)
+        # get object
+        serviceprovider_id = Serviceprovider.objects.get(serviceprovider_name = 'serviceprovider_add_post_test').serviceprovider_id
+        # create url
+        destination = urllib.parse.quote('/serviceprovider/' + str(serviceprovider_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_serviceprovider_add_post_invalid_reload(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_serviceprovider', password='KxVbBhKZcvh6IcQUGjr0')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/serviceprovider/add/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
     def test_serviceprovider_edit_not_logged_in(self):
         """ test edit view """
 
@@ -241,3 +271,37 @@ class ServiceproviderViewTestCase(TestCase):
         response = self.client.get('/serviceprovider/' + str(serviceprovider_1.serviceprovider_id) + '/edit', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_serviceprovider_edit_post_redirect(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_serviceprovider', password='KxVbBhKZcvh6IcQUGjr0')
+        # create object
+        serviceprovider_1 = Serviceprovider.objects.create(serviceprovider_name='serviceprovider_edit_post_test_1')
+        # create post data
+        data_dict = {
+            'serviceprovider_name': 'serviceprovider_edit_post_test_2',
+        }
+        # get response
+        response = self.client.post('/serviceprovider/' + str(serviceprovider_1.serviceprovider_id) + '/edit/', data_dict)
+        # get object
+        serviceprovider_2 = Serviceprovider.objects.get(serviceprovider_name='serviceprovider_edit_post_test_2')
+        # create url
+        destination = urllib.parse.quote('/serviceprovider/' + str(serviceprovider_2.serviceprovider_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_serviceprovider_edit_post_invalid_reload(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_serviceprovider', password='KxVbBhKZcvh6IcQUGjr0')
+        # get object
+        serviceprovider_id = Serviceprovider.objects.get(serviceprovider_name='serviceprovider_1').serviceprovider_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/serviceprovider/' + str(serviceprovider_id) + '/edit/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
