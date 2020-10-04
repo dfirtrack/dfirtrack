@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
+from dfirtrack.settings import INSTALLED_APPS as installed_apps
 from dfirtrack_main.models import Case
 import urllib.parse
 
@@ -132,6 +133,32 @@ class CaseViewTestCase(TestCase):
         response = self.client.get('/case/' + str(case_1.case_id), follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_cate_detail_context_with_artifacts(self):
+        """ test detail view """
+
+        # get object
+        case_1 = Case.objects.get(case_name='case_1')
+        # login testuser
+        login = self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        # get response
+        response = self.client.get('/case/' + str(case_1.case_id) + '/')
+        # compare
+        self.assertEqual(str(response.context['dfirtrack_artifacts']), 'True')
+
+    def test_cate_detail_context_without_artifacts(self):
+        """ test detail view """
+
+        # remove app from dfirtrack.settings
+        installed_apps.remove('dfirtrack_artifacts')
+        # get object
+        case_1 = Case.objects.get(case_name='case_1')
+        # login testuser
+        login = self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        # get response
+        response = self.client.get('/case/' + str(case_1.case_id) + '/')
+        # compare
+        self.assertEqual(str(response.context['dfirtrack_artifacts']), 'False')
 
     def test_case_add_not_logged_in(self):
         """ test add view """
