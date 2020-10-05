@@ -210,6 +210,18 @@ class DomainViewTestCase(TestCase):
         # compare
         self.assertEqual(response.status_code, 200)
 
+    def test_domain_add_post_invalid_template(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/domain/add/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/domain/domain_add.html')
+
     def test_domain_add_popup_not_logged_in(self):
         """ test add view """
 
@@ -261,6 +273,48 @@ class DomainViewTestCase(TestCase):
         response = self.client.get('/domain/add_popup', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_domain_add_popup_post_redirect(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        # create post data
+        data_dict = {
+            'domain_name': 'domain_add_popup_post_test',
+        }
+        # get response
+        response = self.client.post('/domain/add_popup/', data_dict)
+        # get object
+        domain_id = Domain.objects.get(domain_name = 'domain_add_popup_post_test').domain_id
+        # create url
+        destination = urllib.parse.quote('/domain/' + str(domain_id) + '/', safe='/')
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_domain_add_popup_post_invalid_reload(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/domain/add_popup/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_domain_add_popup_post_invalid_template(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/domain/add_popup/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/domain/domain_add_popup.html')
 
     def test_domain_edit_not_logged_in(self):
         """ test edit view """
@@ -357,3 +411,17 @@ class DomainViewTestCase(TestCase):
         response = self.client.post('/domain/' + str(domain_id) + '/edit/', data_dict)
         # compare
         self.assertEqual(response.status_code, 200)
+
+    def test_domain_edit_post_invalid_template(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        # get object
+        domain_id = Domain.objects.get(domain_name='domain_1').domain_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/domain/' + str(domain_id) + '/edit/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/domain/domain_edit.html')
