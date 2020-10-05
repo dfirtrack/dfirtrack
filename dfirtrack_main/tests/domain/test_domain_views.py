@@ -210,6 +210,58 @@ class DomainViewTestCase(TestCase):
         # compare
         self.assertEqual(response.status_code, 200)
 
+    def test_domain_add_popup_not_logged_in(self):
+        """ test add view """
+
+        # create url
+        destination = '/login/?next=' + urllib.parse.quote('/domain/add_popup/', safe='')
+        # get response
+        response = self.client.get('/domain/add_popup/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_domain_add_popup_logged_in(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        # get response
+        response = self.client.get('/domain/add_popup/')
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_domain_add_popup_template(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        # get response
+        response = self.client.get('/domain/add_popup/')
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/domain/domain_add_popup.html')
+
+    def test_domain_add_popup_get_user_context(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        # get response
+        response = self.client.get('/domain/add_popup/')
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_domain')
+
+    def test_domain_add_popup_redirect(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        # create url
+        destination = urllib.parse.quote('/domain/add_popup/', safe='/')
+        # get response
+        response = self.client.get('/domain/add_popup', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
     def test_domain_edit_not_logged_in(self):
         """ test edit view """
 
