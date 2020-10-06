@@ -251,6 +251,18 @@ class ReportitemViewTestCase(TestCase):
         # compare
         self.assertEqual(response.status_code, 200)
 
+    def test_reportitem_add_post_invalid_template(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/reportitem/add/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/reportitem/reportitem_add.html')
+
     def test_reportitem_edit_not_logged_in(self):
         """ test edit view """
 
@@ -360,3 +372,17 @@ class ReportitemViewTestCase(TestCase):
         response = self.client.post('/reportitem/' + str(reportitem_id) + '/edit/', data_dict)
         # compare
         self.assertEqual(response.status_code, 200)
+
+    def test_reportitem_edit_post_invalid_template(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
+        # get object
+        reportitem_id = Reportitem.objects.get(reportitem_note='lorem ipsum').reportitem_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/reportitem/' + str(reportitem_id) + '/edit/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/reportitem/reportitem_edit.html')

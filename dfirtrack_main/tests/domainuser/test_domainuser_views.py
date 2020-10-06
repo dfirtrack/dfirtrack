@@ -219,6 +219,18 @@ class DomainuserViewTestCase(TestCase):
         # compare
         self.assertEqual(response.status_code, 200)
 
+    def test_domainuser_add_post_invalid_template(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_domainuser', password='8fcseQ9rXyG9vNaoECnq')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/domainuser/add/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/domainuser/domainuser_add.html')
+
     def test_domainuser_edit_not_logged_in(self):
         """ test edit view """
 
@@ -320,3 +332,17 @@ class DomainuserViewTestCase(TestCase):
         response = self.client.post('/domainuser/' + str(domainuser_id) + '/edit/', data_dict)
         # compare
         self.assertEqual(response.status_code, 200)
+
+    def test_domainuser_edit_post_invalid_template(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_domainuser', password='8fcseQ9rXyG9vNaoECnq')
+        # get object
+        domainuser_id = Domainuser.objects.get(domainuser_name='domainuser_1').domainuser_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/domainuser/' + str(domainuser_id) + '/edit/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/domainuser/domainuser_edit.html')

@@ -244,6 +244,18 @@ class AnalystmemoViewTestCase(TestCase):
         # compare
         self.assertEqual(response.status_code, 200)
 
+    def test_analystmemo_add_post_invalid_template(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/analystmemo/add/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/analystmemo/analystmemo_add.html')
+
     def test_analystmemo_edit_not_logged_in(self):
         """ test edit view """
 
@@ -349,3 +361,17 @@ class AnalystmemoViewTestCase(TestCase):
         response = self.client.post('/analystmemo/' + str(analystmemo_id) + '/edit/', data_dict)
         # compare
         self.assertEqual(response.status_code, 200)
+
+    def test_analystmemo_edit_post_invalid_template(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
+        # get object
+        analystmemo_id = Analystmemo.objects.get(analystmemo_note='lorem ipsum').analystmemo_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/analystmemo/' + str(analystmemo_id) + '/edit/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/analystmemo/analystmemo_edit.html')

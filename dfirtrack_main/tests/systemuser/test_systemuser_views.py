@@ -227,6 +227,18 @@ class SystemuserViewTestCase(TestCase):
         # compare
         self.assertEqual(response.status_code, 200)
 
+    def test_systemuser_add_post_invalid_template(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/systemuser/add/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/systemuser/systemuser_add.html')
+
     def test_systemuser_edit_not_logged_in(self):
         """ test edit view """
 
@@ -328,3 +340,17 @@ class SystemuserViewTestCase(TestCase):
         response = self.client.post('/systemuser/' + str(systemuser_id) + '/edit/', data_dict)
         # compare
         self.assertEqual(response.status_code, 200)
+
+    def test_systemuser_edit_post_invalid_template(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
+        # get object
+        systemuser_id = Systemuser.objects.get(systemuser_name='systemuser_1').systemuser_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/systemuser/' + str(systemuser_id) + '/edit/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/systemuser/systemuser_edit.html')
