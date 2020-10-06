@@ -210,6 +210,112 @@ class ServiceproviderViewTestCase(TestCase):
         # compare
         self.assertEqual(response.status_code, 200)
 
+    def test_serviceprovider_add_post_invalid_template(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_serviceprovider', password='KxVbBhKZcvh6IcQUGjr0')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/serviceprovider/add/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/serviceprovider/serviceprovider_add.html')
+
+    def test_serviceprovider_add_popup_not_logged_in(self):
+        """ test add view """
+
+        # create url
+        destination = '/login/?next=' + urllib.parse.quote('/serviceprovider/add_popup/', safe='')
+        # get response
+        response = self.client.get('/serviceprovider/add_popup/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_serviceprovider_add_popup_logged_in(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_serviceprovider', password='KxVbBhKZcvh6IcQUGjr0')
+        # get response
+        response = self.client.get('/serviceprovider/add_popup/')
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_serviceprovider_add_popup_template(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_serviceprovider', password='KxVbBhKZcvh6IcQUGjr0')
+        # get response
+        response = self.client.get('/serviceprovider/add_popup/')
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/serviceprovider/serviceprovider_add_popup.html')
+
+    def test_serviceprovider_add_popup_get_user_context(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_serviceprovider', password='KxVbBhKZcvh6IcQUGjr0')
+        # get response
+        response = self.client.get('/serviceprovider/add_popup/')
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_serviceprovider')
+
+    def test_serviceprovider_add_popup_redirect(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_serviceprovider', password='KxVbBhKZcvh6IcQUGjr0')
+        # create url
+        destination = urllib.parse.quote('/serviceprovider/add_popup/', safe='/')
+        # get response
+        response = self.client.get('/serviceprovider/add_popup', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_serviceprovider_add_popup_post_redirect(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_serviceprovider', password='KxVbBhKZcvh6IcQUGjr0')
+        # create post data
+        data_dict = {
+            'serviceprovider_name': 'serviceprovider_add_popup_post_test',
+        }
+        # get response
+        response = self.client.post('/serviceprovider/add_popup/', data_dict)
+        # get object
+        serviceprovider_id = Serviceprovider.objects.get(serviceprovider_name = 'serviceprovider_add_popup_post_test').serviceprovider_id
+        # create url
+        destination = urllib.parse.quote('/serviceprovider/' + str(serviceprovider_id) + '/', safe='/')
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_serviceprovider_add_popup_post_invalid_reload(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_serviceprovider', password='KxVbBhKZcvh6IcQUGjr0')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/serviceprovider/add_popup/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_serviceprovider_add_popup_post_invalid_template(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_serviceprovider', password='KxVbBhKZcvh6IcQUGjr0')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/serviceprovider/add_popup/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/serviceprovider/serviceprovider_add_popup.html')
+
     def test_serviceprovider_edit_not_logged_in(self):
         """ test edit view """
 
@@ -305,3 +411,17 @@ class ServiceproviderViewTestCase(TestCase):
         response = self.client.post('/serviceprovider/' + str(serviceprovider_id) + '/edit/', data_dict)
         # compare
         self.assertEqual(response.status_code, 200)
+
+    def test_serviceprovider_edit_post_invalid_template(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_serviceprovider', password='KxVbBhKZcvh6IcQUGjr0')
+        # get object
+        serviceprovider_id = Serviceprovider.objects.get(serviceprovider_name='serviceprovider_1').serviceprovider_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/serviceprovider/' + str(serviceprovider_id) + '/edit/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/serviceprovider/serviceprovider_edit.html')

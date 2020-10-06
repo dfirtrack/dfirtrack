@@ -210,6 +210,112 @@ class CompanyViewTestCase(TestCase):
         # compare
         self.assertEqual(response.status_code, 200)
 
+    def test_company_add_post_invalid_template(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_company', password='MbJfulGWGKeqceBtN9Mi')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/company/add/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/company/company_add.html')
+
+    def test_company_add_popup_not_logged_in(self):
+        """ test add view """
+
+        # create url
+        destination = '/login/?next=' + urllib.parse.quote('/company/add_popup/', safe='')
+        # get response
+        response = self.client.get('/company/add_popup/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_company_add_popup_logged_in(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_company', password='MbJfulGWGKeqceBtN9Mi')
+        # get response
+        response = self.client.get('/company/add_popup/')
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_company_add_popup_template(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_company', password='MbJfulGWGKeqceBtN9Mi')
+        # get response
+        response = self.client.get('/company/add_popup/')
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/company/company_add_popup.html')
+
+    def test_company_add_popup_get_user_context(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_company', password='MbJfulGWGKeqceBtN9Mi')
+        # get response
+        response = self.client.get('/company/add_popup/')
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_company')
+
+    def test_company_add_popup_redirect(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_company', password='MbJfulGWGKeqceBtN9Mi')
+        # create url
+        destination = urllib.parse.quote('/company/add_popup/', safe='/')
+        # get response
+        response = self.client.get('/company/add_popup', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_company_add_popup_post_redirect(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_company', password='MbJfulGWGKeqceBtN9Mi')
+        # create post data
+        data_dict = {
+            'company_name': 'company_add_popup_post_test',
+        }
+        # get response
+        response = self.client.post('/company/add_popup/', data_dict)
+        # get object
+        company_id = Company.objects.get(company_name = 'company_add_popup_post_test').company_id
+        # create url
+        destination = urllib.parse.quote('/company/' + str(company_id) + '/', safe='/')
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_company_add_popup_post_invalid_reload(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_company', password='MbJfulGWGKeqceBtN9Mi')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/company/add_popup/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_company_add_popup_post_invalid_template(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_company', password='MbJfulGWGKeqceBtN9Mi')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/company/add_popup/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/company/company_add_popup.html')
+
     def test_company_edit_not_logged_in(self):
         """ test edit view """
 
@@ -305,3 +411,17 @@ class CompanyViewTestCase(TestCase):
         response = self.client.post('/company/' + str(company_id) + '/edit/', data_dict)
         # compare
         self.assertEqual(response.status_code, 200)
+
+    def test_company_edit_post_invalid_template(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_company', password='MbJfulGWGKeqceBtN9Mi')
+        # get object
+        company_id = Company.objects.get(company_name='company_1').company_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/company/' + str(company_id) + '/edit/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/company/company_edit.html')

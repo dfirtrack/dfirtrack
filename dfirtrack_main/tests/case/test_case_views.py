@@ -243,6 +243,18 @@ class CaseViewTestCase(TestCase):
         # compare
         self.assertEqual(response.status_code, 200)
 
+    def test_case_add_post_invalid_template(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/case/add/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/case/case_add.html')
+
     def test_case_edit_not_logged_in(self):
         """ test edit view """
 
@@ -341,3 +353,17 @@ class CaseViewTestCase(TestCase):
         response = self.client.post('/case/' + str(case_id) + '/edit/', data_dict)
         # compare
         self.assertEqual(response.status_code, 200)
+
+    def test_case_edit_post_invalid_template(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        # get object
+        case_id = Case.objects.get(case_name='case_1').case_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/case/' + str(case_id) + '/edit/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/case/case_edit.html')

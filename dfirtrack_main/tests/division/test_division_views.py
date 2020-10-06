@@ -210,6 +210,18 @@ class DivisionViewTestCase(TestCase):
         # compare
         self.assertEqual(response.status_code, 200)
 
+    def test_division_add_post_invalid_template(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/division/add/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/division/division_add.html')
+
     def test_division_edit_not_logged_in(self):
         """ test edit view """
 
@@ -305,3 +317,17 @@ class DivisionViewTestCase(TestCase):
         response = self.client.post('/division/' + str(division_id) + '/edit/', data_dict)
         # compare
         self.assertEqual(response.status_code, 200)
+
+    def test_division_edit_post_invalid_template(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
+        # get object
+        division_id = Division.objects.get(division_name='division_1').division_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/division/' + str(division_id) + '/edit/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/division/division_edit.html')

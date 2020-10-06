@@ -210,6 +210,112 @@ class LocationViewTestCase(TestCase):
         # compare
         self.assertEqual(response.status_code, 200)
 
+    def test_location_add_post_invalid_template(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/location/add/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/location/location_add.html')
+
+    def test_location_add_popup_not_logged_in(self):
+        """ test add view """
+
+        # create url
+        destination = '/login/?next=' + urllib.parse.quote('/location/add_popup/', safe='')
+        # get response
+        response = self.client.get('/location/add_popup/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_location_add_popup_logged_in(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        # get response
+        response = self.client.get('/location/add_popup/')
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_location_add_popup_template(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        # get response
+        response = self.client.get('/location/add_popup/')
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/location/location_add_popup.html')
+
+    def test_location_add_popup_get_user_context(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        # get response
+        response = self.client.get('/location/add_popup/')
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_location')
+
+    def test_location_add_popup_redirect(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        # create url
+        destination = urllib.parse.quote('/location/add_popup/', safe='/')
+        # get response
+        response = self.client.get('/location/add_popup', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_location_add_popup_post_redirect(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        # create post data
+        data_dict = {
+            'location_name': 'location_add_popup_post_test',
+        }
+        # get response
+        response = self.client.post('/location/add_popup/', data_dict)
+        # get object
+        location_id = Location.objects.get(location_name = 'location_add_popup_post_test').location_id
+        # create url
+        destination = urllib.parse.quote('/location/' + str(location_id) + '/', safe='/')
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_location_add_popup_post_invalid_reload(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/location/add_popup/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_location_add_popup_post_invalid_template(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/location/add_popup/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/location/location_add_popup.html')
+
     def test_location_edit_not_logged_in(self):
         """ test edit view """
 
@@ -305,3 +411,17 @@ class LocationViewTestCase(TestCase):
         response = self.client.post('/location/' + str(location_id) + '/edit/', data_dict)
         # compare
         self.assertEqual(response.status_code, 200)
+
+    def test_location_edit_post_invalid_template(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        # get object
+        location_id = Location.objects.get(location_name='location_1').location_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/location/' + str(location_id) + '/edit/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/location/location_edit.html')

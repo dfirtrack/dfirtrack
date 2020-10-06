@@ -152,6 +152,18 @@ class OsimportnameViewTestCase(TestCase):
         # compare
         self.assertEqual(response.status_code, 200)
 
+    def test_osimportname_add_post_invalid_template(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/osimportname/add/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/osimportname/osimportname_add.html')
+
     def test_osimportname_edit_not_logged_in(self):
         """ test edit view """
 
@@ -253,3 +265,17 @@ class OsimportnameViewTestCase(TestCase):
         response = self.client.post('/osimportname/' + str(osimportname_id) + '/edit/', data_dict)
         # compare
         self.assertEqual(response.status_code, 200)
+
+    def test_osimportname_edit_post_invalid_template(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
+        # get object
+        osimportname_id = Osimportname.objects.get(osimportname_name='osimportname_1').osimportname_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/osimportname/' + str(osimportname_id) + '/edit/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/osimportname/osimportname_edit.html')
