@@ -2860,6 +2860,9 @@ paths:
           description: ''
       tags:
       - api
+
+security:
+  - BasicAuth []
 components:
   schemas:
     Artifact:
@@ -3402,3 +3405,8 @@ components:
           maxLength: 50
       required:
       - taskstatus_name
+
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
