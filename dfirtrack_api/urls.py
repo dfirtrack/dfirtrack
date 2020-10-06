@@ -1,5 +1,6 @@
 from django.urls import re_path
 from rest_framework.urlpatterns import format_suffix_patterns
+from rest_framework.schemas import get_schema_view
 from dfirtrack_api.views import dfirtrack_artifacts, dfirtrack_main
 
 urlpatterns = [
@@ -64,6 +65,13 @@ urlpatterns = [
     re_path(r'^taskstatus/$', dfirtrack_main.TaskstatusListApi.as_view()),
     re_path(r'^taskstatus/(?P<pk>\d+)/$', dfirtrack_main.TaskstatusDetailApi.as_view()),
 
+    # openapi
+    re_path(r'^openapi/$', get_schema_view(
+            title="DFIRTrack",
+            description="OpenAPI 3 - Documentation of DFIRTrack API",
+            version="0.4.1",
+            public=True,
+        ), name='openapi-schema'),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
