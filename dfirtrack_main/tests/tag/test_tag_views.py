@@ -215,6 +215,18 @@ class TagViewTestCase(TestCase):
         # compare
         self.assertEqual(response.status_code, 200)
 
+    def test_tag_add_post_invalid_template(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/tag/add/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/tag/tag_add.html')
+
     def test_tag_edit_not_logged_in(self):
         """ test edit view """
 
@@ -314,17 +326,19 @@ class TagViewTestCase(TestCase):
         # compare
         self.assertEqual(response.status_code, 200)
 
-    def test_tag_delete_not_logged_in(self):
-        """ test delete view """
+    def test_tag_edit_post_invalid_template(self):
+        """ test edit view """
 
+        # login testuser
+        login = self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
         # get object
-        tag_1 = Tag.objects.get(tag_name='tag_1')
-        # create url
-        destination = '/login/?next=' + urllib.parse.quote('/tag/' + str(tag_1.tag_id) + '/delete/', safe='')
+        tag_id = Tag.objects.get(tag_name='tag_1').tag_id
+        # create post data
+        data_dict = {}
         # get response
-        response = self.client.get('/tag/' + str(tag_1.tag_id) + '/delete/', follow=True)
+        response = self.client.post('/tag/' + str(tag_id) + '/edit/', data_dict)
         # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertTemplateUsed(response, 'dfirtrack_main/tag/tag_edit.html')
 
     def test_tag_delete_logged_in(self):
         """ test delete view """

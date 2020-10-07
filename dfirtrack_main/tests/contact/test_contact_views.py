@@ -180,6 +180,144 @@ class ContactViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
+    def test_contact_add_post_redirect(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        # create post data
+        data_dict = {
+            'contact_name': 'contact_add_post_test',
+            'contact_email': 'john.doe@example.org',
+        }
+        # get response
+        response = self.client.post('/contact/add/', data_dict)
+        # get object
+        contact_id = Contact.objects.get(contact_name = 'contact_add_post_test').contact_id
+        # create url
+        destination = urllib.parse.quote('/contact/' + str(contact_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_contact_add_post_invalid_reload(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/contact/add/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_contact_add_post_invalid_template(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/contact/add/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/contact/contact_add.html')
+
+    def test_contact_add_popup_not_logged_in(self):
+        """ test add view """
+
+        # create url
+        destination = '/login/?next=' + urllib.parse.quote('/contact/add_popup/', safe='')
+        # get response
+        response = self.client.get('/contact/add_popup/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_contact_add_popup_logged_in(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        # get response
+        response = self.client.get('/contact/add_popup/')
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_contact_add_popup_template(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        # get response
+        response = self.client.get('/contact/add_popup/')
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/contact/contact_add_popup.html')
+
+    def test_contact_add_popup_get_user_context(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        # get response
+        response = self.client.get('/contact/add_popup/')
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_contact')
+
+    def test_contact_add_popup_redirect(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        # create url
+        destination = urllib.parse.quote('/contact/add_popup/', safe='/')
+        # get response
+        response = self.client.get('/contact/add_popup', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_contact_add_popup_post_redirect(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        # create post data
+        data_dict = {
+            'contact_name': 'contact_add_popup_post_test',
+            'contact_email': 'john.doe@example.org',
+        }
+        # get response
+        response = self.client.post('/contact/add_popup/', data_dict)
+        # get object
+        contact_id = Contact.objects.get(contact_name = 'contact_add_popup_post_test').contact_id
+        # create url
+        destination = urllib.parse.quote('/contact/' + str(contact_id) + '/', safe='/')
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_contact_add_popup_post_invalid_reload(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/contact/add_popup/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_contact_add_popup_post_invalid_template(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/contact/add_popup/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/contact/contact_add_popup.html')
+
     def test_contact_edit_not_logged_in(self):
         """ test edit view """
 
@@ -241,3 +379,55 @@ class ContactViewTestCase(TestCase):
         response = self.client.get('/contact/' + str(contact_1.contact_id) + '/edit', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_contact_edit_post_redirect(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        # create object
+        contact_1 = Contact.objects.create(
+            contact_name='contact_edit_post_test_1',
+            contact_email='john.doe@example.org',
+        )
+        # create post data
+        data_dict = {
+            'contact_name': 'contact_edit_post_test_2',
+            'contact_email': 'john.doe@example.org',
+        }
+        # get response
+        response = self.client.post('/contact/' + str(contact_1.contact_id) + '/edit/', data_dict)
+        # get object
+        contact_2 = Contact.objects.get(contact_name='contact_edit_post_test_2')
+        # create url
+        destination = urllib.parse.quote('/contact/' + str(contact_2.contact_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_contact_edit_post_invalid_reload(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        # get object
+        contact_id = Contact.objects.get(contact_name='contact_1').contact_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/contact/' + str(contact_id) + '/edit/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_contact_edit_post_invalid_template(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        # get object
+        contact_id = Contact.objects.get(contact_name='contact_1').contact_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/contact/' + str(contact_id) + '/edit/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/contact/contact_edit.html')
