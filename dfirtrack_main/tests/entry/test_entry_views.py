@@ -168,6 +168,18 @@ class EntryViewTestCase(TestCase):
         # compare
         self.assertEqual(response.status_code, 200)
 
+    def test_entry_add_system_selected(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        # get object
+        system_id = System.objects.get(system_name = 'system_1').system_id
+        # get response
+        response = self.client.get('/entry/add/?system=' + str(system_id))
+        # compare
+        self.assertEqual(response.status_code, 200)
+
     def test_entry_add_template(self):
         """ test add view """
 
@@ -199,6 +211,56 @@ class EntryViewTestCase(TestCase):
         response = self.client.get('/entry/add', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_entry_add_post_redirect(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        # get user
+        test_user_id = User.objects.get(username = 'testuser_entry').id
+        # get object
+        system_id = System.objects.get(system_name = 'system_1').system_id
+        # create post data
+        data_dict = {
+            'system': system_id,
+            'entry_time': '2013-12-11 23:45:01',
+            'entry_sha1': '988881adc9fc3655077dc2d4d757d480b5ea0e11',
+            'entry_created_by_user_id': test_user_id,
+            'entry_modified_by_user_id': test_user_id,
+        }
+        # get response
+        response = self.client.post('/entry/add/', data_dict)
+        # get object
+        entry_id = Entry.objects.get(entry_sha1 = '988881adc9fc3655077dc2d4d757d480b5ea0e11').entry_id
+        # create url
+        destination = urllib.parse.quote('/system/' + str(system_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_entry_add_post_invalid_reload(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/entry/add/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_entry_add_post_invalid_template(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/entry/add/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/entry/entry_add.html')
 
 
     def test_entry_edit_not_logged_in(self):
@@ -262,3 +324,65 @@ class EntryViewTestCase(TestCase):
         response = self.client.get('/entry/' + str(entry_1.entry_id) + '/edit', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_entry_edit_post_redirect(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        # get user
+        test_user = User.objects.get(username = 'testuser_entry')
+        # get object
+        system_1 = System.objects.get(system_name = 'system_1')
+        # create object
+        entry_1 = Entry.objects.create(
+            system = system_1,
+            entry_time = timezone.now(),
+            entry_sha1 = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+            entry_created_by_user_id = test_user,
+            entry_modified_by_user_id = test_user,
+        )
+        # create post data
+        data_dict = {
+            'system': system_1.system_id,
+            'entry_time': '2013-12-11 23:45:01',
+            'entry_sha1': 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+            'entry_created_by_user_id': test_user.id,
+            'entry_modified_by_user_id': test_user.id,
+        }
+        # get response
+        response = self.client.post('/entry/' + str(entry_1.entry_id) + '/edit/', data_dict)
+        # get object
+        entry_2 = Entry.objects.get(entry_sha1 = 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb')
+        # create url
+        destination = urllib.parse.quote('/system/' + str(system_1.system_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_entry_edit_post_invalid_reload(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        # get object
+        entry_id = Entry.objects.get(entry_sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709').entry_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/entry/' + str(entry_id) + '/edit/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_entry_edit_post_invalid_template(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        # get object
+        entry_id = Entry.objects.get(entry_sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709').entry_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/entry/' + str(entry_id) + '/edit/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/entry/entry_edit.html')
