@@ -347,7 +347,6 @@ class EntryViewTestCase(TestCase):
             'system': system_1.system_id,
             'entry_time': '2013-12-11 23:45:01',
             'entry_sha1': 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
-            'entry_created_by_user_id': test_user.id,
             'entry_modified_by_user_id': test_user.id,
         }
         # get response
