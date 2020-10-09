@@ -82,6 +82,58 @@ class TaskViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
+    def test_task_closed_not_logged_in(self):
+        """ test closed view """
+
+        # create url
+        destination = '/login/?next=' + urllib.parse.quote('/task/closed/', safe='')
+        # get response
+        response = self.client.get('/task/closed/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_task_closed_logged_in(self):
+        """ test closed view """
+
+        # login testuser
+        login = self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
+        # get response
+        response = self.client.get('/task/closed/')
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_task_closed_template(self):
+        """ test closed view """
+
+        # login testuser
+        login = self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
+        # get response
+        response = self.client.get('/task/closed/')
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/task/task_closed_list.html')
+
+    def test_task_closed_get_user_context(self):
+        """ test closed view """
+
+        # login testuser
+        login = self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
+        # get response
+        response = self.client.get('/task/closed/')
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_task')
+
+    def test_task_closed_redirect(self):
+        """ test closed view """
+
+        # login testuser
+        login = self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
+        # create url
+        destination = urllib.parse.quote('/task/closed/', safe='/')
+        # get response
+        response = self.client.get('/task/closed', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
     def test_task_detail_not_logged_in(self):
         """ test detail view """
 
