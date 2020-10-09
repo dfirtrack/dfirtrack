@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
-from dfirtrack_main.models import Task, Taskname, Taskpriority, Taskstatus
+from django.utils import timezone
+from dfirtrack_main.models import System, Systemstatus, Task, Taskname, Taskpriority, Taskstatus
 import urllib.parse
 
 class TaskViewTestCase(TestCase):
@@ -11,6 +12,18 @@ class TaskViewTestCase(TestCase):
 
         # create user
         test_user = User.objects.create_user(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
+
+        # create object
+        systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
+
+        # create object
+        system_1 = System.objects.create(
+            system_name='system_1',
+            systemstatus = systemstatus_1,
+            system_modify_time = timezone.now(),
+            system_created_by_user_id = test_user,
+            system_modified_by_user_id = test_user,
+        )
 
         # create object
         taskname_1 = Taskname.objects.create(taskname_name='taskname_1')
@@ -226,6 +239,18 @@ class TaskViewTestCase(TestCase):
         # compare
         self.assertEqual(response.status_code, 200)
 
+    def test_task_add_system_selected(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
+        # get object
+        system_id = System.objects.get(system_name = 'system_1').system_id
+        # get response
+        response = self.client.get('/task/add/?system=' + str(system_id))
+        # compare
+        self.assertEqual(response.status_code, 200)
+
     def test_task_add_template(self):
         """ test add view """
 
@@ -287,6 +312,40 @@ class TaskViewTestCase(TestCase):
         task_id = Task.objects.get(taskname = taskname).task_id
         # create url
         destination = urllib.parse.quote('/task/' + str(task_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_task_add_post_system_selected_redirect(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
+        # get object
+        system_id = System.objects.get(system_name = 'system_1').system_id
+        # get user
+        test_user_id = User.objects.get(username = 'testuser_task').id
+        # get object
+        taskname_id = Taskname.objects.create(taskname_name = 'task_add_post_test').taskname_id
+        # get object
+        taskpriority_id = Taskpriority.objects.get(taskpriority_name = 'prio_1').taskpriority_id
+        # get object
+        taskstatus_id = Taskstatus.objects.get(taskstatus_name = 'taskstatus_1').taskstatus_id
+        # get post data
+        data_dict = {
+            'taskname': taskname_id,
+            'taskpriority': taskpriority_id,
+            'taskstatus': taskstatus_id,
+            'task_created_by_user_id': test_user_id,
+            'task_modified_by_user_id': test_user_id,
+        }
+        # get response
+        response = self.client.post('/task/add/?system=' + str(system_id), data_dict)
+        # get object
+        taskname = Taskname.objects.get(taskname_name = 'task_add_post_test')
+        # get object
+        task_id = Task.objects.get(taskname = taskname).task_id
+        # create url
+        destination = urllib.parse.quote('/system/' + str(system_id) + '/', safe='/')
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
@@ -422,6 +481,47 @@ class TaskViewTestCase(TestCase):
         task_2 = Task.objects.get(taskname = taskname_2)
         # create url
         destination = urllib.parse.quote('/task/' + str(task_2.task_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_task_edit_post_system_selected_redirect(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
+        # get object
+        system_id = System.objects.get(system_name = 'system_1').system_id
+        # get user
+        test_user = User.objects.get(username = 'testuser_task')
+        # get object
+        taskname_1 = Taskname.objects.create(taskname_name = 'task_edit_post_test_1')
+        # get object
+        taskname_2 = Taskname.objects.create(taskname_name = 'task_edit_post_test_2')
+        # get object
+        taskpriority = Taskpriority.objects.get(taskpriority_name = 'prio_1')
+        # get object
+        taskstatus = Taskstatus.objects.get(taskstatus_name = 'taskstatus_1')
+        # create object
+        task_1 = Task.objects.create(
+            taskname = taskname_1,
+            taskpriority = taskpriority,
+            taskstatus = taskstatus,
+            task_created_by_user_id = test_user,
+            task_modified_by_user_id = test_user,
+        )
+        # create post data
+        data_dict = {
+            'taskname': taskname_2.taskname_id,
+            'taskpriority': taskpriority.taskpriority_id,
+            'taskstatus': taskstatus.taskstatus_id,
+            'task_modified_by_user_id': test_user.id,
+        }
+        # get response
+        response = self.client.post('/task/' + str(task_1.task_id) + '/edit/?system=' + str(system_id), data_dict)
+        # get object
+        task_2 = Task.objects.get(taskname = taskname_2)
+        # create url
+        destination = urllib.parse.quote('/system/' + str(system_id) + '/', safe='/')
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
