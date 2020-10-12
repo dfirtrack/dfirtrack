@@ -556,3 +556,221 @@ class TaskViewTestCase(TestCase):
         response = self.client.post('/task/' + str(task_id) + '/edit/', data_dict)
         # compare
         self.assertTemplateUsed(response, 'dfirtrack_main/task/task_edit.html')
+
+    def test_task_start_redirect(self):
+        """ test task start view """
+
+        # login testuser
+        login = self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
+        # get object
+        taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
+        # get object
+        task_1 = Task.objects.get(taskname=taskname_1)
+        # create url
+        destination = urllib.parse.quote('/task/' + str(task_1.task_id) + '/', safe='/')
+        # get response
+        response = self.client.get('/task/' + str(task_1.task_id) + '/start/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_task_start_system_selected(self):
+        """ test task start view """
+
+        # login testuser
+        login = self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
+        # get object
+        system_id = System.objects.get(system_name = 'system_1').system_id
+        # get object
+        taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
+        # get object
+        task_1 = Task.objects.get(taskname=taskname_1)
+        # create url
+        destination = urllib.parse.quote('/system/' + str(system_id) + '/', safe='/')
+        # get response
+        response = self.client.get('/task/' + str(task_1.task_id) + '/start/?system=' + str(system_id))
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+#    def test_task_start_status(self):
+#        """ test task start view """
+#
+#        # login testuser
+#        login = self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
+#        # get user
+#        test_user = User.objects.get(username = 'testuser_task')
+#        # create object
+#        taskname_task_start = Taskname.objects.create(taskname_name = 'task_start')
+#        # get object
+#        taskpriority_1 = Taskpriority.objects.get(taskpriority_name = 'prio_1')
+#        # get object
+#        taskstatus_pending = Taskstatus.objects.get(taskstatus_name = 'Pending')
+#        # create object
+#        task_task_start = Task.objects.create(
+#            taskname = taskname_task_start,
+#            taskpriority = taskpriority_1,
+#            taskstatus = taskstatus_pending,
+#            task_created_by_user_id = test_user,
+#            task_modified_by_user_id = test_user,
+#        )
+#        # get response
+#        response = self.client.get('/task/' + str(task_task_start.task_id) + '/start/')
+#        # get object
+#        taskstatus_working = Taskstatus.objects.get(taskstatus_name = 'Working')
+#        # compare
+#        self.assertEqual(taskstatus_working, task_task_start.taskstatus)
+
+# TODO
+#    def test_task_start_started_time(self):
+
+    def test_task_finish_redirect(self):
+        """ test task finish view """
+
+        # login testuser
+        login = self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
+        # get object
+        taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
+        # get object
+        task_1 = Task.objects.get(taskname=taskname_1)
+        # create url
+        destination = urllib.parse.quote('/task/' + str(task_1.task_id) + '/', safe='/')
+        # get response
+        response = self.client.get('/task/' + str(task_1.task_id) + '/finish/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_task_finish_system_selected(self):
+        """ test task finish view """
+
+        # login testuser
+        login = self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
+        # get object
+        system_id = System.objects.get(system_name = 'system_1').system_id
+        # get object
+        taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
+        # get object
+        task_1 = Task.objects.get(taskname=taskname_1)
+        # create url
+        destination = urllib.parse.quote('/system/' + str(system_id) + '/', safe='/')
+        # get response
+        response = self.client.get('/task/' + str(task_1.task_id) + '/finish/?system=' + str(system_id))
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+# TODO
+#    def test_task_finish_status(self):
+#    def test_task_finish_started_time(self):
+#    def test_task_finish_finished_time(self):
+
+    def test_task_renew_redirect(self):
+        """ test task renew view """
+
+        # login testuser
+        login = self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
+        # get object
+        taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
+        # get object
+        task_1 = Task.objects.get(taskname=taskname_1)
+        # create url
+        destination = urllib.parse.quote('/task/' + str(task_1.task_id) + '/', safe='/')
+        # get response
+        response = self.client.get('/task/' + str(task_1.task_id) + '/renew/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_task_renew_system_selected(self):
+        """ test task renew view """
+
+        # login testuser
+        login = self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
+        # get object
+        system_id = System.objects.get(system_name = 'system_1').system_id
+        # get object
+        taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
+        # get object
+        task_1 = Task.objects.get(taskname=taskname_1)
+        # create url
+        destination = urllib.parse.quote('/system/' + str(system_id) + '/', safe='/')
+        # get response
+        response = self.client.get('/task/' + str(task_1.task_id) + '/renew/?system=' + str(system_id))
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+# TODO
+#    def test_task_renew_status(self):
+#    def test_task_renew_started_time(self):
+#    def test_task_renew_finished_time(self):
+#    def test_task_renew_user(self):
+
+    def test_task_set_user_redirect(self):
+        """ test task set_user view """
+
+        # login testuser
+        login = self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
+        # get object
+        taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
+        # get object
+        task_1 = Task.objects.get(taskname=taskname_1)
+        # create url
+        destination = urllib.parse.quote('/task/' + str(task_1.task_id) + '/', safe='/')
+        # get response
+        response = self.client.get('/task/' + str(task_1.task_id) + '/set_user/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_task_set_user_system_selected(self):
+        """ test task set_user view """
+
+        # login testuser
+        login = self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
+        # get object
+        system_id = System.objects.get(system_name = 'system_1').system_id
+        # get object
+        taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
+        # get object
+        task_1 = Task.objects.get(taskname=taskname_1)
+        # create url
+        destination = urllib.parse.quote('/system/' + str(system_id) + '/', safe='/')
+        # get response
+        response = self.client.get('/task/' + str(task_1.task_id) + '/set_user/?system=' + str(system_id))
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+# TODO
+#    def test_task_set_user_user(self):
+
+    def test_task_unset_user_redirect(self):
+        """ test task unset_user view """
+
+        # login testuser
+        login = self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
+        # get object
+        taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
+        # get object
+        task_1 = Task.objects.get(taskname=taskname_1)
+        # create url
+        destination = urllib.parse.quote('/task/' + str(task_1.task_id) + '/', safe='/')
+        # get response
+        response = self.client.get('/task/' + str(task_1.task_id) + '/unset_user/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_task_unset_user_system_selected(self):
+        """ test task unset_user view """
+
+        # login testuser
+        login = self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
+        # get object
+        system_id = System.objects.get(system_name = 'system_1').system_id
+        # get object
+        taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
+        # get object
+        task_1 = Task.objects.get(taskname=taskname_1)
+        # create url
+        destination = urllib.parse.quote('/system/' + str(system_id) + '/', safe='/')
+        # get response
+        response = self.client.get('/task/' + str(task_1.task_id) + '/unset_user/?system=' + str(system_id))
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+# TODO
+#    def test_task_unset_user_user(self):
