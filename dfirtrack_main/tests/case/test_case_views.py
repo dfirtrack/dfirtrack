@@ -134,7 +134,7 @@ class CaseViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
-    def test_cate_detail_context_with_artifacts(self):
+    def test_case_detail_context_with_artifacts(self):
         """ test detail view """
 
         # get object
@@ -146,7 +146,7 @@ class CaseViewTestCase(TestCase):
         # compare
         self.assertEqual(str(response.context['dfirtrack_artifacts']), 'True')
 
-    def test_cate_detail_context_without_artifacts(self):
+    def test_case_detail_context_without_artifacts(self):
         """ test detail view """
 
         # remove app from dfirtrack.settings
