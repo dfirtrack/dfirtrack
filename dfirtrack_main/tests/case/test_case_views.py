@@ -137,6 +137,9 @@ class CaseViewTestCase(TestCase):
     def test_case_detail_context_with_artifacts(self):
         """ test detail view """
 
+        # add app to dfirtrack.settings
+        if 'dfirtrack_artifacts' not in installed_apps:
+            installed_apps.append('dfirtrack_artifacts')
         # get object
         case_1 = Case.objects.get(case_name='case_1')
         # login testuser
@@ -144,13 +147,14 @@ class CaseViewTestCase(TestCase):
         # get response
         response = self.client.get('/case/' + str(case_1.case_id) + '/')
         # compare
-        self.assertEqual(str(response.context['dfirtrack_artifacts']), 'True')
+        self.assertEqual(response.context['dfirtrack_artifacts'], True)
 
     def test_case_detail_context_without_artifacts(self):
         """ test detail view """
 
         # remove app from dfirtrack.settings
-        installed_apps.remove('dfirtrack_artifacts')
+        if 'dfirtrack_artifacts' in installed_apps:
+            installed_apps.remove('dfirtrack_artifacts')
         # get object
         case_1 = Case.objects.get(case_name='case_1')
         # login testuser
@@ -158,7 +162,7 @@ class CaseViewTestCase(TestCase):
         # get response
         response = self.client.get('/case/' + str(case_1.case_id) + '/')
         # compare
-        self.assertEqual(str(response.context['dfirtrack_artifacts']), 'False')
+        self.assertEqual(response.context['dfirtrack_artifacts'], False)
 
     def test_case_add_not_logged_in(self):
         """ test add view """
