@@ -77,6 +77,28 @@ class SystemViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
+    def test_system_list_context_with_api(self):
+        """ test list view """
+
+        # login testuser
+        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get response
+        response = self.client.get('/system/')
+        # compare
+        self.assertEqual(str(response.context['dfirtrack_api']), 'True')
+
+    def test_system_list_context_without_api(self):
+        """ test list view """
+
+        # remove app from dfirtrack.settings
+        installed_apps.remove('dfirtrack_api')
+        # login testuser
+        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get response
+        response = self.client.get('/system/')
+        # compare
+        self.assertEqual(str(response.context['dfirtrack_api']), 'False')
+
     def test_system_detail_not_logged_in(self):
         """ test detail view """
 
