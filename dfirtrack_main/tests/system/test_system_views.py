@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
+from dfirtrack.settings import INSTALLED_APPS as installed_apps
+from dfirtrack_artifacts.models import Artifact
 from dfirtrack_main.models import System, Systemstatus
 import urllib.parse
 
@@ -80,24 +82,28 @@ class SystemViewTestCase(TestCase):
     def test_system_list_context_with_api(self):
         """ test list view """
 
+        # add app to dfirtrack.settings
+        if 'dfirtrack_api' not in installed_apps:
+            installed_apps.append('dfirtrack_api')
         # login testuser
         login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get response
         response = self.client.get('/system/')
         # compare
-        self.assertEqual(str(response.context['dfirtrack_api']), 'True')
+        self.assertEqual(response.context['dfirtrack_api'], True)
 
     def test_system_list_context_without_api(self):
         """ test list view """
 
         # remove app from dfirtrack.settings
-        installed_apps.remove('dfirtrack_api')
+        if 'dfirtrack_api' in installed_apps:
+            installed_apps.remove('dfirtrack_api')
         # login testuser
         login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get response
         response = self.client.get('/system/')
         # compare
-        self.assertEqual(str(response.context['dfirtrack_api']), 'False')
+        self.assertEqual(response.context['dfirtrack_api'], False)
 
     def test_system_detail_not_logged_in(self):
         """ test detail view """
@@ -160,6 +166,85 @@ class SystemViewTestCase(TestCase):
         response = self.client.get('/system/' + str(system_1.system_id), follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_system_detail_context_with_artifacts(self):
+        """ test detail view """
+
+        # add app to dfirtrack.settings
+        if 'dfirtrack_artifacts' not in installed_apps:
+            installed_apps.append('dfirtrack_artifacts')
+        # get object
+        system_1 = System.objects.get(system_name='system_1')
+        # login testuser
+        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get queryset
+        artifact_queryset = Artifact.objects.filter(system=system_1)
+        # get response
+        response = self.client.get('/system/' + str(system_1.system_id) + '/')
+        # compare
+        self.assertEqual(response.context['dfirtrack_artifacts'], True)
+
+    def test_system_detail_context_without_artifacts(self):
+        """ test detail view """
+
+        # remove app from dfirtrack.settings
+        if 'dfirtrack_artifacts' in installed_apps:
+            installed_apps.remove('dfirtrack_artifacts')
+        # get object
+        system_1 = System.objects.get(system_name='system_1')
+        # login testuser
+        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get response
+        response = self.client.get('/system/' + str(system_1.system_id) + '/')
+        # compare
+        self.assertEqual(response.context['dfirtrack_artifacts'], False)
+
+    def test_system_detail_queryset_context_with_artifacts(self):
+        """ test detail view """
+
+        # add app to dfirtrack.settings
+        if 'dfirtrack_artifacts' not in installed_apps:
+            installed_apps.append('dfirtrack_artifacts')
+        # get object
+        system_1 = System.objects.get(system_name='system_1')
+        # login testuser
+        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get queryset
+        artifact_queryset = Artifact.objects.filter(system=system_1)
+        # get response
+        response = self.client.get('/system/' + str(system_1.system_id) + '/')
+        # compare
+        self.assertEqual(type(response.context['artifacts']), type(artifact_queryset))
+
+    def test_system_detail_context_with_api(self):
+        """ test detail view """
+
+        # add app to dfirtrack.settings
+        if 'dfirtrack_api' not in installed_apps:
+            installed_apps.append('dfirtrack_api')
+        # get object
+        system_1 = System.objects.get(system_name='system_1')
+        # login testuser
+        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get response
+        response = self.client.get('/system/' + str(system_1.system_id) + '/')
+        # compare
+        self.assertEqual(response.context['dfirtrack_api'], True)
+
+    def test_system_detail_context_without_api(self):
+        """ test detail view """
+
+        # remove app from dfirtrack.settings
+        if 'dfirtrack_api' in installed_apps:
+            installed_apps.remove('dfirtrack_api')
+        # get object
+        system_1 = System.objects.get(system_name='system_1')
+        # login testuser
+        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get response
+        response = self.client.get('/system/' + str(system_1.system_id) + '/')
+        # compare
+        self.assertEqual(response.context['dfirtrack_api'], False)
 
     def test_system_add_not_logged_in(self):
         """ test add view """
