@@ -298,6 +298,52 @@ class SystemViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
+    def test_system_add_post_redirect(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get object
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
+        # create post data
+        data_dict = {
+            'system_name': 'system_add_post_test',
+            'systemstatus': systemstatus_id,
+            'iplist': '',
+        }
+        # get response
+        response = self.client.post('/system/add/', data_dict)
+        # get object
+        system_id = System.objects.get(system_name = 'system_add_post_test').system_id
+        # create url
+        destination = urllib.parse.quote('/system/' + str(system_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_system_add_post_invalid_reload(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/system/add/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_system_add_post_invalid_template(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/system/add/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/system/system_add.html')
+
     def test_system_edit_not_logged_in(self):
         """ test edit view """
 
@@ -359,3 +405,133 @@ class SystemViewTestCase(TestCase):
         response = self.client.get('/system/' + str(system_1.system_id) + '/edit', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+# TODO: finish after moving SYSTEM_NAME_EDITABLE to dfirtrack_config
+#    def test_system_edit_post_redirect(self):
+#        """ test edit view """
+#
+#        # login testuser
+#        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+#        # TODO set SYSTEM_NAME_EDITABLE to True
+#        # get user
+#        test_user = User.objects.get(username = 'testuser_system')
+#        # get object
+#        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+#        # create object
+#        system_1 = System.objects.create(
+#            system_name = 'system_edit_post_test_1',
+#            systemstatus = systemstatus_1,
+#            system_modify_time = timezone.now(),
+#            system_created_by_user_id = test_user,
+#            system_modified_by_user_id = test_user,
+#        )
+#        # create post data
+#        data_dict = {
+#            'system_name': 'system_edit_post_test_2',
+#            'systemstatus': systemstatus_1.systemstatus_id,
+#            'iplist': '',
+#        }
+#        # get response
+#        response = self.client.post('/system/' + str(system_1.system_id) + '/edit/', data_dict)
+#        # get object
+#        system_2 = System.objects.get(system_name='system_edit_post_test_2')
+#        # create url
+#        destination = urllib.parse.quote('/system/' + str(system_2.system_id) + '/', safe='/')
+#        # compare
+#        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_system_edit_post_invalid_reload(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get object
+        system_id = System.objects.get(system_name='system_1').system_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/system/' + str(system_id) + '/edit/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_system_edit_post_invalid_template(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get object
+        system_id = System.objects.get(system_name='system_1').system_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/system/' + str(system_id) + '/edit/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/system/system_edit.html')
+
+# TODO: finish after moving SYSTEM_NAME_EDITABLE to dfirtrack_config
+#    def test_system_edit_post_system_name_editable_redirect(self):
+#        """ test edit view """
+#
+#        # login testuser
+#        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+#        # TODO set SYSTEM_NAME_EDITABLE to True
+#        # get user
+#        test_user = User.objects.get(username = 'testuser_system')
+#        # get object
+#        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+#        # create object
+#        system_1 = System.objects.create(
+#            system_name = 'system_edit_post_test_3',
+#            systemstatus = systemstatus_1,
+#            system_modify_time = timezone.now(),
+#            system_created_by_user_id = test_user,
+#            system_modified_by_user_id = test_user,
+#        )
+#        # create post data
+#        data_dict = {
+#            'system_name': 'system_edit_post_test_4',
+#            'systemstatus': systemstatus_1.systemstatus_id,
+#            'iplist': '',
+#        }
+#        # get response
+#        response = self.client.post('/system/' + str(system_1.system_id) + '/edit/', data_dict)
+#        # get object
+#        system_2 = System.objects.get(system_name='system_edit_post_test_4')
+#        # create url
+#        destination = urllib.parse.quote('/system/' + str(system_2.system_id) + '/', safe='/')
+#        # compare
+#        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+# TODO: finish after moving SYSTEM_NAME_EDITABLE to dfirtrack_config
+#    def test_system_edit_post_system_name_not_editable_redirect(self):
+#        """ test edit view """
+#
+#        # login testuser
+#        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+#        # TODO set SYSTEM_NAME_EDITABLE to True
+#        # get user
+#        test_user = User.objects.get(username = 'testuser_system')
+#        # get object
+#        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+#        # create object
+#        system_1 = System.objects.create(
+#            system_name = 'system_edit_post_test_5',
+#            systemstatus = systemstatus_1,
+#            system_modify_time = timezone.now(),
+#            system_created_by_user_id = test_user,
+#            system_modified_by_user_id = test_user,
+#        )
+#        # create post data
+#        data_dict = {
+#            'system_name': 'system_edit_post_test_6',
+#            'systemstatus': systemstatus_1.systemstatus_id,
+#            'iplist': '',
+#        }
+#        # get response
+#        response = self.client.post('/system/' + str(system_1.system_id) + '/edit/', data_dict)
+#        # get object
+#        system_2 = System.objects.get(system_name='system_edit_post_test_5')
+#        # create url
+#        destination = urllib.parse.quote('/system/' + str(system_2.system_id) + '/', safe='/')
+#        # compare
+#        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
