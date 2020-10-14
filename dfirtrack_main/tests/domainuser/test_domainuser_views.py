@@ -186,6 +186,51 @@ class DomainuserViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
+    def test_domainuser_add_post_redirect(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_domainuser', password='8fcseQ9rXyG9vNaoECnq')
+        # get object
+        domain_id = Domain.objects.get(domain_name = 'domain_1').domain_id
+        # create post data
+        data_dict = {
+            'domainuser_name': 'domainuser_add_post_test',
+            'domain': domain_id,
+        }
+        # get response
+        response = self.client.post('/domainuser/add/', data_dict)
+        # get object
+        domainuser_id = Domainuser.objects.get(domainuser_name = 'domainuser_add_post_test').domainuser_id
+        # create url
+        destination = urllib.parse.quote('/domainuser/' + str(domainuser_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_domainuser_add_post_invalid_reload(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_domainuser', password='8fcseQ9rXyG9vNaoECnq')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/domainuser/add/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_domainuser_add_post_invalid_template(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_domainuser', password='8fcseQ9rXyG9vNaoECnq')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/domainuser/add/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/domainuser/domainuser_add.html')
+
     def test_domainuser_edit_not_logged_in(self):
         """ test edit view """
 
@@ -247,3 +292,57 @@ class DomainuserViewTestCase(TestCase):
         response = self.client.get('/domainuser/' + str(domainuser_1.domainuser_id) + '/edit', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_domainuser_edit_post_redirect(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_domainuser', password='8fcseQ9rXyG9vNaoECnq')
+        # get object
+        domain_1 = Domain.objects.get(domain_name = 'domain_1')
+        # create object
+        domainuser_1 = Domainuser.objects.create(
+            domainuser_name = 'domainuser_edit_post_test_1',
+            domain = domain_1,
+        )
+        # create post data
+        data_dict = {
+            'domainuser_name': 'domainuser_edit_post_test_2',
+            'domain': domain_1.domain_id,
+        }
+        # get response
+        response = self.client.post('/domainuser/' + str(domainuser_1.domainuser_id) + '/edit/', data_dict)
+        # get object
+        domainuser_2 = Domainuser.objects.get(domainuser_name='domainuser_edit_post_test_2')
+        # create url
+        destination = urllib.parse.quote('/domainuser/' + str(domainuser_2.domainuser_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_domainuser_edit_post_invalid_reload(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_domainuser', password='8fcseQ9rXyG9vNaoECnq')
+        # get object
+        domainuser_id = Domainuser.objects.get(domainuser_name='domainuser_1').domainuser_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/domainuser/' + str(domainuser_id) + '/edit/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_domainuser_edit_post_invalid_template(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_domainuser', password='8fcseQ9rXyG9vNaoECnq')
+        # get object
+        domainuser_id = Domainuser.objects.get(domainuser_name='domainuser_1').domainuser_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/domainuser/' + str(domainuser_id) + '/edit/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/domainuser/domainuser_edit.html')

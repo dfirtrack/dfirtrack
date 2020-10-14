@@ -180,6 +180,48 @@ class HeadlineViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
+    def test_headline_add_post_redirect(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
+        # create post data
+        data_dict = {
+            'headline_name': 'headline_add_post_test',
+        }
+        # get response
+        response = self.client.post('/headline/add/', data_dict)
+        # get object
+        headline_id = Headline.objects.get(headline_name = 'headline_add_post_test').headline_id
+        # create url
+        destination = urllib.parse.quote('/headline/' + str(headline_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_headline_add_post_invalid_reload(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/headline/add/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_headline_add_post_invalid_template(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/headline/add/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/headline/headline_add.html')
+
     def test_headline_edit_not_logged_in(self):
         """ test edit view """
 
@@ -241,3 +283,51 @@ class HeadlineViewTestCase(TestCase):
         response = self.client.get('/headline/' + str(headline_1.headline_id) + '/edit', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_headline_edit_post_redirect(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
+        # create object
+        headline_1 = Headline.objects.create(headline_name='headline_edit_post_test_1')
+        # create post data
+        data_dict = {
+            'headline_name': 'headline_edit_post_test_2',
+        }
+        # get response
+        response = self.client.post('/headline/' + str(headline_1.headline_id) + '/edit/', data_dict)
+        # get object
+        headline_2 = Headline.objects.get(headline_name='headline_edit_post_test_2')
+        # create url
+        destination = urllib.parse.quote('/headline/' + str(headline_2.headline_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_headline_edit_post_invalid_reload(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
+        # get object
+        headline_id = Headline.objects.get(headline_name='headline_1').headline_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/headline/' + str(headline_id) + '/edit/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_headline_edit_post_invalid_template(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
+        # get object
+        headline_id = Headline.objects.get(headline_name='headline_1').headline_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/headline/' + str(headline_id) + '/edit/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/headline/headline_edit.html')

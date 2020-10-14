@@ -194,6 +194,51 @@ class SystemuserViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
+    def test_systemuser_add_post_redirect(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
+        # get object
+        system_id = System.objects.get(system_name = 'system_1').system_id
+        # create post data
+        data_dict = {
+            'systemuser_name': 'systemuser_add_post_test',
+            'system': system_id,
+        }
+        # get response
+        response = self.client.post('/systemuser/add/', data_dict)
+        # get object
+        systemuser_id = Systemuser.objects.get(systemuser_name = 'systemuser_add_post_test').systemuser_id
+        # create url
+        destination = urllib.parse.quote('/systemuser/' + str(systemuser_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_systemuser_add_post_invalid_reload(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/systemuser/add/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_systemuser_add_post_invalid_template(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/systemuser/add/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/systemuser/systemuser_add.html')
+
     def test_systemuser_edit_not_logged_in(self):
         """ test edit view """
 
@@ -255,3 +300,57 @@ class SystemuserViewTestCase(TestCase):
         response = self.client.get('/systemuser/' + str(systemuser_1.systemuser_id) + '/edit', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_systemuser_edit_post_redirect(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
+        # get object
+        system_1 = System.objects.get(system_name = 'system_1')
+        # create object
+        systemuser_1 = Systemuser.objects.create(
+            systemuser_name = 'systemuser_edit_post_test_1',
+            system = system_1,
+        )
+        # create post data
+        data_dict = {
+            'systemuser_name': 'systemuser_edit_post_test_2',
+            'system': system_1.system_id,
+        }
+        # get response
+        response = self.client.post('/systemuser/' + str(systemuser_1.systemuser_id) + '/edit/', data_dict)
+        # get object
+        systemuser_2 = Systemuser.objects.get(systemuser_name='systemuser_edit_post_test_2')
+        # create url
+        destination = urllib.parse.quote('/systemuser/' + str(systemuser_2.systemuser_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_systemuser_edit_post_invalid_reload(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
+        # get object
+        systemuser_id = Systemuser.objects.get(systemuser_name='systemuser_1').systemuser_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/systemuser/' + str(systemuser_id) + '/edit/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_systemuser_edit_post_invalid_template(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
+        # get object
+        systemuser_id = Systemuser.objects.get(systemuser_name='systemuser_1').systemuser_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/systemuser/' + str(systemuser_id) + '/edit/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/systemuser/systemuser_edit.html')

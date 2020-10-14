@@ -10,7 +10,7 @@ class TagViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create object
-        tagcolor_1 = Tagcolor.objects.create(tagcolor_name='tag_1')
+        tagcolor_1 = Tagcolor.objects.create(tagcolor_name='tagcolor_1')
         # create object
         Tag.objects.create(tag_name='tag_1', tagcolor = tagcolor_1)
         # create user
@@ -182,6 +182,51 @@ class TagViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
+    def test_tag_add_post_redirect(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        # get object
+        tagcolor_id = Tagcolor.objects.get(tagcolor_name='tagcolor_1').tagcolor_id
+        # create post data
+        data_dict = {
+            'tag_name': 'tag_add_post_test',
+            'tagcolor': tagcolor_id,
+        }
+        # get response
+        response = self.client.post('/tag/add/', data_dict)
+        # get object
+        tag_id = Tag.objects.get(tag_name = 'tag_add_post_test').tag_id
+        # create url
+        destination = urllib.parse.quote('/tag/' + str(tag_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_tag_add_post_invalid_reload(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/tag/add/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_tag_add_post_invalid_template(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/tag/add/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/tag/tag_add.html')
+
     def test_tag_edit_not_logged_in(self):
         """ test edit view """
 
@@ -244,17 +289,56 @@ class TagViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
-    def test_tag_delete_not_logged_in(self):
-        """ test delete view """
+    def test_tag_edit_post_redirect(self):
+        """ test edit view """
 
+        # login testuser
+        login = self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
         # get object
-        tag_1 = Tag.objects.get(tag_name='tag_1')
-        # create url
-        destination = '/login/?next=' + urllib.parse.quote('/tag/' + str(tag_1.tag_id) + '/delete/', safe='')
+        tagcolor_1 = Tagcolor.objects.get(tagcolor_name='tagcolor_1')
+        # create object
+        tag_1 = Tag.objects.create(tag_name='tag_edit_post_test_1', tagcolor=tagcolor_1)
+        # create post data
+        data_dict = {
+            'tag_name': 'tag_edit_post_test_2',
+            'tagcolor': tagcolor_1.tagcolor_id,
+        }
         # get response
-        response = self.client.get('/tag/' + str(tag_1.tag_id) + '/delete/', follow=True)
+        response = self.client.post('/tag/' + str(tag_1.tag_id) + '/edit/', data_dict)
+        # get object
+        tag_2 = Tag.objects.get(tag_name='tag_edit_post_test_2')
+        # create url
+        destination = urllib.parse.quote('/tag/' + str(tag_2.tag_id) + '/', safe='/')
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_tag_edit_post_invalid_reload(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        # get object
+        tag_id = Tag.objects.get(tag_name='tag_1').tag_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/tag/' + str(tag_id) + '/edit/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_tag_edit_post_invalid_template(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        # get object
+        tag_id = Tag.objects.get(tag_name='tag_1').tag_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/tag/' + str(tag_id) + '/edit/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/tag/tag_edit.html')
 
     def test_tag_delete_logged_in(self):
         """ test delete view """
@@ -305,3 +389,19 @@ class TagViewTestCase(TestCase):
         response = self.client.get('/tag/' + str(tag_1.tag_id) + '/delete', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_tag_delete_post_redirect(self):
+        """ test delete view """
+
+        # login testuser
+        login = self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        # get object
+        tagcolor_1 = Tagcolor.objects.get(tagcolor_name='tagcolor_1')
+        # create object
+        tag_1 = Tag.objects.create(tag_name='tag_delete_post_test_1', tagcolor=tagcolor_1)
+        # get response
+        response = self.client.post('/tag/' + str(tag_1.tag_id) + '/delete/')
+        # create url
+        destination = urllib.parse.quote('/tag/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)

@@ -125,10 +125,6 @@ class SystemUpdate(LoginRequiredMixin, UpdateView):
             system_name_edit = False
         elif system_name_editable is True:
             system_name_edit = True
-        else:
-            # enforce default value False
-            messages.error(request, 'Flawed SYSTEM_NAME_EDITABLE . Check `dfirtrack.config`!')
-            system_name_edit = False
 
         """ get all existing ip addresses """
 

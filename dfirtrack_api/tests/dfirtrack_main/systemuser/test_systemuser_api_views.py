@@ -30,6 +30,7 @@ class SystemuserAPIViewTestCase(TestCase):
             systemuser_name='systemuser_api_1',
             systemuser_is_systemadmin = True,
             system = system_1,
+            systemuser_lastlogon_time = timezone.now(),
         )
 
     def test_systemuser_list_api_unauthorized(self):

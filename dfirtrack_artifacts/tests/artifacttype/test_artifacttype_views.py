@@ -198,6 +198,30 @@ class ArtifacttypeViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
+    def test_artifacttype_create_post_invalid_reload(self):
+        """ test create view """
+
+        # login testuser
+        login = self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/artifacts/artifacttype/create/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_artifacttype_create_post_invalid_template(self):
+        """ test create view """
+
+        # login testuser
+        login = self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/artifacts/artifacttype/create/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_artifacts/artifacttype/artifacttype_add.html')
+
     def test_artifacttype_update_not_logged_in(self):
         """ test update view """
 
@@ -277,3 +301,31 @@ class ArtifacttypeViewTestCase(TestCase):
         destination = urllib.parse.quote('/artifacts/artifacttype/detail/' + str(artifacttype_id) + '/', safe='/')
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_artifacttype_update_post_invalid_reload(self):
+        """ test update view """
+
+        # login testuser
+        login = self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
+        # get object
+        artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/artifacts/artifacttype/update/' + str(artifacttype_id) + '/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_artifacttype_update_post_invalid_template(self):
+        """ test update view """
+
+        # login testuser
+        login = self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
+        # get object
+        artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/artifacts/artifacttype/update/' + str(artifacttype_id) + '/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_artifacts/artifacttype/artifacttype_edit.html')

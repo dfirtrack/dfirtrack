@@ -36,7 +36,7 @@ class ArtifactSerializer(serializers.ModelSerializer):
         self.fields['case'] = CaseFkSerializer(many=False, read_only=True)
         self.fields['system'] = SystemFkSerializer(many=False, read_only=True)
 
-        # get exsiting to_representation
+        # get existing to_representation
         representation = super(ArtifactSerializer, self).to_representation(instance)
 
         # change mandatory time strings
@@ -48,10 +48,6 @@ class ArtifactSerializer(serializers.ModelSerializer):
             representation['artifact_acquisition_time'] = instance.artifact_acquisition_time.strftime('%Y-%m-%dT%H:%M')
         if instance.artifact_requested_time:
             representation['artifact_requested_time'] = instance.artifact_requested_time.strftime('%Y-%m-%dT%H:%M')
-
-        # get usernames
-        representation['artifact_created_by_user_id'] = instance.artifact_created_by_user_id.username
-        representation['artifact_modified_by_user_id'] = instance.artifact_modified_by_user_id.username
 
         return representation
 
