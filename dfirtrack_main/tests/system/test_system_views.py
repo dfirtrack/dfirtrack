@@ -1,9 +1,10 @@
 from django.contrib.auth.models import User
+from django.contrib.messages import get_messages
 from django.test import TestCase
 from django.utils import timezone
 from dfirtrack.settings import INSTALLED_APPS as installed_apps
 from dfirtrack_artifacts.models import Artifact
-from dfirtrack_main.models import System, Systemstatus
+from dfirtrack_main.models import Ip, System, Systemstatus
 import urllib.parse
 
 class SystemViewTestCase(TestCase):
@@ -344,6 +345,95 @@ class SystemViewTestCase(TestCase):
         # compare
         self.assertTemplateUsed(response, 'dfirtrack_main/system/system_add.html')
 
+    def test_system_add_post_ips_save_valid(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get object
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
+        # create post data
+        data_dict = {
+            'system_name': 'system_add_post_ips_save_valid_test',
+            'systemstatus': systemstatus_id,
+            'iplist': '127.0.0.3\n127.0.0.4',
+        }
+        # get response
+        response = self.client.post('/system/add/', data_dict)
+        # get object
+        system_1 = System.objects.get(system_name = 'system_add_post_ips_save_valid_test')
+        # get objects from system
+        system_ip_3 = system_1.ip.filter(ip_ip = '127.0.0.3')[0]
+        system_ip_4 = system_1.ip.filter(ip_ip = '127.0.0.4')[0]
+        # get objects
+        ip_3 = Ip.objects.get(ip_ip = '127.0.0.3')
+        ip_4 = Ip.objects.get(ip_ip = '127.0.0.4')
+        # compare
+        self.assertEqual(system_ip_3, ip_3)
+        self.assertEqual(system_ip_4, ip_4)
+
+    def test_system_add_post_ips_save_empty_line_message(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get object
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
+        # create post data
+        data_dict = {
+            'system_name': 'system_add_post_ips_save_empty_line_test',
+            'systemstatus': systemstatus_id,
+            'iplist': '\n127.0.0.5',
+        }
+        # get response
+        response = self.client.post('/system/add/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(messages[0]), 'Empty line instead of IP was provided')
+
+    def test_system_add_post_ips_save_no_ip_message(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get object
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
+        # create post data
+        data_dict = {
+            'system_name': 'system_add_post_ips_save_no_ip_test',
+            'systemstatus': systemstatus_id,
+            'iplist': 'foobar\n127.0.0.6',
+        }
+        # get response
+        response = self.client.post('/system/add/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(messages[0]), 'Provided string was no IP')
+
+    def test_system_add_post_ips_save_ip_existing_message(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # create object
+        Ip.objects.create(ip_ip = '127.0.0.7')
+        # get object
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
+        # create post data
+        data_dict = {
+            'system_name': 'system_add_post_ips_save_ip_existing_test',
+            'systemstatus': systemstatus_id,
+            'iplist': '127.0.0.7',
+        }
+        # get response
+        response = self.client.post('/system/add/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(messages[0]), 'IP already exists in database')
+
     def test_system_edit_not_logged_in(self):
         """ test edit view """
 
@@ -406,39 +496,57 @@ class SystemViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
-# TODO: finish after moving SYSTEM_NAME_EDITABLE to dfirtrack_config
-#    def test_system_edit_post_redirect(self):
-#        """ test edit view """
-#
-#        # login testuser
-#        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
-#        # TODO set SYSTEM_NAME_EDITABLE to True
-#        # get user
-#        test_user = User.objects.get(username = 'testuser_system')
-#        # get object
-#        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
-#        # create object
-#        system_1 = System.objects.create(
-#            system_name = 'system_edit_post_test_1',
-#            systemstatus = systemstatus_1,
-#            system_modify_time = timezone.now(),
-#            system_created_by_user_id = test_user,
-#            system_modified_by_user_id = test_user,
-#        )
-#        # create post data
-#        data_dict = {
-#            'system_name': 'system_edit_post_test_2',
-#            'systemstatus': systemstatus_1.systemstatus_id,
-#            'iplist': '',
-#        }
-#        # get response
-#        response = self.client.post('/system/' + str(system_1.system_id) + '/edit/', data_dict)
-#        # get object
-#        system_2 = System.objects.get(system_name='system_edit_post_test_2')
-#        # create url
-#        destination = urllib.parse.quote('/system/' + str(system_2.system_id) + '/', safe='/')
-#        # compare
-#        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+    def test_system_edit_initial_ipstring(self):
+        """ test edit view """
+
+        # get object
+        system_1 = System.objects.get(system_name='system_1')
+        # create objects
+        ip_1 = Ip.objects.create(ip_ip = '127.0.0.1')
+        ip_2 = Ip.objects.create(ip_ip = '127.0.0.2')
+        # append objects
+        system_1.ip.add(ip_1)
+        system_1.ip.add(ip_2)
+        # login testuser
+        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get response
+        response = self.client.get('/system/' + str(system_1.system_id) + '/edit/')
+        # compare
+        self.assertEqual(response.context['form'].initial['iplist'], '127.0.0.1\n127.0.0.2')
+
+    def test_system_edit_post_redirect(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get user
+        test_user = User.objects.get(username = 'testuser_system')
+        # get object
+        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+        # create object
+        systemstatus_2 = Systemstatus.objects.create(systemstatus_name='systemstatus_2')
+        # create object
+        system_1 = System.objects.create(
+            system_name = 'system_edit_post_test_1',
+            systemstatus = systemstatus_1,
+            system_modify_time = timezone.now(),
+            system_created_by_user_id = test_user,
+            system_modified_by_user_id = test_user,
+        )
+        # create post data
+        data_dict = {
+            'system_name': 'system_edit_post_test_1',
+            'systemstatus': systemstatus_2.systemstatus_id,
+            'iplist': '',
+        }
+        # get response
+        response = self.client.post('/system/' + str(system_1.system_id) + '/edit/', data_dict)
+        # get object
+        system_2 = System.objects.get(system_name='system_edit_post_test_1')
+        # create url
+        destination = urllib.parse.quote('/system/' + str(system_2.system_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_system_edit_post_invalid_reload(self):
         """ test edit view """
@@ -508,7 +616,7 @@ class SystemViewTestCase(TestCase):
 #
 #        # login testuser
 #        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
-#        # TODO set SYSTEM_NAME_EDITABLE to True
+#        # TODO set SYSTEM_NAME_EDITABLE to False
 #        # get user
 #        test_user = User.objects.get(username = 'testuser_system')
 #        # get object
