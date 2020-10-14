@@ -21,14 +21,11 @@ class CaseSerializer(serializers.ModelSerializer):
     # redefine representation
     def to_representation(self, instance):
 
-        # get exsiting to_representation
+        # get existing to_representation
         representation = super(CaseSerializer, self).to_representation(instance)
 
         # change mandatory time strings
         representation['case_create_time'] = instance.case_create_time.strftime('%Y-%m-%dT%H:%M')
-
-        # get usernames
-        representation['case_created_by_user_id'] = instance.case_created_by_user_id.username
 
         return representation
 
@@ -232,7 +229,7 @@ class SystemSerializer(serializers.ModelSerializer):
         self.fields['systemtype'] =  dfirtrack_main_fk.SystemtypeFkSerializer(many=False, read_only=True)
         self.fields['tag'] =  dfirtrack_main_fk.TagFkSerializer(many=True, read_only=True)
 
-        # get exsiting to_representation
+        # get existing to_representation
         representation = super(SystemSerializer, self).to_representation(instance)
 
         # change mandatory time strings
@@ -240,16 +237,13 @@ class SystemSerializer(serializers.ModelSerializer):
         representation['system_modify_time'] = instance.system_modify_time.strftime('%Y-%m-%dT%H:%M')
 
         # change optional time strings
-        if instance.system_install_time:
-            representation['system_install_time'] = instance.system_install_time.strftime('%Y-%m-%dT%H:%M')
+        # TODO: change after model rebuild
+        #if instance.system_install_time:
+        #    representation['system_install_time'] = instance.system_install_time.strftime('%Y-%m-%dT%H:%M')
         if instance.system_lastbooted_time:
             representation['system_lastbooted_time'] = instance.system_lastbooted_time.strftime('%Y-%m-%dT%H:%M')
         if instance.system_deprecated_time:
             representation['system_deprecated_time'] = instance.system_deprecated_time.strftime('%Y-%m-%dT%H:%M')
-
-        # get usernames
-        representation['system_created_by_user_id'] = instance.system_created_by_user_id.username
-        representation['system_modified_by_user_id'] = instance.system_modified_by_user_id.username
 
         return representation
 
@@ -322,7 +316,7 @@ class SystemuserSerializer(serializers.ModelSerializer):
         # get serializers of foreignkey relationsships
         self.fields['system'] =  dfirtrack_main_fk.SystemFkSerializer(read_only=True)
 
-        # get exsiting to_representation
+        # get existing to_representation
         representation = super(SystemuserSerializer, self).to_representation(instance)
 
         # change optional time strings
@@ -384,7 +378,7 @@ class TaskSerializer(serializers.ModelSerializer):
         self.fields['taskpriority'] =  dfirtrack_main_fk.TaskpriorityFkSerializer(many=False, read_only=True)
         self.fields['taskstatus'] =  dfirtrack_main_fk.TaskstatusFkSerializer(many=False, read_only=True)
 
-        # get exsiting to_representation
+        # get existing to_representation
         representation = super(TaskSerializer, self).to_representation(instance)
 
         # change mandatory time strings
@@ -400,12 +394,6 @@ class TaskSerializer(serializers.ModelSerializer):
             representation['task_finished_time'] = instance.task_finished_time.strftime('%Y-%m-%dT%H:%M')
         if instance.task_due_time:
             representation['task_due_time'] = instance.task_due_time.strftime('%Y-%m-%dT%H:%M')
-
-        # get usernames
-        if instance.task_assigned_to_user_id:
-            representation['task_assigned_to_user_id'] = instance.task_assigned_to_user_id.username
-        representation['task_created_by_user_id'] = instance.task_created_by_user_id.username
-        representation['task_modified_by_user_id'] = instance.task_modified_by_user_id.username
 
         return representation
 
