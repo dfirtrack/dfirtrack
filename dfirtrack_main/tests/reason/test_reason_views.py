@@ -180,6 +180,142 @@ class ReasonViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
+    def test_reason_add_post_redirect(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        # create post data
+        data_dict = {
+            'reason_name': 'reason_add_post_test',
+        }
+        # get response
+        response = self.client.post('/reason/add/', data_dict)
+        # get object
+        reason_id = Reason.objects.get(reason_name = 'reason_add_post_test').reason_id
+        # create url
+        destination = urllib.parse.quote('/reason/' + str(reason_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_reason_add_post_invalid_reload(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/reason/add/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_reason_add_post_invalid_template(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/reason/add/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/reason/reason_add.html')
+
+    def test_reason_add_popup_not_logged_in(self):
+        """ test add view """
+
+        # create url
+        destination = '/login/?next=' + urllib.parse.quote('/reason/add_popup/', safe='')
+        # get response
+        response = self.client.get('/reason/add_popup/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_reason_add_popup_logged_in(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        # get response
+        response = self.client.get('/reason/add_popup/')
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_reason_add_popup_template(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        # get response
+        response = self.client.get('/reason/add_popup/')
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/reason/reason_add_popup.html')
+
+    def test_reason_add_popup_get_user_context(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        # get response
+        response = self.client.get('/reason/add_popup/')
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_reason')
+
+    def test_reason_add_popup_redirect(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        # create url
+        destination = urllib.parse.quote('/reason/add_popup/', safe='/')
+        # get response
+        response = self.client.get('/reason/add_popup', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_reason_add_popup_post_redirect(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        # create post data
+        data_dict = {
+            'reason_name': 'reason_add_popup_post_test',
+        }
+        # get response
+        response = self.client.post('/reason/add_popup/', data_dict)
+        # get object
+        reason_id = Reason.objects.get(reason_name = 'reason_add_popup_post_test').reason_id
+        # create url
+        destination = urllib.parse.quote('/reason/' + str(reason_id) + '/', safe='/')
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_reason_add_popup_post_invalid_reload(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/reason/add_popup/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_reason_add_popup_post_invalid_template(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/reason/add_popup/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/reason/reason_add_popup.html')
+
     def test_reason_edit_not_logged_in(self):
         """ test edit view """
 
@@ -241,3 +377,51 @@ class ReasonViewTestCase(TestCase):
         response = self.client.get('/reason/' + str(reason_1.reason_id) + '/edit', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_reason_edit_post_redirect(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        # create object
+        reason_1 = Reason.objects.create(reason_name='reason_edit_post_test_1')
+        # create post data
+        data_dict = {
+            'reason_name': 'reason_edit_post_test_2',
+        }
+        # get response
+        response = self.client.post('/reason/' + str(reason_1.reason_id) + '/edit/', data_dict)
+        # get object
+        reason_2 = Reason.objects.get(reason_name='reason_edit_post_test_2')
+        # create url
+        destination = urllib.parse.quote('/reason/' + str(reason_2.reason_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_reason_edit_post_invalid_reload(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        # get object
+        reason_id = Reason.objects.get(reason_name='reason_1').reason_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/reason/' + str(reason_id) + '/edit/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_reason_edit_post_invalid_template(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        # get object
+        reason_id = Reason.objects.get(reason_name='reason_1').reason_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/reason/' + str(reason_id) + '/edit/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/reason/reason_edit.html')

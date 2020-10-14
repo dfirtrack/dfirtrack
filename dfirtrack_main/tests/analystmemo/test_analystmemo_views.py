@@ -167,6 +167,18 @@ class AnalystmemoViewTestCase(TestCase):
         # compare
         self.assertEqual(response.status_code, 200)
 
+    def test_analystmemo_add_system_selected(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
+        # get object
+        system_id = System.objects.get(system_name = 'system_1').system_id
+        # get response
+        response = self.client.get('/analystmemo/add/?system=' + str(system_id))
+        # compare
+        self.assertEqual(response.status_code, 200)
+
     def test_analystmemo_add_template(self):
         """ test add view """
 
@@ -198,6 +210,51 @@ class AnalystmemoViewTestCase(TestCase):
         response = self.client.get('/analystmemo/add', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_analystmemo_add_post_redirect(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
+        # get object
+        system_id = System.objects.get(system_name = 'system_1').system_id
+        # create post data
+        data_dict = {
+            'analystmemo_note': 'analystmemo_add_post_test',
+            'system': system_id,
+        }
+        # get response
+        response = self.client.post('/analystmemo/add/', data_dict)
+        # get object
+        analystmemo_id = Analystmemo.objects.get(analystmemo_note = 'analystmemo_add_post_test').analystmemo_id
+        # create url
+        destination = urllib.parse.quote('/system/' + str(system_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_analystmemo_add_post_invalid_reload(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/analystmemo/add/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_analystmemo_add_post_invalid_template(self):
+        """ test add view """
+
+        # login testuser
+        login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/analystmemo/add/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/analystmemo/analystmemo_add.html')
 
     def test_analystmemo_edit_not_logged_in(self):
         """ test edit view """
@@ -260,3 +317,61 @@ class AnalystmemoViewTestCase(TestCase):
         response = self.client.get('/analystmemo/' + str(analystmemo_1.analystmemo_id) + '/edit', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_analystmemo_edit_post_redirect(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
+        # get user
+        test_user = User.objects.get(username='testuser_analystmemo')
+        # get object
+        system_1 = System.objects.get(system_name = 'system_1')
+        # create object
+        analystmemo_1 = Analystmemo.objects.create(
+            analystmemo_note = 'analystmemo_edit_post_test_1',
+            system = system_1,
+            analystmemo_created_by_user_id = test_user,
+            analystmemo_modified_by_user_id = test_user,
+        )
+        # create post data
+        data_dict = {
+            'analystmemo_note': 'analystmemo_edit_post_test_2',
+            'system': system_1.system_id,
+        }
+        # get response
+        response = self.client.post('/analystmemo/' + str(analystmemo_1.analystmemo_id) + '/edit/', data_dict)
+        # get object
+        analystmemo_2 = Analystmemo.objects.get(analystmemo_note='analystmemo_edit_post_test_2')
+        # create url
+        destination = urllib.parse.quote('/system/' + str(system_1.system_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_analystmemo_edit_post_invalid_reload(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
+        # get object
+        analystmemo_id = Analystmemo.objects.get(analystmemo_note='lorem ipsum').analystmemo_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/analystmemo/' + str(analystmemo_id) + '/edit/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_analystmemo_edit_post_invalid_template(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
+        # get object
+        analystmemo_id = Analystmemo.objects.get(analystmemo_note='lorem ipsum').analystmemo_id
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/analystmemo/' + str(analystmemo_id) + '/edit/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/analystmemo/analystmemo_edit.html')
