@@ -49,10 +49,6 @@ class ArtifactSerializer(serializers.ModelSerializer):
         if instance.artifact_requested_time:
             representation['artifact_requested_time'] = instance.artifact_requested_time.strftime('%Y-%m-%dT%H:%M')
 
-        # get usernames
-        representation['artifact_created_by_user_id'] = instance.artifact_created_by_user_id.username
-        representation['artifact_modified_by_user_id'] = instance.artifact_modified_by_user_id.username
-
         return representation
 
     class Meta:
