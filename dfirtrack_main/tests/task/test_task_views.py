@@ -621,8 +621,33 @@ class TaskViewTestCase(TestCase):
         # compare
         self.assertEqual(taskstatus_working, task_started.taskstatus)
 
-# TODO
-#    def test_task_start_started_time(self):
+    def test_task_start_started_time(self):
+        """ test task start view """
+
+        # login testuser
+        login = self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
+        # get user
+        test_user = User.objects.get(username = 'testuser_task')
+        # create object
+        taskname_task_start = Taskname.objects.create(taskname_name = 'task_start')
+        # get object
+        taskpriority_1 = Taskpriority.objects.get(taskpriority_name = 'prio_1')
+        # get object
+        taskstatus_pending = Taskstatus.objects.get(taskstatus_name = 'Pending')
+        # create object
+        task_task_start = Task.objects.create(
+            taskname = taskname_task_start,
+            taskpriority = taskpriority_1,
+            taskstatus = taskstatus_pending,
+            task_created_by_user_id = test_user,
+            task_modified_by_user_id = test_user,
+        )
+        # get response
+        response = self.client.get('/task/' + str(task_task_start.task_id) + '/start/')
+        # get object
+        task_started = Task.objects.get(task_id = task_task_start.task_id)
+        # compare
+        self.assertTrue(task_started.task_started_time)
 
     def test_task_finish_redirect(self):
         """ test task finish view """
@@ -688,9 +713,61 @@ class TaskViewTestCase(TestCase):
         # compare
         self.assertEqual(taskstatus_done, task_finished.taskstatus)
 
-# TODO
-#    def test_task_finish_started_time(self):
-#    def test_task_finish_finished_time(self):
+    def test_task_finish_started_time(self):
+        """ test task finish view """
+
+        # login testuser
+        login = self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
+        # get user
+        test_user = User.objects.get(username = 'testuser_task')
+        # create object
+        taskname_task_finish = Taskname.objects.create(taskname_name = 'task_finish')
+        # get object
+        taskpriority_1 = Taskpriority.objects.get(taskpriority_name = 'prio_1')
+        # get object
+        taskstatus_pending = Taskstatus.objects.get(taskstatus_name = 'Pending')
+        # create object
+        task_task_finish = Task.objects.create(
+            taskname = taskname_task_finish,
+            taskpriority = taskpriority_1,
+            taskstatus = taskstatus_pending,
+            task_created_by_user_id = test_user,
+            task_modified_by_user_id = test_user,
+        )
+        # get response
+        response = self.client.get('/task/' + str(task_task_finish.task_id) + '/finish/')
+        # get object
+        task_finished = Task.objects.get(task_id = task_task_finish.task_id)
+        # compare
+        self.assertTrue(task_finished.task_started_time)
+
+    def test_task_finish_finished_time(self):
+        """ test task finish view """
+
+        # login testuser
+        login = self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
+        # get user
+        test_user = User.objects.get(username = 'testuser_task')
+        # create object
+        taskname_task_finish = Taskname.objects.create(taskname_name = 'task_finish')
+        # get object
+        taskpriority_1 = Taskpriority.objects.get(taskpriority_name = 'prio_1')
+        # get object
+        taskstatus_pending = Taskstatus.objects.get(taskstatus_name = 'Pending')
+        # create object
+        task_task_finish = Task.objects.create(
+            taskname = taskname_task_finish,
+            taskpriority = taskpriority_1,
+            taskstatus = taskstatus_pending,
+            task_created_by_user_id = test_user,
+            task_modified_by_user_id = test_user,
+        )
+        # get response
+        response = self.client.get('/task/' + str(task_task_finish.task_id) + '/finish/')
+        # get object
+        task_finished = Task.objects.get(task_id = task_task_finish.task_id)
+        # compare
+        self.assertTrue(task_finished.task_finished_time)
 
     def test_task_renew_redirect(self):
         """ test task renew view """
@@ -785,9 +862,63 @@ class TaskViewTestCase(TestCase):
         # compare
         self.assertEqual(None, task_renewed.task_assigned_to_user_id)
 
-# TODO
-#    def test_task_renew_started_time(self):
-#    def test_task_renew_finished_time(self):
+    def test_task_renew_started_time(self):
+        """ test task renew view """
+
+        # login testuser
+        login = self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
+        # get user
+        test_user = User.objects.get(username = 'testuser_task')
+        # create object
+        taskname_task_renew = Taskname.objects.create(taskname_name = 'task_renew')
+        # get object
+        taskpriority_1 = Taskpriority.objects.get(taskpriority_name = 'prio_1')
+        # get object
+        taskstatus_done = Taskstatus.objects.get(taskstatus_name = 'Done')
+        # create object
+        task_task_renew = Task.objects.create(
+            taskname = taskname_task_renew,
+            taskpriority = taskpriority_1,
+            taskstatus = taskstatus_done,
+            task_created_by_user_id = test_user,
+            task_modified_by_user_id = test_user,
+            task_started_time = timezone.now(),
+        )
+        # get response
+        response = self.client.get('/task/' + str(task_task_renew.task_id) + '/renew/')
+        # get object
+        task_renewed = Task.objects.get(task_id = task_task_renew.task_id)
+        # compare
+        self.assertEqual(None, task_renewed.task_started_time)
+
+    def test_task_renew_finished_time(self):
+        """ test task renew view """
+
+        # login testuser
+        login = self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
+        # get user
+        test_user = User.objects.get(username = 'testuser_task')
+        # create object
+        taskname_task_renew = Taskname.objects.create(taskname_name = 'task_renew')
+        # get object
+        taskpriority_1 = Taskpriority.objects.get(taskpriority_name = 'prio_1')
+        # get object
+        taskstatus_done = Taskstatus.objects.get(taskstatus_name = 'Done')
+        # create object
+        task_task_renew = Task.objects.create(
+            taskname = taskname_task_renew,
+            taskpriority = taskpriority_1,
+            taskstatus = taskstatus_done,
+            task_created_by_user_id = test_user,
+            task_modified_by_user_id = test_user,
+            task_finished_time = timezone.now(),
+        )
+        # get response
+        response = self.client.get('/task/' + str(task_task_renew.task_id) + '/renew/')
+        # get object
+        task_renewed = Task.objects.get(task_id = task_task_renew.task_id)
+        # compare
+        self.assertEqual(None, task_renewed.task_finished_time)
 
     def test_task_set_user_redirect(self):
         """ test task set_user view """
