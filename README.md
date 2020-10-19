@@ -1,6 +1,7 @@
 # DFIRTrack
 
 ![Django Tests](https://github.com/stuhli/dfirtrack/workflows/Django%20Tests/badge.svg?branch=master)
+[![codecov](https://codecov.io/gh/stuhli/dfirtrack/branch/master/graph/badge.svg)](https://codecov.io/gh/stuhli/dfirtrack)
 
 DFIRTrack (Digital Forensics and Incident Response Tracking application) is an open source web application mainly based on [Django](https://www.djangoproject.com/) using a [PostgreSQL](https://www.postgresql.org/) database back end.
 
