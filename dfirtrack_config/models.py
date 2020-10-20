@@ -23,6 +23,14 @@ class ArtifactExporterSpreadsheetXlsConfigModel(models.Model):
     artifactlist_xls_worksheet_artifactstatus = models.BooleanField(blank=True)
     artifactlist_xls_worksheet_artifacttype = models.BooleanField(blank=True)
 
+class MainConfigModel(models.Model):
+
+    # primary key
+    main_config_name = models.CharField(max_length=50, primary_key=True, editable=False)
+
+    # config fields
+    system_name_editable = models.BooleanField(blank=True)
+
 class SystemExporterMarkdownConfigModel(models.Model):
 
     # primary key

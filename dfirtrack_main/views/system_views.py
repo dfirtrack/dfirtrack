@@ -5,8 +5,8 @@ from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
-from dfirtrack.config import SYSTEM_NAME_EDITABLE as system_name_editable
 from dfirtrack_artifacts.models import Artifact
+from dfirtrack_config.models import MainConfigModel
 from dfirtrack_main.forms import SystemForm, SystemNameForm
 from dfirtrack_main.logger.default_logger import debug_logger, warning_logger
 from dfirtrack_main.models import Ip, System
@@ -107,6 +107,9 @@ class SystemUpdate(LoginRequiredMixin, UpdateView):
     model = System
     template_name = 'dfirtrack_main/system/system_edit.html'
 
+    # get config model
+    system_name_editable = MainConfigModel.objects.get(main_config_name = 'MainConfig').system_name_editable
+
     # choose form class depending on variable
     if system_name_editable is False:
         form_class = SystemForm
@@ -119,6 +122,9 @@ class SystemUpdate(LoginRequiredMixin, UpdateView):
 
     def get(self, request, *args, **kwargs):
         system = self.get_object()
+
+        # get config model
+        system_name_editable = MainConfigModel.objects.get(main_config_name = 'MainConfig').system_name_editable
 
         # set system_name_editable for template
         if system_name_editable is False:
