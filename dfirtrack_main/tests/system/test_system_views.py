@@ -4,6 +4,7 @@ from django.test import TestCase
 from django.utils import timezone
 from dfirtrack.settings import INSTALLED_APPS as installed_apps
 from dfirtrack_artifacts.models import Artifact
+from dfirtrack_config.models import MainConfigModel
 from dfirtrack_main.models import Ip, System, Systemstatus
 import urllib.parse
 
@@ -576,13 +577,17 @@ class SystemViewTestCase(TestCase):
         # compare
         self.assertTemplateUsed(response, 'dfirtrack_main/system/system_edit.html')
 
-# TODO: finish after moving SYSTEM_NAME_EDITABLE to dfirtrack_config
+# TODO: does not work so far, model change in config does not affect the underlying view (it is not model related)
 #    def test_system_edit_post_system_name_editable_redirect(self):
 #        """ test edit view """
 #
 #        # login testuser
 #        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
-#        # TODO set SYSTEM_NAME_EDITABLE to True
+#        # get config model
+#        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+#        # set config model
+#        main_config_model.system_name_editable = True
+#        main_config_model.save()
 #        # get user
 #        test_user = User.objects.get(username = 'testuser_system')
 #        # get object
@@ -610,36 +615,34 @@ class SystemViewTestCase(TestCase):
 #        # compare
 #        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
-# TODO: finish after moving SYSTEM_NAME_EDITABLE to dfirtrack_config
-#    def test_system_edit_post_system_name_not_editable_redirect(self):
-#        """ test edit view """
-#
-#        # login testuser
-#        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
-#        # TODO set SYSTEM_NAME_EDITABLE to False
-#        # get user
-#        test_user = User.objects.get(username = 'testuser_system')
-#        # get object
-#        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
-#        # create object
-#        system_1 = System.objects.create(
-#            system_name = 'system_edit_post_test_5',
-#            systemstatus = systemstatus_1,
-#            system_modify_time = timezone.now(),
-#            system_created_by_user_id = test_user,
-#            system_modified_by_user_id = test_user,
-#        )
-#        # create post data
-#        data_dict = {
-#            'system_name': 'system_edit_post_test_6',
-#            'systemstatus': systemstatus_1.systemstatus_id,
-#            'iplist': '',
-#        }
-#        # get response
-#        response = self.client.post('/system/' + str(system_1.system_id) + '/edit/', data_dict)
-#        # get object
-#        system_2 = System.objects.get(system_name='system_edit_post_test_5')
-#        # create url
-#        destination = urllib.parse.quote('/system/' + str(system_2.system_id) + '/', safe='/')
-#        # compare
-#        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+    def test_system_edit_post_system_name_not_editable_redirect(self):
+        """ test edit view """
+
+        # login testuser
+        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get user
+        test_user = User.objects.get(username = 'testuser_system')
+        # get object
+        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+        # create object
+        system_1 = System.objects.create(
+            system_name = 'system_edit_post_test_5',
+            systemstatus = systemstatus_1,
+            system_modify_time = timezone.now(),
+            system_created_by_user_id = test_user,
+            system_modified_by_user_id = test_user,
+        )
+        # create post data
+        data_dict = {
+            'system_name': 'system_edit_post_test_6',
+            'systemstatus': systemstatus_1.systemstatus_id,
+            'iplist': '',
+        }
+        # get response
+        response = self.client.post('/system/' + str(system_1.system_id) + '/edit/', data_dict)
+        # get object
+        system_2 = System.objects.get(system_name='system_edit_post_test_5')
+        # create url
+        destination = urllib.parse.quote('/system/' + str(system_2.system_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
