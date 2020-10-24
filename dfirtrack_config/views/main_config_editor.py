@@ -28,7 +28,9 @@ def main_config_view(request):
             # close popup
             return HttpResponse('<script type="text/javascript">window.close();</script>')
 
-        else:
+        # TODO: with 'system_name_editable' as the only non-mandatory model attribute, it is not possible to get a non-valid form
+        # TODO: remove the coverage limitation with further mandatory model attributes
+        else:   # coverage: ignore branch
             # show form page
             return render(
                 request,
