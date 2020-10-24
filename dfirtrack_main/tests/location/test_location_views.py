@@ -287,8 +287,6 @@ class LocationViewTestCase(TestCase):
         response = self.client.post('/location/add_popup/', data_dict)
         # get object
         location_id = Location.objects.get(location_name = 'location_add_popup_post_test').location_id
-        # create url
-        destination = urllib.parse.quote('/location/' + str(location_id) + '/', safe='/')
         # compare
         self.assertEqual(response.status_code, 200)
 

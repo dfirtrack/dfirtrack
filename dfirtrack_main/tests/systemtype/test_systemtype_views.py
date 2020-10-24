@@ -287,8 +287,6 @@ class SystemtypeViewTestCase(TestCase):
         response = self.client.post('/systemtype/add_popup/', data_dict)
         # get object
         systemtype_id = Systemtype.objects.get(systemtype_name = 'systemtype_add_popup_post_test').systemtype_id
-        # create url
-        destination = urllib.parse.quote('/systemtype/' + str(systemtype_id) + '/', safe='/')
         # compare
         self.assertEqual(response.status_code, 200)
 

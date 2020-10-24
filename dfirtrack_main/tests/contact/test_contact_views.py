@@ -289,8 +289,6 @@ class ContactViewTestCase(TestCase):
         response = self.client.post('/contact/add_popup/', data_dict)
         # get object
         contact_id = Contact.objects.get(contact_name = 'contact_add_popup_post_test').contact_id
-        # create url
-        destination = urllib.parse.quote('/contact/' + str(contact_id) + '/', safe='/')
         # compare
         self.assertEqual(response.status_code, 200)
 

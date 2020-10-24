@@ -287,8 +287,6 @@ class ReasonViewTestCase(TestCase):
         response = self.client.post('/reason/add_popup/', data_dict)
         # get object
         reason_id = Reason.objects.get(reason_name = 'reason_add_popup_post_test').reason_id
-        # create url
-        destination = urllib.parse.quote('/reason/' + str(reason_id) + '/', safe='/')
         # compare
         self.assertEqual(response.status_code, 200)
 

@@ -287,8 +287,6 @@ class ServiceproviderViewTestCase(TestCase):
         response = self.client.post('/serviceprovider/add_popup/', data_dict)
         # get object
         serviceprovider_id = Serviceprovider.objects.get(serviceprovider_name = 'serviceprovider_add_popup_post_test').serviceprovider_id
-        # create url
-        destination = urllib.parse.quote('/serviceprovider/' + str(serviceprovider_id) + '/', safe='/')
         # compare
         self.assertEqual(response.status_code, 200)
 

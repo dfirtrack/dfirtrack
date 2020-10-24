@@ -286,8 +286,6 @@ class OsViewTestCase(TestCase):
         response = self.client.post('/os/add_popup/', data_dict)
         # get object
         os_id = Os.objects.get(os_name = 'os_add_popup_post_test').os_id
-        # create url
-        destination = urllib.parse.quote('/os/' + str(os_id) + '/', safe='/')
         # compare
         self.assertEqual(response.status_code, 200)
 

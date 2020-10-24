@@ -287,8 +287,6 @@ class RecommendationViewTestCase(TestCase):
         response = self.client.post('/recommendation/add_popup/', data_dict)
         # get object
         recommendation_id = Recommendation.objects.get(recommendation_name = 'recommendation_add_popup_post').recommendation_id
-        # create url
-        destination = urllib.parse.quote('/recommendation/' + str(recommendation_id) + '/', safe='/')
         # compare
         self.assertEqual(response.status_code, 200)
 

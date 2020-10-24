@@ -287,8 +287,6 @@ class DomainViewTestCase(TestCase):
         response = self.client.post('/domain/add_popup/', data_dict)
         # get object
         domain_id = Domain.objects.get(domain_name = 'domain_add_popup_post_test').domain_id
-        # create url
-        destination = urllib.parse.quote('/domain/' + str(domain_id) + '/', safe='/')
         # compare
         self.assertEqual(response.status_code, 200)
 

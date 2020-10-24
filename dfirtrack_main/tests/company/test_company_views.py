@@ -287,8 +287,6 @@ class CompanyViewTestCase(TestCase):
         response = self.client.post('/company/add_popup/', data_dict)
         # get object
         company_id = Company.objects.get(company_name = 'company_add_popup_post_test').company_id
-        # create url
-        destination = urllib.parse.quote('/company/' + str(company_id) + '/', safe='/')
         # compare
         self.assertEqual(response.status_code, 200)
 

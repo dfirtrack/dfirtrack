@@ -287,8 +287,6 @@ class DnsnameViewTestCase(TestCase):
         response = self.client.post('/dnsname/add_popup/', data_dict)
         # get object
         dnsname_id = Dnsname.objects.get(dnsname_name = 'dnsname_add_popup_post_test').dnsname_id
-        # create url
-        destination = urllib.parse.quote('/dnsname/' + str(dnsname_id) + '/', safe='/')
         # compare
         self.assertEqual(response.status_code, 200)
 
