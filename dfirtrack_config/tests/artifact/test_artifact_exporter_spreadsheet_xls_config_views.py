@@ -62,3 +62,27 @@ class ArtifactExporterSpreadsheetXlsConfigViewTestCase(TestCase):
         response = self.client.get('/config/artifact/exporter/spreadsheet/xls', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_artifact_exporter_spreadsheet_xls_config_post_invalid_reload(self):
+        """ test view """
+
+        # login testuser
+        login = self.client.login(username='testuser_artifact_exporter_spreadsheet_xls_config', password='i3jLLnbrAEgel24sGs9i')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/config/artifact/exporter/spreadsheet/xls/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_artifact_exporter_spreadsheet_xls_config_post_invalid_template(self):
+        """ test view """
+
+        # login testuser
+        login = self.client.login(username='testuser_artifact_exporter_spreadsheet_xls_config', password='i3jLLnbrAEgel24sGs9i')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/config/artifact/exporter/spreadsheet/xls/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_config/artifact/artifact_exporter_spreadsheet_xls_config_popup.html')
