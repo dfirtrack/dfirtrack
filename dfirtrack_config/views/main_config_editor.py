@@ -28,7 +28,8 @@ def main_config_view(request):
             # close popup
             return HttpResponse('<script type="text/javascript">window.close();</script>')
 
-        # TODO: with 'system_name_editable' as the only non-mandatory model attribute, it is not possible to get a non-valid form
+        # TODO: with 'system_name_editable' as the only non-mandatory model attribute, it is not possible to get an invalid form
+        # TODO: finish prepared tests in 'dfirtrack_config.tests.main.test_main_config_views'
         # TODO: remove the coverage limitation with further mandatory model attributes
         else:   # coverage: ignore branch
             # show form page
