@@ -62,3 +62,48 @@ class SystemImporterFileCsvFormbasedConfigViewTestCase(TestCase):
         response = self.client.get('/config/system/importer/file/csv/formbased', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_system_importer_file_csv_form_based_config_post_redirect(self):
+        """ test view """
+
+        # login testuser
+        login = self.client.login(username='testuser_system_importer_file_csv_form_based_config', password='SYYCdriMtm3lk6MPBYmD')
+        # create post data
+        data_dict = {
+            'csv_column_system': 1,
+            'csv_column_ip': 2,
+        }
+        # get response
+        response = self.client.post('/config/system/importer/file/csv/formbased/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_system_importer_file_csv_form_based_config_post_invalid_reload(self):
+        """ test view """
+
+        # login testuser
+        login = self.client.login(username='testuser_system_importer_file_csv_form_based_config', password='SYYCdriMtm3lk6MPBYmD')
+        # create post data
+        data_dict = {
+            'csv_column_system': 1,
+            'csv_column_ip': 1,
+        }
+        # get response
+        response = self.client.post('/config/system/importer/file/csv/formbased/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_system_importer_file_csv_form_based_config_post_invalid_template(self):
+        """ test view """
+
+        # login testuser
+        login = self.client.login(username='testuser_system_importer_file_csv_form_based_config', password='SYYCdriMtm3lk6MPBYmD')
+        # create post data
+        data_dict = {
+            'csv_column_system': 2,
+            'csv_column_ip': 2,
+        }
+        # get response
+        response = self.client.post('/config/system/importer/file/csv/formbased/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_config/system/system_importer_file_csv_form_based_config_popup.html')
