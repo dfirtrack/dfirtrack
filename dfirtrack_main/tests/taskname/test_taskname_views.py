@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
+from django.contrib.messages import get_messages
 from django.test import TestCase
-from dfirtrack_main.models import Taskname
+from dfirtrack_main.models import Task, Taskname, Taskpriority, Taskstatus
 import urllib.parse
 
 class TasknameViewTestCase(TestCase):
@@ -9,10 +10,17 @@ class TasknameViewTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
 
-        # create object
-        Taskname.objects.create(taskname_name='taskname_1')
         # create user
         test_user = User.objects.create_user(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+
+        # create object
+        Taskname.objects.create(taskname_name='taskname_1')
+
+        # create object
+        Taskpriority.objects.create(taskpriority_name='prio_1')
+
+        # create object
+        Taskstatus.objects.create(taskstatus_name='taskstatus_1')
 
     def test_taskname_list_not_logged_in(self):
         """ test list view """
@@ -393,3 +401,65 @@ class TasknameViewTestCase(TestCase):
         response = self.client.get('/taskname/' + str(taskname_1.taskname_id) + '/close', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_taskname_close_post_tasks_to_close(self):
+        """ test close view """
+
+        # login testuser
+        login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        # get user
+        test_user = User.objects.get(username='testuser_taskname')
+        # create object
+        taskname_close = Taskname.objects.create(taskname_name='test_taskname_close')
+        # get object
+        taskpriority_1 = Taskpriority.objects.get(taskpriority_name='prio_1')
+        # get object
+        taskstatus_1 = Taskstatus.objects.get(taskstatus_name='taskstatus_1')
+        # create objects
+        task_close_1 = Task.objects.create(
+            taskname = taskname_close,
+            taskpriority = taskpriority_1,
+            taskstatus = taskstatus_1,
+            task_created_by_user_id = test_user,
+            task_modified_by_user_id = test_user,
+        )
+        task_close_2 = Task.objects.create(
+            taskname = taskname_close,
+            taskpriority = taskpriority_1,
+            taskstatus = taskstatus_1,
+            task_created_by_user_id = test_user,
+            task_modified_by_user_id = test_user,
+        )
+        # get object (does not work the usual way because form with available choices is build before model instance is created during the test)
+        taskstatus_done = Taskstatus.objects.get(taskstatus_name='Done')
+        # get response
+        response = self.client.post('/taskname/' + str(taskname_close.taskname_id) + '/close/')
+        # refresh objects
+        task_close_1.refresh_from_db()
+        task_close_2.refresh_from_db()
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'dfirtrack_main/taskname/taskname_close.html')
+        self.assertEqual(task_close_1.taskstatus, taskstatus_done)
+        self.assertEqual(task_close_2.taskstatus, taskstatus_done)
+        self.assertEqual(str(messages[-1]), 'Closed task IDs: [' + str(task_close_1.task_id) + ', ' + str(task_close_2.task_id) + ']')
+
+    def test_taskname_close_post_nothing_to_close(self):
+        """ test close view """
+
+        # login testuser
+        login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        # create object
+        taskname_void = Taskname.objects.create(taskname_name='test_taskname_void')
+        # get object (does not work the usual way because form with available choices is build before model instance is created during the test)
+        taskstatus_done = Taskstatus.objects.get(taskstatus_name='Done')
+        # get response
+        response = self.client.post('/taskname/' + str(taskname_void.taskname_id) + '/close/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'dfirtrack_main/taskname/taskname_close.html')
+        self.assertEqual(str(messages[-1]), 'No tasks to close.')
