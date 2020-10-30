@@ -3,8 +3,10 @@ from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
 from django.utils import timezone
+from dfirtrack.settings import BASE_DIR
 from dfirtrack_config.models import SystemExporterMarkdownConfigModel
 from dfirtrack_main.models import Dnsname, Domain, Entry, Headline, Ip, Os, Reason, Recommendation, Reportitem, System, Systemstatus, Systemtype, Systemuser
+import filecmp
 import os
 import shutil
 import stat
@@ -304,6 +306,11 @@ class SystemExporterMarkdownViewTestCase(TestCase):
         self.assertFalse(os.path.isfile('/tmp/dfirtrack_test/docs/systems/system_4.md'))
         self.assertTrue(os.path.isfile('/tmp/dfirtrack_test/docs/systems/system_5_domain_2.md'))
         self.assertTrue(os.path.isfile('/tmp/dfirtrack_test/docs/systems/system_6.md'))
+        self.assertTrue(filecmp.cmp('/tmp/dfirtrack_test/docs/systems/system_1_domain_1_20200102_123456.md', os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/test_files/system_exporter_markdown_testfile_system_1.md'), shallow = False))
+        self.assertTrue(filecmp.cmp('/tmp/dfirtrack_test/docs/systems/system_2_domain_2.md', os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/test_files/system_exporter_markdown_testfile_system_2.md'), shallow = False))
+        self.assertTrue(filecmp.cmp('/tmp/dfirtrack_test/docs/systems/system_3.md', os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/test_files/system_exporter_markdown_testfile_system_3.md'), shallow = False))
+        self.assertTrue(filecmp.cmp('/tmp/dfirtrack_test/docs/systems/system_5_domain_2.md', os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/test_files/system_exporter_markdown_testfile_system_5.md'), shallow = False))
+        self.assertTrue(filecmp.cmp('/tmp/dfirtrack_test/docs/systems/system_6.md', os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/test_files/system_exporter_markdown_testfile_system_6.md'), shallow = False))
 
     def test_system_exporter_markdown_domainsorted(self):
         """ test exporter view """
@@ -331,6 +338,11 @@ class SystemExporterMarkdownViewTestCase(TestCase):
         self.assertFalse(os.path.isfile('/tmp/dfirtrack_test/docs/systems/other_domains/system_4.md'))
         self.assertTrue(os.path.isfile('/tmp/dfirtrack_test/docs/systems/domain_2/system_5_domain_2.md'))
         self.assertTrue(os.path.isfile('/tmp/dfirtrack_test/docs/systems/other_domains/system_6.md'))
+        self.assertTrue(filecmp.cmp('/tmp/dfirtrack_test/docs/systems/domain_1/system_1_domain_1_20200102_123456.md', os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/test_files/system_exporter_markdown_testfile_system_1.md'), shallow = False))
+        self.assertTrue(filecmp.cmp('/tmp/dfirtrack_test/docs/systems/domain_2/system_2_domain_2.md', os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/test_files/system_exporter_markdown_testfile_system_2.md'), shallow = False))
+        self.assertTrue(filecmp.cmp('/tmp/dfirtrack_test/docs/systems/other_domains/system_3.md', os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/test_files/system_exporter_markdown_testfile_system_3.md'), shallow = False))
+        self.assertTrue(filecmp.cmp('/tmp/dfirtrack_test/docs/systems/domain_2/system_5_domain_2.md', os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/test_files/system_exporter_markdown_testfile_system_5.md'), shallow = False))
+        self.assertTrue(filecmp.cmp('/tmp/dfirtrack_test/docs/systems/other_domains/system_6.md', os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/test_files/system_exporter_markdown_testfile_system_6.md'), shallow = False))
 
     def test_system_exporter_markdown_clean_directory(self):
         """ test exporter view """
