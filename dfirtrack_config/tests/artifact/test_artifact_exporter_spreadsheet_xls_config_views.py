@@ -99,7 +99,7 @@ class ArtifactExporterSpreadsheetXlsConfigViewTestCase(TestCase):
         # get object
         artifact_exporter_spreadsheet_xls_config_model = ArtifactExporterSpreadsheetXlsConfigModel.objects.get(artifact_exporter_spreadsheet_xls_config_name = 'ArtifactExporterSpreadsheetXlsConfig')
         # compare
-        self.assertEqual(artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_id, False)
+        self.assertFalse(artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_id)
 
     def test_artifact_exporter_spreadsheet_xls_config_post_artifact_id_true(self):
         """ test view """
@@ -119,7 +119,7 @@ class ArtifactExporterSpreadsheetXlsConfigViewTestCase(TestCase):
         # get object
         artifact_exporter_spreadsheet_xls_config_model = ArtifactExporterSpreadsheetXlsConfigModel.objects.get(artifact_exporter_spreadsheet_xls_config_name = 'ArtifactExporterSpreadsheetXlsConfig')
         # compare
-        self.assertEqual(artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_id, True)
+        self.assertTrue(artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_id)
 
     def test_artifact_exporter_spreadsheet_xls_config_post_invalid_reload(self):
         """ test view """

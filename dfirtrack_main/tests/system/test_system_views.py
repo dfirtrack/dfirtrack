@@ -92,7 +92,7 @@ class SystemViewTestCase(TestCase):
         # get response
         response = self.client.get('/system/')
         # compare
-        self.assertEqual(response.context['dfirtrack_api'], True)
+        self.assertTrue(response.context['dfirtrack_api'])
 
     def test_system_list_context_without_api(self):
         """ test list view """
@@ -105,7 +105,7 @@ class SystemViewTestCase(TestCase):
         # get response
         response = self.client.get('/system/')
         # compare
-        self.assertEqual(response.context['dfirtrack_api'], False)
+        self.assertFalse(response.context['dfirtrack_api'])
 
     def test_system_detail_not_logged_in(self):
         """ test detail view """
@@ -184,7 +184,7 @@ class SystemViewTestCase(TestCase):
         # get response
         response = self.client.get('/system/' + str(system_1.system_id) + '/')
         # compare
-        self.assertEqual(response.context['dfirtrack_artifacts'], True)
+        self.assertTrue(response.context['dfirtrack_artifacts'])
 
     def test_system_detail_context_without_artifacts(self):
         """ test detail view """
@@ -199,7 +199,7 @@ class SystemViewTestCase(TestCase):
         # get response
         response = self.client.get('/system/' + str(system_1.system_id) + '/')
         # compare
-        self.assertEqual(response.context['dfirtrack_artifacts'], False)
+        self.assertFalse(response.context['dfirtrack_artifacts'])
 
     def test_system_detail_queryset_context_with_artifacts(self):
         """ test detail view """
@@ -231,7 +231,7 @@ class SystemViewTestCase(TestCase):
         # get response
         response = self.client.get('/system/' + str(system_1.system_id) + '/')
         # compare
-        self.assertEqual(response.context['dfirtrack_api'], True)
+        self.assertTrue(response.context['dfirtrack_api'])
 
     def test_system_detail_context_without_api(self):
         """ test detail view """
@@ -246,7 +246,7 @@ class SystemViewTestCase(TestCase):
         # get response
         response = self.client.get('/system/' + str(system_1.system_id) + '/')
         # compare
-        self.assertEqual(response.context['dfirtrack_api'], False)
+        self.assertFalse(response.context['dfirtrack_api'])
 
     def test_system_add_not_logged_in(self):
         """ test add view """

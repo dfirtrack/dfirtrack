@@ -92,7 +92,7 @@ class MainConfigViewTestCase(TestCase):
         # get object
         main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
         # compare
-        self.assertEqual(main_config_model.system_name_editable, True)
+        self.assertTrue(main_config_model.system_name_editable)
 
     def test_main_config_post_system_name_editable_false(self):
         """ test view """
@@ -106,7 +106,7 @@ class MainConfigViewTestCase(TestCase):
         # get object
         main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
         # compare
-        self.assertEqual(main_config_model.system_name_editable, False)
+        self.assertFalse(main_config_model.system_name_editable)
 
 # TODO: with 'system_name_editable' as the only non-mandatory model attribute, it is not possible to get an invalid form
 # TODO: remove the coverage limitation with further mandatory model attributes in 'dfirtrack_config.views.main_config_editor'

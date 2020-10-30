@@ -147,7 +147,7 @@ class CaseViewTestCase(TestCase):
         # get response
         response = self.client.get('/case/' + str(case_1.case_id) + '/')
         # compare
-        self.assertEqual(response.context['dfirtrack_artifacts'], True)
+        self.assertTrue(response.context['dfirtrack_artifacts'])
 
     def test_case_detail_context_without_artifacts(self):
         """ test detail view """
@@ -162,7 +162,7 @@ class CaseViewTestCase(TestCase):
         # get response
         response = self.client.get('/case/' + str(case_1.case_id) + '/')
         # compare
-        self.assertEqual(response.context['dfirtrack_artifacts'], False)
+        self.assertFalse(response.context['dfirtrack_artifacts'])
 
     def test_case_add_not_logged_in(self):
         """ test add view """
