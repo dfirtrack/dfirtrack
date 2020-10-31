@@ -11,7 +11,7 @@ class TasknameViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create user
-        test_user = User.objects.create_user(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        User.objects.create_user(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
 
         # create object
         Taskname.objects.create(taskname_name='taskname_1')
@@ -453,8 +453,6 @@ class TasknameViewTestCase(TestCase):
         self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
         # create object
         taskname_void = Taskname.objects.create(taskname_name='test_taskname_void')
-        # get object (does not work the usual way because form with available choices is build before model instance is created during the test)
-        taskstatus_done = Taskstatus.objects.get(taskstatus_name='Done')
         # get response
         response = self.client.post('/taskname/' + str(taskname_void.taskname_id) + '/close/')
         # get messages

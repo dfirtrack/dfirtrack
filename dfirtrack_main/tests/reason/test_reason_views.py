@@ -12,7 +12,7 @@ class ReasonViewTestCase(TestCase):
         # create object
         Reason.objects.create(reason_name='reason_1')
         # create user
-        test_user = User.objects.create_user(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        User.objects.create_user(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
 
     def test_reason_list_not_logged_in(self):
         """ test list view """
@@ -285,8 +285,6 @@ class ReasonViewTestCase(TestCase):
         }
         # get response
         response = self.client.post('/reason/add_popup/', data_dict)
-        # get object
-        reason_id = Reason.objects.get(reason_name = 'reason_add_popup_post_test').reason_id
         # compare
         self.assertEqual(response.status_code, 200)
 

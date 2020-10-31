@@ -9,7 +9,7 @@ class SystemCreatorViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create user
-        test_user = User.objects.create_user(username='testuser_system_creator', password='Jbf5fZBhpg1aZsCW6L8r')
+        User.objects.create_user(username='testuser_system_creator', password='Jbf5fZBhpg1aZsCW6L8r')
 
     def test_system_creator_not_logged_in(self):
         """ test creator view """

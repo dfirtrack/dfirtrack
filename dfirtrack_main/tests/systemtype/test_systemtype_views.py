@@ -12,7 +12,7 @@ class SystemtypeViewTestCase(TestCase):
         # create object
         Systemtype.objects.create(systemtype_name='systemtype_1')
         # create user
-        test_user = User.objects.create_user(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
+        User.objects.create_user(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
 
     def test_systemtype_list_not_logged_in(self):
         """ test list view """
@@ -285,8 +285,6 @@ class SystemtypeViewTestCase(TestCase):
         }
         # get response
         response = self.client.post('/systemtype/add_popup/', data_dict)
-        # get object
-        systemtype_id = Systemtype.objects.get(systemtype_name = 'systemtype_add_popup_post_test').systemtype_id
         # compare
         self.assertEqual(response.status_code, 200)
 

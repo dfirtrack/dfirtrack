@@ -9,7 +9,7 @@ class SystemImporterFileCsvConfigbasedViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create user
-        test_user = User.objects.create_user(username='testuser_system_importer_file_csv_config_based', password='URVYUzUig1BrzToryfkm')
+        User.objects.create_user(username='testuser_system_importer_file_csv_config_based', password='URVYUzUig1BrzToryfkm')
 
     def test_system_importer_file_csv_config_based_not_logged_in(self):
         """ test importer view """

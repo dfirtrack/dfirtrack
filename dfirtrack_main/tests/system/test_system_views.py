@@ -4,7 +4,7 @@ from django.test import TestCase
 from django.utils import timezone
 from dfirtrack.settings import INSTALLED_APPS as installed_apps
 from dfirtrack_artifacts.models import Artifact
-from dfirtrack_config.models import MainConfigModel
+#from dfirtrack_config.models import MainConfigModel
 from dfirtrack_main.models import Ip, System, Systemstatus
 import urllib.parse
 
@@ -179,8 +179,6 @@ class SystemViewTestCase(TestCase):
         system_1 = System.objects.get(system_name='system_1')
         # login testuser
         self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
-        # get queryset
-        artifact_queryset = Artifact.objects.filter(system=system_1)
         # get response
         response = self.client.get('/system/' + str(system_1.system_id) + '/')
         # compare
@@ -360,7 +358,7 @@ class SystemViewTestCase(TestCase):
             'iplist': '127.0.0.3\n127.0.0.4',
         }
         # get response
-        response = self.client.post('/system/add/', data_dict)
+        self.client.post('/system/add/', data_dict)
         # get object
         system_1 = System.objects.get(system_name = 'system_add_post_ips_save_valid_test')
         # get objects from system

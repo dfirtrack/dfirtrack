@@ -1,6 +1,6 @@
 from django.contrib import messages
 from dfirtrack_main.logger.default_logger import warning_logger
-from dfirtrack_main.models import Analysisstatus, Case, Company, Dnsname, Domain, Ip, Location, Os, Reason, Serviceprovider, System, Systemstatus, Systemtype, Tag, Tagcolor
+from dfirtrack_main.models import Case, Company, Ip, Tag
 import ipaddress
 
 def check_and_create_ip(column_ip, request, row_counter):

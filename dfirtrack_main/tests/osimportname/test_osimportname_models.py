@@ -16,8 +16,6 @@ class OsimportnameModelTestCase(TestCase):
         """ test string representation """
 
         # get object
-        os_1 = Os.objects.get(os_name='os_1')
-        # get object
         osimportname_1 = Osimportname.objects.get(osimportname_name='osimportname_1')
         # compare
         self.assertEqual(str(osimportname_1), 'osimportname_1 (' + str(osimportname_1.os) + ')')

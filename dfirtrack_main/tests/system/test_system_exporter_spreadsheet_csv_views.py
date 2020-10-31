@@ -9,7 +9,7 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create user
-        test_user = User.objects.create_user(username='testuser_system_exporter_spreadsheet_csv', password='XJzSzgX2q39OUWluwxoj')
+        User.objects.create_user(username='testuser_system_exporter_spreadsheet_csv', password='XJzSzgX2q39OUWluwxoj')
 
     def test_system_exporter_spreadsheet_csv_not_logged_in(self):
         """ test exporter view """

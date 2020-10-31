@@ -13,7 +13,7 @@ class SystemCreatorFormTestCase(TestCase):
         test_user = User.objects.create_user(username='testuser_system_creator', password='HN9KSZUyIx5sWgrX9rIx')
 
         # create object
-        systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
+        Systemstatus.objects.create(systemstatus_name='systemstatus_1')
 
         # create object
         Analysisstatus.objects.create(analysisstatus_name='analysisstatus_1')

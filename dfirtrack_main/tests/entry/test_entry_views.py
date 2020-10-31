@@ -231,8 +231,6 @@ class EntryViewTestCase(TestCase):
         }
         # get response
         response = self.client.post('/entry/add/', data_dict)
-        # get object
-        entry_id = Entry.objects.get(entry_sha1 = '988881adc9fc3655077dc2d4d757d480b5ea0e11').entry_id
         # create url
         destination = urllib.parse.quote('/system/' + str(system_id) + '/', safe='/')
         # compare
@@ -351,8 +349,6 @@ class EntryViewTestCase(TestCase):
         }
         # get response
         response = self.client.post('/entry/' + str(entry_1.entry_id) + '/edit/', data_dict)
-        # get object
-        entry_2 = Entry.objects.get(entry_sha1 = 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb')
         # create url
         destination = urllib.parse.quote('/system/' + str(system_1.system_id) + '/', safe='/')
         # compare

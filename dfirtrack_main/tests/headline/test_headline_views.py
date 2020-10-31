@@ -12,7 +12,7 @@ class HeadlineViewTestCase(TestCase):
         # create object
         Headline.objects.create(headline_name='headline_1')
         # create user
-        test_user = User.objects.create_user(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
+        User.objects.create_user(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
 
     def test_headline_list_not_logged_in(self):
         """ test list view """

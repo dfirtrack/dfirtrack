@@ -12,7 +12,7 @@ class DnsnameViewTestCase(TestCase):
         # create object
         Dnsname.objects.create(dnsname_name='dnsname_1')
         # create user
-        test_user = User.objects.create_user(username='testuser_dnsname', password='TeWFLE2k6lqoC7c6xc0x')
+        User.objects.create_user(username='testuser_dnsname', password='TeWFLE2k6lqoC7c6xc0x')
 
     def test_dnsname_list_not_logged_in(self):
         """ test list view """
@@ -285,8 +285,6 @@ class DnsnameViewTestCase(TestCase):
         }
         # get response
         response = self.client.post('/dnsname/add_popup/', data_dict)
-        # get object
-        dnsname_id = Dnsname.objects.get(dnsname_name = 'dnsname_add_popup_post_test').dnsname_id
         # compare
         self.assertEqual(response.status_code, 200)
 

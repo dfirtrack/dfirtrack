@@ -12,7 +12,7 @@ class DomainViewTestCase(TestCase):
         # create object
         Domain.objects.create(domain_name='domain_1')
         # create user
-        test_user = User.objects.create_user(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        User.objects.create_user(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
 
     def test_domain_list_not_logged_in(self):
         """ test list view """
@@ -285,8 +285,6 @@ class DomainViewTestCase(TestCase):
         }
         # get response
         response = self.client.post('/domain/add_popup/', data_dict)
-        # get object
-        domain_id = Domain.objects.get(domain_name = 'domain_add_popup_post_test').domain_id
         # compare
         self.assertEqual(response.status_code, 200)
 

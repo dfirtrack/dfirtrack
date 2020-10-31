@@ -225,8 +225,6 @@ class AnalystmemoViewTestCase(TestCase):
         }
         # get response
         response = self.client.post('/analystmemo/add/', data_dict)
-        # get object
-        analystmemo_id = Analystmemo.objects.get(analystmemo_note = 'analystmemo_add_post_test').analystmemo_id
         # create url
         destination = urllib.parse.quote('/system/' + str(system_id) + '/', safe='/')
         # compare
@@ -341,8 +339,6 @@ class AnalystmemoViewTestCase(TestCase):
         }
         # get response
         response = self.client.post('/analystmemo/' + str(analystmemo_1.analystmemo_id) + '/edit/', data_dict)
-        # get object
-        analystmemo_2 = Analystmemo.objects.get(analystmemo_note='analystmemo_edit_post_test_2')
         # create url
         destination = urllib.parse.quote('/system/' + str(system_1.system_id) + '/', safe='/')
         # compare

@@ -14,7 +14,7 @@ class OsimportnameViewTestCase(TestCase):
         # create object
         Osimportname.objects.create(osimportname_name='osimportname_1', osimportname_importer='osimportname_importer_1', os = os_1)
         # create user
-        test_user = User.objects.create_user(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
+        User.objects.create_user(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
 
     def test_osimportname_list_not_logged_in(self):
         """ test list view """

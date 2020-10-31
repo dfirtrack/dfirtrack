@@ -12,7 +12,7 @@ class ContactViewTestCase(TestCase):
         # create object
         Contact.objects.create(contact_name='contact_1', contact_email='contact_1@example.org')
         # create user
-        test_user = User.objects.create_user(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        User.objects.create_user(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
 
     def test_contact_list_not_logged_in(self):
         """ test list view """
@@ -287,8 +287,6 @@ class ContactViewTestCase(TestCase):
         }
         # get response
         response = self.client.post('/contact/add_popup/', data_dict)
-        # get object
-        contact_id = Contact.objects.get(contact_name = 'contact_add_popup_post_test').contact_id
         # compare
         self.assertEqual(response.status_code, 200)
 

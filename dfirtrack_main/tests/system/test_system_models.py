@@ -16,7 +16,7 @@ class SystemModelTestCase(TestCase):
         systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
 
         # create object
-        system_1 = System.objects.create(
+        System.objects.create(
             system_name = 'system_1',
             systemstatus = systemstatus_1,
             system_modify_time = timezone.now(),
@@ -25,7 +25,7 @@ class SystemModelTestCase(TestCase):
         )
 
         # create object
-        system_2 = System.objects.create(
+        System.objects.create(
             system_name = 'system_2',
             systemstatus = systemstatus_1,
             system_install_time = timezone.now(),

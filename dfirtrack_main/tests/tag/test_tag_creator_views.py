@@ -9,7 +9,7 @@ class TagCreatorViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create user
-        test_user = User.objects.create_user(username='testuser_tag_creator', password='X4zm4Em28xrKgVMBpsWF')
+        User.objects.create_user(username='testuser_tag_creator', password='X4zm4Em28xrKgVMBpsWF')
 
     def test_tag_creator_not_logged_in(self):
         """ test creator view """

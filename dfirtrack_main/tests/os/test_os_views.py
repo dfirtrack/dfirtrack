@@ -12,7 +12,7 @@ class OsViewTestCase(TestCase):
         # create object
         Os.objects.create(os_name='os_1')
         # create user
-        test_user = User.objects.create_user(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
+        User.objects.create_user(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
 
     def test_os_list_not_logged_in(self):
         """ test list view """
@@ -284,8 +284,6 @@ class OsViewTestCase(TestCase):
         }
         # get response
         response = self.client.post('/os/add_popup/', data_dict)
-        # get object
-        os_id = Os.objects.get(os_name = 'os_add_popup_post_test').os_id
         # compare
         self.assertEqual(response.status_code, 200)
 

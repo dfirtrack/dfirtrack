@@ -296,7 +296,7 @@ class SystemExporterMarkdownViewTestCase(TestCase):
         system_exporter_markdown_config_model.markdown_sorting = 'sys'
         system_exporter_markdown_config_model.save()
         # get response
-        response = self.client.get('/system/exporter/markdown/system/', follow=True)
+        self.client.get('/system/exporter/markdown/system/', follow=True)
         # compare
         self.assertTrue(os.path.exists('/tmp/dfirtrack_test/docs/systems/'))
         self.assertTrue(os.path.isfile('/tmp/dfirtrack_test//mkdocs.yml'))
@@ -325,7 +325,7 @@ class SystemExporterMarkdownViewTestCase(TestCase):
         system_exporter_markdown_config_model.markdown_sorting = 'dom'
         system_exporter_markdown_config_model.save()
         # get response
-        response = self.client.get('/system/exporter/markdown/system/', follow=True)
+        self.client.get('/system/exporter/markdown/system/', follow=True)
         # compare
         self.assertTrue(os.path.exists('/tmp/dfirtrack_test/docs/systems/'))
         self.assertTrue(os.path.exists('/tmp/dfirtrack_test/docs/systems/domain_1/'))
@@ -356,6 +356,6 @@ class SystemExporterMarkdownViewTestCase(TestCase):
         system_exporter_markdown_config_model.markdown_path = '/tmp/dfirtrack_test'
         system_exporter_markdown_config_model.save()
         # get response
-        response = self.client.get('/system/exporter/markdown/system/', follow=True)
+        self.client.get('/system/exporter/markdown/system/', follow=True)
         # compare
         self.assertTrue(os.path.exists('/tmp/dfirtrack_test/docs/systems/'))

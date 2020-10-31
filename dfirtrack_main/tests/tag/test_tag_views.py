@@ -14,7 +14,7 @@ class TagViewTestCase(TestCase):
         # create object
         Tag.objects.create(tag_name='tag_1', tagcolor = tagcolor_1)
         # create user
-        test_user = User.objects.create_user(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        User.objects.create_user(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
 
     def test_tag_list_not_logged_in(self):
         """ test list view """

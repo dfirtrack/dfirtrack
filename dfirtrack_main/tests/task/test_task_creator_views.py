@@ -9,7 +9,7 @@ class TaskCreatorViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create user
-        test_user = User.objects.create_user(username='testuser_task_creator', password='E5BGU4meULjw7kdtvnzn')
+        User.objects.create_user(username='testuser_task_creator', password='E5BGU4meULjw7kdtvnzn')
 
     def test_task_creator_not_logged_in(self):
         """ test creator view """

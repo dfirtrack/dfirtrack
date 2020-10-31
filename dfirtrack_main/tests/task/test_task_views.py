@@ -17,7 +17,7 @@ class TaskViewTestCase(TestCase):
         systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
 
         # create object
-        system_1 = System.objects.create(
+        System.objects.create(
             system_name='system_1',
             systemstatus = systemstatus_1,
             system_modify_time = timezone.now(),
@@ -340,10 +340,6 @@ class TaskViewTestCase(TestCase):
         }
         # get response
         response = self.client.post('/task/add/?system=' + str(system_id), data_dict)
-        # get object
-        taskname = Taskname.objects.get(taskname_name = 'task_add_post_test')
-        # get object
-        task_id = Task.objects.get(taskname = taskname).task_id
         # create url
         destination = urllib.parse.quote('/system/' + str(system_id) + '/', safe='/')
         # compare
@@ -395,7 +391,7 @@ class TaskViewTestCase(TestCase):
             'task_modified_by_user_id': test_user_id,
         }
         # get response
-        response = self.client.post('/task/add/', data_dict)
+        self.client.post('/task/add/', data_dict)
         # get object
         taskname = Taskname.objects.get(taskname_name = 'task_add_started_time_working')
         # get object
@@ -425,7 +421,7 @@ class TaskViewTestCase(TestCase):
             'task_modified_by_user_id': test_user_id,
         }
         # get response
-        response = self.client.post('/task/add/', data_dict)
+        self.client.post('/task/add/', data_dict)
         # get object
         taskname = Taskname.objects.get(taskname_name = 'task_add_started_time_done')
         # get object
@@ -455,7 +451,7 @@ class TaskViewTestCase(TestCase):
             'task_modified_by_user_id': test_user_id,
         }
         # get response
-        response = self.client.post('/task/add/', data_dict)
+        self.client.post('/task/add/', data_dict)
         # get object
         taskname = Taskname.objects.get(taskname_name = 'task_add_finished_time_done')
         # get object
@@ -608,8 +604,6 @@ class TaskViewTestCase(TestCase):
         }
         # get response
         response = self.client.post('/task/' + str(task_1.task_id) + '/edit/?system=' + str(system_id), data_dict)
-        # get object
-        task_2 = Task.objects.get(taskname = taskname_2)
         # create url
         destination = urllib.parse.quote('/system/' + str(system_id) + '/', safe='/')
         # compare
@@ -680,7 +674,7 @@ class TaskViewTestCase(TestCase):
             'task_modified_by_user_id': test_user.id,
         }
         # get response
-        response = self.client.post('/task/' + str(task_1.task_id) + '/edit/', data_dict)
+        self.client.post('/task/' + str(task_1.task_id) + '/edit/', data_dict)
         # get object
         task_2 = Task.objects.get(taskname = taskname_1)
         # compare
@@ -719,7 +713,7 @@ class TaskViewTestCase(TestCase):
             'task_modified_by_user_id': test_user.id,
         }
         # get response
-        response = self.client.post('/task/' + str(task_1.task_id) + '/edit/', data_dict)
+        self.client.post('/task/' + str(task_1.task_id) + '/edit/', data_dict)
         # get object
         task_2 = Task.objects.get(taskname = taskname_1)
         # compare
@@ -756,7 +750,7 @@ class TaskViewTestCase(TestCase):
             'task_modified_by_user_id': test_user.id,
         }
         # get response
-        response = self.client.post('/task/' + str(task_1.task_id) + '/edit/', data_dict)
+        self.client.post('/task/' + str(task_1.task_id) + '/edit/', data_dict)
         # get object
         task_2 = Task.objects.get(taskname = taskname_1)
         # compare
@@ -795,7 +789,7 @@ class TaskViewTestCase(TestCase):
             'task_modified_by_user_id': test_user.id,
         }
         # get response
-        response = self.client.post('/task/' + str(task_1.task_id) + '/edit/', data_dict)
+        self.client.post('/task/' + str(task_1.task_id) + '/edit/', data_dict)
         # get object
         task_2 = Task.objects.get(taskname = taskname_1)
         # compare
@@ -832,7 +826,7 @@ class TaskViewTestCase(TestCase):
             'task_modified_by_user_id': test_user.id,
         }
         # get response
-        response = self.client.post('/task/' + str(task_1.task_id) + '/edit/', data_dict)
+        self.client.post('/task/' + str(task_1.task_id) + '/edit/', data_dict)
         # get object
         task_2 = Task.objects.get(taskname = taskname_1)
         # compare
@@ -869,7 +863,7 @@ class TaskViewTestCase(TestCase):
             'task_modified_by_user_id': test_user.id,
         }
         # get response
-        response = self.client.post('/task/' + str(task_1.task_id) + '/edit/', data_dict)
+        self.client.post('/task/' + str(task_1.task_id) + '/edit/', data_dict)
         # get object
         task_2 = Task.objects.get(taskname = taskname_1)
         # compare
@@ -931,7 +925,7 @@ class TaskViewTestCase(TestCase):
             task_modified_by_user_id = test_user,
         )
         # get response
-        response = self.client.get('/task/' + str(task_task_start.task_id) + '/start/')
+        self.client.get('/task/' + str(task_task_start.task_id) + '/start/')
         # get object
         task_started = Task.objects.get(task_id = task_task_start.task_id)
         # get object
@@ -961,7 +955,7 @@ class TaskViewTestCase(TestCase):
             task_modified_by_user_id = test_user,
         )
         # get response
-        response = self.client.get('/task/' + str(task_task_start.task_id) + '/start/')
+        self.client.get('/task/' + str(task_task_start.task_id) + '/start/')
         # get object
         task_started = Task.objects.get(task_id = task_task_start.task_id)
         # compare
@@ -1023,7 +1017,7 @@ class TaskViewTestCase(TestCase):
             task_modified_by_user_id = test_user,
         )
         # get response
-        response = self.client.get('/task/' + str(task_task_finish.task_id) + '/finish/')
+        self.client.get('/task/' + str(task_task_finish.task_id) + '/finish/')
         # get object
         task_finished = Task.objects.get(task_id = task_task_finish.task_id)
         # get object
@@ -1053,7 +1047,7 @@ class TaskViewTestCase(TestCase):
             task_modified_by_user_id = test_user,
         )
         # get response
-        response = self.client.get('/task/' + str(task_task_finish.task_id) + '/finish/')
+        self.client.get('/task/' + str(task_task_finish.task_id) + '/finish/')
         # get object
         task_finished = Task.objects.get(task_id = task_task_finish.task_id)
         # compare
@@ -1081,7 +1075,7 @@ class TaskViewTestCase(TestCase):
             task_modified_by_user_id = test_user,
         )
         # get response
-        response = self.client.get('/task/' + str(task_task_finish.task_id) + '/finish/')
+        self.client.get('/task/' + str(task_task_finish.task_id) + '/finish/')
         # get object
         task_finished = Task.objects.get(task_id = task_task_finish.task_id)
         # compare
@@ -1143,7 +1137,7 @@ class TaskViewTestCase(TestCase):
             task_modified_by_user_id = test_user,
         )
         # get response
-        response = self.client.get('/task/' + str(task_task_renew.task_id) + '/renew/')
+        self.client.get('/task/' + str(task_task_renew.task_id) + '/renew/')
         # get object
         task_renewed = Task.objects.get(task_id = task_task_renew.task_id)
         # get object
@@ -1174,7 +1168,7 @@ class TaskViewTestCase(TestCase):
             task_assigned_to_user_id = test_user,
         )
         # get response
-        response = self.client.get('/task/' + str(task_task_renew.task_id) + '/renew/')
+        self.client.get('/task/' + str(task_task_renew.task_id) + '/renew/')
         # get object
         task_renewed = Task.objects.get(task_id = task_task_renew.task_id)
         # compare
@@ -1203,7 +1197,7 @@ class TaskViewTestCase(TestCase):
             task_started_time = timezone.now(),
         )
         # get response
-        response = self.client.get('/task/' + str(task_task_renew.task_id) + '/renew/')
+        self.client.get('/task/' + str(task_task_renew.task_id) + '/renew/')
         # get object
         task_renewed = Task.objects.get(task_id = task_task_renew.task_id)
         # compare
@@ -1232,7 +1226,7 @@ class TaskViewTestCase(TestCase):
             task_finished_time = timezone.now(),
         )
         # get response
-        response = self.client.get('/task/' + str(task_task_renew.task_id) + '/renew/')
+        self.client.get('/task/' + str(task_task_renew.task_id) + '/renew/')
         # get object
         task_renewed = Task.objects.get(task_id = task_task_renew.task_id)
         # compare
@@ -1294,7 +1288,7 @@ class TaskViewTestCase(TestCase):
             task_modified_by_user_id = test_user,
         )
         # get response
-        response = self.client.get('/task/' + str(task_task_set_user.task_id) + '/set_user/')
+        self.client.get('/task/' + str(task_task_set_user.task_id) + '/set_user/')
         # get object
         task_set_user = Task.objects.get(task_id = task_task_set_user.task_id)
         # compare
@@ -1357,7 +1351,7 @@ class TaskViewTestCase(TestCase):
             task_assigned_to_user_id = test_user,
         )
         # get response
-        response = self.client.get('/task/' + str(task_task_unset_user.task_id) + '/unset_user/')
+        self.client.get('/task/' + str(task_task_unset_user.task_id) + '/unset_user/')
         # get object
         task_unset_user = Task.objects.get(task_id = task_task_unset_user.task_id)
         # compare

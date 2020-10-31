@@ -232,8 +232,6 @@ class ReportitemViewTestCase(TestCase):
         }
         # get response
         response = self.client.post('/reportitem/add/', data_dict)
-        # get object
-        reportitem_id = Reportitem.objects.get(reportitem_note = 'reportitem_add_post_test').reportitem_id
         # create url
         destination = urllib.parse.quote('/system/' + str(system_id) + '/', safe='/')
         # compare
@@ -352,8 +350,6 @@ class ReportitemViewTestCase(TestCase):
         }
         # get response
         response = self.client.post('/reportitem/' + str(reportitem_1.reportitem_id) + '/edit/', data_dict)
-        # get object
-        reportitem_2 = Reportitem.objects.get(reportitem_note='reportitem_edit_post_test_2')
         # create url
         destination = urllib.parse.quote('/system/' + str(system_1.system_id) + '/', safe='/')
         # compare

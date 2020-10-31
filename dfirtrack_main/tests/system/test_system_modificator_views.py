@@ -9,7 +9,7 @@ class SystemModificatorViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create user
-        test_user = User.objects.create_user(username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G')
+        User.objects.create_user(username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G')
 
     def test_system_modificator_not_logged_in(self):
         """ test modificator view """

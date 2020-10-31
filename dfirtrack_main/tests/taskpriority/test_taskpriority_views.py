@@ -12,7 +12,7 @@ class TaskpriorityViewTestCase(TestCase):
         # create object
         Taskpriority.objects.create(taskpriority_name='prio_1')
         # create user
-        test_user = User.objects.create_user(username='testuser_taskpriority', password='VxuP85UUDkfXwRuwRFqA')
+        User.objects.create_user(username='testuser_taskpriority', password='VxuP85UUDkfXwRuwRFqA')
 
     def test_taskpriority_list_not_logged_in(self):
         """ test list view """

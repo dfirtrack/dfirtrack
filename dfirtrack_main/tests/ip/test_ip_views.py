@@ -12,7 +12,7 @@ class IpViewTestCase(TestCase):
         # create object
         Ip.objects.create(ip_ip='127.0.0.1')
         # create user
-        test_user = User.objects.create_user(username='testuser_ip', password='pRs9Ap7oc9W0yjLfnP2Y')
+        User.objects.create_user(username='testuser_ip', password='pRs9Ap7oc9W0yjLfnP2Y')
 
     def test_ip_list_not_logged_in(self):
         """ test list view """

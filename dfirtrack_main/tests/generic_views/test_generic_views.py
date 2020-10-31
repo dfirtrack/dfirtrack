@@ -9,7 +9,7 @@ class GenericViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create user
-        test_user = User.objects.create_user(username='testuser_generic_views', password='D9lPsoHFXeCNKEzM3IgE')
+        User.objects.create_user(username='testuser_generic_views', password='D9lPsoHFXeCNKEzM3IgE')
 
     def test_about_view_not_logged_in(self):
         """ test generic view """

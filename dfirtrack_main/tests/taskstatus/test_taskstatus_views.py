@@ -12,7 +12,7 @@ class TaskstatusViewTestCase(TestCase):
         # create object
         Taskstatus.objects.create(taskstatus_name='taskstatus_1')
         # create user
-        test_user = User.objects.create_user(username='testuser_taskstatus', password='TZjmjiUQviOnIEral6l9')
+        User.objects.create_user(username='testuser_taskstatus', password='TZjmjiUQviOnIEral6l9')
 
     def test_taskstatus_list_not_logged_in(self):
         """ test list view """

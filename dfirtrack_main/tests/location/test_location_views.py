@@ -12,7 +12,7 @@ class LocationViewTestCase(TestCase):
         # create object
         Location.objects.create(location_name='location_1')
         # create user
-        test_user = User.objects.create_user(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        User.objects.create_user(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
 
     def test_location_list_not_logged_in(self):
         """ test list view """
@@ -285,8 +285,6 @@ class LocationViewTestCase(TestCase):
         }
         # get response
         response = self.client.post('/location/add_popup/', data_dict)
-        # get object
-        location_id = Location.objects.get(location_name = 'location_add_popup_post_test').location_id
         # compare
         self.assertEqual(response.status_code, 200)
 

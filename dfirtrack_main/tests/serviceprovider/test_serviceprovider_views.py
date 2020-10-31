@@ -12,7 +12,7 @@ class ServiceproviderViewTestCase(TestCase):
         # create object
         Serviceprovider.objects.create(serviceprovider_name='serviceprovider_1')
         # create user
-        test_user = User.objects.create_user(username='testuser_serviceprovider', password='KxVbBhKZcvh6IcQUGjr0')
+        User.objects.create_user(username='testuser_serviceprovider', password='KxVbBhKZcvh6IcQUGjr0')
 
     def test_serviceprovider_list_not_logged_in(self):
         """ test list view """
@@ -285,8 +285,6 @@ class ServiceproviderViewTestCase(TestCase):
         }
         # get response
         response = self.client.post('/serviceprovider/add_popup/', data_dict)
-        # get object
-        serviceprovider_id = Serviceprovider.objects.get(serviceprovider_name = 'serviceprovider_add_popup_post_test').serviceprovider_id
         # compare
         self.assertEqual(response.status_code, 200)
 

@@ -12,7 +12,7 @@ class CompanyViewTestCase(TestCase):
         # create object
         Company.objects.create(company_name='company_1')
         # create user
-        test_user = User.objects.create_user(username='testuser_company', password='MbJfulGWGKeqceBtN9Mi')
+        User.objects.create_user(username='testuser_company', password='MbJfulGWGKeqceBtN9Mi')
 
     def test_company_list_not_logged_in(self):
         """ test list view """
@@ -285,8 +285,6 @@ class CompanyViewTestCase(TestCase):
         }
         # get response
         response = self.client.post('/company/add_popup/', data_dict)
-        # get object
-        company_id = Company.objects.get(company_name = 'company_add_popup_post_test').company_id
         # compare
         self.assertEqual(response.status_code, 200)
 

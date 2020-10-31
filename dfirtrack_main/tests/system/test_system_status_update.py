@@ -14,11 +14,11 @@ class SystemStatusUpdateModelTestCase(TestCase):
 
         # create objects
         systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
-        systemstatus_2 = Systemstatus.objects.create(systemstatus_name='systemstatus_2')
+        Systemstatus.objects.create(systemstatus_name='systemstatus_2')
 
         # create objects
         analysisstatus_1 = Analysisstatus.objects.create(analysisstatus_name='analysisstatus_1')
-        analysisstatus_2 = Analysisstatus.objects.create(analysisstatus_name='analysisstatus_2')
+        Analysisstatus.objects.create(analysisstatus_name='analysisstatus_2')
 
         # create object
         System.objects.create(

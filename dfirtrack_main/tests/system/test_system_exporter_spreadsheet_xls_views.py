@@ -9,7 +9,7 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create user
-        test_user = User.objects.create_user(username='testuser_system_exporter_spreadsheet_xls', password='AIsOtQ2zchYhNZBfWIHu')
+        User.objects.create_user(username='testuser_system_exporter_spreadsheet_xls', password='AIsOtQ2zchYhNZBfWIHu')
 
     def test_system_exporter_spreadsheet_xls_not_logged_in(self):
         """ test exporter view """
