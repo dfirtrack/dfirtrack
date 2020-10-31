@@ -20,10 +20,10 @@ def clean_markdown_path(markdown_path):
         # remove markdown directory (recursivly)
         shutil.rmtree(markdown_path)
         # recreate markdown directory
-        os.mkdir(markdown_path)
+        os.makedirs(markdown_path)
     else:
         # create markdown directory
-        os.mkdir(markdown_path)
+        os.makedirs(markdown_path)
 
 def remove_markdown_path(markdown_path):
     """ helper function """
@@ -41,11 +41,11 @@ def change_permission_markdown_path(markdown_path):
         # remove markdown directory (recursivly)
         shutil.rmtree(markdown_path)
         # recreate markdown directory
-        os.mkdir(markdown_path)
+        os.makedirs(markdown_path)
         os.chmod(markdown_path, stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
     else:
         # create markdown directory
-        os.mkdir(markdown_path)
+        os.makedirs(markdown_path)
         os.chmod(markdown_path, stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
 
 class SystemExporterMarkdownViewTestCase(TestCase):
