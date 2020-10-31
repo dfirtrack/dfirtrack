@@ -43,7 +43,7 @@ class SystemViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get response
         response = self.client.get('/system/')
         # compare
@@ -53,7 +53,7 @@ class SystemViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get response
         response = self.client.get('/system/')
         # compare
@@ -63,7 +63,7 @@ class SystemViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get response
         response = self.client.get('/system/')
         # compare
@@ -73,7 +73,7 @@ class SystemViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -88,7 +88,7 @@ class SystemViewTestCase(TestCase):
         if 'dfirtrack_api' not in installed_apps:
             installed_apps.append('dfirtrack_api')
         # login testuser
-        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get response
         response = self.client.get('/system/')
         # compare
@@ -101,7 +101,7 @@ class SystemViewTestCase(TestCase):
         if 'dfirtrack_api' in installed_apps:
             installed_apps.remove('dfirtrack_api')
         # login testuser
-        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get response
         response = self.client.get('/system/')
         # compare
@@ -125,7 +125,7 @@ class SystemViewTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # login testuser
-        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get response
         response = self.client.get('/system/' + str(system_1.system_id) + '/')
         # compare
@@ -137,7 +137,7 @@ class SystemViewTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # login testuser
-        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get response
         response = self.client.get('/system/' + str(system_1.system_id) + '/')
         # compare
@@ -149,7 +149,7 @@ class SystemViewTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # login testuser
-        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get response
         response = self.client.get('/system/' + str(system_1.system_id) + '/')
         # compare
@@ -161,7 +161,7 @@ class SystemViewTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # login testuser
-        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # create url
         destination = urllib.parse.quote('/system/' + str(system_1.system_id) + '/', safe='/')
         # get response
@@ -178,7 +178,7 @@ class SystemViewTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # login testuser
-        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get queryset
         artifact_queryset = Artifact.objects.filter(system=system_1)
         # get response
@@ -195,7 +195,7 @@ class SystemViewTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # login testuser
-        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get response
         response = self.client.get('/system/' + str(system_1.system_id) + '/')
         # compare
@@ -210,7 +210,7 @@ class SystemViewTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # login testuser
-        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get queryset
         artifact_queryset = Artifact.objects.filter(system=system_1)
         # get response
@@ -227,7 +227,7 @@ class SystemViewTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # login testuser
-        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get response
         response = self.client.get('/system/' + str(system_1.system_id) + '/')
         # compare
@@ -242,7 +242,7 @@ class SystemViewTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # login testuser
-        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get response
         response = self.client.get('/system/' + str(system_1.system_id) + '/')
         # compare
@@ -262,7 +262,7 @@ class SystemViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get response
         response = self.client.get('/system/add/')
         # compare
@@ -272,7 +272,7 @@ class SystemViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get response
         response = self.client.get('/system/add/')
         # compare
@@ -282,7 +282,7 @@ class SystemViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get response
         response = self.client.get('/system/add/')
         # compare
@@ -292,7 +292,7 @@ class SystemViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # create url
         destination = urllib.parse.quote('/system/add/', safe='/')
         # get response
@@ -304,7 +304,7 @@ class SystemViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get object
         systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
         # create post data
@@ -326,7 +326,7 @@ class SystemViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # create post data
         data_dict = {}
         # get response
@@ -338,7 +338,7 @@ class SystemViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # create post data
         data_dict = {}
         # get response
@@ -350,7 +350,7 @@ class SystemViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get object
         systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
         # create post data
@@ -377,7 +377,7 @@ class SystemViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get object
         systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
         # create post data
@@ -397,7 +397,7 @@ class SystemViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get object
         systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
         # create post data
@@ -417,7 +417,7 @@ class SystemViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # create object
         Ip.objects.create(ip_ip = '127.0.0.7')
         # get object
@@ -453,7 +453,7 @@ class SystemViewTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # login testuser
-        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get response
         response = self.client.get('/system/' + str(system_1.system_id) + '/edit/')
         # compare
@@ -465,7 +465,7 @@ class SystemViewTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # login testuser
-        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get response
         response = self.client.get('/system/' + str(system_1.system_id) + '/edit/')
         # compare
@@ -477,7 +477,7 @@ class SystemViewTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # login testuser
-        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get response
         response = self.client.get('/system/' + str(system_1.system_id) + '/edit/')
         # compare
@@ -489,7 +489,7 @@ class SystemViewTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # login testuser
-        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # create url
         destination = urllib.parse.quote('/system/' + str(system_1.system_id) + '/edit/', safe='/')
         # get response
@@ -509,7 +509,7 @@ class SystemViewTestCase(TestCase):
         system_1.ip.add(ip_1)
         system_1.ip.add(ip_2)
         # login testuser
-        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get response
         response = self.client.get('/system/' + str(system_1.system_id) + '/edit/')
         # compare
@@ -519,7 +519,7 @@ class SystemViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get user
         test_user = User.objects.get(username = 'testuser_system')
         # get object
@@ -553,7 +553,7 @@ class SystemViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get object
         system_id = System.objects.get(system_name='system_1').system_id
         # create post data
@@ -567,7 +567,7 @@ class SystemViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get object
         system_id = System.objects.get(system_name='system_1').system_id
         # create post data
@@ -582,7 +582,7 @@ class SystemViewTestCase(TestCase):
 #        """ test edit view """
 #
 #        # login testuser
-#        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+#        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
 #        # get config model
 #        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
 #        # set config model
@@ -619,7 +619,7 @@ class SystemViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get user
         test_user = User.objects.get(username = 'testuser_system')
         # get object

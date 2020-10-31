@@ -9,7 +9,7 @@ class SystemExporterSpreadsheetXlsConfigViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create user
-        test_user = User.objects.create_user(username='testuser_system_exporter_spreadsheet_xls_config', password='dNpRr2hEnnj147CgNhWM')
+        User.objects.create_user(username='testuser_system_exporter_spreadsheet_xls_config', password='dNpRr2hEnnj147CgNhWM')
 
     def test_system_exporter_spreadsheet_xls_config_not_logged_in(self):
         """ test exporter view """
@@ -25,7 +25,7 @@ class SystemExporterSpreadsheetXlsConfigViewTestCase(TestCase):
         """ test view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_exporter_spreadsheet_xls_config', password='dNpRr2hEnnj147CgNhWM')
+        self.client.login(username='testuser_system_exporter_spreadsheet_xls_config', password='dNpRr2hEnnj147CgNhWM')
         # get response
         response = self.client.get('/config/system/exporter/spreadsheet/xls/')
         # compare
@@ -35,7 +35,7 @@ class SystemExporterSpreadsheetXlsConfigViewTestCase(TestCase):
         """ test exporter view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_exporter_spreadsheet_xls_config', password='dNpRr2hEnnj147CgNhWM')
+        self.client.login(username='testuser_system_exporter_spreadsheet_xls_config', password='dNpRr2hEnnj147CgNhWM')
         # get response
         response = self.client.get('/config/system/exporter/spreadsheet/xls/')
         # compare
@@ -45,7 +45,7 @@ class SystemExporterSpreadsheetXlsConfigViewTestCase(TestCase):
         """ test exporter view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_exporter_spreadsheet_xls_config', password='dNpRr2hEnnj147CgNhWM')
+        self.client.login(username='testuser_system_exporter_spreadsheet_xls_config', password='dNpRr2hEnnj147CgNhWM')
         # get response
         response = self.client.get('/config/system/exporter/spreadsheet/xls/')
         # compare
@@ -55,7 +55,7 @@ class SystemExporterSpreadsheetXlsConfigViewTestCase(TestCase):
         """ test view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_exporter_spreadsheet_xls_config', password='dNpRr2hEnnj147CgNhWM')
+        self.client.login(username='testuser_system_exporter_spreadsheet_xls_config', password='dNpRr2hEnnj147CgNhWM')
         # create url
         destination = urllib.parse.quote('/config/system/exporter/spreadsheet/xls/', safe='/')
         # get response
@@ -67,7 +67,7 @@ class SystemExporterSpreadsheetXlsConfigViewTestCase(TestCase):
         """ test view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_exporter_spreadsheet_xls_config', password='dNpRr2hEnnj147CgNhWM')
+        self.client.login(username='testuser_system_exporter_spreadsheet_xls_config', password='dNpRr2hEnnj147CgNhWM')
         # create post data
         data_dict = {
             'spread_xls_system_id': 'on',
@@ -83,7 +83,7 @@ class SystemExporterSpreadsheetXlsConfigViewTestCase(TestCase):
 #        """ test view """
 #
 #        # login testuser
-#        login = self.client.login(username='testuser_system_exporter_spreadsheet_xls_config', password='dNpRr2hEnnj147CgNhWM')
+#        self.client.login(username='testuser_system_exporter_spreadsheet_xls_config', password='dNpRr2hEnnj147CgNhWM')
 #        # create post data
 #        data_dict = {}
 #        # get response
@@ -95,7 +95,7 @@ class SystemExporterSpreadsheetXlsConfigViewTestCase(TestCase):
 #        """ test view """
 #
 #        # login testuser
-#        login = self.client.login(username='testuser_system_exporter_spreadsheet_xls_config', password='dNpRr2hEnnj147CgNhWM')
+#        self.client.login(username='testuser_system_exporter_spreadsheet_xls_config', password='dNpRr2hEnnj147CgNhWM')
 #        # create post data
 #        data_dict = {}
 #        # get response

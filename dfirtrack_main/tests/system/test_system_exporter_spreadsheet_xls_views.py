@@ -25,7 +25,7 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
         """ test exporter view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_exporter_spreadsheet_xls', password='AIsOtQ2zchYhNZBfWIHu')
+        self.client.login(username='testuser_system_exporter_spreadsheet_xls', password='AIsOtQ2zchYhNZBfWIHu')
         # get response
         response = self.client.get('/system/exporter/spreadsheet/xls/system/')
         # compare
@@ -35,7 +35,7 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
         """ test exporter view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_exporter_spreadsheet_xls', password='AIsOtQ2zchYhNZBfWIHu')
+        self.client.login(username='testuser_system_exporter_spreadsheet_xls', password='AIsOtQ2zchYhNZBfWIHu')
         # create url
         destination = urllib.parse.quote('/system/exporter/spreadsheet/xls/system/', safe='/')
         # get response

@@ -25,7 +25,7 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         """ test exporter view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_exporter_spreadsheet_csv', password='XJzSzgX2q39OUWluwxoj')
+        self.client.login(username='testuser_system_exporter_spreadsheet_csv', password='XJzSzgX2q39OUWluwxoj')
         # get response
         response = self.client.get('/system/exporter/spreadsheet/csv/system/')
         # compare
@@ -35,7 +35,7 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         """ test exporter view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_exporter_spreadsheet_csv', password='XJzSzgX2q39OUWluwxoj')
+        self.client.login(username='testuser_system_exporter_spreadsheet_csv', password='XJzSzgX2q39OUWluwxoj')
         # create url
         destination = urllib.parse.quote('/system/exporter/spreadsheet/csv/system/', safe='/')
         # get response

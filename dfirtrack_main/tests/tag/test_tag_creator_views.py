@@ -25,7 +25,7 @@ class TagCreatorViewTestCase(TestCase):
         """ test creator view """
 
         # login testuser
-        login = self.client.login(username='testuser_tag_creator', password='X4zm4Em28xrKgVMBpsWF')
+        self.client.login(username='testuser_tag_creator', password='X4zm4Em28xrKgVMBpsWF')
         # get response
         response = self.client.get('/tag/creator/')
         # compare
@@ -35,7 +35,7 @@ class TagCreatorViewTestCase(TestCase):
         """ test creator view """
 
         # login testuser
-        login = self.client.login(username='testuser_tag_creator', password='X4zm4Em28xrKgVMBpsWF')
+        self.client.login(username='testuser_tag_creator', password='X4zm4Em28xrKgVMBpsWF')
         # get response
         response = self.client.get('/tag/creator/')
         # compare
@@ -45,7 +45,7 @@ class TagCreatorViewTestCase(TestCase):
         """ test creator view """
 
         # login testuser
-        login = self.client.login(username='testuser_tag_creator', password='X4zm4Em28xrKgVMBpsWF')
+        self.client.login(username='testuser_tag_creator', password='X4zm4Em28xrKgVMBpsWF')
         # get response
         response = self.client.get('/tag/creator/')
         # compare
@@ -55,7 +55,7 @@ class TagCreatorViewTestCase(TestCase):
         """ test creator view """
 
         # login testuser
-        login = self.client.login(username='testuser_tag_creator', password='X4zm4Em28xrKgVMBpsWF')
+        self.client.login(username='testuser_tag_creator', password='X4zm4Em28xrKgVMBpsWF')
         # create url
         destination = urllib.parse.quote('/tag/creator/', safe='/')
         # get response

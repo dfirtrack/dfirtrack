@@ -12,7 +12,7 @@ class OsarchAPIViewTestCase(TestCase):
         # create object
         Osarch.objects.create(osarch_name='osarch_1')
         # create user
-        test_user = User.objects.create_user(username='testuser_osarch_api', password='baxmijIgjTfCzy9w8lrF')
+        User.objects.create_user(username='testuser_osarch_api', password='baxmijIgjTfCzy9w8lrF')
 
     def test_osarch_list_api_unauthorized(self):
         """ unauthorized access is forbidden"""
@@ -26,7 +26,7 @@ class OsarchAPIViewTestCase(TestCase):
         """ GET is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_osarch_api', password='baxmijIgjTfCzy9w8lrF')
+        self.client.login(username='testuser_osarch_api', password='baxmijIgjTfCzy9w8lrF')
         # get response
         response = self.client.get('/api/osarch/')
         # compare
@@ -36,7 +36,7 @@ class OsarchAPIViewTestCase(TestCase):
         """ POST is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_osarch_api', password='baxmijIgjTfCzy9w8lrF')
+        self.client.login(username='testuser_osarch_api', password='baxmijIgjTfCzy9w8lrF')
         # create POST string
         poststring = {"osarch_name": "osarch_2"}
         # get response
@@ -48,7 +48,7 @@ class OsarchAPIViewTestCase(TestCase):
         """ test redirect with appending slash """
 
         # login testuser
-        login = self.client.login(username='testuser_osarch_api', password='baxmijIgjTfCzy9w8lrF')
+        self.client.login(username='testuser_osarch_api', password='baxmijIgjTfCzy9w8lrF')
         # create url
         destination = urllib.parse.quote('/api/osarch/', safe='/')
         # get response
@@ -72,7 +72,7 @@ class OsarchAPIViewTestCase(TestCase):
         # get object
         osarch_api_1 = Osarch.objects.get(osarch_name='osarch_1')
         # login testuser
-        login = self.client.login(username='testuser_osarch_api', password='baxmijIgjTfCzy9w8lrF')
+        self.client.login(username='testuser_osarch_api', password='baxmijIgjTfCzy9w8lrF')
         # get response
         response = self.client.get('/api/osarch/' + str(osarch_api_1.osarch_id) + '/')
         # compare
@@ -84,7 +84,7 @@ class OsarchAPIViewTestCase(TestCase):
         # get object
         osarch_api_1 = Osarch.objects.get(osarch_name='osarch_1')
         # login testuser
-        login = self.client.login(username='testuser_osarch_api', password='baxmijIgjTfCzy9w8lrF')
+        self.client.login(username='testuser_osarch_api', password='baxmijIgjTfCzy9w8lrF')
         # get response
         response = self.client.delete('/api/osarch/' + str(osarch_api_1.osarch_id) + '/')
         # compare
@@ -96,7 +96,7 @@ class OsarchAPIViewTestCase(TestCase):
         # get object
         osarch_api_1 = Osarch.objects.get(osarch_name='osarch_1')
         # login testuser
-        login = self.client.login(username='testuser_osarch_api', password='baxmijIgjTfCzy9w8lrF')
+        self.client.login(username='testuser_osarch_api', password='baxmijIgjTfCzy9w8lrF')
         # create url
         destination = urllib.parse.quote('/api/osarch/' + str(osarch_api_1.osarch_id) + '/', safe='/')
         # create PUT string
@@ -112,7 +112,7 @@ class OsarchAPIViewTestCase(TestCase):
         # get object
         osarch_api_1 = Osarch.objects.get(osarch_name='osarch_1')
         # login testuser
-        login = self.client.login(username='testuser_osarch_api', password='baxmijIgjTfCzy9w8lrF')
+        self.client.login(username='testuser_osarch_api', password='baxmijIgjTfCzy9w8lrF')
         # create url
         destination = urllib.parse.quote('/api/osarch/' + str(osarch_api_1.osarch_id) + '/', safe='/')
         # get response

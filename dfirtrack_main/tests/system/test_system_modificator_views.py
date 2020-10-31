@@ -25,7 +25,7 @@ class SystemModificatorViewTestCase(TestCase):
         """ test modificator view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G')
+        self.client.login(username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G')
         # get response
         response = self.client.get('/system/modificator/')
         # compare
@@ -35,7 +35,7 @@ class SystemModificatorViewTestCase(TestCase):
         """ test modificator view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G')
+        self.client.login(username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G')
         # get response
         response = self.client.get('/system/modificator/')
         # compare
@@ -45,7 +45,7 @@ class SystemModificatorViewTestCase(TestCase):
         """ test modificator view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G')
+        self.client.login(username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G')
         # get response
         response = self.client.get('/system/modificator/')
         # compare
@@ -55,7 +55,7 @@ class SystemModificatorViewTestCase(TestCase):
         """ test modificator view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G')
+        self.client.login(username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G')
         # create url
         destination = urllib.parse.quote('/system/modificator/', safe='/')
         # get response

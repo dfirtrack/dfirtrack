@@ -12,7 +12,7 @@ class ServiceproviderAPIViewTestCase(TestCase):
         # create object
         Serviceprovider.objects.create(serviceprovider_name='serviceprovider_api_1')
         # create user
-        test_user = User.objects.create_user(username='testuser_serviceprovider_api', password='ILKjadN2mA971kHquiuI')
+        User.objects.create_user(username='testuser_serviceprovider_api', password='ILKjadN2mA971kHquiuI')
 
     def test_serviceprovider_list_api_unauthorized(self):
         """ unauthorized access is forbidden"""
@@ -26,7 +26,7 @@ class ServiceproviderAPIViewTestCase(TestCase):
         """ GET is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_serviceprovider_api', password='ILKjadN2mA971kHquiuI')
+        self.client.login(username='testuser_serviceprovider_api', password='ILKjadN2mA971kHquiuI')
         # get response
         response = self.client.get('/api/serviceprovider/')
         # compare
@@ -36,7 +36,7 @@ class ServiceproviderAPIViewTestCase(TestCase):
         """ POST is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_serviceprovider_api', password='ILKjadN2mA971kHquiuI')
+        self.client.login(username='testuser_serviceprovider_api', password='ILKjadN2mA971kHquiuI')
         # create POST string
         poststring = {"serviceprovider_name": "serviceprovider_api_2"}
         # get response
@@ -48,7 +48,7 @@ class ServiceproviderAPIViewTestCase(TestCase):
         """ test redirect with appending slash """
 
         # login testuser
-        login = self.client.login(username='testuser_serviceprovider_api', password='ILKjadN2mA971kHquiuI')
+        self.client.login(username='testuser_serviceprovider_api', password='ILKjadN2mA971kHquiuI')
         # create url
         destination = urllib.parse.quote('/api/serviceprovider/', safe='/')
         # get response
@@ -72,7 +72,7 @@ class ServiceproviderAPIViewTestCase(TestCase):
         # get object
         serviceprovider_api_1 = Serviceprovider.objects.get(serviceprovider_name='serviceprovider_api_1')
         # login testuser
-        login = self.client.login(username='testuser_serviceprovider_api', password='ILKjadN2mA971kHquiuI')
+        self.client.login(username='testuser_serviceprovider_api', password='ILKjadN2mA971kHquiuI')
         # get response
         response = self.client.get('/api/serviceprovider/' + str(serviceprovider_api_1.serviceprovider_id) + '/')
         # compare
@@ -84,7 +84,7 @@ class ServiceproviderAPIViewTestCase(TestCase):
         # get object
         serviceprovider_api_1 = Serviceprovider.objects.get(serviceprovider_name='serviceprovider_api_1')
         # login testuser
-        login = self.client.login(username='testuser_serviceprovider_api', password='ILKjadN2mA971kHquiuI')
+        self.client.login(username='testuser_serviceprovider_api', password='ILKjadN2mA971kHquiuI')
         # get response
         response = self.client.delete('/api/serviceprovider/' + str(serviceprovider_api_1.serviceprovider_id) + '/')
         # compare
@@ -96,7 +96,7 @@ class ServiceproviderAPIViewTestCase(TestCase):
         # get object
         serviceprovider_api_1 = Serviceprovider.objects.get(serviceprovider_name='serviceprovider_api_1')
         # login testuser
-        login = self.client.login(username='testuser_serviceprovider_api', password='ILKjadN2mA971kHquiuI')
+        self.client.login(username='testuser_serviceprovider_api', password='ILKjadN2mA971kHquiuI')
         # create url
         destination = urllib.parse.quote('/api/serviceprovider/' + str(serviceprovider_api_1.serviceprovider_id) + '/', safe='/')
         # create PUT string
@@ -112,7 +112,7 @@ class ServiceproviderAPIViewTestCase(TestCase):
         # get object
         serviceprovider_api_1 = Serviceprovider.objects.get(serviceprovider_name='serviceprovider_api_1')
         # login testuser
-        login = self.client.login(username='testuser_serviceprovider_api', password='ILKjadN2mA971kHquiuI')
+        self.client.login(username='testuser_serviceprovider_api', password='ILKjadN2mA971kHquiuI')
         # create url
         destination = urllib.parse.quote('/api/serviceprovider/' + str(serviceprovider_api_1.serviceprovider_id) + '/', safe='/')
         # get response

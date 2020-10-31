@@ -25,7 +25,7 @@ class TaskCreatorViewTestCase(TestCase):
         """ test creator view """
 
         # login testuser
-        login = self.client.login(username='testuser_task_creator', password='E5BGU4meULjw7kdtvnzn')
+        self.client.login(username='testuser_task_creator', password='E5BGU4meULjw7kdtvnzn')
         # get response
         response = self.client.get('/task/creator/')
         # compare
@@ -35,7 +35,7 @@ class TaskCreatorViewTestCase(TestCase):
         """ test creator view """
 
         # login testuser
-        login = self.client.login(username='testuser_task_creator', password='E5BGU4meULjw7kdtvnzn')
+        self.client.login(username='testuser_task_creator', password='E5BGU4meULjw7kdtvnzn')
         # get response
         response = self.client.get('/task/creator/')
         # compare
@@ -45,7 +45,7 @@ class TaskCreatorViewTestCase(TestCase):
         """ test creator view """
 
         # login testuser
-        login = self.client.login(username='testuser_task_creator', password='E5BGU4meULjw7kdtvnzn')
+        self.client.login(username='testuser_task_creator', password='E5BGU4meULjw7kdtvnzn')
         # get response
         response = self.client.get('/task/creator/')
         # compare
@@ -55,7 +55,7 @@ class TaskCreatorViewTestCase(TestCase):
         """ test creator view """
 
         # login testuser
-        login = self.client.login(username='testuser_task_creator', password='E5BGU4meULjw7kdtvnzn')
+        self.client.login(username='testuser_task_creator', password='E5BGU4meULjw7kdtvnzn')
         # create url
         destination = urllib.parse.quote('/task/creator/', safe='/')
         # get response

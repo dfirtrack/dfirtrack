@@ -1,11 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from django.shortcuts import redirect
-from django.urls import reverse
 from dfirtrack_artifacts.models import Artifact, Artifactstatus, Artifacttype
 from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel
 from dfirtrack_main.exporter.spreadsheet.xls import style_default, style_headline, write_row
-from dfirtrack_main.logger.default_logger import info_logger, warning_logger
+from dfirtrack_main.logger.default_logger import info_logger
 from time import strftime
 import xlwt
 

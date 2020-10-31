@@ -28,7 +28,7 @@ class AnalysisstatusViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_analysisstatus', password='9u2Ew4XdFHLcCG5xyTvR')
+        self.client.login(username='testuser_analysisstatus', password='9u2Ew4XdFHLcCG5xyTvR')
         # get response
         response = self.client.get('/analysisstatus/')
         # compare
@@ -38,7 +38,7 @@ class AnalysisstatusViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_analysisstatus', password='9u2Ew4XdFHLcCG5xyTvR')
+        self.client.login(username='testuser_analysisstatus', password='9u2Ew4XdFHLcCG5xyTvR')
         # get response
         response = self.client.get('/analysisstatus/')
         # compare
@@ -48,7 +48,7 @@ class AnalysisstatusViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_analysisstatus', password='9u2Ew4XdFHLcCG5xyTvR')
+        self.client.login(username='testuser_analysisstatus', password='9u2Ew4XdFHLcCG5xyTvR')
         # get response
         response = self.client.get('/analysisstatus/')
         # compare
@@ -58,7 +58,7 @@ class AnalysisstatusViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_analysisstatus', password='9u2Ew4XdFHLcCG5xyTvR')
+        self.client.login(username='testuser_analysisstatus', password='9u2Ew4XdFHLcCG5xyTvR')
         # create url
         destination = urllib.parse.quote('/analysisstatus/', safe='/')
         # get response
@@ -84,7 +84,7 @@ class AnalysisstatusViewTestCase(TestCase):
         # get object
         analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
         # login testuser
-        login = self.client.login(username='testuser_analysisstatus', password='9u2Ew4XdFHLcCG5xyTvR')
+        self.client.login(username='testuser_analysisstatus', password='9u2Ew4XdFHLcCG5xyTvR')
         # get response
         response = self.client.get('/analysisstatus/' + str(analysisstatus_1.analysisstatus_id) + '/')
         # compare
@@ -96,7 +96,7 @@ class AnalysisstatusViewTestCase(TestCase):
         # get object
         analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
         # login testuser
-        login = self.client.login(username='testuser_analysisstatus', password='9u2Ew4XdFHLcCG5xyTvR')
+        self.client.login(username='testuser_analysisstatus', password='9u2Ew4XdFHLcCG5xyTvR')
         # get response
         response = self.client.get('/analysisstatus/' + str(analysisstatus_1.analysisstatus_id) + '/')
         # compare
@@ -108,7 +108,7 @@ class AnalysisstatusViewTestCase(TestCase):
         # get object
         analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
         # login testuser
-        login = self.client.login(username='testuser_analysisstatus', password='9u2Ew4XdFHLcCG5xyTvR')
+        self.client.login(username='testuser_analysisstatus', password='9u2Ew4XdFHLcCG5xyTvR')
         # get response
         response = self.client.get('/analysisstatus/' + str(analysisstatus_1.analysisstatus_id) + '/')
         # compare
@@ -120,7 +120,7 @@ class AnalysisstatusViewTestCase(TestCase):
         # get object
         analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
         # login testuser
-        login = self.client.login(username='testuser_analysisstatus', password='9u2Ew4XdFHLcCG5xyTvR')
+        self.client.login(username='testuser_analysisstatus', password='9u2Ew4XdFHLcCG5xyTvR')
         # create url
         destination = urllib.parse.quote('/analysisstatus/' + str(analysisstatus_1.analysisstatus_id) + '/', safe='/')
         # get response

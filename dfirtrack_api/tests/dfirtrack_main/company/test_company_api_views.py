@@ -10,15 +10,15 @@ class CompanyAPIViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create object
-        division_1 = Division.objects.create(division_name='division_api_1')
+        Division.objects.create(division_name='division_api_1')
         # create object
-        division_2 = Division.objects.create(division_name='division_api_2')
+        Division.objects.create(division_name='division_api_2')
         # create object
         Company.objects.create(
             company_name='company_api_1'
         )
         # create user
-        test_user = User.objects.create_user(username='testuser_company_api', password='tvjnIPBlhP9P3ixDHVE7')
+        User.objects.create_user(username='testuser_company_api', password='tvjnIPBlhP9P3ixDHVE7')
 
     def test_company_list_api_unauthorized(self):
         """ unauthorized access is forbidden"""
@@ -32,7 +32,7 @@ class CompanyAPIViewTestCase(TestCase):
         """ GET is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_company_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_company_api', password='tvjnIPBlhP9P3ixDHVE7')
         # get response
         response = self.client.get('/api/company/')
         # compare
@@ -44,7 +44,7 @@ class CompanyAPIViewTestCase(TestCase):
         # get object
         division_id = str(Division.objects.get(division_name='division_api_2').division_id)
         # login testuser
-        login = self.client.login(username='testuser_company_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_company_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create POST string
         poststring = {
             "company_name": "company_api_2",
@@ -59,7 +59,7 @@ class CompanyAPIViewTestCase(TestCase):
         """ test redirect with appending slash """
 
         # login testuser
-        login = self.client.login(username='testuser_company_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_company_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create url
         destination = urllib.parse.quote('/api/company/', safe='/')
         # get response
@@ -83,7 +83,7 @@ class CompanyAPIViewTestCase(TestCase):
         # get object
         company_api_1 = Company.objects.get(company_name='company_api_1')
         # login testuser
-        login = self.client.login(username='testuser_company_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_company_api', password='tvjnIPBlhP9P3ixDHVE7')
         # get response
         response = self.client.get('/api/company/' + str(company_api_1.company_id) + '/')
         # compare
@@ -95,7 +95,7 @@ class CompanyAPIViewTestCase(TestCase):
         # get object
         company_api_1 = Company.objects.get(company_name='company_api_1')
         # login testuser
-        login = self.client.login(username='testuser_company_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_company_api', password='tvjnIPBlhP9P3ixDHVE7')
         # get response
         response = self.client.delete('/api/company/' + str(company_api_1.company_id) + '/')
         # compare
@@ -109,7 +109,7 @@ class CompanyAPIViewTestCase(TestCase):
         # get object
         company_api_1 = Company.objects.get(company_name='company_api_1')
         # login testuser
-        login = self.client.login(username='testuser_company_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_company_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create url
         destination = urllib.parse.quote('/api/company/' + str(company_api_1.company_id) + '/', safe='/')
         # create PUT string
@@ -128,7 +128,7 @@ class CompanyAPIViewTestCase(TestCase):
         # get object
         company_api_1 = Company.objects.get(company_name='company_api_1')
         # login testuser
-        login = self.client.login(username='testuser_company_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_company_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create url
         destination = urllib.parse.quote('/api/company/' + str(company_api_1.company_id) + '/', safe='/')
         # get response

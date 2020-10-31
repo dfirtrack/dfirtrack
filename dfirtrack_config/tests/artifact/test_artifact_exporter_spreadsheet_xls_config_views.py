@@ -11,7 +11,7 @@ class ArtifactExporterSpreadsheetXlsConfigViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create user
-        test_user = User.objects.create_user(username='testuser_artifact_exporter_spreadsheet_xls_config', password='i3jLLnbrAEgel24sGs9i')
+        User.objects.create_user(username='testuser_artifact_exporter_spreadsheet_xls_config', password='i3jLLnbrAEgel24sGs9i')
 
     def test_artifact_exporter_spreadsheet_xls_config_not_logged_in(self):
         """ test exporter view """
@@ -27,7 +27,7 @@ class ArtifactExporterSpreadsheetXlsConfigViewTestCase(TestCase):
         """ test view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifact_exporter_spreadsheet_xls_config', password='i3jLLnbrAEgel24sGs9i')
+        self.client.login(username='testuser_artifact_exporter_spreadsheet_xls_config', password='i3jLLnbrAEgel24sGs9i')
         # get response
         response = self.client.get('/config/artifact/exporter/spreadsheet/xls/')
         # compare
@@ -37,7 +37,7 @@ class ArtifactExporterSpreadsheetXlsConfigViewTestCase(TestCase):
         """ test exporter view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifact_exporter_spreadsheet_xls_config', password='i3jLLnbrAEgel24sGs9i')
+        self.client.login(username='testuser_artifact_exporter_spreadsheet_xls_config', password='i3jLLnbrAEgel24sGs9i')
         # get response
         response = self.client.get('/config/artifact/exporter/spreadsheet/xls/')
         # compare
@@ -47,7 +47,7 @@ class ArtifactExporterSpreadsheetXlsConfigViewTestCase(TestCase):
         """ test exporter view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifact_exporter_spreadsheet_xls_config', password='i3jLLnbrAEgel24sGs9i')
+        self.client.login(username='testuser_artifact_exporter_spreadsheet_xls_config', password='i3jLLnbrAEgel24sGs9i')
         # get response
         response = self.client.get('/config/artifact/exporter/spreadsheet/xls/')
         # compare
@@ -57,7 +57,7 @@ class ArtifactExporterSpreadsheetXlsConfigViewTestCase(TestCase):
         """ test view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifact_exporter_spreadsheet_xls_config', password='i3jLLnbrAEgel24sGs9i')
+        self.client.login(username='testuser_artifact_exporter_spreadsheet_xls_config', password='i3jLLnbrAEgel24sGs9i')
         # create url
         destination = urllib.parse.quote('/config/artifact/exporter/spreadsheet/xls/', safe='/')
         # get response
@@ -69,7 +69,7 @@ class ArtifactExporterSpreadsheetXlsConfigViewTestCase(TestCase):
         """ test view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifact_exporter_spreadsheet_xls_config', password='i3jLLnbrAEgel24sGs9i')
+        self.client.login(username='testuser_artifact_exporter_spreadsheet_xls_config', password='i3jLLnbrAEgel24sGs9i')
         # get objects
         artifactstatus_1 = Artifactstatus.objects.get(artifactstatus_name = 'Needs analysis').artifactstatus_id
         artifactstatus_2 = Artifactstatus.objects.get(artifactstatus_name = 'Requested from customer').artifactstatus_id
@@ -86,7 +86,7 @@ class ArtifactExporterSpreadsheetXlsConfigViewTestCase(TestCase):
         """ test view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifact_exporter_spreadsheet_xls_config', password='i3jLLnbrAEgel24sGs9i')
+        self.client.login(username='testuser_artifact_exporter_spreadsheet_xls_config', password='i3jLLnbrAEgel24sGs9i')
         # get objects
         artifactstatus_1 = Artifactstatus.objects.get(artifactstatus_name = 'Needs analysis').artifactstatus_id
         artifactstatus_2 = Artifactstatus.objects.get(artifactstatus_name = 'Requested from customer').artifactstatus_id
@@ -95,7 +95,7 @@ class ArtifactExporterSpreadsheetXlsConfigViewTestCase(TestCase):
             'artifactlist_xls_choice_artifactstatus': [str(artifactstatus_1), str(artifactstatus_2)],
         }
         # get response
-        response = self.client.post('/config/artifact/exporter/spreadsheet/xls/', data_dict)
+        self.client.post('/config/artifact/exporter/spreadsheet/xls/', data_dict)
         # get object
         artifact_exporter_spreadsheet_xls_config_model = ArtifactExporterSpreadsheetXlsConfigModel.objects.get(artifact_exporter_spreadsheet_xls_config_name = 'ArtifactExporterSpreadsheetXlsConfig')
         # compare
@@ -105,7 +105,7 @@ class ArtifactExporterSpreadsheetXlsConfigViewTestCase(TestCase):
         """ test view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifact_exporter_spreadsheet_xls_config', password='i3jLLnbrAEgel24sGs9i')
+        self.client.login(username='testuser_artifact_exporter_spreadsheet_xls_config', password='i3jLLnbrAEgel24sGs9i')
         # get objects
         artifactstatus_1 = Artifactstatus.objects.get(artifactstatus_name = 'Needs analysis').artifactstatus_id
         artifactstatus_2 = Artifactstatus.objects.get(artifactstatus_name = 'Requested from customer').artifactstatus_id
@@ -115,7 +115,7 @@ class ArtifactExporterSpreadsheetXlsConfigViewTestCase(TestCase):
             'artifactlist_xls_artifact_id': 'on',
         }
         # get response
-        response = self.client.post('/config/artifact/exporter/spreadsheet/xls/', data_dict)
+        self.client.post('/config/artifact/exporter/spreadsheet/xls/', data_dict)
         # get object
         artifact_exporter_spreadsheet_xls_config_model = ArtifactExporterSpreadsheetXlsConfigModel.objects.get(artifact_exporter_spreadsheet_xls_config_name = 'ArtifactExporterSpreadsheetXlsConfig')
         # compare
@@ -125,7 +125,7 @@ class ArtifactExporterSpreadsheetXlsConfigViewTestCase(TestCase):
         """ test view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifact_exporter_spreadsheet_xls_config', password='i3jLLnbrAEgel24sGs9i')
+        self.client.login(username='testuser_artifact_exporter_spreadsheet_xls_config', password='i3jLLnbrAEgel24sGs9i')
         # create post data
         data_dict = {}
         # get response
@@ -137,7 +137,7 @@ class ArtifactExporterSpreadsheetXlsConfigViewTestCase(TestCase):
         """ test view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifact_exporter_spreadsheet_xls_config', password='i3jLLnbrAEgel24sGs9i')
+        self.client.login(username='testuser_artifact_exporter_spreadsheet_xls_config', password='i3jLLnbrAEgel24sGs9i')
         # create post data
         data_dict = {}
         # get response

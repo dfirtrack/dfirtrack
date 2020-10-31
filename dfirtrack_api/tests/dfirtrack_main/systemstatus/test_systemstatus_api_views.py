@@ -12,7 +12,7 @@ class SystemstatusAPIViewTestCase(TestCase):
         # create object
         Systemstatus.objects.create(systemstatus_name='systemstatus_api_1')
         # create user
-        test_user = User.objects.create_user(username='testuser_systemstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
+        User.objects.create_user(username='testuser_systemstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
 
     def test_systemstatus_list_api_unauthorized(self):
         """ unauthorized access is forbidden"""
@@ -26,7 +26,7 @@ class SystemstatusAPIViewTestCase(TestCase):
         """ GET is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_systemstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
+        self.client.login(username='testuser_systemstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
         # get response
         response = self.client.get('/api/systemstatus/')
         # compare
@@ -36,7 +36,7 @@ class SystemstatusAPIViewTestCase(TestCase):
         """ POST is forbidden """
 
         # login testuser
-        login = self.client.login(username='testuser_systemstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
+        self.client.login(username='testuser_systemstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
         # create POST string
         poststring = {"systemstatus_name": "systemstatus_api_2"}
         # get response
@@ -48,7 +48,7 @@ class SystemstatusAPIViewTestCase(TestCase):
         """ test redirect with appending slash """
 
         # login testuser
-        login = self.client.login(username='testuser_systemstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
+        self.client.login(username='testuser_systemstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
         # create url
         destination = urllib.parse.quote('/api/systemstatus/', safe='/')
         # get response
@@ -72,7 +72,7 @@ class SystemstatusAPIViewTestCase(TestCase):
         # get object
         systemstatus_api_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_api_1')
         # login testuser
-        login = self.client.login(username='testuser_systemstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
+        self.client.login(username='testuser_systemstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
         # get response
         response = self.client.get('/api/systemstatus/' + str(systemstatus_api_1.systemstatus_id) + '/')
         # compare
@@ -84,7 +84,7 @@ class SystemstatusAPIViewTestCase(TestCase):
         # get object
         systemstatus_api_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_api_1')
         # login testuser
-        login = self.client.login(username='testuser_systemstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
+        self.client.login(username='testuser_systemstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
         # get response
         response = self.client.delete('/api/systemstatus/' + str(systemstatus_api_1.systemstatus_id) + '/')
         # compare
@@ -96,7 +96,7 @@ class SystemstatusAPIViewTestCase(TestCase):
         # get object
         systemstatus_api_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_api_1')
         # login testuser
-        login = self.client.login(username='testuser_systemstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
+        self.client.login(username='testuser_systemstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
         # create url
         destination = urllib.parse.quote('/api/systemstatus/' + str(systemstatus_api_1.systemstatus_id) + '/', safe='/')
         # create PUT string
@@ -112,7 +112,7 @@ class SystemstatusAPIViewTestCase(TestCase):
         # get object
         systemstatus_api_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_api_1')
         # login testuser
-        login = self.client.login(username='testuser_systemstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
+        self.client.login(username='testuser_systemstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
         # create url
         destination = urllib.parse.quote('/api/systemstatus/' + str(systemstatus_api_1.systemstatus_id) + '/', safe='/')
         # get response

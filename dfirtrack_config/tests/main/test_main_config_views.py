@@ -10,7 +10,7 @@ class MainConfigViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create user
-        test_user = User.objects.create_user(username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN')
+        User.objects.create_user(username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN')
 
     def test_main_config_not_logged_in(self):
         """ test view """
@@ -26,7 +26,7 @@ class MainConfigViewTestCase(TestCase):
         """ test view """
 
         # login testuser
-        login = self.client.login(username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN')
+        self.client.login(username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN')
         # get response
         response = self.client.get('/config/main/')
         # compare
@@ -36,7 +36,7 @@ class MainConfigViewTestCase(TestCase):
         """ test view """
 
         # login testuser
-        login = self.client.login(username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN')
+        self.client.login(username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN')
         # get response
         response = self.client.get('/config/main/')
         # compare
@@ -46,7 +46,7 @@ class MainConfigViewTestCase(TestCase):
         """ test view """
 
         # login testuser
-        login = self.client.login(username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN')
+        self.client.login(username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN')
         # get response
         response = self.client.get('/config/main/')
         # compare
@@ -56,7 +56,7 @@ class MainConfigViewTestCase(TestCase):
         """ test view """
 
         # login testuser
-        login = self.client.login(username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN')
+        self.client.login(username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN')
         # create url
         destination = urllib.parse.quote('/config/main/', safe='/')
         # get response
@@ -68,7 +68,7 @@ class MainConfigViewTestCase(TestCase):
         """ test view """
 
         # login testuser
-        login = self.client.login(username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN')
+        self.client.login(username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN')
         # create post data
         data_dict = {
             'system_name_editable': 'on',
@@ -82,13 +82,13 @@ class MainConfigViewTestCase(TestCase):
         """ test view """
 
         # login testuser
-        login = self.client.login(username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN')
+        self.client.login(username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN')
         # create post data
         data_dict = {
             'system_name_editable': 'on',
         }
         # get response
-        response = self.client.post('/config/main/', data_dict)
+        self.client.post('/config/main/', data_dict)
         # get object
         main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
         # compare
@@ -98,11 +98,11 @@ class MainConfigViewTestCase(TestCase):
         """ test view """
 
         # login testuser
-        login = self.client.login(username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN')
+        self.client.login(username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN')
         # create post data
         data_dict = {}
         # get response
-        response = self.client.post('/config/main/', data_dict)
+        self.client.post('/config/main/', data_dict)
         # get object
         main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
         # compare

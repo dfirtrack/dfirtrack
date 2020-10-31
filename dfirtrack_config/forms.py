@@ -1,5 +1,4 @@
 from django import forms
-from dfirtrack_artifacts.models import Artifactstatus
 from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel, MainConfigModel, SystemExporterMarkdownConfigModel, SystemExporterSpreadsheetCsvConfigModel, SystemExporterSpreadsheetXlsConfigModel, SystemImporterFileCsvConfigbasedConfigModel, SystemImporterFileCsvFormbasedConfigModel
 
 class ArtifactExporterSpreadsheetXlsConfigForm(forms.ModelForm):

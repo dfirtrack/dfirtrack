@@ -12,7 +12,7 @@ class DivisionAPIViewTestCase(TestCase):
         # create object
         Division.objects.create(division_name='division_api_1')
         # create user
-        test_user = User.objects.create_user(username='testuser_division_api', password='tvjnIPBlhP9P3ixDHVE7')
+        User.objects.create_user(username='testuser_division_api', password='tvjnIPBlhP9P3ixDHVE7')
 
     def test_division_list_api_unauthorized(self):
         """ unauthorized access is forbidden"""
@@ -26,7 +26,7 @@ class DivisionAPIViewTestCase(TestCase):
         """ GET is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_division_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_division_api', password='tvjnIPBlhP9P3ixDHVE7')
         # get response
         response = self.client.get('/api/division/')
         # compare
@@ -36,7 +36,7 @@ class DivisionAPIViewTestCase(TestCase):
         """ POST is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_division_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_division_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create POST string
         poststring = {"division_name": "division_api_2"}
         # get response
@@ -48,7 +48,7 @@ class DivisionAPIViewTestCase(TestCase):
         """ test redirect with appending slash """
 
         # login testuser
-        login = self.client.login(username='testuser_division_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_division_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create url
         destination = urllib.parse.quote('/api/division/', safe='/')
         # get response
@@ -72,7 +72,7 @@ class DivisionAPIViewTestCase(TestCase):
         # get object
         division_api_1 = Division.objects.get(division_name='division_api_1')
         # login testuser
-        login = self.client.login(username='testuser_division_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_division_api', password='tvjnIPBlhP9P3ixDHVE7')
         # get response
         response = self.client.get('/api/division/' + str(division_api_1.division_id) + '/')
         # compare
@@ -84,7 +84,7 @@ class DivisionAPIViewTestCase(TestCase):
         # get object
         division_api_1 = Division.objects.get(division_name='division_api_1')
         # login testuser
-        login = self.client.login(username='testuser_division_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_division_api', password='tvjnIPBlhP9P3ixDHVE7')
         # get response
         response = self.client.delete('/api/division/' + str(division_api_1.division_id) + '/')
         # compare
@@ -96,7 +96,7 @@ class DivisionAPIViewTestCase(TestCase):
         # get object
         division_api_1 = Division.objects.get(division_name='division_api_1')
         # login testuser
-        login = self.client.login(username='testuser_division_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_division_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create url
         destination = urllib.parse.quote('/api/division/' + str(division_api_1.division_id) + '/', safe='/')
         # create PUT string
@@ -112,7 +112,7 @@ class DivisionAPIViewTestCase(TestCase):
         # get object
         division_api_1 = Division.objects.get(division_name='division_api_1')
         # login testuser
-        login = self.client.login(username='testuser_division_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_division_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create url
         destination = urllib.parse.quote('/api/division/' + str(division_api_1.division_id) + '/', safe='/')
         # get response

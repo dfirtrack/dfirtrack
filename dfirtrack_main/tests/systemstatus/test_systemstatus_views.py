@@ -28,7 +28,7 @@ class SystemstatusViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemstatus', password='kWAvcuNoU97qpEy7UpDT')
+        self.client.login(username='testuser_systemstatus', password='kWAvcuNoU97qpEy7UpDT')
         # get response
         response = self.client.get('/systemstatus/')
         # compare
@@ -38,7 +38,7 @@ class SystemstatusViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemstatus', password='kWAvcuNoU97qpEy7UpDT')
+        self.client.login(username='testuser_systemstatus', password='kWAvcuNoU97qpEy7UpDT')
         # get response
         response = self.client.get('/systemstatus/')
         # compare
@@ -48,7 +48,7 @@ class SystemstatusViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemstatus', password='kWAvcuNoU97qpEy7UpDT')
+        self.client.login(username='testuser_systemstatus', password='kWAvcuNoU97qpEy7UpDT')
         # get response
         response = self.client.get('/systemstatus/')
         # compare
@@ -58,7 +58,7 @@ class SystemstatusViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemstatus', password='kWAvcuNoU97qpEy7UpDT')
+        self.client.login(username='testuser_systemstatus', password='kWAvcuNoU97qpEy7UpDT')
         # create url
         destination = urllib.parse.quote('/systemstatus/', safe='/')
         # get response
@@ -84,7 +84,7 @@ class SystemstatusViewTestCase(TestCase):
         # get object
         systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
         # login testuser
-        login = self.client.login(username='testuser_systemstatus', password='kWAvcuNoU97qpEy7UpDT')
+        self.client.login(username='testuser_systemstatus', password='kWAvcuNoU97qpEy7UpDT')
         # get response
         response = self.client.get('/systemstatus/' + str(systemstatus_1.systemstatus_id) + '/')
         # compare
@@ -96,7 +96,7 @@ class SystemstatusViewTestCase(TestCase):
         # get object
         systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
         # login testuser
-        login = self.client.login(username='testuser_systemstatus', password='kWAvcuNoU97qpEy7UpDT')
+        self.client.login(username='testuser_systemstatus', password='kWAvcuNoU97qpEy7UpDT')
         # get response
         response = self.client.get('/systemstatus/' + str(systemstatus_1.systemstatus_id) + '/')
         # compare
@@ -108,7 +108,7 @@ class SystemstatusViewTestCase(TestCase):
         # get object
         systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
         # login testuser
-        login = self.client.login(username='testuser_systemstatus', password='kWAvcuNoU97qpEy7UpDT')
+        self.client.login(username='testuser_systemstatus', password='kWAvcuNoU97qpEy7UpDT')
         # get response
         response = self.client.get('/systemstatus/' + str(systemstatus_1.systemstatus_id) + '/')
         # compare
@@ -120,7 +120,7 @@ class SystemstatusViewTestCase(TestCase):
         # get object
         systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
         # login testuser
-        login = self.client.login(username='testuser_systemstatus', password='kWAvcuNoU97qpEy7UpDT')
+        self.client.login(username='testuser_systemstatus', password='kWAvcuNoU97qpEy7UpDT')
         # create url
         destination = urllib.parse.quote('/systemstatus/' + str(systemstatus_1.systemstatus_id) + '/', safe='/')
         # get response

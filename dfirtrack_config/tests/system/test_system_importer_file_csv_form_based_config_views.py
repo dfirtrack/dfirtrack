@@ -9,7 +9,7 @@ class SystemImporterFileCsvFormbasedConfigViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create user
-        test_user = User.objects.create_user(username='testuser_system_importer_file_csv_form_based_config', password='SYYCdriMtm3lk6MPBYmD')
+        User.objects.create_user(username='testuser_system_importer_file_csv_form_based_config', password='SYYCdriMtm3lk6MPBYmD')
 
     def test_system_importer_file_csv_form_based_config_not_logged_in(self):
         """ test importer view """
@@ -25,7 +25,7 @@ class SystemImporterFileCsvFormbasedConfigViewTestCase(TestCase):
         """ test view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_importer_file_csv_form_based_config', password='SYYCdriMtm3lk6MPBYmD')
+        self.client.login(username='testuser_system_importer_file_csv_form_based_config', password='SYYCdriMtm3lk6MPBYmD')
         # get response
         response = self.client.get('/config/system/importer/file/csv/formbased/')
         # compare
@@ -35,7 +35,7 @@ class SystemImporterFileCsvFormbasedConfigViewTestCase(TestCase):
         """ test importer view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_importer_file_csv_form_based_config', password='SYYCdriMtm3lk6MPBYmD')
+        self.client.login(username='testuser_system_importer_file_csv_form_based_config', password='SYYCdriMtm3lk6MPBYmD')
         # get response
         response = self.client.get('/config/system/importer/file/csv/formbased/')
         # compare
@@ -45,7 +45,7 @@ class SystemImporterFileCsvFormbasedConfigViewTestCase(TestCase):
         """ test importer view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_importer_file_csv_form_based_config', password='SYYCdriMtm3lk6MPBYmD')
+        self.client.login(username='testuser_system_importer_file_csv_form_based_config', password='SYYCdriMtm3lk6MPBYmD')
         # get response
         response = self.client.get('/config/system/importer/file/csv/formbased/')
         # compare
@@ -55,7 +55,7 @@ class SystemImporterFileCsvFormbasedConfigViewTestCase(TestCase):
         """ test view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_importer_file_csv_form_based_config', password='SYYCdriMtm3lk6MPBYmD')
+        self.client.login(username='testuser_system_importer_file_csv_form_based_config', password='SYYCdriMtm3lk6MPBYmD')
         # create url
         destination = urllib.parse.quote('/config/system/importer/file/csv/formbased/', safe='/')
         # get response
@@ -67,7 +67,7 @@ class SystemImporterFileCsvFormbasedConfigViewTestCase(TestCase):
         """ test view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_importer_file_csv_form_based_config', password='SYYCdriMtm3lk6MPBYmD')
+        self.client.login(username='testuser_system_importer_file_csv_form_based_config', password='SYYCdriMtm3lk6MPBYmD')
         # create post data
         data_dict = {
             'csv_column_system': 1,
@@ -82,7 +82,7 @@ class SystemImporterFileCsvFormbasedConfigViewTestCase(TestCase):
         """ test view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_importer_file_csv_form_based_config', password='SYYCdriMtm3lk6MPBYmD')
+        self.client.login(username='testuser_system_importer_file_csv_form_based_config', password='SYYCdriMtm3lk6MPBYmD')
         # create post data
         data_dict = {
             'csv_column_system': 1,
@@ -97,7 +97,7 @@ class SystemImporterFileCsvFormbasedConfigViewTestCase(TestCase):
         """ test view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_importer_file_csv_form_based_config', password='SYYCdriMtm3lk6MPBYmD')
+        self.client.login(username='testuser_system_importer_file_csv_form_based_config', password='SYYCdriMtm3lk6MPBYmD')
         # create post data
         data_dict = {
             'csv_column_system': 2,

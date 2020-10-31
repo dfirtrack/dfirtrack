@@ -9,7 +9,7 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create user
-        test_user = User.objects.create_user(username='testuser_artifact_exporter_spreadsheet_xls', password='LTzoNHIdxiJydsaJKf1G')
+        User.objects.create_user(username='testuser_artifact_exporter_spreadsheet_xls', password='LTzoNHIdxiJydsaJKf1G')
 
     def test_artifact_exporter_spreadsheet_xls_not_logged_in(self):
         """ test exporter view """
@@ -25,7 +25,7 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         """ test exporter view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifact_exporter_spreadsheet_xls', password='LTzoNHIdxiJydsaJKf1G')
+        self.client.login(username='testuser_artifact_exporter_spreadsheet_xls', password='LTzoNHIdxiJydsaJKf1G')
         # get response
         response = self.client.get('/artifacts/artifact/exporter/spreadsheet/xls/artifact/')
         # compare
@@ -35,7 +35,7 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         """ test exporter view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifact_exporter_spreadsheet_xls', password='LTzoNHIdxiJydsaJKf1G')
+        self.client.login(username='testuser_artifact_exporter_spreadsheet_xls', password='LTzoNHIdxiJydsaJKf1G')
         # create url
         destination = urllib.parse.quote('/artifacts/artifact/exporter/spreadsheet/xls/artifact/', safe='/')
         # get response

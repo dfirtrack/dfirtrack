@@ -25,7 +25,7 @@ class SystemCreatorViewTestCase(TestCase):
         """ test creator view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_creator', password='Jbf5fZBhpg1aZsCW6L8r')
+        self.client.login(username='testuser_system_creator', password='Jbf5fZBhpg1aZsCW6L8r')
         # get response
         response = self.client.get('/system/creator/')
         # compare
@@ -35,7 +35,7 @@ class SystemCreatorViewTestCase(TestCase):
         """ test creator view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_creator', password='Jbf5fZBhpg1aZsCW6L8r')
+        self.client.login(username='testuser_system_creator', password='Jbf5fZBhpg1aZsCW6L8r')
         # get response
         response = self.client.get('/system/creator/')
         # compare
@@ -45,7 +45,7 @@ class SystemCreatorViewTestCase(TestCase):
         """ test creator view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_creator', password='Jbf5fZBhpg1aZsCW6L8r')
+        self.client.login(username='testuser_system_creator', password='Jbf5fZBhpg1aZsCW6L8r')
         # get response
         response = self.client.get('/system/creator/')
         # compare
@@ -55,7 +55,7 @@ class SystemCreatorViewTestCase(TestCase):
         """ test creator view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_creator', password='Jbf5fZBhpg1aZsCW6L8r')
+        self.client.login(username='testuser_system_creator', password='Jbf5fZBhpg1aZsCW6L8r')
         # create url
         destination = urllib.parse.quote('/system/creator/', safe='/')
         # get response

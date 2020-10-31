@@ -28,7 +28,7 @@ class IpViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_ip', password='pRs9Ap7oc9W0yjLfnP2Y')
+        self.client.login(username='testuser_ip', password='pRs9Ap7oc9W0yjLfnP2Y')
         # get response
         response = self.client.get('/ip/')
         # compare
@@ -38,7 +38,7 @@ class IpViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_ip', password='pRs9Ap7oc9W0yjLfnP2Y')
+        self.client.login(username='testuser_ip', password='pRs9Ap7oc9W0yjLfnP2Y')
         # get response
         response = self.client.get('/ip/')
         # compare
@@ -48,7 +48,7 @@ class IpViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_ip', password='pRs9Ap7oc9W0yjLfnP2Y')
+        self.client.login(username='testuser_ip', password='pRs9Ap7oc9W0yjLfnP2Y')
         # get response
         response = self.client.get('/ip/')
         # compare
@@ -58,7 +58,7 @@ class IpViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_ip', password='pRs9Ap7oc9W0yjLfnP2Y')
+        self.client.login(username='testuser_ip', password='pRs9Ap7oc9W0yjLfnP2Y')
         # create url
         destination = urllib.parse.quote('/ip/', safe='/')
         # get response
@@ -84,7 +84,7 @@ class IpViewTestCase(TestCase):
         # get object
         ip_1 = Ip.objects.get(ip_ip='127.0.0.1')
         # login testuser
-        login = self.client.login(username='testuser_ip', password='pRs9Ap7oc9W0yjLfnP2Y')
+        self.client.login(username='testuser_ip', password='pRs9Ap7oc9W0yjLfnP2Y')
         # get response
         response = self.client.get('/ip/' + str(ip_1.ip_id) + '/')
         # compare
@@ -96,7 +96,7 @@ class IpViewTestCase(TestCase):
         # get object
         ip_1 = Ip.objects.get(ip_ip='127.0.0.1')
         # login testuser
-        login = self.client.login(username='testuser_ip', password='pRs9Ap7oc9W0yjLfnP2Y')
+        self.client.login(username='testuser_ip', password='pRs9Ap7oc9W0yjLfnP2Y')
         # get response
         response = self.client.get('/ip/' + str(ip_1.ip_id) + '/')
         # compare
@@ -108,7 +108,7 @@ class IpViewTestCase(TestCase):
         # get object
         ip_1 = Ip.objects.get(ip_ip='127.0.0.1')
         # login testuser
-        login = self.client.login(username='testuser_ip', password='pRs9Ap7oc9W0yjLfnP2Y')
+        self.client.login(username='testuser_ip', password='pRs9Ap7oc9W0yjLfnP2Y')
         # get response
         response = self.client.get('/ip/' + str(ip_1.ip_id) + '/')
         # compare
@@ -120,7 +120,7 @@ class IpViewTestCase(TestCase):
         # get object
         ip_1 = Ip.objects.get(ip_ip='127.0.0.1')
         # login testuser
-        login = self.client.login(username='testuser_ip', password='pRs9Ap7oc9W0yjLfnP2Y')
+        self.client.login(username='testuser_ip', password='pRs9Ap7oc9W0yjLfnP2Y')
         # create url
         destination = urllib.parse.quote('/ip/' + str(ip_1.ip_id) + '/', safe='/')
         # get response

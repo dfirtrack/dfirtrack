@@ -42,7 +42,7 @@ class SystemuserViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
+        self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
         # get response
         response = self.client.get('/systemuser/')
         # compare
@@ -52,7 +52,7 @@ class SystemuserViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
+        self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
         # get response
         response = self.client.get('/systemuser/')
         # compare
@@ -62,7 +62,7 @@ class SystemuserViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
+        self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
         # get response
         response = self.client.get('/systemuser/')
         # compare
@@ -72,7 +72,7 @@ class SystemuserViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
+        self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
         # create url
         destination = urllib.parse.quote('/systemuser/', safe='/')
         # get response
@@ -98,7 +98,7 @@ class SystemuserViewTestCase(TestCase):
         # get object
         systemuser_1 = Systemuser.objects.get(systemuser_name='systemuser_1')
         # login testuser
-        login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
+        self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
         # get response
         response = self.client.get('/systemuser/' + str(systemuser_1.systemuser_id) + '/')
         # compare
@@ -110,7 +110,7 @@ class SystemuserViewTestCase(TestCase):
         # get object
         systemuser_1 = Systemuser.objects.get(systemuser_name='systemuser_1')
         # login testuser
-        login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
+        self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
         # get response
         response = self.client.get('/systemuser/' + str(systemuser_1.systemuser_id) + '/')
         # compare
@@ -122,7 +122,7 @@ class SystemuserViewTestCase(TestCase):
         # get object
         systemuser_1 = Systemuser.objects.get(systemuser_name='systemuser_1')
         # login testuser
-        login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
+        self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
         # get response
         response = self.client.get('/systemuser/' + str(systemuser_1.systemuser_id) + '/')
         # compare
@@ -134,7 +134,7 @@ class SystemuserViewTestCase(TestCase):
         # get object
         systemuser_1 = Systemuser.objects.get(systemuser_name='systemuser_1')
         # login testuser
-        login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
+        self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
         # create url
         destination = urllib.parse.quote('/systemuser/' + str(systemuser_1.systemuser_id) + '/', safe='/')
         # get response
@@ -156,7 +156,7 @@ class SystemuserViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
+        self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
         # get response
         response = self.client.get('/systemuser/add/')
         # compare
@@ -166,7 +166,7 @@ class SystemuserViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
+        self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
         # get response
         response = self.client.get('/systemuser/add/')
         # compare
@@ -176,7 +176,7 @@ class SystemuserViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
+        self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
         # get response
         response = self.client.get('/systemuser/add/')
         # compare
@@ -186,7 +186,7 @@ class SystemuserViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
+        self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
         # create url
         destination = urllib.parse.quote('/systemuser/add/', safe='/')
         # get response
@@ -198,7 +198,7 @@ class SystemuserViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
+        self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
         # get object
         system_id = System.objects.get(system_name = 'system_1').system_id
         # create post data
@@ -219,7 +219,7 @@ class SystemuserViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
+        self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
         # create post data
         data_dict = {}
         # get response
@@ -231,7 +231,7 @@ class SystemuserViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
+        self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
         # create post data
         data_dict = {}
         # get response
@@ -257,7 +257,7 @@ class SystemuserViewTestCase(TestCase):
         # get object
         systemuser_1 = Systemuser.objects.get(systemuser_name='systemuser_1')
         # login testuser
-        login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
+        self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
         # get response
         response = self.client.get('/systemuser/' + str(systemuser_1.systemuser_id) + '/edit/')
         # compare
@@ -269,7 +269,7 @@ class SystemuserViewTestCase(TestCase):
         # get object
         systemuser_1 = Systemuser.objects.get(systemuser_name='systemuser_1')
         # login testuser
-        login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
+        self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
         # get response
         response = self.client.get('/systemuser/' + str(systemuser_1.systemuser_id) + '/edit/')
         # compare
@@ -281,7 +281,7 @@ class SystemuserViewTestCase(TestCase):
         # get object
         systemuser_1 = Systemuser.objects.get(systemuser_name='systemuser_1')
         # login testuser
-        login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
+        self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
         # get response
         response = self.client.get('/systemuser/' + str(systemuser_1.systemuser_id) + '/edit/')
         # compare
@@ -293,7 +293,7 @@ class SystemuserViewTestCase(TestCase):
         # get object
         systemuser_1 = Systemuser.objects.get(systemuser_name='systemuser_1')
         # login testuser
-        login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
+        self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
         # create url
         destination = urllib.parse.quote('/systemuser/' + str(systemuser_1.systemuser_id) + '/edit/', safe='/')
         # get response
@@ -305,7 +305,7 @@ class SystemuserViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
+        self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
         # get object
         system_1 = System.objects.get(system_name = 'system_1')
         # create object
@@ -331,7 +331,7 @@ class SystemuserViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
+        self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
         # get object
         systemuser_id = Systemuser.objects.get(systemuser_name='systemuser_1').systemuser_id
         # create post data
@@ -345,7 +345,7 @@ class SystemuserViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
+        self.client.login(username='testuser_systemuser', password='BXgnvXckpl1BS3I5ShJs')
         # get object
         systemuser_id = Systemuser.objects.get(systemuser_name='systemuser_1').systemuser_id
         # create post data

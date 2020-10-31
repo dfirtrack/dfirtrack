@@ -207,7 +207,7 @@ class SystemExporterMarkdownViewTestCase(TestCase):
         """ test exporter view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_exporter_markdown', password='2anJuuSjzjLmb2pOYuLf')
+        self.client.login(username='testuser_system_exporter_markdown', password='2anJuuSjzjLmb2pOYuLf')
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -219,7 +219,7 @@ class SystemExporterMarkdownViewTestCase(TestCase):
         """ test exporter view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_exporter_markdown', password='2anJuuSjzjLmb2pOYuLf')
+        self.client.login(username='testuser_system_exporter_markdown', password='2anJuuSjzjLmb2pOYuLf')
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -231,7 +231,7 @@ class SystemExporterMarkdownViewTestCase(TestCase):
         """ test exporter view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_exporter_markdown', password='2anJuuSjzjLmb2pOYuLf')
+        self.client.login(username='testuser_system_exporter_markdown', password='2anJuuSjzjLmb2pOYuLf')
         # remove directory
         remove_markdown_path('/tmp/dfirtrack_test')
         # change config
@@ -249,7 +249,7 @@ class SystemExporterMarkdownViewTestCase(TestCase):
         """ test exporter view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_exporter_markdown', password='2anJuuSjzjLmb2pOYuLf')
+        self.client.login(username='testuser_system_exporter_markdown', password='2anJuuSjzjLmb2pOYuLf')
         # remove directory
         remove_markdown_path('/tmp/dfirtrack_test')
         # change config
@@ -268,7 +268,7 @@ class SystemExporterMarkdownViewTestCase(TestCase):
         """ test exporter view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_exporter_markdown', password='2anJuuSjzjLmb2pOYuLf')
+        self.client.login(username='testuser_system_exporter_markdown', password='2anJuuSjzjLmb2pOYuLf')
         # change permission for directory
         change_permission_markdown_path('/tmp/dfirtrack_test')
         # change config
@@ -287,7 +287,7 @@ class SystemExporterMarkdownViewTestCase(TestCase):
         """ test exporter view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_exporter_markdown', password='2anJuuSjzjLmb2pOYuLf')
+        self.client.login(username='testuser_system_exporter_markdown', password='2anJuuSjzjLmb2pOYuLf')
         # clean directory
         clean_markdown_path('/tmp/dfirtrack_test')
         # change config
@@ -316,7 +316,7 @@ class SystemExporterMarkdownViewTestCase(TestCase):
         """ test exporter view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_exporter_markdown', password='2anJuuSjzjLmb2pOYuLf')
+        self.client.login(username='testuser_system_exporter_markdown', password='2anJuuSjzjLmb2pOYuLf')
         # clean directory
         clean_markdown_path('/tmp/dfirtrack_test')
         # change config
@@ -348,7 +348,7 @@ class SystemExporterMarkdownViewTestCase(TestCase):
         """ test exporter view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_exporter_markdown', password='2anJuuSjzjLmb2pOYuLf')
+        self.client.login(username='testuser_system_exporter_markdown', password='2anJuuSjzjLmb2pOYuLf')
         # clean directory (this time it is simulated that an instance previously existed)
         clean_markdown_path('/tmp/dfirtrack_test/docs/systems')
         # change config

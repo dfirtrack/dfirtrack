@@ -47,7 +47,7 @@ class AnalystmemoViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
+        self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
         # get response
         response = self.client.get('/analystmemo/')
         # compare
@@ -57,7 +57,7 @@ class AnalystmemoViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
+        self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
         # get response
         response = self.client.get('/analystmemo/')
         # compare
@@ -67,7 +67,7 @@ class AnalystmemoViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
+        self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
         # get response
         response = self.client.get('/analystmemo/')
         # compare
@@ -77,7 +77,7 @@ class AnalystmemoViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
+        self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
         # create url
         destination = urllib.parse.quote('/analystmemo/', safe='/')
         # get response
@@ -103,7 +103,7 @@ class AnalystmemoViewTestCase(TestCase):
         # get object
         analystmemo_1 = Analystmemo.objects.get(analystmemo_note='lorem ipsum')
         # login testuser
-        login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
+        self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
         # get response
         response = self.client.get('/analystmemo/' + str(analystmemo_1.analystmemo_id) + '/')
         # compare
@@ -115,7 +115,7 @@ class AnalystmemoViewTestCase(TestCase):
         # get object
         analystmemo_1 = Analystmemo.objects.get(analystmemo_note='lorem ipsum')
         # login testuser
-        login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
+        self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
         # get response
         response = self.client.get('/analystmemo/' + str(analystmemo_1.analystmemo_id) + '/')
         # compare
@@ -127,7 +127,7 @@ class AnalystmemoViewTestCase(TestCase):
         # get object
         analystmemo_1 = Analystmemo.objects.get(analystmemo_note='lorem ipsum')
         # login testuser
-        login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
+        self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
         # get response
         response = self.client.get('/analystmemo/' + str(analystmemo_1.analystmemo_id) + '/')
         # compare
@@ -139,7 +139,7 @@ class AnalystmemoViewTestCase(TestCase):
         # get object
         analystmemo_1 = Analystmemo.objects.get(analystmemo_note='lorem ipsum')
         # login testuser
-        login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
+        self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
         # create url
         destination = urllib.parse.quote('/analystmemo/' + str(analystmemo_1.analystmemo_id) + '/', safe='/')
         # get response
@@ -161,7 +161,7 @@ class AnalystmemoViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
+        self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
         # get response
         response = self.client.get('/analystmemo/add/')
         # compare
@@ -171,7 +171,7 @@ class AnalystmemoViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
+        self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
         # get object
         system_id = System.objects.get(system_name = 'system_1').system_id
         # get response
@@ -183,7 +183,7 @@ class AnalystmemoViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
+        self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
         # get response
         response = self.client.get('/analystmemo/add/')
         # compare
@@ -193,7 +193,7 @@ class AnalystmemoViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
+        self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
         # get response
         response = self.client.get('/analystmemo/add/')
         # compare
@@ -203,7 +203,7 @@ class AnalystmemoViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
+        self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
         # create url
         destination = urllib.parse.quote('/analystmemo/add/', safe='/')
         # get response
@@ -215,7 +215,7 @@ class AnalystmemoViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
+        self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
         # get object
         system_id = System.objects.get(system_name = 'system_1').system_id
         # create post data
@@ -236,7 +236,7 @@ class AnalystmemoViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
+        self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
         # create post data
         data_dict = {}
         # get response
@@ -248,7 +248,7 @@ class AnalystmemoViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
+        self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
         # create post data
         data_dict = {}
         # get response
@@ -274,7 +274,7 @@ class AnalystmemoViewTestCase(TestCase):
         # get object
         analystmemo_1 = Analystmemo.objects.get(analystmemo_note='lorem ipsum')
         # login testuser
-        login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
+        self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
         # get response
         response = self.client.get('/analystmemo/' + str(analystmemo_1.analystmemo_id) + '/edit/')
         # compare
@@ -286,7 +286,7 @@ class AnalystmemoViewTestCase(TestCase):
         # get object
         analystmemo_1 = Analystmemo.objects.get(analystmemo_note='lorem ipsum')
         # login testuser
-        login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
+        self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
         # get response
         response = self.client.get('/analystmemo/' + str(analystmemo_1.analystmemo_id) + '/edit/')
         # compare
@@ -298,7 +298,7 @@ class AnalystmemoViewTestCase(TestCase):
         # get object
         analystmemo_1 = Analystmemo.objects.get(analystmemo_note='lorem ipsum')
         # login testuser
-        login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
+        self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
         # get response
         response = self.client.get('/analystmemo/' + str(analystmemo_1.analystmemo_id) + '/edit/')
         # compare
@@ -310,7 +310,7 @@ class AnalystmemoViewTestCase(TestCase):
         # get object
         analystmemo_1 = Analystmemo.objects.get(analystmemo_note='lorem ipsum')
         # login testuser
-        login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
+        self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
         # create url
         destination = urllib.parse.quote('/analystmemo/' + str(analystmemo_1.analystmemo_id) + '/edit/', safe='/')
         # get response
@@ -322,7 +322,7 @@ class AnalystmemoViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
+        self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
         # get user
         test_user = User.objects.get(username='testuser_analystmemo')
         # get object
@@ -352,7 +352,7 @@ class AnalystmemoViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
+        self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
         # get object
         analystmemo_id = Analystmemo.objects.get(analystmemo_note='lorem ipsum').analystmemo_id
         # create post data
@@ -366,7 +366,7 @@ class AnalystmemoViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
+        self.client.login(username='testuser_analystmemo', password='M4d878CFQiHcJQrZr4iN')
         # get object
         analystmemo_id = Analystmemo.objects.get(analystmemo_note='lorem ipsum').analystmemo_id
         # create post data

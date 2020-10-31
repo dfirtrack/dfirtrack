@@ -36,7 +36,7 @@ class TasknameViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
         # get response
         response = self.client.get('/taskname/')
         # compare
@@ -46,7 +46,7 @@ class TasknameViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
         # get response
         response = self.client.get('/taskname/')
         # compare
@@ -56,7 +56,7 @@ class TasknameViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
         # get response
         response = self.client.get('/taskname/')
         # compare
@@ -66,7 +66,7 @@ class TasknameViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
         # create url
         destination = urllib.parse.quote('/taskname/', safe='/')
         # get response
@@ -92,7 +92,7 @@ class TasknameViewTestCase(TestCase):
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
         # login testuser
-        login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
         # get response
         response = self.client.get('/taskname/' + str(taskname_1.taskname_id) + '/')
         # compare
@@ -104,7 +104,7 @@ class TasknameViewTestCase(TestCase):
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
         # login testuser
-        login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
         # get response
         response = self.client.get('/taskname/' + str(taskname_1.taskname_id) + '/')
         # compare
@@ -116,7 +116,7 @@ class TasknameViewTestCase(TestCase):
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
         # login testuser
-        login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
         # get response
         response = self.client.get('/taskname/' + str(taskname_1.taskname_id) + '/')
         # compare
@@ -128,7 +128,7 @@ class TasknameViewTestCase(TestCase):
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
         # login testuser
-        login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
         # create url
         destination = urllib.parse.quote('/taskname/' + str(taskname_1.taskname_id) + '/', safe='/')
         # get response
@@ -150,7 +150,7 @@ class TasknameViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
         # get response
         response = self.client.get('/taskname/add/')
         # compare
@@ -160,7 +160,7 @@ class TasknameViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
         # get response
         response = self.client.get('/taskname/add/')
         # compare
@@ -170,7 +170,7 @@ class TasknameViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
         # get response
         response = self.client.get('/taskname/add/')
         # compare
@@ -180,7 +180,7 @@ class TasknameViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
         # create url
         destination = urllib.parse.quote('/taskname/add/', safe='/')
         # get response
@@ -192,7 +192,7 @@ class TasknameViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
         # create post data
         data_dict = {
             'taskname_name': 'taskname_add_post_test',
@@ -210,7 +210,7 @@ class TasknameViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
         # create post data
         data_dict = {}
         # get response
@@ -222,7 +222,7 @@ class TasknameViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
         # create post data
         data_dict = {}
         # get response
@@ -248,7 +248,7 @@ class TasknameViewTestCase(TestCase):
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
         # login testuser
-        login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
         # get response
         response = self.client.get('/taskname/' + str(taskname_1.taskname_id) + '/edit/')
         # compare
@@ -260,7 +260,7 @@ class TasknameViewTestCase(TestCase):
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
         # login testuser
-        login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
         # get response
         response = self.client.get('/taskname/' + str(taskname_1.taskname_id) + '/edit/')
         # compare
@@ -272,7 +272,7 @@ class TasknameViewTestCase(TestCase):
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
         # login testuser
-        login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
         # get response
         response = self.client.get('/taskname/' + str(taskname_1.taskname_id) + '/edit/')
         # compare
@@ -284,7 +284,7 @@ class TasknameViewTestCase(TestCase):
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
         # login testuser
-        login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
         # create url
         destination = urllib.parse.quote('/taskname/' + str(taskname_1.taskname_id) + '/edit/', safe='/')
         # get response
@@ -296,7 +296,7 @@ class TasknameViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
         # create object
         taskname_1 = Taskname.objects.create(taskname_name='taskname_edit_post_test_1')
         # create post data
@@ -316,7 +316,7 @@ class TasknameViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
         # get object
         taskname_id = Taskname.objects.get(taskname_name='taskname_1').taskname_id
         # create post data
@@ -330,7 +330,7 @@ class TasknameViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
         # get object
         taskname_id = Taskname.objects.get(taskname_name='taskname_1').taskname_id
         # create post data
@@ -358,7 +358,7 @@ class TasknameViewTestCase(TestCase):
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
         # login testuser
-        login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
         # get response
         response = self.client.get('/taskname/' + str(taskname_1.taskname_id) + '/close/')
         # compare
@@ -370,7 +370,7 @@ class TasknameViewTestCase(TestCase):
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
         # login testuser
-        login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
         # get response
         response = self.client.get('/taskname/' + str(taskname_1.taskname_id) + '/close/')
         # compare
@@ -382,7 +382,7 @@ class TasknameViewTestCase(TestCase):
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
         # login testuser
-        login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
         # get response
         response = self.client.get('/taskname/' + str(taskname_1.taskname_id) + '/close/')
         # compare
@@ -394,7 +394,7 @@ class TasknameViewTestCase(TestCase):
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
         # login testuser
-        login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
         # create url
         destination = urllib.parse.quote('/taskname/' + str(taskname_1.taskname_id) + '/close/', safe='/')
         # get response
@@ -406,7 +406,7 @@ class TasknameViewTestCase(TestCase):
         """ test close view """
 
         # login testuser
-        login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
         # get user
         test_user = User.objects.get(username='testuser_taskname')
         # create object
@@ -450,7 +450,7 @@ class TasknameViewTestCase(TestCase):
         """ test close view """
 
         # login testuser
-        login = self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
         # create object
         taskname_void = Taskname.objects.create(taskname_name='test_taskname_void')
         # get object (does not work the usual way because form with available choices is build before model instance is created during the test)

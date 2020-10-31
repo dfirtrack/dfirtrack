@@ -28,7 +28,7 @@ class LocationViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
         # get response
         response = self.client.get('/location/')
         # compare
@@ -38,7 +38,7 @@ class LocationViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
         # get response
         response = self.client.get('/location/')
         # compare
@@ -48,7 +48,7 @@ class LocationViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
         # get response
         response = self.client.get('/location/')
         # compare
@@ -58,7 +58,7 @@ class LocationViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
         # create url
         destination = urllib.parse.quote('/location/', safe='/')
         # get response
@@ -84,7 +84,7 @@ class LocationViewTestCase(TestCase):
         # get object
         location_1 = Location.objects.get(location_name='location_1')
         # login testuser
-        login = self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
         # get response
         response = self.client.get('/location/' + str(location_1.location_id) + '/')
         # compare
@@ -96,7 +96,7 @@ class LocationViewTestCase(TestCase):
         # get object
         location_1 = Location.objects.get(location_name='location_1')
         # login testuser
-        login = self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
         # get response
         response = self.client.get('/location/' + str(location_1.location_id) + '/')
         # compare
@@ -108,7 +108,7 @@ class LocationViewTestCase(TestCase):
         # get object
         location_1 = Location.objects.get(location_name='location_1')
         # login testuser
-        login = self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
         # get response
         response = self.client.get('/location/' + str(location_1.location_id) + '/')
         # compare
@@ -120,7 +120,7 @@ class LocationViewTestCase(TestCase):
         # get object
         location_1 = Location.objects.get(location_name='location_1')
         # login testuser
-        login = self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
         # create url
         destination = urllib.parse.quote('/location/' + str(location_1.location_id) + '/', safe='/')
         # get response
@@ -142,7 +142,7 @@ class LocationViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
         # get response
         response = self.client.get('/location/add/')
         # compare
@@ -152,7 +152,7 @@ class LocationViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
         # get response
         response = self.client.get('/location/add/')
         # compare
@@ -162,7 +162,7 @@ class LocationViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
         # get response
         response = self.client.get('/location/add/')
         # compare
@@ -172,7 +172,7 @@ class LocationViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
         # create url
         destination = urllib.parse.quote('/location/add/', safe='/')
         # get response
@@ -184,7 +184,7 @@ class LocationViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
         # create post data
         data_dict = {
             'location_name': 'location_add_post_test',
@@ -202,7 +202,7 @@ class LocationViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
         # create post data
         data_dict = {}
         # get response
@@ -214,7 +214,7 @@ class LocationViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
         # create post data
         data_dict = {}
         # get response
@@ -236,7 +236,7 @@ class LocationViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
         # get response
         response = self.client.get('/location/add_popup/')
         # compare
@@ -246,7 +246,7 @@ class LocationViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
         # get response
         response = self.client.get('/location/add_popup/')
         # compare
@@ -256,7 +256,7 @@ class LocationViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
         # get response
         response = self.client.get('/location/add_popup/')
         # compare
@@ -266,7 +266,7 @@ class LocationViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
         # create url
         destination = urllib.parse.quote('/location/add_popup/', safe='/')
         # get response
@@ -278,7 +278,7 @@ class LocationViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
         # create post data
         data_dict = {
             'location_name': 'location_add_popup_post_test',
@@ -294,7 +294,7 @@ class LocationViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
         # create post data
         data_dict = {}
         # get response
@@ -306,7 +306,7 @@ class LocationViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
         # create post data
         data_dict = {}
         # get response
@@ -332,7 +332,7 @@ class LocationViewTestCase(TestCase):
         # get object
         location_1 = Location.objects.get(location_name='location_1')
         # login testuser
-        login = self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
         # get response
         response = self.client.get('/location/' + str(location_1.location_id) + '/edit/')
         # compare
@@ -344,7 +344,7 @@ class LocationViewTestCase(TestCase):
         # get object
         location_1 = Location.objects.get(location_name='location_1')
         # login testuser
-        login = self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
         # get response
         response = self.client.get('/location/' + str(location_1.location_id) + '/edit/')
         # compare
@@ -356,7 +356,7 @@ class LocationViewTestCase(TestCase):
         # get object
         location_1 = Location.objects.get(location_name='location_1')
         # login testuser
-        login = self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
         # get response
         response = self.client.get('/location/' + str(location_1.location_id) + '/edit/')
         # compare
@@ -368,7 +368,7 @@ class LocationViewTestCase(TestCase):
         # get object
         location_1 = Location.objects.get(location_name='location_1')
         # login testuser
-        login = self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
         # create url
         destination = urllib.parse.quote('/location/' + str(location_1.location_id) + '/edit/', safe='/')
         # get response
@@ -380,7 +380,7 @@ class LocationViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
         # create object
         location_1 = Location.objects.create(location_name='location_edit_post_test_1')
         # create post data
@@ -400,7 +400,7 @@ class LocationViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
         # get object
         location_id = Location.objects.get(location_name='location_1').location_id
         # create post data
@@ -414,7 +414,7 @@ class LocationViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
+        self.client.login(username='testuser_location', password='JvXyGOHOvAEvx6xqls7r')
         # get object
         location_id = Location.objects.get(location_name='location_1').location_id
         # create post data

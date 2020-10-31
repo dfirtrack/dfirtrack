@@ -28,7 +28,7 @@ class RecommendationViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
+        self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # get response
         response = self.client.get('/recommendation/')
         # compare
@@ -38,7 +38,7 @@ class RecommendationViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
+        self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # get response
         response = self.client.get('/recommendation/')
         # compare
@@ -48,7 +48,7 @@ class RecommendationViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
+        self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # get response
         response = self.client.get('/recommendation/')
         # compare
@@ -58,7 +58,7 @@ class RecommendationViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
+        self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # create url
         destination = urllib.parse.quote('/recommendation/', safe='/')
         # get response
@@ -84,7 +84,7 @@ class RecommendationViewTestCase(TestCase):
         # get object
         recommendation_1 = Recommendation.objects.get(recommendation_name='recommendation_1')
         # login testuser
-        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
+        self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # get response
         response = self.client.get('/recommendation/' + str(recommendation_1.recommendation_id) + '/')
         # compare
@@ -96,7 +96,7 @@ class RecommendationViewTestCase(TestCase):
         # get object
         recommendation_1 = Recommendation.objects.get(recommendation_name='recommendation_1')
         # login testuser
-        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
+        self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # get response
         response = self.client.get('/recommendation/' + str(recommendation_1.recommendation_id) + '/')
         # compare
@@ -108,7 +108,7 @@ class RecommendationViewTestCase(TestCase):
         # get object
         recommendation_1 = Recommendation.objects.get(recommendation_name='recommendation_1')
         # login testuser
-        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
+        self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # get response
         response = self.client.get('/recommendation/' + str(recommendation_1.recommendation_id) + '/')
         # compare
@@ -120,7 +120,7 @@ class RecommendationViewTestCase(TestCase):
         # get object
         recommendation_1 = Recommendation.objects.get(recommendation_name='recommendation_1')
         # login testuser
-        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
+        self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # create url
         destination = urllib.parse.quote('/recommendation/' + str(recommendation_1.recommendation_id) + '/', safe='/')
         # get response
@@ -142,7 +142,7 @@ class RecommendationViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
+        self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # get response
         response = self.client.get('/recommendation/add/')
         # compare
@@ -152,7 +152,7 @@ class RecommendationViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
+        self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # get response
         response = self.client.get('/recommendation/add/')
         # compare
@@ -162,7 +162,7 @@ class RecommendationViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
+        self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # get response
         response = self.client.get('/recommendation/add/')
         # compare
@@ -172,7 +172,7 @@ class RecommendationViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
+        self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # create url
         destination = urllib.parse.quote('/recommendation/add/', safe='/')
         # get response
@@ -184,7 +184,7 @@ class RecommendationViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
+        self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # create post data
         data_dict = {
             'recommendation_name': 'recommendation_add_post_test',
@@ -202,7 +202,7 @@ class RecommendationViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
+        self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # create post data
         data_dict = {}
         # get response
@@ -214,7 +214,7 @@ class RecommendationViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
+        self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # create post data
         data_dict = {}
         # get response
@@ -236,7 +236,7 @@ class RecommendationViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
+        self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # get response
         response = self.client.get('/recommendation/add_popup/')
         # compare
@@ -246,7 +246,7 @@ class RecommendationViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
+        self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # get response
         response = self.client.get('/recommendation/add_popup/')
         # compare
@@ -256,7 +256,7 @@ class RecommendationViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
+        self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # get response
         response = self.client.get('/recommendation/add_popup/')
         # compare
@@ -266,7 +266,7 @@ class RecommendationViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
+        self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # create url
         destination = urllib.parse.quote('/recommendation/add_popup/', safe='/')
         # get response
@@ -278,7 +278,7 @@ class RecommendationViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
+        self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # create post data
         data_dict = {
             'recommendation_name': 'recommendation_add_popup_post',
@@ -294,7 +294,7 @@ class RecommendationViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
+        self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # create post data
         data_dict = {}
         # get response
@@ -306,7 +306,7 @@ class RecommendationViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
+        self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # create post data
         data_dict = {}
         # get response
@@ -332,7 +332,7 @@ class RecommendationViewTestCase(TestCase):
         # get object
         recommendation_1 = Recommendation.objects.get(recommendation_name='recommendation_1')
         # login testuser
-        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
+        self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # get response
         response = self.client.get('/recommendation/' + str(recommendation_1.recommendation_id) + '/edit/')
         # compare
@@ -344,7 +344,7 @@ class RecommendationViewTestCase(TestCase):
         # get object
         recommendation_1 = Recommendation.objects.get(recommendation_name='recommendation_1')
         # login testuser
-        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
+        self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # get response
         response = self.client.get('/recommendation/' + str(recommendation_1.recommendation_id) + '/edit/')
         # compare
@@ -356,7 +356,7 @@ class RecommendationViewTestCase(TestCase):
         # get object
         recommendation_1 = Recommendation.objects.get(recommendation_name='recommendation_1')
         # login testuser
-        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
+        self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # get response
         response = self.client.get('/recommendation/' + str(recommendation_1.recommendation_id) + '/edit/')
         # compare
@@ -368,7 +368,7 @@ class RecommendationViewTestCase(TestCase):
         # get object
         recommendation_1 = Recommendation.objects.get(recommendation_name='recommendation_1')
         # login testuser
-        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
+        self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # create url
         destination = urllib.parse.quote('/recommendation/' + str(recommendation_1.recommendation_id) + '/edit/', safe='/')
         # get response
@@ -380,7 +380,7 @@ class RecommendationViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
+        self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # create object
         recommendation_1 = Recommendation.objects.create(recommendation_name='recommendation_edit_post_t_1')
         # create post data
@@ -400,7 +400,7 @@ class RecommendationViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
+        self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # get object
         recommendation_id = Recommendation.objects.get(recommendation_name='recommendation_1').recommendation_id
         # create post data
@@ -414,7 +414,7 @@ class RecommendationViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
+        self.client.login(username='testuser_recommendation', password='f5n2U59eN7BVi7sM3209')
         # get object
         recommendation_id = Recommendation.objects.get(recommendation_name='recommendation_1').recommendation_id
         # create post data

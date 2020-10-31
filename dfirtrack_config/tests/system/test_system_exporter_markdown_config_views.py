@@ -10,7 +10,7 @@ class SystemExporterMarkdownConfigViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create user
-        test_user = User.objects.create_user(username='testuser_system_exporter_markdown_config', password='Rg6YK8f9LSlIY4yaBDxS')
+        User.objects.create_user(username='testuser_system_exporter_markdown_config', password='Rg6YK8f9LSlIY4yaBDxS')
 
     def test_system_exporter_markdown_config_not_logged_in(self):
         """ test exporter view """
@@ -26,7 +26,7 @@ class SystemExporterMarkdownConfigViewTestCase(TestCase):
         """ test exporter view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_exporter_markdown_config', password='Rg6YK8f9LSlIY4yaBDxS')
+        self.client.login(username='testuser_system_exporter_markdown_config', password='Rg6YK8f9LSlIY4yaBDxS')
         # get response
         response = self.client.get('/config/system/exporter/markdown/', follow=True)
         # compare
@@ -36,7 +36,7 @@ class SystemExporterMarkdownConfigViewTestCase(TestCase):
         """ test exporter view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_exporter_markdown_config', password='Rg6YK8f9LSlIY4yaBDxS')
+        self.client.login(username='testuser_system_exporter_markdown_config', password='Rg6YK8f9LSlIY4yaBDxS')
         # get response
         response = self.client.get('/config/system/exporter/markdown/')
         # compare
@@ -46,7 +46,7 @@ class SystemExporterMarkdownConfigViewTestCase(TestCase):
         """ test exporter view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_exporter_markdown_config', password='Rg6YK8f9LSlIY4yaBDxS')
+        self.client.login(username='testuser_system_exporter_markdown_config', password='Rg6YK8f9LSlIY4yaBDxS')
         # get response
         response = self.client.get('/config/system/exporter/markdown/')
         # compare
@@ -56,7 +56,7 @@ class SystemExporterMarkdownConfigViewTestCase(TestCase):
         """ test exporter view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_exporter_markdown_config', password='Rg6YK8f9LSlIY4yaBDxS')
+        self.client.login(username='testuser_system_exporter_markdown_config', password='Rg6YK8f9LSlIY4yaBDxS')
         # create url
         destination = urllib.parse.quote('/config/system/exporter/markdown/', safe='/')
         # get response
@@ -68,7 +68,7 @@ class SystemExporterMarkdownConfigViewTestCase(TestCase):
             """ test exporter view """
 
             # login testuser
-            login = self.client.login(username='testuser_system_exporter_markdown_config', password='Rg6YK8f9LSlIY4yaBDxS')
+            self.client.login(username='testuser_system_exporter_markdown_config', password='Rg6YK8f9LSlIY4yaBDxS')
             # create post data
             data_dict = {
                 'markdown_sorting': 'sys',
@@ -82,13 +82,13 @@ class SystemExporterMarkdownConfigViewTestCase(TestCase):
             """ test exporter view """
 
             # login testuser
-            login = self.client.login(username='testuser_system_exporter_markdown_config', password='Rg6YK8f9LSlIY4yaBDxS')
+            self.client.login(username='testuser_system_exporter_markdown_config', password='Rg6YK8f9LSlIY4yaBDxS')
             # create post data
             data_dict = {
                 'markdown_sorting': 'sys',
             }
             # get response
-            response = self.client.post('/config/system/exporter/markdown/', data_dict)
+            self.client.post('/config/system/exporter/markdown/', data_dict)
             # get object
             system_exporter_markdown_config_model = SystemExporterMarkdownConfigModel.objects.get(system_exporter_markdown_config_name = 'SystemExporterMarkdownConfig')
             # compare
@@ -98,13 +98,13 @@ class SystemExporterMarkdownConfigViewTestCase(TestCase):
             """ test exporter view """
 
             # login testuser
-            login = self.client.login(username='testuser_system_exporter_markdown_config', password='Rg6YK8f9LSlIY4yaBDxS')
+            self.client.login(username='testuser_system_exporter_markdown_config', password='Rg6YK8f9LSlIY4yaBDxS')
             # create post data
             data_dict = {
                 'markdown_sorting': 'dom',
             }
             # get response
-            response = self.client.post('/config/system/exporter/markdown/', data_dict)
+            self.client.post('/config/system/exporter/markdown/', data_dict)
             # get object
             system_exporter_markdown_config_model = SystemExporterMarkdownConfigModel.objects.get(system_exporter_markdown_config_name = 'SystemExporterMarkdownConfig')
             # compare
@@ -114,7 +114,7 @@ class SystemExporterMarkdownConfigViewTestCase(TestCase):
             """ test exporter view """
 
             # login testuser
-            login = self.client.login(username='testuser_system_exporter_markdown_config', password='Rg6YK8f9LSlIY4yaBDxS')
+            self.client.login(username='testuser_system_exporter_markdown_config', password='Rg6YK8f9LSlIY4yaBDxS')
             # create post data
             data_dict = {}
             # get response
@@ -126,7 +126,7 @@ class SystemExporterMarkdownConfigViewTestCase(TestCase):
             """ test exporter view """
 
             # login testuser
-            login = self.client.login(username='testuser_system_exporter_markdown_config', password='Rg6YK8f9LSlIY4yaBDxS')
+            self.client.login(username='testuser_system_exporter_markdown_config', password='Rg6YK8f9LSlIY4yaBDxS')
             # create post data
             data_dict = {}
             # get response

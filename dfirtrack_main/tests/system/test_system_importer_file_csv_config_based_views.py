@@ -25,7 +25,7 @@ class SystemImporterFileCsvConfigbasedViewTestCase(TestCase):
         """ test importer view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_importer_file_csv_config_based', password='URVYUzUig1BrzToryfkm')
+        self.client.login(username='testuser_system_importer_file_csv_config_based', password='URVYUzUig1BrzToryfkm')
         # get response
         response = self.client.get('/system/importer/file/csv/configbased/')
         # compare
@@ -35,7 +35,7 @@ class SystemImporterFileCsvConfigbasedViewTestCase(TestCase):
         """ test importer view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_importer_file_csv_config_based', password='URVYUzUig1BrzToryfkm')
+        self.client.login(username='testuser_system_importer_file_csv_config_based', password='URVYUzUig1BrzToryfkm')
         # get response
         response = self.client.get('/system/importer/file/csv/configbased/')
         # compare
@@ -45,7 +45,7 @@ class SystemImporterFileCsvConfigbasedViewTestCase(TestCase):
         """ test importer view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_importer_file_csv_config_based', password='URVYUzUig1BrzToryfkm')
+        self.client.login(username='testuser_system_importer_file_csv_config_based', password='URVYUzUig1BrzToryfkm')
         # get response
         response = self.client.get('/system/importer/file/csv/configbased/')
         # compare
@@ -55,7 +55,7 @@ class SystemImporterFileCsvConfigbasedViewTestCase(TestCase):
         """ test importer view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_importer_file_csv_config_based', password='URVYUzUig1BrzToryfkm')
+        self.client.login(username='testuser_system_importer_file_csv_config_based', password='URVYUzUig1BrzToryfkm')
         # create url
         destination = urllib.parse.quote('/system/importer/file/csv/configbased/', safe='/')
         # get response

@@ -1,6 +1,6 @@
 from django import forms
 from django.utils.translation import gettext_lazy
-from dfirtrack_main.models import Case, System
+from dfirtrack_main.models import System
 from dfirtrack_artifacts.models import Artifact, Artifacttype
 import re
 

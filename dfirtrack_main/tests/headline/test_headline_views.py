@@ -28,7 +28,7 @@ class HeadlineViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
+        self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
         # get response
         response = self.client.get('/headline/')
         # compare
@@ -38,7 +38,7 @@ class HeadlineViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
+        self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
         # get response
         response = self.client.get('/headline/')
         # compare
@@ -48,7 +48,7 @@ class HeadlineViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
+        self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
         # get response
         response = self.client.get('/headline/')
         # compare
@@ -58,7 +58,7 @@ class HeadlineViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
+        self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
         # create url
         destination = urllib.parse.quote('/headline/', safe='/')
         # get response
@@ -84,7 +84,7 @@ class HeadlineViewTestCase(TestCase):
         # get object
         headline_1 = Headline.objects.get(headline_name='headline_1')
         # login testuser
-        login = self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
+        self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
         # get response
         response = self.client.get('/headline/' + str(headline_1.headline_id) + '/')
         # compare
@@ -96,7 +96,7 @@ class HeadlineViewTestCase(TestCase):
         # get object
         headline_1 = Headline.objects.get(headline_name='headline_1')
         # login testuser
-        login = self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
+        self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
         # get response
         response = self.client.get('/headline/' + str(headline_1.headline_id) + '/')
         # compare
@@ -108,7 +108,7 @@ class HeadlineViewTestCase(TestCase):
         # get object
         headline_1 = Headline.objects.get(headline_name='headline_1')
         # login testuser
-        login = self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
+        self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
         # get response
         response = self.client.get('/headline/' + str(headline_1.headline_id) + '/')
         # compare
@@ -120,7 +120,7 @@ class HeadlineViewTestCase(TestCase):
         # get object
         headline_1 = Headline.objects.get(headline_name='headline_1')
         # login testuser
-        login = self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
+        self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
         # create url
         destination = urllib.parse.quote('/headline/' + str(headline_1.headline_id) + '/', safe='/')
         # get response
@@ -142,7 +142,7 @@ class HeadlineViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
+        self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
         # get response
         response = self.client.get('/headline/add/')
         # compare
@@ -152,7 +152,7 @@ class HeadlineViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
+        self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
         # get response
         response = self.client.get('/headline/add/')
         # compare
@@ -162,7 +162,7 @@ class HeadlineViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
+        self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
         # get response
         response = self.client.get('/headline/add/')
         # compare
@@ -172,7 +172,7 @@ class HeadlineViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
+        self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
         # create url
         destination = urllib.parse.quote('/headline/add/', safe='/')
         # get response
@@ -184,7 +184,7 @@ class HeadlineViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
+        self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
         # create post data
         data_dict = {
             'headline_name': 'headline_add_post_test',
@@ -202,7 +202,7 @@ class HeadlineViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
+        self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
         # create post data
         data_dict = {}
         # get response
@@ -214,7 +214,7 @@ class HeadlineViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
+        self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
         # create post data
         data_dict = {}
         # get response
@@ -240,7 +240,7 @@ class HeadlineViewTestCase(TestCase):
         # get object
         headline_1 = Headline.objects.get(headline_name='headline_1')
         # login testuser
-        login = self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
+        self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
         # get response
         response = self.client.get('/headline/' + str(headline_1.headline_id) + '/edit/')
         # compare
@@ -252,7 +252,7 @@ class HeadlineViewTestCase(TestCase):
         # get object
         headline_1 = Headline.objects.get(headline_name='headline_1')
         # login testuser
-        login = self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
+        self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
         # get response
         response = self.client.get('/headline/' + str(headline_1.headline_id) + '/edit/')
         # compare
@@ -264,7 +264,7 @@ class HeadlineViewTestCase(TestCase):
         # get object
         headline_1 = Headline.objects.get(headline_name='headline_1')
         # login testuser
-        login = self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
+        self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
         # get response
         response = self.client.get('/headline/' + str(headline_1.headline_id) + '/edit/')
         # compare
@@ -276,7 +276,7 @@ class HeadlineViewTestCase(TestCase):
         # get object
         headline_1 = Headline.objects.get(headline_name='headline_1')
         # login testuser
-        login = self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
+        self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
         # create url
         destination = urllib.parse.quote('/headline/' + str(headline_1.headline_id) + '/edit/', safe='/')
         # get response
@@ -288,7 +288,7 @@ class HeadlineViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
+        self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
         # create object
         headline_1 = Headline.objects.create(headline_name='headline_edit_post_test_1')
         # create post data
@@ -308,7 +308,7 @@ class HeadlineViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
+        self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
         # get object
         headline_id = Headline.objects.get(headline_name='headline_1').headline_id
         # create post data
@@ -322,7 +322,7 @@ class HeadlineViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
+        self.client.login(username='testuser_headline', password='jjSeshxL17aDEdqkt8tP')
         # get object
         headline_id = Headline.objects.get(headline_name='headline_1').headline_id
         # create post data

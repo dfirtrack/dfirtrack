@@ -25,7 +25,7 @@ class SystemImporterFileCsvFormbasedViewTestCase(TestCase):
         """ test importer view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_importer_file_csv_form_based', password='h3v1BVjsdpJu6sAnSP7e')
+        self.client.login(username='testuser_system_importer_file_csv_form_based', password='h3v1BVjsdpJu6sAnSP7e')
         # get response
         response = self.client.get('/system/importer/file/csv/formbased/')
         # compare
@@ -35,7 +35,7 @@ class SystemImporterFileCsvFormbasedViewTestCase(TestCase):
         """ test importer view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_importer_file_csv_form_based', password='h3v1BVjsdpJu6sAnSP7e')
+        self.client.login(username='testuser_system_importer_file_csv_form_based', password='h3v1BVjsdpJu6sAnSP7e')
         # get response
         response = self.client.get('/system/importer/file/csv/formbased/')
         # compare
@@ -45,7 +45,7 @@ class SystemImporterFileCsvFormbasedViewTestCase(TestCase):
         """ test importer view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_importer_file_csv_form_based', password='h3v1BVjsdpJu6sAnSP7e')
+        self.client.login(username='testuser_system_importer_file_csv_form_based', password='h3v1BVjsdpJu6sAnSP7e')
         # get response
         response = self.client.get('/system/importer/file/csv/formbased/')
         # compare
@@ -55,7 +55,7 @@ class SystemImporterFileCsvFormbasedViewTestCase(TestCase):
         """ test importer view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_importer_file_csv_form_based', password='h3v1BVjsdpJu6sAnSP7e')
+        self.client.login(username='testuser_system_importer_file_csv_form_based', password='h3v1BVjsdpJu6sAnSP7e')
         # create url
         destination = urllib.parse.quote('/system/importer/file/csv/formbased/', safe='/')
         # get response

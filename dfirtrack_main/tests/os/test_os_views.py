@@ -28,7 +28,7 @@ class OsViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
+        self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
         # get response
         response = self.client.get('/os/')
         # compare
@@ -38,7 +38,7 @@ class OsViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
+        self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
         # get response
         response = self.client.get('/os/')
         # compare
@@ -48,7 +48,7 @@ class OsViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
+        self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
         # get response
         response = self.client.get('/os/')
         # compare
@@ -58,7 +58,7 @@ class OsViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
+        self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
         # create url
         destination = urllib.parse.quote('/os/', safe='/')
         # get response
@@ -84,7 +84,7 @@ class OsViewTestCase(TestCase):
         # get object
         os_1 = Os.objects.get(os_name='os_1')
         # login testuser
-        login = self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
+        self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
         # get response
         response = self.client.get('/os/' + str(os_1.os_id) + '/')
         # compare
@@ -96,7 +96,7 @@ class OsViewTestCase(TestCase):
         # get object
         os_1 = Os.objects.get(os_name='os_1')
         # login testuser
-        login = self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
+        self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
         # get response
         response = self.client.get('/os/' + str(os_1.os_id) + '/')
         # compare
@@ -108,7 +108,7 @@ class OsViewTestCase(TestCase):
         # get object
         os_1 = Os.objects.get(os_name='os_1')
         # login testuser
-        login = self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
+        self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
         # get response
         response = self.client.get('/os/' + str(os_1.os_id) + '/')
         # compare
@@ -120,7 +120,7 @@ class OsViewTestCase(TestCase):
         # get object
         os_1 = Os.objects.get(os_name='os_1')
         # login testuser
-        login = self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
+        self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
         # create url
         destination = urllib.parse.quote('/os/' + str(os_1.os_id) + '/', safe='/')
         # get response
@@ -142,7 +142,7 @@ class OsViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
+        self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
         # get response
         response = self.client.get('/os/add/')
         # compare
@@ -152,7 +152,7 @@ class OsViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
+        self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
         # get response
         response = self.client.get('/os/add/')
         # compare
@@ -162,7 +162,7 @@ class OsViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
+        self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
         # get response
         response = self.client.get('/os/add/')
         # compare
@@ -172,7 +172,7 @@ class OsViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
+        self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
         # create url
         destination = urllib.parse.quote('/os/add/', safe='/')
         # get response
@@ -184,7 +184,7 @@ class OsViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
+        self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
         # create post data
         data_dict = {
             'os_name': 'os_add_post_test',
@@ -202,7 +202,7 @@ class OsViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
+        self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
         # create post data
         data_dict = {}
         # get response
@@ -213,7 +213,7 @@ class OsViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
+        self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
         # create post data
         data_dict = {}
         # get response
@@ -235,7 +235,7 @@ class OsViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
+        self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
         # get response
         response = self.client.get('/os/add_popup/')
         # compare
@@ -245,7 +245,7 @@ class OsViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
+        self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
         # get response
         response = self.client.get('/os/add_popup/')
         # compare
@@ -255,7 +255,7 @@ class OsViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
+        self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
         # get response
         response = self.client.get('/os/add_popup/')
         # compare
@@ -265,7 +265,7 @@ class OsViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
+        self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
         # create url
         destination = urllib.parse.quote('/os/add_popup/', safe='/')
         # get response
@@ -277,7 +277,7 @@ class OsViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
+        self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
         # create post data
         data_dict = {
             'os_name': 'os_add_popup_post_test',
@@ -293,7 +293,7 @@ class OsViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
+        self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
         # create post data
         data_dict = {}
         # get response
@@ -305,7 +305,7 @@ class OsViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
+        self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
         # create post data
         data_dict = {}
         # get response
@@ -331,7 +331,7 @@ class OsViewTestCase(TestCase):
         # get object
         os_1 = Os.objects.get(os_name='os_1')
         # login testuser
-        login = self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
+        self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
         # get response
         response = self.client.get('/os/' + str(os_1.os_id) + '/edit/')
         # compare
@@ -343,7 +343,7 @@ class OsViewTestCase(TestCase):
         # get object
         os_1 = Os.objects.get(os_name='os_1')
         # login testuser
-        login = self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
+        self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
         # get response
         response = self.client.get('/os/' + str(os_1.os_id) + '/edit/')
         # compare
@@ -355,7 +355,7 @@ class OsViewTestCase(TestCase):
         # get object
         os_1 = Os.objects.get(os_name='os_1')
         # login testuser
-        login = self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
+        self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
         # get response
         response = self.client.get('/os/' + str(os_1.os_id) + '/edit/')
         # compare
@@ -367,7 +367,7 @@ class OsViewTestCase(TestCase):
         # get object
         os_1 = Os.objects.get(os_name='os_1')
         # login testuser
-        login = self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
+        self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
         # create url
         destination = urllib.parse.quote('/os/' + str(os_1.os_id) + '/edit/', safe='/')
         # get response
@@ -379,7 +379,7 @@ class OsViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
+        self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
         # create object
         os_1 = Os.objects.create(os_name='os_edit_post_test_1')
         # create post data
@@ -399,7 +399,7 @@ class OsViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
+        self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
         # get object
         os_id = Os.objects.get(os_name='os_1').os_id
         # create post data
@@ -413,7 +413,7 @@ class OsViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
+        self.client.login(username='testuser_os', password='n7hIWBsrGsG0n4mSjbfw')
         # get object
         os_id = Os.objects.get(os_name='os_1').os_id
         # create post data

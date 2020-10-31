@@ -10,7 +10,7 @@ class SystemImporterFileCsvConfigbasedConfigViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create user
-        test_user = User.objects.create_user(username='testuser_system_importer_file_csv_config_based_config', password='sBH771ZCj2Y5rjfCPtVC')
+        User.objects.create_user(username='testuser_system_importer_file_csv_config_based_config', password='sBH771ZCj2Y5rjfCPtVC')
 
     def test_system_importer_file_csv_config_based_config_not_logged_in(self):
         """ test importer view """
@@ -26,7 +26,7 @@ class SystemImporterFileCsvConfigbasedConfigViewTestCase(TestCase):
         """ test view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_importer_file_csv_config_based_config', password='sBH771ZCj2Y5rjfCPtVC')
+        self.client.login(username='testuser_system_importer_file_csv_config_based_config', password='sBH771ZCj2Y5rjfCPtVC')
         # get response
         response = self.client.get('/config/system/importer/file/csv/configbased/')
         # compare
@@ -36,7 +36,7 @@ class SystemImporterFileCsvConfigbasedConfigViewTestCase(TestCase):
         """ test importer view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_importer_file_csv_config_based_config', password='sBH771ZCj2Y5rjfCPtVC')
+        self.client.login(username='testuser_system_importer_file_csv_config_based_config', password='sBH771ZCj2Y5rjfCPtVC')
         # get response
         response = self.client.get('/config/system/importer/file/csv/configbased/')
         # compare
@@ -46,7 +46,7 @@ class SystemImporterFileCsvConfigbasedConfigViewTestCase(TestCase):
         """ test importer view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_importer_file_csv_config_based_config', password='sBH771ZCj2Y5rjfCPtVC')
+        self.client.login(username='testuser_system_importer_file_csv_config_based_config', password='sBH771ZCj2Y5rjfCPtVC')
         # get response
         response = self.client.get('/config/system/importer/file/csv/configbased/')
         # compare
@@ -56,7 +56,7 @@ class SystemImporterFileCsvConfigbasedConfigViewTestCase(TestCase):
         """ test view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_importer_file_csv_config_based_config', password='sBH771ZCj2Y5rjfCPtVC')
+        self.client.login(username='testuser_system_importer_file_csv_config_based_config', password='sBH771ZCj2Y5rjfCPtVC')
         # create url
         destination = urllib.parse.quote('/config/system/importer/file/csv/configbased/', safe='/')
         # get response
@@ -68,7 +68,7 @@ class SystemImporterFileCsvConfigbasedConfigViewTestCase(TestCase):
         """ test view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_importer_file_csv_config_based_config', password='sBH771ZCj2Y5rjfCPtVC')
+        self.client.login(username='testuser_system_importer_file_csv_config_based_config', password='sBH771ZCj2Y5rjfCPtVC')
         # get object (does not work the usual way because form with available choices is build before model instance is created during the test)
         systemstatus_id = Systemstatus.objects.get(systemstatus_name='Unknown').systemstatus_id
         # get object (does not work the usual way because form with available choices is build before model instance is created during the test)
@@ -89,7 +89,7 @@ class SystemImporterFileCsvConfigbasedConfigViewTestCase(TestCase):
         """ test view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_importer_file_csv_config_based_config', password='sBH771ZCj2Y5rjfCPtVC')
+        self.client.login(username='testuser_system_importer_file_csv_config_based_config', password='sBH771ZCj2Y5rjfCPtVC')
         # get object (does not work the usual way because form with available choices is build before model instance is created during the test)
         systemstatus_id = Systemstatus.objects.get(systemstatus_name='Unknown').systemstatus_id
         # get object (does not work the usual way because form with available choices is build before model instance is created during the test)
@@ -110,7 +110,7 @@ class SystemImporterFileCsvConfigbasedConfigViewTestCase(TestCase):
         """ test view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_importer_file_csv_config_based_config', password='sBH771ZCj2Y5rjfCPtVC')
+        self.client.login(username='testuser_system_importer_file_csv_config_based_config', password='sBH771ZCj2Y5rjfCPtVC')
         # get object (does not work the usual way because form with available choices is build before model instance is created during the test)
         systemstatus_id = Systemstatus.objects.get(systemstatus_name='Unknown').systemstatus_id
         # get object (does not work the usual way because form with available choices is build before model instance is created during the test)

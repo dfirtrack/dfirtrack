@@ -28,7 +28,7 @@ class TaskstatusViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_taskstatus', password='TZjmjiUQviOnIEral6l9')
+        self.client.login(username='testuser_taskstatus', password='TZjmjiUQviOnIEral6l9')
         # get response
         response = self.client.get('/taskstatus/')
         # compare
@@ -38,7 +38,7 @@ class TaskstatusViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_taskstatus', password='TZjmjiUQviOnIEral6l9')
+        self.client.login(username='testuser_taskstatus', password='TZjmjiUQviOnIEral6l9')
         # get response
         response = self.client.get('/taskstatus/')
         # compare
@@ -48,7 +48,7 @@ class TaskstatusViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_taskstatus', password='TZjmjiUQviOnIEral6l9')
+        self.client.login(username='testuser_taskstatus', password='TZjmjiUQviOnIEral6l9')
         # get response
         response = self.client.get('/taskstatus/')
         # compare
@@ -58,7 +58,7 @@ class TaskstatusViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_taskstatus', password='TZjmjiUQviOnIEral6l9')
+        self.client.login(username='testuser_taskstatus', password='TZjmjiUQviOnIEral6l9')
         # create url
         destination = urllib.parse.quote('/taskstatus/', safe='/')
         # get response
@@ -84,7 +84,7 @@ class TaskstatusViewTestCase(TestCase):
         # get object
         taskstatus_1 = Taskstatus.objects.get(taskstatus_name='taskstatus_1')
         # login testuser
-        login = self.client.login(username='testuser_taskstatus', password='TZjmjiUQviOnIEral6l9')
+        self.client.login(username='testuser_taskstatus', password='TZjmjiUQviOnIEral6l9')
         # get response
         response = self.client.get('/taskstatus/' + str(taskstatus_1.taskstatus_id) + '/')
         # compare
@@ -96,7 +96,7 @@ class TaskstatusViewTestCase(TestCase):
         # get object
         taskstatus_1 = Taskstatus.objects.get(taskstatus_name='taskstatus_1')
         # login testuser
-        login = self.client.login(username='testuser_taskstatus', password='TZjmjiUQviOnIEral6l9')
+        self.client.login(username='testuser_taskstatus', password='TZjmjiUQviOnIEral6l9')
         # get response
         response = self.client.get('/taskstatus/' + str(taskstatus_1.taskstatus_id) + '/')
         # compare
@@ -108,7 +108,7 @@ class TaskstatusViewTestCase(TestCase):
         # get object
         taskstatus_1 = Taskstatus.objects.get(taskstatus_name='taskstatus_1')
         # login testuser
-        login = self.client.login(username='testuser_taskstatus', password='TZjmjiUQviOnIEral6l9')
+        self.client.login(username='testuser_taskstatus', password='TZjmjiUQviOnIEral6l9')
         # get response
         response = self.client.get('/taskstatus/' + str(taskstatus_1.taskstatus_id) + '/')
         # compare
@@ -120,7 +120,7 @@ class TaskstatusViewTestCase(TestCase):
         # get object
         taskstatus_1 = Taskstatus.objects.get(taskstatus_name='taskstatus_1')
         # login testuser
-        login = self.client.login(username='testuser_taskstatus', password='TZjmjiUQviOnIEral6l9')
+        self.client.login(username='testuser_taskstatus', password='TZjmjiUQviOnIEral6l9')
         # create url
         destination = urllib.parse.quote('/taskstatus/' + str(taskstatus_1.taskstatus_id) + '/', safe='/')
         # get response

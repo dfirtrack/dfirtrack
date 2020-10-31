@@ -9,7 +9,7 @@ class SystemExporterSpreadsheetCsvConfigViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create user
-        test_user = User.objects.create_user(username='testuser_system_exporter_spreadsheet_csv_config', password='ocTJgNdjZMafypl2FR43')
+        User.objects.create_user(username='testuser_system_exporter_spreadsheet_csv_config', password='ocTJgNdjZMafypl2FR43')
 
     def test_system_exporter_spreadsheet_csv_config_not_logged_in(self):
         """ test exporter view """
@@ -25,7 +25,7 @@ class SystemExporterSpreadsheetCsvConfigViewTestCase(TestCase):
         """ test view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_exporter_spreadsheet_csv_config', password='ocTJgNdjZMafypl2FR43')
+        self.client.login(username='testuser_system_exporter_spreadsheet_csv_config', password='ocTJgNdjZMafypl2FR43')
         # get response
         response = self.client.get('/config/system/exporter/spreadsheet/csv/')
         # compare
@@ -35,7 +35,7 @@ class SystemExporterSpreadsheetCsvConfigViewTestCase(TestCase):
         """ test exporter view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_exporter_spreadsheet_csv_config', password='ocTJgNdjZMafypl2FR43')
+        self.client.login(username='testuser_system_exporter_spreadsheet_csv_config', password='ocTJgNdjZMafypl2FR43')
         # get response
         response = self.client.get('/config/system/exporter/spreadsheet/csv/')
         # compare
@@ -45,7 +45,7 @@ class SystemExporterSpreadsheetCsvConfigViewTestCase(TestCase):
         """ test exporter view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_exporter_spreadsheet_csv_config', password='ocTJgNdjZMafypl2FR43')
+        self.client.login(username='testuser_system_exporter_spreadsheet_csv_config', password='ocTJgNdjZMafypl2FR43')
         # get response
         response = self.client.get('/config/system/exporter/spreadsheet/csv/')
         # compare
@@ -55,7 +55,7 @@ class SystemExporterSpreadsheetCsvConfigViewTestCase(TestCase):
         """ test view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_exporter_spreadsheet_csv_config', password='ocTJgNdjZMafypl2FR43')
+        self.client.login(username='testuser_system_exporter_spreadsheet_csv_config', password='ocTJgNdjZMafypl2FR43')
         # create url
         destination = urllib.parse.quote('/config/system/exporter/spreadsheet/csv/', safe='/')
         # get response
@@ -67,7 +67,7 @@ class SystemExporterSpreadsheetCsvConfigViewTestCase(TestCase):
         """ test view """
 
         # login testuser
-        login = self.client.login(username='testuser_system_exporter_spreadsheet_csv_config', password='ocTJgNdjZMafypl2FR43')
+        self.client.login(username='testuser_system_exporter_spreadsheet_csv_config', password='ocTJgNdjZMafypl2FR43')
         # create post data
         data_dict = {
             'spread_csv_system_id': 'on',
@@ -83,7 +83,7 @@ class SystemExporterSpreadsheetCsvConfigViewTestCase(TestCase):
 #        """ test view """
 #
 #        # login testuser
-#        login = self.client.login(username='testuser_system_exporter_spreadsheet_csv_config', password='ocTJgNdjZMafypl2FR43')
+#        self.client.login(username='testuser_system_exporter_spreadsheet_csv_config', password='ocTJgNdjZMafypl2FR43')
 #        # create post data
 #        data_dict = {}
 #        # get response
@@ -95,7 +95,7 @@ class SystemExporterSpreadsheetCsvConfigViewTestCase(TestCase):
 #        """ test view """
 #
 #        # login testuser
-#        login = self.client.login(username='testuser_system_exporter_spreadsheet_csv_config', password='ocTJgNdjZMafypl2FR43')
+#        self.client.login(username='testuser_system_exporter_spreadsheet_csv_config', password='ocTJgNdjZMafypl2FR43')
 #        # create post data
 #        data_dict = {}
 #        # get response

@@ -25,7 +25,7 @@ class GenericViewTestCase(TestCase):
         """ test generic view """
 
         # login testuser
-        login = self.client.login(username='testuser_generic_views', password='D9lPsoHFXeCNKEzM3IgE')
+        self.client.login(username='testuser_generic_views', password='D9lPsoHFXeCNKEzM3IgE')
         # get response
         response = self.client.get('/about/')
         # compare
@@ -35,7 +35,7 @@ class GenericViewTestCase(TestCase):
         """ test generic view """
 
         # login testuser
-        login = self.client.login(username='testuser_generic_views', password='D9lPsoHFXeCNKEzM3IgE')
+        self.client.login(username='testuser_generic_views', password='D9lPsoHFXeCNKEzM3IgE')
         # get response
         response = self.client.get('/about/')
         # compare
@@ -45,7 +45,7 @@ class GenericViewTestCase(TestCase):
         """ test generic view """
 
         # login testuser
-        login = self.client.login(username='testuser_generic_views', password='D9lPsoHFXeCNKEzM3IgE')
+        self.client.login(username='testuser_generic_views', password='D9lPsoHFXeCNKEzM3IgE')
         # get response
         response = self.client.get('/about/')
         # compare
@@ -55,7 +55,7 @@ class GenericViewTestCase(TestCase):
         """ test generic view """
 
         # login testuser
-        login = self.client.login(username='testuser_generic_views', password='D9lPsoHFXeCNKEzM3IgE')
+        self.client.login(username='testuser_generic_views', password='D9lPsoHFXeCNKEzM3IgE')
         # create url
         destination = urllib.parse.quote('/about/', safe='/')
         # get response
@@ -77,7 +77,7 @@ class GenericViewTestCase(TestCase):
         """ test generic view """
 
         # login testuser
-        login = self.client.login(username='testuser_generic_views', password='D9lPsoHFXeCNKEzM3IgE')
+        self.client.login(username='testuser_generic_views', password='D9lPsoHFXeCNKEzM3IgE')
         # get response
         response = self.client.get('/faq/')
         # compare
@@ -87,7 +87,7 @@ class GenericViewTestCase(TestCase):
         """ test generic view """
 
         # login testuser
-        login = self.client.login(username='testuser_generic_views', password='D9lPsoHFXeCNKEzM3IgE')
+        self.client.login(username='testuser_generic_views', password='D9lPsoHFXeCNKEzM3IgE')
         # get response
         response = self.client.get('/faq/')
         # compare
@@ -97,7 +97,7 @@ class GenericViewTestCase(TestCase):
         """ test generic view """
 
         # login testuser
-        login = self.client.login(username='testuser_generic_views', password='D9lPsoHFXeCNKEzM3IgE')
+        self.client.login(username='testuser_generic_views', password='D9lPsoHFXeCNKEzM3IgE')
         # get response
         response = self.client.get('/faq/')
         # compare
@@ -107,7 +107,7 @@ class GenericViewTestCase(TestCase):
         """ test generic view """
 
         # login testuser
-        login = self.client.login(username='testuser_generic_views', password='D9lPsoHFXeCNKEzM3IgE')
+        self.client.login(username='testuser_generic_views', password='D9lPsoHFXeCNKEzM3IgE')
         # create url
         destination = urllib.parse.quote('/faq/', safe='/')
         # get response
