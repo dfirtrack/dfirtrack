@@ -10,5 +10,6 @@ psycopg2
 psycopg2-binary
 PyYAML
 requests
+xlrd
 xlwt
 uritemplate
