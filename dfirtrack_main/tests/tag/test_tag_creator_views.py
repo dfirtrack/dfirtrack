@@ -107,8 +107,8 @@ class TagCreatorViewTestCase(TestCase):
         system_1 = System.objects.get(system_name='tag_creator_system_1')
         # create post data
         data_dict = {
-            'system': [system_1.system_id],
-            'tag': [tag_1.tag_id],
+            'system': [system_1.system_id,],
+            'tag': [tag_1.tag_id,],
         }
         # create url
         destination = '/tag/'
