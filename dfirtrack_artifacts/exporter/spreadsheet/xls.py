@@ -131,10 +131,7 @@ def artifact(request):
             entryline.append(artifact_source_path)
         # artifact storage path
         if model.artifactlist_xls_artifact_storage_path:
-            if artifact.artifact_storage_path == None:
-                artifact_storage_path = ''
-            else:
-                artifact_storage_path = artifact.artifact_storage_path
+            artifact_storage_path = artifact.artifact_storage_path
             entryline.append(artifact_storage_path)
         # artifact note
         if model.artifactlist_xls_artifact_note:
