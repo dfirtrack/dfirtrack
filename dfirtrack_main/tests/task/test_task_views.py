@@ -1,7 +1,9 @@
+from datetime import datetime
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
 from dfirtrack_main.models import System, Systemstatus, Task, Taskname, Taskpriority, Taskstatus
+from mock import patch
 import urllib.parse
 
 class TaskViewTestCase(TestCase):
@@ -369,7 +371,7 @@ class TaskViewTestCase(TestCase):
         # compare
         self.assertTemplateUsed(response, 'dfirtrack_main/task/task_add.html')
 
-    def test_task_add_started_time_working(self):
+    def test_task_add_times_pending(self):
         """ test add view """
 
         # login testuser
@@ -377,11 +379,11 @@ class TaskViewTestCase(TestCase):
         # get user
         test_user_id = User.objects.get(username = 'testuser_task').id
         # get object
-        taskname_id = Taskname.objects.create(taskname_name = 'task_add_started_time_working').taskname_id
+        taskname_id = Taskname.objects.create(taskname_name = 'task_add_times_pending').taskname_id
         # get object
         taskpriority_id = Taskpriority.objects.get(taskpriority_name = 'prio_1').taskpriority_id
         # get object
-        taskstatus_id = Taskstatus.objects.get(taskstatus_name = 'Working').taskstatus_id
+        taskstatus_id = Taskstatus.objects.get(taskstatus_name = 'Pending').taskstatus_id
         # get post data
         data_dict = {
             'taskname': taskname_id,
@@ -393,71 +395,82 @@ class TaskViewTestCase(TestCase):
         # get response
         self.client.post('/task/add/', data_dict)
         # get object
-        taskname = Taskname.objects.get(taskname_name = 'task_add_started_time_working')
+        taskname = Taskname.objects.get(taskname_name = 'task_add_times_pending')
         # get object
-        task_add_started_time_working = Task.objects.get(taskname = taskname)
+        task_add_times_pending = Task.objects.get(taskname = taskname)
         # compare
-        self.assertTrue(task_add_started_time_working.task_started_time)
+        self.assertEqual(task_add_times_pending.task_started_time, None)
+        self.assertEqual(task_add_times_pending.task_finished_time, None)
 
-    def test_task_add_started_time_done(self):
+    def test_task_add_times_working(self):
         """ test add view """
 
-        # login testuser
-        self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
-        # get user
-        test_user_id = User.objects.get(username = 'testuser_task').id
-        # get object
-        taskname_id = Taskname.objects.create(taskname_name = 'task_add_started_time_done').taskname_id
-        # get object
-        taskpriority_id = Taskpriority.objects.get(taskpriority_name = 'prio_1').taskpriority_id
-        # get object
-        taskstatus_id = Taskstatus.objects.get(taskstatus_name = 'Done').taskstatus_id
-        # get post data
-        data_dict = {
-            'taskname': taskname_id,
-            'taskpriority': taskpriority_id,
-            'taskstatus': taskstatus_id,
-            'task_created_by_user_id': test_user_id,
-            'task_modified_by_user_id': test_user_id,
-        }
-        # get response
-        self.client.post('/task/add/', data_dict)
-        # get object
-        taskname = Taskname.objects.get(taskname_name = 'task_add_started_time_done')
-        # get object
-        task_add_started_time_done = Task.objects.get(taskname = taskname)
-        # compare
-        self.assertTrue(task_add_started_time_done.task_started_time)
+        # mock timezone.now()
+        dt = datetime(2020, 1, 2, tzinfo=timezone.utc)
+        with patch.object(timezone, 'now', return_value=dt):
 
-    def test_task_add_finished_time_done(self):
+            # login testuser
+            self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
+            # get user
+            test_user_id = User.objects.get(username = 'testuser_task').id
+            # get object
+            taskname_id = Taskname.objects.create(taskname_name = 'task_add_times_working').taskname_id
+            # get object
+            taskpriority_id = Taskpriority.objects.get(taskpriority_name = 'prio_1').taskpriority_id
+            # get object
+            taskstatus_id = Taskstatus.objects.get(taskstatus_name = 'Working').taskstatus_id
+            # get post data
+            data_dict = {
+                'taskname': taskname_id,
+                'taskpriority': taskpriority_id,
+                'taskstatus': taskstatus_id,
+                'task_created_by_user_id': test_user_id,
+                'task_modified_by_user_id': test_user_id,
+            }
+            # get response
+            self.client.post('/task/add/', data_dict)
+            # get object
+            taskname = Taskname.objects.get(taskname_name = 'task_add_times_working')
+            # get object
+            task_add_times_working = Task.objects.get(taskname = taskname)
+            # compare
+            self.assertEqual(task_add_times_working.task_started_time, timezone.now())
+            self.assertEqual(task_add_times_working.task_finished_time, None)
+
+    def test_task_add_times_done(self):
         """ test add view """
 
-        # login testuser
-        self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
-        # get user
-        test_user_id = User.objects.get(username = 'testuser_task').id
-        # get object
-        taskname_id = Taskname.objects.create(taskname_name = 'task_add_finished_time_done').taskname_id
-        # get object
-        taskpriority_id = Taskpriority.objects.get(taskpriority_name = 'prio_1').taskpriority_id
-        # get object
-        taskstatus_id = Taskstatus.objects.get(taskstatus_name = 'Done').taskstatus_id
-        # get post data
-        data_dict = {
-            'taskname': taskname_id,
-            'taskpriority': taskpriority_id,
-            'taskstatus': taskstatus_id,
-            'task_created_by_user_id': test_user_id,
-            'task_modified_by_user_id': test_user_id,
-        }
-        # get response
-        self.client.post('/task/add/', data_dict)
-        # get object
-        taskname = Taskname.objects.get(taskname_name = 'task_add_finished_time_done')
-        # get object
-        task_add_finished_time_done = Task.objects.get(taskname = taskname)
-        # compare
-        self.assertTrue(task_add_finished_time_done.task_finished_time)
+        # mock timezone.now()
+        dt = datetime(2020, 1, 2, tzinfo=timezone.utc)
+        with patch.object(timezone, 'now', return_value=dt):
+
+            # login testuser
+            self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
+            # get user
+            test_user_id = User.objects.get(username = 'testuser_task').id
+            # get object
+            taskname_id = Taskname.objects.create(taskname_name = 'task_add_times_done').taskname_id
+            # get object
+            taskpriority_id = Taskpriority.objects.get(taskpriority_name = 'prio_1').taskpriority_id
+            # get object
+            taskstatus_id = Taskstatus.objects.get(taskstatus_name = 'Done').taskstatus_id
+            # get post data
+            data_dict = {
+                'taskname': taskname_id,
+                'taskpriority': taskpriority_id,
+                'taskstatus': taskstatus_id,
+                'task_created_by_user_id': test_user_id,
+                'task_modified_by_user_id': test_user_id,
+            }
+            # get response
+            self.client.post('/task/add/', data_dict)
+            # get object
+            taskname = Taskname.objects.get(taskname_name = 'task_add_times_done')
+            # get object
+            task_add_times_done = Task.objects.get(taskname = taskname)
+            # compare
+            self.assertEqual(task_add_times_done.task_started_time, timezone.now())
+            self.assertEqual(task_add_times_done.task_finished_time, timezone.now())
 
     def test_task_edit_not_logged_in(self):
         """ test edit view """
@@ -641,7 +654,7 @@ class TaskViewTestCase(TestCase):
         # compare
         self.assertTemplateUsed(response, 'dfirtrack_main/task/task_edit.html')
 
-    def test_task_edit_started_time_pending(self):
+    def test_task_edit_times_pending(self):
         """ test edit view """
 
         # login testuser
@@ -649,7 +662,7 @@ class TaskViewTestCase(TestCase):
         # get user
         test_user = User.objects.get(username = 'testuser_task')
         # get object
-        taskname_1 = Taskname.objects.create(taskname_name = 'task_edit_started_time_pending')
+        taskname_1 = Taskname.objects.create(taskname_name = 'task_edit_times_pending')
         # get object
         taskpriority = Taskpriority.objects.get(taskpriority_name = 'prio_1')
         # get object
@@ -675,199 +688,95 @@ class TaskViewTestCase(TestCase):
         }
         # get response
         self.client.post('/task/' + str(task_1.task_id) + '/edit/', data_dict)
-        # get object
-        task_2 = Task.objects.get(taskname = taskname_1)
+        # refresh object
+        task_1.refresh_from_db()
         # compare
-        self.assertEqual(None, task_2.task_started_time)
+        self.assertEqual(task_1.task_started_time, None)
+        self.assertEqual(task_1.task_finished_time, None)
 
-    def test_task_edit_finished_time_pending(self):
+    def test_task_edit_times_working(self):
         """ test edit view """
 
-        # login testuser
-        self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
-        # get user
-        test_user = User.objects.get(username = 'testuser_task')
-        # get object
-        taskname_1 = Taskname.objects.create(taskname_name = 'task_edit_finished_time_pending')
-        # get object
-        taskpriority = Taskpriority.objects.get(taskpriority_name = 'prio_1')
-        # get object
-        taskstatus_pending = Taskstatus.objects.get(taskstatus_name = 'Pending')
-        # get object
-        taskstatus_done = Taskstatus.objects.get(taskstatus_name = 'Done')
-        # create object
-        task_1 = Task.objects.create(
-            taskname = taskname_1,
-            taskpriority = taskpriority,
-            taskstatus = taskstatus_done,
-            task_created_by_user_id = test_user,
-            task_modified_by_user_id = test_user,
-            task_started_time = timezone.now(),
-            task_finished_time = timezone.now(),
-        )
-        # create post data
-        data_dict = {
-            'taskname': taskname_1.taskname_id,
-            'taskpriority': taskpriority.taskpriority_id,
-            'taskstatus': taskstatus_pending.taskstatus_id,
-            'task_modified_by_user_id': test_user.id,
-        }
-        # get response
-        self.client.post('/task/' + str(task_1.task_id) + '/edit/', data_dict)
-        # get object
-        task_2 = Task.objects.get(taskname = taskname_1)
-        # compare
-        self.assertEqual(None, task_2.task_finished_time)
+        # mock timezone.now()
+        dt = datetime(2020, 1, 2, tzinfo=timezone.utc)
+        with patch.object(timezone, 'now', return_value=dt):
 
-    def test_task_edit_started_time_working(self):
+            # login testuser
+            self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
+            # get user
+            test_user = User.objects.get(username = 'testuser_task')
+            # get object
+            taskname_1 = Taskname.objects.create(taskname_name = 'task_edit_times_working')
+            # get object
+            taskpriority = Taskpriority.objects.get(taskpriority_name = 'prio_1')
+            # get object
+            taskstatus_working = Taskstatus.objects.get(taskstatus_name = 'Working')
+            # get object
+            taskstatus_pending = Taskstatus.objects.get(taskstatus_name = 'Pending')
+            # create object
+            task_1 = Task.objects.create(
+                taskname = taskname_1,
+                taskpriority = taskpriority,
+                taskstatus = taskstatus_pending,
+                task_created_by_user_id = test_user,
+                task_modified_by_user_id = test_user,
+            )
+            # create post data
+            data_dict = {
+                'taskname': taskname_1.taskname_id,
+                'taskpriority': taskpriority.taskpriority_id,
+                'taskstatus': taskstatus_working.taskstatus_id,
+                'task_modified_by_user_id': test_user.id,
+            }
+            # get response
+            self.client.post('/task/' + str(task_1.task_id) + '/edit/', data_dict)
+            # refresh object
+            task_1.refresh_from_db()
+            # compare
+            self.assertEqual(task_1.task_started_time, timezone.now())
+            self.assertEqual(task_1.task_finished_time, None)
+
+    def test_task_edit_times_done(self):
         """ test edit view """
 
-        # login testuser
-        self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
-        # get user
-        test_user = User.objects.get(username = 'testuser_task')
-        # get object
-        taskname_1 = Taskname.objects.create(taskname_name = 'task_edit_started_time_working')
-        # get object
-        taskpriority = Taskpriority.objects.get(taskpriority_name = 'prio_1')
-        # get object
-        taskstatus_working = Taskstatus.objects.get(taskstatus_name = 'Working')
-        # get object
-        taskstatus_pending = Taskstatus.objects.get(taskstatus_name = 'Pending')
-        # create object
-        task_1 = Task.objects.create(
-            taskname = taskname_1,
-            taskpriority = taskpriority,
-            taskstatus = taskstatus_pending,
-            task_created_by_user_id = test_user,
-            task_modified_by_user_id = test_user,
-        )
-        # create post data
-        data_dict = {
-            'taskname': taskname_1.taskname_id,
-            'taskpriority': taskpriority.taskpriority_id,
-            'taskstatus': taskstatus_working.taskstatus_id,
-            'task_modified_by_user_id': test_user.id,
-        }
-        # get response
-        self.client.post('/task/' + str(task_1.task_id) + '/edit/', data_dict)
-        # get object
-        task_2 = Task.objects.get(taskname = taskname_1)
-        # compare
-        self.assertTrue(task_2.task_started_time)
+        # mock timezone.now()
+        dt = datetime(2020, 1, 2, tzinfo=timezone.utc)
+        with patch.object(timezone, 'now', return_value=dt):
 
-    def test_task_edit_finished_time_working(self):
-        """ test edit view """
-
-        # login testuser
-        self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
-        # get user
-        test_user = User.objects.get(username = 'testuser_task')
-        # get object
-        taskname_1 = Taskname.objects.create(taskname_name = 'task_edit_finished_time_working')
-        # get object
-        taskpriority = Taskpriority.objects.get(taskpriority_name = 'prio_1')
-        # get object
-        taskstatus_working = Taskstatus.objects.get(taskstatus_name = 'Working')
-        # get object
-        taskstatus_done = Taskstatus.objects.get(taskstatus_name = 'Done')
-        # create object
-        task_1 = Task.objects.create(
-            taskname = taskname_1,
-            taskpriority = taskpriority,
-            taskstatus = taskstatus_done,
-            task_created_by_user_id = test_user,
-            task_modified_by_user_id = test_user,
-            task_started_time = timezone.now(),
-            task_finished_time = timezone.now(),
-        )
-        # create post data
-        data_dict = {
-            'taskname': taskname_1.taskname_id,
-            'taskpriority': taskpriority.taskpriority_id,
-            'taskstatus': taskstatus_working.taskstatus_id,
-            'task_modified_by_user_id': test_user.id,
-        }
-        # get response
-        self.client.post('/task/' + str(task_1.task_id) + '/edit/', data_dict)
-        # get object
-        task_2 = Task.objects.get(taskname = taskname_1)
-        # compare
-        self.assertEqual(None, task_2.task_finished_time)
-
-    def test_task_edit_started_time_done(self):
-        """ test edit view """
-
-        # login testuser
-        self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
-        # get user
-        test_user = User.objects.get(username = 'testuser_task')
-        # get object
-        taskname_1 = Taskname.objects.create(taskname_name = 'task_edit_started_time_done')
-        # get object
-        taskpriority = Taskpriority.objects.get(taskpriority_name = 'prio_1')
-        # get object
-        taskstatus_done = Taskstatus.objects.get(taskstatus_name = 'Done')
-        # get object
-        taskstatus_pending = Taskstatus.objects.get(taskstatus_name = 'Pending')
-        # create object
-        task_1 = Task.objects.create(
-            taskname = taskname_1,
-            taskpriority = taskpriority,
-            taskstatus = taskstatus_pending,
-            task_created_by_user_id = test_user,
-            task_modified_by_user_id = test_user,
-        )
-        # create post data
-        data_dict = {
-            'taskname': taskname_1.taskname_id,
-            'taskpriority': taskpriority.taskpriority_id,
-            'taskstatus': taskstatus_done.taskstatus_id,
-            'task_modified_by_user_id': test_user.id,
-        }
-        # get response
-        self.client.post('/task/' + str(task_1.task_id) + '/edit/', data_dict)
-        # get object
-        task_2 = Task.objects.get(taskname = taskname_1)
-        # compare
-        self.assertTrue(task_2.task_started_time)
-
-    def test_task_edit_finished_time_done(self):
-        """ test edit view """
-
-        # login testuser
-        self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
-        # get user
-        test_user = User.objects.get(username = 'testuser_task')
-        # get object
-        taskname_1 = Taskname.objects.create(taskname_name = 'task_edit_finished_time_done')
-        # get object
-        taskpriority = Taskpriority.objects.get(taskpriority_name = 'prio_1')
-        # get object
-        taskstatus_done = Taskstatus.objects.get(taskstatus_name = 'Done')
-        # get object
-        taskstatus_pending = Taskstatus.objects.get(taskstatus_name = 'Pending')
-        # create object
-        task_1 = Task.objects.create(
-            taskname = taskname_1,
-            taskpriority = taskpriority,
-            taskstatus = taskstatus_pending,
-            task_created_by_user_id = test_user,
-            task_modified_by_user_id = test_user,
-        )
-        # create post data
-        data_dict = {
-            'taskname': taskname_1.taskname_id,
-            'taskpriority': taskpriority.taskpriority_id,
-            'taskstatus': taskstatus_done.taskstatus_id,
-            'task_modified_by_user_id': test_user.id,
-        }
-        # get response
-        self.client.post('/task/' + str(task_1.task_id) + '/edit/', data_dict)
-        # get object
-        task_2 = Task.objects.get(taskname = taskname_1)
-        # compare
-        self.assertTrue(task_2.task_finished_time)
+            # login testuser
+            self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
+            # get user
+            test_user = User.objects.get(username = 'testuser_task')
+            # get object
+            taskname_1 = Taskname.objects.create(taskname_name = 'task_edit_times_done')
+            # get object
+            taskpriority = Taskpriority.objects.get(taskpriority_name = 'prio_1')
+            # get object
+            taskstatus_done = Taskstatus.objects.get(taskstatus_name = 'Done')
+            # get object
+            taskstatus_pending = Taskstatus.objects.get(taskstatus_name = 'Pending')
+            # create object
+            task_1 = Task.objects.create(
+                taskname = taskname_1,
+                taskpriority = taskpriority,
+                taskstatus = taskstatus_pending,
+                task_created_by_user_id = test_user,
+                task_modified_by_user_id = test_user,
+            )
+            # create post data
+            data_dict = {
+                'taskname': taskname_1.taskname_id,
+                'taskpriority': taskpriority.taskpriority_id,
+                'taskstatus': taskstatus_done.taskstatus_id,
+                'task_modified_by_user_id': test_user.id,
+            }
+            # get response
+            self.client.post('/task/' + str(task_1.task_id) + '/edit/', data_dict)
+            # refresh object
+            task_1.refresh_from_db()
+            # compare
+            self.assertEqual(task_1.task_started_time, timezone.now())
+            self.assertEqual(task_1.task_started_time, timezone.now())
 
     def test_task_start_redirect(self):
         """ test task start view """
@@ -933,33 +842,38 @@ class TaskViewTestCase(TestCase):
         # compare
         self.assertEqual(taskstatus_working, task_started.taskstatus)
 
-    def test_task_start_started_time(self):
+    def test_task_start_times(self):
         """ test task start view """
 
-        # login testuser
-        self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
-        # get user
-        test_user = User.objects.get(username = 'testuser_task')
-        # create object
-        taskname_task_start = Taskname.objects.create(taskname_name = 'task_start')
-        # get object
-        taskpriority_1 = Taskpriority.objects.get(taskpriority_name = 'prio_1')
-        # get object
-        taskstatus_pending = Taskstatus.objects.get(taskstatus_name = 'Pending')
-        # create object
-        task_task_start = Task.objects.create(
-            taskname = taskname_task_start,
-            taskpriority = taskpriority_1,
-            taskstatus = taskstatus_pending,
-            task_created_by_user_id = test_user,
-            task_modified_by_user_id = test_user,
-        )
-        # get response
-        self.client.get('/task/' + str(task_task_start.task_id) + '/start/')
-        # get object
-        task_started = Task.objects.get(task_id = task_task_start.task_id)
-        # compare
-        self.assertTrue(task_started.task_started_time)
+        # mock timezone.now()
+        dt = datetime(2020, 1, 2, tzinfo=timezone.utc)
+        with patch.object(timezone, 'now', return_value=dt):
+
+            # login testuser
+            self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
+            # get user
+            test_user = User.objects.get(username = 'testuser_task')
+            # create object
+            taskname_task_start = Taskname.objects.create(taskname_name = 'task_start')
+            # get object
+            taskpriority_1 = Taskpriority.objects.get(taskpriority_name = 'prio_1')
+            # get object
+            taskstatus_pending = Taskstatus.objects.get(taskstatus_name = 'Pending')
+            # create object
+            task_task_start = Task.objects.create(
+                taskname = taskname_task_start,
+                taskpriority = taskpriority_1,
+                taskstatus = taskstatus_pending,
+                task_created_by_user_id = test_user,
+                task_modified_by_user_id = test_user,
+            )
+            # get response
+            self.client.get('/task/' + str(task_task_start.task_id) + '/start/')
+            # get object
+            task_started = Task.objects.get(task_id = task_task_start.task_id)
+            # compare
+            self.assertEqual(task_started.task_started_time, timezone.now())
+            self.assertEqual(task_started.task_finished_time, None)
 
     def test_task_finish_redirect(self):
         """ test task finish view """
@@ -1025,61 +939,38 @@ class TaskViewTestCase(TestCase):
         # compare
         self.assertEqual(taskstatus_done, task_finished.taskstatus)
 
-    def test_task_finish_started_time(self):
+    def test_task_finish_times(self):
         """ test task finish view """
 
-        # login testuser
-        self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
-        # get user
-        test_user = User.objects.get(username = 'testuser_task')
-        # create object
-        taskname_task_finish = Taskname.objects.create(taskname_name = 'task_finish')
-        # get object
-        taskpriority_1 = Taskpriority.objects.get(taskpriority_name = 'prio_1')
-        # get object
-        taskstatus_pending = Taskstatus.objects.get(taskstatus_name = 'Pending')
-        # create object
-        task_task_finish = Task.objects.create(
-            taskname = taskname_task_finish,
-            taskpriority = taskpriority_1,
-            taskstatus = taskstatus_pending,
-            task_created_by_user_id = test_user,
-            task_modified_by_user_id = test_user,
-        )
-        # get response
-        self.client.get('/task/' + str(task_task_finish.task_id) + '/finish/')
-        # get object
-        task_finished = Task.objects.get(task_id = task_task_finish.task_id)
-        # compare
-        self.assertTrue(task_finished.task_started_time)
+        # mock timezone.now()
+        dt = datetime(2020, 1, 2, tzinfo=timezone.utc)
+        with patch.object(timezone, 'now', return_value=dt):
 
-    def test_task_finish_finished_time(self):
-        """ test task finish view """
-
-        # login testuser
-        self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
-        # get user
-        test_user = User.objects.get(username = 'testuser_task')
-        # create object
-        taskname_task_finish = Taskname.objects.create(taskname_name = 'task_finish')
-        # get object
-        taskpriority_1 = Taskpriority.objects.get(taskpriority_name = 'prio_1')
-        # get object
-        taskstatus_pending = Taskstatus.objects.get(taskstatus_name = 'Pending')
-        # create object
-        task_task_finish = Task.objects.create(
-            taskname = taskname_task_finish,
-            taskpriority = taskpriority_1,
-            taskstatus = taskstatus_pending,
-            task_created_by_user_id = test_user,
-            task_modified_by_user_id = test_user,
-        )
-        # get response
-        self.client.get('/task/' + str(task_task_finish.task_id) + '/finish/')
-        # get object
-        task_finished = Task.objects.get(task_id = task_task_finish.task_id)
-        # compare
-        self.assertTrue(task_finished.task_finished_time)
+            # login testuser
+            self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
+            # get user
+            test_user = User.objects.get(username = 'testuser_task')
+            # create object
+            taskname_task_finish = Taskname.objects.create(taskname_name = 'task_finish')
+            # get object
+            taskpriority_1 = Taskpriority.objects.get(taskpriority_name = 'prio_1')
+            # get object
+            taskstatus_pending = Taskstatus.objects.get(taskstatus_name = 'Pending')
+            # create object
+            task_task_finish = Task.objects.create(
+                taskname = taskname_task_finish,
+                taskpriority = taskpriority_1,
+                taskstatus = taskstatus_pending,
+                task_created_by_user_id = test_user,
+                task_modified_by_user_id = test_user,
+            )
+            # get response
+            self.client.get('/task/' + str(task_task_finish.task_id) + '/finish/')
+            # get object
+            task_finished = Task.objects.get(task_id = task_task_finish.task_id)
+            # compare
+            self.assertEqual(task_finished.task_started_time, timezone.now())
+            self.assertEqual(task_finished.task_finished_time, timezone.now())
 
     def test_task_renew_redirect(self):
         """ test task renew view """
@@ -1174,7 +1065,7 @@ class TaskViewTestCase(TestCase):
         # compare
         self.assertEqual(None, task_renewed.task_assigned_to_user_id)
 
-    def test_task_renew_started_time(self):
+    def test_task_renew_times(self):
         """ test task renew view """
 
         # login testuser
@@ -1201,36 +1092,8 @@ class TaskViewTestCase(TestCase):
         # get object
         task_renewed = Task.objects.get(task_id = task_task_renew.task_id)
         # compare
-        self.assertEqual(None, task_renewed.task_started_time)
-
-    def test_task_renew_finished_time(self):
-        """ test task renew view """
-
-        # login testuser
-        self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
-        # get user
-        test_user = User.objects.get(username = 'testuser_task')
-        # create object
-        taskname_task_renew = Taskname.objects.create(taskname_name = 'task_renew')
-        # get object
-        taskpriority_1 = Taskpriority.objects.get(taskpriority_name = 'prio_1')
-        # get object
-        taskstatus_done = Taskstatus.objects.get(taskstatus_name = 'Done')
-        # create object
-        task_task_renew = Task.objects.create(
-            taskname = taskname_task_renew,
-            taskpriority = taskpriority_1,
-            taskstatus = taskstatus_done,
-            task_created_by_user_id = test_user,
-            task_modified_by_user_id = test_user,
-            task_finished_time = timezone.now(),
-        )
-        # get response
-        self.client.get('/task/' + str(task_task_renew.task_id) + '/renew/')
-        # get object
-        task_renewed = Task.objects.get(task_id = task_task_renew.task_id)
-        # compare
-        self.assertEqual(None, task_renewed.task_finished_time)
+        self.assertEqual(task_renewed.task_started_time, None)
+        self.assertEqual(task_renewed.task_finished_time, None)
 
     def test_task_set_user_redirect(self):
         """ test task set_user view """

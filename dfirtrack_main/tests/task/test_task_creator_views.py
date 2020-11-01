@@ -162,7 +162,7 @@ class TaskCreatorViewTestCase(TestCase):
         self.assertEqual(task_1.task_started_time, None)
         self.assertEqual(task_1.task_finished_time, None)
 
-    def test_task_creator_post_started_time_working(self):
+    def test_task_creator_post_times_working(self):
         """ test creator view """
 
         # mock timezone.now()
@@ -194,7 +194,7 @@ class TaskCreatorViewTestCase(TestCase):
             self.assertEqual(task_started.task_started_time, timezone.now())
             self.assertEqual(task_started.task_finished_time, None)
 
-    def test_task_creator_post_finished_time_working(self):
+    def test_task_creator_post_times_done(self):
         """ test creator view """
 
         # mock timezone.now()
