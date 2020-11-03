@@ -217,31 +217,32 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
             # get objects
             artifact_1 = Artifact.objects.get(artifact_name = 'artifact_exporter_spreadsheet_xls_artifact_1_all_attributes')
             artifact_2 = Artifact.objects.get(artifact_name = 'artifact_exporter_spreadsheet_xls_artifact_2_no_attributes')
-# TODO: cast IDs to int
-#            # create lists for easier comparison - artifactstatus
-#            artifactstatus_id_list = ['ID']
-#            artifactstatus_name_list = ['Artifactstatus']
-#            artifactstatus_note_list = ['Note']
-#            all_artifactstatus = Artifactstatus.objects.order_by('artifactstatus_id')
-#            for artifactstatus_object in all_artifactstatus:
-#                artifactstatus_id_list.append(artifactstatus_object.artifactstatus_id)
-#                artifactstatus_name_list.append(artifactstatus_object.artifactstatus_name)
-#                if artifactstatus_object.artifactstatus_note:
-#                    artifactstatus_note_list.append(artifactstatus_object.artifactstatus_note)
-#                else:
-#                    artifactstatus_note_list.append('---')
-#            # create lists for easier comparison - artifacttype
-#            artifacttype_id_list = ['ID']
-#            artifacttype_name_list = ['Artifacttype']
-#            artifacttype_note_list = ['Note']
-#            all_artifacttype = Artifacttype.objects.order_by('artifacttype_id')
-#            for artifacttype_object in all_artifacttype:
-#                artifacttype_id_list.append(artifacttype_object.artifacttype_id)
-#                artifacttype_name_list.append(artifacttype_object.artifacttype_name)
-#                if artifacttype_object.artifacttype_note:
-#                    artifacttype_note_list.append(artifacttype_object.artifacttype_note)
-#                else:
-#                    artifacttype_note_list.append('---')
+            # create lists for easier comparison with whole columns - artifactstatus
+            artifactstatus_id_list = ['ID']
+            artifactstatus_name_list = ['Artifactstatus']
+            artifactstatus_note_list = ['Note']
+            all_artifactstatus = Artifactstatus.objects.all().order_by('artifactstatus_id')
+            for artifactstatus_object in all_artifactstatus:
+                # the conversion to float was carried out, because otherwise the return values from the spreadsheet would have had to be converted to int, which would have been more time-consuming
+                artifactstatus_id_list.append(float(artifactstatus_object.artifactstatus_id))
+                artifactstatus_name_list.append(artifactstatus_object.artifactstatus_name)
+                if artifactstatus_object.artifactstatus_note:
+                    artifactstatus_note_list.append(artifactstatus_object.artifactstatus_note)
+                else:
+                    artifactstatus_note_list.append('---')
+            # create lists for easier comparison with whole columns - artifacttype
+            artifacttype_id_list = ['ID']
+            artifacttype_name_list = ['Artifacttype']
+            artifacttype_note_list = ['Note']
+            all_artifacttype = Artifacttype.objects.all().order_by('artifacttype_name')
+            for artifacttype_object in all_artifacttype:
+                # the conversion to float was carried out, because otherwise the return values from the spreadsheet would have had to be converted to int, which would have been more time-consuming
+                artifacttype_id_list.append(float(artifacttype_object.artifacttype_id))
+                artifacttype_name_list.append(artifacttype_object.artifacttype_name)
+                if artifacttype_object.artifacttype_note:
+                    artifacttype_note_list.append(artifacttype_object.artifacttype_note)
+                else:
+                    artifacttype_note_list.append('---')
             # get response
             response = self.client.get('/artifacts/artifact/exporter/spreadsheet/xls/artifact/')
             # get artifactlist from response content
@@ -293,15 +294,14 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
             self.assertEqual(sheet_artifacts.cell(2,11).value, '')
             self.assertEqual(sheet_artifacts.cell(2,12).value, '2009-08-07 23:45')
             self.assertEqual(sheet_artifacts.cell(2,13).value, '2009-08-07 23:45')
-# TODO: cast IDs to int
-#            # compare content - artifactstatus worksheet
-#            self.assertEqual(sheet_artifactstatus.col_values(0), artifactstatus_id_list)
-#            self.assertEqual(sheet_artifactstatus.col_values(1), artifactstatus_name_list)
-#            self.assertEqual(sheet_artifactstatus.col_values(2), artifactstatus_note_list)
-#            # compare content - artifacttype worksheet
-#            self.assertEqual(sheet_artifacttype.col_values(0), artifacttype_id_list)
-#            self.assertEqual(sheet_artifacttype.col_values(1), artifacttype_name_list)
-#            self.assertEqual(sheet_artifacttype.col_values(2), artifacttype_note_list)
+            # compare content - artifactstatus worksheet (whole columns)
+            self.assertEqual(sheet_artifactstatus.col_values(0), artifactstatus_id_list)
+            self.assertEqual(sheet_artifactstatus.col_values(1), artifactstatus_name_list)
+            self.assertEqual(sheet_artifactstatus.col_values(2), artifactstatus_note_list)
+            # compare content - artifacttype worksheet (whole columns)
+            self.assertEqual(sheet_artifacttype.col_values(0), artifacttype_id_list)
+            self.assertEqual(sheet_artifacttype.col_values(1), artifacttype_name_list)
+            self.assertEqual(sheet_artifacttype.col_values(2), artifacttype_note_list)
             # compare content - metadata
             self.assertEqual(sheet_artifacts.cell(4,0).value, 'Artifactlist created:')
             self.assertEqual(sheet_artifacts.cell(4,1).value, t2_now.strftime('%Y-%m-%d %H:%M'))
