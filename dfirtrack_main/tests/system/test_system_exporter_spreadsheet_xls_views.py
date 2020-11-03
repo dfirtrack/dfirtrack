@@ -259,6 +259,71 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
             # get objects
             system_1 = System.objects.get(system_name='system_1_all_attributes')
             system_2 = System.objects.get(system_name='system_2_no_attributes')
+            # create lists for easier comparison with whole columns - systemstatus
+            systemstatus_id_list = ['ID']
+            systemstatus_name_list = ['Systemstatus']
+            systemstatus_note_list = ['Note']
+            all_systemstatus = Systemstatus.objects.all().order_by('systemstatus_id')
+            for systemstatus_object in all_systemstatus:
+                # the conversion to float was carried out, because otherwise the return values from the spreadsheet would have had to be converted to int, which would have been more time-consuming
+                systemstatus_id_list.append(float(systemstatus_object.systemstatus_id))
+                systemstatus_name_list.append(systemstatus_object.systemstatus_name)
+                if systemstatus_object.systemstatus_note:
+                    systemstatus_note_list.append(systemstatus_object.systemstatus_note)
+                else:
+                    systemstatus_note_list.append('')
+            # create lists for easier comparison with whole columns - analysisstatus
+            analysisstatus_id_list = ['ID']
+            analysisstatus_name_list = ['Analysisstatus']
+            analysisstatus_note_list = ['Note']
+            all_analysisstatus = Analysisstatus.objects.all().order_by('analysisstatus_id')
+            for analysisstatus_object in all_analysisstatus:
+                # the conversion to float was carried out, because otherwise the return values from the spreadsheet would have had to be converted to int, which would have been more time-consuming
+                analysisstatus_id_list.append(float(analysisstatus_object.analysisstatus_id))
+                analysisstatus_name_list.append(analysisstatus_object.analysisstatus_name)
+                if analysisstatus_object.analysisstatus_note:
+                    analysisstatus_note_list.append(analysisstatus_object.analysisstatus_note)
+                else:
+                    analysisstatus_note_list.append('')
+            # create lists for easier comparison with whole columns - reason
+            reason_id_list = ['ID']
+            reason_name_list = ['Reason']
+            reason_note_list = ['Note']
+            all_reason = Reason.objects.all().order_by('reason_name')
+            for reason_object in all_reason:
+                # the conversion to float was carried out, because otherwise the return values from the spreadsheet would have had to be converted to int, which would have been more time-consuming
+                reason_id_list.append(float(reason_object.reason_id))
+                reason_name_list.append(reason_object.reason_name)
+                if reason_object.reason_note:
+                    reason_note_list.append(reason_object.reason_note)
+                else:
+                    reason_note_list.append('')
+            # create lists for easier comparison with whole columns - recommendation
+            recommendation_id_list = ['ID']
+            recommendation_name_list = ['Recommendation']
+            recommendation_note_list = ['Note']
+            all_recommendation = Recommendation.objects.all().order_by('recommendation_name')
+            for recommendation_object in all_recommendation:
+                # the conversion to float was carried out, because otherwise the return values from the spreadsheet would have had to be converted to int, which would have been more time-consuming
+                recommendation_id_list.append(float(recommendation_object.recommendation_id))
+                recommendation_name_list.append(recommendation_object.recommendation_name)
+                if recommendation_object.recommendation_note:
+                    recommendation_note_list.append(recommendation_object.recommendation_note)
+                else:
+                    recommendation_note_list.append('')
+            # create lists for easier comparison with whole columns - tag
+            tag_id_list = ['ID']
+            tag_name_list = ['Tag']
+            tag_note_list = ['Note']
+            all_tag = Tag.objects.all().order_by('tag_name')
+            for tag_object in all_tag:
+                # the conversion to float was carried out, because otherwise the return values from the spreadsheet would have had to be converted to int, which would have been more time-consuming
+                tag_id_list.append(float(tag_object.tag_id))
+                tag_name_list.append(tag_object.tag_name)
+                if tag_object.tag_note:
+                    tag_note_list.append(tag_object.tag_note)
+                else:
+                    tag_note_list.append('')
             # get response
             response = self.client.get('/system/exporter/spreadsheet/xls/system/')
             # get systemlist from response content
@@ -324,16 +389,26 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
             self.assertEqual(sheet_systems.cell(2,14).value, '')
             self.assertEqual(sheet_systems.cell(2,16).value, '2009-08-07 06:05')
             self.assertEqual(sheet_systems.cell(2,17).value, '2009-08-07 06:05')
-            # compare content - worksheet systemstatus
-            # TODO: add tests
-            # compare content - worksheet analysisstatus
-            # TODO: add tests
-            # compare content - worksheet reason
-            # TODO: add tests
-            # compare content - worksheet recommendation
-            # TODO: add tests
-            # compare content - worksheet tag
-            # TODO: add tests
+            # compare content - systemstatus worksheet (whole columns)
+            self.assertEqual(sheet_systemstatus.col_values(0), systemstatus_id_list)
+            self.assertEqual(sheet_systemstatus.col_values(1), systemstatus_name_list)
+            self.assertEqual(sheet_systemstatus.col_values(2), systemstatus_note_list)
+            # compare content - analysisstatus worksheet (whole columns)
+            self.assertEqual(sheet_analysisstatus.col_values(0), analysisstatus_id_list)
+            self.assertEqual(sheet_analysisstatus.col_values(1), analysisstatus_name_list)
+            self.assertEqual(sheet_analysisstatus.col_values(2), analysisstatus_note_list)
+            # compare content - reason worksheet (whole columns)
+            self.assertEqual(sheet_reasons.col_values(0), reason_id_list)
+            self.assertEqual(sheet_reasons.col_values(1), reason_name_list)
+            self.assertEqual(sheet_reasons.col_values(2), reason_note_list)
+            # compare content - recommendation worksheet (whole columns)
+            self.assertEqual(sheet_recommendations.col_values(0), recommendation_id_list)
+            self.assertEqual(sheet_recommendations.col_values(1), recommendation_name_list)
+            self.assertEqual(sheet_recommendations.col_values(2), recommendation_note_list)
+            # compare content - tag worksheet (whole columns)
+            self.assertEqual(sheet_tags.col_values(0), tag_id_list)
+            self.assertEqual(sheet_tags.col_values(1), tag_name_list)
+            self.assertEqual(sheet_tags.col_values(2), tag_note_list)
             # compare content - metadata
             self.assertEqual(sheet_systems.cell(4,0).value, 'SOD created:')
             self.assertEqual(sheet_systems.cell(4,1).value,  t2_now.strftime('%Y-%m-%d %H:%M'))
