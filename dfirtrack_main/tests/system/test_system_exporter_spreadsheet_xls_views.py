@@ -201,6 +201,12 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
             systemlist = xlrd.open_workbook(file_contents=workbook)
             # get sheets
             sheet_systems = systemlist.sheet_by_name('systems')
+            # compare non-available sheets
+            self.assertRaises(xlrd.biffh.XLRDError, systemlist.sheet_by_name, sheet_name='systemstatus')
+            self.assertRaises(xlrd.biffh.XLRDError, systemlist.sheet_by_name, sheet_name='analysisstatus')
+            self.assertRaises(xlrd.biffh.XLRDError, systemlist.sheet_by_name, sheet_name='reasons')
+            self.assertRaises(xlrd.biffh.XLRDError, systemlist.sheet_by_name, sheet_name='recommendations')
+            self.assertRaises(xlrd.biffh.XLRDError, systemlist.sheet_by_name, sheet_name='tags')
             # compare number of rows and columns
             self.assertEqual(sheet_systems.nrows, 6)
             self.assertEqual(sheet_systems.ncols, 2)

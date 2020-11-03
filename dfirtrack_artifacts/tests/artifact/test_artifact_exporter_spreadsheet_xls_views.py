@@ -165,6 +165,9 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
             artifactlist = xlrd.open_workbook(file_contents=workbook)
             # get sheets
             sheet_artifacts = artifactlist.sheet_by_name('artifacts')
+            # compare non-available sheets
+            self.assertRaises(xlrd.biffh.XLRDError, artifactlist.sheet_by_name, sheet_name='artifactstatus')
+            self.assertRaises(xlrd.biffh.XLRDError, artifactlist.sheet_by_name, sheet_name='artifacttype')
             # compare number of rows and columns
             self.assertEqual(sheet_artifacts.nrows, 6)
             self.assertEqual(sheet_artifacts.ncols, 2)
