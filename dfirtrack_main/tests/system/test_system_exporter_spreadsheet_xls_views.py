@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
 from dfirtrack_config.models import SystemExporterSpreadsheetXlsConfigModel
-from dfirtrack_main.models import System, Systemstatus
+from dfirtrack_main.models import Analysisstatus, Case, Company, Dnsname, Domain, Ip, Location, Os, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Tag, Tagcolor
 from mock import patch
 import urllib.parse
 import xlrd
@@ -17,8 +17,51 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
         # create user
         test_user = User.objects.create_user(username='testuser_system_exporter_spreadsheet_xls', password='AIsOtQ2zchYhNZBfWIHu')
 
-        # create object
+        # create objects
+        dnsname_1 = Dnsname.objects.create(dnsname_name='dnsname_1')
+        domain_1 = Domain.objects.create(domain_name='domain_1')
         systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
+        analysisstatus_1 = Analysisstatus.objects.create(analysisstatus_name='analysisstatus_1')
+        reason_1 = Reason.objects.create(reason_name='reason_1')
+        recommendation_1 = Recommendation.objects.create(recommendation_name='recommendation_1')
+        systemtype_1 = Systemtype.objects.create(systemtype_name='systemtype_1')
+        ip_1 = Ip.objects.create(ip_ip='127.0.0.1')
+        ip_2 = Ip.objects.create(ip_ip='127.0.0.2')
+        ip_3 = Ip.objects.create(ip_ip='127.0.0.3')
+        os_1 = Os.objects.create(os_name='os_1')
+        company_1 = Company.objects.create(company_name='company_1')
+        company_2 = Company.objects.create(company_name='company_2')
+        company_3 = Company.objects.create(company_name='company_3')
+        location_1 = Location.objects.create(location_name='location_1')
+        serviceprovider_1 = Serviceprovider.objects.create(serviceprovider_name='serviceprovider_1')
+        tagcolor_1 = Tagcolor.objects.create(tagcolor_name='tagcolor_1')
+        tag_1 = Tag.objects.create(
+            tag_name='tag_1',
+            tagcolor=tagcolor_1,
+        )
+        tag_2 = Tag.objects.create(
+            tag_name='tag_2',
+            tagcolor=tagcolor_1,
+        )
+        tag_3 = Tag.objects.create(
+            tag_name='tag_3',
+            tagcolor=tagcolor_1,
+        )
+        case_1 = Case.objects.create(
+            case_name='case_1',
+            case_is_incident=True,
+            case_created_by_user_id=test_user,
+        )
+        case_2 = Case.objects.create(
+            case_name='case_2',
+            case_is_incident=False,
+            case_created_by_user_id=test_user,
+        )
+        case_3 = Case.objects.create(
+            case_name='case_3',
+            case_is_incident=False,
+            case_created_by_user_id=test_user,
+        )
 
         """ create systems """
 
@@ -27,13 +70,36 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
         with patch.object(timezone, 'now', return_value=t_1):
 
             # create object with maximum attributes
-            System.objects.create(
-                system_name='system_1_all_attributes',
+            system_1 = System.objects.create(
+                system_name = 'system_1_all_attributes',
+                dnsname = dnsname_1,
+                domain = domain_1,
                 systemstatus = systemstatus_1,
+                analysisstatus = analysisstatus_1,
+                reason = reason_1,
+                recommendation = recommendation_1,
+                systemtype = systemtype_1,
+                os = os_1,
+                location = location_1,
+                serviceprovider = serviceprovider_1,
                 system_modify_time = timezone.now(),
                 system_created_by_user_id = test_user,
                 system_modified_by_user_id = test_user,
             )
+
+            # add many to many attributes
+            system_1.ip.add(ip_1)
+            system_1.ip.add(ip_2)
+            system_1.ip.add(ip_3)
+            system_1.company.add(company_1)
+            system_1.company.add(company_2)
+            system_1.company.add(company_3)
+            system_1.tag.add(tag_1)
+            system_1.tag.add(tag_2)
+            system_1.tag.add(tag_3)
+            system_1.case.add(case_1)
+            system_1.case.add(case_2)
+            system_1.case.add(case_3)
 
         # mock timezone.now()
         t_2 = datetime(2009, 8, 7, 6, 5, tzinfo=timezone.utc)
@@ -41,7 +107,7 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
 
             # create object with minimum attributes
             System.objects.create(
-                system_name='system_2_no_attributes',
+                system_name = 'system_2_no_attributes',
                 systemstatus = systemstatus_1,
                 system_modify_time = timezone.now(),
                 system_created_by_user_id = test_user,
@@ -50,7 +116,7 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
 
         # create object that will not be exported
         System.objects.create(
-            system_name='system_3_not_exported',
+            system_name = 'system_3_not_exported',
             systemstatus = systemstatus_1,
             system_export_spreadsheet = False,
             system_modify_time = timezone.now(),
@@ -147,5 +213,123 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
             # compare content - metadata
             self.assertEqual(sheet_systems.cell(4,0).value, 'SOD created:')
             self.assertEqual(sheet_systems.cell(4,1).value,  t1_now.strftime('%Y-%m-%d %H:%M'))
+            self.assertEqual(sheet_systems.cell(5,0).value, 'Created by:')
+            self.assertEqual(sheet_systems.cell(5,1).value, 'testuser_system_exporter_spreadsheet_xls')
+
+    def test_system_exporter_spreadsheet_xls_complate_spreadsheet(self):
+        """ test exporter view """
+
+        # mock timezone.now()
+        t2_now = timezone.now()
+        with patch.object(timezone, 'now', return_value=t2_now):
+
+            # get and modify config to show only mandatory columns
+            system_exporter_spreadsheet_xls_config_model = SystemExporterSpreadsheetXlsConfigModel(system_exporter_spreadsheet_xls_config_name = 'SystemExporterSpreadsheetXlsConfig')
+            system_exporter_spreadsheet_xls_config_model.spread_xls_system_id = True
+            system_exporter_spreadsheet_xls_config_model.spread_xls_dnsname = True
+            system_exporter_spreadsheet_xls_config_model.spread_xls_domain = True
+            system_exporter_spreadsheet_xls_config_model.spread_xls_systemstatus = True
+            system_exporter_spreadsheet_xls_config_model.spread_xls_analysisstatus = True
+            system_exporter_spreadsheet_xls_config_model.spread_xls_reason = True
+            system_exporter_spreadsheet_xls_config_model.spread_xls_recommendation = True
+            system_exporter_spreadsheet_xls_config_model.spread_xls_systemtype = True
+            system_exporter_spreadsheet_xls_config_model.spread_xls_ip = True
+            system_exporter_spreadsheet_xls_config_model.spread_xls_os = True
+            system_exporter_spreadsheet_xls_config_model.spread_xls_company = True
+            system_exporter_spreadsheet_xls_config_model.spread_xls_location = True
+            system_exporter_spreadsheet_xls_config_model.spread_xls_serviceprovider = True
+            system_exporter_spreadsheet_xls_config_model.spread_xls_tag = True
+            system_exporter_spreadsheet_xls_config_model.spread_xls_case = True
+            system_exporter_spreadsheet_xls_config_model.spread_xls_system_create_time = True
+            system_exporter_spreadsheet_xls_config_model.spread_xls_system_modify_time = True
+            system_exporter_spreadsheet_xls_config_model.spread_xls_worksheet_systemstatus = True
+            system_exporter_spreadsheet_xls_config_model.spread_xls_worksheet_analysisstatus = True
+            system_exporter_spreadsheet_xls_config_model.spread_xls_worksheet_reason = True
+            system_exporter_spreadsheet_xls_config_model.spread_xls_worksheet_recommendation = True
+            system_exporter_spreadsheet_xls_config_model.spread_xls_worksheet_tag = True
+            system_exporter_spreadsheet_xls_config_model.save()
+            # login testuser
+            self.client.login(username='testuser_system_exporter_spreadsheet_xls', password='AIsOtQ2zchYhNZBfWIHu')
+            # get objects
+            system_1 = System.objects.get(system_name='system_1_all_attributes')
+            system_2 = System.objects.get(system_name='system_2_no_attributes')
+            # get response
+            response = self.client.get('/system/exporter/spreadsheet/xls/system/')
+            # get systemlist from response content
+            workbook = response.content
+            # open systemlist directly from byte stream
+            systemlist = xlrd.open_workbook(file_contents=workbook)
+            # get sheets
+            sheet_systems = systemlist.sheet_by_name('systems')
+            sheet_systemstatus = systemlist.sheet_by_name('systemstatus')
+            sheet_analysisstatus = systemlist.sheet_by_name('analysisstatus')
+            sheet_reasons = systemlist.sheet_by_name('reasons')
+            sheet_recommendations = systemlist.sheet_by_name('recommendations')
+            sheet_tags = systemlist.sheet_by_name('tags')
+            # compare number of rows and columns
+            self.assertEqual(sheet_systems.nrows, 6)
+            self.assertEqual(sheet_systems.ncols, 18)
+            self.assertEqual(sheet_systemstatus.nrows, 10)
+            self.assertEqual(sheet_systemstatus.ncols, 3)
+            self.assertEqual(sheet_analysisstatus.nrows, 7)
+            self.assertEqual(sheet_analysisstatus.ncols, 3)
+            self.assertEqual(sheet_reasons.nrows, 2)
+            self.assertEqual(sheet_reasons.ncols, 3)
+            self.assertEqual(sheet_recommendations.nrows, 2)
+            self.assertEqual(sheet_recommendations.ncols, 3)
+            self.assertEqual(sheet_tags.nrows, 9)
+            self.assertEqual(sheet_tags.ncols, 3)
+            # compare headlines
+            self.assertEqual(sheet_systems.row_values(0), ['ID', 'System', 'DNS name', 'Domain', 'Systemstatus', 'Analysisstatus', 'Reason', 'Recommendation', 'Systemtype', 'IP', 'OS', 'Company', 'Location', 'Serviceprovider', 'Tag', 'Case', 'Created', 'Modified'])
+            # compare content - system 1
+            self.assertEqual(int(sheet_systems.cell(1,0).value), system_1.system_id)
+            self.assertEqual(sheet_systems.cell(1,1).value, system_1.system_name)
+            self.assertEqual(sheet_systems.cell(1,2).value, system_1.dnsname.dnsname_name)
+            self.assertEqual(sheet_systems.cell(1,3).value, system_1.domain.domain_name)
+            self.assertEqual(sheet_systems.cell(1,4).value, system_1.systemstatus.systemstatus_name)
+            self.assertEqual(sheet_systems.cell(1,5).value, system_1.analysisstatus.analysisstatus_name)
+            self.assertEqual(sheet_systems.cell(1,6).value, system_1.reason.reason_name)
+            self.assertEqual(sheet_systems.cell(1,7).value, system_1.recommendation.recommendation_name)
+            self.assertEqual(sheet_systems.cell(1,8).value, system_1.systemtype.systemtype_name)
+            self.assertEqual(sheet_systems.cell(1,9).value, '127.0.0.1\n127.0.0.2\n127.0.0.3')
+            self.assertEqual(sheet_systems.cell(1,10).value, system_1.os.os_name)
+            self.assertEqual(sheet_systems.cell(1,11).value, 'company_1\ncompany_2\ncompany_3')
+            self.assertEqual(sheet_systems.cell(1,12).value, system_1.location.location_name)
+            self.assertEqual(sheet_systems.cell(1,13).value, system_1.serviceprovider.serviceprovider_name)
+            self.assertEqual(sheet_systems.cell(1,14).value, 'tag_1\ntag_2\ntag_3')
+            self.assertEqual(sheet_systems.cell(1,15).value, 'case_1\ncase_2\ncase_3')
+            self.assertEqual(sheet_systems.cell(1,16).value, '2001-02-03 04:05')
+            self.assertEqual(sheet_systems.cell(1,17).value, '2001-02-03 04:05')
+            # compare content - system 2
+            self.assertEqual(int(sheet_systems.cell(2,0).value), system_2.system_id)
+            self.assertEqual(sheet_systems.cell(2,1).value, system_2.system_name)
+            self.assertEqual(sheet_systems.cell(2,2).value, '')
+            self.assertEqual(sheet_systems.cell(2,3).value, '')
+            self.assertEqual(sheet_systems.cell(2,4).value, system_2.systemstatus.systemstatus_name)
+            self.assertEqual(sheet_systems.cell(2,5).value, '')
+            self.assertEqual(sheet_systems.cell(2,6).value, '')
+            self.assertEqual(sheet_systems.cell(2,7).value, '')
+            self.assertEqual(sheet_systems.cell(2,8).value, '')
+            self.assertEqual(sheet_systems.cell(2,9).value, '')
+            self.assertEqual(sheet_systems.cell(2,10).value, '')
+            self.assertEqual(sheet_systems.cell(2,11).value, '')
+            self.assertEqual(sheet_systems.cell(2,12).value, '')
+            self.assertEqual(sheet_systems.cell(2,13).value, '')
+            self.assertEqual(sheet_systems.cell(2,14).value, '')
+            self.assertEqual(sheet_systems.cell(2,16).value, '2009-08-07 06:05')
+            self.assertEqual(sheet_systems.cell(2,17).value, '2009-08-07 06:05')
+            # compare content - worksheet systemstatus
+            # TODO: add tests
+            # compare content - worksheet analysisstatus
+            # TODO: add tests
+            # compare content - worksheet reason
+            # TODO: add tests
+            # compare content - worksheet recommendation
+            # TODO: add tests
+            # compare content - worksheet tag
+            # TODO: add tests
+            # compare content - metadata
+            self.assertEqual(sheet_systems.cell(4,0).value, 'SOD created:')
+            self.assertEqual(sheet_systems.cell(4,1).value,  t2_now.strftime('%Y-%m-%d %H:%M'))
             self.assertEqual(sheet_systems.cell(5,0).value, 'Created by:')
             self.assertEqual(sheet_systems.cell(5,1).value, 'testuser_system_exporter_spreadsheet_xls')
