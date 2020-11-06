@@ -2,7 +2,7 @@ from django.contrib import messages
 import dfirtrack.config as dfirtrack_config
 from dfirtrack_main.logger.default_logger import warning_logger
 
-def check_config(request):
+def check_config(request):                              # coverage: ignore branch
     """ check variables in `dfirtrack.config` """
 
     # reset stop condition
