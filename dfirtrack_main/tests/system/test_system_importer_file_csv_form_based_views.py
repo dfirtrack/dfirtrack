@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
+from django.utils import timezone
 from dfirtrack.settings import BASE_DIR
 from dfirtrack_config.models import SystemImporterFileCsvFormbasedConfigModel
 from dfirtrack_main.models import Analysisstatus, Case, Company, Domain, Dnsname, Location, Os, Reason, System, Systemstatus, Systemtype, Tag, Tagcolor
@@ -40,7 +41,7 @@ class SystemImporterFileCsvFormbasedViewTestCase(TestCase):
         Os.objects.create(os_name='os_1')
         Location.objects.create(location_name='location_1')
         Reason.objects.create(reason_name='reason_1')
-        Systemstatus.objects.create(systemstatus_name='systemstatus_1')
+        systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
         Systemtype.objects.create(systemtype_name='systemtype_1')
         tagcolor_1 = Tagcolor.objects.create(tagcolor_name='tagcolor_1')
         Tag.objects.create(
@@ -54,6 +55,21 @@ class SystemImporterFileCsvFormbasedViewTestCase(TestCase):
         Tag.objects.create(
             tag_name='tag_3',
             tagcolor=tagcolor_1,
+        )
+        # create objects
+        System.objects.create(
+            system_name = 'system_double',
+            systemstatus = systemstatus_1,
+            system_modify_time = timezone.now(),
+            system_created_by_user_id = test_user,
+            system_modified_by_user_id = test_user,
+        )
+        System.objects.create(
+            system_name = 'system_double',
+            systemstatus = systemstatus_1,
+            system_modify_time = timezone.now(),
+            system_created_by_user_id = test_user,
+            system_modified_by_user_id = test_user,
         )
 
     def test_system_importer_file_csv_form_based_not_logged_in(self):
@@ -426,3 +442,42 @@ class SystemImporterFileCsvFormbasedViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
         self.assertEqual(str(messages[0]), 'File seems not to be a CSV file. Check file.')
+
+    def test_system_importer_file_csv_form_based_post_double(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_form_based', password='h3v1BVjsdpJu6sAnSP7e')
+        # change config
+        system_importer_file_csv_formbased_config_model = SystemImporterFileCsvFormbasedConfigModel(system_importer_file_csv_formbased_config_name='SystemImporterFileCsvFormbasedConfig')
+        system_importer_file_csv_formbased_config_model.csv_skip_existing_system = True
+        system_importer_file_csv_formbased_config_model.csv_column_system = 1
+        system_importer_file_csv_formbased_config_model.csv_headline = False
+        system_importer_file_csv_formbased_config_model.csv_choice_ip = True
+        system_importer_file_csv_formbased_config_model.csv_remove_ip = True
+        system_importer_file_csv_formbased_config_model.csv_column_ip = 2
+        system_importer_file_csv_formbased_config_model.csv_remove_case = True
+        system_importer_file_csv_formbased_config_model.csv_remove_company = True
+        system_importer_file_csv_formbased_config_model.csv_remove_tag = True
+        system_importer_file_csv_formbased_config_model.save()
+        # open upload file
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_importer_file_csv_testfile_double.csv'), 'r')
+        # get objects
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
+        # create post data
+        data_dict = {
+            'systemcsv': systemcsv,
+            'systemstatus': systemstatus_id,
+        }
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.post('/system/importer/file/csv/formbased/', data_dict)
+        # close file
+        systemcsv.close()
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(len(System.objects.filter(system_name='system_double')), 2)
+        self.assertEqual(str(messages[0]), 'System system_double already exists multiple times. Nothing was changed for this system.')
