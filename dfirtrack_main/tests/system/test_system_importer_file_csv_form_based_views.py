@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.contrib.messages import get_messages
 from django.test import TestCase
 from dfirtrack.settings import BASE_DIR
 from dfirtrack_config.models import SystemImporterFileCsvFormbasedConfigModel
@@ -106,6 +107,60 @@ class SystemImporterFileCsvFormbasedViewTestCase(TestCase):
         response = self.client.get('/system/importer/file/csv/formbased', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_system_importer_file_csv_form_based_skip_warning(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_form_based', password='h3v1BVjsdpJu6sAnSP7e')
+        # change config
+        system_importer_file_csv_formbased_config_model = SystemImporterFileCsvFormbasedConfigModel(system_importer_file_csv_formbased_config_name='SystemImporterFileCsvFormbasedConfig')
+        system_importer_file_csv_formbased_config_model.csv_skip_existing_system = False
+        system_importer_file_csv_formbased_config_model.csv_column_system = 256
+        system_importer_file_csv_formbased_config_model.csv_headline = False
+        system_importer_file_csv_formbased_config_model.csv_choice_ip = True
+        system_importer_file_csv_formbased_config_model.csv_remove_ip = True
+        system_importer_file_csv_formbased_config_model.csv_column_ip = 1
+        system_importer_file_csv_formbased_config_model.csv_remove_case = True
+        system_importer_file_csv_formbased_config_model.csv_remove_company = True
+        system_importer_file_csv_formbased_config_model.csv_remove_tag = True
+        system_importer_file_csv_formbased_config_model.save()
+        # get response
+        response = self.client.get('/system/importer/file/csv/formbased/', follow=True)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(str(messages[0]), 'WARNING: Existing systems will be updated!')
+
+    def test_system_importer_file_csv_form_based_bad_config(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_form_based', password='h3v1BVjsdpJu6sAnSP7e')
+        # change config
+        system_importer_file_csv_formbased_config_model = SystemImporterFileCsvFormbasedConfigModel(system_importer_file_csv_formbased_config_name='SystemImporterFileCsvFormbasedConfig')
+        system_importer_file_csv_formbased_config_model.csv_skip_existing_system = True
+        system_importer_file_csv_formbased_config_model.csv_column_system = 0
+        system_importer_file_csv_formbased_config_model.csv_headline = False
+        system_importer_file_csv_formbased_config_model.csv_choice_ip = True
+        system_importer_file_csv_formbased_config_model.csv_remove_ip = True
+        system_importer_file_csv_formbased_config_model.csv_column_ip = 257
+        system_importer_file_csv_formbased_config_model.csv_remove_case = True
+        system_importer_file_csv_formbased_config_model.csv_remove_company = True
+        system_importer_file_csv_formbased_config_model.csv_remove_tag = True
+        system_importer_file_csv_formbased_config_model.save()
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.get('/system/importer/file/csv/formbased/', follow=True)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(str(messages[0]), '`CSV_COLUMN_SYSTEM` is outside the allowed range. Check config!')
+        self.assertEqual(str(messages[1]), '`CSV_COLUMN_IP` is outside the allowed range. Check config!')
+        self.assertEqual(str(messages[2]), 'Nothing was changed.')
 
     def test_system_importer_file_csv_form_based_post_minimal(self):
         """ test importer view """
@@ -345,3 +400,29 @@ class SystemImporterFileCsvFormbasedViewTestCase(TestCase):
         # compare
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'dfirtrack_main/system/system_importer_file_csv_form_based.html')
+
+    def test_system_importer_file_csv_form_based_post_data_file(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_form_based', password='h3v1BVjsdpJu6sAnSP7e')
+        # open upload file
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_importer_file_csv_testfile_data.dat'), 'rb')
+        # get object
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # create post data
+        data_dict = {
+            'systemcsv': systemcsv,
+            'systemstatus': systemstatus_id,
+        }
+        # get response
+        response = self.client.post('/system/importer/file/csv/formbased/', data_dict)
+        # close file
+        systemcsv.close()
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(str(messages[0]), 'File seems not to be a CSV file. Check file.')

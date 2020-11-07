@@ -25,7 +25,7 @@ def system(request):
         # call logger
         debug_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_BEGAN")
 
-        # get systemcsv from request
+        # get systemcsv from request (no submitted file only relevant for tests, normally form enforces file submitting)
         check_systemcsv = request.FILES.get('systemcsv', False)
 
         # check request for systemcsv (file submitted)
@@ -39,6 +39,7 @@ def system(request):
 
             # check file for csv respectively some kind of text file
             file_check = check_file(request, rows)
+
             # leave system_importer_file_csv if file check throws errors
             if not file_check:
                 return redirect(reverse('system_list'))
