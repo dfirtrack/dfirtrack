@@ -920,3 +920,47 @@ class SystemImporterFileCsvFormbasedViewTestCase(TestCase):
         self.assertTrue(system_1.ip.filter(ip_ip='127.3.4.51').exists())
         self.assertFalse(system_1.ip.filter(ip_ip='127.3.4.52').exists())
         self.assertEqual(system_1.systemstatus, systemstatus_1)
+
+    def test_system_importer_file_csv_form_based_post_invalid_ip(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_form_based', password='h3v1BVjsdpJu6sAnSP7e')
+        # change config
+        system_importer_file_csv_formbased_config_model = SystemImporterFileCsvFormbasedConfigModel(system_importer_file_csv_formbased_config_name='SystemImporterFileCsvFormbasedConfig')
+        system_importer_file_csv_formbased_config_model.csv_skip_existing_system = True
+        system_importer_file_csv_formbased_config_model.csv_column_system = 1
+        system_importer_file_csv_formbased_config_model.csv_headline = False
+        system_importer_file_csv_formbased_config_model.csv_choice_ip = True
+        system_importer_file_csv_formbased_config_model.csv_remove_ip = True
+        system_importer_file_csv_formbased_config_model.csv_column_ip = 2
+        system_importer_file_csv_formbased_config_model.csv_remove_case = True
+        system_importer_file_csv_formbased_config_model.csv_remove_company = True
+        system_importer_file_csv_formbased_config_model.csv_remove_tag = True
+        system_importer_file_csv_formbased_config_model.save()
+        # open upload file
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_importer_file_csv_testfile_invalid_ip.csv'), 'r')
+        # get object
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
+        # create post data
+        data_dict = {
+            'systemcsv': systemcsv,
+            'systemstatus': systemstatus_id,
+        }
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.post('/system/importer/file/csv/formbased/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # get objects
+        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+        system_1 = System.objects.get(system_name='system_invalid_ip_1')
+        # close file
+        systemcsv.close()
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(str(messages[0]), 'Value for ip address in row 1 was not a valid IP address.')
+        self.assertEqual(str(messages[1]), '1 system was created.')
+        self.assertTrue(System.objects.filter(system_name='system_invalid_ip_1').exists())
+        self.assertEqual(system_1.systemstatus, systemstatus_1)
