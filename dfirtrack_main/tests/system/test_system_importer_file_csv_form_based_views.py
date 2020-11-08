@@ -264,6 +264,8 @@ class SystemImporterFileCsvFormbasedViewTestCase(TestCase):
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
         response = self.client.post('/system/importer/file/csv/formbased/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
         # get objects
         systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
         system_1 = System.objects.get(system_name='systems_csv_minimal_001')
@@ -279,6 +281,7 @@ class SystemImporterFileCsvFormbasedViewTestCase(TestCase):
         systemcsv.close()
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(str(messages[0]), '9 systems were created.')
         self.assertTrue(System.objects.filter(system_name='systems_csv_minimal_001').exists())
         self.assertTrue(System.objects.filter(system_name='systems_csv_minimal_002').exists())
         self.assertTrue(System.objects.filter(system_name='systems_csv_minimal_003').exists())
@@ -363,6 +366,8 @@ class SystemImporterFileCsvFormbasedViewTestCase(TestCase):
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
         response = self.client.post('/system/importer/file/csv/formbased/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
         # get objects
         analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
         dnsname_1 = Dnsname.objects.get(dnsname_name='dnsname_1')
@@ -385,6 +390,7 @@ class SystemImporterFileCsvFormbasedViewTestCase(TestCase):
         systemcsv.close()
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(str(messages[0]), '9 systems were created.')
         self.assertTrue(System.objects.filter(system_name='systems_csv_complete_001').exists())
         self.assertTrue(System.objects.filter(system_name='systems_csv_complete_002').exists())
         self.assertTrue(System.objects.filter(system_name='systems_csv_complete_003').exists())
@@ -609,11 +615,14 @@ class SystemImporterFileCsvFormbasedViewTestCase(TestCase):
         response = self.client.post('/system/importer/file/csv/formbased/', data_dict)
         # close file
         systemcsv.close()
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
         # get objects
         system_skip = System.objects.get(system_name='system_skip')
         systemstatus_2 = Systemstatus.objects.get(systemstatus_name='systemstatus_2')
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(str(messages[0]), '1 system was skipped.')
         self.assertEqual(system_skip.systemstatus, systemstatus_2)
         self.assertFalse(system_skip.ip.filter(ip_ip='127.1.1.1').exists())
         self.assertTrue(system_skip.ip.filter(ip_ip='127.2.2.2').exists())
@@ -656,11 +665,14 @@ class SystemImporterFileCsvFormbasedViewTestCase(TestCase):
         response = self.client.post('/system/importer/file/csv/formbased/', data_dict)
         # close file
         systemcsv.close()
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
         # get objects
         system_update_discard_manytomany_1 = System.objects.get(system_name='system_update_discard_manytomany_1')
         system_update_discard_manytomany_2 = System.objects.get(system_name='system_update_discard_manytomany_2')
         # compare - general
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(str(messages[0]), '2 systems were updated.')
         # compare - system_update_discard_manytomany_1
         self.assertFalse(system_update_discard_manytomany_1.case.filter(case_name='case_1').exists())
         self.assertTrue(system_update_discard_manytomany_1.case.filter(case_name='case_2').exists())
@@ -717,11 +729,14 @@ class SystemImporterFileCsvFormbasedViewTestCase(TestCase):
         response = self.client.post('/system/importer/file/csv/formbased/', data_dict)
         # close file
         systemcsv.close()
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
         # get objects
         system_update_keep_manytomany_1 = System.objects.get(system_name='system_update_keep_manytomany_1')
         system_update_keep_manytomany_2 = System.objects.get(system_name='system_update_keep_manytomany_2')
         # compare - general
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(str(messages[0]), '2 systems were updated.')
         # compare - system_update_keep_manytomany_1
         self.assertTrue(system_update_keep_manytomany_1.case.filter(case_name='case_1').exists())
         self.assertTrue(system_update_keep_manytomany_1.case.filter(case_name='case_2').exists())
