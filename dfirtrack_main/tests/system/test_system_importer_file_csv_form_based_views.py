@@ -105,6 +105,28 @@ class SystemImporterFileCsvFormbasedViewTestCase(TestCase):
         system_update_1.ip.add(ip_update_1)
         system_update_1.tag.add(tag_1)
         system_update_2.ip.add(ip_update_2)
+        # create system objects - post_keep test
+        ip_keep_1 = Ip.objects.create(ip_ip='10.5.5.5')
+        ip_keep_2 = Ip.objects.create(ip_ip='10.6.6.6')
+        system_keep_1 = System.objects.create(
+            system_name = 'system_keep_1',
+            systemstatus = systemstatus_1,
+            system_modify_time = timezone.now(),
+            system_created_by_user_id = test_user,
+            system_modified_by_user_id = test_user,
+        )
+        system_keep_2 = System.objects.create(
+            system_name = 'system_keep_2',
+            systemstatus = systemstatus_1,
+            system_modify_time = timezone.now(),
+            system_created_by_user_id = test_user,
+            system_modified_by_user_id = test_user,
+        )
+        system_keep_1.case.add(case_1)
+        system_keep_1.company.add(company_1)
+        system_keep_1.ip.add(ip_keep_1)
+        system_keep_1.tag.add(tag_1)
+        system_keep_2.ip.add(ip_keep_2)
 
     def test_system_importer_file_csv_form_based_not_logged_in(self):
         """ test importer view """
@@ -596,7 +618,7 @@ class SystemImporterFileCsvFormbasedViewTestCase(TestCase):
         self.assertFalse(system_skip.ip.filter(ip_ip='127.1.1.1').exists())
         self.assertTrue(system_skip.ip.filter(ip_ip='127.2.2.2').exists())
 
-    def test_system_importer_file_csv_form_based_post_update_discard_attributes(self):
+    def test_system_importer_file_csv_form_based_post_update_discard_manytomany(self):
         """ test importer view """
 
         # login testuser
@@ -657,4 +679,63 @@ class SystemImporterFileCsvFormbasedViewTestCase(TestCase):
         self.assertEqual(system_update_2.systemstatus, systemstatus_2)
         self.assertTrue(system_update_2.tag.filter(tag_name='tag_2').exists())
 
-#    def test_system_importer_file_csv_form_based_post_update_keep_attributes(self):
+    def test_system_importer_file_csv_form_based_post_update_keep_manytomany(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_form_based', password='h3v1BVjsdpJu6sAnSP7e')
+        # change config
+        system_importer_file_csv_formbased_config_model = SystemImporterFileCsvFormbasedConfigModel(system_importer_file_csv_formbased_config_name='SystemImporterFileCsvFormbasedConfig')
+        system_importer_file_csv_formbased_config_model.csv_skip_existing_system = False
+        system_importer_file_csv_formbased_config_model.csv_column_system = 1
+        system_importer_file_csv_formbased_config_model.csv_headline = False
+        system_importer_file_csv_formbased_config_model.csv_choice_ip = True
+        system_importer_file_csv_formbased_config_model.csv_remove_ip = False
+        system_importer_file_csv_formbased_config_model.csv_column_ip = 2
+        system_importer_file_csv_formbased_config_model.csv_remove_case = False
+        system_importer_file_csv_formbased_config_model.csv_remove_company = False
+        system_importer_file_csv_formbased_config_model.csv_remove_tag = False
+        system_importer_file_csv_formbased_config_model.save()
+        # open upload file
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_importer_file_csv_testfile_keep.csv'), 'r')
+        # get object
+        case_2 = Case.objects.get(case_name='case_2')
+        company_2 = Company.objects.get(company_name='company_2')
+        systemstatus_2 = Systemstatus.objects.get(systemstatus_name='systemstatus_2')
+        tag_2 = Tag.objects.get(tag_name='tag_2')
+        # create post data
+        data_dict = {
+            'systemcsv': systemcsv,
+            'case': [case_2.case_id,],
+            'company': [company_2.company_id,],
+            'systemstatus': systemstatus_2.systemstatus_id,
+            'tag': [tag_2.tag_id,],
+        }
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.post('/system/importer/file/csv/formbased/', data_dict)
+        # close file
+        systemcsv.close()
+        # get objects
+        system_keep_1 = System.objects.get(system_name='system_keep_1')
+        system_keep_2 = System.objects.get(system_name='system_keep_2')
+        # compare - general
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        # compare - system_keep_1
+        self.assertTrue(system_keep_1.case.filter(case_name='case_1').exists())
+        self.assertTrue(system_keep_1.case.filter(case_name='case_2').exists())
+        self.assertTrue(system_keep_1.company.filter(company_name='company_1').exists())
+        self.assertTrue(system_keep_1.company.filter(company_name='company_2').exists())
+        self.assertTrue(system_keep_1.ip.filter(ip_ip='10.5.5.5').exists())
+        self.assertTrue(system_keep_1.ip.filter(ip_ip='10.7.7.7').exists())
+        self.assertEqual(system_keep_1.systemstatus, systemstatus_2)
+        self.assertTrue(system_keep_1.tag.filter(tag_name='tag_1').exists())
+        self.assertTrue(system_keep_1.tag.filter(tag_name='tag_2').exists())
+        # compare - system_keep_2
+        self.assertTrue(system_keep_2.case.filter(case_name='case_2').exists())
+        self.assertTrue(system_keep_2.company.filter(company_name='company_2').exists())
+        self.assertTrue(system_keep_2.ip.filter(ip_ip='10.6.6.6').exists())
+        self.assertTrue(system_keep_2.ip.filter(ip_ip='10.8.8.8').exists())
+        self.assertEqual(system_keep_2.systemstatus, systemstatus_2)
+        self.assertTrue(system_keep_2.tag.filter(tag_name='tag_2').exists())
