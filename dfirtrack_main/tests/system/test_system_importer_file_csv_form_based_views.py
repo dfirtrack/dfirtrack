@@ -57,7 +57,7 @@ class SystemImporterFileCsvFormbasedViewTestCase(TestCase):
         )
         # create objects / mandatory attributes for all tests
         systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
-        systemstatus_2 = Systemstatus.objects.create(systemstatus_name='systemstatus_2')
+        Systemstatus.objects.create(systemstatus_name='systemstatus_2')
         # create system objects - post_double test
         System.objects.create(
             system_name = 'system_double',
@@ -74,15 +74,24 @@ class SystemImporterFileCsvFormbasedViewTestCase(TestCase):
             system_modified_by_user_id = test_user,
         )
         # create system objects - post_skip test
-        ip_2 = Ip.objects.create(ip_ip='127.2.2.2')
-        system_skip = System.objects.create(
-            system_name = 'system_skip',
-            systemstatus = systemstatus_2,
+        ip_skip_1 = Ip.objects.create(ip_ip='127.1.1.1')
+        system_skip_1 = System.objects.create(
+            system_name = 'system_skip_1',
+            systemstatus = systemstatus_1,
             system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
-        system_skip.ip.add(ip_2)
+        system_skip_1.ip.add(ip_skip_1)
+        ip_skip_2 = Ip.objects.create(ip_ip='127.3.3.3')
+        system_skip_2 = System.objects.create(
+            system_name = 'system_skip_2',
+            systemstatus = systemstatus_1,
+            system_modify_time = timezone.now(),
+            system_created_by_user_id = test_user,
+            system_modified_by_user_id = test_user,
+        )
+        system_skip_2.ip.add(ip_skip_2)
         # create system objects - post_update_discard_manytomany test
         ip_update_discard_manytomany_1 = Ip.objects.create(ip_ip='10.1.1.1')
         ip_update_discard_manytomany_2 = Ip.objects.create(ip_ip='10.2.2.2')
@@ -603,7 +612,7 @@ class SystemImporterFileCsvFormbasedViewTestCase(TestCase):
         # open upload file
         systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_importer_file_csv_testfile_skip.csv'), 'r')
         # get object
-        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_2').systemstatus_id
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -618,14 +627,18 @@ class SystemImporterFileCsvFormbasedViewTestCase(TestCase):
         # get messages
         messages = list(get_messages(response.wsgi_request))
         # get objects
-        system_skip = System.objects.get(system_name='system_skip')
-        systemstatus_2 = Systemstatus.objects.get(systemstatus_name='systemstatus_2')
+        system_skip_1 = System.objects.get(system_name='system_skip_1')
+        system_skip_2 = System.objects.get(system_name='system_skip_2')
+        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-        self.assertEqual(str(messages[0]), '1 system was skipped.')
-        self.assertEqual(system_skip.systemstatus, systemstatus_2)
-        self.assertFalse(system_skip.ip.filter(ip_ip='127.1.1.1').exists())
-        self.assertTrue(system_skip.ip.filter(ip_ip='127.2.2.2').exists())
+        self.assertEqual(str(messages[0]), '2 systems were skipped.')
+        self.assertEqual(system_skip_1.systemstatus, systemstatus_1)
+        self.assertTrue(system_skip_1.ip.filter(ip_ip='127.1.1.1').exists())
+        self.assertFalse(system_skip_1.ip.filter(ip_ip='127.2.2.2').exists())
+        self.assertEqual(system_skip_2.systemstatus, systemstatus_1)
+        self.assertTrue(system_skip_2.ip.filter(ip_ip='127.3.3.3').exists())
+        self.assertFalse(system_skip_2.ip.filter(ip_ip='127.4.4.4').exists())
 
     def test_system_importer_file_csv_form_based_post_update_discard_manytomany(self):
         """ test importer view """
