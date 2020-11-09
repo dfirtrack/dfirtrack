@@ -107,8 +107,11 @@ class SystemUpdate(LoginRequiredMixin, UpdateView):
     model = System
     template_name = 'dfirtrack_main/system/system_edit.html'
 
-    # get config model
-    system_name_editable = MainConfigModel.objects.get(main_config_name = 'MainConfig').system_name_editable
+    # get config model (without try statement 'manage.py migrate' fails (but not in tests))
+    try:
+        system_name_editable = MainConfigModel.objects.get(main_config_name = 'MainConfig').system_name_editable
+    except:
+        system_name_editable  = False
 
     # choose form class depending on variable
     if system_name_editable is False:
@@ -123,8 +126,11 @@ class SystemUpdate(LoginRequiredMixin, UpdateView):
     def get(self, request, *args, **kwargs):
         system = self.get_object()
 
-        # get config model
-        system_name_editable = MainConfigModel.objects.get(main_config_name = 'MainConfig').system_name_editable
+        # get config model (without try statement 'manage.py migrate' fails (but not in tests))
+        try:
+            system_name_editable = MainConfigModel.objects.get(main_config_name = 'MainConfig').system_name_editable
+        except:
+            system_name_editable  = False
 
         # set system_name_editable for template
         if system_name_editable is False:
