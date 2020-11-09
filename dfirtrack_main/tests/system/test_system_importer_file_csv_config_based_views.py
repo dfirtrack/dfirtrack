@@ -1,16 +1,13 @@
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
+from django.utils import timezone
+from dfirtrack.settings import BASE_DIR
 from dfirtrack_config.models import SystemImporterFileCsvConfigbasedConfigModel
 from dfirtrack_main.models import Analysisstatus, Case, Company, Domain, Dnsname, Ip, Location, Os, Reason, System, Systemstatus, Systemtype, Tag, Tagcolor
+import os
 import urllib.parse
 
-#from django.contrib.auth.models import User
-#from django.test import TestCase
-#from django.utils import timezone
-#from dfirtrack.settings import BASE_DIR
-#import os
-#import urllib.parse
 
 class SystemImporterFileCsvConfigbasedViewTestCase(TestCase):
     """ system importer file CSV config-based view tests """
@@ -62,41 +59,41 @@ class SystemImporterFileCsvConfigbasedViewTestCase(TestCase):
 #        )
 #        # create objects / mandatory attributes for all tests
         systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
-#        Systemstatus.objects.create(systemstatus_name='systemstatus_2')
-#        # create system objects - post_double test
-#        System.objects.create(
-#            system_name = 'system_double',
-#            systemstatus = systemstatus_1,
-#            system_modify_time = timezone.now(),
-#            system_created_by_user_id = test_user,
-#            system_modified_by_user_id = test_user,
-#        )
-#        System.objects.create(
-#            system_name = 'system_double',
-#            systemstatus = systemstatus_1,
-#            system_modify_time = timezone.now(),
-#            system_created_by_user_id = test_user,
-#            system_modified_by_user_id = test_user,
-#        )
-#        # create system objects - post_skip test
-#        ip_skip_1 = Ip.objects.create(ip_ip='127.1.1.1')
-#        system_skip_1 = System.objects.create(
-#            system_name = 'system_skip_1',
-#            systemstatus = systemstatus_1,
-#            system_modify_time = timezone.now(),
-#            system_created_by_user_id = test_user,
-#            system_modified_by_user_id = test_user,
-#        )
-#        system_skip_1.ip.add(ip_skip_1)
-#        ip_skip_2 = Ip.objects.create(ip_ip='127.3.3.3')
-#        system_skip_2 = System.objects.create(
-#            system_name = 'system_skip_2',
-#            systemstatus = systemstatus_1,
-#            system_modify_time = timezone.now(),
-#            system_created_by_user_id = test_user,
-#            system_modified_by_user_id = test_user,
-#        )
-#        system_skip_2.ip.add(ip_skip_2)
+        Systemstatus.objects.create(systemstatus_name='systemstatus_2')
+        # create system objects - post_double test
+        System.objects.create(
+            system_name = 'system_double',
+            systemstatus = systemstatus_1,
+            system_modify_time = timezone.now(),
+            system_created_by_user_id = test_user,
+            system_modified_by_user_id = test_user,
+        )
+        System.objects.create(
+            system_name = 'system_double',
+            systemstatus = systemstatus_1,
+            system_modify_time = timezone.now(),
+            system_created_by_user_id = test_user,
+            system_modified_by_user_id = test_user,
+        )
+        # create system objects - post_skip test
+        ip_skip_1 = Ip.objects.create(ip_ip='127.1.1.1')
+        system_skip_1 = System.objects.create(
+            system_name = 'system_skip_1',
+            systemstatus = systemstatus_1,
+            system_modify_time = timezone.now(),
+            system_created_by_user_id = test_user,
+            system_modified_by_user_id = test_user,
+        )
+        system_skip_1.ip.add(ip_skip_1)
+        ip_skip_2 = Ip.objects.create(ip_ip='127.3.3.3')
+        system_skip_2 = System.objects.create(
+            system_name = 'system_skip_2',
+            systemstatus = systemstatus_1,
+            system_modify_time = timezone.now(),
+            system_created_by_user_id = test_user,
+            system_modified_by_user_id = test_user,
+        )
+        system_skip_2.ip.add(ip_skip_2)
 #        # create system objects - post_update_discard_manytomany test
 #        ip_update_discard_manytomany_1 = Ip.objects.create(ip_ip='10.1.1.1')
 #        ip_update_discard_manytomany_2 = Ip.objects.create(ip_ip='10.2.2.2')
@@ -141,26 +138,26 @@ class SystemImporterFileCsvConfigbasedViewTestCase(TestCase):
 #        system_update_keep_manytomany_1.ip.add(ip_update_keep_manytomany_1)
 #        system_update_keep_manytomany_1.tag.add(tag_1)
 #        system_update_keep_manytomany_2.ip.add(ip_update_keep_manytomany_2)
-#        # create system objects - post_update_single test
-#        ip_update_single_1 = Ip.objects.create(ip_ip='127.2.3.41')
-#        system_update_single_1 = System.objects.create(
-#            system_name = 'system_update_single_1',
-#            systemstatus = systemstatus_1,
-#            system_modify_time = timezone.now(),
-#            system_created_by_user_id = test_user,
-#            system_modified_by_user_id = test_user,
-#        )
-#        system_update_single_1.ip.add(ip_update_single_1)
-#        # create system objects - post_skip_single test
-#        ip_skip_single_1 = Ip.objects.create(ip_ip='127.3.4.51')
-#        system_skip_single_1 = System.objects.create(
-#            system_name = 'system_skip_single_1',
-#            systemstatus = systemstatus_1,
-#            system_modify_time = timezone.now(),
-#            system_created_by_user_id = test_user,
-#            system_modified_by_user_id = test_user,
-#        )
-#        system_skip_single_1.ip.add(ip_skip_single_1)
+        # create system objects - post_update_single test
+        ip_update_single_1 = Ip.objects.create(ip_ip='127.2.3.41')
+        system_update_single_1 = System.objects.create(
+            system_name = 'system_update_single_1',
+            systemstatus = systemstatus_1,
+            system_modify_time = timezone.now(),
+            system_created_by_user_id = test_user,
+            system_modified_by_user_id = test_user,
+        )
+        system_update_single_1.ip.add(ip_update_single_1)
+        # create system objects - post_skip_single test
+        ip_skip_single_1 = Ip.objects.create(ip_ip='127.3.4.51')
+        system_skip_single_1 = System.objects.create(
+            system_name = 'system_skip_single_1',
+            systemstatus = systemstatus_1,
+            system_modify_time = timezone.now(),
+            system_created_by_user_id = test_user,
+            system_modified_by_user_id = test_user,
+        )
+        system_skip_single_1.ip.add(ip_skip_single_1)
 
     def test_system_importer_file_csv_config_based_not_logged_in(self):
         """ test importer view """
@@ -214,146 +211,161 @@ class SystemImporterFileCsvConfigbasedViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
-#    def test_system_importer_file_csv_config_based_skip_warning(self):
-#        """ test importer view """
-#
-#        # login testuser
-#        self.client.login(username='testuser_system_importer_file_csv_config_based', password='h3v1BVjsdpJu6sAnSP7e')
-#        # get objects
-#        analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
-#        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
-#        # change config
-#        system_importer_file_csv_configbased_config_model = SystemImporterFileCsvConfigbasedConfigModel(system_importer_file_csv_configbased_config_name='SystemImporterFileCsvConfigbasedConfig')
-#        system_importer_file_csv_configbased_config_model.csv_skip_existing_system = False
-#        system_importer_file_csv_configbased_config_model.csv_column_system = 256
-#        system_importer_file_csv_configbased_config_model.csv_headline = False
-#        system_importer_file_csv_configbased_config_model.csv_choice_ip = True
-#        system_importer_file_csv_configbased_config_model.csv_remove_ip = True
-#        system_importer_file_csv_configbased_config_model.csv_column_ip = 1
-#        system_importer_file_csv_configbased_config_model.csv_remove_case = True
-#        system_importer_file_csv_configbased_config_model.csv_remove_company = True
-#        system_importer_file_csv_configbased_config_model.csv_remove_tag = True
-#        system_importer_file_csv_configbased_config_model.csv_default_systemstatus = systemstatus_1
-#        system_importer_file_csv_configbased_config_model.csv_default_analysisstatus = analysisstatus_1
-#        system_importer_file_csv_configbased_config_model.save()
-#        # get response
-#        response = self.client.get('/system/importer/file/csv/configbased/', follow=True)
-#        # get messages
-#        messages = list(get_messages(response.wsgi_request))
-#        # compare
-#        self.assertEqual(response.status_code, 200)
-#        self.assertEqual(str(messages[0]), 'WARNING: Existing systems will be updated!')
+    def test_system_importer_file_csv_config_based_skip_warning(self):
+        """ test importer view """
 
-#    def test_system_importer_file_csv_config_based_bad_config(self):
-#        """ test importer view """
-#
-#        # login testuser
-#        self.client.login(username='testuser_system_importer_file_csv_config_based', password='h3v1BVjsdpJu6sAnSP7e')
-#        # change config
-#        system_importer_file_csv_configbased_config_model = SystemImporterFileCsvConfigbasedConfigModel(system_importer_file_csv_configbased_config_name='SystemImporterFileCsvConfigbasedConfig')
-#        system_importer_file_csv_configbased_config_model.csv_skip_existing_system = True
-#        system_importer_file_csv_configbased_config_model.csv_column_system = 0
-#        system_importer_file_csv_configbased_config_model.csv_headline = False
-#        system_importer_file_csv_configbased_config_model.csv_choice_ip = True
-#        system_importer_file_csv_configbased_config_model.csv_remove_ip = True
-#        system_importer_file_csv_configbased_config_model.csv_column_ip = 257
-#        system_importer_file_csv_configbased_config_model.csv_remove_case = True
-#        system_importer_file_csv_configbased_config_model.csv_remove_company = True
-#        system_importer_file_csv_configbased_config_model.csv_remove_tag = True
-#        system_importer_file_csv_configbased_config_model.save()
-#        # create url
-#        destination = urllib.parse.quote('/system/', safe='/')
-#        # get response
-#        response = self.client.get('/system/importer/file/csv/configbased/', follow=True)
-#        # get messages
-#        messages = list(get_messages(response.wsgi_request))
-#        # compare
-#        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-#        self.assertEqual(str(messages[0]), '`CSV_COLUMN_SYSTEM` is outside the allowed range. Check config!')
-#        self.assertEqual(str(messages[1]), '`CSV_COLUMN_IP` is outside the allowed range. Check config!')
-#        self.assertEqual(str(messages[2]), 'Nothing was changed.')
-#
-#    def test_system_importer_file_csv_config_based_post_minimal(self):
-#        """ test importer view """
-#
-#        # login testuser
-#        self.client.login(username='testuser_system_importer_file_csv_config_based', password='h3v1BVjsdpJu6sAnSP7e')
-#        # change config
-#        system_importer_file_csv_configbased_config_model = SystemImporterFileCsvConfigbasedConfigModel(system_importer_file_csv_configbased_config_name='SystemImporterFileCsvConfigbasedConfig')
-#        system_importer_file_csv_configbased_config_model.csv_skip_existing_system = True
-#        system_importer_file_csv_configbased_config_model.csv_column_system = 3
-#        system_importer_file_csv_configbased_config_model.csv_headline = False
-#        system_importer_file_csv_configbased_config_model.csv_choice_ip = True
-#        system_importer_file_csv_configbased_config_model.csv_remove_ip = True
-#        system_importer_file_csv_configbased_config_model.csv_column_ip = 4
-#        system_importer_file_csv_configbased_config_model.csv_remove_case = True
-#        system_importer_file_csv_configbased_config_model.csv_remove_company = True
-#        system_importer_file_csv_configbased_config_model.csv_remove_tag = True
-#        system_importer_file_csv_configbased_config_model.save()
-#        # open upload file
-#        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_importer_file_csv_testfile_minimal.csv'), 'r')
-#        # get object
-#        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
-#        # create post data
-#        data_dict = {
-#            'systemcsv': systemcsv,
-#            'systemstatus': systemstatus_id,
-#        }
-#        # create url
-#        destination = urllib.parse.quote('/system/', safe='/')
-#        # get response
-#        response = self.client.post('/system/importer/file/csv/configbased/', data_dict)
-#        # get messages
-#        messages = list(get_messages(response.wsgi_request))
-#        # get objects
-#        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
-#        system_1 = System.objects.get(system_name='systems_csv_minimal_001')
-#        system_2 = System.objects.get(system_name='systems_csv_minimal_002')
-#        system_3 = System.objects.get(system_name='systems_csv_minimal_003')
-#        system_4 = System.objects.get(system_name='systems_csv_minimal_004')
-#        system_5 = System.objects.get(system_name='systems_csv_minimal_005')
-#        system_6 = System.objects.get(system_name='systems_csv_minimal_006')
-#        system_7 = System.objects.get(system_name='systems_csv_minimal_007')
-#        system_8 = System.objects.get(system_name='systems_csv_minimal_008')
-#        system_9 = System.objects.get(system_name='systems_csv_minimal_009')
-#        # close file
-#        systemcsv.close()
-#        # compare
-#        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-#        self.assertEqual(str(messages[0]), '9 systems were created.')
-#        self.assertTrue(System.objects.filter(system_name='systems_csv_minimal_001').exists())
-#        self.assertTrue(System.objects.filter(system_name='systems_csv_minimal_002').exists())
-#        self.assertTrue(System.objects.filter(system_name='systems_csv_minimal_003').exists())
-#        self.assertTrue(System.objects.filter(system_name='systems_csv_minimal_004').exists())
-#        self.assertTrue(System.objects.filter(system_name='systems_csv_minimal_005').exists())
-#        self.assertTrue(System.objects.filter(system_name='systems_csv_minimal_006').exists())
-#        self.assertTrue(System.objects.filter(system_name='systems_csv_minimal_007').exists())
-#        self.assertTrue(System.objects.filter(system_name='systems_csv_minimal_008').exists())
-#        self.assertTrue(System.objects.filter(system_name='systems_csv_minimal_009').exists())
-#        self.assertTrue(system_1.ip.filter(ip_ip='127.0.0.10').exists())
-#        self.assertTrue(system_2.ip.filter(ip_ip='127.0.0.20').exists())
-#        self.assertTrue(system_3.ip.filter(ip_ip='127.0.0.30').exists())
-#        self.assertTrue(system_4.ip.filter(ip_ip='192.168.122.2').exists())
-#        self.assertTrue(system_5.ip.filter(ip_ip='192.168.122.20').exists())
-#        self.assertTrue(system_6.ip.filter(ip_ip='192.168.122.200').exists())
-#        self.assertTrue(system_7.ip.filter(ip_ip='192.168.2.1').exists())
-#        self.assertTrue(system_8.ip.filter(ip_ip='192.168.2.2').exists())
-#        self.assertTrue(system_9.ip.filter(ip_ip='::2').exists())
-#        self.assertEqual(system_1.systemstatus, systemstatus_1)
-#        self.assertEqual(system_2.systemstatus, systemstatus_1)
-#        self.assertEqual(system_3.systemstatus, systemstatus_1)
-#        self.assertEqual(system_4.systemstatus, systemstatus_1)
-#        self.assertEqual(system_5.systemstatus, systemstatus_1)
-#        self.assertEqual(system_6.systemstatus, systemstatus_1)
-#        self.assertEqual(system_7.systemstatus, systemstatus_1)
-#        self.assertEqual(system_8.systemstatus, systemstatus_1)
-#        self.assertEqual(system_9.systemstatus, systemstatus_1)
-#
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_config_based', password='URVYUzUig1BrzToryfkm')
+        # get objects
+        analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
+        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+        # change config
+        system_importer_file_csv_configbased_config_model = SystemImporterFileCsvConfigbasedConfigModel(system_importer_file_csv_configbased_config_name='SystemImporterFileCsvConfigbasedConfig')
+        system_importer_file_csv_configbased_config_model.csv_skip_existing_system = False
+        system_importer_file_csv_configbased_config_model.csv_column_system = 256
+        system_importer_file_csv_configbased_config_model.csv_headline = False
+        system_importer_file_csv_configbased_config_model.csv_choice_ip = True
+        system_importer_file_csv_configbased_config_model.csv_remove_ip = True
+        system_importer_file_csv_configbased_config_model.csv_column_ip = 1
+        system_importer_file_csv_configbased_config_model.csv_remove_case = True
+        system_importer_file_csv_configbased_config_model.csv_remove_company = True
+        system_importer_file_csv_configbased_config_model.csv_remove_tag = True
+        system_importer_file_csv_configbased_config_model.csv_default_systemstatus = systemstatus_1
+        system_importer_file_csv_configbased_config_model.csv_default_analysisstatus = analysisstatus_1
+        system_importer_file_csv_configbased_config_model.save()
+        # get response
+        response = self.client.get('/system/importer/file/csv/configbased/', follow=True)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(str(messages[0]), 'WARNING: Existing systems will be updated!')
+
+    def test_system_importer_file_csv_config_based_bad_config(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_config_based', password='URVYUzUig1BrzToryfkm')
+        # get objects
+        analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
+        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+        # change config
+        system_importer_file_csv_configbased_config_model = SystemImporterFileCsvConfigbasedConfigModel(system_importer_file_csv_configbased_config_name='SystemImporterFileCsvConfigbasedConfig')
+        system_importer_file_csv_configbased_config_model.csv_skip_existing_system = True
+        system_importer_file_csv_configbased_config_model.csv_column_system = 0
+        system_importer_file_csv_configbased_config_model.csv_headline = False
+        system_importer_file_csv_configbased_config_model.csv_choice_ip = True
+        system_importer_file_csv_configbased_config_model.csv_remove_ip = True
+        system_importer_file_csv_configbased_config_model.csv_column_ip = 257
+        system_importer_file_csv_configbased_config_model.csv_remove_case = True
+        system_importer_file_csv_configbased_config_model.csv_remove_company = True
+        system_importer_file_csv_configbased_config_model.csv_remove_tag = True
+        system_importer_file_csv_configbased_config_model.csv_default_systemstatus = systemstatus_1
+        system_importer_file_csv_configbased_config_model.csv_default_analysisstatus = analysisstatus_1
+        system_importer_file_csv_configbased_config_model.save()
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.get('/system/importer/file/csv/configbased/', follow=True)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(str(messages[0]), '`CSV_COLUMN_SYSTEM` is outside the allowed range. Check config!')
+        self.assertEqual(str(messages[1]), '`CSV_COLUMN_IP` is outside the allowed range. Check config!')
+        self.assertEqual(str(messages[2]), 'Nothing was changed.')
+
+    def test_system_importer_file_csv_config_based_post_minimal(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_config_based', password='URVYUzUig1BrzToryfkm')
+        # get objects
+        analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
+        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+        # change config
+        system_importer_file_csv_configbased_config_model = SystemImporterFileCsvConfigbasedConfigModel(system_importer_file_csv_configbased_config_name='SystemImporterFileCsvConfigbasedConfig')
+        system_importer_file_csv_configbased_config_model.csv_skip_existing_system = True
+        system_importer_file_csv_configbased_config_model.csv_column_system = 3
+        system_importer_file_csv_configbased_config_model.csv_headline = False
+        system_importer_file_csv_configbased_config_model.csv_choice_ip = True
+        system_importer_file_csv_configbased_config_model.csv_remove_ip = True
+        system_importer_file_csv_configbased_config_model.csv_column_ip = 4
+        system_importer_file_csv_configbased_config_model.csv_remove_case = True
+        system_importer_file_csv_configbased_config_model.csv_remove_company = True
+        system_importer_file_csv_configbased_config_model.csv_remove_tag = True
+        system_importer_file_csv_configbased_config_model.csv_default_systemstatus = systemstatus_1
+        system_importer_file_csv_configbased_config_model.csv_default_analysisstatus = analysisstatus_1
+        system_importer_file_csv_configbased_config_model.save()
+        # open upload file
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_importer_file_csv_testfile_minimal.csv'), 'r')
+        # create post data
+        data_dict = {
+            'systemcsv': systemcsv,
+        }
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.post('/system/importer/file/csv/configbased/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # get objects
+        system_1 = System.objects.get(system_name='systems_csv_minimal_001')
+        system_2 = System.objects.get(system_name='systems_csv_minimal_002')
+        system_3 = System.objects.get(system_name='systems_csv_minimal_003')
+        system_4 = System.objects.get(system_name='systems_csv_minimal_004')
+        system_5 = System.objects.get(system_name='systems_csv_minimal_005')
+        system_6 = System.objects.get(system_name='systems_csv_minimal_006')
+        system_7 = System.objects.get(system_name='systems_csv_minimal_007')
+        system_8 = System.objects.get(system_name='systems_csv_minimal_008')
+        system_9 = System.objects.get(system_name='systems_csv_minimal_009')
+        # close file
+        systemcsv.close()
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(str(messages[0]), '9 systems were created.')
+        self.assertTrue(System.objects.filter(system_name='systems_csv_minimal_001').exists())
+        self.assertTrue(System.objects.filter(system_name='systems_csv_minimal_002').exists())
+        self.assertTrue(System.objects.filter(system_name='systems_csv_minimal_003').exists())
+        self.assertTrue(System.objects.filter(system_name='systems_csv_minimal_004').exists())
+        self.assertTrue(System.objects.filter(system_name='systems_csv_minimal_005').exists())
+        self.assertTrue(System.objects.filter(system_name='systems_csv_minimal_006').exists())
+        self.assertTrue(System.objects.filter(system_name='systems_csv_minimal_007').exists())
+        self.assertTrue(System.objects.filter(system_name='systems_csv_minimal_008').exists())
+        self.assertTrue(System.objects.filter(system_name='systems_csv_minimal_009').exists())
+        self.assertTrue(system_1.ip.filter(ip_ip='127.0.0.10').exists())
+        self.assertTrue(system_2.ip.filter(ip_ip='127.0.0.20').exists())
+        self.assertTrue(system_3.ip.filter(ip_ip='127.0.0.30').exists())
+        self.assertTrue(system_4.ip.filter(ip_ip='192.168.122.2').exists())
+        self.assertTrue(system_5.ip.filter(ip_ip='192.168.122.20').exists())
+        self.assertTrue(system_6.ip.filter(ip_ip='192.168.122.200').exists())
+        self.assertTrue(system_7.ip.filter(ip_ip='192.168.2.1').exists())
+        self.assertTrue(system_8.ip.filter(ip_ip='192.168.2.2').exists())
+        self.assertTrue(system_9.ip.filter(ip_ip='::2').exists())
+        self.assertEqual(system_1.analysisstatus, analysisstatus_1)
+        self.assertEqual(system_2.analysisstatus, analysisstatus_1)
+        self.assertEqual(system_3.analysisstatus, analysisstatus_1)
+        self.assertEqual(system_4.analysisstatus, analysisstatus_1)
+        self.assertEqual(system_5.analysisstatus, analysisstatus_1)
+        self.assertEqual(system_6.analysisstatus, analysisstatus_1)
+        self.assertEqual(system_7.analysisstatus, analysisstatus_1)
+        self.assertEqual(system_8.analysisstatus, analysisstatus_1)
+        self.assertEqual(system_9.analysisstatus, analysisstatus_1)
+        self.assertEqual(system_1.systemstatus, systemstatus_1)
+        self.assertEqual(system_2.systemstatus, systemstatus_1)
+        self.assertEqual(system_3.systemstatus, systemstatus_1)
+        self.assertEqual(system_4.systemstatus, systemstatus_1)
+        self.assertEqual(system_5.systemstatus, systemstatus_1)
+        self.assertEqual(system_6.systemstatus, systemstatus_1)
+        self.assertEqual(system_7.systemstatus, systemstatus_1)
+        self.assertEqual(system_8.systemstatus, systemstatus_1)
+        self.assertEqual(system_9.systemstatus, systemstatus_1)
+
 #    def test_system_importer_file_csv_config_based_post_complete(self):
 #        """ test importer view """
 #
 #        # login testuser
-#        self.client.login(username='testuser_system_importer_file_csv_config_based', password='h3v1BVjsdpJu6sAnSP7e')
+#        self.client.login(username='testuser_system_importer_file_csv_config_based', password='URVYUzUig1BrzToryfkm')
 #        # change config
 #        system_importer_file_csv_configbased_config_model = SystemImporterFileCsvConfigbasedConfigModel(system_importer_file_csv_configbased_config_name='SystemImporterFileCsvConfigbasedConfig')
 #        system_importer_file_csv_configbased_config_model.csv_skip_existing_system = True
@@ -500,181 +512,181 @@ class SystemImporterFileCsvConfigbasedViewTestCase(TestCase):
 #        self.assertTrue(system_3.tag.filter(tag_name='tag_1').exists())
 #        self.assertTrue(system_3.tag.filter(tag_name='tag_2').exists())
 #        self.assertTrue(system_3.tag.filter(tag_name='tag_3').exists())
-#
-#    def test_system_importer_file_csv_config_based_post_invalid(self):
-#        """ test importer view """
-#
-#        # login testuser
-#        self.client.login(username='testuser_system_importer_file_csv_config_based', password='h3v1BVjsdpJu6sAnSP7e')
-#        # get object
-#        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
-#        # create post data
-#        data_dict = {
-#            'systemstatus': systemstatus_id,
-#        }
-#        # get response
-#        response = self.client.post('/system/importer/file/csv/configbased/', data_dict)
-#        # compare
-#        self.assertEqual(response.status_code, 200)
-#        self.assertTemplateUsed(response, 'dfirtrack_main/system/system_importer_file_csv_config_based.html')
-#
-#    def test_system_importer_file_csv_config_based_post_data_file(self):
-#        """ test importer view """
-#
-#        # login testuser
-#        self.client.login(username='testuser_system_importer_file_csv_config_based', password='h3v1BVjsdpJu6sAnSP7e')
-#        # open upload file
-#        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_importer_file_csv_testfile_data.dat'), 'rb')
-#        # get object
-#        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
-#        # create url
-#        destination = urllib.parse.quote('/system/', safe='/')
-#        # create post data
-#        data_dict = {
-#            'systemcsv': systemcsv,
-#            'systemstatus': systemstatus_id,
-#        }
-#        # get response
-#        response = self.client.post('/system/importer/file/csv/configbased/', data_dict)
-#        # close file
-#        systemcsv.close()
-#        # get messages
-#        messages = list(get_messages(response.wsgi_request))
-#        # compare
-#        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-#        self.assertEqual(str(messages[0]), 'File seems not to be a CSV file. Check file.')
-#
-#    def test_system_importer_file_csv_config_based_post_double(self):
-#        """ test importer view """
-#
-#        # login testuser
-#        self.client.login(username='testuser_system_importer_file_csv_config_based', password='h3v1BVjsdpJu6sAnSP7e')
-#        # change config
-#        system_importer_file_csv_configbased_config_model = SystemImporterFileCsvConfigbasedConfigModel(system_importer_file_csv_configbased_config_name='SystemImporterFileCsvConfigbasedConfig')
-#        system_importer_file_csv_configbased_config_model.csv_skip_existing_system = True
-#        system_importer_file_csv_configbased_config_model.csv_column_system = 1
-#        system_importer_file_csv_configbased_config_model.csv_headline = False
-#        system_importer_file_csv_configbased_config_model.csv_choice_ip = True
-#        system_importer_file_csv_configbased_config_model.csv_remove_ip = True
-#        system_importer_file_csv_configbased_config_model.csv_column_ip = 2
-#        system_importer_file_csv_configbased_config_model.csv_remove_case = True
-#        system_importer_file_csv_configbased_config_model.csv_remove_company = True
-#        system_importer_file_csv_configbased_config_model.csv_remove_tag = True
-#        system_importer_file_csv_configbased_config_model.save()
-#        # open upload file
-#        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_importer_file_csv_testfile_double.csv'), 'r')
-#        # get object
-#        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
-#        # create post data
-#        data_dict = {
-#            'systemcsv': systemcsv,
-#            'systemstatus': systemstatus_id,
-#        }
-#        # create url
-#        destination = urllib.parse.quote('/system/', safe='/')
-#        # get response
-#        response = self.client.post('/system/importer/file/csv/configbased/', data_dict)
-#        # close file
-#        systemcsv.close()
-#        # get messages
-#        messages = list(get_messages(response.wsgi_request))
-#        # compare
-#        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-#        self.assertEqual(len(System.objects.filter(system_name='system_double')), 2)
-#        self.assertEqual(str(messages[0]), 'System system_double already exists multiple times. Nothing was changed for this system.')
-#
-#    def test_system_importer_file_csv_config_based_post_wrong(self):
-#        """ test importer view """
-#
-#        # login testuser
-#        self.client.login(username='testuser_system_importer_file_csv_config_based', password='h3v1BVjsdpJu6sAnSP7e')
-#        # change config
-#        system_importer_file_csv_configbased_config_model = SystemImporterFileCsvConfigbasedConfigModel(system_importer_file_csv_configbased_config_name='SystemImporterFileCsvConfigbasedConfig')
-#        system_importer_file_csv_configbased_config_model.csv_skip_existing_system = True
-#        system_importer_file_csv_configbased_config_model.csv_column_system = 1
-#        system_importer_file_csv_configbased_config_model.csv_headline = False
-#        system_importer_file_csv_configbased_config_model.csv_choice_ip = True
-#        system_importer_file_csv_configbased_config_model.csv_remove_ip = True
-#        system_importer_file_csv_configbased_config_model.csv_column_ip = 2
-#        system_importer_file_csv_configbased_config_model.csv_remove_case = True
-#        system_importer_file_csv_configbased_config_model.csv_remove_company = True
-#        system_importer_file_csv_configbased_config_model.csv_remove_tag = True
-#        system_importer_file_csv_configbased_config_model.save()
-#        # open upload file
-#        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_importer_file_csv_testfile_wrong.csv'), 'r')
-#        # get object
-#        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
-#        # create post data
-#        data_dict = {
-#            'systemcsv': systemcsv,
-#            'systemstatus': systemstatus_id,
-#        }
-#        # create url
-#        destination = urllib.parse.quote('/system/', safe='/')
-#        # get response
-#        response = self.client.post('/system/importer/file/csv/configbased/', data_dict)
-#        # close file
-#        systemcsv.close()
-#        # get messages
-#        messages = list(get_messages(response.wsgi_request))
-#        # compare
-#        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-#        self.assertEqual(str(messages[0]), 'Value for system in row 1 was an empty string. System not created.')
-#        self.assertEqual(str(messages[1]), 'Value for system in row 2 was too long. System not created.')
-#
-#    def test_system_importer_file_csv_config_based_post_skip(self):
-#        """ test importer view """
-#
-#        # login testuser
-#        self.client.login(username='testuser_system_importer_file_csv_config_based', password='h3v1BVjsdpJu6sAnSP7e')
-#        # change config
-#        system_importer_file_csv_configbased_config_model = SystemImporterFileCsvConfigbasedConfigModel(system_importer_file_csv_configbased_config_name='SystemImporterFileCsvConfigbasedConfig')
-#        system_importer_file_csv_configbased_config_model.csv_skip_existing_system = True
-#        system_importer_file_csv_configbased_config_model.csv_column_system = 1
-#        system_importer_file_csv_configbased_config_model.csv_headline = False
-#        system_importer_file_csv_configbased_config_model.csv_choice_ip = True
-#        system_importer_file_csv_configbased_config_model.csv_remove_ip = True
-#        system_importer_file_csv_configbased_config_model.csv_column_ip = 2
-#        system_importer_file_csv_configbased_config_model.csv_remove_case = True
-#        system_importer_file_csv_configbased_config_model.csv_remove_company = True
-#        system_importer_file_csv_configbased_config_model.csv_remove_tag = True
-#        system_importer_file_csv_configbased_config_model.save()
-#        # open upload file
-#        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_importer_file_csv_testfile_skip.csv'), 'r')
-#        # get object
-#        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_2').systemstatus_id
-#        # create post data
-#        data_dict = {
-#            'systemcsv': systemcsv,
-#            'systemstatus': systemstatus_id,
-#        }
-#        # create url
-#        destination = urllib.parse.quote('/system/', safe='/')
-#        # get response
-#        response = self.client.post('/system/importer/file/csv/configbased/', data_dict)
-#        # close file
-#        systemcsv.close()
-#        # get messages
-#        messages = list(get_messages(response.wsgi_request))
-#        # get objects
-#        system_skip_1 = System.objects.get(system_name='system_skip_1')
-#        system_skip_2 = System.objects.get(system_name='system_skip_2')
-#        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
-#        # compare
-#        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-#        self.assertEqual(str(messages[0]), '2 systems were skipped.')
-#        self.assertEqual(system_skip_1.systemstatus, systemstatus_1)
-#        self.assertTrue(system_skip_1.ip.filter(ip_ip='127.1.1.1').exists())
-#        self.assertFalse(system_skip_1.ip.filter(ip_ip='127.2.2.2').exists())
-#        self.assertEqual(system_skip_2.systemstatus, systemstatus_1)
-#        self.assertTrue(system_skip_2.ip.filter(ip_ip='127.3.3.3').exists())
-#        self.assertFalse(system_skip_2.ip.filter(ip_ip='127.4.4.4').exists())
-#
+
+    def test_system_importer_file_csv_config_based_post_invalid(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_config_based', password='URVYUzUig1BrzToryfkm')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/system/importer/file/csv/configbased/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'dfirtrack_main/system/system_importer_file_csv_config_based.html')
+
+    def test_system_importer_file_csv_config_based_post_data_file(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_config_based', password='URVYUzUig1BrzToryfkm')
+        # open upload file
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_importer_file_csv_testfile_data.dat'), 'rb')
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # create post data
+        data_dict = {
+            'systemcsv': systemcsv,
+        }
+        # get response
+        response = self.client.post('/system/importer/file/csv/configbased/', data_dict)
+        # close file
+        systemcsv.close()
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(str(messages[0]), 'File seems not to be a CSV file. Check file.')
+
+    def test_system_importer_file_csv_config_based_post_double(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_config_based', password='URVYUzUig1BrzToryfkm')
+        # get objects
+        analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
+        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+        # change config
+        system_importer_file_csv_configbased_config_model = SystemImporterFileCsvConfigbasedConfigModel(system_importer_file_csv_configbased_config_name='SystemImporterFileCsvConfigbasedConfig')
+        system_importer_file_csv_configbased_config_model.csv_skip_existing_system = True
+        system_importer_file_csv_configbased_config_model.csv_column_system = 1
+        system_importer_file_csv_configbased_config_model.csv_headline = False
+        system_importer_file_csv_configbased_config_model.csv_choice_ip = True
+        system_importer_file_csv_configbased_config_model.csv_remove_ip = True
+        system_importer_file_csv_configbased_config_model.csv_column_ip = 2
+        system_importer_file_csv_configbased_config_model.csv_remove_case = True
+        system_importer_file_csv_configbased_config_model.csv_remove_company = True
+        system_importer_file_csv_configbased_config_model.csv_remove_tag = True
+        system_importer_file_csv_configbased_config_model.csv_default_systemstatus = systemstatus_1
+        system_importer_file_csv_configbased_config_model.csv_default_analysisstatus = analysisstatus_1
+        system_importer_file_csv_configbased_config_model.save()
+        # open upload file
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_importer_file_csv_testfile_double.csv'), 'r')
+        # create post data
+        data_dict = {
+            'systemcsv': systemcsv,
+        }
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.post('/system/importer/file/csv/configbased/', data_dict)
+        # close file
+        systemcsv.close()
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(len(System.objects.filter(system_name='system_double')), 2)
+        self.assertEqual(str(messages[0]), 'System system_double already exists multiple times. Nothing was changed for this system.')
+
+    def test_system_importer_file_csv_config_based_post_wrong(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_config_based', password='URVYUzUig1BrzToryfkm')
+        # get objects
+        analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
+        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+        # change config
+        system_importer_file_csv_configbased_config_model = SystemImporterFileCsvConfigbasedConfigModel(system_importer_file_csv_configbased_config_name='SystemImporterFileCsvConfigbasedConfig')
+        system_importer_file_csv_configbased_config_model.csv_skip_existing_system = True
+        system_importer_file_csv_configbased_config_model.csv_column_system = 1
+        system_importer_file_csv_configbased_config_model.csv_headline = False
+        system_importer_file_csv_configbased_config_model.csv_choice_ip = True
+        system_importer_file_csv_configbased_config_model.csv_remove_ip = True
+        system_importer_file_csv_configbased_config_model.csv_column_ip = 2
+        system_importer_file_csv_configbased_config_model.csv_remove_case = True
+        system_importer_file_csv_configbased_config_model.csv_remove_company = True
+        system_importer_file_csv_configbased_config_model.csv_remove_tag = True
+        system_importer_file_csv_configbased_config_model.csv_default_systemstatus = systemstatus_1
+        system_importer_file_csv_configbased_config_model.csv_default_analysisstatus = analysisstatus_1
+        system_importer_file_csv_configbased_config_model.save()
+        # open upload file
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_importer_file_csv_testfile_wrong.csv'), 'r')
+        # create post data
+        data_dict = {
+            'systemcsv': systemcsv,
+        }
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.post('/system/importer/file/csv/configbased/', data_dict)
+        # close file
+        systemcsv.close()
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(str(messages[0]), 'Value for system in row 1 was an empty string. System not created.')
+        self.assertEqual(str(messages[1]), 'Value for system in row 2 was too long. System not created.')
+
+    def test_system_importer_file_csv_config_based_post_skip(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_config_based', password='URVYUzUig1BrzToryfkm')
+        # get objects
+        analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
+        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+        # change config
+        system_importer_file_csv_configbased_config_model = SystemImporterFileCsvConfigbasedConfigModel(system_importer_file_csv_configbased_config_name='SystemImporterFileCsvConfigbasedConfig')
+        system_importer_file_csv_configbased_config_model.csv_skip_existing_system = True
+        system_importer_file_csv_configbased_config_model.csv_column_system = 1
+        system_importer_file_csv_configbased_config_model.csv_headline = False
+        system_importer_file_csv_configbased_config_model.csv_choice_ip = True
+        system_importer_file_csv_configbased_config_model.csv_remove_ip = True
+        system_importer_file_csv_configbased_config_model.csv_column_ip = 2
+        system_importer_file_csv_configbased_config_model.csv_remove_case = True
+        system_importer_file_csv_configbased_config_model.csv_remove_company = True
+        system_importer_file_csv_configbased_config_model.csv_remove_tag = True
+        system_importer_file_csv_configbased_config_model.csv_default_systemstatus = systemstatus_1
+        system_importer_file_csv_configbased_config_model.csv_default_analysisstatus = analysisstatus_1
+        system_importer_file_csv_configbased_config_model.save()
+        # open upload file
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_importer_file_csv_testfile_skip.csv'), 'r')
+        # create post data
+        data_dict = {
+            'systemcsv': systemcsv,
+        }
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.post('/system/importer/file/csv/configbased/', data_dict)
+        # close file
+        systemcsv.close()
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # get objects
+        system_skip_1 = System.objects.get(system_name='system_skip_1')
+        system_skip_2 = System.objects.get(system_name='system_skip_2')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(str(messages[0]), '2 systems were skipped.')
+        self.assertEqual(system_skip_1.analysisstatus, None)
+        self.assertEqual(system_skip_1.systemstatus, systemstatus_1)
+        self.assertTrue(system_skip_1.ip.filter(ip_ip='127.1.1.1').exists())
+        self.assertFalse(system_skip_1.ip.filter(ip_ip='127.2.2.2').exists())
+        self.assertEqual(system_skip_2.analysisstatus, None)
+        self.assertEqual(system_skip_2.systemstatus, systemstatus_1)
+        self.assertTrue(system_skip_2.ip.filter(ip_ip='127.3.3.3').exists())
+        self.assertFalse(system_skip_2.ip.filter(ip_ip='127.4.4.4').exists())
+
 #    def test_system_importer_file_csv_config_based_post_update_discard_manytomany(self):
 #        """ test importer view """
 #
 #        # login testuser
-#        self.client.login(username='testuser_system_importer_file_csv_config_based', password='h3v1BVjsdpJu6sAnSP7e')
+#        self.client.login(username='testuser_system_importer_file_csv_config_based', password='URVYUzUig1BrzToryfkm')
 #        # change config
 #        system_importer_file_csv_configbased_config_model = SystemImporterFileCsvConfigbasedConfigModel(system_importer_file_csv_configbased_config_name='SystemImporterFileCsvConfigbasedConfig')
 #        system_importer_file_csv_configbased_config_model.csv_skip_existing_system = False
@@ -738,7 +750,7 @@ class SystemImporterFileCsvConfigbasedViewTestCase(TestCase):
 #        """ test importer view """
 #
 #        # login testuser
-#        self.client.login(username='testuser_system_importer_file_csv_config_based', password='h3v1BVjsdpJu6sAnSP7e')
+#        self.client.login(username='testuser_system_importer_file_csv_config_based', password='URVYUzUig1BrzToryfkm')
 #        # change config
 #        system_importer_file_csv_configbased_config_model = SystemImporterFileCsvConfigbasedConfigModel(system_importer_file_csv_configbased_config_name='SystemImporterFileCsvConfigbasedConfig')
 #        system_importer_file_csv_configbased_config_model.csv_skip_existing_system = False
@@ -797,180 +809,191 @@ class SystemImporterFileCsvConfigbasedViewTestCase(TestCase):
 #        self.assertTrue(system_update_keep_manytomany_2.ip.filter(ip_ip='10.8.8.8').exists())
 #        self.assertEqual(system_update_keep_manytomany_2.systemstatus, systemstatus_2)
 #        self.assertTrue(system_update_keep_manytomany_2.tag.filter(tag_name='tag_2').exists())
-#
-#    def test_system_importer_file_csv_config_based_post_create_single(self):
-#        """ test importer view """
-#
-#        # login testuser
-#        self.client.login(username='testuser_system_importer_file_csv_config_based', password='h3v1BVjsdpJu6sAnSP7e')
-#        # change config
-#        system_importer_file_csv_configbased_config_model = SystemImporterFileCsvConfigbasedConfigModel(system_importer_file_csv_configbased_config_name='SystemImporterFileCsvConfigbasedConfig')
-#        system_importer_file_csv_configbased_config_model.csv_skip_existing_system = True
-#        system_importer_file_csv_configbased_config_model.csv_column_system = 1
-#        system_importer_file_csv_configbased_config_model.csv_headline = False
-#        system_importer_file_csv_configbased_config_model.csv_choice_ip = False
-#        system_importer_file_csv_configbased_config_model.csv_remove_ip = True
-#        system_importer_file_csv_configbased_config_model.csv_column_ip = 2
-#        system_importer_file_csv_configbased_config_model.csv_remove_case = True
-#        system_importer_file_csv_configbased_config_model.csv_remove_company = True
-#        system_importer_file_csv_configbased_config_model.csv_remove_tag = True
-#        system_importer_file_csv_configbased_config_model.save()
-#        # open upload file
-#        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_importer_file_csv_testfile_create_single.csv'), 'r')
-#        # get object
-#        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
-#        # create post data
-#        data_dict = {
-#            'systemcsv': systemcsv,
-#            'systemstatus': systemstatus_id,
-#        }
-#        # create url
-#        destination = urllib.parse.quote('/system/', safe='/')
-#        # get response
-#        response = self.client.post('/system/importer/file/csv/configbased/', data_dict)
-#        # get messages
-#        messages = list(get_messages(response.wsgi_request))
-#        # get objects
-#        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
-#        system_1 = System.objects.get(system_name='system_create_single_1')
-#        # close file
-#        systemcsv.close()
-#        # compare
-#        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-#        self.assertEqual(str(messages[0]), '1 system was created.')
-#        self.assertTrue(System.objects.filter(system_name='system_create_single_1').exists())
-#        self.assertFalse(system_1.ip.filter(ip_ip='127.1.2.31').exists())
-#        self.assertEqual(system_1.systemstatus, systemstatus_1)
-#
-#    def test_system_importer_file_csv_config_based_post_update_single(self):
-#        """ test importer view """
-#
-#        # login testuser
-#        self.client.login(username='testuser_system_importer_file_csv_config_based', password='h3v1BVjsdpJu6sAnSP7e')
-#        # change config
-#        system_importer_file_csv_configbased_config_model = SystemImporterFileCsvConfigbasedConfigModel(system_importer_file_csv_configbased_config_name='SystemImporterFileCsvConfigbasedConfig')
-#        system_importer_file_csv_configbased_config_model.csv_skip_existing_system = False
-#        system_importer_file_csv_configbased_config_model.csv_column_system = 1
-#        system_importer_file_csv_configbased_config_model.csv_headline = False
-#        system_importer_file_csv_configbased_config_model.csv_choice_ip = True
-#        system_importer_file_csv_configbased_config_model.csv_remove_ip = False
-#        system_importer_file_csv_configbased_config_model.csv_column_ip = 2
-#        system_importer_file_csv_configbased_config_model.csv_remove_case = True
-#        system_importer_file_csv_configbased_config_model.csv_remove_company = True
-#        system_importer_file_csv_configbased_config_model.csv_remove_tag = True
-#        system_importer_file_csv_configbased_config_model.save()
-#        # open upload file
-#        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_importer_file_csv_testfile_update_single.csv'), 'r')
-#        # get object
-#        systemstatus_2 = Systemstatus.objects.get(systemstatus_name='systemstatus_2')
-#        # create post data
-#        data_dict = {
-#            'systemcsv': systemcsv,
-#            'systemstatus': systemstatus_2.systemstatus_id,
-#        }
-#        # create url
-#        destination = urllib.parse.quote('/system/', safe='/')
-#        # get response
-#        response = self.client.post('/system/importer/file/csv/configbased/', data_dict)
-#        # get messages
-#        messages = list(get_messages(response.wsgi_request))
-#        # get objects
-#        system_1 = System.objects.get(system_name='system_update_single_1')
-#        # close file
-#        systemcsv.close()
-#        # compare
-#        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-#        self.assertEqual(str(messages[0]), '1 system was updated.')
-#        self.assertTrue(System.objects.filter(system_name='system_update_single_1').exists())
-#        self.assertTrue(system_1.ip.filter(ip_ip='127.2.3.41').exists())
-#        self.assertTrue(system_1.ip.filter(ip_ip='127.2.3.42').exists())
-#        self.assertEqual(system_1.systemstatus, systemstatus_2)
-#
-#    def test_system_importer_file_csv_config_based_post_skip_single(self):
-#        """ test importer view """
-#
-#        # login testuser
-#        self.client.login(username='testuser_system_importer_file_csv_config_based', password='h3v1BVjsdpJu6sAnSP7e')
-#        # change config
-#        system_importer_file_csv_configbased_config_model = SystemImporterFileCsvConfigbasedConfigModel(system_importer_file_csv_configbased_config_name='SystemImporterFileCsvConfigbasedConfig')
-#        system_importer_file_csv_configbased_config_model.csv_skip_existing_system = True
-#        system_importer_file_csv_configbased_config_model.csv_column_system = 1
-#        system_importer_file_csv_configbased_config_model.csv_headline = False
-#        system_importer_file_csv_configbased_config_model.csv_choice_ip = True
-#        system_importer_file_csv_configbased_config_model.csv_remove_ip = False
-#        system_importer_file_csv_configbased_config_model.csv_column_ip = 2
-#        system_importer_file_csv_configbased_config_model.csv_remove_case = True
-#        system_importer_file_csv_configbased_config_model.csv_remove_company = True
-#        system_importer_file_csv_configbased_config_model.csv_remove_tag = True
-#        system_importer_file_csv_configbased_config_model.save()
-#        # open upload file
-#        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_importer_file_csv_testfile_skip_single.csv'), 'r')
-#        # get object
-#        systemstatus_2 = Systemstatus.objects.get(systemstatus_name='systemstatus_2')
-#        # create post data
-#        data_dict = {
-#            'systemcsv': systemcsv,
-#            'systemstatus': systemstatus_2.systemstatus_id,
-#        }
-#        # create url
-#        destination = urllib.parse.quote('/system/', safe='/')
-#        # get response
-#        response = self.client.post('/system/importer/file/csv/configbased/', data_dict)
-#        # get messages
-#        messages = list(get_messages(response.wsgi_request))
-#        # get objects
-#        system_1 = System.objects.get(system_name='system_skip_single_1')
-#        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
-#        # close file
-#        systemcsv.close()
-#        # compare
-#        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-#        self.assertEqual(str(messages[0]), '1 system was skipped.')
-#        self.assertTrue(System.objects.filter(system_name='system_skip_single_1').exists())
-#        self.assertTrue(system_1.ip.filter(ip_ip='127.3.4.51').exists())
-#        self.assertFalse(system_1.ip.filter(ip_ip='127.3.4.52').exists())
-#        self.assertEqual(system_1.systemstatus, systemstatus_1)
-#
-#    def test_system_importer_file_csv_config_based_post_invalid_ip(self):
-#        """ test importer view """
-#
-#        # login testuser
-#        self.client.login(username='testuser_system_importer_file_csv_config_based', password='h3v1BVjsdpJu6sAnSP7e')
-#        # change config
-#        system_importer_file_csv_configbased_config_model = SystemImporterFileCsvConfigbasedConfigModel(system_importer_file_csv_configbased_config_name='SystemImporterFileCsvConfigbasedConfig')
-#        system_importer_file_csv_configbased_config_model.csv_skip_existing_system = True
-#        system_importer_file_csv_configbased_config_model.csv_column_system = 1
-#        system_importer_file_csv_configbased_config_model.csv_headline = False
-#        system_importer_file_csv_configbased_config_model.csv_choice_ip = True
-#        system_importer_file_csv_configbased_config_model.csv_remove_ip = True
-#        system_importer_file_csv_configbased_config_model.csv_column_ip = 2
-#        system_importer_file_csv_configbased_config_model.csv_remove_case = True
-#        system_importer_file_csv_configbased_config_model.csv_remove_company = True
-#        system_importer_file_csv_configbased_config_model.csv_remove_tag = True
-#        system_importer_file_csv_configbased_config_model.save()
-#        # open upload file
-#        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_importer_file_csv_testfile_invalid_ip.csv'), 'r')
-#        # get object
-#        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
-#        # create post data
-#        data_dict = {
-#            'systemcsv': systemcsv,
-#            'systemstatus': systemstatus_id,
-#        }
-#        # create url
-#        destination = urllib.parse.quote('/system/', safe='/')
-#        # get response
-#        response = self.client.post('/system/importer/file/csv/configbased/', data_dict)
-#        # get messages
-#        messages = list(get_messages(response.wsgi_request))
-#        # get objects
-#        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
-#        system_1 = System.objects.get(system_name='system_invalid_ip_1')
-#        # close file
-#        systemcsv.close()
-#        # compare
-#        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-#        self.assertEqual(str(messages[0]), 'Value for ip address in row 1 was not a valid IP address.')
-#        self.assertEqual(str(messages[1]), '1 system was created.')
-#        self.assertTrue(System.objects.filter(system_name='system_invalid_ip_1').exists())
-#        self.assertEqual(system_1.systemstatus, systemstatus_1)
+
+    def test_system_importer_file_csv_config_based_post_create_single(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_config_based', password='URVYUzUig1BrzToryfkm')
+        # get objects
+        analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
+        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+        # change config
+        system_importer_file_csv_configbased_config_model = SystemImporterFileCsvConfigbasedConfigModel(system_importer_file_csv_configbased_config_name='SystemImporterFileCsvConfigbasedConfig')
+        system_importer_file_csv_configbased_config_model.csv_skip_existing_system = True
+        system_importer_file_csv_configbased_config_model.csv_column_system = 1
+        system_importer_file_csv_configbased_config_model.csv_headline = False
+        system_importer_file_csv_configbased_config_model.csv_choice_ip = False
+        system_importer_file_csv_configbased_config_model.csv_remove_ip = True
+        system_importer_file_csv_configbased_config_model.csv_column_ip = 2
+        system_importer_file_csv_configbased_config_model.csv_remove_case = True
+        system_importer_file_csv_configbased_config_model.csv_remove_company = True
+        system_importer_file_csv_configbased_config_model.csv_remove_tag = True
+        system_importer_file_csv_configbased_config_model.csv_default_systemstatus = systemstatus_1
+        system_importer_file_csv_configbased_config_model.csv_default_analysisstatus = analysisstatus_1
+        system_importer_file_csv_configbased_config_model.save()
+        # open upload file
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_importer_file_csv_testfile_create_single.csv'), 'r')
+        # create post data
+        data_dict = {
+            'systemcsv': systemcsv,
+        }
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.post('/system/importer/file/csv/configbased/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # get object
+        system_1 = System.objects.get(system_name='system_create_single_1')
+        # close file
+        systemcsv.close()
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(str(messages[0]), '1 system was created.')
+        self.assertTrue(System.objects.filter(system_name='system_create_single_1').exists())
+        self.assertFalse(system_1.ip.filter(ip_ip='127.1.2.31').exists())
+        self.assertEqual(system_1.analysisstatus, analysisstatus_1)
+        self.assertEqual(system_1.systemstatus, systemstatus_1)
+
+    def test_system_importer_file_csv_config_based_post_update_single(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_config_based', password='URVYUzUig1BrzToryfkm')
+        # get objects
+        analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
+        systemstatus_2 = Systemstatus.objects.get(systemstatus_name='systemstatus_2')
+        # change config
+        system_importer_file_csv_configbased_config_model = SystemImporterFileCsvConfigbasedConfigModel(system_importer_file_csv_configbased_config_name='SystemImporterFileCsvConfigbasedConfig')
+        system_importer_file_csv_configbased_config_model.csv_skip_existing_system = False
+        system_importer_file_csv_configbased_config_model.csv_column_system = 1
+        system_importer_file_csv_configbased_config_model.csv_headline = False
+        system_importer_file_csv_configbased_config_model.csv_choice_ip = True
+        system_importer_file_csv_configbased_config_model.csv_remove_ip = False
+        system_importer_file_csv_configbased_config_model.csv_column_ip = 2
+        system_importer_file_csv_configbased_config_model.csv_remove_case = True
+        system_importer_file_csv_configbased_config_model.csv_remove_company = True
+        system_importer_file_csv_configbased_config_model.csv_remove_tag = True
+        system_importer_file_csv_configbased_config_model.csv_default_systemstatus = systemstatus_2
+        system_importer_file_csv_configbased_config_model.csv_default_analysisstatus = analysisstatus_1
+        system_importer_file_csv_configbased_config_model.save()
+        # open upload file
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_importer_file_csv_testfile_update_single.csv'), 'r')
+        # create post data
+        data_dict = {
+            'systemcsv': systemcsv,
+        }
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.post('/system/importer/file/csv/configbased/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # get objects
+        system_1 = System.objects.get(system_name='system_update_single_1')
+        # close file
+        systemcsv.close()
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(str(messages[0]), '1 system was updated.')
+        self.assertTrue(System.objects.filter(system_name='system_update_single_1').exists())
+        self.assertTrue(system_1.ip.filter(ip_ip='127.2.3.41').exists())
+        self.assertTrue(system_1.ip.filter(ip_ip='127.2.3.42').exists())
+        self.assertEqual(system_1.analysisstatus, analysisstatus_1)
+        self.assertEqual(system_1.systemstatus, systemstatus_2)
+
+    def test_system_importer_file_csv_config_based_post_skip_single(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_config_based', password='URVYUzUig1BrzToryfkm')
+        # get objects
+        analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
+        systemstatus_2 = Systemstatus.objects.get(systemstatus_name='systemstatus_2')
+        # change config
+        system_importer_file_csv_configbased_config_model = SystemImporterFileCsvConfigbasedConfigModel(system_importer_file_csv_configbased_config_name='SystemImporterFileCsvConfigbasedConfig')
+        system_importer_file_csv_configbased_config_model.csv_skip_existing_system = True
+        system_importer_file_csv_configbased_config_model.csv_column_system = 1
+        system_importer_file_csv_configbased_config_model.csv_headline = False
+        system_importer_file_csv_configbased_config_model.csv_choice_ip = True
+        system_importer_file_csv_configbased_config_model.csv_remove_ip = False
+        system_importer_file_csv_configbased_config_model.csv_column_ip = 2
+        system_importer_file_csv_configbased_config_model.csv_remove_case = True
+        system_importer_file_csv_configbased_config_model.csv_remove_company = True
+        system_importer_file_csv_configbased_config_model.csv_remove_tag = True
+        system_importer_file_csv_configbased_config_model.csv_default_systemstatus = systemstatus_2
+        system_importer_file_csv_configbased_config_model.csv_default_analysisstatus = analysisstatus_1
+        system_importer_file_csv_configbased_config_model.save()
+        # open upload file
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_importer_file_csv_testfile_skip_single.csv'), 'r')
+        # create post data
+        data_dict = {
+            'systemcsv': systemcsv,
+        }
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.post('/system/importer/file/csv/configbased/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # get objects
+        system_1 = System.objects.get(system_name='system_skip_single_1')
+        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+        # close file
+        systemcsv.close()
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(str(messages[0]), '1 system was skipped.')
+        self.assertTrue(System.objects.filter(system_name='system_skip_single_1').exists())
+        self.assertTrue(system_1.ip.filter(ip_ip='127.3.4.51').exists())
+        self.assertFalse(system_1.ip.filter(ip_ip='127.3.4.52').exists())
+        self.assertEqual(system_1.analysisstatus, None)
+        self.assertEqual(system_1.systemstatus, systemstatus_1)
+
+    def test_system_importer_file_csv_config_based_post_invalid_ip(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_config_based', password='URVYUzUig1BrzToryfkm')
+        # get objects
+        analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
+        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+        # change config
+        system_importer_file_csv_configbased_config_model = SystemImporterFileCsvConfigbasedConfigModel(system_importer_file_csv_configbased_config_name='SystemImporterFileCsvConfigbasedConfig')
+        system_importer_file_csv_configbased_config_model.csv_skip_existing_system = True
+        system_importer_file_csv_configbased_config_model.csv_column_system = 1
+        system_importer_file_csv_configbased_config_model.csv_headline = False
+        system_importer_file_csv_configbased_config_model.csv_choice_ip = True
+        system_importer_file_csv_configbased_config_model.csv_remove_ip = True
+        system_importer_file_csv_configbased_config_model.csv_column_ip = 2
+        system_importer_file_csv_configbased_config_model.csv_remove_case = True
+        system_importer_file_csv_configbased_config_model.csv_remove_company = True
+        system_importer_file_csv_configbased_config_model.csv_remove_tag = True
+        system_importer_file_csv_configbased_config_model.csv_default_systemstatus = systemstatus_1
+        system_importer_file_csv_configbased_config_model.csv_default_analysisstatus = analysisstatus_1
+        system_importer_file_csv_configbased_config_model.save()
+        # open upload file
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_importer_file_csv_testfile_invalid_ip.csv'), 'r')
+        # create post data
+        data_dict = {
+            'systemcsv': systemcsv,
+            'systemstatus': systemstatus_1.systemstatus_id,
+        }
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.post('/system/importer/file/csv/configbased/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # get objects
+        system_1 = System.objects.get(system_name='system_invalid_ip_1')
+        # close file
+        systemcsv.close()
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(str(messages[0]), 'Value for ip address in row 1 was not a valid IP address.')
+        self.assertEqual(str(messages[1]), '1 system was created.')
+        self.assertTrue(System.objects.filter(system_name='system_invalid_ip_1').exists())
+        self.assertEqual(system_1.analysisstatus, analysisstatus_1)
+        self.assertEqual(system_1.systemstatus, systemstatus_1)
