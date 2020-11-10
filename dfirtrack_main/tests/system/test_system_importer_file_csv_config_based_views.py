@@ -31,20 +31,20 @@ class SystemImporterFileCsvConfigbasedViewTestCase(TestCase):
             case_is_incident=False,
             case_created_by_user_id=test_user,
         )
-#        Case.objects.create(
-#            case_name='case_3',
-#            case_is_incident=False,
-#            case_created_by_user_id=test_user,
-#        )
+        Case.objects.create(
+            case_name='case_3',
+            case_is_incident=False,
+            case_created_by_user_id=test_user,
+        )
         company_1 = Company.objects.create(company_name='company_1')
         Company.objects.create(company_name='company_2')
-#        Company.objects.create(company_name='company_3')
-#        Dnsname.objects.create(dnsname_name='dnsname_1')
-#        Domain.objects.create(domain_name='domain_1')
-#        Os.objects.create(os_name='os_1')
-#        Location.objects.create(location_name='location_1')
-#        Reason.objects.create(reason_name='reason_1')
-#        Systemtype.objects.create(systemtype_name='systemtype_1')
+        Company.objects.create(company_name='company_3')
+        Dnsname.objects.create(dnsname_name='dnsname_1')
+        Domain.objects.create(domain_name='domain_1')
+        Os.objects.create(os_name='os_1')
+        Location.objects.create(location_name='location_1')
+        Reason.objects.create(reason_name='reason_1')
+        Systemtype.objects.create(systemtype_name='systemtype_1')
         tagcolor_1 = Tagcolor.objects.create(tagcolor_name='tagcolor_1')
         tag_1 = Tag.objects.create(
             tag_name='tag_1',
@@ -54,11 +54,11 @@ class SystemImporterFileCsvConfigbasedViewTestCase(TestCase):
             tag_name='tag_2',
             tagcolor=tagcolor_1,
         )
-#        Tag.objects.create(
-#            tag_name='tag_3',
-#            tagcolor=tagcolor_1,
-#        )
-#        # create objects / mandatory attributes for all tests
+        Tag.objects.create(
+            tag_name='tag_3',
+            tagcolor=tagcolor_1,
+        )
+        # create objects / mandatory attributes for all tests
         systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
         Systemstatus.objects.create(systemstatus_name='systemstatus_2')
         # create system objects - post_double test
@@ -362,157 +362,159 @@ class SystemImporterFileCsvConfigbasedViewTestCase(TestCase):
         self.assertEqual(system_8.systemstatus, systemstatus_1)
         self.assertEqual(system_9.systemstatus, systemstatus_1)
 
-#    def test_system_importer_file_csv_config_based_post_complete(self):
-#        """ test importer view """
-#
-#        # login testuser
-#        self.client.login(username='testuser_system_importer_file_csv_config_based', password='URVYUzUig1BrzToryfkm')
-#        # change config
-#        system_importer_file_csv_configbased_config_model = SystemImporterFileCsvConfigbasedConfigModel(system_importer_file_csv_configbased_config_name='SystemImporterFileCsvConfigbasedConfig')
-#        system_importer_file_csv_configbased_config_model.csv_skip_existing_system = True
-#        system_importer_file_csv_configbased_config_model.csv_column_system = 1
-#        system_importer_file_csv_configbased_config_model.csv_headline = True
-#        system_importer_file_csv_configbased_config_model.csv_choice_ip = True
-#        system_importer_file_csv_configbased_config_model.csv_remove_ip = True
-#        system_importer_file_csv_configbased_config_model.csv_column_ip = 2
-#        system_importer_file_csv_configbased_config_model.csv_remove_case = True
-#        system_importer_file_csv_configbased_config_model.csv_remove_company = True
-#        system_importer_file_csv_configbased_config_model.csv_remove_tag = True
-#        system_importer_file_csv_configbased_config_model.save()
-#        # open upload file
-#        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_importer_file_csv_testfile_complete.csv'), 'r')
-#        # get objects
-#        analysisstatus_id = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1').analysisstatus_id
-#        case_1_id = Case.objects.get(case_name='case_1').case_id
-#        case_2_id = Case.objects.get(case_name='case_2').case_id
-#        case_3_id = Case.objects.get(case_name='case_3').case_id
-#        company_1_id = Company.objects.get(company_name='company_1').company_id
-#        company_2_id = Company.objects.get(company_name='company_2').company_id
-#        company_3_id = Company.objects.get(company_name='company_3').company_id
-#        dnsname_id = Dnsname.objects.get(dnsname_name='dnsname_1').dnsname_id
-#        domain_id = Domain.objects.get(domain_name='domain_1').domain_id
-#        os_id = Os.objects.get(os_name='os_1').os_id
-#        location_id = Location.objects.get(location_name='location_1').location_id
-#        reason_id = Reason.objects.get(reason_name='reason_1').reason_id
-#        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
-#        systemtype_id = Systemtype.objects.get(systemtype_name='systemtype_1').systemtype_id
-#        tag_1_id = Tag.objects.get(tag_name='tag_1').tag_id
-#        tag_2_id = Tag.objects.get(tag_name='tag_2').tag_id
-#        tag_3_id = Tag.objects.get(tag_name='tag_3').tag_id
-#        # create post data
-#        data_dict = {
-#            'systemcsv': systemcsv,
-#            'analysisstatus': analysisstatus_id,
-#            'case': [case_1_id, case_2_id, case_3_id],
-#            'company': [company_1_id, company_2_id, company_3_id],
-#            'dnsname': dnsname_id,
-#            'domain': domain_id,
-#            'os': os_id,
-#            'location': location_id,
-#            'reason': reason_id,
-#            'systemstatus': systemstatus_id,
-#            'systemtype': systemtype_id,
-#            'tag': [tag_1_id, tag_2_id, tag_3_id],
-#        }
-#        # create url
-#        destination = urllib.parse.quote('/system/', safe='/')
-#        # get response
-#        response = self.client.post('/system/importer/file/csv/configbased/', data_dict)
-#        # get messages
-#        messages = list(get_messages(response.wsgi_request))
-#        # get objects
-#        analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
-#        dnsname_1 = Dnsname.objects.get(dnsname_name='dnsname_1')
-#        domain_1 = Domain.objects.get(domain_name='domain_1')
-#        os_1 = Os.objects.get(os_name='os_1')
-#        location_1 = Location.objects.get(location_name='location_1')
-#        reason_1 = Reason.objects.get(reason_name='reason_1')
-#        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
-#        systemtype_1 = Systemtype.objects.get(systemtype_name='systemtype_1')
-#        system_1 = System.objects.get(system_name='systems_csv_complete_001')
-#        system_2 = System.objects.get(system_name='systems_csv_complete_002')
-#        system_3 = System.objects.get(system_name='systems_csv_complete_003')
-#        system_4 = System.objects.get(system_name='systems_csv_complete_004')
-#        system_5 = System.objects.get(system_name='systems_csv_complete_005')
-#        system_6 = System.objects.get(system_name='systems_csv_complete_006')
-#        system_7 = System.objects.get(system_name='systems_csv_complete_007')
-#        system_8 = System.objects.get(system_name='systems_csv_complete_008')
-#        system_9 = System.objects.get(system_name='systems_csv_complete_009')
-#        # close file
-#        systemcsv.close()
-#        # compare
-#        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-#        self.assertEqual(str(messages[0]), '9 systems were created.')
-#        self.assertTrue(System.objects.filter(system_name='systems_csv_complete_001').exists())
-#        self.assertTrue(System.objects.filter(system_name='systems_csv_complete_002').exists())
-#        self.assertTrue(System.objects.filter(system_name='systems_csv_complete_003').exists())
-#        self.assertTrue(System.objects.filter(system_name='systems_csv_complete_004').exists())
-#        self.assertTrue(System.objects.filter(system_name='systems_csv_complete_005').exists())
-#        self.assertTrue(System.objects.filter(system_name='systems_csv_complete_006').exists())
-#        self.assertTrue(System.objects.filter(system_name='systems_csv_complete_007').exists())
-#        self.assertTrue(System.objects.filter(system_name='systems_csv_complete_008').exists())
-#        self.assertTrue(System.objects.filter(system_name='systems_csv_complete_009').exists())
-#        self.assertTrue(system_1.ip.filter(ip_ip='127.0.0.1').exists())
-#        self.assertTrue(system_2.ip.filter(ip_ip='127.0.0.2').exists())
-#        self.assertTrue(system_3.ip.filter(ip_ip='127.0.0.3').exists())
-#        self.assertTrue(system_4.ip.filter(ip_ip='192.168.122.1').exists())
-#        self.assertTrue(system_5.ip.filter(ip_ip='192.168.122.10').exists())
-#        self.assertTrue(system_6.ip.filter(ip_ip='192.168.122.100').exists())
-#        self.assertTrue(system_7.ip.filter(ip_ip='192.168.1.1').exists())
-#        self.assertTrue(system_8.ip.filter(ip_ip='192.168.1.2').exists())
-#        self.assertTrue(system_9.ip.filter(ip_ip='::1').exists())
-#        # compare (only three occurences)
-#        self.assertEqual(system_1.analysisstatus, analysisstatus_1)
-#        self.assertEqual(system_2.analysisstatus, analysisstatus_1)
-#        self.assertEqual(system_3.analysisstatus, analysisstatus_1)
-#        self.assertTrue(system_1.case.filter(case_name='case_1').exists())
-#        self.assertTrue(system_1.case.filter(case_name='case_2').exists())
-#        self.assertTrue(system_1.case.filter(case_name='case_3').exists())
-#        self.assertTrue(system_2.case.filter(case_name='case_1').exists())
-#        self.assertTrue(system_2.case.filter(case_name='case_2').exists())
-#        self.assertTrue(system_2.case.filter(case_name='case_3').exists())
-#        self.assertTrue(system_3.case.filter(case_name='case_1').exists())
-#        self.assertTrue(system_3.case.filter(case_name='case_2').exists())
-#        self.assertTrue(system_3.case.filter(case_name='case_3').exists())
-#        self.assertTrue(system_1.company.filter(company_name='company_1').exists())
-#        self.assertTrue(system_1.company.filter(company_name='company_2').exists())
-#        self.assertTrue(system_1.company.filter(company_name='company_3').exists())
-#        self.assertTrue(system_2.company.filter(company_name='company_1').exists())
-#        self.assertTrue(system_2.company.filter(company_name='company_2').exists())
-#        self.assertTrue(system_2.company.filter(company_name='company_3').exists())
-#        self.assertTrue(system_3.company.filter(company_name='company_1').exists())
-#        self.assertTrue(system_3.company.filter(company_name='company_2').exists())
-#        self.assertTrue(system_3.company.filter(company_name='company_3').exists())
-#        self.assertEqual(system_1.dnsname, dnsname_1)
-#        self.assertEqual(system_2.dnsname, dnsname_1)
-#        self.assertEqual(system_3.dnsname, dnsname_1)
-#        self.assertEqual(system_1.domain, domain_1)
-#        self.assertEqual(system_2.domain, domain_1)
-#        self.assertEqual(system_3.domain, domain_1)
-#        self.assertEqual(system_1.os, os_1)
-#        self.assertEqual(system_2.os, os_1)
-#        self.assertEqual(system_3.os, os_1)
-#        self.assertEqual(system_1.location, location_1)
-#        self.assertEqual(system_2.location, location_1)
-#        self.assertEqual(system_3.location, location_1)
-#        self.assertEqual(system_1.reason, reason_1)
-#        self.assertEqual(system_2.reason, reason_1)
-#        self.assertEqual(system_3.reason, reason_1)
-#        self.assertEqual(system_1.systemstatus, systemstatus_1)
-#        self.assertEqual(system_2.systemstatus, systemstatus_1)
-#        self.assertEqual(system_3.systemstatus, systemstatus_1)
-#        self.assertEqual(system_1.systemtype, systemtype_1)
-#        self.assertEqual(system_2.systemtype, systemtype_1)
-#        self.assertEqual(system_3.systemtype, systemtype_1)
-#        self.assertTrue(system_1.tag.filter(tag_name='tag_1').exists())
-#        self.assertTrue(system_1.tag.filter(tag_name='tag_2').exists())
-#        self.assertTrue(system_1.tag.filter(tag_name='tag_3').exists())
-#        self.assertTrue(system_2.tag.filter(tag_name='tag_1').exists())
-#        self.assertTrue(system_2.tag.filter(tag_name='tag_2').exists())
-#        self.assertTrue(system_2.tag.filter(tag_name='tag_3').exists())
-#        self.assertTrue(system_3.tag.filter(tag_name='tag_1').exists())
-#        self.assertTrue(system_3.tag.filter(tag_name='tag_2').exists())
-#        self.assertTrue(system_3.tag.filter(tag_name='tag_3').exists())
+    def test_system_importer_file_csv_config_based_post_complete(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_config_based', password='URVYUzUig1BrzToryfkm')
+        # get objects
+        analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
+        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+        dnsname_1 = Dnsname.objects.get(dnsname_name='dnsname_1')
+        domain_1 = Domain.objects.get(domain_name='domain_1')
+        os_1 = Os.objects.get(os_name='os_1')
+        location_1 = Location.objects.get(location_name='location_1')
+        reason_1 = Reason.objects.get(reason_name='reason_1')
+        systemtype_1 = Systemtype.objects.get(systemtype_name='systemtype_1')
+        case_1 = Case.objects.get(case_name='case_1')
+        case_2 = Case.objects.get(case_name='case_2')
+        case_3 = Case.objects.get(case_name='case_3')
+        company_1 = Company.objects.get(company_name='company_1')
+        company_2 = Company.objects.get(company_name='company_2')
+        company_3 = Company.objects.get(company_name='company_3')
+        tag_1 = Tag.objects.get(tag_name='tag_1')
+        tag_2 = Tag.objects.get(tag_name='tag_2')
+        tag_3 = Tag.objects.get(tag_name='tag_3')
+        # change config
+        system_importer_file_csv_configbased_config_model = SystemImporterFileCsvConfigbasedConfigModel(system_importer_file_csv_configbased_config_name='SystemImporterFileCsvConfigbasedConfig')
+        system_importer_file_csv_configbased_config_model.csv_skip_existing_system = True
+        system_importer_file_csv_configbased_config_model.csv_column_system = 1
+        system_importer_file_csv_configbased_config_model.csv_headline = True
+        system_importer_file_csv_configbased_config_model.csv_choice_ip = True
+        system_importer_file_csv_configbased_config_model.csv_remove_ip = True
+        system_importer_file_csv_configbased_config_model.csv_column_ip = 2
+        system_importer_file_csv_configbased_config_model.csv_remove_case = True
+        system_importer_file_csv_configbased_config_model.csv_remove_company = True
+        system_importer_file_csv_configbased_config_model.csv_remove_tag = True
+        system_importer_file_csv_configbased_config_model.csv_default_systemstatus = systemstatus_1
+        system_importer_file_csv_configbased_config_model.csv_default_analysisstatus = analysisstatus_1
+        system_importer_file_csv_configbased_config_model.csv_default_dnsname = dnsname_1
+        system_importer_file_csv_configbased_config_model.csv_default_domain = domain_1
+        system_importer_file_csv_configbased_config_model.csv_default_os = os_1
+        system_importer_file_csv_configbased_config_model.csv_default_location = location_1
+        system_importer_file_csv_configbased_config_model.csv_default_reason = reason_1
+        system_importer_file_csv_configbased_config_model.csv_default_systemtype = systemtype_1
+        system_importer_file_csv_configbased_config_model.save()
+        # change config (many to many)
+        system_importer_file_csv_configbased_config_model.csv_default_case.clear()
+        system_importer_file_csv_configbased_config_model.csv_default_company.clear()
+        system_importer_file_csv_configbased_config_model.csv_default_tag.clear()
+        system_importer_file_csv_configbased_config_model.csv_default_case.add(case_1)
+        system_importer_file_csv_configbased_config_model.csv_default_company.add(company_1)
+        system_importer_file_csv_configbased_config_model.csv_default_tag.add(tag_1)
+        system_importer_file_csv_configbased_config_model.csv_default_case.add(case_2)
+        system_importer_file_csv_configbased_config_model.csv_default_company.add(company_2)
+        system_importer_file_csv_configbased_config_model.csv_default_tag.add(tag_2)
+        system_importer_file_csv_configbased_config_model.csv_default_case.add(case_3)
+        system_importer_file_csv_configbased_config_model.csv_default_company.add(company_3)
+        system_importer_file_csv_configbased_config_model.csv_default_tag.add(tag_3)
+        # open upload file
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_importer_file_csv_testfile_complete.csv'), 'r')
+        # create post data
+        data_dict = {
+            'systemcsv': systemcsv,
+        }
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.post('/system/importer/file/csv/configbased/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # get objects
+        system_1 = System.objects.get(system_name='systems_csv_complete_001')
+        system_2 = System.objects.get(system_name='systems_csv_complete_002')
+        system_3 = System.objects.get(system_name='systems_csv_complete_003')
+        system_4 = System.objects.get(system_name='systems_csv_complete_004')
+        system_5 = System.objects.get(system_name='systems_csv_complete_005')
+        system_6 = System.objects.get(system_name='systems_csv_complete_006')
+        system_7 = System.objects.get(system_name='systems_csv_complete_007')
+        system_8 = System.objects.get(system_name='systems_csv_complete_008')
+        system_9 = System.objects.get(system_name='systems_csv_complete_009')
+        # close file
+        systemcsv.close()
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(str(messages[0]), '9 systems were created.')
+        self.assertTrue(System.objects.filter(system_name='systems_csv_complete_001').exists())
+        self.assertTrue(System.objects.filter(system_name='systems_csv_complete_002').exists())
+        self.assertTrue(System.objects.filter(system_name='systems_csv_complete_003').exists())
+        self.assertTrue(System.objects.filter(system_name='systems_csv_complete_004').exists())
+        self.assertTrue(System.objects.filter(system_name='systems_csv_complete_005').exists())
+        self.assertTrue(System.objects.filter(system_name='systems_csv_complete_006').exists())
+        self.assertTrue(System.objects.filter(system_name='systems_csv_complete_007').exists())
+        self.assertTrue(System.objects.filter(system_name='systems_csv_complete_008').exists())
+        self.assertTrue(System.objects.filter(system_name='systems_csv_complete_009').exists())
+        self.assertTrue(system_1.ip.filter(ip_ip='127.0.0.1').exists())
+        self.assertTrue(system_2.ip.filter(ip_ip='127.0.0.2').exists())
+        self.assertTrue(system_3.ip.filter(ip_ip='127.0.0.3').exists())
+        self.assertTrue(system_4.ip.filter(ip_ip='192.168.122.1').exists())
+        self.assertTrue(system_5.ip.filter(ip_ip='192.168.122.10').exists())
+        self.assertTrue(system_6.ip.filter(ip_ip='192.168.122.100').exists())
+        self.assertTrue(system_7.ip.filter(ip_ip='192.168.1.1').exists())
+        self.assertTrue(system_8.ip.filter(ip_ip='192.168.1.2').exists())
+        self.assertTrue(system_9.ip.filter(ip_ip='::1').exists())
+        # compare (only three occurences)
+        self.assertEqual(system_1.analysisstatus, analysisstatus_1)
+        self.assertEqual(system_2.analysisstatus, analysisstatus_1)
+        self.assertEqual(system_3.analysisstatus, analysisstatus_1)
+        self.assertTrue(system_1.case.filter(case_name='case_1').exists())
+        self.assertTrue(system_1.case.filter(case_name='case_2').exists())
+        self.assertTrue(system_1.case.filter(case_name='case_3').exists())
+        self.assertTrue(system_2.case.filter(case_name='case_1').exists())
+        self.assertTrue(system_2.case.filter(case_name='case_2').exists())
+        self.assertTrue(system_2.case.filter(case_name='case_3').exists())
+        self.assertTrue(system_3.case.filter(case_name='case_1').exists())
+        self.assertTrue(system_3.case.filter(case_name='case_2').exists())
+        self.assertTrue(system_3.case.filter(case_name='case_3').exists())
+        self.assertTrue(system_1.company.filter(company_name='company_1').exists())
+        self.assertTrue(system_1.company.filter(company_name='company_2').exists())
+        self.assertTrue(system_1.company.filter(company_name='company_3').exists())
+        self.assertTrue(system_2.company.filter(company_name='company_1').exists())
+        self.assertTrue(system_2.company.filter(company_name='company_2').exists())
+        self.assertTrue(system_2.company.filter(company_name='company_3').exists())
+        self.assertTrue(system_3.company.filter(company_name='company_1').exists())
+        self.assertTrue(system_3.company.filter(company_name='company_2').exists())
+        self.assertTrue(system_3.company.filter(company_name='company_3').exists())
+        self.assertEqual(system_1.dnsname, dnsname_1)
+        self.assertEqual(system_2.dnsname, dnsname_1)
+        self.assertEqual(system_3.dnsname, dnsname_1)
+        self.assertEqual(system_1.domain, domain_1)
+        self.assertEqual(system_2.domain, domain_1)
+        self.assertEqual(system_3.domain, domain_1)
+        self.assertEqual(system_1.os, os_1)
+        self.assertEqual(system_2.os, os_1)
+        self.assertEqual(system_3.os, os_1)
+        self.assertEqual(system_1.location, location_1)
+        self.assertEqual(system_2.location, location_1)
+        self.assertEqual(system_3.location, location_1)
+        self.assertEqual(system_1.reason, reason_1)
+        self.assertEqual(system_2.reason, reason_1)
+        self.assertEqual(system_3.reason, reason_1)
+        self.assertEqual(system_1.systemstatus, systemstatus_1)
+        self.assertEqual(system_2.systemstatus, systemstatus_1)
+        self.assertEqual(system_3.systemstatus, systemstatus_1)
+        self.assertEqual(system_1.systemtype, systemtype_1)
+        self.assertEqual(system_2.systemtype, systemtype_1)
+        self.assertEqual(system_3.systemtype, systemtype_1)
+        self.assertTrue(system_1.tag.filter(tag_name='tag_1').exists())
+        self.assertTrue(system_1.tag.filter(tag_name='tag_2').exists())
+        self.assertTrue(system_1.tag.filter(tag_name='tag_3').exists())
+        self.assertTrue(system_2.tag.filter(tag_name='tag_1').exists())
+        self.assertTrue(system_2.tag.filter(tag_name='tag_2').exists())
+        self.assertTrue(system_2.tag.filter(tag_name='tag_3').exists())
+        self.assertTrue(system_3.tag.filter(tag_name='tag_1').exists())
+        self.assertTrue(system_3.tag.filter(tag_name='tag_2').exists())
+        self.assertTrue(system_3.tag.filter(tag_name='tag_3').exists())
 
     def test_system_importer_file_csv_config_based_post_invalid(self):
         """ test importer view """
