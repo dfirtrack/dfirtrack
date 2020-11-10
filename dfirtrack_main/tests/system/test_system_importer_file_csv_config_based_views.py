@@ -4,7 +4,7 @@ from django.test import TestCase
 from django.utils import timezone
 from dfirtrack.settings import BASE_DIR
 from dfirtrack_config.models import SystemImporterFileCsvConfigbasedConfigModel
-from dfirtrack_main.models import Analysisstatus, Case, Company, Domain, Dnsname, Ip, Location, Os, Reason, System, Systemstatus, Systemtype, Tag, Tagcolor
+from dfirtrack_main.models import Analysisstatus, Case, Company, Domain, Dnsname, Ip, Location, Os, Reason, Serviceprovider, System, Systemstatus, Systemtype, Tag, Tagcolor
 import os
 import urllib.parse
 
@@ -44,6 +44,7 @@ class SystemImporterFileCsvConfigbasedViewTestCase(TestCase):
         Os.objects.create(os_name='os_1')
         Location.objects.create(location_name='location_1')
         Reason.objects.create(reason_name='reason_1')
+        Serviceprovider.objects.create(serviceprovider_name='serviceprovider_1')
         Systemtype.objects.create(systemtype_name='systemtype_1')
         tagcolor_1 = Tagcolor.objects.create(tagcolor_name='tagcolor_1')
         tag_1 = Tag.objects.create(
@@ -375,6 +376,7 @@ class SystemImporterFileCsvConfigbasedViewTestCase(TestCase):
         os_1 = Os.objects.get(os_name='os_1')
         location_1 = Location.objects.get(location_name='location_1')
         reason_1 = Reason.objects.get(reason_name='reason_1')
+        serviceprovider_1 = Serviceprovider.objects.get(serviceprovider_name='serviceprovider_1')
         systemtype_1 = Systemtype.objects.get(systemtype_name='systemtype_1')
         case_1 = Case.objects.get(case_name='case_1')
         case_2 = Case.objects.get(case_name='case_2')
@@ -403,6 +405,7 @@ class SystemImporterFileCsvConfigbasedViewTestCase(TestCase):
         system_importer_file_csv_configbased_config_model.csv_default_os = os_1
         system_importer_file_csv_configbased_config_model.csv_default_location = location_1
         system_importer_file_csv_configbased_config_model.csv_default_reason = reason_1
+        system_importer_file_csv_configbased_config_model.csv_default_serviceprovider = serviceprovider_1
         system_importer_file_csv_configbased_config_model.csv_default_systemtype = systemtype_1
         system_importer_file_csv_configbased_config_model.save()
         # change config (many to many)
@@ -500,6 +503,9 @@ class SystemImporterFileCsvConfigbasedViewTestCase(TestCase):
         self.assertEqual(system_1.reason, reason_1)
         self.assertEqual(system_2.reason, reason_1)
         self.assertEqual(system_3.reason, reason_1)
+        self.assertEqual(system_1.serviceprovider, serviceprovider_1)
+        self.assertEqual(system_2.serviceprovider, serviceprovider_1)
+        self.assertEqual(system_3.serviceprovider, serviceprovider_1)
         self.assertEqual(system_1.systemstatus, systemstatus_1)
         self.assertEqual(system_2.systemstatus, systemstatus_1)
         self.assertEqual(system_3.systemstatus, systemstatus_1)
