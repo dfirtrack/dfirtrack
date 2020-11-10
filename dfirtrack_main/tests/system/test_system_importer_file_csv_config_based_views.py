@@ -20,23 +20,24 @@ class SystemImporterFileCsvConfigbasedViewTestCase(TestCase):
 
         # create objects for post_complete test
         Analysisstatus.objects.create(analysisstatus_name='analysisstatus_1')
-#        case_1 = Case.objects.create(
-#            case_name='case_1',
-#            case_is_incident=True,
-#            case_created_by_user_id=test_user,
-#        )
-#        Case.objects.create(
-#            case_name='case_2',
-#            case_is_incident=False,
-#            case_created_by_user_id=test_user,
-#        )
+        Analysisstatus.objects.create(analysisstatus_name='analysisstatus_2')
+        case_1 = Case.objects.create(
+            case_name='case_1',
+            case_is_incident=True,
+            case_created_by_user_id=test_user,
+        )
+        Case.objects.create(
+            case_name='case_2',
+            case_is_incident=False,
+            case_created_by_user_id=test_user,
+        )
 #        Case.objects.create(
 #            case_name='case_3',
 #            case_is_incident=False,
 #            case_created_by_user_id=test_user,
 #        )
-#        company_1 = Company.objects.create(company_name='company_1')
-#        Company.objects.create(company_name='company_2')
+        company_1 = Company.objects.create(company_name='company_1')
+        Company.objects.create(company_name='company_2')
 #        Company.objects.create(company_name='company_3')
 #        Dnsname.objects.create(dnsname_name='dnsname_1')
 #        Domain.objects.create(domain_name='domain_1')
@@ -44,15 +45,15 @@ class SystemImporterFileCsvConfigbasedViewTestCase(TestCase):
 #        Location.objects.create(location_name='location_1')
 #        Reason.objects.create(reason_name='reason_1')
 #        Systemtype.objects.create(systemtype_name='systemtype_1')
-#        tagcolor_1 = Tagcolor.objects.create(tagcolor_name='tagcolor_1')
-#        tag_1 = Tag.objects.create(
-#            tag_name='tag_1',
-#            tagcolor=tagcolor_1,
-#        )
-#        Tag.objects.create(
-#            tag_name='tag_2',
-#            tagcolor=tagcolor_1,
-#        )
+        tagcolor_1 = Tagcolor.objects.create(tagcolor_name='tagcolor_1')
+        tag_1 = Tag.objects.create(
+            tag_name='tag_1',
+            tagcolor=tagcolor_1,
+        )
+        Tag.objects.create(
+            tag_name='tag_2',
+            tagcolor=tagcolor_1,
+        )
 #        Tag.objects.create(
 #            tag_name='tag_3',
 #            tagcolor=tagcolor_1,
@@ -94,50 +95,50 @@ class SystemImporterFileCsvConfigbasedViewTestCase(TestCase):
             system_modified_by_user_id = test_user,
         )
         system_skip_2.ip.add(ip_skip_2)
-#        # create system objects - post_update_discard_manytomany test
-#        ip_update_discard_manytomany_1 = Ip.objects.create(ip_ip='10.1.1.1')
-#        ip_update_discard_manytomany_2 = Ip.objects.create(ip_ip='10.2.2.2')
-#        system_update_discard_manytomany_1 = System.objects.create(
-#            system_name = 'system_update_discard_manytomany_1',
-#            systemstatus = systemstatus_1,
-#            system_modify_time = timezone.now(),
-#            system_created_by_user_id = test_user,
-#            system_modified_by_user_id = test_user,
-#        )
-#        system_update_discard_manytomany_2 = System.objects.create(
-#            system_name = 'system_update_discard_manytomany_2',
-#            systemstatus = systemstatus_1,
-#            system_modify_time = timezone.now(),
-#            system_created_by_user_id = test_user,
-#            system_modified_by_user_id = test_user,
-#        )
-#        system_update_discard_manytomany_1.case.add(case_1)
-#        system_update_discard_manytomany_1.company.add(company_1)
-#        system_update_discard_manytomany_1.ip.add(ip_update_discard_manytomany_1)
-#        system_update_discard_manytomany_1.tag.add(tag_1)
-#        system_update_discard_manytomany_2.ip.add(ip_update_discard_manytomany_2)
-#        # create system objects - post_update_keep_manytomany test
-#        ip_update_keep_manytomany_1 = Ip.objects.create(ip_ip='10.5.5.5')
-#        ip_update_keep_manytomany_2 = Ip.objects.create(ip_ip='10.6.6.6')
-#        system_update_keep_manytomany_1 = System.objects.create(
-#            system_name = 'system_update_keep_manytomany_1',
-#            systemstatus = systemstatus_1,
-#            system_modify_time = timezone.now(),
-#            system_created_by_user_id = test_user,
-#            system_modified_by_user_id = test_user,
-#        )
-#        system_update_keep_manytomany_2 = System.objects.create(
-#            system_name = 'system_update_keep_manytomany_2',
-#            systemstatus = systemstatus_1,
-#            system_modify_time = timezone.now(),
-#            system_created_by_user_id = test_user,
-#            system_modified_by_user_id = test_user,
-#        )
-#        system_update_keep_manytomany_1.case.add(case_1)
-#        system_update_keep_manytomany_1.company.add(company_1)
-#        system_update_keep_manytomany_1.ip.add(ip_update_keep_manytomany_1)
-#        system_update_keep_manytomany_1.tag.add(tag_1)
-#        system_update_keep_manytomany_2.ip.add(ip_update_keep_manytomany_2)
+        # create system objects - post_update_discard_manytomany test
+        ip_update_discard_manytomany_1 = Ip.objects.create(ip_ip='10.1.1.1')
+        ip_update_discard_manytomany_2 = Ip.objects.create(ip_ip='10.2.2.2')
+        system_update_discard_manytomany_1 = System.objects.create(
+            system_name = 'system_update_discard_manytomany_1',
+            systemstatus = systemstatus_1,
+            system_modify_time = timezone.now(),
+            system_created_by_user_id = test_user,
+            system_modified_by_user_id = test_user,
+        )
+        system_update_discard_manytomany_2 = System.objects.create(
+            system_name = 'system_update_discard_manytomany_2',
+            systemstatus = systemstatus_1,
+            system_modify_time = timezone.now(),
+            system_created_by_user_id = test_user,
+            system_modified_by_user_id = test_user,
+        )
+        system_update_discard_manytomany_1.case.add(case_1)
+        system_update_discard_manytomany_1.company.add(company_1)
+        system_update_discard_manytomany_1.ip.add(ip_update_discard_manytomany_1)
+        system_update_discard_manytomany_1.tag.add(tag_1)
+        system_update_discard_manytomany_2.ip.add(ip_update_discard_manytomany_2)
+        # create system objects - post_update_keep_manytomany test
+        ip_update_keep_manytomany_1 = Ip.objects.create(ip_ip='10.5.5.5')
+        ip_update_keep_manytomany_2 = Ip.objects.create(ip_ip='10.6.6.6')
+        system_update_keep_manytomany_1 = System.objects.create(
+            system_name = 'system_update_keep_manytomany_1',
+            systemstatus = systemstatus_1,
+            system_modify_time = timezone.now(),
+            system_created_by_user_id = test_user,
+            system_modified_by_user_id = test_user,
+        )
+        system_update_keep_manytomany_2 = System.objects.create(
+            system_name = 'system_update_keep_manytomany_2',
+            systemstatus = systemstatus_1,
+            system_modify_time = timezone.now(),
+            system_created_by_user_id = test_user,
+            system_modified_by_user_id = test_user,
+        )
+        system_update_keep_manytomany_1.case.add(case_1)
+        system_update_keep_manytomany_1.company.add(company_1)
+        system_update_keep_manytomany_1.ip.add(ip_update_keep_manytomany_1)
+        system_update_keep_manytomany_1.tag.add(tag_1)
+        system_update_keep_manytomany_2.ip.add(ip_update_keep_manytomany_2)
         # create system objects - post_update_single test
         ip_update_single_1 = Ip.objects.create(ip_ip='127.2.3.41')
         system_update_single_1 = System.objects.create(
@@ -682,133 +683,147 @@ class SystemImporterFileCsvConfigbasedViewTestCase(TestCase):
         self.assertTrue(system_skip_2.ip.filter(ip_ip='127.3.3.3').exists())
         self.assertFalse(system_skip_2.ip.filter(ip_ip='127.4.4.4').exists())
 
-#    def test_system_importer_file_csv_config_based_post_update_discard_manytomany(self):
-#        """ test importer view """
-#
-#        # login testuser
-#        self.client.login(username='testuser_system_importer_file_csv_config_based', password='URVYUzUig1BrzToryfkm')
-#        # change config
-#        system_importer_file_csv_configbased_config_model = SystemImporterFileCsvConfigbasedConfigModel(system_importer_file_csv_configbased_config_name='SystemImporterFileCsvConfigbasedConfig')
-#        system_importer_file_csv_configbased_config_model.csv_skip_existing_system = False
-#        system_importer_file_csv_configbased_config_model.csv_column_system = 1
-#        system_importer_file_csv_configbased_config_model.csv_headline = False
-#        system_importer_file_csv_configbased_config_model.csv_choice_ip = True
-#        system_importer_file_csv_configbased_config_model.csv_remove_ip = True
-#        system_importer_file_csv_configbased_config_model.csv_column_ip = 2
-#        system_importer_file_csv_configbased_config_model.csv_remove_case = True
-#        system_importer_file_csv_configbased_config_model.csv_remove_company = True
-#        system_importer_file_csv_configbased_config_model.csv_remove_tag = True
-#        system_importer_file_csv_configbased_config_model.save()
-#        # open upload file
-#        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_importer_file_csv_testfile_update_discard_manytomany.csv'), 'r')
-#        # get object
-#        case_2 = Case.objects.get(case_name='case_2')
-#        company_2 = Company.objects.get(company_name='company_2')
-#        systemstatus_2 = Systemstatus.objects.get(systemstatus_name='systemstatus_2')
-#        tag_2 = Tag.objects.get(tag_name='tag_2')
-#        # create post data
-#        data_dict = {
-#            'systemcsv': systemcsv,
-#            'case': [case_2.case_id,],
-#            'company': [company_2.company_id,],
-#            'systemstatus': systemstatus_2.systemstatus_id,
-#            'tag': [tag_2.tag_id,],
-#        }
-#        # create url
-#        destination = urllib.parse.quote('/system/', safe='/')
-#        # get response
-#        response = self.client.post('/system/importer/file/csv/configbased/', data_dict)
-#        # close file
-#        systemcsv.close()
-#        # get messages
-#        messages = list(get_messages(response.wsgi_request))
-#        # get objects
-#        system_update_discard_manytomany_1 = System.objects.get(system_name='system_update_discard_manytomany_1')
-#        system_update_discard_manytomany_2 = System.objects.get(system_name='system_update_discard_manytomany_2')
-#        # compare - general
-#        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-#        self.assertEqual(str(messages[0]), '2 systems were updated.')
-#        # compare - system_update_discard_manytomany_1
-#        self.assertFalse(system_update_discard_manytomany_1.case.filter(case_name='case_1').exists())
-#        self.assertTrue(system_update_discard_manytomany_1.case.filter(case_name='case_2').exists())
-#        self.assertFalse(system_update_discard_manytomany_1.company.filter(company_name='company_1').exists())
-#        self.assertTrue(system_update_discard_manytomany_1.company.filter(company_name='company_2').exists())
-#        self.assertFalse(system_update_discard_manytomany_1.ip.filter(ip_ip='10.1.1.1').exists())
-#        self.assertTrue(system_update_discard_manytomany_1.ip.filter(ip_ip='10.3.3.3').exists())
-#        self.assertEqual(system_update_discard_manytomany_1.systemstatus, systemstatus_2)
-#        self.assertFalse(system_update_discard_manytomany_1.tag.filter(tag_name='tag_1').exists())
-#        self.assertTrue(system_update_discard_manytomany_1.tag.filter(tag_name='tag_2').exists())
-#        # compare - system_update_discard_manytomany_2
-#        self.assertTrue(system_update_discard_manytomany_2.case.filter(case_name='case_2').exists())
-#        self.assertTrue(system_update_discard_manytomany_2.company.filter(company_name='company_2').exists())
-#        self.assertFalse(system_update_discard_manytomany_2.ip.filter(ip_ip='10.2.2.2').exists())
-#        self.assertTrue(system_update_discard_manytomany_2.ip.filter(ip_ip='10.4.4.4').exists())
-#        self.assertEqual(system_update_discard_manytomany_2.systemstatus, systemstatus_2)
-#        self.assertTrue(system_update_discard_manytomany_2.tag.filter(tag_name='tag_2').exists())
-#
-#    def test_system_importer_file_csv_config_based_post_update_keep_manytomany(self):
-#        """ test importer view """
-#
-#        # login testuser
-#        self.client.login(username='testuser_system_importer_file_csv_config_based', password='URVYUzUig1BrzToryfkm')
-#        # change config
-#        system_importer_file_csv_configbased_config_model = SystemImporterFileCsvConfigbasedConfigModel(system_importer_file_csv_configbased_config_name='SystemImporterFileCsvConfigbasedConfig')
-#        system_importer_file_csv_configbased_config_model.csv_skip_existing_system = False
-#        system_importer_file_csv_configbased_config_model.csv_column_system = 1
-#        system_importer_file_csv_configbased_config_model.csv_headline = False
-#        system_importer_file_csv_configbased_config_model.csv_choice_ip = True
-#        system_importer_file_csv_configbased_config_model.csv_remove_ip = False
-#        system_importer_file_csv_configbased_config_model.csv_column_ip = 2
-#        system_importer_file_csv_configbased_config_model.csv_remove_case = False
-#        system_importer_file_csv_configbased_config_model.csv_remove_company = False
-#        system_importer_file_csv_configbased_config_model.csv_remove_tag = False
-#        system_importer_file_csv_configbased_config_model.save()
-#        # open upload file
-#        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_importer_file_csv_testfile_update_keep_manytomany.csv'), 'r')
-#        # get object
-#        case_2 = Case.objects.get(case_name='case_2')
-#        company_2 = Company.objects.get(company_name='company_2')
-#        systemstatus_2 = Systemstatus.objects.get(systemstatus_name='systemstatus_2')
-#        tag_2 = Tag.objects.get(tag_name='tag_2')
-#        # create post data
-#        data_dict = {
-#            'systemcsv': systemcsv,
-#            'case': [case_2.case_id,],
-#            'company': [company_2.company_id,],
-#            'systemstatus': systemstatus_2.systemstatus_id,
-#            'tag': [tag_2.tag_id,],
-#        }
-#        # create url
-#        destination = urllib.parse.quote('/system/', safe='/')
-#        # get response
-#        response = self.client.post('/system/importer/file/csv/configbased/', data_dict)
-#        # close file
-#        systemcsv.close()
-#        # get messages
-#        messages = list(get_messages(response.wsgi_request))
-#        # get objects
-#        system_update_keep_manytomany_1 = System.objects.get(system_name='system_update_keep_manytomany_1')
-#        system_update_keep_manytomany_2 = System.objects.get(system_name='system_update_keep_manytomany_2')
-#        # compare - general
-#        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-#        self.assertEqual(str(messages[0]), '2 systems were updated.')
-#        # compare - system_update_keep_manytomany_1
-#        self.assertTrue(system_update_keep_manytomany_1.case.filter(case_name='case_1').exists())
-#        self.assertTrue(system_update_keep_manytomany_1.case.filter(case_name='case_2').exists())
-#        self.assertTrue(system_update_keep_manytomany_1.company.filter(company_name='company_1').exists())
-#        self.assertTrue(system_update_keep_manytomany_1.company.filter(company_name='company_2').exists())
-#        self.assertTrue(system_update_keep_manytomany_1.ip.filter(ip_ip='10.5.5.5').exists())
-#        self.assertTrue(system_update_keep_manytomany_1.ip.filter(ip_ip='10.7.7.7').exists())
-#        self.assertEqual(system_update_keep_manytomany_1.systemstatus, systemstatus_2)
-#        self.assertTrue(system_update_keep_manytomany_1.tag.filter(tag_name='tag_1').exists())
-#        self.assertTrue(system_update_keep_manytomany_1.tag.filter(tag_name='tag_2').exists())
-#        # compare - system_update_keep_manytomany_2
-#        self.assertTrue(system_update_keep_manytomany_2.case.filter(case_name='case_2').exists())
-#        self.assertTrue(system_update_keep_manytomany_2.company.filter(company_name='company_2').exists())
-#        self.assertTrue(system_update_keep_manytomany_2.ip.filter(ip_ip='10.6.6.6').exists())
-#        self.assertTrue(system_update_keep_manytomany_2.ip.filter(ip_ip='10.8.8.8').exists())
-#        self.assertEqual(system_update_keep_manytomany_2.systemstatus, systemstatus_2)
-#        self.assertTrue(system_update_keep_manytomany_2.tag.filter(tag_name='tag_2').exists())
+    def test_system_importer_file_csv_config_based_post_update_discard_manytomany(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_config_based', password='URVYUzUig1BrzToryfkm')
+        # get objects
+        analysisstatus_2 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_2')
+        systemstatus_2 = Systemstatus.objects.get(systemstatus_name='systemstatus_2')
+        case_2 = Case.objects.get(case_name='case_2')
+        company_2 = Company.objects.get(company_name='company_2')
+        tag_2 = Tag.objects.get(tag_name='tag_2')
+        # change config
+        system_importer_file_csv_configbased_config_model = SystemImporterFileCsvConfigbasedConfigModel(system_importer_file_csv_configbased_config_name='SystemImporterFileCsvConfigbasedConfig')
+        system_importer_file_csv_configbased_config_model.csv_skip_existing_system = False
+        system_importer_file_csv_configbased_config_model.csv_column_system = 1
+        system_importer_file_csv_configbased_config_model.csv_headline = False
+        system_importer_file_csv_configbased_config_model.csv_choice_ip = True
+        system_importer_file_csv_configbased_config_model.csv_remove_ip = True
+        system_importer_file_csv_configbased_config_model.csv_column_ip = 2
+        system_importer_file_csv_configbased_config_model.csv_remove_case = True
+        system_importer_file_csv_configbased_config_model.csv_remove_company = True
+        system_importer_file_csv_configbased_config_model.csv_remove_tag = True
+        system_importer_file_csv_configbased_config_model.csv_default_systemstatus = systemstatus_2
+        system_importer_file_csv_configbased_config_model.csv_default_analysisstatus = analysisstatus_2
+        system_importer_file_csv_configbased_config_model.save()
+        # change config (many to many)
+        system_importer_file_csv_configbased_config_model.csv_default_case.clear()
+        system_importer_file_csv_configbased_config_model.csv_default_company.clear()
+        system_importer_file_csv_configbased_config_model.csv_default_tag.clear()
+        system_importer_file_csv_configbased_config_model.csv_default_case.add(case_2)
+        system_importer_file_csv_configbased_config_model.csv_default_company.add(company_2)
+        system_importer_file_csv_configbased_config_model.csv_default_tag.add(tag_2)
+        # open upload file
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_importer_file_csv_testfile_update_discard_manytomany.csv'), 'r')
+        # create post data
+        data_dict = {
+            'systemcsv': systemcsv,
+        }
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.post('/system/importer/file/csv/configbased/', data_dict)
+        # close file
+        systemcsv.close()
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # get objects
+        system_update_discard_manytomany_1 = System.objects.get(system_name='system_update_discard_manytomany_1')
+        system_update_discard_manytomany_2 = System.objects.get(system_name='system_update_discard_manytomany_2')
+        # compare - general
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(str(messages[0]), '2 systems were updated.')
+        # compare - system_update_discard_manytomany_1
+        self.assertFalse(system_update_discard_manytomany_1.case.filter(case_name='case_1').exists())
+        self.assertTrue(system_update_discard_manytomany_1.case.filter(case_name='case_2').exists())
+        self.assertFalse(system_update_discard_manytomany_1.company.filter(company_name='company_1').exists())
+        self.assertTrue(system_update_discard_manytomany_1.company.filter(company_name='company_2').exists())
+        self.assertFalse(system_update_discard_manytomany_1.ip.filter(ip_ip='10.1.1.1').exists())
+        self.assertTrue(system_update_discard_manytomany_1.ip.filter(ip_ip='10.3.3.3').exists())
+        self.assertEqual(system_update_discard_manytomany_1.analysisstatus, analysisstatus_2)
+        self.assertEqual(system_update_discard_manytomany_1.systemstatus, systemstatus_2)
+        self.assertFalse(system_update_discard_manytomany_1.tag.filter(tag_name='tag_1').exists())
+        self.assertTrue(system_update_discard_manytomany_1.tag.filter(tag_name='tag_2').exists())
+        # compare - system_update_discard_manytomany_2
+        self.assertTrue(system_update_discard_manytomany_2.case.filter(case_name='case_2').exists())
+        self.assertTrue(system_update_discard_manytomany_2.company.filter(company_name='company_2').exists())
+        self.assertFalse(system_update_discard_manytomany_2.ip.filter(ip_ip='10.2.2.2').exists())
+        self.assertTrue(system_update_discard_manytomany_2.ip.filter(ip_ip='10.4.4.4').exists())
+        self.assertEqual(system_update_discard_manytomany_2.analysisstatus, analysisstatus_2)
+        self.assertEqual(system_update_discard_manytomany_2.systemstatus, systemstatus_2)
+        self.assertTrue(system_update_discard_manytomany_2.tag.filter(tag_name='tag_2').exists())
+
+    def test_system_importer_file_csv_config_based_post_update_keep_manytomany(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_config_based', password='URVYUzUig1BrzToryfkm')
+        # get objects
+        analysisstatus_2 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_2')
+        systemstatus_2 = Systemstatus.objects.get(systemstatus_name='systemstatus_2')
+        case_2 = Case.objects.get(case_name='case_2')
+        company_2 = Company.objects.get(company_name='company_2')
+        tag_2 = Tag.objects.get(tag_name='tag_2')
+        # change config
+        system_importer_file_csv_configbased_config_model = SystemImporterFileCsvConfigbasedConfigModel(system_importer_file_csv_configbased_config_name='SystemImporterFileCsvConfigbasedConfig')
+        system_importer_file_csv_configbased_config_model.csv_skip_existing_system = False
+        system_importer_file_csv_configbased_config_model.csv_column_system = 1
+        system_importer_file_csv_configbased_config_model.csv_headline = False
+        system_importer_file_csv_configbased_config_model.csv_choice_ip = True
+        system_importer_file_csv_configbased_config_model.csv_remove_ip = False
+        system_importer_file_csv_configbased_config_model.csv_column_ip = 2
+        system_importer_file_csv_configbased_config_model.csv_remove_case = False
+        system_importer_file_csv_configbased_config_model.csv_remove_company = False
+        system_importer_file_csv_configbased_config_model.csv_remove_tag = False
+        system_importer_file_csv_configbased_config_model.csv_default_systemstatus = systemstatus_2
+        system_importer_file_csv_configbased_config_model.csv_default_analysisstatus = analysisstatus_2
+        system_importer_file_csv_configbased_config_model.save()
+        # change config (many to many)
+        system_importer_file_csv_configbased_config_model.csv_default_case.clear()
+        system_importer_file_csv_configbased_config_model.csv_default_company.clear()
+        system_importer_file_csv_configbased_config_model.csv_default_tag.clear()
+        system_importer_file_csv_configbased_config_model.csv_default_case.add(case_2)
+        system_importer_file_csv_configbased_config_model.csv_default_company.add(company_2)
+        system_importer_file_csv_configbased_config_model.csv_default_tag.add(tag_2)
+        # open upload file
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_importer_file_csv_testfile_update_keep_manytomany.csv'), 'r')
+        # create post data
+        data_dict = {
+            'systemcsv': systemcsv,
+        }
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.post('/system/importer/file/csv/configbased/', data_dict)
+        # close file
+        systemcsv.close()
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # get objects
+        system_update_keep_manytomany_1 = System.objects.get(system_name='system_update_keep_manytomany_1')
+        system_update_keep_manytomany_2 = System.objects.get(system_name='system_update_keep_manytomany_2')
+        # compare - general
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(str(messages[0]), '2 systems were updated.')
+        # compare - system_update_keep_manytomany_1
+        self.assertTrue(system_update_keep_manytomany_1.case.filter(case_name='case_1').exists())
+        self.assertTrue(system_update_keep_manytomany_1.case.filter(case_name='case_2').exists())
+        self.assertTrue(system_update_keep_manytomany_1.company.filter(company_name='company_1').exists())
+        self.assertTrue(system_update_keep_manytomany_1.company.filter(company_name='company_2').exists())
+        self.assertTrue(system_update_keep_manytomany_1.ip.filter(ip_ip='10.5.5.5').exists())
+        self.assertTrue(system_update_keep_manytomany_1.ip.filter(ip_ip='10.7.7.7').exists())
+        self.assertEqual(system_update_keep_manytomany_1.systemstatus, systemstatus_2)
+        self.assertTrue(system_update_keep_manytomany_1.tag.filter(tag_name='tag_1').exists())
+        self.assertTrue(system_update_keep_manytomany_1.tag.filter(tag_name='tag_2').exists())
+        # compare - system_update_keep_manytomany_2
+        self.assertTrue(system_update_keep_manytomany_2.case.filter(case_name='case_2').exists())
+        self.assertTrue(system_update_keep_manytomany_2.company.filter(company_name='company_2').exists())
+        self.assertTrue(system_update_keep_manytomany_2.ip.filter(ip_ip='10.6.6.6').exists())
+        self.assertTrue(system_update_keep_manytomany_2.ip.filter(ip_ip='10.8.8.8').exists())
+        self.assertEqual(system_update_keep_manytomany_2.systemstatus, systemstatus_2)
+        self.assertTrue(system_update_keep_manytomany_2.tag.filter(tag_name='tag_2').exists())
 
     def test_system_importer_file_csv_config_based_post_create_single(self):
         """ test importer view """
