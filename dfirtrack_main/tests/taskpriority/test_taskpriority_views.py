@@ -12,7 +12,7 @@ class TaskpriorityViewTestCase(TestCase):
         # create object
         Taskpriority.objects.create(taskpriority_name='prio_1')
         # create user
-        test_user = User.objects.create_user(username='testuser_taskpriority', password='VxuP85UUDkfXwRuwRFqA')
+        User.objects.create_user(username='testuser_taskpriority', password='VxuP85UUDkfXwRuwRFqA')
 
     def test_taskpriority_list_not_logged_in(self):
         """ test list view """
@@ -28,7 +28,7 @@ class TaskpriorityViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_taskpriority', password='VxuP85UUDkfXwRuwRFqA')
+        self.client.login(username='testuser_taskpriority', password='VxuP85UUDkfXwRuwRFqA')
         # get response
         response = self.client.get('/taskpriority/')
         # compare
@@ -38,7 +38,7 @@ class TaskpriorityViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_taskpriority', password='VxuP85UUDkfXwRuwRFqA')
+        self.client.login(username='testuser_taskpriority', password='VxuP85UUDkfXwRuwRFqA')
         # get response
         response = self.client.get('/taskpriority/')
         # compare
@@ -48,7 +48,7 @@ class TaskpriorityViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_taskpriority', password='VxuP85UUDkfXwRuwRFqA')
+        self.client.login(username='testuser_taskpriority', password='VxuP85UUDkfXwRuwRFqA')
         # get response
         response = self.client.get('/taskpriority/')
         # compare
@@ -58,7 +58,7 @@ class TaskpriorityViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_taskpriority', password='VxuP85UUDkfXwRuwRFqA')
+        self.client.login(username='testuser_taskpriority', password='VxuP85UUDkfXwRuwRFqA')
         # create url
         destination = urllib.parse.quote('/taskpriority/', safe='/')
         # get response
@@ -84,7 +84,7 @@ class TaskpriorityViewTestCase(TestCase):
         # get object
         taskpriority_1 = Taskpriority.objects.get(taskpriority_name='prio_1')
         # login testuser
-        login = self.client.login(username='testuser_taskpriority', password='VxuP85UUDkfXwRuwRFqA')
+        self.client.login(username='testuser_taskpriority', password='VxuP85UUDkfXwRuwRFqA')
         # get response
         response = self.client.get('/taskpriority/' + str(taskpriority_1.taskpriority_id) + '/')
         # compare
@@ -96,7 +96,7 @@ class TaskpriorityViewTestCase(TestCase):
         # get object
         taskpriority_1 = Taskpriority.objects.get(taskpriority_name='prio_1')
         # login testuser
-        login = self.client.login(username='testuser_taskpriority', password='VxuP85UUDkfXwRuwRFqA')
+        self.client.login(username='testuser_taskpriority', password='VxuP85UUDkfXwRuwRFqA')
         # get response
         response = self.client.get('/taskpriority/' + str(taskpriority_1.taskpriority_id) + '/')
         # compare
@@ -108,7 +108,7 @@ class TaskpriorityViewTestCase(TestCase):
         # get object
         taskpriority_1 = Taskpriority.objects.get(taskpriority_name='prio_1')
         # login testuser
-        login = self.client.login(username='testuser_taskpriority', password='VxuP85UUDkfXwRuwRFqA')
+        self.client.login(username='testuser_taskpriority', password='VxuP85UUDkfXwRuwRFqA')
         # get response
         response = self.client.get('/taskpriority/' + str(taskpriority_1.taskpriority_id) + '/')
         # compare
@@ -120,7 +120,7 @@ class TaskpriorityViewTestCase(TestCase):
         # get object
         taskpriority_1 = Taskpriority.objects.get(taskpriority_name='prio_1')
         # login testuser
-        login = self.client.login(username='testuser_taskpriority', password='VxuP85UUDkfXwRuwRFqA')
+        self.client.login(username='testuser_taskpriority', password='VxuP85UUDkfXwRuwRFqA')
         # create url
         destination = urllib.parse.quote('/taskpriority/' + str(taskpriority_1.taskpriority_id) + '/', safe='/')
         # get response

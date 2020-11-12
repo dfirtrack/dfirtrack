@@ -20,15 +20,15 @@ class TaskAPIViewTestCase(TestCase):
         # create object
         taskname_1 = Taskname.objects.create(taskname_name='taskname_1')
         # create object
-        taskname_2 = Taskname.objects.create(taskname_name='taskname_2')
+        Taskname.objects.create(taskname_name='taskname_2')
         # create object
-        taskname_3 = Taskname.objects.create(taskname_name='taskname_3')
+        Taskname.objects.create(taskname_name='taskname_3')
         # create object
         taskpriority_1 = Taskpriority.objects.create(taskpriority_name='prio_1')
         # create object
-        taskpriority_2 = Taskpriority.objects.create(taskpriority_name='prio_2')
+        Taskpriority.objects.create(taskpriority_name='prio_2')
         # create object
-        taskpriority_3 = Taskpriority.objects.create(taskpriority_name='prio_3')
+        Taskpriority.objects.create(taskpriority_name='prio_3')
         # create object
         taskstatus_1 = Taskstatus.objects.create(taskstatus_name='taskstatus_1')
 
@@ -37,7 +37,7 @@ class TaskAPIViewTestCase(TestCase):
         # create object
         tagcolor_1 = Tagcolor.objects.create(tagcolor_name='tagcolor_1')
         # create object
-        tag_1 = Tag.objects.create(
+        Tag.objects.create(
             tagcolor = tagcolor_1,
             tag_name = 'tag_1',
         )
@@ -84,7 +84,7 @@ class TaskAPIViewTestCase(TestCase):
         """ GET is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_task_api', password='jmvsz1Z551zZ4E3Cnp8D')
+        self.client.login(username='testuser_task_api', password='jmvsz1Z551zZ4E3Cnp8D')
         # get response
         response = self.client.get('/api/task/')
         # compare
@@ -94,7 +94,7 @@ class TaskAPIViewTestCase(TestCase):
         """ POST is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_task_api', password='jmvsz1Z551zZ4E3Cnp8D')
+        self.client.login(username='testuser_task_api', password='jmvsz1Z551zZ4E3Cnp8D')
         # get user
         test_user_id = User.objects.get(username='testuser_task_api').id
         # get object
@@ -120,7 +120,7 @@ class TaskAPIViewTestCase(TestCase):
         """ POST is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_task_api', password='jmvsz1Z551zZ4E3Cnp8D')
+        self.client.login(username='testuser_task_api', password='jmvsz1Z551zZ4E3Cnp8D')
         # get user
         test_user_id = User.objects.get(username='testuser_task_api').id
         # get object
@@ -164,7 +164,7 @@ class TaskAPIViewTestCase(TestCase):
         """ test redirect with appending slash """
 
         # login testuser
-        login = self.client.login(username='testuser_task_api', password='jmvsz1Z551zZ4E3Cnp8D')
+        self.client.login(username='testuser_task_api', password='jmvsz1Z551zZ4E3Cnp8D')
         # create url
         destination = urllib.parse.quote('/api/task/', safe='/')
         # get response
@@ -190,7 +190,7 @@ class TaskAPIViewTestCase(TestCase):
         """ GET is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_task_api', password='jmvsz1Z551zZ4E3Cnp8D')
+        self.client.login(username='testuser_task_api', password='jmvsz1Z551zZ4E3Cnp8D')
         # get object
         taskname_id = Taskname.objects.get(taskname_name='taskname_1').taskname_id
         # get object
@@ -206,7 +206,7 @@ class TaskAPIViewTestCase(TestCase):
         """ DELETE is forbidden """
 
         # login testuser
-        login = self.client.login(username='testuser_task_api', password='jmvsz1Z551zZ4E3Cnp8D')
+        self.client.login(username='testuser_task_api', password='jmvsz1Z551zZ4E3Cnp8D')
         # get object
         taskname_id = Taskname.objects.get(taskname_name='taskname_1').taskname_id
         # get object
@@ -222,7 +222,7 @@ class TaskAPIViewTestCase(TestCase):
         """ PUT is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_task_api', password='jmvsz1Z551zZ4E3Cnp8D')
+        self.client.login(username='testuser_task_api', password='jmvsz1Z551zZ4E3Cnp8D')
         # get user
         test_user_id = User.objects.get(username='testuser_task_api').id
         # get object
@@ -254,7 +254,7 @@ class TaskAPIViewTestCase(TestCase):
         """ PUT is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_task_api', password='jmvsz1Z551zZ4E3Cnp8D')
+        self.client.login(username='testuser_task_api', password='jmvsz1Z551zZ4E3Cnp8D')
         # get user
         test_user_id = User.objects.get(username='testuser_task_api').id
         # get object
@@ -304,7 +304,7 @@ class TaskAPIViewTestCase(TestCase):
         """ test redirect with appending slash """
 
         # login testuser
-        login = self.client.login(username='testuser_task_api', password='jmvsz1Z551zZ4E3Cnp8D')
+        self.client.login(username='testuser_task_api', password='jmvsz1Z551zZ4E3Cnp8D')
         # get object
         taskname_id = Taskname.objects.get(taskname_name='taskname_1').taskname_id
         # get object

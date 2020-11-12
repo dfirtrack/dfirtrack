@@ -14,7 +14,7 @@ class OsimportnameViewTestCase(TestCase):
         # create object
         Osimportname.objects.create(osimportname_name='osimportname_1', osimportname_importer='osimportname_importer_1', os = os_1)
         # create user
-        test_user = User.objects.create_user(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
+        User.objects.create_user(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
 
     def test_osimportname_list_not_logged_in(self):
         """ test list view """
@@ -30,7 +30,7 @@ class OsimportnameViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
+        self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
         # get response
         response = self.client.get('/osimportname/')
         # compare
@@ -40,7 +40,7 @@ class OsimportnameViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
+        self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
         # get response
         response = self.client.get('/osimportname/')
         # compare
@@ -50,7 +50,7 @@ class OsimportnameViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
+        self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
         # get response
         response = self.client.get('/osimportname/')
         # compare
@@ -60,7 +60,7 @@ class OsimportnameViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
+        self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
         # create url
         destination = urllib.parse.quote('/osimportname/', safe='/')
         # get response
@@ -82,7 +82,7 @@ class OsimportnameViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
+        self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
         # get response
         response = self.client.get('/osimportname/add/')
         # compare
@@ -92,7 +92,7 @@ class OsimportnameViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
+        self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
         # get response
         response = self.client.get('/osimportname/add/')
         # compare
@@ -102,7 +102,7 @@ class OsimportnameViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
+        self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
         # get response
         response = self.client.get('/osimportname/add/')
         # compare
@@ -112,7 +112,7 @@ class OsimportnameViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
+        self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
         # create url
         destination = urllib.parse.quote('/osimportname/add/', safe='/')
         # get response
@@ -124,7 +124,7 @@ class OsimportnameViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
+        self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
         # get object
         os_id = Os.objects.get(os_name='os_1').os_id
         # create post data
@@ -144,7 +144,7 @@ class OsimportnameViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
+        self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
         # create post data
         data_dict = {}
         # get response
@@ -156,7 +156,7 @@ class OsimportnameViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
+        self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
         # create post data
         data_dict = {}
         # get response
@@ -182,7 +182,7 @@ class OsimportnameViewTestCase(TestCase):
         # get object
         osimportname_1 = Osimportname.objects.get(osimportname_name='osimportname_1')
         # login testuser
-        login = self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
+        self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
         # get response
         response = self.client.get('/osimportname/' + str(osimportname_1.osimportname_id) + '/edit/')
         # compare
@@ -194,7 +194,7 @@ class OsimportnameViewTestCase(TestCase):
         # get object
         osimportname_1 = Osimportname.objects.get(osimportname_name='osimportname_1')
         # login testuser
-        login = self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
+        self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
         # get response
         response = self.client.get('/osimportname/' + str(osimportname_1.osimportname_id) + '/edit/')
         # compare
@@ -206,7 +206,7 @@ class OsimportnameViewTestCase(TestCase):
         # get object
         osimportname_1 = Osimportname.objects.get(osimportname_name='osimportname_1')
         # login testuser
-        login = self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
+        self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
         # get response
         response = self.client.get('/osimportname/' + str(osimportname_1.osimportname_id) + '/edit/')
         # compare
@@ -218,7 +218,7 @@ class OsimportnameViewTestCase(TestCase):
         # get object
         osimportname_1 = Osimportname.objects.get(osimportname_name='osimportname_1')
         # login testuser
-        login = self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
+        self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
         # create url
         destination = urllib.parse.quote('/osimportname/' + str(osimportname_1.osimportname_id) + '/edit/', safe='/')
         # get response
@@ -230,7 +230,7 @@ class OsimportnameViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
+        self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
         # get object
         os_1 = Os.objects.get(os_name='os_1')
         # create object
@@ -256,7 +256,7 @@ class OsimportnameViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
+        self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
         # get object
         osimportname_id = Osimportname.objects.get(osimportname_name='osimportname_1').osimportname_id
         # create post data
@@ -270,7 +270,7 @@ class OsimportnameViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
+        self.client.login(username='testuser_osimportname', password='SU7QGdCzPMBJd3l9URoS')
         # get object
         osimportname_id = Osimportname.objects.get(osimportname_name='osimportname_1').osimportname_id
         # create post data

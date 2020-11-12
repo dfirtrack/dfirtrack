@@ -12,7 +12,7 @@ class TaskpriorityAPIViewTestCase(TestCase):
         # create object
         Taskpriority.objects.create(taskpriority_name='tp_1')
         # create user
-        test_user = User.objects.create_user(username='testuser_taskpriority_api', password='XyVSKtfXKwyyprt2b8Ej')
+        User.objects.create_user(username='testuser_taskpriority_api', password='XyVSKtfXKwyyprt2b8Ej')
 
     def test_taskpriority_list_api_unauthorized(self):
         """ unauthorized access is forbidden"""
@@ -26,7 +26,7 @@ class TaskpriorityAPIViewTestCase(TestCase):
         """ GET is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_taskpriority_api', password='XyVSKtfXKwyyprt2b8Ej')
+        self.client.login(username='testuser_taskpriority_api', password='XyVSKtfXKwyyprt2b8Ej')
         # get response
         response = self.client.get('/api/taskpriority/')
         # compare
@@ -36,7 +36,7 @@ class TaskpriorityAPIViewTestCase(TestCase):
         """ POST is forbidden """
 
         # login testuser
-        login = self.client.login(username='testuser_taskpriority_api', password='XyVSKtfXKwyyprt2b8Ej')
+        self.client.login(username='testuser_taskpriority_api', password='XyVSKtfXKwyyprt2b8Ej')
         # create POST string
         poststring = {"taskpriority_name": "tp_2"}
         # get response
@@ -48,7 +48,7 @@ class TaskpriorityAPIViewTestCase(TestCase):
         """ test redirect with appending slash """
 
         # login testuser
-        login = self.client.login(username='testuser_taskpriority_api', password='XyVSKtfXKwyyprt2b8Ej')
+        self.client.login(username='testuser_taskpriority_api', password='XyVSKtfXKwyyprt2b8Ej')
         # create url
         destination = urllib.parse.quote('/api/taskpriority/', safe='/')
         # get response
@@ -72,7 +72,7 @@ class TaskpriorityAPIViewTestCase(TestCase):
         # get object
         taskpriority_api_1 = Taskpriority.objects.get(taskpriority_name='tp_1')
         # login testuser
-        login = self.client.login(username='testuser_taskpriority_api', password='XyVSKtfXKwyyprt2b8Ej')
+        self.client.login(username='testuser_taskpriority_api', password='XyVSKtfXKwyyprt2b8Ej')
         # get response
         response = self.client.get('/api/taskpriority/' + str(taskpriority_api_1.taskpriority_id) + '/')
         # compare
@@ -84,7 +84,7 @@ class TaskpriorityAPIViewTestCase(TestCase):
         # get object
         taskpriority_api_1 = Taskpriority.objects.get(taskpriority_name='tp_1')
         # login testuser
-        login = self.client.login(username='testuser_taskpriority_api', password='XyVSKtfXKwyyprt2b8Ej')
+        self.client.login(username='testuser_taskpriority_api', password='XyVSKtfXKwyyprt2b8Ej')
         # get response
         response = self.client.delete('/api/taskpriority/' + str(taskpriority_api_1.taskpriority_id) + '/')
         # compare
@@ -96,7 +96,7 @@ class TaskpriorityAPIViewTestCase(TestCase):
         # get object
         taskpriority_api_1 = Taskpriority.objects.get(taskpriority_name='tp_1')
         # login testuser
-        login = self.client.login(username='testuser_taskpriority_api', password='XyVSKtfXKwyyprt2b8Ej')
+        self.client.login(username='testuser_taskpriority_api', password='XyVSKtfXKwyyprt2b8Ej')
         # create url
         destination = urllib.parse.quote('/api/taskpriority/' + str(taskpriority_api_1.taskpriority_id) + '/', safe='/')
         # create PUT string
@@ -112,7 +112,7 @@ class TaskpriorityAPIViewTestCase(TestCase):
         # get object
         taskpriority_api_1 = Taskpriority.objects.get(taskpriority_name='tp_1')
         # login testuser
-        login = self.client.login(username='testuser_taskpriority_api', password='XyVSKtfXKwyyprt2b8Ej')
+        self.client.login(username='testuser_taskpriority_api', password='XyVSKtfXKwyyprt2b8Ej')
         # create url
         destination = urllib.parse.quote('/api/taskpriority/' + str(taskpriority_api_1.taskpriority_id) + '/', safe='/')
         # get response

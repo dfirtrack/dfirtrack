@@ -46,7 +46,7 @@ jobs:
         pip install -r requirements.txt
     - name: Run tests using coverage and convert result
       run: |
-        coverage run manage.py test
+        coverage run manage.py test --settings=dfirtrack.test_settings
         coverage json -o .coverage.json
         coverage xml -o .coverage.xml
     - name: Upload result to Codecov

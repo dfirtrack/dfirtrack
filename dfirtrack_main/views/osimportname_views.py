@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from django.views.generic import DetailView, ListView
+from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_main.forms import OsimportnameForm
 from dfirtrack_main.logger.default_logger import debug_logger

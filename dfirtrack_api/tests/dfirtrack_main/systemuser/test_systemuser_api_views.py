@@ -45,7 +45,7 @@ class SystemuserAPIViewTestCase(TestCase):
         """ GET is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_systemuser_api', password='Yij2up4yTV2BU6x9xKZV')
+        self.client.login(username='testuser_systemuser_api', password='Yij2up4yTV2BU6x9xKZV')
         # get response
         response = self.client.get('/api/systemuser/')
         # compare
@@ -55,7 +55,7 @@ class SystemuserAPIViewTestCase(TestCase):
         """ POST is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_systemuser_api', password='Yij2up4yTV2BU6x9xKZV')
+        self.client.login(username='testuser_systemuser_api', password='Yij2up4yTV2BU6x9xKZV')
         # get object
         system_id = str(System.objects.get(system_name='system_1').system_id)
         # create POST string
@@ -73,7 +73,7 @@ class SystemuserAPIViewTestCase(TestCase):
         """ test redirect with appending slash """
 
         # login testuser
-        login = self.client.login(username='testuser_systemuser_api', password='Yij2up4yTV2BU6x9xKZV')
+        self.client.login(username='testuser_systemuser_api', password='Yij2up4yTV2BU6x9xKZV')
         # create url
         destination = urllib.parse.quote('/api/systemuser/', safe='/')
         # get response
@@ -97,7 +97,7 @@ class SystemuserAPIViewTestCase(TestCase):
         # get object
         systemuser_api_1 = Systemuser.objects.get(systemuser_name='systemuser_api_1')
         # login testuser
-        login = self.client.login(username='testuser_systemuser_api', password='Yij2up4yTV2BU6x9xKZV')
+        self.client.login(username='testuser_systemuser_api', password='Yij2up4yTV2BU6x9xKZV')
         # get response
         response = self.client.get('/api/systemuser/' + str(systemuser_api_1.systemuser_id) + '/')
         # compare
@@ -109,7 +109,7 @@ class SystemuserAPIViewTestCase(TestCase):
         # get object
         systemuser_api_1 = Systemuser.objects.get(systemuser_name='systemuser_api_1')
         # login testuser
-        login = self.client.login(username='testuser_systemuser_api', password='Yij2up4yTV2BU6x9xKZV')
+        self.client.login(username='testuser_systemuser_api', password='Yij2up4yTV2BU6x9xKZV')
         # get response
         response = self.client.delete('/api/systemuser/' + str(systemuser_api_1.systemuser_id) + '/')
         # compare
@@ -123,7 +123,7 @@ class SystemuserAPIViewTestCase(TestCase):
         # get object
         systemuser_api_1 = Systemuser.objects.get(systemuser_name='systemuser_api_1')
         # login testuser
-        login = self.client.login(username='testuser_systemuser_api', password='Yij2up4yTV2BU6x9xKZV')
+        self.client.login(username='testuser_systemuser_api', password='Yij2up4yTV2BU6x9xKZV')
         # create url
         destination = urllib.parse.quote('/api/systemuser/' + str(systemuser_api_1.systemuser_id) + '/', safe='/')
         # create PUT string
@@ -143,7 +143,7 @@ class SystemuserAPIViewTestCase(TestCase):
         # get object
         systemuser_api_1 = Systemuser.objects.get(systemuser_name='systemuser_api_1')
         # login testuser
-        login = self.client.login(username='testuser_systemuser_api', password='Yij2up4yTV2BU6x9xKZV')
+        self.client.login(username='testuser_systemuser_api', password='Yij2up4yTV2BU6x9xKZV')
         # create url
         destination = urllib.parse.quote('/api/systemuser/' + str(systemuser_api_1.systemuser_id) + '/', safe='/')
         # get response

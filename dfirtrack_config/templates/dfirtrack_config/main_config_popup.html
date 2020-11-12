@@ -1,0 +1,79 @@
+<!-- extending maintemplate -->
+{% extends "dfirtrack_main/mainpopup.html" %}
+
+<!-- HTML head in maintemplate -->
+{% block head %}
+
+<!-- page title -->
+<title>
+    Main config
+</title>
+
+{% load static %}
+
+<!-- HTML head in maintemplate -->
+{% endblock %}
+
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
+{% block content %}
+
+<!-- headline -->
+<div class="row col bottom-distance">
+    <h4>
+        Main config
+    </h4>
+</div>
+
+<!-- form -->
+<form method="POST" class="post-form">
+
+    {% csrf_token %}
+
+    <!-- show form related errors -->
+    {% include "dfirtrack_main/includes/form_errors.html" %}
+
+    <!-- row -->
+    <div class="row">
+
+        <!-- config block -->
+        <div class="col-6">
+            <div class="card card-body bg-dark border-light top-distance">
+
+                <h5>
+                    Choose options
+                </h5>
+
+                <table>
+                    <tr><td>{{ form.system_name_editable }}</td> <td>{{ form.system_name_editable.label }}</td></tr>
+                </table>
+
+            <!-- config block -->
+            </div>
+        </div>
+
+    <!-- row -->
+    </div>
+
+    <!-- button row -->
+    <div class="row top-distance">
+
+        <!-- save button -->
+        <div class="col-2">
+            {% include "dfirtrack_main/includes/button_save.html" %}
+        </div>
+
+        <!-- cancel button -->
+        <div class="col-1">
+            {% include "dfirtrack_main/includes/button_cancel_popup.html" %}
+        </div>
+
+    <!-- button row -->
+    </div>
+
+<!-- form -->
+</form>
+
+<!-- HTML body in maintemplate -->
+{% endblock %}

@@ -12,7 +12,7 @@ class ArtifactstatusViewTestCase(TestCase):
         # create object
         Artifactstatus.objects.create(artifactstatus_name='artifactstatus_1')
         # create user
-        test_user = User.objects.create_user(username='testuser_artifactstatus', password='mkE62cflomdYPRAdyvcR')
+        User.objects.create_user(username='testuser_artifactstatus', password='mkE62cflomdYPRAdyvcR')
 
     def test_artifactstatus_list_not_logged_in(self):
         """ test list view """
@@ -28,7 +28,7 @@ class ArtifactstatusViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifactstatus', password='mkE62cflomdYPRAdyvcR')
+        self.client.login(username='testuser_artifactstatus', password='mkE62cflomdYPRAdyvcR')
         # get response
         response = self.client.get('/artifacts/artifactstatus/')
         # compare
@@ -38,7 +38,7 @@ class ArtifactstatusViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifactstatus', password='mkE62cflomdYPRAdyvcR')
+        self.client.login(username='testuser_artifactstatus', password='mkE62cflomdYPRAdyvcR')
         # get response
         response = self.client.get('/artifacts/artifactstatus/')
         # compare
@@ -48,7 +48,7 @@ class ArtifactstatusViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifactstatus', password='mkE62cflomdYPRAdyvcR')
+        self.client.login(username='testuser_artifactstatus', password='mkE62cflomdYPRAdyvcR')
         # get response
         response = self.client.get('/artifacts/artifactstatus/')
         # compare
@@ -58,7 +58,7 @@ class ArtifactstatusViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifactstatus', password='mkE62cflomdYPRAdyvcR')
+        self.client.login(username='testuser_artifactstatus', password='mkE62cflomdYPRAdyvcR')
         # create url
         destination = urllib.parse.quote('/artifacts/artifactstatus/', safe='/')
         # get response
@@ -84,7 +84,7 @@ class ArtifactstatusViewTestCase(TestCase):
         # get object
         artifactstatus_1 = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1')
         # login testuser
-        login = self.client.login(username='testuser_artifactstatus', password='mkE62cflomdYPRAdyvcR')
+        self.client.login(username='testuser_artifactstatus', password='mkE62cflomdYPRAdyvcR')
         # get response
         response = self.client.get('/artifacts/artifactstatus/detail/' + str(artifactstatus_1.artifactstatus_id) + '/')
         # compare
@@ -96,7 +96,7 @@ class ArtifactstatusViewTestCase(TestCase):
         # get object
         artifactstatus_1 = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1')
         # login testuser
-        login = self.client.login(username='testuser_artifactstatus', password='mkE62cflomdYPRAdyvcR')
+        self.client.login(username='testuser_artifactstatus', password='mkE62cflomdYPRAdyvcR')
         # get response
         response = self.client.get('/artifacts/artifactstatus/detail/' + str(artifactstatus_1.artifactstatus_id) + '/')
         # compare
@@ -108,7 +108,7 @@ class ArtifactstatusViewTestCase(TestCase):
         # get object
         artifactstatus_1 = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1')
         # login testuser
-        login = self.client.login(username='testuser_artifactstatus', password='mkE62cflomdYPRAdyvcR')
+        self.client.login(username='testuser_artifactstatus', password='mkE62cflomdYPRAdyvcR')
         # get response
         response = self.client.get('/artifacts/artifactstatus/detail/' + str(artifactstatus_1.artifactstatus_id) + '/')
         # compare
@@ -120,7 +120,7 @@ class ArtifactstatusViewTestCase(TestCase):
         # get object
         artifactstatus_1 = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1')
         # login testuser
-        login = self.client.login(username='testuser_artifactstatus', password='mkE62cflomdYPRAdyvcR')
+        self.client.login(username='testuser_artifactstatus', password='mkE62cflomdYPRAdyvcR')
         # create url
         destination = urllib.parse.quote('/artifacts/artifactstatus/detail/' + str(artifactstatus_1.artifactstatus_id) + '/', safe='/')
         # get response

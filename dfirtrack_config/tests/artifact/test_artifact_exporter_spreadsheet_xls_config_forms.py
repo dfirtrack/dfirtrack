@@ -9,7 +9,7 @@ class ArtifactExporterSpreadsheetXlsConfigFormTestCase(TestCase):
     def setUpTestData(cls):
 
         # create object
-        artifactstatus_1 = Artifactstatus.objects.create(artifactstatus_name='artifactstatus_1', artifactstatus_slug='artifactstatus_1')
+        Artifactstatus.objects.create(artifactstatus_name='artifactstatus_1', artifactstatus_slug='artifactstatus_1')
 
     def test_artifact_exporter_spreadsheet_xls_config_artifactlist_xls_choice_artifactstatus_form_label(self):
         """ test form label """

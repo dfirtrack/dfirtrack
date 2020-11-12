@@ -60,7 +60,7 @@ class ArtifactViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get response
         response = self.client.get('/artifacts/artifact/')
         # compare
@@ -70,7 +70,7 @@ class ArtifactViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get response
         response = self.client.get('/artifacts/artifact/')
         # compare
@@ -80,7 +80,7 @@ class ArtifactViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get response
         response = self.client.get('/artifacts/artifact/')
         # compare
@@ -90,7 +90,7 @@ class ArtifactViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # create url
         destination = urllib.parse.quote('/artifacts/artifact/', safe='/')
         # get response
@@ -116,7 +116,7 @@ class ArtifactViewTestCase(TestCase):
         # get object
         artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
         # login testuser
-        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get response
         response = self.client.get('/artifacts/artifact/detail/' + str(artifact_1.artifact_id) + '/')
         # compare
@@ -128,7 +128,7 @@ class ArtifactViewTestCase(TestCase):
         # get object
         artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
         # login testuser
-        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get response
         response = self.client.get('/artifacts/artifact/detail/' + str(artifact_1.artifact_id) + '/')
         # compare
@@ -140,7 +140,7 @@ class ArtifactViewTestCase(TestCase):
         # get object
         artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
         # login testuser
-        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get response
         response = self.client.get('/artifacts/artifact/detail/' + str(artifact_1.artifact_id) + '/')
         # compare
@@ -152,7 +152,7 @@ class ArtifactViewTestCase(TestCase):
         # get object
         artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
         # login testuser
-        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # create url
         destination = urllib.parse.quote('/artifacts/artifact/detail/' + str(artifact_1.artifact_id) + '/', safe='/')
         # get response
@@ -174,7 +174,7 @@ class ArtifactViewTestCase(TestCase):
         """ test create view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get response
         response = self.client.get('/artifacts/artifact/create/')
         # compare
@@ -184,7 +184,7 @@ class ArtifactViewTestCase(TestCase):
         """ test create view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get response
         response = self.client.get('/artifacts/artifact/create/')
         # compare
@@ -194,7 +194,7 @@ class ArtifactViewTestCase(TestCase):
         """ test create view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get response
         response = self.client.get('/artifacts/artifact/create/')
         # compare
@@ -204,7 +204,7 @@ class ArtifactViewTestCase(TestCase):
         """ test create view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # create url
         destination = urllib.parse.quote('/artifacts/artifact/create/', safe='/')
         # get response
@@ -216,7 +216,7 @@ class ArtifactViewTestCase(TestCase):
         """ test create view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get objects
         artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1').artifactstatus_id
         artifacttype_id = Artifacttype.objects.get(artifacttype_name = 'artifacttype_1').artifacttype_id
@@ -241,7 +241,7 @@ class ArtifactViewTestCase(TestCase):
         """ test create view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # create post data
         data_dict = {}
         # get response
@@ -253,7 +253,7 @@ class ArtifactViewTestCase(TestCase):
         """ test create view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # create post data
         data_dict = {}
         # get response
@@ -265,7 +265,7 @@ class ArtifactViewTestCase(TestCase):
         """ test create view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get objects
         artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1').artifactstatus_id
         artifacttype_id = Artifacttype.objects.get(artifacttype_name = 'artifacttype_1').artifacttype_id
@@ -289,7 +289,7 @@ class ArtifactViewTestCase(TestCase):
         """ test create view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get objects
         artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1').artifactstatus_id
         artifacttype_id = Artifacttype.objects.get(artifacttype_name = 'artifacttype_1').artifacttype_id
@@ -313,7 +313,7 @@ class ArtifactViewTestCase(TestCase):
         """ test create view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get objects
         artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1').artifactstatus_id
         artifacttype_id = Artifacttype.objects.get(artifacttype_name = 'artifacttype_1').artifacttype_id
@@ -351,7 +351,7 @@ class ArtifactViewTestCase(TestCase):
         # get object
         system_id = System.objects.get(system_name = 'system_1').system_id
         # login testuser
-        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get response
         response = self.client.get('/artifacts/artifact/create/?system=' + str(system_id))
         # compare
@@ -363,7 +363,7 @@ class ArtifactViewTestCase(TestCase):
         # get object
         system_id = System.objects.get(system_name = 'system_1').system_id
         # login testuser
-        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get response
         response = self.client.get('/artifacts/artifact/create/?system=' + str(system_id))
         # compare
@@ -375,7 +375,7 @@ class ArtifactViewTestCase(TestCase):
         # get object
         system_id = System.objects.get(system_name = 'system_1').system_id
         # login testuser
-        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get response
         response = self.client.get('/artifacts/artifact/create/?system=' + str(system_id))
         # compare
@@ -387,7 +387,7 @@ class ArtifactViewTestCase(TestCase):
         # get object
         system_id = System.objects.get(system_name = 'system_1').system_id
         # login testuser
-        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # create url
         destination = urllib.parse.quote('/artifacts/artifact/create/?system=' + str(system_id), safe='/=?')
         # get response
@@ -413,7 +413,7 @@ class ArtifactViewTestCase(TestCase):
         # get object
         artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
         # login testuser
-        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get response
         response = self.client.get('/artifacts/artifact/update/' + str(artifact_1.artifact_id) + '/')
         # compare
@@ -425,7 +425,7 @@ class ArtifactViewTestCase(TestCase):
         # get object
         artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
         # login testuser
-        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get response
         response = self.client.get('/artifacts/artifact/update/' + str(artifact_1.artifact_id) + '/')
         # compare
@@ -437,7 +437,7 @@ class ArtifactViewTestCase(TestCase):
         # get object
         artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
         # login testuser
-        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get response
         response = self.client.get('/artifacts/artifact/update/' + str(artifact_1.artifact_id) + '/')
         # compare
@@ -449,7 +449,7 @@ class ArtifactViewTestCase(TestCase):
         # get object
         artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
         # login testuser
-        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # create url
         destination = urllib.parse.quote('/artifacts/artifact/update/' + str(artifact_1.artifact_id) + '/', safe='/')
         # get response
@@ -461,7 +461,7 @@ class ArtifactViewTestCase(TestCase):
         """ test update view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get user
         test_user = User.objects.get(username='testuser_artifact')
         # get objects
@@ -495,7 +495,7 @@ class ArtifactViewTestCase(TestCase):
         """ test update view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get object
         artifact_id = Artifact.objects.get(artifact_name='artifact_1').artifact_id
         # create post data
@@ -509,7 +509,7 @@ class ArtifactViewTestCase(TestCase):
         """ test update view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get object
         artifact_id = Artifact.objects.get(artifact_name='artifact_1').artifact_id
         # create post data

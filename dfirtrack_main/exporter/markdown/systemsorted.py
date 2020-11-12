@@ -80,7 +80,7 @@ def systemsorted(request):
     # check variables
     stop_exporter_markdown = check_config(request)
 
-    # leave importer_api_giraf if variables caused errors
+    # leave if variables caused errors
     if stop_exporter_markdown:
         return
 
@@ -150,7 +150,7 @@ def systemsorted_async(request_user):
             dummy = item['Systems']
             # set index
             j = i
-        except:
+        except:     # coverage: ignore branch
             # do nothing
             pass
 

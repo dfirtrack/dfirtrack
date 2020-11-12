@@ -1,20 +1,12 @@
 from django.contrib import messages
-from django.contrib.auth import get_user_model
-from django.db import models
-from django.db.models import *
-from django.urls import reverse
 from django.contrib.auth.models import User
-import logging
-from time import strftime
-import uuid
+from django.db import models
+from django.urls import reverse
 from django.utils.text import slugify
-import os
-import shutil
-from dfirtrack_main import models as main_models
 from dfirtrack.config import EVIDENCE_PATH
-
-# get active user model
-User = get_user_model()
+import logging
+import uuid
+import os
 
 # initialize logger
 stdlogger = logging.getLogger(__name__)

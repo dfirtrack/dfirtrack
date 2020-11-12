@@ -31,7 +31,7 @@ class CaseAPIViewTestCase(TestCase):
         """ GET is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_case_api', password='nkeZDU2qGKXWR49sAVf5')
+        self.client.login(username='testuser_case_api', password='nkeZDU2qGKXWR49sAVf5')
         # get response
         response = self.client.get('/api/case/')
         # compare
@@ -41,7 +41,7 @@ class CaseAPIViewTestCase(TestCase):
         """ POST is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_case_api', password='nkeZDU2qGKXWR49sAVf5')
+        self.client.login(username='testuser_case_api', password='nkeZDU2qGKXWR49sAVf5')
         # get user
         test_user_id = str(User.objects.get(username='testuser_case_api').id)
         # create POST string
@@ -59,7 +59,7 @@ class CaseAPIViewTestCase(TestCase):
         """ test redirect with appending slash """
 
         # login testuser
-        login = self.client.login(username='testuser_case_api', password='nkeZDU2qGKXWR49sAVf5')
+        self.client.login(username='testuser_case_api', password='nkeZDU2qGKXWR49sAVf5')
         # create url
         destination = urllib.parse.quote('/api/case/', safe='/')
         # get response
@@ -83,7 +83,7 @@ class CaseAPIViewTestCase(TestCase):
         # get object
         case_api_1 = Case.objects.get(case_name='case_api_1')
         # login testuser
-        login = self.client.login(username='testuser_case_api', password='nkeZDU2qGKXWR49sAVf5')
+        self.client.login(username='testuser_case_api', password='nkeZDU2qGKXWR49sAVf5')
         # get response
         response = self.client.get('/api/case/' + str(case_api_1.case_id) + '/')
         # compare
@@ -95,7 +95,7 @@ class CaseAPIViewTestCase(TestCase):
         # get object
         case_api_1 = Case.objects.get(case_name='case_api_1')
         # login testuser
-        login = self.client.login(username='testuser_case_api', password='nkeZDU2qGKXWR49sAVf5')
+        self.client.login(username='testuser_case_api', password='nkeZDU2qGKXWR49sAVf5')
         # get response
         response = self.client.delete('/api/case/' + str(case_api_1.case_id) + '/')
         # compare
@@ -107,7 +107,7 @@ class CaseAPIViewTestCase(TestCase):
         # get object
         case_api_1 = Case.objects.get(case_name='case_api_1')
         # login testuser
-        login = self.client.login(username='testuser_case_api', password='nkeZDU2qGKXWR49sAVf5')
+        self.client.login(username='testuser_case_api', password='nkeZDU2qGKXWR49sAVf5')
         # get user
         test_user_id = str(User.objects.get(username='testuser_case_api').id)
         # create url
@@ -129,7 +129,7 @@ class CaseAPIViewTestCase(TestCase):
         # get object
         case_api_1 = Case.objects.get(case_name='case_api_1')
         # login testuser
-        login = self.client.login(username='testuser_case_api', password='nkeZDU2qGKXWR49sAVf5')
+        self.client.login(username='testuser_case_api', password='nkeZDU2qGKXWR49sAVf5')
         # create url
         destination = urllib.parse.quote('/api/case/' + str(case_api_1.case_id) + '/', safe='/')
         # get response

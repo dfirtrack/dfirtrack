@@ -1,5 +1,5 @@
 from django.contrib import messages
-from dfirtrack_main.logger.default_logger import warning_logger, critical_logger
+from dfirtrack_main.logger.default_logger import error_logger, warning_logger
 
 def check_config(request, model):
     """ check variables of dfirtrack.config """
@@ -32,6 +32,9 @@ def check_config(request, model):
 def check_file(request, rows):
     """ check file for csv respectively some kind of text file """
 
+    # TODO: add check for file containing null bytes (\x00)
+    # TODO: add check for empty file (0 bytes)
+
     try:
         # try to iterate over rows
         for row in rows:
@@ -45,7 +48,7 @@ def check_file(request, rows):
     except UnicodeDecodeError:
         messages.error(request, "File seems not to be a CSV file. Check file.")
         # call logger
-        critical_logger(str(request.user), " SYSTEM_IP_IMPORTER_WRONG_FILE_TYPE")
+        error_logger(str(request.user), " SYSTEM_IP_IMPORTER_WRONG_FILE_TYPE")
         # return False if not successful
         return False
 

@@ -17,14 +17,14 @@ class TagCreatorFormTestCase(TestCase):
         systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
 
         # create object
-        system_1 = System.objects.create(
+        System.objects.create(
             system_name = 'system_1',
             systemstatus = systemstatus_1,
             system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
-        system_2 = System.objects.create(
+        System.objects.create(
             system_name = 'system_2',
             systemstatus = systemstatus_1,
             system_modify_time = timezone.now(),

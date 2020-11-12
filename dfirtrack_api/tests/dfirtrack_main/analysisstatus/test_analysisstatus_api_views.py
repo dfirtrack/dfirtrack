@@ -12,7 +12,7 @@ class AnalysisstatusAPIViewTestCase(TestCase):
         # create object
         Analysisstatus.objects.create(analysisstatus_name='analysisstatus_api_1')
         # create user
-        test_user = User.objects.create_user(username='testuser_analysisstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
+        User.objects.create_user(username='testuser_analysisstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
 
     def test_analysisstatus_list_api_unauthorized(self):
         """ unauthorized access is forbidden"""
@@ -26,7 +26,7 @@ class AnalysisstatusAPIViewTestCase(TestCase):
         """ GET is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_analysisstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
+        self.client.login(username='testuser_analysisstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
         # get response
         response = self.client.get('/api/analysisstatus/')
         # compare
@@ -36,7 +36,7 @@ class AnalysisstatusAPIViewTestCase(TestCase):
         """ POST is forbidden """
 
         # login testuser
-        login = self.client.login(username='testuser_analysisstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
+        self.client.login(username='testuser_analysisstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
         # create POST string
         poststring = {"analysisstatus_name": "analysisstatus_api_2"}
         # get response
@@ -48,7 +48,7 @@ class AnalysisstatusAPIViewTestCase(TestCase):
         """ test redirect with appending slash """
 
         # login testuser
-        login = self.client.login(username='testuser_analysisstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
+        self.client.login(username='testuser_analysisstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
         # create url
         destination = urllib.parse.quote('/api/analysisstatus/', safe='/')
         # get response
@@ -72,7 +72,7 @@ class AnalysisstatusAPIViewTestCase(TestCase):
         # get object
         analysisstatus_api_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_api_1')
         # login testuser
-        login = self.client.login(username='testuser_analysisstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
+        self.client.login(username='testuser_analysisstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
         # get response
         response = self.client.get('/api/analysisstatus/' + str(analysisstatus_api_1.analysisstatus_id) + '/')
         # compare
@@ -84,7 +84,7 @@ class AnalysisstatusAPIViewTestCase(TestCase):
         # get object
         analysisstatus_api_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_api_1')
         # login testuser
-        login = self.client.login(username='testuser_analysisstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
+        self.client.login(username='testuser_analysisstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
         # get response
         response = self.client.delete('/api/analysisstatus/' + str(analysisstatus_api_1.analysisstatus_id) + '/')
         # compare
@@ -96,7 +96,7 @@ class AnalysisstatusAPIViewTestCase(TestCase):
         # get object
         analysisstatus_api_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_api_1')
         # login testuser
-        login = self.client.login(username='testuser_analysisstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
+        self.client.login(username='testuser_analysisstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
         # create url
         destination = urllib.parse.quote('/api/analysisstatus/' + str(analysisstatus_api_1.analysisstatus_id) + '/', safe='/')
         # create PUT string
@@ -112,7 +112,7 @@ class AnalysisstatusAPIViewTestCase(TestCase):
         # get object
         analysisstatus_api_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_api_1')
         # login testuser
-        login = self.client.login(username='testuser_analysisstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
+        self.client.login(username='testuser_analysisstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
         # create url
         destination = urllib.parse.quote('/api/analysisstatus/' + str(analysisstatus_api_1.analysisstatus_id) + '/', safe='/')
         # get response

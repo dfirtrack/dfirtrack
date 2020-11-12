@@ -10,8 +10,6 @@ from os.path import expanduser
 
 ## change path for the log file (default: `$HOME`) (used in `dfirtrack.settings`)
 LOGGING_PATH = expanduser('~')
-## decide whether the system name should be editable or not in system form to avoid accidentally corruption (admin can edit it either way)
-SYSTEM_NAME_EDITABLE = False
 
 # ARTIFACTS
 

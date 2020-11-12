@@ -66,7 +66,7 @@ class SystemAPIViewTestCase(TestCase):
         # create object
         tagcolor_1 = Tagcolor.objects.create(tagcolor_name='tagcolor_1')
         # create object
-        tag_1 = Tag.objects.create(
+        Tag.objects.create(
             tagcolor = tagcolor_1,
             tag_name = 'tag_1',
         )
@@ -92,7 +92,7 @@ class SystemAPIViewTestCase(TestCase):
         """ GET is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_system_api', password='Pqtg7fic7FfB2ESEwaPc')
+        self.client.login(username='testuser_system_api', password='Pqtg7fic7FfB2ESEwaPc')
         # get response
         response = self.client.get('/api/system/')
         # compare
@@ -106,7 +106,7 @@ class SystemAPIViewTestCase(TestCase):
         # get object
         systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
         # login testuser
-        login = self.client.login(username='testuser_system_api', password='Pqtg7fic7FfB2ESEwaPc')
+        self.client.login(username='testuser_system_api', password='Pqtg7fic7FfB2ESEwaPc')
         # create POST string
         poststring = {
             "system_name": "system_api_2",
@@ -160,7 +160,7 @@ class SystemAPIViewTestCase(TestCase):
         # get object
         tag_id = Tag.objects.get(tag_name='tag_1').tag_id
         # login testuser
-        login = self.client.login(username='testuser_system_api', password='Pqtg7fic7FfB2ESEwaPc')
+        self.client.login(username='testuser_system_api', password='Pqtg7fic7FfB2ESEwaPc')
         # create POST string
         poststring = {
             "system_name": "system_api_2",
@@ -214,7 +214,7 @@ class SystemAPIViewTestCase(TestCase):
 #        # get object
 #        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
 #        # login testuser
-#        login = self.client.login(username='testuser_system_api', password='Pqtg7fic7FfB2ESEwaPc')
+#        self.client.login(username='testuser_system_api', password='Pqtg7fic7FfB2ESEwaPc')
 #        # create POST string
 #        poststring = {
 #            "system_name": "system_api_2",
@@ -235,7 +235,7 @@ class SystemAPIViewTestCase(TestCase):
         """ test redirect with appending slash """
 
         # login testuser
-        login = self.client.login(username='testuser_system_api', password='Pqtg7fic7FfB2ESEwaPc')
+        self.client.login(username='testuser_system_api', password='Pqtg7fic7FfB2ESEwaPc')
         # create url
         destination = urllib.parse.quote('/api/system/', safe='/')
         # get response
@@ -259,7 +259,7 @@ class SystemAPIViewTestCase(TestCase):
         # get object
         system_api_1 = System.objects.get(system_name='system_api_1')
         # login testuser
-        login = self.client.login(username='testuser_system_api', password='Pqtg7fic7FfB2ESEwaPc')
+        self.client.login(username='testuser_system_api', password='Pqtg7fic7FfB2ESEwaPc')
         # get response
         response = self.client.get('/api/system/' + str(system_api_1.system_id) + '/')
         # compare
@@ -271,7 +271,7 @@ class SystemAPIViewTestCase(TestCase):
         # get object
         system_api_1 = System.objects.get(system_name='system_api_1')
         # login testuser
-        login = self.client.login(username='testuser_system_api', password='Pqtg7fic7FfB2ESEwaPc')
+        self.client.login(username='testuser_system_api', password='Pqtg7fic7FfB2ESEwaPc')
         # get response
         response = self.client.delete('/api/system/' + str(system_api_1.system_id) + '/')
         # compare
@@ -287,7 +287,7 @@ class SystemAPIViewTestCase(TestCase):
         # get object
         systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
         # login testuser
-        login = self.client.login(username='testuser_system_api', password='Pqtg7fic7FfB2ESEwaPc')
+        self.client.login(username='testuser_system_api', password='Pqtg7fic7FfB2ESEwaPc')
         # create url
         destination = urllib.parse.quote('/api/system/' + str(system_api_1.system_id) + '/', safe='/')
         # create PUT string
@@ -345,7 +345,7 @@ class SystemAPIViewTestCase(TestCase):
         # get object
         tag_id = Tag.objects.get(tag_name='tag_1').tag_id
         # login testuser
-        login = self.client.login(username='testuser_system_api', password='Pqtg7fic7FfB2ESEwaPc')
+        self.client.login(username='testuser_system_api', password='Pqtg7fic7FfB2ESEwaPc')
         # create url
         destination = urllib.parse.quote('/api/system/' + str(system_api_1.system_id) + '/', safe='/')
         # create PUT string
@@ -403,7 +403,7 @@ class SystemAPIViewTestCase(TestCase):
 #        # get object
 #        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
 #        # login testuser
-#        login = self.client.login(username='testuser_system_api', password='Pqtg7fic7FfB2ESEwaPc')
+#        self.client.login(username='testuser_system_api', password='Pqtg7fic7FfB2ESEwaPc')
 #        # create url
 #        destination = urllib.parse.quote('/api/system/' + str(system_api_1.system_id) + '/', safe='/')
 #        # create PUT string
@@ -428,7 +428,7 @@ class SystemAPIViewTestCase(TestCase):
         # get object
         system_api_1 = System.objects.get(system_name='system_api_1')
         # login testuser
-        login = self.client.login(username='testuser_system_api', password='Pqtg7fic7FfB2ESEwaPc')
+        self.client.login(username='testuser_system_api', password='Pqtg7fic7FfB2ESEwaPc')
         # create url
         destination = urllib.parse.quote('/api/system/' + str(system_api_1.system_id) + '/', safe='/')
         # get response

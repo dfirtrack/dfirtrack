@@ -12,7 +12,7 @@ class DomainViewTestCase(TestCase):
         # create object
         Domain.objects.create(domain_name='domain_1')
         # create user
-        test_user = User.objects.create_user(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        User.objects.create_user(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
 
     def test_domain_list_not_logged_in(self):
         """ test list view """
@@ -28,7 +28,7 @@ class DomainViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
         # get response
         response = self.client.get('/domain/')
         # compare
@@ -38,7 +38,7 @@ class DomainViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
         # get response
         response = self.client.get('/domain/')
         # compare
@@ -48,7 +48,7 @@ class DomainViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
         # get response
         response = self.client.get('/domain/')
         # compare
@@ -58,7 +58,7 @@ class DomainViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
         # create url
         destination = urllib.parse.quote('/domain/', safe='/')
         # get response
@@ -84,7 +84,7 @@ class DomainViewTestCase(TestCase):
         # get object
         domain_1 = Domain.objects.get(domain_name='domain_1')
         # login testuser
-        login = self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
         # get response
         response = self.client.get('/domain/' + str(domain_1.domain_id) + '/')
         # compare
@@ -96,7 +96,7 @@ class DomainViewTestCase(TestCase):
         # get object
         domain_1 = Domain.objects.get(domain_name='domain_1')
         # login testuser
-        login = self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
         # get response
         response = self.client.get('/domain/' + str(domain_1.domain_id) + '/')
         # compare
@@ -108,7 +108,7 @@ class DomainViewTestCase(TestCase):
         # get object
         domain_1 = Domain.objects.get(domain_name='domain_1')
         # login testuser
-        login = self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
         # get response
         response = self.client.get('/domain/' + str(domain_1.domain_id) + '/')
         # compare
@@ -120,7 +120,7 @@ class DomainViewTestCase(TestCase):
         # get object
         domain_1 = Domain.objects.get(domain_name='domain_1')
         # login testuser
-        login = self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
         # create url
         destination = urllib.parse.quote('/domain/' + str(domain_1.domain_id) + '/', safe='/')
         # get response
@@ -142,7 +142,7 @@ class DomainViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
         # get response
         response = self.client.get('/domain/add/')
         # compare
@@ -152,7 +152,7 @@ class DomainViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
         # get response
         response = self.client.get('/domain/add/')
         # compare
@@ -162,7 +162,7 @@ class DomainViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
         # get response
         response = self.client.get('/domain/add/')
         # compare
@@ -172,7 +172,7 @@ class DomainViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
         # create url
         destination = urllib.parse.quote('/domain/add/', safe='/')
         # get response
@@ -184,7 +184,7 @@ class DomainViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
         # create post data
         data_dict = {
             'domain_name': 'domain_add_post_test',
@@ -202,7 +202,7 @@ class DomainViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
         # create post data
         data_dict = {}
         # get response
@@ -214,7 +214,7 @@ class DomainViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
         # create post data
         data_dict = {}
         # get response
@@ -236,7 +236,7 @@ class DomainViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
         # get response
         response = self.client.get('/domain/add_popup/')
         # compare
@@ -246,7 +246,7 @@ class DomainViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
         # get response
         response = self.client.get('/domain/add_popup/')
         # compare
@@ -256,7 +256,7 @@ class DomainViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
         # get response
         response = self.client.get('/domain/add_popup/')
         # compare
@@ -266,7 +266,7 @@ class DomainViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
         # create url
         destination = urllib.parse.quote('/domain/add_popup/', safe='/')
         # get response
@@ -278,17 +278,13 @@ class DomainViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
         # create post data
         data_dict = {
             'domain_name': 'domain_add_popup_post_test',
         }
         # get response
         response = self.client.post('/domain/add_popup/', data_dict)
-        # get object
-        domain_id = Domain.objects.get(domain_name = 'domain_add_popup_post_test').domain_id
-        # create url
-        destination = urllib.parse.quote('/domain/' + str(domain_id) + '/', safe='/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -296,7 +292,7 @@ class DomainViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
         # create post data
         data_dict = {}
         # get response
@@ -308,7 +304,7 @@ class DomainViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
         # create post data
         data_dict = {}
         # get response
@@ -334,7 +330,7 @@ class DomainViewTestCase(TestCase):
         # get object
         domain_1 = Domain.objects.get(domain_name='domain_1')
         # login testuser
-        login = self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
         # get response
         response = self.client.get('/domain/' + str(domain_1.domain_id) + '/edit/')
         # compare
@@ -346,7 +342,7 @@ class DomainViewTestCase(TestCase):
         # get object
         domain_1 = Domain.objects.get(domain_name='domain_1')
         # login testuser
-        login = self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
         # get response
         response = self.client.get('/domain/' + str(domain_1.domain_id) + '/edit/')
         # compare
@@ -358,7 +354,7 @@ class DomainViewTestCase(TestCase):
         # get object
         domain_1 = Domain.objects.get(domain_name='domain_1')
         # login testuser
-        login = self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
         # get response
         response = self.client.get('/domain/' + str(domain_1.domain_id) + '/edit/')
         # compare
@@ -370,7 +366,7 @@ class DomainViewTestCase(TestCase):
         # get object
         domain_1 = Domain.objects.get(domain_name='domain_1')
         # login testuser
-        login = self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
         # create url
         destination = urllib.parse.quote('/domain/' + str(domain_1.domain_id) + '/edit/', safe='/')
         # get response
@@ -382,7 +378,7 @@ class DomainViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
         # create object
         domain_1 = Domain.objects.create(domain_name='domain_edit_post_test_1')
         # create post data
@@ -402,7 +398,7 @@ class DomainViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
         # get object
         domain_id = Domain.objects.get(domain_name='domain_1').domain_id
         # create post data
@@ -416,7 +412,7 @@ class DomainViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
+        self.client.login(username='testuser_domain', password='vOKJXW7ZsJ7TZ3dsu43w')
         # get object
         domain_id = Domain.objects.get(domain_name='domain_1').domain_id
         # create post data

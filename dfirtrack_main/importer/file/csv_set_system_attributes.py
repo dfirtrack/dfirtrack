@@ -1,6 +1,6 @@
 from django.contrib import messages
 from dfirtrack_main.logger.default_logger import warning_logger
-from dfirtrack_main.models import Analysisstatus, Case, Company, Dnsname, Domain, Ip, Location, Os, Reason, Serviceprovider, System, Systemstatus, Systemtype, Tag, Tagcolor
+from dfirtrack_main.models import Case, Company, Ip, Tag
 import ipaddress
 
 def check_and_create_ip(column_ip, request, row_counter):
@@ -57,9 +57,9 @@ def optional_system_attributes(system, model):
 
 def case_attributes_config_based(system, caselist, model):
 
-    # remove existing companies (not relevant for newly created systems)
+    # remove existing cases (not relevant for newly created systems)
     if model.csv_remove_case:
-        # remove many to many relation between system and case without deleting existing case objects (important if other systems have the same companies)
+        # remove many to many relation between system and case without deleting existing case objects (important if other systems have the same cases)
         system.case.clear()
 
     # iterate through caselist from config
@@ -72,12 +72,12 @@ def case_attributes_config_based(system, caselist, model):
 
 def case_attributes_form_based(system, caselist, model):
 
-    # remove existing companies (not relevant for newly created systems)
+    # remove existing cases (not relevant for newly created systems)
     if model.csv_remove_case:
-        # remove many to many relation between system and case without deleting existing case objects (important if other systems have the same companies)
+        # remove many to many relation between system and case without deleting existing case objects (important if other systems have the same cases)
         system.case.clear()
 
-    # iterate through caselist from config
+    # iterate through caselist from form
     for case_id in caselist:
         # get or create case
         case = Case.objects.get(case_id = case_id)
@@ -109,7 +109,7 @@ def company_attributes_form_based(system, companylist, model):
         # remove many to many relation between system and company without deleting existing company objects (important if other systems have the same companies)
         system.company.clear()
 
-    # iterate through companylist from config
+    # iterate through companylist from form
     for company_id in companylist:
         # get or create company
         company = Company.objects.get(company_id = company_id)
@@ -141,7 +141,7 @@ def tag_attributes_form_based(system, taglist, model):
         # remove many to many relation between system and tag without deleting existing tag objects (important if other systems have the same tags)
         system.tag.clear()
 
-    # iterate through taglist from config
+    # iterate through taglist from form
     for tag_id in taglist:
         # get or create tag
         tag = Tag.objects.get(tag_id = tag_id)

@@ -114,6 +114,19 @@ function systemtype_add_popup() {
     systemtype_add_popup = window.open("/systemtype/add_popup/", "systemtype_add_popup", "height=600, width=1000");
 }
 
+// TODO: move to 'dfirtrack/dfirtrack_artifacts/static/dfirtrack_artifacts/dfirtrack_artifacts.js' (did not work so far)
+// popup window for artifact exporter spreadsheet xls config
+var artifact_exporter_spreadsheet_xls_config_popup;
+function artifact_exporter_spreadsheet_xls_config_popup() {
+        artifact_exporter_spreadsheet_xls_config_popup = window.open("/config/artifact/exporter/spreadsheet/xls/", "artifact_exporter_spreadsheet_xls_config_popup", "height=800, width=1200");
+}
+
+// popup window for main config
+var main_config_popup;
+function main_config_popup() {
+    main_config_popup = window.open("/config/main/", "main_config_popup", "height=800, width=600");
+}
+
 // popup window for system exporter markdown config
 var system_exporter_markdown_config_popup;
 function system_exporter_markdown_config_popup() {
@@ -142,13 +155,6 @@ function system_importer_file_csv_config_based_config_popup() {
 var system_importer_file_csv_form_based_config_popup;
 function system_importer_file_csv_form_based_config_popup() {
     system_importer_file_csv_form_based_config_popup = window.open("/config/system/importer/file/csv/formbased/", "system_importer_file_csv_form_based_config_popup", "height=800, width=600");
-}
-
-// popup window for artifact exporter spreadsheet xls config
-// TODO: move to 'dfirtrack/dfirtrack_artifacts/static/dfirtrack_artifacts/dfirtrack_artifacts.js' (did not work so far)
-var artifact_exporter_spreadsheet_xls_config_popup;
-function artifact_exporter_spreadsheet_xls_config_popup() {
-        artifact_exporter_spreadsheet_xls_config_popup = window.open("/config/artifact/exporter/spreadsheet/xls/", "artifact_exporter_spreadsheet_xls_config_popup", "height=800, width=1200");
 }
 
 // ####################################

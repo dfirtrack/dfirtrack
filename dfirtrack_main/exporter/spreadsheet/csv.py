@@ -148,7 +148,7 @@ def system(request):
         # ip
         if model.spread_csv_ip:
             # get all ips of system
-            ips_all = system.ip.all()
+            ips_all = system.ip.all().order_by('ip_ip')
             # count ips
             n = system.ip.count()
             # create empty ip string
@@ -161,7 +161,7 @@ def system(request):
                 ip = ip + ip_obj.ip_ip
                 # add newline except for last ip
                 if i < n:
-                    ip = ip + '\n'
+                    ip = ip + ','
                     i = i + 1
             entryline.append(ip)
         # os
@@ -174,7 +174,7 @@ def system(request):
         # company
         if model.spread_csv_company:
             # get all companies of system
-            companys_all = system.company.all()
+            companys_all = system.company.all().order_by('company_name')
             # count companies
             n = system.company.count()
             # create empty company string
@@ -187,7 +187,7 @@ def system(request):
                 company = company + company_obj.company_name
                 # add newline except for last company
                 if i < n:
-                    company = company + '\n'
+                    company = company + ','
                     i = i + 1
             entryline.append(company)
         # location
@@ -207,7 +207,7 @@ def system(request):
         # tag
         if model.spread_csv_tag:
             # get all tags of system
-            tags_all = system.tag.all()
+            tags_all = system.tag.all().order_by('tag_name')
             # count tags
             n = system.tag.count()
             # create empty tag string
@@ -220,13 +220,13 @@ def system(request):
                 tag = tag + tag_obj.tag_name
                 # add newline except for last tag
                 if i < n:
-                    tag = tag + '\n'
+                    tag = tag + ','
                     i = i + 1
             entryline.append(tag)
         # case
         if model.spread_csv_case:
             # get all cases of system
-            cases_all = system.case.all()
+            cases_all = system.case.all().order_by('case_name')
             # count cases
             n = system.case.count()
             # create empty case string
@@ -239,7 +239,7 @@ def system(request):
                 case = case + case_obj.case_name
                 # add newline except for last case
                 if i < n:
-                    case = case + '\n'
+                    case = case + ','
                     i = i + 1
             entryline.append(case)
         # system create time

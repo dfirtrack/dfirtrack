@@ -12,7 +12,7 @@ class IpAPIViewTestCase(TestCase):
         # create object
         Ip.objects.create(ip_ip='127.0.0.1')
         # create user
-        test_user = User.objects.create_user(username='testuser_ip_api', password='2SxcYh8yo3rGs4PBqhg9')
+        User.objects.create_user(username='testuser_ip_api', password='2SxcYh8yo3rGs4PBqhg9')
 
     def test_ip_list_api_unauthorized(self):
         """ unauthorized access is forbidden"""
@@ -26,7 +26,7 @@ class IpAPIViewTestCase(TestCase):
         """ GET is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_ip_api', password='2SxcYh8yo3rGs4PBqhg9')
+        self.client.login(username='testuser_ip_api', password='2SxcYh8yo3rGs4PBqhg9')
         # get response
         response = self.client.get('/api/ip/')
         # compare
@@ -36,7 +36,7 @@ class IpAPIViewTestCase(TestCase):
         """ POST is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_ip_api', password='2SxcYh8yo3rGs4PBqhg9')
+        self.client.login(username='testuser_ip_api', password='2SxcYh8yo3rGs4PBqhg9')
         # create POST string
         poststring = {"ip_ip": "127.0.0.2"}
         # get response
@@ -48,7 +48,7 @@ class IpAPIViewTestCase(TestCase):
         """ test redirect with appending slash """
 
         # login testuser
-        login = self.client.login(username='testuser_ip_api', password='2SxcYh8yo3rGs4PBqhg9')
+        self.client.login(username='testuser_ip_api', password='2SxcYh8yo3rGs4PBqhg9')
         # create url
         destination = urllib.parse.quote('/api/ip/', safe='/')
         # get response
@@ -72,7 +72,7 @@ class IpAPIViewTestCase(TestCase):
         # get object
         ip_api_1 = Ip.objects.get(ip_ip='127.0.0.1')
         # login testuser
-        login = self.client.login(username='testuser_ip_api', password='2SxcYh8yo3rGs4PBqhg9')
+        self.client.login(username='testuser_ip_api', password='2SxcYh8yo3rGs4PBqhg9')
         # get response
         response = self.client.get('/api/ip/' + str(ip_api_1.ip_id) + '/')
         # compare
@@ -84,7 +84,7 @@ class IpAPIViewTestCase(TestCase):
         # get object
         ip_api_1 = Ip.objects.get(ip_ip='127.0.0.1')
         # login testuser
-        login = self.client.login(username='testuser_ip_api', password='2SxcYh8yo3rGs4PBqhg9')
+        self.client.login(username='testuser_ip_api', password='2SxcYh8yo3rGs4PBqhg9')
         # get response
         response = self.client.delete('/api/ip/' + str(ip_api_1.ip_id) + '/')
         # compare
@@ -96,7 +96,7 @@ class IpAPIViewTestCase(TestCase):
         # get object
         ip_api_1 = Ip.objects.get(ip_ip='127.0.0.1')
         # login testuser
-        login = self.client.login(username='testuser_ip_api', password='2SxcYh8yo3rGs4PBqhg9')
+        self.client.login(username='testuser_ip_api', password='2SxcYh8yo3rGs4PBqhg9')
         # create url
         destination = urllib.parse.quote('/api/ip/' + str(ip_api_1.ip_id) + '/', safe='/')
         # create PUT string
@@ -112,7 +112,7 @@ class IpAPIViewTestCase(TestCase):
         # get object
         ip_api_1 = Ip.objects.get(ip_ip='127.0.0.1')
         # login testuser
-        login = self.client.login(username='testuser_ip_api', password='2SxcYh8yo3rGs4PBqhg9')
+        self.client.login(username='testuser_ip_api', password='2SxcYh8yo3rGs4PBqhg9')
         # create url
         destination = urllib.parse.quote('/api/ip/' + str(ip_api_1.ip_id) + '/', safe='/')
         # get response

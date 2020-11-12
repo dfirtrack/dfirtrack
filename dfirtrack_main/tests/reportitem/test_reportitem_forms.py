@@ -26,7 +26,7 @@ class ReportitemFormTestCase(TestCase):
         )
 
         # create object
-        headline_1 = Headline.objects.create(headline_name='headline_1')
+        Headline.objects.create(headline_name='headline_1')
 
     def test_reportitem_system_form_label(self):
         """ test form label """

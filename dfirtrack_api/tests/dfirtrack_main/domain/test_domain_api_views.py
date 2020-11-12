@@ -12,7 +12,7 @@ class DomainAPIViewTestCase(TestCase):
         # create object
         Domain.objects.create(domain_name='domain_api_1')
         # create user
-        test_user = User.objects.create_user(username='testuser_domain_api', password='tvjnIPBlhP9P3ixDHVE7')
+        User.objects.create_user(username='testuser_domain_api', password='tvjnIPBlhP9P3ixDHVE7')
 
     def test_domain_list_api_unauthorized(self):
         """ unauthorized access is forbidden"""
@@ -26,7 +26,7 @@ class DomainAPIViewTestCase(TestCase):
         """ GET is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_domain_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_domain_api', password='tvjnIPBlhP9P3ixDHVE7')
         # get response
         response = self.client.get('/api/domain/')
         # compare
@@ -36,7 +36,7 @@ class DomainAPIViewTestCase(TestCase):
         """ POST is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_domain_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_domain_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create POST string
         poststring = {"domain_name": "domain_api_2"}
         # get response
@@ -48,7 +48,7 @@ class DomainAPIViewTestCase(TestCase):
         """ test redirect with appending slash """
 
         # login testuser
-        login = self.client.login(username='testuser_domain_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_domain_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create url
         destination = urllib.parse.quote('/api/domain/', safe='/')
         # get response
@@ -72,7 +72,7 @@ class DomainAPIViewTestCase(TestCase):
         # get object
         domain_api_1 = Domain.objects.get(domain_name='domain_api_1')
         # login testuser
-        login = self.client.login(username='testuser_domain_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_domain_api', password='tvjnIPBlhP9P3ixDHVE7')
         # get response
         response = self.client.get('/api/domain/' + str(domain_api_1.domain_id) + '/')
         # compare
@@ -84,7 +84,7 @@ class DomainAPIViewTestCase(TestCase):
         # get object
         domain_api_1 = Domain.objects.get(domain_name='domain_api_1')
         # login testuser
-        login = self.client.login(username='testuser_domain_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_domain_api', password='tvjnIPBlhP9P3ixDHVE7')
         # get response
         response = self.client.delete('/api/domain/' + str(domain_api_1.domain_id) + '/')
         # compare
@@ -96,7 +96,7 @@ class DomainAPIViewTestCase(TestCase):
         # get object
         domain_api_1 = Domain.objects.get(domain_name='domain_api_1')
         # login testuser
-        login = self.client.login(username='testuser_domain_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_domain_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create url
         destination = urllib.parse.quote('/api/domain/' + str(domain_api_1.domain_id) + '/', safe='/')
         # create PUT string
@@ -112,7 +112,7 @@ class DomainAPIViewTestCase(TestCase):
         # get object
         domain_api_1 = Domain.objects.get(domain_name='domain_api_1')
         # login testuser
-        login = self.client.login(username='testuser_domain_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_domain_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create url
         destination = urllib.parse.quote('/api/domain/' + str(domain_api_1.domain_id) + '/', safe='/')
         # get response

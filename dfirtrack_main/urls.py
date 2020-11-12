@@ -10,7 +10,6 @@ from dfirtrack_main.exporter.markdown import markdown as markdown_exporter
 from dfirtrack_main.importer.api import giraf
 from dfirtrack_main.importer.file import csv_config_based, csv_form_based
 from dfirtrack_main.importer.file import filesystem, markdown
-from dfirtrack_main.models import Analysisstatus, Analystmemo, Case, Company, Contact, Division, Dnsname, Domain, Domainuser, Entry, Headline, Ip, Location, Os, Osimportname, Reason, Recommendation, Reportitem, Serviceprovider, System, Systemstatus, Systemtype, Systemuser, Tag, Task, Taskname, Taskpriority, Taskstatus
 from dfirtrack_main.modificator import system_modificator
 
 urlpatterns = [

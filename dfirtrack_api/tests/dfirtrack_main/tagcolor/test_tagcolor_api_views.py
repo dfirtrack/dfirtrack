@@ -12,7 +12,7 @@ class TagcolorAPIViewTestCase(TestCase):
         # create object
         Tagcolor.objects.create(tagcolor_name='tagcolor_api_1')
         # create user
-        test_user = User.objects.create_user(username='testuser_tagcolor_api', password='twvVpQ4LBNN9swnJcy2f')
+        User.objects.create_user(username='testuser_tagcolor_api', password='twvVpQ4LBNN9swnJcy2f')
 
     def test_tagcolor_list_api_unauthorized(self):
         """ unauthorized access is forbidden"""
@@ -26,7 +26,7 @@ class TagcolorAPIViewTestCase(TestCase):
         """ GET is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_tagcolor_api', password='twvVpQ4LBNN9swnJcy2f')
+        self.client.login(username='testuser_tagcolor_api', password='twvVpQ4LBNN9swnJcy2f')
         # get response
         response = self.client.get('/api/tagcolor/')
         # compare
@@ -36,7 +36,7 @@ class TagcolorAPIViewTestCase(TestCase):
         """ POST is forbidden """
 
         # login testuser
-        login = self.client.login(username='testuser_tagcolor_api', password='twvVpQ4LBNN9swnJcy2f')
+        self.client.login(username='testuser_tagcolor_api', password='twvVpQ4LBNN9swnJcy2f')
         # create POST string
         poststring = {"tagcolor_name": "tagcolor_api_2"}
         # get response
@@ -48,7 +48,7 @@ class TagcolorAPIViewTestCase(TestCase):
         """ test redirect with appending slash """
 
         # login testuser
-        login = self.client.login(username='testuser_tagcolor_api', password='twvVpQ4LBNN9swnJcy2f')
+        self.client.login(username='testuser_tagcolor_api', password='twvVpQ4LBNN9swnJcy2f')
         # create url
         destination = urllib.parse.quote('/api/tagcolor/', safe='/')
         # get response
@@ -72,7 +72,7 @@ class TagcolorAPIViewTestCase(TestCase):
         # get object
         tagcolor_api_1 = Tagcolor.objects.get(tagcolor_name='tagcolor_api_1')
         # login testuser
-        login = self.client.login(username='testuser_tagcolor_api', password='twvVpQ4LBNN9swnJcy2f')
+        self.client.login(username='testuser_tagcolor_api', password='twvVpQ4LBNN9swnJcy2f')
         # get response
         response = self.client.get('/api/tagcolor/' + str(tagcolor_api_1.tagcolor_id) + '/')
         # compare
@@ -84,7 +84,7 @@ class TagcolorAPIViewTestCase(TestCase):
         # get object
         tagcolor_api_1 = Tagcolor.objects.get(tagcolor_name='tagcolor_api_1')
         # login testuser
-        login = self.client.login(username='testuser_tagcolor_api', password='twvVpQ4LBNN9swnJcy2f')
+        self.client.login(username='testuser_tagcolor_api', password='twvVpQ4LBNN9swnJcy2f')
         # get response
         response = self.client.delete('/api/tagcolor/' + str(tagcolor_api_1.tagcolor_id) + '/')
         # compare
@@ -96,7 +96,7 @@ class TagcolorAPIViewTestCase(TestCase):
         # get object
         tagcolor_api_1 = Tagcolor.objects.get(tagcolor_name='tagcolor_api_1')
         # login testuser
-        login = self.client.login(username='testuser_tagcolor_api', password='twvVpQ4LBNN9swnJcy2f')
+        self.client.login(username='testuser_tagcolor_api', password='twvVpQ4LBNN9swnJcy2f')
         # create url
         destination = urllib.parse.quote('/api/tagcolor/' + str(tagcolor_api_1.tagcolor_id) + '/', safe='/')
         # create PUT string
@@ -112,7 +112,7 @@ class TagcolorAPIViewTestCase(TestCase):
         # get object
         tagcolor_api_1 = Tagcolor.objects.get(tagcolor_name='tagcolor_api_1')
         # login testuser
-        login = self.client.login(username='testuser_tagcolor_api', password='twvVpQ4LBNN9swnJcy2f')
+        self.client.login(username='testuser_tagcolor_api', password='twvVpQ4LBNN9swnJcy2f')
         # create url
         destination = urllib.parse.quote('/api/tagcolor/' + str(tagcolor_api_1.tagcolor_id) + '/', safe='/')
         # get response
