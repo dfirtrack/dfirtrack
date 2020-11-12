@@ -2,8 +2,11 @@ from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
 from django.utils import timezone
+from django.utils.dateparse import parse_datetime
+from dfirtrack.config import EVIDENCE_PATH
 from dfirtrack_artifacts.models import Artifact, Artifactstatus, Artifacttype
 from dfirtrack_main.models import System, Systemstatus
+from mock import patch
 import urllib.parse
 
 class ArtifactViewTestCase(TestCase):
@@ -236,6 +239,69 @@ class ArtifactViewTestCase(TestCase):
         destination = urllib.parse.quote('/artifacts/artifact/detail/' + str(artifact_id) + '/', safe='/')
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_artifact_create_post_complete(self):
+        """ test create view """
+
+        # mock timezone.now()
+        t1_now = timezone.now()
+        with patch.object(timezone, 'now', return_value=t1_now):
+
+            # TODO: fix times
+
+            # login testuser
+            self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+            # get user
+            test_user = User.objects.get(username='testuser_artifact')
+            # get objects
+            artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1').artifactstatus_id
+            artifacttype_id = Artifacttype.objects.get(artifacttype_name = 'artifacttype_1').artifacttype_id
+            system_id = System.objects.get(system_name = 'system_1').system_id
+            # create post data
+            data_dict = {
+                'artifactstatus': artifactstatus_id,
+                'artifacttype': artifacttype_id,
+                # 'case': TODO
+                'system': system_id,
+                #'artifact_aqcquisition_time': '2020-02-01 12:34:56',
+                'artifact_md5': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                'artifact_name': 'Artifact Create_post_complete_test',
+                'artifact_note': 'lorem ipsum',
+                # 'artifact_requested_time': '2020-02-02 23:45:16',
+                'artifact_sha1': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                'artifact_sha256': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                'artifact_source_path': '/bin/evil',
+            }
+            # get response
+            response = self.client.post('/artifacts/artifact/create/', data_dict)
+            # get artifact
+            artifact = Artifact.objects.get(artifact_name = 'Artifact Create_post_complete_test')
+            # build expected storage path
+            expected_storage_path = EVIDENCE_PATH + '/' + str(artifact.system.system_uuid) + '/' + artifact.artifacttype.artifacttype_slug + '/' + str(artifact.artifact_uuid)
+            # build expected acquisition time
+            #expected_acquisition_time = parse_datetime('2020-02-01T12:34:56')
+            # build expected requested time
+            #expected_requested_time = parse_datetime('2020-02-02T23:45:16')
+            # compare
+            self.assertEqual(artifact.artifactstatus.artifactstatus_name, 'artifactstatus_1')
+            self.assertEqual(artifact.artifacttype.artifacttype_name, 'artifacttype_1')
+            #self.assertEqual(artifact.case, '')
+            self.assertEqual(artifact.system.system_name, 'system_1')
+            #self.assertEqual(artifact.artifact_acquisition_time, expected_acquisition_time)
+            self.assertEqual(artifact.artifact_md5, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+            self.assertEqual(artifact.artifact_name, 'Artifact Create_post_complete_test')
+            self.assertEqual(artifact.artifact_note, 'lorem ipsum')
+            #self.assertEqual(artifact.artifact_requested_time, expected_requested_time)
+            self.assertEqual(artifact.artifact_sha1, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+            self.assertEqual(artifact.artifact_sha256, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+            self.assertEqual(artifact.artifact_slug, 'artifact-create_post_complete_test')
+            self.assertEqual(artifact.artifact_source_path, '/bin/evil')
+            self.assertEqual(artifact.artifact_storage_path, expected_storage_path)
+            self.assertTrue(artifact.artifact_uuid)
+            self.assertEqual(artifact.artifact_create_time, t1_now)
+            self.assertEqual(artifact.artifact_modify_time, t1_now)
+            self.assertEqual(artifact.artifact_created_by_user_id, test_user)
+            self.assertEqual(artifact.artifact_modified_by_user_id, test_user)
 
     def test_artifact_create_post_invalid_reload(self):
         """ test create view """
