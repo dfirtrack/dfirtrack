@@ -12,7 +12,7 @@ class TaskstatusAPIViewTestCase(TestCase):
         # create object
         Taskstatus.objects.create(taskstatus_name='taskstatus_api_1')
         # create user
-        test_user = User.objects.create_user(username='testuser_taskstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
+        User.objects.create_user(username='testuser_taskstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
 
     def test_taskstatus_list_api_unauthorized(self):
         """ unauthorized access is forbidden"""
@@ -26,7 +26,7 @@ class TaskstatusAPIViewTestCase(TestCase):
         """ GET is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_taskstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
+        self.client.login(username='testuser_taskstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
         # get response
         response = self.client.get('/api/taskstatus/')
         # compare
@@ -36,7 +36,7 @@ class TaskstatusAPIViewTestCase(TestCase):
         """ POST is forbidden """
 
         # login testuser
-        login = self.client.login(username='testuser_taskstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
+        self.client.login(username='testuser_taskstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
         # create POST string
         poststring = {"taskstatus_name": "taskstatus_api_2"}
         # get response
@@ -48,7 +48,7 @@ class TaskstatusAPIViewTestCase(TestCase):
         """ test redirect with appending slash """
 
         # login testuser
-        login = self.client.login(username='testuser_taskstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
+        self.client.login(username='testuser_taskstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
         # create url
         destination = urllib.parse.quote('/api/taskstatus/', safe='/')
         # get response
@@ -72,7 +72,7 @@ class TaskstatusAPIViewTestCase(TestCase):
         # get object
         taskstatus_api_1 = Taskstatus.objects.get(taskstatus_name='taskstatus_api_1')
         # login testuser
-        login = self.client.login(username='testuser_taskstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
+        self.client.login(username='testuser_taskstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
         # get response
         response = self.client.get('/api/taskstatus/' + str(taskstatus_api_1.taskstatus_id) + '/')
         # compare
@@ -84,7 +84,7 @@ class TaskstatusAPIViewTestCase(TestCase):
         # get object
         taskstatus_api_1 = Taskstatus.objects.get(taskstatus_name='taskstatus_api_1')
         # login testuser
-        login = self.client.login(username='testuser_taskstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
+        self.client.login(username='testuser_taskstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
         # get response
         response = self.client.delete('/api/taskstatus/' + str(taskstatus_api_1.taskstatus_id) + '/')
         # compare
@@ -96,7 +96,7 @@ class TaskstatusAPIViewTestCase(TestCase):
         # get object
         taskstatus_api_1 = Taskstatus.objects.get(taskstatus_name='taskstatus_api_1')
         # login testuser
-        login = self.client.login(username='testuser_taskstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
+        self.client.login(username='testuser_taskstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
         # create url
         destination = urllib.parse.quote('/api/taskstatus/' + str(taskstatus_api_1.taskstatus_id) + '/', safe='/')
         # create PUT string
@@ -112,7 +112,7 @@ class TaskstatusAPIViewTestCase(TestCase):
         # get object
         taskstatus_api_1 = Taskstatus.objects.get(taskstatus_name='taskstatus_api_1')
         # login testuser
-        login = self.client.login(username='testuser_taskstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
+        self.client.login(username='testuser_taskstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
         # create url
         destination = urllib.parse.quote('/api/taskstatus/' + str(taskstatus_api_1.taskstatus_id) + '/', safe='/')
         # get response

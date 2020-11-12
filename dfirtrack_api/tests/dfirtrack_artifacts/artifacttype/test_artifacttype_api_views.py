@@ -12,7 +12,7 @@ class ArtifacttypeAPIViewTestCase(TestCase):
         # create object
         Artifacttype.objects.create(artifacttype_name='artifacttype_api_1')
         # create user
-        test_user = User.objects.create_user(username='testuser_artifacttype_api', password='bYicpcLzwAvz66D1FbhF')
+        User.objects.create_user(username='testuser_artifacttype_api', password='bYicpcLzwAvz66D1FbhF')
 
     def test_artifacttype_list_api_unauthorized(self):
         """ unauthorized access is forbidden"""
@@ -26,7 +26,7 @@ class ArtifacttypeAPIViewTestCase(TestCase):
         """ GET is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_artifacttype_api', password='bYicpcLzwAvz66D1FbhF')
+        self.client.login(username='testuser_artifacttype_api', password='bYicpcLzwAvz66D1FbhF')
         # get response
         response = self.client.get('/api/artifacttype/')
         # compare
@@ -36,7 +36,7 @@ class ArtifacttypeAPIViewTestCase(TestCase):
         """ POST is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_artifacttype_api', password='bYicpcLzwAvz66D1FbhF')
+        self.client.login(username='testuser_artifacttype_api', password='bYicpcLzwAvz66D1FbhF')
         # create POST string
         poststring = {"artifacttype_name": "artifacttype_api_2"}
         # get response
@@ -48,7 +48,7 @@ class ArtifacttypeAPIViewTestCase(TestCase):
         """ test redirect with appending slash """
 
         # login testuser
-        login = self.client.login(username='testuser_artifacttype_api', password='bYicpcLzwAvz66D1FbhF')
+        self.client.login(username='testuser_artifacttype_api', password='bYicpcLzwAvz66D1FbhF')
         # create url
         destination = urllib.parse.quote('/api/artifacttype/', safe='/')
         # get response
@@ -72,7 +72,7 @@ class ArtifacttypeAPIViewTestCase(TestCase):
         # get object
         artifacttype_api_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_api_1')
         # login testuser
-        login = self.client.login(username='testuser_artifacttype_api', password='bYicpcLzwAvz66D1FbhF')
+        self.client.login(username='testuser_artifacttype_api', password='bYicpcLzwAvz66D1FbhF')
         # get response
         response = self.client.get('/api/artifacttype/' + str(artifacttype_api_1.artifacttype_id) + '/')
         # compare
@@ -84,7 +84,7 @@ class ArtifacttypeAPIViewTestCase(TestCase):
         # get object
         artifacttype_api_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_api_1')
         # login testuser
-        login = self.client.login(username='testuser_artifacttype_api', password='bYicpcLzwAvz66D1FbhF')
+        self.client.login(username='testuser_artifacttype_api', password='bYicpcLzwAvz66D1FbhF')
         # get response
         response = self.client.delete('/api/artifacttype/' + str(artifacttype_api_1.artifacttype_id) + '/')
         # compare
@@ -96,7 +96,7 @@ class ArtifacttypeAPIViewTestCase(TestCase):
         # get object
         artifacttype_api_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_api_1')
         # login testuser
-        login = self.client.login(username='testuser_artifacttype_api', password='bYicpcLzwAvz66D1FbhF')
+        self.client.login(username='testuser_artifacttype_api', password='bYicpcLzwAvz66D1FbhF')
         # create url
         destination = urllib.parse.quote('/api/artifacttype/' + str(artifacttype_api_1.artifacttype_id) + '/', safe='/')
         # create PUT string
@@ -112,7 +112,7 @@ class ArtifacttypeAPIViewTestCase(TestCase):
         # get object
         artifacttype_api_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_api_1')
         # login testuser
-        login = self.client.login(username='testuser_artifacttype_api', password='bYicpcLzwAvz66D1FbhF')
+        self.client.login(username='testuser_artifacttype_api', password='bYicpcLzwAvz66D1FbhF')
         # create url
         destination = urllib.parse.quote('/api/artifacttype/' + str(artifacttype_api_1.artifacttype_id) + '/', safe='/')
         # get response

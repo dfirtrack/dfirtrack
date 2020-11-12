@@ -23,6 +23,22 @@ class ArtifactExporterSpreadsheetXlsConfigModel(models.Model):
     artifactlist_xls_worksheet_artifactstatus = models.BooleanField(blank=True)
     artifactlist_xls_worksheet_artifacttype = models.BooleanField(blank=True)
 
+    # string representation
+    def __str__(self):
+        return self.artifact_exporter_spreadsheet_xls_config_name
+
+class MainConfigModel(models.Model):
+
+    # primary key
+    main_config_name = models.CharField(max_length=50, primary_key=True, editable=False)
+
+    # config fields
+    system_name_editable = models.BooleanField(blank=True)
+
+    # string representation
+    def __str__(self):
+        return self.main_config_name
+
 class SystemExporterMarkdownConfigModel(models.Model):
 
     # primary key
@@ -43,6 +59,10 @@ class SystemExporterMarkdownConfigModel(models.Model):
         choices = MARKDOWN_SORTING_CHOICES,
         default = SYSTEMSORTED,
     )
+
+    # string representation
+    def __str__(self):
+        return self.system_exporter_markdown_config_name
 
 class SystemExporterSpreadsheetCsvConfigModel(models.Model):
 
@@ -67,6 +87,10 @@ class SystemExporterSpreadsheetCsvConfigModel(models.Model):
     spread_csv_case = models.BooleanField(blank=True)
     spread_csv_system_create_time = models.BooleanField(blank=True)
     spread_csv_system_modify_time = models.BooleanField(blank=True)
+
+    # string representation
+    def __str__(self):
+        return self.system_exporter_spreadsheet_csv_config_name
 
 class SystemExporterSpreadsheetXlsConfigModel(models.Model):
 
@@ -97,6 +121,10 @@ class SystemExporterSpreadsheetXlsConfigModel(models.Model):
     spread_xls_worksheet_recommendation = models.BooleanField(blank=True)
     spread_xls_worksheet_tag = models.BooleanField(blank=True)
 
+    # string representation
+    def __str__(self):
+        return self.system_exporter_spreadsheet_xls_config_name
+
 class SystemImporterFileCsvConfigbasedConfigModel(models.Model):
 
     # primary key
@@ -125,6 +153,10 @@ class SystemImporterFileCsvConfigbasedConfigModel(models.Model):
     csv_default_company = models.ManyToManyField('dfirtrack_main.Company', related_name='artifact_exporter_spreadsheet_xls_config_company', blank=True)
     csv_default_tag = models.ManyToManyField('dfirtrack_main.Tag', related_name='artifact_exporter_spreadsheet_xls_config_tag', blank=True)
 
+    # string representation
+    def __str__(self):
+        return self.system_importer_file_csv_configbased_config_name
+
 class SystemImporterFileCsvFormbasedConfigModel(models.Model):
 
     # primary key
@@ -140,3 +172,7 @@ class SystemImporterFileCsvFormbasedConfigModel(models.Model):
     csv_remove_case = models.BooleanField(blank=True)
     csv_remove_company = models.BooleanField(blank=True)
     csv_remove_tag = models.BooleanField(blank=True)
+
+    # string representation
+    def __str__(self):
+        return self.system_importer_file_csv_formbased_config_name

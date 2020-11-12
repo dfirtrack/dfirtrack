@@ -10,13 +10,13 @@ class DnsnameAPIViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create object
-        domain_1 = Domain.objects.create(domain_name='domain_api_1')
+        Domain.objects.create(domain_name='domain_api_1')
         # create object
-        domain_2 = Domain.objects.create(domain_name='domain_api_2')
+        Domain.objects.create(domain_name='domain_api_2')
         # create object
         Dnsname.objects.create(dnsname_name='dnsname_api_1')
         # create user
-        test_user = User.objects.create_user(username='testuser_dnsname_api', password='tvjnIPBlhP9P3ixDHVE7')
+        User.objects.create_user(username='testuser_dnsname_api', password='tvjnIPBlhP9P3ixDHVE7')
 
     def test_dnsname_list_api_unauthorized(self):
         """ unauthorized access is forbidden"""
@@ -30,7 +30,7 @@ class DnsnameAPIViewTestCase(TestCase):
         """ GET is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_dnsname_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_dnsname_api', password='tvjnIPBlhP9P3ixDHVE7')
         # get response
         response = self.client.get('/api/dnsname/')
         # compare
@@ -42,7 +42,7 @@ class DnsnameAPIViewTestCase(TestCase):
         # get object
         domain_id = str(Domain.objects.get(domain_name='domain_api_2').domain_id)
         # login testuser
-        login = self.client.login(username='testuser_dnsname_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_dnsname_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create POST string
         poststring = {
             "dnsname_name": "dnsname_api_2",
@@ -57,7 +57,7 @@ class DnsnameAPIViewTestCase(TestCase):
         """ test redirect with appending slash """
 
         # login testuser
-        login = self.client.login(username='testuser_dnsname_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_dnsname_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create url
         destination = urllib.parse.quote('/api/dnsname/', safe='/')
         # get response
@@ -81,7 +81,7 @@ class DnsnameAPIViewTestCase(TestCase):
         # get object
         dnsname_api_1 = Dnsname.objects.get(dnsname_name='dnsname_api_1')
         # login testuser
-        login = self.client.login(username='testuser_dnsname_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_dnsname_api', password='tvjnIPBlhP9P3ixDHVE7')
         # get response
         response = self.client.get('/api/dnsname/' + str(dnsname_api_1.dnsname_id) + '/')
         # compare
@@ -93,7 +93,7 @@ class DnsnameAPIViewTestCase(TestCase):
         # get object
         dnsname_api_1 = Dnsname.objects.get(dnsname_name='dnsname_api_1')
         # login testuser
-        login = self.client.login(username='testuser_dnsname_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_dnsname_api', password='tvjnIPBlhP9P3ixDHVE7')
         # get response
         response = self.client.delete('/api/dnsname/' + str(dnsname_api_1.dnsname_id) + '/')
         # compare
@@ -107,7 +107,7 @@ class DnsnameAPIViewTestCase(TestCase):
         # get object
         dnsname_api_1 = Dnsname.objects.get(dnsname_name='dnsname_api_1')
         # login testuser
-        login = self.client.login(username='testuser_dnsname_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_dnsname_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create url
         destination = urllib.parse.quote('/api/dnsname/' + str(dnsname_api_1.dnsname_id) + '/', safe='/')
         # create PUT string
@@ -126,7 +126,7 @@ class DnsnameAPIViewTestCase(TestCase):
         # get object
         dnsname_api_1 = Dnsname.objects.get(dnsname_name='dnsname_api_1')
         # login testuser
-        login = self.client.login(username='testuser_dnsname_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_dnsname_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create url
         destination = urllib.parse.quote('/api/dnsname/' + str(dnsname_api_1.dnsname_id) + '/', safe='/')
         # get response

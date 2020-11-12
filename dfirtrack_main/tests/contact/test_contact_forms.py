@@ -82,7 +82,7 @@ class ContactFormTestCase(TestCase):
         form = ContactForm(data = {
             'contact_name': 'contact_1',
             'contact_email': 'contact_1@example.org',
-            'contact_email': 'lorem ipsum',
+            'contact_note': 'lorem ipsum',
         })
         # compare
         self.assertTrue(form.is_valid())

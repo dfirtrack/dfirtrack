@@ -12,7 +12,7 @@ class ReasonViewTestCase(TestCase):
         # create object
         Reason.objects.create(reason_name='reason_1')
         # create user
-        test_user = User.objects.create_user(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        User.objects.create_user(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
 
     def test_reason_list_not_logged_in(self):
         """ test list view """
@@ -28,7 +28,7 @@ class ReasonViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
         # get response
         response = self.client.get('/reason/')
         # compare
@@ -38,7 +38,7 @@ class ReasonViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
         # get response
         response = self.client.get('/reason/')
         # compare
@@ -48,7 +48,7 @@ class ReasonViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
         # get response
         response = self.client.get('/reason/')
         # compare
@@ -58,7 +58,7 @@ class ReasonViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
         # create url
         destination = urllib.parse.quote('/reason/', safe='/')
         # get response
@@ -84,7 +84,7 @@ class ReasonViewTestCase(TestCase):
         # get object
         reason_1 = Reason.objects.get(reason_name='reason_1')
         # login testuser
-        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
         # get response
         response = self.client.get('/reason/' + str(reason_1.reason_id) + '/')
         # compare
@@ -96,7 +96,7 @@ class ReasonViewTestCase(TestCase):
         # get object
         reason_1 = Reason.objects.get(reason_name='reason_1')
         # login testuser
-        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
         # get response
         response = self.client.get('/reason/' + str(reason_1.reason_id) + '/')
         # compare
@@ -108,7 +108,7 @@ class ReasonViewTestCase(TestCase):
         # get object
         reason_1 = Reason.objects.get(reason_name='reason_1')
         # login testuser
-        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
         # get response
         response = self.client.get('/reason/' + str(reason_1.reason_id) + '/')
         # compare
@@ -120,7 +120,7 @@ class ReasonViewTestCase(TestCase):
         # get object
         reason_1 = Reason.objects.get(reason_name='reason_1')
         # login testuser
-        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
         # create url
         destination = urllib.parse.quote('/reason/' + str(reason_1.reason_id) + '/', safe='/')
         # get response
@@ -142,7 +142,7 @@ class ReasonViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
         # get response
         response = self.client.get('/reason/add/')
         # compare
@@ -152,7 +152,7 @@ class ReasonViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
         # get response
         response = self.client.get('/reason/add/')
         # compare
@@ -162,7 +162,7 @@ class ReasonViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
         # get response
         response = self.client.get('/reason/add/')
         # compare
@@ -172,7 +172,7 @@ class ReasonViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
         # create url
         destination = urllib.parse.quote('/reason/add/', safe='/')
         # get response
@@ -184,7 +184,7 @@ class ReasonViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
         # create post data
         data_dict = {
             'reason_name': 'reason_add_post_test',
@@ -202,7 +202,7 @@ class ReasonViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
         # create post data
         data_dict = {}
         # get response
@@ -214,7 +214,7 @@ class ReasonViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
         # create post data
         data_dict = {}
         # get response
@@ -236,7 +236,7 @@ class ReasonViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
         # get response
         response = self.client.get('/reason/add_popup/')
         # compare
@@ -246,7 +246,7 @@ class ReasonViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
         # get response
         response = self.client.get('/reason/add_popup/')
         # compare
@@ -256,7 +256,7 @@ class ReasonViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
         # get response
         response = self.client.get('/reason/add_popup/')
         # compare
@@ -266,7 +266,7 @@ class ReasonViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
         # create url
         destination = urllib.parse.quote('/reason/add_popup/', safe='/')
         # get response
@@ -278,17 +278,13 @@ class ReasonViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
         # create post data
         data_dict = {
             'reason_name': 'reason_add_popup_post_test',
         }
         # get response
         response = self.client.post('/reason/add_popup/', data_dict)
-        # get object
-        reason_id = Reason.objects.get(reason_name = 'reason_add_popup_post_test').reason_id
-        # create url
-        destination = urllib.parse.quote('/reason/' + str(reason_id) + '/', safe='/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -296,7 +292,7 @@ class ReasonViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
         # create post data
         data_dict = {}
         # get response
@@ -308,7 +304,7 @@ class ReasonViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
         # create post data
         data_dict = {}
         # get response
@@ -334,7 +330,7 @@ class ReasonViewTestCase(TestCase):
         # get object
         reason_1 = Reason.objects.get(reason_name='reason_1')
         # login testuser
-        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
         # get response
         response = self.client.get('/reason/' + str(reason_1.reason_id) + '/edit/')
         # compare
@@ -346,7 +342,7 @@ class ReasonViewTestCase(TestCase):
         # get object
         reason_1 = Reason.objects.get(reason_name='reason_1')
         # login testuser
-        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
         # get response
         response = self.client.get('/reason/' + str(reason_1.reason_id) + '/edit/')
         # compare
@@ -358,7 +354,7 @@ class ReasonViewTestCase(TestCase):
         # get object
         reason_1 = Reason.objects.get(reason_name='reason_1')
         # login testuser
-        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
         # get response
         response = self.client.get('/reason/' + str(reason_1.reason_id) + '/edit/')
         # compare
@@ -370,7 +366,7 @@ class ReasonViewTestCase(TestCase):
         # get object
         reason_1 = Reason.objects.get(reason_name='reason_1')
         # login testuser
-        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
         # create url
         destination = urllib.parse.quote('/reason/' + str(reason_1.reason_id) + '/edit/', safe='/')
         # get response
@@ -382,7 +378,7 @@ class ReasonViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
         # create object
         reason_1 = Reason.objects.create(reason_name='reason_edit_post_test_1')
         # create post data
@@ -402,7 +398,7 @@ class ReasonViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
         # get object
         reason_id = Reason.objects.get(reason_name='reason_1').reason_id
         # create post data
@@ -416,7 +412,7 @@ class ReasonViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
+        self.client.login(username='testuser_reason', password='h8NrY2f7ei8uzh2CoAuD')
         # get object
         reason_id = Reason.objects.get(reason_name='reason_1').reason_id
         # create post data

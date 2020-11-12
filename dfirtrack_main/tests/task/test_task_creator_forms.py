@@ -17,14 +17,14 @@ class TaskCreatorFormTestCase(TestCase):
         systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
 
         # create object
-        system_1 = System.objects.create(
+        System.objects.create(
             system_name = 'system_1',
             systemstatus = systemstatus_1,
             system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
-        system_2 = System.objects.create(
+        System.objects.create(
             system_name = 'system_2',
             systemstatus = systemstatus_1,
             system_modify_time = timezone.now(),
@@ -46,14 +46,14 @@ class TaskCreatorFormTestCase(TestCase):
         )
 
         # create object
-        taskname_1 = Taskname.objects.create(taskname_name='taskname_1')
-        taskname_2 = Taskname.objects.create(taskname_name='taskname_2')
+        Taskname.objects.create(taskname_name='taskname_1')
+        Taskname.objects.create(taskname_name='taskname_2')
 
         # create object
-        taskpriority_1 = Taskpriority.objects.create(taskpriority_name='prio_1')
+        Taskpriority.objects.create(taskpriority_name='prio_1')
 
         # create object
-        taskstatus_1 = Taskstatus.objects.create(taskstatus_name='taskstatus_1')
+        Taskstatus.objects.create(taskstatus_name='taskstatus_1')
 
     def test_task_creator_taskname_form_label(self):
         """ test form label """

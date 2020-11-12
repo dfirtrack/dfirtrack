@@ -28,7 +28,10 @@ def system_exporter_spreadsheet_csv_config_view(request):
             # close popup
             return HttpResponse('<script type="text/javascript">window.close();</script>')
 
-        else:
+        # TODO: with only non-mandatory model attributes, it is not possible to get an invalid form
+        # TODO: finish prepared tests in 'dfirtrack_config.tests.system.test_system_exporter_spreadsheet_csv_config_views'
+        # TODO: remove the coverage limitation with further mandatory model attributes
+        else:   # coverage: ignore branch
             # show form page again
             return render(
                 request,
@@ -77,7 +80,10 @@ def system_exporter_spreadsheet_xls_config_view(request):
             # close popup
             return HttpResponse('<script type="text/javascript">window.close();</script>')
 
-        else:
+        # TODO: with only non-mandatory model attributes, it is not possible to get an invalid form
+        # TODO: finish prepared tests in 'dfirtrack_config.tests.system.test_system_exporter_spreadsheet_xls_config_views'
+        # TODO: remove the coverage limitation with further mandatory model attributes
+        else:   # coverage: ignore branch
             # show form page again
             return render(
                 request,

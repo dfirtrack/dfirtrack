@@ -17,7 +17,7 @@ class EntryFormTestCase(TestCase):
         systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
 
         # create object
-        system_1 = System.objects.create(
+        System.objects.create(
             system_name='system_1',
             systemstatus = systemstatus_1,
             system_modify_time = timezone.now(),
@@ -26,7 +26,7 @@ class EntryFormTestCase(TestCase):
         )
 
         # create object
-        case_1 = Case.objects.create(
+        Case.objects.create(
             case_name = 'case_1',
             case_is_incident = True,
             case_created_by_user_id = test_user,

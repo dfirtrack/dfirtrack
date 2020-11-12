@@ -1,6 +1,5 @@
 from django import forms
-from dfirtrack_artifacts.models import Artifactstatus
-from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel, SystemExporterMarkdownConfigModel, SystemExporterSpreadsheetCsvConfigModel, SystemExporterSpreadsheetXlsConfigModel, SystemImporterFileCsvConfigbasedConfigModel, SystemImporterFileCsvFormbasedConfigModel
+from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel, MainConfigModel, SystemExporterMarkdownConfigModel, SystemExporterSpreadsheetCsvConfigModel, SystemExporterSpreadsheetXlsConfigModel, SystemImporterFileCsvConfigbasedConfigModel, SystemImporterFileCsvFormbasedConfigModel
 
 class ArtifactExporterSpreadsheetXlsConfigForm(forms.ModelForm):
     """ artifact exporter spreadsheet xls config form """
@@ -51,6 +50,23 @@ class ArtifactExporterSpreadsheetXlsConfigForm(forms.ModelForm):
 
         widgets = {
             'artifactlist_xls_choice_artifactstatus': forms.CheckboxSelectMultiple(),
+        }
+
+class MainConfigForm(forms.ModelForm):
+    """ main config form """
+
+    class Meta:
+
+        # model
+        model = MainConfigModel
+
+        # this HTML forms are shown
+        fields = (
+            'system_name_editable',
+        )
+
+        labels = {
+            'system_name_editable': 'Make system name editable',
         }
 
 class SystemExporterMarkdownConfigForm(forms.ModelForm):

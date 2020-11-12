@@ -34,7 +34,7 @@ class CaseViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
         # get response
         response = self.client.get('/case/')
         # compare
@@ -44,7 +44,7 @@ class CaseViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
         # get response
         response = self.client.get('/case/')
         # compare
@@ -54,7 +54,7 @@ class CaseViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
         # get response
         response = self.client.get('/case/')
         # compare
@@ -64,7 +64,7 @@ class CaseViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
         # create url
         destination = urllib.parse.quote('/case/', safe='/')
         # get response
@@ -90,7 +90,7 @@ class CaseViewTestCase(TestCase):
         # get object
         case_1 = Case.objects.get(case_name='case_1')
         # login testuser
-        login = self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
         # get response
         response = self.client.get('/case/' + str(case_1.case_id) + '/')
         # compare
@@ -102,7 +102,7 @@ class CaseViewTestCase(TestCase):
         # get object
         case_1 = Case.objects.get(case_name='case_1')
         # login testuser
-        login = self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
         # get response
         response = self.client.get('/case/' + str(case_1.case_id) + '/')
         # compare
@@ -114,7 +114,7 @@ class CaseViewTestCase(TestCase):
         # get object
         case_1 = Case.objects.get(case_name='case_1')
         # login testuser
-        login = self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
         # get response
         response = self.client.get('/case/' + str(case_1.case_id) + '/')
         # compare
@@ -126,7 +126,7 @@ class CaseViewTestCase(TestCase):
         # get object
         case_1 = Case.objects.get(case_name='case_1')
         # login testuser
-        login = self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
         # create url
         destination = urllib.parse.quote('/case/' + str(case_1.case_id) + '/', safe='/')
         # get response
@@ -143,11 +143,11 @@ class CaseViewTestCase(TestCase):
         # get object
         case_1 = Case.objects.get(case_name='case_1')
         # login testuser
-        login = self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
         # get response
         response = self.client.get('/case/' + str(case_1.case_id) + '/')
         # compare
-        self.assertEqual(response.context['dfirtrack_artifacts'], True)
+        self.assertTrue(response.context['dfirtrack_artifacts'])
 
     def test_case_detail_context_without_artifacts(self):
         """ test detail view """
@@ -158,11 +158,11 @@ class CaseViewTestCase(TestCase):
         # get object
         case_1 = Case.objects.get(case_name='case_1')
         # login testuser
-        login = self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
         # get response
         response = self.client.get('/case/' + str(case_1.case_id) + '/')
         # compare
-        self.assertEqual(response.context['dfirtrack_artifacts'], False)
+        self.assertFalse(response.context['dfirtrack_artifacts'])
 
     def test_case_add_not_logged_in(self):
         """ test add view """
@@ -178,7 +178,7 @@ class CaseViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
         # get response
         response = self.client.get('/case/add/')
         # compare
@@ -188,7 +188,7 @@ class CaseViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
         # get response
         response = self.client.get('/case/add/')
         # compare
@@ -198,7 +198,7 @@ class CaseViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
         # get response
         response = self.client.get('/case/add/')
         # compare
@@ -208,7 +208,7 @@ class CaseViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
         # create url
         destination = urllib.parse.quote('/case/add/', safe='/')
         # get response
@@ -220,7 +220,7 @@ class CaseViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
         # create post data
         data_dict = {
             'case_name': 'case_add_post_test',
@@ -239,7 +239,7 @@ class CaseViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
         # create post data
         data_dict = {}
         # get response
@@ -251,7 +251,7 @@ class CaseViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
         # create post data
         data_dict = {}
         # get response
@@ -277,7 +277,7 @@ class CaseViewTestCase(TestCase):
         # get object
         case_1 = Case.objects.get(case_name='case_1')
         # login testuser
-        login = self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
         # get response
         response = self.client.get('/case/' + str(case_1.case_id) + '/edit/')
         # compare
@@ -289,7 +289,7 @@ class CaseViewTestCase(TestCase):
         # get object
         case_1 = Case.objects.get(case_name='case_1')
         # login testuser
-        login = self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
         # get response
         response = self.client.get('/case/' + str(case_1.case_id) + '/edit/')
         # compare
@@ -301,7 +301,7 @@ class CaseViewTestCase(TestCase):
         # get object
         case_1 = Case.objects.get(case_name='case_1')
         # login testuser
-        login = self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
         # get response
         response = self.client.get('/case/' + str(case_1.case_id) + '/edit/')
         # compare
@@ -313,7 +313,7 @@ class CaseViewTestCase(TestCase):
         # get object
         case_1 = Case.objects.get(case_name='case_1')
         # login testuser
-        login = self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
         # create url
         destination = urllib.parse.quote('/case/' + str(case_1.case_id) + '/edit/', safe='/')
         # get response
@@ -325,7 +325,7 @@ class CaseViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
         # get user
         test_user = User.objects.get(username='testuser_case')
         # create object
@@ -348,7 +348,7 @@ class CaseViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
         # get object
         case_id = Case.objects.get(case_name='case_1').case_id
         # create post data
@@ -362,7 +362,7 @@ class CaseViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
         # get object
         case_id = Case.objects.get(case_name='case_1').case_id
         # create post data

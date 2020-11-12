@@ -12,7 +12,7 @@ import requests
 import urllib
 
 @login_required(login_url="/login")
-def system(request):
+def system(request):                    # coverage: ignore branch
 
     # get user string
     request_user = str(request.user)
@@ -229,7 +229,7 @@ def system(request):
     return redirect(reverse('system_list'))
 
 @login_required(login_url="/login")
-def entry(request):
+def entry(request):                     # coverage: ignore branch
 
     # get user string
     request_user = str(request.user)

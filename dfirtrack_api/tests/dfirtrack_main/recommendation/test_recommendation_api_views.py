@@ -12,7 +12,7 @@ class RecommendationAPIViewTestCase(TestCase):
         # create object
         Recommendation.objects.create(recommendation_name='recommendation_api_1')
         # create user
-        test_user = User.objects.create_user(username='testuser_recommendation_api', password='tvjnIPBlhP9P3ixDHVE7')
+        User.objects.create_user(username='testuser_recommendation_api', password='tvjnIPBlhP9P3ixDHVE7')
 
     def test_recommendation_list_api_unauthorized(self):
         """ unauthorized access is forbidden"""
@@ -26,7 +26,7 @@ class RecommendationAPIViewTestCase(TestCase):
         """ GET is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_recommendation_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_recommendation_api', password='tvjnIPBlhP9P3ixDHVE7')
         # get response
         response = self.client.get('/api/recommendation/')
         # compare
@@ -36,7 +36,7 @@ class RecommendationAPIViewTestCase(TestCase):
         """ POST is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_recommendation_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_recommendation_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create POST string
         poststring = {"recommendation_name": "recommendation_api_2"}
         # get response
@@ -48,7 +48,7 @@ class RecommendationAPIViewTestCase(TestCase):
         """ test redirect with appending slash """
 
         # login testuser
-        login = self.client.login(username='testuser_recommendation_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_recommendation_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create url
         destination = urllib.parse.quote('/api/recommendation/', safe='/')
         # get response
@@ -72,7 +72,7 @@ class RecommendationAPIViewTestCase(TestCase):
         # get object
         recommendation_api_1 = Recommendation.objects.get(recommendation_name='recommendation_api_1')
         # login testuser
-        login = self.client.login(username='testuser_recommendation_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_recommendation_api', password='tvjnIPBlhP9P3ixDHVE7')
         # get response
         response = self.client.get('/api/recommendation/' + str(recommendation_api_1.recommendation_id) + '/')
         # compare
@@ -84,7 +84,7 @@ class RecommendationAPIViewTestCase(TestCase):
         # get object
         recommendation_api_1 = Recommendation.objects.get(recommendation_name='recommendation_api_1')
         # login testuser
-        login = self.client.login(username='testuser_recommendation_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_recommendation_api', password='tvjnIPBlhP9P3ixDHVE7')
         # get response
         response = self.client.delete('/api/recommendation/' + str(recommendation_api_1.recommendation_id) + '/')
         # compare
@@ -96,7 +96,7 @@ class RecommendationAPIViewTestCase(TestCase):
         # get object
         recommendation_api_1 = Recommendation.objects.get(recommendation_name='recommendation_api_1')
         # login testuser
-        login = self.client.login(username='testuser_recommendation_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_recommendation_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create url
         destination = urllib.parse.quote('/api/recommendation/' + str(recommendation_api_1.recommendation_id) + '/', safe='/')
         # create PUT string
@@ -112,7 +112,7 @@ class RecommendationAPIViewTestCase(TestCase):
         # get object
         recommendation_api_1 = Recommendation.objects.get(recommendation_name='recommendation_api_1')
         # login testuser
-        login = self.client.login(username='testuser_recommendation_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_recommendation_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create url
         destination = urllib.parse.quote('/api/recommendation/' + str(recommendation_api_1.recommendation_id) + '/', safe='/')
         # get response

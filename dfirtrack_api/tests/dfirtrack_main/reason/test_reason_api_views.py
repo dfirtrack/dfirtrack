@@ -12,7 +12,7 @@ class ReasonAPIViewTestCase(TestCase):
         # create object
         Reason.objects.create(reason_name='reason_api_1')
         # create user
-        test_user = User.objects.create_user(username='testuser_reason_api', password='tvjnIPBlhP9P3ixDHVE7')
+        User.objects.create_user(username='testuser_reason_api', password='tvjnIPBlhP9P3ixDHVE7')
 
     def test_reason_list_api_unauthorized(self):
         """ unauthorized access is forbidden"""
@@ -26,7 +26,7 @@ class ReasonAPIViewTestCase(TestCase):
         """ GET is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_reason_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_reason_api', password='tvjnIPBlhP9P3ixDHVE7')
         # get response
         response = self.client.get('/api/reason/')
         # compare
@@ -36,7 +36,7 @@ class ReasonAPIViewTestCase(TestCase):
         """ POST is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_reason_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_reason_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create POST string
         poststring = {"reason_name": "reason_api_2"}
         # get response
@@ -48,7 +48,7 @@ class ReasonAPIViewTestCase(TestCase):
         """ test redirect with appending slash """
 
         # login testuser
-        login = self.client.login(username='testuser_reason_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_reason_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create url
         destination = urllib.parse.quote('/api/reason/', safe='/')
         # get response
@@ -72,7 +72,7 @@ class ReasonAPIViewTestCase(TestCase):
         # get object
         reason_api_1 = Reason.objects.get(reason_name='reason_api_1')
         # login testuser
-        login = self.client.login(username='testuser_reason_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_reason_api', password='tvjnIPBlhP9P3ixDHVE7')
         # get response
         response = self.client.get('/api/reason/' + str(reason_api_1.reason_id) + '/')
         # compare
@@ -84,7 +84,7 @@ class ReasonAPIViewTestCase(TestCase):
         # get object
         reason_api_1 = Reason.objects.get(reason_name='reason_api_1')
         # login testuser
-        login = self.client.login(username='testuser_reason_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_reason_api', password='tvjnIPBlhP9P3ixDHVE7')
         # get response
         response = self.client.delete('/api/reason/' + str(reason_api_1.reason_id) + '/')
         # compare
@@ -96,7 +96,7 @@ class ReasonAPIViewTestCase(TestCase):
         # get object
         reason_api_1 = Reason.objects.get(reason_name='reason_api_1')
         # login testuser
-        login = self.client.login(username='testuser_reason_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_reason_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create url
         destination = urllib.parse.quote('/api/reason/' + str(reason_api_1.reason_id) + '/', safe='/')
         # create PUT string
@@ -112,7 +112,7 @@ class ReasonAPIViewTestCase(TestCase):
         # get object
         reason_api_1 = Reason.objects.get(reason_name='reason_api_1')
         # login testuser
-        login = self.client.login(username='testuser_reason_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_reason_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create url
         destination = urllib.parse.quote('/api/reason/' + str(reason_api_1.reason_id) + '/', safe='/')
         # get response

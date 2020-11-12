@@ -48,7 +48,7 @@ class EntryViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # get response
         response = self.client.get('/entry/')
         # compare
@@ -58,7 +58,7 @@ class EntryViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # get response
         response = self.client.get('/entry/')
         # compare
@@ -68,7 +68,7 @@ class EntryViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # get response
         response = self.client.get('/entry/')
         # compare
@@ -78,7 +78,7 @@ class EntryViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # create url
         destination = urllib.parse.quote('/entry/', safe='/')
         # get response
@@ -104,7 +104,7 @@ class EntryViewTestCase(TestCase):
         # get object
         entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
         # login testuser
-        login = self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # get response
         response = self.client.get('/entry/' + str(entry_1.entry_id) + '/')
         # compare
@@ -116,7 +116,7 @@ class EntryViewTestCase(TestCase):
         # get object
         entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
         # login testuser
-        login = self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # get response
         response = self.client.get('/entry/' + str(entry_1.entry_id) + '/')
         # compare
@@ -128,7 +128,7 @@ class EntryViewTestCase(TestCase):
         # get object
         entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
         # login testuser
-        login = self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # get response
         response = self.client.get('/entry/' + str(entry_1.entry_id) + '/')
         # compare
@@ -140,7 +140,7 @@ class EntryViewTestCase(TestCase):
         # get object
         entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
         # login testuser
-        login = self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # create url
         destination = urllib.parse.quote('/entry/' + str(entry_1.entry_id) + '/', safe='/')
         # get response
@@ -162,7 +162,7 @@ class EntryViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # get response
         response = self.client.get('/entry/add/')
         # compare
@@ -172,7 +172,7 @@ class EntryViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # get object
         system_id = System.objects.get(system_name = 'system_1').system_id
         # get response
@@ -184,7 +184,7 @@ class EntryViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # get response
         response = self.client.get('/entry/add/')
         # compare
@@ -194,7 +194,7 @@ class EntryViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # get response
         response = self.client.get('/entry/add/')
         # compare
@@ -204,7 +204,7 @@ class EntryViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # create url
         destination = urllib.parse.quote('/entry/add/', safe='/')
         # get response
@@ -216,7 +216,7 @@ class EntryViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # get user
         test_user_id = User.objects.get(username = 'testuser_entry').id
         # get object
@@ -231,8 +231,6 @@ class EntryViewTestCase(TestCase):
         }
         # get response
         response = self.client.post('/entry/add/', data_dict)
-        # get object
-        entry_id = Entry.objects.get(entry_sha1 = '988881adc9fc3655077dc2d4d757d480b5ea0e11').entry_id
         # create url
         destination = urllib.parse.quote('/system/' + str(system_id) + '/', safe='/')
         # compare
@@ -242,7 +240,7 @@ class EntryViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # create post data
         data_dict = {}
         # get response
@@ -254,7 +252,7 @@ class EntryViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # create post data
         data_dict = {}
         # get response
@@ -281,7 +279,7 @@ class EntryViewTestCase(TestCase):
         # get object
         entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
         # login testuser
-        login = self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # get response
         response = self.client.get('/entry/' + str(entry_1.entry_id) + '/edit/')
         # compare
@@ -293,7 +291,7 @@ class EntryViewTestCase(TestCase):
         # get object
         entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
         # login testuser
-        login = self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # get response
         response = self.client.get('/entry/' + str(entry_1.entry_id) + '/edit/')
         # compare
@@ -305,7 +303,7 @@ class EntryViewTestCase(TestCase):
         # get object
         entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
         # login testuser
-        login = self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # get response
         response = self.client.get('/entry/' + str(entry_1.entry_id) + '/edit/')
         # compare
@@ -317,7 +315,7 @@ class EntryViewTestCase(TestCase):
         # get object
         entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
         # login testuser
-        login = self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # create url
         destination = urllib.parse.quote('/entry/' + str(entry_1.entry_id) + '/edit/', safe='/')
         # get response
@@ -329,7 +327,7 @@ class EntryViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # get user
         test_user = User.objects.get(username = 'testuser_entry')
         # get object
@@ -351,8 +349,6 @@ class EntryViewTestCase(TestCase):
         }
         # get response
         response = self.client.post('/entry/' + str(entry_1.entry_id) + '/edit/', data_dict)
-        # get object
-        entry_2 = Entry.objects.get(entry_sha1 = 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb')
         # create url
         destination = urllib.parse.quote('/system/' + str(system_1.system_id) + '/', safe='/')
         # compare
@@ -362,7 +358,7 @@ class EntryViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # get object
         entry_id = Entry.objects.get(entry_sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709').entry_id
         # create post data
@@ -376,7 +372,7 @@ class EntryViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # get object
         entry_id = Entry.objects.get(entry_sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709').entry_id
         # create post data

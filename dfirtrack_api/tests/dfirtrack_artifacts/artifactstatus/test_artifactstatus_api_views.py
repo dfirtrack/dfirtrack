@@ -12,7 +12,7 @@ class ArtifactstatusAPIViewTestCase(TestCase):
         # create object
         Artifactstatus.objects.create(artifactstatus_name='artifactstatus_api_1')
         # create user
-        test_user = User.objects.create_user(username='testuser_artifactstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
+        User.objects.create_user(username='testuser_artifactstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
 
     def test_artifactstatus_list_api_unauthorized(self):
         """ unauthorized access is forbidden"""
@@ -26,7 +26,7 @@ class ArtifactstatusAPIViewTestCase(TestCase):
         """ GET is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_artifactstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
+        self.client.login(username='testuser_artifactstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
         # get response
         response = self.client.get('/api/artifactstatus/')
         # compare
@@ -36,7 +36,7 @@ class ArtifactstatusAPIViewTestCase(TestCase):
         """ POST is forbidden """
 
         # login testuser
-        login = self.client.login(username='testuser_artifactstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
+        self.client.login(username='testuser_artifactstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
         # create POST string
         poststring = {"artifactstatus_name": "artifactstatus_api_2"}
         # get response
@@ -48,7 +48,7 @@ class ArtifactstatusAPIViewTestCase(TestCase):
         """ test redirect with appending slash """
 
         # login testuser
-        login = self.client.login(username='testuser_artifactstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
+        self.client.login(username='testuser_artifactstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
         # create url
         destination = urllib.parse.quote('/api/artifactstatus/', safe='/')
         # get response
@@ -72,7 +72,7 @@ class ArtifactstatusAPIViewTestCase(TestCase):
         # get object
         artifactstatus_api_1 = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_api_1')
         # login testuser
-        login = self.client.login(username='testuser_artifactstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
+        self.client.login(username='testuser_artifactstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
         # get response
         response = self.client.get('/api/artifactstatus/' + str(artifactstatus_api_1.artifactstatus_id) + '/')
         # compare
@@ -84,7 +84,7 @@ class ArtifactstatusAPIViewTestCase(TestCase):
         # get object
         artifactstatus_api_1 = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_api_1')
         # login testuser
-        login = self.client.login(username='testuser_artifactstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
+        self.client.login(username='testuser_artifactstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
         # get response
         response = self.client.delete('/api/artifactstatus/' + str(artifactstatus_api_1.artifactstatus_id) + '/')
         # compare
@@ -96,7 +96,7 @@ class ArtifactstatusAPIViewTestCase(TestCase):
         # get object
         artifactstatus_api_1 = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_api_1')
         # login testuser
-        login = self.client.login(username='testuser_artifactstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
+        self.client.login(username='testuser_artifactstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
         # create url
         destination = urllib.parse.quote('/api/artifactstatus/' + str(artifactstatus_api_1.artifactstatus_id) + '/', safe='/')
         # create PUT string
@@ -112,7 +112,7 @@ class ArtifactstatusAPIViewTestCase(TestCase):
         # get object
         artifactstatus_api_1 = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_api_1')
         # login testuser
-        login = self.client.login(username='testuser_artifactstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
+        self.client.login(username='testuser_artifactstatus_api', password='aCTVRIdJ4cyVSkYiJKrM')
         # create url
         destination = urllib.parse.quote('/api/artifactstatus/' + str(artifactstatus_api_1.artifactstatus_id) + '/', safe='/')
         # get response

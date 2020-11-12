@@ -15,7 +15,7 @@ class ContactAPIViewTestCase(TestCase):
             contact_email='contact@example.com',
         )
         # create user
-        test_user = User.objects.create_user(username='testuser_contact_api', password='tvjnIPBlhP9P3ixDHVE7')
+        User.objects.create_user(username='testuser_contact_api', password='tvjnIPBlhP9P3ixDHVE7')
 
     def test_contact_list_api_unauthorized(self):
         """ unauthorized access is forbidden"""
@@ -29,7 +29,7 @@ class ContactAPIViewTestCase(TestCase):
         """ GET is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_contact_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_contact_api', password='tvjnIPBlhP9P3ixDHVE7')
         # get response
         response = self.client.get('/api/contact/')
         # compare
@@ -39,7 +39,7 @@ class ContactAPIViewTestCase(TestCase):
         """ POST is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_contact_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_contact_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create POST string
         poststring = {
             'contact_name': 'contact_api_2',
@@ -54,7 +54,7 @@ class ContactAPIViewTestCase(TestCase):
         """ test redirect with appending slash """
 
         # login testuser
-        login = self.client.login(username='testuser_contact_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_contact_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create url
         destination = urllib.parse.quote('/api/contact/', safe='/')
         # get response
@@ -78,7 +78,7 @@ class ContactAPIViewTestCase(TestCase):
         # get object
         contact_api_1 = Contact.objects.get(contact_name='contact_api_1')
         # login testuser
-        login = self.client.login(username='testuser_contact_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_contact_api', password='tvjnIPBlhP9P3ixDHVE7')
         # get response
         response = self.client.get('/api/contact/' + str(contact_api_1.contact_id) + '/')
         # compare
@@ -90,7 +90,7 @@ class ContactAPIViewTestCase(TestCase):
         # get object
         contact_api_1 = Contact.objects.get(contact_name='contact_api_1')
         # login testuser
-        login = self.client.login(username='testuser_contact_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_contact_api', password='tvjnIPBlhP9P3ixDHVE7')
         # get response
         response = self.client.delete('/api/contact/' + str(contact_api_1.contact_id) + '/')
         # compare
@@ -102,7 +102,7 @@ class ContactAPIViewTestCase(TestCase):
         # get object
         contact_api_1 = Contact.objects.get(contact_name='contact_api_1')
         # login testuser
-        login = self.client.login(username='testuser_contact_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_contact_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create url
         destination = urllib.parse.quote('/api/contact/' + str(contact_api_1.contact_id) + '/', safe='/')
         # create PUT string
@@ -121,7 +121,7 @@ class ContactAPIViewTestCase(TestCase):
         # get object
         contact_api_1 = Contact.objects.get(contact_name='contact_api_1')
         # login testuser
-        login = self.client.login(username='testuser_contact_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_contact_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create url
         destination = urllib.parse.quote('/api/contact/' + str(contact_api_1.contact_id) + '/', safe='/')
         # get response

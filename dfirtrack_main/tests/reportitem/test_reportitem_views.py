@@ -51,7 +51,7 @@ class ReportitemViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
+        self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
         # get response
         response = self.client.get('/reportitem/')
         # compare
@@ -61,7 +61,7 @@ class ReportitemViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
+        self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
         # get response
         response = self.client.get('/reportitem/')
         # compare
@@ -71,7 +71,7 @@ class ReportitemViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
+        self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
         # get response
         response = self.client.get('/reportitem/')
         # compare
@@ -81,7 +81,7 @@ class ReportitemViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
+        self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
         # create url
         destination = urllib.parse.quote('/reportitem/', safe='/')
         # get response
@@ -107,7 +107,7 @@ class ReportitemViewTestCase(TestCase):
         # get object
         reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
         # login testuser
-        login = self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
+        self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
         # get response
         response = self.client.get('/reportitem/' + str(reportitem_1.reportitem_id) + '/')
         # compare
@@ -119,7 +119,7 @@ class ReportitemViewTestCase(TestCase):
         # get object
         reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
         # login testuser
-        login = self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
+        self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
         # get response
         response = self.client.get('/reportitem/' + str(reportitem_1.reportitem_id) + '/')
         # compare
@@ -131,7 +131,7 @@ class ReportitemViewTestCase(TestCase):
         # get object
         reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
         # login testuser
-        login = self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
+        self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
         # get response
         response = self.client.get('/reportitem/' + str(reportitem_1.reportitem_id) + '/')
         # compare
@@ -143,7 +143,7 @@ class ReportitemViewTestCase(TestCase):
         # get object
         reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
         # login testuser
-        login = self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
+        self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
         # create url
         destination = urllib.parse.quote('/reportitem/' + str(reportitem_1.reportitem_id) + '/', safe='/')
         # get response
@@ -165,7 +165,7 @@ class ReportitemViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
+        self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
         # get response
         response = self.client.get('/reportitem/add/')
         # compare
@@ -175,7 +175,7 @@ class ReportitemViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
+        self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
         # get object
         system_id = System.objects.get(system_name = 'system_1').system_id
         # get response
@@ -187,7 +187,7 @@ class ReportitemViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
+        self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
         # get response
         response = self.client.get('/reportitem/add/')
         # compare
@@ -197,7 +197,7 @@ class ReportitemViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
+        self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
         # get response
         response = self.client.get('/reportitem/add/')
         # compare
@@ -207,7 +207,7 @@ class ReportitemViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
+        self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
         # create url
         destination = urllib.parse.quote('/reportitem/add/', safe='/')
         # get response
@@ -219,7 +219,7 @@ class ReportitemViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
+        self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
         # get object
         system_id = System.objects.get(system_name = 'system_1').system_id
         # get object
@@ -232,8 +232,6 @@ class ReportitemViewTestCase(TestCase):
         }
         # get response
         response = self.client.post('/reportitem/add/', data_dict)
-        # get object
-        reportitem_id = Reportitem.objects.get(reportitem_note = 'reportitem_add_post_test').reportitem_id
         # create url
         destination = urllib.parse.quote('/system/' + str(system_id) + '/', safe='/')
         # compare
@@ -243,7 +241,7 @@ class ReportitemViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
+        self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
         # create post data
         data_dict = {}
         # get response
@@ -255,7 +253,7 @@ class ReportitemViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
+        self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
         # create post data
         data_dict = {}
         # get response
@@ -281,7 +279,7 @@ class ReportitemViewTestCase(TestCase):
         # get object
         reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
         # login testuser
-        login = self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
+        self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
         # get response
         response = self.client.get('/reportitem/' + str(reportitem_1.reportitem_id) + '/edit/')
         # compare
@@ -293,7 +291,7 @@ class ReportitemViewTestCase(TestCase):
         # get object
         reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
         # login testuser
-        login = self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
+        self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
         # get response
         response = self.client.get('/reportitem/' + str(reportitem_1.reportitem_id) + '/edit/')
         # compare
@@ -305,7 +303,7 @@ class ReportitemViewTestCase(TestCase):
         # get object
         reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
         # login testuser
-        login = self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
+        self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
         # get response
         response = self.client.get('/reportitem/' + str(reportitem_1.reportitem_id) + '/edit/')
         # compare
@@ -317,7 +315,7 @@ class ReportitemViewTestCase(TestCase):
         # get object
         reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
         # login testuser
-        login = self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
+        self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
         # create url
         destination = urllib.parse.quote('/reportitem/' + str(reportitem_1.reportitem_id) + '/edit/', safe='/')
         # get response
@@ -329,7 +327,7 @@ class ReportitemViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
+        self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
         # get user
         test_user = User.objects.get(username='testuser_reportitem')
         # get object
@@ -352,8 +350,6 @@ class ReportitemViewTestCase(TestCase):
         }
         # get response
         response = self.client.post('/reportitem/' + str(reportitem_1.reportitem_id) + '/edit/', data_dict)
-        # get object
-        reportitem_2 = Reportitem.objects.get(reportitem_note='reportitem_edit_post_test_2')
         # create url
         destination = urllib.parse.quote('/system/' + str(system_1.system_id) + '/', safe='/')
         # compare
@@ -363,7 +359,7 @@ class ReportitemViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
+        self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
         # get object
         reportitem_id = Reportitem.objects.get(reportitem_note='lorem ipsum').reportitem_id
         # create post data
@@ -377,7 +373,7 @@ class ReportitemViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
+        self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
         # get object
         reportitem_id = Reportitem.objects.get(reportitem_note='lorem ipsum').reportitem_id
         # create post data

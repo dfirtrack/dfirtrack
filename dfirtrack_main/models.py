@@ -5,7 +5,6 @@ import logging
 from time import strftime
 import uuid
 import os
-import shutil
 from dfirtrack.config import EVIDENCE_PATH
 
 # initialize logger

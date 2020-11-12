@@ -202,7 +202,7 @@ def system(request):
         # ip
         if model.spread_xls_ip:
             # get all ips of system
-            ips_all = system.ip.all()
+            ips_all = system.ip.all().order_by('ip_ip')
             # count ips
             n = system.ip.count()
             # create empty ip string
@@ -227,7 +227,7 @@ def system(request):
             entryline.append(os)
         # company
         if model.spread_xls_company:
-            companys_all = system.company.all()
+            companys_all = system.company.all().order_by('company_name')
             # count companies
             n = system.company.count()
             # create empty company string
@@ -259,7 +259,7 @@ def system(request):
             entryline.append(serviceprovider)
         # tag
         if model.spread_xls_tag:
-            tags_all = system.tag.all()
+            tags_all = system.tag.all().order_by('tag_name')
             # count tags
             n = system.tag.count()
             # create empty tag string
@@ -277,7 +277,7 @@ def system(request):
             entryline.append(tag)
         # case
         if model.spread_xls_case:
-            cases_all = system.case.all()
+            cases_all = system.case.all().order_by('case_name')
             # count cases
             n = system.case.count()
             # create empty case string

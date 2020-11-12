@@ -12,7 +12,7 @@ class SystemtypeViewTestCase(TestCase):
         # create object
         Systemtype.objects.create(systemtype_name='systemtype_1')
         # create user
-        test_user = User.objects.create_user(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
+        User.objects.create_user(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
 
     def test_systemtype_list_not_logged_in(self):
         """ test list view """
@@ -28,7 +28,7 @@ class SystemtypeViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
+        self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
         # get response
         response = self.client.get('/systemtype/')
         # compare
@@ -38,7 +38,7 @@ class SystemtypeViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
+        self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
         # get response
         response = self.client.get('/systemtype/')
         # compare
@@ -48,7 +48,7 @@ class SystemtypeViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
+        self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
         # get response
         response = self.client.get('/systemtype/')
         # compare
@@ -58,7 +58,7 @@ class SystemtypeViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
+        self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
         # create url
         destination = urllib.parse.quote('/systemtype/', safe='/')
         # get response
@@ -84,7 +84,7 @@ class SystemtypeViewTestCase(TestCase):
         # get object
         systemtype_1 = Systemtype.objects.get(systemtype_name='systemtype_1')
         # login testuser
-        login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
+        self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
         # get response
         response = self.client.get('/systemtype/' + str(systemtype_1.systemtype_id) + '/')
         # compare
@@ -96,7 +96,7 @@ class SystemtypeViewTestCase(TestCase):
         # get object
         systemtype_1 = Systemtype.objects.get(systemtype_name='systemtype_1')
         # login testuser
-        login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
+        self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
         # get response
         response = self.client.get('/systemtype/' + str(systemtype_1.systemtype_id) + '/')
         # compare
@@ -108,7 +108,7 @@ class SystemtypeViewTestCase(TestCase):
         # get object
         systemtype_1 = Systemtype.objects.get(systemtype_name='systemtype_1')
         # login testuser
-        login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
+        self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
         # get response
         response = self.client.get('/systemtype/' + str(systemtype_1.systemtype_id) + '/')
         # compare
@@ -120,7 +120,7 @@ class SystemtypeViewTestCase(TestCase):
         # get object
         systemtype_1 = Systemtype.objects.get(systemtype_name='systemtype_1')
         # login testuser
-        login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
+        self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
         # create url
         destination = urllib.parse.quote('/systemtype/' + str(systemtype_1.systemtype_id) + '/', safe='/')
         # get response
@@ -142,7 +142,7 @@ class SystemtypeViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
+        self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
         # get response
         response = self.client.get('/systemtype/add/')
         # compare
@@ -152,7 +152,7 @@ class SystemtypeViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
+        self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
         # get response
         response = self.client.get('/systemtype/add/')
         # compare
@@ -162,7 +162,7 @@ class SystemtypeViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
+        self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
         # get response
         response = self.client.get('/systemtype/add/')
         # compare
@@ -172,7 +172,7 @@ class SystemtypeViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
+        self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
         # create url
         destination = urllib.parse.quote('/systemtype/add/', safe='/')
         # get response
@@ -184,7 +184,7 @@ class SystemtypeViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
+        self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
         # create post data
         data_dict = {
             'systemtype_name': 'systemtype_add_post_test',
@@ -202,7 +202,7 @@ class SystemtypeViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
+        self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
         # create post data
         data_dict = {}
         # get response
@@ -214,7 +214,7 @@ class SystemtypeViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
+        self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
         # create post data
         data_dict = {}
         # get response
@@ -236,7 +236,7 @@ class SystemtypeViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
+        self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
         # get response
         response = self.client.get('/systemtype/add_popup/')
         # compare
@@ -246,7 +246,7 @@ class SystemtypeViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
+        self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
         # get response
         response = self.client.get('/systemtype/add_popup/')
         # compare
@@ -256,7 +256,7 @@ class SystemtypeViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
+        self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
         # get response
         response = self.client.get('/systemtype/add_popup/')
         # compare
@@ -266,7 +266,7 @@ class SystemtypeViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
+        self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
         # create url
         destination = urllib.parse.quote('/systemtype/add_popup/', safe='/')
         # get response
@@ -278,17 +278,13 @@ class SystemtypeViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
+        self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
         # create post data
         data_dict = {
             'systemtype_name': 'systemtype_add_popup_post_test',
         }
         # get response
         response = self.client.post('/systemtype/add_popup/', data_dict)
-        # get object
-        systemtype_id = Systemtype.objects.get(systemtype_name = 'systemtype_add_popup_post_test').systemtype_id
-        # create url
-        destination = urllib.parse.quote('/systemtype/' + str(systemtype_id) + '/', safe='/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -296,7 +292,7 @@ class SystemtypeViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
+        self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
         # create post data
         data_dict = {}
         # get response
@@ -308,7 +304,7 @@ class SystemtypeViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
+        self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
         # create post data
         data_dict = {}
         # get response
@@ -334,7 +330,7 @@ class SystemtypeViewTestCase(TestCase):
         # get object
         systemtype_1 = Systemtype.objects.get(systemtype_name='systemtype_1')
         # login testuser
-        login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
+        self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
         # get response
         response = self.client.get('/systemtype/' + str(systemtype_1.systemtype_id) + '/edit/')
         # compare
@@ -346,7 +342,7 @@ class SystemtypeViewTestCase(TestCase):
         # get object
         systemtype_1 = Systemtype.objects.get(systemtype_name='systemtype_1')
         # login testuser
-        login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
+        self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
         # get response
         response = self.client.get('/systemtype/' + str(systemtype_1.systemtype_id) + '/edit/')
         # compare
@@ -358,7 +354,7 @@ class SystemtypeViewTestCase(TestCase):
         # get object
         systemtype_1 = Systemtype.objects.get(systemtype_name='systemtype_1')
         # login testuser
-        login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
+        self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
         # get response
         response = self.client.get('/systemtype/' + str(systemtype_1.systemtype_id) + '/edit/')
         # compare
@@ -370,7 +366,7 @@ class SystemtypeViewTestCase(TestCase):
         # get object
         systemtype_1 = Systemtype.objects.get(systemtype_name='systemtype_1')
         # login testuser
-        login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
+        self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
         # create url
         destination = urllib.parse.quote('/systemtype/' + str(systemtype_1.systemtype_id) + '/edit/', safe='/')
         # get response
@@ -382,7 +378,7 @@ class SystemtypeViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
+        self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
         # create object
         systemtype_1 = Systemtype.objects.create(systemtype_name='systemtype_edit_post_test_1')
         # create post data
@@ -402,7 +398,7 @@ class SystemtypeViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
+        self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
         # get object
         systemtype_id = Systemtype.objects.get(systemtype_name='systemtype_1').systemtype_id
         # create post data
@@ -416,7 +412,7 @@ class SystemtypeViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
+        self.client.login(username='testuser_systemtype', password='A8VfAc8hrJp3Dg7EtMpu')
         # get object
         systemtype_id = Systemtype.objects.get(systemtype_name='systemtype_1').systemtype_id
         # create post data

@@ -12,7 +12,7 @@ class IpAPIViewTestCase(TestCase):
         # create object
         Os.objects.create(os_name='os_api_1')
         # create user
-        test_user = User.objects.create_user(username='testuser_os_api', password='Ty8sCsWifIJmxx4KaJd6')
+        User.objects.create_user(username='testuser_os_api', password='Ty8sCsWifIJmxx4KaJd6')
 
     def test_os_list_api_unauthorized(self):
         """ unauthorized access is forbidden"""
@@ -26,7 +26,7 @@ class IpAPIViewTestCase(TestCase):
         """ GET is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_os_api', password='Ty8sCsWifIJmxx4KaJd6')
+        self.client.login(username='testuser_os_api', password='Ty8sCsWifIJmxx4KaJd6')
         # get response
         response = self.client.get('/api/os/')
         # compare
@@ -36,7 +36,7 @@ class IpAPIViewTestCase(TestCase):
         """ POST is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_os_api', password='Ty8sCsWifIJmxx4KaJd6')
+        self.client.login(username='testuser_os_api', password='Ty8sCsWifIJmxx4KaJd6')
         # create POST string
         poststring = {"os_name": "os_api_2"}
         # get response
@@ -48,7 +48,7 @@ class IpAPIViewTestCase(TestCase):
         """ test redirect with appending slash """
 
         # login testuser
-        login = self.client.login(username='testuser_os_api', password='Ty8sCsWifIJmxx4KaJd6')
+        self.client.login(username='testuser_os_api', password='Ty8sCsWifIJmxx4KaJd6')
         # create url
         destination = urllib.parse.quote('/api/os/', safe='/')
         # get response
@@ -72,7 +72,7 @@ class IpAPIViewTestCase(TestCase):
         # get object
         os_api_1 = Os.objects.get(os_name='os_api_1')
         # login testuser
-        login = self.client.login(username='testuser_os_api', password='Ty8sCsWifIJmxx4KaJd6')
+        self.client.login(username='testuser_os_api', password='Ty8sCsWifIJmxx4KaJd6')
         # get response
         response = self.client.get('/api/os/' + str(os_api_1.os_id) + '/')
         # compare
@@ -84,7 +84,7 @@ class IpAPIViewTestCase(TestCase):
         # get object
         os_api_1 = Os.objects.get(os_name='os_api_1')
         # login testuser
-        login = self.client.login(username='testuser_os_api', password='Ty8sCsWifIJmxx4KaJd6')
+        self.client.login(username='testuser_os_api', password='Ty8sCsWifIJmxx4KaJd6')
         # get response
         response = self.client.delete('/api/os/' + str(os_api_1.os_id) + '/')
         # compare
@@ -96,7 +96,7 @@ class IpAPIViewTestCase(TestCase):
         # get object
         os_api_1 = Os.objects.get(os_name='os_api_1')
         # login testuser
-        login = self.client.login(username='testuser_os_api', password='Ty8sCsWifIJmxx4KaJd6')
+        self.client.login(username='testuser_os_api', password='Ty8sCsWifIJmxx4KaJd6')
         # create url
         destination = urllib.parse.quote('/api/os/' + str(os_api_1.os_id) + '/', safe='/')
         # create PUT string
@@ -112,7 +112,7 @@ class IpAPIViewTestCase(TestCase):
         # get object
         os_api_1 = Os.objects.get(os_name='os_api_1')
         # login testuser
-        login = self.client.login(username='testuser_os_api', password='Ty8sCsWifIJmxx4KaJd6')
+        self.client.login(username='testuser_os_api', password='Ty8sCsWifIJmxx4KaJd6')
         # create url
         destination = urllib.parse.quote('/api/os/' + str(os_api_1.os_id) + '/', safe='/')
         # get response

@@ -14,7 +14,7 @@ class TagViewTestCase(TestCase):
         # create object
         Tag.objects.create(tag_name='tag_1', tagcolor = tagcolor_1)
         # create user
-        test_user = User.objects.create_user(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        User.objects.create_user(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
 
     def test_tag_list_not_logged_in(self):
         """ test list view """
@@ -30,7 +30,7 @@ class TagViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
         # get response
         response = self.client.get('/tag/')
         # compare
@@ -40,7 +40,7 @@ class TagViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
         # get response
         response = self.client.get('/tag/')
         # compare
@@ -50,7 +50,7 @@ class TagViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
         # get response
         response = self.client.get('/tag/')
         # compare
@@ -60,7 +60,7 @@ class TagViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
         # create url
         destination = urllib.parse.quote('/tag/', safe='/')
         # get response
@@ -86,7 +86,7 @@ class TagViewTestCase(TestCase):
         # get object
         tag_1 = Tag.objects.get(tag_name='tag_1')
         # login testuser
-        login = self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
         # get response
         response = self.client.get('/tag/' + str(tag_1.tag_id) + '/')
         # compare
@@ -98,7 +98,7 @@ class TagViewTestCase(TestCase):
         # get object
         tag_1 = Tag.objects.get(tag_name='tag_1')
         # login testuser
-        login = self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
         # get response
         response = self.client.get('/tag/' + str(tag_1.tag_id) + '/')
         # compare
@@ -110,7 +110,7 @@ class TagViewTestCase(TestCase):
         # get object
         tag_1 = Tag.objects.get(tag_name='tag_1')
         # login testuser
-        login = self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
         # get response
         response = self.client.get('/tag/' + str(tag_1.tag_id) + '/')
         # compare
@@ -122,7 +122,7 @@ class TagViewTestCase(TestCase):
         # get object
         tag_1 = Tag.objects.get(tag_name='tag_1')
         # login testuser
-        login = self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
         # create url
         destination = urllib.parse.quote('/tag/' + str(tag_1.tag_id) + '/', safe='/')
         # get response
@@ -144,7 +144,7 @@ class TagViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
         # get response
         response = self.client.get('/tag/add/')
         # compare
@@ -154,7 +154,7 @@ class TagViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
         # get response
         response = self.client.get('/tag/add/')
         # compare
@@ -164,7 +164,7 @@ class TagViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
         # get response
         response = self.client.get('/tag/add/')
         # compare
@@ -174,7 +174,7 @@ class TagViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
         # create url
         destination = urllib.parse.quote('/tag/add/', safe='/')
         # get response
@@ -186,7 +186,7 @@ class TagViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
         # get object
         tagcolor_id = Tagcolor.objects.get(tagcolor_name='tagcolor_1').tagcolor_id
         # create post data
@@ -207,7 +207,7 @@ class TagViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
         # create post data
         data_dict = {}
         # get response
@@ -219,7 +219,7 @@ class TagViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
         # create post data
         data_dict = {}
         # get response
@@ -245,7 +245,7 @@ class TagViewTestCase(TestCase):
         # get object
         tag_1 = Tag.objects.get(tag_name='tag_1')
         # login testuser
-        login = self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
         # get response
         response = self.client.get('/tag/' + str(tag_1.tag_id) + '/edit/')
         # compare
@@ -257,7 +257,7 @@ class TagViewTestCase(TestCase):
         # get object
         tag_1 = Tag.objects.get(tag_name='tag_1')
         # login testuser
-        login = self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
         # get response
         response = self.client.get('/tag/' + str(tag_1.tag_id) + '/edit/')
         # compare
@@ -269,7 +269,7 @@ class TagViewTestCase(TestCase):
         # get object
         tag_1 = Tag.objects.get(tag_name='tag_1')
         # login testuser
-        login = self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
         # get response
         response = self.client.get('/tag/' + str(tag_1.tag_id) + '/edit/')
         # compare
@@ -281,7 +281,7 @@ class TagViewTestCase(TestCase):
         # get object
         tag_1 = Tag.objects.get(tag_name='tag_1')
         # login testuser
-        login = self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
         # create url
         destination = urllib.parse.quote('/tag/' + str(tag_1.tag_id) + '/edit/', safe='/')
         # get response
@@ -293,7 +293,7 @@ class TagViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
         # get object
         tagcolor_1 = Tagcolor.objects.get(tagcolor_name='tagcolor_1')
         # create object
@@ -316,7 +316,7 @@ class TagViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
         # get object
         tag_id = Tag.objects.get(tag_name='tag_1').tag_id
         # create post data
@@ -330,7 +330,7 @@ class TagViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
         # get object
         tag_id = Tag.objects.get(tag_name='tag_1').tag_id
         # create post data
@@ -346,7 +346,7 @@ class TagViewTestCase(TestCase):
         # get object
         tag_1 = Tag.objects.get(tag_name='tag_1')
         # login testuser
-        login = self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
         # get response
         response = self.client.get('/tag/' + str(tag_1.tag_id) + '/delete/')
         # compare
@@ -358,7 +358,7 @@ class TagViewTestCase(TestCase):
         # get object
         tag_1 = Tag.objects.get(tag_name='tag_1')
         # login testuser
-        login = self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
         # get response
         response = self.client.get('/tag/' + str(tag_1.tag_id) + '/delete/')
         # compare
@@ -370,7 +370,7 @@ class TagViewTestCase(TestCase):
         # get object
         tag_1 = Tag.objects.get(tag_name='tag_1')
         # login testuser
-        login = self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
         # get response
         response = self.client.get('/tag/' + str(tag_1.tag_id) + '/delete/')
         # compare
@@ -382,7 +382,7 @@ class TagViewTestCase(TestCase):
         # get object
         tag_1 = Tag.objects.get(tag_name='tag_1')
         # login testuser
-        login = self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
         # create url
         destination = urllib.parse.quote('/tag/' + str(tag_1.tag_id) + '/delete/', safe='/')
         # get response
@@ -394,7 +394,7 @@ class TagViewTestCase(TestCase):
         """ test delete view """
 
         # login testuser
-        login = self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
         # get object
         tagcolor_1 = Tagcolor.objects.get(tagcolor_name='tagcolor_1')
         # create object

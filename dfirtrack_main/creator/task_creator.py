@@ -88,13 +88,6 @@ def task_creator_async(request_post, request_user):
                 # save manytomany
                 form.save_m2m()
 
-                tags = task.tag.all()
-                taglist = []
-                tagstring = 'None'
-                for tag in tags:
-                    taglist.append(tag.tag_name)
-                    tagstring = ','.join(taglist)
-
                 # call logger
                 task.logger( str(request_user), " TASK_CREATOR_EXECUTED")
 

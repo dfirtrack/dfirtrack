@@ -12,7 +12,7 @@ class ArtifacttypeViewTestCase(TestCase):
         # create object
         Artifacttype.objects.create(artifacttype_name='artifacttype_1')
         # create user
-        test_user = User.objects.create_user(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
+        User.objects.create_user(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
 
     def test_artifacttype_list_not_logged_in(self):
         """ test list view """
@@ -28,7 +28,7 @@ class ArtifacttypeViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
+        self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
         # get response
         response = self.client.get('/artifacts/artifacttype/')
         # compare
@@ -38,7 +38,7 @@ class ArtifacttypeViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
+        self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
         # get response
         response = self.client.get('/artifacts/artifacttype/')
         # compare
@@ -48,7 +48,7 @@ class ArtifacttypeViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
+        self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
         # get response
         response = self.client.get('/artifacts/artifacttype/')
         # compare
@@ -58,7 +58,7 @@ class ArtifacttypeViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
+        self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
         # create url
         destination = urllib.parse.quote('/artifacts/artifacttype/', safe='/')
         # get response
@@ -84,7 +84,7 @@ class ArtifacttypeViewTestCase(TestCase):
         # get object
         artifacttype_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_1')
         # login testuser
-        login = self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
+        self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
         # get response
         response = self.client.get('/artifacts/artifacttype/detail/' + str(artifacttype_1.artifacttype_id) + '/')
         # compare
@@ -96,7 +96,7 @@ class ArtifacttypeViewTestCase(TestCase):
         # get object
         artifacttype_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_1')
         # login testuser
-        login = self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
+        self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
         # get response
         response = self.client.get('/artifacts/artifacttype/detail/' + str(artifacttype_1.artifacttype_id) + '/')
         # compare
@@ -108,7 +108,7 @@ class ArtifacttypeViewTestCase(TestCase):
         # get object
         artifacttype_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_1')
         # login testuser
-        login = self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
+        self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
         # get response
         response = self.client.get('/artifacts/artifacttype/detail/' + str(artifacttype_1.artifacttype_id) + '/')
         # compare
@@ -120,7 +120,7 @@ class ArtifacttypeViewTestCase(TestCase):
         # get object
         artifacttype_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_1')
         # login testuser
-        login = self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
+        self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
         # create url
         destination = urllib.parse.quote('/artifacts/artifacttype/detail/' + str(artifacttype_1.artifacttype_id) + '/', safe='/')
         # get response
@@ -142,7 +142,7 @@ class ArtifacttypeViewTestCase(TestCase):
         """ test create view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
+        self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
         # get response
         response = self.client.get('/artifacts/artifacttype/create/')
         # compare
@@ -152,7 +152,7 @@ class ArtifacttypeViewTestCase(TestCase):
         """ test create view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
+        self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
         # get response
         response = self.client.get('/artifacts/artifacttype/create/')
         # compare
@@ -162,7 +162,7 @@ class ArtifacttypeViewTestCase(TestCase):
         """ test create view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
+        self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
         # get response
         response = self.client.get('/artifacts/artifacttype/create/')
         # compare
@@ -172,7 +172,7 @@ class ArtifacttypeViewTestCase(TestCase):
         """ test create view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
+        self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
         # create url
         destination = urllib.parse.quote('/artifacts/artifacttype/create/', safe='/')
         # get response
@@ -184,7 +184,7 @@ class ArtifacttypeViewTestCase(TestCase):
         """ test create view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
+        self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
         # create post data
         data_dict = {
             'artifacttype_name': 'artifacttype_create_post_test',
@@ -202,7 +202,7 @@ class ArtifacttypeViewTestCase(TestCase):
         """ test create view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
+        self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
         # create post data
         data_dict = {}
         # get response
@@ -214,7 +214,7 @@ class ArtifacttypeViewTestCase(TestCase):
         """ test create view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
+        self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
         # create post data
         data_dict = {}
         # get response
@@ -240,7 +240,7 @@ class ArtifacttypeViewTestCase(TestCase):
         # get object
         artifacttype_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_1')
         # login testuser
-        login = self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
+        self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
         # get response
         response = self.client.get('/artifacts/artifacttype/update/' + str(artifacttype_1.artifacttype_id) + '/')
         # compare
@@ -252,7 +252,7 @@ class ArtifacttypeViewTestCase(TestCase):
         # get object
         artifacttype_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_1')
         # login testuser
-        login = self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
+        self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
         # get response
         response = self.client.get('/artifacts/artifacttype/update/' + str(artifacttype_1.artifacttype_id) + '/')
         # compare
@@ -264,7 +264,7 @@ class ArtifacttypeViewTestCase(TestCase):
         # get object
         artifacttype_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_1')
         # login testuser
-        login = self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
+        self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
         # get response
         response = self.client.get('/artifacts/artifacttype/update/' + str(artifacttype_1.artifacttype_id) + '/')
         # compare
@@ -276,7 +276,7 @@ class ArtifacttypeViewTestCase(TestCase):
         # get object
         artifacttype_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_1')
         # login testuser
-        login = self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
+        self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
         # create url
         destination = urllib.parse.quote('/artifacts/artifacttype/update/' + str(artifacttype_1.artifacttype_id) + '/', safe='/')
         # get response
@@ -288,7 +288,7 @@ class ArtifacttypeViewTestCase(TestCase):
         """ test update view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
+        self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
         # create object
         artifacttype_id = Artifacttype.objects.create(artifacttype_name = 'artifacttype_update_post_test_1').artifacttype_id
         # create post data
@@ -306,7 +306,7 @@ class ArtifacttypeViewTestCase(TestCase):
         """ test update view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
+        self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
         # get object
         artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
         # create post data
@@ -320,7 +320,7 @@ class ArtifacttypeViewTestCase(TestCase):
         """ test update view """
 
         # login testuser
-        login = self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
+        self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
         # get object
         artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
         # create post data

@@ -53,11 +53,6 @@ def system_creator_async(request_post, request_user):
             warning_logger(str(request_user), " SYSTEM_CREATOR_ROW_EMPTY")
             continue
 
-        # check line for string
-        if not isinstance(line, str):
-            warning_logger(str(request_user), " SYSTEM_CREATOR_NO_STRING")
-            continue
-
         # check line for length of string
         if len(line) > 50:
             warning_logger(str(request_user), " SYSTEM_CREATOR_LONG_STRING")

@@ -61,7 +61,7 @@ class ArtifactAPIViewTestCase(TestCase):
         """ GET is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_artifact_api', password='rQeyaRKd7Lt6D518TTzv')
+        self.client.login(username='testuser_artifact_api', password='rQeyaRKd7Lt6D518TTzv')
         # get response
         response = self.client.get('/api/artifact/')
         # compare
@@ -71,7 +71,7 @@ class ArtifactAPIViewTestCase(TestCase):
         """ POST is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_artifact_api', password='rQeyaRKd7Lt6D518TTzv')
+        self.client.login(username='testuser_artifact_api', password='rQeyaRKd7Lt6D518TTzv')
         # get user
         test_user_id = User.objects.get(username='testuser_artifact_api').id
         # get object
@@ -98,7 +98,7 @@ class ArtifactAPIViewTestCase(TestCase):
         """ POST is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_artifact_api', password='rQeyaRKd7Lt6D518TTzv')
+        self.client.login(username='testuser_artifact_api', password='rQeyaRKd7Lt6D518TTzv')
         # get user
         test_user_id = User.objects.get(username='testuser_artifact_api').id
         # get object
@@ -134,7 +134,7 @@ class ArtifactAPIViewTestCase(TestCase):
         """ test redirect with appending slash """
 
         # login testuser
-        login = self.client.login(username='testuser_artifact_api', password='rQeyaRKd7Lt6D518TTzv')
+        self.client.login(username='testuser_artifact_api', password='rQeyaRKd7Lt6D518TTzv')
         # create url
         destination = urllib.parse.quote('/api/artifact/', safe='/')
         # get response
@@ -158,7 +158,7 @@ class ArtifactAPIViewTestCase(TestCase):
         # get object
         artifact_api_1 = Artifact.objects.get(artifact_name='artifact_api_1')
         # login testuser
-        login = self.client.login(username='testuser_artifact_api', password='rQeyaRKd7Lt6D518TTzv')
+        self.client.login(username='testuser_artifact_api', password='rQeyaRKd7Lt6D518TTzv')
         # get response
         response = self.client.get('/api/artifact/' + str(artifact_api_1.artifact_id) + '/')
         # compare
@@ -170,7 +170,7 @@ class ArtifactAPIViewTestCase(TestCase):
         # get object
         artifact_api_1 = Artifact.objects.get(artifact_name='artifact_api_1')
         # login testuser
-        login = self.client.login(username='testuser_artifact_api', password='rQeyaRKd7Lt6D518TTzv')
+        self.client.login(username='testuser_artifact_api', password='rQeyaRKd7Lt6D518TTzv')
         # get response
         response = self.client.delete('/api/artifact/' + str(artifact_api_1.artifact_id) + '/')
         # compare
@@ -180,7 +180,7 @@ class ArtifactAPIViewTestCase(TestCase):
         """ PUT is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_artifact_api', password='rQeyaRKd7Lt6D518TTzv')
+        self.client.login(username='testuser_artifact_api', password='rQeyaRKd7Lt6D518TTzv')
         # get user
         test_user_id = User.objects.get(username='testuser_artifact_api').id
         # get object
@@ -211,7 +211,7 @@ class ArtifactAPIViewTestCase(TestCase):
         """ PUT is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_artifact_api', password='rQeyaRKd7Lt6D518TTzv')
+        self.client.login(username='testuser_artifact_api', password='rQeyaRKd7Lt6D518TTzv')
         # get user
         test_user_id = User.objects.get(username='testuser_artifact_api').id
         # get object
@@ -253,7 +253,7 @@ class ArtifactAPIViewTestCase(TestCase):
         # get object
         artifact_api_1 = Artifact.objects.get(artifact_name='artifact_api_1')
         # login testuser
-        login = self.client.login(username='testuser_artifact_api', password='rQeyaRKd7Lt6D518TTzv')
+        self.client.login(username='testuser_artifact_api', password='rQeyaRKd7Lt6D518TTzv')
         # create url
         destination = urllib.parse.quote('/api/artifact/' + str(artifact_api_1.artifact_id) + '/', safe='/')
         # get response

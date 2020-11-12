@@ -12,7 +12,7 @@ class ContactViewTestCase(TestCase):
         # create object
         Contact.objects.create(contact_name='contact_1', contact_email='contact_1@example.org')
         # create user
-        test_user = User.objects.create_user(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        User.objects.create_user(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
 
     def test_contact_list_not_logged_in(self):
         """ test list view """
@@ -28,7 +28,7 @@ class ContactViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
         # get response
         response = self.client.get('/contact/')
         # compare
@@ -38,7 +38,7 @@ class ContactViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
         # get response
         response = self.client.get('/contact/')
         # compare
@@ -48,7 +48,7 @@ class ContactViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
         # get response
         response = self.client.get('/contact/')
         # compare
@@ -58,7 +58,7 @@ class ContactViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
         # create url
         destination = urllib.parse.quote('/contact/', safe='/')
         # get response
@@ -84,7 +84,7 @@ class ContactViewTestCase(TestCase):
         # get object
         contact_1 = Contact.objects.get(contact_name='contact_1')
         # login testuser
-        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
         # get response
         response = self.client.get('/contact/' + str(contact_1.contact_id) + '/')
         # compare
@@ -96,7 +96,7 @@ class ContactViewTestCase(TestCase):
         # get object
         contact_1 = Contact.objects.get(contact_name='contact_1')
         # login testuser
-        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
         # get response
         response = self.client.get('/contact/' + str(contact_1.contact_id) + '/')
         # compare
@@ -108,7 +108,7 @@ class ContactViewTestCase(TestCase):
         # get object
         contact_1 = Contact.objects.get(contact_name='contact_1')
         # login testuser
-        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
         # get response
         response = self.client.get('/contact/' + str(contact_1.contact_id) + '/')
         # compare
@@ -120,7 +120,7 @@ class ContactViewTestCase(TestCase):
         # get object
         contact_1 = Contact.objects.get(contact_name='contact_1')
         # login testuser
-        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
         # create url
         destination = urllib.parse.quote('/contact/' + str(contact_1.contact_id) + '/', safe='/')
         # get response
@@ -142,7 +142,7 @@ class ContactViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
         # get response
         response = self.client.get('/contact/add/')
         # compare
@@ -152,7 +152,7 @@ class ContactViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
         # get response
         response = self.client.get('/contact/add/')
         # compare
@@ -162,7 +162,7 @@ class ContactViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
         # get response
         response = self.client.get('/contact/add/')
         # compare
@@ -172,7 +172,7 @@ class ContactViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
         # create url
         destination = urllib.parse.quote('/contact/add/', safe='/')
         # get response
@@ -184,7 +184,7 @@ class ContactViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
         # create post data
         data_dict = {
             'contact_name': 'contact_add_post_test',
@@ -203,7 +203,7 @@ class ContactViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
         # create post data
         data_dict = {}
         # get response
@@ -215,7 +215,7 @@ class ContactViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
         # create post data
         data_dict = {}
         # get response
@@ -237,7 +237,7 @@ class ContactViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
         # get response
         response = self.client.get('/contact/add_popup/')
         # compare
@@ -247,7 +247,7 @@ class ContactViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
         # get response
         response = self.client.get('/contact/add_popup/')
         # compare
@@ -257,7 +257,7 @@ class ContactViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
         # get response
         response = self.client.get('/contact/add_popup/')
         # compare
@@ -267,7 +267,7 @@ class ContactViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
         # create url
         destination = urllib.parse.quote('/contact/add_popup/', safe='/')
         # get response
@@ -279,7 +279,7 @@ class ContactViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
         # create post data
         data_dict = {
             'contact_name': 'contact_add_popup_post_test',
@@ -287,10 +287,6 @@ class ContactViewTestCase(TestCase):
         }
         # get response
         response = self.client.post('/contact/add_popup/', data_dict)
-        # get object
-        contact_id = Contact.objects.get(contact_name = 'contact_add_popup_post_test').contact_id
-        # create url
-        destination = urllib.parse.quote('/contact/' + str(contact_id) + '/', safe='/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -298,7 +294,7 @@ class ContactViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
         # create post data
         data_dict = {}
         # get response
@@ -310,7 +306,7 @@ class ContactViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
         # create post data
         data_dict = {}
         # get response
@@ -336,7 +332,7 @@ class ContactViewTestCase(TestCase):
         # get object
         contact_1 = Contact.objects.get(contact_name='contact_1')
         # login testuser
-        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
         # get response
         response = self.client.get('/contact/' + str(contact_1.contact_id) + '/edit/')
         # compare
@@ -348,7 +344,7 @@ class ContactViewTestCase(TestCase):
         # get object
         contact_1 = Contact.objects.get(contact_name='contact_1')
         # login testuser
-        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
         # get response
         response = self.client.get('/contact/' + str(contact_1.contact_id) + '/edit/')
         # compare
@@ -360,7 +356,7 @@ class ContactViewTestCase(TestCase):
         # get object
         contact_1 = Contact.objects.get(contact_name='contact_1')
         # login testuser
-        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
         # get response
         response = self.client.get('/contact/' + str(contact_1.contact_id) + '/edit/')
         # compare
@@ -372,7 +368,7 @@ class ContactViewTestCase(TestCase):
         # get object
         contact_1 = Contact.objects.get(contact_name='contact_1')
         # login testuser
-        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
         # create url
         destination = urllib.parse.quote('/contact/' + str(contact_1.contact_id) + '/edit/', safe='/')
         # get response
@@ -384,7 +380,7 @@ class ContactViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
         # create object
         contact_1 = Contact.objects.create(
             contact_name='contact_edit_post_test_1',
@@ -408,7 +404,7 @@ class ContactViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
         # get object
         contact_id = Contact.objects.get(contact_name='contact_1').contact_id
         # create post data
@@ -422,7 +418,7 @@ class ContactViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
+        self.client.login(username='testuser_contact', password='BeQNeJYsIpvJzFi0t5YW')
         # get object
         contact_id = Contact.objects.get(contact_name='contact_1').contact_id
         # create post data

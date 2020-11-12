@@ -1,7 +1,5 @@
 from dfirtrack_api.serializers.dfirtrack_main_fk import CaseFkSerializer, SystemFkSerializer
 from dfirtrack_artifacts.models import Artifact, Artifactstatus, Artifacttype
-from dfirtrack_main.models import Case, System
-from django.contrib.auth.models import User
 from rest_framework import serializers
 
 class ArtifactstatusSerializer(serializers.ModelSerializer):

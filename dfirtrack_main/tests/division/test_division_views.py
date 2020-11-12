@@ -12,7 +12,7 @@ class DivisionViewTestCase(TestCase):
         # create object
         Division.objects.create(division_name='division_1')
         # create user
-        test_user = User.objects.create_user(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
+        User.objects.create_user(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
 
     def test_division_list_not_logged_in(self):
         """ test list view """
@@ -28,7 +28,7 @@ class DivisionViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
+        self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
         # get response
         response = self.client.get('/division/')
         # compare
@@ -38,7 +38,7 @@ class DivisionViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
+        self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
         # get response
         response = self.client.get('/division/')
         # compare
@@ -48,7 +48,7 @@ class DivisionViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
+        self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
         # get response
         response = self.client.get('/division/')
         # compare
@@ -58,7 +58,7 @@ class DivisionViewTestCase(TestCase):
         """ test list view """
 
         # login testuser
-        login = self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
+        self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
         # create url
         destination = urllib.parse.quote('/division/', safe='/')
         # get response
@@ -84,7 +84,7 @@ class DivisionViewTestCase(TestCase):
         # get object
         division_1 = Division.objects.get(division_name='division_1')
         # login testuser
-        login = self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
+        self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
         # get response
         response = self.client.get('/division/' + str(division_1.division_id) + '/')
         # compare
@@ -96,7 +96,7 @@ class DivisionViewTestCase(TestCase):
         # get object
         division_1 = Division.objects.get(division_name='division_1')
         # login testuser
-        login = self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
+        self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
         # get response
         response = self.client.get('/division/' + str(division_1.division_id) + '/')
         # compare
@@ -108,7 +108,7 @@ class DivisionViewTestCase(TestCase):
         # get object
         division_1 = Division.objects.get(division_name='division_1')
         # login testuser
-        login = self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
+        self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
         # get response
         response = self.client.get('/division/' + str(division_1.division_id) + '/')
         # compare
@@ -120,7 +120,7 @@ class DivisionViewTestCase(TestCase):
         # get object
         division_1 = Division.objects.get(division_name='division_1')
         # login testuser
-        login = self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
+        self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
         # create url
         destination = urllib.parse.quote('/division/' + str(division_1.division_id) + '/', safe='/')
         # get response
@@ -142,7 +142,7 @@ class DivisionViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
+        self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
         # get response
         response = self.client.get('/division/add/')
         # compare
@@ -152,7 +152,7 @@ class DivisionViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
+        self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
         # get response
         response = self.client.get('/division/add/')
         # compare
@@ -162,7 +162,7 @@ class DivisionViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
+        self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
         # get response
         response = self.client.get('/division/add/')
         # compare
@@ -172,7 +172,7 @@ class DivisionViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
+        self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
         # create url
         destination = urllib.parse.quote('/division/add/', safe='/')
         # get response
@@ -184,7 +184,7 @@ class DivisionViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
+        self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
         # create post data
         data_dict = {
             'division_name': 'division_add_post_test',
@@ -202,7 +202,7 @@ class DivisionViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
+        self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
         # create post data
         data_dict = {}
         # get response
@@ -214,7 +214,7 @@ class DivisionViewTestCase(TestCase):
         """ test add view """
 
         # login testuser
-        login = self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
+        self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
         # create post data
         data_dict = {}
         # get response
@@ -240,7 +240,7 @@ class DivisionViewTestCase(TestCase):
         # get object
         division_1 = Division.objects.get(division_name='division_1')
         # login testuser
-        login = self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
+        self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
         # get response
         response = self.client.get('/division/' + str(division_1.division_id) + '/edit/')
         # compare
@@ -252,7 +252,7 @@ class DivisionViewTestCase(TestCase):
         # get object
         division_1 = Division.objects.get(division_name='division_1')
         # login testuser
-        login = self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
+        self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
         # get response
         response = self.client.get('/division/' + str(division_1.division_id) + '/edit/')
         # compare
@@ -264,7 +264,7 @@ class DivisionViewTestCase(TestCase):
         # get object
         division_1 = Division.objects.get(division_name='division_1')
         # login testuser
-        login = self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
+        self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
         # get response
         response = self.client.get('/division/' + str(division_1.division_id) + '/edit/')
         # compare
@@ -276,7 +276,7 @@ class DivisionViewTestCase(TestCase):
         # get object
         division_1 = Division.objects.get(division_name='division_1')
         # login testuser
-        login = self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
+        self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
         # create url
         destination = urllib.parse.quote('/division/' + str(division_1.division_id) + '/edit/', safe='/')
         # get response
@@ -288,7 +288,7 @@ class DivisionViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
+        self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
         # create object
         division_1 = Division.objects.create(division_name='division_edit_post_test_1')
         # create post data
@@ -308,7 +308,7 @@ class DivisionViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
+        self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
         # get object
         division_id = Division.objects.get(division_name='division_1').division_id
         # create post data
@@ -322,7 +322,7 @@ class DivisionViewTestCase(TestCase):
         """ test edit view """
 
         # login testuser
-        login = self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
+        self.client.login(username='testuser_division', password='tcrayKsMKw7T6SGBKYgA')
         # get object
         division_id = Division.objects.get(division_name='division_1').division_id
         # create post data

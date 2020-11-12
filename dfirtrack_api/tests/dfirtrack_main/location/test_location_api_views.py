@@ -12,7 +12,7 @@ class LocationAPIViewTestCase(TestCase):
         # create object
         Location.objects.create(location_name='location_api_1')
         # create user
-        test_user = User.objects.create_user(username='testuser_location_api', password='tvjnIPBlhP9P3ixDHVE7')
+        User.objects.create_user(username='testuser_location_api', password='tvjnIPBlhP9P3ixDHVE7')
 
     def test_location_list_api_unauthorized(self):
         """ unauthorized access is forbidden"""
@@ -26,7 +26,7 @@ class LocationAPIViewTestCase(TestCase):
         """ GET is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_location_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_location_api', password='tvjnIPBlhP9P3ixDHVE7')
         # get response
         response = self.client.get('/api/location/')
         # compare
@@ -36,7 +36,7 @@ class LocationAPIViewTestCase(TestCase):
         """ POST is allowed """
 
         # login testuser
-        login = self.client.login(username='testuser_location_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_location_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create POST string
         poststring = {"location_name": "location_api_2"}
         # get response
@@ -48,7 +48,7 @@ class LocationAPIViewTestCase(TestCase):
         """ test redirect with appending slash """
 
         # login testuser
-        login = self.client.login(username='testuser_location_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_location_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create url
         destination = urllib.parse.quote('/api/location/', safe='/')
         # get response
@@ -72,7 +72,7 @@ class LocationAPIViewTestCase(TestCase):
         # get object
         location_api_1 = Location.objects.get(location_name='location_api_1')
         # login testuser
-        login = self.client.login(username='testuser_location_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_location_api', password='tvjnIPBlhP9P3ixDHVE7')
         # get response
         response = self.client.get('/api/location/' + str(location_api_1.location_id) + '/')
         # compare
@@ -84,7 +84,7 @@ class LocationAPIViewTestCase(TestCase):
         # get object
         location_api_1 = Location.objects.get(location_name='location_api_1')
         # login testuser
-        login = self.client.login(username='testuser_location_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_location_api', password='tvjnIPBlhP9P3ixDHVE7')
         # get response
         response = self.client.delete('/api/location/' + str(location_api_1.location_id) + '/')
         # compare
@@ -96,7 +96,7 @@ class LocationAPIViewTestCase(TestCase):
         # get object
         location_api_1 = Location.objects.get(location_name='location_api_1')
         # login testuser
-        login = self.client.login(username='testuser_location_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_location_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create url
         destination = urllib.parse.quote('/api/location/' + str(location_api_1.location_id) + '/', safe='/')
         # create PUT string
@@ -112,7 +112,7 @@ class LocationAPIViewTestCase(TestCase):
         # get object
         location_api_1 = Location.objects.get(location_name='location_api_1')
         # login testuser
-        login = self.client.login(username='testuser_location_api', password='tvjnIPBlhP9P3ixDHVE7')
+        self.client.login(username='testuser_location_api', password='tvjnIPBlhP9P3ixDHVE7')
         # create url
         destination = urllib.parse.quote('/api/location/' + str(location_api_1.location_id) + '/', safe='/')
         # get response
