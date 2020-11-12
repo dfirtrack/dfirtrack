@@ -31,8 +31,6 @@ The following functions are implemented for now:
 * Modificator
     * quick change of status of systems.
 
-A list of feature ideas is maintained in the [Wiki - Roadmap](https://github.com/stuhli/dfirtrack/wiki/Roadmap).
-
 ## Installation
 
 DFIRTrack is developed for deploying on **Debian** or **Ubuntu**.
@@ -75,7 +73,6 @@ See `LICENSE` file in the root directory.
 
 ## Disclaimer
 
-This software is in an early alpha phase so a lot of work has to be done.
 Even if some basic error checking is implemented, as of now the usage of DFIRTrack mainly depends on proper handling.
 
 *DFIRTrack was not and most likely will never be intended for usage on publicly available servers. Nevertheless some basic security features were implemented (in particular in connection with the corresponding ansible role) always install DFIRTrack in a secured environment (e. g. a dedicated virtual machine or in a separated network)!*
