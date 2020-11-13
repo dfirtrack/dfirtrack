@@ -294,30 +294,70 @@
 
 <!-- ############################################ -->
 
-<!-- artifact note -->
+<!-- artifact notes -->
 <div class="card bg-dark border-light card-body top-distance">
 
-    <!-- artifact note headline -->
+    <!-- artifact notes - headline row-->
     <div class="row">
-        <div class="col">
+
+        <!-- artifact internal note headline -->
+        <div class="col-4">
             <h5>
-                Artifact note
+                Internal note
             </h5>
         </div>
+
+        <!-- artifact external note headline -->
+        <div class="col-4">
+            <h5>
+                External note
+            </h5>
+        </div>
+
+        <!-- artifact analysis result note headline -->
+        <div class="col-4">
+            <h5>
+                Analysis result
+            </h5>
+        </div>
+
+    <!-- artifact notes - headline row-->
     </div>
 
-    <!-- artifact note -->
+    <!-- artifact notes - content row-->
     <div class="row">
-        <div class="col-6">
-            {% if artifact.artifact_note %}
-                {{ artifact.artifact_note }}
+
+        <!-- artifact internal note -->
+        <div class="col-4">
+            {% if artifact.artifact_note_internal %}
+                {{ artifact.artifact_note_internal }}
             {% else %}
                 ---
             {% endif  %}
         </div>
+
+        <!-- artifact external note -->
+        <div class="col-4">
+            {% if artifact.artifact_note_external %}
+                {{ artifact.artifact_note_external }}
+            {% else %}
+                ---
+            {% endif  %}
+        </div>
+
+        <!-- artifact analysis result note -->
+        <div class="col-4">
+            {% if artifact.artifact_note_analysisresult %}
+                {{ artifact.artifact_note_analysisresult }}
+            {% else %}
+                ---
+            {% endif  %}
+        </div>
+
+    <!-- artifact notes - content row-->
     </div>
 
-<!-- artifact note -->
+<!-- artifact notes -->
 </div>
 
 <!-- ############################################ -->

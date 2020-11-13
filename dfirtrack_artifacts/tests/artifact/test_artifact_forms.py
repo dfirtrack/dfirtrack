@@ -133,7 +133,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm()
         # compare
-        self.assertEqual(form.fields['artifact_note_analysisresult'].label, 'Artifact analysis result')
+        self.assertEqual(form.fields['artifact_note_analysisresult'].label, 'Analysis result')
 
     def test_artifact_note_external_form_label(self):
         """ test form label """
@@ -141,7 +141,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm()
         # compare
-        self.assertEqual(form.fields['artifact_note_external'].label, 'Artifact note external')
+        self.assertEqual(form.fields['artifact_note_external'].label, 'External note')
 
     def test_artifact_note_internal_form_label(self):
         """ test form label """
@@ -149,7 +149,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm()
         # compare
-        self.assertEqual(form.fields['artifact_note_internal'].label, 'Artifact note internal')
+        self.assertEqual(form.fields['artifact_note_internal'].label, 'Internal note')
 
     def test_artifact_form_empty(self):
         """ test minimum form requirements / INVALID """

@@ -27,7 +27,9 @@ class Artifact(models.Model):
     artifact_acquisition_time = models.DateTimeField(blank=True, null=True)
     artifact_md5 = models.CharField(max_length=32, blank=True, null=True)
     artifact_name = models.CharField(max_length=4096)
-    artifact_note = models.TextField(blank=True, null=True)
+    artifact_note_analysisresult = models.TextField(blank=True, null=True)
+    artifact_note_external = models.TextField(blank=True, null=True)
+    artifact_note_internal = models.TextField(blank=True, null=True)
     artifact_requested_time = models.DateTimeField(blank=True, null=True)
     artifact_sha1 = models.CharField(max_length=40, blank=True, null=True)
     artifact_sha256 = models.CharField(max_length=64, blank=True, null=True)
@@ -61,7 +63,9 @@ class Artifact(models.Model):
             "|artifacttype:" + str(artifact.artifacttype.artifacttype_name) +
             "|system:" + str(artifact.system) +
             "|case:" + str(artifact.case) +
-            "|artifact_note:" + str(artifact.artifact_note) +
+            "|artifact_note_analysisresult:" + str(artifact.artifact_note_analysisresult) +
+            "|artifact_note_external:" + str(artifact.artifact_note_external) +
+            "|artifact_note_internal:" + str(artifact.artifact_note_internal) +
             "|artifact_slug:" + str(artifact.artifact_slug) +
             "|artifact_requested_time:" + str(artifact.artifact_requested_time) +
             "|artifact_acquisition_time:" + str(artifact.artifact_acquisition_time) +

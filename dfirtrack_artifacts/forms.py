@@ -31,7 +31,9 @@ class ArtifactForm(forms.ModelForm):
             'artifact_md5',
             'artifact_sha1',
             'artifact_sha256',
-            'artifact_note',
+            'artifact_note_internal',
+            'artifact_note_external',
+            'artifact_note_analysisresult',
         ]
 
         # non default form labeling
@@ -44,6 +46,9 @@ class ArtifactForm(forms.ModelForm):
             'artifact_md5': gettext_lazy('MD5'),
             'artifact_sha1': gettext_lazy('SHA1'),
             'artifact_sha256': gettext_lazy('SHA256'),
+            'artifact_note_internal': gettext_lazy('Internal note'),
+            'artifact_note_external': gettext_lazy('External note'),
+            'artifact_note_analysisresult': gettext_lazy('Analysis result'),
         }
 
         # special form type or option
