@@ -5,6 +5,7 @@ from dfirtrack_artifacts.views import artifact_view, artifactstatus_view, artifa
 urlpatterns = (
     # urls for Artifact
     path(r'artifact/', artifact_view.ArtifactListView.as_view(), name='artifacts_artifact_list'),
+    path(r'artifact/closed/', artifact_view.ArtifactClosedView.as_view(), name='artifacts_artifact_closed'),
     path(r'artifact/create/', artifact_view.ArtifactCreateView.as_view(), name='artifacts_artifact_create'),
     path(r'artifact/detail/<int:pk>/', artifact_view.ArtifactDetailView.as_view(), name='artifacts_artifact_detail'),
     path(r'artifact/update/<int:pk>/', artifact_view.ArtifactUpdateView.as_view(), name='artifacts_artifact_update'),

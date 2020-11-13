@@ -24,11 +24,20 @@
 
 <!-- headline -->
 <div class="row bottom-distance">
-    <div class="col">
+    <div class="col-3">
         <h5>
-            Artifacts
+            Open artifacts
         </h5>
     </div>
+
+    <!-- closed artifacts button -->
+    <div class="col-2">
+        <a href="{% url 'artifacts_artifact_closed' %}" type="button" class="btn btn-light copy-false">
+            Closed artifacts
+        </a>
+    </div>
+
+<!-- headline -->
 </div>
 
 <!-- datatable artifact -->
@@ -46,6 +55,7 @@
         {% endfor %}
     </tbody>
 
+<!-- datatable artifact -->
 </table>
 
 <!-- javascript for datatables -->
