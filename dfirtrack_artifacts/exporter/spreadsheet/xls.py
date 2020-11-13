@@ -57,8 +57,12 @@ def artifact(request):
         headline.append('Source path')
     if model.artifactlist_xls_artifact_storage_path:
         headline.append('Storage path')
-    if model.artifactlist_xls_artifact_note:
-        headline.append('Note')
+    if model.artifactlist_xls_artifact_note_internal:
+        headline.append('Internal note')
+    if model.artifactlist_xls_artifact_note_external:
+        headline.append('External note')
+    if model.artifactlist_xls_artifact_note_analysisresult:
+        headline.append('Analysis result')
     if model.artifactlist_xls_artifact_md5:
         headline.append('MD5')
     if model.artifactlist_xls_artifact_sha1:
@@ -133,13 +137,27 @@ def artifact(request):
         if model.artifactlist_xls_artifact_storage_path:
             artifact_storage_path = artifact.artifact_storage_path
             entryline.append(artifact_storage_path)
-        # artifact note
-        if model.artifactlist_xls_artifact_note:
-            if artifact.artifact_note == None:
-                artifact_note = ''
+        # artifact note internal
+        if model.artifactlist_xls_artifact_note_internal:
+            if artifact.artifact_note_internal == None:
+                artifact_note_internal = ''
             else:
-                artifact_note = artifact.artifact_note
-            entryline.append(artifact_note)
+                artifact_note_internal = artifact.artifact_note_internal
+            entryline.append(artifact_note_internal)
+        # artifact note external
+        if model.artifactlist_xls_artifact_note_external:
+            if artifact.artifact_note_external == None:
+                artifact_note_external = ''
+            else:
+                artifact_note_external = artifact.artifact_note_external
+            entryline.append(artifact_note_external)
+        # artifact note analysisresult
+        if model.artifactlist_xls_artifact_note_analysisresult:
+            if artifact.artifact_note_analysisresult == None:
+                artifact_note_analysisresult = ''
+            else:
+                artifact_note_analysisresult = artifact.artifact_note_analysisresult
+            entryline.append(artifact_note_analysisresult)
         # artifact md5
         if model.artifactlist_xls_artifact_md5:
             if artifact.artifact_md5 == None:

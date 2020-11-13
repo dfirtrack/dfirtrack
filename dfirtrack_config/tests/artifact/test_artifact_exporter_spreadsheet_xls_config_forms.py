@@ -75,13 +75,29 @@ class ArtifactExporterSpreadsheetXlsConfigFormTestCase(TestCase):
         # compare
         self.assertEqual(form.fields['artifactlist_xls_artifact_storage_path'].label, 'Export storage path')
 
-    def test_artifact_exporter_spreadsheet_xls_config_artifactlist_xls_artifact_note_form_label(self):
+    def test_artifact_exporter_spreadsheet_xls_config_artifactlist_xls_artifact_note_internal_form_label(self):
         """ test form label """
 
         # get object
         form = ArtifactExporterSpreadsheetXlsConfigForm()
         # compare
-        self.assertEqual(form.fields['artifactlist_xls_artifact_note'].label, 'Export note')
+        self.assertEqual(form.fields['artifactlist_xls_artifact_note_internal'].label, 'Export internal note')
+
+    def test_artifact_exporter_spreadsheet_xls_config_artifactlist_xls_artifact_note_external_form_label(self):
+        """ test form label """
+
+        # get object
+        form = ArtifactExporterSpreadsheetXlsConfigForm()
+        # compare
+        self.assertEqual(form.fields['artifactlist_xls_artifact_note_external'].label, 'Export external note')
+
+    def test_artifact_exporter_spreadsheet_xls_config_artifactlist_xls_artifact_note_analysisresult_form_label(self):
+        """ test form label """
+
+        # get object
+        form = ArtifactExporterSpreadsheetXlsConfigForm()
+        # compare
+        self.assertEqual(form.fields['artifactlist_xls_artifact_note_analysisresult'].label, 'Export analysis result')
 
     def test_artifact_exporter_spreadsheet_xls_config_artifactlist_xls_artifact_md5_form_label(self):
         """ test form label """
