@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
 from django.utils import timezone
-from django.utils.dateparse import parse_datetime
+#from django.utils.dateparse import parse_datetime
 from dfirtrack.config import EVIDENCE_PATH
 from dfirtrack_artifacts.models import Artifact, Artifactstatus, Artifacttype
 from dfirtrack_main.models import System, Systemstatus
@@ -266,14 +266,16 @@ class ArtifactViewTestCase(TestCase):
                 #'artifact_aqcquisition_time': '2020-02-01 12:34:56',
                 'artifact_md5': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
                 'artifact_name': 'Artifact Create_post_complete_test',
-                'artifact_note': 'lorem ipsum',
+                'artifact_note_analysisresult': 'this is a note for analysis results - export considered',
+                'artifact_note_external': 'this is a note for external usage - export considered',
+                'artifact_note_internal': 'this is a note for internal usage - no export intended',
                 # 'artifact_requested_time': '2020-02-02 23:45:16',
                 'artifact_sha1': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
                 'artifact_sha256': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
                 'artifact_source_path': '/bin/evil',
             }
             # get response
-            response = self.client.post('/artifacts/artifact/create/', data_dict)
+            self.client.post('/artifacts/artifact/create/', data_dict)
             # get artifact
             artifact = Artifact.objects.get(artifact_name = 'Artifact Create_post_complete_test')
             # build expected storage path
@@ -290,7 +292,9 @@ class ArtifactViewTestCase(TestCase):
             #self.assertEqual(artifact.artifact_acquisition_time, expected_acquisition_time)
             self.assertEqual(artifact.artifact_md5, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
             self.assertEqual(artifact.artifact_name, 'Artifact Create_post_complete_test')
-            self.assertEqual(artifact.artifact_note, 'lorem ipsum')
+            self.assertEqual(artifact.artifact_note_analysisresult, 'this is a note for analysis results - export considered')
+            self.assertEqual(artifact.artifact_note_external, 'this is a note for external usage - export considered')
+            self.assertEqual(artifact.artifact_note_internal, 'this is a note for internal usage - no export intended')
             #self.assertEqual(artifact.artifact_requested_time, expected_requested_time)
             self.assertEqual(artifact.artifact_sha1, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
             self.assertEqual(artifact.artifact_sha256, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')

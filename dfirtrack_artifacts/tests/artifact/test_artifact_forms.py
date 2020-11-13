@@ -127,13 +127,29 @@ class ArtifactFormTestCase(TestCase):
         # compare
         self.assertEqual(form.fields['artifact_sha256'].label, 'SHA256')
 
-    def test_artifact_note_form_label(self):
+    def test_artifact_note_analysisresult_form_label(self):
         """ test form label """
 
         # get object
         form = ArtifactForm()
         # compare
-        self.assertEqual(form.fields['artifact_note'].label, 'Artifact note')
+        self.assertEqual(form.fields['artifact_note_analysisresult'].label, 'Artifact analysis result')
+
+    def test_artifact_note_external_form_label(self):
+        """ test form label """
+
+        # get object
+        form = ArtifactForm()
+        # compare
+        self.assertEqual(form.fields['artifact_note_external'].label, 'Artifact note external')
+
+    def test_artifact_note_internal_form_label(self):
+        """ test form label """
+
+        # get object
+        form = ArtifactForm()
+        # compare
+        self.assertEqual(form.fields['artifact_note_internal'].label, 'Artifact note internal')
 
     def test_artifact_form_empty(self):
         """ test minimum form requirements / INVALID """
@@ -343,7 +359,7 @@ class ArtifactFormTestCase(TestCase):
         # compare
         self.assertTrue(form.is_valid())
 
-    def test_artifact_note_form_filled(self):
+    def test_artifact_note_analysisresult_form_filled(self):
         """ test additional form content """
 
         # get object
@@ -358,7 +374,47 @@ class ArtifactFormTestCase(TestCase):
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
-            'artifact_note': 'lorem ipsum',
+            'artifact_note_analysisresult': 'this is a note for analysis results - export considered',
+        })
+        # compare
+        self.assertTrue(form.is_valid())
+
+    def test_artifact_note_external_form_filled(self):
+        """ test additional form content """
+
+        # get object
+        artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1').artifactstatus_id
+        # get object
+        artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
+        # get object
+        system_id = System.objects.get(system_name='system_1').system_id
+        # get object
+        form = ArtifactForm(data = {
+            'artifact_name': 'artifact_1',
+            'artifactstatus': artifactstatus_id,
+            'artifacttype': artifacttype_id,
+            'system': system_id,
+            'artifact_note_external': 'this is a note for external usage - export considered',
+        })
+        # compare
+        self.assertTrue(form.is_valid())
+
+    def test_artifact_note_internal_form_filled(self):
+        """ test additional form content """
+
+        # get object
+        artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1').artifactstatus_id
+        # get object
+        artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
+        # get object
+        system_id = System.objects.get(system_name='system_1').system_id
+        # get object
+        form = ArtifactForm(data = {
+            'artifact_name': 'artifact_1',
+            'artifactstatus': artifactstatus_id,
+            'artifacttype': artifacttype_id,
+            'system': system_id,
+            'artifact_note_internal': 'this is a note for internal usage - no export intended',
         })
         # compare
         self.assertTrue(form.is_valid())

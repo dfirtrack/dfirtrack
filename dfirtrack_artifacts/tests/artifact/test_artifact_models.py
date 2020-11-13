@@ -135,15 +135,35 @@ class ArtifactModelTestCase(TestCase):
         # compare
         self.assertEqual(field_label, 'artifact name')
 
-    def test_artifact_note_attribute_label(self):
+    def test_artifact_note_analysisresult_attribute_label(self):
         """ test attribute label """
 
         # get object
         artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
         # get label
-        field_label = artifact_1._meta.get_field('artifact_note').verbose_name
+        field_label = artifact_1._meta.get_field('artifact_note_analysisresult').verbose_name
         # compare
-        self.assertEqual(field_label, 'artifact note')
+        self.assertEqual(field_label, 'artifact note analysisresult')
+
+    def test_artifact_note_external_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
+        # get label
+        field_label = artifact_1._meta.get_field('artifact_note_external').verbose_name
+        # compare
+        self.assertEqual(field_label, 'artifact note external')
+
+    def test_artifact_note_internal_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
+        # get label
+        field_label = artifact_1._meta.get_field('artifact_note_internal').verbose_name
+        # compare
+        self.assertEqual(field_label, 'artifact note internal')
 
     def test_artifact_requested_time_attribute_label(self):
         """ test attribute label """
