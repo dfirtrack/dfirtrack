@@ -59,7 +59,9 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
                 artifacttype = artifacttype_1,
                 system = system_1,
                 artifact_source_path = 'C:\Temp\malicious.exe',
-                artifact_note = 'lorem ipsum',
+                artifact_note_analysisresult = 'artifact note for analysis result',
+                artifact_note_external = 'artifact note for external usage',
+                artifact_note_internal = 'artifact note for internal usage',
                 artifact_md5 = 'd41d8cd98f00b204e9800998ecf8427e',
                 artifact_sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
                 artifact_sha256 = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
@@ -139,7 +141,9 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
             artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifacttype = False
             artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_source_path = False
             artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_storage_path = False
-            artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_note = False
+            artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_note_analysisresult = False
+            artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_note_external = False
+            artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_note_internal = False
             artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_md5 = False
             artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_sha1 = False
             artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_sha256 = False
@@ -199,7 +203,9 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
             artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifacttype = True
             artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_source_path = True
             artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_storage_path = True
-            artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_note = True
+            artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_note_analysisresult = True
+            artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_note_external = True
+            artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_note_internal = True
             artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_md5 = True
             artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_sha1 = True
             artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_sha256 = True
@@ -273,12 +279,14 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
             self.assertEqual(sheet_artifacts.cell(1,5).value, artifact_1.artifacttype.artifacttype_name)
             self.assertEqual(sheet_artifacts.cell(1,6).value, artifact_1.artifact_source_path)
             self.assertEqual(sheet_artifacts.cell(1,7).value, artifact_1.artifact_storage_path)
-            self.assertEqual(sheet_artifacts.cell(1,8).value, artifact_1.artifact_note)
-            self.assertEqual(sheet_artifacts.cell(1,9).value, artifact_1.artifact_md5)
-            self.assertEqual(sheet_artifacts.cell(1,10).value, artifact_1.artifact_sha1)
-            self.assertEqual(sheet_artifacts.cell(1,11).value, artifact_1.artifact_sha256)
-            self.assertEqual(sheet_artifacts.cell(1,12).value, '2012-11-10 12:34')
-            self.assertEqual(sheet_artifacts.cell(1,13).value, '2012-11-10 12:34')
+            self.assertEqual(sheet_artifacts.cell(1,8).value, 'artifact note for analysis result')      # artifact_note_analysisresult
+            self.assertEqual(sheet_artifacts.cell(1,9).value, 'artifact note for external usage')       # artifact_note_external
+            self.assertEqual(sheet_artifacts.cell(1,10).value, 'artifact note for internal usage')      # artifact_note_internal
+            self.assertEqual(sheet_artifacts.cell(1,11).value, artifact_1.artifact_md5)
+            self.assertEqual(sheet_artifacts.cell(1,12).value, artifact_1.artifact_sha1)
+            self.assertEqual(sheet_artifacts.cell(1,13).value, artifact_1.artifact_sha256)
+            self.assertEqual(sheet_artifacts.cell(1,14).value, '2012-11-10 12:34')
+            self.assertEqual(sheet_artifacts.cell(1,15).value, '2012-11-10 12:34')
             # compare content - artifact 2
             self.assertEqual(int(sheet_artifacts.cell(2,0).value), artifact_2.artifact_id)
             self.assertEqual(sheet_artifacts.cell(2,1).value, artifact_2.artifact_name)
@@ -292,8 +300,10 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
             self.assertEqual(sheet_artifacts.cell(2,9).value, '')
             self.assertEqual(sheet_artifacts.cell(2,10).value, '')
             self.assertEqual(sheet_artifacts.cell(2,11).value, '')
-            self.assertEqual(sheet_artifacts.cell(2,12).value, '2009-08-07 23:45')
-            self.assertEqual(sheet_artifacts.cell(2,13).value, '2009-08-07 23:45')
+            self.assertEqual(sheet_artifacts.cell(2,12).value, '')
+            self.assertEqual(sheet_artifacts.cell(2,13).value, '')
+            self.assertEqual(sheet_artifacts.cell(2,14).value, '2009-08-07 23:45')
+            self.assertEqual(sheet_artifacts.cell(2,15).value, '2009-08-07 23:45')
             # compare content - artifactstatus worksheet (whole columns)
             self.assertEqual(sheet_artifactstatus.col_values(0), artifactstatus_id_list)
             self.assertEqual(sheet_artifactstatus.col_values(1), artifactstatus_name_list)
