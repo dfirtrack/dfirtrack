@@ -19,11 +19,11 @@ class ArtifactListView(LoginRequiredMixin, ListView):
 class ArtifactClosedView(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Artifact
-    template_name = 'dfirtrack_artifacts/artifact/artifact_closed_list.html'
+    template_name = 'dfirtrack_artifacts/artifact/artifact_closed.html'
     context_object_name = 'artifact_list'
 
     def get_queryset(self):
-        debug_logger(str(self.request.user), ' ARTIFACT_CLOSED_LIST_ENTERED')
+        debug_logger(str(self.request.user), ' ARTIFACT_CLOSED_ENTERED')
         return Artifact.objects.order_by('artifact_id')
 
 class ArtifactDetailView(LoginRequiredMixin, DetailView):

@@ -101,6 +101,58 @@ class ArtifactViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
+    def test_artifact_closed_not_logged_in(self):
+        """ test closed view """
+
+        # create url
+        destination = '/login/?next=' + urllib.parse.quote('/artifacts/artifact/closed/', safe='')
+        # get response
+        response = self.client.get('/artifacts/artifact/closed/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_artifact_closed_logged_in(self):
+        """ test closed view """
+
+        # login testuser
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        # get response
+        response = self.client.get('/artifacts/artifact/closed/')
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_artifact_closed_template(self):
+        """ test closed view """
+
+        # login testuser
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        # get response
+        response = self.client.get('/artifacts/artifact/closed/')
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_artifacts/artifact/artifact_closed.html')
+
+    def test_artifact_closed_get_user_context(self):
+        """ test closed view """
+
+        # login testuser
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        # get response
+        response = self.client.get('/artifacts/artifact/closed/')
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_artifact')
+
+    def test_artifact_closed_redirect(self):
+        """ test closed view """
+
+        # login testuser
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        # create url
+        destination = urllib.parse.quote('/artifacts/artifact/closed/', safe='/')
+        # get response
+        response = self.client.get('/artifacts/artifact/closed', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
     def test_artifact_detail_not_logged_in(self):
         """ test detail view """
 
