@@ -125,7 +125,7 @@ class TaskViewTestCase(TestCase):
         # get response
         response = self.client.get('/task/closed/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/task/task_closed_list.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/task/task_closed.html')
 
     def test_task_closed_get_user_context(self):
         """ test closed view """

@@ -23,7 +23,7 @@ class TaskList(LoginRequiredMixin, ListView):
 class TaskClosed(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Task
-    template_name = 'dfirtrack_main/task/task_closed_list.html'
+    template_name = 'dfirtrack_main/task/task_closed.html'
     context_object_name = 'task_list'
 
     def get_queryset(self):
