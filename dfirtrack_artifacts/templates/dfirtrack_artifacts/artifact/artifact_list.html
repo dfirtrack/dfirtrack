@@ -30,10 +30,24 @@
         </h5>
     </div>
 
+    <!-- open artifacts button -->
+    <div class="col-2">
+        <button type="button" class="btn btn-light copy-false" disabled>
+            Open artifacts
+        </button>
+    </div>
+
     <!-- closed artifacts button -->
     <div class="col-2">
         <a href="{% url 'artifacts_artifact_closed' %}" type="button" class="btn btn-light copy-false">
             Closed artifacts
+        </a>
+    </div>
+
+    <!-- all artifacts button -->
+    <div class="col-2">
+        <a href="{% url 'artifacts_artifact_all' %}" type="button" class="btn btn-light copy-false">
+            All artifacts
         </a>
     </div>
 

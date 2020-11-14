@@ -6,7 +6,7 @@
 
 <!-- page title -->
 <title>
-    DFIRTrack - Closed artifacts
+    DFIRTrack - All artifacts
 </title>
 
 <!-- javascript and CSS for datatables -->
@@ -26,7 +26,7 @@
 <div class="row bottom-distance">
     <div class="col-3">
         <h5>
-            Closed artifacts
+            All artifacts
         </h5>
     </div>
 
@@ -39,22 +39,22 @@
 
     <!-- closed artifacts button -->
     <div class="col-2">
-        <button type="button" class="btn btn-light copy-false" disabled>
+        <a href="{% url 'artifacts_artifact_closed' %}" type="button" class="btn btn-light copy-false">
             Closed artifacts
-        </button>
+        </a>
     </div>
 
     <!-- all artifacts button -->
     <div class="col-2">
-        <a href="{% url 'artifacts_artifact_all' %}" type="button" class="btn btn-light copy-false">
+        <button type="button" class="btn btn-light copy-false" disabled>
             All artifacts
-        </a>
+        </button>
     </div>
 
 <!-- headline -->
 </div>
 
-<!-- datatable closed artifact -->
+<!-- datatable all artifact -->
 <table id="table_artifact" class="display" width="100%">
 
     <!-- table head -->
@@ -69,7 +69,7 @@
         {% endfor %}
     </tbody>
 
-<!-- datatable closed artifact -->
+<!-- datatable all artifact -->
 </table>
 
 <!-- javascript for datatables -->
