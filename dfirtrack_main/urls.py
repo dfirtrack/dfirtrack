@@ -159,6 +159,7 @@ urlpatterns = [
 
     path(r'task/', task_views.TaskList.as_view(), name='task_list'),
     path(r'task/closed/', task_views.TaskClosed.as_view(), name='task_closed'),
+    path(r'task/all/', task_views.TaskAll.as_view(), name='task_all'),
     path(r'task/<int:pk>/', task_views.TaskDetail.as_view(), name='task_detail'),
     path(r'task/add/', task_views.TaskCreate.as_view(), name='task_create'),
     path(r'task/<int:pk>/edit/', task_views.TaskUpdate.as_view(), name='task_update'),
