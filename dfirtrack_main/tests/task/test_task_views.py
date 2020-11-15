@@ -149,6 +149,58 @@ class TaskViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
+    def test_task_all_not_logged_in(self):
+        """ test all view """
+
+        # create url
+        destination = '/login/?next=' + urllib.parse.quote('/task/all/', safe='')
+        # get response
+        response = self.client.get('/task/all/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_task_all_logged_in(self):
+        """ test all view """
+
+        # login testuser
+        self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
+        # get response
+        response = self.client.get('/task/all/')
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_task_all_template(self):
+        """ test all view """
+
+        # login testuser
+        self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
+        # get response
+        response = self.client.get('/task/all/')
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/task/task_all.html')
+
+    def test_task_all_get_user_context(self):
+        """ test all view """
+
+        # login testuser
+        self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
+        # get response
+        response = self.client.get('/task/all/')
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_task')
+
+    def test_task_all_redirect(self):
+        """ test all view """
+
+        # login testuser
+        self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
+        # create url
+        destination = urllib.parse.quote('/task/all/', safe='/')
+        # get response
+        response = self.client.get('/task/all', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
     def test_task_detail_not_logged_in(self):
         """ test detail view """
 
