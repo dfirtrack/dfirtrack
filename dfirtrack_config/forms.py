@@ -67,10 +67,16 @@ class MainConfigForm(forms.ModelForm):
         # this HTML forms are shown
         fields = (
             'system_name_editable',
+            'artifactstatus_open',
         )
 
         labels = {
             'system_name_editable': 'Make system name editable',
+            'artifactstatus_open': 'Artifactstatus to be considered open',
+        }
+
+        widgets = {
+            'artifactstatus_open': forms.CheckboxSelectMultiple(),
         }
 
 class SystemExporterMarkdownConfigForm(forms.ModelForm):

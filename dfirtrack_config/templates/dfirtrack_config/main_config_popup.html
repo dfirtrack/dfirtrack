@@ -53,6 +53,26 @@
             </div>
         </div>
 
+        <!-- artifact block -->
+        <div class="col-6">
+            <div class="card card-body bg-dark border-light top-distance">
+
+                <h5>
+                    {{ form.artifactstatus_open.label }}
+                </h5>
+
+                <!-- errors -->
+                <div class="text-danger">
+                    {{ form.artifactstatus_open.errors }}
+                </div>
+                {% for i in form.artifactstatus_open %}
+                    {{ i }}<br>
+                {% endfor %}
+
+            <!-- artifact block -->
+            </div>
+        </div>
+
     <!-- row -->
     </div>
 

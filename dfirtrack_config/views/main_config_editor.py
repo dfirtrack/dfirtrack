@@ -21,6 +21,7 @@ def main_config_view(request):
             # save settings
             model = form.save(commit=False)
             model.save()
+            form.save_m2m()
 
             # call logger
             info_logger(str(request.user), " MAIN_CONFIG_CHANGED")
