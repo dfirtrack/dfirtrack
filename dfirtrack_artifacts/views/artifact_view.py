@@ -3,14 +3,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.views.generic import DetailView, ListView, UpdateView, CreateView
 from dfirtrack_artifacts.forms import ArtifactForm
-from dfirtrack_artifacts.models import Artifact
+from dfirtrack_artifacts.models import Artifact, Artifactstatus
 from dfirtrack_config.models import MainConfigModel
 from dfirtrack_main.logger.default_logger import debug_logger
 
 def query_artifact(artifactstatus_list):
     """ query artifacts with a list of specific artifactstatus """
 
-    # create empyt artifact queryset
+    # create empty artifact queryset
     artifacts_merged = Artifact.objects.none()
 
     # iterate over artifactstatus objects
@@ -35,14 +35,20 @@ class ArtifactListView(LoginRequiredMixin, ListView):
     context_object_name = 'artifact_list'
 
     def get_queryset(self):
+
         # call logger
         debug_logger(str(self.request.user), ' ARTIFACT_LIST_ENTERED')
         # get config
         main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+
+        """ get all artifacts with artifactstatus to be considered open """
+
         # get 'open' artifactstatus from config
         artifactstatus_open = main_config_model.artifactstatus_open.all()
-        # guery artifacts according to subset of artifactstatus
+        # guery artifacts according to subset of artifactstatus open
         artifacts = query_artifact(artifactstatus_open)
+
+        # return artifacts according to query
         return artifacts
 
 class ArtifactClosedView(LoginRequiredMixin, ListView):
@@ -52,12 +58,38 @@ class ArtifactClosedView(LoginRequiredMixin, ListView):
     context_object_name = 'artifact_list'
 
     def get_queryset(self):
+
         # call logger
         debug_logger(str(self.request.user), ' ARTIFACT_CLOSED_ENTERED')
         # get config
         main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
-        # TODO: modify query
-        return Artifact.objects.order_by('artifact_id')
+
+        # TODO: there might be an easier way to achieve the following behavior
+
+        """ get all artifacts with artifactstatus to be considered closed """
+
+        # get all artifactstatus from database
+        artifactstatus_all = Artifactstatus.objects.all()
+        # get 'open' artifactstatus from config
+        artifactstatus_open = main_config_model.artifactstatus_open.all()
+        # create empty artifactstatus queryset
+        artifactstatus_closed = Artifactstatus.objects.none()
+
+        # iterate over all artifactstatus
+        for artifactstatus in artifactstatus_all:
+
+            # if this specific artifactstatus is not in the subset of open artifactstatus
+            if artifactstatus not in artifactstatus_open:
+
+                # convert single object to queryset containing this single object
+                artifactstatus_single = Artifactstatus.objects.filter(artifactstatus_name=artifactstatus.artifactstatus_name)
+                # add single artifact to closed queryset
+                artifactstatus_closed = artifactstatus_single | artifactstatus_closed
+
+        # guery artifacts according to subset of artifactstatus closed
+        artifacts = query_artifact(artifactstatus_closed)
+        # return artifacts according to query
+        return artifacts
 
 class ArtifactAllView(LoginRequiredMixin, ListView):
     login_url = '/login'
@@ -109,7 +141,7 @@ class ArtifactCreateView(LoginRequiredMixin, CreateView):
         # check for existing hashes
         self.object.check_existing_hashes(self.request)
 
-        return super().form_valid(form) 
+        return super().form_valid(form)
 
     # TODO: remove if not used
     #def form_invalid(self, form):
