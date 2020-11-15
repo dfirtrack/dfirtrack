@@ -4,7 +4,29 @@ from django.shortcuts import render
 from django.views.generic import DetailView, ListView, UpdateView, CreateView
 from dfirtrack_artifacts.forms import ArtifactForm
 from dfirtrack_artifacts.models import Artifact
+from dfirtrack_config.models import MainConfigModel
 from dfirtrack_main.logger.default_logger import debug_logger
+
+def query_artifact(artifactstatus_list):
+    """ query artifacts with a list of specific artifactstatus """
+
+    # create empyt artifact queryset
+    artifacts_merged = Artifact.objects.none()
+
+    # iterate over artifactstatus objects
+    for artifactstatus in artifactstatus_list:
+
+        # get artifacts with specific artifactstatus
+        artifacts = Artifact.objects.filter(artifactstatus=artifactstatus)
+
+        # add artifacts from above query to merge queryset
+        artifacts_merged = artifacts | artifacts_merged
+
+    # sort artifacts by id
+    artifacts_sorted = artifacts_merged.order_by('artifact_id')
+
+    # return sorted artifacts with specific artifactstatus
+    return artifacts_sorted
 
 class ArtifactListView(LoginRequiredMixin, ListView):
     login_url = '/login'
@@ -13,8 +35,15 @@ class ArtifactListView(LoginRequiredMixin, ListView):
     context_object_name = 'artifact_list'
 
     def get_queryset(self):
+        # call logger
         debug_logger(str(self.request.user), ' ARTIFACT_LIST_ENTERED')
-        return Artifact.objects.order_by('artifact_id')
+        # get config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        # get 'open' artifactstatus from config
+        artifactstatus_open = main_config_model.artifactstatus_open.all()
+        # guery artifacts according to subset of artifactstatus
+        artifacts = query_artifact(artifactstatus_open)
+        return artifacts
 
 class ArtifactClosedView(LoginRequiredMixin, ListView):
     login_url = '/login'
@@ -23,7 +52,11 @@ class ArtifactClosedView(LoginRequiredMixin, ListView):
     context_object_name = 'artifact_list'
 
     def get_queryset(self):
+        # call logger
         debug_logger(str(self.request.user), ' ARTIFACT_CLOSED_ENTERED')
+        # get config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        # TODO: modify query
         return Artifact.objects.order_by('artifact_id')
 
 class ArtifactAllView(LoginRequiredMixin, ListView):
@@ -33,6 +66,7 @@ class ArtifactAllView(LoginRequiredMixin, ListView):
     context_object_name = 'artifact_list'
 
     def get_queryset(self):
+        # call logger
         debug_logger(str(self.request.user), ' ARTIFACT_ALL_ENTERED')
         return Artifact.objects.order_by('artifact_id')
 
@@ -44,7 +78,7 @@ class ArtifactDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         systemtype = self.object
-        systemtype.logger(str(self.request.user), " ARTIFACT_DETAIL_ENTERED")
+        systemtype.logger(str(self.request.user), ' ARTIFACT_DETAIL_ENTERED')
         return context
 
 class ArtifactCreateView(LoginRequiredMixin, CreateView):
