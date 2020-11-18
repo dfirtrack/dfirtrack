@@ -330,7 +330,7 @@
         <!-- artifact internal note -->
         <div class="col-4">
             {% if artifact.artifact_note_internal %}
-                {{ artifact.artifact_note_internal }}
+                {{ artifact.artifact_note_internal|linebreaks }}
             {% else %}
                 ---
             {% endif  %}
@@ -339,7 +339,7 @@
         <!-- artifact external note -->
         <div class="col-4">
             {% if artifact.artifact_note_external %}
-                {{ artifact.artifact_note_external }}
+                {{ artifact.artifact_note_external|linebreaks }}
             {% else %}
                 ---
             {% endif  %}
@@ -348,7 +348,7 @@
         <!-- artifact analysis result note -->
         <div class="col-4">
             {% if artifact.artifact_note_analysisresult %}
-                {{ artifact.artifact_note_analysisresult }}
+                {{ artifact.artifact_note_analysisresult|linebreaks }}
             {% else %}
                 ---
             {% endif  %}
