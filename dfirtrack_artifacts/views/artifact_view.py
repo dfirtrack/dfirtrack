@@ -64,27 +64,14 @@ class ArtifactClosedView(LoginRequiredMixin, ListView):
         # get config
         main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
 
-        # TODO: there might be an easier way to achieve the following behavior
-
         """ get all artifacts with artifactstatus to be considered closed """
 
         # get all artifactstatus from database
         artifactstatus_all = Artifactstatus.objects.all()
         # get 'open' artifactstatus from config
         artifactstatus_open = main_config_model.artifactstatus_open.all()
-        # create empty artifactstatus queryset
-        artifactstatus_closed = Artifactstatus.objects.none()
-
-        # iterate over all artifactstatus
-        for artifactstatus in artifactstatus_all:
-
-            # if this specific artifactstatus is not in the subset of open artifactstatus
-            if artifactstatus not in artifactstatus_open:
-
-                # convert single object to queryset containing this single object
-                artifactstatus_single = Artifactstatus.objects.filter(artifactstatus_name=artifactstatus.artifactstatus_name)
-                # add single artifact to closed queryset
-                artifactstatus_closed = artifactstatus_single | artifactstatus_closed
+        # get diff between all artifactstatus and open artifactstatus
+        artifactstatus_closed = artifactstatus_all.difference(artifactstatus_open)
 
         # guery artifacts according to subset of artifactstatus closed
         artifacts = query_artifact(artifactstatus_closed)
