@@ -1,0 +1,296 @@
+<!-- extending maintemplate -->
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+<!-- HTML head in maintemplate -->
+{% block head %}
+
+<!-- page title -->
+<title>
+    DFIRTrack - Status
+</title>
+
+<!-- HTML head in maintemplate -->
+{% endblock %}
+
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
+{% block content %}
+
+<!-- headline -->
+<h5>
+    Status
+</h5>
+
+<!-- systems card -->
+<div class="card bg-dark border-light card-body top-distance">
+
+    <!-- system headline row -->
+    <div class="row">
+        <div class="col">
+            <h5>
+                Systems
+            </h5>
+        </div>
+    </div>
+
+    <!-- system number row -->
+    <div class="row">
+        <div class="col bottom-distance">
+            Number of systems
+            {{ systems_number }}
+        </div>
+    </div>
+
+    <!-- status headline row -->
+    <div class="row">
+
+        <!-- systemstatus headline -->
+        <div class="col-3">
+            <h5>
+                Systemstatus
+            </h5>
+        </div>
+
+        <!-- analysisstatus headline -->
+        <div class="col-3">
+            <h5>
+                Analysisstatus
+            </h5>
+        </div>
+
+    <!-- status headline row -->
+    </div>
+
+    <!-- status table row -->
+    <div class="row">
+
+        <!-- systemstatus -->
+        <div class="col-3">
+
+            <!-- systemstatus table -->
+            <table>
+
+                <!-- systemstatus table head -->
+                <thead>
+                </thead>
+
+                <!-- systemstatus table body -->
+                <tbody>
+                    {% for systemstatus in systemstatus_all %}
+                        <tr>
+                            <td>{{ systemstatus.systemstatus_name }}</td>
+                            <td>{{ systemstatus.systemstatus.all|length }}</td>
+                        </tr>
+                    {% endfor%}
+                </tbody>
+
+            <!-- systemstatus table -->
+            </table>
+
+        <!-- systemstatus -->
+        </div>
+
+        <!-- analysisstatus -->
+        <div class="col-3">
+
+            <!-- analysisstatus table -->
+            <table>
+
+                <!-- analysisstatus table head -->
+                <thead>
+                </thead>
+
+                <!-- analysisstatus table body -->
+                <tbody>
+                    {% for analysisstatus in analysisstatus_all %}
+                        <tr>
+                            <td>{{ analysisstatus.analysisstatus_name }}</td>
+                            <td>{{ analysisstatus.analysisstatus.all|length }}</td>
+                        </tr>
+                    {% endfor%}
+                </tbody>
+
+            <!-- analysisstatus table -->
+            </table>
+
+        <!-- analysisstatus -->
+        </div>
+
+    <!-- status table row -->
+    </div>
+
+<!-- systems card -->
+</div>
+
+<!-- artifacts card -->
+<div class="card bg-dark border-light card-body top-distance">
+
+    <!-- artifact headline row -->
+    <div class="row">
+        <div class="col">
+            <h5>
+                Artifacts
+            </h5>
+        </div>
+    </div>
+
+    <!-- artifact number row -->
+    <div class="row">
+        <div class="col bottom-distance">
+            Number of artifacts
+            {{ artifacts_number }}
+        </div>
+    </div>
+
+    <!-- status headline row -->
+    <div class="row">
+
+        <!-- artifactstatus headline -->
+        <div class="col-3">
+            <h5>
+                Artifactstatus
+            </h5>
+        </div>
+
+    <!-- status headline row -->
+    </div>
+
+    <!-- status table row -->
+    <div class="row">
+
+        <!-- artifactstatus -->
+        <div class="col-3">
+
+            <!-- artifactstatus table -->
+            <table>
+
+                <!-- artifactstatus table head -->
+                <thead>
+                </thead>
+
+                <!-- artifactstatus table body -->
+                <tbody>
+                    {% for artifactstatus in artifactstatus_all %}
+                        <tr>
+                            <td>{{ artifactstatus.artifactstatus_name }}</td>
+                            <td>{{ artifactstatus.artifact_set.all|length }}</td>
+                        </tr>
+                    {% endfor%}
+                </tbody>
+
+            <!-- artifactstatus table -->
+            </table>
+
+        <!-- artifactstatus -->
+        </div>
+
+    <!-- status table row -->
+    </div>
+
+<!-- artifacts card -->
+</div>
+
+<!-- tasks card -->
+<div class="card bg-dark border-light card-body top-distance">
+
+    <!-- task headline row -->
+    <div class="row">
+        <div class="col">
+            <h5>
+                Tasks
+            </h5>
+        </div>
+    </div>
+
+    <!-- task number row -->
+    <div class="row">
+        <div class="col bottom-distance">
+            Number of tasks
+            {{ tasks_number }}
+        </div>
+    </div>
+
+    <!-- status headline row -->
+    <div class="row">
+
+        <!-- taskstatus headline -->
+        <div class="col-3">
+            <h5>
+                Taskstatus
+            </h5>
+        </div>
+
+        <!-- taskpriority headline -->
+        <div class="col-3">
+            <h5>
+                Taskpriority
+            </h5>
+        </div>
+
+    <!-- status headline row -->
+    </div>
+
+    <!-- status table row -->
+    <div class="row">
+
+        <!-- taskstatus -->
+        <div class="col-3">
+
+            <!-- taskstatus table -->
+            <table>
+
+                <!-- taskstatus table head -->
+                <thead>
+                </thead>
+
+                <!-- taskstatus table body -->
+                <tbody>
+                    {% for taskstatus in taskstatus_all %}
+                        <tr>
+                            <td>{{ taskstatus.taskstatus_name }}</td>
+                            <td>{{ taskstatus.task_set.all|length }}</td>
+                        </tr>
+                    {% endfor%}
+                </tbody>
+
+            <!-- taskstatus table -->
+            </table>
+
+        <!-- taskstatus -->
+        </div>
+
+        <!-- taskpriority -->
+        <div class="col-3">
+
+            <!-- taskpriority table -->
+            <table>
+
+                <!-- taskpriority table head -->
+                <thead>
+                </thead>
+
+                <!-- taskpriority table body -->
+                <tbody>
+                    {% for taskpriority in taskpriority_all %}
+                        <tr>
+                            <td>{{ taskpriority.taskpriority_name }}</td>
+                            <td>{{ taskpriority.task_set.all|length }}</td>
+                        </tr>
+                    {% endfor%}
+                </tbody>
+
+            <!-- taskpriority table -->
+            </table>
+
+        <!-- taskpriority -->
+        </div>
+
+    <!-- status table row -->
+    </div>
+
+<!-- tasks card -->
+</div>
+
+<!-- HTML body in maintemplate -->
+{% endblock %}
