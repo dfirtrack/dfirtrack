@@ -125,6 +125,7 @@
                 <!-- nav bar item -->
                 <li class="nav-item">
                     <a class="nav-link active" href="{% url 'system_list' %}">
+                        <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                         Systems
                     </a>
                 </li>
@@ -133,7 +134,7 @@
                 <li class="nav-item dropdown">
 
                     <!-- nav bar dropdown toggle -->
-                    <a class="nav-link dropdown-toggle active top-distance" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle active top-distance left-distance" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                         Systemitems
                     </a>
 
@@ -199,7 +200,7 @@
                 <li class="nav-item dropdown">
 
                     <!-- nav bar dropdown toggle -->
-                    <a class="nav-link dropdown-toggle active top-distance" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle active top-distance left-distance" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                         Artifactitems
                     </a>
 
@@ -219,6 +220,7 @@
                 <!-- nav bar item -->
                 <li class="nav-item">
                     <a class="nav-link active top-distance" href="{% url 'task_list' %}">
+                        <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                         Tasks
                     </a>
                 </li>
@@ -227,7 +229,7 @@
                 <li class="nav-item dropdown">
 
                     <!-- nav bar dropdown toggle -->
-                    <a class="nav-link dropdown-toggle active top-distance" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle active top-distance left-distance" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                         Taskitems
                     </a>
 
@@ -252,6 +254,7 @@
                 <!-- nav bar item -->
                 <li class="nav-item">
                     <a class="nav-link active top-distance" href="{% url 'tag_list' %}">
+                        <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                         Tags
                     </a>
                 </li>
@@ -259,8 +262,16 @@
                 <!-- nav bar item -->
                 <li class="nav-item">
                     <a class="nav-link active top-distance" href="{% url 'status' %}" style="background-color: white; color: black;">
+                        <img src="{% static 'dfirtrack_main/icons/bar-chart.svg' %}" class="icon right-distance copy-false" alt="icon">
                         Status
-                        <img src="{% static 'dfirtrack_main/icons/bar-chart.svg' %}" class="icon left-distance copy-false" alt="icon">
+                    </a>
+                </li>
+
+                <!-- nav bar item -->
+                <li class="nav-item">
+                    <a onclick="main_config_popup()" class="nav-link active copy-false top-distance" style="background-color: white; color: black;">
+                        <img src="{% static 'dfirtrack_main/icons/wrench.svg' %}" class="icon right-distance copy-false" alt="icon">
+                        Main config
                     </a>
                 </li>
 
