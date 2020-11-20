@@ -109,6 +109,10 @@
     margin-left: 10px;
 }
 
+.nav-left-distance {
+    margin-left: 30px;
+}
+
 a {
     color: White;
 }
