@@ -113,6 +113,11 @@
     margin-left: 30px;
 }
 
+.status-table-distance td
+{
+    padding:0 15px;
+}
+
 a {
     color: White;
 }
