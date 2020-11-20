@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta, time
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.views.generic import TemplateView
@@ -30,10 +31,29 @@ class StatusView(LoginRequiredMixin, TemplateView):
 
         context = super(StatusView, self).get_context_data(*args, **kwargs)
 
+        # prepare dates
+        today = datetime.now().date()
+        tomorrow = today + timedelta(1)
+        yesterday = today - timedelta(1)
+        two_days_ago = today - timedelta(2)
+        three_days_ago = today - timedelta(3)
+        today_start = datetime.combine(today, time())
+        today_end = datetime.combine(tomorrow, time())
+        yesterday_start = datetime.combine(yesterday, time())
+        two_days_ago_start = datetime.combine(two_days_ago, time())
+        three_days_ago_start = datetime.combine(three_days_ago, time())
+        #import pudb; pudb.set_trace()
+
         # get numbers
         context['artifacts_number'] = Artifact.objects.all().count()
         context['systems_number'] = System.objects.all().count()
         context['tasks_number'] = Task.objects.all().count()
+
+        # get numbers according to date
+        context['systems_today_number'] = System.objects.filter(system_create_time__lt=today_end, system_create_time__gte=today_start).count()
+        context['systems_yesterday_number'] = System.objects.filter(system_create_time__lt=today_start, system_create_time__gte=yesterday_start).count()
+        context['systems_two_days_ago_number'] = System.objects.filter(system_create_time__lt=yesterday_start, system_create_time__gte=two_days_ago_start).count()
+        context['systems_three_days_ago_number'] = System.objects.filter(system_create_time__lt=two_days_ago_start, system_create_time__gte=three_days_ago_start).count()
 
         # get objects
         context['analysisstatus_all'] = Analysisstatus.objects.all().order_by('analysisstatus_id')
