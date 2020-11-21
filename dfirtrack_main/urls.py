@@ -14,9 +14,6 @@ from dfirtrack_main.modificator import system_modificator
 
 urlpatterns = [
 
-    path(r'about/', generic_views.AboutView.as_view(), name='about'),
-    path(r'faq/', generic_views.FaqView.as_view(), name='faq'),
-
     path(r'status/', generic_views.StatusView.as_view(), name='status'),
 
     path(r'analysisstatus/', analysisstatus_views.AnalysisstatusList.as_view(), name='analysisstatus_list'),
