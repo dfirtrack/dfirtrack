@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta, time
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
+from django.utils import timezone
 from django.views.generic import TemplateView
 from dfirtrack_artifacts.models import Artifact, Artifactstatus
 from dfirtrack_main.models import Analysisstatus, System, Systemstatus, Task, Taskstatus, Taskpriority
@@ -37,11 +38,11 @@ class StatusView(LoginRequiredMixin, TemplateView):
         yesterday = today - timedelta(1)
         two_days_ago = today - timedelta(2)
         three_days_ago = today - timedelta(3)
-        today_start = datetime.combine(today, time())
-        today_end = datetime.combine(tomorrow, time())
-        yesterday_start = datetime.combine(yesterday, time())
-        two_days_ago_start = datetime.combine(two_days_ago, time())
-        three_days_ago_start = datetime.combine(three_days_ago, time())
+        today_start = datetime.combine(today, time(), tzinfo=timezone.utc)
+        today_end = datetime.combine(tomorrow, time(), tzinfo=timezone.utc)
+        yesterday_start = datetime.combine(yesterday, time(), tzinfo=timezone.utc)
+        two_days_ago_start = datetime.combine(two_days_ago, time(), tzinfo=timezone.utc)
+        three_days_ago_start = datetime.combine(three_days_ago, time(), tzinfo=timezone.utc)
 
         # get numbers
         context['artifacts_number'] = Artifact.objects.all().count()
