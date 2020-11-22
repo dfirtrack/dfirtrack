@@ -91,6 +91,14 @@
     border-radius: 0px;
 }
 
+.btn.top-right {
+    border-top-right-radius: 15px;
+}
+
+.btn.top-right-lg {
+    border-top-right-radius: 25px;
+}
+
 /* distances */
 
 .top-distance {
