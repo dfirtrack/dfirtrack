@@ -4,7 +4,7 @@ from django.test import TestCase
 from django.utils import timezone
 #from django.utils.dateparse import parse_datetime
 from dfirtrack.config import EVIDENCE_PATH
-from dfirtrack_artifacts.models import Artifact, Artifactstatus, Artifacttype
+from dfirtrack_artifacts.models import Artifact, Artifactpriority, Artifactstatus, Artifacttype
 from dfirtrack_main.models import System, Systemstatus
 from mock import patch
 import urllib.parse
@@ -17,6 +17,9 @@ class ArtifactViewTestCase(TestCase):
 
         # create user
         test_user = User.objects.create_user(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+
+        # create object
+        artifactpriority_1 = Artifactpriority.objects.create(artifactpriority_name='artifactpriority_1')
 
         # create object
         artifactstatus_1 = Artifactstatus.objects.create(artifactstatus_name='artifactstatus_1')
@@ -39,6 +42,7 @@ class ArtifactViewTestCase(TestCase):
         # create object
         Artifact.objects.create(
             artifact_name = 'artifact_1',
+            artifactpriority = artifactpriority_1,
             artifactstatus = artifactstatus_1,
             artifacttype = artifacttype_1,
             system = system_1,
@@ -325,12 +329,14 @@ class ArtifactViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get objects
+        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name = 'artifactpriority_1').artifactpriority_id
         artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1').artifactstatus_id
         artifacttype_id = Artifacttype.objects.get(artifacttype_name = 'artifacttype_1').artifacttype_id
         system_id = System.objects.get(system_name = 'system_1').system_id
         # create post data
         data_dict = {
             'artifact_name': 'artifact_create_post_test',
+            'artifactpriority': artifactpriority_id,
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
@@ -358,11 +364,13 @@ class ArtifactViewTestCase(TestCase):
             # get user
             test_user = User.objects.get(username='testuser_artifact')
             # get objects
+            artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name = 'artifactpriority_1').artifactpriority_id
             artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1').artifactstatus_id
             artifacttype_id = Artifacttype.objects.get(artifacttype_name = 'artifacttype_1').artifacttype_id
             system_id = System.objects.get(system_name = 'system_1').system_id
             # create post data
             data_dict = {
+                'artifactpriority': artifactpriority_id,
                 'artifactstatus': artifactstatus_id,
                 'artifacttype': artifacttype_id,
                 # 'case': TODO
@@ -389,6 +397,7 @@ class ArtifactViewTestCase(TestCase):
             # build expected requested time
             #expected_requested_time = parse_datetime('2020-02-02T23:45:16')
             # compare
+            self.assertEqual(artifact.artifactpriority.artifactpriority_name, 'artifactpriority_1')
             self.assertEqual(artifact.artifactstatus.artifactstatus_name, 'artifactstatus_1')
             self.assertEqual(artifact.artifacttype.artifacttype_name, 'artifacttype_1')
             #self.assertEqual(artifact.case, '')
@@ -441,12 +450,14 @@ class ArtifactViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get objects
+        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name = 'artifactpriority_1').artifactpriority_id
         artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1').artifactstatus_id
         artifacttype_id = Artifacttype.objects.get(artifacttype_name = 'artifacttype_1').artifacttype_id
         system_id = System.objects.get(system_name = 'system_1').system_id
         # create post data
         data_dict = {
             'artifact_name': 'artifact_md5_test',
+            'artifactpriority': artifactpriority_id,
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
@@ -465,12 +476,14 @@ class ArtifactViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get objects
+        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name = 'artifactpriority_1').artifactpriority_id
         artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1').artifactstatus_id
         artifacttype_id = Artifacttype.objects.get(artifacttype_name = 'artifacttype_1').artifacttype_id
         system_id = System.objects.get(system_name = 'system_1').system_id
         # create post data
         data_dict = {
             'artifact_name': 'artifact_sha1_test',
+            'artifactpriority': artifactpriority_id,
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
@@ -489,12 +502,14 @@ class ArtifactViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get objects
+        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name = 'artifactpriority_1').artifactpriority_id
         artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1').artifactstatus_id
         artifacttype_id = Artifacttype.objects.get(artifacttype_name = 'artifacttype_1').artifacttype_id
         system_id = System.objects.get(system_name = 'system_1').system_id
         # create post data
         data_dict = {
             'artifact_name': 'artifact_sha256_test',
+            'artifactpriority': artifactpriority_id,
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
@@ -639,12 +654,14 @@ class ArtifactViewTestCase(TestCase):
         # get user
         test_user = User.objects.get(username='testuser_artifact')
         # get objects
+        artifactpriority = Artifactpriority.objects.get(artifactpriority_name = 'artifactpriority_1')
         artifactstatus = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1')
         artifacttype = Artifacttype.objects.get(artifacttype_name = 'artifacttype_1')
         system = System.objects.get(system_name = 'system_1')
         # create object
         artifact = Artifact.objects.create(
             artifact_name = 'artifact_update_post_test_1',
+            artifactpriority = artifactpriority,
             artifactstatus = artifactstatus,
             artifacttype = artifacttype,
             system = system,
@@ -654,6 +671,7 @@ class ArtifactViewTestCase(TestCase):
         # create post data
         data_dict = {
             'artifact_name': 'artifact_update_post_test_2',
+            'artifactpriority': artifactpriority.artifactpriority_id,
             'artifactstatus': artifactstatus.artifactstatus_id,
             'artifacttype': artifacttype.artifacttype_id,
             'system': system.system_id,

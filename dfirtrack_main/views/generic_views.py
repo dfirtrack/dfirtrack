@@ -2,7 +2,7 @@ from datetime import datetime, timedelta, time
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils import timezone
 from django.views.generic import TemplateView
-from dfirtrack_artifacts.models import Artifact, Artifactstatus
+from dfirtrack_artifacts.models import Artifact, Artifactpriority, Artifactstatus
 from dfirtrack_main.models import Analysisstatus, System, Systemstatus, Task, Taskstatus, Taskpriority
 #from dfirtrack_main.logger.default_logger import debug_logger
 
@@ -48,6 +48,7 @@ class StatusView(LoginRequiredMixin, TemplateView):
 
         # get objects
         context['analysisstatus_all'] = Analysisstatus.objects.all().order_by('analysisstatus_id')
+        context['artifactpriority_all'] = Artifactpriority.objects.all().order_by('artifactpriority_id')
         context['artifactstatus_all'] = Artifactstatus.objects.all().order_by('artifactstatus_name')
         context['systemstatus_all'] = Systemstatus.objects.all().order_by('systemstatus_id')
         context['taskstatus_all'] = Taskstatus.objects.all().order_by('taskstatus_id')

@@ -137,11 +137,11 @@
             </a>
         </div>
 
-        <!-- artifacttype -->
+        <!-- artifactpriority -->
         <div class="col-3">
-            <div class="font-weight-bold">Artifacttype:</div>
-            <a href="{{ artifact.artifacttype.get_absolute_url }}">
-                {{ artifact.artifacttype.artifacttype_name }}
+            <div class="font-weight-bold">Artifactpriority:</div>
+            <a href="{{ artifact.artifactpriority.get_absolute_url }}">
+                {{ artifact.artifactpriority.artifactpriority_name }}
             </a>
         </div>
 
@@ -163,6 +163,20 @@
             {% else %}
                 ---
             {% endif  %}
+        </div>
+
+    <!-- artifact information row -->
+    </div>
+
+    <!-- artifact information row -->
+    <div class="row bottom-distance">
+
+        <!-- artifacttype -->
+        <div class="col-3">
+            <div class="font-weight-bold">Artifacttype:</div>
+            <a href="{{ artifact.artifacttype.get_absolute_url }}">
+                {{ artifact.artifacttype.artifacttype_name }}
+            </a>
         </div>
 
     <!-- artifact information row -->

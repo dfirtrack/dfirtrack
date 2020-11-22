@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
 from dfirtrack_artifacts.forms import ArtifactForm
-from dfirtrack_artifacts.models import Artifactstatus, Artifacttype
+from dfirtrack_artifacts.models import Artifactpriority, Artifactstatus, Artifacttype
 from dfirtrack_main.models import Case, System, Systemstatus
 
 class ArtifactFormTestCase(TestCase):
@@ -13,6 +13,9 @@ class ArtifactFormTestCase(TestCase):
 
         # create user
         test_user = User.objects.create_user(username='testuser_artifact', password='zpdfNMmo3vYrkHrrL6EU')
+
+        # create object
+        Artifactpriority.objects.create(artifactpriority_name='artifactpriority_1')
 
         # create object
         Artifactstatus.objects.create(artifactstatus_name='artifactstatus_1')
@@ -46,6 +49,14 @@ class ArtifactFormTestCase(TestCase):
         form = ArtifactForm()
         # compare
         self.assertEqual(form.fields['artifact_name'].label, 'Artifact name (*)')
+
+    def test_artifact_artifactpriority_form_label(self):
+        """ test form label """
+
+        # get object
+        form = ArtifactForm()
+        # compare
+        self.assertEqual(form.fields['artifactpriority'].label, 'Artifactpriority (*)')
 
     def test_artifact_artifactstatus_form_label(self):
         """ test form label """
@@ -169,14 +180,30 @@ class ArtifactFormTestCase(TestCase):
         # compare
         self.assertFalse(form.is_valid())
 
+    def test_artifact_artifactpriority_form_filled(self):
+        """ test minimum form requirements / INVALID """
+
+        # get object
+        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name='artifactpriority_1').artifactpriority_id
+        # get object
+        form = ArtifactForm(data = {
+            'artifact_name': 'artifact_1',
+            'artifactpriority': artifactpriority_id,
+        })
+        # compare
+        self.assertFalse(form.is_valid())
+
     def test_artifact_artifactstatus_form_filled(self):
         """ test minimum form requirements / INVALID """
 
+        # get object
+        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name='artifactpriority_1').artifactpriority_id
         # get object
         artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1').artifactstatus_id
         # get object
         form = ArtifactForm(data = {
             'artifact_name': 'artifact_1',
+            'artifactpriority': artifactpriority_id,
             'artifactstatus': artifactstatus_id,
         })
         # compare
@@ -186,12 +213,15 @@ class ArtifactFormTestCase(TestCase):
         """ test minimum form requirements / INVALID """
 
         # get object
+        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name='artifactpriority_1').artifactpriority_id
+        # get object
         artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1').artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
         # get object
         form = ArtifactForm(data = {
             'artifact_name': 'artifact_1',
+            'artifactpriority': artifactpriority_id,
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
         })
@@ -202,6 +232,8 @@ class ArtifactFormTestCase(TestCase):
         """ test minimum form requirements / VALID """
 
         # get object
+        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name='artifactpriority_1').artifactpriority_id
+        # get object
         artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1').artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
@@ -210,6 +242,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm(data = {
             'artifact_name': 'artifact_1',
+            'artifactpriority': artifactpriority_id,
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
@@ -221,6 +254,8 @@ class ArtifactFormTestCase(TestCase):
         """ test additional form content """
 
         # get object
+        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name='artifactpriority_1').artifactpriority_id
+        # get object
         artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1').artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
@@ -229,6 +264,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm(data = {
             'artifact_name': 'artifact_1',
+            'artifactpriority': artifactpriority_id,
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
@@ -241,6 +277,8 @@ class ArtifactFormTestCase(TestCase):
         """ test additional form content """
 
         # get object
+        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name='artifactpriority_1').artifactpriority_id
+        # get object
         artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1').artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
@@ -251,6 +289,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm(data = {
             'artifact_name': 'artifact_1',
+            'artifactpriority': artifactpriority_id,
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
@@ -263,6 +302,8 @@ class ArtifactFormTestCase(TestCase):
         """ test additional form content """
 
         # get object
+        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name='artifactpriority_1').artifactpriority_id
+        # get object
         artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1').artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
@@ -271,6 +312,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm(data = {
             'artifact_name': 'artifact_1',
+            'artifactpriority': artifactpriority_id,
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
@@ -283,6 +325,8 @@ class ArtifactFormTestCase(TestCase):
         """ test additional form content """
 
         # get object
+        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name='artifactpriority_1').artifactpriority_id
+        # get object
         artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1').artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
@@ -291,6 +335,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm(data = {
             'artifact_name': 'artifact_1',
+            'artifactpriority': artifactpriority_id,
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
@@ -303,6 +348,8 @@ class ArtifactFormTestCase(TestCase):
         """ test additional form content """
 
         # get object
+        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name='artifactpriority_1').artifactpriority_id
+        # get object
         artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1').artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
@@ -311,6 +358,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm(data = {
             'artifact_name': 'artifact_1',
+            'artifactpriority': artifactpriority_id,
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
@@ -323,6 +371,8 @@ class ArtifactFormTestCase(TestCase):
         """ test additional form content """
 
         # get object
+        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name='artifactpriority_1').artifactpriority_id
+        # get object
         artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1').artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
@@ -331,6 +381,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm(data = {
             'artifact_name': 'artifact_1',
+            'artifactpriority': artifactpriority_id,
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
@@ -343,6 +394,8 @@ class ArtifactFormTestCase(TestCase):
         """ test additional form content """
 
         # get object
+        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name='artifactpriority_1').artifactpriority_id
+        # get object
         artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1').artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
@@ -351,6 +404,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm(data = {
             'artifact_name': 'artifact_1',
+            'artifactpriority': artifactpriority_id,
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
@@ -363,6 +417,8 @@ class ArtifactFormTestCase(TestCase):
         """ test additional form content """
 
         # get object
+        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name='artifactpriority_1').artifactpriority_id
+        # get object
         artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1').artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
@@ -371,6 +427,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm(data = {
             'artifact_name': 'artifact_1',
+            'artifactpriority': artifactpriority_id,
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
@@ -383,6 +440,8 @@ class ArtifactFormTestCase(TestCase):
         """ test additional form content """
 
         # get object
+        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name='artifactpriority_1').artifactpriority_id
+        # get object
         artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1').artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
@@ -391,6 +450,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm(data = {
             'artifact_name': 'artifact_1',
+            'artifactpriority': artifactpriority_id,
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
@@ -403,6 +463,8 @@ class ArtifactFormTestCase(TestCase):
         """ test additional form content """
 
         # get object
+        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name='artifactpriority_1').artifactpriority_id
+        # get object
         artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1').artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
@@ -411,6 +473,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm(data = {
             'artifact_name': 'artifact_1',
+            'artifactpriority': artifactpriority_id,
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
@@ -430,6 +493,8 @@ class ArtifactFormTestCase(TestCase):
         """ test for max length """
 
         # get object
+        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name='artifactpriority_1').artifactpriority_id
+        # get object
         artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1').artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
@@ -438,6 +503,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm(data = {
             'artifact_name': 'artifact_1',
+            'artifactpriority': artifactpriority_id,
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
@@ -450,6 +516,8 @@ class ArtifactFormTestCase(TestCase):
         """ test for hexadecimal characters """
 
         # get object
+        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name='artifactpriority_1').artifactpriority_id
+        # get object
         artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1').artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
@@ -458,6 +526,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm(data = {
             'artifact_name': 'artifact_1',
+            'artifactpriority': artifactpriority_id,
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
@@ -470,6 +539,8 @@ class ArtifactFormTestCase(TestCase):
         """ test for max length """
 
         # get object
+        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name='artifactpriority_1').artifactpriority_id
+        # get object
         artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1').artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
@@ -478,6 +549,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm(data = {
             'artifact_name': 'artifact_1',
+            'artifactpriority': artifactpriority_id,
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
@@ -490,6 +562,8 @@ class ArtifactFormTestCase(TestCase):
         """ test for min length """
 
         # get object
+        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name='artifactpriority_1').artifactpriority_id
+        # get object
         artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1').artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
@@ -498,6 +572,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm(data = {
             'artifact_name': 'artifact_1',
+            'artifactpriority': artifactpriority_id,
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
@@ -510,6 +585,8 @@ class ArtifactFormTestCase(TestCase):
         """ test for max length """
 
         # get object
+        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name='artifactpriority_1').artifactpriority_id
+        # get object
         artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1').artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
@@ -518,6 +595,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm(data = {
             'artifact_name': 'artifact_1',
+            'artifactpriority': artifactpriority_id,
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
@@ -530,6 +608,8 @@ class ArtifactFormTestCase(TestCase):
         """ test for hexadecimal characters """
 
         # get object
+        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name='artifactpriority_1').artifactpriority_id
+        # get object
         artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1').artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
@@ -538,6 +618,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm(data = {
             'artifact_name': 'artifact_1',
+            'artifactpriority': artifactpriority_id,
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
@@ -550,6 +631,8 @@ class ArtifactFormTestCase(TestCase):
         """ test for max length """
 
         # get object
+        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name='artifactpriority_1').artifactpriority_id
+        # get object
         artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1').artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
@@ -558,6 +641,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm(data = {
             'artifact_name': 'artifact_1',
+            'artifactpriority': artifactpriority_id,
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
@@ -570,6 +654,8 @@ class ArtifactFormTestCase(TestCase):
         """ test for min length """
 
         # get object
+        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name='artifactpriority_1').artifactpriority_id
+        # get object
         artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1').artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
@@ -578,6 +664,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm(data = {
             'artifact_name': 'artifact_1',
+            'artifactpriority': artifactpriority_id,
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
@@ -590,6 +677,8 @@ class ArtifactFormTestCase(TestCase):
         """ test for max length """
 
         # get object
+        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name='artifactpriority_1').artifactpriority_id
+        # get object
         artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1').artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
@@ -598,6 +687,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm(data = {
             'artifact_name': 'artifact_1',
+            'artifactpriority': artifactpriority_id,
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
@@ -610,6 +700,8 @@ class ArtifactFormTestCase(TestCase):
         """ test for hexadecimal characters """
 
         # get object
+        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name='artifactpriority_1').artifactpriority_id
+        # get object
         artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1').artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
@@ -618,6 +710,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm(data = {
             'artifact_name': 'artifact_1',
+            'artifactpriority': artifactpriority_id,
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
@@ -630,6 +723,8 @@ class ArtifactFormTestCase(TestCase):
         """ test for max length """
 
         # get object
+        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name='artifactpriority_1').artifactpriority_id
+        # get object
         artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1').artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
@@ -638,6 +733,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm(data = {
             'artifact_name': 'artifact_1',
+            'artifactpriority': artifactpriority_id,
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
@@ -650,6 +746,8 @@ class ArtifactFormTestCase(TestCase):
         """ test for min length """
 
         # get object
+        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name='artifactpriority_1').artifactpriority_id
+        # get object
         artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1').artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
@@ -658,6 +756,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm(data = {
             'artifact_name': 'artifact_1',
+            'artifactpriority': artifactpriority_id,
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
@@ -670,6 +769,8 @@ class ArtifactFormTestCase(TestCase):
         """ test input format """
 
         # get object
+        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name='artifactpriority_1').artifactpriority_id
+        # get object
         artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1').artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
@@ -678,6 +779,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm(data = {
             'artifact_name': 'artifact_1',
+            'artifactpriority': artifactpriority_id,
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
@@ -690,6 +792,8 @@ class ArtifactFormTestCase(TestCase):
         """ test input format """
 
         # get object
+        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name='artifactpriority_1').artifactpriority_id
+        # get object
         artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1').artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
@@ -698,6 +802,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm(data = {
             'artifact_name': 'artifact_1',
+            'artifactpriority': artifactpriority_id,
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,

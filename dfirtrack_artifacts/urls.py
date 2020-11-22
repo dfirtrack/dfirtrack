@@ -1,6 +1,6 @@
 from django.urls import path
 from dfirtrack_artifacts.exporter.spreadsheet import xls
-from dfirtrack_artifacts.views import artifact_view, artifactstatus_view, artifacttype_view
+from dfirtrack_artifacts.views import artifact_view, artifactpriority_view, artifactstatus_view, artifacttype_view
 
 urlpatterns = (
     # urls for Artifact
@@ -11,6 +11,12 @@ urlpatterns = (
     path(r'artifact/detail/<int:pk>/', artifact_view.ArtifactDetailView.as_view(), name='artifacts_artifact_detail'),
     path(r'artifact/update/<int:pk>/', artifact_view.ArtifactUpdateView.as_view(), name='artifacts_artifact_update'),
     path(r'artifact/exporter/spreadsheet/xls/artifact/', xls.artifact, name='artifact_exporter_spreadsheet_xls'),
+)
+
+urlpatterns += (
+    # urls for Artifactpriority
+    path(r'artifactpriority/', artifactpriority_view.ArtifactpriorityListView.as_view(), name='artifacts_artifactpriority_list'),
+    path(r'artifactpriority/detail/<int:pk>/', artifactpriority_view.ArtifactpriorityDetailView.as_view(), name='artifacts_artifactpriority_detail'),
 )
 
 urlpatterns += (

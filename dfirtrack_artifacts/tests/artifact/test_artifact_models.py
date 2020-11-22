@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
-from dfirtrack_artifacts.models import Artifact, Artifactstatus, Artifacttype
+from dfirtrack_artifacts.models import Artifact, Artifactpriority, Artifactstatus, Artifacttype
 from dfirtrack.config import EVIDENCE_PATH
 from dfirtrack_main.models import System, Systemstatus
 import os
@@ -28,6 +28,9 @@ class ArtifactModelTestCase(TestCase):
         )
 
         # create object
+        artifactpriority_1 = Artifactpriority.objects.create(artifactpriority_name='artifactpriority_1')
+
+        # create object
         artifactstatus_1 = Artifactstatus.objects.create(artifactstatus_name='artifactstatus_1')
 
         # create object
@@ -36,6 +39,7 @@ class ArtifactModelTestCase(TestCase):
         # create object
         Artifact.objects.create(
             artifact_name = 'artifact_1',
+            artifactpriority = artifactpriority_1,
             artifactstatus = artifactstatus_1,
             artifacttype = artifacttype_1,
             artifact_created_by_user_id = test_user,
@@ -64,6 +68,16 @@ class ArtifactModelTestCase(TestCase):
         field_label = artifact_1._meta.get_field('artifact_id').verbose_name
         # compare
         self.assertEqual(field_label, 'artifact id')
+
+    def test_artifact_artifactpriority_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
+        # get label
+        field_label = artifact_1._meta.get_field('artifactpriority').verbose_name
+        # compare
+        self.assertEqual(field_label, 'artifactpriority')
 
     def test_artifact_artifactstatus_attribute_label(self):
         """ test attribute label """

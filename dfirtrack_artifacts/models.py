@@ -18,6 +18,7 @@ class Artifact(models.Model):
     artifact_id = models.AutoField(primary_key=True)
 
     # foreing key(s)
+    artifactpriority = models.ForeignKey('Artifactpriority', on_delete=models.PROTECT, default=2)
     artifactstatus = models.ForeignKey('Artifactstatus', on_delete=models.PROTECT, default=1)
     artifacttype = models.ForeignKey('Artifacttype', on_delete=models.PROTECT)
     case = models.ForeignKey('dfirtrack_main.Case', related_name='artifact_case',on_delete=models.PROTECT, blank=True, null=True)
@@ -59,6 +60,7 @@ class Artifact(models.Model):
             log_text +
             " artifact_id:" + str(artifact.artifact_id) +
             "|artifact_name:" + str(artifact.artifact_name) +
+            "|artifactpriority:" + str(artifact.artifactpriority.artifactpriority_name) +
             "|artifactstatus:" + str(artifact.artifactstatus.artifactstatus_name) +
             "|artifacttype:" + str(artifact.artifacttype.artifacttype_name) +
             "|system:" + str(artifact.system) +
@@ -163,6 +165,43 @@ class Artifact(models.Model):
             # throw warning if there are any matches
             if artifacts:
                 messages.warning(request, 'SHA256 already exists for other artifact(s)')
+
+class Artifactpriority(models.Model):
+    ''' priority for analyzing artifact '''
+
+    # primary key
+    artifactpriority_id = models.AutoField(primary_key=True)
+
+    # main entity information
+    artifactpriority_name = models.CharField(max_length=255, unique=True)
+    artifactpriority_note = models.TextField(blank=True, null=True)
+    artifactpriority_slug = models.CharField(max_length=255, unique=True)
+
+    class Meta:
+        ordering = ('artifactpriority_id',)
+
+    # string representation
+    def __str__(self):
+        return self.artifactpriority_name
+
+    # define logger
+    def logger(artifactpriority, request_user, log_text):
+        stdlogger.info(
+            request_user +
+            log_text +
+            " artifactpriority_id:" + str(artifactpriority.artifactpriority_id) +
+            "|artifactpriority_name:" + str(artifactpriority.artifactpriority_name) +
+            "|artifactpriority_note:" + str(artifactpriority.artifactpriority_note) +
+            "|artifactpriority_slug:" + str(artifactpriority.artifactpriority_slug)
+        )
+
+    def save(self, *args, **kwargs):
+        # generate slug
+        self.artifactpriority_slug = slugify(self.artifactpriority_name)
+        return super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('artifacts_artifactpriority_detail', args=(self.pk,))
 
 class Artifactstatus(models.Model):
     ''' Artifactstatus that shows the current status of the artifact like: New, Requested, Processed, Imported, ...'''

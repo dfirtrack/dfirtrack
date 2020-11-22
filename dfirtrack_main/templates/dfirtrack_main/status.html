@@ -172,6 +172,13 @@
             </h5>
         </div>
 
+        <!-- artifactpriority headline -->
+        <div class="col-3">
+            <h5>
+                Artifacts per artifactpriority
+            </h5>
+        </div>
+
     </div>
 
     <!-- artifact status row -->
@@ -245,6 +252,32 @@
             </table>
 
         <!-- artifactstatus -->
+        </div>
+
+        <!-- artifactpriority -->
+        <div class="col-3">
+
+            <!-- artifactpriority table -->
+            <table class="status-table-distance">
+
+                <!-- artifactpriority table head -->
+                <thead>
+                </thead>
+
+                <!-- artifactpriority table body -->
+                <tbody>
+                    {% for artifactpriority in artifactpriority_all %}
+                        <tr>
+                            <td>{{ artifactpriority.artifactpriority_name }}</td>
+                            <td>{{ artifactpriority.artifact_set.all|length }}</td>
+                        </tr>
+                    {% endfor%}
+                </tbody>
+
+            <!-- artifactpriority table -->
+            </table>
+
+        <!-- artifactpriority -->
         </div>
 
     <!-- artifact status row -->

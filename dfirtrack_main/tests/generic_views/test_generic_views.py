@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
-from dfirtrack_artifacts.models import Artifact, Artifactstatus, Artifacttype
+from dfirtrack_artifacts.models import Artifact, Artifactpriority, Artifactstatus, Artifacttype
 from dfirtrack_main.models import Analysisstatus, System, Systemstatus, Task, Taskname, Taskpriority, Taskstatus
 import urllib.parse
 
@@ -144,6 +144,7 @@ class GenericViewTestCase(TestCase):
         response = self.client.get('/status/')
         # get querysets
         analysisstatus_all = Analysisstatus.objects.all().order_by('analysisstatus_id')
+        artifactpriority_all = Artifactpriority.objects.all().order_by('artifactpriority_id')
         artifactstatus_all = Artifactstatus.objects.all().order_by('artifactstatus_name')
         systemstatus_all = Systemstatus.objects.all().order_by('systemstatus_id')
         taskstatus_all = Taskstatus.objects.all().order_by('taskstatus_id')
@@ -153,6 +154,7 @@ class GenericViewTestCase(TestCase):
         self.assertEqual(response.context['systems_number'], 3)
         self.assertEqual(response.context['tasks_number'], 1)
         self.assertEqual(type(response.context['analysisstatus_all']), type(analysisstatus_all))
+        self.assertEqual(type(response.context['artifactpriority_all']), type(artifactpriority_all))
         self.assertEqual(type(response.context['artifactstatus_all']), type(artifactstatus_all))
         self.assertEqual(type(response.context['systemstatus_all']), type(systemstatus_all))
         self.assertEqual(type(response.context['taskpriority_all']), type(taskpriority_all))
