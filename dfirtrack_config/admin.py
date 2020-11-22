@@ -1,5 +1,5 @@
 from django.contrib import admin
-from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel, MainConfigModel, SystemExporterMarkdownConfigModel, SystemExporterSpreadsheetCsvConfigModel, SystemExporterSpreadsheetXlsConfigModel, SystemImporterFileCsvConfigbasedConfigModel, SystemImporterFileCsvFormbasedConfigModel
+from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel, MainConfigModel, SystemExporterMarkdownConfigModel, SystemExporterSpreadsheetCsvConfigModel, SystemExporterSpreadsheetXlsConfigModel, SystemImporterFileCsvConfigbasedConfigModel, SystemImporterFileCsvFormbasedConfigModel, Statushistory, StatushistoryEntry
 
 # all registered models will show up in admin app
 admin.site.register(ArtifactExporterSpreadsheetXlsConfigModel)
@@ -9,3 +9,5 @@ admin.site.register(SystemExporterSpreadsheetCsvConfigModel)
 admin.site.register(SystemExporterSpreadsheetXlsConfigModel)
 admin.site.register(SystemImporterFileCsvConfigbasedConfigModel)
 admin.site.register(SystemImporterFileCsvFormbasedConfigModel)
+admin.site.register(Statushistory)
+admin.site.register(StatushistoryEntry)

@@ -12,6 +12,8 @@
 <!-- HTML head in maintemplate -->
 {% endblock %}
 
+{% load static %}
+
 <!-- ############################################ -->
 
 <!-- HTML body in maintemplate -->
@@ -419,6 +421,20 @@
     </div>
 
 <!-- tasks card -->
+</div>
+
+<!-- button row -->
+<div class="row top-distance">
+
+    <!-- save button -->
+    <div class="col-6">
+        <a href="{% url 'statushistory_save' %}" type="button" class="btn btn-light copy-false">
+            <img src="{% static 'dfirtrack_main/icons/folder.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Save statushistory
+        </a>
+    </div>
+
+<!-- button row -->
 </div>
 
 <!-- HTML body in maintemplate -->

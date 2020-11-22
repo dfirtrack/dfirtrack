@@ -180,3 +180,32 @@ class SystemImporterFileCsvFormbasedConfigModel(models.Model):
     # string representation
     def __str__(self):
         return self.system_importer_file_csv_formbased_config_name
+
+class Statushistory(models.Model):
+
+    # primary key
+    statushistory_id = models.AutoField(primary_key=True)
+
+    # config fields
+    statushistory_time = models.DateTimeField(auto_now_add=True)
+
+    # string representation
+    def __str__(self):
+        return self.statushistory_time.strftime('%Y-%m-%d %H:%M:%S')
+
+class StatushistoryEntry(models.Model):
+
+    # primary key
+    statushistoryentry_id = models.AutoField(primary_key=True)
+
+    # foreign key(s)
+    statushistory = models.ForeignKey('Statushistory', on_delete=models.CASCADE)
+
+    # config fields
+    statushistoryentry_model_name = models.CharField(max_length=255)
+    statushistoryentry_model_key = models.CharField(max_length=255)
+    statushistoryentry_model_value = models.IntegerField()
+
+    # string representation
+    def __str__(self):
+        return str(self.statushistory_id)
