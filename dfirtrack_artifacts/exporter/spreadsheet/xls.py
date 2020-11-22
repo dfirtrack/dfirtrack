@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.utils import timezone
 from dfirtrack_artifacts.models import Artifact, Artifactstatus, Artifacttype
 from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel
 from dfirtrack_main.exporter.spreadsheet.xls import style_default, style_headline, write_row
@@ -195,7 +196,7 @@ def artifact(request):
     row_num += 2
 
     # write meta information for file creation
-    actualtime = strftime('%Y-%m-%d %H:%M')
+    actualtime = timezone.now().strftime('%Y-%m-%d %H:%M')
     worksheet_artifact.write(row_num, 0, 'Artifactlist created:', style)
     worksheet_artifact.write(row_num, 1, actualtime, style)
     row_num += 1
