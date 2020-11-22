@@ -8,8 +8,8 @@ class Migration(migrations.Migration):
 
     operations = [
 
-        migrations.RunSQL("INSERT INTO dfirtrack_artifacts_artifactpriority (artifactpriority_name, artifactpriority_slug) VALUES ('Low', 'low');"),
-        migrations.RunSQL("INSERT INTO dfirtrack_artifacts_artifactpriority (artifactpriority_name, artifactpriority_slug) VALUES ('Medium', 'medium');"),
-        migrations.RunSQL("INSERT INTO dfirtrack_artifacts_artifactpriority (artifactpriority_name, artifactpriority_slug) VALUES ('High', 'high');"),
+        migrations.RunSQL("INSERT INTO dfirtrack_artifacts_artifactpriority (artifactpriority_name, artifactpriority_slug) VALUES ('01_low', '01_low');"),
+        migrations.RunSQL("INSERT INTO dfirtrack_artifacts_artifactpriority (artifactpriority_name, artifactpriority_slug) VALUES ('02_medium', '02_medium');"),
+        migrations.RunSQL("INSERT INTO dfirtrack_artifacts_artifactpriority (artifactpriority_name, artifactpriority_slug) VALUES ('03_high', '03_high');"),
 
     ]
