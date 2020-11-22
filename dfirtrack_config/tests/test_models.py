@@ -1,5 +1,8 @@
-from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel, MainConfigModel, SystemExporterMarkdownConfigModel, SystemExporterSpreadsheetCsvConfigModel, SystemExporterSpreadsheetXlsConfigModel, SystemImporterFileCsvConfigbasedConfigModel, SystemImporterFileCsvFormbasedConfigModel
+from datetime import datetime
 from django.test import TestCase
+from django.utils import timezone
+from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel, MainConfigModel, SystemExporterMarkdownConfigModel, SystemExporterSpreadsheetCsvConfigModel, SystemExporterSpreadsheetXlsConfigModel, SystemImporterFileCsvConfigbasedConfigModel, SystemImporterFileCsvFormbasedConfigModel, Statushistory
+from mock import patch
 
 class ConfigModelTestCase(TestCase):
     """ model tests """
@@ -64,3 +67,15 @@ class ConfigModelTestCase(TestCase):
         system_importer_file_csv_formbased_config_model = SystemImporterFileCsvFormbasedConfigModel.objects.get(system_importer_file_csv_formbased_config_name = 'SystemImporterFileCsvFormbasedConfig')
         # compare
         self.assertEqual(str(system_importer_file_csv_formbased_config_model), 'SystemImporterFileCsvFormbasedConfig')
+
+    def test_statushistory_model_string(self):
+        """ test string representation """
+
+        # mock timezone.now()
+        t_1 = datetime(2020, 1, 2, 3, 4, 5, tzinfo=timezone.utc)
+        with patch.object(timezone, 'now', return_value=t_1):
+
+            # create object
+            statushistory = Statushistory.objects.create()
+            # compare
+            self.assertEqual(str(statushistory), '2020-01-02 03:04:05')
