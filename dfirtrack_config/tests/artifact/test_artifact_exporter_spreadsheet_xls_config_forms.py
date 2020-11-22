@@ -51,6 +51,14 @@ class ArtifactExporterSpreadsheetXlsConfigFormTestCase(TestCase):
         # compare
         self.assertEqual(form.fields['artifactlist_xls_artifactstatus'].label, 'Export artifactstatus')
 
+    def test_artifact_exporter_spreadsheet_xls_config_artifactlist_xls_artifactpriority_form_label(self):
+        """ test form label """
+
+        # get object
+        form = ArtifactExporterSpreadsheetXlsConfigForm()
+        # compare
+        self.assertEqual(form.fields['artifactlist_xls_artifactpriority'].label, 'Export artifactpriority')
+
     def test_artifact_exporter_spreadsheet_xls_config_artifactlist_xls_artifacttype_form_label(self):
         """ test form label """
 

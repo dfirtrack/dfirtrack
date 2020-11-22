@@ -11,6 +11,7 @@ class ArtifactExporterSpreadsheetXlsConfigModel(models.Model):
     artifactlist_xls_system_id = models.BooleanField(blank=True)
     artifactlist_xls_system_name = models.BooleanField(blank=True)
     artifactlist_xls_artifactstatus = models.BooleanField(blank=True)
+    artifactlist_xls_artifactpriority = models.BooleanField(blank=True, default=False)
     artifactlist_xls_artifacttype = models.BooleanField(blank=True)
     artifactlist_xls_artifact_source_path = models.BooleanField(blank=True)
     artifactlist_xls_artifact_storage_path = models.BooleanField(blank=True)

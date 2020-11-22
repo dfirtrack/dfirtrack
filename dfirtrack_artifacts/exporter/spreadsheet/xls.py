@@ -52,6 +52,8 @@ def artifact(request):
         headline.append('System')
     if model.artifactlist_xls_artifactstatus:
         headline.append('Artifactstatus')
+    if model.artifactlist_xls_artifactpriority:
+        headline.append('Artifactpriority')
     if model.artifactlist_xls_artifacttype:
         headline.append('Artifacttype')
     if model.artifactlist_xls_artifact_source_path:
@@ -124,6 +126,9 @@ def artifact(request):
         # artifactstatus
         if model.artifactlist_xls_artifactstatus:
             entryline.append(artifact.artifactstatus.artifactstatus_name)
+        # artifactpriority
+        if model.artifactlist_xls_artifactpriority:
+            entryline.append(artifact.artifactpriority.artifactpriority_name)
         # artifacttype
         if model.artifactlist_xls_artifacttype:
             entryline.append(artifact.artifacttype.artifacttype_name)
