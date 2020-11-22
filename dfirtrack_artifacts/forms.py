@@ -114,7 +114,7 @@ class ArtifactForm(forms.ModelForm):
         if artifact_sha256:
             # check for length
             if len(artifact_sha256) < 64:
-                self.errors['artifact_sha256'] = self.error_class(['SHA256 is 60 alphanumeric characters in size (' + str(len(artifact_sha256)) + ' were provided)'])
+                self.errors['artifact_sha256'] = self.error_class(['SHA256 is 64 alphanumeric characters in size (' + str(len(artifact_sha256)) + ' were provided)'])
             # check for hexadecimal characters (only if there were enough characters submitted)
             else:
                 match = hex_re.search(artifact_sha256)
