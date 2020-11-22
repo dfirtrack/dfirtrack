@@ -199,13 +199,9 @@ class StatushistoryEntry(models.Model):
     statushistoryentry_id = models.AutoField(primary_key=True)
 
     # foreign key(s)
-    statushistory = models.ForeignKey('Statushistory', on_delete=models.CASCADE)
+    statushistory = models.ForeignKey('Statushistory', on_delete=models.CASCADE, editable=False)
 
     # config fields
-    statushistoryentry_model_name = models.CharField(max_length=255)
-    statushistoryentry_model_key = models.CharField(max_length=255)
-    statushistoryentry_model_value = models.IntegerField()
-
-    # string representation
-    def __str__(self):
-        return str(self.statushistory_id)
+    statushistoryentry_model_name = models.CharField(max_length=255, editable=False)
+    statushistoryentry_model_key = models.CharField(max_length=255, blank=True, editable=False)
+    statushistoryentry_model_value = models.IntegerField(editable=False)

@@ -20,10 +20,10 @@ class Migration(migrations.Migration):
             name='StatushistoryEntry',
             fields=[
                 ('statushistoryentry_id', models.AutoField(primary_key=True, serialize=False)),
-                ('statushistoryentry_model_name', models.CharField(max_length=255)),
-                ('statushistoryentry_model_key', models.CharField(max_length=255)),
-                ('statushistoryentry_model_value', models.IntegerField()),
-                ('statushistory', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='dfirtrack_config.Statushistory')),
+                ('statushistoryentry_model_name', models.CharField(editable=False, max_length=255)),
+                ('statushistoryentry_model_key', models.CharField(blank=True, editable=False, max_length=255)),
+                ('statushistoryentry_model_value', models.IntegerField(editable=False)),
+                ('statushistory', models.ForeignKey(editable=False, on_delete=django.db.models.deletion.CASCADE, to='dfirtrack_config.Statushistory')),
             ],
         ),
     ]
