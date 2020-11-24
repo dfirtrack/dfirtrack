@@ -1,10 +1,11 @@
 from datetime import datetime
+from django.contrib.auth.models import User
+from django.contrib.messages import get_messages
+from django.test import TestCase
+from django.utils import timezone
 from dfirtrack_artifacts.models import Artifact, Artifactstatus, Artifacttype
 from dfirtrack_config.models import Statushistory, StatushistoryEntry
 from dfirtrack_main.models import System, Systemstatus, Task, Taskname, Taskpriority, Taskstatus
-from django.contrib.auth.models import User
-from django.test import TestCase
-from django.utils import timezone
 from mock import patch
 import urllib.parse
 
@@ -122,6 +123,18 @@ class StatushistoryViewTestCase(TestCase):
         response = self.client.get('/config/statushistory/save', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_statushistory_save_view_message(self):
+        """ test view """
+
+        # login testuser
+        self.client.login(username='testuser_statushistory', password='SXHemnLqF6chIcem5ABs')
+        # get response
+        response = self.client.get('/config/statushistory/save/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(messages[-1]), 'Statushistory saved')
 
     def test_statushistory_save_view_complete(self):
         """ test view """
