@@ -1,7 +1,7 @@
 from datetime import datetime
-from dfirtrack_artifacts.models import Artifact, Artifactpriority, Artifactstatus, Artifacttype
+from dfirtrack_artifacts.models import Artifact, Artifactstatus, Artifacttype
 from dfirtrack_config.models import Statushistory, StatushistoryEntry
-from dfirtrack_main.models import Analysisstatus, System, Systemstatus, Task, Taskname, Taskpriority, Taskstatus
+from dfirtrack_main.models import System, Systemstatus, Task, Taskname, Taskpriority, Taskstatus
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
@@ -135,8 +135,8 @@ class StatushistoryViewTestCase(TestCase):
             # get response
             self.client.get('/config/statushistory/save/')
 
-        # get objects
         statushistory = Statushistory.objects.get(statushistory_time=t_1)
+        # get number entries
         artifacts_number = StatushistoryEntry.objects.get(
             statushistory = statushistory,
             statushistoryentry_model_name = 'artifacts_number',
@@ -149,7 +149,74 @@ class StatushistoryViewTestCase(TestCase):
             statushistory = statushistory,
             statushistoryentry_model_name = 'tasks_number',
         )
-        # compare
+        # get artifactpriority entries (separately because it was assigned with default value)
+        artifactpriority_01_low = StatushistoryEntry.objects.get(
+            statushistory = statushistory,
+            statushistoryentry_model_name = 'artifactpriority',
+            statushistoryentry_model_key = '01_low',
+        )
+        artifactpriority_02_medium = StatushistoryEntry.objects.get(
+            statushistory = statushistory,
+            statushistoryentry_model_name = 'artifactpriority',
+            statushistoryentry_model_key = '02_medium',
+        )
+        artifactpriority_03_high = StatushistoryEntry.objects.get(
+            statushistory = statushistory,
+            statushistoryentry_model_name = 'artifactpriority',
+            statushistoryentry_model_key = '03_high',
+        )
+        # get all other entries as queryset
+        analysisstatus_all = StatushistoryEntry.objects.filter(
+            statushistory = statushistory,
+            statushistoryentry_model_name = 'analysisstatus',
+        )
+        artifactstatus_all = StatushistoryEntry.objects.filter(
+            statushistory = statushistory,
+            statushistoryentry_model_name = 'artifactstatus',
+        )
+        systemstatus_all = StatushistoryEntry.objects.filter(
+            statushistory = statushistory,
+            statushistoryentry_model_name = 'systemstatus',
+        )
+        taskpriority_all = StatushistoryEntry.objects.filter(
+            statushistory = statushistory,
+            statushistoryentry_model_name = 'taskpriority',
+        )
+        taskstatus_all = StatushistoryEntry.objects.filter(
+            statushistory = statushistory,
+            statushistoryentry_model_name = 'taskstatus',
+        )
+        # compare numbers
         self.assertEqual(artifacts_number.statushistoryentry_model_value, 2)
         self.assertEqual(systems_number.statushistoryentry_model_value, 3)
         self.assertEqual(tasks_number.statushistoryentry_model_value, 1)
+        # compare artifactpriority
+        self.assertEqual(artifactpriority_01_low.statushistoryentry_model_value, 0)
+        self.assertEqual(artifactpriority_02_medium.statushistoryentry_model_value, 2)
+        self.assertEqual(artifactpriority_03_high.statushistoryentry_model_value, 0)
+        # compare querysets
+        for analysisstatus in analysisstatus_all:
+            if analysisstatus.statushistoryentry_model_key == 'analysisstatus_1':
+                self.assertEqual(analysisstatus.statushistoryentry_model_value, 3)
+            else:
+                self.assertEqual(analysisstatus.statushistoryentry_model_value, 0)
+        for artifactstatus in artifactstatus_all:
+            if artifactstatus.statushistoryentry_model_key == 'artifactstatus_1':
+                self.assertEqual(artifactstatus.statushistoryentry_model_value, 2)
+            else:
+                self.assertEqual(artifactstatus.statushistoryentry_model_value, 0)
+        for systemstatus in systemstatus_all:
+            if systemstatus.statushistoryentry_model_key == 'systemstatus_1':
+                self.assertEqual(systemstatus.statushistoryentry_model_value, 3)
+            else:
+                self.assertEqual(systemstatus.statushistoryentry_model_value, 0)
+        for taskpriority in taskpriority_all:
+            if taskpriority.statushistoryentry_model_key == 'prio_1':
+                self.assertEqual(taskpriority.statushistoryentry_model_value, 1)
+            else:
+                self.assertEqual(taskpriority.statushistoryentry_model_value, 0)
+        for taskstatus in taskstatus_all:
+            if taskstatus.statushistoryentry_model_key == 'taskstatus_1':
+                self.assertEqual(taskstatus.statushistoryentry_model_value, 1)
+            else:
+                self.assertEqual(taskstatus.statushistoryentry_model_value, 0)
