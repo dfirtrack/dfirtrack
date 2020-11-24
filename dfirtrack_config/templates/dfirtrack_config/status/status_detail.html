@@ -826,6 +826,18 @@
         </a>
     </div>
 
+    <div class="dropdown">
+        <a class="btn btn-light dropdown-toggle copy-false" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            History
+        </a>
+
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            {% for statushistory in statushistory_all %}
+                <a class="dropdown-item" href="{{ statushistory.get_absolute_url }}">{{ statushistory }}</a>
+            {% endfor %}
+        </div>
+    </div>
+
 <!-- button row -->
 </div>
 

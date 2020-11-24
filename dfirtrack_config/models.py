@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 class ArtifactExporterSpreadsheetXlsConfigModel(models.Model):
 
@@ -192,6 +193,9 @@ class Statushistory(models.Model):
     # string representation
     def __str__(self):
         return self.statushistory_time.strftime('%Y-%m-%d %H:%M:%S')
+
+    def get_absolute_url(self):
+        return reverse('status_detail', args=(self.pk,))
 
 class StatushistoryEntry(models.Model):
 

@@ -19,6 +19,11 @@ class StatusDetailView(LoginRequiredMixin, DetailView):
         context = super(StatusDetailView, self).get_context_data(*args, **kwargs)
         statushistory = self.object
 
+        # TODO: reverse ordering
+        # TODO: number of last elements accessible by config (and filtered by query)
+        # get statushistory objects for dropdown menu
+        context['statushistory_all'] = Statushistory.objects.all().order_by('statushistory_id')
+
         # prepare dates
         today = datetime.now().date()
         tomorrow = today + timedelta(1)
