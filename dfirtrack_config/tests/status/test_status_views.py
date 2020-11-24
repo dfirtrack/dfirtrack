@@ -5,14 +5,14 @@ from dfirtrack_artifacts.models import Artifact, Artifactpriority, Artifactstatu
 from dfirtrack_main.models import Analysisstatus, System, Systemstatus, Task, Taskname, Taskpriority, Taskstatus
 import urllib.parse
 
-class GenericViewTestCase(TestCase):
-    """ generic view tests """
+class StatusViewTestCase(TestCase):
+    """ status view tests """
 
     @classmethod
     def setUpTestData(cls):
 
         # create user
-        test_user = User.objects.create_user(username='testuser_generic_views', password='D9lPsoHFXeCNKEzM3IgE')
+        test_user = User.objects.create_user(username='testuser_status', password='D9lPsoHFXeCNKEzM3IgE')
 
         # create object
         artifactstatus_1 = Artifactstatus.objects.create(artifactstatus_name='artifactstatus_1')
@@ -84,64 +84,64 @@ class GenericViewTestCase(TestCase):
         )
 
     def test_status_view_not_logged_in(self):
-        """ test generic view """
+        """ test status view """
 
         # create url
-        destination = '/login/?next=' + urllib.parse.quote('/status/', safe='')
+        destination = '/login/?next=' + urllib.parse.quote('/config/status/', safe='')
         # get response
-        response = self.client.get('/status/', follow=True)
+        response = self.client.get('/config/status/', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_status_view_logged_in(self):
-        """ test generic view """
+        """ test status view """
 
         # login testuser
-        self.client.login(username='testuser_generic_views', password='D9lPsoHFXeCNKEzM3IgE')
+        self.client.login(username='testuser_status', password='D9lPsoHFXeCNKEzM3IgE')
         # get response
-        response = self.client.get('/status/')
+        response = self.client.get('/config/status/')
         # compare
         self.assertEqual(response.status_code, 200)
 
     def test_status_view_template(self):
-        """ test generic view """
+        """ test status view """
 
         # login testuser
-        self.client.login(username='testuser_generic_views', password='D9lPsoHFXeCNKEzM3IgE')
+        self.client.login(username='testuser_status', password='D9lPsoHFXeCNKEzM3IgE')
         # get response
-        response = self.client.get('/status/')
+        response = self.client.get('/config/status/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/status.html')
+        self.assertTemplateUsed(response, 'dfirtrack_config/status/status.html')
 
     def test_status_view_get_user_context(self):
-        """ test generic view """
+        """ test status view """
 
         # login testuser
-        self.client.login(username='testuser_generic_views', password='D9lPsoHFXeCNKEzM3IgE')
+        self.client.login(username='testuser_status', password='D9lPsoHFXeCNKEzM3IgE')
         # get response
-        response = self.client.get('/status/')
+        response = self.client.get('/config/status/')
         # compare
-        self.assertEqual(str(response.context['user']), 'testuser_generic_views')
+        self.assertEqual(str(response.context['user']), 'testuser_status')
 
     def test_status_view_redirect(self):
-        """ test generic view """
+        """ test status view """
 
         # login testuser
-        self.client.login(username='testuser_generic_views', password='D9lPsoHFXeCNKEzM3IgE')
+        self.client.login(username='testuser_status', password='D9lPsoHFXeCNKEzM3IgE')
         # create url
-        destination = urllib.parse.quote('/status/', safe='/')
+        destination = urllib.parse.quote('/config/status/', safe='/')
         # get response
-        response = self.client.get('/status', follow=True)
+        response = self.client.get('/config/status', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
     def test_status_view_get_object_context(self):
-        """ test generic view """
+        """ test status view """
 
         # login testuser
-        self.client.login(username='testuser_generic_views', password='D9lPsoHFXeCNKEzM3IgE')
+        self.client.login(username='testuser_status', password='D9lPsoHFXeCNKEzM3IgE')
         # get response
-        response = self.client.get('/status/')
+        response = self.client.get('/config/status/')
         # get querysets
         analysisstatus_all = Analysisstatus.objects.all().order_by('analysisstatus_id')
         artifactpriority_all = Artifactpriority.objects.all().order_by('artifactpriority_id')

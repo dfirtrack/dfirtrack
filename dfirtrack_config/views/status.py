@@ -9,7 +9,7 @@ from dfirtrack_main.models import Analysisstatus, System, Systemstatus, Task, Ta
 
 class StatusView(LoginRequiredMixin, TemplateView):
     login_url = '/login'
-    template_name = 'dfirtrack_main/status.html'
+    template_name = 'dfirtrack_config/status/status.html'
 
     def get_context_data(self, *args, **kwargs):
 

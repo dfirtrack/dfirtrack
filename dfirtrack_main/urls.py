@@ -1,7 +1,6 @@
 from django import views as django_views
 from django.conf.urls import url
 from django.urls import path
-from dfirtrack_main.views import generic_views
 from dfirtrack_main.views import analysisstatus_views, analystmemo_views, case_views, company_views, contact_views, division_views, dnsname_views, domain_views, domainuser_views, entry_views, headline_views, ip_views, location_views, os_views, osimportname_views, reason_views, recommendation_views, reportitem_views, serviceprovider_views, system_views, systemstatus_views, systemtype_views, systemuser_views, tag_views, task_views, taskname_views, taskpriority_views, taskstatus_views
 from dfirtrack_main.creator import system_creator, tag_creator, task_creator
 from dfirtrack_main.exporter.spreadsheet import csv as spreadsheet_csv
@@ -13,8 +12,6 @@ from dfirtrack_main.importer.file import filesystem, markdown
 from dfirtrack_main.modificator import system_modificator
 
 urlpatterns = [
-
-    path(r'status/', generic_views.StatusView.as_view(), name='status'),
 
     path(r'analysisstatus/', analysisstatus_views.AnalysisstatusList.as_view(), name='analysisstatus_list'),
     path(r'analysisstatus/<int:pk>/', analysisstatus_views.AnalysisstatusDetail.as_view(), name='analysisstatus_detail'),

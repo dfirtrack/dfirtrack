@@ -30,7 +30,7 @@ class StatushistoryViewTestCase(TestCase):
         # get response
         response = self.client.get('/config/statushistory/save/')
         # create url
-        destination = '/status/'
+        destination = '/config/status/'
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
@@ -40,7 +40,7 @@ class StatushistoryViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_statushistory', password='SXHemnLqF6chIcem5ABs')
         # create url
-        destination = '/status/'
+        destination = '/config/status/'
         # get response
         response = self.client.get('/config/statushistory/save', follow=True)
         # compare
