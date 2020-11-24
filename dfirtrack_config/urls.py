@@ -15,6 +15,7 @@ urlpatterns = [
     path(r'system/importer/file/csv/formbased/', csv_config_editor.system_importer_file_csv_form_based_config_view, name='system_importer_file_csv_form_based_config_popup'),
 
     path(r'status/', status.StatusView.as_view(), name='status'),
+    path(r'status/<int:pk>/', status.StatusDetailView.as_view(), name='status_detail'),
     path(r'statushistory/save/', statushistory.statushistory_save, name='statushistory_save'),
 
 ]
