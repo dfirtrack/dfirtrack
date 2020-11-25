@@ -818,24 +818,37 @@
 <!-- button row -->
 <div class="row top-distance">
 
-    <!-- save button -->
-    <div class="col-6">
-        <a href="{% url 'statushistory_save' %}" type="button" class="btn btn-light copy-false">
-            <img src="{% static 'dfirtrack_main/icons/folder.svg' %}" class="icon right-distance copy-false" alt="icon">
-            Save statushistory
-        </a>
-    </div>
+    <!-- buttons card -->
+    <div class="card col bg-dark border-light card-body top-distance">
 
-    <div class="dropdown">
-        <a class="btn btn-light dropdown-toggle copy-false" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            History
-        </a>
+        <div class="row">
 
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            {% for statushistory in statushistory_all %}
-                <a class="dropdown-item" href="{{ statushistory.get_absolute_url }}">{{ statushistory }}</a>
-            {% endfor %}
+            <!-- save button -->
+            <div class="col-6">
+                <a href="{% url 'statushistory_save' %}" type="button" class="btn btn-light copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/folder.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    Save statushistory
+                </a>
+            </div>
+
+            <!-- history drop down -->
+            <div class="col-6">
+                <div class="dropdown">
+                    <a class="btn btn-light dropdown-toggle copy-false" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Load statushistory
+                    </a>
+
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        {% for statushistory in statushistory_all %}
+                            <a class="dropdown-item" href="{{ statushistory.get_absolute_url }}">{{ statushistory }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
         </div>
+
+    <!-- buttons card -->
     </div>
 
 <!-- button row -->
