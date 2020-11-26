@@ -303,140 +303,140 @@
 <!-- tasks row -->
 <div class="row">
 
-<!-- tasks card -->
-<div class="card col-6 bg-dark border-light card-body top-distance">
-
-    <!-- task headline row -->
-    <div class="row">
-
-        <!-- task headline -->
-        <div class="col-4">
-            <h5>
-                Tasks
-            </h5>
+    <!-- tasks card -->
+    <div class="card col-6 bg-dark border-light card-body top-distance">
+    
+        <!-- task headline row -->
+        <div class="row">
+    
+            <!-- task headline -->
+            <div class="col-4">
+                <h5>
+                    Tasks
+                </h5>
+            </div>
+    
+            <!-- taskstatus headline -->
+            <div class="col-4">
+                <h5>
+                    Tasks per taskstatus
+                </h5>
+            </div>
+    
+            <!-- taskpriority headline -->
+            <div class="col-4">
+                <h5>
+                    Tasks per taskpriority
+                </h5>
+            </div>
+    
+        <!-- task headline row -->
         </div>
-
-        <!-- taskstatus headline -->
-        <div class="col-4">
-            <h5>
-                Tasks per taskstatus
-            </h5>
+    
+        <!-- task status row -->
+        <div class="row">
+    
+            <!-- task number -->
+            <div class="col-4 bottom-distance">
+    
+                <!-- task number table -->
+                <table class="status-table-distance">
+    
+                    <!-- task number table head -->
+                    <thead>
+                    </thead>
+    
+                    <!-- task number table body -->
+                    <tbody>
+                            <tr>
+                                <td>Number of tasks</td>
+                                <td>{{ tasks_number }}</td>
+                            </tr>
+                            <tr>
+                                <td><br></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Tasks created today</td>
+                                <td>{{ tasks_today_number }}</td>
+                            </tr>
+                            <tr>
+                                <td>Tasks created yesterday</td>
+                                <td>{{ tasks_yesterday_number }}</td>
+                            </tr>
+                            <tr>
+                                <td>Tasks created two days ago</td>
+                                <td>{{ tasks_two_days_ago_number }}</td>
+                            </tr>
+                            <tr>
+                                <td>Tasks created three days ago</td>
+                                <td>{{ tasks_three_days_ago_number }}</td>
+                            </tr>
+                    </tbody>
+    
+                <!-- task number table -->
+                </table>
+    
+            <!-- task number -->
+            </div>
+    
+            <!-- taskstatus -->
+            <div class="col-4">
+    
+                <!-- taskstatus table -->
+                <table class="status-table-distance">
+    
+                    <!-- taskstatus table head -->
+                    <thead>
+                    </thead>
+    
+                    <!-- taskstatus table body -->
+                    <tbody>
+                        {% for taskstatus in taskstatus_all %}
+                            <tr>
+                                <td>{{ taskstatus.taskstatus_name }}</td>
+                                <td>{{ taskstatus.task_set.all|length }}</td>
+                            </tr>
+                        {% endfor%}
+                    </tbody>
+    
+                <!-- taskstatus table -->
+                </table>
+    
+            <!-- taskstatus -->
+            </div>
+    
+            <!-- taskpriority -->
+            <div class="col-4">
+    
+                <!-- taskpriority table -->
+                <table class="status-table-distance">
+    
+                    <!-- taskpriority table head -->
+                    <thead>
+                    </thead>
+    
+                    <!-- taskpriority table body -->
+                    <tbody>
+                        {% for taskpriority in taskpriority_all %}
+                            <tr>
+                                <td>{{ taskpriority.taskpriority_name }}</td>
+                                <td>{{ taskpriority.task_set.all|length }}</td>
+                            </tr>
+                        {% endfor%}
+                    </tbody>
+    
+                <!-- taskpriority table -->
+                </table>
+    
+            <!-- taskpriority -->
+            </div>
+    
+        <!-- task status row -->
         </div>
-
-        <!-- taskpriority headline -->
-        <div class="col-4">
-            <h5>
-                Tasks per taskpriority
-            </h5>
-        </div>
-
-    <!-- task headline row -->
+    
+    <!-- tasks card -->
     </div>
-
-    <!-- task status row -->
-    <div class="row">
-
-        <!-- task number -->
-        <div class="col-4 bottom-distance">
-
-            <!-- task number table -->
-            <table class="status-table-distance">
-
-                <!-- task number table head -->
-                <thead>
-                </thead>
-
-                <!-- task number table body -->
-                <tbody>
-                        <tr>
-                            <td>Number of tasks</td>
-                            <td>{{ tasks_number }}</td>
-                        </tr>
-                        <tr>
-                            <td><br></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Tasks created today</td>
-                            <td>{{ tasks_today_number }}</td>
-                        </tr>
-                        <tr>
-                            <td>Tasks created yesterday</td>
-                            <td>{{ tasks_yesterday_number }}</td>
-                        </tr>
-                        <tr>
-                            <td>Tasks created two days ago</td>
-                            <td>{{ tasks_two_days_ago_number }}</td>
-                        </tr>
-                        <tr>
-                            <td>Tasks created three days ago</td>
-                            <td>{{ tasks_three_days_ago_number }}</td>
-                        </tr>
-                </tbody>
-
-            <!-- task number table -->
-            </table>
-
-        <!-- task number -->
-        </div>
-
-        <!-- taskstatus -->
-        <div class="col-4">
-
-            <!-- taskstatus table -->
-            <table class="status-table-distance">
-
-                <!-- taskstatus table head -->
-                <thead>
-                </thead>
-
-                <!-- taskstatus table body -->
-                <tbody>
-                    {% for taskstatus in taskstatus_all %}
-                        <tr>
-                            <td>{{ taskstatus.taskstatus_name }}</td>
-                            <td>{{ taskstatus.task_set.all|length }}</td>
-                        </tr>
-                    {% endfor%}
-                </tbody>
-
-            <!-- taskstatus table -->
-            </table>
-
-        <!-- taskstatus -->
-        </div>
-
-        <!-- taskpriority -->
-        <div class="col-4">
-
-            <!-- taskpriority table -->
-            <table class="status-table-distance">
-
-                <!-- taskpriority table head -->
-                <thead>
-                </thead>
-
-                <!-- taskpriority table body -->
-                <tbody>
-                    {% for taskpriority in taskpriority_all %}
-                        <tr>
-                            <td>{{ taskpriority.taskpriority_name }}</td>
-                            <td>{{ taskpriority.task_set.all|length }}</td>
-                        </tr>
-                    {% endfor%}
-                </tbody>
-
-            <!-- taskpriority table -->
-            </table>
-
-        <!-- taskpriority -->
-        </div>
-
-    <!-- task status row -->
-    </div>
-
-<!-- tasks card -->
-</div>
 
 <!-- tasks row -->
 </div>
