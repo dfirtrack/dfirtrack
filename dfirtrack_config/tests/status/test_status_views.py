@@ -1,8 +1,11 @@
+from datetime import datetime
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
 from dfirtrack_artifacts.models import Artifact, Artifactpriority, Artifactstatus, Artifacttype
+from dfirtrack_config.models import Statushistory
 from dfirtrack_main.models import Analysisstatus, System, Systemstatus, Task, Taskname, Taskpriority, Taskstatus
+from mock import patch
 import urllib.parse
 
 class StatusViewTestCase(TestCase):
@@ -83,6 +86,13 @@ class StatusViewTestCase(TestCase):
             artifact_modified_by_user_id = test_user,
         )
 
+        # mock timezone.now()
+        t_1 = datetime(2020, 11, 22, 11, 22, 33, tzinfo=timezone.utc)
+        with patch.object(timezone, 'now', return_value=t_1):
+
+            # create empty object (for simple testing get request for empty detail view this should be sufficient)
+            Statushistory.objects.create()
+
     def test_status_view_not_logged_in(self):
         """ test status view """
 
@@ -159,3 +169,75 @@ class StatusViewTestCase(TestCase):
         self.assertEqual(type(response.context['systemstatus_all']), type(systemstatus_all))
         self.assertEqual(type(response.context['taskpriority_all']), type(taskpriority_all))
         self.assertEqual(type(response.context['taskstatus_all']), type(taskstatus_all))
+
+    def test_status_detail_view_not_logged_in(self):
+        """ test status view """
+
+        # get time
+        t_1 = datetime(2020, 11, 22, 11, 22, 33, tzinfo=timezone.utc)
+        # get object
+        statushistory_id = Statushistory.objects.get(statushistory_time=t_1).statushistory_id
+        # create url
+        destination = '/login/?next=' + urllib.parse.quote('/config/status/' + str(statushistory_id) + '/', safe='')
+        # get response
+        response = self.client.get('/config/status/' + str(statushistory_id) + '/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_status_detail_view_logged_in(self):
+        """ test status view """
+
+        # login testuser
+        self.client.login(username='testuser_status', password='D9lPsoHFXeCNKEzM3IgE')
+        # get time
+        t_1 = datetime(2020, 11, 22, 11, 22, 33, tzinfo=timezone.utc)
+        # get object
+        statushistory_id = Statushistory.objects.get(statushistory_time=t_1).statushistory_id
+        # get response
+        response = self.client.get('/config/status/' + str(statushistory_id) + '/')
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_status_detail_view_template(self):
+        """ test status view """
+
+        # login testuser
+        self.client.login(username='testuser_status', password='D9lPsoHFXeCNKEzM3IgE')
+        # get time
+        t_1 = datetime(2020, 11, 22, 11, 22, 33, tzinfo=timezone.utc)
+        # get object
+        statushistory_id = Statushistory.objects.get(statushistory_time=t_1).statushistory_id
+        # get response
+        response = self.client.get('/config/status/' + str(statushistory_id) + '/')
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_config/status/status_detail.html')
+
+    def test_status_detail_view_get_user_context(self):
+        """ test status view """
+
+        # login testuser
+        self.client.login(username='testuser_status', password='D9lPsoHFXeCNKEzM3IgE')
+        # get time
+        t_1 = datetime(2020, 11, 22, 11, 22, 33, tzinfo=timezone.utc)
+        # get object
+        statushistory_id = Statushistory.objects.get(statushistory_time=t_1).statushistory_id
+        # get response
+        response = self.client.get('/config/status/' + str(statushistory_id) + '/')
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_status')
+
+    def test_status_detail_view_redirect(self):
+        """ test status view """
+
+        # login testuser
+        self.client.login(username='testuser_status', password='D9lPsoHFXeCNKEzM3IgE')
+        # get time
+        t_1 = datetime(2020, 11, 22, 11, 22, 33, tzinfo=timezone.utc)
+        # get object
+        statushistory_id = Statushistory.objects.get(statushistory_time=t_1).statushistory_id
+        # create url
+        destination = urllib.parse.quote('/config/status/' + str(statushistory_id) + '/', safe='/')
+        # get response
+        response = self.client.get('/config/status/' + str(statushistory_id), follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
