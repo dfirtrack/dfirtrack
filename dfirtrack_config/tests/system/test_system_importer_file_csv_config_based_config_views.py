@@ -12,8 +12,9 @@ class SystemImporterFileCsvConfigbasedConfigViewTestCase(TestCase):
         # create user
         User.objects.create_user(username='testuser_system_importer_file_csv_config_based_config', password='sBH771ZCj2Y5rjfCPtVC')
 
-        # create object
+        # create objects
         Analysisstatus.objects.create(analysisstatus_name='analysisstatus_1')
+        Systemstatus.objects.create(systemstatus_name='systemstatus_1')
 
     def test_system_importer_file_csv_config_based_config_not_logged_in(self):
         """ test importer view """
@@ -73,7 +74,7 @@ class SystemImporterFileCsvConfigbasedConfigViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_config_based_config', password='sBH771ZCj2Y5rjfCPtVC')
         # get object (does not work the usual way because form with available choices is build before model instance is created during the test)
-        systemstatus_id = Systemstatus.objects.get(systemstatus_name='Unknown').systemstatus_id
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
         # get object (does not work the usual way because form with available choices is build before model instance is created during the test)
         analysisstatus_id = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1').analysisstatus_id
         # create post data
@@ -94,7 +95,7 @@ class SystemImporterFileCsvConfigbasedConfigViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_config_based_config', password='sBH771ZCj2Y5rjfCPtVC')
         # get object (does not work the usual way because form with available choices is build before model instance is created during the test)
-        systemstatus_id = Systemstatus.objects.get(systemstatus_name='Unknown').systemstatus_id
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
         # get object (does not work the usual way because form with available choices is build before model instance is created during the test)
         analysisstatus_id = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1').analysisstatus_id
         # create post data
@@ -115,7 +116,7 @@ class SystemImporterFileCsvConfigbasedConfigViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_config_based_config', password='sBH771ZCj2Y5rjfCPtVC')
         # get object (does not work the usual way because form with available choices is build before model instance is created during the test)
-        systemstatus_id = Systemstatus.objects.get(systemstatus_name='Unknown').systemstatus_id
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
         # get object (does not work the usual way because form with available choices is build before model instance is created during the test)
         analysisstatus_id = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1').analysisstatus_id
         # create post data

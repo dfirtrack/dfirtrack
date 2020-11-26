@@ -8,8 +8,9 @@ class SystemImporterFileCsvConfigbasedConfigFormTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
 
-        # create object
+        # create objects
         Analysisstatus.objects.create(analysisstatus_name = 'analysisstatus_1')
+        Systemstatus.objects.create(systemstatus_name = 'systemstatus_1')
 
 
     def test_system_importer_file_csv_config_based_config_csv_skip_existing_system_form_label(self):
@@ -196,7 +197,7 @@ class SystemImporterFileCsvConfigbasedConfigFormTestCase(TestCase):
         """ test minimum form requirements / INVALID """
 
         # get object (does not work the usual way because form with available choices is build before model instance is created during the test)
-        systemstatus_id = Systemstatus.objects.get(systemstatus_name='Unknown').systemstatus_id
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
         # get object
         form = SystemImporterFileCsvConfigbasedConfigForm(data = {
             'csv_default_systemstatus': systemstatus_id,
@@ -224,7 +225,7 @@ class SystemImporterFileCsvConfigbasedConfigFormTestCase(TestCase):
         """ test field validation / INVALID """
 
         # get object (does not work the usual way because form with available choices is build before model instance is created during the test)
-        systemstatus_id = Systemstatus.objects.get(systemstatus_name='Unknown').systemstatus_id
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
         # get object (does not work the usual way because form with available choices is build before model instance is created during the test)
         analysisstatus_id = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1').analysisstatus_id
         # get object
@@ -241,7 +242,7 @@ class SystemImporterFileCsvConfigbasedConfigFormTestCase(TestCase):
         """ test minimum form requirements / VALID """
 
         # get object (does not work the usual way because form with available choices is build before model instance is created during the test)
-        systemstatus_id = Systemstatus.objects.get(systemstatus_name='Unknown').systemstatus_id
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
         # get object (does not work the usual way because form with available choices is build before model instance is created during the test)
         analysisstatus_id = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1').analysisstatus_id
         # get object
