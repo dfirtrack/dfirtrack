@@ -13,7 +13,9 @@ def statushistory_save(request):
     # create empty statushistory (just contains primary key and datetime field)
     statushistory = Statushistory.objects.create()
 
-    # save number of artifacts
+    """ save numbers of current artifacts, systems and tasks """
+
+    # save number of artifacts (statushistoryentry_model_key not necessary)
     artifacts_number = Artifact.objects.all().count()
     StatushistoryEntry.objects.create(
         statushistory = statushistory,
@@ -21,7 +23,7 @@ def statushistory_save(request):
         statushistoryentry_model_value = artifacts_number,
     )
 
-    # save number of systems
+    # save number of systems (statushistoryentry_model_key not necessary)
     systems_number = System.objects.all().count()
     StatushistoryEntry.objects.create(
         statushistory = statushistory,
@@ -29,7 +31,7 @@ def statushistory_save(request):
         statushistoryentry_model_value = systems_number,
     )
 
-    # save number of tasks
+    # save number of tasks (statushistoryentry_model_key not necessary)
     tasks_number = Task.objects.all().count()
     StatushistoryEntry.objects.create(
         statushistory = statushistory,
@@ -37,10 +39,15 @@ def statushistory_save(request):
         statushistoryentry_model_value = tasks_number,
     )
 
-    # save analysisstatus
-    analysisstatus_all = Analysisstatus.objects.all().order_by('analysisstatus_name')
+    """ save analysisstatus """
+
+    # get all objects (reverse ordering is necessary for proper sorting in jinja2 loop in template)
+    analysisstatus_all = Analysisstatus.objects.all().order_by('-analysisstatus_name')
+    # loop over objects
     for analysisstatus in analysisstatus_all:
+        # count number of associated objects
         systems_number_analysisstatus = System.objects.filter(analysisstatus=analysisstatus).count()
+        # save single object in history including its name and number of associated objects
         StatushistoryEntry.objects.create(
             statushistory = statushistory,
             statushistoryentry_model_name = 'analysisstatus',
@@ -48,10 +55,15 @@ def statushistory_save(request):
             statushistoryentry_model_value = systems_number_analysisstatus,
         )
 
-    # save artifactpriority
-    artifactpriority_all = Artifactpriority.objects.all().order_by('artifactpriority_name')
+    """ save artifactpriority """
+
+    # get all objects (reverse ordering is necessary for proper sorting in jinja2 loop in template)
+    artifactpriority_all = Artifactpriority.objects.all().order_by('-artifactpriority_name')
+    # loop over objects
     for artifactpriority in artifactpriority_all:
+        # count number of associated objects
         artifacts_number_artifactpriority = Artifact.objects.filter(artifactpriority=artifactpriority).count()
+        # save single object in history including its name and number of associated objects
         StatushistoryEntry.objects.create(
             statushistory = statushistory,
             statushistoryentry_model_name = 'artifactpriority',
@@ -59,10 +71,15 @@ def statushistory_save(request):
             statushistoryentry_model_value = artifacts_number_artifactpriority,
         )
 
-    # save artifactstatus
-    artifactstatus_all = Artifactstatus.objects.all().order_by('artifactstatus_name')
+    """ save artifactstatus """
+
+    # get all objects (reverse ordering is necessary for proper sorting in jinja2 loop in template)
+    artifactstatus_all = Artifactstatus.objects.all().order_by('-artifactstatus_name')
+    # loop over objects
     for artifactstatus in artifactstatus_all:
+        # count number of associated objects
         artifacts_number_artifactstatus = Artifact.objects.filter(artifactstatus=artifactstatus).count()
+        # save single object in history including its name and number of associated objects
         StatushistoryEntry.objects.create(
             statushistory = statushistory,
             statushistoryentry_model_name = 'artifactstatus',
@@ -70,10 +87,15 @@ def statushistory_save(request):
             statushistoryentry_model_value = artifacts_number_artifactstatus,
         )
 
-    # save systemstatus
-    systemstatus_all = Systemstatus.objects.all().order_by('systemstatus_name')
+    """ save systemstatus """
+
+    # get all objects (reverse ordering is necessary for proper sorting in jinja2 loop in template)
+    systemstatus_all = Systemstatus.objects.all().order_by('-systemstatus_name')
+    # loop over objects
     for systemstatus in systemstatus_all:
+        # count number of associated objects
         systems_number_systemstatus = System.objects.filter(systemstatus=systemstatus).count()
+        # save single object in history including its name and number of associated objects
         StatushistoryEntry.objects.create(
             statushistory = statushistory,
             statushistoryentry_model_name = 'systemstatus',
@@ -81,10 +103,15 @@ def statushistory_save(request):
             statushistoryentry_model_value = systems_number_systemstatus,
         )
 
-    # save taskstatus
-    taskstatus_all = Taskstatus.objects.all().order_by('taskstatus_name')
+    """ save taskstatus """
+
+    # get all objects (reverse ordering is necessary for proper sorting in jinja2 loop in template)
+    taskstatus_all = Taskstatus.objects.all().order_by('-taskstatus_name')
+    # loop over objects
     for taskstatus in taskstatus_all:
+        # count number of associated objects
         systems_number_taskstatus = Task.objects.filter(taskstatus=taskstatus).count()
+        # save single object in history including its name and number of associated objects
         StatushistoryEntry.objects.create(
             statushistory = statushistory,
             statushistoryentry_model_name = 'taskstatus',
@@ -92,10 +119,15 @@ def statushistory_save(request):
             statushistoryentry_model_value = systems_number_taskstatus,
         )
 
-    # save taskpriority
-    taskpriority_all = Taskpriority.objects.all().order_by('taskpriority_name')
+    """ save taskpriority """
+
+    # get all objects (reverse ordering is necessary for proper sorting in jinja2 loop in template)
+    taskpriority_all = Taskpriority.objects.all().order_by('-taskpriority_name')
+    # loop over objects
     for taskpriority in taskpriority_all:
+        # count number of associated objects
         systems_number_taskpriority = Task.objects.filter(taskpriority=taskpriority).count()
+        # save single object in history including its name and number of associated objects
         StatushistoryEntry.objects.create(
             statushistory = statushistory,
             statushistoryentry_model_name = 'taskpriority',
