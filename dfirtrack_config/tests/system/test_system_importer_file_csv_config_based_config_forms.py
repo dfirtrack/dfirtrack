@@ -5,6 +5,13 @@ from dfirtrack_main.models import Analysisstatus, Systemstatus
 class SystemImporterFileCsvConfigbasedConfigFormTestCase(TestCase):
     """ system importer file CSV config-based config form tests """
 
+    @classmethod
+    def setUpTestData(cls):
+
+        # create object
+        Analysisstatus.objects.create(analysisstatus_name = 'analysisstatus_1')
+
+
     def test_system_importer_file_csv_config_based_config_csv_skip_existing_system_form_label(self):
         """ test form label """
 
@@ -203,7 +210,7 @@ class SystemImporterFileCsvConfigbasedConfigFormTestCase(TestCase):
         """ test minimum form requirements / INVALID """
 
         # get object (does not work the usual way because form with available choices is build before model instance is created during the test)
-        analysisstatus_id = Analysisstatus.objects.get(analysisstatus_name='Needs analysis').analysisstatus_id
+        analysisstatus_id = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1').analysisstatus_id
         # get object
         form = SystemImporterFileCsvConfigbasedConfigForm(data = {
             'csv_default_analysisstatus': analysisstatus_id,
@@ -219,7 +226,7 @@ class SystemImporterFileCsvConfigbasedConfigFormTestCase(TestCase):
         # get object (does not work the usual way because form with available choices is build before model instance is created during the test)
         systemstatus_id = Systemstatus.objects.get(systemstatus_name='Unknown').systemstatus_id
         # get object (does not work the usual way because form with available choices is build before model instance is created during the test)
-        analysisstatus_id = Analysisstatus.objects.get(analysisstatus_name='Needs analysis').analysisstatus_id
+        analysisstatus_id = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1').analysisstatus_id
         # get object
         form = SystemImporterFileCsvConfigbasedConfigForm(data = {
             'csv_default_systemstatus': systemstatus_id,
@@ -236,7 +243,7 @@ class SystemImporterFileCsvConfigbasedConfigFormTestCase(TestCase):
         # get object (does not work the usual way because form with available choices is build before model instance is created during the test)
         systemstatus_id = Systemstatus.objects.get(systemstatus_name='Unknown').systemstatus_id
         # get object (does not work the usual way because form with available choices is build before model instance is created during the test)
-        analysisstatus_id = Analysisstatus.objects.get(analysisstatus_name='Needs analysis').analysisstatus_id
+        analysisstatus_id = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1').analysisstatus_id
         # get object
         form = SystemImporterFileCsvConfigbasedConfigForm(data = {
             'csv_default_systemstatus': systemstatus_id,

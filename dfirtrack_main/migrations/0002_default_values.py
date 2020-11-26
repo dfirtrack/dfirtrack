@@ -11,10 +11,10 @@ class Migration(migrations.Migration):
 
     operations = [
 
-        migrations.RunSQL("INSERT INTO dfirtrack_main_analysisstatus (analysisstatus_name) VALUES ('Needs analysis');"),
-        migrations.RunSQL("INSERT INTO dfirtrack_main_analysisstatus (analysisstatus_name) VALUES ('Ready for analysis');"),
-        migrations.RunSQL("INSERT INTO dfirtrack_main_analysisstatus (analysisstatus_name) VALUES ('Ongoing analysis');"),
-        migrations.RunSQL("INSERT INTO dfirtrack_main_analysisstatus (analysisstatus_name) VALUES ('Nothing to do');"),
+        migrations.RunSQL("INSERT INTO dfirtrack_main_analysisstatus (analysisstatus_name) VALUES ('10_needs_analysis');"),
+        migrations.RunSQL("INSERT INTO dfirtrack_main_analysisstatus (analysisstatus_name) VALUES ('20_ready_for_analysis');"),
+        migrations.RunSQL("INSERT INTO dfirtrack_main_analysisstatus (analysisstatus_name) VALUES ('30_ongoing_analysis');"),
+        migrations.RunSQL("INSERT INTO dfirtrack_main_analysisstatus (analysisstatus_name) VALUES ('40_nothing_to_do');"),
 
         migrations.RunSQL("INSERT INTO dfirtrack_main_headline (headline_name) VALUES ('Summary');"),
 

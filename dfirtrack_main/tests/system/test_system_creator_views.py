@@ -99,13 +99,13 @@ class SystemCreatorViewTestCase(TestCase):
 
         # login testuser
         self.client.login(username='testuser_system_creator', password='Jbf5fZBhpg1aZsCW6L8r')
-        # get objects
-        analysisstatus_needs_analysis = Analysisstatus.objects.get(analysisstatus_name = 'Needs analysis')
+        # create objects
+        analysisstatus_1 = Analysisstatus.objects.create(analysisstatus_name = 'analysisstatus_1')
         systemstatus_unknown = Systemstatus.objects.get(systemstatus_name = 'Unknown')
         # create post data
         data_dict = {
             'systemlist': 'system_creator_system_1\nsystem_creator_system_2\nsystem_creator_system_3\n\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nsystem_creator_duplicate_system',
-            'analysisstatus': analysisstatus_needs_analysis.analysisstatus_id,
+            'analysisstatus': analysisstatus_1.analysisstatus_id,
             'systemstatus': systemstatus_unknown.systemstatus_id,
         }
         # get response
@@ -115,6 +115,6 @@ class SystemCreatorViewTestCase(TestCase):
         self.assertTrue(System.objects.filter(system_name='system_creator_system_2').exists())
         self.assertTrue(System.objects.filter(system_name='system_creator_system_3').exists())
         self.assertFalse(System.objects.filter(system_name='system_creator_system_4').exists())
-        self.assertEqual(System.objects.get(system_name='system_creator_system_1').analysisstatus, analysisstatus_needs_analysis)
+        self.assertEqual(System.objects.get(system_name='system_creator_system_1').analysisstatus, analysisstatus_1)
         self.assertEqual(System.objects.get(system_name='system_creator_system_1').systemstatus, systemstatus_unknown)
         self.assertEqual(System.objects.filter(system_name='system_creator_duplicate_system').count(), 1)
