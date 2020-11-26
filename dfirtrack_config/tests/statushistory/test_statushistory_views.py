@@ -163,20 +163,20 @@ class StatushistoryViewTestCase(TestCase):
             statushistoryentry_model_name = 'tasks_number',
         )
         # get artifactpriority entries (separately because it was assigned with default value)
-        artifactpriority_01_low = StatushistoryEntry.objects.get(
+        artifactpriority_10_low = StatushistoryEntry.objects.get(
             statushistory = statushistory,
             statushistoryentry_model_name = 'artifactpriority',
-            statushistoryentry_model_key = '01_low',
+            statushistoryentry_model_key = '10_low',
         )
-        artifactpriority_02_medium = StatushistoryEntry.objects.get(
+        artifactpriority_20_medium = StatushistoryEntry.objects.get(
             statushistory = statushistory,
             statushistoryentry_model_name = 'artifactpriority',
-            statushistoryentry_model_key = '02_medium',
+            statushistoryentry_model_key = '20_medium',
         )
-        artifactpriority_03_high = StatushistoryEntry.objects.get(
+        artifactpriority_30_high = StatushistoryEntry.objects.get(
             statushistory = statushistory,
             statushistoryentry_model_name = 'artifactpriority',
-            statushistoryentry_model_key = '03_high',
+            statushistoryentry_model_key = '30_high',
         )
         # get all other entries as queryset
         analysisstatus_all = StatushistoryEntry.objects.filter(
@@ -204,9 +204,9 @@ class StatushistoryViewTestCase(TestCase):
         self.assertEqual(systems_number.statushistoryentry_model_value, 3)
         self.assertEqual(tasks_number.statushistoryentry_model_value, 1)
         # compare artifactpriority
-        self.assertEqual(artifactpriority_01_low.statushistoryentry_model_value, 0)
-        self.assertEqual(artifactpriority_02_medium.statushistoryentry_model_value, 2)
-        self.assertEqual(artifactpriority_03_high.statushistoryentry_model_value, 0)
+        self.assertEqual(artifactpriority_10_low.statushistoryentry_model_value, 0)
+        self.assertEqual(artifactpriority_20_medium.statushistoryentry_model_value, 2)
+        self.assertEqual(artifactpriority_30_high.statushistoryentry_model_value, 0)
         # compare querysets
         for analysisstatus in analysisstatus_all:
             if analysisstatus.statushistoryentry_model_key == 'analysisstatus_1':
