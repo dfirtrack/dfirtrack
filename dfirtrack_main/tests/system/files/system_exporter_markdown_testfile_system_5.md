@@ -1,7 +1,7 @@
 # system_5
 
 !!! success "Systemstatus"
-    Clean - This system is clean.
+    40_clean - This system is clean.
 # System overview
 
 | Setting  | Information |

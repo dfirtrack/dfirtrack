@@ -74,11 +74,11 @@ class SystemExporterMarkdownViewTestCase(TestCase):
         systemstatus_1 = Systemstatus.objects.create(systemstatus_name = 'systemstatus_1')
 
         # get objects
-        systemstatus_compromised = Systemstatus.objects.get(systemstatus_name = 'Compromised')
-        systemstatus_unknown = Systemstatus.objects.get(systemstatus_name = 'Unknown')
-        systemstatus_analysis_ongoing = Systemstatus.objects.get(systemstatus_name = 'Analysis ongoing')
-        systemstatus_not_analyzed = Systemstatus.objects.get(systemstatus_name = 'Not analyzed')
-        systemstatus_clean = Systemstatus.objects.get(systemstatus_name = 'Clean')
+        systemstatus_compromised = Systemstatus.objects.get(systemstatus_name = '30_compromised')
+        systemstatus_unknown = Systemstatus.objects.get(systemstatus_name = '10_unknown')
+        systemstatus_analysis_ongoing = Systemstatus.objects.get(systemstatus_name = '20_analysis_ongoing')
+        systemstatus_not_analyzed = Systemstatus.objects.get(systemstatus_name = '90_not_analyzed')
+        systemstatus_clean = Systemstatus.objects.get(systemstatus_name = '40_clean')
 
         # update object (used with 'admonition' extension of mkdocs)
         systemstatus_clean.systemstatus_note = 'This system is clean.'

@@ -1,7 +1,7 @@
 # system_1
 
 !!! danger "Systemstatus"
-    Compromised
+    30_compromised
 # System overview
 
 | Setting  | Information |

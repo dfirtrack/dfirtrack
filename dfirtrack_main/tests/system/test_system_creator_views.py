@@ -15,6 +15,7 @@ class SystemCreatorViewTestCase(TestCase):
 
         # create objects
         systemstatus_1 = Systemstatus.objects.create(systemstatus_name = 'systemstatus_1')
+        Systemstatus.objects.create(systemstatus_name = 'systemstatus_2')
         System.objects.create(
             system_name = 'system_creator_duplicate_system',
             systemstatus = systemstatus_1,
@@ -81,11 +82,11 @@ class SystemCreatorViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_creator', password='Jbf5fZBhpg1aZsCW6L8r')
         # get objects
-        systemstatus_unknown = Systemstatus.objects.get(systemstatus_name = 'Unknown')
+        systemstatus_2 = Systemstatus.objects.get(systemstatus_name = 'systemstatus_2')
         # create post data
         data_dict = {
             'systemlist': 'system_creator_redirect',
-            'systemstatus': systemstatus_unknown.systemstatus_id,
+            'systemstatus': systemstatus_2.systemstatus_id,
         }
         # create url
         destination = '/system/'
@@ -101,12 +102,12 @@ class SystemCreatorViewTestCase(TestCase):
         self.client.login(username='testuser_system_creator', password='Jbf5fZBhpg1aZsCW6L8r')
         # create objects
         analysisstatus_1 = Analysisstatus.objects.create(analysisstatus_name = 'analysisstatus_1')
-        systemstatus_unknown = Systemstatus.objects.get(systemstatus_name = 'Unknown')
+        systemstatus_2 = Systemstatus.objects.get(systemstatus_name = 'systemstatus_2')
         # create post data
         data_dict = {
             'systemlist': 'system_creator_system_1\nsystem_creator_system_2\nsystem_creator_system_3\n\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nsystem_creator_duplicate_system',
             'analysisstatus': analysisstatus_1.analysisstatus_id,
-            'systemstatus': systemstatus_unknown.systemstatus_id,
+            'systemstatus': systemstatus_2.systemstatus_id,
         }
         # get response
         self.client.post('/system/creator/', data_dict)
@@ -116,5 +117,5 @@ class SystemCreatorViewTestCase(TestCase):
         self.assertTrue(System.objects.filter(system_name='system_creator_system_3').exists())
         self.assertFalse(System.objects.filter(system_name='system_creator_system_4').exists())
         self.assertEqual(System.objects.get(system_name='system_creator_system_1').analysisstatus, analysisstatus_1)
-        self.assertEqual(System.objects.get(system_name='system_creator_system_1').systemstatus, systemstatus_unknown)
+        self.assertEqual(System.objects.get(system_name='system_creator_system_1').systemstatus, systemstatus_2)
         self.assertEqual(System.objects.filter(system_name='system_creator_duplicate_system').count(), 1)

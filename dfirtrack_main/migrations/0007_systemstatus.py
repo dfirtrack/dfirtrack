@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
 
     operations = [
 
-        migrations.RunSQL("INSERT INTO dfirtrack_main_systemstatus (systemstatus_name) VALUES ('Not analyzed');"),
+        migrations.RunSQL("INSERT INTO dfirtrack_main_systemstatus (systemstatus_name) VALUES ('90_not_analyzed');"),
 
         migrations.RunSQL("INSERT INTO dfirtrack_main_analysisstatus (analysisstatus_name) VALUES ('50_main_analysis_finished');"),
 

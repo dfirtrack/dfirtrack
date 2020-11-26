@@ -16,16 +16,16 @@ def write_headline(django_report, system):
 def write_systemstatus(django_report, system):
     """ write systemstatus in admonation style """
 
-    if system.systemstatus.systemstatus_name == "Compromised":
+    if system.systemstatus.systemstatus_name == "30_compromised":
         django_report.write('!!! danger "Systemstatus"\n')
         django_report.write("    " + system.systemstatus.systemstatus_name)
-    elif system.systemstatus.systemstatus_name == "Unknown":
+    elif system.systemstatus.systemstatus_name == "10_unknown":
         django_report.write('!!! warning "Systemstatus"\n')
         django_report.write("    " + system.systemstatus.systemstatus_name)
-    elif system.systemstatus.systemstatus_name == "Analysis ongoing":
+    elif system.systemstatus.systemstatus_name == "20_analysis_ongoing":
         django_report.write('!!! warning "Systemstatus"\n')
         django_report.write("    " + system.systemstatus.systemstatus_name)
-    elif system.systemstatus.systemstatus_name == "Not analyzed":
+    elif system.systemstatus.systemstatus_name == "90_not_analyzed":
         django_report.write('!!! warning "Systemstatus"\n')
         django_report.write("    " + system.systemstatus.systemstatus_name)
     else:
