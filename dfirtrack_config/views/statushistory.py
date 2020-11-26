@@ -41,8 +41,8 @@ def statushistory_save(request):
 
     """ save analysisstatus """
 
-    # get all objects (reverse ordering is necessary for proper sorting in jinja2 loop in template)
-    analysisstatus_all = Analysisstatus.objects.all().order_by('-analysisstatus_name')
+    # get all objects
+    analysisstatus_all = Analysisstatus.objects.all().order_by('analysisstatus_name')
     # loop over objects
     for analysisstatus in analysisstatus_all:
         # count number of associated objects
@@ -57,8 +57,8 @@ def statushistory_save(request):
 
     """ save artifactpriority """
 
-    # get all objects (reverse ordering is necessary for proper sorting in jinja2 loop in template)
-    artifactpriority_all = Artifactpriority.objects.all().order_by('-artifactpriority_name')
+    # get all objects
+    artifactpriority_all = Artifactpriority.objects.all().order_by('artifactpriority_name')
     # loop over objects
     for artifactpriority in artifactpriority_all:
         # count number of associated objects
@@ -73,8 +73,8 @@ def statushistory_save(request):
 
     """ save artifactstatus """
 
-    # get all objects (reverse ordering is necessary for proper sorting in jinja2 loop in template)
-    artifactstatus_all = Artifactstatus.objects.all().order_by('-artifactstatus_name')
+    # get all objects
+    artifactstatus_all = Artifactstatus.objects.all().order_by('artifactstatus_name')
     # loop over objects
     for artifactstatus in artifactstatus_all:
         # count number of associated objects
@@ -89,8 +89,8 @@ def statushistory_save(request):
 
     """ save systemstatus """
 
-    # get all objects (reverse ordering is necessary for proper sorting in jinja2 loop in template)
-    systemstatus_all = Systemstatus.objects.all().order_by('-systemstatus_name')
+    # get all objects
+    systemstatus_all = Systemstatus.objects.all().order_by('systemstatus_name')
     # loop over objects
     for systemstatus in systemstatus_all:
         # count number of associated objects
@@ -105,8 +105,8 @@ def statushistory_save(request):
 
     """ save taskstatus """
 
-    # get all objects (reverse ordering is necessary for proper sorting in jinja2 loop in template)
-    taskstatus_all = Taskstatus.objects.all().order_by('-taskstatus_name')
+    # get all objects
+    taskstatus_all = Taskstatus.objects.all().order_by('taskstatus_name')
     # loop over objects
     for taskstatus in taskstatus_all:
         # count number of associated objects
@@ -121,8 +121,8 @@ def statushistory_save(request):
 
     """ save taskpriority """
 
-    # get all objects (reverse ordering is necessary for proper sorting in jinja2 loop in template)
-    taskpriority_all = Taskpriority.objects.all().order_by('-taskpriority_name')
+    # get all objects
+    taskpriority_all = Taskpriority.objects.all().order_by('taskpriority_name')
     # loop over objects
     for taskpriority in taskpriority_all:
         # count number of associated objects
