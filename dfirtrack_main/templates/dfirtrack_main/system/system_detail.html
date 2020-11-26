@@ -282,7 +282,7 @@
             <!-- open tasks -->
             {% if system.task_set.all %}
                 {% for i in system.task_set.all %}
-                    {% if i.taskstatus.taskstatus_name != 'Done' %}
+                    {% if i.taskstatus.taskstatus_name != '30_done' %}
 
                         <!-- table row -->
                         <tr>
@@ -456,7 +456,7 @@
                 <!-- closed tasks -->
                 {% if system.task_set.all %}
                     {% for i in system.task_set.all %}
-                        {% if i.taskstatus.taskstatus_name == 'Done' %}
+                        {% if i.taskstatus.taskstatus_name == '30_done' %}
 
                             <!-- table row -->
                             <tr>
