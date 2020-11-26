@@ -1275,7 +1275,7 @@ class Taskpriority(models.Model):
     taskpriority_id = models.AutoField(primary_key=True)
 
     # main entity information
-    taskpriority_name = models.CharField(max_length=6, unique=True)
+    taskpriority_name = models.CharField(max_length=50, unique=True)
 
     # string representation
     def __str__(self):

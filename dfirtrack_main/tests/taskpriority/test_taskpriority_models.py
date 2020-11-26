@@ -46,4 +46,4 @@ class TaskpriorityModelTestCase(TestCase):
         # get max length
         max_length = taskpriority_1._meta.get_field('taskpriority_name').max_length
         # compare
-        self.assertEqual(max_length, 6)
+        self.assertEqual(max_length, 50)

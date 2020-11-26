@@ -55,9 +55,9 @@ class Migration(migrations.Migration):
         migrations.RunSQL("INSERT INTO dfirtrack_main_tagcolor (tagcolor_name) VALUES ('orange');"),
         migrations.RunSQL("INSERT INTO dfirtrack_main_tagcolor (tagcolor_name) VALUES ('red');"),
 
-        migrations.RunSQL("INSERT INTO dfirtrack_main_taskpriority (taskpriority_name) VALUES ('Low');"),
-        migrations.RunSQL("INSERT INTO dfirtrack_main_taskpriority (taskpriority_name) VALUES ('Medium');"),
-        migrations.RunSQL("INSERT INTO dfirtrack_main_taskpriority (taskpriority_name) VALUES ('High');"),
+        migrations.RunSQL("INSERT INTO dfirtrack_main_taskpriority (taskpriority_name) VALUES ('10_low');"),
+        migrations.RunSQL("INSERT INTO dfirtrack_main_taskpriority (taskpriority_name) VALUES ('20_medium');"),
+        migrations.RunSQL("INSERT INTO dfirtrack_main_taskpriority (taskpriority_name) VALUES ('30_high');"),
 
         migrations.RunSQL("INSERT INTO dfirtrack_main_taskstatus (taskstatus_name) VALUES ('10_pending');"),
         migrations.RunSQL("INSERT INTO dfirtrack_main_taskstatus (taskstatus_name) VALUES ('20_working');"),

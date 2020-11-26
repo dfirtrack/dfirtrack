@@ -278,7 +278,7 @@ class Migration(migrations.Migration):
             name='Taskpriority',
             fields=[
                 ('taskpriority_id', models.AutoField(primary_key=True, serialize=False)),
-                ('taskpriority_name', models.CharField(max_length=6, unique=True)),
+                ('taskpriority_name', models.CharField(max_length=50, unique=True)),
             ],
         ),
         migrations.CreateModel(

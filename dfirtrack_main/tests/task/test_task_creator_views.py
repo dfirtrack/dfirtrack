@@ -15,10 +15,11 @@ class TaskCreatorViewTestCase(TestCase):
         # create user
         test_user = User.objects.create_user(username='testuser_task_creator', password='E5BGU4meULjw7kdtvnzn')
 
-        # create object
+        # create objects
         Taskname.objects.create(taskname_name = 'task_creator_taskname_1')
         Taskname.objects.create(taskname_name = 'task_creator_taskname_2')
         Taskname.objects.create(taskname_name = 'task_creator_taskname_3')
+        Taskpriority.objects.create(taskpriority_name = 'taskpriority_1')
 
         # create object
         systemstatus_1 = Systemstatus.objects.create(systemstatus_name = 'task_creator_systemstatus_1')
@@ -104,13 +105,13 @@ class TaskCreatorViewTestCase(TestCase):
         self.client.login(username='testuser_task_creator', password='E5BGU4meULjw7kdtvnzn')
         # get objects
         taskname_1 = Taskname.objects.get(taskname_name = 'task_creator_taskname_1')
-        taskpriority_medium = Taskpriority.objects.get(taskpriority_name = 'Medium')
+        taskpriority_1 = Taskpriority.objects.get(taskpriority_name = 'taskpriority_1')
         taskstatus_pending = Taskstatus.objects.get(taskstatus_name = '10_pending')
         system_1 = System.objects.get(system_name = 'task_creator_system_1')
         # create post data
         data_dict = {
             'taskname': [taskname_1.taskname_id,],
-            'taskpriority': taskpriority_medium.taskpriority_id,
+            'taskpriority': taskpriority_1.taskpriority_id,
             'taskstatus': taskstatus_pending.taskstatus_id,
             'system': [system_1.system_id,],
         }
@@ -130,7 +131,7 @@ class TaskCreatorViewTestCase(TestCase):
         taskname_1 = Taskname.objects.get(taskname_name = 'task_creator_taskname_1')
         taskname_2 = Taskname.objects.get(taskname_name = 'task_creator_taskname_2')
         taskname_3 = Taskname.objects.get(taskname_name = 'task_creator_taskname_3')
-        taskpriority_medium = Taskpriority.objects.get(taskpriority_name = 'Medium')
+        taskpriority_1 = Taskpriority.objects.get(taskpriority_name = 'taskpriority_1')
         taskstatus_pending = Taskstatus.objects.get(taskstatus_name = '10_pending')
         system_1 = System.objects.get(system_name = 'task_creator_system_1')
         system_2 = System.objects.get(system_name = 'task_creator_system_2')
@@ -138,7 +139,7 @@ class TaskCreatorViewTestCase(TestCase):
         # create post data
         data_dict = {
             'taskname': [taskname_1.taskname_id, taskname_2.taskname_id],
-            'taskpriority': taskpriority_medium.taskpriority_id,
+            'taskpriority': taskpriority_1.taskpriority_id,
             'taskstatus': taskstatus_pending.taskstatus_id,
             'system': [system_1.system_id, system_2.system_id],
         }
@@ -173,13 +174,13 @@ class TaskCreatorViewTestCase(TestCase):
             self.client.login(username='testuser_task_creator', password='E5BGU4meULjw7kdtvnzn')
             # get objects
             taskname_started = Taskname.objects.create(taskname_name = 'task_creator_started_time_working')
-            taskpriority_medium = Taskpriority.objects.get(taskpriority_name = 'Medium')
+            taskpriority_1 = Taskpriority.objects.get(taskpriority_name = 'taskpriority_1')
             taskstatus_working = Taskstatus.objects.get(taskstatus_name = '20_working')
             system_1 = System.objects.get(system_name = 'task_creator_system_1')
             # create post data
             data_dict = {
                 'taskname': [taskname_started.taskname_id,],
-                'taskpriority': taskpriority_medium.taskpriority_id,
+                'taskpriority': taskpriority_1.taskpriority_id,
                 'taskstatus': taskstatus_working.taskstatus_id,
                 'system': [system_1.system_id,],
             }
@@ -205,13 +206,13 @@ class TaskCreatorViewTestCase(TestCase):
             self.client.login(username='testuser_task_creator', password='E5BGU4meULjw7kdtvnzn')
             # get objects
             taskname_finished = Taskname.objects.create(taskname_name = 'task_creator_finished_time_working')
-            taskpriority_medium = Taskpriority.objects.get(taskpriority_name = 'Medium')
+            taskpriority_1 = Taskpriority.objects.get(taskpriority_name = 'taskpriority_1')
             taskstatus_done = Taskstatus.objects.get(taskstatus_name = '30_done')
             system_1 = System.objects.get(system_name = 'task_creator_system_1')
             # create post data
             data_dict = {
                 'taskname': [taskname_finished.taskname_id,],
-                'taskpriority': taskpriority_medium.taskpriority_id,
+                'taskpriority': taskpriority_1.taskpriority_id,
                 'taskstatus': taskstatus_done.taskstatus_id,
                 'system': [system_1.system_id,],
             }
