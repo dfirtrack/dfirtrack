@@ -76,6 +76,10 @@ class StatusView(LoginRequiredMixin, TemplateView):
 
         context = super(StatusView, self).get_context_data(*args, **kwargs)
 
+        # TODO: number of last elements accessible by config (and filtered by query)
+        # get statushistory objects for dropdown menu
+        context['statushistory_all'] = Statushistory.objects.all().order_by('statushistory_id')
+
         # prepare dates
         today = datetime.now().date()
         tomorrow = today + timedelta(1)
