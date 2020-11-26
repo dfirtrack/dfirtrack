@@ -55,12 +55,12 @@ class StatusDetailView(LoginRequiredMixin, DetailView):
         context['tasks_three_days_ago_number'] = Task.objects.filter(task_create_time__lt=two_days_ago_start, task_create_time__gte=three_days_ago_start).count()
 
         # get objects
-        context['analysisstatus_all'] = Analysisstatus.objects.all().order_by('analysisstatus_id')
-        context['artifactpriority_all'] = Artifactpriority.objects.all().order_by('artifactpriority_id')
+        context['analysisstatus_all'] = Analysisstatus.objects.all().order_by('analysisstatus_name')
+        context['artifactpriority_all'] = Artifactpriority.objects.all().order_by('artifactpriority_name')
         context['artifactstatus_all'] = Artifactstatus.objects.all().order_by('artifactstatus_name')
-        context['systemstatus_all'] = Systemstatus.objects.all().order_by('systemstatus_id')
-        context['taskstatus_all'] = Taskstatus.objects.all().order_by('taskstatus_id')
-        context['taskpriority_all'] = Taskpriority.objects.all().order_by('taskpriority_id')
+        context['systemstatus_all'] = Systemstatus.objects.all().order_by('systemstatus_name')
+        context['taskstatus_all'] = Taskstatus.objects.all().order_by('taskstatus_name')
+        context['taskpriority_all'] = Taskpriority.objects.all().order_by('taskpriority_name')
 
         # call logger
         debug_logger(str(self.request.user), ' STATUS_ENTERED')
@@ -108,12 +108,12 @@ class StatusView(LoginRequiredMixin, TemplateView):
         context['tasks_three_days_ago_number'] = Task.objects.filter(task_create_time__lt=two_days_ago_start, task_create_time__gte=three_days_ago_start).count()
 
         # get objects
-        context['analysisstatus_all'] = Analysisstatus.objects.all().order_by('analysisstatus_id')
-        context['artifactpriority_all'] = Artifactpriority.objects.all().order_by('artifactpriority_id')
+        context['analysisstatus_all'] = Analysisstatus.objects.all().order_by('analysisstatus_name')
+        context['artifactpriority_all'] = Artifactpriority.objects.all().order_by('artifactpriority_name')
         context['artifactstatus_all'] = Artifactstatus.objects.all().order_by('artifactstatus_name')
-        context['systemstatus_all'] = Systemstatus.objects.all().order_by('systemstatus_id')
-        context['taskstatus_all'] = Taskstatus.objects.all().order_by('taskstatus_id')
-        context['taskpriority_all'] = Taskpriority.objects.all().order_by('taskpriority_id')
+        context['systemstatus_all'] = Systemstatus.objects.all().order_by('systemstatus_name')
+        context['taskstatus_all'] = Taskstatus.objects.all().order_by('taskstatus_name')
+        context['taskpriority_all'] = Taskpriority.objects.all().order_by('taskpriority_name')
 
         # call logger
         debug_logger(str(self.request.user), ' STATUS_ENTERED')

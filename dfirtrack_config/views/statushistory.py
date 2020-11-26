@@ -38,7 +38,7 @@ def statushistory_save(request):
     )
 
     # save analysisstatus
-    analysisstatus_all = Analysisstatus.objects.all().order_by('analysisstatus_id')
+    analysisstatus_all = Analysisstatus.objects.all().order_by('analysisstatus_name')
     for analysisstatus in analysisstatus_all:
         systems_number_analysisstatus = System.objects.filter(analysisstatus=analysisstatus).count()
         StatushistoryEntry.objects.create(
@@ -49,7 +49,7 @@ def statushistory_save(request):
         )
 
     # save artifactpriority
-    artifactpriority_all = Artifactpriority.objects.all().order_by('artifactpriority_id')
+    artifactpriority_all = Artifactpriority.objects.all().order_by('artifactpriority_name')
     for artifactpriority in artifactpriority_all:
         artifacts_number_artifactpriority = Artifact.objects.filter(artifactpriority=artifactpriority).count()
         StatushistoryEntry.objects.create(
@@ -60,7 +60,7 @@ def statushistory_save(request):
         )
 
     # save artifactstatus
-    artifactstatus_all = Artifactstatus.objects.all().order_by('artifactstatus_id')
+    artifactstatus_all = Artifactstatus.objects.all().order_by('artifactstatus_name')
     for artifactstatus in artifactstatus_all:
         artifacts_number_artifactstatus = Artifact.objects.filter(artifactstatus=artifactstatus).count()
         StatushistoryEntry.objects.create(
@@ -71,7 +71,7 @@ def statushistory_save(request):
         )
 
     # save systemstatus
-    systemstatus_all = Systemstatus.objects.all().order_by('systemstatus_id')
+    systemstatus_all = Systemstatus.objects.all().order_by('systemstatus_name')
     for systemstatus in systemstatus_all:
         systems_number_systemstatus = System.objects.filter(systemstatus=systemstatus).count()
         StatushistoryEntry.objects.create(
@@ -82,7 +82,7 @@ def statushistory_save(request):
         )
 
     # save taskstatus
-    taskstatus_all = Taskstatus.objects.all().order_by('taskstatus_id')
+    taskstatus_all = Taskstatus.objects.all().order_by('taskstatus_name')
     for taskstatus in taskstatus_all:
         systems_number_taskstatus = Task.objects.filter(taskstatus=taskstatus).count()
         StatushistoryEntry.objects.create(
@@ -93,7 +93,7 @@ def statushistory_save(request):
         )
 
     # save taskpriority
-    taskpriority_all = Taskpriority.objects.all().order_by('taskpriority_id')
+    taskpriority_all = Taskpriority.objects.all().order_by('taskpriority_name')
     for taskpriority in taskpriority_all:
         systems_number_taskpriority = Task.objects.filter(taskpriority=taskpriority).count()
         StatushistoryEntry.objects.create(
