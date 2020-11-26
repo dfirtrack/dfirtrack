@@ -18,8 +18,8 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         # create user
         test_user = User.objects.create_user(username='testuser_artifact_exporter_spreadsheet_xls', password='LTzoNHIdxiJydsaJKf1G')
 
-        # get object
-        artifactstatus_needs_analysis = Artifactstatus.objects.get(artifactstatus_name = 'Needs analysis')
+        # create object
+        artifactstatus_3 = Artifactstatus.objects.create(artifactstatus_name = 'artifactstatus_3')
 
         # create object
         artifactstatus_1 = Artifactstatus.objects.create(
@@ -55,7 +55,7 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
             # create object with maximum attributes
             Artifact.objects.create(
                 artifact_name = 'artifact_exporter_spreadsheet_xls_artifact_1_all_attributes',
-                artifactstatus = artifactstatus_needs_analysis,
+                artifactstatus = artifactstatus_3,
                 artifacttype = artifacttype_1,
                 system = system_1,
                 artifact_source_path = 'C:\Temp\malicious.exe',
@@ -76,7 +76,7 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
             # create object with minimum attributes
             Artifact.objects.create(
                 artifact_name = 'artifact_exporter_spreadsheet_xls_artifact_2_no_attributes',
-                artifactstatus = artifactstatus_needs_analysis,
+                artifactstatus = artifactstatus_3,
                 artifacttype = artifacttype_1,
                 system = system_1,
                 artifact_created_by_user_id = test_user,
@@ -153,9 +153,9 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
             artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_worksheet_artifacttype = False
             artifact_exporter_spreadsheet_xls_config_model.save()
             # get object
-            artifactstatus_needs_analysis = Artifactstatus.objects.get(artifactstatus_name = 'Needs analysis')
+            artifactstatus_3 = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_3')
             # add artifactstatus to choice for export
-            artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_choice_artifactstatus.add(artifactstatus_needs_analysis)
+            artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_choice_artifactstatus.add(artifactstatus_3)
             # login testuser
             self.client.login(username='testuser_artifact_exporter_spreadsheet_xls', password='LTzoNHIdxiJydsaJKf1G')
             # get objects
@@ -215,9 +215,9 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
             artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_worksheet_artifacttype = True
             artifact_exporter_spreadsheet_xls_config_model.save()
             # get object
-            artifactstatus_needs_analysis = Artifactstatus.objects.get(artifactstatus_name = 'Needs analysis')
+            artifactstatus_3 = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_3')
             # add artifactstatus to choice for export
-            artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_choice_artifactstatus.add(artifactstatus_needs_analysis)
+            artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_choice_artifactstatus.add(artifactstatus_3)
             # login testuser
             self.client.login(username='testuser_artifact_exporter_spreadsheet_xls', password='LTzoNHIdxiJydsaJKf1G')
             # get objects
@@ -262,9 +262,9 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
             # compare number of rows and columns
             self.assertEqual(sheet_artifacts.nrows, 6)
             self.assertEqual(sheet_artifacts.ncols, 16)
-            self.assertEqual(sheet_artifactstatus.nrows, 11)
+            self.assertEqual(sheet_artifactstatus.nrows, 14)
             self.assertEqual(sheet_artifactstatus.ncols, 3)
-            self.assertEqual(sheet_artifacttype.nrows, 6)
+            self.assertEqual(sheet_artifacttype.nrows, 7)
             self.assertEqual(sheet_artifacttype.ncols, 3)
             # compare headlines
             self.assertEqual(sheet_artifacts.row_values(0), ['Artifact ID', 'Artifact', 'System ID', 'System', 'Artifactstatus', 'Artifacttype', 'Source path', 'Storage path', 'Internal note','External note',  'Analysis result', 'MD5', 'SHA1', 'SHA256', 'Created', 'Modified'])

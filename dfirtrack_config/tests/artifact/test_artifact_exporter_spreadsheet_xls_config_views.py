@@ -13,6 +13,16 @@ class ArtifactExporterSpreadsheetXlsConfigViewTestCase(TestCase):
         # create user
         User.objects.create_user(username='testuser_artifact_exporter_spreadsheet_xls_config', password='i3jLLnbrAEgel24sGs9i')
 
+        # create objects
+        Artifactstatus.objects.create(
+            artifactstatus_name = 'artifactstatus_1',
+            artifactstatus_slug = 'artifactstatus_1',
+        )
+        Artifactstatus.objects.create(
+            artifactstatus_name = 'artifactstatus_2',
+            artifactstatus_slug = 'artifactstatus_2',
+        )
+
     def test_artifact_exporter_spreadsheet_xls_config_not_logged_in(self):
         """ test exporter view """
 
@@ -71,8 +81,8 @@ class ArtifactExporterSpreadsheetXlsConfigViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_artifact_exporter_spreadsheet_xls_config', password='i3jLLnbrAEgel24sGs9i')
         # get objects
-        artifactstatus_1 = Artifactstatus.objects.get(artifactstatus_name = 'Needs analysis').artifactstatus_id
-        artifactstatus_2 = Artifactstatus.objects.get(artifactstatus_name = 'Requested from customer').artifactstatus_id
+        artifactstatus_1 = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1').artifactstatus_id
+        artifactstatus_2 = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_2').artifactstatus_id
         # create post data
         data_dict = {
             'artifactlist_xls_choice_artifactstatus': [str(artifactstatus_1), str(artifactstatus_2)],
@@ -88,8 +98,8 @@ class ArtifactExporterSpreadsheetXlsConfigViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_artifact_exporter_spreadsheet_xls_config', password='i3jLLnbrAEgel24sGs9i')
         # get objects
-        artifactstatus_1 = Artifactstatus.objects.get(artifactstatus_name = 'Needs analysis').artifactstatus_id
-        artifactstatus_2 = Artifactstatus.objects.get(artifactstatus_name = 'Requested from customer').artifactstatus_id
+        artifactstatus_1 = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1').artifactstatus_id
+        artifactstatus_2 = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_2').artifactstatus_id
         # create post data
         data_dict = {
             'artifactlist_xls_choice_artifactstatus': [str(artifactstatus_1), str(artifactstatus_2)],
@@ -107,8 +117,8 @@ class ArtifactExporterSpreadsheetXlsConfigViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_artifact_exporter_spreadsheet_xls_config', password='i3jLLnbrAEgel24sGs9i')
         # get objects
-        artifactstatus_1 = Artifactstatus.objects.get(artifactstatus_name = 'Needs analysis').artifactstatus_id
-        artifactstatus_2 = Artifactstatus.objects.get(artifactstatus_name = 'Requested from customer').artifactstatus_id
+        artifactstatus_1 = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1').artifactstatus_id
+        artifactstatus_2 = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_2').artifactstatus_id
         # create post data
         data_dict = {
             'artifactlist_xls_choice_artifactstatus': [str(artifactstatus_1), str(artifactstatus_2)],
