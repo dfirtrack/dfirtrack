@@ -263,7 +263,7 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
             systemstatus_id_list = ['ID']
             systemstatus_name_list = ['Systemstatus']
             systemstatus_note_list = ['Note']
-            all_systemstatus = Systemstatus.objects.all().order_by('systemstatus_id')
+            all_systemstatus = Systemstatus.objects.all().order_by('systemstatus_name')
             for systemstatus_object in all_systemstatus:
                 # the conversion to float was carried out, because otherwise the return values from the spreadsheet would have had to be converted to int, which would have been more time-consuming
                 systemstatus_id_list.append(float(systemstatus_object.systemstatus_id))
@@ -276,7 +276,7 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
             analysisstatus_id_list = ['ID']
             analysisstatus_name_list = ['Analysisstatus']
             analysisstatus_note_list = ['Note']
-            all_analysisstatus = Analysisstatus.objects.all().order_by('analysisstatus_id')
+            all_analysisstatus = Analysisstatus.objects.all().order_by('analysisstatus_name')
             for analysisstatus_object in all_analysisstatus:
                 # the conversion to float was carried out, because otherwise the return values from the spreadsheet would have had to be converted to int, which would have been more time-consuming
                 analysisstatus_id_list.append(float(analysisstatus_object.analysisstatus_id))

@@ -10,7 +10,7 @@ class SystemstatusList(LoginRequiredMixin, ListView):
     context_object_name = 'systemstatus_list'
     def get_queryset(self):
         debug_logger(str(self.request.user), " SYSTEMSTATUS_ENTERED")
-        return Systemstatus.objects.order_by('systemstatus_id')
+        return Systemstatus.objects.order_by('systemstatus_name')
 
 class SystemstatusDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'

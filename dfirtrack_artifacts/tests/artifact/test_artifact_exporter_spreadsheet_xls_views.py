@@ -227,7 +227,7 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
             artifactstatus_id_list = ['ID']
             artifactstatus_name_list = ['Artifactstatus']
             artifactstatus_note_list = ['Note']
-            all_artifactstatus = Artifactstatus.objects.all().order_by('artifactstatus_id')
+            all_artifactstatus = Artifactstatus.objects.all().order_by('artifactstatus_name')
             for artifactstatus_object in all_artifactstatus:
                 # the conversion to float was carried out, because otherwise the return values from the spreadsheet would have had to be converted to int, which would have been more time-consuming
                 artifactstatus_id_list.append(float(artifactstatus_object.artifactstatus_id))

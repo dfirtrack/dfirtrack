@@ -10,7 +10,7 @@ class TaskpriorityList(LoginRequiredMixin, ListView):
     context_object_name = 'taskpriority_list'
     def get_queryset(self):
         debug_logger(str(self.request.user), " TASKPRIORITY_ENTERED")
-        return Taskpriority.objects.order_by('taskpriority_id')
+        return Taskpriority.objects.order_by('taskpriority_name')
 
 class TaskpriorityDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'

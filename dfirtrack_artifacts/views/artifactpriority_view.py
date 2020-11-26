@@ -11,7 +11,7 @@ class ArtifactpriorityListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         debug_logger(str(self.request.user), ' ARTIFACTPRIORITY_LIST_ENTERED')
-        return Artifactpriority.objects.order_by('artifactpriority_id')
+        return Artifactpriority.objects.order_by('artifactpriority_name')
 
 class ArtifactpriorityDetailView(LoginRequiredMixin, DetailView):
     login_url = '/login'

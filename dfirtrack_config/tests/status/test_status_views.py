@@ -153,12 +153,12 @@ class StatusViewTestCase(TestCase):
         # get response
         response = self.client.get('/config/status/')
         # get querysets
-        analysisstatus_all = Analysisstatus.objects.all().order_by('analysisstatus_id')
-        artifactpriority_all = Artifactpriority.objects.all().order_by('artifactpriority_id')
+        analysisstatus_all = Analysisstatus.objects.all().order_by('analysisstatus_name')
+        artifactpriority_all = Artifactpriority.objects.all().order_by('artifactpriority_name')
         artifactstatus_all = Artifactstatus.objects.all().order_by('artifactstatus_name')
-        systemstatus_all = Systemstatus.objects.all().order_by('systemstatus_id')
-        taskstatus_all = Taskstatus.objects.all().order_by('taskstatus_id')
-        taskpriority_all = Taskpriority.objects.all().order_by('taskpriority_id')
+        systemstatus_all = Systemstatus.objects.all().order_by('systemstatus_name')
+        taskstatus_all = Taskstatus.objects.all().order_by('taskstatus_name')
+        taskpriority_all = Taskpriority.objects.all().order_by('taskpriority_name')
         # compare
         self.assertEqual(response.context['artifacts_number'], 2)
         self.assertEqual(response.context['systems_number'], 3)

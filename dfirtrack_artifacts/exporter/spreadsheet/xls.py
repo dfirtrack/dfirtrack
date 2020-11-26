@@ -240,7 +240,7 @@ def artifact(request):
         """ append artifactstatus """
 
         # get all Artifactstatus objects ordered by artifactstatus_id
-        artifactstatuss = Artifactstatus.objects.all().order_by("artifactstatus_id")
+        artifactstatuss = Artifactstatus.objects.all().order_by("artifactstatus_name")
 
         # iterate over artifactstatus
         for artifactstatus in artifactstatuss:

@@ -10,7 +10,7 @@ class AnalysisstatusList(LoginRequiredMixin, ListView):
     context_object_name = 'analysisstatus_list'
     def get_queryset(self):
         debug_logger(str(self.request.user), " ANALYSISSTATUS_ENTERED")
-        return Analysisstatus.objects.order_by('analysisstatus_id')
+        return Analysisstatus.objects.order_by('analysisstatus_name')
 
 class AnalysisstatusDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'

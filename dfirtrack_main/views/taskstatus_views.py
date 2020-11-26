@@ -10,7 +10,7 @@ class TaskstatusList(LoginRequiredMixin, ListView):
     context_object_name = 'taskstatus_list'
     def get_queryset(self):
         debug_logger(str(self.request.user), " TASKSTATUS_ENTERED")
-        return Taskstatus.objects.order_by('taskstatus_id')
+        return Taskstatus.objects.order_by('taskstatus_name')
 
 class TaskstatusDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
