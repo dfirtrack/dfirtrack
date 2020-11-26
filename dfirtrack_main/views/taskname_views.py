@@ -89,7 +89,7 @@ class TasknameClose(LoginRequiredMixin, UpdateView):
 
     def post(self, request, *args, **kwargs):
         taskname = self.get_object()
-        taskstatus_done = Taskstatus.objects.get(taskstatus_name="Done")
+        taskstatus_done = Taskstatus.objects.get(taskstatus_name="30_done")
         tasks = Task.objects.filter(Q(taskname=taskname) & ~Q(taskstatus=taskstatus_done.taskstatus_id)).order_by('task_id')
         task_ids = []
         for task in tasks:

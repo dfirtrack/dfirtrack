@@ -59,8 +59,8 @@ class Migration(migrations.Migration):
         migrations.RunSQL("INSERT INTO dfirtrack_main_taskpriority (taskpriority_name) VALUES ('Medium');"),
         migrations.RunSQL("INSERT INTO dfirtrack_main_taskpriority (taskpriority_name) VALUES ('High');"),
 
-        migrations.RunSQL("INSERT INTO dfirtrack_main_taskstatus (taskstatus_name) VALUES ('Pending');"),
-        migrations.RunSQL("INSERT INTO dfirtrack_main_taskstatus (taskstatus_name) VALUES ('Working');"),
-        migrations.RunSQL("INSERT INTO dfirtrack_main_taskstatus (taskstatus_name) VALUES ('Done');"),
+        migrations.RunSQL("INSERT INTO dfirtrack_main_taskstatus (taskstatus_name) VALUES ('10_pending');"),
+        migrations.RunSQL("INSERT INTO dfirtrack_main_taskstatus (taskstatus_name) VALUES ('20_working');"),
+        migrations.RunSQL("INSERT INTO dfirtrack_main_taskstatus (taskstatus_name) VALUES ('30_done');"),
 
     ]

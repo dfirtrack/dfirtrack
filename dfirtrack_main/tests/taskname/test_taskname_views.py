@@ -431,7 +431,7 @@ class TasknameViewTestCase(TestCase):
             task_modified_by_user_id = test_user,
         )
         # get object (does not work the usual way because form with available choices is build before model instance is created during the test)
-        taskstatus_done = Taskstatus.objects.get(taskstatus_name='Done')
+        taskstatus_done = Taskstatus.objects.get(taskstatus_name='30_done')
         # get response
         response = self.client.post('/taskname/' + str(taskname_close.taskname_id) + '/close/')
         # refresh objects

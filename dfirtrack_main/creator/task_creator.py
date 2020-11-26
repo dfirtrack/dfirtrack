@@ -72,8 +72,8 @@ def task_creator_async(request_post, request_user):
                 task.task_modified_by_user_id = request_user
 
                 # get taskstatus objects for comparing
-                taskstatus_working = Taskstatus.objects.get(taskstatus_name='Working')
-                taskstatus_done = Taskstatus.objects.get(taskstatus_name='Done')
+                taskstatus_working = Taskstatus.objects.get(taskstatus_name='20_working')
+                taskstatus_done = Taskstatus.objects.get(taskstatus_name='30_done')
 
                 # set times depending on submitted taskstatus
                 if task.taskstatus == taskstatus_working:

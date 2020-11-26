@@ -435,7 +435,7 @@ class TaskViewTestCase(TestCase):
         # get object
         taskpriority_id = Taskpriority.objects.get(taskpriority_name = 'prio_1').taskpriority_id
         # get object
-        taskstatus_id = Taskstatus.objects.get(taskstatus_name = 'Pending').taskstatus_id
+        taskstatus_id = Taskstatus.objects.get(taskstatus_name = '10_pending').taskstatus_id
         # get post data
         data_dict = {
             'taskname': taskname_id,
@@ -470,7 +470,7 @@ class TaskViewTestCase(TestCase):
             # get object
             taskpriority_id = Taskpriority.objects.get(taskpriority_name = 'prio_1').taskpriority_id
             # get object
-            taskstatus_id = Taskstatus.objects.get(taskstatus_name = 'Working').taskstatus_id
+            taskstatus_id = Taskstatus.objects.get(taskstatus_name = '20_working').taskstatus_id
             # get post data
             data_dict = {
                 'taskname': taskname_id,
@@ -505,7 +505,7 @@ class TaskViewTestCase(TestCase):
             # get object
             taskpriority_id = Taskpriority.objects.get(taskpriority_name = 'prio_1').taskpriority_id
             # get object
-            taskstatus_id = Taskstatus.objects.get(taskstatus_name = 'Done').taskstatus_id
+            taskstatus_id = Taskstatus.objects.get(taskstatus_name = '30_done').taskstatus_id
             # get post data
             data_dict = {
                 'taskname': taskname_id,
@@ -718,9 +718,9 @@ class TaskViewTestCase(TestCase):
         # get object
         taskpriority = Taskpriority.objects.get(taskpriority_name = 'prio_1')
         # get object
-        taskstatus_pending = Taskstatus.objects.get(taskstatus_name = 'Pending')
+        taskstatus_pending = Taskstatus.objects.get(taskstatus_name = '10_pending')
         # get object
-        taskstatus_done = Taskstatus.objects.get(taskstatus_name = 'Done')
+        taskstatus_done = Taskstatus.objects.get(taskstatus_name = '30_done')
         # create object
         task_1 = Task.objects.create(
             taskname = taskname_1,
@@ -762,9 +762,9 @@ class TaskViewTestCase(TestCase):
             # get object
             taskpriority = Taskpriority.objects.get(taskpriority_name = 'prio_1')
             # get object
-            taskstatus_working = Taskstatus.objects.get(taskstatus_name = 'Working')
+            taskstatus_working = Taskstatus.objects.get(taskstatus_name = '20_working')
             # get object
-            taskstatus_pending = Taskstatus.objects.get(taskstatus_name = 'Pending')
+            taskstatus_pending = Taskstatus.objects.get(taskstatus_name = '10_pending')
             # create object
             task_1 = Task.objects.create(
                 taskname = taskname_1,
@@ -804,9 +804,9 @@ class TaskViewTestCase(TestCase):
             # get object
             taskpriority = Taskpriority.objects.get(taskpriority_name = 'prio_1')
             # get object
-            taskstatus_done = Taskstatus.objects.get(taskstatus_name = 'Done')
+            taskstatus_done = Taskstatus.objects.get(taskstatus_name = '30_done')
             # get object
-            taskstatus_pending = Taskstatus.objects.get(taskstatus_name = 'Pending')
+            taskstatus_pending = Taskstatus.objects.get(taskstatus_name = '10_pending')
             # create object
             task_1 = Task.objects.create(
                 taskname = taskname_1,
@@ -876,7 +876,7 @@ class TaskViewTestCase(TestCase):
         # get object
         taskpriority_1 = Taskpriority.objects.get(taskpriority_name = 'prio_1')
         # get object
-        taskstatus_pending = Taskstatus.objects.get(taskstatus_name = 'Pending')
+        taskstatus_pending = Taskstatus.objects.get(taskstatus_name = '10_pending')
         # create object
         task_task_start = Task.objects.create(
             taskname = taskname_task_start,
@@ -890,7 +890,7 @@ class TaskViewTestCase(TestCase):
         # get object
         task_started = Task.objects.get(task_id = task_task_start.task_id)
         # get object
-        taskstatus_working = Taskstatus.objects.get(taskstatus_name = 'Working')
+        taskstatus_working = Taskstatus.objects.get(taskstatus_name = '20_working')
         # compare
         self.assertEqual(taskstatus_working, task_started.taskstatus)
 
@@ -910,7 +910,7 @@ class TaskViewTestCase(TestCase):
             # get object
             taskpriority_1 = Taskpriority.objects.get(taskpriority_name = 'prio_1')
             # get object
-            taskstatus_pending = Taskstatus.objects.get(taskstatus_name = 'Pending')
+            taskstatus_pending = Taskstatus.objects.get(taskstatus_name = '10_pending')
             # create object
             task_task_start = Task.objects.create(
                 taskname = taskname_task_start,
@@ -973,7 +973,7 @@ class TaskViewTestCase(TestCase):
         # get object
         taskpriority_1 = Taskpriority.objects.get(taskpriority_name = 'prio_1')
         # get object
-        taskstatus_pending = Taskstatus.objects.get(taskstatus_name = 'Pending')
+        taskstatus_pending = Taskstatus.objects.get(taskstatus_name = '10_pending')
         # create object
         task_task_finish = Task.objects.create(
             taskname = taskname_task_finish,
@@ -987,7 +987,7 @@ class TaskViewTestCase(TestCase):
         # get object
         task_finished = Task.objects.get(task_id = task_task_finish.task_id)
         # get object
-        taskstatus_done = Taskstatus.objects.get(taskstatus_name = 'Done')
+        taskstatus_done = Taskstatus.objects.get(taskstatus_name = '30_done')
         # compare
         self.assertEqual(taskstatus_done, task_finished.taskstatus)
 
@@ -1007,7 +1007,7 @@ class TaskViewTestCase(TestCase):
             # get object
             taskpriority_1 = Taskpriority.objects.get(taskpriority_name = 'prio_1')
             # get object
-            taskstatus_pending = Taskstatus.objects.get(taskstatus_name = 'Pending')
+            taskstatus_pending = Taskstatus.objects.get(taskstatus_name = '10_pending')
             # create object
             task_task_finish = Task.objects.create(
                 taskname = taskname_task_finish,
@@ -1070,7 +1070,7 @@ class TaskViewTestCase(TestCase):
         # get object
         taskpriority_1 = Taskpriority.objects.get(taskpriority_name = 'prio_1')
         # get object
-        taskstatus_done = Taskstatus.objects.get(taskstatus_name = 'Done')
+        taskstatus_done = Taskstatus.objects.get(taskstatus_name = '30_done')
         # create object
         task_task_renew = Task.objects.create(
             taskname = taskname_task_renew,
@@ -1084,7 +1084,7 @@ class TaskViewTestCase(TestCase):
         # get object
         task_renewed = Task.objects.get(task_id = task_task_renew.task_id)
         # get object
-        taskstatus_pending = Taskstatus.objects.get(taskstatus_name = 'Pending')
+        taskstatus_pending = Taskstatus.objects.get(taskstatus_name = '10_pending')
         # compare
         self.assertEqual(taskstatus_pending, task_renewed.taskstatus)
 
@@ -1100,7 +1100,7 @@ class TaskViewTestCase(TestCase):
         # get object
         taskpriority_1 = Taskpriority.objects.get(taskpriority_name = 'prio_1')
         # get object
-        taskstatus_done = Taskstatus.objects.get(taskstatus_name = 'Done')
+        taskstatus_done = Taskstatus.objects.get(taskstatus_name = '30_done')
         # create object
         task_task_renew = Task.objects.create(
             taskname = taskname_task_renew,
@@ -1129,7 +1129,7 @@ class TaskViewTestCase(TestCase):
         # get object
         taskpriority_1 = Taskpriority.objects.get(taskpriority_name = 'prio_1')
         # get object
-        taskstatus_done = Taskstatus.objects.get(taskstatus_name = 'Done')
+        taskstatus_done = Taskstatus.objects.get(taskstatus_name = '30_done')
         # create object
         task_task_renew = Task.objects.create(
             taskname = taskname_task_renew,
@@ -1193,7 +1193,7 @@ class TaskViewTestCase(TestCase):
         # get object
         taskpriority_1 = Taskpriority.objects.get(taskpriority_name = 'prio_1')
         # get object
-        taskstatus_pending = Taskstatus.objects.get(taskstatus_name = 'Pending')
+        taskstatus_pending = Taskstatus.objects.get(taskstatus_name = '10_pending')
         # create object
         task_task_set_user = Task.objects.create(
             taskname = taskname_task_set_user,
@@ -1255,7 +1255,7 @@ class TaskViewTestCase(TestCase):
         # get object
         taskpriority_1 = Taskpriority.objects.get(taskpriority_name = 'prio_1')
         # get object
-        taskstatus_pending = Taskstatus.objects.get(taskstatus_name = 'Pending')
+        taskstatus_pending = Taskstatus.objects.get(taskstatus_name = '10_pending')
         # create object
         task_task_unset_user = Task.objects.create(
             taskname = taskname_task_unset_user,

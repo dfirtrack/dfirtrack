@@ -80,9 +80,9 @@ class TaskCreate(LoginRequiredMixin, CreateView):
             task.task_created_by_user_id = request.user
             task.task_modified_by_user_id = request.user
             # adapt starting and finishing time corresponding to taskstatus
-            if task.taskstatus == Taskstatus.objects.get(taskstatus_name="Working"):
+            if task.taskstatus == Taskstatus.objects.get(taskstatus_name="20_working"):
                 task.task_started_time = timezone.now()
-            elif task.taskstatus == Taskstatus.objects.get(taskstatus_name="Done"):
+            elif task.taskstatus == Taskstatus.objects.get(taskstatus_name="30_done"):
                 task.task_started_time = timezone.now()
                 task.task_finished_time = timezone.now()
             task.save()
@@ -117,13 +117,13 @@ class TaskUpdate(LoginRequiredMixin, UpdateView):
             task = form.save(commit=False)
             task.task_modified_by_user_id = request.user
             # adapt starting and finishing time corresponding to taskstatus
-            if task.taskstatus == Taskstatus.objects.get(taskstatus_name="Pending"):
+            if task.taskstatus == Taskstatus.objects.get(taskstatus_name="10_pending"):
                 task.task_started_time = None
                 task.task_finished_time = None
-            elif task.taskstatus == Taskstatus.objects.get(taskstatus_name="Working"):
+            elif task.taskstatus == Taskstatus.objects.get(taskstatus_name="20_working"):
                 task.task_started_time = timezone.now()
                 task.task_finished_time = None
-            elif task.taskstatus == Taskstatus.objects.get(taskstatus_name="Done"):
+            elif task.taskstatus == Taskstatus.objects.get(taskstatus_name="30_done"):
                 task.task_finished_time = timezone.now()
                 if task.task_started_time == None:
                     task.task_started_time = timezone.now()
@@ -147,7 +147,7 @@ class TaskStart(LoginRequiredMixin, UpdateView):
     def get(self, request, *args, **kwargs):
         task = self.get_object()
         task.task_started_time = timezone.now()
-        task.taskstatus = Taskstatus.objects.get(taskstatus_name="Working")
+        task.taskstatus = Taskstatus.objects.get(taskstatus_name="20_working")
         task.save()
         task.logger(str(request.user), " TASK_START_EXECUTED")
         messages.success(request, 'Task started')
@@ -177,7 +177,7 @@ class TaskFinish(LoginRequiredMixin, UpdateView):
         if task.task_started_time == None:
             task.task_started_time = timezone.now()
         task.task_finished_time = timezone.now()
-        task.taskstatus = Taskstatus.objects.get(taskstatus_name="Done")
+        task.taskstatus = Taskstatus.objects.get(taskstatus_name="30_done")
         task.save()
         task.logger(str(request.user), " TASK_FINISH_EXECUTED")
 
@@ -189,7 +189,7 @@ class TaskRenew(LoginRequiredMixin, UpdateView):
         task = self.get_object()
         task.task_started_time = None
         task.task_finished_time = None
-        task.taskstatus = Taskstatus.objects.get(taskstatus_name="Pending")
+        task.taskstatus = Taskstatus.objects.get(taskstatus_name="10_pending")
         task.task_assigned_to_user_id = None
         task.save()
         task.logger(str(request.user), " TASK_RENEW_EXECUTED")
