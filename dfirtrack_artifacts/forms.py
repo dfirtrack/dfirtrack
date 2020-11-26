@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.translation import gettext_lazy
 from dfirtrack_main.models import System
-from dfirtrack_artifacts.models import Artifact, Artifacttype
+from dfirtrack_artifacts.models import Artifact, Artifactpriority, Artifactstatus, Artifacttype
 import re
 
 
@@ -11,6 +11,18 @@ class ArtifactForm(forms.ModelForm):
     system = forms.ModelChoiceField(
         label = gettext_lazy('System (*)'),
         queryset = System.objects.order_by('system_name'),
+    )
+
+    # reorder field choices
+    artifactpriority = forms.ModelChoiceField(
+        label = gettext_lazy('Artifactpriority (*)'),
+        queryset = Artifactpriority.objects.order_by('artifactpriority_name'),
+    )
+
+    # reorder field choices
+    artifactstatus = forms.ModelChoiceField(
+        label = gettext_lazy('Artifactstatus (*)'),
+        queryset = Artifactstatus.objects.order_by('artifactstatus_name'),
     )
 
     class Meta:
@@ -40,8 +52,6 @@ class ArtifactForm(forms.ModelForm):
         # non default form labeling
         labels = {
             'artifact_name': gettext_lazy('Artifact name (*)'),
-            'artifactpriority': gettext_lazy('Artifactpriority (*)'),
-            'artifactstatus': gettext_lazy('Artifactstatus (*)'),
             'artifacttype': gettext_lazy('Artifacttype (*)'),
             'artifact_requested_time': gettext_lazy('Artifact requested time (YYYY-MM-DD HH:MM:SS)'),
             'artifact_acquisition_time': gettext_lazy('Artifact acquisition time (YYYY-MM-DD HH:MM:SS)'),

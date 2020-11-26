@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy
-from dfirtrack_main.models import Analystmemo, Case, Company, Contact, Division, Dnsname, Domain, Domainuser, Entry, Headline, Location, Os, Osimportname, Reason, Recommendation, Reportitem, Serviceprovider, System, Systemtype, Systemuser, Tag, Tagcolor, Task, Taskname
+from dfirtrack_main.models import Analysisstatus, Analystmemo, Case, Company, Contact, Division, Dnsname, Domain, Domainuser, Entry, Headline, Location, Os, Osimportname, Reason, Recommendation, Reportitem, Serviceprovider, System, Systemstatus, Systemtype, Systemuser, Tag, Tagcolor, Task, Taskname, Taskpriority, Taskstatus
 
 
 # inherit from this class if you want to use the ModelMultipleChoiceField with the FilteredSelectMultiple widget
@@ -524,6 +524,22 @@ class SystemForm(forms.ModelForm):
     """ this form does not allow editing of system_name """
 
     # reorder field choices
+    systemstatus = forms.ModelChoiceField(
+        queryset = Systemstatus.objects.order_by('systemstatus_name'),
+        label = 'Systemstatus',
+        required = True,
+        widget = forms.RadioSelect(),
+    )
+
+    # reorder field choices
+    analysisstatus = forms.ModelChoiceField(
+        queryset = Analysisstatus.objects.order_by('analysisstatus_name'),
+        label = 'Analysisstatus',
+        required = False,
+        widget = forms.RadioSelect(),
+    )
+
+    # reorder field choices
     reason = forms.ModelChoiceField(
         label = gettext_lazy('Reason'),
         queryset = Reason.objects.order_by('reason_name'),
@@ -663,8 +679,6 @@ class SystemForm(forms.ModelForm):
 
         # special form type or option
         widgets = {
-            'systemstatus': forms.RadioSelect(),
-            'analysisstatus': forms.RadioSelect(),
             'ip': forms.GenericIPAddressField(),
             'osarch': forms.RadioSelect(),
             'system_install_time': forms.DateTimeInput(),
@@ -693,6 +707,22 @@ class SystemNameForm(SystemForm):
         )
 
 class SystemCreatorForm(forms.ModelForm):
+
+    # reorder field choices
+    systemstatus = forms.ModelChoiceField(
+        queryset = Systemstatus.objects.order_by('systemstatus_name'),
+        label = 'Systemstatus',
+        required = True,
+        widget = forms.RadioSelect(),
+    )
+
+    # reorder field choices
+    analysisstatus = forms.ModelChoiceField(
+        queryset = Analysisstatus.objects.order_by('analysisstatus_name'),
+        required = False,
+        label = 'Analysisstatus',
+        widget = forms.RadioSelect(),
+    )
 
     # reorder field choices
     reason = forms.ModelChoiceField(
@@ -819,8 +849,6 @@ class SystemCreatorForm(forms.ModelForm):
 
         # special form type or option
         widgets = {
-            'systemstatus': forms.RadioSelect(),
-            'analysisstatus': forms.RadioSelect(),
             'osarch': forms.RadioSelect(),
         }
 
@@ -866,6 +894,22 @@ class SystemModificatorForm(AdminStyleSelectorForm):
         label = 'Company',
     )
 
+    # reorder field choices
+    systemstatus = forms.ModelChoiceField(
+        queryset = Systemstatus.objects.order_by('systemstatus_name'),
+        label = 'Systemstatus',
+        required = True,
+        widget = forms.RadioSelect(),
+    )
+
+    # reorder field choices
+    analysisstatus = forms.ModelChoiceField(
+        queryset = Analysisstatus.objects.order_by('analysisstatus_name'),
+        label = 'Analysisstatus',
+        required = False,
+        widget = forms.RadioSelect(),
+    )
+
     class Meta:
         model = System
         # this HTML forms are shown
@@ -881,8 +925,6 @@ class SystemModificatorForm(AdminStyleSelectorForm):
             'location': forms.RadioSelect(),
             'serviceprovider': forms.RadioSelect(),
             'contact': forms.RadioSelect(),
-            'systemstatus': forms.RadioSelect(),
-            'analysisstatus': forms.RadioSelect(),
         }
 
 class SystemtypeForm(forms.ModelForm):
@@ -989,6 +1031,22 @@ class TagCreatorForm(forms.Form):
 class TaskForm(forms.ModelForm):
 
     # reorder field choices
+    taskpriority = forms.ModelChoiceField(
+        queryset = Taskpriority.objects.order_by('taskpriority_name'),
+        label = 'Taskpriority',
+        required = True,
+        widget = forms.RadioSelect(),
+    )
+
+    # reorder field choices
+    taskstatus = forms.ModelChoiceField(
+        queryset = Taskstatus.objects.order_by('taskstatus_name'),
+        label = 'Taskstatus',
+        required = True,
+        widget = forms.RadioSelect(),
+    )
+
+    # reorder field choices
     taskname = forms.ModelChoiceField(
         label = gettext_lazy('Taskname'),
         queryset = Taskname.objects.order_by('taskname_name'),
@@ -1039,8 +1097,6 @@ class TaskForm(forms.ModelForm):
         # special form type or option
         widgets = {
             'parent_task': forms.Select(),
-            'taskpriority': forms.RadioSelect(),
-            'taskstatus': forms.RadioSelect(),
             'task_note': forms.Textarea(attrs={'rows': 10}),
             'task_scheduled_time': forms.DateTimeInput(),
             'task_due_time': forms.DateTimeInput(),
@@ -1053,6 +1109,22 @@ class TaskCreatorForm(AdminStyleSelectorForm):
         queryset = Taskname.objects.order_by('taskname_name'),
         widget = forms.CheckboxSelectMultiple(),
         label = 'Tasknames',
+    )
+
+    # reorder field choices
+    taskpriority = forms.ModelChoiceField(
+        queryset = Taskpriority.objects.order_by('taskpriority_name'),
+        label = 'Taskpriority',
+        required = True,
+        widget = forms.RadioSelect(),
+    )
+
+    # reorder field choices
+    taskstatus = forms.ModelChoiceField(
+        queryset = Taskstatus.objects.order_by('taskstatus_name'),
+        label = 'Taskstatus',
+        required = True,
+        widget = forms.RadioSelect(),
     )
 
     # admin UI style system chooser
@@ -1094,8 +1166,6 @@ class TaskCreatorForm(AdminStyleSelectorForm):
 
         # special form type or option
         widgets = {
-            'taskpriority': forms.RadioSelect(),
-            'taskstatus': forms.RadioSelect(),
             'task_note': forms.Textarea(attrs={'rows': 10}),
         }
 

@@ -1,6 +1,6 @@
 from django import forms
 from django.utils.translation import gettext_lazy
-from dfirtrack_main.models import Case, Company, Domain, Dnsname, Location, Os, Reason, Serviceprovider, System, Systemtype, Tag
+from dfirtrack_main.models import Analysisstatus, Case, Company, Domain, Dnsname, Location, Os, Reason, Serviceprovider, System, Systemstatus, Systemtype, Tag
 
 class SystemImporterFileCsvConfigbasedForm(forms.Form):
 
@@ -10,6 +10,22 @@ class SystemImporterFileCsvConfigbasedForm(forms.Form):
     )
 
 class SystemImporterFileCsvFormbasedForm(forms.ModelForm, SystemImporterFileCsvConfigbasedForm):
+
+    # reorder field choices
+    systemstatus = forms.ModelChoiceField(
+        queryset = Systemstatus.objects.order_by('systemstatus_name'),
+        label = 'Systemstatus (*)',
+        required = True,
+        widget = forms.RadioSelect(),
+    )
+
+    # reorder field choices
+    analysisstatus = forms.ModelChoiceField(
+        queryset = Analysisstatus.objects.order_by('analysisstatus_name'),
+        label = 'Analysisstatus',
+        required = False,
+        widget = forms.RadioSelect(),
+    )
 
     # reorder field choices
     reason = forms.ModelChoiceField(
@@ -94,14 +110,3 @@ class SystemImporterFileCsvFormbasedForm(forms.ModelForm, SystemImporterFileCsvC
             'location',
             'serviceprovider',
         )
-
-        # non default form labeling
-        labels = {
-            'systemstatus': gettext_lazy('Systemstatus (*)'),
-        }
-
-        # define widgets for choosen fields
-        widgets = {
-            'systemstatus': forms.RadioSelect(),
-            'analysisstatus': forms.RadioSelect(),
-        }
