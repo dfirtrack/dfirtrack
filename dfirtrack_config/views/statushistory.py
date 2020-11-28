@@ -7,8 +7,7 @@ from dfirtrack_config.models import Statushistory, StatushistoryEntry
 from dfirtrack_main.models import Analysisstatus, System, Systemstatus, Task, Taskpriority, Taskstatus
 
 
-@login_required(login_url="/login")
-def statushistory_save(request):
+def statushistory_save_objects():
 
     # create empty statushistory (just contains primary key and datetime field)
     statushistory = Statushistory.objects.create()
@@ -135,8 +134,22 @@ def statushistory_save(request):
             statushistoryentry_model_value = systems_number_taskpriority,
         )
 
+    return
+
+@login_required(login_url="/login")
+def statushistory_save(request):
+
+    statushistory_save_objects()
+
     # create message
     messages.success(request, 'Statushistory saved')
+
+    # reload page to show message
+    return redirect(reverse('status'))
+
+def statushistory_save_cron():
+
+    statushistory_save_objects()
 
     # reload page to show message
     return redirect(reverse('status'))
