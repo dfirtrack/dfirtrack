@@ -170,6 +170,9 @@ class StatusViewTestCase(TestCase):
         self.assertEqual(type(response.context['taskpriority_all']), type(taskpriority_all))
         self.assertEqual(type(response.context['taskstatus_all']), type(taskstatus_all))
 
+# TODO: test number of queryset elements in context element 'statushistory_all' according to 'statushistory_last_entrys' in MainConfigModel
+# number also depends on available statushistory elements
+
     def test_status_detail_view_not_logged_in(self):
         """ test status view """
 
