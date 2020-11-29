@@ -237,7 +237,7 @@ class StatushistoryViewTestCase(TestCase):
             else:
                 self.assertEqual(taskstatus.statushistoryentry_model_value, 0)
 
-    def test_statushistory_save_cron_view(self):
+    def test_statushistory_save_cron_view_complete(self):
 
         # mock timezone.now()
         t_2 = datetime(2020, 1, 2, 3, 4, 5, tzinfo=timezone.utc)
