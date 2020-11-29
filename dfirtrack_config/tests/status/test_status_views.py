@@ -170,8 +170,19 @@ class StatusViewTestCase(TestCase):
         self.assertEqual(type(response.context['taskpriority_all']), type(taskpriority_all))
         self.assertEqual(type(response.context['taskstatus_all']), type(taskstatus_all))
 
-# TODO: test number of queryset elements in context element 'statushistory_all' according to 'statushistory_last_entrys' in MainConfigModel
-# number also depends on available statushistory elements
+    def test_status_view_get_statushistory_entry_numbers_context(self):
+        """ test status view """
+
+        # login testuser
+        self.client.login(username='testuser_status', password='D9lPsoHFXeCNKEzM3IgE')
+        # get response
+        response = self.client.get('/config/status/')
+        # compare
+        self.assertEqual(type(response.context['statushistory_all']), type(reversed(Statushistory.objects.all())))
+        # TODO: test number of queryset elements in context element 'statushistory_all' according to 'statushistory_last_entrys' in MainConfigModel
+        # TODO: number also depends on available statushistory elements
+        # TODO: find a way to count reversed queryset
+        #self.assertEqual(response.context['statushistory_all'].count(), 2)
 
     def test_status_detail_view_not_logged_in(self):
         """ test status view """
