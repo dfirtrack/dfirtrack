@@ -39,6 +39,7 @@ class MainConfigModel(models.Model):
     # config fields
     system_name_editable = models.BooleanField(blank=True)
     artifactstatus_open = models.ManyToManyField('dfirtrack_artifacts.Artifactstatus', related_name='main_config_artifactstatus_open', blank=True)
+    statushistory_entry_numbers = models.IntegerField(default=10)
 
     # string representation
     def __str__(self):

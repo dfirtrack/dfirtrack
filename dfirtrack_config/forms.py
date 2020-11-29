@@ -70,15 +70,24 @@ class MainConfigForm(forms.ModelForm):
         fields = (
             'system_name_editable',
             'artifactstatus_open',
+            'statushistory_entry_numbers',
         )
 
         labels = {
             'system_name_editable': 'Make system name editable',
             'artifactstatus_open': 'Artifactstatus to be considered open',
+            'statushistory_entry_numbers': 'Show only this number of last statushistory entries',
         }
 
         widgets = {
             'artifactstatus_open': forms.CheckboxSelectMultiple(),
+            'statushistory_entry_numbers': forms.NumberInput(
+                attrs={
+                    'min': '1',
+                    'max': '99',
+                    'size': '3',
+                },
+            ),
         }
 
 class SystemExporterMarkdownConfigForm(forms.ModelForm):

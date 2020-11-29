@@ -3,16 +3,21 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils import timezone
 from django.views.generic import DetailView, TemplateView
 from dfirtrack_artifacts.models import Artifact, Artifactpriority, Artifactstatus
-from dfirtrack_config.models import Statushistory
+from dfirtrack_config.models import MainConfigModel, Statushistory
 from dfirtrack_main.models import Analysisstatus, System, Systemstatus, Task, Taskstatus, Taskpriority
 from dfirtrack_main.logger.default_logger import debug_logger
 
-
 def get_status_objects(context):
 
-        # TODO: number of last elements accessible by config (and filtered by query)
-        # get statushistory objects for dropdown menu
-        context['statushistory_all'] = Statushistory.objects.all().order_by('statushistory_id')
+        # get config model
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        # get number of entrys to show
+        statushistory_entry_numbers = main_config_model .statushistory_entry_numbers
+
+        # get last statushistory objects for dropdown menu according to config
+        context['statushistory_all'] = Statushistory.objects.all().order_by('-statushistory_id')[:statushistory_entry_numbers]
+        # reverse order for better dropdown display
+        context['statushistory_all'] = reversed(context['statushistory_all'])
 
         # prepare dates
         today = datetime.now().date()
