@@ -880,7 +880,7 @@ class SystemModificatorForm(AdminStyleSelectorForm):
 
     # show all existing tag objects as multiple choice field
     tag = forms.ModelMultipleChoiceField(
-        queryset = Tag.objects.all(),
+        queryset = Tag.objects.order_by('tag_name'),
         widget = forms.CheckboxSelectMultiple(),
         required = False,
         label = 'Tag',
@@ -888,7 +888,7 @@ class SystemModificatorForm(AdminStyleSelectorForm):
 
     # show all existing company objects as multiple choice field
     company = forms.ModelMultipleChoiceField(
-        queryset = Company.objects.all(),
+        queryset = Company.objects.order_by('company_name'),
         widget = forms.CheckboxSelectMultiple(),
         required = False,
         label = 'Company',
