@@ -78,4 +78,4 @@ class ConfigModelTestCase(TestCase):
             # create object
             statushistory = Statushistory.objects.create()
             # compare
-            self.assertEqual(str(statushistory), '2020-01-02 03:04:05')
+            self.assertEqual(str(statushistory), '2020-01-02 03:04')

@@ -193,7 +193,7 @@ class Statushistory(models.Model):
 
     # string representation
     def __str__(self):
-        return self.statushistory_time.strftime('%Y-%m-%d %H:%M:%S')
+        return self.statushistory_time.strftime('%Y-%m-%d %H:%M')
 
     def get_absolute_url(self):
         return reverse('status_detail', args=(self.pk,))
