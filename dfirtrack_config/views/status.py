@@ -79,7 +79,7 @@ class StatusDetailView(LoginRequiredMixin, DetailView):
         context = get_status_objects(context)
 
         # call logger
-        debug_logger(str(self.request.user), ' STATUS_ENTERED')
+        debug_logger(str(self.request.user), ' STATUS_DETAIL_ENTERED statushistory_id:' + str(statushistory.statushistory_id) + '|statushistory_time:' + str(statushistory))
 
         # return context dictionary
         return context
