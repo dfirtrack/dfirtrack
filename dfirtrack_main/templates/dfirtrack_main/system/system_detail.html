@@ -208,7 +208,7 @@
             {% for i in system.tag.all %}
                 <!-- tooltip with tag note -->
                 <span data-toggle="tooltip" data-placement="auto" title="{{ i.tag_note }}">
-                    <a href="{{ i.get_absolute_url }}" type="button" class="btn btn-sm btn-{{ i.tagcolor }} round copy-true">
+                    <a href="{{ i.get_absolute_url }}" type="button" class="btn btn-sm btn-{{ i.tagcolor }} round copy-true top-distance">
                         <!-- black tag icon for white tag (black color of font is defined in corresponding CSS for button) -->
                         {% if i.tagcolor.tagcolor_name == 'white' %}
                             <img src="{% static 'dfirtrack_main/icons/tag.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
