@@ -1,4 +1,5 @@
 from django import forms
+from dfirtrack_artifacts.models import Artifactstatus
 from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel, MainConfigModel, SystemExporterMarkdownConfigModel, SystemExporterSpreadsheetCsvConfigModel, SystemExporterSpreadsheetXlsConfigModel, SystemImporterFileCsvConfigbasedConfigModel, SystemImporterFileCsvFormbasedConfigModel
 
 class ArtifactExporterSpreadsheetXlsConfigForm(forms.ModelForm):
@@ -61,6 +62,30 @@ class ArtifactExporterSpreadsheetXlsConfigForm(forms.ModelForm):
 class MainConfigForm(forms.ModelForm):
     """ main config form """
 
+    # reorder field choices
+    artifactstatus_open = forms.ModelMultipleChoiceField(
+        queryset = Artifactstatus.objects.order_by('artifactstatus_name'),
+        label = 'Artifactstatus to be considered open',
+        required = False,
+        widget = forms.CheckboxSelectMultiple(),
+    )
+
+    # reorder field choices
+    artifactstatus_requested = forms.ModelMultipleChoiceField(
+        queryset = Artifactstatus.objects.order_by('artifactstatus_name'),
+        label = 'Artifactstatus setting the artifact requested time',
+        required = False,
+        widget = forms.CheckboxSelectMultiple(),
+    )
+
+    # reorder field choices
+    artifactstatus_acquisition = forms.ModelMultipleChoiceField(
+        queryset = Artifactstatus.objects.order_by('artifactstatus_name'),
+        label = 'Artifactstatus setting the artifact acquisition time',
+        required = False,
+        widget = forms.CheckboxSelectMultiple(),
+    )
+
     class Meta:
 
         # model
@@ -70,17 +95,17 @@ class MainConfigForm(forms.ModelForm):
         fields = (
             'system_name_editable',
             'artifactstatus_open',
+            'artifactstatus_requested',
+            'artifactstatus_acquisition',
             'statushistory_entry_numbers',
         )
 
         labels = {
             'system_name_editable': 'Make system name editable',
-            'artifactstatus_open': 'Artifactstatus to be considered open',
             'statushistory_entry_numbers': 'Show only this number of last statushistory entries',
         }
 
         widgets = {
-            'artifactstatus_open': forms.CheckboxSelectMultiple(),
             'statushistory_entry_numbers': forms.NumberInput(
                 attrs={
                     'min': '1',
