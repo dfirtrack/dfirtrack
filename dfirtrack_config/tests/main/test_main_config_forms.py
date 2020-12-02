@@ -24,6 +24,8 @@ class MainConfigFormTestCase(TestCase):
         form = MainConfigForm()
         # compare
         self.assertEqual(form.fields['artifactstatus_open'].label, 'Artifactstatus to be considered open')
+        self.assertEqual(form.fields['artifactstatus_requested'].label, 'Artifactstatus setting the artifact requested time')
+        self.assertEqual(form.fields['artifactstatus_acquisition'].label, 'Artifactstatus setting the artifact acquisition time')
 
     def test_main_config_statushistory_entry_numbers_form_label(self):
         """ test form label """
