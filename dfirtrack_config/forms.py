@@ -62,6 +62,8 @@ class ArtifactExporterSpreadsheetXlsConfigForm(forms.ModelForm):
 class MainConfigForm(forms.ModelForm):
     """ main config form """
 
+# TODO: add logic to prevent messing up the same be editing it via admin menu
+
     # reorder field choices
     artifactstatus_open = forms.ModelMultipleChoiceField(
         queryset = Artifactstatus.objects.order_by('artifactstatus_name'),
@@ -114,6 +116,25 @@ class MainConfigForm(forms.ModelForm):
                 },
             ),
         }
+
+    def clean(self):
+        """ custom field validation """
+
+        # get form data
+        cleaned_data = super().clean()
+
+        # get relevant values
+        artifactstatus_requested = self.cleaned_data['artifactstatus_requested']
+        artifactstatus_acquisition = self.cleaned_data['artifactstatus_acquisition']
+
+        # get artifactstatus that have been choosen for both time settings
+        artifactstatus_shared = artifactstatus_requested.intersection(artifactstatus_acquisition)
+
+        # check if there are any artifactstatus in this queryset
+        if artifactstatus_shared.count() !=0:
+            raise forms.ValidationError('Same artifactstatus were chosen for requested an acquisition time.')
+
+        return cleaned_data
 
 class SystemExporterMarkdownConfigForm(forms.ModelForm):
     """ system exporter markdown config form """

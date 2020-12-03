@@ -98,22 +98,6 @@ class ArtifactFormTestCase(TestCase):
         # compare
         self.assertEqual(form.fields['case'].label, 'Case')
 
-    def test_artifact_requested_time_form_label(self):
-        """ test form label """
-
-        # get object
-        form = ArtifactForm()
-        # compare
-        self.assertEqual(form.fields['artifact_requested_time'].label, 'Artifact requested time (YYYY-MM-DD HH:MM:SS)')
-
-    def test_artifact_acquisition_time_form_label(self):
-        """ test form label """
-
-        # get object
-        form = ArtifactForm()
-        # compare
-        self.assertEqual(form.fields['artifact_acquisition_time'].label, 'Artifact acquisition time (YYYY-MM-DD HH:MM:SS)')
-
     def test_artifact_md5_form_label(self):
         """ test form label """
 
@@ -761,52 +745,6 @@ class ArtifactFormTestCase(TestCase):
             'artifacttype': artifacttype_id,
             'system': system_id,
             'artifact_sha256': 'ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
-        })
-        # compare
-        self.assertFalse(form.is_valid())
-
-    def test_artifact_requested_time_formatcheck(self):
-        """ test input format """
-
-        # get object
-        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name='artifactpriority_1').artifactpriority_id
-        # get object
-        artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1').artifactstatus_id
-        # get object
-        artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
-        # get object
-        system_id = System.objects.get(system_name='system_1').system_id
-        # get object
-        form = ArtifactForm(data = {
-            'artifact_name': 'artifact_1',
-            'artifactpriority': artifactpriority_id,
-            'artifactstatus': artifactstatus_id,
-            'artifacttype': artifacttype_id,
-            'system': system_id,
-            'artifact_requested_time': 'wrong format',
-        })
-        # compare
-        self.assertFalse(form.is_valid())
-
-    def test_artifact_acquisiton_time_formatcheck(self):
-        """ test input format """
-
-        # get object
-        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name='artifactpriority_1').artifactpriority_id
-        # get object
-        artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1').artifactstatus_id
-        # get object
-        artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
-        # get object
-        system_id = System.objects.get(system_name='system_1').system_id
-        # get object
-        form = ArtifactForm(data = {
-            'artifact_name': 'artifact_1',
-            'artifactpriority': artifactpriority_id,
-            'artifactstatus': artifactstatus_id,
-            'artifacttype': artifacttype_id,
-            'system': system_id,
-            'artifact_acquisition_time': 'wrong format',
         })
         # compare
         self.assertFalse(form.is_valid())

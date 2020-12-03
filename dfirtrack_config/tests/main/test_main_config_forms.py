@@ -1,4 +1,5 @@
 from django.test import TestCase
+from dfirtrack_artifacts.models import Artifactstatus
 from dfirtrack_config.forms import MainConfigForm
 
 class MainConfigFormTestCase(TestCase):
@@ -52,3 +53,40 @@ class MainConfigFormTestCase(TestCase):
         })
         # compare
         self.assertTrue(form.is_valid())
+
+    def test_main_config_form_statushistory_different_artifactstatus(self):
+        """ test custom field validation """
+
+        # create obects
+        artifactstatus_1 = Artifactstatus.objects.create(artifactstatus_name='artifactstatus_1').artifactstatus_id
+        artifactstatus_2 = Artifactstatus.objects.create(artifactstatus_name='artifactstatus_2').artifactstatus_id
+        artifactstatus_3 = Artifactstatus.objects.create(artifactstatus_name='artifactstatus_3').artifactstatus_id
+        artifactstatus_4 = Artifactstatus.objects.create(artifactstatus_name='artifactstatus_4').artifactstatus_id
+        artifactstatus_5 = Artifactstatus.objects.create(artifactstatus_name='artifactstatus_5').artifactstatus_id
+        artifactstatus_6 = Artifactstatus.objects.create(artifactstatus_name='artifactstatus_6').artifactstatus_id
+        # get object
+        form = MainConfigForm(data = {
+            'statushistory_entry_numbers': 5,
+            'artifactstatus_requested': [artifactstatus_1, artifactstatus_2, artifactstatus_3,],
+            'artifactstatus_acquisition': [artifactstatus_4, artifactstatus_5, artifactstatus_6,],
+        })
+        # compare
+        self.assertTrue(form.is_valid())
+
+    def test_main_config_form_statushistory_same_artifactstatus(self):
+        """ test custom field validation """
+
+        # create obects
+        artifactstatus_1 = Artifactstatus.objects.create(artifactstatus_name='artifactstatus_1').artifactstatus_id
+        artifactstatus_2 = Artifactstatus.objects.create(artifactstatus_name='artifactstatus_2').artifactstatus_id
+        artifactstatus_3 = Artifactstatus.objects.create(artifactstatus_name='artifactstatus_3').artifactstatus_id
+        artifactstatus_4 = Artifactstatus.objects.create(artifactstatus_name='artifactstatus_4').artifactstatus_id
+        artifactstatus_5 = Artifactstatus.objects.create(artifactstatus_name='artifactstatus_5').artifactstatus_id
+        # get object
+        form = MainConfigForm(data = {
+            'statushistory_entry_numbers': 5,
+            'artifactstatus_requested': [artifactstatus_1, artifactstatus_2, artifactstatus_3,],
+            'artifactstatus_acquisition': [artifactstatus_3, artifactstatus_4, artifactstatus_5,],
+        })
+        # compare
+        self.assertFalse(form.is_valid())
