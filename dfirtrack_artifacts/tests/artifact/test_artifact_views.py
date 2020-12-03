@@ -5,6 +5,7 @@ from django.utils import timezone
 #from django.utils.dateparse import parse_datetime
 from dfirtrack.config import EVIDENCE_PATH
 from dfirtrack_artifacts.models import Artifact, Artifactpriority, Artifactstatus, Artifacttype
+from dfirtrack_config.models import MainConfigModel
 from dfirtrack_main.models import System, Systemstatus
 from mock import patch
 import urllib.parse
@@ -710,3 +711,91 @@ class ArtifactViewTestCase(TestCase):
         response = self.client.post('/artifacts/artifact/update/' + str(artifact_id) + '/', data_dict)
         # compare
         self.assertTemplateUsed(response, 'dfirtrack_artifacts/artifact/artifact_edit.html')
+
+    def test_artifact_create_post_artifact_set_requested_time(self):
+        """ test create view """
+
+        # get object
+        artifactstatus_1 = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1')
+
+        # get config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        # clean config
+        main_config_model.artifactstatus_requested.clear()
+        main_config_model.artifactstatus_acquisition.clear()
+        # set config
+        main_config_model.artifactstatus_requested.add(artifactstatus_1)
+
+        # login testuser
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        # get objects
+        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name = 'artifactpriority_1').artifactpriority_id
+        artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1').artifactstatus_id
+        artifacttype_id = Artifacttype.objects.get(artifacttype_name = 'artifacttype_1').artifacttype_id
+        system_id = System.objects.get(system_name = 'system_1').system_id
+
+        # create post data
+        data_dict = {
+            'artifact_name': 'artifact_set_requested_time_create_post_test',
+            'artifactpriority': artifactpriority_id,
+            'artifactstatus': artifactstatus_id,
+            'artifacttype': artifacttype_id,
+            'system': system_id,
+        }
+
+        # mock timezone.now()
+        t2_now = timezone.now()
+        with patch.object(timezone, 'now', return_value=t2_now):
+
+            # get response
+            self.client.post('/artifacts/artifact/create/', data_dict)
+
+        # get artifact
+        artifact_set_requested_time_create_post_test = Artifact.objects.get(artifact_name = 'artifact_set_requested_time_create_post_test')
+        # compare
+        self.assertEqual(artifact_set_requested_time_create_post_test.artifact_requested_time, t2_now)
+        self.assertEqual(artifact_set_requested_time_create_post_test.artifact_acquisition_time, None)
+
+    def test_artifact_create_post_artifact_set_acquisition_time(self):
+        """ test create view """
+
+        # get object
+        artifactstatus_1 = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1')
+
+        # get config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        # clean config
+        main_config_model.artifactstatus_requested.clear()
+        main_config_model.artifactstatus_acquisition.clear()
+        # set config
+        main_config_model.artifactstatus_acquisition.add(artifactstatus_1)
+
+        # login testuser
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        # get objects
+        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name = 'artifactpriority_1').artifactpriority_id
+        artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1').artifactstatus_id
+        artifacttype_id = Artifacttype.objects.get(artifacttype_name = 'artifacttype_1').artifacttype_id
+        system_id = System.objects.get(system_name = 'system_1').system_id
+
+        # create post data
+        data_dict = {
+            'artifact_name': 'artifact_set_acquisition_time_create_post_test',
+            'artifactpriority': artifactpriority_id,
+            'artifactstatus': artifactstatus_id,
+            'artifacttype': artifacttype_id,
+            'system': system_id,
+        }
+
+        # mock timezone.now()
+        t3_now = timezone.now()
+        with patch.object(timezone, 'now', return_value=t3_now):
+
+            # get response
+            self.client.post('/artifacts/artifact/create/', data_dict)
+
+        # get artifact
+        artifact_set_acquisition_time_create_post_test = Artifact.objects.get(artifact_name = 'artifact_set_acquisition_time_create_post_test')
+        # compare
+        self.assertEqual(artifact_set_acquisition_time_create_post_test.artifact_requested_time, t3_now)
+        self.assertEqual(artifact_set_acquisition_time_create_post_test.artifact_acquisition_time, t3_now)
