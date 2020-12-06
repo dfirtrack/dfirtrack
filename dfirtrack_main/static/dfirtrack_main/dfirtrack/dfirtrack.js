@@ -124,7 +124,7 @@ function artifact_exporter_spreadsheet_xls_config_popup() {
 // popup window for main config
 var main_config_popup;
 function main_config_popup() {
-    main_config_popup = window.open("/config/main/", "main_config_popup", "height=800, width=1200");
+    main_config_popup = window.open("/config/main/", "main_config_popup", "height=1200, width=1200");
 }
 
 // popup window for system exporter markdown config
