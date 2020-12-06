@@ -138,6 +138,7 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
             artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_system_id = False
             artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_system_name = False
             artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifactstatus = False
+            artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifactpriority = False
             artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifacttype = False
             artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_source_path = False
             artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_storage_path = False
@@ -200,6 +201,7 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
             artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_system_id = True
             artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_system_name = True
             artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifactstatus = True
+            artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifactpriority = True
             artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifacttype = True
             artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_source_path = True
             artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_storage_path = True
@@ -261,13 +263,13 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
             sheet_artifacttype = artifactlist.sheet_by_name('artifacttype')
             # compare number of rows and columns
             self.assertEqual(sheet_artifacts.nrows, 6)
-            self.assertEqual(sheet_artifacts.ncols, 16)
+            self.assertEqual(sheet_artifacts.ncols, 17)
             self.assertEqual(sheet_artifactstatus.nrows, 14)
             self.assertEqual(sheet_artifactstatus.ncols, 3)
             self.assertEqual(sheet_artifacttype.nrows, 7)
             self.assertEqual(sheet_artifacttype.ncols, 3)
             # compare headlines
-            self.assertEqual(sheet_artifacts.row_values(0), ['Artifact ID', 'Artifact', 'System ID', 'System', 'Artifactstatus', 'Artifacttype', 'Source path', 'Storage path', 'Internal note','External note',  'Analysis result', 'MD5', 'SHA1', 'SHA256', 'Created', 'Modified'])
+            self.assertEqual(sheet_artifacts.row_values(0), ['Artifact ID', 'Artifact', 'System ID', 'System', 'Artifactstatus', 'Artifactpriority', 'Artifacttype', 'Source path', 'Storage path', 'Internal note','External note',  'Analysis result', 'MD5', 'SHA1', 'SHA256', 'Created', 'Modified'])
             self.assertEqual(sheet_artifactstatus.row_values(0), ['ID', 'Artifactstatus', 'Note'])
             self.assertEqual(sheet_artifacttype.row_values(0), ['ID', 'Artifacttype', 'Note'])
             # compare content - artifact 1
@@ -276,34 +278,36 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
             self.assertEqual(int(sheet_artifacts.cell(1,2).value), artifact_1.system.system_id)
             self.assertEqual(sheet_artifacts.cell(1,3).value, artifact_1.system.system_name)
             self.assertEqual(sheet_artifacts.cell(1,4).value, artifact_1.artifactstatus.artifactstatus_name)
-            self.assertEqual(sheet_artifacts.cell(1,5).value, artifact_1.artifacttype.artifacttype_name)
-            self.assertEqual(sheet_artifacts.cell(1,6).value, artifact_1.artifact_source_path)
-            self.assertEqual(sheet_artifacts.cell(1,7).value, artifact_1.artifact_storage_path)
-            self.assertEqual(sheet_artifacts.cell(1,8).value, 'artifact note for internal usage')      # artifact_note_internal
-            self.assertEqual(sheet_artifacts.cell(1,9).value, 'artifact note for external usage')       # artifact_note_external
-            self.assertEqual(sheet_artifacts.cell(1,10).value, 'artifact note for analysis result')      # artifact_note_analysisresult
-            self.assertEqual(sheet_artifacts.cell(1,11).value, artifact_1.artifact_md5)
-            self.assertEqual(sheet_artifacts.cell(1,12).value, artifact_1.artifact_sha1)
-            self.assertEqual(sheet_artifacts.cell(1,13).value, artifact_1.artifact_sha256)
-            self.assertEqual(sheet_artifacts.cell(1,14).value, '2012-11-10 12:34')
+            self.assertEqual(sheet_artifacts.cell(1,5).value, artifact_1.artifactpriority.artifactpriority_name)
+            self.assertEqual(sheet_artifacts.cell(1,6).value, artifact_1.artifacttype.artifacttype_name)
+            self.assertEqual(sheet_artifacts.cell(1,7).value, artifact_1.artifact_source_path)
+            self.assertEqual(sheet_artifacts.cell(1,8).value, artifact_1.artifact_storage_path)
+            self.assertEqual(sheet_artifacts.cell(1,9).value, 'artifact note for internal usage')      # artifact_note_internal
+            self.assertEqual(sheet_artifacts.cell(1,10).value, 'artifact note for external usage')       # artifact_note_external
+            self.assertEqual(sheet_artifacts.cell(1,11).value, 'artifact note for analysis result')      # artifact_note_analysisresult
+            self.assertEqual(sheet_artifacts.cell(1,12).value, artifact_1.artifact_md5)
+            self.assertEqual(sheet_artifacts.cell(1,13).value, artifact_1.artifact_sha1)
+            self.assertEqual(sheet_artifacts.cell(1,14).value, artifact_1.artifact_sha256)
             self.assertEqual(sheet_artifacts.cell(1,15).value, '2012-11-10 12:34')
+            self.assertEqual(sheet_artifacts.cell(1,16).value, '2012-11-10 12:34')
             # compare content - artifact 2
             self.assertEqual(int(sheet_artifacts.cell(2,0).value), artifact_2.artifact_id)
             self.assertEqual(sheet_artifacts.cell(2,1).value, artifact_2.artifact_name)
             self.assertEqual(int(sheet_artifacts.cell(2,2).value), artifact_2.system.system_id)
             self.assertEqual(sheet_artifacts.cell(2,3).value, artifact_2.system.system_name)
             self.assertEqual(sheet_artifacts.cell(2,4).value, artifact_2.artifactstatus.artifactstatus_name)
-            self.assertEqual(sheet_artifacts.cell(2,5).value, artifact_2.artifacttype.artifacttype_name)
-            self.assertEqual(sheet_artifacts.cell(2,6).value, '')
-            self.assertEqual(sheet_artifacts.cell(2,7).value, artifact_2.artifact_storage_path)
-            self.assertEqual(sheet_artifacts.cell(2,8).value, '')
+            self.assertEqual(sheet_artifacts.cell(2,5).value, artifact_2.artifactpriority.artifactpriority_name)
+            self.assertEqual(sheet_artifacts.cell(2,6).value, artifact_2.artifacttype.artifacttype_name)
+            self.assertEqual(sheet_artifacts.cell(2,7).value, '')
+            self.assertEqual(sheet_artifacts.cell(2,8).value, artifact_2.artifact_storage_path)
             self.assertEqual(sheet_artifacts.cell(2,9).value, '')
             self.assertEqual(sheet_artifacts.cell(2,10).value, '')
             self.assertEqual(sheet_artifacts.cell(2,11).value, '')
             self.assertEqual(sheet_artifacts.cell(2,12).value, '')
             self.assertEqual(sheet_artifacts.cell(2,13).value, '')
-            self.assertEqual(sheet_artifacts.cell(2,14).value, '2009-08-07 23:45')
+            self.assertEqual(sheet_artifacts.cell(2,14).value, '')
             self.assertEqual(sheet_artifacts.cell(2,15).value, '2009-08-07 23:45')
+            self.assertEqual(sheet_artifacts.cell(2,16).value, '2009-08-07 23:45')
             # compare content - artifactstatus worksheet (whole columns)
             self.assertEqual(sheet_artifactstatus.col_values(0), artifactstatus_id_list)
             self.assertEqual(sheet_artifactstatus.col_values(1), artifactstatus_name_list)
