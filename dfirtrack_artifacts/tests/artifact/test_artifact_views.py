@@ -712,12 +712,11 @@ class ArtifactViewTestCase(TestCase):
         # compare
         self.assertTemplateUsed(response, 'dfirtrack_artifacts/artifact/artifact_edit.html')
 
-    def test_artifact_create_post_artifact_set_requested_time(self):
-        """ test create view """
+    def test_artifact_create_post_set_requested_time(self):
+        """ creation of artifact with proper artifactstatus should set artifact_requested_time """
 
         # get object
         artifactstatus_1 = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1')
-
         # get config
         main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
         # clean config
@@ -725,7 +724,6 @@ class ArtifactViewTestCase(TestCase):
         main_config_model.artifactstatus_acquisition.clear()
         # set config
         main_config_model.artifactstatus_requested.add(artifactstatus_1)
-
         # login testuser
         self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get objects
@@ -733,10 +731,9 @@ class ArtifactViewTestCase(TestCase):
         artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1').artifactstatus_id
         artifacttype_id = Artifacttype.objects.get(artifacttype_name = 'artifacttype_1').artifacttype_id
         system_id = System.objects.get(system_name = 'system_1').system_id
-
         # create post data
         data_dict = {
-            'artifact_name': 'artifact_set_requested_time_create_post_test',
+            'artifact_name': 'artifact_create_post_set_requested_time',
             'artifactpriority': artifactpriority_id,
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
@@ -750,18 +747,17 @@ class ArtifactViewTestCase(TestCase):
             # get response
             self.client.post('/artifacts/artifact/create/', data_dict)
 
-        # get artifact
-        artifact_set_requested_time_create_post_test = Artifact.objects.get(artifact_name = 'artifact_set_requested_time_create_post_test')
+        # get object
+        artifact_create_post_set_requested_time = Artifact.objects.get(artifact_name = 'artifact_create_post_set_requested_time')
         # compare
-        self.assertEqual(artifact_set_requested_time_create_post_test.artifact_requested_time, t2_now)
-        self.assertEqual(artifact_set_requested_time_create_post_test.artifact_acquisition_time, None)
+        self.assertEqual(artifact_create_post_set_requested_time.artifact_requested_time, t2_now)
+        self.assertEqual(artifact_create_post_set_requested_time.artifact_acquisition_time, None)
 
-    def test_artifact_create_post_artifact_set_acquisition_time(self):
-        """ test create view """
+    def test_artifact_create_post_set_acquisition_time(self):
+        """ creation of artifact with proper artifactstatus should set artifact_requested_time and artifact_acquisition_time """
 
         # get object
         artifactstatus_1 = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1')
-
         # get config
         main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
         # clean config
@@ -769,7 +765,6 @@ class ArtifactViewTestCase(TestCase):
         main_config_model.artifactstatus_acquisition.clear()
         # set config
         main_config_model.artifactstatus_acquisition.add(artifactstatus_1)
-
         # login testuser
         self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get objects
@@ -777,10 +772,9 @@ class ArtifactViewTestCase(TestCase):
         artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1').artifactstatus_id
         artifacttype_id = Artifacttype.objects.get(artifacttype_name = 'artifacttype_1').artifacttype_id
         system_id = System.objects.get(system_name = 'system_1').system_id
-
         # create post data
         data_dict = {
-            'artifact_name': 'artifact_set_acquisition_time_create_post_test',
+            'artifact_name': 'artifact_create_post_set_acquisition_time',
             'artifactpriority': artifactpriority_id,
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
@@ -794,8 +788,274 @@ class ArtifactViewTestCase(TestCase):
             # get response
             self.client.post('/artifacts/artifact/create/', data_dict)
 
-        # get artifact
-        artifact_set_acquisition_time_create_post_test = Artifact.objects.get(artifact_name = 'artifact_set_acquisition_time_create_post_test')
+        # get object
+        artifact_create_post_set_acquisition_time = Artifact.objects.get(artifact_name = 'artifact_create_post_set_acquisition_time')
         # compare
-        self.assertEqual(artifact_set_acquisition_time_create_post_test.artifact_requested_time, t3_now)
-        self.assertEqual(artifact_set_acquisition_time_create_post_test.artifact_acquisition_time, t3_now)
+        self.assertEqual(artifact_create_post_set_acquisition_time.artifact_requested_time, t3_now)
+        self.assertEqual(artifact_create_post_set_acquisition_time.artifact_acquisition_time, t3_now)
+
+    def test_artifact_update_post_set_requested_time(self):
+        """ update of artifact with proper artifactstatus should set artifact_requested_time if not set before """
+
+        # get object
+        artifactstatus_1 = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1')
+        # get config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        # clean config
+        main_config_model.artifactstatus_requested.clear()
+        main_config_model.artifactstatus_acquisition.clear()
+        # set config
+        main_config_model.artifactstatus_requested.add(artifactstatus_1)
+        # login testuser
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        # get user
+        test_user = User.objects.get(username='testuser_artifact')
+        # get objects
+        artifactpriority = Artifactpriority.objects.get(artifactpriority_name = 'artifactpriority_1')
+        artifactstatus = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1')
+        artifacttype = Artifacttype.objects.get(artifacttype_name = 'artifacttype_1')
+        system = System.objects.get(system_name = 'system_1')
+        # create object
+        artifact_update_post_set_requested_time = Artifact.objects.create(
+            artifact_name = 'artifact_update_post_set_requested_time',
+            artifactpriority = artifactpriority,
+            artifactstatus = artifactstatus,
+            artifacttype = artifacttype,
+            system = system,
+            artifact_created_by_user_id = test_user,
+            artifact_modified_by_user_id = test_user,
+        )
+        # compare (before POST, should be 'None' because model does not have 'auto_now' or 'auto_now_add', setting time is done via view, therefore redundantly using 'artifactstatus_1' is sufficient)
+        self.assertEqual(artifact_update_post_set_requested_time.artifact_requested_time, None)
+        self.assertEqual(artifact_update_post_set_requested_time.artifact_acquisition_time, None)
+        # get objects
+        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name = 'artifactpriority_1').artifactpriority_id
+        artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1').artifactstatus_id
+        artifacttype_id = Artifacttype.objects.get(artifacttype_name = 'artifacttype_1').artifacttype_id
+        system_id = System.objects.get(system_name = 'system_1').system_id
+        # update post data
+        data_dict = {
+            'artifact_name': 'artifact_update_post_set_requested_time',
+            'artifactpriority': artifactpriority_id,
+            'artifactstatus': artifactstatus_id,
+            'artifacttype': artifacttype_id,
+            'system': system_id,
+        }
+
+        # mock timezone.now()
+        t4_now = timezone.now()
+        with patch.object(timezone, 'now', return_value=t4_now):
+
+            # get response
+            self.client.post('/artifacts/artifact/update/' + str(artifact_update_post_set_requested_time.artifact_id) + '/', data_dict)
+
+        # refresh object
+        artifact_update_post_set_requested_time.refresh_from_db()
+        # compare
+        self.assertEqual(artifact_update_post_set_requested_time.artifact_requested_time, t4_now)
+        self.assertEqual(artifact_update_post_set_requested_time.artifact_acquisition_time, None)
+
+    def test_artifact_update_post_set_acquisition_time(self):
+        """ update of artifact with proper artifactstatus should set artifact_requested_time and artifact_acquisition_time if not set before """
+
+        # get object
+        artifactstatus_1 = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1')
+        # get config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        # clean config
+        main_config_model.artifactstatus_requested.clear()
+        main_config_model.artifactstatus_acquisition.clear()
+        # set config
+        main_config_model.artifactstatus_acquisition.add(artifactstatus_1)
+        # login testuser
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        # get user
+        test_user = User.objects.get(username='testuser_artifact')
+        # get objects
+        artifactpriority = Artifactpriority.objects.get(artifactpriority_name = 'artifactpriority_1')
+        artifactstatus = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1')
+        artifacttype = Artifacttype.objects.get(artifacttype_name = 'artifacttype_1')
+        system = System.objects.get(system_name = 'system_1')
+        # create object
+        artifact_update_post_set_acquisition_time = Artifact.objects.create(
+            artifact_name = 'artifact_update_post_set_acquisition_time',
+            artifactpriority = artifactpriority,
+            artifactstatus = artifactstatus,
+            artifacttype = artifacttype,
+            system = system,
+            artifact_created_by_user_id = test_user,
+            artifact_modified_by_user_id = test_user,
+        )
+        # compare (before POST, should be 'None' because model does not have 'auto_now' or 'auto_now_add', setting time is done via view, therefore redundantly using 'artifactstatus_1' is sufficient)
+        self.assertEqual(artifact_update_post_set_acquisition_time.artifact_requested_time, None)
+        self.assertEqual(artifact_update_post_set_acquisition_time.artifact_acquisition_time, None)
+        # get objects
+        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name = 'artifactpriority_1').artifactpriority_id
+        artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1').artifactstatus_id
+        artifacttype_id = Artifacttype.objects.get(artifacttype_name = 'artifacttype_1').artifacttype_id
+        system_id = System.objects.get(system_name = 'system_1').system_id
+        # create post data
+        data_dict = {
+            'artifact_name': 'artifact_update_post_set_acquisition_time',
+            'artifactpriority': artifactpriority_id,
+            'artifactstatus': artifactstatus_id,
+            'artifacttype': artifacttype_id,
+            'system': system_id,
+        }
+
+        # mock timezone.now()
+        t5_now = timezone.now()
+        with patch.object(timezone, 'now', return_value=t5_now):
+
+            # get response
+            self.client.post('/artifacts/artifact/update/' + str(artifact_update_post_set_acquisition_time.artifact_id) + '/', data_dict)
+
+        # refresh object
+        artifact_update_post_set_acquisition_time.refresh_from_db()
+        # compare
+        self.assertEqual(artifact_update_post_set_acquisition_time.artifact_requested_time, t5_now)
+        self.assertEqual(artifact_update_post_set_acquisition_time.artifact_acquisition_time, t5_now)
+
+    def test_artifact_update_post_retain_requested_time(self):
+        """ update of artifact with proper artifactstatus should not set artifact_requested_time if set before """
+
+        # get object
+        artifactstatus_1 = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1')
+        # get config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        # clean config
+        main_config_model.artifactstatus_requested.clear()
+        main_config_model.artifactstatus_acquisition.clear()
+        # set config
+        main_config_model.artifactstatus_requested.add(artifactstatus_1)
+        # login testuser
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        # get objects
+        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name = 'artifactpriority_1').artifactpriority_id
+        artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1').artifactstatus_id
+        artifacttype_id = Artifacttype.objects.get(artifacttype_name = 'artifacttype_1').artifacttype_id
+        system_id = System.objects.get(system_name = 'system_1').system_id
+        # create post data
+        data_dict = {
+            'artifact_name': 'artifact_update_post_retain_requested_time',
+            'artifactpriority': artifactpriority_id,
+            'artifactstatus': artifactstatus_id,
+            'artifacttype': artifacttype_id,
+            'system': system_id,
+        }
+
+        # mock timezone.now()
+        t6_now = timezone.now()
+        with patch.object(timezone, 'now', return_value=t6_now):
+
+            # get response
+            self.client.post('/artifacts/artifact/create/', data_dict)
+
+        # get object
+        artifact_update_post_retain_requested_time = Artifact.objects.get(artifact_name = 'artifact_update_post_retain_requested_time')
+        # compare (after create)
+        self.assertEqual(artifact_update_post_retain_requested_time.artifact_requested_time, t6_now)
+        self.assertEqual(artifact_update_post_retain_requested_time.artifact_acquisition_time, None)
+
+        # create object
+        artifactstatus_2 = Artifactstatus.objects.create(artifactstatus_name = 'artifactstatus_2')
+        # get config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        # clean config
+        main_config_model.artifactstatus_requested.clear()
+        main_config_model.artifactstatus_acquisition.clear()
+        # set config
+        main_config_model.artifactstatus_requested.add(artifactstatus_2)
+        # create post data
+        data_dict = {
+            'artifact_name': 'artifact_update_post_retain_requested_time',
+            'artifactpriority': artifactpriority_id,
+            'artifactstatus': artifactstatus_2.artifactstatus_id,
+            'artifacttype': artifacttype_id,
+            'system': system_id,
+        }
+
+        # mock timezone.now()
+        t7_now = timezone.now()
+        with patch.object(timezone, 'now', return_value=t7_now):
+
+            # get response
+            self.client.post('/artifacts/artifact/update/' + str(artifact_update_post_retain_requested_time.artifact_id) + '/', data_dict)
+
+        # refresh object
+        artifact_update_post_retain_requested_time.refresh_from_db()
+        # compare (after update)
+        self.assertEqual(artifact_update_post_retain_requested_time.artifact_requested_time, t6_now)
+        self.assertEqual(artifact_update_post_retain_requested_time.artifact_acquisition_time, None)
+
+    def test_artifact_update_post_retain_acquisition_time(self):
+        """ update of artifact with proper artifactstatus should not set artifact_requested_time and artifact_acquisition_time if set before """
+
+        # get object
+        artifactstatus_1 = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1')
+        # get config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        # clean config
+        main_config_model.artifactstatus_requested.clear()
+        main_config_model.artifactstatus_acquisition.clear()
+        # set config
+        main_config_model.artifactstatus_acquisition.add(artifactstatus_1)
+        # login testuser
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        # get objects
+        artifactpriority_id = Artifactpriority.objects.get(artifactpriority_name = 'artifactpriority_1').artifactpriority_id
+        artifactstatus_id = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1').artifactstatus_id
+        artifacttype_id = Artifacttype.objects.get(artifacttype_name = 'artifacttype_1').artifacttype_id
+        system_id = System.objects.get(system_name = 'system_1').system_id
+        # create post data
+        data_dict = {
+            'artifact_name': 'artifact_update_post_retain_acquisition_time',
+            'artifactpriority': artifactpriority_id,
+            'artifactstatus': artifactstatus_id,
+            'artifacttype': artifacttype_id,
+            'system': system_id,
+        }
+
+        # mock timezone.now()
+        t8_now = timezone.now()
+        with patch.object(timezone, 'now', return_value=t8_now):
+
+            # get response
+            self.client.post('/artifacts/artifact/create/', data_dict)
+
+        # get object
+        artifact_update_post_retain_acquisition_time = Artifact.objects.get(artifact_name = 'artifact_update_post_retain_acquisition_time')
+        # compare (after create)
+        self.assertEqual(artifact_update_post_retain_acquisition_time.artifact_requested_time, t8_now)
+        self.assertEqual(artifact_update_post_retain_acquisition_time.artifact_acquisition_time, t8_now)
+
+        # create object
+        artifactstatus_2 = Artifactstatus.objects.create(artifactstatus_name = 'artifactstatus_2')
+        # get config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        # clean config
+        main_config_model.artifactstatus_requested.clear()
+        main_config_model.artifactstatus_acquisition.clear()
+        # set config
+        main_config_model.artifactstatus_acquisition.add(artifactstatus_2)
+        # create post data
+        data_dict = {
+            'artifact_name': 'artifact_update_post_retain_acquisition_time',
+            'artifactpriority': artifactpriority_id,
+            'artifactstatus': artifactstatus_2.artifactstatus_id,
+            'artifacttype': artifacttype_id,
+            'system': system_id,
+        }
+
+        # mock timezone.now()
+        t9_now = timezone.now()
+        with patch.object(timezone, 'now', return_value=t9_now):
+
+            # get response
+            self.client.post('/artifacts/artifact/update/' + str(artifact_update_post_retain_acquisition_time.artifact_id) + '/', data_dict)
+
+        # refresh object
+        artifact_update_post_retain_acquisition_time.refresh_from_db()
+        # compare (after update)
+        self.assertEqual(artifact_update_post_retain_acquisition_time.artifact_requested_time, t8_now)
+        self.assertEqual(artifact_update_post_retain_acquisition_time.artifact_acquisition_time, t8_now)
