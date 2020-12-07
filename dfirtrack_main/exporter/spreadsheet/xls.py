@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from dfirtrack_config.models import SystemExporterSpreadsheetXlsConfigModel
-from dfirtrack_main.logger.default_logger import info_logger
+from dfirtrack_main.logger.default_logger import debug_logger, info_logger
 from dfirtrack_main.models import Analysisstatus, Reason, Recommendation, System, Systemstatus, Tag
 from time import strftime
 import xlwt
@@ -43,16 +43,9 @@ def style_default():
 
 def write_sod(username):
 
-    """ prepare file including formatting """
-
-    # create xls MIME type object
-    sod = HttpResponse(content_type='application/ms-excel')
-
-    # define filename
-    sod['Content-Disposition'] = 'attachment; filename="systems.xls"'
-
     # create workbook object with UTF-8 encoding
     workbook = xlwt.Workbook(encoding='utf-8')
+
     # define name of worksheet within file
     worksheet_system = workbook.add_sheet('systems')
 
@@ -303,7 +296,7 @@ def write_sod(username):
         worksheet_system = write_row(worksheet_system, entryline, row_num, style)
 
         # call logger
-        info_logger(username, ' SYSTEM_XLS SYSTEM ' + str(system.system_id) + '||' + system.system_name)
+        debug_logger(username, ' SYSTEM_XLS_SYSTEM_EXPORTED ' + 'system_id:' + str(system.system_id) + '|system_name:' + system.system_name)
 
     # write an empty row
     row_num += 2
@@ -577,31 +570,46 @@ def write_sod(username):
             # write line for tag
             worksheet_tag = write_row(worksheet_tag, entryline_tag, row_num, style)
 
-    # close file
-    workbook.save(sod)
-
     # call logger
     info_logger(username, " SYSTEM_XLS_CREATED")
 
     # return xls object
-    return sod
+    return workbook
 
 @login_required(login_url="/login")
 def system(request):
 
+    # create xls MIME type object
+    sod = HttpResponse(content_type='application/ms-excel')
+
+    # prepare interactive file including filename
+    sod['Content-Disposition'] = 'attachment; filename="systems.xls"'
+
     # get username from request object
     username = str(request.user)
 
-    # write spreadsheet
-    sod = write_sod(username)
+    # call main function
+    workbook = write_sod(username)
+
+    # save workbook to interactive file
+    workbook.save(sod)
 
     # return spreadsheet to user
     return sod
 
 def system_cron():
 
+    # prepare time for output file
+    filetime = strftime('%Y%m%d_%H%M')
+
     # get username from config
     username = 'cron'
 
-    # write spreadsheet
-    write_sod(username)
+    # call main function
+    workbook = write_sod(username)
+
+    # prepare output file path
+    output_file = xls_export_path + '/' + filetime + '_systems.xls'
+
+    # save workbook to output file
+    workbook.save(output_file)
