@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from dfirtrack_config.models import SystemExporterSpreadsheetXlsConfigModel
+from dfirtrack_config.models import MainConfigModel, SystemExporterSpreadsheetXlsConfigModel
 from dfirtrack_main.logger.default_logger import debug_logger, info_logger
 from dfirtrack_main.models import Analysisstatus, Reason, Recommendation, System, Systemstatus, Tag
 from time import strftime
@@ -602,14 +602,17 @@ def system_cron():
     # prepare time for output file
     filetime = strftime('%Y%m%d_%H%M')
 
+    # get config
+    main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+
     # get username from config
-    username = 'cron'
+    username = main_config_model.cron_username
 
     # call main function
     workbook = write_sod(username)
 
     # prepare output file path
-    output_file = xls_export_path + '/' + filetime + '_systems.xls'
+    output_file = main_config_model.cron_export_path + '/' + filetime + '_systems.xls'
 
     # save workbook to output file
     workbook.save(output_file)
