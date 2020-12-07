@@ -42,6 +42,8 @@ class MainConfigModel(models.Model):
     artifactstatus_requested = models.ManyToManyField('dfirtrack_artifacts.Artifactstatus', related_name='main_config_artifactstatus_requested', blank=True)
     artifactstatus_acquisition = models.ManyToManyField('dfirtrack_artifacts.Artifactstatus', related_name='main_config_artifactstatus_acquisition', blank=True)
     statushistory_entry_numbers = models.IntegerField(default=10)
+    cron_export_path = models.CharField(max_length=4096, default='/tmp')
+    cron_username = models.CharField(max_length=255, default='cron')
 
     # string representation
     def __str__(self):

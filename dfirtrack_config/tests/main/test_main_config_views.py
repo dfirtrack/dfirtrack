@@ -73,6 +73,8 @@ class MainConfigViewTestCase(TestCase):
         data_dict = {
             'system_name_editable': 'on',
             'statushistory_entry_numbers': 7,
+            'cron_export_path': '/tmp',
+            'cron_username': 'cron',
         }
         # get response
         response = self.client.post('/config/main/', data_dict)
@@ -96,6 +98,8 @@ class MainConfigViewTestCase(TestCase):
         data_dict = {
             'system_name_editable': 'on',
             'statushistory_entry_numbers': 8,
+            'cron_export_path': '/tmp',
+            'cron_username': 'cron',
         }
         # get response
         self.client.post('/config/main/', data_dict)
@@ -120,6 +124,8 @@ class MainConfigViewTestCase(TestCase):
         # create post data
         data_dict = {
             'statushistory_entry_numbers': 9,
+            'cron_export_path': '/tmp',
+            'cron_username': 'cron',
         }
         # get response
         self.client.post('/config/main/', data_dict)

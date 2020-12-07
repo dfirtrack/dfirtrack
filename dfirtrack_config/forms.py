@@ -101,11 +101,15 @@ class MainConfigForm(forms.ModelForm):
             'artifactstatus_requested',
             'artifactstatus_acquisition',
             'statushistory_entry_numbers',
+            'cron_export_path',
+            'cron_username',
         )
 
         labels = {
             'system_name_editable': 'Make system name editable',
             'statushistory_entry_numbers': 'Show only this number of last statushistory entries',
+            'cron_export_path': 'Export files created by scheduled tasks to this path',
+            'cron_username': 'Use this username for scheduled tasks (just for logging, does not have to exist)',
         }
 
         widgets = {
@@ -114,6 +118,17 @@ class MainConfigForm(forms.ModelForm):
                     'min': '1',
                     'max': '99',
                     'size': '3',
+                },
+            ),
+            'cron_export_path': forms.TextInput(
+                attrs={
+                    'size': '35',
+                    'style': 'font-family: monospace',
+                },
+            ),
+            'cron_username': forms.TextInput(
+                attrs={
+                    'size': '20',
                 },
             ),
         }

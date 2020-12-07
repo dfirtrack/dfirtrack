@@ -18,7 +18,7 @@ class MainConfigFormTestCase(TestCase):
         # compare
         self.assertEqual(form.fields['system_name_editable'].label, 'Make system name editable')
 
-    def test_main_config_artifactstatus_open_form_label(self):
+    def test_main_config_artifactstatus_form_label(self):
         """ test form label """
 
         # get object
@@ -36,6 +36,15 @@ class MainConfigFormTestCase(TestCase):
         # compare
         self.assertEqual(form.fields['statushistory_entry_numbers'].label, 'Show only this number of last statushistory entries')
 
+    def test_main_config_cron_form_label(self):
+        """ test form label """
+
+        # get object
+        form = MainConfigForm()
+        # compare
+        self.assertEqual(form.fields['cron_export_path'].label, 'Export files created by scheduled tasks to this path')
+        self.assertEqual(form.fields['cron_username'].label, 'Use this username for scheduled tasks (just for logging, does not have to exist)')
+
     def test_main_config_form_empty(self):
         """ test minimum form requirements / INVALID """
 
@@ -45,11 +54,34 @@ class MainConfigFormTestCase(TestCase):
         self.assertFalse(form.is_valid())
 
     def test_main_config_form_statushistory_entry_numbers_filled(self):
+        """ test minimum form requirements / INVALID """
+
+        # get object
+        form = MainConfigForm(data = {
+            'statushistory_entry_numbers': 9,
+        })
+        # compare
+        self.assertFalse(form.is_valid())
+
+    def test_main_config_form_cron_export_path_filled(self):
+        """ test minimum form requirements / INVALID """
+
+        # get object
+        form = MainConfigForm(data = {
+            'statushistory_entry_numbers': 8,
+            'cron_export_path': '/tmp',
+        })
+        # compare
+        self.assertFalse(form.is_valid())
+
+    def test_main_config_form_cron_username_filled(self):
         """ test minimum form requirements / VALID """
 
         # get object
         form = MainConfigForm(data = {
-            'statushistory_entry_numbers': 5,
+            'statushistory_entry_numbers': 7,
+            'cron_export_path': '/tmp',
+            'cron_username': 'cron',
         })
         # compare
         self.assertTrue(form.is_valid())
@@ -66,7 +98,9 @@ class MainConfigFormTestCase(TestCase):
         artifactstatus_6 = Artifactstatus.objects.create(artifactstatus_name='artifactstatus_6').artifactstatus_id
         # get object
         form = MainConfigForm(data = {
-            'statushistory_entry_numbers': 5,
+            'statushistory_entry_numbers': 6,
+            'cron_export_path': '/tmp',
+            'cron_username': 'cron',
             'artifactstatus_requested': [artifactstatus_1, artifactstatus_2, artifactstatus_3,],
             'artifactstatus_acquisition': [artifactstatus_4, artifactstatus_5, artifactstatus_6,],
         })
@@ -85,6 +119,8 @@ class MainConfigFormTestCase(TestCase):
         # get object
         form = MainConfigForm(data = {
             'statushistory_entry_numbers': 5,
+            'cron_export_path': '/tmp',
+            'cron_username': 'cron',
             'artifactstatus_requested': [artifactstatus_1, artifactstatus_2, artifactstatus_3,],
             'artifactstatus_acquisition': [artifactstatus_3, artifactstatus_4, artifactstatus_5,],
         })

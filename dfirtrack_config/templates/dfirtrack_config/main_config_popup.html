@@ -51,6 +51,46 @@
                     <tr><td>{{ form.statushistory_entry_numbers }}</td> <td>{{ form.statushistory_entry_numbers.label }}</td></tr>
                 </table>
 
+                <h5 class="top-distance">
+                    Scheduled tasks options
+                </h5>
+
+                <!-- cron_export_path -->
+                <div class="row">
+
+                    <div class="col top-distance bottom-distance">
+                        {{ form.cron_export_path.label }}
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-12">
+                            {{ form.cron_export_path }}
+                    </div>
+
+                <!-- cron_export_path -->
+                </div>
+
+                <!-- cron_username -->
+                <div class="row">
+
+                    <div class="col top-distance bottom-distance">
+                        {{ form.cron_username.label }}
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-12">
+                            {{ form.cron_username }}
+                    </div>
+
+                <!-- cron_username -->
+                </div>
+
             </div>
 
         <!-- config block -->
