@@ -6,6 +6,7 @@ from dfirtrack_main.models import Analysisstatus, Reason, Recommendation, System
 from time import strftime
 import xlwt
 
+
 def write_row(worksheet, content, row_num, style):
     """ write single row to worksheet """
 
@@ -15,7 +16,6 @@ def write_row(worksheet, content, row_num, style):
 
     # return worksheet object
     return worksheet
-
 
 def style_headline():
     """ change style to headline """
@@ -29,7 +29,6 @@ def style_headline():
     # return style object
     return style
 
-
 def style_default():
     """ change style to default """
 
@@ -42,9 +41,7 @@ def style_default():
     # return style object
     return style
 
-
-@login_required(login_url="/login")
-def system(request):
+def write_sod(username):
 
     """ prepare file including formatting """
 
@@ -306,7 +303,7 @@ def system(request):
         worksheet_system = write_row(worksheet_system, entryline, row_num, style)
 
         # call logger
-        info_logger(str(request.user), ' SYSTEM_XLS SYSTEM ' + str(system.system_id) + '||' + system.system_name)
+        info_logger(username, ' SYSTEM_XLS SYSTEM ' + str(system.system_id) + '||' + system.system_name)
 
     # write an empty row
     row_num += 2
@@ -316,12 +313,9 @@ def system(request):
     worksheet_system.write(row_num, 0, 'SOD created:', style)
     worksheet_system.write(row_num, 1, actualtime, style)
     row_num += 1
-    creator = str(request.user)
+    creator = username
     worksheet_system.write(row_num, 0, 'Created by:', style)
     worksheet_system.write(row_num, 1, creator, style)
-
-    #print("rows: " + str(len(worksheet_system._Worksheet__rows)))
-    #print("cols: " + str(len(worksheet_system._Worksheet__cols))) # --> does not work
 
     """ add worksheet for systemstatus """
 
@@ -587,7 +581,27 @@ def system(request):
     workbook.save(sod)
 
     # call logger
-    info_logger(str(request.user), " SYSTEM_XLS_CREATED")
+    info_logger(username, " SYSTEM_XLS_CREATED")
 
     # return xls object
     return sod
+
+@login_required(login_url="/login")
+def system(request):
+
+    # get username from request object
+    username = str(request.user)
+
+    # write spreadsheet
+    sod = write_sod(username)
+
+    # return spreadsheet to user
+    return sod
+
+def system_cron():
+
+    # get username from config
+    username = 'cron'
+
+    # write spreadsheet
+    write_sod(username)
