@@ -8,7 +8,7 @@ from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Analysisstatus, System, Systemstatus, Task, Taskpriority, Taskstatus
 
 
-def statushistory_save_objects():
+def statushistory_save_objects(username):
 
     # create empty statushistory (just contains primary key and datetime field)
     statushistory = Statushistory.objects.create()
@@ -135,25 +135,29 @@ def statushistory_save_objects():
             statushistoryentry_model_value = systems_number_taskpriority,
         )
 
+    # call logger
+    debug_logger(username, ' STATUS_SAVE_EXECUTED statushistory_id:' + str(statushistory.statushistory_id) + '|statushistory_time:' + str(statushistory))
+
     return statushistory
 
 @login_required(login_url="/login")
 def statushistory_save(request):
 
-    statushistory = statushistory_save_objects()
+    username = str(request.user)
+
+    statushistory_save_objects(username)
 
     # create message
     messages.success(request, 'Statushistory saved')
-
-    # call logger
-    debug_logger(str(request.user), ' STATUS_SAVE_EXECUTED statushistory_id:' + str(statushistory.statushistory_id) + '|statushistory_time:' + str(statushistory))
 
     # reload page to show message
     return redirect(reverse('status'))
 
 def statushistory_save_cron():
 
-    statushistory_save_objects()
+    username = 'cron'
+
+    statushistory_save_objects(username)
 
     # reload page to show message
     return redirect(reverse('status'))
