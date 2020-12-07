@@ -143,8 +143,10 @@ def statushistory_save_objects(username):
 @login_required(login_url="/login")
 def statushistory_save(request):
 
+    # get username from request object
     username = str(request.user)
 
+    # save statushistory
     statushistory_save_objects(username)
 
     # create message
@@ -155,9 +157,8 @@ def statushistory_save(request):
 
 def statushistory_save_cron():
 
+    # get username from config
     username = 'cron'
 
+    # save statushistory
     statushistory_save_objects(username)
-
-    # reload page to show message
-    return redirect(reverse('status'))
