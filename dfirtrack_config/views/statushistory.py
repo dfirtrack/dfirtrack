@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.urls import reverse
 from dfirtrack_artifacts.models import Artifact, Artifactpriority, Artifactstatus
-from dfirtrack_config.models import Statushistory, StatushistoryEntry
+from dfirtrack_config.models import MainConfigModel, Statushistory, StatushistoryEntry
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Analysisstatus, System, Systemstatus, Task, Taskpriority, Taskstatus
 
@@ -157,8 +157,11 @@ def statushistory_save(request):
 
 def statushistory_save_cron():
 
+    # get config
+    main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+
     # get username from config
-    username = 'cron'
+    username = main_config_model.cron_username
 
     # save statushistory
     statushistory_save_objects(username)
