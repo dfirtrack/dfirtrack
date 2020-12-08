@@ -579,17 +579,17 @@ def write_sod(username):
 @login_required(login_url="/login")
 def system(request):
 
-    # create xls MIME type object
-    sod = HttpResponse(content_type='application/ms-excel')
-
-    # prepare interactive file including filename
-    sod['Content-Disposition'] = 'attachment; filename="systems.xls"'
-
     # get username from request object
     username = str(request.user)
 
     # call main function
     workbook = write_sod(username)
+
+    # create xls MIME type object
+    sod = HttpResponse(content_type='application/ms-excel')
+
+    # prepare interactive file including filename
+    sod['Content-Disposition'] = 'attachment; filename="systems.xls"'
 
     # save workbook to interactive file
     workbook.save(sod)
@@ -599,9 +599,6 @@ def system(request):
 
 def system_cron():
 
-    # prepare time for output file
-    filetime = strftime('%Y%m%d_%H%M')
-
     # get config
     main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
 
@@ -610,6 +607,9 @@ def system_cron():
 
     # call main function
     workbook = write_sod(username)
+
+    # prepare time for output file
+    filetime = strftime('%Y%m%d_%H%M')
 
     # prepare output file path
     output_file = main_config_model.cron_export_path + '/' + filetime + '_systems.xls'
