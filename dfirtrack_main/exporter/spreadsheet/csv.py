@@ -6,8 +6,8 @@ from dfirtrack_main.models import System
 import csv
 from time import strftime
 
-@login_required(login_url="/login")
-def system(request):
+
+def write_csv(username):
 
     """ prepare file """
 
@@ -255,7 +255,7 @@ def system(request):
         sod_writer.writerow(entryline)
 
         # call logger
-        info_logger(str(request.user), ' SYSTEM_CSV SYSTEM ' + str(system.system_id) + '||' + system.system_name)
+        info_logger(username, ' SYSTEM_CSV SYSTEM ' + str(system.system_id) + '||' + system.system_name)
 
     # write an empty row
     sod_writer.writerow([])
@@ -265,11 +265,42 @@ def system(request):
 
     # write meta information
     sod_writer.writerow(['SOD created:', actualtime])
-    creator = request.user
+    creator = username
     sod_writer.writerow(['Created by:', creator])
 
     # call logger
-    info_logger(str(request.user), " SYSTEM_CSV_CREATED")
+    info_logger(username, " SYSTEM_CSV_CREATED")
 
     # return csv object
     return sod
+
+@login_required(login_url="/login")
+def system(request):
+
+    # get username from request object
+    username = str(request.user)
+
+    # call main function
+    sod = write_csv(username)
+
+    # return csv object
+    return sod
+
+def system_cron():
+
+    # prepare time for output file
+    filetime = strftime('%Y%m%d_%H%M')
+
+    # get config
+    main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+
+    # get username from config
+    username = main_config_model.cron_username
+
+    # call main function
+    sod = write_csv(username)
+
+    # prepare output file path
+    output_file = main_config_model.cron_export_path + '/' + filetime + '_systems.xls'
+
+    # TODO: save workbook to output file
