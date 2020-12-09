@@ -196,10 +196,10 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
             system_2 = System.objects.get(system_name='system_2_no_attributes')
             # get response
             response = self.client.get('/system/exporter/spreadsheet/xls/system/')
-            # get systemlist from response content
-            workbook = response.content
+            # get file from response content
+            xls_browser = response.content
             # open systemlist directly from byte stream
-            systemlist = xlrd.open_workbook(file_contents=workbook)
+            systemlist = xlrd.open_workbook(file_contents=xls_browser)
             # get sheets
             sheet_systems = systemlist.sheet_by_name('systems')
             # compare non-available sheets
@@ -327,10 +327,10 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
                     tag_note_list.append('')
             # get response
             response = self.client.get('/system/exporter/spreadsheet/xls/system/')
-            # get systemlist from response content
-            workbook = response.content
+            # get file from response content
+            xls_browser = response.content
             # open systemlist directly from byte stream
-            systemlist = xlrd.open_workbook(file_contents=workbook)
+            systemlist = xlrd.open_workbook(file_contents=xls_browser)
             # get sheets
             sheet_systems = systemlist.sheet_by_name('systems')
             sheet_systemstatus = systemlist.sheet_by_name('systemstatus')
@@ -528,17 +528,17 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
             filetime = t3_now.strftime('%Y%m%d_%H%M')
             # refresh config
             main_config_model.refresh_from_db()
-            # build file path
-            cron_export_file = main_config_model.cron_export_path + '/' + filetime + '_systems.xls'
-            # open systemlist from temp folder
-            systemlist = xlrd.open_workbook(cron_export_file)
+            # prepare output file path
+            output_file_path = main_config_model.cron_export_path + '/' + filetime + '_systems.xls'
+            # open file from temp folder
+            xls_disk = xlrd.open_workbook(output_file_path)
             # get sheets
-            sheet_systems = systemlist.sheet_by_name('systems')
-            sheet_systemstatus = systemlist.sheet_by_name('systemstatus')
-            sheet_analysisstatus = systemlist.sheet_by_name('analysisstatus')
-            sheet_reasons = systemlist.sheet_by_name('reasons')
-            sheet_recommendations = systemlist.sheet_by_name('recommendations')
-            sheet_tags = systemlist.sheet_by_name('tags')
+            sheet_systems = xls_disk.sheet_by_name('systems')
+            sheet_systemstatus = xls_disk.sheet_by_name('systemstatus')
+            sheet_analysisstatus = xls_disk.sheet_by_name('analysisstatus')
+            sheet_reasons = xls_disk.sheet_by_name('reasons')
+            sheet_recommendations = xls_disk.sheet_by_name('recommendations')
+            sheet_tags = xls_disk.sheet_by_name('tags')
             # compare number of rows and columns
             self.assertEqual(sheet_systems.nrows, 6)
             self.assertEqual(sheet_systems.ncols, 18)

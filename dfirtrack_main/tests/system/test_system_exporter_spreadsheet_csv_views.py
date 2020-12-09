@@ -189,19 +189,19 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
             # get response
             response = self.client.get('/system/exporter/spreadsheet/csv/system/')
             # get bytes object from response content
-            workbook_byte = response.content
+            csv_browser = response.content
             # decode and split at linebreaks
-            workbook_list = workbook_byte.decode('utf-8').split('\n')
+            csv_browser_decoded = csv_browser.decode('utf-8').split('\n')
             # open systemlist as csv object
-            systemlist_csv = csv.reader(workbook_list, delimiter=',')
+            csv_reader = csv.reader(csv_browser_decoded, delimiter=',')
             # compare number of rows
-            self.assertEqual(len(workbook_list), 7)     # last linebreak leads to additional line because of split
+            self.assertEqual(len(csv_browser_decoded), 7)     # last linebreak leads to additional line because of split
             # TODO: there must be a more convenient way to random access csv cells directly than iterating over lines and switch for line numbers
             # TODO: like with 'xlrd' for xls files for example
             # set counter
             i = 1
             # compare lines
-            for csv_line in systemlist_csv:
+            for csv_line in csv_reader:
                 if csv_line:
                     if i == 1:
                         self.assertEqual(csv_line[0], 'System')
@@ -253,19 +253,19 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
             # get response
             response = self.client.get('/system/exporter/spreadsheet/csv/system/')
             # get bytes object from response content
-            workbook_byte = response.content
+            csv_browser = response.content
             # decode and split at linebreaks
-            workbook_list = workbook_byte.decode('utf-8').split('\n')
+            csv_browser_decoded = csv_browser.decode('utf-8').split('\n')
             # open systemlist as csv object
-            systemlist_csv = csv.reader(workbook_list, delimiter=',')
+            csv_reader = csv.reader(csv_browser_decoded, delimiter=',')
             # compare number of rows
-            self.assertEqual(len(workbook_list), 7)     # last linebreak leads to additional line because of split
+            self.assertEqual(len(csv_browser_decoded), 7)     # last linebreak leads to additional line because of split
             # TODO: there must be a more convenient way to random access csv cells directly than iterating over lines and switch for line numbers
             # TODO: like with 'xlrd' for xls files for example
             # set counter
             i = 1
             # compare lines
-            for csv_line in systemlist_csv:
+            for csv_line in csv_reader:
                 if csv_line:
                     if i == 1:
                         self.assertEqual(csv_line[0], 'ID')
@@ -377,23 +377,18 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
             filetime = t3_now.strftime('%Y%m%d_%H%M')
             # refresh config
             main_config_model.refresh_from_db()
-            # build file path
-            cron_export_file = main_config_model.cron_export_path + '/' + filetime + '_systems.csv'
-            # open systemlist from temp folder
-            workbook_list = open(cron_export_file, 'r')
-#            # get bytes object from response content
-#            workbook_byte = response.content
-#            # decode and split at linebreaks
-#            workbook_list = workbook_byte.decode('utf-8').split('\n')
-            # open systemlist as csv object
-            systemlist_csv = csv.reader(workbook_list, delimiter=',')
-#            import pudb; pudb.set_trace()
+            # prepare output file path
+            output_file_path = main_config_model.cron_export_path + '/' + filetime + '_systems.csv'
+            # open file from temp folder
+            csv_disk = open(output_file_path, 'r')
+            # open file as csv object
+            csv_reader = csv.reader(csv_disk, delimiter=',')
             # TODO: there must be a more convenient way to random access csv cells directly than iterating over lines and switch for line numbers
             # TODO: like with 'xlrd' for xls files for example
             # set counter
             i = 1
             # compare lines
-            for csv_line in systemlist_csv:
+            for csv_line in csv_reader:
                 if csv_line:
                     if i == 1:
                         self.assertEqual(csv_line[0], 'ID')
@@ -460,7 +455,7 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
                         self.assertEqual(csv_line[1], 'cron')
                 # increase counter
                 i += 1
-            # compare number of rows
-            self.assertEqual(systemlist_csv.line_num, 6)
+            # compare number of rows (needs to be at the end because 'line_num' is some kind of pointer)
+            self.assertEqual(csv_reader.line_num, 6)
             # close file
-            workbook_list.close()
+            csv_disk.close()
