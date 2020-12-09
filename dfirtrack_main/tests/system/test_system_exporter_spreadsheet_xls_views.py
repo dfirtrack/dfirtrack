@@ -218,7 +218,7 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
             # compare content - system 2
             self.assertEqual(sheet_systems.cell(2,0).value, system_2.system_name)
             # compare content - metadata
-            self.assertEqual(sheet_systems.cell(4,0).value, 'SOD created:')
+            self.assertEqual(sheet_systems.cell(4,0).value, 'Created:')
             self.assertEqual(sheet_systems.cell(4,1).value,  t1_now.strftime('%Y-%m-%d %H:%M'))
             self.assertEqual(sheet_systems.cell(5,0).value, 'Created by:')
             self.assertEqual(sheet_systems.cell(5,1).value, 'testuser_system_exporter_spreadsheet_xls')
@@ -411,7 +411,7 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
             self.assertEqual(sheet_tags.col_values(1), tag_name_list)
             self.assertEqual(sheet_tags.col_values(2), tag_note_list)
             # compare content - metadata
-            self.assertEqual(sheet_systems.cell(4,0).value, 'SOD created:')
+            self.assertEqual(sheet_systems.cell(4,0).value, 'Created:')
             self.assertEqual(sheet_systems.cell(4,1).value,  t2_now.strftime('%Y-%m-%d %H:%M'))
             self.assertEqual(sheet_systems.cell(5,0).value, 'Created by:')
             self.assertEqual(sheet_systems.cell(5,1).value, 'testuser_system_exporter_spreadsheet_xls')
@@ -612,7 +612,7 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
             self.assertEqual(sheet_tags.col_values(1), tag_name_list)
             self.assertEqual(sheet_tags.col_values(2), tag_note_list)
             # compare content - metadata
-            self.assertEqual(sheet_systems.cell(4,0).value, 'SOD created:')
+            self.assertEqual(sheet_systems.cell(4,0).value, 'Created:')
             self.assertEqual(sheet_systems.cell(4,1).value,  t3_now.strftime('%Y-%m-%d %H:%M'))
             self.assertEqual(sheet_systems.cell(5,0).value, 'Created by:')
             self.assertEqual(sheet_systems.cell(5,1).value, 'cron')

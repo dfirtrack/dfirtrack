@@ -41,7 +41,7 @@ def style_default():
     # return style object
     return style
 
-def write_sod(username):
+def write_xls(username):
 
     # create workbook object with UTF-8 encoding
     workbook = xlwt.Workbook(encoding='utf-8')
@@ -303,7 +303,7 @@ def write_sod(username):
 
     # write meta information for file creation
     actualtime = strftime('%Y-%m-%d %H:%M')
-    worksheet_system.write(row_num, 0, 'SOD created:', style)
+    worksheet_system.write(row_num, 0, 'Created:', style)
     worksheet_system.write(row_num, 1, actualtime, style)
     row_num += 1
     creator = username
@@ -579,40 +579,40 @@ def write_sod(username):
 @login_required(login_url="/login")
 def system(request):
 
+    # create xls MIME type object
+    xls_browser = HttpResponse(content_type='application/ms-excel')
+
+    # prepare interactive file including filename
+    xls_browser['Content-Disposition'] = 'attachment; filename="systems.xls"'
+
     # get username from request object
     username = str(request.user)
 
     # call main function
-    workbook = write_sod(username)
-
-    # create xls MIME type object
-    sod = HttpResponse(content_type='application/ms-excel')
-
-    # prepare interactive file including filename
-    sod['Content-Disposition'] = 'attachment; filename="systems.xls"'
+    xls_workbook = write_xls(username)
 
     # save workbook to interactive file
-    workbook.save(sod)
+    xls_workbook.save(xls_browser)
 
-    # return spreadsheet to user
-    return sod
+    # return spreadsheet object to browser
+    return xls_browser
 
 def system_cron():
 
+    # prepare time for output file
+    filetime = strftime('%Y%m%d_%H%M')
+
     # get config
     main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+
+    # prepare output file path
+    output_file_path = main_config_model.cron_export_path + '/' + filetime + '_systems.xls'
 
     # get username from config
     username = main_config_model.cron_username
 
     # call main function
-    workbook = write_sod(username)
+    xls_disk = write_xls(username)
 
-    # prepare time for output file
-    filetime = strftime('%Y%m%d_%H%M')
-
-    # prepare output file path
-    output_file = main_config_model.cron_export_path + '/' + filetime + '_systems.xls'
-
-    # save workbook to output file
-    workbook.save(output_file)
+    # save spreadsheet to disk
+    xls_disk.save(output_file_path)

@@ -209,7 +209,7 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
                     elif i == 3:
                         self.assertEqual(csv_line[0], 'system_2_no_attributes')
                     elif i == 5:
-                        self.assertEqual(csv_line[0], 'SOD created:')
+                        self.assertEqual(csv_line[0], 'Created:')
                         self.assertEqual(csv_line[1], t1_now.strftime('%Y-%m-%d %H:%M'))
                     elif i == 6:
                         self.assertEqual(csv_line[0], 'Created by:')
@@ -324,7 +324,7 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
                         self.assertEqual(csv_line[16], '2009-08-17 16:15')
                         self.assertEqual(csv_line[17], '2009-08-17 16:15')
                     elif i == 5:
-                        self.assertEqual(csv_line[0], 'SOD created:')
+                        self.assertEqual(csv_line[0], 'Created:')
                         self.assertEqual(csv_line[1], t2_now.strftime('%Y-%m-%d %H:%M'))
                     elif i == 6:
                         self.assertEqual(csv_line[0], 'Created by:')
