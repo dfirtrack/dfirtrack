@@ -302,6 +302,7 @@ def system_cron():
     username = main_config_model.cron_username
 
     # call main function
-    sod = write_csv(username, csv_file)
+    csv_file = write_csv(username, csv_file)
 
-    # TODO: save workbook to output file
+    # save workbook to output file
+    csv_file.close()
