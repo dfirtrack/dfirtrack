@@ -1,24 +1,16 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from dfirtrack_config.models import SystemExporterSpreadsheetCsvConfigModel
-from dfirtrack_main.logger.default_logger import info_logger
+from dfirtrack_config.models import MainConfigModel, SystemExporterSpreadsheetCsvConfigModel
+from dfirtrack_main.logger.default_logger import debug_logger, info_logger
 from dfirtrack_main.models import System
 import csv
 from time import strftime
 
 
-def write_csv(username):
-
-    """ prepare file """
-
-    # create csv MIME type object
-    sod = HttpResponse(content_type='text/csv')
-
-    # define filename
-    sod['Content-Disposition'] = 'attachment; filename="systems.csv"'
+def write_csv(username, csv_file):
 
     # create file object for writing lines
-    sod_writer = csv.writer(sod)
+    sod_writer = csv.writer(csv_file)
 
     # get config model
     model = SystemExporterSpreadsheetCsvConfigModel.objects.get(system_exporter_spreadsheet_csv_config_name = 'SystemExporterSpreadsheetCsvConfig')
@@ -255,7 +247,7 @@ def write_csv(username):
         sod_writer.writerow(entryline)
 
         # call logger
-        info_logger(username, ' SYSTEM_CSV SYSTEM ' + str(system.system_id) + '||' + system.system_name)
+        debug_logger(username, ' SYSTEM_CSV_SYSTEM_EXPORTED ' + 'system_id:' + str(system.system_id) + '|system_name:' + system.system_name)
 
     # write an empty row
     sod_writer.writerow([])
@@ -272,16 +264,22 @@ def write_csv(username):
     info_logger(username, " SYSTEM_CSV_CREATED")
 
     # return csv object
-    return sod
+    return csv_file
 
 @login_required(login_url="/login")
 def system(request):
+
+    # create csv MIME type object
+    csv_file = HttpResponse(content_type='text/csv')
+
+    # prepare interactive file including filename
+    csv_file['Content-Disposition'] = 'attachment; filename="systems.csv"'
 
     # get username from request object
     username = str(request.user)
 
     # call main function
-    sod = write_csv(username)
+    sod = write_csv(username, csv_file)
 
     # return csv object
     return sod
@@ -294,13 +292,16 @@ def system_cron():
     # get config
     main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
 
+    # prepare output file path
+    output_file = main_config_model.cron_export_path + '/' + filetime + '_systems.csv'
+
+    # open output file
+    csv_file = open(output_file, 'w')
+
     # get username from config
     username = main_config_model.cron_username
 
     # call main function
-    sod = write_csv(username)
-
-    # prepare output file path
-    output_file = main_config_model.cron_export_path + '/' + filetime + '_systems.xls'
+    sod = write_csv(username, csv_file)
 
     # TODO: save workbook to output file
