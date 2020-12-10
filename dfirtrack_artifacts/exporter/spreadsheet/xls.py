@@ -4,7 +4,7 @@ from django.utils import timezone
 from dfirtrack_artifacts.models import Artifact, Artifactstatus, Artifacttype
 from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel
 from dfirtrack_main.exporter.spreadsheet.xls import style_default, style_headline, write_row
-from dfirtrack_main.logger.default_logger import info_logger
+from dfirtrack_main.logger.default_logger import debug_logger, info_logger
 from time import strftime
 import xlwt
 
@@ -188,6 +188,9 @@ def write_xls(username):
 
         # write line for artifact
         worksheet_artifact = write_row(worksheet_artifact, entryline, row_num, style)
+
+        # call logger
+        debug_logger(username, ' ARTIFACT_XLS_ARTIFACT_EXPORTED ' + 'artifact_id:' + str(artifact.artifact_id) + '|artifact_name:' + artifact.artifact_name + '|system_id:' + str(artifact.system.system_id) + '|system_name:' + artifact.system.system_name)
 
     # write an empty row
     row_num += 2
