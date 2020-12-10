@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.utils import timezone
 from dfirtrack_artifacts.models import Artifact, Artifactstatus, Artifacttype
-from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel
+from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel, MainConfigModel
 from dfirtrack_main.exporter.spreadsheet.xls import style_default, style_headline, write_row
 from dfirtrack_main.logger.default_logger import debug_logger, info_logger
 from time import strftime
@@ -342,3 +342,23 @@ def artifact(request):
 
     # return spreadsheet object to browser
     return xls_browser
+
+def artifact_cron():
+
+    # prepare time for output file
+    filetime = strftime('%Y%m%d_%H%M')
+
+    # get config
+    main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+
+    # prepare output file path
+    output_file_path = main_config_model.cron_export_path + '/' + filetime + '_artifacts.xls'
+
+    # get username from config
+    username = main_config_model.cron_username
+
+    # call main function
+    xls_disk = write_xls(username)
+
+    # save spreadsheet to disk
+    xls_disk.save(output_file_path)
