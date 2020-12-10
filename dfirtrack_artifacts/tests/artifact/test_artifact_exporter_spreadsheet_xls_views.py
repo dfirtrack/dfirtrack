@@ -183,7 +183,7 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
             # compare content - artifact 2
             self.assertEqual(sheet_artifacts.cell(2,0).value, artifact_2.artifact_name)
             # compare content - metadata
-            self.assertEqual(sheet_artifacts.cell(4,0).value, 'Artifactlist created:')
+            self.assertEqual(sheet_artifacts.cell(4,0).value, 'Created:')
             self.assertEqual(sheet_artifacts.cell(4,1).value, t1_now.strftime('%Y-%m-%d %H:%M'))
             self.assertEqual(sheet_artifacts.cell(5,0).value, 'Created by:')
             self.assertEqual(sheet_artifacts.cell(5,1).value, 'testuser_artifact_exporter_spreadsheet_xls')
@@ -317,7 +317,7 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
             self.assertEqual(sheet_artifacttype.col_values(1), artifacttype_name_list)
             self.assertEqual(sheet_artifacttype.col_values(2), artifacttype_note_list)
             # compare content - metadata
-            self.assertEqual(sheet_artifacts.cell(4,0).value, 'Artifactlist created:')
+            self.assertEqual(sheet_artifacts.cell(4,0).value, 'Created:')
             self.assertEqual(sheet_artifacts.cell(4,1).value, t2_now.strftime('%Y-%m-%d %H:%M'))
             self.assertEqual(sheet_artifacts.cell(5,0).value, 'Created by:')
             self.assertEqual(sheet_artifacts.cell(5,1).value, 'testuser_artifact_exporter_spreadsheet_xls')

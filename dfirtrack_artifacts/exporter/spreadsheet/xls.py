@@ -8,19 +8,11 @@ from dfirtrack_main.logger.default_logger import info_logger
 from time import strftime
 import xlwt
 
-@login_required(login_url="/login")
-def artifact(request):
-
-    """ prepare file including formatting """
-
-    # create xls MIME type object
-    artifactlist = HttpResponse(content_type='application/ms-excel')
-
-    # define filename
-    artifactlist['Content-Disposition'] = 'attachment; filename="artifactlist.xls"'
+def write_xls(username):
 
     # create workbook object with UTF-8 encoding
     workbook = xlwt.Workbook(encoding='utf-8')
+
     # define name of worksheet within file
     worksheet_artifact = workbook.add_sheet('artifacts')
 
@@ -202,10 +194,10 @@ def artifact(request):
 
     # write meta information for file creation
     actualtime = timezone.now().strftime('%Y-%m-%d %H:%M')
-    worksheet_artifact.write(row_num, 0, 'Artifactlist created:', style)
+    worksheet_artifact.write(row_num, 0, 'Created:', style)
     worksheet_artifact.write(row_num, 1, actualtime, style)
     row_num += 1
-    creator = str(request.user)
+    creator = username
     worksheet_artifact.write(row_num, 0, 'Created by:', style)
     worksheet_artifact.write(row_num, 1, creator, style)
 
@@ -321,11 +313,29 @@ def artifact(request):
             # write line for artifacttype
             worksheet_artifacttype = write_row(worksheet_artifacttype, entryline_artifacttype, row_num, style)
 
-    # close file
-    workbook.save(artifactlist)
-
     # call logger
-    info_logger(str(request.user), " ARTIFACT_XLS_CREATED")
+    info_logger(username, " ARTIFACT_XLS_CREATED")
 
     # return xls object
-    return artifactlist
+    return workbook
+
+@login_required(login_url="/login")
+def artifact(request):
+
+    # create xls MIME type object
+    xls_browser = HttpResponse(content_type='application/ms-excel')
+
+    # define filename
+    xls_browser['Content-Disposition'] = 'attachment; filename="artifacts.xls"'
+
+    # get username from request object
+    username = str(request.user)
+
+    # call main function
+    xls_workbook = write_xls(username)
+
+    # save workbook to interactive file
+    xls_workbook.save(xls_browser)
+
+    # return spreadsheet object to browser
+    return xls_browser
