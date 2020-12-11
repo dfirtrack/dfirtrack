@@ -346,7 +346,7 @@ def artifact(request):
 def artifact_cron():
 
     # prepare time for output file
-    filetime = strftime('%Y%m%d_%H%M')
+    filetime = timezone.now().strftime('%Y%m%d_%H%M')
 
     # get config
     main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')

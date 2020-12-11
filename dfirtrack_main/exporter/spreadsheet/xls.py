@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.utils import timezone
 from dfirtrack_config.models import MainConfigModel, SystemExporterSpreadsheetXlsConfigModel
 from dfirtrack_main.logger.default_logger import debug_logger, info_logger
 from dfirtrack_main.models import Analysisstatus, Reason, Recommendation, System, Systemstatus, Tag
@@ -302,7 +303,7 @@ def write_xls(username):
     row_num += 2
 
     # write meta information for file creation
-    actualtime = strftime('%Y-%m-%d %H:%M')
+    actualtime = timezone.now().strftime('%Y-%m-%d %H:%M')
     worksheet_system.write(row_num, 0, 'Created:', style)
     worksheet_system.write(row_num, 1, actualtime, style)
     row_num += 1
@@ -600,7 +601,7 @@ def system(request):
 def system_cron():
 
     # prepare time for output file
-    filetime = strftime('%Y%m%d_%H%M')
+    filetime = timezone.now().strftime('%Y%m%d_%H%M')
 
     # get config
     main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
