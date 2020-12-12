@@ -1,5 +1,6 @@
 from dfirtrack_config.models import MainConfigModel
 from django.contrib.auth.models import User
+from django.contrib.messages import get_messages
 from django.test import TestCase
 import urllib.parse
 
@@ -63,6 +64,24 @@ class MainConfigViewTestCase(TestCase):
         response = self.client.get('/config/main', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_main_config_post_message(self):
+        """ test view """
+
+        # login testuser
+        self.client.login(username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN')
+        # create post data
+        data_dict = {
+            'system_name_editable': 'on',
+            'statushistory_entry_numbers': 6,
+            'cron_export_path': '/tmp',
+            'cron_username': 'cron',
+        }
+        # get response
+        response = self.client.post('/config/main/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        self.assertEqual(str(messages[-1]), 'Main config changed')
 
     def test_main_config_post_redirect(self):
         """ test view """
