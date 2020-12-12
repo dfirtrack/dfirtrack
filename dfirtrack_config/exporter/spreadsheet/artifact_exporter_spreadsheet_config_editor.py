@@ -25,7 +25,7 @@ def artifact_exporter_spreadsheet_xls_config_view(request):
             form.save_m2m()
 
             # create message
-            messages.success(request, 'Artifact exporter spreadsheet xls config changed')
+            messages.success(request, 'Artifact exporter spreadsheet XLS config changed')
 
             # call logger
             info_logger(str(request.user), " ARTIFACT_EXPORTER_SPREADSHEET_XLS_CONFIG_CHANGED")

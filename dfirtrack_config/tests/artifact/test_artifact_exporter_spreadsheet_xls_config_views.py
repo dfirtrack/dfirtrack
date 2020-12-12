@@ -93,7 +93,7 @@ class ArtifactExporterSpreadsheetXlsConfigViewTestCase(TestCase):
         # get messages
         messages = list(get_messages(response.wsgi_request))
         # compare
-        self.assertEqual(str(messages[-1]), 'Artifact exporter spreadsheet xls config changed')
+        self.assertEqual(str(messages[-1]), 'Artifact exporter spreadsheet XLS config changed')
 
     def test_artifact_exporter_spreadsheet_xls_config_post_redirect(self):
         """ test view """
