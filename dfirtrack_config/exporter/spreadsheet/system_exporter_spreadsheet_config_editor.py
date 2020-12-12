@@ -78,6 +78,9 @@ def system_exporter_spreadsheet_xls_config_view(request):
             model = form.save(commit=False)
             model.save()
 
+            # create message
+            messages.success(request, 'System exporter spreadsheet XLS config changed')
+
             # call logger
             info_logger(str(request.user), " SYSTEM_EXPORTER_SPREADSHEET_XLS_CONFIG_CHANGED")
 
