@@ -81,6 +81,7 @@ class MainConfigViewTestCase(TestCase):
         response = self.client.post('/config/main/', data_dict)
         # get messages
         messages = list(get_messages(response.wsgi_request))
+        # compare
         self.assertEqual(str(messages[-1]), 'Main config changed')
 
     def test_main_config_post_redirect(self):
