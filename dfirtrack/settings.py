@@ -36,8 +36,17 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'dfirtrack_main.async_messages.middleware.async_messages_middleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# use database cache for async messages
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'dfirtrack_async_messages',
+    }
+}
 
 ROOT_URLCONF = 'dfirtrack.urls'
 

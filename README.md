@@ -54,6 +54,7 @@ The application was created by implementing the following libraries and code:
 * [jQuery](https://github.com/jquery/jquery)
 * [Open Iconic](https://github.com/iconic/open-iconic)
 * [Popper.js](https://github.com/FezVrasta/popper.js)
+* [django-async-messages](https://github.com/codeinthehole/django-async-messages)
 
 ## Development
 
