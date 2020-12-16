@@ -41,7 +41,7 @@ def task_creator(request):
             creator_time_string,
         )
 
-        # return directly to system list
+        # return directly to task list
         return redirect(reverse('task_list'))
 
     # show empty form
@@ -71,11 +71,17 @@ def task_creator_async(request_post, request_user, creator_time_string):
     # set tasks_created_counter (needed for messages)
     tasks_created_counter = 0
 
-    # iterate over tasknames
-    for taskname in tasknames:
+    # set system_tasks_created_counter (needed for messages)
+    system_tasks_created_counter = 0
 
-        # iterate over systems
-        for system in systems:
+    # iterate over systems
+    for system in systems:
+
+        # autoincrement counter
+        system_tasks_created_counter  += 1
+
+        # iterate over tasknames
+        for taskname in tasknames:
 
             # create form with request data
             form = TaskCreatorForm(request_post)
@@ -122,14 +128,11 @@ def task_creator_async(request_post, request_user, creator_time_string):
     # finish message
     message_user(request_user, creator_time_string + 'finished', constants.SUCCESS)
 
-    if tasks_created_counter > 0:
-        if tasks_created_counter  == 1:
-            message_user(request_user, str(tasks_created_counter) + ' task was created.', constants.SUCCESS)
-        else:
-            message_user(request_user, str(tasks_created_counter) + ' tasks were created.', constants.SUCCESS)
+    # number message
+    message_user(request_user, str(tasks_created_counter) + ' tasks created for ' + str(system_tasks_created_counter) + ' systems.', constants.SUCCESS)
 
     # call logger
-    info_logger(str(request_user), ' TASK_CREATOR_STATUS ' + 'created:' + str(tasks_created_counter))
+    info_logger(str(request_user), ' TASK_CREATOR_STATUS ' + 'tasks_created:' + str(tasks_created_counter) + '|systems_affected:' + str(system_tasks_created_counter))
 
     # call logger
     debug_logger(str(request_user), " TASK_CREATOR_END")
