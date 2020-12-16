@@ -1,10 +1,17 @@
+from django.contrib import messages
+from django.contrib.messages import constants
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from django.utils import timezone
 from django_q.tasks import async_task
+from dfirtrack_main.async_messages import message_user
 from dfirtrack_main.forms import TagCreatorForm
-from dfirtrack_main.logger.default_logger import debug_logger
+from dfirtrack_main.logger.default_logger import debug_logger, info_logger
 from dfirtrack_main.models import Tag, System
+
+
+# TODO: test messages
 
 @login_required(login_url="/login")
 def tag_creator(request):
@@ -12,16 +19,29 @@ def tag_creator(request):
 
     # form was valid to post
     if request.method == 'POST':
+
+        # get objects from request object
         request_post = request.POST
         request_user = request.user
+
+        # get time for messages
+        creator_time = timezone.now().strftime('[%Y-%m-%d %H:%M:%S]')
+
+        # create string for messages
+        creator_time_string = 'Tag creator ' + creator_time + ' '
+
+        # show immediate message for user
+        messages.success(request, creator_time_string + 'started')
 
         # call async function
         async_task(
             "dfirtrack_main.creator.tag_creator.tag_creator_async",
             request_post,
             request_user,
+            creator_time_string,
         )
 
+        # return directly to tag list
         return redirect(reverse('tag_list'))
 
     # show empty form
@@ -30,9 +50,10 @@ def tag_creator(request):
 
         # call logger
         debug_logger(str(request.user), " TAG_CREATOR_ENTERED")
+
     return render(request, 'dfirtrack_main/tag/tag_creator.html', {'form': form})
 
-def tag_creator_async(request_post, request_user):
+def tag_creator_async(request_post, request_user, creator_time_string):
     """ function to create many tags for many systems at once """
 
     # call logger
@@ -44,11 +65,20 @@ def tag_creator_async(request_post, request_user):
     # extract systems (list results from request object via multiple choice field)
     systems = request_post.getlist('system')
 
-    # iterate over tags
-    for tag_id in tags:
+    # set system_tags_created_counter (needed for messages)
+    system_tags_created_counter = 0
 
-        # iterate over systems
-        for system_id in systems:
+    # set tags_created_counter (needed for messages)
+    tags_created_counter = 0
+
+    # iterate over systems
+    for system_id in systems:
+
+        # autoincrement counter
+        system_tags_created_counter  += 1
+
+        # iterate over tags
+        for tag_id in tags:
 
             # create form with request data
             form = TagCreatorForm(request_post)
@@ -63,8 +93,22 @@ def tag_creator_async(request_post, request_user):
                 # add tag to system
                 system.tag.add(tag)
 
+                # autoincrement counter
+                tags_created_counter  += 1
+
                 # call logger
                 system.logger( str(request_user), " TAG_CREATOR_EXECUTED")
+
+    """ call final messages """
+
+    # finish message
+    message_user(request_user, creator_time_string + 'finished', constants.SUCCESS)
+
+    # number message
+    message_user(request_user, str(tags_created_counter) + ' tags created for ' + str(system_tags_created_counter) + ' systems.', constants.SUCCESS)
+
+    # call logger
+    info_logger(str(request_user), ' TAG_CREATOR_STATUS ' + 'tags_created:' + str(tags_created_counter) + '|systems_affected:' + str(system_tags_created_counter))
 
     # call logger
     debug_logger(str(request_user), " TAG_CREATOR_END")
