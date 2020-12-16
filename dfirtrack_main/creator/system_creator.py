@@ -10,6 +10,9 @@ from dfirtrack_main.forms import SystemCreatorForm
 from dfirtrack_main.logger.default_logger import debug_logger, error_logger, info_logger, warning_logger
 from dfirtrack_main.models import System
 
+
+# TODO: test messages
+
 @login_required(login_url="/login")
 def system_creator(request):
     """ function to create many systems at once (helper function to call the real function) """
@@ -48,8 +51,8 @@ def system_creator(request):
             'analysisstatus': 1,
         })
 
-    # call logger
-    debug_logger(str(request.user), ' SYSTEM_CREATOR_ENTERED')
+        # call logger
+        debug_logger(str(request.user), ' SYSTEM_CREATOR_ENTERED')
 
     return render(request, 'dfirtrack_main/system/system_creator.html', {'form': form})
 
