@@ -7,7 +7,7 @@ from django.utils import timezone
 from django_q.tasks import async_task
 from dfirtrack_main.async_messages import message_user
 from dfirtrack_main.forms import SystemCreatorForm
-from dfirtrack_main.logger.default_logger import debug_logger, error_logger, warning_logger
+from dfirtrack_main.logger.default_logger import debug_logger, error_logger, info_logger, warning_logger
 from dfirtrack_main.models import System
 
 @login_required(login_url="/login")
@@ -166,7 +166,8 @@ def system_creator_async(request_post, request_user, creator_time_string):
         else:
             message_user(request_user, str(lines_faulty_counter) + ' lines out of ' + str(number_of_lines) + ' lines were faulty (see log file for details).', constants.WARNING)
 
-    # TODO: add logger (status)
+    # call logger
+    info_logger(str(request_user), ' SYSTEM_CREATOR_STATUS ' + 'created:' + str(systems_created_counter) + '|' + 'skipped:' + str(systems_skipped_counter) + '|' + 'faulty_lines:' + str(lines_faulty_counter))
 
     # call logger
     debug_logger(str(request_user), ' SYSTEM_CREATOR_END')
