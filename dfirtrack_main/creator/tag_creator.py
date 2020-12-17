@@ -11,8 +11,6 @@ from dfirtrack_main.logger.default_logger import debug_logger, info_logger
 from dfirtrack_main.models import Tag, System
 
 
-# TODO: test messages
-
 @login_required(login_url="/login")
 def tag_creator(request):
     """ function to create many tags for many systems at once (helper function to call the real function) """

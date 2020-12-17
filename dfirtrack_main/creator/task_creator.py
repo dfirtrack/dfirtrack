@@ -11,8 +11,6 @@ from dfirtrack_main.logger.default_logger import debug_logger, info_logger
 from dfirtrack_main.models import System, Taskname, Taskstatus
 
 
-# TODO: test messages
-
 @login_required(login_url="/login")
 def task_creator(request):
     """ function to create many tasks for many systems at once (helper function to call the real function) """

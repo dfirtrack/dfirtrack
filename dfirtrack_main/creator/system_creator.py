@@ -11,8 +11,6 @@ from dfirtrack_main.logger.default_logger import debug_logger, error_logger, inf
 from dfirtrack_main.models import System
 
 
-# TODO: test messages
-
 @login_required(login_url="/login")
 def system_creator(request):
     """ function to create many systems at once (helper function to call the real function) """
