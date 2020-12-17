@@ -147,11 +147,8 @@ class SystemCreatorViewTestCase(TestCase):
         # get messages
         messages = list(get_messages(response.wsgi_request))
         # compare
-        # TODO: mocking time to get complete string does not work in async_task
-        #self.assertEqual(str(messages[0]), 'System creator [2020-03-04 05:06:07] started')
-        #self.assertEqual(str(messages[1]), 'System creator [2020-03-04 05:06:07] finished')
-        self.assertEqual(str(messages[0]).split()[-1], 'started')
-        self.assertEqual(str(messages[1]).split()[-1], 'finished')
+        self.assertEqual(str(messages[0]), 'System creator started')
+        self.assertEqual(str(messages[1]), 'System creator finished')
         self.assertEqual(str(messages[2]), '3 systems were created.')
         self.assertEqual(str(messages[3]), "1 system was skipped. ['system_creator_duplicate_system']")
         self.assertEqual(str(messages[4]), '2 lines out of 6 lines were faulty (see log file for details).')

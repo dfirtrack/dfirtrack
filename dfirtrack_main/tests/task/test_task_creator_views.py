@@ -268,9 +268,6 @@ class TaskCreatorViewTestCase(TestCase):
         # get messages
         messages = list(get_messages(response.wsgi_request))
         # compare
-        # TODO: mocking time to get complete string does not work in async_task
-        #self.assertEqual(str(messages[0]), 'Task creator [2020-03-04 05:06:07] started')
-        #self.assertEqual(str(messages[1]), 'Task creator [2020-03-04 05:06:07] finished')
-        self.assertEqual(str(messages[0]).split()[-1], 'started')
-        self.assertEqual(str(messages[1]).split()[-1], 'finished')
+        self.assertEqual(str(messages[0]), 'Task creator started')
+        self.assertEqual(str(messages[1]), 'Task creator finished')
         self.assertEqual(str(messages[2]), '9 tasks created for 3 systems.')

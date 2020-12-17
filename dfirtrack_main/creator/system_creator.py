@@ -22,21 +22,14 @@ def system_creator(request):
         request_post = request.POST
         request_user = request.user
 
-        # get time for messages
-        creator_time = timezone.now().strftime('[%Y-%m-%d %H:%M:%S]')
-
-        # create string for messages
-        creator_time_string = 'System creator ' + creator_time + ' '
-
         # show immediate message for user
-        messages.success(request, creator_time_string + 'started')
+        messages.success(request, 'System creator started')
 
         # call async function
         async_task(
             "dfirtrack_main.creator.system_creator.system_creator_async",
             request_post,
             request_user,
-            creator_time_string,
         )
 
         # return directly to system list
@@ -54,7 +47,7 @@ def system_creator(request):
 
     return render(request, 'dfirtrack_main/system/system_creator.html', {'form': form})
 
-def system_creator_async(request_post, request_user, creator_time_string):
+def system_creator_async(request_post, request_user):
     """ function to create many systems at once """
 
     # call logger
@@ -151,7 +144,7 @@ def system_creator_async(request_post, request_user, creator_time_string):
     """ call final messages """
 
     # finish message
-    message_user(request_user, creator_time_string + 'finished', constants.SUCCESS)
+    message_user(request_user, 'System creator finished', constants.SUCCESS)
 
     # number messages
 

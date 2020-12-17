@@ -22,21 +22,14 @@ def task_creator(request):
         request_post = request.POST
         request_user = request.user
 
-        # get time for messages
-        creator_time = timezone.now().strftime('[%Y-%m-%d %H:%M:%S]')
-
-        # create string for messages
-        creator_time_string = 'Task creator ' + creator_time + ' '
-
         # show immediate message for user
-        messages.success(request, creator_time_string + 'started')
+        messages.success(request, 'Task creator started')
 
         # call async function
         async_task(
             "dfirtrack_main.creator.task_creator.task_creator_async",
             request_post,
             request_user,
-            creator_time_string,
         )
 
         # return directly to task list
@@ -54,7 +47,7 @@ def task_creator(request):
 
     return render(request, 'dfirtrack_main/task/task_creator.html', {'form': form})
 
-def task_creator_async(request_post, request_user, creator_time_string):
+def task_creator_async(request_post, request_user):
     """ function to create many tasks for many systems at once """
 
     # call logger
@@ -128,7 +121,7 @@ def task_creator_async(request_post, request_user, creator_time_string):
     """ call final messages """
 
     # finish message
-    message_user(request_user, creator_time_string + 'finished', constants.SUCCESS)
+    message_user(request_user, 'Task creator finished', constants.SUCCESS)
 
     # number message
     message_user(request_user, str(tasks_created_counter) + ' tasks created for ' + str(system_tasks_created_counter) + ' systems.', constants.SUCCESS)

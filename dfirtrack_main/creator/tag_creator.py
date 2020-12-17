@@ -3,7 +3,6 @@ from django.contrib.messages import constants
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from django.utils import timezone
 from django_q.tasks import async_task
 from dfirtrack_main.async_messages import message_user
 from dfirtrack_main.forms import TagCreatorForm
@@ -22,21 +21,14 @@ def tag_creator(request):
         request_post = request.POST
         request_user = request.user
 
-        # get time for messages
-        creator_time = timezone.now().strftime('[%Y-%m-%d %H:%M:%S]')
-
-        # create string for messages
-        creator_time_string = 'Tag creator ' + creator_time + ' '
-
         # show immediate message for user
-        messages.success(request, creator_time_string + 'started')
+        messages.success(request, 'Tag creator started')
 
         # call async function
         async_task(
             "dfirtrack_main.creator.tag_creator.tag_creator_async",
             request_post,
             request_user,
-            creator_time_string,
         )
 
         # return directly to tag list
@@ -51,7 +43,7 @@ def tag_creator(request):
 
     return render(request, 'dfirtrack_main/tag/tag_creator.html', {'form': form})
 
-def tag_creator_async(request_post, request_user, creator_time_string):
+def tag_creator_async(request_post, request_user):
     """ function to create many tags for many systems at once """
 
     # call logger
@@ -104,7 +96,7 @@ def tag_creator_async(request_post, request_user, creator_time_string):
     """ call final messages """
 
     # finish message
-    message_user(request_user, creator_time_string + 'finished', constants.SUCCESS)
+    message_user(request_user, 'Tag creator finished', constants.SUCCESS)
 
     # number message
     message_user(request_user, str(tags_created_counter) + ' tags created for ' + str(system_tags_created_counter) + ' systems.', constants.SUCCESS)
