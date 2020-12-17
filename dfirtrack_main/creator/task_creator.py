@@ -89,6 +89,8 @@ def task_creator_async(request_post, request_user, creator_time_string):
             # create task
             if form.is_valid():
 
+                """ object creation """
+
                 # dont't save form yet
                 task = form.save(commit=False)
 
@@ -116,6 +118,8 @@ def task_creator_async(request_post, request_user, creator_time_string):
 
                 # save manytomany
                 form.save_m2m()
+
+                """ object counter / log """
 
                 # autoincrement counter
                 tasks_created_counter  += 1

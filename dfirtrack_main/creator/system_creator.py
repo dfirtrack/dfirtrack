@@ -68,14 +68,14 @@ def system_creator_async(request_post, request_user, creator_time_string):
     #  count lines (needed for messages)
     number_of_lines = len(lines)
 
-    # set lines faulty counter (needed for messages)
-    lines_faulty_counter = 0
-
     # set systems_created_counter (needed for messages)
     systems_created_counter = 0
 
     # set systems_skipped_counter (needed for messages)
     systems_skipped_counter = 0
+
+    # set lines_faulty_counter (needed for messages)
+    lines_faulty_counter = 0
 
     # create empty list (needed for messages)
     skipped_systems = []
@@ -123,6 +123,8 @@ def system_creator_async(request_post, request_user, creator_time_string):
         # create system
         if form.is_valid():
 
+            """ object creation """
+
             # don't save form yet
             system = form.save(commit=False)
 
@@ -140,6 +142,8 @@ def system_creator_async(request_post, request_user, creator_time_string):
             # save manytomany
             form.save_m2m()
 
+            """ object counter / log """
+
             # autoincrement counter
             systems_created_counter  += 1
 
@@ -150,6 +154,8 @@ def system_creator_async(request_post, request_user, creator_time_string):
 
     # finish message
     message_user(request_user, creator_time_string + 'finished', constants.SUCCESS)
+
+    # number messages
 
     if systems_created_counter > 0:
         if systems_created_counter  == 1:

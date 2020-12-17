@@ -65,11 +65,11 @@ def tag_creator_async(request_post, request_user, creator_time_string):
     # extract systems (list results from request object via multiple choice field)
     systems = request_post.getlist('system')
 
-    # set system_tags_created_counter (needed for messages)
-    system_tags_created_counter = 0
-
     # set tags_created_counter (needed for messages)
     tags_created_counter = 0
+
+    # set system_tags_created_counter (needed for messages)
+    system_tags_created_counter = 0
 
     # iterate over systems
     for system_id in systems:
@@ -86,12 +86,16 @@ def tag_creator_async(request_post, request_user, creator_time_string):
             # create relation
             if form.is_valid():
 
+                """ object creation """
+
                 # get objects
                 system = System.objects.get(system_id=system_id)
                 tag = Tag.objects.get(tag_id=tag_id)
 
                 # add tag to system
                 system.tag.add(tag)
+
+                """ object counter / log """
 
                 # autoincrement counter
                 tags_created_counter  += 1
