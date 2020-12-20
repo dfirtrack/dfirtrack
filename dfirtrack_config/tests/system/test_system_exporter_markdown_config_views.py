@@ -1,5 +1,6 @@
 from dfirtrack_config.models import SystemExporterMarkdownConfigModel
 from django.contrib.auth.models import User
+from django.contrib.messages import get_messages
 from django.test import TestCase
 import urllib.parse
 
@@ -63,6 +64,22 @@ class SystemExporterMarkdownConfigViewTestCase(TestCase):
         response = self.client.get('/config/system/exporter/markdown', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_system_exporter_markdown_config_post_message(self):
+            """ test exporter view """
+
+            # login testuser
+            self.client.login(username='testuser_system_exporter_markdown_config', password='Rg6YK8f9LSlIY4yaBDxS')
+            # create post data
+            data_dict = {
+                'markdown_sorting': 'sys',
+            }
+            # get response
+            response = self.client.post('/config/system/exporter/markdown/', data_dict)
+            # get messages
+            messages = list(get_messages(response.wsgi_request))
+            # compare
+            self.assertEqual(str(messages[-1]), 'System exporter markdown config changed')
 
     def test_system_exporter_markdown_config_post_redirect(self):
             """ test exporter view """

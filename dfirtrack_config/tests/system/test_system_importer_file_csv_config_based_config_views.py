@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.contrib.messages import get_messages
 from django.test import TestCase
 from dfirtrack_main.models import Analysisstatus, Systemstatus
 import urllib.parse
@@ -67,6 +68,29 @@ class SystemImporterFileCsvConfigbasedConfigViewTestCase(TestCase):
         response = self.client.get('/config/system/importer/file/csv/configbased', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_system_importer_file_csv_config_based_config_post_message(self):
+        """ test view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_config_based_config', password='sBH771ZCj2Y5rjfCPtVC')
+        # get object (does not work the usual way because form with available choices is build before model instance is created during the test)
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
+        # get object (does not work the usual way because form with available choices is build before model instance is created during the test)
+        analysisstatus_id = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1').analysisstatus_id
+        # create post data
+        data_dict = {
+            'csv_default_systemstatus': systemstatus_id,
+            'csv_default_analysisstatus': analysisstatus_id,
+            'csv_column_system': 1,
+            'csv_column_ip': 2,
+        }
+        # get response
+        response = self.client.post('/config/system/importer/file/csv/configbased/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(messages[-1]), 'System importer file CSV config based config changed')
 
     def test_system_importer_file_csv_config_based_config_post_redirect(self):
         """ test view """

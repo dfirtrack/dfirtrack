@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -23,17 +24,17 @@ def main_config_view(request):
             model.save()
             form.save_m2m()
 
+            # create message
+            messages.success(request, 'Main config changed')
+
             # call logger
             info_logger(str(request.user), " MAIN_CONFIG_CHANGED")
 
             # close popup
             return HttpResponse('<script type="text/javascript">window.close();</script>')
 
-        # TODO: with 'system_name_editable' as the only non-mandatory model attribute, it is not possible to get an invalid form
-        # TODO: finish prepared tests in 'dfirtrack_config.tests.main.test_main_config_views'
-        # TODO: remove the coverage limitation with further mandatory model attributes
-        else:   # coverage: ignore branch
-            # show form page
+        else:
+            # show form page again
             return render(
                 request,
                 'dfirtrack_config/main_config_popup.html',

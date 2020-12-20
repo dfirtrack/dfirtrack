@@ -3,12 +3,12 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.urls import reverse
 from dfirtrack_artifacts.models import Artifact, Artifactpriority, Artifactstatus
-from dfirtrack_config.models import Statushistory, StatushistoryEntry
+from dfirtrack_config.models import MainConfigModel, Statushistory, StatushistoryEntry
+from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Analysisstatus, System, Systemstatus, Task, Taskpriority, Taskstatus
 
 
-@login_required(login_url="/login")
-def statushistory_save(request):
+def statushistory_save_objects(username):
 
     # create empty statushistory (just contains primary key and datetime field)
     statushistory = Statushistory.objects.create()
@@ -135,8 +135,33 @@ def statushistory_save(request):
             statushistoryentry_model_value = systems_number_taskpriority,
         )
 
+    # call logger
+    debug_logger(username, ' STATUS_SAVE_EXECUTED statushistory_id:' + str(statushistory.statushistory_id) + '|statushistory_time:' + str(statushistory))
+
+    return statushistory
+
+@login_required(login_url="/login")
+def statushistory_save(request):
+
+    # get username from request object
+    username = str(request.user)
+
+    # save statushistory
+    statushistory_save_objects(username)
+
     # create message
     messages.success(request, 'Statushistory saved')
 
     # reload page to show message
     return redirect(reverse('status'))
+
+def statushistory_save_cron():
+
+    # get config
+    main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+
+    # get username from config
+    username = main_config_model.cron_username
+
+    # save statushistory
+    statushistory_save_objects(username)

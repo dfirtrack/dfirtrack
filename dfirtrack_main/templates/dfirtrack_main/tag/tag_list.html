@@ -37,12 +37,12 @@
     </div>
 
     <!-- tag name headline -->
-    <div class="col-2">
+    <div class="col-3">
         Tag
     </div>
 
     <!-- tag note headline -->
-    <div class="col-7">
+    <div class="col-6">
         Note
     </div>
 
@@ -66,7 +66,7 @@
         </div>
 
         <!-- tag name -->
-        <div class="col-2">
+        <div class="col-3">
             <a href="{{ i.get_absolute_url }}" type="button" class="btn btn-{{ i.tagcolor }} btn-sm round copy-true">
                 <!-- black tag icon for white tag (black color of font is defined in corresponding CSS for button) -->
                 {% if i.tagcolor.tagcolor_name == 'white' %}
@@ -80,7 +80,7 @@
         </div>
 
         <!-- tag note -->
-        <div class="col-7">
+        <div class="col-6">
             {% if i.tag_note %}
                 {{ i.tag_note|linebreaks }}
             {% else %}

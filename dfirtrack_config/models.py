@@ -39,6 +39,11 @@ class MainConfigModel(models.Model):
     # config fields
     system_name_editable = models.BooleanField(blank=True)
     artifactstatus_open = models.ManyToManyField('dfirtrack_artifacts.Artifactstatus', related_name='main_config_artifactstatus_open', blank=True)
+    artifactstatus_requested = models.ManyToManyField('dfirtrack_artifacts.Artifactstatus', related_name='main_config_artifactstatus_requested', blank=True)
+    artifactstatus_acquisition = models.ManyToManyField('dfirtrack_artifacts.Artifactstatus', related_name='main_config_artifactstatus_acquisition', blank=True)
+    statushistory_entry_numbers = models.IntegerField(default=10)
+    cron_export_path = models.CharField(max_length=4096, default='/tmp')
+    cron_username = models.CharField(max_length=255, default='cron')
 
     # string representation
     def __str__(self):
@@ -192,7 +197,7 @@ class Statushistory(models.Model):
 
     # string representation
     def __str__(self):
-        return self.statushistory_time.strftime('%Y-%m-%d %H:%M:%S')
+        return self.statushistory_time.strftime('%Y-%m-%d %H:%M')
 
     def get_absolute_url(self):
         return reverse('status_detail', args=(self.pk,))

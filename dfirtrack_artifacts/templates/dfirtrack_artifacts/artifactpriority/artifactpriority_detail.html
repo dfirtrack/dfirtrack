@@ -38,7 +38,11 @@
     <!-- artifactpriority name -->
     <div class="col-3">
         <h5>
-            Artifactpriority "{{ artifactpriority.artifactpriority_name }}"
+            Artifactpriority 
+            {% with artifactpriority=artifactpriority %}
+                {% include "dfirtrack_artifacts/includes/button_artifactpriority.html" %}
+            {% endwith %}
+            {{ artifactpriority.artifactpriority_name }}
         </h5>
     </div>
 

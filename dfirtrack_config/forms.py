@@ -1,5 +1,7 @@
 from django import forms
+from dfirtrack_artifacts.models import Artifactstatus
 from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel, MainConfigModel, SystemExporterMarkdownConfigModel, SystemExporterSpreadsheetCsvConfigModel, SystemExporterSpreadsheetXlsConfigModel, SystemImporterFileCsvConfigbasedConfigModel, SystemImporterFileCsvFormbasedConfigModel
+from dfirtrack_main.models import Analysisstatus, Case, Company, Dnsname, Domain, Location, Os, Reason, Serviceprovider, Systemstatus, Systemtype, Tag
 
 class ArtifactExporterSpreadsheetXlsConfigForm(forms.ModelForm):
     """ artifact exporter spreadsheet xls config form """
@@ -61,6 +63,32 @@ class ArtifactExporterSpreadsheetXlsConfigForm(forms.ModelForm):
 class MainConfigForm(forms.ModelForm):
     """ main config form """
 
+# TODO: add logic to prevent messing up the same be editing it via admin menu
+
+    # reorder field choices
+    artifactstatus_open = forms.ModelMultipleChoiceField(
+        queryset = Artifactstatus.objects.order_by('artifactstatus_name'),
+        label = 'Artifactstatus to be considered open',
+        required = False,
+        widget = forms.CheckboxSelectMultiple(),
+    )
+
+    # reorder field choices
+    artifactstatus_requested = forms.ModelMultipleChoiceField(
+        queryset = Artifactstatus.objects.order_by('artifactstatus_name'),
+        label = 'Artifactstatus setting the artifact requested time',
+        required = False,
+        widget = forms.CheckboxSelectMultiple(),
+    )
+
+    # reorder field choices
+    artifactstatus_acquisition = forms.ModelMultipleChoiceField(
+        queryset = Artifactstatus.objects.order_by('artifactstatus_name'),
+        label = 'Artifactstatus setting the artifact acquisition time',
+        required = False,
+        widget = forms.CheckboxSelectMultiple(),
+    )
+
     class Meta:
 
         # model
@@ -70,16 +98,59 @@ class MainConfigForm(forms.ModelForm):
         fields = (
             'system_name_editable',
             'artifactstatus_open',
+            'artifactstatus_requested',
+            'artifactstatus_acquisition',
+            'statushistory_entry_numbers',
+            'cron_export_path',
+            'cron_username',
         )
 
         labels = {
             'system_name_editable': 'Make system name editable',
-            'artifactstatus_open': 'Artifactstatus to be considered open',
+            'statushistory_entry_numbers': 'Show only this number of last statushistory entries',
+            'cron_export_path': 'Export files created by scheduled tasks to this path',
+            'cron_username': 'Use this username for scheduled tasks (just for logging, does not have to exist)',
         }
 
         widgets = {
-            'artifactstatus_open': forms.CheckboxSelectMultiple(),
+            'statushistory_entry_numbers': forms.NumberInput(
+                attrs={
+                    'min': '1',
+                    'max': '99',
+                    'size': '3',
+                },
+            ),
+            'cron_export_path': forms.TextInput(
+                attrs={
+                    'size': '35',
+                    'style': 'font-family: monospace',
+                },
+            ),
+            'cron_username': forms.TextInput(
+                attrs={
+                    'size': '20',
+                },
+            ),
         }
+
+    def clean(self):
+        """ custom field validation """
+
+        # get form data
+        cleaned_data = super().clean()
+
+        # get relevant values
+        artifactstatus_requested = self.cleaned_data['artifactstatus_requested']
+        artifactstatus_acquisition = self.cleaned_data['artifactstatus_acquisition']
+
+        # get artifactstatus that have been choosen for both time settings
+        artifactstatus_shared = artifactstatus_requested.intersection(artifactstatus_acquisition)
+
+        # check if there are any artifactstatus in this queryset
+        if artifactstatus_shared.count() !=0:
+            raise forms.ValidationError('Same artifactstatus were chosen for requested an acquisition time.')
+
+        return cleaned_data
 
 class SystemExporterMarkdownConfigForm(forms.ModelForm):
     """ system exporter markdown config form """
@@ -219,6 +290,95 @@ class SystemExporterSpreadsheetXlsConfigForm(forms.ModelForm):
 class SystemImporterFileCsvConfigbasedConfigForm(forms.ModelForm):
     """ system importer CSV config form (config based only) """
 
+    # reorder field choices
+    csv_default_reason = forms.ModelChoiceField(
+        label = 'Set reason',
+        queryset = Reason.objects.order_by('reason_name'),
+        required = False,
+    )
+
+    # reorder field choices
+    csv_default_domain = forms.ModelChoiceField(
+        label = 'Set domain',
+        queryset = Domain.objects.order_by('domain_name'),
+        required = False,
+    )
+
+    # reorder field choices
+    csv_default_dnsname = forms.ModelChoiceField(
+        label = 'Set DNS name',
+        queryset = Dnsname.objects.order_by('dnsname_name'),
+        required = False,
+    )
+
+    # reorder field choices
+    csv_default_systemtype = forms.ModelChoiceField(
+        label = 'Set systemtype',
+        queryset = Systemtype.objects.order_by('systemtype_name'),
+        required = False,
+    )
+
+    # reorder field choices
+    csv_default_os = forms.ModelChoiceField(
+        label = 'Set OS',
+        queryset = Os.objects.order_by('os_name'),
+        required = False,
+    )
+
+    # reorder field choices
+    csv_default_location = forms.ModelChoiceField(
+        label = 'Set location',
+        queryset = Location.objects.order_by('location_name'),
+        required = False,
+    )
+
+    # reorder field choices
+    csv_default_serviceprovider = forms.ModelChoiceField(
+        label = 'Set serviceprovider',
+        queryset = Serviceprovider.objects.order_by('serviceprovider_name'),
+        required = False,
+    )
+
+    # reorder field choices
+    csv_default_case = forms.ModelMultipleChoiceField(
+        label = 'Set cases',
+        queryset = Case.objects.order_by('case_name'),
+        required = False,
+        widget=forms.CheckboxSelectMultiple(),
+    )
+
+    # reorder field choices
+    csv_default_company = forms.ModelMultipleChoiceField(
+        label = 'Set companies',
+        queryset = Company.objects.order_by('company_name'),
+        required = False,
+        widget=forms.CheckboxSelectMultiple(),
+    )
+
+    # reorder field choices
+    csv_default_tag = forms.ModelMultipleChoiceField(
+        label = 'Set tags',
+        queryset = Tag.objects.order_by('tag_name'),
+        required = False,
+        widget=forms.CheckboxSelectMultiple(),
+    )
+
+    # reorder field choices
+    csv_default_systemstatus = forms.ModelChoiceField(
+        queryset = Systemstatus.objects.order_by('systemstatus_name'),
+        label = 'Set systemstatus (*)',
+        required = True,
+        widget = forms.RadioSelect(),
+    )
+
+    # reorder field choices
+    csv_default_analysisstatus = forms.ModelChoiceField(
+        queryset = Analysisstatus.objects.order_by('analysisstatus_name'),
+        label = 'Set analysisstatus (*)',
+        required = True,
+        widget = forms.RadioSelect(),
+    )
+
     class Meta:
 
         # model
@@ -259,18 +419,6 @@ class SystemImporterFileCsvConfigbasedConfigForm(forms.ModelForm):
             'csv_remove_case': 'Remove / overwrite existing cases for already existing systems',
             'csv_remove_company': 'Remove / overwrite existing companies for already existing systems',
             'csv_remove_tag': 'Remove / overwrite existing tags for already existing systems',
-            'csv_default_systemstatus': 'Set systemstatus (*)',
-            'csv_default_analysisstatus': 'Set analysisstatus (*)',
-            'csv_default_reason': 'Set reason',
-            'csv_default_domain': 'Set domain',
-            'csv_default_dnsname': 'Set DNS name',
-            'csv_default_systemtype': 'Set systemtype',
-            'csv_default_os': 'Set OS',
-            'csv_default_location': 'Set location',
-            'csv_default_serviceprovider': 'Set serviceprovider',
-            'csv_default_case': 'Set cases',
-            'csv_default_company': 'Set companies',
-            'csv_default_tag': 'Set tags',
         }
 
         widgets = {
@@ -290,11 +438,6 @@ class SystemImporterFileCsvConfigbasedConfigForm(forms.ModelForm):
                     'size': '3',
                 },
             ),
-            'csv_default_systemstatus': forms.RadioSelect(),
-            'csv_default_analysisstatus': forms.RadioSelect(),
-            'csv_default_case': forms.CheckboxSelectMultiple(),
-            'csv_default_company': forms.CheckboxSelectMultiple(),
-            'csv_default_tag': forms.CheckboxSelectMultiple(),
         }
 
     def clean(self):

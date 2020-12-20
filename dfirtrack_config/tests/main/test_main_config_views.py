@@ -1,5 +1,6 @@
 from dfirtrack_config.models import MainConfigModel
 from django.contrib.auth.models import User
+from django.contrib.messages import get_messages
 from django.test import TestCase
 import urllib.parse
 
@@ -64,6 +65,25 @@ class MainConfigViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
+    def test_main_config_post_message(self):
+        """ test view """
+
+        # login testuser
+        self.client.login(username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN')
+        # create post data
+        data_dict = {
+            'system_name_editable': 'on',
+            'statushistory_entry_numbers': 6,
+            'cron_export_path': '/tmp',
+            'cron_username': 'cron',
+        }
+        # get response
+        response = self.client.post('/config/main/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(messages[-1]), 'Main config changed')
+
     def test_main_config_post_redirect(self):
         """ test view """
 
@@ -72,6 +92,9 @@ class MainConfigViewTestCase(TestCase):
         # create post data
         data_dict = {
             'system_name_editable': 'on',
+            'statushistory_entry_numbers': 7,
+            'cron_export_path': '/tmp',
+            'cron_username': 'cron',
         }
         # get response
         response = self.client.post('/config/main/', data_dict)
@@ -83,14 +106,25 @@ class MainConfigViewTestCase(TestCase):
 
         # login testuser
         self.client.login(username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN')
+        # get object
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        # set opposite value
+        main_config_model.system_name_editable = False
+        # save config
+        main_config_model.save()
+        # compare (before post)
+        self.assertFalse(main_config_model.system_name_editable)
         # create post data
         data_dict = {
             'system_name_editable': 'on',
+            'statushistory_entry_numbers': 8,
+            'cron_export_path': '/tmp',
+            'cron_username': 'cron',
         }
         # get response
         self.client.post('/config/main/', data_dict)
-        # get object
-        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        # refresh object
+        main_config_model.refresh_from_db()
         # compare
         self.assertTrue(main_config_model.system_name_editable)
 
@@ -99,8 +133,20 @@ class MainConfigViewTestCase(TestCase):
 
         # login testuser
         self.client.login(username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN')
+        # get object
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        # set opposite value
+        main_config_model.system_name_editable = True
+        # save config
+        main_config_model.save()
+        # compare (before post)
+        self.assertTrue(main_config_model.system_name_editable)
         # create post data
-        data_dict = {}
+        data_dict = {
+            'statushistory_entry_numbers': 9,
+            'cron_export_path': '/tmp',
+            'cron_username': 'cron',
+        }
         # get response
         self.client.post('/config/main/', data_dict)
         # get object
@@ -108,7 +154,26 @@ class MainConfigViewTestCase(TestCase):
         # compare
         self.assertFalse(main_config_model.system_name_editable)
 
-# TODO: with 'system_name_editable' as the only non-mandatory model attribute, it is not possible to get an invalid form
-# TODO: remove the coverage limitation with further mandatory model attributes in 'dfirtrack_config.views.main_config_editor'
-#    def test_main_config_post_invalid_reload(self):
-#    def test_main_config_post_invalid_template(self):
+    def test_main_config_post_invalid_reload(self):
+        """ test view """
+
+        # login testuser
+        self.client.login(username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/config/main/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_main_config_post_invalid_template(self):
+        """ test view """
+
+        # login testuser
+        self.client.login(username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/config/main/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_config/main_config_popup.html')

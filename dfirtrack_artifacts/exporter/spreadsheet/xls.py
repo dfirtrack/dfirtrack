@@ -2,25 +2,17 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.utils import timezone
 from dfirtrack_artifacts.models import Artifact, Artifactstatus, Artifacttype
-from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel
+from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel, MainConfigModel
 from dfirtrack_main.exporter.spreadsheet.xls import style_default, style_headline, write_row
-from dfirtrack_main.logger.default_logger import info_logger
+from dfirtrack_main.logger.default_logger import debug_logger, info_logger
 from time import strftime
 import xlwt
 
-@login_required(login_url="/login")
-def artifact(request):
-
-    """ prepare file including formatting """
-
-    # create xls MIME type object
-    artifactlist = HttpResponse(content_type='application/ms-excel')
-
-    # define filename
-    artifactlist['Content-Disposition'] = 'attachment; filename="artifactlist.xls"'
+def write_xls(username):
 
     # create workbook object with UTF-8 encoding
     workbook = xlwt.Workbook(encoding='utf-8')
+
     # define name of worksheet within file
     worksheet_artifact = workbook.add_sheet('artifacts')
 
@@ -197,15 +189,18 @@ def artifact(request):
         # write line for artifact
         worksheet_artifact = write_row(worksheet_artifact, entryline, row_num, style)
 
+        # call logger
+        debug_logger(username, ' ARTIFACT_XLS_ARTIFACT_EXPORTED ' + 'artifact_id:' + str(artifact.artifact_id) + '|artifact_name:' + artifact.artifact_name + '|system_id:' + str(artifact.system.system_id) + '|system_name:' + artifact.system.system_name)
+
     # write an empty row
     row_num += 2
 
     # write meta information for file creation
     actualtime = timezone.now().strftime('%Y-%m-%d %H:%M')
-    worksheet_artifact.write(row_num, 0, 'Artifactlist created:', style)
+    worksheet_artifact.write(row_num, 0, 'Created:', style)
     worksheet_artifact.write(row_num, 1, actualtime, style)
     row_num += 1
-    creator = str(request.user)
+    creator = username
     worksheet_artifact.write(row_num, 0, 'Created by:', style)
     worksheet_artifact.write(row_num, 1, creator, style)
 
@@ -321,11 +316,49 @@ def artifact(request):
             # write line for artifacttype
             worksheet_artifacttype = write_row(worksheet_artifacttype, entryline_artifacttype, row_num, style)
 
-    # close file
-    workbook.save(artifactlist)
-
     # call logger
-    info_logger(str(request.user), " ARTIFACT_XLS_CREATED")
+    info_logger(username, " ARTIFACT_XLS_CREATED")
 
     # return xls object
-    return artifactlist
+    return workbook
+
+@login_required(login_url="/login")
+def artifact(request):
+
+    # create xls MIME type object
+    xls_browser = HttpResponse(content_type='application/ms-excel')
+
+    # define filename
+    xls_browser['Content-Disposition'] = 'attachment; filename="artifacts.xls"'
+
+    # get username from request object
+    username = str(request.user)
+
+    # call main function
+    xls_workbook = write_xls(username)
+
+    # save workbook to interactive file
+    xls_workbook.save(xls_browser)
+
+    # return spreadsheet object to browser
+    return xls_browser
+
+def artifact_cron():
+
+    # prepare time for output file
+    filetime = timezone.now().strftime('%Y%m%d_%H%M')
+
+    # get config
+    main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+
+    # prepare output file path
+    output_file_path = main_config_model.cron_export_path + '/' + filetime + '_artifacts.xls'
+
+    # get username from config
+    username = main_config_model.cron_username
+
+    # call main function
+    xls_disk = write_xls(username)
+
+    # save spreadsheet to disk
+    xls_disk.save(output_file_path)
