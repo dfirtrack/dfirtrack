@@ -139,14 +139,14 @@ LOGGING = {
 
 Q_CLUSTER = {
     'name': 'dfirtrack',
-    'workers': 4,
-    'orm': 'default',       # use database backend as message broker
-    'label': 'Django Q',    # label for admin page
-    'catch_up': False,      # do not catch up postponed tasks after downtime
-    'max_attempts': 1,      # do not retry failed task
-    'timeout': 1800,        # timeout tasks after half an hour
-    'retry': 1801,          # retry tasks only after timeout time (skip retry is not possible afaik)
-    #'sync': True,
+    'orm': 'default',                   # use database backend as message broker
+    'label': 'DFIRTrack Q Cluster',     # label for admin page
+    'catch_up': False,                  # do not catch up postponed tasks after downtime
+    'max_attempts': 1,                  # do not retry failed task
+    'timeout': 1800,                    # timeout tasks after half an hour
+    'retry': 1801,                      # retry tasks only after timeout time (skip retry is not possible afaik)
+    'save_limit': 0,                    # save unlimited successful tasks in the database
+    #'sync': True,                       # remove comment for synchronous execution (done for testing via 'dfirtrack.test_settings')
 }
 
 REST_FRAMEWORK = {
