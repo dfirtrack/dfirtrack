@@ -11,9 +11,6 @@ from dfirtrack_main.logger.default_logger import debug_logger, error_logger, inf
 from dfirtrack_main.models import System, Tag, Company
 
 
-# TODO: add tests for POST
-# TODO: add tests for newmessages
-
 @login_required(login_url="/login")
 def system_modificator(request):
     """ function to modify many systems at once (helper function to call the real function) """
@@ -92,7 +89,7 @@ def system_modificator_async(request_post, request_user):
             continue
 
         # check line for string
-        if not isinstance(line, str):
+        if not isinstance(line, str):   # coverage: ignore branch
             # autoincrement counter
             lines_faulty_counter += 1
             # call logger
