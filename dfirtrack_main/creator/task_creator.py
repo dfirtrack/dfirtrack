@@ -1,11 +1,15 @@
+from django.contrib import messages
+from django.contrib.messages import constants
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils import timezone
 from django_q.tasks import async_task
+from dfirtrack_main.async_messages import message_user
 from dfirtrack_main.forms import TaskCreatorForm
-from dfirtrack_main.logger.default_logger import debug_logger
+from dfirtrack_main.logger.default_logger import debug_logger, info_logger
 from dfirtrack_main.models import System, Taskname, Taskstatus
+
 
 @login_required(login_url="/login")
 def task_creator(request):
@@ -13,8 +17,13 @@ def task_creator(request):
 
     # form was valid to post
     if request.method == 'POST':
+
+        # get objects from request object
         request_post = request.POST
         request_user = request.user
+
+        # show immediate message for user
+        messages.success(request, 'Task creator started')
 
         # call async function
         async_task(
@@ -23,6 +32,7 @@ def task_creator(request):
             request_user,
         )
 
+        # return directly to task list
         return redirect(reverse('task_list'))
 
     # show empty form
@@ -34,6 +44,7 @@ def task_creator(request):
 
         # call logger
         debug_logger(str(request.user), " TASK_CREATOR_ENTERED")
+
     return render(request, 'dfirtrack_main/task/task_creator.html', {'form': form})
 
 def task_creator_async(request_post, request_user):
@@ -48,17 +59,28 @@ def task_creator_async(request_post, request_user):
     # extract systems (list results from request object via multiple choice field)
     systems = request_post.getlist('system')
 
-    # iterate over tasknames
-    for taskname in tasknames:
+    # set tasks_created_counter (needed for messages)
+    tasks_created_counter = 0
 
-        # iterate over systems
-        for system in systems:
+    # set system_tasks_created_counter (needed for messages)
+    system_tasks_created_counter = 0
+
+    # iterate over systems
+    for system in systems:
+
+        # autoincrement counter
+        system_tasks_created_counter  += 1
+
+        # iterate over tasknames
+        for taskname in tasknames:
 
             # create form with request data
             form = TaskCreatorForm(request_post)
 
             # create task
             if form.is_valid():
+
+                """ object creation """
 
                 # dont't save form yet
                 task = form.save(commit=False)
@@ -88,8 +110,24 @@ def task_creator_async(request_post, request_user):
                 # save manytomany
                 form.save_m2m()
 
+                """ object counter / log """
+
+                # autoincrement counter
+                tasks_created_counter  += 1
+
                 # call logger
                 task.logger( str(request_user), " TASK_CREATOR_EXECUTED")
+
+    """ call final messages """
+
+    # finish message
+    message_user(request_user, 'Task creator finished', constants.SUCCESS)
+
+    # number message
+    message_user(request_user, str(tasks_created_counter) + ' tasks created for ' + str(system_tasks_created_counter) + ' systems.', constants.SUCCESS)
+
+    # call logger
+    info_logger(str(request_user), ' TASK_CREATOR_STATUS ' + 'tasks_created:' + str(tasks_created_counter) + '|systems_affected:' + str(system_tasks_created_counter))
 
     # call logger
     debug_logger(str(request_user), " TASK_CREATOR_END")

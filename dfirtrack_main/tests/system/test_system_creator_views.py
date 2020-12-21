@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.contrib.messages import get_messages
 from django.test import TestCase
 from django.utils import timezone
 from dfirtrack_main.models import Analysisstatus, System, Systemstatus
@@ -18,6 +19,13 @@ class SystemCreatorViewTestCase(TestCase):
         Systemstatus.objects.create(systemstatus_name = 'systemstatus_2')
         System.objects.create(
             system_name = 'system_creator_duplicate_system',
+            systemstatus = systemstatus_1,
+            system_modify_time = timezone.now(),
+            system_created_by_user_id = test_user,
+            system_modified_by_user_id = test_user,
+        )
+        System.objects.create(
+            system_name = 'system_creator_duplicate_system_2',
             systemstatus = systemstatus_1,
             system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
@@ -119,3 +127,51 @@ class SystemCreatorViewTestCase(TestCase):
         self.assertEqual(System.objects.get(system_name='system_creator_system_1').analysisstatus, analysisstatus_1)
         self.assertEqual(System.objects.get(system_name='system_creator_system_1').systemstatus, systemstatus_2)
         self.assertEqual(System.objects.filter(system_name='system_creator_duplicate_system').count(), 1)
+
+    def test_system_creator_post_messages(self):
+        """ test creator view """
+
+        # login testuser
+        self.client.login(username='testuser_system_creator', password='Jbf5fZBhpg1aZsCW6L8r')
+        # create objects
+        analysisstatus_1 = Analysisstatus.objects.create(analysisstatus_name = 'analysisstatus_1')
+        systemstatus_2 = Systemstatus.objects.get(systemstatus_name = 'systemstatus_2')
+        # create post data
+        data_dict = {
+            'systemlist': 'system_creator_message_1\nsystem_creator_message_2\nsystem_creator_message_3\n\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nsystem_creator_duplicate_system',
+            'analysisstatus': analysisstatus_1.analysisstatus_id,
+            'systemstatus': systemstatus_2.systemstatus_id,
+        }
+        # get response
+        response = self.client.post('/system/creator/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(messages[0]), 'System creator started')
+        self.assertEqual(str(messages[1]), 'System creator finished')
+        self.assertEqual(str(messages[2]), '3 systems were created.')
+        self.assertEqual(str(messages[3]), "1 system was skipped. ['system_creator_duplicate_system']")
+        self.assertEqual(str(messages[4]), '2 lines out of 6 lines were faulty (see log file for details).')
+
+    def test_system_creator_post_other_messages(self):
+        """ test creator view """
+
+        # login testuser
+        self.client.login(username='testuser_system_creator', password='Jbf5fZBhpg1aZsCW6L8r')
+        # create objects
+        analysisstatus_1 = Analysisstatus.objects.create(analysisstatus_name = 'analysisstatus_1')
+        systemstatus_2 = Systemstatus.objects.get(systemstatus_name = 'systemstatus_2')
+        # create post data
+        data_dict = {
+            'systemlist': 'system_creator_message_4\n\nsystem_creator_duplicate_system\nsystem_creator_duplicate_system_2',
+            'analysisstatus': analysisstatus_1.analysisstatus_id,
+            'systemstatus': systemstatus_2.systemstatus_id,
+        }
+        # get response
+        response = self.client.post('/system/creator/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(messages[2]), '1 system was created.')
+        self.assertEqual(str(messages[3]), "2 systems were skipped. ['system_creator_duplicate_system', 'system_creator_duplicate_system_2']")
+        self.assertEqual(str(messages[4]), '1 line out of 4 lines was faulty (see log file for details).')

@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.contrib.messages import get_messages
 from django.test import TestCase
 from django.utils import timezone
 from dfirtrack_main.models import System, Systemstatus, Tag, Tagcolor
@@ -160,3 +161,29 @@ class TagCreatorViewTestCase(TestCase):
         response = self.client.post('/tag/creator/', data_dict)
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_tag_creator_post_messages(self):
+        """ test creator view """
+
+        # login testuser
+        self.client.login(username='testuser_tag_creator', password='X4zm4Em28xrKgVMBpsWF')
+        # get objects
+        tag_1 = Tag.objects.get(tag_name='tag_creator_tag_1')
+        tag_2 = Tag.objects.get(tag_name='tag_creator_tag_2')
+        tag_3 = Tag.objects.get(tag_name='tag_creator_tag_3')
+        system_1 = System.objects.get(system_name='tag_creator_system_1')
+        system_2 = System.objects.get(system_name='tag_creator_system_2')
+        system_3 = System.objects.get(system_name='tag_creator_system_3')
+        # create post data
+        data_dict = {
+            'system': [system_1.system_id, system_2.system_id, system_3.system_id],
+            'tag': [tag_1.tag_id, tag_2.tag_id, tag_3.tag_id],
+        }
+        # get response
+        response = self.client.post('/tag/creator/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(messages[0]), 'Tag creator started')
+        self.assertEqual(str(messages[1]), 'Tag creator finished')
+        self.assertEqual(str(messages[2]), '9 tags created for 3 systems.')
