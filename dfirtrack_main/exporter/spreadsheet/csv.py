@@ -307,3 +307,6 @@ def system_cron():
 
     # save spreadsheet to disk
     csv_disk.close()
+
+    # call logger
+    info_logger(username, ' SYSTEM_CSV_FILE_WRITTEN ' + output_file_path)

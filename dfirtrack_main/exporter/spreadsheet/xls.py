@@ -617,3 +617,6 @@ def system_cron():
 
     # save spreadsheet to disk
     xls_disk.save(output_file_path)
+
+    # call logger
+    info_logger(username, ' SYSTEM_XLS_FILE_WRITTEN ' + output_file_path)
