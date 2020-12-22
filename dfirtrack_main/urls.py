@@ -7,7 +7,6 @@ from dfirtrack_main.exporter.spreadsheet import csv as spreadsheet_csv
 from dfirtrack_main.exporter.spreadsheet import xls
 from dfirtrack_main.exporter.markdown import markdown
 from dfirtrack_main.importer.file import csv_config_based, csv_form_based
-from dfirtrack_main.importer.file import filesystem
 from dfirtrack_main.modificator import system_modificator
 
 urlpatterns = [
@@ -104,8 +103,6 @@ urlpatterns = [
     path(r'reportitem/<int:pk>/', reportitem_views.ReportitemDetail.as_view(), name='reportitem_detail'),
     path(r'reportitem/add/', reportitem_views.ReportitemCreate.as_view(), name='reportitem_create'),
     path(r'reportitem/<int:pk>/edit/', reportitem_views.ReportitemUpdate.as_view(), name='reportitem_update'),
-
-    path(r'reportitem/importer/file/filesystem/reportitem/', filesystem.reportitem, name='reportitem_importer_file_filesystem'),
 
     path(r'serviceprovider/', serviceprovider_views.ServiceproviderList.as_view(), name='serviceprovider_list'),
     path(r'serviceprovider/<int:pk>/', serviceprovider_views.ServiceproviderDetail.as_view(), name='serviceprovider_detail'),

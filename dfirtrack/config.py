@@ -21,14 +21,3 @@ EVIDENCE_PATH = expanduser('~') + '/dfirtrack_artifact_storage'
 #TAGLIST = []
 ## add a string used as prefix for clearly identifying previously automatically imported tags (e. g. "AUTO" leads to "AUTO_TAG")
 #TAGPREFIX = ''
-
-# IMPORTER - REPORTITEMS FROM SERVER FILESYSTEM (used in `dfirtrack_main.importer.file.filesystem.reportitem`)
-
-## add a server path (without trailing slash!) where reportitems (preferably in markdown syntax) are stored as <system_name>.md (lowercase!)
-REPORTITEM_FILESYSTEMPATH = ''
-## add a headline for the reportitems to import
-REPORTITEM_HEADLINE = ''
-## add a subheadline for the reportitems to import
-REPORTITEM_SUBHEADLINE = ''
-## if 'True' the reportitem will be deleted from DFIRTrack if it disappears from the filesystem, change to 'False' to change this behaviour
-REPORTITEM_DELETE = True
