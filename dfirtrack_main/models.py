@@ -696,8 +696,6 @@ class System(models.Model):
 
     # main entity information
     system_uuid = models.UUIDField(editable=False, null=True, unique=True)
-    #TODO: use GIRAF logic to generate UUID when saving system
-    #system_uuid = models.UUIDField(editable=False, blank=False, null=False, unique=True)
     system_name = models.CharField(max_length=50)
     system_install_time = models.DateTimeField(blank=True, null=True)
     system_lastbooted_time = models.DateTimeField(blank=True, null=True)
@@ -810,7 +808,6 @@ class System(models.Model):
                 self.previous_analysisstatus = self.analysisstatus
 
             """ create uuid """
-            # TODO: possibly remove, if GIRAF creates uuid
 
             # generate uuid type4 (completely random type)
             self.system_uuid = uuid.uuid4()

@@ -16,15 +16,6 @@ LOGGING_PATH = expanduser('~')
 ## folder to store artifacts on DFIRTrack server (used in `dfirtrack_artifacs.models` and `dfirtrack_main.models`)
 EVIDENCE_PATH = expanduser('~') + '/dfirtrack_artifact_storage'
 
-# IMPORTER - SYSTEMS AND ENTRIES VIA GIRAF API (used in `dfirtrack_main.importer.api.giraf`)
-
-## add an url for giraf (e. g. 'https://giraf.testing.vm')
-GIRAF_URL = ''
-## add an user for giraf api
-GIRAF_USER = ''
-## add a password for giraf api user
-GIRAF_PASS = ''
-
 # deprecated, TODO: possibly use regarding tag handling (dfirtrack_main.importer.file.csv.system)
 ## add a list of strings representing the relevant tags you want to automatically import
 #TAGLIST = []
