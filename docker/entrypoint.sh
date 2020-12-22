@@ -1,7 +1,7 @@
 #!/bin/bash
 
 export APPDIR=/dfirtrack
-export PGPASSWORD=${DB_PASSWORD:-'{{ postgresql_user_password }}']}
+export PGPASSWORD=${DB_PASSWORD:-'{{ postgresql_user_password }}'}
 export PGHOST=${DB_HOST:-'db'}
 export PGUSER=${DB_USER:-'dfirtrack'}
 export PGNAME=${DB_NAME:-'dfirtrack'}
