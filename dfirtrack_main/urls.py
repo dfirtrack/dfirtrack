@@ -5,10 +5,8 @@ from dfirtrack_main.views import analysisstatus_views, analystmemo_views, case_v
 from dfirtrack_main.creator import system_creator, tag_creator, task_creator
 from dfirtrack_main.exporter.spreadsheet import csv as spreadsheet_csv
 from dfirtrack_main.exporter.spreadsheet import xls
-from dfirtrack_main.exporter.markdown import markdown as markdown_exporter
-from dfirtrack_main.importer.api import giraf
+from dfirtrack_main.exporter.markdown import markdown
 from dfirtrack_main.importer.file import csv_config_based, csv_form_based
-from dfirtrack_main.importer.file import filesystem, markdown
 from dfirtrack_main.modificator import system_modificator
 
 urlpatterns = [
@@ -65,9 +63,6 @@ urlpatterns = [
     path(r'entry/add/', entry_views.EntryCreate.as_view(), name='entry_create'),
     path(r'entry/<int:pk>/edit/', entry_views.EntryUpdate.as_view(), name='entry_update'),
 
-    path(r'entry/importer/api/giraf/entry/', giraf.entry, name='entry_importer_api_giraf'),
-    path(r'entry/importer/file/markdown/entry/', markdown.entry, name='entry_importer_file_markdown'),
-
     path(r'headline/', headline_views.HeadlineList.as_view(), name='headline_list'),
     path(r'headline/<int:pk>/', headline_views.HeadlineDetail.as_view(), name='headline_detail'),
     path(r'headline/add/', headline_views.HeadlineCreate.as_view(), name='headline_create'),
@@ -109,8 +104,6 @@ urlpatterns = [
     path(r'reportitem/add/', reportitem_views.ReportitemCreate.as_view(), name='reportitem_create'),
     path(r'reportitem/<int:pk>/edit/', reportitem_views.ReportitemUpdate.as_view(), name='reportitem_update'),
 
-    path(r'reportitem/importer/file/filesystem/reportitem/', filesystem.reportitem, name='reportitem_importer_file_filesystem'),
-
     path(r'serviceprovider/', serviceprovider_views.ServiceproviderList.as_view(), name='serviceprovider_list'),
     path(r'serviceprovider/<int:pk>/', serviceprovider_views.ServiceproviderDetail.as_view(), name='serviceprovider_detail'),
     path(r'serviceprovider/add/', serviceprovider_views.ServiceproviderCreate.as_view(), name='serviceprovider_create'),
@@ -124,10 +117,9 @@ urlpatterns = [
     path(r'system/json/', system_views.get_systems_json, name='system_json'),
 
     path(r'system/creator/', system_creator.system_creator, name='system_creator'),
-    path(r'system/exporter/markdown/system/', markdown_exporter.system, name='system_exporter_markdown'),
+    path(r'system/exporter/markdown/system/', markdown.system, name='system_exporter_markdown'),
     path(r'system/exporter/spreadsheet/csv/system/', spreadsheet_csv.system, name='system_exporter_spreadsheet_csv'),
     path(r'system/exporter/spreadsheet/xls/system/', xls.system, name='system_exporter_spreadsheet_xls'),
-    path(r'system/importer/api/giraf/system/', giraf.system, name='system_importer_api_giraf'),
     path(r'system/importer/file/csv/configbased/', csv_config_based.system, name='system_importer_file_csv_config_based'),
     path(r'system/importer/file/csv/formbased/', csv_form_based.system, name='system_importer_file_csv_form_based'),
     path(r'system/modificator/', system_modificator.system_modificator, name='system_modificator'),

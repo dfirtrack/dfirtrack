@@ -39,8 +39,6 @@ class ArtifactForm(forms.ModelForm):
             'artifact_source_path',
             'system',
             'case',
-            'artifact_requested_time',
-            'artifact_acquisition_time',
             'artifact_md5',
             'artifact_sha1',
             'artifact_sha256',
@@ -53,8 +51,6 @@ class ArtifactForm(forms.ModelForm):
         labels = {
             'artifact_name': gettext_lazy('Artifact name (*)'),
             'artifacttype': gettext_lazy('Artifacttype (*)'),
-            'artifact_requested_time': gettext_lazy('Artifact requested time (YYYY-MM-DD HH:MM:SS)'),
-            'artifact_acquisition_time': gettext_lazy('Artifact acquisition time (YYYY-MM-DD HH:MM:SS)'),
             'artifact_md5': gettext_lazy('MD5'),
             'artifact_sha1': gettext_lazy('SHA1'),
             'artifact_sha256': gettext_lazy('SHA256'),

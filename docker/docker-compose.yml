@@ -20,6 +20,7 @@ services:
             - openssl_o=${openssl_o}
             - fqdn=${fqdn}
             - openssl_ou=${openssl_ou}
+            - disable_https=${disable_https}
         ports:
           - 80:80
           - 443:443

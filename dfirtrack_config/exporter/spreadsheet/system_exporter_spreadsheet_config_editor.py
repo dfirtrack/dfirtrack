@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -21,6 +22,9 @@ def system_exporter_spreadsheet_csv_config_view(request):
             # save settings
             model = form.save(commit=False)
             model.save()
+
+            # create message
+            messages.success(request, 'System exporter spreadsheet CSV config changed')
 
             # call logger
             info_logger(str(request.user), " SYSTEM_EXPORTER_SPREADSHEET_CSV_CONFIG_CHANGED")
@@ -73,6 +77,9 @@ def system_exporter_spreadsheet_xls_config_view(request):
             # save settings
             model = form.save(commit=False)
             model.save()
+
+            # create message
+            messages.success(request, 'System exporter spreadsheet XLS config changed')
 
             # call logger
             info_logger(str(request.user), " SYSTEM_EXPORTER_SPREADSHEET_XLS_CONFIG_CHANGED")

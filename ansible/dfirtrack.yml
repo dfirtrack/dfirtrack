@@ -85,14 +85,3 @@
     prompt: "NGINX | Enter the DIRECTORY of WEBSERVER FILES (ABSOLUTE path WITHOUT trailing slash)"
     default: "/var/www/html"
     private: no
-
-# TODO: wait for GIRAF development
-#  - name: "giraf_fqdn"
-#    prompt: "GIRAF | Enter the GIRAF FQDN"
-#    default: "giraf.testing.vm"
-#    private: no
-#
-#  - name: "giraf_ip"
-#    prompt: "GIRAF | Enter the GIRAF IP"
-#    default: "127.0.0.1"
-#    private: no

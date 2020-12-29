@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.contrib.messages import get_messages
 from django.test import TestCase
 import urllib.parse
 
@@ -62,6 +63,23 @@ class SystemImporterFileCsvFormbasedConfigViewTestCase(TestCase):
         response = self.client.get('/config/system/importer/file/csv/formbased', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_system_importer_file_csv_form_based_config_post_message(self):
+        """ test view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_form_based_config', password='SYYCdriMtm3lk6MPBYmD')
+        # create post data
+        data_dict = {
+            'csv_column_system': 1,
+            'csv_column_ip': 2,
+        }
+        # get response
+        response = self.client.post('/config/system/importer/file/csv/formbased/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(messages[-1]), 'System importer file CSV form based config changed')
 
     def test_system_importer_file_csv_form_based_config_post_redirect(self):
         """ test view """

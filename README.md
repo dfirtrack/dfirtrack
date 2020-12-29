@@ -12,7 +12,7 @@ So, of course, CERTs and SOCs may use DFIRTrack as well, but they may feel it wi
 In contrast to case-based applications, DFIRTrack works in a system-based fashion.
 It keeps track of the status of various systems and the tasks and forensic artifacts associated with them, keeping the analyst well-informed about the status and number of affected systems at any time during the investigation phase up to the remediation phase of the incident response process.
 
-![Systems list view](dfirtrack_docs/images/systems_list.png)
+![Systems list view](screenshots/systems_list.png)
 
 ## Features
 
@@ -54,6 +54,7 @@ The application was created by implementing the following libraries and code:
 * [jQuery](https://github.com/jquery/jquery)
 * [Open Iconic](https://github.com/iconic/open-iconic)
 * [Popper.js](https://github.com/FezVrasta/popper.js)
+* [django-async-messages](https://github.com/codeinthehole/django-async-messages)
 
 ## Development
 

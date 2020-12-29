@@ -368,13 +368,3 @@
     state: enabled
   become: yes
   become_method: sudo
-
-# TODO: wait for GIRAF development
-#- name: GIRAF | Add hostname to /etc/hosts
-#  lineinfile:
-#    dest: /etc/hosts
-#    insertafter: '^127\.0\.1\.1'
-#    line: "{{ giraf_ip }} {{ giraf_fqdn }}"
-#    state: present
-#  become: yes
-#  become_method: sudo

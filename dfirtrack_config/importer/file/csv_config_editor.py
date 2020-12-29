@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -22,6 +23,9 @@ def system_importer_file_csv_config_based_config_view(request):
             model = form.save(commit=False)
             model.save()
             form.save_m2m()
+
+            # create message
+            messages.success(request, 'System importer file CSV config based config changed')
 
             # call logger
             info_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_CONFIG_BASED_CONFIG_CHANGED")
@@ -72,6 +76,9 @@ def system_importer_file_csv_form_based_config_view(request):
             model = form.save(commit=False)
             model.save()
             form.save_m2m()
+
+            # create message
+            messages.success(request, 'System importer file CSV form based config changed')
 
             # call logger
             info_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_FORM_BASED_CONFIG_CHANGED")

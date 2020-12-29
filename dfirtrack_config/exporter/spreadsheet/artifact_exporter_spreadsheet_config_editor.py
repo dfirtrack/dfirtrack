@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -22,6 +23,9 @@ def artifact_exporter_spreadsheet_xls_config_view(request):
             model = form.save(commit=False)
             model.save()
             form.save_m2m()
+
+            # create message
+            messages.success(request, 'Artifact exporter spreadsheet XLS config changed')
 
             # call logger
             info_logger(str(request.user), " ARTIFACT_EXPORTER_SPREADSHEET_XLS_CONFIG_CHANGED")

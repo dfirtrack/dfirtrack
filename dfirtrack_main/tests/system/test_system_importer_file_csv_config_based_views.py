@@ -9,6 +9,7 @@ import os
 import urllib.parse
 
 
+# TODO: finish tests that have been prepared
 class SystemImporterFileCsvConfigbasedViewTestCase(TestCase):
     """ system importer file CSV config-based view tests """
 
@@ -361,6 +362,7 @@ class SystemImporterFileCsvConfigbasedViewTestCase(TestCase):
         self.assertEqual(system_8.systemstatus, systemstatus_1)
         self.assertEqual(system_9.systemstatus, systemstatus_1)
 
+# TODO: finish tests that have been prepared
 #    def test_system_importer_file_csv_config_based_post_complete(self):
 #        """ test importer view """
 #
@@ -682,6 +684,7 @@ class SystemImporterFileCsvConfigbasedViewTestCase(TestCase):
         self.assertTrue(system_skip_2.ip.filter(ip_ip='127.3.3.3').exists())
         self.assertFalse(system_skip_2.ip.filter(ip_ip='127.4.4.4').exists())
 
+# TODO: finish tests that have been prepared
 #    def test_system_importer_file_csv_config_based_post_update_discard_manytomany(self):
 #        """ test importer view """
 #

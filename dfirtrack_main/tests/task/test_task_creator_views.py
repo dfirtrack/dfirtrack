@@ -1,5 +1,6 @@
 from datetime import datetime
 from django.contrib.auth.models import User
+from django.contrib.messages import get_messages
 from django.test import TestCase
 from django.utils import timezone
 from dfirtrack_main.models import System, Systemstatus, Task, Taskname, Taskpriority, Taskstatus
@@ -240,3 +241,33 @@ class TaskCreatorViewTestCase(TestCase):
         response = self.client.post('/task/creator/', data_dict)
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_task_creator_post_messages(self):
+        """ test creator view """
+
+        # login testuser
+        self.client.login(username='testuser_task_creator', password='E5BGU4meULjw7kdtvnzn')
+        # get objects
+        taskname_1 = Taskname.objects.get(taskname_name = 'task_creator_taskname_1')
+        taskname_2 = Taskname.objects.get(taskname_name = 'task_creator_taskname_2')
+        taskname_3 = Taskname.objects.get(taskname_name = 'task_creator_taskname_3')
+        taskpriority_1 = Taskpriority.objects.get(taskpriority_name = 'taskpriority_1')
+        taskstatus_pending = Taskstatus.objects.get(taskstatus_name = '10_pending')
+        system_1 = System.objects.get(system_name = 'task_creator_system_1')
+        system_2 = System.objects.get(system_name = 'task_creator_system_2')
+        system_3 = System.objects.get(system_name = 'task_creator_system_3')
+        # create post data
+        data_dict = {
+            'taskname': [taskname_1.taskname_id, taskname_2.taskname_id, taskname_3.taskname_id],
+            'taskpriority': taskpriority_1.taskpriority_id,
+            'taskstatus': taskstatus_pending.taskstatus_id,
+            'system': [system_1.system_id, system_2.system_id, system_3.system_id],
+        }
+        # get response
+        response = self.client.post('/task/creator/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(messages[0]), 'Task creator started')
+        self.assertEqual(str(messages[1]), 'Task creator finished')
+        self.assertEqual(str(messages[2]), '9 tasks created for 3 systems.')

@@ -1,12 +1,16 @@
+from django.contrib import messages
+from django.contrib.messages import constants
 from django.core.files import File
 from django_q.tasks import async_task
 from dfirtrack_config.models import SystemExporterMarkdownConfigModel
+from dfirtrack_main.async_messages import message_user
 from dfirtrack_main.exporter.markdown.markdown_check_data import check_config
 from dfirtrack_main.exporter.markdown import clean_directory, read_or_create_mkdocs_yml, write_report
 from dfirtrack_main.logger.default_logger import debug_logger, info_logger
 from dfirtrack_main.models import System
 from time import strftime
 import yaml
+
 
 def write_report_systemsorted(system, request_user):
     """ function that prepares return values and pathes """
@@ -72,10 +76,10 @@ def write_report_systemsorted(system, request_user):
 def systemsorted(request):
     """ exports markdown report for all systems (helper function to call the real function) """
 
-    request_user = str(request.user)
+    request_user = request.user
 
     # call logger
-    debug_logger(request_user, " SYSTEM_EXPORTER_MARKDOWN_SYSTEMSORTED_BEGIN")
+    debug_logger(str(request_user), " SYSTEM_EXPORTER_MARKDOWN_SYSTEMSORTED_BEGIN")
 
     # check variables
     stop_exporter_markdown = check_config(request)
@@ -83,6 +87,9 @@ def systemsorted(request):
     # leave if variables caused errors
     if stop_exporter_markdown:
         return
+
+    # show immediate message for user (but only if no errors have occured before)
+    messages.success(request, 'System exporter markdown (sorted by system) started')
 
     # call async function
     async_task(
@@ -96,7 +103,7 @@ def systemsorted_async(request_user):
     """ exports markdown report for all systems """
 
     # call directory cleaning function
-    clean_directory.clean_directory(request_user)
+    clean_directory.clean_directory(str(request_user))
 
     # get all systems
     systems = System.objects.all().order_by('system_name')
@@ -113,7 +120,7 @@ def systemsorted_async(request_user):
             continue
 
         # call writing function (and get return values)
-        rid, rfqdn, rpath = write_report_systemsorted(system, request_user)
+        rid, rfqdn, rpath = write_report_systemsorted(system, str(request_user))
 
         """ build a dict that is used for the system section in mkdocs.yml """
 
@@ -133,7 +140,7 @@ def systemsorted_async(request_user):
     mkdconfpath = model.markdown_path + "/mkdocs.yml"
 
     # read content (dictionary) of mkdocs.yml if existent, else create dummy content
-    mkdconfdict = read_or_create_mkdocs_yml.read_or_create_mkdocs_yml(request_user, mkdconfpath)
+    mkdconfdict = read_or_create_mkdocs_yml.read_or_create_mkdocs_yml(str(request_user), mkdconfpath)
 
     # get pages list
     mkdconflist = mkdconfdict['pages']
@@ -167,7 +174,11 @@ def systemsorted_async(request_user):
     mkdconffile = open(mkdconfpath, "w")
     yaml.dump(mkdconfdict, mkdconffile)
 
+    # close file
     mkdconffile.close()
 
+    # finish message
+    message_user(request_user, 'System exporter markdown (sorted by system) finished', constants.SUCCESS)
+
     # call logger
-    debug_logger(request_user, " SYSTEM_EXPORTER_MARKDOWN_SYSTEMSORTED_END")
+    debug_logger(str(request_user), " SYSTEM_EXPORTER_MARKDOWN_SYSTEMSORTED_END")

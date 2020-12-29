@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.contrib.messages import get_messages
 from django.test import TestCase
 import urllib.parse
 
@@ -62,6 +63,22 @@ class SystemExporterSpreadsheetCsvConfigViewTestCase(TestCase):
         response = self.client.get('/config/system/exporter/spreadsheet/csv', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_system_exporter_spreadsheet_csv_config_post_message(self):
+        """ test view """
+
+        # login testuser
+        self.client.login(username='testuser_system_exporter_spreadsheet_csv_config', password='ocTJgNdjZMafypl2FR43')
+        # create post data
+        data_dict = {
+            'spread_csv_system_id': 'on',
+        }
+        # get response
+        response = self.client.post('/config/system/exporter/spreadsheet/csv/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(messages[-1]), 'System exporter spreadsheet CSV config changed')
 
     def test_system_exporter_spreadsheet_csv_config_post_redirect(self):
         """ test view """

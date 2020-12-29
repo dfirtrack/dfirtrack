@@ -1,24 +1,17 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from dfirtrack_config.models import SystemExporterSpreadsheetCsvConfigModel
-from dfirtrack_main.logger.default_logger import info_logger
+from django.utils import timezone
+from dfirtrack_config.models import MainConfigModel, SystemExporterSpreadsheetCsvConfigModel
+from dfirtrack_main.logger.default_logger import debug_logger, info_logger
 from dfirtrack_main.models import System
 import csv
 from time import strftime
 
-@login_required(login_url="/login")
-def system(request):
 
-    """ prepare file """
-
-    # create csv MIME type object
-    sod = HttpResponse(content_type='text/csv')
-
-    # define filename
-    sod['Content-Disposition'] = 'attachment; filename="systems.csv"'
+def write_csv(username, csv_file):
 
     # create file object for writing lines
-    sod_writer = csv.writer(sod)
+    csv_writer = csv.writer(csv_file)
 
     # get config model
     model = SystemExporterSpreadsheetCsvConfigModel.objects.get(system_exporter_spreadsheet_csv_config_name = 'SystemExporterSpreadsheetCsvConfig')
@@ -70,7 +63,7 @@ def system(request):
         headline.append('Modified')
 
     # write headline
-    sod_writer.writerow(headline)
+    csv_writer.writerow(headline)
 
     """ append systems """
 
@@ -252,24 +245,68 @@ def system(request):
             entryline.append(system_modify_time)
 
         # write entryline
-        sod_writer.writerow(entryline)
+        csv_writer.writerow(entryline)
 
         # call logger
-        info_logger(str(request.user), ' SYSTEM_CSV SYSTEM ' + str(system.system_id) + '||' + system.system_name)
+        debug_logger(username, ' SYSTEM_CSV_SYSTEM_EXPORTED ' + 'system_id:' + str(system.system_id) + '|system_name:' + system.system_name)
 
     # write an empty row
-    sod_writer.writerow([])
+    csv_writer.writerow([])
 
     # prepare string value for actual datetimes
-    actualtime = strftime('%Y-%m-%d %H:%M')
+    actualtime = timezone.now().strftime('%Y-%m-%d %H:%M')
 
     # write meta information
-    sod_writer.writerow(['SOD created:', actualtime])
-    creator = request.user
-    sod_writer.writerow(['Created by:', creator])
+    csv_writer.writerow(['Created:', actualtime])
+    creator = username
+    csv_writer.writerow(['Created by:', creator])
 
     # call logger
-    info_logger(str(request.user), " SYSTEM_CSV_CREATED")
+    info_logger(username, " SYSTEM_CSV_CREATED")
 
     # return csv object
-    return sod
+    return csv_file
+
+@login_required(login_url="/login")
+def system(request):
+
+    # create csv MIME type object
+    csv_browser = HttpResponse(content_type='text/csv')
+
+    # prepare interactive file including filename
+    csv_browser['Content-Disposition'] = 'attachment; filename="systems.csv"'
+
+    # get username from request object
+    username = str(request.user)
+
+    # call main function
+    csv_browser = write_csv(username, csv_browser)
+
+    # return spreadsheet object to browser
+    return csv_browser
+
+def system_cron():
+
+    # prepare time for output file
+    filetime = timezone.now().strftime('%Y%m%d_%H%M')
+
+    # get config
+    main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+
+    # prepare output file path
+    output_file_path = main_config_model.cron_export_path + '/' + filetime + '_systems.csv'
+
+    # open output file
+    csv_disk = open(output_file_path, 'w')
+
+    # get username from config
+    username = main_config_model.cron_username
+
+    # call main function
+    csv_disk = write_csv(username, csv_disk)
+
+    # save spreadsheet to disk
+    csv_disk.close()
+
+    # call logger
+    info_logger(username, ' SYSTEM_CSV_FILE_WRITTEN ' + output_file_path)

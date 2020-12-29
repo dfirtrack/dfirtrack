@@ -104,33 +104,6 @@
     <!-- button row -->
     </div>
 
-    <!-- headlines -->
-    <div class="row top-distance copy-false">
-        <div class="col-6">
-        </div>
-        <div class="col-2">
-            <h5>Import reportitems</h5>
-        </div>
-    </div>
-
-    <!-- button row -->
-    <div class="row copy-false">
-
-        <!-- placeholder -->
-        <div class="col-6">
-        </div>
-
-        <!-- reportitem filesystem importer button -->
-        <div class="col-2">
-            <a href="{% url 'reportitem_importer_file_filesystem' %}" type="button" class="btn btn-light copy-false">
-                <img src="{% static 'dfirtrack_main/icons/list.svg' %}" class="icon right-distance copy-false" alt="icon">
-                Import from filesystem
-            </a>
-        </div>
-
-    <!-- button row -->
-    </div>
-
 <!-- button block -->
 </div>
 
@@ -153,12 +126,14 @@
         <!-- export CSV button -->
         <div class="col-2 btn-group">
             <a href="{% url 'system_exporter_spreadsheet_csv' %}" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/list.svg' %}" class="icon right-distance copy-false" alt="icon">  Export CSV</a>
+            <a href="/admin/django_q/schedule/add/?name=system_spreadsheet_exporter_csv&func=dfirtrack_main.exporter.spreadsheet.csv.system_cron" target="_blank" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/clock.svg' %}" class="icon copy-false" alt="icon"></a>
             <button onclick="system_exporter_spreadsheet_csv_config_popup()" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/wrench.svg' %}" class="icon copy-false" alt="icon"> </a>
         </div>
 
         <!-- export XLS button -->
         <div class="col-4 btn-group">
             <a href="{% url 'system_exporter_spreadsheet_xls' %}" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/spreadsheet.svg' %}" class="icon right-distance copy-false" alt="icon"> Export XLS</a>
+            <a href="/admin/django_q/schedule/add/?name=system_spreadsheet_exporter_xls&func=dfirtrack_main.exporter.spreadsheet.xls.system_cron" target="_blank" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/clock.svg' %}" class="icon copy-false" alt="icon"></a>
             <button onclick="system_exporter_spreadsheet_xls_config_popup()" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/wrench.svg' %}" class="icon copy-false" alt="icon"> </a>
         </div>
 
@@ -183,35 +158,12 @@
         <!-- headlines -->
         <div class="row">
             <div class="col-6">
-                <h5>Import via GIRAF API</h5>
-            </div>
-            <div class="col-6">
                 <h5>Show API view</h5>
             </div>
         </div>
 
         <!-- button row -->
         <div class="row">
-
-            <!-- import systems button -->
-            <div class="col-2">
-                <a href="{% url 'system_importer_api_giraf' %}" type="button" class="btn btn-light copy-false">
-                    <img src="{% static 'dfirtrack_main/icons/cloud-download.svg' %}" class="icon right-distance copy-false" alt="icon">
-                    Import systems
-                </a>
-            </div>
-
-            <!-- import timeline entries button -->
-            <div class="col-2">
-                <a href="{% url 'entry_importer_api_giraf' %}?redirector=system" type="button" class="btn btn-light copy-false">
-                    <img src="{% static 'dfirtrack_main/icons/cloud-download.svg' %}" class="icon right-distance copy-false" alt="icon">
-                    Import timeline entries
-                </a>
-            </div>
-
-            <!-- placeholder -->
-            <div class="col-2">
-            </div>
 
             <!-- show api view button -->
             <div class="col-2">

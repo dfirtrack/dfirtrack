@@ -359,3 +359,43 @@ class SystemExporterMarkdownViewTestCase(TestCase):
         self.client.get('/system/exporter/markdown/system/', follow=True)
         # compare
         self.assertTrue(os.path.exists('/tmp/dfirtrack_test/docs/systems/'))
+
+    def test_system_exporter_markdown_systemsorted_messages(self):
+        """ test exporter view """
+
+        # login testuser
+        self.client.login(username='testuser_system_exporter_markdown', password='2anJuuSjzjLmb2pOYuLf')
+        # clean directory
+        clean_markdown_path('/tmp/dfirtrack_test')
+        # change config
+        system_exporter_markdown_config_model = SystemExporterMarkdownConfigModel.objects.get(system_exporter_markdown_config_name = 'SystemExporterMarkdownConfig')
+        system_exporter_markdown_config_model.markdown_path = '/tmp/dfirtrack_test'
+        system_exporter_markdown_config_model.markdown_sorting = 'sys'
+        system_exporter_markdown_config_model.save()
+        # get response
+        response = self.client.get('/system/exporter/markdown/system/', follow=True)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(messages[0]), 'System exporter markdown (sorted by system) started')
+        self.assertEqual(str(messages[1]), 'System exporter markdown (sorted by system) finished')
+
+    def test_system_exporter_markdown_domainsorted_messages(self):
+        """ test exporter view """
+
+        # login testuser
+        self.client.login(username='testuser_system_exporter_markdown', password='2anJuuSjzjLmb2pOYuLf')
+        # clean directory
+        clean_markdown_path('/tmp/dfirtrack_test')
+        # change config
+        system_exporter_markdown_config_model = SystemExporterMarkdownConfigModel.objects.get(system_exporter_markdown_config_name = 'SystemExporterMarkdownConfig')
+        system_exporter_markdown_config_model.markdown_path = '/tmp/dfirtrack_test'
+        system_exporter_markdown_config_model.markdown_sorting = 'dom'
+        system_exporter_markdown_config_model.save()
+        # get response
+        response = self.client.get('/system/exporter/markdown/system/', follow=True)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(messages[0]), 'System exporter markdown (sorted by domain) started')
+        self.assertEqual(str(messages[1]), 'System exporter markdown (sorted by domain) finished')

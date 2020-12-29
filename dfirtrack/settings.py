@@ -9,7 +9,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'CHANGEME'
+SECRET_KEY = os.getenv('SECRET_KEY', 'CHANGEME')
 
 # Application definition
 
@@ -36,8 +36,17 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'dfirtrack_main.async_messages.middleware.async_messages_middleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# use database cache for async messages
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'dfirtrack_async_messages',
+    }
+}
 
 ROOT_URLCONF = 'dfirtrack.urls'
 
@@ -130,10 +139,14 @@ LOGGING = {
 
 Q_CLUSTER = {
     'name': 'dfirtrack',
-    'workers': 4,
-    'orm': 'default',
-    'label': 'Django Q',
-    #'sync': True,
+    'orm': 'default',                   # use database backend as message broker
+    'label': 'DFIRTrack Q Cluster',     # label for admin page
+    'catch_up': False,                  # do not catch up postponed tasks after downtime
+    'max_attempts': 1,                  # do not retry failed task
+    'timeout': 1800,                    # timeout tasks after half an hour
+    'retry': 1801,                      # retry tasks only after timeout time (skip retry is not possible afaik)
+    'save_limit': 0,                    # save unlimited successful tasks in the database
+    #'sync': True,                       # remove comment for synchronous execution (done for testing via 'dfirtrack.test_settings')
 }
 
 REST_FRAMEWORK = {
