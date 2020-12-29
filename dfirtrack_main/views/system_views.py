@@ -1,20 +1,20 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.exceptions import FieldError
-from django.http import  JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import DetailView, ListView
-from django.templatetags.static import static
-from django.template.loader import render_to_string
-from django.core.exceptions import FieldError
+from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_artifacts.models import Artifact
 from dfirtrack_config.models import MainConfigModel
 from dfirtrack_main.forms import SystemForm, SystemNameForm
 from dfirtrack_main.logger.default_logger import debug_logger, warning_logger
 from dfirtrack_main.models import Ip, System
 from dfirtrack.settings import INSTALLED_APPS as installed_apps
+from django.http import  JsonResponse
+from django.templatetags.static import static
+from django.template.loader import render_to_string
+from django.core.exceptions import FieldError
 import ipaddress
 
 class SystemList(LoginRequiredMixin, ListView):
