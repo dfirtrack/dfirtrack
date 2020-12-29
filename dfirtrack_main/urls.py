@@ -121,6 +121,7 @@ urlpatterns = [
     path(r'system/<int:pk>/', system_views.SystemDetail.as_view(), name='system_detail'),
     path(r'system/add/', system_views.SystemCreate.as_view(), name='system_create'),
     path(r'system/<int:pk>/edit/', system_views.SystemUpdate.as_view(), name='system_update'),
+    path(r'system/json/', system_views.get_systems_json, name='system_json'),
 
     path(r'system/creator/', system_creator.system_creator, name='system_creator'),
     path(r'system/exporter/markdown/system/', markdown_exporter.system, name='system_exporter_markdown'),
