@@ -205,6 +205,12 @@
     app_path: "{{ dfirtrack_dir }}"
     virtualenv: "{{ venv_dir }}"
 
+- name: DJANGO | Create cache table
+  django_manage:
+    command: "createcachetable"
+    app_path: "{{ dfirtrack_dir }}"
+    virtualenv: "{{ venv_dir }}"
+
 - name: NGINX | Install nginx
   apt:
     name: nginx
