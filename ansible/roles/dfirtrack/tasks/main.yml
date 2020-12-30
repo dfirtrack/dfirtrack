@@ -78,6 +78,8 @@
 
 - name: MARKDOWN | Init project
   command: "chdir={{ markdown_dir }} mkdocs new {{ markdown_proj }}"
+  environment:
+    LC_ALL: "C.UTF-8"
 
 - name: MARKDOWN | Create subdirectory for systems
   file:
