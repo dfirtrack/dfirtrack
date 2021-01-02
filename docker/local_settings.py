@@ -7,7 +7,7 @@ These settings extend the defaul dfirtrack.settings.
 import os
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [os.getenv('FQDN', '{{ fqdn }}'), 'localhost']
 
