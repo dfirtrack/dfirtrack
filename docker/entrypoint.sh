@@ -20,6 +20,7 @@ fi
 
 service nginx start
 $APPDIR/manage.py migrate
+$APPDIR/manage.py createcachetable
 $APPDIR/manage.py qcluster &
 gunicorn --log-file=/var/log/gunicorn.log --workers 4 --bind localhost:5000 dfirtrack.wsgi &
 sleep 10
