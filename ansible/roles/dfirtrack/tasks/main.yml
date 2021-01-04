@@ -32,9 +32,8 @@
   apt:
     name:
       - libpq-dev
-      - python-setuptools
+      - python3-setuptools
       - python3-pip
-      - python3-virtualenv
       - virtualenv
     state: present
   become: yes
@@ -97,19 +96,11 @@
     group: "{{ ansible_user }}"
     mode: '0755'
 
-- name: POSTGRESQL | Install psycopg2 to make ansible talk with postgresql
-  apt:
-    name: python-psycopg2
-  become: yes
-  become_method: sudo
-  when: not (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.04')
-
 - name: POSTGRESQL | Install psycopg2 to make ansible talk with postgresql (Ubuntu 20)
   apt:
     name: python3-psycopg2
   become: yes
   become_method: sudo
-  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.04'
 
 - name: POSTGRESQL | Install acl to make user switching work (Ubuntu 20)
   apt:
@@ -164,11 +155,6 @@
   set_fact:
     postgresql_config: "/etc/postgresql/9.6/main/pg_hba.conf"
   when: ansible_distribution == 'Debian' and ansible_distribution_release == 'stretch'
-
-- name: POSTGRESQL | Set path of config (Ubuntu 16.04)
-  set_fact:
-    postgresql_config: "/etc/postgresql/9.5/main/pg_hba.conf"
-  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '16.04'
 
 - name: POSTGRESQL | Set path of config (Ubuntu 18.04)
   set_fact:
