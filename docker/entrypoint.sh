@@ -1,7 +1,7 @@
 #!/bin/bash
 
 export APPDIR=/dfirtrack
-export PGPASSWORD=${DB_PASSWORD:-'{{ postgresql_user_password }}']}
+export PGPASSWORD=${DB_PASSWORD:-'{{ postgresql_user_password }}'}
 export PGHOST=${DB_HOST:-'db'}
 export PGUSER=${DB_USER:-'dfirtrack'}
 export PGNAME=${DB_NAME:-'dfirtrack'}
@@ -20,6 +20,7 @@ fi
 
 service nginx start
 $APPDIR/manage.py migrate
+$APPDIR/manage.py createcachetable
 $APPDIR/manage.py qcluster &
 gunicorn --log-file=/var/log/gunicorn.log --workers 4 --bind localhost:5000 dfirtrack.wsgi &
 sleep 10
