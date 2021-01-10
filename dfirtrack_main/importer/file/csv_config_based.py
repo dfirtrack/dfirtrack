@@ -39,6 +39,7 @@ def system(request):
 
             # check file for csv respectively some kind of text file
             file_check = check_file(request, rows)
+
             # leave system_importer_file_csv if file check throws errors
             if not file_check:
                 return redirect(reverse('system_list'))

@@ -192,6 +192,7 @@ def system(request):
                 'systemstatus': 2,
                 'analysisstatus': 1,
             })
+
             # show form again
             return render(
                 request,
