@@ -41,7 +41,7 @@ class SystemList(LoginRequiredMixin, ListView):
 
         # return dictionary with additional values for template
         return context
-    
+
 class SystemDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = System
@@ -125,7 +125,6 @@ class SystemUpdate(LoginRequiredMixin, UpdateView):
     else:
         # enforce default value False
         form_class = SystemForm
-
 
     def get(self, request, *args, **kwargs):
         system = self.get_object()

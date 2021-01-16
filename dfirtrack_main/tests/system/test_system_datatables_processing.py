@@ -242,4 +242,3 @@ class SystemDatatablesProcessingTestCase(TestCase):
         # compare
         self.assertEqual(int(data['recordsFiltered']), 1)
         self.assertTrue('system_1' in data['data'][0]['system_name'])
-
