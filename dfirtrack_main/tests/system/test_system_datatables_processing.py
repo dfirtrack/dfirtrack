@@ -1,0 +1,178 @@
+from django.contrib.auth.models import User
+from django.contrib.messages import get_messages
+from django.test import TestCase
+from django.utils import timezone
+from dfirtrack.settings import INSTALLED_APPS as installed_apps
+from dfirtrack_artifacts.models import Artifact
+from django.http import QueryDict
+#from dfirtrack_config.models import MainConfigModel
+from dfirtrack_main.models import Ip, System, Systemstatus, Analysisstatus, Case, Tag, Tagcolor
+
+import urllib.parse
+import json
+
+class SystemDatatablesProcessingTestCase(TestCase):
+    """ system datatables (server-side) processing tests """
+
+    @classmethod
+    def setUpTestData(cls):
+
+        # create user
+        test_user = User.objects.create_user(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+
+        # create object
+        systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
+        systemstatus_2 = Systemstatus.objects.create(systemstatus_name='systemstatus_2')
+
+        # create object
+        tagcolor_1 = Tagcolor.objects.create(tagcolor_name='tagcolor_1')
+
+        # create object
+        tag_1 = Tag.objects.create(
+            tag_name = 'tag_1',
+            tagcolor = tagcolor_1,
+        )
+
+        # create object
+        case_1 = Case.objects.create(
+            case_name = 'case_1',
+            case_is_incident = True,
+            case_created_by_user_id = test_user,
+        )
+
+        # create object
+        analysisstatus_1 = Analysisstatus.objects.create(analysisstatus_name='analysisstatus_1')
+
+        # create object
+        system_1 = System.objects.create(
+            system_name = 'system_1',
+            systemstatus = systemstatus_1,
+            analysisstatus = analysisstatus_1,
+            system_modify_time = timezone.now(),
+            system_created_by_user_id = test_user,
+            system_modified_by_user_id = test_user,
+        )
+        system_1.case.add(case_1)
+        system_1.tag.add(tag_1)
+
+        # create object
+        System.objects.create(
+            system_name = 'system_2',
+            systemstatus = systemstatus_2,
+            system_modify_time = timezone.now(),
+            system_created_by_user_id = test_user,
+            system_modified_by_user_id = test_user,
+        )
+
+
+    def test_dt_processing_logged_in(self):
+        """ test system datatables processing """
+        # login testuser
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get response
+        qdict = QueryDict('', mutable = True)
+        data = {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': '', 'columns[1][data]': 'system_name', 'draw': '1'}
+        qdict.update(data)
+        response = self.client.get('/system/json/', qdict, HTTP_REFERER='/system/')
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_dt_processing_not_logged_in(self):
+        """ test system datatables processing """
+        # get response
+        response = self.client.get('/system/json/', {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': '', 'columns[1][data]': 'system_name', 'draw': '1'}, HTTP_REFERER='/system/')
+        # compare
+        self.assertEqual(response.status_code, 403)
+
+    def test_dt_search(self):
+        """ test system datatables processing """
+        # login testuser
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get response
+        response = self.client.get('/system/json/', {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': 'system_1', 'columns[1][data]': 'system_name', 'draw': '1'}, HTTP_REFERER='/system/')
+        data = json.loads(response.content)
+        # compare
+        self.assertEqual(int(data['recordsFiltered']), 1)
+        self.assertTrue('system_1' in data['data'][0]['system_name'])
+
+    def test_dt_no_search(self):
+        """ test system datatables processing """
+        # login testuser
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get response
+        response = self.client.get('/system/json/', {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': '', 'columns[1][data]': 'system_name', 'draw': '1'}, HTTP_REFERER='/system/')
+        data = json.loads(response.content)
+        # compare
+        self.assertEqual(int(data['recordsFiltered']), 2)
+        self.assertTrue(len(data['data']) == 2)
+
+    def test_dt_referer_systemstatus(self):
+        """ test system datatables processing """
+        # login testuser
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get data
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_2').systemstatus_id
+        # get response
+        response = self.client.get('/system/json/', {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': '', 'columns[1][data]': 'system_name', 'draw': '1'}, HTTP_REFERER='/systemstatus/{}/'.format(systemstatus_id))
+        data = json.loads(response.content)
+        # compare
+        self.assertEqual(int(data['recordsTotal']), 2)
+        self.assertEqual(int(data['recordsFiltered']), 1)
+        self.assertTrue('system_2' in data['data'][0]['system_name'])
+
+    def test_dt_referer_case(self):
+        """ test system datatables processing """
+        # login testuser
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get data
+        case_id = Case.objects.get(case_name='case_1').case_id
+        # get response
+        response = self.client.get('/system/json/', {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': '', 'columns[1][data]': 'system_name', 'draw': '1'}, HTTP_REFERER='/case/{}/'.format(case_id))
+        data = json.loads(response.content)
+        # compare
+        self.assertEqual(int(data['recordsTotal']), 2)
+        self.assertEqual(int(data['recordsFiltered']), 1)
+        self.assertTrue('system_1' in data['data'][0]['system_name'])
+
+    def test_dt_referer_analysisstatus(self):
+        """ test system datatables processing """
+        # login testuser
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get data
+        analysisstatus_id = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1').analysisstatus_id
+        # get response
+        response = self.client.get('/system/json/', {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': '', 'columns[1][data]': 'system_name', 'draw': '1'}, HTTP_REFERER='/analysisstatus/{}/'.format(analysisstatus_id))
+        data = json.loads(response.content)
+        # compare
+        self.assertEqual(int(data['recordsTotal']), 2)
+        self.assertEqual(int(data['recordsFiltered']), 1)
+        self.assertTrue('system_1' in data['data'][0]['system_name'])
+
+    def test_dt_referer_tag(self):
+        """ test system datatables processing """
+        # login testuser
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get data
+        tag_id = Tag.objects.get(tag_name='tag_1').tag_id
+        # get response
+        response = self.client.get('/system/json/', {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': '', 'columns[1][data]': 'system_name', 'draw': '1'}, HTTP_REFERER='/tag/{}/'.format(tag_id))
+        data = json.loads(response.content)
+        # compare
+        self.assertEqual(int(data['recordsTotal']), 2)
+        self.assertEqual(int(data['recordsFiltered']), 1)
+        self.assertTrue('system_1' in data['data'][0]['system_name'])
+
+    def test_dt_search_irregular_string(self):
+        """ test system datatables processing """
+        # login testuser
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get response
+        qdict = QueryDict('', mutable = True)
+        data = {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': 'system_1!', 'columns[1][data]': 'system_name', 'draw': '1'}
+        qdict.update(data)
+        response = self.client.get('/system/json/', qdict, HTTP_REFERER='/system/')
+        data = json.loads(response.content)
+        # compare
+        self.assertEqual(int(data['recordsFiltered']), 2)
+
+# TODO: add further testcases, remove debug printing!

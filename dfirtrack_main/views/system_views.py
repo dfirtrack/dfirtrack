@@ -246,7 +246,7 @@ def get_systems_json(request):
         order_dir = '' if (get_params['order[0][dir]']=='asc') else '-'
         search_value = get_params['search[value]']
         # check that string contains only alphanumerical chars or spaces
-        if not all(x.isalnum() or x.isspace() for x in search_value):
+        if not all((x.isalnum() or x.isspace() or x == '_' or x == '-') for x in search_value):
             search_value = ''
 
         # if no search value is given, get all objects and order them according to user setting, if the table is not generated on the general system overview page, only show the systems with the relevant id 
@@ -292,21 +292,9 @@ def get_systems_json(request):
                             tag_id = referer.split("/")[-2]
                             filter_kwargs["tag__tag_id"] = tag_id
                         system_values = system_values | System.objects.filter(**filter_kwargs)
-                    # for foreign keys, an exception is thrown -> adapt the query
+                    # for foreign keys, an exception is thrown -> adapt the query - note: to be safe, better add another elif in the try statement above
                     except FieldError:
                         filter_kwargs = {tmp_column_name+'__'+tmp_column_name+'_name'+'__icontains': search_value}
-                        if '/analysisstatus/' in referer:
-                            analysisstatus_id = referer.split("/")[-2]
-                            filter_kwargs["analysisstatus__analysisstatus_id"] = analysisstatus_id
-                        elif '/systemstatus/' in referer:
-                            systemstatus_id = referer.split("/")[-2]
-                            filter_kwargs["systemstatus__systemstatus_id"] = systemstatus_id
-                        elif '/case/' in referer:
-                            case_id = referer.split("/")[-2]
-                            filter_kwargs["case__case_id"] = case_id
-                        elif '/tag/' in referer:
-                            tag_id = referer.split("/")[-2]
-                            filter_kwargs["tag__tag_id"] = tag_id
                         system_values = system_values | System.objects.filter(**filter_kwargs)
             # make the resulting queryset unique and sort it according to user settings
             system_values = system_values.distinct().order_by(order_dir+order_column_name)
@@ -363,6 +351,7 @@ def get_systems_json(request):
 
         # convert dict with data to jsonresponse
         response = JsonResponse(json_dict, safe=False)
+    # user is not logged in - possible TODO: should this be logged somewhere?
     else: 
         response = HttpResponseForbidden()
     return response
