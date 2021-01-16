@@ -150,8 +150,8 @@ class SystemImporterFileCsvConfigbasedConfigModel(models.Model):
     csv_remove_case = models.BooleanField(blank=True)
     csv_remove_company = models.BooleanField(blank=True)
     csv_remove_tag = models.BooleanField(blank=True)
-    csv_default_systemstatus = models.ForeignKey('dfirtrack_main.Systemstatus', on_delete=models.SET_NULL, related_name='system_importer_file_csv_configbased_config_systemstatus')
-    csv_default_analysisstatus = models.ForeignKey('dfirtrack_main.Analysisstatus', on_delete=models.SET_NULL, related_name='system_importer_file_csv_configbased_config_analysisstatus')
+    csv_default_systemstatus = models.ForeignKey('dfirtrack_main.Systemstatus', on_delete=models.PROTECT, related_name='system_importer_file_csv_configbased_config_systemstatus')
+    csv_default_analysisstatus = models.ForeignKey('dfirtrack_main.Analysisstatus', on_delete=models.PROTECT, related_name='system_importer_file_csv_configbased_config_analysisstatus')
     csv_default_reason = models.ForeignKey('dfirtrack_main.Reason', on_delete=models.SET_NULL, related_name='system_importer_file_csv_configbased_config_reason', blank=True, null=True)
     csv_default_domain = models.ForeignKey('dfirtrack_main.Domain', on_delete=models.SET_NULL, related_name='system_importer_file_csv_configbased_config_domain', blank=True, null=True)
     csv_default_dnsname = models.ForeignKey('dfirtrack_main.Dnsname', on_delete=models.SET_NULL, related_name='system_importer_file_csv_configbased_config_dnsname', blank=True, null=True)
@@ -176,9 +176,14 @@ class SystemImporterFileCsvCronbasedConfigModel(models.Model):
     csv_column_system = models.IntegerField()
     csv_skip_existing_system = models.BooleanField(blank=True)
     csv_headline = models.BooleanField(blank=True)
+    csv_import_path = models.CharField(max_length=4096, default='/tmp')
+    csv_import_filename = models.CharField(max_length=255, default='systems.csv')
+    # TODO: switch to user model (needs changes during migration)
+    csv_import_username = models.CharField(max_length=255, default='cron')
 
-    csv_default_systemstatus = models.ForeignKey('dfirtrack_main.Systemstatus', on_delete=models.SET_NULL, related_name='system_importer_file_csv_cronbased_config_systemstatus')
-    csv_default_analysisstatus = models.ForeignKey('dfirtrack_main.Analysisstatus', on_delete=models.SET_NULL, related_name='system_importer_file_csv_cronbased_config_analysisstatus')
+    # mandatory foreignkey relations
+    csv_default_systemstatus = models.ForeignKey('dfirtrack_main.Systemstatus', on_delete=models.PROTECT, related_name='system_importer_file_csv_cronbased_config_systemstatus')
+    csv_default_analysisstatus = models.ForeignKey('dfirtrack_main.Analysisstatus', on_delete=models.PROTECT, related_name='system_importer_file_csv_cronbased_config_analysisstatus')
 
     # config fields: either dynamically provided by CSV (...choice... 'True' and ...column...) or nothing provided (fixed value for all systems makes no sense)
     csv_choice_ip = models.BooleanField(blank=True)

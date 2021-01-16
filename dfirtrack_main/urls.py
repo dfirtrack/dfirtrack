@@ -6,7 +6,7 @@ from dfirtrack_main.creator import system_creator, tag_creator, task_creator
 from dfirtrack_main.exporter.spreadsheet import csv as spreadsheet_csv
 from dfirtrack_main.exporter.spreadsheet import xls
 from dfirtrack_main.exporter.markdown import markdown
-from dfirtrack_main.importer.file import csv_config_based, csv_cron_based, csv_form_based
+from dfirtrack_main.importer.file import csv_config_based, csv_form_based
 from dfirtrack_main.modificator import system_modificator
 
 urlpatterns = [
@@ -120,7 +120,6 @@ urlpatterns = [
     path(r'system/exporter/spreadsheet/csv/system/', spreadsheet_csv.system, name='system_exporter_spreadsheet_csv'),
     path(r'system/exporter/spreadsheet/xls/system/', xls.system, name='system_exporter_spreadsheet_xls'),
     path(r'system/importer/file/csv/configbased/', csv_config_based.system, name='system_importer_file_csv_config_based'),
-    path(r'system/importer/file/csv/cronbased/', csv_cron_based.system, name='system_importer_file_csv_cron_based'),
     path(r'system/importer/file/csv/formbased/', csv_form_based.system, name='system_importer_file_csv_form_based'),
     path(r'system/modificator/', system_modificator.system_modificator, name='system_modificator'),
 
