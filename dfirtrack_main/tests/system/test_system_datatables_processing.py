@@ -150,7 +150,7 @@ class SystemDatatablesProcessingTestCase(TestCase):
         data = json.loads(response.content)
         # compare
         self.assertEqual(int(data['recordsFiltered']), 2)
-        self.assertTrue('system_2' in data['data'][0]['system_name'])
+        self.assertTrue('system_2' in data['data'][0]['system_name'] or 'system_2' in data['data'][1]['system_name'])
 
     def test_dt_referer_systemstatus_w_search(self):
         """ test system datatables processing """
@@ -176,7 +176,7 @@ class SystemDatatablesProcessingTestCase(TestCase):
         data = json.loads(response.content)
         # compare
         self.assertEqual(int(data['recordsFiltered']), 2)
-        self.assertTrue('system_1' in data['data'][0]['system_name'])
+        self.assertTrue('system_1' in data['data'][0]['system_name'] or 'system_1' in data['data'][1]['system_name'])
 
     def test_dt_referer_case_w_search(self):
         """ test system datatables processing """
@@ -202,7 +202,7 @@ class SystemDatatablesProcessingTestCase(TestCase):
         data = json.loads(response.content)
         # compare
         self.assertEqual(int(data['recordsFiltered']), 2)
-        self.assertTrue('system_1' in data['data'][0]['system_name'])
+        self.assertTrue('system_1' in data['data'][0]['system_name'] or 'system_1' in data['data'][1]['system_name'])
 
     def test_dt_referer_analysisstatus_w_search(self):
         """ test system datatables processing """
@@ -228,7 +228,7 @@ class SystemDatatablesProcessingTestCase(TestCase):
         data = json.loads(response.content)
         # compare
         self.assertEqual(int(data['recordsFiltered']), 2)
-        self.assertTrue('system_1' in data['data'][0]['system_name'])
+        self.assertTrue('system_1' in data['data'][0]['system_name'] or 'system_1' in data['data'][1]['system_name'])
 
     def test_dt_referer_tag_w_search(self):
         """ test system datatables processing """
