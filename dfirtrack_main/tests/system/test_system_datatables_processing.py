@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
-from django.http import QueryDict
 from dfirtrack_main.models import System, Systemstatus, Analysisstatus, Case, Tag, Tagcolor
 import json
 
@@ -75,11 +74,7 @@ class SystemDatatablesProcessingTestCase(TestCase):
         """ test system datatables processing """
         # login testuser
         self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
-        # get response
-        qdict = QueryDict('', mutable = True)
-        data = {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': '', 'columns[1][data]': 'system_name', 'draw': '1'}
-        qdict.update(data)
-        response = self.client.get('/system/json/', qdict, HTTP_REFERER='/system/')
+        response = self.client.get('/system/json/', {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': '', 'columns[1][data]': 'system_name', 'draw': '1'}, HTTP_REFERER='/system/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -117,10 +112,7 @@ class SystemDatatablesProcessingTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get response
-        qdict = QueryDict('', mutable = True)
-        data = {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': 'system_1!', 'columns[1][data]': 'system_name', 'draw': '1'}
-        qdict.update(data)
-        response = self.client.get('/system/json/', qdict, HTTP_REFERER='/system/')
+        response = self.client.get('/system/json/', {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': 'system_1!', 'columns[1][data]': 'system_name', 'draw': '1'}, HTTP_REFERER='/system/')
         data = json.loads(response.content)
         # compare
         self.assertEqual(int(data['recordsFiltered']), 3)
@@ -130,13 +122,16 @@ class SystemDatatablesProcessingTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get response
-        qdict = QueryDict('', mutable = True)
-        data = {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': '1', 'columns[1][data]': 'system_name', 'draw': '1'}
-        qdict.update(data)
-        response = self.client.get('/system/json/', qdict, HTTP_REFERER='/system/')
-        data = json.loads(response.content)
+        response_1 = self.client.get('/system/json/', {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': '1', 'columns[1][data]': 'system_name', 'draw': '1'}, HTTP_REFERER='/system/')
+        data_1 = json.loads(response.content)
+        response_2 = self.client.get('/system/json/', {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': '2', 'columns[1][data]': 'system_name', 'draw': '1'}, HTTP_REFERER='/system/')
+        data_2 = json.loads(response.content)
+        response_3 = self.client.get('/system/json/', {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': '3', 'columns[1][data]': 'system_name', 'draw': '1'}, HTTP_REFERER='/system/')
+        data_3 = json.loads(response.content)
         # compare
-        self.assertEqual(int(data['recordsFiltered']), 1)
+        self.assertEqual(int(data_1['recordsFiltered']), 1)
+        self.assertEqual(int(data_2['recordsFiltered']), 1)
+        self.assertEqual(int(data_3['recordsFiltered']), 1)
 
 
     def test_dt_referer_systemstatus_wo_search(self):
