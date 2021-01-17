@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.models import User
 from dfirtrack_artifacts.models import Artifactstatus
 from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel, MainConfigModel, SystemExporterMarkdownConfigModel, SystemExporterSpreadsheetCsvConfigModel, SystemExporterSpreadsheetXlsConfigModel, SystemImporterFileCsvConfigbasedConfigModel, SystemImporterFileCsvCronbasedConfigModel, SystemImporterFileCsvFormbasedConfigModel
 from dfirtrack_main.models import Analysisstatus, Case, Company, Dnsname, Domain, Location, Os, Reason, Recommendation, Serviceprovider, Systemstatus, Systemtype, Tag
@@ -460,6 +461,14 @@ class SystemImporterFileCsvCronbasedConfigForm(forms.ModelForm):
     """ system importer CSV config form (cron based only) """
 
     # reorder field choices
+    csv_import_username = forms.ModelChoiceField(
+        queryset = User.objects.order_by('username'),
+        label = 'Use this user for the import (*)',
+        required = True,
+        widget = forms.RadioSelect(),
+    )
+
+    # reorder field choices
     csv_default_systemstatus = forms.ModelChoiceField(
         queryset = Systemstatus.objects.order_by('systemstatus_name'),
         label = 'Set systemstatus (*)',
@@ -477,63 +486,63 @@ class SystemImporterFileCsvCronbasedConfigForm(forms.ModelForm):
 
     # reorder field choices
     csv_default_dnsname = forms.ModelChoiceField(
-        label = 'Set DNS name',
+        label = 'Set from database',
         queryset = Dnsname.objects.order_by('dnsname_name'),
         required = False,
     )
 
     # reorder field choices
     csv_default_domain = forms.ModelChoiceField(
-        label = 'Set domain',
+        label = 'Set from database',
         queryset = Domain.objects.order_by('domain_name'),
         required = False,
     )
 
     # reorder field choices
     csv_default_location = forms.ModelChoiceField(
-        label = 'Set location',
+        label = 'Set from database',
         queryset = Location.objects.order_by('location_name'),
         required = False,
     )
 
     # reorder field choices
     csv_default_os = forms.ModelChoiceField(
-        label = 'Set OS',
+        label = 'Set from database',
         queryset = Os.objects.order_by('os_name'),
         required = False,
     )
 
     # reorder field choices
     csv_default_reason = forms.ModelChoiceField(
-        label = 'Set reason',
+        label = 'Set from database',
         queryset = Reason.objects.order_by('reason_name'),
         required = False,
     )
 
     # reorder field choices
     csv_default_recommendation = forms.ModelChoiceField(
-        label = 'Set recommendation',
+        label = 'Set from database',
         queryset = Recommendation.objects.order_by('recommendation_name'),
         required = False,
     )
 
     # reorder field choices
     csv_default_serviceprovider = forms.ModelChoiceField(
-        label = 'Set serviceprovider',
+        label = 'Set from database',
         queryset = Serviceprovider.objects.order_by('serviceprovider_name'),
         required = False,
     )
 
     # reorder field choices
     csv_default_systemtype = forms.ModelChoiceField(
-        label = 'Set systemtype',
+        label = 'Set from database',
         queryset = Systemtype.objects.order_by('systemtype_name'),
         required = False,
     )
 
     # reorder field choices
     csv_default_case = forms.ModelMultipleChoiceField(
-        label = 'Set cases',
+        label = 'Set from database',
         queryset = Case.objects.order_by('case_name'),
         required = False,
         widget=forms.CheckboxSelectMultiple(),
@@ -541,7 +550,7 @@ class SystemImporterFileCsvCronbasedConfigForm(forms.ModelForm):
 
     # reorder field choices
     csv_default_company = forms.ModelMultipleChoiceField(
-        label = 'Set companies',
+        label = 'Set from database',
         queryset = Company.objects.order_by('company_name'),
         required = False,
         widget=forms.CheckboxSelectMultiple(),
@@ -549,7 +558,7 @@ class SystemImporterFileCsvCronbasedConfigForm(forms.ModelForm):
 
     # reorder field choices
     csv_default_tag = forms.ModelMultipleChoiceField(
-        label = 'Set tags',
+        label = 'Set from database',
         queryset = Tag.objects.order_by('tag_name'),
         required = False,
         widget=forms.CheckboxSelectMultiple(),
@@ -611,45 +620,42 @@ class SystemImporterFileCsvCronbasedConfigForm(forms.ModelForm):
             'csv_remove_tag',
         )
 
-        # TODO: change username description to after switching 'csv_import_username' in model
         labels = {
             'csv_column_system': 'Number of the column in the CSV file that contains the system name',
             'csv_skip_existing_system': 'Skip existing systems',
             'csv_headline': 'CSV file contains a headline row',
             'csv_import_path': 'Path to CSV file',
             'csv_import_filename': 'File name of CSV file',
-            'csv_import_username': 'Use this username for the import',
-            'csv_choice_ip': 'CSV file contains IP addresses',
+            'csv_choice_ip': 'CSV file contains IP addresses (multiple IP addresses in CSV field allowed)',
             'csv_column_ip': 'Number of the column in the CSV file that contains the IP addresses',
             'csv_remove_ip': 'Remove / overwrite existing IP addresses for already existing systems',
-            'csv_choice_dnsname': 'CSV file contains DNS names',
-            'csv_column_dnsname': 'Number of the column in the CSV file that contains the DNS name',
-            'csv_choice_domain': 'CSV file contains domains',
-            'csv_column_domain': 'Number of the column in the CSV file that contains the domain',
-            'csv_choice_location': 'CSV file contains locations',
-            'csv_column_location': 'Number of the column in the CSV file that contains the location',
-            'csv_choice_os': 'CSV file contains OS',
-            'csv_column_os': 'Number of the column in the CSV file that contains the OS',
-            'csv_choice_reason': 'CSV file contains reasons',
-            'csv_column_reason': 'Number of the column in the CSV file that contains the reason',
-            'csv_choice_recommendation': 'CSV file contains recommendations',
-            'csv_column_recommendation': 'Number of the column in the CSV file that contains the recommendation',
-            'csv_choice_serviceprovider': 'CSV file contains serviceproviders',
-            'csv_column_serviceprovider': 'Number of the column in the CSV file that contains the serviceprovider',
-            'csv_choice_systemtype': 'CSV file contains systemtypes',
-            'csv_column_systemtype': 'Number of the column in the CSV file that contains the systemtype',
-            'csv_choice_case': 'CSV file contains ',
-            'csv_column_case': 'Number of the column in the CSV file that contains the case',
+            'csv_choice_dnsname': 'Set from CSV',
+            'csv_column_dnsname': 'CSV column',
+            'csv_choice_domain': 'Set from CSV',
+            'csv_column_domain': 'CSV column',
+            'csv_choice_location': 'Set from CSV',
+            'csv_column_location': 'CSV column',
+            'csv_choice_os': 'Set from CSV',
+            'csv_column_os': 'CSV column',
+            'csv_choice_reason': 'Set from CSV',
+            'csv_column_reason': 'CSV column',
+            'csv_choice_recommendation': 'Set from CSV',
+            'csv_column_recommendation': 'CSV column',
+            'csv_choice_serviceprovider': 'Set from CSV',
+            'csv_column_serviceprovider': 'CSV column',
+            'csv_choice_systemtype': 'Set from CSV',
+            'csv_column_systemtype': 'CSV column',
+            'csv_choice_case': 'Set from CSV',
+            'csv_column_case': 'CSV column',
             'csv_remove_case': 'Remove / overwrite existing cases for already existing systems',
-            'csv_choice_company': 'CSV file contains ',
-            'csv_column_company': 'Number of the column in the CSV file that contains the company',
+            'csv_choice_company': 'Set from CSV',
+            'csv_column_company': 'CSV column',
             'csv_remove_company': 'Remove / overwrite existing companies for already existing systems',
-            'csv_choice_tag': 'CSV file contains ',
-            'csv_column_tag': 'Number of the column in the CSV file that contains the tag',
+            'csv_choice_tag': 'Set from CSV',
+            'csv_column_tag': 'CSV column',
             'csv_remove_tag': 'Remove / overwrite existing tags for already existing systems',
         }
 
-        # TODO: change widget to after switching 'csv_import_username' in model
         widgets = {
             'csv_column_system': forms.NumberInput(
                 attrs={
@@ -669,11 +675,6 @@ class SystemImporterFileCsvCronbasedConfigForm(forms.ModelForm):
                 attrs={
                     'size': '35',
                     'style': 'font-family: monospace',
-                },
-            ),
-            'csv_import_username': forms.TextInput(
-                attrs={
-                    'size': '20',
                 },
             ),
             'csv_column_ip': forms.NumberInput(
