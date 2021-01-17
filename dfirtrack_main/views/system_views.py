@@ -244,8 +244,8 @@ def get_systems_json(request):
         order_column_name = get_params['columns['+order_column_number+'][data]']
         order_dir = '' if (get_params['order[0][dir]']=='asc') else '-'
         search_value = get_params['search[value]']
-        # check that string contains only alphanumerical chars or spaces
-        if not all((x.isalnum() or x.isspace() or x == '_' or x == '-') for x in search_value):
+        # check that string contains only alphanumerical chars or spaces (or '_','-',':')
+        if not all((x.isalnum() or x.isspace() or x == '_' or x == '-' or x == ':') for x in search_value):
             search_value = ''
 
         # if no search value is given, get all objects and order them according to user setting, if the table is not generated on the general system overview page, only show the systems with the relevant id 
@@ -274,7 +274,7 @@ def get_systems_json(request):
                 # this matches on these lines: ''' columns[0][data]': ['system_id/system_name/...'] '''
                 if '][data]' in entry:
                     tmp_column_name = get_params[entry]
-                    # we start with an empry queryset and add all systems that have a match in one of their relevant fields
+                    # we start with an empty queryset and add all systems that have a match in one of their relevant fields
                     try:
                         # filter_kwargs is necessary for dynamic filter design
                         filter_kwargs = {tmp_column_name+'__icontains': search_value}
@@ -291,12 +291,22 @@ def get_systems_json(request):
                             tag_id = referer.split("/")[-2]
                             filter_kwargs["tag__tag_id"] = tag_id
                         system_values = system_values | System.objects.filter(**filter_kwargs)
-                    # for unknown foreign keys, an exception is thrown
-                    except FieldError as e:
-                        #  -> adapt the query - note: to be safe, better add another elif in the try statement above, therefore commented out here
-                        #filter_kwargs = {tmp_column_name+'__'+tmp_column_name+'_name'+'__icontains': search_value}
-                        #system_values = system_values | System.objects.filter(**filter_kwargs)
-                        raise e
+                    # for foreign keys, an exception is thrown, need to modify filter_kwargs accordingly
+                    except FieldError:
+                        filter_kwargs = {tmp_column_name+'__'+tmp_column_name+'_name'+'__icontains': search_value}
+                        if '/analysisstatus/' in referer:
+                            analysisstatus_id = referer.split("/")[-2]
+                            filter_kwargs["analysisstatus__analysisstatus_id"] = analysisstatus_id
+                        elif '/systemstatus/' in referer:
+                            systemstatus_id = referer.split("/")[-2]
+                            filter_kwargs["systemstatus__systemstatus_id"] = systemstatus_id
+                        elif '/case/' in referer:
+                            case_id = referer.split("/")[-2]
+                            filter_kwargs["case__case_id"] = case_id
+                        elif '/tag/' in referer:
+                            tag_id = referer.split("/")[-2]
+                            filter_kwargs["tag__tag_id"] = tag_id
+                        system_values = system_values | System.objects.filter(**filter_kwargs)
             # make the resulting queryset unique and sort it according to user settings
             system_values = system_values.distinct().order_by(order_dir+order_column_name)
 
@@ -305,7 +315,7 @@ def get_systems_json(request):
         # how many records are to be shown? if all records are to be shown, length is set to -1
         length = int(get_params['length']) if int(get_params['length'])!=-1 else len(system_values)
 
-        # if there is a search value check that the search value really occurs in one of the visible fields in the table
+        # if there is a search value check that the search value really occurs in one of the visible fields in the table (it is possible that the value only occurs e.g. only in the milliseconds of the data field)
         if search_value != '':
             for i in system_values:
                 # extract values from system object
@@ -353,6 +363,6 @@ def get_systems_json(request):
         # convert dict with data to jsonresponse
         response = JsonResponse(json_dict, safe=False)
     # user is not logged in - possible TODO: should this be logged somewhere?
-    else: 
+    else:
         response = HttpResponseForbidden()
     return response
