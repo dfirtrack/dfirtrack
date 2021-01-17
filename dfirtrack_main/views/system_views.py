@@ -291,10 +291,12 @@ def get_systems_json(request):
                             tag_id = referer.split("/")[-2]
                             filter_kwargs["tag__tag_id"] = tag_id
                         system_values = system_values | System.objects.filter(**filter_kwargs)
-                    # for foreign keys, an exception is thrown -> adapt the query - note: to be safe, better add another elif in the try statement above
-                    except FieldError:
-                        filter_kwargs = {tmp_column_name+'__'+tmp_column_name+'_name'+'__icontains': search_value}
-                        system_values = system_values | System.objects.filter(**filter_kwargs)
+                    # for unknown foreign keys, an exception is thrown
+                    except FieldError as e:
+                        #  -> adapt the query - note: to be safe, better add another elif in the try statement above, therefore commented out here
+                        #filter_kwargs = {tmp_column_name+'__'+tmp_column_name+'_name'+'__icontains': search_value}
+                        #system_values = system_values | System.objects.filter(**filter_kwargs)
+                        raise e
             # make the resulting queryset unique and sort it according to user settings
             system_values = system_values.distinct().order_by(order_dir+order_column_name)
 
