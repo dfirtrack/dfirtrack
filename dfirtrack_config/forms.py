@@ -781,6 +781,154 @@ class SystemImporterFileCsvCronbasedConfigForm(forms.ModelForm):
         # get form data
         cleaned_data = super().clean()
 
+        validation_errors = {}
+
+        """ for check EITHER 'choice' and 'column' OR 'default' """
+
+        # dnsname - CSV chosen and no CSV column filled out
+        if self.cleaned_data['csv_choice_dnsname'] and not self.cleaned_data['csv_column_dnsname']:
+            validation_errors['csv_choice_dnsname'] = 'Add CSV column.'
+        # dnsname - CSV not chosen and CSV column filled out
+        if not self.cleaned_data['csv_choice_dnsname'] and self.cleaned_data['csv_column_dnsname']:
+            validation_errors['csv_choice_dnsname'] = 'Forgot to choose CSV?'
+        # dnsname - CSV chosen and DB chosen
+        if self.cleaned_data['csv_choice_dnsname'] and self.cleaned_data['csv_default_dnsname']:
+            validation_errors['csv_choice_dnsname'] = 'Decide between CSV or database or nothing.'
+        # dnsname - CSV column filled out and DB chosen
+        if self.cleaned_data['csv_column_dnsname'] and self.cleaned_data['csv_default_dnsname']:
+            validation_errors['csv_choice_dnsname'] = 'Decide between CSV or database or nothing.'
+
+        # domain - CSV chosen and no CSV column filled out
+        if self.cleaned_data['csv_choice_domain'] and not self.cleaned_data['csv_column_domain']:
+            validation_errors['csv_choice_domain'] = 'Add CSV column.'
+        # domain - CSV not chosen and CSV column filled out
+        if not self.cleaned_data['csv_choice_domain'] and self.cleaned_data['csv_column_domain']:
+            validation_errors['csv_choice_domain'] = 'Forgot to choose CSV?'
+        # domain - CSV chosen and DB chosen
+        if self.cleaned_data['csv_choice_domain'] and self.cleaned_data['csv_default_domain']:
+            validation_errors['csv_choice_domain'] = 'Decide between CSV or database or nothing.'
+        # domain - CSV column filled out and DB chosen
+        if self.cleaned_data['csv_column_domain'] and self.cleaned_data['csv_default_domain']:
+            validation_errors['csv_choice_domain'] = 'Decide between CSV or database or nothing.'
+
+        # location - CSV chosen and no CSV column filled out
+        if self.cleaned_data['csv_choice_location'] and not self.cleaned_data['csv_column_location']:
+            validation_errors['csv_choice_location'] = 'Add CSV column.'
+        # location - CSV not chosen and CSV column filled out
+        if not self.cleaned_data['csv_choice_location'] and self.cleaned_data['csv_column_location']:
+            validation_errors['csv_choice_location'] = 'Forgot to choose CSV?'
+        # location - CSV chosen and DB chosen
+        if self.cleaned_data['csv_choice_location'] and self.cleaned_data['csv_default_location']:
+            validation_errors['csv_choice_location'] = 'Decide between CSV or database or nothing.'
+        # location - CSV column filled out and DB chosen
+        if self.cleaned_data['csv_column_location'] and self.cleaned_data['csv_default_location']:
+            validation_errors['csv_choice_location'] = 'Decide between CSV or database or nothing.'
+
+        # os - CSV chosen and no CSV column filled out
+        if self.cleaned_data['csv_choice_os'] and not self.cleaned_data['csv_column_os']:
+            validation_errors['csv_choice_os'] = 'Add CSV column.'
+        # os - CSV not chosen and CSV column filled out
+        if not self.cleaned_data['csv_choice_os'] and self.cleaned_data['csv_column_os']:
+            validation_errors['csv_choice_os'] = 'Forgot to choose CSV?'
+        # os - CSV chosen and DB chosen
+        if self.cleaned_data['csv_choice_os'] and self.cleaned_data['csv_default_os']:
+            validation_errors['csv_choice_os'] = 'Decide between CSV or database or nothing.'
+        # os - CSV column filled out and DB chosen
+        if self.cleaned_data['csv_column_os'] and self.cleaned_data['csv_default_os']:
+            validation_errors['csv_choice_os'] = 'Decide between CSV or database or nothing.'
+
+        # reason - CSV chosen and no CSV column filled out
+        if self.cleaned_data['csv_choice_reason'] and not self.cleaned_data['csv_column_reason']:
+            validation_errors['csv_choice_reason'] = 'Add CSV column.'
+        # reason - CSV not chosen and CSV column filled out
+        if not self.cleaned_data['csv_choice_reason'] and self.cleaned_data['csv_column_reason']:
+            validation_errors['csv_choice_reason'] = 'Forgot to choose CSV?'
+        # reason - CSV chosen and DB chosen
+        if self.cleaned_data['csv_choice_reason'] and self.cleaned_data['csv_default_reason']:
+            validation_errors['csv_choice_reason'] = 'Decide between CSV or database or nothing.'
+        # reason - CSV column filled out and DB chosen
+        if self.cleaned_data['csv_column_reason'] and self.cleaned_data['csv_default_reason']:
+            validation_errors['csv_choice_reason'] = 'Decide between CSV or database or nothing.'
+
+        # recommendation - CSV chosen and no CSV column filled out
+        if self.cleaned_data['csv_choice_recommendation'] and not self.cleaned_data['csv_column_recommendation']:
+            validation_errors['csv_choice_recommendation'] = 'Add CSV column.'
+        # recommendation - CSV not chosen and CSV column filled out
+        if not self.cleaned_data['csv_choice_recommendation'] and self.cleaned_data['csv_column_recommendation']:
+            validation_errors['csv_choice_recommendation'] = 'Forgot to choose CSV?'
+        # recommendation - CSV chosen and DB chosen
+        if self.cleaned_data['csv_choice_recommendation'] and self.cleaned_data['csv_default_recommendation']:
+            validation_errors['csv_choice_recommendation'] = 'Decide between CSV or database or nothing.'
+        # recommendation - CSV column filled out and DB chosen
+        if self.cleaned_data['csv_column_recommendation'] and self.cleaned_data['csv_default_recommendation']:
+            validation_errors['csv_choice_recommendation'] = 'Decide between CSV or database or nothing.'
+
+        # serviceprovider - CSV chosen and no CSV column filled out
+        if self.cleaned_data['csv_choice_serviceprovider'] and not self.cleaned_data['csv_column_serviceprovider']:
+            validation_errors['csv_choice_serviceprovider'] = 'Add CSV column.'
+        # serviceprovider - CSV not chosen and CSV column filled out
+        if not self.cleaned_data['csv_choice_serviceprovider'] and self.cleaned_data['csv_column_serviceprovider']:
+            validation_errors['csv_choice_serviceprovider'] = 'Forgot to choose CSV?'
+        # serviceprovider - CSV chosen and DB chosen
+        if self.cleaned_data['csv_choice_serviceprovider'] and self.cleaned_data['csv_default_serviceprovider']:
+            validation_errors['csv_choice_serviceprovider'] = 'Decide between CSV or database or nothing.'
+        # serviceprovider - CSV column filled out and DB chosen
+        if self.cleaned_data['csv_column_serviceprovider'] and self.cleaned_data['csv_default_serviceprovider']:
+            validation_errors['csv_choice_serviceprovider'] = 'Decide between CSV or database or nothing.'
+
+        # systemtype - CSV chosen and no CSV column filled out
+        if self.cleaned_data['csv_choice_systemtype'] and not self.cleaned_data['csv_column_systemtype']:
+            validation_errors['csv_choice_systemtype'] = 'Add CSV column.'
+        # systemtype - CSV not chosen and CSV column filled out
+        if not self.cleaned_data['csv_choice_systemtype'] and self.cleaned_data['csv_column_systemtype']:
+            validation_errors['csv_choice_systemtype'] = 'Forgot to choose CSV?'
+        # systemtype - CSV chosen and DB chosen
+        if self.cleaned_data['csv_choice_systemtype'] and self.cleaned_data['csv_default_systemtype']:
+            validation_errors['csv_choice_systemtype'] = 'Decide between CSV or database or nothing.'
+        # systemtype - CSV column filled out and DB chosen
+        if self.cleaned_data['csv_column_systemtype'] and self.cleaned_data['csv_default_systemtype']:
+            validation_errors['csv_choice_systemtype'] = 'Decide between CSV or database or nothing.'
+
+        # case - CSV chosen and no CSV column filled out
+        if self.cleaned_data['csv_choice_case'] and not self.cleaned_data['csv_column_case']:
+            validation_errors['csv_choice_case'] = 'Add CSV column.'
+        # case - CSV not chosen and CSV column filled out
+        if not self.cleaned_data['csv_choice_case'] and self.cleaned_data['csv_column_case']:
+            validation_errors['csv_choice_case'] = 'Forgot to choose CSV?'
+        # case - CSV chosen and DB chosen
+        if self.cleaned_data['csv_choice_case'] and self.cleaned_data['csv_default_case']:
+            validation_errors['csv_choice_case'] = 'Decide between CSV or database or nothing.'
+        # case - CSV column filled out and DB chosen
+        if self.cleaned_data['csv_column_case'] and self.cleaned_data['csv_default_case']:
+            validation_errors['csv_choice_case'] = 'Decide between CSV or database or nothing.'
+
+        # company - CSV chosen and no CSV column filled out
+        if self.cleaned_data['csv_choice_company'] and not self.cleaned_data['csv_column_company']:
+            validation_errors['csv_choice_company'] = 'Add CSV column.'
+        # company - CSV not chosen and CSV column filled out
+        if not self.cleaned_data['csv_choice_company'] and self.cleaned_data['csv_column_company']:
+            validation_errors['csv_choice_company'] = 'Forgot to choose CSV?'
+        # company - CSV chosen and DB chosen
+        if self.cleaned_data['csv_choice_company'] and self.cleaned_data['csv_default_company']:
+            validation_errors['csv_choice_company'] = 'Decide between CSV or database or nothing.'
+        # company - CSV column filled out and DB chosen
+        if self.cleaned_data['csv_column_company'] and self.cleaned_data['csv_default_company']:
+            validation_errors['csv_choice_company'] = 'Decide between CSV or database or nothing.'
+
+        # tag - CSV chosen and no CSV column filled out
+        if self.cleaned_data['csv_choice_tag'] and not self.cleaned_data['csv_column_tag']:
+            validation_errors['csv_choice_tag'] = 'Add CSV column.'
+        # tag - CSV not chosen and CSV column filled out
+        if not self.cleaned_data['csv_choice_tag'] and self.cleaned_data['csv_column_tag']:
+            validation_errors['csv_choice_tag'] = 'Forgot to choose CSV?'
+        # tag - CSV chosen and DB chosen
+        if self.cleaned_data['csv_choice_tag'] and self.cleaned_data['csv_default_tag']:
+            validation_errors['csv_choice_tag'] = 'Decide between CSV or database or nothing.'
+        # tag - CSV column filled out and DB chosen
+        if self.cleaned_data['csv_column_tag'] and self.cleaned_data['csv_default_tag']:
+            validation_errors['csv_choice_tag'] = 'Decide between CSV or database or nothing.'
+
+        """ compare column fields """
         # get relevant values
         csv_column_system = self.cleaned_data['csv_column_system']
         csv_column_ip = self.cleaned_data['csv_column_ip']
@@ -789,7 +937,11 @@ class SystemImporterFileCsvCronbasedConfigForm(forms.ModelForm):
 
         # compare column values
         if csv_column_system == csv_column_ip:
-            raise forms.ValidationError('The columns for system and IP must not have the same values.')
+            validation_errors['csv_column_system'] = 'The columns for system and IP must not have the same values.'
+            validation_errors['csv_column_ip'] = 'The columns for system and IP must not have the same values.'
+
+        if validation_errors:
+            raise forms.ValidationError(validation_errors)
 
         return cleaned_data
 

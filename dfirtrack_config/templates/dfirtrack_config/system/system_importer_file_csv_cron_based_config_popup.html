@@ -60,6 +60,10 @@
                         General settings
                     </h5>
 
+                    <div class="text-danger">
+                        {{ form.csv_column_system.errors }}
+                    </div>
+
                     <table>
                         <tr><td>{{ form.csv_skip_existing_system }}</td> <td>{{ form.csv_skip_existing_system.label }}</td></tr>
                         <tr><td>{{ form.csv_column_system }}</td> <td>{{ form.csv_column_system.label }}</td></tr>
@@ -149,6 +153,10 @@
                     </table>
 
                     The following settings are only taken into account if IP addresses have been selected.
+
+                    <div class="text-danger">
+                        {{ form.csv_column_ip.errors }}
+                    </div>
 
                     <table class="top-distance">
                         <tr><td>{{ form.csv_remove_ip }}</td> <td>{{ form.csv_remove_ip.label }}</td></tr>
@@ -241,6 +249,13 @@
                     DNS name
                 </h6>
 
+                <!-- errors -->
+                <div class="row">
+                    <div class="text-danger">
+                        {{ form.csv_choice_dnsname.errors }}
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-2">
                         {{ form.csv_choice_dnsname.label }}
@@ -272,6 +287,13 @@
                 <h6 class="top-distance">
                     Domain
                 </h6>
+
+                <!-- errors -->
+                <div class="row">
+                    <div class="text-danger">
+                        {{ form.csv_choice_domain.errors }}
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="col-2">
@@ -305,6 +327,13 @@
                     Location
                 </h6>
 
+                <!-- errors -->
+                <div class="row">
+                    <div class="text-danger">
+                        {{ form.csv_choice_location.errors }}
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-2">
                         {{ form.csv_choice_location.label }}
@@ -336,6 +365,13 @@
                 <h6 class="top-distance">
                     OS
                 </h6>
+
+                <!-- errors -->
+                <div class="row">
+                    <div class="text-danger">
+                        {{ form.csv_choice_os.errors }}
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="col-2">
@@ -369,6 +405,13 @@
                     Reason
                 </h6>
 
+                <!-- errors -->
+                <div class="row">
+                    <div class="text-danger">
+                        {{ form.csv_choice_reason.errors }}
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-2">
                         {{ form.csv_choice_reason.label }}
@@ -400,6 +443,13 @@
                 <h6 class="top-distance">
                     Recommendation
                 </h6>
+
+                <!-- errors -->
+                <div class="row">
+                    <div class="text-danger">
+                        {{ form.csv_choice_recommendation.errors }}
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="col-2">
@@ -433,6 +483,13 @@
                     Serviceprovider
                 </h6>
 
+                <!-- errors -->
+                <div class="row">
+                    <div class="text-danger">
+                        {{ form.csv_choice_serviceprovider.errors }}
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-2">
                         {{ form.csv_choice_serviceprovider.label }}
@@ -465,6 +522,13 @@
                     Systemtype
                 </h6>
 
+                <!-- errors -->
+                <div class="row">
+                    <div class="text-danger">
+                        {{ form.csv_choice_systemtype.errors }}
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-2">
                         {{ form.csv_choice_systemtype.label }}
@@ -496,6 +560,13 @@
                 <h6 class="top-distance">
                     Cases
                 </h6>
+
+                <!-- errors -->
+                <div class="row">
+                    <div class="text-danger">
+                        {{ form.csv_choice_case.errors }}
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="col-2">
@@ -531,6 +602,13 @@
                     Companies
                 </h6>
 
+                <!-- errors -->
+                <div class="row">
+                    <div class="text-danger">
+                        {{ form.csv_choice_company.errors }}
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-2">
                         {{ form.csv_choice_company.label }}
@@ -564,6 +642,13 @@
                 <h6 class="top-distance">
                     Tags
                 </h6>
+
+                <!-- errors -->
+                <div class="row">
+                    <div class="text-danger">
+                        {{ form.csv_choice_tag.errors }}
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="col-2">

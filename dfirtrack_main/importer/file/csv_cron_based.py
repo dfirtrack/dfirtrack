@@ -14,6 +14,16 @@ from dfirtrack_main.models import System
 from io import TextIOWrapper
 
 @login_required(login_url="/login")
+def config_check(request):
+
+    # TODO: add check for csv_import_username (after initial migration w/o user defined)
+
+    # TODO: add check for csv_import_path is readable
+
+    # TODO: build url with python
+    return redirect('/admin/django_q/schedule/add/?name=system_importer_file_csv_cron_based&func=dfirtrack_main.importer.file.csv_cron_based.system')
+
+@login_required(login_url="/login")
 def system(request):
     pass
 
