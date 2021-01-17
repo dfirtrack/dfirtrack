@@ -14,7 +14,6 @@ $(document).ready( function () {
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         "order": [[ 5, "desc" ]]
     } );
-
     $('#table_system').DataTable( {
         "pageLength": 25,
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
