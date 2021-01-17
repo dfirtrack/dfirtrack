@@ -3,6 +3,8 @@ from django.test import TestCase
 from django.utils import timezone
 from dfirtrack_main.models import System, Systemstatus, Analysisstatus, Case, Tag, Tagcolor
 import json
+import datetime
+import pytz
 
 class SystemDatatablesProcessingTestCase(TestCase):
     """ system datatables (server-side) processing tests """
@@ -70,10 +72,12 @@ class SystemDatatablesProcessingTestCase(TestCase):
         system_3.tag.add(tag_1)
 
         # create object
+        mod_time_naive = datetime.datetime(2021, 1, 17, 13, 39, 29, 35025)
+        mod_time_tz = mod_time_naive.replace(tzinfo=pytz.timezone("GMT"))
         System.objects.create(
             system_name = 'system_4',
             systemstatus = systemstatus_2,
-            system_modify_time = timezone.now(),
+            system_modify_time = mod_time_tz,
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
@@ -244,3 +248,13 @@ class SystemDatatablesProcessingTestCase(TestCase):
         # compare
         self.assertEqual(int(data['recordsFiltered']), 1)
         self.assertTrue('system_1' in data['data'][0]['system_name'])
+
+    def test_dt_search_cleanup(self):
+        """ test system datatables processing """
+        # login testuser
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get response
+        response = self.client.get('/system/json/', {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': '35025', 'columns[1][data]': 'system_name', 'columns[2][data]': 'systemstatus', 'draw': '1'}, HTTP_REFERER='/system/')
+        data = json.loads(response.content)
+        # compare
+        self.assertEqual(int(data['recordsFiltered']), 0)
