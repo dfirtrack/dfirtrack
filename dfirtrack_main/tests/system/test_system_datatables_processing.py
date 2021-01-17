@@ -123,11 +123,11 @@ class SystemDatatablesProcessingTestCase(TestCase):
         self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get response
         response_1 = self.client.get('/system/json/', {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': '1', 'columns[1][data]': 'system_name', 'draw': '1'}, HTTP_REFERER='/system/')
-        data_1 = json.loads(response.content)
+        data_1 = json.loads(response_1.content)
         response_2 = self.client.get('/system/json/', {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': '2', 'columns[1][data]': 'system_name', 'draw': '1'}, HTTP_REFERER='/system/')
-        data_2 = json.loads(response.content)
+        data_2 = json.loads(response_2.content)
         response_3 = self.client.get('/system/json/', {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': '3', 'columns[1][data]': 'system_name', 'draw': '1'}, HTTP_REFERER='/system/')
-        data_3 = json.loads(response.content)
+        data_3 = json.loads(response_3.content)
         # compare
         self.assertEqual(int(data_1['recordsFiltered']), 1)
         self.assertEqual(int(data_2['recordsFiltered']), 1)
