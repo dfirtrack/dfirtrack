@@ -245,8 +245,11 @@
                     <div class="col-2">
                         {{ form.csv_choice_dnsname.label }}
                     </div>
-                    <div class="col-4">
+                    <div class="col-3">
                         {{ form.csv_column_dnsname.label }}
+                    </div>
+                    <div class="col-1">
+                        {% include "dfirtrack_config/includes/button_or.html" %}
                     </div>
                     <div class="col-6">
                         {{ form.csv_default_dnsname.label }}
@@ -274,8 +277,11 @@
                     <div class="col-2">
                         {{ form.csv_choice_domain.label }}
                     </div>
-                    <div class="col-4">
+                    <div class="col-3">
                         {{ form.csv_column_domain.label }}
+                    </div>
+                    <div class="col-1">
+                        {% include "dfirtrack_config/includes/button_or.html" %}
                     </div>
                     <div class="col-6">
                         {{ form.csv_default_domain.label }}
@@ -303,8 +309,11 @@
                     <div class="col-2">
                         {{ form.csv_choice_location.label }}
                     </div>
-                    <div class="col-4">
+                    <div class="col-3">
                         {{ form.csv_column_location.label }}
+                    </div>
+                    <div class="col-1">
+                        {% include "dfirtrack_config/includes/button_or.html" %}
                     </div>
                     <div class="col-6">
                         {{ form.csv_default_location.label }}
@@ -332,8 +341,11 @@
                     <div class="col-2">
                         {{ form.csv_choice_os.label }}
                     </div>
-                    <div class="col-4">
+                    <div class="col-3">
                         {{ form.csv_column_os.label }}
+                    </div>
+                    <div class="col-1">
+                        {% include "dfirtrack_config/includes/button_or.html" %}
                     </div>
                     <div class="col-6">
                         {{ form.csv_default_os.label }}
@@ -361,8 +373,11 @@
                     <div class="col-2">
                         {{ form.csv_choice_reason.label }}
                     </div>
-                    <div class="col-4">
+                    <div class="col-3">
                         {{ form.csv_column_reason.label }}
+                    </div>
+                    <div class="col-1">
+                        {% include "dfirtrack_config/includes/button_or.html" %}
                     </div>
                     <div class="col-6">
                         {{ form.csv_default_reason.label }}
@@ -390,8 +405,11 @@
                     <div class="col-2">
                         {{ form.csv_choice_recommendation.label }}
                     </div>
-                    <div class="col-4">
+                    <div class="col-3">
                         {{ form.csv_column_recommendation.label }}
+                    </div>
+                    <div class="col-1">
+                        {% include "dfirtrack_config/includes/button_or.html" %}
                     </div>
                     <div class="col-6">
                         {{ form.csv_default_recommendation.label }}
@@ -419,8 +437,11 @@
                     <div class="col-2">
                         {{ form.csv_choice_serviceprovider.label }}
                     </div>
-                    <div class="col-4">
+                    <div class="col-3">
                         {{ form.csv_column_serviceprovider.label }}
+                    </div>
+                    <div class="col-1">
+                        {% include "dfirtrack_config/includes/button_or.html" %}
                     </div>
                     <div class="col-6">
                         {{ form.csv_default_serviceprovider.label }}
@@ -448,8 +469,11 @@
                     <div class="col-2">
                         {{ form.csv_choice_systemtype.label }}
                     </div>
-                    <div class="col-4">
+                    <div class="col-3">
                         {{ form.csv_column_systemtype.label }}
+                    </div>
+                    <div class="col-1">
+                        {% include "dfirtrack_config/includes/button_or.html" %}
                     </div>
                     <div class="col-6">
                         {{ form.csv_default_systemtype.label }}
@@ -469,34 +493,106 @@
                 </div>
 
                 <!-- case -->
+                <h6 class="top-distance">
+                    Cases
+                </h6>
 
-                <div class="top-distance">
-                    {{ form.csv_default_case.label }}
+                <div class="row">
+                    <div class="col-2">
+                        {{ form.csv_choice_case.label }}
+                    </div>
+                    <div class="col-3">
+                        {{ form.csv_column_case.label }}
+                    </div>
+                    <div class="col-1">
+                        {% include "dfirtrack_config/includes/button_or.html" %}
+                    </div>
+                    <div class="col-6">
+                        {{ form.csv_default_case.label }}
+                    </div>
                 </div>
 
-                {% for i in form.csv_default_case %}
-                    {{ i }}<br>
-                {% endfor %}
+                <div class="row">
+                    <div class="col-2 top-distance">
+                        {{ form.csv_choice_case }}
+                    </div>
+                    <div class="col-4 top-distance">
+                        {{ form.csv_column_case }}
+                    </div>
+                    <div class="col-6 top-distance">
+                        {% for i in form.csv_default_case %}
+                            {{ i }}<br>
+                        {% endfor %}
+                    </div>
+                </div>
 
                 <!-- company -->
+                <h6 class="top-distance">
+                    Companies
+                </h6>
 
-                <div class="top-distance">
-                    {{ form.csv_default_company.label }}
+                <div class="row">
+                    <div class="col-2">
+                        {{ form.csv_choice_company.label }}
+                    </div>
+                    <div class="col-3">
+                        {{ form.csv_column_company.label }}
+                    </div>
+                    <div class="col-1">
+                        {% include "dfirtrack_config/includes/button_or.html" %}
+                    </div>
+                    <div class="col-6">
+                        {{ form.csv_default_company.label }}
+                    </div>
                 </div>
 
-                {% for i in form.csv_default_company %}
-                    {{ i }}<br>
-                {% endfor %}
+                <div class="row">
+                    <div class="col-2 top-distance">
+                        {{ form.csv_choice_company }}
+                    </div>
+                    <div class="col-4 top-distance">
+                        {{ form.csv_column_company }}
+                    </div>
+                    <div class="col-6 top-distance">
+                        {% for i in form.csv_default_company %}
+                            {{ i }}<br>
+                        {% endfor %}
+                    </div>
+                </div>
 
                 <!-- tag -->
+                <h6 class="top-distance">
+                    Tags
+                </h6>
 
-                <div class="top-distance">
-                    {{ form.csv_default_tag.label }}
+                <div class="row">
+                    <div class="col-2">
+                        {{ form.csv_choice_tag.label }}
+                    </div>
+                    <div class="col-3">
+                        {{ form.csv_column_tag.label }}
+                    </div>
+                    <div class="col-1">
+                        {% include "dfirtrack_config/includes/button_or.html" %}
+                    </div>
+                    <div class="col-6">
+                        {{ form.csv_default_tag.label }}
+                    </div>
                 </div>
 
-                {% for i in form.csv_default_tag %}
-                    {{ i }}<br>
-                {% endfor %}
+                <div class="row">
+                    <div class="col-2 top-distance">
+                        {{ form.csv_choice_tag }}
+                    </div>
+                    <div class="col-4 top-distance">
+                        {{ form.csv_column_tag }}
+                    </div>
+                    <div class="col-6 top-distance">
+                        {% for i in form.csv_default_tag %}
+                            {{ i }}<br>
+                        {% endfor %}
+                    </div>
+                </div>
 
             </div>
 
