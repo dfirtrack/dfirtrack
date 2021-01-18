@@ -781,9 +781,10 @@ class SystemImporterFileCsvCronbasedConfigForm(forms.ModelForm):
         # get form data
         cleaned_data = super().clean()
 
+        # create dict for validation errors
         validation_errors = {}
 
-        """ for check EITHER 'choice' and 'column' OR 'default' """
+        """ check for EITHER 'choice' and 'column' OR 'default' """
 
         # dnsname - CSV chosen and no CSV column filled out
         if self.cleaned_data['csv_choice_dnsname'] and not self.cleaned_data['csv_column_dnsname']:
@@ -928,18 +929,51 @@ class SystemImporterFileCsvCronbasedConfigForm(forms.ModelForm):
         if self.cleaned_data['csv_column_tag'] and self.cleaned_data['csv_default_tag']:
             validation_errors['csv_choice_tag'] = 'Decide between CSV or database or nothing.'
 
-        """ compare column fields """
-        # get relevant values
-        csv_column_system = self.cleaned_data['csv_column_system']
-        csv_column_ip = self.cleaned_data['csv_column_ip']
+        """ check if the column fields are different """
 
-        # TODO: compare all integer values against each other
+        # create empty dict for column values
+        all_columns_dict = {}
 
-        # compare column values
-        if csv_column_system == csv_column_ip:
-            validation_errors['csv_column_system'] = 'The columns for system and IP must not have the same values.'
-            validation_errors['csv_column_ip'] = 'The columns for system and IP must not have the same values.'
+        # add column values to dict
+        all_columns_dict['csv_column_system'] = self.cleaned_data['csv_column_system']
+        if self.cleaned_data['csv_column_ip']:
+            all_columns_dict['csv_column_ip'] = self.cleaned_data['csv_column_ip']
+        if self.cleaned_data['csv_column_dnsname']:
+            all_columns_dict['csv_column_dnsname'] = self.cleaned_data['csv_column_dnsname']
+        if self.cleaned_data['csv_column_domain']:
+            all_columns_dict['csv_column_domain'] = self.cleaned_data['csv_column_domain']
+        if self.cleaned_data['csv_column_location']:
+            all_columns_dict['csv_column_location'] = self.cleaned_data['csv_column_location']
+        if self.cleaned_data['csv_column_os']:
+            all_columns_dict['csv_column_os'] = self.cleaned_data['csv_column_os']
+        if self.cleaned_data['csv_column_reason']:
+            all_columns_dict['csv_column_reason'] = self.cleaned_data['csv_column_reason']
+        if self.cleaned_data['csv_column_recommendation']:
+            all_columns_dict['csv_column_recommendation'] = self.cleaned_data['csv_column_recommendation']
+        if self.cleaned_data['csv_column_serviceprovider']:
+            all_columns_dict['csv_column_serviceprovider'] = self.cleaned_data['csv_column_serviceprovider']
+        if self.cleaned_data['csv_column_systemtype']:
+            all_columns_dict['csv_column_systemtype'] = self.cleaned_data['csv_column_systemtype']
+        if self.cleaned_data['csv_column_case']:
+            all_columns_dict['csv_column_case'] = self.cleaned_data['csv_column_case']
+        if self.cleaned_data['csv_column_company']:
+            all_columns_dict['csv_column_company'] = self.cleaned_data['csv_column_company']
+        if self.cleaned_data['csv_column_tag']:
+            all_columns_dict['csv_column_tag'] = self.cleaned_data['csv_column_tag']
 
+        # check all column values against each other
+        for column in all_columns_dict:
+
+            # explicitly copy dict
+            pruned_columns_dict = dict(all_columns_dict)
+            # remove column from copied dict
+            del pruned_columns_dict[column]
+            # check for the same value in pruned dict
+            if all_columns_dict[column] in pruned_columns_dict.values():
+                # add error to validation error dict
+                validation_errors[str(column)] = 'The column has to be unique.'
+
+        # finally raise validation error
         if validation_errors:
             raise forms.ValidationError(validation_errors)
 
