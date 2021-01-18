@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils import timezone
-from dfirtrack_config.models import SystemImporterFileCsvConfigbasedConfigModel
+from dfirtrack_config.models import SystemImporterFileCsvConfigbasedConfigModel, SystemImporterFileCsvCronbasedConfigModel
 from dfirtrack_main.importer.file.csv_check_data import check_config, check_file, check_row
 from dfirtrack_main.importer.file.csv_importer_forms import SystemImporterFileCsvConfigbasedForm
 from dfirtrack_main.importer.file.csv_messages import final_messages
@@ -16,12 +16,29 @@ from io import TextIOWrapper
 @login_required(login_url="/login")
 def config_check(request):
 
-    # TODO: add check for csv_import_username (after initial migration w/o user defined)
+    # reset stop condition
+    stop_system_importer_file_csv_cronbased = False
+
+    # get config model
+    model = SystemImporterFileCsvCronbasedConfigModel.objects.get(system_importer_file_csv_cronbased_config_name = 'SystemImporterFileCsvCronbasedConfig')
+
+    # check for csv_import_username (after initial migration w/o user defined)
+    if not model.csv_import_username:
+        messages.error(request, "No user for import defined. Check config!")
+        # set stop condition
+        stop_system_importer_file_csv_cronbased = True
 
     # TODO: add check for csv_import_path is readable
 
-    # TODO: build url with python
-    return redirect('/admin/django_q/schedule/add/?name=system_importer_file_csv_cron_based&func=dfirtrack_main.importer.file.csv_cron_based.system')
+    # check stop condition
+    if stop_system_importer_file_csv_cronbased:
+        # return to system list
+        return redirect(reverse('system_list'))
+    else:
+        # TODO: build url with python
+        # TODO: open in new tab
+        # open django admin with pre-filled form for scheduled task
+        return redirect('/admin/django_q/schedule/add/?name=system_importer_file_csv_cron_based&func=dfirtrack_main.importer.file.csv_cron_based.system')
 
 @login_required(login_url="/login")
 def system(request):
