@@ -187,6 +187,10 @@ class SystemImporterFileCsvCronbasedConfigModel(models.Model):
     csv_default_systemstatus = models.ForeignKey('dfirtrack_main.Systemstatus', on_delete=models.PROTECT, related_name='system_importer_file_csv_cronbased_config_systemstatus')
     csv_default_analysisstatus = models.ForeignKey('dfirtrack_main.Analysisstatus', on_delete=models.PROTECT, related_name='system_importer_file_csv_cronbased_config_analysisstatus')
 
+    # character fields to define names for tags to pin analysisstatus and systemstatus
+    csv_tag_lock_systemstatus = models.CharField(max_length=50, default='LOCK_SYSTEMSTATUS')
+    csv_tag_lock_analysisstatus = models.CharField(max_length=50, default='LOCK_ANALYSISSTATUS')
+
     # config fields: either dynamically provided by CSV (...choice... 'True' and ...column...) or nothing provided (fixed value for all systems makes no sense)
     csv_choice_ip = models.BooleanField(blank=True)
     csv_column_ip = models.IntegerField(blank=True, null=True)
@@ -239,7 +243,83 @@ class SystemImporterFileCsvCronbasedConfigModel(models.Model):
     csv_choice_tag = models.BooleanField(blank=True)
     csv_column_tag = models.IntegerField(blank=True, null=True)
     csv_default_tag = models.ManyToManyField('dfirtrack_main.Tag', related_name='system_importer_file_csv_cronbased_config_tag', blank=True)
-    csv_remove_tag = models.BooleanField(blank=True)
+
+    # how to deal with manual and automatic tags (first remove all tags, only those with a prefix or none)
+    TAG_REMOVE_ALL = 'tag_remove_all'
+    TAG_REMOVE_PREFIX = 'tag_remove_prefix'
+    TAG_REMOVE_NONE = 'tag_remove_none'
+    CSV_REMOVE_TAG_CHOICES = [
+        (TAG_REMOVE_ALL, 'tag_remove_all'),
+        (TAG_REMOVE_PREFIX, 'tag_remove_prefix'),
+        (TAG_REMOVE_NONE, 'tag_remove_none'),
+    ]
+    csv_remove_tag = models.CharField(
+        max_length = 50,
+        choices = CSV_REMOVE_TAG_CHOICES,
+        default = TAG_REMOVE_PREFIX,
+    )
+
+    # (optional) marking for tags added via CSV file
+    csv_tag_prefix = models.CharField(max_length=50, default='AUTO', blank=True, null=True)
+    csv_tag_prefix_delimiter = models.CharField(max_length=1, default='_', blank=True, null=True)
+
+    """ CSV format fields """
+
+    # CSV field delimiter
+    FIELD_COMMA = 'field_comma'
+    FIELD_SEMICOLON = 'field_semicolon'
+    CSV_FIELD_DELIMITER_CHOICES = [
+        (FIELD_COMMA, 'field_comma'),
+        (FIELD_SEMICOLON, 'field_semicolon'),
+    ]
+    csv_field_delimiter = models.CharField(
+        max_length = 50,
+        choices = CSV_FIELD_DELIMITER_CHOICES,
+        default = FIELD_COMMA,
+    )
+
+    # CSV quote character
+    TEXT_DOUBLE_QUOTATION_MARKS = 'text_double_quotation_marks'
+    TEXT_SINGLE_QUOTATION_MARKS = 'text_single_quotation_marks'
+    CSV_TEXT_QUOTE_CHOICES = [
+        (TEXT_DOUBLE_QUOTATION_MARKS, 'text_double_quotation_marks'),
+        (TEXT_SINGLE_QUOTATION_MARKS, 'text_single_quotation_marks'),
+    ]
+    csv_text_quote = models.CharField(
+        max_length = 50,
+        choices = CSV_TEXT_QUOTE_CHOICES,
+        default = TEXT_DOUBLE_QUOTATION_MARKS,
+    )
+
+    # IP field format
+    IP_COMMA = 'ip_comma'
+    IP_SEMICOLON = 'ip_semicolon'
+    IP_SPACE = 'ip_space'
+    CSV_IP_DELIMITER_CHOICES = [
+        (IP_COMMA, 'ip_comma'),
+        (IP_SEMICOLON, 'ip_semicolon'),
+        (IP_SPACE, 'ip_space'),
+    ]
+    csv_ip_delimiter = models.CharField(
+        max_length = 50,
+        choices = CSV_IP_DELIMITER_CHOICES,
+        default = IP_SEMICOLON,
+    )
+
+    # tag field format
+    TAG_COMMA = 'tag_comma'
+    TAG_SEMICOLON = 'tag_semicolon'
+    TAG_SPACE = 'tag_space'
+    CSV_TAG_DELIMITER_CHOICES = [
+        (TAG_COMMA, 'tag_comma'),
+        (TAG_SEMICOLON, 'tag_semicolon'),
+        (TAG_SPACE, 'tag_space'),
+    ]
+    csv_tag_delimiter = models.CharField(
+        max_length = 50,
+        choices = CSV_TAG_DELIMITER_CHOICES,
+        default = TAG_SPACE,
+    )
 
     # string representation
     def __str__(self):
