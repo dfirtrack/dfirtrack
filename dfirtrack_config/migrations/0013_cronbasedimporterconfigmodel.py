@@ -74,7 +74,7 @@ class Migration(migrations.Migration):
                     FALSE,
                     'tag_remove_prefix',
                     'AUTO',
-                    '_',
+                    'tag_prefix_underscore',
                     'field_comma',
                     'text_double_quotation_marks',
                     'ip_semicolon',
@@ -151,7 +151,7 @@ class Migration(migrations.Migration):
                     0,
                     'tag_remove_prefix'
                     'AUTO',
-                    '_',
+                    'tag_prefix_underscore',
                     'field_comma',
                     'text_double_quotation_marks',
                     'ip_semicolon',

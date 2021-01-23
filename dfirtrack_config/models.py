@@ -249,9 +249,9 @@ class SystemImporterFileCsvCronbasedConfigModel(models.Model):
     TAG_REMOVE_PREFIX = 'tag_remove_prefix'
     TAG_REMOVE_NONE = 'tag_remove_none'
     CSV_REMOVE_TAG_CHOICES = [
-        (TAG_REMOVE_ALL, 'tag_remove_all'),
-        (TAG_REMOVE_PREFIX, 'tag_remove_prefix'),
-        (TAG_REMOVE_NONE, 'tag_remove_none'),
+        (TAG_REMOVE_ALL, 'Remove all tags'),
+        (TAG_REMOVE_PREFIX, 'Remove tags with prefix'),
+        (TAG_REMOVE_NONE, 'Keep all tags'),
     ]
     csv_remove_tag = models.CharField(
         max_length = 50,
@@ -261,7 +261,21 @@ class SystemImporterFileCsvCronbasedConfigModel(models.Model):
 
     # (optional) marking for tags added via CSV file
     csv_tag_prefix = models.CharField(max_length=50, default='AUTO', blank=True, null=True)
-    csv_tag_prefix_delimiter = models.CharField(max_length=1, default='_', blank=True, null=True)
+    TAG_PREFIX_UNDERSCORE = 'tag_prefix_underscore'
+    TAG_PREFIX_HYPHEN = 'tag_prefix_hyphen'
+    TAG_PREFIX_PERIOD = 'tag_prefix_period'
+    CSV_TAG_PREFIX_DELIMITER_CHOICES = [
+        (TAG_PREFIX_UNDERSCORE, 'Underscore'),
+        (TAG_PREFIX_HYPHEN, 'Hyphen'),
+        (TAG_PREFIX_PERIOD, 'Period'),
+    ]
+    csv_tag_prefix_delimiter = models.CharField(
+        max_length = 50,
+        choices = CSV_TAG_PREFIX_DELIMITER_CHOICES,
+        default = TAG_PREFIX_UNDERSCORE,
+        blank = True,
+        null = True,
+    )
 
     """ CSV format fields """
 
@@ -269,8 +283,8 @@ class SystemImporterFileCsvCronbasedConfigModel(models.Model):
     FIELD_COMMA = 'field_comma'
     FIELD_SEMICOLON = 'field_semicolon'
     CSV_FIELD_DELIMITER_CHOICES = [
-        (FIELD_COMMA, 'field_comma'),
-        (FIELD_SEMICOLON, 'field_semicolon'),
+        (FIELD_COMMA, 'Comma'),
+        (FIELD_SEMICOLON, 'Semicolon'),
     ]
     csv_field_delimiter = models.CharField(
         max_length = 50,
@@ -282,8 +296,8 @@ class SystemImporterFileCsvCronbasedConfigModel(models.Model):
     TEXT_DOUBLE_QUOTATION_MARKS = 'text_double_quotation_marks'
     TEXT_SINGLE_QUOTATION_MARKS = 'text_single_quotation_marks'
     CSV_TEXT_QUOTE_CHOICES = [
-        (TEXT_DOUBLE_QUOTATION_MARKS, 'text_double_quotation_marks'),
-        (TEXT_SINGLE_QUOTATION_MARKS, 'text_single_quotation_marks'),
+        (TEXT_DOUBLE_QUOTATION_MARKS, 'Double quotation marks'),
+        (TEXT_SINGLE_QUOTATION_MARKS, 'Single quotation marks'),
     ]
     csv_text_quote = models.CharField(
         max_length = 50,
@@ -296,9 +310,9 @@ class SystemImporterFileCsvCronbasedConfigModel(models.Model):
     IP_SEMICOLON = 'ip_semicolon'
     IP_SPACE = 'ip_space'
     CSV_IP_DELIMITER_CHOICES = [
-        (IP_COMMA, 'ip_comma'),
-        (IP_SEMICOLON, 'ip_semicolon'),
-        (IP_SPACE, 'ip_space'),
+        (IP_COMMA, 'Comma'),
+        (IP_SEMICOLON, 'Semicolon'),
+        (IP_SPACE, 'Space'),
     ]
     csv_ip_delimiter = models.CharField(
         max_length = 50,
@@ -311,9 +325,9 @@ class SystemImporterFileCsvCronbasedConfigModel(models.Model):
     TAG_SEMICOLON = 'tag_semicolon'
     TAG_SPACE = 'tag_space'
     CSV_TAG_DELIMITER_CHOICES = [
-        (TAG_COMMA, 'tag_comma'),
-        (TAG_SEMICOLON, 'tag_semicolon'),
-        (TAG_SPACE, 'tag_space'),
+        (TAG_COMMA, 'Comma'),
+        (TAG_SEMICOLON, 'Semicolon'),
+        (TAG_SPACE, 'Space'),
     ]
     csv_tag_delimiter = models.CharField(
         max_length = 50,
