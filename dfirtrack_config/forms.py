@@ -471,17 +471,15 @@ class SystemImporterFileCsvCronbasedConfigForm(forms.ModelForm):
     # reorder field choices
     csv_default_systemstatus = forms.ModelChoiceField(
         queryset = Systemstatus.objects.order_by('systemstatus_name'),
-        label = 'Set systemstatus (*)',
+        label = 'Set from database (*)',
         required = True,
-        widget = forms.RadioSelect(),
     )
 
     # reorder field choices
     csv_default_analysisstatus = forms.ModelChoiceField(
         queryset = Analysisstatus.objects.order_by('analysisstatus_name'),
-        label = 'Set analysisstatus (*)',
+        label = 'Set from database (*)',
         required = True,
-        widget = forms.RadioSelect(),
     )
 
     # reorder field choices
@@ -618,17 +616,23 @@ class SystemImporterFileCsvCronbasedConfigForm(forms.ModelForm):
             'csv_column_tag',
             'csv_default_tag',
             'csv_remove_tag',
+            'csv_tag_prefix',
+            'csv_tag_prefix_delimiter',
+            'csv_field_delimiter',
+            'csv_text_quote',
+            'csv_ip_delimiter',
+            'csv_tag_delimiter',
         )
 
         labels = {
-            'csv_column_system': 'Number of the column in the CSV file that contains the system name',
+            'csv_column_system': 'CSV column (*)',
             'csv_skip_existing_system': 'Skip existing systems',
             'csv_headline': 'CSV file contains a headline row',
             'csv_import_path': 'Path to CSV file',
             'csv_import_filename': 'File name of CSV file',
-            'csv_choice_ip': 'CSV file contains IP addresses (multiple IP addresses in CSV field allowed)',
-            'csv_column_ip': 'Number of the column in the CSV file that contains the IP addresses',
-            'csv_remove_ip': 'Remove / overwrite existing IP addresses for already existing systems',
+            'csv_choice_ip': 'Set from CSV',
+            'csv_column_ip': 'CSV column',
+            'csv_remove_ip': 'Overwrite IP addresses for existing systems',
             'csv_choice_dnsname': 'Set from CSV',
             'csv_column_dnsname': 'CSV column',
             'csv_choice_domain': 'Set from CSV',
@@ -647,13 +651,19 @@ class SystemImporterFileCsvCronbasedConfigForm(forms.ModelForm):
             'csv_column_systemtype': 'CSV column',
             'csv_choice_case': 'Set from CSV',
             'csv_column_case': 'CSV column',
-            'csv_remove_case': 'Remove / overwrite existing cases for already existing systems',
+            'csv_remove_case': 'Overwrite cases for existing systems',
             'csv_choice_company': 'Set from CSV',
             'csv_column_company': 'CSV column',
-            'csv_remove_company': 'Remove / overwrite existing companies for already existing systems',
+            'csv_remove_company': 'Overwrite companies for existing systems',
             'csv_choice_tag': 'Set from CSV',
             'csv_column_tag': 'CSV column',
-            'csv_remove_tag': 'Remove / overwrite existing tags for already existing systems',
+            'csv_remove_tag': 'Overwrite tags for existing systems',
+            'csv_tag_prefix': 'Prefix for tags imported via CSV',
+            'csv_tag_prefix_delimiter': 'Delimiter to separate prefix from tag',
+            'csv_field_delimiter': 'CSV field delimiter',
+            'csv_text_quote': 'CSV text quotation mark',
+            'csv_ip_delimiter': 'IP address delimiter (within CSV field)',
+            'csv_tag_delimiter': 'Tag delimiter (within CSV field)',
         }
 
         widgets = {

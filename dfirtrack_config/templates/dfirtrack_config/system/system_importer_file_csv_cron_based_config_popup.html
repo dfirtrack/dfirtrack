@@ -51,24 +51,10 @@
         <!-- left column -->
         <div class="col-4">
 
-            <!-- general settings block -->
+            <!-- CSV file options settings block -->
             <div class="row">
 
                 <div class="card card-body bg-dark border-light top-distance">
-
-                    <h5>
-                        General settings
-                    </h5>
-
-                    <div class="text-danger">
-                        {{ form.csv_column_system.errors }}
-                    </div>
-
-                    <table>
-                        <tr><td>{{ form.csv_skip_existing_system }}</td> <td>{{ form.csv_skip_existing_system.label }}</td></tr>
-                        <tr><td>{{ form.csv_column_system }}</td> <td>{{ form.csv_column_system.label }}</td></tr>
-                        <tr><td>{{ form.csv_headline }}</td> <td>{{ form.csv_headline.label }}</td></tr>
-                    </table>
 
                     <h5 class="top-distance">
                         CSV file options
@@ -77,7 +63,7 @@
                     <!-- csv_import_path -->
                     <div class="row">
 
-                        <div class="col top-distance bottom-distance">
+                        <div class="col top-distance">
                             {{ form.csv_import_path.label }}
                         </div>
 
@@ -85,7 +71,7 @@
 
                     <div class="row">
 
-                        <div class="col-12">
+                        <div class="col-12 top-distance">
                             {{ form.csv_import_path }}
                         </div>
 
@@ -95,7 +81,7 @@
                     <!-- csv_import_filename -->
                     <div class="row">
 
-                        <div class="col top-distance bottom-distance">
+                        <div class="col top-distance">
                             {{ form.csv_import_filename.label }}
                         </div>
 
@@ -103,21 +89,51 @@
 
                     <div class="row">
 
-                        <div class="col-12">
+                        <div class="col-12 top-distance">
                             {{ form.csv_import_filename }}
                         </div>
 
                     <!-- csv_import_filename -->
                     </div>
 
-                    <h5 class="top-distance">
-                        User context
-                    </h5>
+                    <!-- csv_field_delimiter / csv_text_quote / csv_headline -->
+                    <div class="row">
+
+                        <div class="col-4 top-distance">
+                            {{ form.csv_field_delimiter.label }}
+                        </div>
+
+                        <div class="col-4 top-distance">
+                            {{ form.csv_text_quote.label }}
+                        </div>
+
+                        <div class="col-4 top-distance">
+                            {{ form.csv_headline.label }}
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-4 top-distance">
+                            {{ form.csv_field_delimiter }}
+                        </div>
+
+                        <div class="col-4 top-distance">
+                            {{ form.csv_text_quote }}
+                        </div>
+
+                        <div class="col-4 top-distance">
+                            {{ form.csv_headline }}
+                        </div>
+
+                    <!-- csv_field_delimiter / csv_text_quote / csv_headline -->
+                    </div>
 
                     <!-- csv_import_username -->
                     <div class="row">
 
-                        <div class="col top-distance bottom-distance">
+                        <div class="col top-distance">
                             {{ form.csv_import_username.label }}
                         </div>
 
@@ -125,7 +141,7 @@
 
                     <div class="row">
 
-                        <div class="col-12">
+                        <div class="col top-distance">
                             {% for i in form.csv_import_username %}
                                 {{ i }}<br>
                             {% endfor %}
@@ -136,58 +152,7 @@
 
                 </div>
 
-            <!-- general settings block -->
-            </div>
-
-            <!-- IP related settings block -->
-            <div class="row">
-
-                <div class="card card-body bg-dark border-light top-distance">
-
-                    <h5>
-                        IP related settings
-                    </h5>
-
-                    <table class="bottom-distance">
-                        <tr><td>{{ form.csv_choice_ip }}</td> <td>{{ form.csv_choice_ip.label }}</td></tr>
-                    </table>
-
-                    The following settings are only taken into account if IP addresses have been selected.
-
-                    <div class="text-danger">
-                        {{ form.csv_column_ip.errors }}
-                    </div>
-
-                    <table class="top-distance">
-                        <tr><td>{{ form.csv_remove_ip }}</td> <td>{{ form.csv_remove_ip.label }}</td></tr>
-                        <tr><td>{{ form.csv_column_ip }}</td> <td>{{ form.csv_column_ip.label }}</td></tr>
-                    </table>
-
-                </div>
-
-            <!-- IP related settings block -->
-            </div>
-
-            <!-- overriding settings block -->
-            <div class="row">
-
-                <div class="card card-body bg-dark border-light top-distance">
-
-                    <h5>
-                        Overriding settings
-                    </h5>
-
-                    The following settings will remove existing many-to-many relationships, before adding new ones (only applies for already existing systems).
-
-                    <table class="top-distance">
-                        <tr><td>{{ form.csv_remove_case }}</td> <td>{{ form.csv_remove_case.label }}</td></tr>
-                        <tr><td>{{ form.csv_remove_company }}</td> <td>{{ form.csv_remove_company.label }}</td></tr>
-                        <tr><td>{{ form.csv_remove_tag }}</td> <td>{{ form.csv_remove_tag.label }}</td></tr>
-                    </table>
-
-                </div>
-
-            <!-- overriding settings block -->
+            <!-- CSV file options settings block -->
             </div>
 
         <!-- left column -->
@@ -196,37 +161,221 @@
         <!-- middle column -->
         <div class="col-4">
 
-            <!-- cron based settings block -->
+            <!-- important import settings block -->
             <div class="card card-body bg-dark border-light top-distance">
 
                 <h5>
-                    Mandatory settings
+                    Important import settings
                 </h5>
 
-                The following settings will be used for cron-based system CSV file import.
+                <!-- system -->
+                <h6 class="top-distance">
+                    Systems
+                </h6>
+
+                <div class="text-danger">
+                    {{ form.csv_column_system.errors }}
+                </div>
+
+                <div class="row">
+                    <div class="col-2">
+                    </div>
+                    <div class="col-4">
+                        {{ form.csv_column_system.label }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-2 top-distance">
+                    </div>
+                    <div class="col-4 top-distance">
+                        {{ form.csv_column_system }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6 top-distance">
+                        {{ form.csv_skip_existing_system.label }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6 top-distance">
+                        {{ form.csv_skip_existing_system }}
+                    </div>
+                </div>
+
+                <!-- ip -->
+                <h6 class="top-distance">
+                    IP addresses
+                </h6>
+
+                <!-- errors -->
+                <div class="text-danger">
+                    {{ form.csv_column_ip.errors }}
+                </div>
+
+                <div class="row">
+                    <div class="col-2">
+                        {{ form.csv_choice_ip.label }}
+                    </div>
+                    <div class="col-4">
+                        {{ form.csv_column_ip.label }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-2 top-distance">
+                        {{ form.csv_choice_ip }}
+                    </div>
+                    <div class="col-4 top-distance">
+                        {{ form.csv_column_ip }}
+                    </div>
+                </div>
+
+                <!-- csv_remove_ip / csv_ip_delimiter -->
+                <div class="row">
+                    <div class="col-6 top-distance">
+                        {{ form.csv_remove_ip.label }}
+                    </div>
+                    <div class="col-6 top-distance">
+                        {{ form.csv_ip_delimiter.label }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6 top-distance">
+                        {{ form.csv_remove_ip }}
+                    </div>
+                    <div class="col-6 top-distance">
+                        {{ form.csv_ip_delimiter }}
+                    </div>
+                </div>
 
                 <!-- systemstatus -->
-
                 <h6 class="top-distance">
-                    {{ form.csv_default_systemstatus.label }}
+                    Systemstatus (*)
                 </h6>
 
-                {% for i in form.csv_default_systemstatus %}
-                    {{ i }}<br>
-                {% endfor %}
+                <div class="row">
+                    <div class="col-6">
+                    </div>
+                    <div class="col-6">
+                        {{ form.csv_default_systemstatus.label }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                    </div>
+                    <div class="col-6">
+                        {{ form.csv_default_systemstatus }}
+                    </div>
+                </div>
 
                 <!-- analysisstatus -->
-
                 <h6 class="top-distance">
-                    {{ form.csv_default_analysisstatus.label }}
+                    Analysisstatus (*)
                 </h6>
 
-                {% for i in form.csv_default_analysisstatus %}
-                    {{ i }}<br>
-                {% endfor %}
+                <div class="row">
+                    <div class="col-6">
+                    </div>
+                    <div class="col-6">
+                        {{ form.csv_default_analysisstatus.label }}
+                    </div>
+                </div>
 
+                <div class="row">
+                    <div class="col-6">
+                    </div>
+                    <div class="col-6">
+                        {{ form.csv_default_analysisstatus }}
+                    </div>
+                </div>
+
+                <!-- tag -->
+                <h6 class="top-distance">
+                    Tags
+                </h6>
+
+                <!-- errors -->
+                <div class="row">
+                    <div class="text-danger">
+                        {{ form.csv_choice_tag.errors }}
+                        {{ form.csv_column_tag.errors }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-2">
+                        {{ form.csv_choice_tag.label }}
+                    </div>
+                    <div class="col-3">
+                        {{ form.csv_column_tag.label }}
+                    </div>
+                    <div class="col-1">
+                        {% include "dfirtrack_config/includes/button_or.html" %}
+                    </div>
+                    <div class="col-6">
+                        {{ form.csv_default_tag.label }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-2 top-distance">
+                        {{ form.csv_choice_tag }}
+                    </div>
+                    <div class="col-4 top-distance">
+                        {{ form.csv_column_tag }}
+                    </div>
+                    <div class="col-6 top-distance">
+                        {% for i in form.csv_default_tag %}
+                            {{ i }}<br>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- csv_remove_tag / csv_tag_delimiter -->
+                <div class="row">
+                    <div class="col-6 top-distance">
+                        {{ form.csv_remove_tag.label }}
+                    </div>
+                    <div class="col-6 top-distance">
+                        {{ form.csv_tag_delimiter.label }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6 top-distance">
+                        {{ form.csv_remove_tag }}
+                    </div>
+                    <div class="col-6 top-distance">
+                        {{ form.csv_tag_delimiter }}
+                    </div>
+                </div>
+
+                <!-- csv_tag_prefix / csv_tag_prefix_delimiter -->
+                <div class="row">
+                    <div class="col-6 top-distance">
+                        {{ form.csv_tag_prefix.label }}
+                    </div>
+                    <div class="col-6 top-distance">
+                        {{ form.csv_tag_prefix_delimiter.label }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6 top-distance">
+                        {{ form.csv_tag_prefix }}
+                    </div>
+                    <div class="col-6 top-distance">
+                        {{ form.csv_tag_prefix_delimiter }}
+                    </div>
+                </div>
+
+            <!-- important import settings block -->
             </div>
-            <!-- cron based settings block -->
 
         <!-- middle column -->
         </div>
@@ -234,15 +383,16 @@
         <!-- right column -->
         <div class="col-4">
 
+            <!-- optional import settings block -->
             <div class="card card-body bg-dark border-light top-distance">
 
                 <h5>
-                    Optional settings
+                    Optional import settings
                 </h5>
 
                 The following settings will be used for cron-based system CSV file import.
                 Attributes can be set either via the file or from existing elements of the database.
-                In the latter case, the corresponding attribute is set for all systems.
+                Be aware that in the latter case, the corresponding attribute is set for all systems.
 
                 <!-- dnsname -->
                 <h6 class="top-distance">
@@ -606,6 +756,18 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col top-distance">
+                        {{ form.csv_remove_case.label }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col top-distance">
+                        {{ form.csv_remove_case }}
+                    </div>
+                </div>
+
                 <!-- company -->
                 <h6 class="top-distance">
                     Companies
@@ -648,48 +810,19 @@
                     </div>
                 </div>
 
-                <!-- tag -->
-                <h6 class="top-distance">
-                    Tags
-                </h6>
-
-                <!-- errors -->
                 <div class="row">
-                    <div class="text-danger">
-                        {{ form.csv_choice_tag.errors }}
-                        {{ form.csv_column_tag.errors }}
+                    <div class="col top-distance">
+                        {{ form.csv_remove_company.label }}
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-2">
-                        {{ form.csv_choice_tag.label }}
-                    </div>
-                    <div class="col-3">
-                        {{ form.csv_column_tag.label }}
-                    </div>
-                    <div class="col-1">
-                        {% include "dfirtrack_config/includes/button_or.html" %}
-                    </div>
-                    <div class="col-6">
-                        {{ form.csv_default_tag.label }}
+                    <div class="col top-distance">
+                        {{ form.csv_remove_company }}
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-2 top-distance">
-                        {{ form.csv_choice_tag }}
-                    </div>
-                    <div class="col-4 top-distance">
-                        {{ form.csv_column_tag }}
-                    </div>
-                    <div class="col-6 top-distance">
-                        {% for i in form.csv_default_tag %}
-                            {{ i }}<br>
-                        {% endfor %}
-                    </div>
-                </div>
-
+            <!-- optional import settings block -->
             </div>
 
         <!-- right column -->
