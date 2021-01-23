@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from dfirtrack_artifacts.models import Artifactstatus
 from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel, MainConfigModel, SystemExporterMarkdownConfigModel, SystemExporterSpreadsheetCsvConfigModel, SystemExporterSpreadsheetXlsConfigModel, SystemImporterFileCsvConfigbasedConfigModel, SystemImporterFileCsvCronbasedConfigModel, SystemImporterFileCsvFormbasedConfigModel
 from dfirtrack_main.models import Analysisstatus, Case, Company, Dnsname, Domain, Location, Os, Reason, Recommendation, Serviceprovider, Systemstatus, Systemtype, Tag
+import os
 
 class ArtifactExporterSpreadsheetXlsConfigForm(forms.ModelForm):
     """ artifact exporter spreadsheet xls config form """
@@ -1004,6 +1005,12 @@ class SystemImporterFileCsvCronbasedConfigForm(forms.ModelForm):
             if all_columns_dict[column] in pruned_columns_dict.values():
                 # add error to validation error dict
                 validation_errors[str(column)] = 'The column has to be unique.'
+
+        """ check CSV import path """
+
+        # CSV import path is not readable
+        if not os.access(self.cleaned_data['csv_import_path'], os.R_OK):
+            validation_errors['csv_import_path'] = 'CSV import path is not readable.'
 
         # finally raise validation error
         if validation_errors:

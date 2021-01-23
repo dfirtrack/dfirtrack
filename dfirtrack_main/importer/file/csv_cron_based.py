@@ -12,6 +12,7 @@ from dfirtrack_main.importer.file.csv_set_system_attributes import case_attribut
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import System
 from io import TextIOWrapper
+import os
 
 @login_required(login_url="/login")
 def config_check(request):
@@ -25,6 +26,12 @@ def config_check(request):
     # check for csv_import_username (after initial migration w/o user defined)
     if not model.csv_import_username:
         messages.error(request, "No user for import defined. Check config!")
+        # set stop condition
+        stop_system_importer_file_csv_cronbased = True
+
+    # CSV import path is not readable
+    if not os.access(model.csv_import_path, os.R_OK):
+        messages.error(request, "CSV import path is not readable. Check config!")
         # set stop condition
         stop_system_importer_file_csv_cronbased = True
 
