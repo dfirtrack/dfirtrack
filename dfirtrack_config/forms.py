@@ -796,6 +796,13 @@ class SystemImporterFileCsvCronbasedConfigForm(forms.ModelForm):
 
         """ check for EITHER 'choice' and 'column' OR 'default' """
 
+        # ip - CSV chosen and no CSV column filled out
+        if self.cleaned_data['csv_choice_ip'] and not self.cleaned_data['csv_column_ip']:
+            validation_errors['csv_choice_ip'] = 'Add CSV column.'
+        # ip - CSV not chosen and CSV column filled out
+        if not self.cleaned_data['csv_choice_ip'] and self.cleaned_data['csv_column_ip']:
+            validation_errors['csv_choice_ip'] = 'Forgot to choose CSV?'
+
         # dnsname - CSV chosen and no CSV column filled out
         if self.cleaned_data['csv_choice_dnsname'] and not self.cleaned_data['csv_column_dnsname']:
             validation_errors['csv_choice_dnsname'] = 'Add CSV column.'
@@ -938,6 +945,21 @@ class SystemImporterFileCsvCronbasedConfigForm(forms.ModelForm):
         # tag - CSV column filled out and DB chosen
         if self.cleaned_data['csv_column_tag'] and self.cleaned_data['csv_default_tag']:
             validation_errors['csv_choice_tag'] = 'Decide between CSV or database or nothing.'
+
+        # tag - CSV chosen and prefix and prefix delimiter not together
+        if self.cleaned_data['csv_choice_tag']:
+            if self.cleaned_data['csv_tag_prefix'] and not self.cleaned_data['csv_tag_prefix_delimiter'] or not self.cleaned_data['csv_tag_prefix'] and self.cleaned_data['csv_tag_prefix_delimiter']:
+                validation_errors['csv_tag_prefix'] = 'Choose prefix and delimiter for tag import from CSV to distinguish between manual set tags.'
+        # tag - DB chosen and prefix and / or prefix delimiter chosen
+        if self.cleaned_data['csv_default_tag']:
+            if self.cleaned_data['csv_tag_prefix'] or self.cleaned_data['csv_tag_prefix_delimiter']:
+                validation_errors['csv_tag_prefix'] = 'Prefix and delimiter are not available when setting tags from database.'
+        # tag - CSV chosen but no prefix
+        if self.cleaned_data['csv_choice_tag'] and not self.cleaned_data['csv_tag_prefix']:
+            validation_errors['csv_tag_prefix'] = 'Choose prefix and delimiter for tag import from CSV to distinguish between manual set tags.'
+        # tag - DB chosen but special option 'tag_remove_prefix' set
+        if self.cleaned_data['csv_remove_tag'] == 'tag_remove_prefix' and self.cleaned_data['csv_default_tag']:
+            validation_errors['csv_remove_tag'] = 'Removing tags with prefix is only available when setting tags from CSV.'
 
         """ check if the column fields are different """
 

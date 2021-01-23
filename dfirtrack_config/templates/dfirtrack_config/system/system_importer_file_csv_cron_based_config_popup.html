@@ -212,6 +212,7 @@
 
                 <!-- errors -->
                 <div class="text-danger">
+                    {{ form.csv_choice_ip.errors }}
                     {{ form.csv_column_ip.errors }}
                 </div>
 
@@ -336,6 +337,13 @@
                     </div>
                 </div>
 
+                <!-- errors -->
+                <div class="row">
+                    <div class="text-danger top-distance">
+                        {{ form.csv_remove_tag.errors }}
+                    </div>
+                </div>
+
                 <!-- csv_remove_tag / csv_tag_delimiter -->
                 <div class="row">
                     <div class="col-6 top-distance">
@@ -352,6 +360,13 @@
                     </div>
                     <div class="col-6 top-distance">
                         {{ form.csv_tag_delimiter }}
+                    </div>
+                </div>
+
+                <!-- errors -->
+                <div class="row">
+                    <div class="text-danger top-distance">
+                        {{ form.csv_tag_prefix.errors }}
                     </div>
                 </div>
 
