@@ -362,6 +362,92 @@ class SystemImporterFileCsvConfigbasedViewTestCase(TestCase):
         self.assertEqual(system_8.systemstatus, systemstatus_1)
         self.assertEqual(system_9.systemstatus, systemstatus_1)
 
+    def test_system_importer_file_csv_config_based_post_headline(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_config_based', password='URVYUzUig1BrzToryfkm')
+        # get objects
+        analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
+        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+        # change config
+        system_importer_file_csv_configbased_config_model = SystemImporterFileCsvConfigbasedConfigModel(system_importer_file_csv_configbased_config_name='SystemImporterFileCsvConfigbasedConfig')
+        system_importer_file_csv_configbased_config_model.csv_skip_existing_system = True
+        system_importer_file_csv_configbased_config_model.csv_column_system = 5
+        system_importer_file_csv_configbased_config_model.csv_headline = True
+        system_importer_file_csv_configbased_config_model.csv_choice_ip = True
+        system_importer_file_csv_configbased_config_model.csv_remove_ip = True
+        system_importer_file_csv_configbased_config_model.csv_column_ip = 6
+        system_importer_file_csv_configbased_config_model.csv_remove_case = True
+        system_importer_file_csv_configbased_config_model.csv_remove_company = True
+        system_importer_file_csv_configbased_config_model.csv_remove_tag = True
+        system_importer_file_csv_configbased_config_model.csv_default_systemstatus = systemstatus_1
+        system_importer_file_csv_configbased_config_model.csv_default_analysisstatus = analysisstatus_1
+        system_importer_file_csv_configbased_config_model.save()
+        # open upload file
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_importer_file_csv_testfile_headline.csv'), 'r')
+        # create post data
+        data_dict = {
+            'systemcsv': systemcsv,
+        }
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.post('/system/importer/file/csv/configbased/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # get objects
+        system_1 = System.objects.get(system_name='systems_csv_headline_001')
+        system_2 = System.objects.get(system_name='systems_csv_headline_002')
+        system_3 = System.objects.get(system_name='systems_csv_headline_003')
+        system_4 = System.objects.get(system_name='systems_csv_headline_004')
+        system_5 = System.objects.get(system_name='systems_csv_headline_005')
+        system_6 = System.objects.get(system_name='systems_csv_headline_006')
+        system_7 = System.objects.get(system_name='systems_csv_headline_007')
+        system_8 = System.objects.get(system_name='systems_csv_headline_008')
+        system_9 = System.objects.get(system_name='systems_csv_headline_009')
+        # close file
+        systemcsv.close()
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(str(messages[0]), '9 systems were created.')
+        self.assertTrue(System.objects.filter(system_name='systems_csv_headline_001').exists())
+        self.assertTrue(System.objects.filter(system_name='systems_csv_headline_002').exists())
+        self.assertTrue(System.objects.filter(system_name='systems_csv_headline_003').exists())
+        self.assertTrue(System.objects.filter(system_name='systems_csv_headline_004').exists())
+        self.assertTrue(System.objects.filter(system_name='systems_csv_headline_005').exists())
+        self.assertTrue(System.objects.filter(system_name='systems_csv_headline_006').exists())
+        self.assertTrue(System.objects.filter(system_name='systems_csv_headline_007').exists())
+        self.assertTrue(System.objects.filter(system_name='systems_csv_headline_008').exists())
+        self.assertTrue(System.objects.filter(system_name='systems_csv_headline_009').exists())
+        self.assertTrue(system_1.ip.filter(ip_ip='127.0.0.13').exists())
+        self.assertTrue(system_2.ip.filter(ip_ip='127.0.0.23').exists())
+        self.assertTrue(system_3.ip.filter(ip_ip='127.0.0.33').exists())
+        self.assertTrue(system_4.ip.filter(ip_ip='192.168.122.1').exists())
+        self.assertTrue(system_5.ip.filter(ip_ip='192.168.122.10').exists())
+        self.assertTrue(system_6.ip.filter(ip_ip='192.168.122.100').exists())
+        self.assertTrue(system_7.ip.filter(ip_ip='192.168.3.1').exists())
+        self.assertTrue(system_8.ip.filter(ip_ip='192.168.3.2').exists())
+        self.assertTrue(system_9.ip.filter(ip_ip='::3').exists())
+        self.assertEqual(system_1.analysisstatus, analysisstatus_1)
+        self.assertEqual(system_2.analysisstatus, analysisstatus_1)
+        self.assertEqual(system_3.analysisstatus, analysisstatus_1)
+        self.assertEqual(system_4.analysisstatus, analysisstatus_1)
+        self.assertEqual(system_5.analysisstatus, analysisstatus_1)
+        self.assertEqual(system_6.analysisstatus, analysisstatus_1)
+        self.assertEqual(system_7.analysisstatus, analysisstatus_1)
+        self.assertEqual(system_8.analysisstatus, analysisstatus_1)
+        self.assertEqual(system_9.analysisstatus, analysisstatus_1)
+        self.assertEqual(system_1.systemstatus, systemstatus_1)
+        self.assertEqual(system_2.systemstatus, systemstatus_1)
+        self.assertEqual(system_3.systemstatus, systemstatus_1)
+        self.assertEqual(system_4.systemstatus, systemstatus_1)
+        self.assertEqual(system_5.systemstatus, systemstatus_1)
+        self.assertEqual(system_6.systemstatus, systemstatus_1)
+        self.assertEqual(system_7.systemstatus, systemstatus_1)
+        self.assertEqual(system_8.systemstatus, systemstatus_1)
+        self.assertEqual(system_9.systemstatus, systemstatus_1)
+
 # TODO: finish tests that have been prepared
 #    def test_system_importer_file_csv_config_based_post_complete(self):
 #        """ test importer view """
