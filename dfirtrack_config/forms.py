@@ -584,27 +584,35 @@ class SystemImporterFileCsvCronbasedConfigForm(forms.ModelForm):
             'csv_choice_dnsname',
             'csv_column_dnsname',
             'csv_default_dnsname',
+            'csv_remove_dnsname',
             'csv_choice_domain',
             'csv_column_domain',
             'csv_default_domain',
+            'csv_remove_domain',
             'csv_choice_location',
             'csv_column_location',
             'csv_default_location',
+            'csv_remove_location',
             'csv_choice_os',
             'csv_column_os',
             'csv_default_os',
+            'csv_remove_os',
             'csv_choice_reason',
             'csv_column_reason',
             'csv_default_reason',
+            'csv_remove_reason',
             'csv_choice_recommendation',
             'csv_column_recommendation',
             'csv_default_recommendation',
+            'csv_remove_recommendation',
             'csv_choice_serviceprovider',
             'csv_column_serviceprovider',
             'csv_default_serviceprovider',
+            'csv_remove_serviceprovider',
             'csv_choice_systemtype',
             'csv_column_systemtype',
             'csv_default_systemtype',
+            'csv_remove_systemtype',
             'csv_choice_case',
             'csv_column_case',
             'csv_default_case',
@@ -636,20 +644,28 @@ class SystemImporterFileCsvCronbasedConfigForm(forms.ModelForm):
             'csv_remove_ip': 'Overwrite IP addresses for existing systems',
             'csv_choice_dnsname': 'Set from CSV',
             'csv_column_dnsname': 'CSV column',
+            'csv_remove_dnsname': 'Remove dnsname for existing systems',
             'csv_choice_domain': 'Set from CSV',
             'csv_column_domain': 'CSV column',
+            'csv_remove_domain': 'Remove domain for existing systems',
             'csv_choice_location': 'Set from CSV',
             'csv_column_location': 'CSV column',
+            'csv_remove_location': 'Remove location for existing systems',
             'csv_choice_os': 'Set from CSV',
             'csv_column_os': 'CSV column',
+            'csv_remove_os': 'Remove os for existing systems',
             'csv_choice_reason': 'Set from CSV',
             'csv_column_reason': 'CSV column',
+            'csv_remove_reason': 'Remove reason for existing systems',
             'csv_choice_recommendation': 'Set from CSV',
             'csv_column_recommendation': 'CSV column',
+            'csv_remove_recommendation': 'Remove recommendation for existing systems',
             'csv_choice_serviceprovider': 'Set from CSV',
             'csv_column_serviceprovider': 'CSV column',
+            'csv_remove_serviceprovider': 'Remove serviceprovider for existing systems',
             'csv_choice_systemtype': 'Set from CSV',
             'csv_column_systemtype': 'CSV column',
+            'csv_remove_systemtype': 'Remove systemtype for existing systems',
             'csv_choice_case': 'Set from CSV',
             'csv_column_case': 'CSV column',
             'csv_remove_case': 'Overwrite cases for existing systems',
@@ -1005,6 +1021,45 @@ class SystemImporterFileCsvCronbasedConfigForm(forms.ModelForm):
             if all_columns_dict[column] in pruned_columns_dict.values():
                 # add error to validation error dict
                 validation_errors[str(column)] = 'The column has to be unique.'
+
+        """ check remove conditions in combination with skip condition """
+
+        # remove ip
+        if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_ip']:
+            validation_errors['csv_remove_ip'] = 'The choice is only valid if existing systems are not skipped.'
+        # remove dnsname
+        if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_dnsname']:
+            validation_errors['csv_remove_dnsname'] = 'The choice is only valid if existing systems are not skipped.'
+        # remove domain
+        if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_domain']:
+            validation_errors['csv_remove_domain'] = 'The choice is only valid if existing systems are not skipped.'
+        # remove location
+        if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_location']:
+            validation_errors['csv_remove_location'] = 'The choice is only valid if existing systems are not skipped.'
+        # remove os
+        if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_os']:
+            validation_errors['csv_remove_os'] = 'The choice is only valid if existing systems are not skipped.'
+        # remove reason
+        if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_reason']:
+            validation_errors['csv_remove_reason'] = 'The choice is only valid if existing systems are not skipped.'
+        # remove recommendation
+        if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_recommendation']:
+            validation_errors['csv_remove_recommendation'] = 'The choice is only valid if existing systems are not skipped.'
+        # remove serviceprovider
+        if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_serviceprovider']:
+            validation_errors['csv_remove_serviceprovider'] = 'The choice is only valid if existing systems are not skipped.'
+        # remove systemtype
+        if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_systemtype']:
+            validation_errors['csv_remove_systemtype'] = 'The choice is only valid if existing systems are not skipped.'
+        # remove case
+        if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_case']:
+            validation_errors['csv_remove_case'] = 'The choice is only valid if existing systems are not skipped.'
+        # remove company
+        if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_company']:
+            validation_errors['csv_remove_company'] = 'The choice is only valid if existing systems are not skipped.'
+        # remove tag
+        if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_tag']:
+            validation_errors['csv_remove_tag'] = 'The choice is only valid if existing systems are not skipped.'
 
         """ check CSV import path """
 
