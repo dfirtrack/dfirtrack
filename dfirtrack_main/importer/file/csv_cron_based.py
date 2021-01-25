@@ -9,7 +9,7 @@ from dfirtrack_config.models import SystemImporterFileCsvCronbasedConfigModel
 #from dfirtrack_main.importer.file.csv_messages import final_messages
 #from dfirtrack_main.importer.file.csv_set_system_attributes import case_attributes_config_based, company_attributes_config_based, ip_attributes, optional_system_attributes, tag_attributes_config_based
 from dfirtrack_main.logger.default_logger import error_logger, info_logger
-from dfirtrack_main.models import Dnsname, Domain, Location, Ip, Os, Reason, Recommendation, Serviceprovider, System, Systemtype
+from dfirtrack_main.models import Case, Company, Dnsname, Domain, Location, Ip, Os, Reason, Recommendation, Serviceprovider, System, Systemtype
 #from io import TextIOWrapper
 import os
 
@@ -127,8 +127,8 @@ def add_fk_attributes(system, system_created, model, row):
     if system_created or (not system_created and model.csv_remove_dnsname):
         # get dnsname from CSV
         if model.csv_choice_dnsname:
-            #get dnsname from CSV column
-            dnsname_name = row[model.csv_column_dnsname]
+            # get dnsname from CSV column
+            dnsname_name = row[model.csv_column_dnsname - 1]
             # check for empty string
             if dnsname_name:
                 # get or create dnsname
@@ -137,11 +137,14 @@ def add_fk_attributes(system, system_created, model, row):
                 if created:
                     dnsname.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_DNSNAME_CREATED")
             else:
-                # set empty value
+                # set empty value (field is empty)
                 dnsname = None
         # get dnsname from DB
         elif model.csv_default_dnsname:
             dnsname = model.csv_default_dnsname
+        # set empty value (removes for existing system if neither CSV nor DB is chosen, does nothing for new system)
+        else:
+            dnsname = None
         # set dnsname for system
         system.dnsname = dnsname
 
@@ -151,8 +154,8 @@ def add_fk_attributes(system, system_created, model, row):
     if system_created or (not system_created and model.csv_remove_domain):
         # get domain from CSV
         if model.csv_choice_domain:
-            #get domain from CSV column
-            domain_name = row[model.csv_column_domain]
+            # get domain from CSV column
+            domain_name = row[model.csv_column_domain - 1]
             # check for empty string and compare to system name (when queried with local account, hostname is returned under some circumstances depending on tool)
             if domain_name and domain_name != system.system_name:
                 # get or create domain
@@ -161,11 +164,14 @@ def add_fk_attributes(system, system_created, model, row):
                 if created:
                     domain.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_DOMAIN_CREATED")
             else:
-                # set empty value
+                # set empty value (field is empty)
                 domain = None
         # get domain from DB
         elif model.csv_default_domain:
             domain = model.csv_default_domain
+        # set empty value (removes for existing system if neither CSV nor DB is chosen, does nothing for new system)
+        else:
+            domain = None
         # set domain for system
         system.domain = domain
 
@@ -175,8 +181,8 @@ def add_fk_attributes(system, system_created, model, row):
     if system_created or (not system_created and model.csv_remove_location):
         # get location from CSV
         if model.csv_choice_location:
-            #get location from CSV column
-            location_name = row[model.csv_column_location]
+            # get location from CSV column
+            location_name = row[model.csv_column_location - 1]
             # check for empty string
             if location_name:
                 # get or create location
@@ -185,11 +191,14 @@ def add_fk_attributes(system, system_created, model, row):
                 if created:
                     location.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_LOCATION_CREATED")
             else:
-                # set empty value
+                # set empty value (field is empty)
                 location = None
         # get location from DB
         elif model.csv_default_location:
             location = model.csv_default_location
+        # set empty value (removes for existing system if neither CSV nor DB is chosen, does nothing for new system)
+        else:
+            location = None
         # set location for system
         system.location = location
 
@@ -199,8 +208,8 @@ def add_fk_attributes(system, system_created, model, row):
     if system_created or (not system_created and model.csv_remove_os):
         # get os from CSV
         if model.csv_choice_os:
-            #get os from CSV column
-            os_name = row[model.csv_column_os]
+            # get os from CSV column
+            os_name = row[model.csv_column_os - 1]
             # check for empty string
             if os_name:
                 # get or create os
@@ -209,11 +218,14 @@ def add_fk_attributes(system, system_created, model, row):
                 if created:
                     os.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_OS_CREATED")
             else:
-                # set empty value
+                # set empty value (field is empty)
                 os = None
         # get os from DB
         elif model.csv_default_os:
             os = model.csv_default_os
+        # set empty value (removes for existing system if neither CSV nor DB is chosen, does nothing for new system)
+        else:
+            os = None
         # set os for system
         system.os = os
 
@@ -223,8 +235,8 @@ def add_fk_attributes(system, system_created, model, row):
     if system_created or (not system_created and model.csv_remove_reason):
         # get reason from CSV
         if model.csv_choice_reason:
-            #get reason from CSV column
-            reason_name = row[model.csv_column_reason]
+            # get reason from CSV column
+            reason_name = row[model.csv_column_reason - 1]
             # check for empty string
             if reason_name:
                 # get or create reason
@@ -233,11 +245,14 @@ def add_fk_attributes(system, system_created, model, row):
                 if created:
                     reason.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_REASON_CREATED")
             else:
-                # set empty value
+                # set empty value (field is empty)
                 reason = None
         # get reason from DB
         elif model.csv_default_reason:
             reason = model.csv_default_reason
+        # set empty value (removes for existing system if neither CSV nor DB is chosen, does nothing for new system)
+        else:
+            reason = None
         # set reason for system
         system.reason = reason
 
@@ -247,8 +262,8 @@ def add_fk_attributes(system, system_created, model, row):
     if system_created or (not system_created and model.csv_remove_recommendation):
         # get recommendation from CSV
         if model.csv_choice_recommendation:
-            #get recommendation from CSV column
-            recommendation_name = row[model.csv_column_recommendation]
+            # get recommendation from CSV column
+            recommendation_name = row[model.csv_column_recommendation - 1]
             # check for empty string
             if recommendation_name:
                 # get or create recommendation
@@ -257,11 +272,14 @@ def add_fk_attributes(system, system_created, model, row):
                 if created:
                     recommendation.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_RECOMMENDATION_CREATED")
             else:
-                # set empty value
+                # set empty value (field is empty)
                 recommendation = None
         # get recommendation from DB
         elif model.csv_default_recommendation:
             recommendation = model.csv_default_recommendation
+        # set empty value (removes for existing system if neither CSV nor DB is chosen, does nothing for new system)
+        else:
+            recommendation = None
         # set recommendation for system
         system.recommendation = recommendation
 
@@ -271,8 +289,8 @@ def add_fk_attributes(system, system_created, model, row):
     if system_created or (not system_created and model.csv_remove_serviceprovider):
         # get serviceprovider from CSV
         if model.csv_choice_serviceprovider:
-            #get serviceprovider from CSV column
-            serviceprovider_name = row[model.csv_column_serviceprovider]
+            # get serviceprovider from CSV column
+            serviceprovider_name = row[model.csv_column_serviceprovider - 1]
             # check for empty string
             if serviceprovider_name:
                 # get or create serviceprovider
@@ -281,11 +299,14 @@ def add_fk_attributes(system, system_created, model, row):
                 if created:
                     serviceprovider.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_SERVICEPROVIDER_CREATED")
             else:
-                # set empty value
+                # set empty value (field is empty)
                 serviceprovider = None
         # get serviceprovider from DB
         elif model.csv_default_serviceprovider:
             serviceprovider = model.csv_default_serviceprovider
+        # set empty value (removes for existing system if neither CSV nor DB is chosen, does nothing for new system)
+        else:
+            serviceprovider = None
         # set serviceprovider for system
         system.serviceprovider = serviceprovider
 
@@ -295,8 +316,8 @@ def add_fk_attributes(system, system_created, model, row):
     if system_created or (not system_created and model.csv_remove_systemtype):
         # get systemtype from CSV
         if model.csv_choice_systemtype:
-            #get systemtype from CSV column
-            systemtype_name = row[model.csv_column_systemtype]
+            # get systemtype from CSV column
+            systemtype_name = row[model.csv_column_systemtype - 1]
             # check for empty string
             if systemtype_name:
                 # get or create systemtype
@@ -305,11 +326,14 @@ def add_fk_attributes(system, system_created, model, row):
                 if created:
                     systemtype.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_SYSTEMTYPE_CREATED")
             else:
-                # set empty value
+                # set empty value (field is empty)
                 systemtype = None
         # get systemtype from DB
         elif model.csv_default_systemtype:
             systemtype = model.csv_default_systemtype
+        # set empty value (removes for existing system if neither CSV nor DB is chosen, does nothing for new system)
+        else:
+            systemtype = None
         # set systemtype for system
         system.systemtype = systemtype
 
@@ -322,6 +346,7 @@ def add_many2many_attributes(system, system_created, model, row):
     """ IP addresses """
 
 # TODO: add check for IP (used somewhere else)
+# TODO: what does 'system.ip.clear()' do with existing system without IPs?
 
     # add ips for new system or change if remove old is set
     if system_created or (not system_created and model.csv_remove_ip):
@@ -332,7 +357,7 @@ def add_many2many_attributes(system, system_created, model, row):
         # get IPs from CSV
         if model.csv_choice_ip:
             # get ip string
-            ip_string = row[model.csv_column_ip]
+            ip_string = row[model.csv_column_ip - 1]
             # check for empty string
             if ip_string:
                 # get IP delimiter from config
@@ -353,6 +378,66 @@ def add_many2many_attributes(system, system_created, model, row):
                         ip.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_IP_CREATED")
                     # add ip to system
                     system.ip.add(ip)
+
+    """ case """
+
+#    # set case for new system or change if remove old is set
+#    if system_created or (not system_created and model.csv_remove_case):
+#        # remove cases if not new system
+#        if not system_created:
+#            # remove all cases
+#            system.case.clear()
+#        # get case from CSV
+#        if model.csv_choice_case:
+#            # get case from CSV column
+#            case_name = row[model.csv_column_case - 1]
+#            # check for empty string
+#            if case_name:
+#                # get or create case
+#                case, created = Case.objects.get_or_create(case_name = case_name)
+#                # call logger if created
+#                if created:
+#                    case.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_CASE_CREATED")
+#                # set case for system
+#                system.case.add(case)
+#        # get case from DB
+#        elif model.csv_default_case:
+#            # TODO: does this work?
+#            cases = model.csv_default_case
+#            for case in cases:
+#                # add case to system
+#                system.case.add(case)
+
+    """ company """
+
+#    # set company for new system or change if remove old is set
+#    if system_created or (not system_created and model.csv_remove_company):
+#        # remove companies if not new system
+#        if not system_created:
+#            # remove all companies
+#            system.company.clear()
+#        # get company from CSV
+#        if model.csv_choice_company:
+#            # get company from CSV column
+#            company_name = row[model.csv_column_company - 1]
+#            # check for empty string
+#            if company_name:
+#                # get or create company
+#                company, created = Company.objects.get_or_create(company_name = company_name)
+#                # call logger if created
+#                if created:
+#                    company.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_COMPANY_CREATED")
+#                # set company for system
+#                system.company.add(company)
+#        # get company from DB
+#        elif model.csv_default_company:
+#            # TODO: does this work?
+#            companys = model.csv_default_company
+#            for company in companys:
+#                # add company to system
+#                system.company.add(company)
+
+# TODO: add tag with prefix and so on
 
     # return system with many2many relations
     return system
@@ -421,7 +506,7 @@ def system():
 #    # create attributes
 #    create_attributes(csv_import_username)
 
-    """ file handling """
+    """ file handling and file related error checks """
 
     # CSV import path is not readable
     if not os.access(model.csv_import_path, os.R_OK):
@@ -433,10 +518,22 @@ def system():
     # build csv file path
     csv_path = model.csv_import_path + '/' + model.csv_import_filename
 
-# TODO: check file for existence / read permission
-
-    # get text out of file
-    systemcsv = open(csv_path, 'r')
+    # try to open file
+    try:
+        # get text out of file
+        systemcsv = open(csv_path, 'r')
+    # file not found
+    except FileNotFoundError:
+        # call logger
+        error_logger(csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_FILE_NOT_FOUND")
+        # leave fuction
+        return
+    # no permission
+    except PermissionError:
+        # call logger
+        error_logger(csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_NO_READ_PERMISSION")
+        # leave fuction
+        return
 
     # get field delimiter from config
     if model.csv_field_delimiter == 'field_comma':
@@ -483,7 +580,7 @@ def system():
             continue
 
         # get system name (for domain name comparison)
-        system_name = row[model.csv_column_system]
+        system_name = row[model.csv_column_system - 1]
 
         """ filter for systems """
 
@@ -550,6 +647,8 @@ def system():
         # if there is more than one system
         elif len(systemquery) > 1:
 
+            # TODO: add message
+
             # autoincrement systems_multiple_counter
             systems_multiple_counter += 1
 
@@ -596,6 +695,8 @@ def system():
 
     # close file
     systemcsv.close()
+
+    # TODO: add message
 
     # call logger
     info_logger(csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_STATUS " + "created:" + str(systems_created_counter) + "|" + "updated:" + str(systems_updated_counter) + "|" + "skipped:" + str(systems_skipped_counter) + "|" + "multiple:" + str(systems_multiple_counter))
