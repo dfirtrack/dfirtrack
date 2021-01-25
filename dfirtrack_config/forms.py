@@ -637,8 +637,8 @@ class SystemImporterFileCsvCronbasedConfigForm(forms.ModelForm):
             'csv_column_system': 'CSV column (*)',
             'csv_skip_existing_system': 'Skip existing systems',
             'csv_headline': 'CSV file contains a headline row',
-            'csv_import_path': 'Path to CSV file',
-            'csv_import_filename': 'File name of CSV file',
+            'csv_import_path': 'Path to CSV file (*)',
+            'csv_import_filename': 'File name of CSV file (*)',
             'csv_choice_ip': 'Set from CSV',
             'csv_column_ip': 'CSV column',
             'csv_remove_ip': 'Overwrite for existing systems',
@@ -963,17 +963,14 @@ class SystemImporterFileCsvCronbasedConfigForm(forms.ModelForm):
         if self.cleaned_data['csv_column_tag'] and self.cleaned_data['csv_default_tag']:
             validation_errors['csv_choice_tag'] = 'Decide between CSV or database or nothing.'
 
-        # tag - CSV chosen and prefix and prefix delimiter not together
-        if self.cleaned_data['csv_choice_tag']:
-            if self.cleaned_data['csv_tag_prefix'] and not self.cleaned_data['csv_tag_prefix_delimiter'] or not self.cleaned_data['csv_tag_prefix'] and self.cleaned_data['csv_tag_prefix_delimiter']:
-                validation_errors['csv_tag_prefix'] = 'Choose prefix and delimiter for tag import from CSV to distinguish between manual set tags.'
-        # tag - DB chosen and prefix and / or prefix delimiter chosen
-        if self.cleaned_data['csv_default_tag']:
-            if self.cleaned_data['csv_tag_prefix'] or self.cleaned_data['csv_tag_prefix_delimiter']:
-                validation_errors['csv_tag_prefix'] = 'Prefix and delimiter are not available when setting tags from database.'
-        # tag - CSV chosen but no prefix
-        if self.cleaned_data['csv_choice_tag'] and not self.cleaned_data['csv_tag_prefix']:
+        """ check pefix and delimiter in combination with CSV and DB """
+
+        # tag - CSV chosen and prefix and / or prefix delimiter not set
+        if self.cleaned_data['csv_choice_tag'] and (not self.cleaned_data['csv_tag_prefix'] or not self.cleaned_data['csv_tag_prefix_delimiter']):
             validation_errors['csv_tag_prefix'] = 'Choose prefix and delimiter for tag import from CSV to distinguish between manual set tags.'
+        # tag - DB chosen and prefix and / or prefix delimiter chosen (overwrites error above)
+        if self.cleaned_data['csv_default_tag'] and (self.cleaned_data['csv_tag_prefix'] or self.cleaned_data['csv_tag_prefix_delimiter']):
+                validation_errors['csv_tag_prefix'] = 'Prefix and delimiter are not available when setting tags from database.'
         # tag - DB chosen but special option 'tag_remove_prefix' set
         if self.cleaned_data['csv_remove_tag'] == 'tag_remove_prefix' and self.cleaned_data['csv_default_tag']:
             validation_errors['csv_remove_tag'] = 'Removing tags with prefix is only available when setting tags from CSV.'
@@ -1057,9 +1054,6 @@ class SystemImporterFileCsvCronbasedConfigForm(forms.ModelForm):
         # remove company
         if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_company']:
             validation_errors['csv_remove_company'] = 'This choice is only valid if existing systems are not skipped. Either disable this option or disable skipping existing systems.'
-        # remove tag
-        if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_tag']:
-            validation_errors['csv_remove_tag'] = 'This choice is only valid if existing systems are not skipped. Either disable this option or disable skipping existing systems.'
 
         """ check CSV import path """
 

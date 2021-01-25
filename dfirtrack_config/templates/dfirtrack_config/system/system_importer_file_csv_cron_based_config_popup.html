@@ -46,125 +46,101 @@
     <!-- outer row -->
     <div class="row">
 
-    <!-- TODO: fix arrangement of blocks / cards -->
-
         <!-- left column -->
         <div class="col-4">
 
             <!-- CSV file options settings block -->
-            <div class="row">
+            <div class="card card-body bg-dark border-light top-distance">
 
-                <div class="card card-body bg-dark border-light top-distance">
+                <!-- CSV file options headline -->
+                <h5 class="top-distance">
+                    CSV file options
+                </h5>
 
-                    <h5 class="top-distance">
-                        CSV file options
-                    </h5>
-
-                    <!-- errors -->
-                    <div class="row">
-                        <div class="text-danger">
-                            {{ form.csv_import_path.errors }}
-                        </div>
+                <!-- csv_import_path - labels -->
+                <div class="row">
+                    <div class="col top-distance">
+                        {{ form.csv_import_path.label }}
                     </div>
-
-                    <!-- csv_import_path -->
-                    <div class="row">
-
-                        <div class="col top-distance">
-                            {{ form.csv_import_path.label }}
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-
-                        <div class="col-12 top-distance">
-                            {{ form.csv_import_path }}
-                        </div>
-
-                    <!-- csv_import_path -->
-                    </div>
-
-                    <!-- csv_import_filename -->
-                    <div class="row">
-
-                        <div class="col top-distance">
-                            {{ form.csv_import_filename.label }}
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-
-                        <div class="col-12 top-distance">
-                            {{ form.csv_import_filename }}
-                        </div>
-
-                    <!-- csv_import_filename -->
-                    </div>
-
-                    <!-- csv_field_delimiter / csv_text_quote / csv_headline -->
-                    <div class="row">
-
-                        <div class="col-4 top-distance">
-                            {{ form.csv_field_delimiter.label }}
-                        </div>
-
-                        <div class="col-4 top-distance">
-                            {{ form.csv_text_quote.label }}
-                        </div>
-
-                        <div class="col-4 top-distance">
-                            {{ form.csv_headline.label }}
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-
-                        <div class="col-4 top-distance">
-                            {{ form.csv_field_delimiter }}
-                        </div>
-
-                        <div class="col-4 top-distance">
-                            {{ form.csv_text_quote }}
-                        </div>
-
-                        <div class="col-4 top-distance">
-                            {{ form.csv_headline }}
-                        </div>
-
-                    <!-- csv_field_delimiter / csv_text_quote / csv_headline -->
-                    </div>
-
-                    <!-- csv_import_username -->
-                    <div class="row">
-
-                        <div class="col top-distance">
-                            {{ form.csv_import_username.label }}
-                        </div>
-
-                    </div>
-
-                    <!-- errors -->
-                    <div class="row">
-                        <div class="col-6 text-danger">
-                            {{ form.csv_import_username.errors }}
-                        </div>
-                    </div>
-
-                    <div class="row">
-
-                        <div class="col top-distance">
-                            {% for i in form.csv_import_username %}
-                                {{ i }}<br>
-                            {% endfor %}
-                        </div>
-
-                    <!-- csv_import_username -->
-                    </div>
-
                 </div>
+
+                <!-- csv_import_path - errors -->
+                <div class="row">
+                    <div class="col text-danger">
+                        {{ form.csv_import_path.errors }}
+                    </div>
+                </div>
+
+                <!-- csv_import_path - fields -->
+                <div class="row">
+                    <div class="col-12 top-distance">
+                        {{ form.csv_import_path }}
+                    </div>
+                </div>
+
+                <!-- csv_import_filename - labels -->
+                <div class="row">
+                    <div class="col top-distance">
+                        {{ form.csv_import_filename.label }}
+                    </div>
+                </div>
+
+                <!-- csv_import_filename - fields -->
+                <div class="row">
+                    <div class="col-12 top-distance">
+                        {{ form.csv_import_filename }}
+                    </div>
+                </div>
+
+                <!-- csv_field_delimiter / csv_text_quote / csv_headline - labels -->
+                <div class="row">
+                    <div class="col-4 top-distance">
+                        {{ form.csv_field_delimiter.label }}
+                    </div>
+                    <div class="col-4 top-distance">
+                        {{ form.csv_text_quote.label }}
+                    </div>
+                    <div class="col-4 top-distance">
+                        {{ form.csv_headline.label }}
+                    </div>
+                </div>
+
+                <!-- csv_field_delimiter / csv_text_quote / csv_headline - fields -->
+                <div class="row">
+                    <div class="col-4 top-distance">
+                        {{ form.csv_field_delimiter }}
+                    </div>
+                    <div class="col-4 top-distance">
+                        {{ form.csv_text_quote }}
+                    </div>
+                    <div class="col-4 top-distance">
+                        {{ form.csv_headline }}
+                    </div>
+                </div>
+
+                <!-- csv_import_username - labels -->
+                <div class="row">
+                    <div class="col top-distance">
+                        {{ form.csv_import_username.label }}
+                    </div>
+                </div>
+
+                <!-- csv_import_username - errors -->
+                <div class="row">
+                    <div class="col-6 text-danger">
+                        {{ form.csv_import_username.errors }}
+                    </div>
+                </div>
+
+                <!-- csv_import_username - fields -->
+                <div class="row">
+                    <div class="col top-distance">
+                        {% for i in form.csv_import_username %}
+                            {{ i }}<br>
+                        {% endfor %}
+                    </div>
+                </div>
+
 
             <!-- CSV file options settings block -->
             </div>
@@ -178,19 +154,17 @@
             <!-- important import settings block -->
             <div class="card card-body bg-dark border-light top-distance">
 
+                <!-- important import settings headline -->
                 <h5>
                     Important import settings
                 </h5>
 
                 <!-- system -->
                 <h6 class="top-distance">
-                    Systems
+                    Systems (*)
                 </h6>
 
-                <div class="text-danger">
-                    {{ form.csv_column_system.errors }}
-                </div>
-
+                <!-- system - labels -->
                 <div class="row">
                     <div class="col-2">
                     </div>
@@ -199,6 +173,14 @@
                     </div>
                 </div>
 
+                <!-- system - errors -->
+                <div class="row">
+                    <div class="text-danger">
+                        {{ form.csv_column_system.errors }}
+                    </div>
+                </div>
+
+                <!-- system - fields -->
                 <div class="row">
                     <div class="col-2 top-distance">
                     </div>
@@ -207,12 +189,14 @@
                     </div>
                 </div>
 
+                <!-- csv_skip_existing_system - labels -->
                 <div class="row">
                     <div class="col-6 top-distance">
                         {{ form.csv_skip_existing_system.label }}
                     </div>
                 </div>
 
+                <!-- csv_skip_existing_system - fields -->
                 <div class="row">
                     <div class="col-6 top-distance">
                         {{ form.csv_skip_existing_system }}
@@ -224,12 +208,7 @@
                     IP addresses
                 </h6>
 
-                <!-- errors -->
-                <div class="text-danger">
-                    {{ form.csv_choice_ip.errors }}
-                    {{ form.csv_column_ip.errors }}
-                </div>
-
+                <!-- ip - labels -->
                 <div class="row">
                     <div class="col-2">
                         {{ form.csv_choice_ip.label }}
@@ -239,6 +218,15 @@
                     </div>
                 </div>
 
+                <!-- ip - errors -->
+                <div class="row">
+                    <div class="col text-danger">
+                        {{ form.csv_choice_ip.errors }}
+                        {{ form.csv_column_ip.errors }}
+                    </div>
+                </div>
+
+                <!-- ip - fields -->
                 <div class="row">
                     <div class="col-2 top-distance">
                         {{ form.csv_choice_ip }}
@@ -248,7 +236,7 @@
                     </div>
                 </div>
 
-                <!-- csv_remove_ip / csv_ip_delimiter -->
+                <!-- csv_remove_ip / csv_ip_delimiter - labels -->
                 <div class="row">
                     <div class="col-6 top-distance">
                         {{ form.csv_remove_ip.label }}
@@ -258,13 +246,14 @@
                     </div>
                 </div>
 
-                <!-- errors -->
+                <!-- csv_remove_ip / csv_ip_delimiter - errors -->
                 <div class="row">
                     <div class="col-6 text-danger">
                         {{ form.csv_remove_ip.errors }}
                     </div>
                 </div>
 
+                <!-- csv_remove_ip / csv_ip_delimiter - fields -->
                 <div class="row">
                     <div class="col-6 top-distance">
                         {{ form.csv_remove_ip }}
@@ -279,6 +268,7 @@
                     Systemstatus (*)
                 </h6>
 
+                <!-- systemstatus - labels -->
                 <div class="row">
                     <div class="col-6">
                     </div>
@@ -287,6 +277,7 @@
                     </div>
                 </div>
 
+                <!-- systemstatus - fields -->
                 <div class="row">
                     <div class="col-6">
                     </div>
@@ -300,6 +291,7 @@
                     Analysisstatus (*)
                 </h6>
 
+                <!-- analysisstatus - labels -->
                 <div class="row">
                     <div class="col-6">
                     </div>
@@ -308,6 +300,7 @@
                     </div>
                 </div>
 
+                <!-- analysisstatus - fields -->
                 <div class="row">
                     <div class="col-6">
                     </div>
@@ -321,14 +314,7 @@
                     Tags
                 </h6>
 
-                <!-- errors -->
-                <div class="row">
-                    <div class="text-danger">
-                        {{ form.csv_choice_tag.errors }}
-                        {{ form.csv_column_tag.errors }}
-                    </div>
-                </div>
-
+                <!-- tag - labels -->
                 <div class="row">
                     <div class="col-2">
                         {{ form.csv_choice_tag.label }}
@@ -344,6 +330,15 @@
                     </div>
                 </div>
 
+                <!-- tag - errors -->
+                <div class="row">
+                    <div class="col text-danger">
+                        {{ form.csv_choice_tag.errors }}
+                        {{ form.csv_column_tag.errors }}
+                    </div>
+                </div>
+
+                <!-- tag - fields -->
                 <div class="row">
                     <div class="col-2 top-distance">
                         {{ form.csv_choice_tag }}
@@ -358,7 +353,7 @@
                     </div>
                 </div>
 
-                <!-- csv_remove_tag / csv_tag_delimiter -->
+                <!-- csv_remove_tag / csv_tag_delimiter - labels -->
                 <div class="row">
                     <div class="col-6 top-distance">
                         {{ form.csv_remove_tag.label }}
@@ -368,13 +363,14 @@
                     </div>
                 </div>
 
-                <!-- errors -->
+                <!-- csv_remove_tag / csv_tag_delimiter - errors -->
                 <div class="row">
                     <div class="col-6 text-danger">
                         {{ form.csv_remove_tag.errors }}
                     </div>
                 </div>
 
+                <!-- csv_remove_tag / csv_tag_delimiter - fields -->
                 <div class="row">
                     <div class="col-6 top-distance">
                         {{ form.csv_remove_tag }}
@@ -384,14 +380,7 @@
                     </div>
                 </div>
 
-                <!-- errors -->
-                <div class="row">
-                    <div class="text-danger top-distance">
-                        {{ form.csv_tag_prefix.errors }}
-                    </div>
-                </div>
-
-                <!-- csv_tag_prefix / csv_tag_prefix_delimiter -->
+                <!-- csv_tag_prefix / csv_tag_prefix_delimiter - labels -->
                 <div class="row">
                     <div class="col-6 top-distance">
                         {{ form.csv_tag_prefix.label }}
@@ -401,6 +390,14 @@
                     </div>
                 </div>
 
+                <!-- csv_tag_prefix / csv_tag_prefix_delimiter - errors -->
+                <div class="row">
+                    <div class="col text-danger">
+                        {{ form.csv_tag_prefix.errors }}
+                    </div>
+                </div>
+
+                <!-- csv_tag_prefix / csv_tag_prefix_delimiter - fields -->
                 <div class="row">
                     <div class="col-6 top-distance">
                         {{ form.csv_tag_prefix }}
@@ -435,14 +432,7 @@
                     DNS name
                 </h6>
 
-                <!-- errors -->
-                <div class="row">
-                    <div class="text-danger">
-                        {{ form.csv_choice_dnsname.errors }}
-                        {{ form.csv_column_dnsname.errors }}
-                    </div>
-                </div>
-
+                <!-- dnsname - labels -->
                 <div class="row">
                     <div class="col-2">
                         {{ form.csv_choice_dnsname.label }}
@@ -458,6 +448,15 @@
                     </div>
                 </div>
 
+                <!-- dnsname - errors -->
+                <div class="row">
+                    <div class="col text-danger">
+                        {{ form.csv_choice_dnsname.errors }}
+                        {{ form.csv_column_dnsname.errors }}
+                    </div>
+                </div>
+
+                <!-- dnsname - fields -->
                 <div class="row">
                     <div class="col-2 top-distance">
                         {{ form.csv_choice_dnsname }}
@@ -470,19 +469,21 @@
                     </div>
                 </div>
 
+                <!-- csv_remove_dnsname - labels -->
                 <div class="row">
                     <div class="col top-distance">
                         {{ form.csv_remove_dnsname.label }}
                     </div>
                 </div>
 
-                <!-- errors -->
+                <!-- csv_remove_dnsname - errors -->
                 <div class="row">
                     <div class="col-6 text-danger">
                         {{ form.csv_remove_dnsname.errors }}
                     </div>
                 </div>
 
+                <!-- csv_remove_dnsname - fields -->
                 <div class="row">
                     <div class="col top-distance">
                         {{ form.csv_remove_dnsname }}
@@ -494,14 +495,7 @@
                     Domain
                 </h6>
 
-                <!-- errors -->
-                <div class="row">
-                    <div class="text-danger">
-                        {{ form.csv_choice_domain.errors }}
-                        {{ form.csv_column_domain.errors }}
-                    </div>
-                </div>
-
+                <!-- domain - labels -->
                 <div class="row">
                     <div class="col-2">
                         {{ form.csv_choice_domain.label }}
@@ -517,6 +511,15 @@
                     </div>
                 </div>
 
+                <!-- domain - errors -->
+                <div class="row">
+                    <div class="col text-danger">
+                        {{ form.csv_choice_domain.errors }}
+                        {{ form.csv_column_domain.errors }}
+                    </div>
+                </div>
+
+                <!-- domain - fields -->
                 <div class="row">
                     <div class="col-2 top-distance">
                         {{ form.csv_choice_domain }}
@@ -529,19 +532,21 @@
                     </div>
                 </div>
 
+                <!-- csv_remove_domain - labels -->
                 <div class="row">
                     <div class="col top-distance">
                         {{ form.csv_remove_domain.label }}
                     </div>
                 </div>
 
-                <!-- errors -->
+                <!-- csv_remove_domain - errors -->
                 <div class="row">
                     <div class="col-6 text-danger">
                         {{ form.csv_remove_domain.errors }}
                     </div>
                 </div>
 
+                <!-- csv_remove_domain - fields -->
                 <div class="row">
                     <div class="col top-distance">
                         {{ form.csv_remove_domain }}
@@ -553,14 +558,7 @@
                     Location
                 </h6>
 
-                <!-- errors -->
-                <div class="row">
-                    <div class="text-danger">
-                        {{ form.csv_choice_location.errors }}
-                        {{ form.csv_column_location.errors }}
-                    </div>
-                </div>
-
+                <!-- location - labels -->
                 <div class="row">
                     <div class="col-2">
                         {{ form.csv_choice_location.label }}
@@ -576,6 +574,15 @@
                     </div>
                 </div>
 
+                <!-- location - errors -->
+                <div class="row">
+                    <div class="col text-danger">
+                        {{ form.csv_choice_location.errors }}
+                        {{ form.csv_column_location.errors }}
+                    </div>
+                </div>
+
+                <!-- location - fields -->
                 <div class="row">
                     <div class="col-2 top-distance">
                         {{ form.csv_choice_location }}
@@ -588,19 +595,21 @@
                     </div>
                 </div>
 
+                <!-- csv_remove_location - labels -->
                 <div class="row">
                     <div class="col top-distance">
                         {{ form.csv_remove_location.label }}
                     </div>
                 </div>
 
-                <!-- errors -->
+                <!-- csv_remove_location - errors -->
                 <div class="row">
                     <div class="col-6 text-danger">
                         {{ form.csv_remove_location.errors }}
                     </div>
                 </div>
 
+                <!-- csv_remove_location - fields -->
                 <div class="row">
                     <div class="col top-distance">
                         {{ form.csv_remove_location }}
@@ -612,14 +621,7 @@
                     OS
                 </h6>
 
-                <!-- errors -->
-                <div class="row">
-                    <div class="text-danger">
-                        {{ form.csv_choice_os.errors }}
-                        {{ form.csv_column_os.errors }}
-                    </div>
-                </div>
-
+                <!-- os - labels -->
                 <div class="row">
                     <div class="col-2">
                         {{ form.csv_choice_os.label }}
@@ -635,6 +637,15 @@
                     </div>
                 </div>
 
+                <!-- os - errors -->
+                <div class="row">
+                    <div class="col text-danger">
+                        {{ form.csv_choice_os.errors }}
+                        {{ form.csv_column_os.errors }}
+                    </div>
+                </div>
+
+                <!-- os - errors -->
                 <div class="row">
                     <div class="col-2 top-distance">
                         {{ form.csv_choice_os }}
@@ -647,19 +658,21 @@
                     </div>
                 </div>
 
+                <!-- csv_remove_os - labels -->
                 <div class="row">
                     <div class="col top-distance">
                         {{ form.csv_remove_os.label }}
                     </div>
                 </div>
 
-                <!-- errors -->
+                <!-- csv_remove_os - errors -->
                 <div class="row">
                     <div class="col-6 text-danger">
                         {{ form.csv_remove_os.errors }}
                     </div>
                 </div>
 
+                <!-- csv_remove_os - fields -->
                 <div class="row">
                     <div class="col top-distance">
                         {{ form.csv_remove_os }}
@@ -671,14 +684,7 @@
                     Reason
                 </h6>
 
-                <!-- errors -->
-                <div class="row">
-                    <div class="text-danger">
-                        {{ form.csv_choice_reason.errors }}
-                        {{ form.csv_column_reason.errors }}
-                    </div>
-                </div>
-
+                <!-- reason - labels -->
                 <div class="row">
                     <div class="col-2">
                         {{ form.csv_choice_reason.label }}
@@ -694,6 +700,15 @@
                     </div>
                 </div>
 
+                <!-- reason - errors -->
+                <div class="row">
+                    <div class="col text-danger">
+                        {{ form.csv_choice_reason.errors }}
+                        {{ form.csv_column_reason.errors }}
+                    </div>
+                </div>
+
+                <!-- reason - errors -->
                 <div class="row">
                     <div class="col-2 top-distance">
                         {{ form.csv_choice_reason }}
@@ -706,19 +721,21 @@
                     </div>
                 </div>
 
+                <!-- csv_remove_reason - labels -->
                 <div class="row">
                     <div class="col top-distance">
                         {{ form.csv_remove_reason.label }}
                     </div>
                 </div>
 
-                <!-- errors -->
+                <!-- csv_remove_reason - errors -->
                 <div class="row">
                     <div class="col-6 text-danger">
                         {{ form.csv_remove_reason.errors }}
                     </div>
                 </div>
 
+                <!-- csv_remove_reason - fields -->
                 <div class="row">
                     <div class="col top-distance">
                         {{ form.csv_remove_reason }}
@@ -730,14 +747,7 @@
                     Recommendation
                 </h6>
 
-                <!-- errors -->
-                <div class="row">
-                    <div class="text-danger">
-                        {{ form.csv_choice_recommendation.errors }}
-                        {{ form.csv_column_recommendation.errors }}
-                    </div>
-                </div>
-
+                <!-- recommendation - labels -->
                 <div class="row">
                     <div class="col-2">
                         {{ form.csv_choice_recommendation.label }}
@@ -753,6 +763,15 @@
                     </div>
                 </div>
 
+                <!-- recommendation - errors -->
+                <div class="row">
+                    <div class="col text-danger">
+                        {{ form.csv_choice_recommendation.errors }}
+                        {{ form.csv_column_recommendation.errors }}
+                    </div>
+                </div>
+
+                <!-- recommendation - errors -->
                 <div class="row">
                     <div class="col-2 top-distance">
                         {{ form.csv_choice_recommendation }}
@@ -765,19 +784,21 @@
                     </div>
                 </div>
 
+                <!-- csv_remove_recommendation - labels -->
                 <div class="row">
                     <div class="col top-distance">
                         {{ form.csv_remove_recommendation.label }}
                     </div>
                 </div>
 
-                <!-- errors -->
+                <!-- csv_remove_recommendation - errors -->
                 <div class="row">
                     <div class="col-6 text-danger">
                         {{ form.csv_remove_recommendation.errors }}
                     </div>
                 </div>
 
+                <!-- csv_remove_recommendation - fields -->
                 <div class="row">
                     <div class="col top-distance">
                         {{ form.csv_remove_recommendation }}
@@ -789,14 +810,7 @@
                     Serviceprovider
                 </h6>
 
-                <!-- errors -->
-                <div class="row">
-                    <div class="text-danger">
-                        {{ form.csv_choice_serviceprovider.errors }}
-                        {{ form.csv_column_serviceprovider.errors }}
-                    </div>
-                </div>
-
+                <!-- serviceprovider - labels -->
                 <div class="row">
                     <div class="col-2">
                         {{ form.csv_choice_serviceprovider.label }}
@@ -812,6 +826,15 @@
                     </div>
                 </div>
 
+                <!-- serviceprovider - errors -->
+                <div class="row">
+                    <div class="col text-danger">
+                        {{ form.csv_choice_serviceprovider.errors }}
+                        {{ form.csv_column_serviceprovider.errors }}
+                    </div>
+                </div>
+
+                <!-- serviceprovider - errors -->
                 <div class="row">
                     <div class="col-2 top-distance">
                         {{ form.csv_choice_serviceprovider }}
@@ -824,19 +847,21 @@
                     </div>
                 </div>
 
+                <!-- csv_remove_serviceprovider - labels -->
                 <div class="row">
                     <div class="col top-distance">
                         {{ form.csv_remove_serviceprovider.label }}
                     </div>
                 </div>
 
-                <!-- errors -->
+                <!-- csv_remove_serviceprovider - errors -->
                 <div class="row">
                     <div class="col-6 text-danger">
                         {{ form.csv_remove_serviceprovider.errors }}
                     </div>
                 </div>
 
+                <!-- csv_remove_serviceprovider - fields -->
                 <div class="row">
                     <div class="col top-distance">
                         {{ form.csv_remove_serviceprovider }}
@@ -848,14 +873,7 @@
                     Systemtype
                 </h6>
 
-                <!-- errors -->
-                <div class="row">
-                    <div class="text-danger">
-                        {{ form.csv_choice_systemtype.errors }}
-                        {{ form.csv_column_systemtype.errors }}
-                    </div>
-                </div>
-
+                <!-- systemtype - labels -->
                 <div class="row">
                     <div class="col-2">
                         {{ form.csv_choice_systemtype.label }}
@@ -871,6 +889,15 @@
                     </div>
                 </div>
 
+                <!-- systemtype - errors -->
+                <div class="row">
+                    <div class="col text-danger">
+                        {{ form.csv_choice_systemtype.errors }}
+                        {{ form.csv_column_systemtype.errors }}
+                    </div>
+                </div>
+
+                <!-- systemtype - errors -->
                 <div class="row">
                     <div class="col-2 top-distance">
                         {{ form.csv_choice_systemtype }}
@@ -883,19 +910,21 @@
                     </div>
                 </div>
 
+                <!-- csv_remove_systemtype - labels -->
                 <div class="row">
                     <div class="col top-distance">
                         {{ form.csv_remove_systemtype.label }}
                     </div>
                 </div>
 
-                <!-- errors -->
+                <!-- csv_remove_systemtype - errors -->
                 <div class="row">
                     <div class="col-6 text-danger">
                         {{ form.csv_remove_systemtype.errors }}
                     </div>
                 </div>
 
+                <!-- csv_remove_systemtype - fields -->
                 <div class="row">
                     <div class="col top-distance">
                         {{ form.csv_remove_systemtype }}
@@ -907,14 +936,7 @@
                     Cases
                 </h6>
 
-                <!-- errors -->
-                <div class="row">
-                    <div class="text-danger">
-                        {{ form.csv_choice_case.errors }}
-                        {{ form.csv_column_case.errors }}
-                    </div>
-                </div>
-
+                <!-- case - labels -->
                 <div class="row">
                     <div class="col-2">
                         {{ form.csv_choice_case.label }}
@@ -930,6 +952,15 @@
                     </div>
                 </div>
 
+                <!-- case - errors -->
+                <div class="row">
+                    <div class="col text-danger">
+                        {{ form.csv_choice_case.errors }}
+                        {{ form.csv_column_case.errors }}
+                    </div>
+                </div>
+
+                <!-- case - fields -->
                 <div class="row">
                     <div class="col-2 top-distance">
                         {{ form.csv_choice_case }}
@@ -944,19 +975,21 @@
                     </div>
                 </div>
 
+                <!-- csv_remove_case - labels -->
                 <div class="row">
                     <div class="col top-distance">
                         {{ form.csv_remove_case.label }}
                     </div>
                 </div>
 
-                <!-- errors -->
+                <!-- csv_remove_case - errors -->
                 <div class="row">
                     <div class="col-6 text-danger">
                         {{ form.csv_remove_case.errors }}
                     </div>
                 </div>
 
+                <!-- csv_remove_case - fields -->
                 <div class="row">
                     <div class="col top-distance">
                         {{ form.csv_remove_case }}
@@ -968,14 +1001,7 @@
                     Companies
                 </h6>
 
-                <!-- errors -->
-                <div class="row">
-                    <div class="text-danger">
-                        {{ form.csv_choice_company.errors }}
-                        {{ form.csv_column_company.errors }}
-                    </div>
-                </div>
-
+                <!-- company - labels -->
                 <div class="row">
                     <div class="col-2">
                         {{ form.csv_choice_company.label }}
@@ -991,6 +1017,15 @@
                     </div>
                 </div>
 
+                <!-- company - errors -->
+                <div class="row">
+                    <div class="col text-danger">
+                        {{ form.csv_choice_company.errors }}
+                        {{ form.csv_column_company.errors }}
+                    </div>
+                </div>
+
+                <!-- company - fields -->
                 <div class="row">
                     <div class="col-2 top-distance">
                         {{ form.csv_choice_company }}
@@ -1005,19 +1040,21 @@
                     </div>
                 </div>
 
+                <!-- csv_remove_company - labels -->
                 <div class="row">
                     <div class="col top-distance">
                         {{ form.csv_remove_company.label }}
                     </div>
                 </div>
 
-                <!-- errors -->
+                <!-- csv_remove_company - errors -->
                 <div class="row">
                     <div class="col-6 text-danger">
                         {{ form.csv_remove_company.errors }}
                     </div>
                 </div>
 
+                <!-- csv_remove_company - fields -->
                 <div class="row">
                     <div class="col top-distance">
                         {{ form.csv_remove_company }}
