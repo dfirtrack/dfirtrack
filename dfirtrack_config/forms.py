@@ -577,7 +577,9 @@ class SystemImporterFileCsvCronbasedConfigForm(forms.ModelForm):
             'csv_import_filename',
             'csv_import_username',
             'csv_default_systemstatus',
+            'csv_remove_systemstatus',
             'csv_default_analysisstatus',
+            'csv_remove_analysisstatus',
             'csv_choice_ip',
             'csv_column_ip',
             'csv_remove_ip',
@@ -639,6 +641,8 @@ class SystemImporterFileCsvCronbasedConfigForm(forms.ModelForm):
             'csv_headline': 'CSV file contains a headline row',
             'csv_import_path': 'Path to CSV file (*)',
             'csv_import_filename': 'File name of CSV file (*)',
+            'csv_remove_systemstatus': 'Overwrite for existing systems',
+            'csv_remove_analysisstatus': 'Overwrite for existing systems',
             'csv_choice_ip': 'Set from CSV',
             'csv_column_ip': 'CSV column',
             'csv_remove_ip': 'Overwrite for existing systems',
@@ -694,13 +698,13 @@ class SystemImporterFileCsvCronbasedConfigForm(forms.ModelForm):
             ),
             'csv_import_path': forms.TextInput(
                 attrs={
-                    'size': '35',
+                    'size': '50',
                     'style': 'font-family: monospace',
                 },
             ),
             'csv_import_filename': forms.TextInput(
                 attrs={
-                    'size': '35',
+                    'size': '50',
                     'style': 'font-family: monospace',
                 },
             ),
@@ -963,7 +967,7 @@ class SystemImporterFileCsvCronbasedConfigForm(forms.ModelForm):
         if self.cleaned_data['csv_column_tag'] and self.cleaned_data['csv_default_tag']:
             validation_errors['csv_choice_tag'] = 'Decide between CSV or database or nothing.'
 
-        """ check pefix and delimiter in combination with CSV and DB """
+        """ check tag pefix and delimiter in combination with CSV and DB """
 
         # tag - CSV chosen and prefix and / or prefix delimiter not set
         if self.cleaned_data['csv_choice_tag'] and (not self.cleaned_data['csv_tag_prefix'] or not self.cleaned_data['csv_tag_prefix_delimiter']):
@@ -1021,6 +1025,12 @@ class SystemImporterFileCsvCronbasedConfigForm(forms.ModelForm):
 
         """ check remove conditions in combination with skip condition """
 
+        # remove systemstatus
+        if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_systemstatus']:
+            validation_errors['csv_remove_systemstatus'] = 'This choice is only valid if existing systems are not skipped. Either disable this option or disable skipping existing systems.'
+        # remove analysisstatus
+        if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_analysisstatus']:
+            validation_errors['csv_remove_analysisstatus'] = 'This choice is only valid if existing systems are not skipped. Either disable this option or disable skipping existing systems.'
         # remove ip
         if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_ip']:
             validation_errors['csv_remove_ip'] = 'This choice is only valid if existing systems are not skipped. Either disable this option or disable skipping existing systems.'

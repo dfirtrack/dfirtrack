@@ -36,6 +36,8 @@ class Migration(migrations.Migration):
                 ('csv_headline', models.BooleanField(blank=True)),
                 ('csv_import_path', models.CharField(default='/tmp', max_length=4096)),
                 ('csv_import_filename', models.CharField(default='systems.csv', max_length=255)),
+                ('csv_remove_systemstatus', models.BooleanField(blank=True)),
+                ('csv_remove_analysisstatus', models.BooleanField(blank=True)),
                 ('csv_tag_lock_systemstatus', models.CharField(default='LOCK_SYSTEMSTATUS', max_length=50)),
                 ('csv_tag_lock_analysisstatus', models.CharField(default='LOCK_ANALYSISSTATUS', max_length=50)),
                 ('csv_choice_ip', models.BooleanField(blank=True)),
