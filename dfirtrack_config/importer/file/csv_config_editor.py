@@ -5,6 +5,7 @@ from django.shortcuts import render
 from dfirtrack_config.forms import SystemImporterFileCsvConfigbasedConfigForm, SystemImporterFileCsvCronbasedConfigForm, SystemImporterFileCsvFormbasedConfigForm
 from dfirtrack_config.models import SystemImporterFileCsvConfigbasedConfigModel, SystemImporterFileCsvCronbasedConfigModel, SystemImporterFileCsvFormbasedConfigModel
 from dfirtrack_main.logger.default_logger import info_logger
+import os
 
 @login_required(login_url="/login")
 def system_importer_file_csv_config_based_config_view(request):
@@ -82,6 +83,16 @@ def system_importer_file_csv_cron_based_config_view(request):
 
             # call logger
             info_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_CRON_BASED_CONFIG_CHANGED")
+
+            """ check file system """
+
+            # build csv file path
+            csv_path = model.csv_import_path + '/' + model.csv_import_filename
+
+            # CSV import file does not exist - show warning
+            if not os.path.isfile(csv_path):
+                # create message
+                messages.warning(request, 'CSV does not exist at the moment. Make sure the file is available during import.')
 
             # close popup
             return HttpResponse('<script type="text/javascript">window.close();</script>')

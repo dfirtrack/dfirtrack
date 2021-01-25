@@ -73,7 +73,7 @@
 
                 <!-- csv_import_path - fields -->
                 <div class="row">
-                    <div class="col-12 top-distance">
+                    <div class="col top-distance">
                         {{ form.csv_import_path }}
                     </div>
                 </div>
@@ -85,9 +85,16 @@
                     </div>
                 </div>
 
+                <!-- csv_import_filename - errors -->
+                <div class="row">
+                    <div class="col text-danger">
+                        {{ form.csv_import_filename.errors }}
+                    </div>
+                </div>
+
                 <!-- csv_import_filename - fields -->
                 <div class="row">
-                    <div class="col-12 top-distance">
+                    <div class="col top-distance">
                         {{ form.csv_import_filename }}
                     </div>
                 </div>

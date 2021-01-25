@@ -1065,11 +1065,26 @@ class SystemImporterFileCsvCronbasedConfigForm(forms.ModelForm):
         if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_company']:
             validation_errors['csv_remove_company'] = 'This choice is only valid if existing systems are not skipped. Either disable this option or disable skipping existing systems.'
 
-        """ check CSV import path """
+        """ check file system """
 
-        # CSV import path is not readable
-        if not os.access(self.cleaned_data['csv_import_path'], os.R_OK):
-            validation_errors['csv_import_path'] = 'CSV import path is not readable.'
+        # build csv file path
+        csv_path = self.cleaned_data['csv_import_path'] + '/' + self.cleaned_data['csv_import_filename']
+
+        # CSV import path does not exist - stop immediately
+        if not os.path.isdir(self.cleaned_data['csv_import_path']):
+            validation_errors['csv_import_path'] = 'CSV import path does not exist.'
+        else:
+            # CSV import path is not readable - stop immediately
+            if not os.access(self.cleaned_data['csv_import_path'], os.R_OK):
+                validation_errors['csv_import_path'] = 'CSV import path is not readable.'
+            else:
+                # CSV import file does exist but is not readable - stop immediately
+                # CSV import file does not exist - only warning is shown via message
+                # implemented in 'dfirtrack_config.importer.file.csv_config_editor.system_importer_file_csv_cron_based_config_view'
+                if os.path.isfile(csv_path) and not os.access(csv_path, os.R_OK):
+                    validation_errors['csv_import_filename'] = 'CSV import file is not readable.'
+
+# TODO: add warning for not existing file (hint to provide it)
 
         # finally raise validation error
         if validation_errors:

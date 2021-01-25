@@ -22,17 +22,46 @@ def config_check(request):
     # get config model
     model = SystemImporterFileCsvCronbasedConfigModel.objects.get(system_importer_file_csv_cronbased_config_name = 'SystemImporterFileCsvCronbasedConfig')
 
-    # check for csv_import_username (after initial migration w/o user defined)
+    """ check user """
+
+    # check for csv_import_username (after initial migration w/o user defined) - stop immediately
     if not model.csv_import_username:
         messages.error(request, "No user for import defined. Check config!")
         # set stop condition
         stop_system_importer_file_csv_cronbased = True
 
-    # CSV import path is not readable
-    if not os.access(model.csv_import_path, os.R_OK):
-        messages.error(request, "CSV import path is not readable. Check config!")
+    """ check file system """
+
+    # build csv file path
+    csv_path = model.csv_import_path + '/' + model.csv_import_filename
+
+    # CSV import path does not exist - stop immediately
+    if not os.path.isdir(model.csv_import_path):
+        # call message
+        messages.error(request, "CSV import path does not exist. Check config or file system!")
         # set stop condition
         stop_system_importer_file_csv_cronbased = True
+    else:
+        # CSV import path is not readable - stop immediately
+        if not os.access(model.csv_import_path, os.R_OK):
+            # call message
+            messages.error(request, "CSV import path is not readable. Check config or file system!")
+            # set stop condition
+            stop_system_importer_file_csv_cronbased = True
+        else:
+            # CSV import file does not exist - stop immediately
+            if not os.path.isfile(csv_path):
+                # call message
+                messages.error(request, "CSV import file does not exist. Check config or provide file!")
+                # set stop condition
+                stop_system_importer_file_csv_cronbased = True
+            else:
+                # CSV import file is not readable - stop immediately
+                if not os.access(csv_path, os.R_OK):
+                    # call message
+                    messages.error(request, "CSV import file is not readable. Check config or file system!")
+                    # set stop condition
+                    stop_system_importer_file_csv_cronbased = True
 
     # check stop condition
     if stop_system_importer_file_csv_cronbased:
