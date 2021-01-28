@@ -33,7 +33,7 @@ def config_check(request):
     """ check file system """
 
     # build csv file path
-    csv_path = model.csv_import_path + '/' + model.csv_import_filename
+    csv_import_file = model.csv_import_path + '/' + model.csv_import_filename
 
     # CSV import path does not exist - stop immediately
     if not os.path.isdir(model.csv_import_path):
@@ -50,14 +50,14 @@ def config_check(request):
             stop_system_importer_file_csv_cronbased = True
         else:
             # CSV import file does not exist - stop immediately
-            if not os.path.isfile(csv_path):
+            if not os.path.isfile(csv_import_file):
                 # call message
                 messages.error(request, "CSV import file does not exist. Check config or provide file!")
                 # set stop condition
                 stop_system_importer_file_csv_cronbased = True
             else:
                 # no read permission for CSV import file - stop immediately
-                if not os.access(csv_path, os.R_OK):
+                if not os.access(csv_import_file, os.R_OK):
                     # call message
                     messages.error(request, "No read permission for CSV import file. Check config or file system!")
                     # set stop condition
@@ -516,7 +516,8 @@ def add_many2many_attributes(system, system_created, model, row):
 #
 #    return system
 
-def system():
+# TODO: remove optional argument used for debugging
+def system(request=None):
 
 #LOCK_ANALYSISSTATUS = 'LOCK_ANALYSISSTATUS'
 #LOCK_SYSTEMSTATUS = 'LOCK_SYSTEMSTATUS'
@@ -546,7 +547,7 @@ def system():
     """ check file system """
 
     # build csv file path
-    csv_path = model.csv_import_path + '/' + model.csv_import_filename
+    csv_import_file = model.csv_import_path + '/' + model.csv_import_filename
 
     # CSV import path does not exist - stop immediately
     if not os.path.isdir(model.csv_import_path):
@@ -563,14 +564,14 @@ def system():
             return
         else:
             # CSV import file does not exist - stop immediately
-            if not os.path.isfile(csv_path):
+            if not os.path.isfile(csv_import_file):
                 # call message
                 error_logger(csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_FILE_NOT_EXISTING")
                 # leave function
                 return
             else:
                 # no read permission for CSV import file - stop immediately
-                if not os.access(csv_path, os.R_OK):
+                if not os.access(csv_import_file, os.R_OK):
                     # call message
                     error_logger(csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_FILE_NO_READ_PERMISSION")
                     # leave function
@@ -594,6 +595,9 @@ def system():
         quotechar = '"'
     elif model.csv_text_quote == 'text_single_quotation_marks':
         quotechar = "'"
+
+    # open file
+    systemcsv = open(csv_import_file, 'r')
 
     # read rows out of csv
     rows = csv.reader(systemcsv, delimiter=delimiter, quotechar=quotechar)
@@ -749,6 +753,10 @@ def system():
     # call logger
     info_logger(csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_STATUS " + "created:" + str(systems_created_counter) + "|" + "updated:" + str(systems_updated_counter) + "|" + "skipped:" + str(systems_skipped_counter) + "|" + "multiple:" + str(systems_multiple_counter))
     info_logger(csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_END")
+
+    # TODO: remove optional argument used for debugging
+    if request:
+        return redirect(reverse('system_list'))
 
 ######################################################
 
