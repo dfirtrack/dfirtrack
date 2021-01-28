@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils import timezone
-from dfirtrack_config.models import SystemImporterFileCsvCronbasedConfigModel
+from dfirtrack_config.models import MainConfigModel, SystemImporterFileCsvCronbasedConfigModel
 #from dfirtrack_main.importer.file.csv_check_data import check_config, check_file, check_row
 #from dfirtrack_main.importer.file.csv_messages import final_messages
 #from dfirtrack_main.importer.file.csv_set_system_attributes import case_attributes_config_based, company_attributes_config_based, ip_attributes, optional_system_attributes, tag_attributes_config_based
@@ -42,10 +42,10 @@ def config_check(request):
         # set stop condition
         stop_system_importer_file_csv_cronbased = True
     else:
-        # CSV import path is not readable - stop immediately
+        # no read permission for CSV import path - stop immediately
         if not os.access(model.csv_import_path, os.R_OK):
             # call message
-            messages.error(request, "CSV import path is not readable. Check config or file system!")
+            messages.error(request, "No read permission for CSV import path. Check config or file system!")
             # set stop condition
             stop_system_importer_file_csv_cronbased = True
         else:
@@ -56,10 +56,10 @@ def config_check(request):
                 # set stop condition
                 stop_system_importer_file_csv_cronbased = True
             else:
-                # CSV import file is not readable - stop immediately
+                # no read permission for CSV import file - stop immediately
                 if not os.access(csv_path, os.R_OK):
                     # call message
-                    messages.error(request, "CSV import file is not readable. Check config or file system!")
+                    messages.error(request, "No read permission for CSV import file. Check config or file system!")
                     # set stop condition
                     stop_system_importer_file_csv_cronbased = True
 
@@ -524,45 +524,64 @@ def system():
     # get config model
     model = SystemImporterFileCsvCronbasedConfigModel.objects.get(system_importer_file_csv_cronbased_config_name = 'SystemImporterFileCsvCronbasedConfig')
 
+    """ check user """
+
+    # check for csv_import_username (after initial migration w/o user defined) - stop immediately
+    if not model.csv_import_username:
+        # get main config model
+        mainconfigmodel = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        # get cron username from main config (needed for logger if no user was defined in the proper config)
+        cron_username = mainconfigmodel.cron_username
+        # call logger
+        error_logger(cron_username, " SYSTEM_IMPORTER_FILE_CSV_CRON_NO_USER_DEFINED")
+        # leave function
+        return
+
     # get user
     csv_import_username = model.csv_import_username
 
     # call logger
     info_logger(csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_BEGAN")
 
+    """ check file system """
+
+    # build csv file path
+    csv_path = model.csv_import_path + '/' + model.csv_import_filename
+
+    # CSV import path does not exist - stop immediately
+    if not os.path.isdir(model.csv_import_path):
+        # call message
+        error_logger(csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_PATH_NOT_EXISTING")
+        # leave function
+        return
+    else:
+        # no read permission for CSV import path - stop immediately
+        if not os.access(model.csv_import_path, os.R_OK):
+            # call message
+            error_logger(csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_PATH_NO_READ_PERMISSION")
+            # leave function
+            return
+        else:
+            # CSV import file does not exist - stop immediately
+            if not os.path.isfile(csv_path):
+                # call message
+                error_logger(csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_FILE_NOT_EXISTING")
+                # leave function
+                return
+            else:
+                # no read permission for CSV import file - stop immediately
+                if not os.access(csv_path, os.R_OK):
+                    # call message
+                    error_logger(csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_FILE_NO_READ_PERMISSION")
+                    # leave function
+                    return
+
 #    """ get attributes """
 #
 #    # create attributes
 #    create_attributes(csv_import_username)
 
-    """ file handling and file related error checks """
-
-    # CSV import path is not readable
-    if not os.access(model.csv_import_path, os.R_OK):
-        # call logger
-        error_logger(csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_PATH_NOT_READABLE")
-        # leave fuction
-        return
-
-    # build csv file path
-    csv_path = model.csv_import_path + '/' + model.csv_import_filename
-
-    # try to open file
-    try:
-        # get text out of file
-        systemcsv = open(csv_path, 'r')
-    # file not found
-    except FileNotFoundError:
-        # call logger
-        error_logger(csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_FILE_NOT_FOUND")
-        # leave fuction
-        return
-    # no permission
-    except PermissionError:
-        # call logger
-        error_logger(csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_NO_READ_PERMISSION")
-        # leave fuction
-        return
+    """ file handling  """
 
     # get field delimiter from config
     if model.csv_field_delimiter == 'field_comma':
