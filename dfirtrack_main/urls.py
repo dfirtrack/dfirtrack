@@ -124,6 +124,9 @@ urlpatterns = [
     path(r'system/importer/file/csv/formbased/', csv_form_based.system, name='system_importer_file_csv_form_based'),
     path(r'system/modificator/', system_modificator.system_modificator, name='system_modificator'),
 
+    # TODO: remove test link
+    path(r'system/importer/file/csv/cronbasedtest/', csv_cron_based.system, name='system_importer_file_csv_cron_based_test'),
+
     path(r'systemstatus/', systemstatus_views.SystemstatusList.as_view(), name='systemstatus_list'),
     path(r'systemstatus/<int:pk>/', systemstatus_views.SystemstatusDetail.as_view(), name='systemstatus_detail'),
 

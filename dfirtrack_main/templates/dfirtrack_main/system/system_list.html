@@ -104,9 +104,11 @@
             <button onclick="system_importer_file_csv_config_based_config_popup()" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/wrench.svg' %}" class="icon copy-false" alt="icon"> </a>
         </div>
 
+        <!-- TODO: remove test link -->
         <!-- system importer file csv cron based button -->
         <div class="col-2 btn-group">
-            <a href="{% url 'system_importer_file_csv_cron_based' %} " type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/clock.svg' %}" class="icon right-distance copy-false" alt="icon"> Cron-based</a>
+            <a href="{% url 'system_importer_file_csv_cron_based' %}" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/clock.svg' %}" class="icon right-distance copy-false" alt="icon"> Cron-based</a>
+            <a href="{% url 'system_importer_file_csv_cron_based_test' %}" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/bolt.svg' %}" class="icon right-distance copy-false" alt="icon"> </a>
             <button onclick="system_importer_file_csv_cron_based_config_popup()" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/wrench.svg' %}" class="icon copy-false" alt="icon"> </a>
         </div>
 
