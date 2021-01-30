@@ -410,61 +410,69 @@ def add_many2many_attributes(system, system_created, model, row):
 
     """ case """
 
-#    # set case for new system or change if remove old is set
-#    if system_created or (not system_created and model.csv_remove_case):
-#        # remove cases if not new system
-#        if not system_created:
-#            # remove all cases
-#            system.case.clear()
-#        # get case from CSV
-#        if model.csv_choice_case:
-#            # get case from CSV column
-#            case_name = row[model.csv_column_case - 1]
-#            # check for empty string
-#            if case_name:
-#                # get or create case
-#                case, created = Case.objects.get_or_create(case_name = case_name)
-#                # call logger if created
-#                if created:
-#                    case.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_CASE_CREATED")
-#                # set case for system
-#                system.case.add(case)
-#        # get case from DB
-#        elif model.csv_default_case:
-#            # TODO: does this work?
-#            cases = model.csv_default_case
-#            for case in cases:
-#                # add case to system
-#                system.case.add(case)
+    # set case for new system or change if remove old is set
+    if system_created or (not system_created and model.csv_remove_case):
+        # remove cases if not new system
+        if not system_created:
+            # remove all cases
+            system.case.clear()
+        # get case from CSV
+        if model.csv_choice_case:
+            # get case from CSV column
+            case_name = row[model.csv_column_case - 1]
+            # check for empty string
+            if case_name:
+                # get case
+                try:
+                    case = Case.objects.get(
+                        case_name = case_name,
+                    )
+                # create case
+                except Case.DoesNotExist:
+                    case, created = Case.objects.get_or_create(
+                        case_name = case_name,
+                        case_is_incident = False,
+                        case_created_by_user_id = model.csv_import_username,
+                    )
+                    # call logger if created
+                    if created:
+                        case.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_CASE_CREATED")
+                # set case for system
+                system.case.add(case)
+        # get case from DB
+        elif model.csv_default_case:
+            cases = model.csv_default_case
+            for case in cases.all():
+                # add case to system
+                system.case.add(case)
 
     """ company """
 
-#    # set company for new system or change if remove old is set
-#    if system_created or (not system_created and model.csv_remove_company):
-#        # remove companies if not new system
-#        if not system_created:
-#            # remove all companies
-#            system.company.clear()
-#        # get company from CSV
-#        if model.csv_choice_company:
-#            # get company from CSV column
-#            company_name = row[model.csv_column_company - 1]
-#            # check for empty string
-#            if company_name:
-#                # get or create company
-#                company, created = Company.objects.get_or_create(company_name = company_name)
-#                # call logger if created
-#                if created:
-#                    company.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_COMPANY_CREATED")
-#                # set company for system
-#                system.company.add(company)
-#        # get company from DB
-#        elif model.csv_default_company:
-#            # TODO: does this work?
-#            companys = model.csv_default_company
-#            for company in companys:
-#                # add company to system
-#                system.company.add(company)
+    # set company for new system or change if remove old is set
+    if system_created or (not system_created and model.csv_remove_company):
+        # remove companies if not new system
+        if not system_created:
+            # remove all companies
+            system.company.clear()
+        # get company from CSV
+        if model.csv_choice_company:
+            # get company from CSV column
+            company_name = row[model.csv_column_company - 1]
+            # check for empty string
+            if company_name:
+                # get or create company
+                company, created = Company.objects.get_or_create(company_name = company_name)
+                # call logger if created
+                if created:
+                    company.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_COMPANY_CREATED")
+                # set company for system
+                system.company.add(company)
+        # get company from DB
+        elif model.csv_default_company:
+            companys = model.csv_default_company
+            for company in companys.all():
+                # add company to system
+                system.company.add(company)
 
 # TODO: add tag with prefix and so on
 
