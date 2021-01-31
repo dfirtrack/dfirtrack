@@ -1,5 +1,10 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
+from django.urls import reverse
+from dfirtrack_config.models import SystemImporterFileCsvCronbasedConfigModel
 from dfirtrack_main.logger.default_logger import error_logger, warning_logger
+import os
 
 def check_config(request, model):
     """ check variables of dfirtrack.config """
@@ -73,3 +78,65 @@ def check_row(request, row, row_counter, model):
         continue_system_importer_file_csv = True
 
     return continue_system_importer_file_csv
+
+@login_required(login_url="/login")
+def config_check_cron(request):
+    """ config check before redirect for creating scheduled task """
+
+    # reset stop condition
+    stop_system_importer_file_csv_cronbased = False
+
+    # get config model
+    model = SystemImporterFileCsvCronbasedConfigModel.objects.get(system_importer_file_csv_cronbased_config_name = 'SystemImporterFileCsvCronbasedConfig')
+
+    """ check user """
+
+    # check for csv_import_username (after initial migration w/o user defined) - stop immediately
+    if not model.csv_import_username:
+        messages.error(request, "No user for import defined. Check config!")
+        # set stop condition
+        stop_system_importer_file_csv_cronbased = True
+
+    """ check file system """
+
+    # build csv file path
+    csv_import_file = model.csv_import_path + '/' + model.csv_import_filename
+
+    # CSV import path does not exist - stop immediately
+    if not os.path.isdir(model.csv_import_path):
+        # call message
+        messages.error(request, "CSV import path does not exist. Check config or file system!")
+        # set stop condition
+        stop_system_importer_file_csv_cronbased = True
+    else:
+        # no read permission for CSV import path - stop immediately
+        if not os.access(model.csv_import_path, os.R_OK):
+            # call message
+            messages.error(request, "No read permission for CSV import path. Check config or file system!")
+            # set stop condition
+            stop_system_importer_file_csv_cronbased = True
+        else:
+            # CSV import file does not exist - stop immediately
+            if not os.path.isfile(csv_import_file):
+                # call message
+                messages.error(request, "CSV import file does not exist. Check config or provide file!")
+                # set stop condition
+                stop_system_importer_file_csv_cronbased = True
+            else:
+                # no read permission for CSV import file - stop immediately
+                if not os.access(csv_import_file, os.R_OK):
+                    # call message
+                    messages.error(request, "No read permission for CSV import file. Check config or file system!")
+                    # set stop condition
+                    stop_system_importer_file_csv_cronbased = True
+
+    # check stop condition
+    if stop_system_importer_file_csv_cronbased:
+        # return to system list
+        return redirect(reverse('system_list'))
+    else:
+        # TODO: build url with python
+        # TODO: open in new tab
+        # open django admin with pre-filled form for scheduled task
+        return redirect('/admin/django_q/schedule/add/?name=system_importer_file_csv_cron_based&func=dfirtrack_main.importer.file.csv_cron_based.system')
+
