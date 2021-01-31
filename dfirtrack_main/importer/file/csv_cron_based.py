@@ -9,7 +9,7 @@ from dfirtrack_config.models import MainConfigModel, SystemImporterFileCsvCronba
 #from dfirtrack_main.importer.file.csv_messages import final_messages
 #from dfirtrack_main.importer.file.csv_set_system_attributes import case_attributes_config_based, company_attributes_config_based, ip_attributes, optional_system_attributes, tag_attributes_config_based
 from dfirtrack_main.logger.default_logger import error_logger, info_logger
-from dfirtrack_main.models import Case, Company, Dnsname, Domain, Location, Ip, Os, Reason, Recommendation, Serviceprovider, System, Systemtype
+from dfirtrack_main.models import Case, Company, Dnsname, Domain, Location, Ip, Os, Reason, Recommendation, Serviceprovider, System, Systemtype, Tag, Tagcolor
 #from io import TextIOWrapper
 import os
 
@@ -375,7 +375,6 @@ def add_many2many_attributes(system, system_created, model, row):
     """ IP addresses """
 
 # TODO: add check for IP (used somewhere else)
-# TODO: what does 'system.ip.clear()' do with existing system without IPs?
 
     # add ips for new system or change if remove old is set
     if system_created or (not system_created and model.csv_remove_ip):
@@ -474,7 +473,80 @@ def add_many2many_attributes(system, system_created, model, row):
                 # add company to system
                 system.company.add(company)
 
-# TODO: add tag with prefix and so on
+    """ tag """
+
+    # set tag for new system or change if remove old is set
+    if system_created or (not system_created and model.csv_remove_tag != 'tag_remove_none'):
+
+        """ prepare tag prefix """
+
+        # get tag delimiter from config
+        if model.csv_tag_prefix_delimiter == 'tag_prefix_underscore':
+            tag_prefix_delimiter = '_'
+        elif model.csv_tag_prefix_delimiter == 'tag_prefix_hyphen':
+            tag_prefix_delimiter = '-'
+        elif model.csv_tag_prefix_delimiter == 'tag_prefix_period':
+            tag_prefix_delimiter = '.'
+
+        # build tagprefix string from prefix and delimiter
+        tagprefix = model.csv_tag_prefix + tag_prefix_delimiter
+
+        """ remove tags for existing systems (either all or just with prefix) """
+
+        # remove all tags
+        if not system_created and model.csv_remove_tag == 'tag_remove_all':
+            # remove all tags
+            system.tag.clear()
+
+        # remove tags with prefix (and keep other / manually set tags)
+        elif not system_created and model.csv_remove_tag == 'tag_remove_prefix':
+            # get all relevant tags for this system
+            prefixtags = system.tag.filter(tag_name__startswith=tagprefix)
+            # iterate over tags
+            for prefixtag in prefixtags:
+                # remove this tag relation from system
+                prefixtag.system_set.remove(system)
+
+        """ add tags from CSV or DB """
+
+        # get tags from CSV
+        if model.csv_choice_tag:
+            # get tagstring from CSV column
+            tag_string = row[model.csv_column_tag - 1]
+
+            # check for empty string
+            if tag_string:
+
+                # get tag delimiter from config
+                if model.csv_tag_delimiter == 'tag_comma':
+                    tag_delimiter = ','
+                elif model.csv_tag_delimiter == 'tag_semicolon':
+                    tag_delimiter = ';'
+                elif model.csv_tag_delimiter == 'tag_space':
+                    tag_delimiter = ' '
+                # split tag string to list depending on delimiter
+                tag_list = tag_string.split(tag_delimiter)
+
+                # get tagcolor
+                tagcolor_primary = Tagcolor.objects.get(tagcolor_name='primary')
+                # TODO: add 'try' for tag with same name and different color
+                for tag in tag_list:
+                    # build tagname from prefix, prefix delimiter and name
+                    tagname = tagprefix + tag
+                    # get or create tag
+                    tag, created = Tag.objects.get_or_create(
+                        tag_name = tagname,
+                        tagcolor = tagcolor_primary,
+                    )
+                    # add tag to system
+                    system.tag.add(tag)
+
+        # get tags from DB
+        elif model.csv_default_tag:
+            tags = model.csv_default_tag
+            for tag in tags.all():
+                # add tag to system
+                system.tag.add(tag)
 
     # return system with many2many relations
     return system
@@ -769,35 +841,9 @@ def system(request=None):
 ######################################################
 
 
-# deprecated, TODO: check for useful stuff regarding tag handling
-#
 #from dfirtrack.config import TAGLIST
 #from dfirtrack.config import TAGPREFIX
 #
-#    """
-#    - remove all tags for systems beginning with 'TAGPREFIX' (if there are any)
-#    - evaluate given CSV line by line (without first row)
-#        - check whether this line has relevant tags (leave loop if not)
-#        - add relevant tags to this system
-#    """
-#
-#        # check TAGLIST (from settings.config) for empty list
-#        if not TAGLIST:
-#            messages.error(request, "No relevant tags defined. Check `TAGLIST` in `dfirtrack.config`!")
-#            # call logger
-#            error_logger(str(request.user), " SYSTEM_TAG_IMPORTER_NO_TAGS_DEFINED.")
-#            return redirect('/system/')
-#        else:
-#            taglist = TAGLIST
-#
-#        # check TAGPREFIX (from settings.config) for empty string
-#        if TAGPREFIX is "":
-#            messages.error(request, "No prefix string defined. Check `TAGPREFIX` in `dfirtrack.config`!")
-#            # call logger
-#            error_logger(str(request.user), " SYSTEM_TAG_IMPORTER_NO_TAGPREFIX_DEFINED.")
-#            return redirect('/system/')
-#        # expand the string by an underscore
-#        else:
 ##            tagprefix = TAGPREFIX + "_"
 #            tagprefix = TAGPREFIX + "-"
 #
@@ -813,14 +859,6 @@ def system(request=None):
 #
 #        # iterate over systems in queryset | prefixtagsystem  -> system object
 #        for prefixtagsystem in prefixtagsystems:
-#
-#            # get all tags beginning with 'TAGPREFIX' that belong to the actual system | systemprefixtags -> queryset
-#            systemprefixtags=prefixtagsystem.tag.filter(tag_name__startswith=tagprefix)
-#
-#            # iterate over queryset | systemprefixtag -> tag object
-#            for systemprefixtag in systemprefixtags:
-#                # delete all existing tags (the m2m relationship) beginning with 'TAGPREFIX' for this system (so that removed tags from csv will be removed as well)
-#                systemprefixtag.system_set.remove(prefixtagsystem)
 #
 #            # get tags from csv
 #            tagcsvstring = row[9]
