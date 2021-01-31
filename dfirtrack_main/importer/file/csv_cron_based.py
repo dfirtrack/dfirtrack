@@ -529,15 +529,24 @@ def add_many2many_attributes(system, system_created, model, row):
 
                 # get tagcolor
                 tagcolor_primary = Tagcolor.objects.get(tagcolor_name='primary')
-                # TODO: add 'try' for tag with same name and different color
+                # iterate over tags
                 for tag in tag_list:
                     # build tagname from prefix, prefix delimiter and name
                     tagname = tagprefix + tag
-                    # get or create tag
-                    tag, created = Tag.objects.get_or_create(
-                        tag_name = tagname,
-                        tagcolor = tagcolor_primary,
-                    )
+                    # get tag
+                    try:
+                        tag = Tag.objects.get(
+                            tag_name = tagname,
+                        )
+                    # create tag
+                    except Tag.DoesNotExist:
+                        tag, created = Tag.objects.get_or_create(
+                            tag_name = tagname,
+                            tagcolor = tagcolor_primary,
+                        )
+                        # call logger if created
+                        if created:
+                            tag.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_TAG_CREATED")
                     # add tag to system
                     system.tag.add(tag)
 
@@ -837,82 +846,3 @@ def system(request=None):
     # TODO: remove optional argument used for debugging
     if request:
         return redirect(reverse('system_list'))
-
-######################################################
-
-
-#from dfirtrack.config import TAGLIST
-#from dfirtrack.config import TAGPREFIX
-#
-##            tagprefix = TAGPREFIX + "_"
-#            tagprefix = TAGPREFIX + "-"
-#
-#        # create tagaddlist to append for every new system
-#        tagaddlist = []
-#        for tag in taglist:
-#                tagaddlist.append(tagprefix + tag)
-#
-#        """ remove all tags for systems beginning with 'TAGPREFIX' (if there are any) """
-#
-#        # get all systems that have tags beginning with 'TAGPREFIX' | prefixtagsystems -> queryset
-#        prefixtagsystems=System.objects.filter(tag__tag_name__startswith=tagprefix)
-#
-#        # iterate over systems in queryset | prefixtagsystem  -> system object
-#        for prefixtagsystem in prefixtagsystems:
-#
-#            # get tags from csv
-#            tagcsvstring = row[9]
-#            if tagcsvstring == '':
-#                # autoincrement systems_skipped_counter
-#                systems_skipped_counter += 1
-#                # autoincrement row_counter
-#                row_counter += 1
-#                # leave because systems without tags are not relevant
-#                continue
-#            else:
-#                # convert string (at whitespaces) to list
-#                tagcsvlist = tagcsvstring.split()
-#
-#            # create empty list for mapping
-#            tagaddlist = []
-#            # check for relevant tags and add to list
-#            for tag in taglist:
-#                if tag in tagcsvlist:
-#                    tagaddlist.append(tagprefix + tag)
-#
-#            # check if tagaddlist is empty
-#            if not tagaddlist:
-#                # autoincrement systems_skipped_counter
-#                systems_skipped_counter += 1
-#                # autoincrement row_counter
-#                row_counter += 1
-#                # leave because there are no relevant tags
-#                continue
-#
-#                if not row[10]:
-#                    # continue if there is an empty string
-#                    pass
-#                else:
-#                    # get object
-#                    tag_error = Tag.objects.get(tag_name=tagprefix + 'Error')
-#                    # add error tag to system
-#                    tag_error.system_set.add(system)
-#
-#                # iterate over tags in tagaddlist
-#                for tag_name in tagaddlist:
-#                    # get object
-#                    tag = Tag.objects.get(tag_name=tag_name)
-#                    # add tag to system
-#                    tag.system_set.add(system)
-#                # get tagcolor object
-#                tagcolor = Tagcolor.objects.get(tagcolor_name='primary')
-#
-#                # create tag if needed
-#                tag, created = Tag.objects.get_or_create(tag_name=tag_name, tagcolor=tagcolor)
-#                # call logger if created
-#                if created == True:
-#                    tag.logger(str(request.user), " SYSTEMS_TAG_IMPORTER_TAG_CREATED")
-#                    messages.success(request, 'Tag "' + tag.tag_name + '" created.')
-#
-#                # add tag to system
-#                tag.system_set.add(system)
