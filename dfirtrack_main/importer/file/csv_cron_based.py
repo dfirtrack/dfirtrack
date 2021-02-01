@@ -1,18 +1,22 @@
 import csv
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils import timezone
 from dfirtrack_config.models import SystemImporterFileCsvCronbasedConfigModel
 #from dfirtrack_main.importer.file.csv_check_data import check_config, check_file, check_row
 #from dfirtrack_main.importer.file.csv_messages import final_messages
-#from dfirtrack_main.importer.file.csv_set_system_attributes import case_attributes_config_based, company_attributes_config_based, ip_attributes, optional_system_attributes, tag_attributes_config_based
 from dfirtrack_main.importer.file.csv_add_attributes import add_fk_attributes, add_many2many_attributes, create_lock_tags
 from dfirtrack_main.importer.file.csv_check_data import config_check_run
 from dfirtrack_main.logger.default_logger import error_logger, info_logger
 from dfirtrack_main.models import System
-#from io import TextIOWrapper
 
-# TODO: check old snippets
+def csv_import():
+
+    # get config model
+    model = SystemImporterFileCsvCronbasedConfigModel.objects.get(system_importer_file_csv_cronbased_config_name = 'SystemImporterFileCsvCronbasedConfig')
+
+    """ check config """
 
 # TODO: useful? -> YES!!!
 #            # check file for csv respectively some kind of text file
@@ -39,13 +43,6 @@ from dfirtrack_main.models import System
 #
 #        # call logger
 #        debug_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_END")
-
-def csv_import():
-
-    # get config model
-    model = SystemImporterFileCsvCronbasedConfigModel.objects.get(system_importer_file_csv_cronbased_config_name = 'SystemImporterFileCsvCronbasedConfig')
-
-    """ check config """
 
     # check user and file system
     stop_system_importer_file_csv_run = config_check_run(model)
@@ -117,10 +114,10 @@ def csv_import():
             # leave loop for headline row
             continue
 
+        """ filter for systems """
+
         # get system name (for domain name comparison)
         system_name = row[model.csv_column_system - 1]
-
-        """ filter for systems """
 
 # TODO: add option which attributes are used for filtering? (like domain, dnsname, company)
 # e.g. 'csv_identification_dnsname'
@@ -236,12 +233,18 @@ def csv_import():
 
     return
 
+@login_required(login_url="/login")
 def system(request):
 
+    # TODO: change user for calling importer
+    # call CSV importer
     csv_import()
 
     # return
     return redirect(reverse('system_list'))
 
 def system_cron():
+
+    # TODO: change user for calling importer
+    # call CSV importer
     csv_import()
