@@ -2,15 +2,15 @@ import csv
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils import timezone
-from dfirtrack_config.models import MainConfigModel, SystemImporterFileCsvCronbasedConfigModel
+from dfirtrack_config.models import SystemImporterFileCsvCronbasedConfigModel
 #from dfirtrack_main.importer.file.csv_check_data import check_config, check_file, check_row
 #from dfirtrack_main.importer.file.csv_messages import final_messages
 #from dfirtrack_main.importer.file.csv_set_system_attributes import case_attributes_config_based, company_attributes_config_based, ip_attributes, optional_system_attributes, tag_attributes_config_based
 from dfirtrack_main.importer.file.csv_add_attributes import add_fk_attributes, add_many2many_attributes, create_lock_tags
+from dfirtrack_main.importer.file.csv_check_data import config_check_run
 from dfirtrack_main.logger.default_logger import error_logger, info_logger
 from dfirtrack_main.models import System
 #from io import TextIOWrapper
-import os
 
 # TODO: check old snippets
 
@@ -40,54 +40,21 @@ import os
 #        # call logger
 #        debug_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_END")
 
-#def create_attributes(csv_import_username):
-#
-#    """ get tags """
-#
-#    # get tagcolor
-#    tagcolor_white = Tagcolor.objects.get(tagcolor_name = 'white')
-#
-#    # get or create lock analysisstatus tag
-#    tag_lock_analysisstatus, created = Tag.objects.get_or_create(
-#        tag_name = LOCK_ANALYSISSTATUS,
-#        tagcolor = tagcolor_white,
-#    )
-#    # call logger
-#    if created:
-#        tag_lock_analysisstatus.logger(csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_TAG_CREATED")
-#
-#    # get or create lock systemstatus tag
-#    tag_lock_systemstatus, created = Tag.objects.get_or_create(
-#        tag_name = LOCK_SYSTEMSTATUS,
-#        tagcolor = tagcolor_white,
-#    )
-#    # call logger
-#    if created:
-#        tag_lock_systemstatus.logger(csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_TAG_CREATED")
-
-# TODO: remove optional argument used for debugging
-def system(request=None):
-
-#LOCK_ANALYSISSTATUS = 'LOCK_ANALYSISSTATUS'
-#LOCK_SYSTEMSTATUS = 'LOCK_SYSTEMSTATUS'
+def csv_import():
 
     # get config model
     model = SystemImporterFileCsvCronbasedConfigModel.objects.get(system_importer_file_csv_cronbased_config_name = 'SystemImporterFileCsvCronbasedConfig')
 
-    """ check user """
+    """ check config """
 
-# TODO: move to config check
+    # check user and file system
+    stop_system_importer_file_csv_run = config_check_run(model)
 
-    # check for csv_import_username (after initial migration w/o user defined) - stop immediately
-    if not model.csv_import_username:
-        # get main config model
-        mainconfigmodel = MainConfigModel.objects.get(main_config_name = 'MainConfig')
-        # get cron username from main config (needed for logger if no user was defined in the proper config)
-        cron_username = mainconfigmodel.cron_username
-        # call logger
-        error_logger(cron_username, " SYSTEM_IMPORTER_FILE_CSV_CRON_NO_USER_DEFINED")
-        # leave function
+    # leave system_importer_file_csv if config caused errors
+    if stop_system_importer_file_csv_run:
         return
+
+    """ start system importer """
 
     # get user
     csv_import_username = model.csv_import_username
@@ -98,47 +65,10 @@ def system(request=None):
     # create lock tags
     create_lock_tags(model)
 
-    """ check file system """
-
-# TODO: move to config check
+    """ file handling  """
 
     # build csv file path
     csv_import_file = model.csv_import_path + '/' + model.csv_import_filename
-
-    # CSV import path does not exist - stop immediately
-    if not os.path.isdir(model.csv_import_path):
-        # call message
-        error_logger(csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_PATH_NOT_EXISTING")
-        # leave function
-        return
-    else:
-        # no read permission for CSV import path - stop immediately
-        if not os.access(model.csv_import_path, os.R_OK):
-            # call message
-            error_logger(csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_PATH_NO_READ_PERMISSION")
-            # leave function
-            return
-        else:
-            # CSV import file does not exist - stop immediately
-            if not os.path.isfile(csv_import_file):
-                # call message
-                error_logger(csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_FILE_NOT_EXISTING")
-                # leave function
-                return
-            else:
-                # no read permission for CSV import file - stop immediately
-                if not os.access(csv_import_file, os.R_OK):
-                    # call message
-                    error_logger(csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_FILE_NO_READ_PERMISSION")
-                    # leave function
-                    return
-
-#    """ get attributes """
-#
-#    # create attributes
-#    create_attributes(csv_import_username)
-
-    """ file handling  """
 
     # get field delimiter from config
     if model.csv_field_delimiter == 'field_comma':
@@ -304,6 +234,14 @@ def system(request=None):
     info_logger(csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_STATUS " + "created:" + str(systems_created_counter) + "|" + "updated:" + str(systems_updated_counter) + "|" + "skipped:" + str(systems_skipped_counter) + "|" + "multiple:" + str(systems_multiple_counter))
     info_logger(csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_END")
 
-    # TODO: remove optional argument used for debugging
-    if request:
-        return redirect(reverse('system_list'))
+    return
+
+def system(request):
+
+    csv_import()
+
+    # return
+    return redirect(reverse('system_list'))
+
+def system_cron():
+    csv_import()
