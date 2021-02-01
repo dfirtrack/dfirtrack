@@ -14,7 +14,7 @@ from dfirtrack_main.models import System
 
 # TODO: check old snippets
 
-# TODO: useful?
+# TODO: useful? -> YES!!!
 #            # check file for csv respectively some kind of text file
 #            file_check = check_file(request, rows)
 #

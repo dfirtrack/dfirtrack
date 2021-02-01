@@ -120,12 +120,10 @@ urlpatterns = [
     path(r'system/exporter/spreadsheet/csv/system/', spreadsheet_csv.system, name='system_exporter_spreadsheet_csv'),
     path(r'system/exporter/spreadsheet/xls/system/', xls.system, name='system_exporter_spreadsheet_xls'),
     path(r'system/importer/file/csv/configbased/', csv_config_based.system, name='system_importer_file_csv_config_based'),
-    path(r'system/importer/file/csv/cronbased/', csv_check_data.config_check_cron, name='system_importer_file_csv_cron_based'),
+    path(r'system/importer/file/csv/cron/', csv_check_data.config_check_cron, name='system_importer_file_csv_cron'),
+    path(r'system/importer/file/csv/instant/', csv_cron_based.system, name='system_importer_file_csv_instant'),
     path(r'system/importer/file/csv/formbased/', csv_form_based.system, name='system_importer_file_csv_form_based'),
     path(r'system/modificator/', system_modificator.system_modificator, name='system_modificator'),
-
-    # TODO: remove test link
-    path(r'system/importer/file/csv/cronbasedtest/', csv_cron_based.system, name='system_importer_file_csv_cron_based_test'),
 
     path(r'systemstatus/', systemstatus_views.SystemstatusList.as_view(), name='systemstatus_list'),
     path(r'systemstatus/<int:pk>/', systemstatus_views.SystemstatusDetail.as_view(), name='systemstatus_detail'),
