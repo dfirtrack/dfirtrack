@@ -6,7 +6,7 @@ from dfirtrack_config.models import MainConfigModel, SystemImporterFileCsvCronba
 #from dfirtrack_main.importer.file.csv_check_data import check_config, check_file, check_row
 #from dfirtrack_main.importer.file.csv_messages import final_messages
 #from dfirtrack_main.importer.file.csv_set_system_attributes import case_attributes_config_based, company_attributes_config_based, ip_attributes, optional_system_attributes, tag_attributes_config_based
-from dfirtrack_main.importer.file.csv_add_attributes import add_fk_attributes, add_many2many_attributes
+from dfirtrack_main.importer.file.csv_add_attributes import add_fk_attributes, add_many2many_attributes, create_lock_tags
 from dfirtrack_main.logger.default_logger import error_logger, info_logger
 from dfirtrack_main.models import System
 #from io import TextIOWrapper
@@ -65,51 +65,6 @@ import os
 #    if created:
 #        tag_lock_systemstatus.logger(csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_TAG_CREATED")
 
-#def set_status(system, row):
-#
-#    """ set automatic systemstatus here depending on tags """
-#
-##    # existing tags from CSV leads to 'IOCs checked', manually swiching to 'Analysis ongoing' necessary
-##    if row[CSV_COLUMN_TAGS]:
-##        analysisstatus = Analysisstatus.objects.get(analysisstatus_name = 'Needs analysis')
-##        systemstatus = Systemstatus.objects.get(systemstatus_name = 'IOCs checked')
-##
-##    # no tags from CSV leads to 'IOCs checked'
-##    # TODO: with finalization baselining systemstatus needs to be switched from 'IOCs checked' to 'Clean'
-##    else:
-##        analysisstatus = Analysisstatus.objects.get(analysisstatus_name = 'Nothing to do')
-##        systemstatus = Systemstatus.objects.get(systemstatus_name = 'IOCs checked')
-##
-##    # exception: tag 'FOOBAR_INBOX_INTERN' or 'FOOBAR_REQUESTED_INTERN' discards previous checks and leads to 'Analysis ongoing'
-##    if 'FOOBAR_INBOX_INTERN' in row[CSV_COLUMN_TAGS]:
-##        analysisstatus = Analysisstatus.objects.get(analysisstatus_name = 'Needs analysis')
-##        systemstatus = Systemstatus.objects.get(systemstatus_name = 'Analysis ongoing')
-##
-##    # exception: tag 'FOOBAR_INBOX_INTERN' or 'FOOBAR_REQUESTED_INTERN' discards previous checks and leads to 'Analysis ongoing'
-##    if 'FOOBAR_REQUESTED_INTERN' in row[CSV_COLUMN_TAGS]:
-##        analysisstatus = Analysisstatus.objects.get(analysisstatus_name = 'Needs analysis')
-##        systemstatus = Systemstatus.objects.get(systemstatus_name = 'Analysis ongoing')
-#
-#    # get default status
-#    analysisstatus = Analysisstatus.objects.get(analysisstatus_name = '10_needs_analysis')
-#    systemstatus = Systemstatus.objects.get(systemstatus_name = '10_unknown')
-#
-#    # get lockstatus
-#    tag_lock_analysisstatus = Tag.objects.get(tag_name = 'LOCK_ANALYSISSTATUS')
-#    tag_lock_systemstatus = Tag.objects.get(tag_name = 'LOCK_SYSTEMSTATUS')
-#
-#    # change status if not locked (only applicable for existing systems)
-#    if system.system_id:
-#        if tag_lock_analysisstatus not in system.tag.all():
-#            system.analysisstatus = analysisstatus
-#        if tag_lock_systemstatus not in system.tag.all():
-#            system.systemstatus = systemstatus
-#    else:
-#        system.analysisstatus = analysisstatus
-#        system.systemstatus = systemstatus
-#
-#    return system
-
 # TODO: remove optional argument used for debugging
 def system(request=None):
 
@@ -139,6 +94,9 @@ def system(request=None):
 
     # call logger
     info_logger(csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_BEGAN")
+
+    # create lock tags
+    create_lock_tags(model)
 
     """ check file system """
 
@@ -269,9 +227,6 @@ def system(request=None):
 #                domain = domain,
             )
 
-# TODO: check function
-#            system = set_status(system, row)
-
             # change mandatory meta attributes
             system.system_modify_time = timezone.now()
             system.system_modified_by_user_id = csv_import_username
@@ -313,9 +268,6 @@ def system(request=None):
 
             # add system_name from csv
             system.system_name = system_name
-
-# TODO: check function
-#            system = set_status(system, row)
 
             # add mandatory meta attributes
             system.system_modify_time = timezone.now()

@@ -139,4 +139,3 @@ def config_check_cron(request):
         # TODO: open in new tab
         # open django admin with pre-filled form for scheduled task
         return redirect('/admin/django_q/schedule/add/?name=system_importer_file_csv_cron_based&func=dfirtrack_main.importer.file.csv_cron_based.system')
-

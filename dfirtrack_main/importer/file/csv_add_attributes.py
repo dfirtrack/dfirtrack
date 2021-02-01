@@ -1,5 +1,32 @@
 from dfirtrack_main.models import Case, Company, Dnsname, Domain, Location, Ip, Os, Reason, Recommendation, Serviceprovider, Systemtype, Tag, Tagcolor
 
+def create_lock_tags(model):
+
+    # get tagcolor
+    tagcolor_white = Tagcolor.objects.get(tagcolor_name = 'white')
+
+    """ lock systemstatus """
+
+    # get or create lock systemstatus tag
+    tag_lock_systemstatus, created = Tag.objects.get_or_create(
+        tag_name = model.csv_tag_lock_systemstatus,
+        tagcolor = tagcolor_white,
+    )
+    # call logger
+    if created:
+        tag_lock_systemstatus.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_TAG_CREATED")
+
+    """ lock analysisstatus """
+
+    # get or create lock analysisstatus tag
+    tag_lock_analysisstatus, created = Tag.objects.get_or_create(
+        tag_name = model.csv_tag_lock_analysisstatus,
+        tagcolor = tagcolor_white,
+    )
+    # call logger
+    if created:
+        tag_lock_analysisstatus.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_TAG_CREATED")
+
 def add_fk_attributes(system, system_created, model, row):
     """ add foreign key relationships to system """
 
@@ -8,16 +35,36 @@ def add_fk_attributes(system, system_created, model, row):
     # set systemstatus for new system or change if remove old is set
     if system_created or (not system_created and model.csv_remove_systemstatus):
 
-        # set systemstatus for system
-        system.systemstatus = model.csv_default_systemstatus
+        # set default systemstatus for new system
+        if system_created:
+            # set systemstatus for new system
+            system.systemstatus = model.csv_default_systemstatus
+        # change systemstatus for existing system if not locked
+        else:
+            # get lockstatus
+            tag_lock_systemstatus = Tag.objects.get(tag_name = model.csv_tag_lock_systemstatus)
+            # check for lockstatus in all tags of system
+            if tag_lock_systemstatus not in system.tag.all():
+                # change to default systemstatus for existing system
+                system.systemstatus = model.csv_default_systemstatus
 
     """ analysisstatus """
 
     # set analysisstatus for new system or change if remove old is set
     if system_created or (not system_created and model.csv_remove_analysisstatus):
 
-        # set analysisstatus for system
-        system.analysisstatus = model.csv_default_analysisstatus
+        # set default analysisstatus for new system
+        if system_created:
+            # set analysisstatus for new system
+            system.analysisstatus = model.csv_default_analysisstatus
+        # change analysisstatus for existing system if not locked
+        else:
+            # get lockstatus
+            tag_lock_analysisstatus = Tag.objects.get(tag_name = model.csv_tag_lock_analysisstatus)
+            # check for lockstatus in all tags of system
+            if tag_lock_analysisstatus not in system.tag.all():
+                # change to default analysisstatus for existing system
+                system.analysisstatus = model.csv_default_analysisstatus
 
 # TODO: add checks for content of 'csv_column_...'
 # TODO: do something like: 'try: ...get_or_create(...)'
