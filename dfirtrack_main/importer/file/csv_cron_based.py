@@ -112,7 +112,7 @@ def csv_import(request=None):
     # iterate over rows
     for row in rows:
 
-# TODO: useful?
+# TODO: add for all fields
 #                # check row for valid system values
 #                continue_system_importer_file_csv = check_row(request, row, row_counter, model)
 #                # leave loop for this row if there are invalid values

@@ -1072,6 +1072,7 @@ class SystemImporterFileCsvCronbasedConfigForm(forms.ModelForm):
 
         """
         CSV import file does not exist -> only warning is shown via message to giv to opportunity to prepare the file
+        CSV import file is empty -> only warning is shown via message to giv to opportunity to prepare the file
         message implemented in 'dfirtrack_config.importer.file.csv_config_editor.system_importer_file_csv_cron_based_config_view'
         """
 

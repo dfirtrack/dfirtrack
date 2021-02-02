@@ -89,10 +89,20 @@ def system_importer_file_csv_cron_based_config_view(request):
             # build csv file path
             csv_path = model.csv_import_path + '/' + model.csv_import_filename
 
+            """
+            CSV import path does not exist - handled in dfirtrack_config.form
+            CSV import path is not readable - handled in dfirtrack_config.form
+            CSV import file does exist but is not readable - handled in dfirtrack_config.form
+            """
+
             # CSV import file does not exist - show warning
             if not os.path.isfile(csv_path):
                 # create message
-                messages.warning(request, 'CSV does not exist at the moment. Make sure the file is available during import.')
+                messages.warning(request, 'CSV import file does not exist at the moment. Make sure the file is available during import.')
+            # CSV import file is empty - show warning
+            if os.path.getsize(csv_path) == 0:
+                # create message
+                messages.warning(request, 'CSV import file is empty. Make sure the file contains systems during import.')
 
             # close popup
             return HttpResponse('<script type="text/javascript">window.close();</script>')

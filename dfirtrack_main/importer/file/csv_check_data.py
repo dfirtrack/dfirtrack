@@ -61,6 +61,8 @@ def check_file(rows, username):
 def check_row(request, row, row_counter, model):
     """ check some values of csv rows """
 
+    # TODO: add for all fields
+
     # reset continue condition
     continue_system_importer_file_csv = False
 
@@ -136,6 +138,7 @@ def config_check_pre_system_cron(request):
                     # set stop condition
                     stop_system_importer_file_csv_cronbased = True
                 else:
+                    # CSV import file is empty - stop immediately
                     if os.path.getsize(csv_import_file) == 0:
                         # call message
                         messages.error(request, "CSV import file is empty. Check config or file system!")
@@ -148,7 +151,6 @@ def config_check_pre_system_cron(request):
         return redirect(reverse('system_list'))
     else:
         # TODO: build url with python
-        # TODO: open in new tab
         # open django admin with pre-filled form for scheduled task
         return redirect('/admin/django_q/schedule/add/?name=system_importer_file_csv_cron_based&func=dfirtrack_main.importer.file.csv_cron_based.system_cron')
 
@@ -206,6 +208,7 @@ def config_check_run(model):
                     # set stop condition
                     stop_system_importer_file_csv_run = True
                 else:
+                    # CSV import file is empty - stop immediately
                     if os.path.getsize(csv_import_file) == 0:
                         # call logger
                         error_logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_FILE_EMPTY")
