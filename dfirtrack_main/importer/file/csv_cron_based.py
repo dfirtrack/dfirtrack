@@ -195,6 +195,8 @@ def csv_import(request=None):
         # if there is more than one system
         elif len(systemquery) > 1:
 
+            # TODO: add list with system_name for message
+
             # autoincrement systems_multiple_counter
             systems_multiple_counter += 1
 

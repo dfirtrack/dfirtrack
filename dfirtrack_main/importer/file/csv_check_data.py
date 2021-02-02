@@ -41,7 +41,6 @@ def check_file(rows, username):
     """ check file for csv respectively some kind of text file """
 
     # TODO: add check for file containing null bytes (\x00)
-    # TODO: add check for empty file (0 bytes)
 
     try:
         # try to iterate over rows
@@ -86,6 +85,8 @@ def check_row(request, row, row_counter, model):
 @login_required(login_url="/login")
 def config_check_pre_system_cron(request):
     """ config check before redirect for creating scheduled task """
+
+    # TODO: merge with config_check_run
 
     # reset stop condition
     stop_system_importer_file_csv_cronbased = False
@@ -134,6 +135,12 @@ def config_check_pre_system_cron(request):
                     messages.error(request, "No read permission for CSV import file. Check config or file system!")
                     # set stop condition
                     stop_system_importer_file_csv_cronbased = True
+                else:
+                    if os.path.getsize(csv_import_file) == 0:
+                        # call message
+                        messages.error(request, "CSV import file is empty. Check config or file system!")
+                        # set stop condition
+                        stop_system_importer_file_csv_cronbased = True
 
     # check stop condition
     if stop_system_importer_file_csv_cronbased:
@@ -147,6 +154,8 @@ def config_check_pre_system_cron(request):
 
 def config_check_run(model):
     """ config check before running importer """
+
+    # TODO: merge with config_check_pre_system_cron
 
     # reset stop condition
     stop_system_importer_file_csv_run = False
@@ -196,6 +205,12 @@ def config_check_run(model):
                     error_logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_FILE_NO_READ_PERMISSION")
                     # set stop condition
                     stop_system_importer_file_csv_run = True
+                else:
+                    if os.path.getsize(csv_import_file) == 0:
+                        # call logger
+                        error_logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_FILE_EMPTY")
+                        # set stop condition
+                        stop_system_importer_file_csv_run = True
 
     # return stop condition
     return stop_system_importer_file_csv_run
