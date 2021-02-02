@@ -38,7 +38,7 @@ def system(request):
             rows = csv.reader(systemcsv, quotechar="'")
 
             # check file for csv respectively some kind of text file
-            file_check = check_file(request, rows)
+            file_check = check_file(rows, str(request.user))
 
             # leave system_importer_file_csv if file check throws errors
             if not file_check:

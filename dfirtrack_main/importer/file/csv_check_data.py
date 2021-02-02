@@ -37,7 +37,7 @@ def check_config(request, model):
 
     return stop_system_importer_file_csv
 
-def check_file(request, rows):
+def check_file(rows, username):
     """ check file for csv respectively some kind of text file """
 
     # TODO: add check for file containing null bytes (\x00)
@@ -54,10 +54,8 @@ def check_file(request, rows):
 
     # wrong file type
     except UnicodeDecodeError:
-        # call message
-        messages.error(request, "File seems not to be a CSV file. Check file.")
         # call logger
-        error_logger(str(request.user), " SYSTEM_IP_IMPORTER_WRONG_FILE_TYPE")
+        error_logger(username, " SYSTEM_IP_IMPORTER_WRONG_FILE_TYPE")
         # return False if not successful
         return False
 
@@ -86,7 +84,7 @@ def check_row(request, row, row_counter, model):
     return continue_system_importer_file_csv
 
 @login_required(login_url="/login")
-def config_check_cron(request):
+def config_check_pre_system_cron(request):
     """ config check before redirect for creating scheduled task """
 
     # reset stop condition

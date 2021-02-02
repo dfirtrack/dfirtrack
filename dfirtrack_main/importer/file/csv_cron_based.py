@@ -1,54 +1,38 @@
 import csv
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils import timezone
 from dfirtrack_config.models import SystemImporterFileCsvCronbasedConfigModel
 #from dfirtrack_main.importer.file.csv_check_data import check_config, check_file, check_row
-#from dfirtrack_main.importer.file.csv_messages import final_messages
 from dfirtrack_main.importer.file.csv_add_attributes import add_fk_attributes, add_many2many_attributes, create_lock_tags
-from dfirtrack_main.importer.file.csv_check_data import config_check_run
-from dfirtrack_main.logger.default_logger import error_logger, info_logger
+from dfirtrack_main.importer.file.csv_check_data import config_check_run, check_file
+from dfirtrack_main.importer.file.csv_messages import final_messages
+from dfirtrack_main.logger.default_logger import warning_logger, info_logger
 from dfirtrack_main.models import System
 
-def csv_import():
+def csv_import(request=None):
 
     # get config model
     model = SystemImporterFileCsvCronbasedConfigModel.objects.get(system_importer_file_csv_cronbased_config_name = 'SystemImporterFileCsvCronbasedConfig')
 
     """ check config """
 
-# TODO: useful? -> YES!!!
-#            # check file for csv respectively some kind of text file
-#            file_check = check_file(request, rows)
-#
-#            # leave system_importer_file_csv if file check throws errors
-#            if not file_check:
-#                return redirect(reverse('system_list'))
-#            # jump to begin of file again after iterating in file check
-#            systemcsv.seek(0)
-
-# TODO: useful?
-#                # check row for valid system values
-#                continue_system_importer_file_csv = check_row(request, row, row_counter, model)
-#                # leave loop for this row if there are invalid values
-#                if continue_system_importer_file_csv:
-#                    # autoincrement row counter
-#                    row_counter += 1
-#                    continue
-
-# TODO: useful?
-#        # call final messages
-#        final_messages(request, systems_created_counter, systems_updated_counter, systems_skipped_counter)
-#
-#        # call logger
-#        debug_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_END")
-
     # check user and file system
     stop_system_importer_file_csv_run = config_check_run(model)
 
+    # call messages if function was called from 'system_instant' and 'system_upload'
+    if stop_system_importer_file_csv_run and request:
+        # call messages
+        messages.error(request, "Config still contains errors. Check config!")
+    # TODO: call messages if function was called from 'system_cron' for all users?
+    elif stop_system_importer_file_csv_run and not request:
+        pass
+
     # leave system_importer_file_csv if config caused errors
     if stop_system_importer_file_csv_run:
+        # return to calling function
         return
 
     """ start system importer """
@@ -85,6 +69,29 @@ def csv_import():
     # read rows out of csv
     rows = csv.reader(systemcsv, delimiter=delimiter, quotechar=quotechar)
 
+    """ check file """
+
+    # check file for csv respectively some kind of text file
+    file_check = check_file(rows, csv_import_username.username)
+
+    # call messages if function was called from 'system_instant' and 'system_upload'
+    if not file_check and request:
+        # call message
+        messages.error(request, "File seems not to be a CSV file. Check file!")
+    # TODO: call messages if function was called from 'system_cron' for all users?
+    elif not file_check and not request:
+        pass
+
+    # leave system_importer_file_csv if file check throws errors
+    if not file_check:
+        # close file
+        systemcsv.close()
+        # return to calling function
+        return
+
+    # jump to begin of file again after iterating in file check
+    systemcsv.seek(0)
+
     """ prepare and start loop """
 
     # set row_counter (needed for logger)
@@ -104,6 +111,15 @@ def csv_import():
 
     # iterate over rows
     for row in rows:
+
+# TODO: useful?
+#                # check row for valid system values
+#                continue_system_importer_file_csv = check_row(request, row, row_counter, model)
+#                # leave loop for this row if there are invalid values
+#                if continue_system_importer_file_csv:
+#                    # autoincrement row counter
+#                    row_counter += 1
+#                    continue
 
         """ skip headline if necessary """
 
@@ -179,13 +195,11 @@ def csv_import():
         # if there is more than one system
         elif len(systemquery) > 1:
 
-            # TODO: add message
-
             # autoincrement systems_multiple_counter
             systems_multiple_counter += 1
 
             # call logger
-            error_logger(csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_MULTIPLE_SYSTEMS " + "System:" + system_name)
+            warning_logger(csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_MULTIPLE_SYSTEMS " + "System:" + system_name)
 
         # if there is no system -> create system
         else:
@@ -225,20 +239,27 @@ def csv_import():
     # close file
     systemcsv.close()
 
-    # TODO: add message
+    # call messages if function was called from 'system_instant' and 'system_upload'
+    if request:
+        # call final messages
+        final_messages(request, systems_created_counter, systems_updated_counter, systems_skipped_counter, systems_multiple_counter)
+    # TODO: call messages if function was called from 'system_cron' for all users?
+    else:
+        pass
 
     # call logger
     info_logger(csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_STATUS " + "created:" + str(systems_created_counter) + "|" + "updated:" + str(systems_updated_counter) + "|" + "skipped:" + str(systems_skipped_counter) + "|" + "multiple:" + str(systems_multiple_counter))
     info_logger(csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_END")
 
+    # return to calling function
     return
 
 @login_required(login_url="/login")
-def system(request):
+def system_instant(request):
 
     # TODO: change user for calling importer
     # call CSV importer
-    csv_import()
+    csv_import(request)
 
     # return
     return redirect(reverse('system_list'))
@@ -248,3 +269,9 @@ def system_cron():
     # TODO: change user for calling importer
     # call CSV importer
     csv_import()
+
+@login_required(login_url="/login")
+def system_upload(request):
+
+    # return
+    return redirect(reverse('system_list'))
