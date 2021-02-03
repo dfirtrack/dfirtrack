@@ -48,6 +48,11 @@ function reloadWithArgs(arg) {
     }
 }
 
+// tooltip
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
 // ####################################
 // #
 // # popup window related functions
