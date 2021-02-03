@@ -1,23 +1,28 @@
 import csv
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils import timezone
 from dfirtrack_config.models import SystemImporterFileCsvCronbasedConfigModel
-#from dfirtrack_main.importer.file.csv_check_data import check_config, check_file, check_row
 from dfirtrack_main.importer.file.csv_add_attributes import add_fk_attributes, add_many2many_attributes, create_lock_tags
 from dfirtrack_main.importer.file.csv_check_data import config_check_run, check_file
+from dfirtrack_main.importer.file.csv_importer_forms import SystemImporterFileCsvConfigbasedForm
 from dfirtrack_main.importer.file.csv_messages import final_messages
-from dfirtrack_main.logger.default_logger import warning_logger, info_logger
+from dfirtrack_main.logger.default_logger import debug_logger, info_logger, warning_logger
 from dfirtrack_main.models import System
+from io import TextIOWrapper
 
-def csv_import(request=None):
+#from dfirtrack_main.importer.file.csv_set_system_attributes import case_attributes_config_based, company_attributes_config_based, ip_attributes, optional_system_attributes, tag_attributes_config_based
+
+def csv_import(request=None, uploadfile=False):
 
     # get config model
     model = SystemImporterFileCsvCronbasedConfigModel.objects.get(system_importer_file_csv_cronbased_config_name = 'SystemImporterFileCsvCronbasedConfig')
 
     """ check config """
+
+# TODO: implement csv_check_data.check_config (check config field -> rename to something like this)
 
     # check user and file system
     stop_system_importer_file_csv_run = config_check_run(model)
@@ -48,8 +53,16 @@ def csv_import(request=None):
 
     """ file handling  """
 
-    # build csv file path
-    csv_import_file = model.csv_import_path + '/' + model.csv_import_filename
+    # file was uploaded via form (called via 'system_upload')
+    if uploadfile:
+        #systemfile = uploadfile
+        systemcsv = TextIOWrapper(request.FILES['systemcsv'].file, encoding=request.encoding)
+    # file was fetched from file system (called via 'system_instant' or 'system_cron')
+    else:
+        # build csv file path
+        csv_import_file = model.csv_import_path + '/' + model.csv_import_filename
+        # open file
+        systemcsv = open(csv_import_file, 'r')
 
     # get field delimiter from config
     if model.csv_field_delimiter == 'field_comma':
@@ -62,9 +75,6 @@ def csv_import(request=None):
         quotechar = '"'
     elif model.csv_text_quote == 'text_single_quotation_marks':
         quotechar = "'"
-
-    # open file
-    systemcsv = open(csv_import_file, 'r')
 
     # read rows out of csv
     rows = csv.reader(systemcsv, delimiter=delimiter, quotechar=quotechar)
@@ -111,6 +121,8 @@ def csv_import(request=None):
 
     # iterate over rows
     for row in rows:
+
+# TODO: csv_check_data.check_row
 
 # TODO: add for all fields
 #                # check row for valid system values
@@ -275,5 +287,68 @@ def system_cron():
 @login_required(login_url="/login")
 def system_upload(request):
 
-    # return
-    return redirect(reverse('system_list'))
+    # POST request
+    if request.method == "POST":
+
+        # get systemcsv from request (no submitted file only relevant for tests, normally form enforces file submitting)
+        check_systemcsv = request.FILES.get('systemcsv', False)
+
+        # check request for systemcsv (file submitted - no submitted file only relevant for tests, normally form enforces file submitting)
+        if check_systemcsv:
+
+            # call CSV importer
+            csv_import(request, True)
+
+        # check request for systemcsv (file not submitted - no submitted file only relevant for tests, normally form enforces file submitting)
+        else:
+
+            # get empty form
+            form = SystemImporterFileCsvConfigbasedForm()
+
+            # show form again
+            return render(
+                request,
+                'dfirtrack_main/system/system_importer_file_csv_config_based.html',
+                {
+                    'form': form,
+                }
+            )
+
+        # call logger
+        debug_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_END")
+
+        return redirect(reverse('system_list'))
+
+    # GET request
+    else:
+
+        # TODO: maybe remove duplicate
+        # get config model
+        model = SystemImporterFileCsvCronbasedConfigModel.objects.get(system_importer_file_csv_cronbased_config_name = 'SystemImporterFileCsvCronbasedConfig')
+
+# TODO: make this check sense here?
+#        # check config before showing form
+#        stop_system_importer_file_csv = check_config(request, model)
+#
+#        # leave system_importer_file_csv if variables caused errors
+#        if stop_system_importer_file_csv:
+#            return redirect(reverse('system_list'))
+
+        # show warning if existing systems will be updated
+        if not model.csv_skip_existing_system:
+            messages.warning(request, 'WARNING: Existing systems will be updated!')
+
+        # get empty form
+        form = SystemImporterFileCsvConfigbasedForm()
+
+        # call logger
+        debug_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_CRON_ENTERED")
+
+    # show form
+    return render(
+        request,
+        'dfirtrack_main/system/system_importer_file_csv_config_based.html',
+        {
+            'form': form,
+        }
+    )
