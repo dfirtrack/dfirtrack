@@ -136,38 +136,6 @@ class SystemExporterSpreadsheetXlsConfigModel(models.Model):
     def __str__(self):
         return self.system_exporter_spreadsheet_xls_config_name
 
-class SystemImporterFileCsvConfigbasedConfigModel(models.Model):
-
-    # primary key
-    system_importer_file_csv_configbased_config_name = models.CharField(max_length=50, primary_key=True, editable=False)
-
-    # config fields
-    csv_skip_existing_system = models.BooleanField(blank=True)
-    csv_column_system = models.IntegerField()
-    csv_headline = models.BooleanField(blank=True)
-    csv_choice_ip = models.BooleanField(blank=True)
-    csv_remove_ip = models.BooleanField(blank=True)
-    csv_column_ip = models.IntegerField()
-    csv_remove_case = models.BooleanField(blank=True)
-    csv_remove_company = models.BooleanField(blank=True)
-    csv_remove_tag = models.BooleanField(blank=True)
-    csv_default_systemstatus = models.ForeignKey('dfirtrack_main.Systemstatus', on_delete=models.PROTECT, related_name='system_importer_file_csv_configbased_config_systemstatus')
-    csv_default_analysisstatus = models.ForeignKey('dfirtrack_main.Analysisstatus', on_delete=models.PROTECT, related_name='system_importer_file_csv_configbased_config_analysisstatus')
-    csv_default_reason = models.ForeignKey('dfirtrack_main.Reason', on_delete=models.SET_NULL, related_name='system_importer_file_csv_configbased_config_reason', blank=True, null=True)
-    csv_default_domain = models.ForeignKey('dfirtrack_main.Domain', on_delete=models.SET_NULL, related_name='system_importer_file_csv_configbased_config_domain', blank=True, null=True)
-    csv_default_dnsname = models.ForeignKey('dfirtrack_main.Dnsname', on_delete=models.SET_NULL, related_name='system_importer_file_csv_configbased_config_dnsname', blank=True, null=True)
-    csv_default_systemtype = models.ForeignKey('dfirtrack_main.Systemtype', on_delete=models.SET_NULL, related_name='system_importer_file_csv_configbased_config_systemtype', blank=True, null=True)
-    csv_default_os = models.ForeignKey('dfirtrack_main.Os', on_delete=models.SET_NULL, related_name='system_importer_file_csv_configbased_config_os', blank=True, null=True)
-    csv_default_location = models.ForeignKey('dfirtrack_main.Location', on_delete=models.SET_NULL, related_name='system_importer_file_csv_configbased_config_location', blank=True, null=True)
-    csv_default_serviceprovider = models.ForeignKey('dfirtrack_main.Serviceprovider', on_delete=models.SET_NULL, related_name='system_importer_file_csv_configbased_config_serviceprovider', blank=True, null=True)
-    csv_default_case = models.ManyToManyField('dfirtrack_main.Case', related_name='system_importer_file_csv_configbased_config_case', blank=True)
-    csv_default_company = models.ManyToManyField('dfirtrack_main.Company', related_name='system_importer_file_csv_configbased_config_company', blank=True)
-    csv_default_tag = models.ManyToManyField('dfirtrack_main.Tag', related_name='system_importer_file_csv_configbased_config_tag', blank=True)
-
-    # string representation
-    def __str__(self):
-        return self.system_importer_file_csv_configbased_config_name
-
 class SystemImporterFileCsvConfigModel(models.Model):
 
     # primary key
@@ -348,26 +316,6 @@ class SystemImporterFileCsvConfigModel(models.Model):
     # string representation
     def __str__(self):
         return self.system_importer_file_csv_config_name
-
-class SystemImporterFileCsvFormbasedConfigModel(models.Model):
-
-    # primary key
-    system_importer_file_csv_formbased_config_name = models.CharField(max_length=50, primary_key=True, editable=False)
-
-    # config fields
-    csv_skip_existing_system = models.BooleanField(blank=True)
-    csv_column_system = models.IntegerField()
-    csv_headline = models.BooleanField(blank=True)
-    csv_choice_ip = models.BooleanField(blank=True)
-    csv_remove_ip = models.BooleanField(blank=True)
-    csv_column_ip = models.IntegerField()
-    csv_remove_case = models.BooleanField(blank=True)
-    csv_remove_company = models.BooleanField(blank=True)
-    csv_remove_tag = models.BooleanField(blank=True)
-
-    # string representation
-    def __str__(self):
-        return self.system_importer_file_csv_formbased_config_name
 
 class Statushistory(models.Model):
 
