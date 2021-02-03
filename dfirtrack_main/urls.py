@@ -6,7 +6,8 @@ from dfirtrack_main.creator import system_creator, tag_creator, task_creator
 from dfirtrack_main.exporter.spreadsheet import csv as spreadsheet_csv
 from dfirtrack_main.exporter.spreadsheet import xls
 from dfirtrack_main.exporter.markdown import markdown
-from dfirtrack_main.importer.file import csv_config_based, csv_check_data, csv_cron_based, csv_form_based
+from dfirtrack_main.importer.file import csv as csv_importer
+from dfirtrack_main.importer.file import csv_config_based, csv_check_data, csv_form_based
 from dfirtrack_main.modificator import system_modificator
 
 urlpatterns = [
@@ -121,8 +122,8 @@ urlpatterns = [
     path(r'system/exporter/spreadsheet/xls/system/', xls.system, name='system_exporter_spreadsheet_xls'),
     path(r'system/importer/file/csv/configbased/', csv_config_based.system, name='system_importer_file_csv_config_based'),
     path(r'system/importer/file/csv/cron/', csv_check_data.config_check_pre_system_cron, name='system_importer_file_csv_cron'),
-    path(r'system/importer/file/csv/instant/', csv_cron_based.system_instant, name='system_importer_file_csv_instant'),
-    path(r'system/importer/file/csv/upload/', csv_cron_based.system_upload, name='system_importer_file_csv_upload'),
+    path(r'system/importer/file/csv/instant/', csv_importer.system_instant, name='system_importer_file_csv_instant'),
+    path(r'system/importer/file/csv/upload/', csv_importer.system_upload, name='system_importer_file_csv_upload'),
     path(r'system/importer/file/csv/formbased/', csv_form_based.system, name='system_importer_file_csv_form_based'),
     path(r'system/modificator/', system_modificator.system_modificator, name='system_modificator'),
 

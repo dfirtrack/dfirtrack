@@ -1,21 +1,16 @@
 import csv
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
-from django.urls import reverse
 from django.utils import timezone
 from dfirtrack_config.models import SystemImporterFileCsvCronbasedConfigModel
 from dfirtrack_main.importer.file.csv_add_attributes import add_fk_attributes, add_many2many_attributes, create_lock_tags
 from dfirtrack_main.importer.file.csv_check_data import config_check_run, check_file
-from dfirtrack_main.importer.file.csv_importer_forms import SystemImporterFileCsvConfigbasedForm
 from dfirtrack_main.importer.file.csv_messages import final_messages
-from dfirtrack_main.logger.default_logger import debug_logger, info_logger, warning_logger
+from dfirtrack_main.logger.default_logger import info_logger, warning_logger
 from dfirtrack_main.models import System
 from io import TextIOWrapper
 
-#from dfirtrack_main.importer.file.csv_set_system_attributes import case_attributes_config_based, company_attributes_config_based, ip_attributes, optional_system_attributes, tag_attributes_config_based
 
-def csv_import(request=None, uploadfile=False):
+def system_handler(request=None, uploadfile=False):
 
     # get config model
     model = SystemImporterFileCsvCronbasedConfigModel.objects.get(system_importer_file_csv_cronbased_config_name = 'SystemImporterFileCsvCronbasedConfig')
@@ -267,88 +262,3 @@ def csv_import(request=None, uploadfile=False):
 
     # return to calling function
     return
-
-@login_required(login_url="/login")
-def system_instant(request):
-
-    # TODO: change user for calling importer
-    # call CSV importer
-    csv_import(request)
-
-    # return
-    return redirect(reverse('system_list'))
-
-def system_cron():
-
-    # TODO: change user for calling importer
-    # call CSV importer
-    csv_import()
-
-@login_required(login_url="/login")
-def system_upload(request):
-
-    # POST request
-    if request.method == "POST":
-
-        # get systemcsv from request (no submitted file only relevant for tests, normally form enforces file submitting)
-        check_systemcsv = request.FILES.get('systemcsv', False)
-
-        # check request for systemcsv (file submitted - no submitted file only relevant for tests, normally form enforces file submitting)
-        if check_systemcsv:
-
-            # call CSV importer
-            csv_import(request, True)
-
-        # check request for systemcsv (file not submitted - no submitted file only relevant for tests, normally form enforces file submitting)
-        else:
-
-            # get empty form
-            form = SystemImporterFileCsvConfigbasedForm()
-
-            # show form again
-            return render(
-                request,
-                'dfirtrack_main/system/system_importer_file_csv_config_based.html',
-                {
-                    'form': form,
-                }
-            )
-
-        # call logger
-        debug_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_END")
-
-        return redirect(reverse('system_list'))
-
-    # GET request
-    else:
-
-        # TODO: maybe remove duplicate
-        # get config model
-        model = SystemImporterFileCsvCronbasedConfigModel.objects.get(system_importer_file_csv_cronbased_config_name = 'SystemImporterFileCsvCronbasedConfig')
-
-# TODO: make this check sense here?
-#        # check config before showing form
-#        stop_system_importer_file_csv = check_config(request, model)
-#
-#        # leave system_importer_file_csv if variables caused errors
-#        if stop_system_importer_file_csv:
-#            return redirect(reverse('system_list'))
-
-        # show warning if existing systems will be updated
-        if not model.csv_skip_existing_system:
-            messages.warning(request, 'WARNING: Existing systems will be updated!')
-
-        # get empty form
-        form = SystemImporterFileCsvConfigbasedForm()
-
-        # call logger
-        debug_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_CRON_ENTERED")
-
-    # show form
-    return render(
-        request,
-        'dfirtrack_main/system/system_importer_file_csv_config_based.html',
-        {
-            'form': form,
-        }
-    )

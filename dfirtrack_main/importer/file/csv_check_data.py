@@ -152,7 +152,7 @@ def config_check_pre_system_cron(request):
     else:
         # TODO: build url with python
         # open django admin with pre-filled form for scheduled task
-        return redirect('/admin/django_q/schedule/add/?name=system_importer_file_csv_cron_based&func=dfirtrack_main.importer.file.csv_cron_based.system_cron')
+        return redirect('/admin/django_q/schedule/add/?name=system_importer_file_csv&func=dfirtrack_main.importer.file.csv.system_cron')
 
 def config_check_run(model):
     """ config check before running importer """
