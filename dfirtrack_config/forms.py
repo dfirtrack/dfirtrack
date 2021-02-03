@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from dfirtrack_artifacts.models import Artifactstatus
-from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel, MainConfigModel, SystemExporterMarkdownConfigModel, SystemExporterSpreadsheetCsvConfigModel, SystemExporterSpreadsheetXlsConfigModel, SystemImporterFileCsvConfigbasedConfigModel, SystemImporterFileCsvCronbasedConfigModel, SystemImporterFileCsvFormbasedConfigModel
+from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel, MainConfigModel, SystemExporterMarkdownConfigModel, SystemExporterSpreadsheetCsvConfigModel, SystemExporterSpreadsheetXlsConfigModel, SystemImporterFileCsvConfigbasedConfigModel, SystemImporterFileCsvConfigModel, SystemImporterFileCsvFormbasedConfigModel
 from dfirtrack_main.models import Analysisstatus, Case, Company, Dnsname, Domain, Location, Os, Reason, Recommendation, Serviceprovider, Systemstatus, Systemtype, Tag
 import os
 
@@ -458,8 +458,8 @@ class SystemImporterFileCsvConfigbasedConfigForm(forms.ModelForm):
 
         return cleaned_data
 
-class SystemImporterFileCsvCronbasedConfigForm(forms.ModelForm):
-    """ system importer CSV config form (cron based only) """
+class SystemImporterFileCsvConfigForm(forms.ModelForm):
+    """ system importer CSV config form """
 
     # reorder field choices
     csv_import_username = forms.ModelChoiceField(
@@ -566,7 +566,7 @@ class SystemImporterFileCsvCronbasedConfigForm(forms.ModelForm):
     class Meta:
 
         # model
-        model = SystemImporterFileCsvCronbasedConfigModel
+        model = SystemImporterFileCsvConfigModel
 
         # this HTML forms are shown
         fields = (
@@ -1073,7 +1073,7 @@ class SystemImporterFileCsvCronbasedConfigForm(forms.ModelForm):
         """
         CSV import file does not exist -> only warning is shown via message to giv to opportunity to prepare the file
         CSV import file is empty -> only warning is shown via message to giv to opportunity to prepare the file
-        message implemented in 'dfirtrack_config.importer.file.csv_config_editor.system_importer_file_csv_cron_based_config_view'
+        message implemented in 'dfirtrack_config.importer.file.csv_config_editor.system_importer_file_csv_config_view'
         """
 
         # CSV import path does not exist - stop immediately

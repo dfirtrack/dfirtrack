@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.urls import reverse
-from dfirtrack_config.models import MainConfigModel, SystemImporterFileCsvCronbasedConfigModel
+from dfirtrack_config.models import MainConfigModel, SystemImporterFileCsvConfigModel
 from dfirtrack_main.logger.default_logger import error_logger, warning_logger
 import os
 
@@ -91,10 +91,10 @@ def config_check_pre_system_cron(request):
     # TODO: merge with config_check_run
 
     # reset stop condition
-    stop_system_importer_file_csv_cronbased = False
+    stop_system_importer_file_csv = False
 
     # get config model
-    model = SystemImporterFileCsvCronbasedConfigModel.objects.get(system_importer_file_csv_cronbased_config_name = 'SystemImporterFileCsvCronbasedConfig')
+    model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name = 'SystemImporterFileCsvConfig')
 
     """ check user """
 
@@ -103,7 +103,7 @@ def config_check_pre_system_cron(request):
         # call message
         messages.error(request, "No user for import defined. Check config!")
         # set stop condition
-        stop_system_importer_file_csv_cronbased = True
+        stop_system_importer_file_csv = True
 
     """ check file system """
 
@@ -115,38 +115,38 @@ def config_check_pre_system_cron(request):
         # call message
         messages.error(request, "CSV import path does not exist. Check config or file system!")
         # set stop condition
-        stop_system_importer_file_csv_cronbased = True
+        stop_system_importer_file_csv = True
     else:
         # no read permission for CSV import path - stop immediately
         if not os.access(model.csv_import_path, os.R_OK):
             # call message
             messages.error(request, "No read permission for CSV import path. Check config or file system!")
             # set stop condition
-            stop_system_importer_file_csv_cronbased = True
+            stop_system_importer_file_csv = True
         else:
             # CSV import file does not exist - stop immediately
             if not os.path.isfile(csv_import_file):
                 # call message
                 messages.error(request, "CSV import file does not exist. Check config or provide file!")
                 # set stop condition
-                stop_system_importer_file_csv_cronbased = True
+                stop_system_importer_file_csv = True
             else:
                 # no read permission for CSV import file - stop immediately
                 if not os.access(csv_import_file, os.R_OK):
                     # call message
                     messages.error(request, "No read permission for CSV import file. Check config or file system!")
                     # set stop condition
-                    stop_system_importer_file_csv_cronbased = True
+                    stop_system_importer_file_csv = True
                 else:
                     # CSV import file is empty - stop immediately
                     if os.path.getsize(csv_import_file) == 0:
                         # call message
                         messages.error(request, "CSV import file is empty. Check config or file system!")
                         # set stop condition
-                        stop_system_importer_file_csv_cronbased = True
+                        stop_system_importer_file_csv = True
 
     # check stop condition
-    if stop_system_importer_file_csv_cronbased:
+    if stop_system_importer_file_csv:
         # return to system list
         return redirect(reverse('system_list'))
     else:

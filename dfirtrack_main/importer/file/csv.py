@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from dfirtrack_config.models import SystemImporterFileCsvCronbasedConfigModel
+from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv_import import system_handler
 from dfirtrack_main.importer.file.csv_importer_forms import SystemImporterFileCsvConfigbasedForm
 from dfirtrack_main.logger.default_logger import debug_logger
@@ -67,7 +67,7 @@ def system_upload(request):
 
         # TODO: maybe remove duplicate
         # get config model
-        model = SystemImporterFileCsvCronbasedConfigModel.objects.get(system_importer_file_csv_cronbased_config_name = 'SystemImporterFileCsvCronbasedConfig')
+        model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name = 'SystemImporterFileCsvConfig')
 
 # TODO: make this check sense here?
 #        # check config before showing form

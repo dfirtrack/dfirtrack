@@ -1,7 +1,7 @@
 import csv
 from django.contrib import messages
 from django.utils import timezone
-from dfirtrack_config.models import SystemImporterFileCsvCronbasedConfigModel
+from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv_add_attributes import add_fk_attributes, add_many2many_attributes, create_lock_tags
 from dfirtrack_main.importer.file.csv_check_data import config_check_run, check_file
 from dfirtrack_main.importer.file.csv_messages import final_messages
@@ -13,7 +13,7 @@ from io import TextIOWrapper
 def system_handler(request=None, uploadfile=False):
 
     # get config model
-    model = SystemImporterFileCsvCronbasedConfigModel.objects.get(system_importer_file_csv_cronbased_config_name = 'SystemImporterFileCsvCronbasedConfig')
+    model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name = 'SystemImporterFileCsvConfig')
 
     """ check config """
 

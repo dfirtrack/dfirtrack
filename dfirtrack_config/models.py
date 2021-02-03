@@ -168,10 +168,10 @@ class SystemImporterFileCsvConfigbasedConfigModel(models.Model):
     def __str__(self):
         return self.system_importer_file_csv_configbased_config_name
 
-class SystemImporterFileCsvCronbasedConfigModel(models.Model):
+class SystemImporterFileCsvConfigModel(models.Model):
 
     # primary key
-    system_importer_file_csv_cronbased_config_name = models.CharField(max_length=50, primary_key=True, editable=False)
+    system_importer_file_csv_config_name = models.CharField(max_length=50, primary_key=True, editable=False)
 
     # generic config fields
     csv_column_system = models.IntegerField()
@@ -184,9 +184,9 @@ class SystemImporterFileCsvCronbasedConfigModel(models.Model):
     csv_import_username = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='csv_import_username', blank=False, null=True)
 
     # mandatory foreignkey relations
-    csv_default_systemstatus = models.ForeignKey('dfirtrack_main.Systemstatus', on_delete=models.PROTECT, related_name='system_importer_file_csv_cronbased_config_systemstatus')
+    csv_default_systemstatus = models.ForeignKey('dfirtrack_main.Systemstatus', on_delete=models.PROTECT, related_name='system_importer_file_csv_config_systemstatus')
     csv_remove_systemstatus = models.BooleanField(blank=True)
-    csv_default_analysisstatus = models.ForeignKey('dfirtrack_main.Analysisstatus', on_delete=models.PROTECT, related_name='system_importer_file_csv_cronbased_config_analysisstatus')
+    csv_default_analysisstatus = models.ForeignKey('dfirtrack_main.Analysisstatus', on_delete=models.PROTECT, related_name='system_importer_file_csv_config_analysisstatus')
     csv_remove_analysisstatus = models.BooleanField(blank=True)
 
     # character fields to define names for tags to pin analysisstatus and systemstatus
@@ -201,58 +201,58 @@ class SystemImporterFileCsvCronbasedConfigModel(models.Model):
     # config fields (foreignkey relation): either dynamically provided by CSV (...choice... 'True' and ...column...) or fixed value provided by config (...default...)
     csv_choice_dnsname = models.BooleanField(blank=True)
     csv_column_dnsname = models.IntegerField(blank=True, null=True)
-    csv_default_dnsname = models.ForeignKey('dfirtrack_main.Dnsname', on_delete=models.SET_NULL, related_name='system_importer_file_csv_cronbased_config_dnsname', blank=True, null=True)
+    csv_default_dnsname = models.ForeignKey('dfirtrack_main.Dnsname', on_delete=models.SET_NULL, related_name='system_importer_file_csv_config_dnsname', blank=True, null=True)
     csv_remove_dnsname = models.BooleanField(blank=True)
 
     csv_choice_domain = models.BooleanField(blank=True)
     csv_column_domain = models.IntegerField(blank=True, null=True)
-    csv_default_domain = models.ForeignKey('dfirtrack_main.Domain', on_delete=models.SET_NULL, related_name='system_importer_file_csv_cronbased_config_domain', blank=True, null=True)
+    csv_default_domain = models.ForeignKey('dfirtrack_main.Domain', on_delete=models.SET_NULL, related_name='system_importer_file_csv_config_domain', blank=True, null=True)
     csv_remove_domain = models.BooleanField(blank=True)
 
     csv_choice_location = models.BooleanField(blank=True)
     csv_column_location = models.IntegerField(blank=True, null=True)
-    csv_default_location = models.ForeignKey('dfirtrack_main.Location', on_delete=models.SET_NULL, related_name='system_importer_file_csv_cronbased_config_location', blank=True, null=True)
+    csv_default_location = models.ForeignKey('dfirtrack_main.Location', on_delete=models.SET_NULL, related_name='system_importer_file_csv_config_location', blank=True, null=True)
     csv_remove_location = models.BooleanField(blank=True)
 
     csv_choice_os = models.BooleanField(blank=True)
     csv_column_os = models.IntegerField(blank=True, null=True)
-    csv_default_os = models.ForeignKey('dfirtrack_main.Os', on_delete=models.SET_NULL, related_name='system_importer_file_csv_cronbased_config_os', blank=True, null=True)
+    csv_default_os = models.ForeignKey('dfirtrack_main.Os', on_delete=models.SET_NULL, related_name='system_importer_file_csv_config_os', blank=True, null=True)
     csv_remove_os = models.BooleanField(blank=True)
 
     csv_choice_reason = models.BooleanField(blank=True)
     csv_column_reason = models.IntegerField(blank=True, null=True)
-    csv_default_reason = models.ForeignKey('dfirtrack_main.Reason', on_delete=models.SET_NULL, related_name='system_importer_file_csv_cronbased_config_reason', blank=True, null=True)
+    csv_default_reason = models.ForeignKey('dfirtrack_main.Reason', on_delete=models.SET_NULL, related_name='system_importer_file_csv_config_reason', blank=True, null=True)
     csv_remove_reason = models.BooleanField(blank=True)
 
     csv_choice_recommendation = models.BooleanField(blank=True)
     csv_column_recommendation = models.IntegerField(blank=True, null=True)
-    csv_default_recommendation = models.ForeignKey('dfirtrack_main.Recommendation', on_delete=models.SET_NULL, related_name='system_importer_file_csv_cronbased_config_recommendation', blank=True, null=True)
+    csv_default_recommendation = models.ForeignKey('dfirtrack_main.Recommendation', on_delete=models.SET_NULL, related_name='system_importer_file_csv_config_recommendation', blank=True, null=True)
     csv_remove_recommendation = models.BooleanField(blank=True)
 
     csv_choice_serviceprovider = models.BooleanField(blank=True)
     csv_column_serviceprovider = models.IntegerField(blank=True, null=True)
-    csv_default_serviceprovider = models.ForeignKey('dfirtrack_main.Serviceprovider', on_delete=models.SET_NULL, related_name='system_importer_file_csv_cronbased_config_serviceprovider', blank=True, null=True)
+    csv_default_serviceprovider = models.ForeignKey('dfirtrack_main.Serviceprovider', on_delete=models.SET_NULL, related_name='system_importer_file_csv_config_serviceprovider', blank=True, null=True)
     csv_remove_serviceprovider = models.BooleanField(blank=True)
 
     csv_choice_systemtype = models.BooleanField(blank=True)
     csv_column_systemtype = models.IntegerField(blank=True, null=True)
-    csv_default_systemtype = models.ForeignKey('dfirtrack_main.Systemtype', on_delete=models.SET_NULL, related_name='system_importer_file_csv_cronbased_config_systemtype', blank=True, null=True)
+    csv_default_systemtype = models.ForeignKey('dfirtrack_main.Systemtype', on_delete=models.SET_NULL, related_name='system_importer_file_csv_config_systemtype', blank=True, null=True)
     csv_remove_systemtype = models.BooleanField(blank=True)
 
     # config fields (many to many relation): same as above but additional choice to remove existing relations
     csv_choice_case = models.BooleanField(blank=True)
     csv_column_case = models.IntegerField(blank=True, null=True)
-    csv_default_case = models.ManyToManyField('dfirtrack_main.Case', related_name='system_importer_file_csv_cronbased_config_case', blank=True)
+    csv_default_case = models.ManyToManyField('dfirtrack_main.Case', related_name='system_importer_file_csv_config_case', blank=True)
     csv_remove_case = models.BooleanField(blank=True)
 
     csv_choice_company = models.BooleanField(blank=True)
     csv_column_company = models.IntegerField(blank=True, null=True)
-    csv_default_company = models.ManyToManyField('dfirtrack_main.Company', related_name='system_importer_file_csv_cronbased_config_company', blank=True)
+    csv_default_company = models.ManyToManyField('dfirtrack_main.Company', related_name='system_importer_file_csv_config_company', blank=True)
     csv_remove_company = models.BooleanField(blank=True)
 
     csv_choice_tag = models.BooleanField(blank=True)
     csv_column_tag = models.IntegerField(blank=True, null=True)
-    csv_default_tag = models.ManyToManyField('dfirtrack_main.Tag', related_name='system_importer_file_csv_cronbased_config_tag', blank=True)
+    csv_default_tag = models.ManyToManyField('dfirtrack_main.Tag', related_name='system_importer_file_csv_config_tag', blank=True)
 
     # how to deal with manual and automatic tags (first remove all tags, only those with a prefix or none)
     TAG_REMOVE_ALL = 'tag_remove_all'
@@ -347,7 +347,7 @@ class SystemImporterFileCsvCronbasedConfigModel(models.Model):
 
     # string representation
     def __str__(self):
-        return self.system_importer_file_csv_cronbased_config_name
+        return self.system_importer_file_csv_config_name
 
 class SystemImporterFileCsvFormbasedConfigModel(models.Model):
 

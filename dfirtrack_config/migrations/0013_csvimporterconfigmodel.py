@@ -4,7 +4,7 @@ from dfirtrack import settings
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('dfirtrack_config', '0012_cronbasedimporterconfig'),
+        ('dfirtrack_config', '0012_csvimporterconfig'),
     ]
 
     # PostgreSQL (uses TRUE / FALSE as boolean)
@@ -13,8 +13,8 @@ class Migration(migrations.Migration):
         operations = [
 
             migrations.RunSQL(
-                """INSERT INTO dfirtrack_config_systemimporterfilecsvcronbasedconfigmodel (
-                    system_importer_file_csv_cronbased_config_name,
+                """INSERT INTO dfirtrack_config_systemimporterfilecsvconfigmodel (
+                    system_importer_file_csv_config_name,
                     csv_column_system,
                     csv_skip_existing_system,
                     csv_headline,
@@ -57,7 +57,7 @@ class Migration(migrations.Migration):
                     csv_ip_delimiter,
                     csv_tag_delimiter
                 ) VALUES (
-                    'SystemImporterFileCsvCronbasedConfig',
+                    'SystemImporterFileCsvConfig',
                     '1',
                     FALSE,
                     TRUE,
@@ -110,8 +110,8 @@ class Migration(migrations.Migration):
         operations = [
 
             migrations.RunSQL(
-                """INSERT INTO dfirtrack_config_systemimporterfilecsvcronbasedconfigmodel (
-                    system_importer_file_csv_cronbased_config_name,
+                """INSERT INTO dfirtrack_config_systemimporterfilecsvconfigmodel (
+                    system_importer_file_csv_config_name,
                     csv_column_system,
                     csv_skip_existing_system,
                     csv_headline,
@@ -154,7 +154,7 @@ class Migration(migrations.Migration):
                     csv_ip_delimiter,
                     csv_tag_delimiter
                 ) VALUES (
-                    'SystemImporterFileCsvCronbasedConfig',
+                    'SystemImporterFileCsvConfig',
                     '1',
                     0,
                     1,
