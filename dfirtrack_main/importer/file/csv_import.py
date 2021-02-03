@@ -37,11 +37,16 @@ def system_handler(request=None, uploadfile=False):
 
     """ start system importer """
 
-    # get user
-    csv_import_username = model.csv_import_username
+    # switch user context
+    if request:
+        # get user if function was called from 'system_instant' and 'system_upload'
+        csv_import_user = request.user
+    else:
+        # get user if function was called from 'system_cron'
+        csv_import_user = model.csv_import_username
 
     # call logger
-    info_logger(csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_BEGAN")
+    info_logger(csv_import_user.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_BEGAN")
 
     # create lock tags
     create_lock_tags(model)
@@ -77,7 +82,7 @@ def system_handler(request=None, uploadfile=False):
     """ check file """
 
     # check file for csv respectively some kind of text file
-    file_check = check_file(rows, csv_import_username.username)
+    file_check = check_file(rows, csv_import_user.username)
 
     # call messages if function was called from 'system_instant' and 'system_upload'
     if not file_check and request:
@@ -179,7 +184,7 @@ def system_handler(request=None, uploadfile=False):
 
             # change mandatory meta attributes
             system.system_modify_time = timezone.now()
-            system.system_modified_by_user_id = csv_import_username
+            system.system_modified_by_user_id = csv_import_user
 
             # set value for already existing system (modify system)
             system_created = False
@@ -197,7 +202,7 @@ def system_handler(request=None, uploadfile=False):
             systems_updated_counter += 1
 
             # call logger
-            system.logger(csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_SYSTEM_MODIFIED")
+            system.logger(csv_import_user.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_SYSTEM_MODIFIED")
 
         # if there is more than one system
         elif len(systemquery) > 1:
@@ -208,7 +213,7 @@ def system_handler(request=None, uploadfile=False):
             systems_multiple_counter += 1
 
             # call logger
-            warning_logger(csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_MULTIPLE_SYSTEMS " + "System:" + system_name)
+            warning_logger(csv_import_user.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_MULTIPLE_SYSTEMS " + "System:" + system_name)
 
         # if there is no system -> create system
         else:
@@ -221,8 +226,8 @@ def system_handler(request=None, uploadfile=False):
 
             # add mandatory meta attributes
             system.system_modify_time = timezone.now()
-            system.system_created_by_user_id = csv_import_username
-            system.system_modified_by_user_id = csv_import_username
+            system.system_created_by_user_id = csv_import_user
+            system.system_modified_by_user_id = csv_import_user
 
             # set value for new system (create system)
             system_created = True
@@ -240,7 +245,7 @@ def system_handler(request=None, uploadfile=False):
             systems_created_counter += 1
 
             # call logger
-            system.logger(csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_SYSTEM_CREATED")
+            system.logger(csv_import_user.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_SYSTEM_CREATED")
 
         # autoincrement row counter
         row_counter += 1
@@ -257,8 +262,8 @@ def system_handler(request=None, uploadfile=False):
         pass
 
     # call logger
-    info_logger(csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_STATUS " + "created:" + str(systems_created_counter) + "|" + "updated:" + str(systems_updated_counter) + "|" + "skipped:" + str(systems_skipped_counter) + "|" + "multiple:" + str(systems_multiple_counter))
-    info_logger(csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_END")
+    info_logger(csv_import_user.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_STATUS " + "created:" + str(systems_created_counter) + "|" + "updated:" + str(systems_updated_counter) + "|" + "skipped:" + str(systems_skipped_counter) + "|" + "multiple:" + str(systems_multiple_counter))
+    info_logger(csv_import_user.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_END")
 
     # return to calling function
     return

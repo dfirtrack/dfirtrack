@@ -65,10 +65,6 @@ def system_upload(request):
     # GET request
     else:
 
-        # TODO: maybe remove duplicate
-        # get config model
-        model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name = 'SystemImporterFileCsvConfig')
-
 # TODO: make this check sense here?
 #        # check config before showing form
 #        stop_system_importer_file_csv = check_config(request, model)
@@ -76,6 +72,9 @@ def system_upload(request):
 #        # leave system_importer_file_csv if variables caused errors
 #        if stop_system_importer_file_csv:
 #            return redirect(reverse('system_list'))
+
+        # get config model
+        model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name = 'SystemImporterFileCsvConfig')
 
         # show warning if existing systems will be updated
         if not model.csv_skip_existing_system:
