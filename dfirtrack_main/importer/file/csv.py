@@ -4,7 +4,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv_import import system_handler
-from dfirtrack_main.importer.file.csv_importer_forms import SystemImporterFileCsvConfigbasedForm
+from dfirtrack_main.importer.file.csv_importer_forms import SystemImporterFileCsvForm
 from dfirtrack_main.logger.default_logger import debug_logger
 
 
@@ -46,12 +46,12 @@ def system_upload(request):
         else:
 
             # get empty form
-            form = SystemImporterFileCsvConfigbasedForm()
+            form = SystemImporterFileCsvForm()
 
             # show form again
             return render(
                 request,
-                'dfirtrack_main/system/system_importer_file_csv_config_based.html',
+                'dfirtrack_main/system/system_importer_file_csv.html',
                 {
                     'form': form,
                 }
@@ -81,7 +81,7 @@ def system_upload(request):
             messages.warning(request, 'WARNING: Existing systems will be updated!')
 
         # get empty form
-        form = SystemImporterFileCsvConfigbasedForm()
+        form = SystemImporterFileCsvForm()
 
         # call logger
         debug_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_CRON_ENTERED")
@@ -89,7 +89,7 @@ def system_upload(request):
     # show form
     return render(
         request,
-        'dfirtrack_main/system/system_importer_file_csv_config_based.html',
+        'dfirtrack_main/system/system_importer_file_csv.html',
         {
             'form': form,
         }

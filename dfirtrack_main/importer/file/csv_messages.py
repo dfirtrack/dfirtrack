@@ -1,6 +1,6 @@
 from django.contrib import messages
 
-def final_messages(request, systems_created_counter, systems_updated_counter, systems_skipped_counter, systems_multiple_counter=0):
+def final_messages(request, systems_created_counter, systems_updated_counter, systems_skipped_counter, systems_multiple_counter):
 
     # call final messages
     if systems_created_counter > 0:
