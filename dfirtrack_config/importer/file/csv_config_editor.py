@@ -100,9 +100,10 @@ def system_importer_file_csv_config_view(request):
                 # create message
                 messages.warning(request, 'CSV import file does not exist at the moment. Make sure the file is available during import.')
             # CSV import file is empty - show warning
-            if os.path.getsize(csv_path) == 0:
-                # create message
-                messages.warning(request, 'CSV import file is empty. Make sure the file contains systems during import.')
+            if os.path.isfile(csv_path):
+                if os.path.getsize(csv_path) == 0:
+                    # create message
+                    messages.warning(request, 'CSV import file is empty. Make sure the file contains systems during import.')
 
             # close popup
             return HttpResponse('<script type="text/javascript">window.close();</script>')
