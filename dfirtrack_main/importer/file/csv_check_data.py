@@ -154,15 +154,12 @@ def config_check_pre_system_cron(request):
         # open django admin with pre-filled form for scheduled task
         return redirect('/admin/django_q/schedule/add/?name=system_importer_file_csv&func=dfirtrack_main.importer.file.csv.system_cron')
 
-def config_check_run(model):
-    """ config check before running importer """
-
-    # TODO: merge with config_check_pre_system_cron
+# TODO: merge with config_check_pre_system_cron
+def check_config_user_run(model):
+    """ check config user before running importer """
 
     # reset stop condition
     stop_system_importer_file_csv_run = False
-
-    """ check user """
 
     # check for csv_import_username (after initial migration w/o user defined) - stop immediately
     if not model.csv_import_username:
@@ -175,43 +172,78 @@ def config_check_run(model):
         # set stop condition
         stop_system_importer_file_csv_run = True
 
-    """ check file system """
+    # return stop condition
+    return stop_system_importer_file_csv_run
+
+# TODO: merge with config_check_pre_system_cron
+def check_file_system_run(model, request=None):
+    """ check file system before running importer """
+
+    # reset stop condition
+    stop_system_importer_file_csv_run = False
+
+    # if function was called from 'system_instant'
+    if request:
+        username = request.user.username
+    # if function was called from 'system_cron'
+    else:
+        username = model.csv_import_username.username   # check for existence of user in config was done before
 
     # build csv file path
     csv_import_file = model.csv_import_path + '/' + model.csv_import_filename
 
     # CSV import path does not exist - stop immediately
     if not os.path.isdir(model.csv_import_path):
+        # if function was called from 'system_instant'
+        if request:
+            # call messsage
+            messages.error(request, "CSV import path does not exist. Check config or file system!")
         # call logger
-        error_logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_PATH_NOT_EXISTING")
+        error_logger(username, " SYSTEM_IMPORTER_FILE_CSV_CRON_PATH_NOT_EXISTING")
         # set stop condition
         stop_system_importer_file_csv_run = True
     else:
         # no read permission for CSV import path - stop immediately
         if not os.access(model.csv_import_path, os.R_OK):
+            # if function was called from 'system_instant'
+            if request:
+                # call messsage
+                messages.error(request, "No read permission for CSV import path. Check config or file system!")
             # call logger
-            error_logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_PATH_NO_READ_PERMISSION")
+            error_logger(username, " SYSTEM_IMPORTER_FILE_CSV_CRON_PATH_NO_READ_PERMISSION")
             # set stop condition
             stop_system_importer_file_csv_run = True
         else:
             # CSV import file does not exist - stop immediately
             if not os.path.isfile(csv_import_file):
+                # if function was called from 'system_instant'
+                if request:
+                    # call messsage
+                    messages.error(request, "CSV import file does not exist. Check config or provide file!")
                 # call logger
-                error_logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_FILE_NOT_EXISTING")
+                error_logger(username, " SYSTEM_IMPORTER_FILE_CSV_CRON_FILE_NOT_EXISTING")
                 # set stop condition
                 stop_system_importer_file_csv_run = True
             else:
                 # no read permission for CSV import file - stop immediately
                 if not os.access(csv_import_file, os.R_OK):
+                    # if function was called from 'system_instant'
+                    if request:
+                        # call messsage
+                        messages.error(request, "No read permission for CSV import file. Check config or file system!")
                     # call logger
-                    error_logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_FILE_NO_READ_PERMISSION")
+                    error_logger(username, " SYSTEM_IMPORTER_FILE_CSV_CRON_FILE_NO_READ_PERMISSION")
                     # set stop condition
                     stop_system_importer_file_csv_run = True
                 else:
                     # CSV import file is empty - stop immediately
                     if os.path.getsize(csv_import_file) == 0:
+                        # if function was called from 'system_instant'
+                        if request:
+                            # call messsage
+                            messages.error(request, "CSV import file is empty. Check config or file system!")
                         # call logger
-                        error_logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_FILE_EMPTY")
+                        error_logger(username, " SYSTEM_IMPORTER_FILE_CSV_CRON_FILE_EMPTY")
                         # set stop condition
                         stop_system_importer_file_csv_run = True
 
