@@ -6,94 +6,6 @@ from dfirtrack_config.models import MainConfigModel, SystemImporterFileCsvConfig
 from dfirtrack_main.logger.default_logger import error_logger, warning_logger
 import os
 
-def pre_check_config_attributes(request, model):
-    """ check variables of dfirtrack.config """
-
-    # TODO: [config] modify for new importer
-    # TODO: [config] check the existing configuration for logic errors
-    # TODO: [config] like the field validation in dfirtrack_config.forms.SystemImporterFileCsvConfigForm
-    # TODO: [config] differentiate between user, file system and attributes
-
-    # reset stop condition
-    stop_system_importer_file_csv = False
-
-    # check CSV_COLUMN_SYSTEM for value
-    if not 1<= model.csv_column_system <= 256:
-        # call message
-        messages.error(request, "`CSV_COLUMN_SYSTEM` is outside the allowed range. Check config!")
-        # call logger
-        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_COLUMN_SYSTEM out of range")
-        stop_system_importer_file_csv = True
-
-    # check CSV_COLUMN_IP for value
-    if not 1<= model.csv_column_ip <= 256:
-        # call message
-        messages.error(request, "`CSV_COLUMN_IP` is outside the allowed range. Check config!")
-        # call logger
-        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_COLUMN_IP out of range")
-        stop_system_importer_file_csv = True
-
-    # create final message and log
-    if stop_system_importer_file_csv:
-        # call message
-        messages.warning(request, "Nothing was changed.")
-        # call logger
-        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_ENDED_WITH_ERRORS")
-
-    return stop_system_importer_file_csv
-
-def run_check_config_attributes():
-    pass
-
-def run_check_content_file_type(rows, username):
-    """ check file for csv respectively some kind of text file """
-
-    # TODO: [logic] add check for file containing null bytes (\x00)
-
-    try:
-        # try to iterate over rows
-        for row in rows:
-            # do nothing
-            pass
-
-        # return True if successful
-        return True
-
-    # wrong file type
-    except UnicodeDecodeError:
-        # call logger
-        error_logger(username, " SYSTEM_IP_IMPORTER_WRONG_FILE_TYPE")
-        # return False if not successful
-        return False
-
-def run_check_content_attributes(request, row, row_counter, model):
-    """ check some values of csv rows """
-
-    # TODO: [config] modify for new importer
-    # TODO: [config] check configured fields in row for valid values
-    # TODO: [config] some checks might be called from 'add_fk_attributes' or 'add_many2many_attributes'
-
-    # reset continue condition
-    continue_system_importer_file_csv = False
-
-    # check system column for empty string
-    if not row[model.csv_column_system - 1]:
-        # call message
-        messages.error(request, "Value for system in row " + str(row_counter) + " was an empty string. System not created.")
-        # call logger
-        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_SYSTEM_COLUMN " + "row_" + str(row_counter) + ":empty_column")
-        continue_system_importer_file_csv = True
-
-    # check system column for length of string
-    if len(row[model.csv_column_system - 1]) > 50:
-        # call message
-        messages.error(request, "Value for system in row " + str(row_counter) + " was too long. System not created.")
-        # call logger
-        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_SYSTEM_COLUMN " + "row_" + str(row_counter) + ":long_string")
-        continue_system_importer_file_csv = True
-
-    return continue_system_importer_file_csv
-
 @login_required(login_url="/login")
 def pre_check_config_cron_user(request):
     """ config user and file system BEFORE redirect for creating scheduled task """
@@ -189,6 +101,42 @@ def pre_check_config_cron_user(request):
 
 def pre_check_content_file_system():
     pass
+
+def pre_check_config_attributes(request, model):
+    """ check variables of dfirtrack.config """
+
+    # TODO: [config] modify for new importer
+    # TODO: [config] check the existing configuration for logic errors
+    # TODO: [config] like the field validation in dfirtrack_config.forms.SystemImporterFileCsvConfigForm
+    # TODO: [config] differentiate between user, file system and attributes
+
+    # reset stop condition
+    stop_system_importer_file_csv = False
+
+    # check CSV_COLUMN_SYSTEM for value
+    if not 1<= model.csv_column_system <= 256:
+        # call message
+        messages.error(request, "`CSV_COLUMN_SYSTEM` is outside the allowed range. Check config!")
+        # call logger
+        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_COLUMN_SYSTEM out of range")
+        stop_system_importer_file_csv = True
+
+    # check CSV_COLUMN_IP for value
+    if not 1<= model.csv_column_ip <= 256:
+        # call message
+        messages.error(request, "`CSV_COLUMN_IP` is outside the allowed range. Check config!")
+        # call logger
+        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_COLUMN_IP out of range")
+        stop_system_importer_file_csv = True
+
+    # create final message and log
+    if stop_system_importer_file_csv:
+        # call message
+        messages.warning(request, "Nothing was changed.")
+        # call logger
+        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_ENDED_WITH_ERRORS")
+
+    return stop_system_importer_file_csv
 
 def run_check_config_cron_user(model):
     """ check config user WHILE running importer """
@@ -319,3 +267,55 @@ def run_check_content_file_system(model, request=None):
 
     # return stop condition
     return stop_system_importer_file_csv_run
+
+def run_check_config_attributes():
+    pass
+
+def run_check_content_file_type(rows, username):
+    """ check file for csv respectively some kind of text file """
+
+    # TODO: [logic] add check for file containing null bytes (\x00)
+
+    try:
+        # try to iterate over rows
+        for row in rows:
+            # do nothing
+            pass
+
+        # return True if successful
+        return True
+
+    # wrong file type
+    except UnicodeDecodeError:
+        # call logger
+        error_logger(username, " SYSTEM_IP_IMPORTER_WRONG_FILE_TYPE")
+        # return False if not successful
+        return False
+
+def run_check_content_attributes(request, row, row_counter, model):
+    """ check some values of csv rows """
+
+    # TODO: [config] modify for new importer
+    # TODO: [config] check configured fields in row for valid values
+    # TODO: [config] some checks might be called from 'add_fk_attributes' or 'add_many2many_attributes'
+
+    # reset continue condition
+    continue_system_importer_file_csv = False
+
+    # check system column for empty string
+    if not row[model.csv_column_system - 1]:
+        # call message
+        messages.error(request, "Value for system in row " + str(row_counter) + " was an empty string. System not created.")
+        # call logger
+        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_SYSTEM_COLUMN " + "row_" + str(row_counter) + ":empty_column")
+        continue_system_importer_file_csv = True
+
+    # check system column for length of string
+    if len(row[model.csv_column_system - 1]) > 50:
+        # call message
+        messages.error(request, "Value for system in row " + str(row_counter) + " was too long. System not created.")
+        # call logger
+        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_SYSTEM_COLUMN " + "row_" + str(row_counter) + ":long_string")
+        continue_system_importer_file_csv = True
+
+    return continue_system_importer_file_csv
