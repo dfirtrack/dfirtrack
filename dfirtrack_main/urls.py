@@ -7,7 +7,7 @@ from dfirtrack_main.exporter.spreadsheet import csv as spreadsheet_csv
 from dfirtrack_main.exporter.spreadsheet import xls
 from dfirtrack_main.exporter.markdown import markdown
 from dfirtrack_main.importer.file import csv as csv_importer
-from dfirtrack_main.importer.file import csv_check_data
+from dfirtrack_main.importer.file import csv_pre_checks
 from dfirtrack_main.modificator import system_modificator
 
 urlpatterns = [
@@ -120,7 +120,7 @@ urlpatterns = [
     path(r'system/exporter/markdown/system/', markdown.system, name='system_exporter_markdown'),
     path(r'system/exporter/spreadsheet/csv/system/', spreadsheet_csv.system, name='system_exporter_spreadsheet_csv'),
     path(r'system/exporter/spreadsheet/xls/system/', xls.system, name='system_exporter_spreadsheet_xls'),
-    path(r'system/importer/file/csv/cron/', csv_check_data.pre_check_config_cron_user, name='system_importer_file_csv_cron'),
+    path(r'system/importer/file/csv/cron/', csv_pre_checks.pre_check_config_cron_user, name='system_importer_file_csv_cron'),
     path(r'system/importer/file/csv/instant/', csv_importer.system_instant, name='system_importer_file_csv_instant'),
     path(r'system/importer/file/csv/upload/', csv_importer.system_upload, name='system_importer_file_csv_upload'),
     path(r'system/modificator/', system_modificator.system_modificator, name='system_modificator'),
