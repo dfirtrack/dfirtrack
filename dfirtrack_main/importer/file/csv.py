@@ -8,6 +8,12 @@ from dfirtrack_main.importer.file.csv_importer_forms import SystemImporterFileCs
 from dfirtrack_main.logger.default_logger import debug_logger
 
 
+def system_cron():
+    """  CSV import via scheduled task, file is on server file system """
+
+    # call CSV importer
+    system_handler()
+
 @login_required(login_url="/login")
 def system_instant(request):
     """  CSV import via button, file is on server file system """
@@ -17,12 +23,6 @@ def system_instant(request):
 
     # return
     return redirect(reverse('system_list'))
-
-def system_cron():
-    """  CSV import via scheduled task, file is on server file system """
-
-    # call CSV importer
-    system_handler()
 
 @login_required(login_url="/login")
 def system_upload(request):
@@ -63,7 +63,7 @@ def system_upload(request):
     # GET request
     else:
 
-        # TODO: [config] csv_check_data.check_config:
+        # TODO: [config] csv_check_data.pre_check_config_attributes:
         # TODO: [config] check the existing configuration for logic errors
         # TODO: [config] like the field validation in dfirtrack_config.forms.SystemImporterFileCsvConfigForm
 

@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.utils import timezone
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv_add_attributes import add_fk_attributes, add_many2many_attributes, create_lock_tags
-from dfirtrack_main.importer.file.csv_check_data import check_config_user_run, check_file_system_run, check_file
+from dfirtrack_main.importer.file.csv_check_data import run_check_config_cron_user, run_check_content_file_system, run_check_content_file_type
 from dfirtrack_main.importer.file.csv_messages import final_messages
 from dfirtrack_main.logger.default_logger import info_logger, warning_logger
 from dfirtrack_main.models import System
@@ -20,7 +20,7 @@ def system_handler(request=None, uploadfile=False):
     # if function was called from 'system_cron'
     if not request:
         # check config user
-        stop_system_importer_file_csv_run = check_config_user_run(model)
+        stop_system_importer_file_csv_run = run_check_config_cron_user(model)
         # leave system_importer_file_csv if config caused errors
         if stop_system_importer_file_csv_run:
             # return to calling function
@@ -33,11 +33,11 @@ def system_handler(request=None, uploadfile=False):
         # if function was called from 'system_instant'
         if request:
             # check file system
-            stop_system_importer_file_csv_run = check_file_system_run(model, request)
+            stop_system_importer_file_csv_run = run_check_content_file_system(model, request)
         # if function was called from 'system_cron'
         else:
             # check file system
-            stop_system_importer_file_csv_run = check_file_system_run(model)
+            stop_system_importer_file_csv_run = run_check_content_file_system(model)
 
         # leave system_importer_file_csv if config caused errors
         if stop_system_importer_file_csv_run:
@@ -46,7 +46,7 @@ def system_handler(request=None, uploadfile=False):
 
     """ check config """
 
-    # TODO: [config] csv_check_data.check_config:
+    # TODO: [config] csv_check_data.run_check_config_attributes:
     # TODO: [config] check the existing configuration for logic errors
     # TODO: [config] like the field validation in dfirtrack_config.forms.SystemImporterFileCsvConfigForm
 
@@ -98,7 +98,7 @@ def system_handler(request=None, uploadfile=False):
     """ check file """
 
     # check file for csv respectively some kind of text file
-    file_check = check_file(rows, csv_import_user.username)
+    file_check = run_check_content_file_type(rows, csv_import_user.username)
 
     # if function was called from 'system_instant' and 'system_upload'
     if not file_check and request:
@@ -139,7 +139,7 @@ def system_handler(request=None, uploadfile=False):
     # iterate over rows
     for row in rows:
 
-        # TODO: [config] csv_check_data.check_row
+        # TODO: [config] csv_check_data.run_check_content_attributes
         # TODO: [config] check configured fields in row for valid values
         # TODO: [config] either called from here or directly from attribute functions
         # TODO: [config] some checks might be called from 'add_fk_attributes' or 'add_many2many_attributes'

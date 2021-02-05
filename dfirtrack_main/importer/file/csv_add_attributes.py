@@ -66,7 +66,7 @@ def add_fk_attributes(system, system_created, model, row):
                 # change to default analysisstatus for existing system
                 system.analysisstatus = model.csv_default_analysisstatus
 
-    # TODO: [config] csv_check_data.check_row
+    # TODO: [config] csv_check_data.run_check_content_attributes
     # TODO: [config] add checks for content of 'csv_column_...'
     # TODO: [config] do something like: 'try: ...get_or_create(...)'
 
@@ -292,7 +292,7 @@ def add_fk_attributes(system, system_created, model, row):
 def add_many2many_attributes(system, system_created, model, row):
     """ add many2many relationships to system """
 
-    # TODO: [config] csv_check_data.check_row
+    # TODO: [config] csv_check_data.run_check_content_attributes
     # TODO: [config] add checks for content of 'csv_column_...'
     # TODO: [config] do something like: 'try: ...get_or_create(...)'
 

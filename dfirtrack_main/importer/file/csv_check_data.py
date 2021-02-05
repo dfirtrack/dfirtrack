@@ -6,7 +6,7 @@ from dfirtrack_config.models import MainConfigModel, SystemImporterFileCsvConfig
 from dfirtrack_main.logger.default_logger import error_logger, warning_logger
 import os
 
-def check_config(request, model):
+def pre_check_config_attributes(request, model):
     """ check variables of dfirtrack.config """
 
     # TODO: [config] modify for new importer
@@ -42,7 +42,10 @@ def check_config(request, model):
 
     return stop_system_importer_file_csv
 
-def check_file(rows, username):
+def run_check_config_attributes():
+    pass
+
+def run_check_content_file_type(rows, username):
     """ check file for csv respectively some kind of text file """
 
     # TODO: [logic] add check for file containing null bytes (\x00)
@@ -63,7 +66,7 @@ def check_file(rows, username):
         # return False if not successful
         return False
 
-def check_row(request, row, row_counter, model):
+def run_check_content_attributes(request, row, row_counter, model):
     """ check some values of csv rows """
 
     # TODO: [config] modify for new importer
@@ -92,8 +95,10 @@ def check_row(request, row, row_counter, model):
     return continue_system_importer_file_csv
 
 @login_required(login_url="/login")
-def config_check_pre_system_cron(request):
+def pre_check_config_cron_user(request):
     """ config user and file system BEFORE redirect for creating scheduled task """
+
+    # TODO: [config] split to 'pre_check_content_file_system'
 
     """
     related function:
@@ -112,6 +117,7 @@ def config_check_pre_system_cron(request):
     * error: redirect to 'system_list'
     """
 
+    # TODO: [config] split to user and file system
     # TODO: [maintenance] merge with run-based check functions
     # TODO: [maintenance] such as 'check_config_user_run' and 'check_file_system_run'
     # TODO: [maintenance] main challenge is the different usage of messages and loggers
@@ -120,7 +126,7 @@ def config_check_pre_system_cron(request):
     # reset stop condition
     stop_system_importer_file_csv = False
 
-    # get config model
+    # get config model (necessary because directly called by url)
     model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name = 'SystemImporterFileCsvConfig')
 
     """ check user """
@@ -181,7 +187,10 @@ def config_check_pre_system_cron(request):
         # open django admin with pre-filled form for scheduled task
         return redirect('/admin/django_q/schedule/add/?name=system_importer_file_csv&func=dfirtrack_main.importer.file.csv.system_cron')
 
-def check_config_user_run(model):
+def pre_check_content_file_system():
+    pass
+
+def run_check_config_cron_user(model):
     """ check config user WHILE running importer """
 
     """
@@ -216,7 +225,7 @@ def check_config_user_run(model):
     # return stop condition
     return stop_system_importer_file_csv_run
 
-def check_file_system_run(model, request=None):
+def run_check_content_file_system(model, request=None):
     """ check file system WHILE running importer """
 
     """
