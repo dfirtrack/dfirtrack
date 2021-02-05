@@ -15,8 +15,6 @@ def system_handler(request=None, uploadfile=False):
     # get config model
     model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name = 'SystemImporterFileCsvConfig')
 
-# TODO: implement csv_check_data.check_config (check config field -> rename to something like this)
-
     """ check config user """
 
     # if function was called from 'system_cron'
@@ -46,14 +44,21 @@ def system_handler(request=None, uploadfile=False):
             # return to calling function
             return
 
+    """ check config """
+
+    # TODO: [config] csv_check_data.check_config:
+    # TODO: [config] check the existing configuration for logic errors
+    # TODO: [config] like the field validation in dfirtrack_config.forms.SystemImporterFileCsvConfigForm
+
     """ start system importer """
 
-    # switch user context
+    # if function was called from 'system_instant' and 'system_upload'
     if request:
-        # get user if function was called from 'system_instant' and 'system_upload'
+        # get user
         csv_import_user = request.user
+    # if function was called from 'system_cron'
     else:
-        # get user if function was called from 'system_cron'
+        # get user
         csv_import_user = model.csv_import_username
 
     # call logger
@@ -95,11 +100,12 @@ def system_handler(request=None, uploadfile=False):
     # check file for csv respectively some kind of text file
     file_check = check_file(rows, csv_import_user.username)
 
-    # call messages if function was called from 'system_instant' and 'system_upload'
+    # if function was called from 'system_instant' and 'system_upload'
     if not file_check and request:
         # call message
         messages.error(request, "File seems not to be a CSV file. Check file!")
-    # TODO: call messages if function was called from 'system_cron' for all users?
+    # TODO: [messages] call message if function was called from 'system_cron' for all users?
+    # TODO: [messages] should work with 'async_messages'
     elif not file_check and not request:
         pass
 
@@ -133,16 +139,10 @@ def system_handler(request=None, uploadfile=False):
     # iterate over rows
     for row in rows:
 
-# TODO: csv_check_data.check_row
-
-# TODO: add for all fields
-#                # check row for valid system values
-#                continue_system_importer_file_csv = check_row(request, row, row_counter, model)
-#                # leave loop for this row if there are invalid values
-#                if continue_system_importer_file_csv:
-#                    # autoincrement row counter
-#                    row_counter += 1
-#                    continue
+        # TODO: [config] csv_check_data.check_row
+        # TODO: [config] check configured fields in row for valid values
+        # TODO: [config] either called from here or directly from attribute functions
+        # TODO: [config] some checks might be called from 'add_fk_attributes' or 'add_many2many_attributes'
 
         """ skip headline if necessary """
 
@@ -158,14 +158,13 @@ def system_handler(request=None, uploadfile=False):
         # get system name (for domain name comparison)
         system_name = row[model.csv_column_system - 1]
 
-# TODO: add option which attributes are used for filtering? (like domain, dnsname, company)
-# e.g. 'csv_identification_dnsname'
+        # TODO: [logic] add option which attributes are used for filtering?
+        # TODO: [logic] (like domain, dnsname, company)
+        # TODO: [logic] e.g. 'csv_identification_dnsname'
 
         # get all systems
         systemquery = System.objects.filter(
             system_name = system_name,
-#            dnsname = dnsname,
-#            domain = domain,
         )
 
         """ check how many systems were returned """
@@ -183,14 +182,13 @@ def system_handler(request=None, uploadfile=False):
                 # leave loop
                 continue
 
-# TODO: add option which attributes are used for filtering? (like domain, dnsname, company)
-# e.g. 'csv_identification_dnsname'
+            # TODO: [logic] add option which attributes are used for filtering?
+            # TODO: [logic] (like domain, dnsname, company)
+            # TODO: [logic] e.g. 'csv_identification_dnsname'
 
             # get existing system object
             system = System.objects.get(
                 system_name=system_name,
-#                dnsname = dnsname,
-#                domain = domain,
             )
 
             # change mandatory meta attributes
@@ -218,7 +216,10 @@ def system_handler(request=None, uploadfile=False):
         # if there is more than one system
         elif len(systemquery) > 1:
 
-            # TODO: add list with system_name for message
+            # TODO: [messages] add list with system_name for message
+            # TODO: [messages] systems_multiple_list
+            # TODO: [messages] call message at the end
+            # TODO: [messages] one message for all system names
 
             # autoincrement systems_multiple_counter
             systems_multiple_counter += 1
@@ -264,11 +265,14 @@ def system_handler(request=None, uploadfile=False):
     # close file
     systemcsv.close()
 
-    # call messages if function was called from 'system_instant' and 'system_upload'
+    # if function was called from 'system_instant' and 'system_upload'
     if request:
+        # TODO: [messages] show message with multiple systems
+        # TODO: [messages] systems_multiple_list
         # call final messages
         final_messages(request, systems_created_counter, systems_updated_counter, systems_skipped_counter, systems_multiple_counter)
-    # TODO: call messages if function was called from 'system_cron' for all users?
+    # TODO: [messages] call message if function was called from 'system_cron' for all users?
+    # TODO: [messages] should work with 'async_messages'
     else:
         pass
 

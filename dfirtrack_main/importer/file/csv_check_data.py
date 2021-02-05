@@ -9,6 +9,11 @@ import os
 def check_config(request, model):
     """ check variables of dfirtrack.config """
 
+    # TODO: [config] modify for new importer
+    # TODO: [config] check the existing configuration for logic errors
+    # TODO: [config] like the field validation in dfirtrack_config.forms.SystemImporterFileCsvConfigForm
+    # TODO: [config] differentiate between user, file system and attributes
+
     # reset stop condition
     stop_system_importer_file_csv = False
 
@@ -40,7 +45,7 @@ def check_config(request, model):
 def check_file(rows, username):
     """ check file for csv respectively some kind of text file """
 
-    # TODO: add check for file containing null bytes (\x00)
+    # TODO: [logic] add check for file containing null bytes (\x00)
 
     try:
         # try to iterate over rows
@@ -61,7 +66,9 @@ def check_file(rows, username):
 def check_row(request, row, row_counter, model):
     """ check some values of csv rows """
 
-    # TODO: add for all fields
+    # TODO: [config] modify for new importer
+    # TODO: [config] check configured fields in row for valid values
+    # TODO: [config] some checks might be called from 'add_fk_attributes' or 'add_many2many_attributes'
 
     # reset continue condition
     continue_system_importer_file_csv = False
@@ -86,9 +93,29 @@ def check_row(request, row, row_counter, model):
 
 @login_required(login_url="/login")
 def config_check_pre_system_cron(request):
-    """ config check before redirect for creating scheduled task """
+    """ config user and file system BEFORE redirect for creating scheduled task """
 
-    # TODO: merge with config_check_run
+    """
+    related function:
+    * 'system_cron'
+    performed checks:
+    * CSV import user: configured
+    * CSV import path: existence
+    * CSV import path: read permission
+    * CSV import file: existence
+    * CSV import file: read permission
+    * CSV import file: content (not empty)
+    output:
+    * messages
+    result:
+    * success: forward to scheduled task page
+    * error: redirect to 'system_list'
+    """
+
+    # TODO: [maintenance] merge with run-based check functions
+    # TODO: [maintenance] such as 'check_config_user_run' and 'check_file_system_run'
+    # TODO: [maintenance] main challenge is the different usage of messages and loggers
+    # TODO: [config] differentiate between user, file system and attributes
 
     # reset stop condition
     stop_system_importer_file_csv = False
@@ -150,13 +177,27 @@ def config_check_pre_system_cron(request):
         # return to system list
         return redirect(reverse('system_list'))
     else:
-        # TODO: build url with python
+        # TODO: [logic] build url with python
         # open django admin with pre-filled form for scheduled task
         return redirect('/admin/django_q/schedule/add/?name=system_importer_file_csv&func=dfirtrack_main.importer.file.csv.system_cron')
 
-# TODO: merge with config_check_pre_system_cron
 def check_config_user_run(model):
-    """ check config user before running importer """
+    """ check config user WHILE running importer """
+
+    """
+    calling function:
+    * 'system_cron'
+    performed checks:
+    * CSV import user: configured
+    output:
+    * logger
+    result:
+    * error: stop import
+    """
+
+    # TODO: [maintenance] merge with 'config_check_pre_system_cron'
+    # TODO: [maintenance] main challenge is the different usage of messages and loggers
+    # TODO: [config] differentiate between user, file system and attributes
 
     # reset stop condition
     stop_system_importer_file_csv_run = False
@@ -175,9 +216,29 @@ def check_config_user_run(model):
     # return stop condition
     return stop_system_importer_file_csv_run
 
-# TODO: merge with config_check_pre_system_cron
 def check_file_system_run(model, request=None):
-    """ check file system before running importer """
+    """ check file system WHILE running importer """
+
+    """
+    calling function:
+    * 'system_instant'
+    * 'system_cron'
+    performed checks:
+    * CSV import path: existence
+    * CSV import path: read permission
+    * CSV import file: existence
+    * CSV import file: read permission
+    * CSV import file: content (not empty)
+    output:
+    * message (just 'system_instant')
+    * logger
+    result:
+    * error: stop import
+    """
+
+    # TODO: [maintenance] merge with 'config_check_pre_system_cron'
+    # TODO: [maintenance] main challenge is the different usage of messages and loggers
+    # TODO: [config] differentiate between user, file system and attributes
 
     # reset stop condition
     stop_system_importer_file_csv_run = False

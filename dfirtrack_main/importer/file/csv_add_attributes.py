@@ -66,10 +66,9 @@ def add_fk_attributes(system, system_created, model, row):
                 # change to default analysisstatus for existing system
                 system.analysisstatus = model.csv_default_analysisstatus
 
-# TODO: add checks for content of 'csv_column_...'
-# TODO: do something like: 'try: ...get_or_create(...)'
-
-# TODO: not forget the logger and / or message
+    # TODO: [config] csv_check_data.check_row
+    # TODO: [config] add checks for content of 'csv_column_...'
+    # TODO: [config] do something like: 'try: ...get_or_create(...)'
 
     """ dnsname """
 
@@ -293,9 +292,14 @@ def add_fk_attributes(system, system_created, model, row):
 def add_many2many_attributes(system, system_created, model, row):
     """ add many2many relationships to system """
 
+    # TODO: [config] csv_check_data.check_row
+    # TODO: [config] add checks for content of 'csv_column_...'
+    # TODO: [config] do something like: 'try: ...get_or_create(...)'
+
     """ IP addresses """
 
-# TODO: add check for IP (used somewhere else)
+    # TODO: [config] add additional check for IP
+    # TODO: [config] former function 'csv_set_system_attributes.check_and_create_ip'
 
     # add ips for new system or change if remove old is set
     if system_created or (not system_created and model.csv_remove_ip):

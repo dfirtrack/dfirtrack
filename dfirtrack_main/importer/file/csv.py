@@ -12,7 +12,6 @@ from dfirtrack_main.logger.default_logger import debug_logger
 def system_instant(request):
     """  CSV import via button, file is on server file system """
 
-    # TODO: change user for calling importer
     # call CSV importer
     system_handler(request)
 
@@ -22,7 +21,6 @@ def system_instant(request):
 def system_cron():
     """  CSV import via scheduled task, file is on server file system """
 
-    # TODO: change user for calling importer
     # call CSV importer
     system_handler()
 
@@ -65,13 +63,9 @@ def system_upload(request):
     # GET request
     else:
 
-# TODO: make this check sense here?
-#        # check config before showing form
-#        stop_system_importer_file_csv = check_config(request, model)
-#
-#        # leave system_importer_file_csv if variables caused errors
-#        if stop_system_importer_file_csv:
-#            return redirect(reverse('system_list'))
+        # TODO: [config] csv_check_data.check_config:
+        # TODO: [config] check the existing configuration for logic errors
+        # TODO: [config] like the field validation in dfirtrack_config.forms.SystemImporterFileCsvConfigForm
 
         # get config model
         model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name = 'SystemImporterFileCsvConfig')
