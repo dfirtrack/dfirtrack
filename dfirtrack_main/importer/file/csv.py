@@ -6,6 +6,7 @@ from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv_import import system_handler
 from dfirtrack_main.importer.file.csv_importer_forms import SystemImporterFileCsvForm
 from dfirtrack_main.importer.file.csv_pre_checks import pre_check_config_cron_user, pre_check_content_file_system
+from dfirtrack_main.importer.file.csv_run_checks import run_check_config_cron_user, run_check_content_file_system
 from dfirtrack_main.logger.default_logger import debug_logger
 
 
@@ -37,12 +38,49 @@ def system_create_cron(request):
 def system_cron():
     """  CSV import via scheduled task, file is on server file system """
 
+    # get config model
+    model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name = 'SystemImporterFileCsvConfig')
+
+    """ check config user """
+
+    # check config user
+    stop_system_importer_file_csv_run = run_check_config_cron_user(model)
+
+    # leave system_importer_file_csv if config caused errors
+    if stop_system_importer_file_csv_run:
+        return
+
+    """ check file system """
+
+    # check file system
+    stop_system_importer_file_csv_run = run_check_content_file_system(model)
+
+    # leave system_importer_file_csv if config caused errors
+    if stop_system_importer_file_csv_run:
+        # return
+        return
+
     # call CSV importer
     system_handler()
+
+    return
 
 @login_required(login_url="/login")
 def system_instant(request):
     """  CSV import via button, file is on server file system """
+
+    # get config model
+    model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name = 'SystemImporterFileCsvConfig')
+
+    """ check file system """
+
+    # check file system
+    stop_system_importer_file_csv_run = run_check_content_file_system(model, request)
+
+    # leave system_importer_file_csv if config caused errors
+    if stop_system_importer_file_csv_run:
+        # return
+        return redirect(reverse('system_list'))
 
     # call CSV importer
     system_handler(request)

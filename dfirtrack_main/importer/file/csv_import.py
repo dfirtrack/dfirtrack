@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.utils import timezone
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv_add_attributes import add_fk_attributes, add_many2many_attributes, create_lock_tags
-from dfirtrack_main.importer.file.csv_run_checks import run_check_config_cron_user, run_check_content_file_system, run_check_content_file_type
+from dfirtrack_main.importer.file.csv_run_checks import run_check_content_file_type
 from dfirtrack_main.importer.file.csv_messages import final_messages
 from dfirtrack_main.logger.default_logger import info_logger, warning_logger
 from dfirtrack_main.models import System
@@ -14,36 +14,6 @@ def system_handler(request=None, uploadfile=False):
 
     # get config model
     model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name = 'SystemImporterFileCsvConfig')
-
-    """ check config user """
-
-    # if function was called from 'system_cron'
-    if not request:
-        # check config user
-        stop_system_importer_file_csv_run = run_check_config_cron_user(model)
-
-        # leave system_importer_file_csv if config caused errors
-        if stop_system_importer_file_csv_run:
-            # return to calling function
-            return
-
-    """ check file system """
-
-    # if function was NOT called from 'system_upload'
-    if not uploadfile:
-        # if function was called from 'system_instant'
-        if request:
-            # check file system
-            stop_system_importer_file_csv_run = run_check_content_file_system(model, request)
-        # if function was called from 'system_cron'
-        else:
-            # check file system
-            stop_system_importer_file_csv_run = run_check_content_file_system(model)
-
-        # leave system_importer_file_csv if config caused errors
-        if stop_system_importer_file_csv_run:
-            # return to calling function
-            return
 
     """ check config """
 
