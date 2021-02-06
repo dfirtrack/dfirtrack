@@ -4,33 +4,26 @@ from dfirtrack_main.logger.default_logger import error_logger, warning_logger
 import os
 
 
-def run_check_config_cron_user(model):
-    """ check config user WHILE running importer """
-
-    """
-    calling function:
-    * 'system_cron'
-    performed checks:
-    * CSV import user: configured
-    output:
-    * logger
-    result:
-    * error: stop import
-    """
-
-    # TODO: [maintenance] merge with 'config_check_pre_system_cron'
-    # TODO: [maintenance] main challenge is the different usage of messages and loggers
-    # TODO: [config] differentiate between user, file system and attributes
+def run_check_config_cron_user(model, request=None):
+    """ check config user  """
 
     # reset stop condition
     stop_system_importer_file_csv_run = False
 
     # check for csv_import_username (after initial migration w/o user defined) - stop immediately
     if not model.csv_import_username:
-        # get main config model
-        mainconfigmodel = MainConfigModel.objects.get(main_config_name = 'MainConfig')
-        # get cron username from main config (needed for logger if no user was defined in the proper config)
-        cron_username = mainconfigmodel.cron_username
+        # if called from 'system_create_cron' (creating scheduled task)
+        if request:
+            # call message
+            messages.error(request, "No user for import defined. Check config!")
+            # get username (needed for logger)
+            cron_username = str(request.user)
+        # if called from 'system_cron' (scheduled task)
+        else:
+            # get main config model
+            mainconfigmodel = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+            # get cron username from main config (needed for logger if no user was defined in the proper config)
+            cron_username = mainconfigmodel.cron_username
         # call logger
         error_logger(cron_username, " SYSTEM_IMPORTER_FILE_CSV_CRON_NO_USER_DEFINED")
         # set stop condition
@@ -40,38 +33,19 @@ def run_check_config_cron_user(model):
     return stop_system_importer_file_csv_run
 
 def run_check_content_file_system(model, request=None):
-    """ check file system WHILE running importer """
-
-    """
-    calling function:
-    * 'system_instant'
-    * 'system_cron'
-    performed checks:
-    * CSV import path: existence
-    * CSV import path: read permission
-    * CSV import file: existence
-    * CSV import file: read permission
-    * CSV import file: content (not empty)
-    output:
-    * message (just 'system_instant')
-    * logger
-    result:
-    * error: stop import
-    """
-
-    # TODO: [maintenance] merge with 'config_check_pre_system_cron'
-    # TODO: [maintenance] main challenge is the different usage of messages and loggers
-    # TODO: [config] differentiate between user, file system and attributes
+    """ check file system """
 
     # reset stop condition
     stop_system_importer_file_csv_run = False
 
+    """ set username for logger """
+
     # if function was called from 'system_instant'
     if request:
-        username = request.user.username
+        cron_username = str(request.user)
     # if function was called from 'system_cron'
     else:
-        username = model.csv_import_username.username   # check for existence of user in config was done before
+        cron_username = model.csv_import_username.username   # check for existence of user in config was done before
 
     # build csv file path
     csv_import_file = model.csv_import_path + '/' + model.csv_import_filename
@@ -83,7 +57,7 @@ def run_check_content_file_system(model, request=None):
             # call messsage
             messages.error(request, "CSV import path does not exist. Check config or file system!")
         # call logger
-        error_logger(username, " SYSTEM_IMPORTER_FILE_CSV_CRON_PATH_NOT_EXISTING")
+        error_logger(cron_username, " SYSTEM_IMPORTER_FILE_CSV_CRON_PATH_NOT_EXISTING")
         # set stop condition
         stop_system_importer_file_csv_run = True
     else:
@@ -94,7 +68,7 @@ def run_check_content_file_system(model, request=None):
                 # call messsage
                 messages.error(request, "No read permission for CSV import path. Check config or file system!")
             # call logger
-            error_logger(username, " SYSTEM_IMPORTER_FILE_CSV_CRON_PATH_NO_READ_PERMISSION")
+            error_logger(cron_username, " SYSTEM_IMPORTER_FILE_CSV_CRON_PATH_NO_READ_PERMISSION")
             # set stop condition
             stop_system_importer_file_csv_run = True
         else:
@@ -105,7 +79,7 @@ def run_check_content_file_system(model, request=None):
                     # call messsage
                     messages.error(request, "CSV import file does not exist. Check config or provide file!")
                 # call logger
-                error_logger(username, " SYSTEM_IMPORTER_FILE_CSV_CRON_FILE_NOT_EXISTING")
+                error_logger(cron_username, " SYSTEM_IMPORTER_FILE_CSV_CRON_FILE_NOT_EXISTING")
                 # set stop condition
                 stop_system_importer_file_csv_run = True
             else:
@@ -116,7 +90,7 @@ def run_check_content_file_system(model, request=None):
                         # call messsage
                         messages.error(request, "No read permission for CSV import file. Check config or file system!")
                     # call logger
-                    error_logger(username, " SYSTEM_IMPORTER_FILE_CSV_CRON_FILE_NO_READ_PERMISSION")
+                    error_logger(cron_username, " SYSTEM_IMPORTER_FILE_CSV_CRON_FILE_NO_READ_PERMISSION")
                     # set stop condition
                     stop_system_importer_file_csv_run = True
                 else:
@@ -127,7 +101,7 @@ def run_check_content_file_system(model, request=None):
                             # call messsage
                             messages.error(request, "CSV import file is empty. Check config or file system!")
                         # call logger
-                        error_logger(username, " SYSTEM_IMPORTER_FILE_CSV_CRON_FILE_EMPTY")
+                        error_logger(cron_username, " SYSTEM_IMPORTER_FILE_CSV_CRON_FILE_EMPTY")
                         # set stop condition
                         stop_system_importer_file_csv_run = True
 
@@ -135,6 +109,9 @@ def run_check_content_file_system(model, request=None):
     return stop_system_importer_file_csv_run
 
 def run_check_config_attributes():
+
+    # TODO: [config] move from 'pre_check_config_attributes'
+
     pass
 
 def run_check_content_file_type(rows, username):

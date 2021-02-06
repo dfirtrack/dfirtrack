@@ -15,12 +15,6 @@ def system_handler(request=None, uploadfile=False):
     # get config model
     model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name = 'SystemImporterFileCsvConfig')
 
-    """ check config """
-
-    # TODO: [config] csv_check_data.run_check_config_attributes:
-    # TODO: [config] check the existing configuration for logic errors
-    # TODO: [config] like the field validation in dfirtrack_config.forms.SystemImporterFileCsvConfigForm
-
     """ start system importer """
 
     # if function was called from 'system_instant' and 'system_upload'

@@ -5,10 +5,13 @@ from django.urls import reverse
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv_main import system_handler
 from dfirtrack_main.importer.file.csv_importer_forms import SystemImporterFileCsvForm
-from dfirtrack_main.importer.file.csv_pre_checks import pre_check_config_cron_user, pre_check_content_file_system
 from dfirtrack_main.importer.file.csv_run_checks import run_check_config_cron_user, run_check_content_file_system
 from dfirtrack_main.logger.default_logger import debug_logger
 
+
+# TODO: [config] csv_check_data.run_check_config_attributes:
+# TODO: [config] for all running functions
+# TODO: [config] """ check config """
 
 @login_required(login_url="/login")
 def system_create_cron(request):
@@ -19,7 +22,7 @@ def system_create_cron(request):
     """ check config user """
 
     # call check function
-    stop_system_importer_file_csv = pre_check_config_cron_user(request, model)
+    stop_system_importer_file_csv = run_check_config_cron_user(model, request)
 
     # check stop condition
     if stop_system_importer_file_csv:
@@ -29,7 +32,7 @@ def system_create_cron(request):
     """ check file system """
 
     # call check function
-    stop_system_importer_file_csv = pre_check_content_file_system(request, model)
+    stop_system_importer_file_csv = run_check_content_file_system(model, request)
 
     # check stop condition
     if stop_system_importer_file_csv:
