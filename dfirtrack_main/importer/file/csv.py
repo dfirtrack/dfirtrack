@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
-from dfirtrack_main.importer.file.csv_import import system_handler
+from dfirtrack_main.importer.file.csv_main import system_handler
 from dfirtrack_main.importer.file.csv_importer_forms import SystemImporterFileCsvForm
 from dfirtrack_main.importer.file.csv_pre_checks import pre_check_config_cron_user, pre_check_content_file_system
 from dfirtrack_main.importer.file.csv_run_checks import run_check_config_cron_user, run_check_content_file_system
@@ -66,6 +66,8 @@ def system_cron():
         # return
         return
 
+    """ main function """
+
     # call CSV importer
     system_handler()
 
@@ -89,6 +91,8 @@ def system_instant(request):
         # return
         return redirect(reverse('system_list'))
 
+    """ main function """
+
     # call CSV importer
     system_handler(request)
 
@@ -107,6 +111,8 @@ def system_upload(request):
 
         # check request for systemcsv (file submitted - no submitted file only relevant for tests, normally form enforces file submitting)
         if check_systemcsv:
+
+            """ main function """
 
             # call CSV importer
             system_handler(request, True)
