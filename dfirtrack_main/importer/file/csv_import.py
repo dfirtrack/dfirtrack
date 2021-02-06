@@ -21,6 +21,7 @@ def system_handler(request=None, uploadfile=False):
     if not request:
         # check config user
         stop_system_importer_file_csv_run = run_check_config_cron_user(model)
+
         # leave system_importer_file_csv if config caused errors
         if stop_system_importer_file_csv_run:
             # return to calling function
@@ -71,7 +72,7 @@ def system_handler(request=None, uploadfile=False):
 
     # file was uploaded via form (called via 'system_upload')
     if uploadfile:
-        #systemfile = uploadfile
+        # text object can not be passed as argument from 'system_upload'
         systemcsv = TextIOWrapper(request.FILES['systemcsv'].file, encoding=request.encoding)
     # file was fetched from file system (called via 'system_instant' or 'system_cron')
     else:

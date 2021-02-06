@@ -7,17 +7,42 @@ from dfirtrack_main.logger.default_logger import error_logger, warning_logger
 import os
 
 
-@login_required(login_url="/login")
-def pre_check_config_cron_user(request):
-    """ config user and file system BEFORE redirect for creating scheduled task """
-
-    # TODO: [config] split to 'pre_check_content_file_system'
+def pre_check_config_cron_user(request, model):
+    """ check config user BEFORE redirect for creating scheduled task """
 
     """
-    related function:
-    * 'system_cron'
+    calling function:
+    * 'system_create_cron'
     performed checks:
     * CSV import user: configured
+    output:
+    * messages
+    result:
+    * success: forward to scheduled task page
+    * error: redirect to 'system_list'
+    """
+
+    # reset stop condition
+    stop_system_importer_file_csv = False
+
+    """ check user """
+
+    # check for csv_import_username (after initial migration w/o user defined) - stop immediately
+    if not model.csv_import_username:
+        # call message
+        messages.error(request, "No user for import defined. Check config!")
+        # set stop condition
+        stop_system_importer_file_csv = True
+
+    return stop_system_importer_file_csv
+
+def pre_check_content_file_system(request, model, stop_system_importer_file_csv):
+    """ check file system BEFORE redirect for creating scheduled task """
+
+    """
+    calling function:
+    * 'system_create_cron'
+    performed checks:
     * CSV import path: existence
     * CSV import path: read permission
     * CSV import file: existence
@@ -29,27 +54,6 @@ def pre_check_config_cron_user(request):
     * success: forward to scheduled task page
     * error: redirect to 'system_list'
     """
-
-    # TODO: [config] split to user and file system
-    # TODO: [maintenance] merge with run-based check functions
-    # TODO: [maintenance] such as 'check_config_user_run' and 'check_file_system_run'
-    # TODO: [maintenance] main challenge is the different usage of messages and loggers
-    # TODO: [config] differentiate between user, file system and attributes
-
-    # reset stop condition
-    stop_system_importer_file_csv = False
-
-    # get config model (necessary because directly called by url)
-    model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name = 'SystemImporterFileCsvConfig')
-
-    """ check user """
-
-    # check for csv_import_username (after initial migration w/o user defined) - stop immediately
-    if not model.csv_import_username:
-        # call message
-        messages.error(request, "No user for import defined. Check config!")
-        # set stop condition
-        stop_system_importer_file_csv = True
 
     """ check file system """
 
@@ -91,17 +95,7 @@ def pre_check_config_cron_user(request):
                         # set stop condition
                         stop_system_importer_file_csv = True
 
-    # check stop condition
-    if stop_system_importer_file_csv:
-        # return to system list
-        return redirect(reverse('system_list'))
-    else:
-        # TODO: [logic] build url with python
-        # open django admin with pre-filled form for scheduled task
-        return redirect('/admin/django_q/schedule/add/?name=system_importer_file_csv&func=dfirtrack_main.importer.file.csv.system_cron')
-
-def pre_check_content_file_system():
-    pass
+    return stop_system_importer_file_csv
 
 def pre_check_config_attributes(request, model):
     """ check variables of dfirtrack.config """

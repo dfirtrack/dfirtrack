@@ -5,8 +5,34 @@ from django.urls import reverse
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv_import import system_handler
 from dfirtrack_main.importer.file.csv_importer_forms import SystemImporterFileCsvForm
+from dfirtrack_main.importer.file.csv_pre_checks import pre_check_config_cron_user, pre_check_content_file_system
 from dfirtrack_main.logger.default_logger import debug_logger
 
+
+@login_required(login_url="/login")
+def system_create_cron(request):
+
+    # get config model
+    model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name = 'SystemImporterFileCsvConfig')
+
+    """ check config user """
+
+    # call check function
+    stop_system_importer_file_csv = pre_check_config_cron_user(request, model)
+
+    """ check file system """
+
+    # call check function
+    stop_system_importer_file_csv = pre_check_content_file_system(request, model, stop_system_importer_file_csv)
+
+    # check stop condition
+    if stop_system_importer_file_csv:
+        # return to system list
+        return redirect(reverse('system_list'))
+    else:
+        # TODO: [logic] build url with python
+        # open django admin with pre-filled form for scheduled task
+        return redirect('/admin/django_q/schedule/add/?name=system_importer_file_csv&func=dfirtrack_main.importer.file.csv.system_cron')
 
 def system_cron():
     """  CSV import via scheduled task, file is on server file system """
