@@ -32,7 +32,7 @@ def pre_check_config_cron_user(request, model):
 
     return stop_system_importer_file_csv
 
-def pre_check_content_file_system(request, model, stop_system_importer_file_csv):
+def pre_check_content_file_system(request, model):
     """ check file system BEFORE redirect for creating scheduled task """
 
     """
@@ -50,6 +50,9 @@ def pre_check_content_file_system(request, model, stop_system_importer_file_csv)
     * success: forward to scheduled task page
     * error: redirect to 'system_list'
     """
+
+    # reset stop condition
+    stop_system_importer_file_csv = False
 
     """ check file system """
 

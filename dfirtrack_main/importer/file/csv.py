@@ -21,10 +21,15 @@ def system_create_cron(request):
     # call check function
     stop_system_importer_file_csv = pre_check_config_cron_user(request, model)
 
+    # check stop condition
+    if stop_system_importer_file_csv:
+        # return to system list
+        return redirect(reverse('system_list'))
+
     """ check file system """
 
     # call check function
-    stop_system_importer_file_csv = pre_check_content_file_system(request, model, stop_system_importer_file_csv)
+    stop_system_importer_file_csv = pre_check_content_file_system(request, model)
 
     # check stop condition
     if stop_system_importer_file_csv:
@@ -48,6 +53,7 @@ def system_cron():
 
     # leave system_importer_file_csv if config caused errors
     if stop_system_importer_file_csv_run:
+        # return
         return
 
     """ check file system """
@@ -63,6 +69,7 @@ def system_cron():
     # call CSV importer
     system_handler()
 
+    # return
     return
 
 @login_required(login_url="/login")
