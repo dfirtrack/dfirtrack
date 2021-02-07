@@ -62,8 +62,14 @@ def system_handler(request=None, uploadfile=False):
 
     """ check file """
 
-    # check file for csv respectively some kind of text file
-    file_check = check_content_file_type(rows, csv_import_user.username)
+    # if function was called from 'system_instant' and 'system_upload'
+    if request:
+        # check file for csv respectively some kind of text file
+        file_check = check_content_file_type(rows, csv_import_user.username, request)
+    # if function was called from 'system_cron'
+    else:
+        # check file for csv respectively some kind of text file
+        file_check = check_content_file_type(rows, csv_import_user.username)
 
     # if function was called from 'system_instant' and 'system_upload'
     if not file_check and request:

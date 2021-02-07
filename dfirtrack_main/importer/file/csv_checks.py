@@ -111,40 +111,190 @@ def check_content_file_system(model, request=None):
 def check_config_attributes(model, request=None):
     """ check config for logic errors about attributes """
 
-    print('CHECK PASSED!!!')
-
-    # TODO: [config] check the existing configuration for logic errors
-    # TODO: [config] like the field validation in dfirtrack_config.forms.SystemImporterFileCsvConfigForm
-
     # reset stop condition
     stop_system_importer_file_csv = False
 
-#    # check CSV_COLUMN_SYSTEM for value
-#    if not 1<= model.csv_column_system <= 256:
-#        # call message
-#        messages.error(request, "`CSV_COLUMN_SYSTEM` is outside the allowed range. Check config!")
-#        # call logger
-#        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_COLUMN_SYSTEM out of range")
-#        stop_system_importer_file_csv = True
-#
-#    # check CSV_COLUMN_IP for value
-#    if not 1<= model.csv_column_ip <= 256:
-#        # call message
-#        messages.error(request, "`CSV_COLUMN_IP` is outside the allowed range. Check config!")
-#        # call logger
-#        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV variable CSV_COLUMN_IP out of range")
-#        stop_system_importer_file_csv = True
-#
-#    # create final message and log
-#    if stop_system_importer_file_csv:
-#        # call message
-#        messages.warning(request, "Nothing was changed.")
-#        # call logger
-#        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_ENDED_WITH_ERRORS")
+    """ set username for logger """
+
+    # if function was called from 'system_instant' or 'system_upload' or 'system_create_cron'
+    if request:
+        username = str(request.user)
+    # if function was called from 'system_cron'
+    else:
+        username = model.csv_import_username.username   # check for existence of user in config was done before
+
+    # check CSV_COLUMN_SYSTEM for value
+    if not 1 <= model.csv_column_system <= 99:
+        # if function was called from 'system_instant' or 'system_upload'
+        if request:
+            # call message
+            messages.error(request, "`CSV_COLUMN_SYSTEM` is outside the allowed range. Check config!")
+        # call logger
+        error_logger(username, " SYSTEM_IMPORTER_FILE_CSV variable CSV_COLUMN_SYSTEM out of range")
+        # set stop condition
+        stop_system_importer_file_csv = True
+
+    # CSV_COLUMN_IP
+    if model.csv_column_ip:
+        # check CSV_COLUMN_IP for value
+        if not 1 <= model.csv_column_ip <= 99:
+            # if function was called from 'system_instant' or 'system_upload'
+            if request:
+                # call message
+                messages.error(request, "`CSV_COLUMN_IP` is outside the allowed range. Check config!")
+            # call logger
+            error_logger(username, " SYSTEM_IMPORTER_FILE_CSV variable CSV_COLUMN_IP out of range")
+            # set stop condition
+            stop_system_importer_file_csv = True
+
+    # CSV_COLUMN_DNSNAME
+    if model.csv_column_dnsname:
+        # check CSV_COLUMN_DNSNAME for value
+        if not 1 <= model.csv_column_dnsname <= 99:
+            # if function was called from 'system_instant' or 'system_upload'
+            if request:
+                # call message
+                messages.error(request, "`CSV_COLUMN_DNSNAME` is outside the allowed range. Check config!")
+            # call logger
+            error_logger(username, " SYSTEM_IMPORTER_FILE_CSV variable CSV_COLUMN_DNSNAME out of range")
+            # set stop condition
+            stop_system_importer_file_csv = True
+
+    # CSV_COLUMN_DOMAIN
+    if model.csv_column_domain:
+        # check CSV_COLUMN_DOMAIN for value
+        if not 1 <= model.csv_column_domain <= 99:
+            # if function was called from 'system_instant' or 'system_upload'
+            if request:
+                # call message
+                messages.error(request, "`CSV_COLUMN_DOMAIN` is outside the allowed range. Check config!")
+            # call logger
+            error_logger(username, " SYSTEM_IMPORTER_FILE_CSV variable CSV_COLUMN_DOMAIN out of range")
+            # set stop condition
+            stop_system_importer_file_csv = True
+
+    # CSV_COLUMN_LOCATION
+    if model.csv_column_location:
+        # check CSV_COLUMN_LOCATION for value
+        if not 1 <= model.csv_column_location <= 99:
+            # if function was called from 'system_instant' or 'system_upload'
+            if request:
+                # call message
+                messages.error(request, "`CSV_COLUMN_LOCATION` is outside the allowed range. Check config!")
+            # call logger
+            error_logger(username, " SYSTEM_IMPORTER_FILE_CSV variable CSV_COLUMN_LOCATION out of range")
+            # set stop condition
+            stop_system_importer_file_csv = True
+
+    # CSV_COLUMN_OS
+    if model.csv_column_os:
+        # check CSV_COLUMN_OS for value
+        if not 1 <= model.csv_column_os <= 99:
+            # if function was called from 'system_instant' or 'system_upload'
+            if request:
+                # call message
+                messages.error(request, "`CSV_COLUMN_OS` is outside the allowed range. Check config!")
+            # call logger
+            error_logger(username, " SYSTEM_IMPORTER_FILE_CSV variable CSV_COLUMN_OS out of range")
+            # set stop condition
+            stop_system_importer_file_csv = True
+
+    # CSV_COLUMN_REASON
+    if model.csv_column_reason:
+        # check CSV_COLUMN_REASON for value
+        if not 1 <= model.csv_column_reason <= 99:
+            # if function was called from 'system_instant' or 'system_upload'
+            if request:
+                # call message
+                messages.error(request, "`CSV_COLUMN_REASON` is outside the allowed range. Check config!")
+            # call logger
+            error_logger(username, " SYSTEM_IMPORTER_FILE_CSV variable CSV_COLUMN_REASON out of range")
+            # set stop condition
+            stop_system_importer_file_csv = True
+
+    # CSV_COLUMN_RECOMMENDATION
+    if model.csv_column_recommendation:
+        # check CSV_COLUMN_RECOMMENDATION for value
+        if not 1 <= model.csv_column_recommendation <= 99:
+            # if function was called from 'system_instant' or 'system_upload'
+            if request:
+                # call message
+                messages.error(request, "`CSV_COLUMN_RECOMMENDATION` is outside the allowed range. Check config!")
+            # call logger
+            error_logger(username, " SYSTEM_IMPORTER_FILE_CSV variable CSV_COLUMN_RECOMMENDATION out of range")
+            # set stop condition
+            stop_system_importer_file_csv = True
+
+    # CSV_COLUMN_SERVICEPROVIDER
+    if model.csv_column_serviceprovider:
+        # check CSV_COLUMN_SERVICEPROVIDER for value
+        if not 1 <= model.csv_column_serviceprovider <= 99:
+            # if function was called from 'system_instant' or 'system_upload'
+            if request:
+                # call message
+                messages.error(request, "`CSV_COLUMN_SERVICEPROVIDER` is outside the allowed range. Check config!")
+            # call logger
+            error_logger(username, " SYSTEM_IMPORTER_FILE_CSV variable CSV_COLUMN_SERVICEPROVIDER out of range")
+            # set stop condition
+            stop_system_importer_file_csv = True
+
+    # CSV_COLUMN_SYSTEMTYPE
+    if model.csv_column_systemtype:
+        # check CSV_COLUMN_SYSTEMTYPE for value
+        if not 1 <= model.csv_column_systemtype <= 99:
+            # if function was called from 'system_instant' or 'system_upload'
+            if request:
+                # call message
+                messages.error(request, "`CSV_COLUMN_SYSTEMTYPE` is outside the allowed range. Check config!")
+            # call logger
+            error_logger(username, " SYSTEM_IMPORTER_FILE_CSV variable CSV_COLUMN_SYSTEMTYPE out of range")
+            # set stop condition
+            stop_system_importer_file_csv = True
+
+    # CSV_COLUMN_CASE
+    if model.csv_column_case:
+        # check CSV_COLUMN_CASE for value
+        if not 1 <= model.csv_column_case <= 99:
+            # if function was called from 'system_instant' or 'system_upload'
+            if request:
+                # call message
+                messages.error(request, "`CSV_COLUMN_CASE` is outside the allowed range. Check config!")
+            # call logger
+            error_logger(username, " SYSTEM_IMPORTER_FILE_CSV variable CSV_COLUMN_CASE out of range")
+            # set stop condition
+            stop_system_importer_file_csv = True
+
+    # CSV_COLUMN_COMPANY
+    if model.csv_column_company:
+        # check CSV_COLUMN_COMPANY for value
+        if not 1 <= model.csv_column_company <= 99:
+            # if function was called from 'system_instant' or 'system_upload'
+            if request:
+                # call message
+                messages.error(request, "`CSV_COLUMN_COMPANY` is outside the allowed range. Check config!")
+            # call logger
+            error_logger(username, " SYSTEM_IMPORTER_FILE_CSV variable CSV_COLUMN_COMPANY out of range")
+            # set stop condition
+            stop_system_importer_file_csv = True
+
+    # CSV_COLUMN_TAG
+    if model.csv_column_tag:
+        # check CSV_COLUMN_TAG for value
+        if not 1 <= model.csv_column_tag <= 99:
+            # if function was called from 'system_instant' or 'system_upload'
+            if request:
+                # call message
+                messages.error(request, "`CSV_COLUMN_TAG` is outside the allowed range. Check config!")
+            # call logger
+            error_logger(username, " SYSTEM_IMPORTER_FILE_CSV variable CSV_COLUMN_TAG out of range")
+            # set stop condition
+            stop_system_importer_file_csv = True
+
+    # TODO: [code] add checks like custom field validation in 'SystemImporterFileCsvConfigForm'
 
     return stop_system_importer_file_csv
 
-def check_content_file_type(rows, username):
+def check_content_file_type(rows, username, request=None):
     """ check file for csv respectively some kind of text file """
 
     # TODO: [logic] add check for file containing null bytes (\x00)
@@ -160,8 +310,12 @@ def check_content_file_type(rows, username):
 
     # wrong file type
     except UnicodeDecodeError:
+        # if function was called from 'system_instant' or 'system_upload'
+        if request:
+            # call message
+            messages.error(request, "Wrong file type for CSV import. Check config or file system!")
         # call logger
-        error_logger(username, " SYSTEM_IP_IMPORTER_WRONG_FILE_TYPE")
+        error_logger(username, " SYSTEM_IMPORTER_FILE_CSV_WRONG_FILE_TYPE")
         # return False if not successful
         return False
 

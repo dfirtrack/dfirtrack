@@ -118,7 +118,7 @@ def system_instant(request):
     # leave system_importer_file_csv if config caused errors
     if stop_system_importer_file_csv:
         # return
-        return
+        return redirect(reverse('system_list'))
 
     """ main function """
 
@@ -147,7 +147,7 @@ def system_upload(request):
             """ check config attributes """
 
             # call check function
-            stop_system_importer_file_csv = check_config_attributes(model)
+            stop_system_importer_file_csv = check_config_attributes(model, request)
 
             # TODO: [code] what to do to leave this?
 
@@ -190,7 +190,7 @@ def system_upload(request):
         """ check config attributes """
 
         # call check function
-        stop_system_importer_file_csv = check_config_attributes(model)
+        stop_system_importer_file_csv = check_config_attributes(model, request)
 
         # TODO: [code] what to do to leave this?
 
