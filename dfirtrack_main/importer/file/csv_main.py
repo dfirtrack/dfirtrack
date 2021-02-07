@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.utils import timezone
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv_add_attributes import add_fk_attributes, add_many2many_attributes, create_lock_tags
-from dfirtrack_main.importer.file.csv_run_checks import run_check_content_file_type
+from dfirtrack_main.importer.file.csv_checks import check_content_file_type
 from dfirtrack_main.importer.file.csv_messages import final_messages
 from dfirtrack_main.logger.default_logger import info_logger, warning_logger
 from dfirtrack_main.models import System
@@ -63,7 +63,7 @@ def system_handler(request=None, uploadfile=False):
     """ check file """
 
     # check file for csv respectively some kind of text file
-    file_check = run_check_content_file_type(rows, csv_import_user.username)
+    file_check = check_content_file_type(rows, csv_import_user.username)
 
     # if function was called from 'system_instant' and 'system_upload'
     if not file_check and request:
