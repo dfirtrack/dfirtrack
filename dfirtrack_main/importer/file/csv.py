@@ -58,20 +58,20 @@ def system_cron():
     """ check config user """
 
     # check config user
-    stop_system_importer_file_csv_run = run_check_config_cron_user(model)
+    stop_system_importer_file_csv = run_check_config_cron_user(model)
 
     # leave system_importer_file_csv if config caused errors
-    if stop_system_importer_file_csv_run:
+    if stop_system_importer_file_csv:
         # return
         return
 
     """ check file system """
 
     # check file system
-    stop_system_importer_file_csv_run = run_check_content_file_system(model)
+    stop_system_importer_file_csv = run_check_content_file_system(model)
 
     # leave system_importer_file_csv if config caused errors
-    if stop_system_importer_file_csv_run:
+    if stop_system_importer_file_csv:
         # return
         return
 
@@ -81,7 +81,7 @@ def system_cron():
     stop_system_importer_file_csv = run_check_config_attributes(model)
 
     # leave system_importer_file_csv if config caused errors
-    if stop_system_importer_file_csv_run:
+    if stop_system_importer_file_csv:
         # return
         return
 
@@ -103,20 +103,20 @@ def system_instant(request):
     """ check file system """
 
     # check file system
-    stop_system_importer_file_csv_run = run_check_content_file_system(model, request)
+    stop_system_importer_file_csv = run_check_content_file_system(model, request)
 
     # leave system_importer_file_csv if config caused errors
-    if stop_system_importer_file_csv_run:
+    if stop_system_importer_file_csv:
         # return
         return redirect(reverse('system_list'))
 
     """ check config attributes """
 
     # call check function
-    stop_system_importer_file_csv = run_check_config_attributes(model)
+    stop_system_importer_file_csv = run_check_config_attributes(model, request)
 
     # leave system_importer_file_csv if config caused errors
-    if stop_system_importer_file_csv_run:
+    if stop_system_importer_file_csv:
         # return
         return
 
@@ -141,6 +141,9 @@ def system_upload(request):
         # check request for systemcsv (file submitted - no submitted file only relevant for tests, normally form enforces file submitting)
         if check_systemcsv:
 
+            # get config model
+            model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name = 'SystemImporterFileCsvConfig')
+
             """ check config attributes """
 
             # call check function
@@ -149,7 +152,7 @@ def system_upload(request):
             # TODO: [code] what to do to leave this?
 
             # leave system_importer_file_csv if config caused errors
-            if stop_system_importer_file_csv_run:
+            if stop_system_importer_file_csv:
                 # TODO: [debug] change this
                 pass
 
@@ -181,6 +184,9 @@ def system_upload(request):
     # GET request
     else:
 
+        # get config model
+        model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name = 'SystemImporterFileCsvConfig')
+
         """ check config attributes """
 
         # call check function
@@ -189,12 +195,9 @@ def system_upload(request):
         # TODO: [code] what to do to leave this?
 
         # leave system_importer_file_csv if config caused errors
-        if stop_system_importer_file_csv_run:
+        if stop_system_importer_file_csv:
             # TODO: [debug] change this
             pass
-
-        # get config model
-        model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name = 'SystemImporterFileCsvConfig')
 
         # show warning if existing systems will be updated
         if not model.csv_skip_existing_system:
