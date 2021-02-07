@@ -7,7 +7,6 @@ from dfirtrack_main.exporter.spreadsheet import csv as spreadsheet_csv
 from dfirtrack_main.exporter.spreadsheet import xls
 from dfirtrack_main.exporter.markdown import markdown
 from dfirtrack_main.importer.file import csv as csv_importer
-from dfirtrack_main.importer.file import csv_pre_checks
 from dfirtrack_main.modificator import system_modificator
 
 urlpatterns = [

@@ -5,13 +5,9 @@ from django.urls import reverse
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv_main import system_handler
 from dfirtrack_main.importer.file.csv_importer_forms import SystemImporterFileCsvForm
-from dfirtrack_main.importer.file.csv_run_checks import run_check_config_cron_user, run_check_content_file_system
+from dfirtrack_main.importer.file.csv_run_checks import run_check_config_attributes, run_check_config_cron_user, run_check_content_file_system
 from dfirtrack_main.logger.default_logger import debug_logger
 
-
-# TODO: [config] csv_check_data.run_check_config_attributes:
-# TODO: [config] for all running functions
-# TODO: [config] """ check config """
 
 @login_required(login_url="/login")
 def system_create_cron(request):
@@ -33,6 +29,16 @@ def system_create_cron(request):
 
     # call check function
     stop_system_importer_file_csv = run_check_content_file_system(model, request)
+
+    # check stop condition
+    if stop_system_importer_file_csv:
+        # return to system list
+        return redirect(reverse('system_list'))
+
+    """ check config attributes """
+
+    # call check function
+    stop_system_importer_file_csv = run_check_config_attributes(model, request)
 
     # check stop condition
     if stop_system_importer_file_csv:
@@ -69,6 +75,16 @@ def system_cron():
         # return
         return
 
+    """ check config attributes """
+
+    # call check function
+    stop_system_importer_file_csv = run_check_config_attributes(model)
+
+    # leave system_importer_file_csv if config caused errors
+    if stop_system_importer_file_csv_run:
+        # return
+        return
+
     """ main function """
 
     # call CSV importer
@@ -94,6 +110,16 @@ def system_instant(request):
         # return
         return redirect(reverse('system_list'))
 
+    """ check config attributes """
+
+    # call check function
+    stop_system_importer_file_csv = run_check_config_attributes(model)
+
+    # leave system_importer_file_csv if config caused errors
+    if stop_system_importer_file_csv_run:
+        # return
+        return
+
     """ main function """
 
     # call CSV importer
@@ -114,6 +140,18 @@ def system_upload(request):
 
         # check request for systemcsv (file submitted - no submitted file only relevant for tests, normally form enforces file submitting)
         if check_systemcsv:
+
+            """ check config attributes """
+
+            # call check function
+            stop_system_importer_file_csv = run_check_config_attributes(model)
+
+            # TODO: [code] what to do to leave this?
+
+            # leave system_importer_file_csv if config caused errors
+            if stop_system_importer_file_csv_run:
+                # TODO: [debug] change this
+                pass
 
             """ main function """
 
@@ -143,9 +181,17 @@ def system_upload(request):
     # GET request
     else:
 
-        # TODO: [config] csv_check_data.pre_check_config_attributes:
-        # TODO: [config] check the existing configuration for logic errors
-        # TODO: [config] like the field validation in dfirtrack_config.forms.SystemImporterFileCsvConfigForm
+        """ check config attributes """
+
+        # call check function
+        stop_system_importer_file_csv = run_check_config_attributes(model)
+
+        # TODO: [code] what to do to leave this?
+
+        # leave system_importer_file_csv if config caused errors
+        if stop_system_importer_file_csv_run:
+            # TODO: [debug] change this
+            pass
 
         # get config model
         model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name = 'SystemImporterFileCsvConfig')
