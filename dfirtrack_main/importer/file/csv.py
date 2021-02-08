@@ -149,12 +149,10 @@ def system_upload(request):
             # call check function
             stop_system_importer_file_csv = check_config_attributes(model, request)
 
-            # TODO: [code] what to do to leave this?
-
             # leave system_importer_file_csv if config caused errors
             if stop_system_importer_file_csv:
-                # TODO: [debug] change this
-                pass
+                # return to system list
+                return redirect(reverse('system_list'))
 
             """ main function """
 
@@ -192,12 +190,10 @@ def system_upload(request):
         # call check function
         stop_system_importer_file_csv = check_config_attributes(model, request)
 
-        # TODO: [code] what to do to leave this?
-
         # leave system_importer_file_csv if config caused errors
         if stop_system_importer_file_csv:
-            # TODO: [debug] change this
-            pass
+            # return to system list
+            return redirect(reverse('system_list'))
 
         # show warning if existing systems will be updated
         if not model.csv_skip_existing_system:

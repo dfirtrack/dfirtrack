@@ -123,7 +123,9 @@ def check_config_attributes(model, request=None):
     else:
         username = model.csv_import_username.username   # check for existence of user in config was done before
 
-    # check CSV_COLUMN_SYSTEM for value
+    """ check numeric values for column fields """
+
+    # CSV_COLUMN_SYSTEM
     if not 1 <= model.csv_column_system <= 99:
         # if function was called from 'system_instant' or 'system_upload'
         if request:
@@ -346,3 +348,4 @@ def check_content_attributes(request, row, row_counter, model):
         continue_system_importer_file_csv = True
 
     return continue_system_importer_file_csv
+
