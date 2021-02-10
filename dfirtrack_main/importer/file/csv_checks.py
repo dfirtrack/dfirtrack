@@ -526,13 +526,13 @@ def check_config_attributes(model, request=None):
         # add error code
         attribute_error_id.append('case_02')
     # case - CSV chosen and DB chosen
-    if model.csv_choice_case and model.csv_default_case:
+    if model.csv_choice_case and model.csv_default_case.all():
         # set attribute error
         attribute_error = True
         # add error code
         attribute_error_id.append('case_03')
     # case - CSV column filled out and DB chosen
-    if model.csv_column_case and model.csv_default_case:
+    if model.csv_column_case and model.csv_default_case.all():
         # set attribute error
         attribute_error = True
         # add error code
@@ -551,13 +551,13 @@ def check_config_attributes(model, request=None):
         # add error code
         attribute_error_id.append('company_02')
     # company - CSV chosen and DB chosen
-    if model.csv_choice_company and model.csv_default_company:
+    if model.csv_choice_company and model.csv_default_company.all():
         # set attribute error
         attribute_error = True
         # add error code
         attribute_error_id.append('company_03')
     # company - CSV column filled out and DB chosen
-    if model.csv_column_company and model.csv_default_company:
+    if model.csv_column_company and model.csv_default_company.all():
         # set attribute error
         attribute_error = True
         # add error code
@@ -576,13 +576,13 @@ def check_config_attributes(model, request=None):
         # add error code
         attribute_error_id.append('tag_02')
     # tag - CSV chosen and DB chosen
-    if model.csv_choice_tag and model.csv_default_tag:
+    if model.csv_choice_tag and model.csv_default_tag.all():
         # set attribute error
         attribute_error = True
         # add error code
         attribute_error_id.append('tag_03')
     # tag - CSV column filled out and DB chosen
-    if model.csv_column_tag and model.csv_default_tag:
+    if model.csv_column_tag and model.csv_default_tag.all():
         # set attribute error
         attribute_error = True
         # add error code
@@ -601,17 +601,36 @@ def check_config_attributes(model, request=None):
 
     """ check tag pefix and delimiter in combination with CSV and DB """
 
-    # TODO: [code] rebuild
-
-#    # tag - CSV chosen and prefix and / or prefix delimiter not set
-#    if model.csv_choice_tag and (not model.csv_tag_prefix or not model.csv_tag_prefix_delimiter):
-#        validation_errors['csv_tag_prefix'] = 'Choose prefix and delimiter for tag import from CSV to distinguish between manual set tags.'
-#    # tag - DB chosen and prefix and / or prefix delimiter chosen (overwrites error above)
-#    if model.csv_default_tag and (model.csv_tag_prefix or model.csv_tag_prefix_delimiter):
-#            validation_errors['csv_tag_prefix'] = 'Prefix and delimiter are not available when setting tags from database.'
-#    # tag - DB chosen but special option 'tag_remove_prefix' set
-#    if model.csv_remove_tag == 'tag_remove_prefix' and model.csv_default_tag:
-#        validation_errors['csv_remove_tag'] = 'Removing tags with prefix is only available when setting tags from CSV.'
+    # tag - CSV chosen and prefix and / or prefix delimiter not set
+    if model.csv_choice_tag and (not model.csv_tag_prefix or not model.csv_tag_prefix_delimiter):
+        # if function was called from 'system_instant' or 'system_upload'
+        if request:
+            # call message
+            messages.error(request, "Choose prefix and delimiter for tag import from CSV to distinguish between manual set tags.")
+        # call logger
+        error_logger(username, " SYSTEM_IMPORTER_FILE_CSV tag prefix and / or tag delimiter not set")
+        # set stop condition
+        stop_system_importer_file_csv = True
+    # tag - DB chosen and prefix and / or prefix delimiter chosen
+    if model.csv_default_tag.all() and (model.csv_tag_prefix or model.csv_tag_prefix_delimiter):
+        # if function was called from 'system_instant' or 'system_upload'
+        if request:
+            # call message
+            messages.error(request, "Prefix and delimiter are not available when setting tags from database.")
+        # call logger
+        error_logger(username, " SYSTEM_IMPORTER_FILE_CSV tag prefix and / or tag delimiter not compatible with csv_default_tag")
+        # set stop condition
+        stop_system_importer_file_csv = True
+    # tag - DB chosen but special option 'tag_remove_prefix' set
+    if model.csv_remove_tag == 'tag_remove_prefix' and model.csv_default_tag.all():
+        # if function was called from 'system_instant' or 'system_upload'
+        if request:
+            # call message
+            messages.error(request, "Removing tags with prefix is only available when setting tags from CSV.")
+        # call logger
+        error_logger(username, " SYSTEM_IMPORTER_FILE_CSV remove tags with prefix not compatible with csv_default_tag")
+        # set stop condition
+        stop_system_importer_file_csv = True
 
     """ check if the column fields are different """
 
@@ -673,47 +692,72 @@ def check_config_attributes(model, request=None):
 
     """ check remove conditions in combination with skip condition """
 
-    # TODO: [code] rebuild
+    # reset error condition
+    remove_error = False
 
-#    # remove systemstatus
-#    if model.csv_skip_existing_system and model.csv_remove_systemstatus:
-#        validation_errors['csv_remove_systemstatus'] = 'This choice is only valid if existing systems are not skipped. Either disable this option or disable skipping existing systems.'
-#    # remove analysisstatus
-#    if model.csv_skip_existing_system and model.csv_remove_analysisstatus:
-#        validation_errors['csv_remove_analysisstatus'] = 'This choice is only valid if existing systems are not skipped. Either disable this option or disable skipping existing systems.'
-#    # remove ip
-#    if model.csv_skip_existing_system and model.csv_remove_ip:
-#        validation_errors['csv_remove_ip'] = 'This choice is only valid if existing systems are not skipped. Either disable this option or disable skipping existing systems.'
-#    # remove dnsname
-#    if model.csv_skip_existing_system and model.csv_remove_dnsname:
-#        validation_errors['csv_remove_dnsname'] = 'This choice is only valid if existing systems are not skipped. Either disable this option or disable skipping existing systems.'
-#    # remove domain
-#    if model.csv_skip_existing_system and model.csv_remove_domain:
-#        validation_errors['csv_remove_domain'] = 'This choice is only valid if existing systems are not skipped. Either disable this option or disable skipping existing systems.'
-#    # remove location
-#    if model.csv_skip_existing_system and model.csv_remove_location:
-#        validation_errors['csv_remove_location'] = 'This choice is only valid if existing systems are not skipped. Either disable this option or disable skipping existing systems.'
-#    # remove os
-#    if model.csv_skip_existing_system and model.csv_remove_os:
-#        validation_errors['csv_remove_os'] = 'This choice is only valid if existing systems are not skipped. Either disable this option or disable skipping existing systems.'
-#    # remove reason
-#    if model.csv_skip_existing_system and model.csv_remove_reason:
-#        validation_errors['csv_remove_reason'] = 'This choice is only valid if existing systems are not skipped. Either disable this option or disable skipping existing systems.'
-#    # remove recommendation
-#    if model.csv_skip_existing_system and model.csv_remove_recommendation:
-#        validation_errors['csv_remove_recommendation'] = 'This choice is only valid if existing systems are not skipped. Either disable this option or disable skipping existing systems.'
-#    # remove serviceprovider
-#    if model.csv_skip_existing_system and model.csv_remove_serviceprovider:
-#        validation_errors['csv_remove_serviceprovider'] = 'This choice is only valid if existing systems are not skipped. Either disable this option or disable skipping existing systems.'
-#    # remove systemtype
-#    if model.csv_skip_existing_system and model.csv_remove_systemtype:
-#        validation_errors['csv_remove_systemtype'] = 'This choice is only valid if existing systems are not skipped. Either disable this option or disable skipping existing systems.'
-#    # remove case
-#    if model.csv_skip_existing_system and model.csv_remove_case:
-#        validation_errors['csv_remove_case'] = 'This choice is only valid if existing systems are not skipped. Either disable this option or disable skipping existing systems.'
-#    # remove company
-#    if model.csv_skip_existing_system and model.csv_remove_company:
-#        validation_errors['csv_remove_company'] = 'This choice is only valid if existing systems are not skipped. Either disable this option or disable skipping existing systems.'
+    # remove systemstatus
+    if model.csv_skip_existing_system and model.csv_remove_systemstatus:
+        # set remove error
+        remove_error = True
+    # remove analysisstatus
+    if model.csv_skip_existing_system and model.csv_remove_analysisstatus:
+        # set remove error
+        remove_error = True
+    # remove ip
+    if model.csv_skip_existing_system and model.csv_remove_ip:
+        # set remove error
+        remove_error = True
+    # remove dnsname
+    if model.csv_skip_existing_system and model.csv_remove_dnsname:
+        # set remove error
+        remove_error = True
+    # remove domain
+    if model.csv_skip_existing_system and model.csv_remove_domain:
+        # set remove error
+        remove_error = True
+    # remove location
+    if model.csv_skip_existing_system and model.csv_remove_location:
+        # set remove error
+        remove_error = True
+    # remove os
+    if model.csv_skip_existing_system and model.csv_remove_os:
+        # set remove error
+        remove_error = True
+    # remove reason
+    if model.csv_skip_existing_system and model.csv_remove_reason:
+        # set remove error
+        remove_error = True
+    # remove recommendation
+    if model.csv_skip_existing_system and model.csv_remove_recommendation:
+        # set remove error
+        remove_error = True
+    # remove serviceprovider
+    if model.csv_skip_existing_system and model.csv_remove_serviceprovider:
+        # set remove error
+        remove_error = True
+    # remove systemtype
+    if model.csv_skip_existing_system and model.csv_remove_systemtype:
+        # set remove error
+        remove_error = True
+    # remove case
+    if model.csv_skip_existing_system and model.csv_remove_case:
+        # set remove error
+        remove_error = True
+    # remove company
+    if model.csv_skip_existing_system and model.csv_remove_company:
+        # set remove error
+        remove_error = True
+
+    # check previous checks for error - one message / log for all
+    if remove_error:
+        # if function was called from 'system_instant' or 'system_upload'
+        if request:
+            # call message
+            messages.error(request, "There is an error regarding removing existing attributes. Check config!")
+        # call logger
+        error_logger(username, " SYSTEM_IMPORTER_FILE_CSV remove attributes misconfigured ")
+        # set stop condition
+        stop_system_importer_file_csv = True
 
     return stop_system_importer_file_csv
 
