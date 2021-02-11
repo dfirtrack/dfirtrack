@@ -1,4 +1,6 @@
-from dfirtrack_main.models import Case, Company, Dnsname, Domain, Location, Ip, Os, Reason, Recommendation, Serviceprovider, Systemtype, Tag, Tagcolor
+from dfirtrack_main.importer.file.csv_attributes_check import check_and_create_ip
+from dfirtrack_main.models import Case, Company, Dnsname, Domain, Location, Os, Reason, Recommendation, Serviceprovider, Systemtype, Tag, Tagcolor
+
 
 def create_lock_tags(model):
 
@@ -27,7 +29,7 @@ def create_lock_tags(model):
     if created:
         tag_lock_analysisstatus.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_TAG_CREATED")
 
-def add_fk_attributes(system, system_created, model, row):
+def add_fk_attributes(system, system_created, model, row, request=None):
     """ add foreign key relationships to system """
 
     """ systemstatus """
@@ -289,17 +291,15 @@ def add_fk_attributes(system, system_created, model, row):
     # return system with foreign key relations
     return system
 
-def add_many2many_attributes(system, system_created, model, row):
+def add_many2many_attributes(system, system_created, model, row, row_counter, request=None):
     """ add many2many relationships to system """
 
     # TODO: [config] csv_check_data.run_check_content_attributes
     # TODO: [config] add checks for content of 'csv_column_...'
     # TODO: [config] do something like: 'try: ...get_or_create(...)'
+    # TODO: [config] possibly rename 'csv_attributes_check.check_and_create_ip'
 
     """ IP addresses """
-
-    # TODO: [config] add additional check for IP
-    # TODO: [config] former function 'csv_set_system_attributes.check_and_create_ip'
 
     # add ips for new system or change if remove old is set
     if system_created or (not system_created and model.csv_remove_ip):
@@ -324,13 +324,18 @@ def add_many2many_attributes(system, system_created, model, row):
                 ip_list = ip_string.split(ip_delimiter)
                 # iterate over list elements
                 for ip_ip in ip_list:
-                    # get or create ip
-                    ip, created = Ip.objects.get_or_create(ip_ip = ip_ip)
-                    # call logger if created
-                    if created:
-                        ip.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_IP_CREATED")
-                    # add ip to system
-                    system.ip.add(ip)
+                    # if function was called from 'system_instant' and 'system_upload'
+                    if request:
+                        # check, get or create ip
+                        ip = check_and_create_ip(ip_ip, row_counter, request)
+                    # if function was called from 'system_cron'
+                    else:
+                        # check, get or create ip
+                        ip = check_and_create_ip(ip_ip, row_counter)
+                    # ip was returned from 'check_and_create_ip'
+                    if ip:
+                        # add ip to system
+                        system.ip.add(ip)
 
     """ case """
 

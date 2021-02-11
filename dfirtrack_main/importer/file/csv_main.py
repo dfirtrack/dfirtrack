@@ -2,7 +2,7 @@ import csv
 from django.contrib import messages
 from django.utils import timezone
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
-from dfirtrack_main.importer.file.csv_add_attributes import add_fk_attributes, add_many2many_attributes, create_lock_tags
+from dfirtrack_main.importer.file.csv_attributes_add import add_fk_attributes, add_many2many_attributes, create_lock_tags
 from dfirtrack_main.importer.file.csv_checks import check_content_file_type
 from dfirtrack_main.importer.file.csv_messages import final_messages
 from dfirtrack_main.logger.default_logger import info_logger, warning_logger
@@ -169,14 +169,26 @@ def system_handler(request=None, uploadfile=False):
             # set value for already existing system (modify system)
             system_created = False
 
-            # add foreign key relationships to system
-            system = add_fk_attributes(system, system_created, model, row)
+            # if function was called from 'system_instant' and 'system_upload'
+            if request:
+                # add foreign key relationships to system
+                system = add_fk_attributes(system, system_created, model, row, request)
+            # if function was called from 'system_cron'
+            else:
+                # add foreign key relationships to system
+                system = add_fk_attributes(system, system_created, model, row)
 
             # save object
             system.save()
 
-            # add many2many relationships to system
-            system = add_many2many_attributes(system, system_created, model, row)
+            # if function was called from 'system_instant' and 'system_upload'
+            if request:
+                # add many2many relationships to system
+                system = add_many2many_attributes(system, system_created, model, row, row_counter, request)
+            # if function was called from 'system_cron'
+            else:
+                # add many2many relationships to system
+                system = add_many2many_attributes(system, system_created, model, row, row_counter)
 
             # autoincrement systems_updated_counter
             systems_updated_counter += 1
@@ -215,14 +227,26 @@ def system_handler(request=None, uploadfile=False):
             # set value for new system (create system)
             system_created = True
 
-            # add foreign key relationships to system
-            system = add_fk_attributes(system, system_created, model, row)
+            # if function was called from 'system_instant' and 'system_upload'
+            if request:
+                # add foreign key relationships to system
+                system = add_fk_attributes(system, system_created, model, row, request)
+            # if function was called from 'system_cron'
+            else:
+                # add foreign key relationships to system
+                system = add_fk_attributes(system, system_created, model, row)
 
             # save object
             system.save()
 
-            # add many2many relationships to system
-            system = add_many2many_attributes(system, system_created, model, row)
+            # if function was called from 'system_instant' and 'system_upload'
+            if request:
+                # add many2many relationships to system
+                system = add_many2many_attributes(system, system_created, model, row, row_counter, request)
+            # if function was called from 'system_cron'
+            else:
+                # add many2many relationships to system
+                system = add_many2many_attributes(system, system_created, model, row, row_counter)
 
             # autoincrement systems_created_counter
             systems_created_counter += 1
