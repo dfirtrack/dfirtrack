@@ -411,6 +411,8 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
             'csv_remove_systemstatus',
             'csv_default_analysisstatus',
             'csv_remove_analysisstatus',
+            'csv_tag_lock_systemstatus',
+            'csv_tag_lock_analysisstatus',
             'csv_choice_ip',
             'csv_column_ip',
             'csv_remove_ip',
@@ -474,6 +476,8 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
             'csv_import_filename': 'File name of CSV file (*)',
             'csv_remove_systemstatus': 'Overwrite for existing systems',
             'csv_remove_analysisstatus': 'Overwrite for existing systems',
+            'csv_tag_lock_systemstatus': 'Tag that preserves systemstatus (*)',
+            'csv_tag_lock_analysisstatus': 'Tag that preserves analysisstatus (*)',
             'csv_choice_ip': 'Set from CSV',
             'csv_column_ip': 'CSV column',
             'csv_remove_ip': 'Overwrite for existing systems',
@@ -537,6 +541,16 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
                 attrs={
                     'size': '50',
                     'style': 'font-family: monospace',
+                },
+            ),
+            'csv_tag_lock_systemstatus': forms.TextInput(
+                attrs={
+                    'size': '20',
+                },
+            ),
+            'csv_tag_lock_systemstatus': forms.TextInput(
+                attrs={
+                    'size': '20',
                 },
             ),
             'csv_column_ip': forms.NumberInput(
