@@ -1,7 +1,8 @@
-from rest_framework.schemas.openapi import SchemaGenerator as JSONAPISchemaGenerator
+from rest_framework.schemas.openapi import SchemaGenerator 
 from dfirtrack_main.templatetags.dfirtrack_main_tags import dfirtrack_version
 
-class SchemaGenerator(JSONAPISchemaGenerator):
+
+class DFIRTrackSchemaGenerator(SchemaGenerator):
     """
     Extend the schema to include some documentation and override not-yet-implemented security, this has been
     copied from https://columbia-it-django-jsonapi-training.readthedocs.io/en/latest/documenting-api/.
@@ -10,9 +11,9 @@ class SchemaGenerator(JSONAPISchemaGenerator):
     def get_schema(self, request, public):
         schema = super().get_schema(request, public)
         schema['info'] = {
-            'version': dfirtrack_version(),
             'title': 'DFIRTrack',
             'description': 'OpenAPI 3 - Documentation of DFIRTrack API',
+            'version': dfirtrack_version(),
         }
         # temporarily add securitySchemes until implemented upstream
         if 'securitySchemes' not in schema['components']:
@@ -24,6 +25,7 @@ class SchemaGenerator(JSONAPISchemaGenerator):
                 },
                 'bearerAuth': {
                     'type': 'http',
+                    'scheme': 'bearer',
                     'name': 'Token',
                     'description': 'API Token authentication'
                 },
