@@ -1,7 +1,9 @@
 from django.urls import re_path
 from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework.schemas import get_schema_view
+from rest_framework.authtoken.views import obtain_auth_token
 from dfirtrack_api.views import dfirtrack_artifacts, dfirtrack_main
+from dfirtrack_api.openapi.dfirtrack_openapi import DFIRTrackSchemaGenerator
 
 urlpatterns = [
 
@@ -64,14 +66,11 @@ urlpatterns = [
     re_path(r'^taskpriority/(?P<pk>\d+)/$', dfirtrack_main.TaskpriorityDetailApi.as_view()),
     re_path(r'^taskstatus/$', dfirtrack_main.TaskstatusListApi.as_view()),
     re_path(r'^taskstatus/(?P<pk>\d+)/$', dfirtrack_main.TaskstatusDetailApi.as_view()),
-
+    # Token Authentication
+    re_path(r'^token-auth/$', obtain_auth_token),
     # openapi
-    re_path(r'^openapi/$', get_schema_view(
-            title="DFIRTrack",
-            description="OpenAPI 3 - Documentation of DFIRTrack API",
-            version="0.4.1",
+    re_path(r'^openapi/$', get_schema_view(generator_class=DFIRTrackSchemaGenerator,
             public=True,
         ), name='openapi-schema'),
 ]
-
 urlpatterns = format_suffix_patterns(urlpatterns)
