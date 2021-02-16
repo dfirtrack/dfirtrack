@@ -24,7 +24,7 @@ class DFIRTrackOpenAPIViewTestCase(TestCase):
         """ GET is allowed """
 
         # login test user
-        response = self.client.login(usermame='testuser_openapi_api_1', password='ZxMzUqYU6mrDzO9q')
+        response = self.client.login(username='testuser_openapi_api_1', password='ZxMzUqYU6mrDzO9q')
         # get response
         response = self.client.get('/api/openapi/')
         # compare
