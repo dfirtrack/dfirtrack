@@ -110,11 +110,6 @@ def system_handler(request=None, uploadfile=False):
     # iterate over rows
     for row in rows:
 
-        # TODO: [config] csv_check_data.run_check_content_attributes
-        # TODO: [config] check configured fields in row for valid values
-        # TODO: [config] either called from here or directly from attribute functions
-        # TODO: [config] some checks might be called from 'add_fk_attributes' or 'add_many2many_attributes'
-
         """ skip headline if necessary """
 
         # check for first row and headline condition
@@ -172,11 +167,11 @@ def system_handler(request=None, uploadfile=False):
             # if function was called from 'system_instant' and 'system_upload'
             if request:
                 # add foreign key relationships to system
-                system = add_fk_attributes(system, system_created, model, row, request)
+                system = add_fk_attributes(system, system_created, model, row, row_counter, request)
             # if function was called from 'system_cron'
             else:
                 # add foreign key relationships to system
-                system = add_fk_attributes(system, system_created, model, row)
+                system = add_fk_attributes(system, system_created, model, row, row_counter)
 
             # save object
             system.save()
@@ -230,11 +225,11 @@ def system_handler(request=None, uploadfile=False):
             # if function was called from 'system_instant' and 'system_upload'
             if request:
                 # add foreign key relationships to system
-                system = add_fk_attributes(system, system_created, model, row, request)
+                system = add_fk_attributes(system, system_created, model, row, row_counter, request)
             # if function was called from 'system_cron'
             else:
                 # add foreign key relationships to system
-                system = add_fk_attributes(system, system_created, model, row)
+                system = add_fk_attributes(system, system_created, model, row, row_counter)
 
             # save object
             system.save()

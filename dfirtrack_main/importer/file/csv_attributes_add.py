@@ -1,4 +1,7 @@
+from django.contrib import messages
+from django.db import DataError
 from dfirtrack_main.importer.file.csv_attributes_check import check_and_create_ip
+from dfirtrack_main.logger.default_logger import warning_logger
 from dfirtrack_main.models import Case, Company, Dnsname, Domain, Location, Os, Reason, Recommendation, Serviceprovider, Systemtype, Tag, Tagcolor
 
 
@@ -8,6 +11,8 @@ def create_lock_tags(model):
     tagcolor_white = Tagcolor.objects.get(tagcolor_name = 'white')
 
     """ lock systemstatus """
+
+    # TODO: [code] check for existing tag with other color
 
     # get or create lock systemstatus tag
     tag_lock_systemstatus, created = Tag.objects.get_or_create(
@@ -20,6 +25,8 @@ def create_lock_tags(model):
 
     """ lock analysisstatus """
 
+    # TODO: [code] check for existing tag with other color
+
     # get or create lock analysisstatus tag
     tag_lock_analysisstatus, created = Tag.objects.get_or_create(
         tag_name = model.csv_tag_lock_analysisstatus,
@@ -29,7 +36,7 @@ def create_lock_tags(model):
     if created:
         tag_lock_analysisstatus.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_TAG_CREATED")
 
-def add_fk_attributes(system, system_created, model, row, request=None):
+def add_fk_attributes(system, system_created, model, row, row_counter, request=None):
     """ add foreign key relationships to system """
 
     """ systemstatus """
@@ -68,10 +75,6 @@ def add_fk_attributes(system, system_created, model, row, request=None):
                 # change to default analysisstatus for existing system
                 system.analysisstatus = model.csv_default_analysisstatus
 
-    # TODO: [config] csv_check_data.run_check_content_attributes
-    # TODO: [config] add checks for content of 'csv_column_...'
-    # TODO: [config] do something like: 'try: ...get_or_create(...)'
-
     """ dnsname """
 
     # set dnsname for new system or change if remove old is set
@@ -82,11 +85,23 @@ def add_fk_attributes(system, system_created, model, row, request=None):
             dnsname_name = row[model.csv_column_dnsname - 1]
             # check for empty string
             if dnsname_name:
-                # get or create dnsname
-                dnsname, created = Dnsname.objects.get_or_create(dnsname_name = dnsname_name)
-                # call logger if created
-                if created:
-                    dnsname.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_DNSNAME_CREATED")
+                # value is valid
+                try:
+                    # get or create dnsname
+                    dnsname, created = Dnsname.objects.get_or_create(dnsname_name = dnsname_name)
+                    # call logger if created
+                    if created:
+                        dnsname.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_DNSNAME_CREATED")
+                # value is not valid
+                except DataError:
+                    # if function was called from 'system_instant' and 'system_upload'
+                    if request:
+                        # call message
+                        messages.warning(request, "Value for DNS name in row " + str(row_counter) + " was not a valid value.")
+                    # call logger
+                    warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_DNSNAME_COLUMN " + "row_" + str(row_counter) + ":invalid_dnsname")
+                    # set empty value
+                    dnsname = None
             else:
                 # set empty value (field is empty)
                 dnsname = None
@@ -109,11 +124,23 @@ def add_fk_attributes(system, system_created, model, row, request=None):
             domain_name = row[model.csv_column_domain - 1]
             # check for empty string and compare to system name (when queried with local account, hostname is returned under some circumstances depending on tool)
             if domain_name and domain_name != system.system_name:
-                # get or create domain
-                domain, created = Domain.objects.get_or_create(domain_name = domain_name)
-                # call logger if created
-                if created:
-                    domain.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_DOMAIN_CREATED")
+                # value is valid
+                try:
+                    # get or create domain
+                    domain, created = Domain.objects.get_or_create(domain_name = domain_name)
+                    # call logger if created
+                    if created:
+                        domain.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_DOMAIN_CREATED")
+                # value is not valid
+                except DataError:
+                    # if function was called from 'system_instant' and 'system_upload'
+                    if request:
+                        # call message
+                        messages.warning(request, "Value for domain in row " + str(row_counter) + " was not a valid value.")
+                    # call logger
+                    warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_DOMAIN_COLUMN " + "row_" + str(row_counter) + ":invalid_domain")
+                    # set empty value
+                    domain = None
             else:
                 # set empty value (field is empty)
                 domain = None
@@ -136,11 +163,23 @@ def add_fk_attributes(system, system_created, model, row, request=None):
             location_name = row[model.csv_column_location - 1]
             # check for empty string
             if location_name:
-                # get or create location
-                location, created = Location.objects.get_or_create(location_name = location_name)
-                # call logger if created
-                if created:
-                    location.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_LOCATION_CREATED")
+                # value is valid
+                try:
+                    # get or create location
+                    location, created = Location.objects.get_or_create(location_name = location_name)
+                    # call logger if created
+                    if created:
+                        location.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_LOCATION_CREATED")
+                # value is not valid
+                except DataError:
+                    # if function was called from 'system_instant' and 'system_upload'
+                    if request:
+                        # call message
+                        messages.warning(request, "Value for location in row " + str(row_counter) + " was not a valid value.")
+                    # call logger
+                    warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_LOCATION_COLUMN " + "row_" + str(row_counter) + ":invalid_location")
+                    # set empty value
+                    location = None
             else:
                 # set empty value (field is empty)
                 location = None
@@ -163,11 +202,23 @@ def add_fk_attributes(system, system_created, model, row, request=None):
             os_name = row[model.csv_column_os - 1]
             # check for empty string
             if os_name:
-                # get or create os
-                os, created = Os.objects.get_or_create(os_name = os_name)
-                # call logger if created
-                if created:
-                    os.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_OS_CREATED")
+                # value is valid
+                try:
+                    # get or create os
+                    os, created = Os.objects.get_or_create(os_name = os_name)
+                    # call logger if created
+                    if created:
+                        os.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_OS_CREATED")
+                # value is not valid
+                except DataError:
+                    # if function was called from 'system_instant' and 'system_upload'
+                    if request:
+                        # call message
+                        messages.warning(request, "Value for OS in row " + str(row_counter) + " was not a valid value.")
+                    # call logger
+                    warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_OS_COLUMN " + "row_" + str(row_counter) + ":invalid_os")
+                    # set empty value
+                    os = None
             else:
                 # set empty value (field is empty)
                 os = None
@@ -190,11 +241,23 @@ def add_fk_attributes(system, system_created, model, row, request=None):
             reason_name = row[model.csv_column_reason - 1]
             # check for empty string
             if reason_name:
-                # get or create reason
-                reason, created = Reason.objects.get_or_create(reason_name = reason_name)
-                # call logger if created
-                if created:
-                    reason.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_REASON_CREATED")
+                # value is valid
+                try:
+                    # get or create reason
+                    reason, created = Reason.objects.get_or_create(reason_name = reason_name)
+                    # call logger if created
+                    if created:
+                        reason.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_REASON_CREATED")
+                # value is not valid
+                except DataError:
+                    # if function was called from 'system_instant' and 'system_upload'
+                    if request:
+                        # call message
+                        messages.warning(request, "Value for reason in row " + str(row_counter) + " was not a valid value.")
+                    # call logger
+                    warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_REASON_COLUMN " + "row_" + str(row_counter) + ":invalid_reason")
+                    # set empty value
+                    reason = None
             else:
                 # set empty value (field is empty)
                 reason = None
@@ -217,11 +280,23 @@ def add_fk_attributes(system, system_created, model, row, request=None):
             recommendation_name = row[model.csv_column_recommendation - 1]
             # check for empty string
             if recommendation_name:
-                # get or create recommendation
-                recommendation, created = Recommendation.objects.get_or_create(recommendation_name = recommendation_name)
-                # call logger if created
-                if created:
-                    recommendation.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_RECOMMENDATION_CREATED")
+                # value is valid
+                try:
+                    # get or create recommendation
+                    recommendation, created = Recommendation.objects.get_or_create(recommendation_name = recommendation_name)
+                    # call logger if created
+                    if created:
+                        recommendation.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_RECOMMENDATION_CREATED")
+                # value is not valid
+                except DataError:
+                    # if function was called from 'system_instant' and 'system_upload'
+                    if request:
+                        # call message
+                        messages.warning(request, "Value for recommendation in row " + str(row_counter) + " was not a valid value.")
+                    # call logger
+                    warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_RECOMMENDATION_COLUMN " + "row_" + str(row_counter) + ":invalid_recommendation")
+                    # set empty value
+                    recommendation = None
             else:
                 # set empty value (field is empty)
                 recommendation = None
@@ -244,11 +319,23 @@ def add_fk_attributes(system, system_created, model, row, request=None):
             serviceprovider_name = row[model.csv_column_serviceprovider - 1]
             # check for empty string
             if serviceprovider_name:
-                # get or create serviceprovider
-                serviceprovider, created = Serviceprovider.objects.get_or_create(serviceprovider_name = serviceprovider_name)
-                # call logger if created
-                if created:
-                    serviceprovider.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_SERVICEPROVIDER_CREATED")
+                # value is valid
+                try:
+                    # get or create serviceprovider
+                    serviceprovider, created = Serviceprovider.objects.get_or_create(serviceprovider_name = serviceprovider_name)
+                    # call logger if created
+                    if created:
+                        serviceprovider.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_SERVICEPROVIDER_CREATED")
+                # value is not valid
+                except DataError:
+                    # if function was called from 'system_instant' and 'system_upload'
+                    if request:
+                        # call message
+                        messages.warning(request, "Value for serviceprovider in row " + str(row_counter) + " was not a valid value.")
+                    # call logger
+                    warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_SERVICEPROVIDER_COLUMN " + "row_" + str(row_counter) + ":invalid_serviceprovider")
+                    # set empty value
+                    serviceprovider = None
             else:
                 # set empty value (field is empty)
                 serviceprovider = None
@@ -271,11 +358,23 @@ def add_fk_attributes(system, system_created, model, row, request=None):
             systemtype_name = row[model.csv_column_systemtype - 1]
             # check for empty string
             if systemtype_name:
-                # get or create systemtype
-                systemtype, created = Systemtype.objects.get_or_create(systemtype_name = systemtype_name)
-                # call logger if created
-                if created:
-                    systemtype.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_SYSTEMTYPE_CREATED")
+                # value is valid
+                try:
+                    # get or create systemtype
+                    systemtype, created = Systemtype.objects.get_or_create(systemtype_name = systemtype_name)
+                    # call logger if created
+                    if created:
+                        systemtype.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_SYSTEMTYPE_CREATED")
+                # value is not valid
+                except DataError:
+                    # if function was called from 'system_instant' and 'system_upload'
+                    if request:
+                        # call message
+                        messages.warning(request, "Value for systemtype in row " + str(row_counter) + " was not a valid value.")
+                    # call logger
+                    warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_SYSTEMTYPE_COLUMN " + "row_" + str(row_counter) + ":invalid_systemtype")
+                    # set empty value
+                    systemtype = None
             else:
                 # set empty value (field is empty)
                 systemtype = None
@@ -294,22 +393,18 @@ def add_fk_attributes(system, system_created, model, row, request=None):
 def add_many2many_attributes(system, system_created, model, row, row_counter, request=None):
     """ add many2many relationships to system """
 
-    # TODO: [config] csv_check_data.run_check_content_attributes
-    # TODO: [config] add checks for content of 'csv_column_...'
-    # TODO: [config] do something like: 'try: ...get_or_create(...)'
-    # TODO: [config] possibly rename 'csv_attributes_check.check_and_create_ip'
 
     """ IP addresses """
 
-    # add ips for new system or change if remove old is set
+    # add IPs for new system or change if remove old is set
     if system_created or (not system_created and model.csv_remove_ip):
-        # remove ips if not new system
+        # remove IPs if not new system
         if not system_created:
             # remove all IPs
             system.ip.clear()
         # get IPs from CSV
         if model.csv_choice_ip:
-            # get ip string
+            # get IP string
             ip_string = row[model.csv_column_ip - 1]
             # check for empty string
             if ip_string:
@@ -320,24 +415,26 @@ def add_many2many_attributes(system, system_created, model, row, row_counter, re
                     ip_delimiter = ';'
                 elif model.csv_ip_delimiter == 'ip_space':
                     ip_delimiter = ' '
-                # split ip string to list depending on delimiter
+                # split IP string to list depending on delimiter
                 ip_list = ip_string.split(ip_delimiter)
                 # iterate over list elements
                 for ip_ip in ip_list:
                     # if function was called from 'system_instant' and 'system_upload'
                     if request:
-                        # check, get or create ip
+                        # check, get or create IP
                         ip = check_and_create_ip(ip_ip, row_counter, request)
                     # if function was called from 'system_cron'
                     else:
-                        # check, get or create ip
+                        # check, get or create IP
                         ip = check_and_create_ip(ip_ip, row_counter)
-                    # ip was returned from 'check_and_create_ip'
+                    # IP was returned from 'check_and_create_ip'
                     if ip:
                         # add ip to system
                         system.ip.add(ip)
 
     """ case """
+
+    # TODO: [config] add checks for content of 'csv_column_...'
 
     # set case for new system or change if remove old is set
     if system_created or (not system_created and model.csv_remove_case):
@@ -377,6 +474,8 @@ def add_many2many_attributes(system, system_created, model, row, row_counter, re
 
     """ company """
 
+    # TODO: [config] add checks for content of 'csv_column_...'
+
     # set company for new system or change if remove old is set
     if system_created or (not system_created and model.csv_remove_company):
         # remove companies if not new system
@@ -404,6 +503,8 @@ def add_many2many_attributes(system, system_created, model, row, row_counter, re
                 system.company.add(company)
 
     """ tag """
+
+    # TODO: [config] add checks for content of 'csv_column_...'
 
     # set tag for new system or change if remove old is set
     if system_created or (not system_created and model.csv_remove_tag != 'tag_remove_none'):
