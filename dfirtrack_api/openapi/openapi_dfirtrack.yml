@@ -1,8 +1,8 @@
 openapi: 3.0.2
 info:
   title: DFIRTrack
-  version: 0.4.1
   description: OpenAPI 3 - Documentation of DFIRTrack API
+  version: v0.4.7
 paths:
   /api/artifact/:
     get:
@@ -2860,9 +2860,31 @@ paths:
           description: ''
       tags:
       - api
-
-security:
-  - BasicAuth: []
+  /api/token-auth/:
+    post:
+      operationId: createAuthToken
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AuthToken'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AuthToken'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthToken'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthToken'
+          description: ''
+      tags:
+      - api
 components:
   schemas:
     Artifact:
@@ -3391,7 +3413,7 @@ components:
           readOnly: true
         taskpriority_name:
           type: string
-          maxLength: 6
+          maxLength: 50
       required:
       - taskpriority_name
     Taskstatus:
@@ -3405,9 +3427,31 @@ components:
           maxLength: 50
       required:
       - taskstatus_name
-
+    AuthToken:
+      type: object
+      properties:
+        username:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+        token:
+          type: string
+          readOnly: true
+      required:
+      - username
+      - password
   securitySchemes:
-    BasicAuth:
+    basicAuth:
       type: http
-      description: HTTP Basic Authentication for DFIRTrack API.
       scheme: basic
+      description: basic authentication
+    bearerAuth:
+      type: http
+      scheme: bearer
+      name: Token
+      description: API Token authentication
+security:
+- basicAuth: []
+- bearerAuth: []
