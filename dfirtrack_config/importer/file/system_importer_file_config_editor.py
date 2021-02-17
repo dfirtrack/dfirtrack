@@ -11,7 +11,7 @@ import os
 @login_required(login_url="/login")
 def system_importer_file_csv_config_view(request):
 
-    # form was valid to post
+    # POST request
     if request.method == "POST":
 
         # get config model
@@ -53,6 +53,11 @@ def system_importer_file_csv_config_view(request):
                     # create message
                     messages.warning(request, 'CSV import file is empty. Make sure the file contains systems during import.')
 
+            # show warning if existing systems will be updated
+            if not model.csv_skip_existing_system:
+                # call message
+                messages.warning(request, 'WARNING: Existing systems will be updated!')
+
             # close popup
             return HttpResponse('<script type="text/javascript">window.close();</script>')
 
@@ -66,6 +71,7 @@ def system_importer_file_csv_config_view(request):
                 }
             )
 
+    # GET request
     else:
 
         # get config model
