@@ -26,7 +26,7 @@ def create_lock_tags(model):
         )
         # call logger
         if created:
-            tag_lock_systemstatus.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_TAG_CREATED")
+            tag_lock_systemstatus.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_TAG_CREATED")
 
     """ lock analysisstatus """
 
@@ -44,7 +44,7 @@ def create_lock_tags(model):
         )
         # call logger
         if created:
-            tag_lock_analysisstatus.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_CRON_TAG_CREATED")
+            tag_lock_analysisstatus.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_TAG_CREATED")
 
 def add_fk_attributes(system, system_created, model, row, row_counter, request=None):
     """ add foreign key relationships to system """
@@ -110,7 +110,7 @@ def add_fk_attributes(system, system_created, model, row, row_counter, request=N
                     dnsname, created = Dnsname.objects.get_or_create(dnsname_name = dnsname_name)
                     # call logger if created
                     if created:
-                        dnsname.logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_CRON_DNSNAME_CREATED")
+                        dnsname.logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_DNSNAME_CREATED")
                 # value is not valid
                 except DataError:
                     # if function was called from 'system_instant' and 'system_upload'
@@ -149,7 +149,7 @@ def add_fk_attributes(system, system_created, model, row, row_counter, request=N
                     domain, created = Domain.objects.get_or_create(domain_name = domain_name)
                     # call logger if created
                     if created:
-                        domain.logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_CRON_DOMAIN_CREATED")
+                        domain.logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_DOMAIN_CREATED")
                 # value is not valid
                 except DataError:
                     # if function was called from 'system_instant' and 'system_upload'
@@ -188,7 +188,7 @@ def add_fk_attributes(system, system_created, model, row, row_counter, request=N
                     location, created = Location.objects.get_or_create(location_name = location_name)
                     # call logger if created
                     if created:
-                        location.logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_CRON_LOCATION_CREATED")
+                        location.logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_LOCATION_CREATED")
                 # value is not valid
                 except DataError:
                     # if function was called from 'system_instant' and 'system_upload'
@@ -227,7 +227,7 @@ def add_fk_attributes(system, system_created, model, row, row_counter, request=N
                     os, created = Os.objects.get_or_create(os_name = os_name)
                     # call logger if created
                     if created:
-                        os.logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_CRON_OS_CREATED")
+                        os.logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_OS_CREATED")
                 # value is not valid
                 except DataError:
                     # if function was called from 'system_instant' and 'system_upload'
@@ -266,7 +266,7 @@ def add_fk_attributes(system, system_created, model, row, row_counter, request=N
                     reason, created = Reason.objects.get_or_create(reason_name = reason_name)
                     # call logger if created
                     if created:
-                        reason.logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_CRON_REASON_CREATED")
+                        reason.logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_REASON_CREATED")
                 # value is not valid
                 except DataError:
                     # if function was called from 'system_instant' and 'system_upload'
@@ -305,7 +305,7 @@ def add_fk_attributes(system, system_created, model, row, row_counter, request=N
                     recommendation, created = Recommendation.objects.get_or_create(recommendation_name = recommendation_name)
                     # call logger if created
                     if created:
-                        recommendation.logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_CRON_RECOMMENDATION_CREATED")
+                        recommendation.logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_RECOMMENDATION_CREATED")
                 # value is not valid
                 except DataError:
                     # if function was called from 'system_instant' and 'system_upload'
@@ -344,7 +344,7 @@ def add_fk_attributes(system, system_created, model, row, row_counter, request=N
                     serviceprovider, created = Serviceprovider.objects.get_or_create(serviceprovider_name = serviceprovider_name)
                     # call logger if created
                     if created:
-                        serviceprovider.logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_CRON_SERVICEPROVIDER_CREATED")
+                        serviceprovider.logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_SERVICEPROVIDER_CREATED")
                 # value is not valid
                 except DataError:
                     # if function was called from 'system_instant' and 'system_upload'
@@ -383,7 +383,7 @@ def add_fk_attributes(system, system_created, model, row, row_counter, request=N
                     systemtype, created = Systemtype.objects.get_or_create(systemtype_name = systemtype_name)
                     # call logger if created
                     if created:
-                        systemtype.logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_CRON_SYSTEMTYPE_CREATED")
+                        systemtype.logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_SYSTEMTYPE_CREATED")
                 # value is not valid
                 except DataError:
                     # if function was called from 'system_instant' and 'system_upload'
@@ -495,7 +495,7 @@ def add_many2many_attributes(system, system_created, model, row, row_counter, re
                         )
                         # call logger if created
                         if created:
-                            case.logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_CRON_CASE_CREATED")
+                            case.logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_CASE_CREATED")
                     # value is not valid
                     except DataError:
                         # if function was called from 'system_instant' and 'system_upload'
@@ -537,7 +537,7 @@ def add_many2many_attributes(system, system_created, model, row, row_counter, re
                     company, created = Company.objects.get_or_create(company_name = company_name)
                     # call logger if created
                     if created:
-                        company.logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_CRON_COMPANY_CREATED")
+                        company.logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_COMPANY_CREATED")
                 # value is not valid
                 except DataError:
                     # if function was called from 'system_instant' and 'system_upload'
@@ -634,7 +634,7 @@ def add_many2many_attributes(system, system_created, model, row, row_counter, re
                             )
                             # call logger if created
                             if created:
-                                tag.logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_CRON_TAG_CREATED")
+                                tag.logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_TAG_CREATED")
                         # value is not valid
                         except DataError:
                             # if function was called from 'system_instant' and 'system_upload'

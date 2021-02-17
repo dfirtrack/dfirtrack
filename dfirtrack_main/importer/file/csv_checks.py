@@ -25,7 +25,7 @@ def check_config_cron_user(model, request=None):
             # get cron username from main config (needed for logger if no user was defined in the proper config)
             logger_username = mainconfigmodel.cron_username
         # call logger
-        error_logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_CRON_NO_USER_DEFINED")
+        error_logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_NO_USER_DEFINED")
         # set stop condition
         stop_system_importer_file_csv = True
 
@@ -57,7 +57,7 @@ def check_content_file_system(model, request=None):
             # call messsage
             messages.error(request, "CSV import path does not exist. Check config or file system!")
         # call logger
-        error_logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_CRON_PATH_NOT_EXISTING")
+        error_logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_PATH_NOT_EXISTING")
         # set stop condition
         stop_system_importer_file_csv = True
     else:
@@ -68,7 +68,7 @@ def check_content_file_system(model, request=None):
                 # call messsage
                 messages.error(request, "No read permission for CSV import path. Check config or file system!")
             # call logger
-            error_logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_CRON_PATH_NO_READ_PERMISSION")
+            error_logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_PATH_NO_READ_PERMISSION")
             # set stop condition
             stop_system_importer_file_csv = True
         else:
@@ -79,7 +79,7 @@ def check_content_file_system(model, request=None):
                     # call messsage
                     messages.error(request, "CSV import file does not exist. Check config or provide file!")
                 # call logger
-                error_logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_CRON_FILE_NOT_EXISTING")
+                error_logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_FILE_NOT_EXISTING")
                 # set stop condition
                 stop_system_importer_file_csv = True
             else:
@@ -90,7 +90,7 @@ def check_content_file_system(model, request=None):
                         # call messsage
                         messages.error(request, "No read permission for CSV import file. Check config or file system!")
                     # call logger
-                    error_logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_CRON_FILE_NO_READ_PERMISSION")
+                    error_logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_FILE_NO_READ_PERMISSION")
                     # set stop condition
                     stop_system_importer_file_csv = True
                 else:
@@ -101,7 +101,7 @@ def check_content_file_system(model, request=None):
                             # call messsage
                             messages.error(request, "CSV import file is empty. Check config or file system!")
                         # call logger
-                        error_logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_CRON_FILE_EMPTY")
+                        error_logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_FILE_EMPTY")
                         # set stop condition
                         stop_system_importer_file_csv = True
 

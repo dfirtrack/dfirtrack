@@ -34,7 +34,7 @@ def system_handler(request=None, uploadfile=False):
     """ start system importer """
 
     # call logger
-    info_logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_CRON_BEGAN")
+    info_logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_BEGAN")
 
     # create lock tags
     create_lock_tags(model)
@@ -210,7 +210,7 @@ def system_handler(request=None, uploadfile=False):
             systems_updated_counter += 1
 
             # call logger
-            system.logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_CRON_SYSTEM_MODIFIED")
+            system.logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_SYSTEM_MODIFIED")
 
         # if there is more than one system
         elif len(systemquery) > 1:
@@ -224,7 +224,7 @@ def system_handler(request=None, uploadfile=False):
             systems_multiple_counter += 1
 
             # call logger
-            warning_logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_CRON_MULTIPLE_SYSTEMS " + "System:" + system_name)
+            warning_logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_MULTIPLE_SYSTEMS " + "System:" + system_name)
 
         # if there is no system -> create system
         else:
@@ -268,7 +268,7 @@ def system_handler(request=None, uploadfile=False):
             systems_created_counter += 1
 
             # call logger
-            system.logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_CRON_SYSTEM_CREATED")
+            system.logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_SYSTEM_CREATED")
 
         # autoincrement row counter
         row_counter += 1
@@ -288,8 +288,8 @@ def system_handler(request=None, uploadfile=False):
         pass
 
     # call logger
-    info_logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_CRON_STATUS " + "created:" + str(systems_created_counter) + "|" + "updated:" + str(systems_updated_counter) + "|" + "skipped:" + str(systems_skipped_counter) + "|" + "multiple:" + str(systems_multiple_counter))
-    info_logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_CRON_END")
+    info_logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_STATUS " + "created:" + str(systems_created_counter) + "|" + "updated:" + str(systems_updated_counter) + "|" + "skipped:" + str(systems_skipped_counter) + "|" + "multiple:" + str(systems_multiple_counter))
+    info_logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_END")
 
     # return to calling function 'csv.system_cron' or 'csv.system_instant' or 'csv.system_upload'
     return
