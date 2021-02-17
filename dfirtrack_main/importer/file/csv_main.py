@@ -87,8 +87,10 @@ def system_handler(request=None, uploadfile=False):
     elif not file_check and not request:
         pass
 
+
     # leave system_importer_file_csv if file check throws errors
     if not file_check:
+        # TODO: [logger] add error logger (either w/ or w/o request)
         # close file
         systemcsv.close()
         # return to calling function 'csv.system_cron' or 'csv.system_instant' or 'csv.system_upload'
