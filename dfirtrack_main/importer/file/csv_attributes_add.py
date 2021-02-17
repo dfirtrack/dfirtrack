@@ -406,7 +406,7 @@ def add_fk_attributes(system, system_created, model, row, row_counter, request=N
         # set systemtype for system
         system.systemtype = systemtype
 
-    # return system with foreign key relations
+    # return system with foreign key relations to 'csv_main.system_handler'
     return system
 
 def add_many2many_attributes(system, system_created, model, row, row_counter, request=None):
@@ -657,5 +657,5 @@ def add_many2many_attributes(system, system_created, model, row, row_counter, re
                 # add tag to system
                 system.tag.add(tag)
 
-    # return system with many2many relations
+    # return system with many2many relations to 'csv_main.system_handler'
     return system

@@ -29,7 +29,7 @@ def check_config_cron_user(model, request=None):
         # set stop condition
         stop_system_importer_file_csv = True
 
-    # return stop condition
+    # return stop condition to 'csv.system_create_cron' or 'csv.system_cron'
     return stop_system_importer_file_csv
 
 def check_content_file_system(model, request=None):
@@ -105,7 +105,7 @@ def check_content_file_system(model, request=None):
                         # set stop condition
                         stop_system_importer_file_csv = True
 
-    # return stop condition
+    # return stop condition to 'csv.system_create_cron' or 'csv.system_cron' or 'csv.system_instant'
     return stop_system_importer_file_csv
 
 def check_config_attributes(model, request=None):
@@ -759,6 +759,7 @@ def check_config_attributes(model, request=None):
         # set stop condition
         stop_system_importer_file_csv = True
 
+    # return stop condition to 'csv.system_create_cron' or 'csv.system_cron' or 'csv.system_instant' or 'csv.system_upload'
     return stop_system_importer_file_csv
 
 def check_content_file_type(rows, logger_username, request=None):
@@ -772,7 +773,7 @@ def check_content_file_type(rows, logger_username, request=None):
             # do nothing
             pass
 
-        # return True if successful
+        # return True if successful to 'csv_main.system_handler'
         return True
 
     # wrong file type
@@ -783,5 +784,5 @@ def check_content_file_type(rows, logger_username, request=None):
             messages.error(request, "Wrong file type for CSV import. Check config or file system!")
         # call logger
         error_logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_WRONG_FILE_TYPE")
-        # return False if not successful
+        # return False if not successful to 'csv_main.system_handler'
         return False

@@ -91,7 +91,7 @@ def system_handler(request=None, uploadfile=False):
     if not file_check:
         # close file
         systemcsv.close()
-        # return to calling function
+        # return to calling function 'csv.system_cron' or 'csv.system_instant' or 'csv.system_upload'
         return
 
     # jump to begin of file again after iterating in file check
@@ -291,5 +291,5 @@ def system_handler(request=None, uploadfile=False):
     info_logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_CRON_STATUS " + "created:" + str(systems_created_counter) + "|" + "updated:" + str(systems_updated_counter) + "|" + "skipped:" + str(systems_skipped_counter) + "|" + "multiple:" + str(systems_multiple_counter))
     info_logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_CRON_END")
 
-    # return to calling function
+    # return to calling function 'csv.system_cron' or 'csv.system_instant' or 'csv.system_upload'
     return

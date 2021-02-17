@@ -22,7 +22,7 @@ def system_create_cron(request):
 
     # check stop condition
     if stop_system_importer_file_csv:
-        # return to system list
+        # return to 'system_list'
         return redirect(reverse('system_list'))
 
     """ check file system """
@@ -32,7 +32,7 @@ def system_create_cron(request):
 
     # check stop condition
     if stop_system_importer_file_csv:
-        # return to system list
+        # return to 'system_list'
         return redirect(reverse('system_list'))
 
     """ check config attributes """
@@ -42,7 +42,7 @@ def system_create_cron(request):
 
     # check stop condition
     if stop_system_importer_file_csv:
-        # return to system list
+        # return to 'system_list'
         return redirect(reverse('system_list'))
     else:
         # TODO: [logic] build url with python
@@ -62,7 +62,7 @@ def system_cron():
 
     # leave system_importer_file_csv if config caused errors
     if stop_system_importer_file_csv:
-        # return
+        # return to scheduled task
         return
 
     """ check file system """
@@ -72,7 +72,7 @@ def system_cron():
 
     # leave system_importer_file_csv if config caused errors
     if stop_system_importer_file_csv:
-        # return
+        # return to scheduled task
         return
 
     """ check config attributes """
@@ -82,7 +82,7 @@ def system_cron():
 
     # leave system_importer_file_csv if config caused errors
     if stop_system_importer_file_csv:
-        # return
+        # return to scheduled task
         return
 
     """ main function """
@@ -90,7 +90,7 @@ def system_cron():
     # call CSV importer
     system_handler()
 
-    # return
+    # return to scheduled task
     return
 
 @login_required(login_url="/login")
@@ -107,7 +107,7 @@ def system_instant(request):
 
     # leave system_importer_file_csv if config caused errors
     if stop_system_importer_file_csv:
-        # return to system list
+        # return to 'system_list'
         return redirect(reverse('system_list'))
 
     """ check config attributes """
@@ -117,7 +117,7 @@ def system_instant(request):
 
     # leave system_importer_file_csv if config caused errors
     if stop_system_importer_file_csv:
-        # return to system list
+        # return to 'system_list'
         return redirect(reverse('system_list'))
 
     """ main function """
@@ -125,7 +125,7 @@ def system_instant(request):
     # call CSV importer
     system_handler(request)
 
-    # return to system list
+    # return to 'system_list'
     return redirect(reverse('system_list'))
 
 @login_required(login_url="/login")
@@ -151,7 +151,7 @@ def system_upload(request):
 
             # leave system_importer_file_csv if config caused errors
             if stop_system_importer_file_csv:
-                # return to system list
+                # return to 'system_list'
                 return redirect(reverse('system_list'))
 
             """ main function """
@@ -174,7 +174,7 @@ def system_upload(request):
                 }
             )
 
-        # return to system list
+        # return to 'system_list'
         return redirect(reverse('system_list'))
 
     # GET request
@@ -190,7 +190,7 @@ def system_upload(request):
 
         # leave system_importer_file_csv if config caused errors
         if stop_system_importer_file_csv:
-            # return to system list
+            # return to 'system_list'
             return redirect(reverse('system_list'))
 
         # show warning if existing systems will be updated

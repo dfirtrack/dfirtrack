@@ -31,7 +31,7 @@ def check_and_create_ip(ip_ip, model, row_counter, request=None):
             # call logger
             ip.logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_IP_CREATED")
 
-        # return to 'csv_attributes_add.add_many2many_attributes'
+        # return IP to 'csv_attributes_add.add_many2many_attributes'
         return ip
 
     # value is not an IP
@@ -45,7 +45,7 @@ def check_and_create_ip(ip_ip, model, row_counter, request=None):
         # call logger
         warning_logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_IP_COLUMN " + "row_" + str(row_counter) + ":invalid_ip")
 
-        # return to 'csv_attributes_add.add_many2many_attributes'
+        # return nothing to 'csv_attributes_add.add_many2many_attributes'
         return None
 
 def check_system_name(system_name, model, row_counter, request=None):

@@ -23,3 +23,6 @@ def final_messages(request, systems_created_counter, systems_updated_counter, sy
             messages.warning(request, str(systems_multiple_counter) + ' system was skipped because it existed several times.')
         else:
             messages.warning(request, str(systems_multiple_counter) + ' systems were skipped because they existed several times.')
+
+    # return to 'csv_main.system_handler'
+    return
