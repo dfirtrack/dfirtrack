@@ -1,6 +1,6 @@
 from django.contrib import messages
 from dfirtrack_config.models import MainConfigModel
-from dfirtrack_main.logger.default_logger import error_logger, warning_logger
+from dfirtrack_main.logger.default_logger import error_logger
 import os
 
 
@@ -785,31 +785,3 @@ def check_content_file_type(rows, username, request=None):
         error_logger(username, " SYSTEM_IMPORTER_FILE_CSV_WRONG_FILE_TYPE")
         # return False if not successful
         return False
-
-def check_content_attributes(request, row, row_counter, model):
-    """ check some values of csv rows """
-
-    # TODO: [config] modify for new importer
-    # TODO: [config] check configured fields in row for valid values
-    # TODO: [config] some checks might be called from 'add_fk_attributes' or 'add_many2many_attributes'
-
-    # reset continue condition
-    continue_system_importer_file_csv = False
-
-    # check system column for empty string
-    if not row[model.csv_column_system - 1]:
-        # call message
-        messages.error(request, "Value for system in row " + str(row_counter) + " was an empty string. System not created.")
-        # call logger
-        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_SYSTEM_COLUMN " + "row_" + str(row_counter) + ":empty_column")
-        continue_system_importer_file_csv = True
-
-    # check system column for length of string
-    if len(row[model.csv_column_system - 1]) > 50:
-        # call message
-        messages.error(request, "Value for system in row " + str(row_counter) + " was too long. System not created.")
-        # call logger
-        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_SYSTEM_COLUMN " + "row_" + str(row_counter) + ":long_string")
-        continue_system_importer_file_csv = True
-
-    return continue_system_importer_file_csv

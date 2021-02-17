@@ -4,7 +4,8 @@ from dfirtrack_main.models import Ip
 import ipaddress
 
 
-def check_and_create_ip(ip_ip, row_counter, request=None):
+def check_and_create_ip(ip_ip, model, row_counter, request=None):
+    """ check IPs for valid values """
 
     # value is an IP
     try:
@@ -16,10 +17,16 @@ def check_and_create_ip(ip_ip, row_counter, request=None):
         ip, created = Ip.objects.get_or_create(ip_ip=ip_ip)
         # IP was created
         if created:
-            # call logger
-            ip.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_IP_CREATED")
+            # if function was called from 'system_instant' and 'system_upload'
+            if request:
+                # call logger
+                ip.logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_IP_CREATED")
+            # if function was called from 'system_cron'
+            else:
+                # call logger
+                ip.logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_IP_CREATED")
 
-        # return to 'add_many2many_attributes'
+        # return to 'csv_attributes_add.add_many2many_attributes'
         return ip
 
     # value is not an IP
@@ -29,9 +36,51 @@ def check_and_create_ip(ip_ip, row_counter, request=None):
         if request:
             # call message
             messages.warning(request, "Value for ip address in row " + str(row_counter) + " was not a valid IP address.")
+            # call logger
+            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_IP_COLUMN " + "row_" + str(row_counter) + ":invalid_ip")
+        # if function was called from 'system_cron'
+        else:
+            # call logger
+            warning_logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_IP_COLUMN " + "row_" + str(row_counter) + ":invalid_ip")
 
-        # call logger
-        warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_IP_COLUMN " + "row_" + str(row_counter) + ":invalid_ip")
-
-        # return to 'add_many2many_attributes'
+        # return to 'csv_attributes_add.add_many2many_attributes'
         return None
+
+def check_system_name(system_name, model, row_counter, request=None):
+    """ check system name for valid value """
+
+    # reset continue condition
+    stop_system_importer_file_csv = False
+
+    # check system column for empty string
+    if not system_name:
+        # if function was called from 'system_instant' and 'system_upload'
+        if request:
+            # call message
+            messages.warning(request, "Value for system in row " + str(row_counter) + " was an empty string. System not created.")
+            # call logger
+            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_SYSTEM_COLUMN " + "row_" + str(row_counter) + ":empty_column")
+        # if function was called from 'system_cron'
+        else:
+            # call logger
+            warning_logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_SYSTEM_COLUMN " + "row_" + str(row_counter) + ":empty_column")
+        # set stop condition
+        stop_system_importer_file_csv = True
+
+    # check system column for length of string
+    if len(system_name) > 50:
+        # if function was called from 'system_instant' and 'system_upload'
+        if request:
+            # call message
+            messages.warning(request, "Value for system in row " + str(row_counter) + " was too long. System not created.")
+            # call logger
+            warning_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_SYSTEM_COLUMN " + "row_" + str(row_counter) + ":long_string")
+        # if function was called from 'system_cron'
+        else:
+            # call logger
+            warning_logger(model.csv_import_username.username, " SYSTEM_IMPORTER_FILE_CSV_SYSTEM_COLUMN " + "row_" + str(row_counter) + ":long_string")
+        # set stop condition
+        stop_system_importer_file_csv = True
+
+    # return stop condition to 'csv_main.system_handler'
+    return stop_system_importer_file_csv

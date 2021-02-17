@@ -107,7 +107,7 @@ def system_instant(request):
 
     # leave system_importer_file_csv if config caused errors
     if stop_system_importer_file_csv:
-        # return
+        # return to system list
         return redirect(reverse('system_list'))
 
     """ check config attributes """
@@ -117,7 +117,7 @@ def system_instant(request):
 
     # leave system_importer_file_csv if config caused errors
     if stop_system_importer_file_csv:
-        # return
+        # return to system list
         return redirect(reverse('system_list'))
 
     """ main function """
@@ -125,7 +125,7 @@ def system_instant(request):
     # call CSV importer
     system_handler(request)
 
-    # return
+    # return to system list
     return redirect(reverse('system_list'))
 
 @login_required(login_url="/login")
@@ -174,9 +174,7 @@ def system_upload(request):
                 }
             )
 
-        # call logger
-        debug_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_END")
-
+        # return to system list
         return redirect(reverse('system_list'))
 
     # GET request
@@ -197,13 +195,14 @@ def system_upload(request):
 
         # show warning if existing systems will be updated
         if not model.csv_skip_existing_system:
+            # call message
             messages.warning(request, 'WARNING: Existing systems will be updated!')
 
         # get empty form
         form = SystemImporterFileCsvForm()
 
         # call logger
-        debug_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_CRON_ENTERED")
+        debug_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_ENTERED")
 
     # show form
     return render(

@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.utils import timezone
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv_attributes_add import add_fk_attributes, add_many2many_attributes, create_lock_tags
+from dfirtrack_main.importer.file.csv_attributes_check import check_system_name
 from dfirtrack_main.importer.file.csv_checks import check_content_file_type
 from dfirtrack_main.importer.file.csv_messages import final_messages
 from dfirtrack_main.logger.default_logger import info_logger, warning_logger
@@ -123,6 +124,20 @@ def system_handler(request=None, uploadfile=False):
 
         # get system name (for domain name comparison)
         system_name = row[model.csv_column_system - 1]
+
+        # if function was called from 'system_instant' and 'system_upload'
+        if request:
+            # check system_name for valid value
+            stop_system_importer_file_csv = check_system_name(system_name, model, row_counter, request)
+        # if function was called from 'system_cron'
+        else:
+            # check system_name for valid value
+            stop_system_importer_file_csv = check_system_name(system_name, model, row_counter)
+
+        # leave loop if system_name caused errors
+        if stop_system_importer_file_csv:
+            # leave loop
+            continue
 
         # TODO: [logic] add option which attributes are used for filtering?
         # TODO: [logic] (like domain, dnsname, company)
