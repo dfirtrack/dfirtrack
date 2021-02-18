@@ -161,7 +161,7 @@ REST_FRAMEWORK = {
 
 # import local settings for development
 try:
-    from .local_settings import ALLOWED_HOSTS, DATABASES, DEBUG, STATIC_ROOT
+    from .local_settings import ALLOWED_HOSTS, DATA_UPLOAD_MAX_NUMBER_FIELDS, DATABASES, DEBUG, STATIC_ROOT
 
 except ImportError:     # coverage: ignore branch
     ''' default values for testing purposes '''
