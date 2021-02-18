@@ -47,7 +47,7 @@ def tag_creator_async(request_post, request_user):
     """ function to create many tags for many systems at once """
 
     # call logger
-    debug_logger(str(request_user), " TAG_CREATOR_BEGIN")
+    debug_logger(str(request_user), " TAG_CREATOR_START")
 
     # extract tags (list results from request object via multiple choice field)
     tags = request_post.getlist('tag')

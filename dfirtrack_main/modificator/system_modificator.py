@@ -52,7 +52,7 @@ def system_modificator_async(request_post, request_user):
     """ function to modify many systems at once """
 
     # call logger
-    debug_logger(str(request_user), ' SYSTEM_MODIFICATOR_BEGIN')
+    debug_logger(str(request_user), ' SYSTEM_MODIFICATOR_START')
 
     # exctract lines from systemlist (list results either from request object via multiline selector or via large text area)
     lines = request_post.getlist('systemlist')

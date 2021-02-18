@@ -51,7 +51,7 @@ def system_creator_async(request_post, request_user):
     """ function to create many systems at once """
 
     # call logger
-    debug_logger(str(request_user), ' SYSTEM_CREATOR_BEGIN')
+    debug_logger(str(request_user), ' SYSTEM_CREATOR_START')
 
     # exctract lines from systemlist (list results from request object via large text area)
     lines = request_post.get('systemlist').splitlines()
