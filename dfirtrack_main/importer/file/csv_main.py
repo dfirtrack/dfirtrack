@@ -4,7 +4,7 @@ from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv_attributes_add import add_fk_attributes, add_many2many_attributes, create_lock_tags
 from dfirtrack_main.importer.file.csv_attributes_check import check_system_name
 from dfirtrack_main.importer.file.csv_checks import check_content_file_type
-from dfirtrack_main.importer.file.csv_messages import final_messages
+from dfirtrack_main.importer.file.csv_messages import final_messages, final_messages_cron
 from dfirtrack_main.logger.default_logger import info_logger, warning_logger
 from dfirtrack_main.models import System
 from io import TextIOWrapper
@@ -32,8 +32,11 @@ def system_handler(request=None, uploadfile=False):
 
     """ start system importer """
 
+    # get starttime
+    starttime = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
+
     # call logger
-    info_logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_START")
+    info_logger(logger_username, ' SYSTEM_IMPORTER_FILE_CSV_START')
 
     # create lock tags
     create_lock_tags(model)
@@ -203,7 +206,7 @@ def system_handler(request=None, uploadfile=False):
             systems_updated_counter += 1
 
             # call logger
-            system.logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_SYSTEM_MODIFIED")
+            system.logger(logger_username, ' SYSTEM_IMPORTER_FILE_CSV_SYSTEM_MODIFIED')
 
         # if there is more than one system
         elif len(systemquery) > 1:
@@ -215,7 +218,7 @@ def system_handler(request=None, uploadfile=False):
             systems_multiple_counter += 1
 
             # call logger
-            warning_logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_MULTIPLE_SYSTEMS " + "System:" + system_name)
+            warning_logger(logger_username, f' SYSTEM_IMPORTER_FILE_CSV_MULTIPLE_SYSTEMS System:{system_name}')
 
         # if there is no system -> create system
         else:
@@ -259,7 +262,7 @@ def system_handler(request=None, uploadfile=False):
             systems_created_counter += 1
 
             # call logger
-            system.logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_SYSTEM_CREATED")
+            system.logger(logger_username, ' SYSTEM_IMPORTER_FILE_CSV_SYSTEM_CREATED')
 
         # autoincrement row counter
         row_counter += 1
@@ -267,19 +270,46 @@ def system_handler(request=None, uploadfile=False):
     # close file
     systemcsv.close()
 
+    """ finish system importer """
+
+    # get endtime
+    endtime = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
+
     # if function was called from 'system_instant' and 'system_upload'
     if request:
         # call final messages
-        final_messages(request, systems_created_counter, systems_updated_counter, systems_skipped_counter, systems_multiple_counter, systems_multiple_list)
-    # TODO: [messages] call message if function was called from 'system_cron' for all users?
-    # TODO: [messages] should work with 'async_messages'
+        final_messages(
+            systems_created_counter,
+            systems_updated_counter,
+            systems_skipped_counter,
+            systems_multiple_counter,
+            systems_multiple_list,
+            request,
+        )
+    # if function was called from 'system_cron'
     else:
-        pass
+        # call final messages
+        final_messages_cron(
+            systems_created_counter,
+            systems_updated_counter,
+            systems_skipped_counter,
+            systems_multiple_counter,
+            systems_multiple_list,
+            starttime,
+            endtime,
+        )
 
     # call logger
-    info_logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_STATUS " + "created:" + str(systems_created_counter) + "|" + "updated:" + str(systems_updated_counter) + "|" + "skipped:" + str(systems_skipped_counter) + "|" + "multiple:" + str(systems_multiple_counter))
+    info_logger(
+        logger_username,
+        f' SYSTEM_IMPORTER_FILE_CSV_STATUS'
+        f' created:{systems_created_counter}'
+        f'|updated:{systems_updated_counter}'
+        f'|skipped:{systems_skipped_counter}'
+        f'|multiple:{systems_multiple_counter}'
+    )
     # call logger
-    info_logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_END")
+    info_logger(logger_username, ' SYSTEM_IMPORTER_FILE_CSV_END')
 
     # return to calling function 'csv.system_cron' or 'csv.system_instant' or 'csv.system_upload'
     return
