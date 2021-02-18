@@ -269,5 +269,4 @@ class TaskCreatorViewTestCase(TestCase):
         messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertEqual(str(messages[0]), 'Task creator started')
-        self.assertEqual(str(messages[1]), 'Task creator finished')
-        self.assertEqual(str(messages[2]), '9 tasks created for 3 systems.')
+        self.assertEqual(str(messages[1]), '9 tasks created for 3 systems.')

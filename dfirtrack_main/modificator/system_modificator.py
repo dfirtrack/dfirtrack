@@ -1,13 +1,12 @@
 from django.contrib import messages
-from django.contrib.messages import constants
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils import timezone
 from django_q.tasks import async_task
-from dfirtrack_main.async_messages import message_user
+from dfirtrack_main.async_messages.system_messages import final_messages
 from dfirtrack_main.forms import SystemModificatorForm
-from dfirtrack_main.logger.default_logger import debug_logger, error_logger, info_logger, warning_logger
+from dfirtrack_main.logger.default_logger import debug_logger, info_logger, warning_logger
 from dfirtrack_main.models import System, Tag, Company
 
 
@@ -62,6 +61,8 @@ def system_modificator_async(request_post, request_user):
         system_char_field_used = True
         lines=lines[0].splitlines()
 
+    """ prepare and start loop """
+
     #  count lines (needed for messages)
     number_of_lines = len(lines)
 
@@ -110,36 +111,39 @@ def system_modificator_async(request_post, request_user):
         else:
             system = System.objects.filter(system_id = line)
 
-        """ handling non-existing or non-unique systems 2 """
+        """ handling non-existing (== 0) or non-unique (> 1) systems """
 
         # system does not exist
         if system.count() == 0:
+
             # autoincrement counter
             systems_skipped_counter += 1
             # add system name to list of skipped systems
             skipped_systems.append(line)
             # call logger
-            error_logger(str(request_user), ' SYSTEM_MODIFICATOR_SYSTEM_DOES_NOT_EXISTS ' + 'system_id/system_name:' + line)
+            warning_logger(str(request_user), f' SYSTEM_MODIFICATOR_SYSTEM_DOES_NOT_EXISTS system_id/system_name:{line}')
             # leave this loop because system with this systemname does not exist
             continue
+
         # more than one system exists
         elif system.count() > 1:
+
             # autoincrement counter
             systems_skipped_counter += 1
             # add system name to list of skipped systems
             skipped_systems.append(line)
             # call logger
-            error_logger(str(request_user), ' SYSTEM_MODIFICATOR_SYSTEM_NOT_DISTINCT ' + 'system_id/system_name:' + line)
+            warning_logger(str(request_user), f' SYSTEM_MODIFICATOR_SYSTEM_NOT_DISTINCT system_id/system_name:{line}')
             # leave this loop because system with this systemname is not distinct
             continue
+
+        """ unique system (== 1) """
 
         # get existing system
         if system_char_field_used:
             system = System.objects.get(system_name = line)
         else:
             system = System.objects.get(system_id = line)
-
-        """ new system """
 
         # create form with request data
         form = SystemModificatorForm(request_post, instance = system, use_system_charfield = system_char_field_used)
@@ -189,33 +193,19 @@ def system_modificator_async(request_post, request_user):
                 # add company to system
                 system.company.add(company)
 
-    """ call final messages """
+    """ finish system importer """
 
-    # finish message
-    message_user(request_user, 'System modificator finished', constants.SUCCESS)
-
-    # number messages
-
-    if systems_modified_counter > 0:
-        if systems_modified_counter  == 1:
-            message_user(request_user, str(systems_modified_counter) + ' system was modified.', constants.SUCCESS)
-        else:
-            message_user(request_user, str(systems_modified_counter) + ' systems were modified.', constants.SUCCESS)
-
-    if systems_skipped_counter > 0:
-        if systems_skipped_counter  == 1:
-            message_user(request_user, str(systems_skipped_counter) + ' system was skipped. ' + str(skipped_systems), constants.ERROR)
-        else:
-            message_user(request_user, str(systems_skipped_counter) + ' systems were skipped. ' + str(skipped_systems), constants.ERROR)
-
-    if lines_faulty_counter > 0:
-        if lines_faulty_counter  == 1:
-            message_user(request_user, str(lines_faulty_counter) + ' line out of ' + str(number_of_lines) + ' lines was faulty (see log file for details).', constants.WARNING)
-        else:
-            message_user(request_user, str(lines_faulty_counter) + ' lines out of ' + str(number_of_lines) + ' lines were faulty (see log file for details).', constants.WARNING)
+    # call final messages
+    final_messages(systems_modified_counter, systems_skipped_counter, lines_faulty_counter, skipped_systems, number_of_lines, request_user)
 
     # call logger
-    info_logger(str(request_user), ' SYSTEM_MODIFICATOR_STATUS ' + 'modified:' + str(systems_modified_counter) + '|' + 'skipped:' + str(systems_skipped_counter) + '|' + 'faulty_lines:' + str(lines_faulty_counter))
+    info_logger(
+        str(request_user),
+        f' SYSTEM_MODIFICATOR_STATUS'
+        f' modified:{systems_modified_counter}'
+        f'|skipped:{systems_skipped_counter}'
+        f'|faulty_lines:{lines_faulty_counter}'
+    )
 
     # call logger
-    debug_logger(str(request_user), " SYSTEM_MODIFICATOR_END")
+    debug_logger(str(request_user), ' SYSTEM_MODIFICATOR_END')

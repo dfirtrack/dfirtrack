@@ -5,7 +5,7 @@ from dfirtrack_main.importer.file.csv_attributes_add import add_fk_attributes, a
 from dfirtrack_main.importer.file.csv_attributes_check import check_system_name
 from dfirtrack_main.importer.file.csv_checks import check_content_file_type
 from dfirtrack_main.importer.file.csv_messages import final_messages, final_messages_cron
-from dfirtrack_main.logger.default_logger import info_logger, warning_logger
+from dfirtrack_main.logger.default_logger import debug_logger, info_logger, warning_logger
 from dfirtrack_main.models import System
 from io import TextIOWrapper
 
@@ -36,7 +36,7 @@ def system_handler(request=None, uploadfile=False):
     starttime = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
 
     # call logger
-    info_logger(logger_username, ' SYSTEM_IMPORTER_FILE_CSV_START')
+    debug_logger(logger_username, ' SYSTEM_IMPORTER_FILE_CSV_START')
 
     # create lock tags
     create_lock_tags(model)
@@ -309,7 +309,7 @@ def system_handler(request=None, uploadfile=False):
         f'|multiple:{systems_multiple_counter}'
     )
     # call logger
-    info_logger(logger_username, ' SYSTEM_IMPORTER_FILE_CSV_END')
+    debug_logger(logger_username, ' SYSTEM_IMPORTER_FILE_CSV_END')
 
     # return to calling function 'csv.system_cron' or 'csv.system_instant' or 'csv.system_upload'
     return

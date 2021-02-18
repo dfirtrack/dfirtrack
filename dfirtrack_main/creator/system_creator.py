@@ -1,13 +1,12 @@
 from django.contrib import messages
-from django.contrib.messages import constants
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils import timezone
 from django_q.tasks import async_task
-from dfirtrack_main.async_messages import message_user
+from dfirtrack_main.async_messages.system_messages import final_messages
 from dfirtrack_main.forms import SystemCreatorForm
-from dfirtrack_main.logger.default_logger import debug_logger, error_logger, info_logger, warning_logger
+from dfirtrack_main.logger.default_logger import debug_logger, info_logger, warning_logger
 from dfirtrack_main.models import System
 
 
@@ -102,7 +101,7 @@ def system_creator_async(request_post, request_user):
             # add system name to list of skipped systems
             skipped_systems.append(line)
             # call logger
-            error_logger(str(request_user), ' SYSTEM_CREATOR_SYSTEM_EXISTS ' + 'system_name:' + line)
+            warning_logger(str(request_user), f' SYSTEM_CREATOR_SYSTEM_EXISTS system_name:{line}')
             # leave this loop because system with this systemname already exists
             continue
 
@@ -141,33 +140,19 @@ def system_creator_async(request_post, request_user):
             # call logger
             system.logger(str(request_user), ' SYSTEM_CREATOR_EXECUTED')
 
-    """ call final messages """
+    """ finish system importer """
 
-    # finish message
-    message_user(request_user, 'System creator finished', constants.SUCCESS)
-
-    # number messages
-
-    if systems_created_counter > 0:
-        if systems_created_counter  == 1:
-            message_user(request_user, str(systems_created_counter) + ' system was created.', constants.SUCCESS)
-        else:
-            message_user(request_user, str(systems_created_counter) + ' systems were created.', constants.SUCCESS)
-
-    if systems_skipped_counter > 0:
-        if systems_skipped_counter  == 1:
-            message_user(request_user, str(systems_skipped_counter) + ' system was skipped. ' + str(skipped_systems), constants.ERROR)
-        else:
-            message_user(request_user, str(systems_skipped_counter) + ' systems were skipped. ' + str(skipped_systems), constants.ERROR)
-
-    if lines_faulty_counter > 0:
-        if lines_faulty_counter  == 1:
-            message_user(request_user, str(lines_faulty_counter) + ' line out of ' + str(number_of_lines) + ' lines was faulty (see log file for details).', constants.WARNING)
-        else:
-            message_user(request_user, str(lines_faulty_counter) + ' lines out of ' + str(number_of_lines) + ' lines were faulty (see log file for details).', constants.WARNING)
+    # call final messages
+    final_messages(systems_created_counter, systems_skipped_counter, lines_faulty_counter, skipped_systems, number_of_lines, request_user)
 
     # call logger
-    info_logger(str(request_user), ' SYSTEM_CREATOR_STATUS ' + 'created:' + str(systems_created_counter) + '|' + 'skipped:' + str(systems_skipped_counter) + '|' + 'faulty_lines:' + str(lines_faulty_counter))
+    info_logger(
+        str(request_user),
+        f' SYSTEM_CREATOR_STATUS'
+        f' created:{systems_created_counter}'
+        f'|skipped:{systems_skipped_counter}'
+        f'|faulty_lines:{lines_faulty_counter}'
+    )
 
     # call logger
     debug_logger(str(request_user), ' SYSTEM_CREATOR_END')

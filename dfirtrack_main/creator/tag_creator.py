@@ -39,7 +39,7 @@ def tag_creator(request):
         form = TagCreatorForm()
 
         # call logger
-        debug_logger(str(request.user), " TAG_CREATOR_ENTERED")
+        debug_logger(str(request.user), ' TAG_CREATOR_ENTERED')
 
     return render(request, 'dfirtrack_main/tag/tag_creator.html', {'form': form})
 
@@ -47,7 +47,7 @@ def tag_creator_async(request_post, request_user):
     """ function to create many tags for many systems at once """
 
     # call logger
-    debug_logger(str(request_user), " TAG_CREATOR_START")
+    debug_logger(str(request_user), ' TAG_CREATOR_START')
 
     # extract tags (list results from request object via multiple choice field)
     tags = request_post.getlist('tag')
@@ -91,18 +91,24 @@ def tag_creator_async(request_post, request_user):
                 tags_created_counter  += 1
 
                 # call logger
-                system.logger( str(request_user), " TAG_CREATOR_EXECUTED")
+                system.logger( str(request_user), ' TAG_CREATOR_EXECUTED')
 
-    """ call final messages """
+    """ finish tag importer """
 
-    # finish message
-    message_user(request_user, 'Tag creator finished', constants.SUCCESS)
-
-    # number message
-    message_user(request_user, str(tags_created_counter) + ' tags created for ' + str(system_tags_created_counter) + ' systems.', constants.SUCCESS)
-
-    # call logger
-    info_logger(str(request_user), ' TAG_CREATOR_STATUS ' + 'tags_created:' + str(tags_created_counter) + '|systems_affected:' + str(system_tags_created_counter))
+    # call final message
+    message_user(
+        request_user,
+        f'{tags_created_counter} tags created for {system_tags_created_counter} systems.',
+        constants.SUCCESS
+    )
 
     # call logger
-    debug_logger(str(request_user), " TAG_CREATOR_END")
+    info_logger(
+        str(request_user),
+        f' TAG_CREATOR_STATUS'
+        f' tags_created:{tags_created_counter}'
+        f'|systems_affected:{system_tags_created_counter}'
+    )
+
+    # call logger
+    debug_logger(str(request_user), ' TAG_CREATOR_END')
