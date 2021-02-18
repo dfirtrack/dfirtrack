@@ -1,5 +1,4 @@
 import csv
-from django.contrib import messages
 from django.utils import timezone
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv_attributes_add import add_fk_attributes, add_many2many_attributes, create_lock_tags
@@ -78,19 +77,8 @@ def system_handler(request=None, uploadfile=False):
         # check file for csv respectively some kind of text file
         file_check = check_content_file_type(rows, logger_username)
 
-    # if function was called from 'system_instant' and 'system_upload'
-    if not file_check and request:
-        # call message
-        messages.error(request, "File seems not to be a CSV file. Check file!")
-    # TODO: [messages] call message if function was called from 'system_cron' for all users?
-    # TODO: [messages] should work with 'async_messages'
-    elif not file_check and not request:
-        pass
-
-
     # leave system_importer_file_csv if file check throws errors
     if not file_check:
-        # TODO: [logger] add error logger (either w/ or w/o request)
         # close file
         systemcsv.close()
         # return to calling function 'csv.system_cron' or 'csv.system_instant' or 'csv.system_upload'

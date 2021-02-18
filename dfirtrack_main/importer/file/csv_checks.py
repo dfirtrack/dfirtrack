@@ -765,8 +765,6 @@ def check_config_attributes(model, request=None):
 def check_content_file_type(rows, logger_username, request=None):
     """ check file for csv respectively some kind of text file """
 
-    # TODO: [logic] add check for file containing null bytes (\x00)
-
     try:
         # try to iterate over rows
         for row in rows:
@@ -784,5 +782,16 @@ def check_content_file_type(rows, logger_username, request=None):
             messages.error(request, "Wrong file type for CSV import. Check config or file system!")
         # call logger
         error_logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_WRONG_FILE_TYPE")
+        # return False if not successful to 'csv_main.system_handler'
+        return False
+
+    # other file errors (e. g. file containing null bytes)
+    except:
+        # if function was called from 'system_instant' or 'system_upload'
+        if request:
+            # call message
+            messages.error(request, "File is corrupted. Check config or file system!")
+        # call logger
+        error_logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_CORRUPTED_FILE")
         # return False if not successful to 'csv_main.system_handler'
         return False
