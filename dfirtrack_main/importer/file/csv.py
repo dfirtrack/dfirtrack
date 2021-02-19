@@ -202,7 +202,7 @@ def system_upload(request):
         form = SystemImporterFileCsvForm()
 
         # call logger
-        debug_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_ENTERED")
+        debug_logger(str(request.user), ' SYSTEM_IMPORTER_FILE_CSV_ENTERED')
 
     # show form
     return render(
