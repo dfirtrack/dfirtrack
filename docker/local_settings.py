@@ -23,3 +23,5 @@ DATABASES = {
 }
 
 STATIC_ROOT = '/var/www/html/static/'
+
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000
