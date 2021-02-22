@@ -12,21 +12,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
-            model_name='systemimporterfilecsvconfigbasedconfigmodel',
-            name='csv_default_case',
-            field=models.ManyToManyField(blank=True, related_name='system_importer_file_csv_configbased_config_case', to='dfirtrack_main.Case'),
-        ),
-        migrations.AlterField(
-            model_name='systemimporterfilecsvconfigbasedconfigmodel',
-            name='csv_default_company',
-            field=models.ManyToManyField(blank=True, related_name='system_importer_file_csv_configbased_config_company', to='dfirtrack_main.Company'),
-        ),
-        migrations.AlterField(
-            model_name='systemimporterfilecsvconfigbasedconfigmodel',
-            name='csv_default_tag',
-            field=models.ManyToManyField(blank=True, related_name='system_importer_file_csv_configbased_config_tag', to='dfirtrack_main.Tag'),
-        ),
         migrations.CreateModel(
             name='SystemImporterFileCsvConfigModel',
             fields=[
@@ -38,6 +23,8 @@ class Migration(migrations.Migration):
                 ('csv_import_filename', models.CharField(default='systems.csv', max_length=255)),
                 ('csv_remove_systemstatus', models.BooleanField(blank=True)),
                 ('csv_remove_analysisstatus', models.BooleanField(blank=True)),
+                ('csv_choice_tagfree_systemstatus', models.BooleanField(blank=True)),
+                ('csv_choice_tagfree_analysisstatus', models.BooleanField(blank=True)),
                 ('csv_tag_lock_systemstatus', models.CharField(default='LOCK_SYSTEMSTATUS', max_length=50)),
                 ('csv_tag_lock_analysisstatus', models.CharField(default='LOCK_ANALYSISSTATUS', max_length=50)),
                 ('csv_choice_ip', models.BooleanField(blank=True)),
@@ -82,20 +69,76 @@ class Migration(migrations.Migration):
                 ('csv_text_quote', models.CharField(choices=[('text_double_quotation_marks', 'Double quotation marks'), ('text_single_quotation_marks', 'Single quotation marks')], default='text_double_quotation_marks', max_length=50)),
                 ('csv_ip_delimiter', models.CharField(choices=[('ip_comma', 'Comma'), ('ip_semicolon', 'Semicolon'), ('ip_space', 'Space')], default='ip_semicolon', max_length=50)),
                 ('csv_tag_delimiter', models.CharField(choices=[('tag_comma', 'Comma'), ('tag_semicolon', 'Semicolon'), ('tag_space', 'Space')], default='tag_space', max_length=50)),
-                ('csv_default_analysisstatus', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='system_importer_file_csv_config_analysisstatus', to='dfirtrack_main.Analysisstatus')),
+                ('csv_default_analysisstatus', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='system_importer_file_csv_config_analysisstatus', to='dfirtrack_main.analysisstatus')),
                 ('csv_default_case', models.ManyToManyField(blank=True, related_name='system_importer_file_csv_config_case', to='dfirtrack_main.Case')),
                 ('csv_default_company', models.ManyToManyField(blank=True, related_name='system_importer_file_csv_config_company', to='dfirtrack_main.Company')),
-                ('csv_default_dnsname', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='system_importer_file_csv_config_dnsname', to='dfirtrack_main.Dnsname')),
-                ('csv_default_domain', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='system_importer_file_csv_config_domain', to='dfirtrack_main.Domain')),
-                ('csv_default_location', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='system_importer_file_csv_config_location', to='dfirtrack_main.Location')),
-                ('csv_default_os', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='system_importer_file_csv_config_os', to='dfirtrack_main.Os')),
-                ('csv_default_reason', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='system_importer_file_csv_config_reason', to='dfirtrack_main.Reason')),
-                ('csv_default_recommendation', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='system_importer_file_csv_config_recommendation', to='dfirtrack_main.Recommendation')),
-                ('csv_default_serviceprovider', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='system_importer_file_csv_config_serviceprovider', to='dfirtrack_main.Serviceprovider')),
-                ('csv_default_systemstatus', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='system_importer_file_csv_config_systemstatus', to='dfirtrack_main.Systemstatus')),
-                ('csv_default_systemtype', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='system_importer_file_csv_config_systemtype', to='dfirtrack_main.Systemtype')),
+                ('csv_default_dnsname', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='system_importer_file_csv_config_dnsname', to='dfirtrack_main.dnsname')),
+                ('csv_default_domain', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='system_importer_file_csv_config_domain', to='dfirtrack_main.domain')),
+                ('csv_default_location', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='system_importer_file_csv_config_location', to='dfirtrack_main.location')),
+                ('csv_default_os', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='system_importer_file_csv_config_os', to='dfirtrack_main.os')),
+                ('csv_default_reason', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='system_importer_file_csv_config_reason', to='dfirtrack_main.reason')),
+                ('csv_default_recommendation', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='system_importer_file_csv_config_recommendation', to='dfirtrack_main.recommendation')),
+                ('csv_default_serviceprovider', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='system_importer_file_csv_config_serviceprovider', to='dfirtrack_main.serviceprovider')),
+                ('csv_default_systemstatus', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='system_importer_file_csv_config_systemstatus', to='dfirtrack_main.systemstatus')),
+                ('csv_default_systemtype', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='system_importer_file_csv_config_systemtype', to='dfirtrack_main.systemtype')),
                 ('csv_default_tag', models.ManyToManyField(blank=True, related_name='system_importer_file_csv_config_tag', to='dfirtrack_main.Tag')),
+                ('csv_default_tagfree_analysisstatus', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='system_importer_file_csv_config_tagfree_analysisstatus', to='dfirtrack_main.analysisstatus')),
+                ('csv_default_tagfree_systemstatus', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='system_importer_file_csv_config_tagfree_systemstatus', to='dfirtrack_main.systemstatus')),
                 ('csv_import_username', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='csv_import_username', to=settings.AUTH_USER_MODEL)),
             ],
+        ),
+        migrations.RemoveField(
+            model_name='systemimporterfilecsvconfigbasedconfigmodel',
+            name='csv_default_analysisstatus',
+        ),
+        migrations.RemoveField(
+            model_name='systemimporterfilecsvconfigbasedconfigmodel',
+            name='csv_default_case',
+        ),
+        migrations.RemoveField(
+            model_name='systemimporterfilecsvconfigbasedconfigmodel',
+            name='csv_default_company',
+        ),
+        migrations.RemoveField(
+            model_name='systemimporterfilecsvconfigbasedconfigmodel',
+            name='csv_default_dnsname',
+        ),
+        migrations.RemoveField(
+            model_name='systemimporterfilecsvconfigbasedconfigmodel',
+            name='csv_default_domain',
+        ),
+        migrations.RemoveField(
+            model_name='systemimporterfilecsvconfigbasedconfigmodel',
+            name='csv_default_location',
+        ),
+        migrations.RemoveField(
+            model_name='systemimporterfilecsvconfigbasedconfigmodel',
+            name='csv_default_os',
+        ),
+        migrations.RemoveField(
+            model_name='systemimporterfilecsvconfigbasedconfigmodel',
+            name='csv_default_reason',
+        ),
+        migrations.RemoveField(
+            model_name='systemimporterfilecsvconfigbasedconfigmodel',
+            name='csv_default_serviceprovider',
+        ),
+        migrations.RemoveField(
+            model_name='systemimporterfilecsvconfigbasedconfigmodel',
+            name='csv_default_systemstatus',
+        ),
+        migrations.RemoveField(
+            model_name='systemimporterfilecsvconfigbasedconfigmodel',
+            name='csv_default_systemtype',
+        ),
+        migrations.RemoveField(
+            model_name='systemimporterfilecsvconfigbasedconfigmodel',
+            name='csv_default_tag',
+        ),
+        migrations.DeleteModel(
+            name='SystemImporterFileCsvFormbasedConfigModel',
+        ),
+        migrations.DeleteModel(
+            name='SystemImporterFileCsvConfigbasedConfigModel',
         ),
     ]

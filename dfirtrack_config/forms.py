@@ -315,6 +315,20 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
     )
 
     # reorder field choices
+    csv_default_tagfree_systemstatus = forms.ModelChoiceField(
+        queryset = Systemstatus.objects.order_by('systemstatus_name'),
+        label = 'Set from database (no tags assigned)',
+        required = True,
+    )
+
+    # reorder field choices
+    csv_default_tagfree_analysisstatus = forms.ModelChoiceField(
+        queryset = Analysisstatus.objects.order_by('analysisstatus_name'),
+        label = 'Set from database (no tags assigned)',
+        required = True,
+    )
+
+    # reorder field choices
     csv_default_dnsname = forms.ModelChoiceField(
         label = 'Set from database',
         queryset = Dnsname.objects.order_by('dnsname_name'),
@@ -411,6 +425,10 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
             'csv_remove_systemstatus',
             'csv_default_analysisstatus',
             'csv_remove_analysisstatus',
+            'csv_choice_tagfree_systemstatus',
+            'csv_default_tagfree_systemstatus',
+            'csv_choice_tagfree_analysisstatus',
+            'csv_default_tagfree_analysisstatus',
             'csv_tag_lock_systemstatus',
             'csv_tag_lock_analysisstatus',
             'csv_choice_ip',
@@ -476,6 +494,8 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
             'csv_import_filename': 'File name of CSV file (*)',
             'csv_remove_systemstatus': 'Overwrite for existing systems',
             'csv_remove_analysisstatus': 'Overwrite for existing systems',
+            'csv_choice_tagfree_systemstatus': 'Set alternative (no tags assigned)',
+            'csv_choice_tagfree_analysisstatus': 'Set alternative (no tags assigned)',
             'csv_tag_lock_systemstatus': 'Tag that preserves systemstatus (*)',
             'csv_tag_lock_analysisstatus': 'Tag that preserves analysisstatus (*)',
             'csv_choice_ip': 'Set from CSV',
@@ -654,6 +674,8 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
     def clean(self):
         """ custom field validation """
 
+        """ prepare validation errors """
+
         # get form data
         cleaned_data = super().clean()
 
@@ -824,6 +846,15 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
         if self.cleaned_data['csv_remove_tag'] == 'tag_remove_prefix' and self.cleaned_data['csv_default_tag']:
             validation_errors['csv_remove_tag'] = 'Removing tags with prefix is only available when setting tags from CSV.'
 
+        """ check tagfree choices (systemstatus / analysisstatus) in combination with tag from CSV """
+
+        # tag - alternative choice systemstatus (tagfree) chosen without tag choice from CSV
+        if self.cleaned_data['csv_choice_tagfree_systemstatus'] and not self.cleaned_data['csv_choice_tag']:
+            validation_errors['csv_choice_tagfree_systemstatus'] = 'Alternative systemstatus only available with tags from CSV.'
+        # tag - alternative choice analysisstatus (tagfree) chosen without tag choice from CSV
+        if self.cleaned_data['csv_choice_tagfree_analysisstatus'] and not self.cleaned_data['csv_choice_tag']:
+            validation_errors['csv_choice_tagfree_analysisstatus'] = 'Alternative analysisstatus only available with tags from CSV.'
+
         """ check if the column fields are different """
 
         # create empty dict for column values
@@ -933,7 +964,7 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
                 if os.path.isfile(csv_path) and not os.access(csv_path, os.R_OK):
                     validation_errors['csv_import_filename'] = 'No read permission for CSV import file.'
 
-# TODO: add warning for not existing file (hint to provide it)
+        """ raise error """
 
         # finally raise validation error
         if validation_errors:

@@ -632,6 +632,29 @@ def check_config_attributes(model, request=None):
         # set stop condition
         stop_system_importer_file_csv = True
 
+    """ check tagfree choices (systemstatus / analysisstatus) in combination with tag from CSV """
+
+    # tag - alternative choice systemstatus (tagfree) chosen without tag choice from CSV
+    if model.csv_choice_tagfree_systemstatus and not model.csv_choice_tag:
+        # if function was called from 'system_instant' or 'system_upload'
+        if request:
+            # call message
+            messages.error(request, 'Alternative systemstatus only available with tags from CSV.')
+        # call logger
+        error_logger(logger_username, ' SYSTEM_IMPORTER_FILE_CSV tagfree systemstatus only compatible with csv_choice_tag')
+        # set stop condition
+        stop_system_importer_file_csv = True
+    # tag - alternative choice analysisstatus (tagfree) chosen without tag choice from CSV
+    if model.csv_choice_tagfree_analysisstatus and not model.csv_choice_tag:
+        # if function was called from 'system_instant' or 'system_upload'
+        if request:
+            # call message
+            messages.error(request, 'Alternative analysisstatus only available with tags from CSV.')
+        # call logger
+        error_logger(logger_username, ' SYSTEM_IMPORTER_FILE_CSV tagfree analysisstatus only compatible with csv_choice_tag')
+        # set stop condition
+        stop_system_importer_file_csv = True
+
     """ check if the column fields are different """
 
     # reset error condition

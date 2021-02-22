@@ -90,7 +90,7 @@ def system_handler(request=None, uploadfile=False):
     # jump to begin of file again after iterating in file check
     systemcsv.seek(0)
 
-    """ prepare and start loop """
+    """ prepare loop """
 
     # set row_counter (needed for logger)
     row_counter = 1
@@ -109,6 +109,8 @@ def system_handler(request=None, uploadfile=False):
 
     # set systems_skipped_counter (needed for logger)
     systems_skipped_counter = 0
+
+    """ start loop """
 
     # iterate over rows
     for row in rows:

@@ -650,6 +650,65 @@ def add_many2many_attributes(system, system_created, model, row, row_counter, re
                             # add tag to system
                             system.tag.add(tag)
 
+        """ change systemstatus / analysisstatus for systems w/o tags"""
+
+        # if tag from CSV are enabled
+        if model.csv_choice_tag:
+
+            # get tagstring from CSV column
+            tag_string = row[model.csv_column_tag - 1]
+
+            # no tags for this system
+            if not tag_string:
+
+                """ systemstatus """
+
+                # tagfree systemstatus is set
+                if model.csv_choice_tagfree_systemstatus:
+
+                    # set tagfree systemstatus for new system or change tagfree systemsstatus if remove old is set
+                    if system_created or (not system_created and model.csv_remove_systemstatus):
+
+                        # set tagfree systemstatus for new system
+                        if system_created:
+                            # set systemstatus for new system
+                            system.systemstatus = model.csv_default_tagfree_systemstatus
+                        # change systemstatus for existing system if not locked
+                        else:
+                            # get lockstatus
+                            tag_lock_systemstatus = Tag.objects.get(tag_name = model.csv_tag_lock_systemstatus)
+                            # check for lockstatus in all tags of system
+                            if tag_lock_systemstatus not in system.tag.all():
+                                # change to tagfree systemstatus for existing system
+                                system.systemstatus = model.csv_default_tagfree_systemstatus
+
+                        # save object
+                        system.save()
+
+                """ analysisstatus """
+
+                # tagfree analysisstatus is set
+                if model.csv_choice_tagfree_analysisstatus:
+
+                    # set tagfree status for new system or change to tagfree status if remove old is set
+                    if system_created or (not system_created and model.csv_remove_analysisstatus):
+
+                        # set tagfree analysisstatus for new system
+                        if system_created:
+                            # set analysisstatus for new system
+                            system.analysisstatus = model.csv_default_tagfree_analysisstatus
+                        # change analysisstatus for existing system if not locked
+                        else:
+                            # get lockstatus
+                            tag_lock_analysisstatus = Tag.objects.get(tag_name = model.csv_tag_lock_analysisstatus)
+                            # check for lockstatus in all tags of system
+                            if tag_lock_analysisstatus not in system.tag.all():
+                                # change to tagfree analysisstatus for existing system
+                                system.analysisstatus = model.csv_default_tagfree_analysisstatus
+
+                        # save object
+                        system.save()
+
         # get tags from DB
         elif model.csv_default_tag:
             tags = model.csv_default_tag

@@ -157,6 +157,12 @@ class SystemImporterFileCsvConfigModel(models.Model):
     csv_default_analysisstatus = models.ForeignKey('dfirtrack_main.Analysisstatus', on_delete=models.PROTECT, related_name='system_importer_file_csv_config_analysisstatus')
     csv_remove_analysisstatus = models.BooleanField(blank=True)
 
+    # in case of 'csv_choice_tag' a different status can be assigned if the system has no tags
+    csv_choice_tagfree_systemstatus = models.BooleanField(blank=True)
+    csv_default_tagfree_systemstatus = models.ForeignKey('dfirtrack_main.Systemstatus', on_delete=models.PROTECT, related_name='system_importer_file_csv_config_tagfree_systemstatus')
+    csv_choice_tagfree_analysisstatus = models.BooleanField(blank=True)
+    csv_default_tagfree_analysisstatus = models.ForeignKey('dfirtrack_main.Analysisstatus', on_delete=models.PROTECT, related_name='system_importer_file_csv_config_tagfree_analysisstatus')
+
     # character fields to define names for tags to pin analysisstatus and systemstatus
     csv_tag_lock_systemstatus = models.CharField(max_length=50, default='LOCK_SYSTEMSTATUS')
     csv_tag_lock_analysisstatus = models.CharField(max_length=50, default='LOCK_ANALYSISSTATUS')
