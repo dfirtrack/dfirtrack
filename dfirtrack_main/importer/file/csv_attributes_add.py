@@ -58,7 +58,7 @@ def add_fk_attributes(system, system_created, model, row, row_counter, request=N
     else:
         logger_username = model.csv_import_username.username
 
-    """ systemstatus """
+    """ systemstatus (tagfree is set with tags in 'csv_attributes_add.add_many2many_attributes()') """
 
     # set systemstatus for new system or change if remove old is set
     if system_created or (not system_created and model.csv_remove_systemstatus):
@@ -76,7 +76,7 @@ def add_fk_attributes(system, system_created, model, row, row_counter, request=N
                 # change to default systemstatus for existing system
                 system.systemstatus = model.csv_default_systemstatus
 
-    """ analysisstatus """
+    """ analysisstatus (tagfree is set with tags in 'csv_attributes_add.add_many2many_attributes()') """
 
     # set analysisstatus for new system or change if remove old is set
     if system_created or (not system_created and model.csv_remove_analysisstatus):

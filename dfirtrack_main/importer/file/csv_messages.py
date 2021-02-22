@@ -33,7 +33,7 @@ def final_messages(systems_created_counter, systems_updated_counter, systems_ski
     return
 
 def final_messages_cron(systems_created_counter, systems_updated_counter, systems_skipped_counter, systems_multiple_counter, systems_multiple_list, starttime, endtime):
-    """ final messages if function was called from 'system_cron' """
+    """ final messages if function was called from 'system_cron' (w/o request) """
 
     # get all users
     all_users = User.objects.all()
@@ -68,4 +68,20 @@ def final_messages_cron(systems_created_counter, systems_updated_counter, system
             )
 
     # return to 'csv_main.system_handler'
+    return
+
+def error_message_cron(message_text):
+    """ error message for all users if function was called from 'system_cron' (w/o request) """
+
+    # get all users
+    all_users = User.objects.all()
+
+    # call message for all users
+    message_users(
+        all_users,
+        f'[Scheduled task CSV system importer] {message_text}',
+        constants.ERROR
+    )
+
+    # return to calling function in 'csv_checks'
     return

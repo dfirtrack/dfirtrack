@@ -1,5 +1,6 @@
 from django.contrib import messages
 from dfirtrack_config.models import MainConfigModel
+from dfirtrack_main.importer.file.csv_messages import error_message_cron
 from dfirtrack_main.logger.default_logger import error_logger
 import os
 
@@ -12,14 +13,16 @@ def check_config_cron_user(model, request=None):
 
     # check for csv_import_username (after initial migration w/o user defined) - stop immediately
     if not model.csv_import_username:
-        # if called from 'system_create_cron' (creating scheduled task)
+        # if function was called from 'system_create_cron' (creating scheduled task)
         if request:
             # call message
             messages.error(request, 'No user for import defined. Check config!')
             # get username (needed for logger)
             logger_username = str(request.user)
-        # if called from 'system_cron' (scheduled task)
+        # if function was called from 'system_cron' (scheduled task)
         else:
+            # call message for all users
+            error_message_cron('No user for import defined. Check config!')
             # get main config model
             mainconfigmodel = MainConfigModel.objects.get(main_config_name = 'MainConfig')
             # get cron username from main config (needed for logger if no user was defined in the proper config)
@@ -56,6 +59,10 @@ def check_content_file_system(model, request=None):
         if request:
             # call messsage
             messages.error(request, 'CSV import path does not exist. Check config or file system!')
+        # if function was called from 'system_cron'
+        else:
+            # call message for all users
+            error_message_cron('CSV import path does not exist. Check config or file system!')
         # call logger
         error_logger(logger_username, ' SYSTEM_IMPORTER_FILE_CSV_PATH_NOT_EXISTING')
         # set stop condition
@@ -67,6 +74,10 @@ def check_content_file_system(model, request=None):
             if request:
                 # call messsage
                 messages.error(request, 'No read permission for CSV import path. Check config or file system!')
+            # if function was called from 'system_cron'
+            else:
+                # call message for all users
+                error_message_cron('No read permission for CSV import path. Check config or file system!')
             # call logger
             error_logger(logger_username, ' SYSTEM_IMPORTER_FILE_CSV_PATH_NO_READ_PERMISSION')
             # set stop condition
@@ -78,6 +89,10 @@ def check_content_file_system(model, request=None):
                 if request:
                     # call messsage
                     messages.error(request, 'CSV import file does not exist. Check config or provide file!')
+                # if function was called from 'system_cron'
+                else:
+                    # call message for all users
+                    error_message_cron('CSV import file does not exist. Check config or provide file!')
                 # call logger
                 error_logger(logger_username, ' SYSTEM_IMPORTER_FILE_CSV_FILE_NOT_EXISTING')
                 # set stop condition
@@ -89,6 +104,10 @@ def check_content_file_system(model, request=None):
                     if request:
                         # call messsage
                         messages.error(request, 'No read permission for CSV import file. Check config or file system!')
+                    # if function was called from 'system_cron'
+                    else:
+                        # call message for all users
+                        error_message_cron('No read permission for CSV import file. Check config or file system!')
                     # call logger
                     error_logger(logger_username, ' SYSTEM_IMPORTER_FILE_CSV_FILE_NO_READ_PERMISSION')
                     # set stop condition
@@ -100,6 +119,10 @@ def check_content_file_system(model, request=None):
                         if request:
                             # call messsage
                             messages.error(request, 'CSV import file is empty. Check config or file system!')
+                        # if function was called from 'system_cron'
+                        else:
+                            # call message for all users
+                            error_message_cron('CSV import file is empty. Check config or file system!')
                         # call logger
                         error_logger(logger_username, ' SYSTEM_IMPORTER_FILE_CSV_FILE_EMPTY')
                         # set stop condition
@@ -782,6 +805,13 @@ def check_config_attributes(model, request=None):
         # set stop condition
         stop_system_importer_file_csv = True
 
+    """ call single message (to avoid noise) for all users and return """
+
+    # error occurred and function was called from 'system_cron'
+    if stop_system_importer_file_csv and not request:
+        # call message for all users
+        error_message_cron('There was an error within the configuration. Check config!')
+
     # return stop condition to 'csv.system_create_cron' or 'csv.system_cron' or 'csv.system_instant' or 'csv.system_upload'
     return stop_system_importer_file_csv
 
@@ -803,6 +833,10 @@ def check_content_file_type(rows, logger_username, request=None):
         if request:
             # call message
             messages.error(request, 'Wrong file type for CSV import. Check config or file system!')
+        # if function was called from 'system_cron'
+        else:
+            # call message for all users
+            error_message_cron('Wrong file type for CSV import. Check config or file system!')
         # call logger
         error_logger(logger_username, ' SYSTEM_IMPORTER_FILE_CSV_WRONG_FILE_TYPE')
         # return False if not successful to 'csv_main.system_handler'
@@ -814,6 +848,10 @@ def check_content_file_type(rows, logger_username, request=None):
         if request:
             # call message
             messages.error(request, 'File is corrupted. Check config or file system!')
+        # if function was called from 'system_cron'
+        else:
+            # call message for all users
+            error_message_cron('File is corrupted. Check config or file system!')
         # call logger
         error_logger(logger_username, ' SYSTEM_IMPORTER_FILE_CSV_CORRUPTED_FILE')
         # return False if not successful to 'csv_main.system_handler'

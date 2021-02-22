@@ -3,9 +3,9 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
-from dfirtrack_main.importer.file.csv_main import system_handler
-from dfirtrack_main.importer.file.csv_importer_forms import SystemImporterFileCsvForm
 from dfirtrack_main.importer.file.csv_checks import check_config_attributes, check_config_cron_user, check_content_file_system
+from dfirtrack_main.importer.file.csv_importer_forms import SystemImporterFileCsvForm
+from dfirtrack_main.importer.file.csv_main import system_handler
 from dfirtrack_main.logger.default_logger import debug_logger
 
 
