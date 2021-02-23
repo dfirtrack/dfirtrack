@@ -48,7 +48,7 @@ def check_and_create_ip(ip_ip, model, row_counter, request=None):
         # return nothing to 'csv_attributes_add.add_many2many_attributes'
         return None
 
-def check_system_name(system_name, model, row_counter, request=None):
+def check_system_name(model, row, row_counter, request=None):
     """ check system name for valid value """
 
     # reset continue condition
@@ -63,7 +63,24 @@ def check_system_name(system_name, model, row_counter, request=None):
     else:
         logger_username = model.csv_import_username.username
 
-    """ perform checks """
+    """ perform checks (for system_name, return immediately) """
+
+    # check for index error
+    try:
+        system_name = row[model.csv_column_system - 1]
+    except IndexError:
+        # if function was called from 'system_instant' and 'system_upload'
+        if request:
+            # call message
+            messages.warning(request, f'Index for system in row {row_counter} was out of range. System not created.')
+        # call logger
+        warning_logger(logger_username, f' SYSTEM_IMPORTER_FILE_CSV_SYSTEM_COLUMN row_{row_counter}:out_of_range')
+        # set stop condition
+        stop_system_importer_file_csv = True
+        # return stop condition to 'csv_main.system_handler'
+        return stop_system_importer_file_csv
+
+    """ perform checks (remaining checks, need system_name) """
 
     # check system column for empty string
     if not system_name:

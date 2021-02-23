@@ -126,22 +126,26 @@ def system_handler(request=None, uploadfile=False):
 
         """ filter for systems """
 
-        # get system name (for domain name comparison)
-        system_name = row[model.csv_column_system - 1]
-
         # if function was called from 'system_instant' and 'system_upload'
         if request:
             # check system_name for valid value
-            stop_system_importer_file_csv = check_system_name(system_name, model, row_counter, request)
+            stop_system_importer_file_csv = check_system_name(model, row, row_counter, request)
         # if function was called from 'system_cron'
         else:
             # check system_name for valid value
-            stop_system_importer_file_csv = check_system_name(system_name, model, row_counter)
+            stop_system_importer_file_csv = check_system_name(model, row, row_counter)
 
         # leave loop if system_name caused errors
         if stop_system_importer_file_csv:
+            # autoincrement counter
+            systems_skipped_counter += 1
+            # autoincrement row counter
+            row_counter += 1
             # leave loop
             continue
+
+        # get system name (for domain name comparison)
+        system_name = row[model.csv_column_system - 1]
 
         # TODO: [logic] add option which attributes are used for filtering?
         # TODO: [logic] (like domain, dnsname, company)
