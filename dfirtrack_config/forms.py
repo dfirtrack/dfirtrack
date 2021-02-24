@@ -687,6 +687,8 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
         MISSING_CSV_CHOICE_STRING = 'Forgot to choose CSV?'
         MISSING_CSV_COLUMN_STRING = 'Add CSV column.'
         EITHER_CSV_OR_DATABASE_STRING = 'Decide between CSV or database or nothing.'
+        EITHER_SKIP_OR_REMOVE_STRING = 'This choice is only valid if existing systems are not skipped. Either disable this option or disable skipping existing systems.'
+        REMOVE_STRING = 'This choice is only valid if attribute is selected.'
 
         """ check for EITHER 'choice' and 'column' OR 'default' """
 
@@ -909,43 +911,79 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
 
         # remove systemstatus
         if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_systemstatus']:
-            validation_errors['csv_remove_systemstatus'] = 'This choice is only valid if existing systems are not skipped. Either disable this option or disable skipping existing systems.'
+            validation_errors['csv_remove_systemstatus'] = EITHER_SKIP_OR_REMOVE_STRING
         # remove analysisstatus
         if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_analysisstatus']:
-            validation_errors['csv_remove_analysisstatus'] = 'This choice is only valid if existing systems are not skipped. Either disable this option or disable skipping existing systems.'
+            validation_errors['csv_remove_analysisstatus'] = EITHER_SKIP_OR_REMOVE_STRING
         # remove ip
         if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_ip']:
-            validation_errors['csv_remove_ip'] = 'This choice is only valid if existing systems are not skipped. Either disable this option or disable skipping existing systems.'
+            validation_errors['csv_remove_ip'] = EITHER_SKIP_OR_REMOVE_STRING
         # remove dnsname
         if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_dnsname']:
-            validation_errors['csv_remove_dnsname'] = 'This choice is only valid if existing systems are not skipped. Either disable this option or disable skipping existing systems.'
+            validation_errors['csv_remove_dnsname'] = EITHER_SKIP_OR_REMOVE_STRING
         # remove domain
         if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_domain']:
-            validation_errors['csv_remove_domain'] = 'This choice is only valid if existing systems are not skipped. Either disable this option or disable skipping existing systems.'
+            validation_errors['csv_remove_domain'] = EITHER_SKIP_OR_REMOVE_STRING
         # remove location
         if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_location']:
-            validation_errors['csv_remove_location'] = 'This choice is only valid if existing systems are not skipped. Either disable this option or disable skipping existing systems.'
+            validation_errors['csv_remove_location'] = EITHER_SKIP_OR_REMOVE_STRING
         # remove os
         if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_os']:
-            validation_errors['csv_remove_os'] = 'This choice is only valid if existing systems are not skipped. Either disable this option or disable skipping existing systems.'
+            validation_errors['csv_remove_os'] = EITHER_SKIP_OR_REMOVE_STRING
         # remove reason
         if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_reason']:
-            validation_errors['csv_remove_reason'] = 'This choice is only valid if existing systems are not skipped. Either disable this option or disable skipping existing systems.'
+            validation_errors['csv_remove_reason'] = EITHER_SKIP_OR_REMOVE_STRING
         # remove recommendation
         if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_recommendation']:
-            validation_errors['csv_remove_recommendation'] = 'This choice is only valid if existing systems are not skipped. Either disable this option or disable skipping existing systems.'
+            validation_errors['csv_remove_recommendation'] = EITHER_SKIP_OR_REMOVE_STRING
         # remove serviceprovider
         if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_serviceprovider']:
-            validation_errors['csv_remove_serviceprovider'] = 'This choice is only valid if existing systems are not skipped. Either disable this option or disable skipping existing systems.'
+            validation_errors['csv_remove_serviceprovider'] = EITHER_SKIP_OR_REMOVE_STRING
         # remove systemtype
         if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_systemtype']:
-            validation_errors['csv_remove_systemtype'] = 'This choice is only valid if existing systems are not skipped. Either disable this option or disable skipping existing systems.'
+            validation_errors['csv_remove_systemtype'] = EITHER_SKIP_OR_REMOVE_STRING
         # remove case
         if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_case']:
-            validation_errors['csv_remove_case'] = 'This choice is only valid if existing systems are not skipped. Either disable this option or disable skipping existing systems.'
+            validation_errors['csv_remove_case'] = EITHER_SKIP_OR_REMOVE_STRING
         # remove company
         if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_company']:
-            validation_errors['csv_remove_company'] = 'This choice is only valid if existing systems are not skipped. Either disable this option or disable skipping existing systems.'
+            validation_errors['csv_remove_company'] = EITHER_SKIP_OR_REMOVE_STRING
+
+        """ check remove conditions without CSV or DB """
+
+        # remove ip
+        if not self.cleaned_data['csv_choice_ip'] and self.cleaned_data['csv_remove_ip']:
+            validation_errors['csv_remove_ip'] = REMOVE_STRING
+        # remove dnsname
+        if not (self.cleaned_data['csv_choice_dnsname'] or self.cleaned_data['csv_default_dnsname']) and self.cleaned_data['csv_remove_dnsname']:
+            validation_errors['csv_remove_dnsname'] = REMOVE_STRING
+        # remove domain
+        if not (self.cleaned_data['csv_choice_domain'] or self.cleaned_data['csv_default_domain']) and self.cleaned_data['csv_remove_domain']:
+            validation_errors['csv_remove_domain'] = REMOVE_STRING
+        # remove location
+        if not (self.cleaned_data['csv_choice_location'] or self.cleaned_data['csv_default_location']) and self.cleaned_data['csv_remove_location']:
+            validation_errors['csv_remove_location'] = REMOVE_STRING
+        # remove os
+        if not (self.cleaned_data['csv_choice_os'] or self.cleaned_data['csv_default_os']) and self.cleaned_data['csv_remove_os']:
+            validation_errors['csv_remove_os'] = REMOVE_STRING
+        # remove reason
+        if not (self.cleaned_data['csv_choice_reason'] or self.cleaned_data['csv_default_reason']) and self.cleaned_data['csv_remove_reason']:
+            validation_errors['csv_remove_reason'] = REMOVE_STRING
+        # remove recommendation
+        if not (self.cleaned_data['csv_choice_recommendation'] or self.cleaned_data['csv_default_recommendation']) and self.cleaned_data['csv_remove_recommendation']:
+            validation_errors['csv_remove_recommendation'] = REMOVE_STRING
+        # remove serviceprovider
+        if not (self.cleaned_data['csv_choice_serviceprovider'] or self.cleaned_data['csv_default_serviceprovider']) and self.cleaned_data['csv_remove_serviceprovider']:
+            validation_errors['csv_remove_serviceprovider'] = REMOVE_STRING
+        # remove systemtype
+        if not (self.cleaned_data['csv_choice_systemtype'] or self.cleaned_data['csv_default_systemtype']) and self.cleaned_data['csv_remove_systemtype']:
+            validation_errors['csv_remove_systemtype'] = REMOVE_STRING
+        # remove case
+        if not (self.cleaned_data['csv_choice_case'] or self.cleaned_data['csv_default_case']) and self.cleaned_data['csv_remove_case']:
+            validation_errors['csv_remove_case'] = REMOVE_STRING
+        # remove company
+        if not (self.cleaned_data['csv_choice_company'] or self.cleaned_data['csv_default_company']) and self.cleaned_data['csv_remove_company']:
+            validation_errors['csv_remove_company'] = REMOVE_STRING
 
         """ check file system """
 
