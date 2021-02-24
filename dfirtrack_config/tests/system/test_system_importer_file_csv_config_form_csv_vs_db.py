@@ -34,6 +34,8 @@ class SystemImporterFileCsvConfigFormCsvVsDbTestCase(TestCase):
     def test_system_importer_file_csv_config_form_minimal(self):
         """ test minimum form requirements / VALID """
 
+        # TODO: [maintenance] remove form fields
+
         # get user
         testuser = User.objects.get(username='testuser_system_importer_file_csv_config').id
         # get objects
@@ -113,6 +115,8 @@ class SystemImporterFileCsvConfigFormCsvVsDbTestCase(TestCase):
         })
         # compare
         self.assertTrue(form.is_valid())
+
+    """ ip """
 
     def test_system_importer_file_csv_config_form_ip_choice_only(self):
         """ test field validation """

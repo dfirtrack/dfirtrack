@@ -417,7 +417,7 @@ class SystemImporterFileCsvConfigFormTagSpecificTestCase(TestCase):
         })
         # compare
         self.assertFalse(form.is_valid())
-        self.assertEqual(form.errors['csv_tag_prefix'], ['Removing tags with prefix is only available when setting tags from CSV.'])
+        self.assertEqual(form.errors['csv_remove_tag'], ['Removing tags with prefix is only available when setting tags from CSV.'])
 
     def test_system_importer_file_csv_config_form_tag_from_db(self):
         """ test field validation """
