@@ -805,6 +805,10 @@ def check_config_attributes(model, request=None):
         # set stop condition
         stop_system_importer_file_csv = True
 
+    """ check remove conditions without CSV or DB """
+
+    # TODO: [code] add checks like in 'dfirtrack_config.forms'
+
     """ call single message (to avoid noise) for all users and return """
 
     # error occurred and function was called from 'system_cron'
