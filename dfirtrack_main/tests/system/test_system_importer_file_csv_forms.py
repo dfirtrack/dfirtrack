@@ -26,7 +26,7 @@ class SystemImporterFileCsvFormTestCase(TestCase):
         """ test minimum form requirements / VALID """
 
         # get file
-        upload_csv = open('dfirtrack_main/tests/system/files/system_importer_file_csv_testfile_01_minimal.csv', 'rb')
+        upload_csv = open('dfirtrack_main/tests/system/system_importer_file_csv_files/system_importer_file_csv_testfile_01_minimal_double_quotation.csv', 'rb')
         # create dictionaries
         data_dict = {}
         file_dict = {
