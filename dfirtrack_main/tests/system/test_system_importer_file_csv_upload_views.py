@@ -194,7 +194,7 @@ class SystemImporterFileCsvUploadViewTestCase(TestCase):
 
     """ GET method """
 
-    def test_system_importer_file_csv_upload_not_logged_in(self):
+    def test_system_importer_file_csv_upload_get_not_logged_in(self):
         """ test importer view """
 
         # create url
@@ -204,7 +204,7 @@ class SystemImporterFileCsvUploadViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
-    def test_system_importer_file_csv_upload_logged_in(self):
+    def test_system_importer_file_csv_upload_get_logged_in(self):
         """ test importer view """
 
         # login testuser
@@ -214,7 +214,7 @@ class SystemImporterFileCsvUploadViewTestCase(TestCase):
         # compare
         self.assertEqual(response.status_code, 200)
 
-    def test_system_importer_file_csv_upload_template(self):
+    def test_system_importer_file_csv_upload_get_template(self):
         """ test importer view """
 
         # login testuser
@@ -224,7 +224,7 @@ class SystemImporterFileCsvUploadViewTestCase(TestCase):
         # compare
         self.assertTemplateUsed(response, 'dfirtrack_main/system/system_importer_file_csv.html')
 
-    def test_system_importer_file_csv_upload_get_user_context(self):
+    def test_system_importer_file_csv_upload_get_get_user_context(self):
         """ test importer view """
 
         # login testuser
@@ -234,7 +234,7 @@ class SystemImporterFileCsvUploadViewTestCase(TestCase):
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_system_importer_file_csv_upload')
 
-    def test_system_importer_file_csv_upload_redirect(self):
+    def test_system_importer_file_csv_upload_get_redirect(self):
         """ test importer view """
 
         # login testuser
@@ -246,7 +246,7 @@ class SystemImporterFileCsvUploadViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
-    def test_system_importer_file_csv_upload_skip_warning(self):
+    def test_system_importer_file_csv_upload_get_skip_warning(self):
         """ test importer view """
 
         # login testuser
@@ -268,6 +268,18 @@ class SystemImporterFileCsvUploadViewTestCase(TestCase):
         # redirect to system_list
         # all messages --> generic tests for all functions ('system_cron', 'system_create_cron', 'system_upload', 'system_instant')
 
+    # TODO: [code] rebuild test
+
+#    def test_system_importer_file_csv_upload_post_bad_config(self):
+#        """ test importer view """
+#
+#        # compare
+#        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+#        self.assertEqual(str(messages[0]), '`CSV_COLUMN_SYSTEM` is outside the allowed range. Check config!')
+#        self.assertEqual(str(messages[1]), '`CSV_COLUMN_IP` is outside the allowed range. Check config!')
+#        self.assertEqual(str(messages[2]), 'Nothing was changed.')
+#
+
     """ POST method """
 
     # TODO: [code] add tests for config checks 'check_config_attributes' called in 'csv.system_upload' GET method
@@ -275,7 +287,7 @@ class SystemImporterFileCsvUploadViewTestCase(TestCase):
 
     # TODO: [code] rebuild test
 
-#    def test_system_importer_file_csv_upload_bad_config(self):
+#    def test_system_importer_file_csv_upload_get_bad_config(self):
 #        """ test importer view """
 #
 #        # compare
@@ -318,10 +330,6 @@ class SystemImporterFileCsvUploadViewTestCase(TestCase):
         response = self.client.post('/system/importer/file/csv/upload/', data_dict)
         # get messages
         messages = list(get_messages(response.wsgi_request))
-        # get objects
-        system_1 = System.objects.get(system_name='system_csv_01_001')
-        system_2 = System.objects.get(system_name='system_csv_01_002')
-        system_3 = System.objects.get(system_name='system_csv_01_003')
         # close file
         systemcsv.close()
         # compare
@@ -331,12 +339,12 @@ class SystemImporterFileCsvUploadViewTestCase(TestCase):
         self.assertTrue(System.objects.filter(system_name='system_csv_01_001').exists())
         self.assertTrue(System.objects.filter(system_name='system_csv_01_002').exists())
         self.assertTrue(System.objects.filter(system_name='system_csv_01_003').exists())
-        self.assertEqual(system_1.analysisstatus, analysisstatus_1)
-        self.assertEqual(system_2.analysisstatus, analysisstatus_1)
-        self.assertEqual(system_3.analysisstatus, analysisstatus_1)
-        self.assertEqual(system_1.systemstatus, systemstatus_1)
-        self.assertEqual(system_2.systemstatus, systemstatus_1)
-        self.assertEqual(system_3.systemstatus, systemstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_01_001').analysisstatus, analysisstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_01_002').analysisstatus, analysisstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_01_003').analysisstatus, analysisstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_01_001').systemstatus, systemstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_01_002').systemstatus, systemstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_01_003').systemstatus, systemstatus_1)
 
     def test_system_importer_file_csv_upload_post_minimal_single_quotation(self):
         """ test importer view """
@@ -362,10 +370,6 @@ class SystemImporterFileCsvUploadViewTestCase(TestCase):
         response = self.client.post('/system/importer/file/csv/upload/', data_dict)
         # get messages
         messages = list(get_messages(response.wsgi_request))
-        # get objects
-        system_1 = System.objects.get(system_name='system_csv_02_001')
-        system_2 = System.objects.get(system_name='system_csv_02_002')
-        system_3 = System.objects.get(system_name='system_csv_02_003')
         # close file
         systemcsv.close()
         # compare
@@ -375,12 +379,12 @@ class SystemImporterFileCsvUploadViewTestCase(TestCase):
         self.assertTrue(System.objects.filter(system_name='system_csv_02_001').exists())
         self.assertTrue(System.objects.filter(system_name='system_csv_02_002').exists())
         self.assertTrue(System.objects.filter(system_name='system_csv_02_003').exists())
-        self.assertEqual(system_1.analysisstatus, analysisstatus_1)
-        self.assertEqual(system_2.analysisstatus, analysisstatus_1)
-        self.assertEqual(system_3.analysisstatus, analysisstatus_1)
-        self.assertEqual(system_1.systemstatus, systemstatus_1)
-        self.assertEqual(system_2.systemstatus, systemstatus_1)
-        self.assertEqual(system_3.systemstatus, systemstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_02_001').analysisstatus, analysisstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_02_002').analysisstatus, analysisstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_02_003').analysisstatus, analysisstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_02_001').systemstatus, systemstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_02_002').systemstatus, systemstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_02_003').systemstatus, systemstatus_1)
 
     def test_system_importer_file_csv_upload_post_minimal_headline(self):
         """ test importer view """
@@ -406,10 +410,6 @@ class SystemImporterFileCsvUploadViewTestCase(TestCase):
         response = self.client.post('/system/importer/file/csv/upload/', data_dict)
         # get messages
         messages = list(get_messages(response.wsgi_request))
-        # get objects
-        system_1 = System.objects.get(system_name='system_csv_03_001')
-        system_2 = System.objects.get(system_name='system_csv_03_002')
-        system_3 = System.objects.get(system_name='system_csv_03_003')
         # close file
         systemcsv.close()
         # compare
@@ -419,12 +419,12 @@ class SystemImporterFileCsvUploadViewTestCase(TestCase):
         self.assertTrue(System.objects.filter(system_name='system_csv_03_001').exists())
         self.assertTrue(System.objects.filter(system_name='system_csv_03_002').exists())
         self.assertTrue(System.objects.filter(system_name='system_csv_03_003').exists())
-        self.assertEqual(system_1.analysisstatus, analysisstatus_1)
-        self.assertEqual(system_2.analysisstatus, analysisstatus_1)
-        self.assertEqual(system_3.analysisstatus, analysisstatus_1)
-        self.assertEqual(system_1.systemstatus, systemstatus_1)
-        self.assertEqual(system_2.systemstatus, systemstatus_1)
-        self.assertEqual(system_3.systemstatus, systemstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_03_001').analysisstatus, analysisstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_03_002').analysisstatus, analysisstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_03_003').analysisstatus, analysisstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_03_001').systemstatus, systemstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_03_002').systemstatus, systemstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_03_003').systemstatus, systemstatus_1)
 
     # TODO: [code] rebuild test
 
@@ -436,6 +436,33 @@ class SystemImporterFileCsvUploadViewTestCase(TestCase):
 #        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 #        self.assertEqual(str(messages[0]), 'File seems not to be a CSV file. Check file.')
 #
+
+    def test_system_importer_file_csv_upload_post_corrupted(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_upload', password='39gE1C0nA1hmlcoxZjAd')
+        # get objects
+        analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
+        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+        # open upload file
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/system_importer_file_csv_files/system_importer_file_csv_testfile_05_corrupted.csv'), 'r')
+        # create post data
+        data_dict = {
+            'systemcsv': systemcsv,
+        }
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.post('/system/importer/file/csv/upload/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # close file
+        systemcsv.close()
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(messages[0].message, 'File is corrupted. Check config or file system!')
+        self.assertEqual(messages[0].level_tag, 'error')
 
     # TODO: [code] rebuild test
 
