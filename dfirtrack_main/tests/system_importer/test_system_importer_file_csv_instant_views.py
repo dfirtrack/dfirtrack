@@ -54,57 +54,39 @@ class SystemImporterFileCsvInstantViewTestCase(TestCase):
         system_importer_file_csv_config_model.csv_tag_delimiter = 'tag_space'
         system_importer_file_csv_config_model.save()
 
-#    def test_system_importer_file_csv_instant_not_logged_in(self):
-#        """ test importer view """
-#
-#        # create url
-#        destination = '/login/?next=' + urllib.parse.quote('/system/importer/file/csv/instant/', safe='')
-#        # get response
-#        response = self.client.get('/system/importer/file/csv/instant/', follow=True)
-#        # compare
-#        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-#
-#    def test_system_importer_file_csv_instant_logged_in(self):
-#        """ test importer view """
-#
-#        # login testuser
-#        self.client.login(username='testuser_system_importer_file_csv_instant', password='lw3V2i2uaTFlk4yTlIaV')
-#        # get response
-#        response = self.client.get('/system/importer/file/csv/instant/')
-#        # compare
-#        self.assertEqual(response.status_code, 200)
-#
-#    def test_system_importer_file_csv_instant_template(self):
-#        """ test importer view """
-#
-#        # login testuser
-#        self.client.login(username='testuser_system_importer_file_csv_instant', password='lw3V2i2uaTFlk4yTlIaV')
-#        # get response
-#        response = self.client.get('/system/importer/file/csv/instant/')
-#        # compare
-#        self.assertTemplateUsed(response, 'dfirtrack_main/system/system_importer_file_csv.html')
-#
-#    def test_system_importer_file_csv_instant_get_user_context(self):
-#        """ test importer view """
-#
-#        # login testuser
-#        self.client.login(username='testuser_system_importer_file_csv_instant', password='lw3V2i2uaTFlk4yTlIaV')
-#        # get response
-#        response = self.client.get('/system/importer/file/csv/instant/')
-#        # compare
-#        self.assertEqual(str(response.context['user']), 'testuser_system_importer_file_csv_instant')
-#
-#    def test_system_importer_file_csv_instant_redirect(self):
-#        """ test importer view """
-#
-#        # login testuser
-#        self.client.login(username='testuser_system_importer_file_csv_instant', password='lw3V2i2uaTFlk4yTlIaV')
-#        # create url
-#        destination = urllib.parse.quote('/system/importer/file/csv/instant/', safe='/')
-#        # get response
-#        response = self.client.get('/system/importer/file/csv/instant', follow=True)
-#        # compare
-#        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+    def test_system_importer_file_csv_instant_not_logged_in(self):
+        """ test importer view """
+
+        # create url
+        destination = '/login/?next=' + urllib.parse.quote('/system/importer/file/csv/instant/', safe='')
+        # get response
+        response = self.client.get('/system/importer/file/csv/instant/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_system_importer_file_csv_instant_logged_in(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_instant', password='lw3V2i2uaTFlk4yTlIaV')
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.get('/system/importer/file/csv/instant/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_system_importer_file_csv_instant_redirect(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_instant', password='lw3V2i2uaTFlk4yTlIaV')
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.get('/system/importer/file/csv/instant', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
     def test_system_importer_file_csv_instant_minimal_double_quotation(self):
         """ test importer view """

@@ -9,14 +9,14 @@ import os
 import urllib.parse
 
 
-class SystemImporterFileCsvUploadViewTestCase(TestCase):
+class SystemImporterFileCsvUploadPostViewTestCase(TestCase):
     """ system importer file CSV view tests """
 
     @classmethod
     def setUpTestData(cls):
 
         # create user
-        test_user = User.objects.create_user(username='testuser_system_importer_file_csv_upload', password='39gE1C0nA1hmlcoxZjAd')
+        test_user = User.objects.create_user(username='testuser_system_importer_file_csv_upload_post', password='8BhDTbU9qMSQ4NGhkfyc')
 
         # create objects for post_complete test
         Analysisstatus.objects.create(analysisstatus_name='analysisstatus_1')
@@ -163,14 +163,15 @@ class SystemImporterFileCsvUploadViewTestCase(TestCase):
     def setUp(cls):
 
         # get user
-        test_user = User.objects.get(username='testuser_system_importer_file_csv_upload')
+        test_user = User.objects.get(username='testuser_system_importer_file_csv_upload_post')
 
         # get objects
         analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
         systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
 
-        # TODO: [maintenance] remove or add file?
+        # set default values
         csv_import_path = '/tmp'
+        csv_import_filename = 'system.csv'
 
         # restore config
         system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
@@ -178,6 +179,7 @@ class SystemImporterFileCsvUploadViewTestCase(TestCase):
         system_importer_file_csv_config_model.csv_skip_existing_system = True
         system_importer_file_csv_config_model.csv_headline = False
         system_importer_file_csv_config_model.csv_import_path = csv_import_path
+        system_importer_file_csv_config_model.csv_import_filename = csv_import_filename
         system_importer_file_csv_config_model.csv_import_username = test_user
         system_importer_file_csv_config_model.csv_default_systemstatus = systemstatus_1
         system_importer_file_csv_config_model.csv_default_analysisstatus = analysisstatus_1
@@ -192,96 +194,6 @@ class SystemImporterFileCsvUploadViewTestCase(TestCase):
         system_importer_file_csv_config_model.csv_tag_delimiter = 'tag_space'
         system_importer_file_csv_config_model.save()
 
-    """ GET method """
-
-    def test_system_importer_file_csv_upload_get_not_logged_in(self):
-        """ test importer view """
-
-        # create url
-        destination = '/login/?next=' + urllib.parse.quote('/system/importer/file/csv/upload/', safe='')
-        # get response
-        response = self.client.get('/system/importer/file/csv/upload/', follow=True)
-        # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-
-    def test_system_importer_file_csv_upload_get_logged_in(self):
-        """ test importer view """
-
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_upload', password='39gE1C0nA1hmlcoxZjAd')
-        # get response
-        response = self.client.get('/system/importer/file/csv/upload/')
-        # compare
-        self.assertEqual(response.status_code, 200)
-
-    def test_system_importer_file_csv_upload_get_template(self):
-        """ test importer view """
-
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_upload', password='39gE1C0nA1hmlcoxZjAd')
-        # get response
-        response = self.client.get('/system/importer/file/csv/upload/')
-        # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/system/system_importer_file_csv.html')
-
-    def test_system_importer_file_csv_upload_get_get_user_context(self):
-        """ test importer view """
-
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_upload', password='39gE1C0nA1hmlcoxZjAd')
-        # get response
-        response = self.client.get('/system/importer/file/csv/upload/')
-        # compare
-        self.assertEqual(str(response.context['user']), 'testuser_system_importer_file_csv_upload')
-
-    def test_system_importer_file_csv_upload_get_redirect(self):
-        """ test importer view """
-
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_upload', password='39gE1C0nA1hmlcoxZjAd')
-        # create url
-        destination = urllib.parse.quote('/system/importer/file/csv/upload/', safe='/')
-        # get response
-        response = self.client.get('/system/importer/file/csv/upload', follow=True)
-        # compare
-        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
-
-    def test_system_importer_file_csv_upload_get_skip_warning(self):
-        """ test importer view """
-
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_upload', password='39gE1C0nA1hmlcoxZjAd')
-        # change config
-        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
-        system_importer_file_csv_config_model.csv_skip_existing_system = False
-        system_importer_file_csv_config_model.save()
-        # get response
-        response = self.client.get('/system/importer/file/csv/upload/', follow=True)
-        # get messages
-        messages = list(get_messages(response.wsgi_request))
-        # compare
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(messages[0].message, 'WARNING: Existing systems will be updated!')
-        self.assertEqual(messages[0].level_tag, 'warning')
-
-    # TODO: [code] add tests for config checks 'check_config_attributes' called in 'csv.system_upload' GET method
-        # redirect to system_list
-        # all messages --> generic tests for all functions ('system_cron', 'system_create_cron', 'system_upload', 'system_instant')
-
-    # TODO: [code] rebuild test
-
-#    def test_system_importer_file_csv_upload_get_bad_config(self):
-#        """ test importer view """
-#
-#        # compare
-#        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-#        self.assertEqual(str(messages[0]), '`CSV_COLUMN_SYSTEM` is outside the allowed range. Check config!')
-#        self.assertEqual(str(messages[1]), '`CSV_COLUMN_IP` is outside the allowed range. Check config!')
-#        self.assertEqual(str(messages[2]), 'Nothing was changed.')
-#
-
-    """ POST method """
-
     # TODO: [code] add tests for config checks 'check_config_attributes' called in 'csv.system_upload' GET method
         # redirect to system_list
 
@@ -295,13 +207,12 @@ class SystemImporterFileCsvUploadViewTestCase(TestCase):
 #        self.assertEqual(str(messages[0]), '`CSV_COLUMN_SYSTEM` is outside the allowed range. Check config!')
 #        self.assertEqual(str(messages[1]), '`CSV_COLUMN_IP` is outside the allowed range. Check config!')
 #        self.assertEqual(str(messages[2]), 'Nothing was changed.')
-#
 
     def test_system_importer_file_csv_upload_post_no_file_submitted(self):
         """ test importer view """
 
         # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_upload', password='39gE1C0nA1hmlcoxZjAd')
+        self.client.login(username='testuser_system_importer_file_csv_upload_post', password='8BhDTbU9qMSQ4NGhkfyc')
         # create post data
         data_dict = {}
         # get response
@@ -310,11 +221,13 @@ class SystemImporterFileCsvUploadViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'dfirtrack_main/system/system_importer_file_csv.html')
 
+    # TODO: [rebuild] not 'upload' specific
+
     def test_system_importer_file_csv_upload_post_minimal_double_quotation(self):
         """ test importer view """
 
         # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_upload', password='39gE1C0nA1hmlcoxZjAd')
+        self.client.login(username='testuser_system_importer_file_csv_upload_post', password='8BhDTbU9qMSQ4NGhkfyc')
         # get objects
         analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
         systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
@@ -346,11 +259,13 @@ class SystemImporterFileCsvUploadViewTestCase(TestCase):
         self.assertEqual(System.objects.get(system_name='system_csv_01_002').systemstatus, systemstatus_1)
         self.assertEqual(System.objects.get(system_name='system_csv_01_003').systemstatus, systemstatus_1)
 
+    # TODO: [rebuild] not 'upload' specific
+
     def test_system_importer_file_csv_upload_post_minimal_single_quotation(self):
         """ test importer view """
 
         # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_upload', password='39gE1C0nA1hmlcoxZjAd')
+        self.client.login(username='testuser_system_importer_file_csv_upload_post', password='8BhDTbU9qMSQ4NGhkfyc')
         # change config
         system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
         system_importer_file_csv_config_model.csv_text_quote = 'text_single_quotation_marks'
@@ -386,11 +301,13 @@ class SystemImporterFileCsvUploadViewTestCase(TestCase):
         self.assertEqual(System.objects.get(system_name='system_csv_02_002').systemstatus, systemstatus_1)
         self.assertEqual(System.objects.get(system_name='system_csv_02_003').systemstatus, systemstatus_1)
 
+    # TODO: [rebuild] not 'upload' specific
+
     def test_system_importer_file_csv_upload_post_minimal_headline(self):
         """ test importer view """
 
         # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_upload', password='39gE1C0nA1hmlcoxZjAd')
+        self.client.login(username='testuser_system_importer_file_csv_upload_post', password='8BhDTbU9qMSQ4NGhkfyc')
         # change config
         system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
         system_importer_file_csv_config_model.csv_headline = True
@@ -426,11 +343,13 @@ class SystemImporterFileCsvUploadViewTestCase(TestCase):
         self.assertEqual(System.objects.get(system_name='system_csv_03_002').systemstatus, systemstatus_1)
         self.assertEqual(System.objects.get(system_name='system_csv_03_003').systemstatus, systemstatus_1)
 
+    # TODO: [rebuild] not 'upload' specific
+
     def test_system_importer_file_csv_upload_post_wrong_type(self):
         """ test importer view """
 
         # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_upload', password='39gE1C0nA1hmlcoxZjAd')
+        self.client.login(username='testuser_system_importer_file_csv_upload_post', password='8BhDTbU9qMSQ4NGhkfyc')
         # open upload file
         systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_04_wrong_type.png'), 'rb')
         # create post data
@@ -450,11 +369,13 @@ class SystemImporterFileCsvUploadViewTestCase(TestCase):
         self.assertEqual(messages[0].message, 'Wrong file type for CSV import. Check config or file system!')
         self.assertEqual(messages[0].level_tag, 'error')
 
+    # TODO: [rebuild] not 'upload' specific
+
     def test_system_importer_file_csv_upload_post_corrupted(self):
         """ test importer view """
 
         # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_upload', password='39gE1C0nA1hmlcoxZjAd')
+        self.client.login(username='testuser_system_importer_file_csv_upload_post', password='8BhDTbU9qMSQ4NGhkfyc')
         # open upload file
         systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_05_corrupted.csv'), 'r')
         # create post data
