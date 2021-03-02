@@ -32,7 +32,7 @@ class SystemImporterFileCsvInstantViewTestCase(TestCase):
         systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
 
         # build local path with test files
-        csv_import_path = os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/system_importer_file_csv_files/')
+        csv_import_path = os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/')
 
         # restore config
         system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')

@@ -319,7 +319,7 @@ class SystemImporterFileCsvUploadViewTestCase(TestCase):
         analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
         systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/system_importer_file_csv_files/system_importer_file_csv_testfile_01_minimal_double_quotation.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_01_minimal_double_quotation.csv'), 'r')
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -359,7 +359,7 @@ class SystemImporterFileCsvUploadViewTestCase(TestCase):
         analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
         systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/system_importer_file_csv_files/system_importer_file_csv_testfile_02_minimal_single_quotation.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_02_minimal_single_quotation.csv'), 'r')
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -399,7 +399,7 @@ class SystemImporterFileCsvUploadViewTestCase(TestCase):
         analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
         systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/system_importer_file_csv_files/system_importer_file_csv_testfile_03_minimal_headline.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_03_minimal_headline.csv'), 'r')
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -432,7 +432,7 @@ class SystemImporterFileCsvUploadViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_upload', password='39gE1C0nA1hmlcoxZjAd')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/system_importer_file_csv_files/system_importer_file_csv_testfile_04_wrong_type.png'), 'rb')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_04_wrong_type.png'), 'rb')
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -456,7 +456,7 @@ class SystemImporterFileCsvUploadViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_upload', password='39gE1C0nA1hmlcoxZjAd')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/system_importer_file_csv_files/system_importer_file_csv_testfile_05_corrupted.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_05_corrupted.csv'), 'r')
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
