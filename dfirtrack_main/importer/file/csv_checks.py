@@ -320,6 +320,9 @@ def check_config_attributes(model, request=None):
     # reset error condition
     attribute_error = False
 
+    # set error counter
+    attribute_error_counter = 0
+
     # create empty list for error IDs
     attribute_error_id = []
 
@@ -327,12 +330,16 @@ def check_config_attributes(model, request=None):
     if model.csv_choice_ip and not model.csv_column_ip:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('ip_01')
     # ip - CSV not chosen and CSV column filled out
     if not model.csv_choice_ip and model.csv_column_ip:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('ip_02')
 
@@ -340,24 +347,32 @@ def check_config_attributes(model, request=None):
     if model.csv_choice_dnsname and not model.csv_column_dnsname:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('dnsname_01')
     # dnsname - CSV not chosen and CSV column filled out
     if not model.csv_choice_dnsname and model.csv_column_dnsname:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('dnsname_02')
     # dnsname - CSV chosen and DB chosen
     if model.csv_choice_dnsname and model.csv_default_dnsname:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('dnsname_03')
     # dnsname - CSV column filled out and DB chosen
     if model.csv_column_dnsname and model.csv_default_dnsname:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('dnsname_04')
 
@@ -365,24 +380,32 @@ def check_config_attributes(model, request=None):
     if model.csv_choice_domain and not model.csv_column_domain:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('domain_01')
     # domain - CSV not chosen and CSV column filled out
     if not model.csv_choice_domain and model.csv_column_domain:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('domain_02')
     # domain - CSV chosen and DB chosen
     if model.csv_choice_domain and model.csv_default_domain:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('domain_03')
     # domain - CSV column filled out and DB chosen
     if model.csv_column_domain and model.csv_default_domain:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('domain_04')
 
@@ -390,24 +413,32 @@ def check_config_attributes(model, request=None):
     if model.csv_choice_location and not model.csv_column_location:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('location_01')
     # location - CSV not chosen and CSV column filled out
     if not model.csv_choice_location and model.csv_column_location:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('location_02')
     # location - CSV chosen and DB chosen
     if model.csv_choice_location and model.csv_default_location:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('location_03')
     # location - CSV column filled out and DB chosen
     if model.csv_column_location and model.csv_default_location:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('location_04')
 
@@ -415,24 +446,32 @@ def check_config_attributes(model, request=None):
     if model.csv_choice_os and not model.csv_column_os:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('os_01')
     # os - CSV not chosen and CSV column filled out
     if not model.csv_choice_os and model.csv_column_os:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('os_02')
     # os - CSV chosen and DB chosen
     if model.csv_choice_os and model.csv_default_os:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('os_03')
     # os - CSV column filled out and DB chosen
     if model.csv_column_os and model.csv_default_os:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('os_04')
 
@@ -440,24 +479,32 @@ def check_config_attributes(model, request=None):
     if model.csv_choice_reason and not model.csv_column_reason:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('reason_01')
     # reason - CSV not chosen and CSV column filled out
     if not model.csv_choice_reason and model.csv_column_reason:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('reason_02')
     # reason - CSV chosen and DB chosen
     if model.csv_choice_reason and model.csv_default_reason:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('reason_03')
     # reason - CSV column filled out and DB chosen
     if model.csv_column_reason and model.csv_default_reason:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('reason_04')
 
@@ -465,24 +512,32 @@ def check_config_attributes(model, request=None):
     if model.csv_choice_recommendation and not model.csv_column_recommendation:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('recommendation_01')
     # recommendation - CSV not chosen and CSV column filled out
     if not model.csv_choice_recommendation and model.csv_column_recommendation:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('recommendation_02')
     # recommendation - CSV chosen and DB chosen
     if model.csv_choice_recommendation and model.csv_default_recommendation:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('recommendation_03')
     # recommendation - CSV column filled out and DB chosen
     if model.csv_column_recommendation and model.csv_default_recommendation:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('recommendation_04')
 
@@ -490,24 +545,32 @@ def check_config_attributes(model, request=None):
     if model.csv_choice_serviceprovider and not model.csv_column_serviceprovider:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('serviceprovider_01')
     # serviceprovider - CSV not chosen and CSV column filled out
     if not model.csv_choice_serviceprovider and model.csv_column_serviceprovider:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('serviceprovider_02')
     # serviceprovider - CSV chosen and DB chosen
     if model.csv_choice_serviceprovider and model.csv_default_serviceprovider:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('serviceprovider_03')
     # serviceprovider - CSV column filled out and DB chosen
     if model.csv_column_serviceprovider and model.csv_default_serviceprovider:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('serviceprovider_04')
 
@@ -515,24 +578,32 @@ def check_config_attributes(model, request=None):
     if model.csv_choice_systemtype and not model.csv_column_systemtype:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('systemtype_01')
     # systemtype - CSV not chosen and CSV column filled out
     if not model.csv_choice_systemtype and model.csv_column_systemtype:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('systemtype_02')
     # systemtype - CSV chosen and DB chosen
     if model.csv_choice_systemtype and model.csv_default_systemtype:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('systemtype_03')
     # systemtype - CSV column filled out and DB chosen
     if model.csv_column_systemtype and model.csv_default_systemtype:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('systemtype_04')
 
@@ -540,24 +611,32 @@ def check_config_attributes(model, request=None):
     if model.csv_choice_case and not model.csv_column_case:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('case_01')
     # case - CSV not chosen and CSV column filled out
     if not model.csv_choice_case and model.csv_column_case:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('case_02')
     # case - CSV chosen and DB chosen
     if model.csv_choice_case and model.csv_default_case.all():
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('case_03')
     # case - CSV column filled out and DB chosen
     if model.csv_column_case and model.csv_default_case.all():
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('case_04')
 
@@ -565,24 +644,32 @@ def check_config_attributes(model, request=None):
     if model.csv_choice_company and not model.csv_column_company:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('company_01')
     # company - CSV not chosen and CSV column filled out
     if not model.csv_choice_company and model.csv_column_company:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('company_02')
     # company - CSV chosen and DB chosen
     if model.csv_choice_company and model.csv_default_company.all():
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('company_03')
     # company - CSV column filled out and DB chosen
     if model.csv_column_company and model.csv_default_company.all():
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('company_04')
 
@@ -590,24 +677,32 @@ def check_config_attributes(model, request=None):
     if model.csv_choice_tag and not model.csv_column_tag:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('tag_01')
     # tag - CSV not chosen and CSV column filled out
     if not model.csv_choice_tag and model.csv_column_tag:
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('tag_02')
     # tag - CSV chosen and DB chosen
     if model.csv_choice_tag and model.csv_default_tag.all():
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('tag_03')
     # tag - CSV column filled out and DB chosen
     if model.csv_column_tag and model.csv_default_tag.all():
         # set attribute error
         attribute_error = True
+        # autoincrement counter
+        attribute_error_counter += 1
         # add error code
         attribute_error_id.append('tag_04')
 
@@ -615,8 +710,12 @@ def check_config_attributes(model, request=None):
     if attribute_error:
         # if function was called from 'system_instant' or 'system_upload'
         if request:
-            # call message
-            messages.error(request, 'There is an error regarding attributes. Check config!')
+            if attribute_error_counter == 1:
+                # call message
+                messages.error(request, f'There was {attribute_error_counter} error regarding attributes. Check config!')
+            elif attribute_error_counter > 1:
+                # call message
+                messages.error(request, f'There were {attribute_error_counter} errors regarding attributes. Check config!')
         # call logger
         error_logger(logger_username, f' SYSTEM_IMPORTER_FILE_CSV attributes misconfigured {attribute_error_id}')
         # set stop condition

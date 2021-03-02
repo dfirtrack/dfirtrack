@@ -3,17 +3,42 @@ from django.contrib.messages import get_messages
 from django.test import TestCase
 from dfirtrack.settings import BASE_DIR
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
-from dfirtrack_main.models import Analysisstatus, Systemstatus
+from dfirtrack_main.models import Analysisstatus, Case, Company, Domain, Location, Os, Systemstatus, Tag, Tagcolor
 import os
 import urllib.parse
 
 
-def set_column_fields_numeric_values():
+def set_config_choices_true(system_importer_file_csv_config_model):
+    """ set choices to true for all columns """
+
+    # set config values
+    system_importer_file_csv_config_model.csv_choice_system = True
+    system_importer_file_csv_config_model.csv_choice_ip = True
+    system_importer_file_csv_config_model.csv_choice_dnsname = True
+    system_importer_file_csv_config_model.csv_choice_domain = True
+    system_importer_file_csv_config_model.csv_choice_location = True
+    system_importer_file_csv_config_model.csv_choice_os = True
+    system_importer_file_csv_config_model.csv_choice_reason = True
+    system_importer_file_csv_config_model.csv_choice_recommendation = True
+    system_importer_file_csv_config_model.csv_choice_serviceprovider = True
+    system_importer_file_csv_config_model.csv_choice_systemtype = True
+    system_importer_file_csv_config_model.csv_choice_case = True
+    system_importer_file_csv_config_model.csv_choice_company = True
+    system_importer_file_csv_config_model.csv_choice_tag = True
+
+    # return config to config function
+    return system_importer_file_csv_config_model
+
+def set_config_column_fields_numeric_values():
+    """ set numeric values for columns out of range """
 
     # get config
     system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
 
-    # set numeric values for column fields out of range
+    # set choices to true for all columns
+    system_importer_file_csv_config_model = set_config_choices_true(system_importer_file_csv_config_model)
+
+    # set config values
     system_importer_file_csv_config_model.csv_column_system = 100
     system_importer_file_csv_config_model.csv_column_ip = 101
     system_importer_file_csv_config_model.csv_column_dnsname = 102
@@ -34,6 +59,123 @@ def set_column_fields_numeric_values():
     # return to column fields numeric values test function
     return
 
+def set_config_column_fields_equal_values():
+    """ set numeric values for column fields equal """
+
+    # get config
+    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+
+    # set choices to true for all columns
+    system_importer_file_csv_config_model = set_config_choices_true(system_importer_file_csv_config_model)
+
+    # set config values
+    system_importer_file_csv_config_model.csv_column_system = 1
+    system_importer_file_csv_config_model.csv_column_ip = 1
+    system_importer_file_csv_config_model.csv_column_dnsname = 1
+    system_importer_file_csv_config_model.csv_column_domain = 1
+    system_importer_file_csv_config_model.csv_column_location = 1
+    system_importer_file_csv_config_model.csv_column_os = 1
+    system_importer_file_csv_config_model.csv_column_reason = 1
+    system_importer_file_csv_config_model.csv_column_recommendation = 1
+    system_importer_file_csv_config_model.csv_column_serviceprovider = 1
+    system_importer_file_csv_config_model.csv_column_systemtype = 1
+    system_importer_file_csv_config_model.csv_column_case = 1
+    system_importer_file_csv_config_model.csv_column_company = 1
+    system_importer_file_csv_config_model.csv_column_tag = 1
+
+    # save config
+    system_importer_file_csv_config_model.save()
+
+    # return to column fields different values test function
+    return
+
+def set_config_column_choice_vs_default_single_error():
+    """ set column, choice and default single error """
+
+    # get config
+    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+
+    # set config values
+    system_importer_file_csv_config_model.csv_column_system = 1
+    system_importer_file_csv_config_model.csv_choice_ip = False
+    system_importer_file_csv_config_model.csv_column_ip = 2
+
+    # save config
+    system_importer_file_csv_config_model.save()
+
+    # return to column choice vs default test function
+    return
+
+def set_config_column_choice_vs_default_multiple_errors():
+    """ set column, choice and default randomly faulty """
+
+    # get objects
+    case_1 = Case.objects.get(case_name='case_1')
+    company_1 = Company.objects.get(company_name='company_1')
+    domain_1 = Domain.objects.get(domain_name='domain_1')
+    location_1 = Location.objects.get(location_name='location_1')
+    os_1 = Os.objects.get(os_name='os_1')
+    tag_1 = Tag.objects.get(tag_name='tag_1')
+
+    # get config
+    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+
+    # set config values
+    system_importer_file_csv_config_model.csv_column_system = 1
+    # CSV not chosen and CSV column filled out / +1
+    system_importer_file_csv_config_model.csv_choice_ip = False
+    system_importer_file_csv_config_model.csv_column_ip = 2
+    # CSV chosen and no CSV column filled out / +1
+    system_importer_file_csv_config_model.csv_choice_dnsname = True
+    system_importer_file_csv_config_model.csv_column_dnsname = None
+    system_importer_file_csv_config_model.csv_default_dnsname = None
+    # CSV chosen and DB chosen / CSV column filled out and DB chosen / +2
+    system_importer_file_csv_config_model.csv_choice_domain = True
+    system_importer_file_csv_config_model.csv_column_domain = 4
+    system_importer_file_csv_config_model.csv_default_domain = domain_1
+    # CSV column filled out and DB chosen / CSV not chosen and CSV column filled out / +2
+    system_importer_file_csv_config_model.csv_choice_location = False
+    system_importer_file_csv_config_model.csv_column_location = 5
+    system_importer_file_csv_config_model.csv_default_location = location_1
+    # CSV chosen and no CSV column filled out / CSV chosen and DB chosen / +2
+    system_importer_file_csv_config_model.csv_choice_os = True
+    system_importer_file_csv_config_model.csv_column_os = None
+    system_importer_file_csv_config_model.csv_default_os = os_1
+    # CSV not chosen and CSV column filled out / +1
+    system_importer_file_csv_config_model.csv_choice_reason = False
+    system_importer_file_csv_config_model.csv_column_reason = 7
+    system_importer_file_csv_config_model.csv_default_reason = None
+    # CSV not chosen and CSV column filled out / +1
+    system_importer_file_csv_config_model.csv_choice_recommendation = False
+    system_importer_file_csv_config_model.csv_column_recommendation = 8
+    system_importer_file_csv_config_model.csv_default_recommendation = None
+    # CSV not chosen and CSV column filled out / +1
+    system_importer_file_csv_config_model.csv_choice_serviceprovider = False
+    system_importer_file_csv_config_model.csv_column_serviceprovider = 9
+    system_importer_file_csv_config_model.csv_default_serviceprovider = None
+    # CSV not chosen and CSV column filled out / +1
+    system_importer_file_csv_config_model.csv_choice_systemtype = False
+    system_importer_file_csv_config_model.csv_column_systemtype = 10
+    system_importer_file_csv_config_model.csv_default_systemtype = None
+    # CSV chosen and DB chosen / CSV column filled out and DB chosen / +2
+    system_importer_file_csv_config_model.csv_choice_case = True
+    system_importer_file_csv_config_model.csv_column_case = 11
+    system_importer_file_csv_config_model.csv_default_case.add(case_1)
+    # CSV column filled out and DB chosen / CSV not chosen and CSV column filled out / +2
+    system_importer_file_csv_config_model.csv_choice_company = False
+    system_importer_file_csv_config_model.csv_column_company = 12
+    system_importer_file_csv_config_model.csv_default_company.add(company_1)
+    # CSV chosen and no CSV column filled out / CSV chosen and DB chosen / +2
+    system_importer_file_csv_config_model.csv_choice_tag = True
+    system_importer_file_csv_config_model.csv_column_tag = None
+    system_importer_file_csv_config_model.csv_default_tag.add(tag_1)
+
+    # save config
+    system_importer_file_csv_config_model.save()
+
+    # return to column choice vs default test function
+    return
+
 class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
     """ system importer file CSV view tests """
 
@@ -43,9 +185,23 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         # create user
         test_user = User.objects.create_user(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
 
-        # create objects for post_complete test
+        # create objects
         analysisstatus_1 = Analysisstatus.objects.create(analysisstatus_name='analysisstatus_1')
+        Case.objects.create(
+            case_name='case_1',
+            case_is_incident=True,
+            case_created_by_user_id=test_user,
+        )
+        Company.objects.create(company_name='company_1')
+        Domain.objects.create(domain_name='domain_1')
+        Location.objects.create(location_name='location_1')
+        Os.objects.create(os_name='os_1')
         systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
+        tagcolor_1 = Tagcolor.objects.create(tagcolor_name='tagcolor_1')
+        Tag.objects.create(
+            tag_name='tag_1',
+            tagcolor=tagcolor_1,
+        )
 
         # build local path with test files
         csv_import_path = os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/')
@@ -80,7 +236,7 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # change config
-        set_column_fields_numeric_values()
+        set_config_column_fields_numeric_values()
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -116,7 +272,7 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         self.assertEqual(messages[12].message, '`CSV_COLUMN_TAG` is outside the allowed range. Check config!')
         self.assertEqual(messages[12].level_tag, 'error')
 
-    # TODO: [code] add test for cron view (without GET request)
+    # TODO: [code] missing test for cron view (has to be w/o GET request, but what remains to test)
 
     def test_system_importer_file_csv_check_config_attributes_instant_column_fields_numeric_values(self):
         """ test importer view """
@@ -124,7 +280,7 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # change config
-        set_column_fields_numeric_values()
+        set_config_column_fields_numeric_values()
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -166,7 +322,7 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # change config
-        set_column_fields_numeric_values()
+        set_config_column_fields_numeric_values()
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -208,7 +364,7 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # change config
-        set_column_fields_numeric_values()
+        set_config_column_fields_numeric_values()
         # open upload file
         systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_01_minimal_double_quotation.csv'), 'r')
         # create post data
@@ -249,3 +405,243 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         self.assertEqual(messages[11].level_tag, 'error')
         self.assertEqual(messages[12].message, '`CSV_COLUMN_TAG` is outside the allowed range. Check config!')
         self.assertEqual(messages[12].level_tag, 'error')
+
+    def test_system_importer_file_csv_check_config_attributes_create_cron_column_fields_different_values(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
+        # change config
+        set_config_column_fields_equal_values()
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.get('/system/importer/file/csv/cron/', follow=True)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(messages[0].message, 'The columns have to be unique. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
+
+    # TODO: [code] missing test for cron view (has to be w/o GET request, but what remains to test)
+
+    def test_system_importer_file_csv_check_config_attributes_instant_column_fields_different_values(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
+        # change config
+        set_config_column_fields_equal_values()
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.get('/system/importer/file/csv/instant/', follow=True)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(messages[0].message, 'The columns have to be unique. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
+
+    def test_system_importer_file_csv_check_config_attributes_upload_get_column_fields_different_values(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
+        # change config
+        set_config_column_fields_equal_values()
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.get('/system/importer/file/csv/upload/', follow=True)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(messages[0].message, 'The columns have to be unique. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
+
+    def test_system_importer_file_csv_check_config_attributes_upload_post_column_fields_different_values(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
+        # change config
+        set_config_column_fields_equal_values()
+        # open upload file
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_01_minimal_double_quotation.csv'), 'r')
+        # create post data
+        data_dict = {
+            'systemcsv': systemcsv,
+        }
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.post('/system/importer/file/csv/upload/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(messages[0].message, 'The columns have to be unique. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
+
+    def test_system_importer_file_csv_check_config_attributes_create_cron_column_choive_vs_default_single_error(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
+        # change config
+        set_config_column_choice_vs_default_single_error()
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.get('/system/importer/file/csv/cron/', follow=True)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(messages[0].message, 'There was 1 error regarding attributes. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
+
+    # TODO: [code] missing test for cron view (has to be w/o GET request, but what remains to test)
+
+    def test_system_importer_file_csv_check_config_attributes_instant_column_choive_vs_default_single_error(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
+        # change config
+        set_config_column_choice_vs_default_single_error()
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.get('/system/importer/file/csv/instant/', follow=True)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(messages[0].message, 'There was 1 error regarding attributes. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
+
+    def test_system_importer_file_csv_check_config_attributes_upload_get_column_choive_vs_default_single_error(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
+        # change config
+        set_config_column_choice_vs_default_single_error()
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.get('/system/importer/file/csv/upload/', follow=True)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(messages[0].message, 'There was 1 error regarding attributes. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
+
+    def test_system_importer_file_csv_check_config_attributes_upload_post_column_choive_vs_default_single_error(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
+        # change config
+        set_config_column_choice_vs_default_single_error()
+        # open upload file
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_01_minimal_double_quotation.csv'), 'r')
+        # create post data
+        data_dict = {
+            'systemcsv': systemcsv,
+        }
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.post('/system/importer/file/csv/upload/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(messages[0].message, 'There was 1 error regarding attributes. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
+
+    def test_system_importer_file_csv_check_config_attributes_create_cron_column_choive_vs_default_multiple_errors(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
+        # change config
+        set_config_column_choice_vs_default_multiple_errors()
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.get('/system/importer/file/csv/cron/', follow=True)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(messages[0].message, 'There were 18 errors regarding attributes. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
+
+    # TODO: [code] missing test for cron view (has to be w/o GET request, but what remains to test)
+
+    def test_system_importer_file_csv_check_config_attributes_instant_column_choive_vs_default_multiple_errors(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
+        # change config
+        set_config_column_choice_vs_default_multiple_errors()
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.get('/system/importer/file/csv/instant/', follow=True)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(messages[0].message, 'There were 18 errors regarding attributes. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
+
+    def test_system_importer_file_csv_check_config_attributes_upload_get_column_choive_vs_default_multiple_errors(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
+        # change config
+        set_config_column_choice_vs_default_multiple_errors()
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.get('/system/importer/file/csv/upload/', follow=True)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(messages[0].message, 'There were 18 errors regarding attributes. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
+
+    def test_system_importer_file_csv_check_config_attributes_upload_post_column_choive_vs_default_multiple_errors(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
+        # change config
+        set_config_column_choice_vs_default_multiple_errors()
+        # open upload file
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_01_minimal_double_quotation.csv'), 'r')
+        # create post data
+        data_dict = {
+            'systemcsv': systemcsv,
+        }
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.post('/system/importer/file/csv/upload/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(messages[0].message, 'There were 18 errors regarding attributes. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')

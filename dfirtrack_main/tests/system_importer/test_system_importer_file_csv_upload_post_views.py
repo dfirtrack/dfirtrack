@@ -18,7 +18,7 @@ class SystemImporterFileCsvUploadPostViewTestCase(TestCase):
         # create user
         test_user = User.objects.create_user(username='testuser_system_importer_file_csv_upload_post', password='8BhDTbU9qMSQ4NGhkfyc')
 
-        # create objects for post_complete test
+        # create objects
         Analysisstatus.objects.create(analysisstatus_name='analysisstatus_1')
         Systemstatus.objects.create(systemstatus_name='systemstatus_1')
 #        case_1 = Case.objects.create(
