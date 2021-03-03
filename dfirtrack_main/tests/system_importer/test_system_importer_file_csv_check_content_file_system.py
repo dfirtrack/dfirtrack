@@ -5,7 +5,6 @@ from django.utils import timezone
 from dfirtrack.settings import BASE_DIR
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv import system_cron
-from dfirtrack_main.models import Analysisstatus, Case, Company, Domain, Location, Os, Systemstatus, Tag, Tagcolor
 import os
 import urllib.parse
 
@@ -88,14 +87,14 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
     def test_system_importer_file_csv_check_content_file_system_cron_path_not_existing(self):
         """ test importer view """
 
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_check_content_file_system', password='mxsdGwJ2TINdQMq6rMNN')
         # set file system attributes
         csv_import_path = '/path_not_existing'
         # change config
         change_csv_import_path(csv_import_path)
         # execute cron job / scheduled task
         system_cron()
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_content_file_system', password='mxsdGwJ2TINdQMq6rMNN')
         # get response
         response = self.client.get('/system/')
         # get messages
@@ -157,14 +156,14 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
     def test_system_importer_file_csv_check_content_file_system_cron_path_no_read_permission(self):
         """ test importer view """
 
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_check_content_file_system', password='mxsdGwJ2TINdQMq6rMNN')
         # set file system attributes
         csv_import_path = '/root'
         # change config
         change_csv_import_path(csv_import_path)
         # execute cron job / scheduled task
         system_cron()
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_content_file_system', password='mxsdGwJ2TINdQMq6rMNN')
         # get response
         response = self.client.get('/system/')
         # get messages
@@ -228,8 +227,6 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
     def test_system_importer_file_csv_check_content_file_system_cron_file_not_existing(self):
         """ test importer view """
 
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_check_content_file_system', password='mxsdGwJ2TINdQMq6rMNN')
         # set file system attributes
         csv_import_path = '/tmp'
         csv_import_filename = 'filename_not_existing.abc'
@@ -238,6 +235,8 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         change_csv_import_filename(csv_import_filename)
         # execute cron job / scheduled task
         system_cron()
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_content_file_system', password='mxsdGwJ2TINdQMq6rMNN')
         # get response
         response = self.client.get('/system/')
         # get messages
@@ -307,8 +306,6 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
     def test_system_importer_file_csv_check_content_file_system_cron_file_no_read_permission(self):
         """ test importer view """
 
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_check_content_file_system', password='mxsdGwJ2TINdQMq6rMNN')
         # get timestamp string
         t1 = timezone.now().strftime('%Y%m%d_%H%M%S')
         # set file system attributes
@@ -321,6 +318,8 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         create_file_no_read_permission(csv_import_path, csv_import_filename)
         # execute cron job / scheduled task
         system_cron()
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_content_file_system', password='mxsdGwJ2TINdQMq6rMNN')
         # get response
         response = self.client.get('/system/')
         # get messages
@@ -390,8 +389,6 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
     def test_system_importer_file_csv_check_content_file_system_cron_file_empty(self):
         """ test importer view """
 
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_check_content_file_system', password='mxsdGwJ2TINdQMq6rMNN')
         # set file system attributes
         csv_import_path = os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/')
         csv_import_filename = 'system_importer_file_csv_testfile_06_empty.csv'
@@ -400,6 +397,8 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         change_csv_import_filename(csv_import_filename)
         # execute cron job / scheduled task
         system_cron()
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_content_file_system', password='mxsdGwJ2TINdQMq6rMNN')
         # get response
         response = self.client.get('/system/')
         # get messages
