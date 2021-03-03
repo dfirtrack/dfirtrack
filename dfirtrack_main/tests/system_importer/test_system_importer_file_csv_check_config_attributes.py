@@ -3,6 +3,7 @@ from django.contrib.messages import get_messages
 from django.test import TestCase
 from dfirtrack.settings import BASE_DIR
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
+from dfirtrack_main.importer.file.csv import system_cron
 from dfirtrack_main.models import Analysisstatus, Case, Company, Domain, Location, Os, Systemstatus, Tag, Tagcolor
 import os
 import urllib.parse
@@ -230,8 +231,9 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
 
         """ create objects """
 
-        # create user
+        # create users
         test_user = User.objects.create_user(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
+        User.objects.create_user(username='message_user', password='POPKkir2A2biti52AYJG')
 
         # create objects
         analysisstatus_1 = Analysisstatus.objects.create(analysisstatus_name='analysisstatus_1')
@@ -390,7 +392,32 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         self.assertEqual(messages[12].message, '`CSV_COLUMN_TAG` is outside the allowed range. Check config!')
         self.assertEqual(messages[12].level_tag, 'error')
 
-    # TODO: [code] missing test for cron view (has to be w/o GET request, but what remains to test)
+    def test_system_importer_file_csv_check_config_attributes_cron_column_fields_numeric_values(self):
+        """ test importer view """
+
+        # change config
+        set_config_column_fields_numeric_values()
+        # execute cron job / scheduled task
+        system_cron()
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_system_importer_file_csv_check_config_attributes')
+        self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
+        # switch user context
+        self.client.logout()
+        self.client.login(username='message_user', password='POPKkir2A2biti52AYJG')
+        # get response
+        response = self.client.get('/system/')
+        # compare
+        self.assertEqual(str(response.context['user']), 'message_user')
+        self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
 
     def test_system_importer_file_csv_check_config_attributes_instant_column_fields_numeric_values(self):
         """ test importer view """
@@ -546,7 +573,32 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         self.assertEqual(messages[0].message, 'There was 1 error regarding attributes. Check config!')
         self.assertEqual(messages[0].level_tag, 'error')
 
-    # TODO: [code] missing test for cron view (has to be w/o GET request, but what remains to test)
+    def test_system_importer_file_csv_check_config_attributes_cron_column_choive_vs_default_single_error(self):
+        """ test importer view """
+
+        # change config
+        set_config_column_choice_vs_default_single_error()
+        # execute cron job / scheduled task
+        system_cron()
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_system_importer_file_csv_check_config_attributes')
+        self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
+        # switch user context
+        self.client.logout()
+        self.client.login(username='message_user', password='POPKkir2A2biti52AYJG')
+        # get response
+        response = self.client.get('/system/')
+        # compare
+        self.assertEqual(str(response.context['user']), 'message_user')
+        self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
 
     def test_system_importer_file_csv_check_config_attributes_instant_column_choive_vs_default_single_error(self):
         """ test importer view """
@@ -630,7 +682,32 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         self.assertEqual(messages[0].message, 'There were 18 errors regarding attributes. Check config!')
         self.assertEqual(messages[0].level_tag, 'error')
 
-    # TODO: [code] missing test for cron view (has to be w/o GET request, but what remains to test)
+    def test_system_importer_file_csv_check_config_attributes_cron_column_choive_vs_default_multiple_errors(self):
+        """ test importer view """
+
+        # change config
+        set_config_column_choice_vs_default_multiple_errors()
+        # execute cron job / scheduled task
+        system_cron()
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_system_importer_file_csv_check_config_attributes')
+        self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
+        # switch user context
+        self.client.logout()
+        self.client.login(username='message_user', password='POPKkir2A2biti52AYJG')
+        # get response
+        response = self.client.get('/system/')
+        # compare
+        self.assertEqual(str(response.context['user']), 'message_user')
+        self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
 
     def test_system_importer_file_csv_check_config_attributes_instant_column_choive_vs_default_multiple_errors(self):
         """ test importer view """
@@ -819,7 +896,201 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         self.assertEqual(messages[0].message, 'Removing tags with prefix is only available when setting tags from CSV.')
         self.assertEqual(messages[0].level_tag, 'error')
 
-    # TODO: [code] missing test for cron view (has to be w/o GET request, but what remains to test)
+    def test_system_importer_file_csv_check_config_attributes_cron_tag_prefix_and_delimiter(self):
+        """ test importer view """
+
+        """ CSV chosen and prefix and / or prefix delimiter not set """
+
+        # change config
+        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+        system_importer_file_csv_config_model.csv_choice_tag = True
+        system_importer_file_csv_config_model.csv_column_tag = 2
+        system_importer_file_csv_config_model.csv_tag_prefix = None
+        system_importer_file_csv_config_model.csv_tag_prefix_delimiter = 'tag_prefix_underscore'
+        system_importer_file_csv_config_model.csv_remove_tag = 'tag_remove_none'
+        system_importer_file_csv_config_model.save()
+        system_importer_file_csv_config_model.csv_default_tag.clear()
+        # execute cron job / scheduled task
+        system_cron()
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_system_importer_file_csv_check_config_attributes')
+        self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
+        # switch user context
+        self.client.logout()
+        self.client.login(username='message_user', password='POPKkir2A2biti52AYJG')
+        # get response
+        response = self.client.get('/system/')
+        # compare
+        self.assertEqual(str(response.context['user']), 'message_user')
+        self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
+        # change config
+        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+        system_importer_file_csv_config_model.csv_choice_tag = True
+        system_importer_file_csv_config_model.csv_column_tag = 2
+        system_importer_file_csv_config_model.csv_tag_prefix = 'AUTO'
+        system_importer_file_csv_config_model.csv_tag_prefix_delimiter = None
+        system_importer_file_csv_config_model.csv_remove_tag = 'tag_remove_none'
+        system_importer_file_csv_config_model.save()
+        system_importer_file_csv_config_model.csv_default_tag.clear()
+        # execute cron job / scheduled task
+        system_cron()
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_system_importer_file_csv_check_config_attributes')
+        self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
+        # switch user context
+        self.client.logout()
+        self.client.login(username='message_user', password='POPKkir2A2biti52AYJG')
+        # get response
+        response = self.client.get('/system/')
+        # compare
+        self.assertEqual(str(response.context['user']), 'message_user')
+        self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
+
+        """ DB chosen and prefix and / or prefix delimiter chosen """
+
+        # get object
+        tag_1 = Tag.objects.get(tag_name='tag_1')
+        # change config
+        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+        system_importer_file_csv_config_model.csv_choice_tag = False
+        system_importer_file_csv_config_model.csv_column_tag = None
+        system_importer_file_csv_config_model.csv_tag_prefix = None
+        system_importer_file_csv_config_model.csv_tag_prefix_delimiter = 'tag_prefix_underscore'
+        system_importer_file_csv_config_model.csv_remove_tag = 'tag_remove_none'
+        system_importer_file_csv_config_model.save()
+        system_importer_file_csv_config_model.csv_default_tag.add(tag_1)
+        # execute cron job / scheduled task
+        system_cron()
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_system_importer_file_csv_check_config_attributes')
+        self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
+        # switch user context
+        self.client.logout()
+        self.client.login(username='message_user', password='POPKkir2A2biti52AYJG')
+        # get response
+        response = self.client.get('/system/')
+        # compare
+        self.assertEqual(str(response.context['user']), 'message_user')
+        self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
+        # change config
+        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+        system_importer_file_csv_config_model.csv_choice_tag = False
+        system_importer_file_csv_config_model.csv_column_tag = None
+        system_importer_file_csv_config_model.csv_tag_prefix = 'AUTO'
+        system_importer_file_csv_config_model.csv_tag_prefix_delimiter = None
+        system_importer_file_csv_config_model.csv_remove_tag = 'tag_remove_none'
+        system_importer_file_csv_config_model.save()
+        system_importer_file_csv_config_model.csv_default_tag.add(tag_1)
+        # execute cron job / scheduled task
+        system_cron()
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_system_importer_file_csv_check_config_attributes')
+        self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
+        # switch user context
+        self.client.logout()
+        self.client.login(username='message_user', password='POPKkir2A2biti52AYJG')
+        # get response
+        response = self.client.get('/system/')
+        # compare
+        self.assertEqual(str(response.context['user']), 'message_user')
+        self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
+
+        """ DB chosen but special option 'tag_remove_prefix' set """
+
+        # get object
+        tag_1 = Tag.objects.get(tag_name='tag_1')
+        # change config
+        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+        system_importer_file_csv_config_model.csv_choice_tag = False
+        system_importer_file_csv_config_model.csv_column_tag = None
+        system_importer_file_csv_config_model.csv_tag_prefix = None
+        system_importer_file_csv_config_model.csv_tag_prefix_delimiter = None
+        system_importer_file_csv_config_model.csv_remove_tag = 'tag_remove_prefix'
+        system_importer_file_csv_config_model.save()
+        system_importer_file_csv_config_model.csv_default_tag.add(tag_1)
+        # execute cron job / scheduled task
+        system_cron()
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_system_importer_file_csv_check_config_attributes')
+        self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
+        # switch user context
+        self.client.logout()
+        self.client.login(username='message_user', password='POPKkir2A2biti52AYJG')
+        # get response
+        response = self.client.get('/system/')
+        # compare
+        self.assertEqual(str(response.context['user']), 'message_user')
+        self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
+        # change config
+        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+        system_importer_file_csv_config_model.csv_choice_tag = False
+        system_importer_file_csv_config_model.csv_column_tag = None
+        system_importer_file_csv_config_model.csv_tag_prefix = None
+        system_importer_file_csv_config_model.csv_tag_prefix_delimiter = None
+        system_importer_file_csv_config_model.csv_remove_tag = 'tag_remove_prefix'
+        system_importer_file_csv_config_model.save()
+        system_importer_file_csv_config_model.csv_default_tag.add(tag_1)
+        # execute cron job / scheduled task
+        system_cron()
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_system_importer_file_csv_check_config_attributes')
+        self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
+        # switch user context
+        self.client.logout()
+        self.client.login(username='message_user', password='POPKkir2A2biti52AYJG')
+        # get response
+        response = self.client.get('/system/')
+        # compare
+        self.assertEqual(str(response.context['user']), 'message_user')
+        self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
 
     def test_system_importer_file_csv_check_config_attributes_instant_tag_prefix_and_delimiter(self):
         """ test importer view """
@@ -1221,7 +1492,32 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         self.assertEqual(messages[1].message, 'Alternative analysisstatus only available with tags from CSV.')
         self.assertEqual(messages[1].level_tag, 'error')
 
-    # TODO: [code] missing test for cron view (has to be w/o GET request, but what remains to test)
+    def test_system_importer_file_csv_check_config_attributes_cron_tagfree_choices(self):
+        """ test importer view """
+
+        # change config
+        set_config_tagfree_choices()
+        # execute cron job / scheduled task
+        system_cron()
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_system_importer_file_csv_check_config_attributes')
+        self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
+        # switch user context
+        self.client.logout()
+        self.client.login(username='message_user', password='POPKkir2A2biti52AYJG')
+        # get response
+        response = self.client.get('/system/')
+        # compare
+        self.assertEqual(str(response.context['user']), 'message_user')
+        self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
 
     def test_system_importer_file_csv_check_config_attributes_instant_tagfree_choices(self):
         """ test importer view """
@@ -1311,7 +1607,32 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         self.assertEqual(messages[0].message, 'The columns have to be unique. Check config!')
         self.assertEqual(messages[0].level_tag, 'error')
 
-    # TODO: [code] missing test for cron view (has to be w/o GET request, but what remains to test)
+    def test_system_importer_file_csv_check_config_attributes_cron_column_fields_different_values(self):
+        """ test importer view """
+
+        # change config
+        set_config_column_fields_equal_values()
+        # execute cron job / scheduled task
+        system_cron()
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_system_importer_file_csv_check_config_attributes')
+        self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
+        # switch user context
+        self.client.logout()
+        self.client.login(username='message_user', password='POPKkir2A2biti52AYJG')
+        # get response
+        response = self.client.get('/system/')
+        # compare
+        self.assertEqual(str(response.context['user']), 'message_user')
+        self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
 
     def test_system_importer_file_csv_check_config_attributes_instant_column_fields_different_values(self):
         """ test importer view """
@@ -1395,7 +1716,32 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         self.assertEqual(messages[0].message, 'There is an error regarding removing existing attributes. Check config!')
         self.assertEqual(messages[0].level_tag, 'error')
 
-    # TODO: [code] missing test for cron view (has to be w/o GET request, but what remains to test)
+    def test_system_importer_file_csv_check_config_attributes_cron_remove_choices(self):
+        """ test importer view """
+
+        # change config
+        set_config_remove_choices()
+        # execute cron job / scheduled task
+        system_cron()
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_system_importer_file_csv_check_config_attributes')
+        self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
+        # switch user context
+        self.client.logout()
+        self.client.login(username='message_user', password='POPKkir2A2biti52AYJG')
+        # get response
+        response = self.client.get('/system/')
+        # compare
+        self.assertEqual(str(response.context['user']), 'message_user')
+        self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
 
     def test_system_importer_file_csv_check_config_attributes_instant_remove_choices(self):
         """ test importer view """
