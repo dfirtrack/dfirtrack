@@ -194,20 +194,6 @@ class SystemImporterFileCsvUploadPostViewTestCase(TestCase):
         system_importer_file_csv_config_model.csv_tag_delimiter = 'tag_space'
         system_importer_file_csv_config_model.save()
 
-    # TODO: [code] add tests for config checks 'check_config_attributes' called in 'csv.system_upload' GET method
-        # redirect to system_list
-
-    # TODO: [code] rebuild test
-
-#    def test_system_importer_file_csv_upload_post_bad_config(self):
-#        """ test importer view """
-#
-#        # compare
-#        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-#        self.assertEqual(str(messages[0]), '`CSV_COLUMN_SYSTEM` is outside the allowed range. Check config!')
-#        self.assertEqual(str(messages[1]), '`CSV_COLUMN_IP` is outside the allowed range. Check config!')
-#        self.assertEqual(str(messages[2]), 'Nothing was changed.')
-
     def test_system_importer_file_csv_upload_post_no_file_submitted(self):
         """ test importer view """
 

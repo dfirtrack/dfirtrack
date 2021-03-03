@@ -123,18 +123,3 @@ class SystemImporterFileCsvUploadGetViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(messages[0].message, 'WARNING: Existing systems will be updated!')
         self.assertEqual(messages[0].level_tag, 'warning')
-
-    # TODO: [code] add tests for config checks 'check_config_attributes' called in 'csv.system_upload' GET method
-        # redirect to system_list
-        # all messages --> generic tests for all functions ('system_cron', 'system_create_cron', 'system_upload', 'system_instant')
-
-    # TODO: [code] rebuild test
-
-#    def test_system_importer_file_csv_upload_get_bad_config(self):
-#        """ test importer view """
-#
-#        # compare
-#        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-#        self.assertEqual(str(messages[0]), '`CSV_COLUMN_SYSTEM` is outside the allowed range. Check config!')
-#        self.assertEqual(str(messages[1]), '`CSV_COLUMN_IP` is outside the allowed range. Check config!')
-#        self.assertEqual(str(messages[2]), 'Nothing was changed.')
