@@ -151,3 +151,35 @@ class SystemImporterFileCsvInstantViewTestCase(TestCase):
         self.assertEqual(System.objects.get(system_name='system_csv_03_001').systemstatus, systemstatus_1)
         self.assertEqual(System.objects.get(system_name='system_csv_03_002').systemstatus, systemstatus_1)
         self.assertEqual(System.objects.get(system_name='system_csv_03_003').systemstatus, systemstatus_1)
+
+    def test_system_importer_file_csv_instant_complete(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_instant', password='lw3V2i2uaTFlk4yTlIaV')
+        # change config
+        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+        system_importer_file_csv_config_model.csv_import_filename = 'system_importer_file_csv_testfile_07_complete.csv'
+        system_importer_file_csv_config_model.save()
+        # get objects
+        analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
+        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.get('/system/importer/file/csv/instant/', follow=True)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(messages[0].message, '3 systems were created.')
+        self.assertEqual(messages[0].level_tag, 'success')
+        self.assertTrue(System.objects.filter(system_name='system_csv_07_001').exists())
+        self.assertTrue(System.objects.filter(system_name='system_csv_07_002').exists())
+        self.assertTrue(System.objects.filter(system_name='system_csv_07_003').exists())
+        self.assertEqual(System.objects.get(system_name='system_csv_07_001').analysisstatus, analysisstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_07_002').analysisstatus, analysisstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_07_003').analysisstatus, analysisstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_07_001').systemstatus, systemstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_07_002').systemstatus, systemstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_07_003').systemstatus, systemstatus_1)

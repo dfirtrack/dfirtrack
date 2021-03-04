@@ -194,8 +194,6 @@ class SystemImporterFileCsvUploadPostViewTestCase(TestCase):
         system_importer_file_csv_config_model.csv_tag_delimiter = 'tag_space'
         system_importer_file_csv_config_model.save()
 
-    # TODO: [rebuild] not 'upload' specific
-
     def test_system_importer_file_csv_upload_post_minimal_double_quotation(self):
         """ test importer view """
 
@@ -231,8 +229,6 @@ class SystemImporterFileCsvUploadPostViewTestCase(TestCase):
         self.assertEqual(System.objects.get(system_name='system_csv_01_001').systemstatus, systemstatus_1)
         self.assertEqual(System.objects.get(system_name='system_csv_01_002').systemstatus, systemstatus_1)
         self.assertEqual(System.objects.get(system_name='system_csv_01_003').systemstatus, systemstatus_1)
-
-    # TODO: [rebuild] not 'upload' specific
 
     def test_system_importer_file_csv_upload_post_minimal_single_quotation(self):
         """ test importer view """
@@ -274,8 +270,6 @@ class SystemImporterFileCsvUploadPostViewTestCase(TestCase):
         self.assertEqual(System.objects.get(system_name='system_csv_02_002').systemstatus, systemstatus_1)
         self.assertEqual(System.objects.get(system_name='system_csv_02_003').systemstatus, systemstatus_1)
 
-    # TODO: [rebuild] not 'upload' specific
-
     def test_system_importer_file_csv_upload_post_minimal_headline(self):
         """ test importer view """
 
@@ -315,6 +309,42 @@ class SystemImporterFileCsvUploadPostViewTestCase(TestCase):
         self.assertEqual(System.objects.get(system_name='system_csv_03_001').systemstatus, systemstatus_1)
         self.assertEqual(System.objects.get(system_name='system_csv_03_002').systemstatus, systemstatus_1)
         self.assertEqual(System.objects.get(system_name='system_csv_03_003').systemstatus, systemstatus_1)
+
+    def test_system_importer_file_csv_upload_post_complete(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_upload_post', password='8BhDTbU9qMSQ4NGhkfyc')
+        # get objects
+        analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
+        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+        # open upload file
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_07_complete.csv'), 'r')
+        # create post data
+        data_dict = {
+            'systemcsv': systemcsv,
+        }
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.post('/system/importer/file/csv/upload/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # close file
+        systemcsv.close()
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(messages[0].message, '3 systems were created.')
+        self.assertEqual(messages[0].level_tag, 'success')
+        self.assertTrue(System.objects.filter(system_name='system_csv_07_001').exists())
+        self.assertTrue(System.objects.filter(system_name='system_csv_07_002').exists())
+        self.assertTrue(System.objects.filter(system_name='system_csv_07_003').exists())
+        self.assertEqual(System.objects.get(system_name='system_csv_07_001').analysisstatus, analysisstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_07_002').analysisstatus, analysisstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_07_003').analysisstatus, analysisstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_07_001').systemstatus, systemstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_07_002').systemstatus, systemstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_07_003').systemstatus, systemstatus_1)
 
     # TODO: [code] rebuild test
 
