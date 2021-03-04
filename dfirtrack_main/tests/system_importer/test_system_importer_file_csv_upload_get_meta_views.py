@@ -6,14 +6,14 @@ from dfirtrack_main.models import Analysisstatus, Systemstatus
 import urllib.parse
 
 
-class SystemImporterFileCsvUploadGetViewTestCase(TestCase):
+class SystemImporterFileCsvUploadGetMetaViewTestCase(TestCase):
     """ system importer file CSV view tests """
 
     @classmethod
     def setUpTestData(cls):
 
         # create user
-        User.objects.create_user(username='testuser_system_importer_file_csv_upload_get', password='39gE1C0nA1hmlcoxZjAd')
+        User.objects.create_user(username='testuser_system_importer_file_csv_upload_get_meta', password='39gE1C0nA1hmlcoxZjAd')
 
         # create objects
         Analysisstatus.objects.create(analysisstatus_name='analysisstatus_1')
@@ -23,7 +23,7 @@ class SystemImporterFileCsvUploadGetViewTestCase(TestCase):
     def setUp(cls):
 
         # get user
-        test_user = User.objects.get(username='testuser_system_importer_file_csv_upload_get')
+        test_user = User.objects.get(username='testuser_system_importer_file_csv_upload_get_meta')
 
         # get objects
         analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
@@ -54,7 +54,7 @@ class SystemImporterFileCsvUploadGetViewTestCase(TestCase):
         system_importer_file_csv_config_model.csv_tag_delimiter = 'tag_space'
         system_importer_file_csv_config_model.save()
 
-    def test_system_importer_file_csv_upload_get_not_logged_in(self):
+    def test_system_importer_file_csv_upload_get_meta_not_logged_in(self):
         """ test importer view """
 
         # create url
@@ -64,41 +64,41 @@ class SystemImporterFileCsvUploadGetViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
-    def test_system_importer_file_csv_upload_get_logged_in(self):
+    def test_system_importer_file_csv_upload_get_meta_logged_in(self):
         """ test importer view """
 
         # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_upload_get', password='39gE1C0nA1hmlcoxZjAd')
+        self.client.login(username='testuser_system_importer_file_csv_upload_get_meta', password='39gE1C0nA1hmlcoxZjAd')
         # get response
         response = self.client.get('/system/importer/file/csv/upload/')
         # compare
         self.assertEqual(response.status_code, 200)
 
-    def test_system_importer_file_csv_upload_get_template(self):
+    def test_system_importer_file_csv_upload_get_meta_template(self):
         """ test importer view """
 
         # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_upload_get', password='39gE1C0nA1hmlcoxZjAd')
+        self.client.login(username='testuser_system_importer_file_csv_upload_get_meta', password='39gE1C0nA1hmlcoxZjAd')
         # get response
         response = self.client.get('/system/importer/file/csv/upload/')
         # compare
         self.assertTemplateUsed(response, 'dfirtrack_main/system/system_importer_file_csv.html')
 
-    def test_system_importer_file_csv_upload_get_get_user_context(self):
+    def test_system_importer_file_csv_upload_get_meta_get_user_context(self):
         """ test importer view """
 
         # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_upload_get', password='39gE1C0nA1hmlcoxZjAd')
+        self.client.login(username='testuser_system_importer_file_csv_upload_get_meta', password='39gE1C0nA1hmlcoxZjAd')
         # get response
         response = self.client.get('/system/importer/file/csv/upload/')
         # compare
-        self.assertEqual(str(response.context['user']), 'testuser_system_importer_file_csv_upload_get')
+        self.assertEqual(str(response.context['user']), 'testuser_system_importer_file_csv_upload_get_meta')
 
-    def test_system_importer_file_csv_upload_get_redirect(self):
+    def test_system_importer_file_csv_upload_get_meta_redirect(self):
         """ test importer view """
 
         # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_upload_get', password='39gE1C0nA1hmlcoxZjAd')
+        self.client.login(username='testuser_system_importer_file_csv_upload_get_meta', password='39gE1C0nA1hmlcoxZjAd')
         # create url
         destination = urllib.parse.quote('/system/importer/file/csv/upload/', safe='/')
         # get response
@@ -106,11 +106,11 @@ class SystemImporterFileCsvUploadGetViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
-    def test_system_importer_file_csv_upload_get_skip_warning(self):
+    def test_system_importer_file_csv_upload_get_meta_skip_warning(self):
         """ test importer view """
 
         # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_upload_get', password='39gE1C0nA1hmlcoxZjAd')
+        self.client.login(username='testuser_system_importer_file_csv_upload_get_meta', password='39gE1C0nA1hmlcoxZjAd')
         # change config
         system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
         system_importer_file_csv_config_model.csv_skip_existing_system = False
