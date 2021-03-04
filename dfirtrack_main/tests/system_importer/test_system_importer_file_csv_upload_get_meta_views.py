@@ -2,7 +2,6 @@ from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
-from dfirtrack_main.models import Analysisstatus, Systemstatus
 import urllib.parse
 
 
@@ -13,45 +12,11 @@ class SystemImporterFileCsvUploadGetMetaViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create user
-        User.objects.create_user(username='testuser_system_importer_file_csv_upload_get_meta', password='39gE1C0nA1hmlcoxZjAd')
-
-        # create objects
-        Analysisstatus.objects.create(analysisstatus_name='analysisstatus_1')
-        Systemstatus.objects.create(systemstatus_name='systemstatus_1')
-
-    @classmethod
-    def setUp(cls):
-
-        # get user
-        test_user = User.objects.get(username='testuser_system_importer_file_csv_upload_get_meta')
-
-        # get objects
-        analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
-        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
-
-        # set default values
-        csv_import_path = '/tmp'
-        csv_import_filename = 'system.csv'
+        test_user = User.objects.create_user(username='testuser_system_importer_file_csv_upload_get_meta', password='39gE1C0nA1hmlcoxZjAd')
 
         # restore config
         system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
-        system_importer_file_csv_config_model.csv_column_system = 1
-        system_importer_file_csv_config_model.csv_skip_existing_system = True
-        system_importer_file_csv_config_model.csv_headline = False
-        system_importer_file_csv_config_model.csv_import_path = csv_import_path
-        system_importer_file_csv_config_model.csv_import_filename = csv_import_filename
         system_importer_file_csv_config_model.csv_import_username = test_user
-        system_importer_file_csv_config_model.csv_default_systemstatus = systemstatus_1
-        system_importer_file_csv_config_model.csv_default_analysisstatus = analysisstatus_1
-        system_importer_file_csv_config_model.csv_default_tagfree_systemstatus = systemstatus_1
-        system_importer_file_csv_config_model.csv_default_tagfree_analysisstatus = analysisstatus_1
-        system_importer_file_csv_config_model.csv_tag_lock_systemstatus = 'LOCK_SYSTEMSTATUS'
-        system_importer_file_csv_config_model.csv_tag_lock_analysisstatus = 'LOCK_ANALYSISSTATUS'
-        system_importer_file_csv_config_model.csv_remove_tag = 'tag_remove_prefix'
-        system_importer_file_csv_config_model.csv_field_delimiter = 'field_comma'
-        system_importer_file_csv_config_model.csv_text_quote = 'text_double_quotation_marks'
-        system_importer_file_csv_config_model.csv_ip_delimiter = 'ip_semicolon'
-        system_importer_file_csv_config_model.csv_tag_delimiter = 'tag_space'
         system_importer_file_csv_config_model.save()
 
     def test_system_importer_file_csv_upload_get_meta_not_logged_in(self):
