@@ -48,7 +48,7 @@ def create_file_no_read_permission(csv_import_path, csv_import_filename):
     # return to test function
     return
 
-class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
+class SystemImporterFileCsvCheckConfigContentFileSystemViewTestCase(TestCase):
     """ system importer file CSV view tests """
 
     @classmethod

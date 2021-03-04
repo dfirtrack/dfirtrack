@@ -194,19 +194,6 @@ class SystemImporterFileCsvUploadPostViewTestCase(TestCase):
         system_importer_file_csv_config_model.csv_tag_delimiter = 'tag_space'
         system_importer_file_csv_config_model.save()
 
-    def test_system_importer_file_csv_upload_post_no_file_submitted(self):
-        """ test importer view """
-
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_upload_post', password='8BhDTbU9qMSQ4NGhkfyc')
-        # create post data
-        data_dict = {}
-        # get response
-        response = self.client.post('/system/importer/file/csv/upload/', data_dict)
-        # compare
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'dfirtrack_main/system/system_importer_file_csv.html')
-
     # TODO: [rebuild] not 'upload' specific
 
     def test_system_importer_file_csv_upload_post_minimal_double_quotation(self):
@@ -328,58 +315,6 @@ class SystemImporterFileCsvUploadPostViewTestCase(TestCase):
         self.assertEqual(System.objects.get(system_name='system_csv_03_001').systemstatus, systemstatus_1)
         self.assertEqual(System.objects.get(system_name='system_csv_03_002').systemstatus, systemstatus_1)
         self.assertEqual(System.objects.get(system_name='system_csv_03_003').systemstatus, systemstatus_1)
-
-    # TODO: [rebuild] not 'upload' specific
-
-    def test_system_importer_file_csv_upload_post_wrong_type(self):
-        """ test importer view """
-
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_upload_post', password='8BhDTbU9qMSQ4NGhkfyc')
-        # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_04_wrong_type.png'), 'rb')
-        # create post data
-        data_dict = {
-            'systemcsv': systemcsv,
-        }
-        # create url
-        destination = urllib.parse.quote('/system/', safe='/')
-        # get response
-        response = self.client.post('/system/importer/file/csv/upload/', data_dict)
-        # get messages
-        messages = list(get_messages(response.wsgi_request))
-        # close file
-        systemcsv.close()
-        # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-        self.assertEqual(messages[0].message, 'Wrong file type for CSV import. Check config or file system!')
-        self.assertEqual(messages[0].level_tag, 'error')
-
-    # TODO: [rebuild] not 'upload' specific
-
-    def test_system_importer_file_csv_upload_post_corrupted(self):
-        """ test importer view """
-
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_upload_post', password='8BhDTbU9qMSQ4NGhkfyc')
-        # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_05_corrupted.csv'), 'r')
-        # create post data
-        data_dict = {
-            'systemcsv': systemcsv,
-        }
-        # create url
-        destination = urllib.parse.quote('/system/', safe='/')
-        # get response
-        response = self.client.post('/system/importer/file/csv/upload/', data_dict)
-        # get messages
-        messages = list(get_messages(response.wsgi_request))
-        # close file
-        systemcsv.close()
-        # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-        self.assertEqual(messages[0].message, 'File is corrupted. Check config or file system!')
-        self.assertEqual(messages[0].level_tag, 'error')
 
     # TODO: [code] rebuild test
 
