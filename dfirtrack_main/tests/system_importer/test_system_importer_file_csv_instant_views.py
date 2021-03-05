@@ -3,7 +3,7 @@ from django.contrib.messages import get_messages
 from django.test import TestCase
 from dfirtrack.settings import BASE_DIR
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
-from dfirtrack_main.models import Analysisstatus, System, Systemstatus
+from dfirtrack_main.models import Analysisstatus, Ip, System, Systemstatus, Tag
 import os
 import urllib.parse
 
@@ -160,6 +160,12 @@ class SystemImporterFileCsvInstantViewTestCase(TestCase):
         # change config
         system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
         system_importer_file_csv_config_model.csv_import_filename = 'system_importer_file_csv_testfile_07_complete.csv'
+
+        system_importer_file_csv_config_model.csv_choice_ip = True
+        system_importer_file_csv_config_model.csv_column_ip = 2
+        system_importer_file_csv_config_model.csv_choice_tag = True
+        system_importer_file_csv_config_model.csv_column_tag = 3
+
         system_importer_file_csv_config_model.save()
         # get objects
         analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
@@ -170,13 +176,25 @@ class SystemImporterFileCsvInstantViewTestCase(TestCase):
         response = self.client.get('/system/importer/file/csv/instant/', follow=True)
         # get messages
         messages = list(get_messages(response.wsgi_request))
-        # compare
+        # compare - generic stuff
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
         self.assertEqual(messages[0].message, '3 systems were created.')
         self.assertEqual(messages[0].level_tag, 'success')
+        # compare - existence of objects
+        self.assertTrue(Ip.objects.filter(ip_ip='127.1.0.1').exists())
+        self.assertTrue(Ip.objects.filter(ip_ip='127.1.0.2').exists())
+        self.assertTrue(Ip.objects.filter(ip_ip='127.1.0.3').exists())
+        self.assertTrue(Ip.objects.filter(ip_ip='10.2.0.1').exists())
+        self.assertTrue(Ip.objects.filter(ip_ip='10.2.0.2').exists())
+        self.assertTrue(Ip.objects.filter(ip_ip='10.2.0.3').exists())
         self.assertTrue(System.objects.filter(system_name='system_csv_07_001').exists())
         self.assertTrue(System.objects.filter(system_name='system_csv_07_002').exists())
         self.assertTrue(System.objects.filter(system_name='system_csv_07_003').exists())
+        self.assertTrue(Tag.objects.filter(tag_name='tag_1').exists())
+        self.assertTrue(Tag.objects.filter(tag_name='tag_2').exists())
+        self.assertTrue(Tag.objects.filter(tag_name='tag_3').exists())
+        self.assertTrue(Tag.objects.filter(tag_name='tag_4').exists())
+        # compare - relations
         self.assertEqual(System.objects.get(system_name='system_csv_07_001').analysisstatus, analysisstatus_1)
         self.assertEqual(System.objects.get(system_name='system_csv_07_002').analysisstatus, analysisstatus_1)
         self.assertEqual(System.objects.get(system_name='system_csv_07_003').analysisstatus, analysisstatus_1)
