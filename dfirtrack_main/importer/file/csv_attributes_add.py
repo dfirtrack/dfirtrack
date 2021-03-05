@@ -791,10 +791,10 @@ def add_many2many_attributes(system, system_created, model, row, row_counter, re
                                 warning_logger(logger_username, f' SYSTEM_IMPORTER_FILE_CSV_TAG_COLUMN row_{row_counter}:invalid_tag')
                                 # set empty value
                                 tag = None
-                            # only add tag to system if one of the previous checks was successful
-                            if tag:
-                                # add tag to system
-                                system.tag.add(tag)
+                        # only add tag to system if one of the previous checks was successful
+                        if tag:
+                            # add tag to system
+                            system.tag.add(tag)
 
             # index out of range
             except IndexError:
@@ -804,6 +804,13 @@ def add_many2many_attributes(system, system_created, model, row, row_counter, re
                     messages.warning(request, f'Index for tag in row {row_counter} was out of range.')
                 # call logger
                 warning_logger(logger_username, f' SYSTEM_IMPORTER_FILE_CSV_TAG_COLUMN row_{row_counter}:out_of_range')
+
+        # get tags from DB
+        elif model.csv_default_tag:
+            tags = model.csv_default_tag
+            for tag in tags.all():
+                # add tag to system
+                system.tag.add(tag)
 
         """ change systemstatus / analysisstatus for systems w/o tags"""
 
@@ -871,13 +878,6 @@ def add_many2many_attributes(system, system_created, model, row, row_counter, re
             except IndexError:
                 # do not change systemstatus and / or analysisstatus
                 pass
-
-        # get tags from DB
-        elif model.csv_default_tag:
-            tags = model.csv_default_tag
-            for tag in tags.all():
-                # add tag to system
-                system.tag.add(tag)
 
     # return system with many2many relations to 'csv_main.system_handler'
     return system
