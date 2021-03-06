@@ -84,6 +84,8 @@ class SystemImporterFileCsvCheckContentFileTypeViewTestCase(TestCase):
         self.client.login(username='message_user', password='a3ZEI74fr0lmA3pSh96b')
         # get response
         response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertEqual(str(response.context['user']), 'message_user')
         self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] Wrong file type for CSV import. Check config or file system!')
@@ -161,6 +163,8 @@ class SystemImporterFileCsvCheckContentFileTypeViewTestCase(TestCase):
         self.client.login(username='message_user', password='a3ZEI74fr0lmA3pSh96b')
         # get response
         response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertEqual(str(response.context['user']), 'message_user')
         self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] File is corrupted. Check config or file system!')

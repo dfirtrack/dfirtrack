@@ -58,6 +58,8 @@ class SystemImporterFileCsvCheckConfigCronUserViewTestCase(TestCase):
         self.client.login(username='message_user', password='HmiOhvi5RNzrM8UAjy7v')
         # get response
         response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertEqual(str(response.context['user']), 'message_user')
         self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] No user for import defined. Check config!')

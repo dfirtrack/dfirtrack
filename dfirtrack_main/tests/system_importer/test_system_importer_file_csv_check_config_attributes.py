@@ -414,6 +414,8 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         self.client.login(username='message_user', password='POPKkir2A2biti52AYJG')
         # get response
         response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertEqual(str(response.context['user']), 'message_user')
         self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')
@@ -595,6 +597,8 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         self.client.login(username='message_user', password='POPKkir2A2biti52AYJG')
         # get response
         response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertEqual(str(response.context['user']), 'message_user')
         self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')
@@ -704,6 +708,8 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         self.client.login(username='message_user', password='POPKkir2A2biti52AYJG')
         # get response
         response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertEqual(str(response.context['user']), 'message_user')
         self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')
@@ -927,6 +933,8 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         self.client.login(username='message_user', password='POPKkir2A2biti52AYJG')
         # get response
         response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertEqual(str(response.context['user']), 'message_user')
         self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')
@@ -957,6 +965,8 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         self.client.login(username='message_user', password='POPKkir2A2biti52AYJG')
         # get response
         response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertEqual(str(response.context['user']), 'message_user')
         self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')
@@ -992,6 +1002,8 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         self.client.login(username='message_user', password='POPKkir2A2biti52AYJG')
         # get response
         response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertEqual(str(response.context['user']), 'message_user')
         self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')
@@ -1022,6 +1034,8 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         self.client.login(username='message_user', password='POPKkir2A2biti52AYJG')
         # get response
         response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertEqual(str(response.context['user']), 'message_user')
         self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')
@@ -1057,6 +1071,8 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         self.client.login(username='message_user', password='POPKkir2A2biti52AYJG')
         # get response
         response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertEqual(str(response.context['user']), 'message_user')
         self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')
@@ -1087,6 +1103,8 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         self.client.login(username='message_user', password='POPKkir2A2biti52AYJG')
         # get response
         response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertEqual(str(response.context['user']), 'message_user')
         self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')
@@ -1514,6 +1532,8 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         self.client.login(username='message_user', password='POPKkir2A2biti52AYJG')
         # get response
         response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertEqual(str(response.context['user']), 'message_user')
         self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')
@@ -1629,6 +1649,8 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         self.client.login(username='message_user', password='POPKkir2A2biti52AYJG')
         # get response
         response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertEqual(str(response.context['user']), 'message_user')
         self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')
@@ -1738,6 +1760,8 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         self.client.login(username='message_user', password='POPKkir2A2biti52AYJG')
         # get response
         response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertEqual(str(response.context['user']), 'message_user')
         self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')

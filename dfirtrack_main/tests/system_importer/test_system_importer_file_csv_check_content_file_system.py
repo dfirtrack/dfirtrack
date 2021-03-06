@@ -108,6 +108,8 @@ class SystemImporterFileCsvCheckConfigContentFileSystemViewTestCase(TestCase):
         self.client.login(username='message_user', password='8LHVC5R5D1bdVBJk56xn')
         # get response
         response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertEqual(str(response.context['user']), 'message_user')
         self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] CSV import path does not exist. Check config or file system!')
@@ -177,6 +179,8 @@ class SystemImporterFileCsvCheckConfigContentFileSystemViewTestCase(TestCase):
         self.client.login(username='message_user', password='8LHVC5R5D1bdVBJk56xn')
         # get response
         response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertEqual(str(response.context['user']), 'message_user')
         self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] No read permission for CSV import path. Check config or file system!')
@@ -250,6 +254,8 @@ class SystemImporterFileCsvCheckConfigContentFileSystemViewTestCase(TestCase):
         self.client.login(username='message_user', password='8LHVC5R5D1bdVBJk56xn')
         # get response
         response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertEqual(str(response.context['user']), 'message_user')
         self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] CSV import file does not exist. Check config or provide file!')
@@ -333,6 +339,8 @@ class SystemImporterFileCsvCheckConfigContentFileSystemViewTestCase(TestCase):
         self.client.login(username='message_user', password='8LHVC5R5D1bdVBJk56xn')
         # get response
         response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertEqual(str(response.context['user']), 'message_user')
         self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] No read permission for CSV import file. Check config or file system!')
@@ -412,6 +420,8 @@ class SystemImporterFileCsvCheckConfigContentFileSystemViewTestCase(TestCase):
         self.client.login(username='message_user', password='8LHVC5R5D1bdVBJk56xn')
         # get response
         response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertEqual(str(response.context['user']), 'message_user')
         self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] CSV import file is empty. Check config or file system!')
