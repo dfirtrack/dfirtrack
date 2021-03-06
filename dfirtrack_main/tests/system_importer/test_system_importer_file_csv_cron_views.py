@@ -7,7 +7,7 @@ from dfirtrack.settings import BASE_DIR
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv import system_cron
 from dfirtrack_main.models import Analysisstatus, Case, Company, Dnsname, Domain, Location, Ip, Os, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Tag
-from dfirtrack_main.tests.system_importer.config_functions import change_csv_import_filename
+from dfirtrack_main.tests.system_importer.config_functions import change_csv_import_filename, change_csv_import_path
 from mock import patch
 import os
 
@@ -29,9 +29,6 @@ class SystemImporterFileCsvCronViewTestCase(TestCase):
         Systemstatus.objects.create(systemstatus_name='systemstatus_1')
         Systemstatus.objects.create(systemstatus_name='systemstatus_2')
 
-        #TODO = add stuff
-#        csv_import_path = os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files')
-
     @classmethod
     def setUp(cls):
         """ setup in advance of every test """
@@ -47,13 +44,13 @@ class SystemImporterFileCsvCronViewTestCase(TestCase):
 
         # build local path with test files
         csv_import_path = os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/')
+        change_csv_import_path(csv_import_path)
 
         # restore config
         system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
         system_importer_file_csv_config_model.csv_column_system = 1
         system_importer_file_csv_config_model.csv_skip_existing_system = True
         system_importer_file_csv_config_model.csv_headline = False
-        system_importer_file_csv_config_model.csv_import_path = csv_import_path
         system_importer_file_csv_config_model.csv_import_username = test_user
         system_importer_file_csv_config_model.csv_default_systemstatus = systemstatus_1
         system_importer_file_csv_config_model.csv_default_analysisstatus = analysisstatus_1

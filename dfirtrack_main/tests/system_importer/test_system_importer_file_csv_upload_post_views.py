@@ -1,10 +1,11 @@
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
-from django.utils import timezone
+#from django.utils import timezone
 from dfirtrack.settings import BASE_DIR
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
-from dfirtrack_main.models import Analysisstatus, Case, Company, Domain, Dnsname, Ip, Location, Os, Reason, System, Systemstatus, Systemtype, Tag, Tagcolor
+#from dfirtrack_main.models import Analysisstatus, Case, Company, Domain, Dnsname, Ip, Location, Os, Reason, System, Systemstatus, Systemtype, Tag, Tagcolor
+from dfirtrack_main.models import Analysisstatus, System, Systemstatus
 import os
 import urllib.parse
 
@@ -16,7 +17,7 @@ class SystemImporterFileCsvUploadPostViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create user
-        test_user = User.objects.create_user(username='testuser_system_importer_file_csv_upload_post', password='8BhDTbU9qMSQ4NGhkfyc')
+        User.objects.create_user(username='testuser_system_importer_file_csv_upload_post', password='8BhDTbU9qMSQ4NGhkfyc')
 
         # create objects
         Analysisstatus.objects.create(analysisstatus_name='analysisstatus_1')
