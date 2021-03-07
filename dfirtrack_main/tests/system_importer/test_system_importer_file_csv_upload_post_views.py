@@ -312,11 +312,11 @@ class SystemImporterFileCsvUploadPostViewTestCase(TestCase):
 
     def test_system_importer_file_csv_upload_post_complete(self):
         """ test importer view """
+
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_upload_post', password='8BhDTbU9qMSQ4NGhkfyc')
         # change config
         system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
-        system_importer_file_csv_config_model.csv_import_filename = 'system_importer_file_csv_testfile_07_complete.csv'
         system_importer_file_csv_config_model.csv_choice_tagfree_systemstatus = True
         system_importer_file_csv_config_model.csv_choice_tagfree_analysisstatus = True
         system_importer_file_csv_config_model.csv_choice_ip = True
