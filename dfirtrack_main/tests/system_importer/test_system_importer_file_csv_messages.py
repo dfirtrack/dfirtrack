@@ -106,8 +106,8 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
 
 # TODO: [debug] does not work as expected
 
-#        """ single system / updated """
-#
+        """ single system / updated """
+
 #        # change config
 #        set_csv_skip_existing_system(False)
 #
@@ -142,8 +142,8 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
 
 # TODO: [debug] does not work as expected
 
-#        """ single system / skipped """
-#
+        """ single system / skipped """
+
 #        # change config
 #        set_csv_skip_existing_system(True)
 #
@@ -227,52 +227,67 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
 
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_messages', password='a9aZU5mlnXbVv4TTgcMW')
+
+        """ single system / created """
+
+        # change config
+        set_csv_skip_existing_system(True)
         # open upload file
         systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_11_single_system.csv'), 'r')
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
         }
-
-        """ single system / created """
-
-        # change config
-        set_csv_skip_existing_system(True)
         # get response
         response = self.client.post('/system/importer/file/csv/upload/', data_dict)
+        # close file
+        systemcsv.close()
         # get messages
         messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertEqual(messages[0].message, '1 system was created.')
         self.assertEqual(messages[0].level_tag, 'success')
+        # load another page to enforce new post context (test won't work otherwise)
+        response = self.client.get('/system/', follow=True)
 
-# TODO: [debug] does not work as expected
+        """ single system / updated """
 
-#        """ single system / updated """
-#
-#        # change config
-#        set_csv_skip_existing_system(False)
-#        # get response
-#        response = self.client.post('/system/importer/file/csv/upload/', data_dict)
-#        # get messages
-#        messages = list(get_messages(response.wsgi_request))
-#        # compare
-#        self.assertEqual(messages[0].message, '1 system was updated.')
-#        self.assertEqual(messages[0].level_tag, 'success')
-
-# TODO: [debug] does not work as expected
-
-#        """ single system / skipped """
-#
-#        # change config
-#        set_csv_skip_existing_system(True)
-#        # get response
-#        response = self.client.post('/system/importer/file/csv/upload/', data_dict)
-#        # get messages
-#        messages = list(get_messages(response.wsgi_request))
-#        # compare
-#        self.assertEqual(messages[0].message, '1 system was skipped.')
-#        self.assertEqual(messages[0].level_tag, 'success')
-
+        # change config
+        set_csv_skip_existing_system(False)
+        # open upload file
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_11_single_system.csv'), 'r')
+        # create post data
+        data_dict = {
+            'systemcsv': systemcsv,
+        }
+        # get response
+        response = self.client.post('/system/importer/file/csv/upload/', data_dict)
         # close file
         systemcsv.close()
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(messages[0].message, '1 system was updated.')
+        self.assertEqual(messages[0].level_tag, 'success')
+        # load another page to enforce new post context (test won't work otherwise)
+        response = self.client.get('/system/', follow=True)
+
+        """ single system / skipped """
+
+        # change config
+        set_csv_skip_existing_system(True)
+        # open upload file
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_11_single_system.csv'), 'r')
+        # create post data
+        data_dict = {
+            'systemcsv': systemcsv,
+        }
+        # get response
+        response = self.client.post('/system/importer/file/csv/upload/', data_dict)
+        # close file
+        systemcsv.close()
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(messages[0].message, '1 system was skipped.')
+        self.assertEqual(messages[0].level_tag, 'success')
