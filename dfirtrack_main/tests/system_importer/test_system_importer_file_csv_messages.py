@@ -85,7 +85,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         """ test importer view """
 
         # set file system attributes
-        csv_import_filename = 'system_importer_file_csv_testfile_11_single_system.csv'
+        csv_import_filename = 'system_importer_file_csv_testfile_11_messages_single_system.csv'
         # change config
         change_csv_import_filename(csv_import_filename)
         # change config
@@ -127,7 +127,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         create_system('system_csv_11_001')
 
         # set file system attributes
-        csv_import_filename = 'system_importer_file_csv_testfile_11_single_system.csv'
+        csv_import_filename = 'system_importer_file_csv_testfile_11_messages_single_system.csv'
         # change config
         change_csv_import_filename(csv_import_filename)
         # change config
@@ -169,7 +169,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         create_system('system_csv_11_001')
 
         # set file system attributes
-        csv_import_filename = 'system_importer_file_csv_testfile_11_single_system.csv'
+        csv_import_filename = 'system_importer_file_csv_testfile_11_messages_single_system.csv'
         # change config
         change_csv_import_filename(csv_import_filename)
         # change config
@@ -212,7 +212,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         create_system('system_csv_11_001')
 
         # set file system attributes
-        csv_import_filename = 'system_importer_file_csv_testfile_11_single_system.csv'
+        csv_import_filename = 'system_importer_file_csv_testfile_11_messages_single_system.csv'
         # change config
         change_csv_import_filename(csv_import_filename)
         # change config
@@ -255,7 +255,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         """ test importer view """
 
         # set file system attributes
-        csv_import_filename = 'system_importer_file_csv_testfile_11_single_system.csv'
+        csv_import_filename = 'system_importer_file_csv_testfile_11_messages_single_system.csv'
         # change config
         change_csv_import_filename(csv_import_filename)
         # change config
@@ -278,7 +278,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         create_system('system_csv_11_001')
 
         # set file system attributes
-        csv_import_filename = 'system_importer_file_csv_testfile_11_single_system.csv'
+        csv_import_filename = 'system_importer_file_csv_testfile_11_messages_single_system.csv'
         # change config
         change_csv_import_filename(csv_import_filename)
         # change config
@@ -301,7 +301,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         create_system('system_csv_11_001')
 
         # set file system attributes
-        csv_import_filename = 'system_importer_file_csv_testfile_11_single_system.csv'
+        csv_import_filename = 'system_importer_file_csv_testfile_11_messages_single_system.csv'
         # change config
         change_csv_import_filename(csv_import_filename)
         # change config
@@ -325,7 +325,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         create_system('system_csv_11_001')
 
         # set file system attributes
-        csv_import_filename = 'system_importer_file_csv_testfile_11_single_system.csv'
+        csv_import_filename = 'system_importer_file_csv_testfile_11_messages_single_system.csv'
         # change config
         change_csv_import_filename(csv_import_filename)
         # change config
@@ -350,7 +350,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_messages', password='a9aZU5mlnXbVv4TTgcMW')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_11_single_system.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_11_messages_single_system.csv'), 'r')
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -377,7 +377,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_messages', password='a9aZU5mlnXbVv4TTgcMW')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_11_single_system.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_11_messages_single_system.csv'), 'r')
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -404,7 +404,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_messages', password='a9aZU5mlnXbVv4TTgcMW')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_11_single_system.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_11_messages_single_system.csv'), 'r')
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -432,7 +432,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_messages', password='a9aZU5mlnXbVv4TTgcMW')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_11_single_system.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_11_messages_single_system.csv'), 'r')
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -451,7 +451,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         """ test importer view """
 
         # set file system attributes
-        csv_import_filename = 'system_importer_file_csv_testfile_12_many_systems.csv'
+        csv_import_filename = 'system_importer_file_csv_testfile_12_messages_many_systems.csv'
         # change config
         change_csv_import_filename(csv_import_filename)
         # change config
@@ -495,7 +495,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         create_system('system_csv_12_003')
 
         # set file system attributes
-        csv_import_filename = 'system_importer_file_csv_testfile_12_many_systems.csv'
+        csv_import_filename = 'system_importer_file_csv_testfile_12_messages_many_systems.csv'
         # change config
         change_csv_import_filename(csv_import_filename)
         # change config
@@ -539,7 +539,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         create_system('system_csv_12_003')
 
         # set file system attributes
-        csv_import_filename = 'system_importer_file_csv_testfile_12_many_systems.csv'
+        csv_import_filename = 'system_importer_file_csv_testfile_12_messages_many_systems.csv'
         # change config
         change_csv_import_filename(csv_import_filename)
         # change config
@@ -586,7 +586,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         create_system('system_csv_12_003')
 
         # set file system attributes
-        csv_import_filename = 'system_importer_file_csv_testfile_12_many_systems.csv'
+        csv_import_filename = 'system_importer_file_csv_testfile_12_messages_many_systems.csv'
         # change config
         change_csv_import_filename(csv_import_filename)
         # change config
@@ -629,7 +629,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         """ test importer view """
 
         # set file system attributes
-        csv_import_filename = 'system_importer_file_csv_testfile_12_many_systems.csv'
+        csv_import_filename = 'system_importer_file_csv_testfile_12_messages_many_systems.csv'
         # change config
         change_csv_import_filename(csv_import_filename)
         # change config
@@ -654,7 +654,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         create_system('system_csv_12_003')
 
         # set file system attributes
-        csv_import_filename = 'system_importer_file_csv_testfile_12_many_systems.csv'
+        csv_import_filename = 'system_importer_file_csv_testfile_12_messages_many_systems.csv'
         # change config
         change_csv_import_filename(csv_import_filename)
         # change config
@@ -679,7 +679,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         create_system('system_csv_12_003')
 
         # set file system attributes
-        csv_import_filename = 'system_importer_file_csv_testfile_12_many_systems.csv'
+        csv_import_filename = 'system_importer_file_csv_testfile_12_messages_many_systems.csv'
         # change config
         change_csv_import_filename(csv_import_filename)
         # change config
@@ -707,7 +707,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         create_system('system_csv_12_003')
 
         # set file system attributes
-        csv_import_filename = 'system_importer_file_csv_testfile_12_many_systems.csv'
+        csv_import_filename = 'system_importer_file_csv_testfile_12_messages_many_systems.csv'
         # change config
         change_csv_import_filename(csv_import_filename)
         # change config
@@ -732,7 +732,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_messages', password='a9aZU5mlnXbVv4TTgcMW')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_12_many_systems.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_12_messages_many_systems.csv'), 'r')
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -761,7 +761,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_messages', password='a9aZU5mlnXbVv4TTgcMW')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_12_many_systems.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_12_messages_many_systems.csv'), 'r')
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -790,7 +790,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_messages', password='a9aZU5mlnXbVv4TTgcMW')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_12_many_systems.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_12_messages_many_systems.csv'), 'r')
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -822,7 +822,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_messages', password='a9aZU5mlnXbVv4TTgcMW')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_12_many_systems.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_12_messages_many_systems.csv'), 'r')
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
