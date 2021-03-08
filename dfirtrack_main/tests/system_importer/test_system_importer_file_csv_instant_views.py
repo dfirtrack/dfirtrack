@@ -4,6 +4,7 @@ from django.test import TestCase
 from dfirtrack.settings import BASE_DIR
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.models import Analysisstatus, Case, Company, Dnsname, Domain, Location, Ip, Os, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Tag
+from dfirtrack_main.tests.system_importer.config_functions import change_csv_import_filename
 import os
 import urllib.parse
 
@@ -66,9 +67,7 @@ class SystemImporterFileCsvInstantViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_instant', password='lw3V2i2uaTFlk4yTlIaV')
         # change config
-        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
-        system_importer_file_csv_config_model.csv_import_filename = 'system_importer_file_csv_testfile_01_minimal_double_quotation.csv'
-        system_importer_file_csv_config_model.save()
+        change_csv_import_filename('system_importer_file_csv_testfile_01_minimal_double_quotation.csv')
         # get objects
         analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
         systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
@@ -98,8 +97,9 @@ class SystemImporterFileCsvInstantViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_instant', password='lw3V2i2uaTFlk4yTlIaV')
         # change config
+        change_csv_import_filename('system_importer_file_csv_testfile_02_minimal_single_quotation.csv')
+        # change config
         system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
-        system_importer_file_csv_config_model.csv_import_filename = 'system_importer_file_csv_testfile_02_minimal_single_quotation.csv'
         system_importer_file_csv_config_model.csv_text_quote = 'text_single_quotation_marks'
         system_importer_file_csv_config_model.save()
         # get objects
@@ -131,8 +131,9 @@ class SystemImporterFileCsvInstantViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_instant', password='lw3V2i2uaTFlk4yTlIaV')
         # change config
+        change_csv_import_filename('system_importer_file_csv_testfile_03_minimal_headline.csv')
+        # change config
         system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
-        system_importer_file_csv_config_model.csv_import_filename = 'system_importer_file_csv_testfile_03_minimal_headline.csv'
         system_importer_file_csv_config_model.csv_headline = True
         system_importer_file_csv_config_model.save()
         # get objects
@@ -164,8 +165,9 @@ class SystemImporterFileCsvInstantViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_instant', password='lw3V2i2uaTFlk4yTlIaV')
         # change config
+        change_csv_import_filename('system_importer_file_csv_testfile_07_complete.csv')
+        # change config
         system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
-        system_importer_file_csv_config_model.csv_import_filename = 'system_importer_file_csv_testfile_07_complete.csv'
         system_importer_file_csv_config_model.csv_choice_tagfree_systemstatus = True
         system_importer_file_csv_config_model.csv_choice_tagfree_analysisstatus = True
         system_importer_file_csv_config_model.csv_choice_ip = True
@@ -299,3 +301,87 @@ class SystemImporterFileCsvInstantViewTestCase(TestCase):
         self.assertTrue(system_3.systemtype, systemtype_3)
         self.assertTrue(system_1.case.filter(case_name='case_1').exists())
         self.assertTrue(system_1.company.filter(company_name='company_1').exists())
+
+    def test_system_importer_file_csv_instant_minimal_comma(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_instant', password='lw3V2i2uaTFlk4yTlIaV')
+        # change config
+        change_csv_import_filename('system_importer_file_csv_testfile_21_minimal_comma.csv')
+        # change config
+        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+        system_importer_file_csv_config_model.csv_field_delimiter = 'field_comma'
+        system_importer_file_csv_config_model.csv_choice_domain = True
+        system_importer_file_csv_config_model.csv_column_domain = 2
+        system_importer_file_csv_config_model.save()
+        # get objects
+        analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
+        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.get('/system/importer/file/csv/instant/', follow=True)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare - generic stuff
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(messages[0].message, '3 systems were created.')
+        self.assertEqual(messages[0].level_tag, 'success')
+        self.assertTrue(System.objects.filter(system_name='system_csv_21_001').exists())
+        self.assertTrue(System.objects.filter(system_name='system_csv_21_002').exists())
+        self.assertTrue(System.objects.filter(system_name='system_csv_21_003').exists())
+        self.assertEqual(System.objects.get(system_name='system_csv_21_001').analysisstatus, analysisstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_21_002').analysisstatus, analysisstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_21_003').analysisstatus, analysisstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_21_001').systemstatus, systemstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_21_002').systemstatus, systemstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_21_003').systemstatus, systemstatus_1)
+        # compare domain (delimiter specific)
+        self.assertTrue(Domain.objects.filter(domain_name='domain_21_1').exists())
+        domain_1 = Domain.objects.get(domain_name='domain_21_1')
+        self.assertEqual(System.objects.get(system_name='system_csv_21_001').domain, domain_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_21_002').domain, domain_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_21_003').domain, domain_1)
+
+    def test_system_importer_file_csv_instant_minimal_semicolon(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_instant', password='lw3V2i2uaTFlk4yTlIaV')
+        # change config
+        change_csv_import_filename('system_importer_file_csv_testfile_22_minimal_semicolon.csv')
+        # change config
+        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+        system_importer_file_csv_config_model.csv_field_delimiter = 'field_semicolon'
+        system_importer_file_csv_config_model.csv_choice_domain = True
+        system_importer_file_csv_config_model.csv_column_domain = 2
+        system_importer_file_csv_config_model.save()
+        # get objects
+        analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
+        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.get('/system/importer/file/csv/instant/', follow=True)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(messages[0].message, '3 systems were created.')
+        self.assertEqual(messages[0].level_tag, 'success')
+        self.assertTrue(System.objects.filter(system_name='system_csv_22_001').exists())
+        self.assertTrue(System.objects.filter(system_name='system_csv_22_002').exists())
+        self.assertTrue(System.objects.filter(system_name='system_csv_22_003').exists())
+        self.assertEqual(System.objects.get(system_name='system_csv_22_001').analysisstatus, analysisstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_22_002').analysisstatus, analysisstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_22_003').analysisstatus, analysisstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_22_001').systemstatus, systemstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_22_002').systemstatus, systemstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_22_003').systemstatus, systemstatus_1)
+        # compare domain (delimiter specific)
+        self.assertTrue(Domain.objects.filter(domain_name='domain_22_1').exists())
+        domain_1 = Domain.objects.get(domain_name='domain_22_1')
+        self.assertEqual(System.objects.get(system_name='system_csv_22_001').domain, domain_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_22_002').domain, domain_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_22_003').domain, domain_1)

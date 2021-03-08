@@ -384,3 +384,127 @@ class SystemImporterFileCsvCronViewTestCase(TestCase):
         self.assertEqual(str(response.context['user']), 'message_user')
         self.assertEqual(messages[0].message, 'System CSV importer: created: 3 | updated: 0 | skipped: 0 | multiple: 0 [2021-03-06 18:14:00 - 2021-03-06 18:14:00]')
         self.assertEqual(messages[0].level_tag, 'success')
+
+    def test_system_importer_file_csv_cron_minimal_comma(self):
+        """ test importer view """
+
+        # set file system attributes
+        csv_import_filename = 'system_importer_file_csv_testfile_21_minimal_comma.csv'
+        # change config
+        change_csv_import_filename(csv_import_filename)
+        # change config
+        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+        system_importer_file_csv_config_model.csv_field_delimiter = 'field_comma'
+        system_importer_file_csv_config_model.csv_choice_domain = True
+        system_importer_file_csv_config_model.csv_column_domain = 2
+        system_importer_file_csv_config_model.save()
+
+        # mock timezone.now()
+        t_5 = datetime(2021, 3, 7, 21, 12, tzinfo=timezone.utc)
+        with patch.object(timezone, 'now', return_value=t_5):
+
+            # execute cron job / scheduled task
+            system_cron()
+
+        # get objects
+        analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
+        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+        # compare
+        self.assertTrue(System.objects.filter(system_name='system_csv_21_001').exists())
+        self.assertTrue(System.objects.filter(system_name='system_csv_21_002').exists())
+        self.assertTrue(System.objects.filter(system_name='system_csv_21_003').exists())
+        self.assertEqual(System.objects.get(system_name='system_csv_21_001').analysisstatus, analysisstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_21_002').analysisstatus, analysisstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_21_003').analysisstatus, analysisstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_21_001').systemstatus, systemstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_21_002').systemstatus, systemstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_21_003').systemstatus, systemstatus_1)
+        # compare domain (delimiter specific)
+        self.assertTrue(Domain.objects.filter(domain_name='domain_21_1').exists())
+        domain_1 = Domain.objects.get(domain_name='domain_21_1')
+        self.assertEqual(System.objects.get(system_name='system_csv_21_001').domain, domain_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_21_002').domain, domain_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_21_003').domain, domain_1)
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_cron', password='bt2z3OlVFcjmqt2ItuEt')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_system_importer_file_csv_cron')
+        self.assertEqual(messages[0].message, 'System CSV importer: created: 3 | updated: 0 | skipped: 0 | multiple: 0 [2021-03-07 21:12:00 - 2021-03-07 21:12:00]')
+        self.assertEqual(messages[0].level_tag, 'success')
+        # switch user context
+        self.client.logout()
+        self.client.login(username='message_user', password='DsaygmEY9owS4KEA55Gt')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'message_user')
+        self.assertEqual(messages[0].message, 'System CSV importer: created: 3 | updated: 0 | skipped: 0 | multiple: 0 [2021-03-07 21:12:00 - 2021-03-07 21:12:00]')
+        self.assertEqual(messages[0].level_tag, 'success')
+
+    def test_system_importer_file_csv_cron_minimal_semicolon(self):
+        """ test importer view """
+
+        # set file system attributes
+        csv_import_filename = 'system_importer_file_csv_testfile_22_minimal_semicolon.csv'
+        # change config
+        change_csv_import_filename(csv_import_filename)
+        # change config
+        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+        system_importer_file_csv_config_model.csv_field_delimiter = 'field_semicolon'
+        system_importer_file_csv_config_model.csv_choice_domain = True
+        system_importer_file_csv_config_model.csv_column_domain = 2
+        system_importer_file_csv_config_model.save()
+
+        # mock timezone.now()
+        t_6 = datetime(2021, 3, 7, 21, 17, tzinfo=timezone.utc)
+        with patch.object(timezone, 'now', return_value=t_6):
+
+            # execute cron job / scheduled task
+            system_cron()
+
+        # get objects
+        analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
+        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+        # compare
+        self.assertTrue(System.objects.filter(system_name='system_csv_22_001').exists())
+        self.assertTrue(System.objects.filter(system_name='system_csv_22_002').exists())
+        self.assertTrue(System.objects.filter(system_name='system_csv_22_003').exists())
+        self.assertEqual(System.objects.get(system_name='system_csv_22_001').analysisstatus, analysisstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_22_002').analysisstatus, analysisstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_22_003').analysisstatus, analysisstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_22_001').systemstatus, systemstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_22_002').systemstatus, systemstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_22_003').systemstatus, systemstatus_1)
+        # compare domain (delimiter specific)
+        self.assertTrue(Domain.objects.filter(domain_name='domain_22_1').exists())
+        domain_1 = Domain.objects.get(domain_name='domain_22_1')
+        self.assertEqual(System.objects.get(system_name='system_csv_22_001').domain, domain_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_22_002').domain, domain_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_22_003').domain, domain_1)
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_cron', password='bt2z3OlVFcjmqt2ItuEt')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_system_importer_file_csv_cron')
+        self.assertEqual(messages[0].message, 'System CSV importer: created: 3 | updated: 0 | skipped: 0 | multiple: 0 [2021-03-07 21:17:00 - 2021-03-07 21:17:00]')
+        self.assertEqual(messages[0].level_tag, 'success')
+        # switch user context
+        self.client.logout()
+        self.client.login(username='message_user', password='DsaygmEY9owS4KEA55Gt')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'message_user')
+        self.assertEqual(messages[0].message, 'System CSV importer: created: 3 | updated: 0 | skipped: 0 | multiple: 0 [2021-03-07 21:17:00 - 2021-03-07 21:17:00]')
+        self.assertEqual(messages[0].level_tag, 'success')

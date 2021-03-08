@@ -21,6 +21,8 @@ class SystemImporterFileCsvUploadPostViewTestCase(TestCase):
         # create objects
         Analysisstatus.objects.create(analysisstatus_name='analysisstatus_1')
         Systemstatus.objects.create(systemstatus_name='systemstatus_1')
+
+        # TODO: [maintenance] remove if not needed
 #        case_1 = Case.objects.create(
 #            case_name='case_1',
 #            case_is_incident=True,
@@ -456,6 +458,102 @@ class SystemImporterFileCsvUploadPostViewTestCase(TestCase):
         self.assertTrue(system_3.systemtype, systemtype_3)
         self.assertTrue(system_1.case.filter(case_name='case_1').exists())
         self.assertTrue(system_1.company.filter(company_name='company_1').exists())
+
+    def test_system_importer_file_csv_upload_post_minimal_minimal_comma(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_upload_post', password='8BhDTbU9qMSQ4NGhkfyc')
+        # change config
+        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+        system_importer_file_csv_config_model.csv_field_delimiter = 'field_comma'
+        system_importer_file_csv_config_model.csv_choice_domain = True
+        system_importer_file_csv_config_model.csv_column_domain = 2
+        system_importer_file_csv_config_model.save()
+        # get objects
+        analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
+        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+        # open upload file
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_21_minimal_comma.csv'), 'r')
+        # create post data
+        data_dict = {
+            'systemcsv': systemcsv,
+        }
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.post('/system/importer/file/csv/upload/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # close file
+        systemcsv.close()
+        # compare - generic stuff
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(messages[0].message, '3 systems were created.')
+        self.assertEqual(messages[0].level_tag, 'success')
+        self.assertTrue(System.objects.filter(system_name='system_csv_21_001').exists())
+        self.assertTrue(System.objects.filter(system_name='system_csv_21_002').exists())
+        self.assertTrue(System.objects.filter(system_name='system_csv_21_003').exists())
+        self.assertEqual(System.objects.get(system_name='system_csv_21_001').analysisstatus, analysisstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_21_002').analysisstatus, analysisstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_21_003').analysisstatus, analysisstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_21_001').systemstatus, systemstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_21_002').systemstatus, systemstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_21_003').systemstatus, systemstatus_1)
+        # compare domain (delimiter specific)
+        self.assertTrue(Domain.objects.filter(domain_name='domain_21_1').exists())
+        domain_1 = Domain.objects.get(domain_name='domain_21_1')
+        self.assertEqual(System.objects.get(system_name='system_csv_21_001').domain, domain_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_21_002').domain, domain_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_21_003').domain, domain_1)
+
+    def test_system_importer_file_csv_upload_post_minimal_minimal_semicolon(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_upload_post', password='8BhDTbU9qMSQ4NGhkfyc')
+        # change config
+        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+        system_importer_file_csv_config_model.csv_field_delimiter = 'field_semicolon'
+        system_importer_file_csv_config_model.csv_choice_domain = True
+        system_importer_file_csv_config_model.csv_column_domain = 2
+        system_importer_file_csv_config_model.save()
+        # get objects
+        analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
+        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+        # open upload file
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_22_minimal_semicolon.csv'), 'r')
+        # create post data
+        data_dict = {
+            'systemcsv': systemcsv,
+        }
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.post('/system/importer/file/csv/upload/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # close file
+        systemcsv.close()
+        # compare - generic stuff
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(messages[0].message, '3 systems were created.')
+        self.assertEqual(messages[0].level_tag, 'success')
+        self.assertTrue(System.objects.filter(system_name='system_csv_22_001').exists())
+        self.assertTrue(System.objects.filter(system_name='system_csv_22_002').exists())
+        self.assertTrue(System.objects.filter(system_name='system_csv_22_003').exists())
+        self.assertEqual(System.objects.get(system_name='system_csv_22_001').analysisstatus, analysisstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_22_002').analysisstatus, analysisstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_22_003').analysisstatus, analysisstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_22_001').systemstatus, systemstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_22_002').systemstatus, systemstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_22_003').systemstatus, systemstatus_1)
+        # compare domain (delimiter specific)
+        self.assertTrue(Domain.objects.filter(domain_name='domain_22_1').exists())
+        domain_1 = Domain.objects.get(domain_name='domain_22_1')
+        self.assertEqual(System.objects.get(system_name='system_csv_22_001').domain, domain_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_22_002').domain, domain_1)
+        self.assertEqual(System.objects.get(system_name='system_csv_22_003').domain, domain_1)
 
     # TODO: [code] rebuild test
 
