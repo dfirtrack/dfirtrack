@@ -4,7 +4,7 @@ from django.test import TestCase
 from dfirtrack.settings import BASE_DIR
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv import system_cron
-from dfirtrack_main.models import Analysisstatus, Case, Company, Domain, Location, Os, Systemstatus, Tag, Tagcolor
+from dfirtrack_main.models import Analysisstatus, Case, Company, Dnsname, Domain, Location, Os, Reason, Recommendation, Serviceprovider, Systemstatus, Systemtype, Tag, Tagcolor
 import os
 import urllib.parse
 
@@ -77,14 +77,19 @@ def set_config_column_choice_vs_default_single_error():
     # return to column choice vs default test function
     return
 
-def set_config_column_choice_vs_default_multiple_errors():
+def set_config_column_choice_vs_default_multiple_errors_1():
     """ set column, choice and default randomly faulty """
 
     # get objects
     case_1 = Case.objects.get(case_name='case_1')
     company_1 = Company.objects.get(company_name='company_1')
+    dnsname_1 = Dnsname.objects.get(dnsname_name='dnsname_1')
     domain_1 = Domain.objects.get(domain_name='domain_1')
     location_1 = Location.objects.get(location_name='location_1')
+    reason_1 = Reason.objects.get(reason_name='reason_1')
+    recommendation_1 = Recommendation.objects.get(recommendation_name='recommendation_1')
+    serviceprovider_1 = Serviceprovider.objects.get(serviceprovider_name='serviceprovider_1')
+    systemtype_1 = Systemtype.objects.get(systemtype_name='systemtype_1')
     os_1 = Os.objects.get(os_name='os_1')
     tag_1 = Tag.objects.get(tag_name='tag_1')
 
@@ -96,45 +101,120 @@ def set_config_column_choice_vs_default_multiple_errors():
     # CSV not chosen and CSV column filled out / +1
     system_importer_file_csv_config_model.csv_choice_ip = False
     system_importer_file_csv_config_model.csv_column_ip = 2
-    # CSV chosen and no CSV column filled out / +1
-    system_importer_file_csv_config_model.csv_choice_dnsname = True
-    system_importer_file_csv_config_model.csv_column_dnsname = None
-    system_importer_file_csv_config_model.csv_default_dnsname = None
-    # CSV chosen and DB chosen / CSV column filled out and DB chosen / +2
-    system_importer_file_csv_config_model.csv_choice_domain = True
+    # CSV not chosen and CSV column filled out / CSV column filled out and DB chosen / +2
+    system_importer_file_csv_config_model.csv_choice_dnsname = False
+    system_importer_file_csv_config_model.csv_column_dnsname = 3
+    system_importer_file_csv_config_model.csv_default_dnsname = dnsname_1
+    # CSV not chosen and CSV column filled out / CSV column filled out and DB chosen / +2
+    system_importer_file_csv_config_model.csv_choice_domain = False
     system_importer_file_csv_config_model.csv_column_domain = 4
     system_importer_file_csv_config_model.csv_default_domain = domain_1
-    # CSV column filled out and DB chosen / CSV not chosen and CSV column filled out / +2
+    # CSV not chosen and CSV column filled out / CSV column filled out and DB chosen / +2
     system_importer_file_csv_config_model.csv_choice_location = False
     system_importer_file_csv_config_model.csv_column_location = 5
+    system_importer_file_csv_config_model.csv_default_location = location_1
+    # CSV not chosen and CSV column filled out / CSV column filled out and DB chosen / +2
+    system_importer_file_csv_config_model.csv_choice_os = False
+    system_importer_file_csv_config_model.csv_column_os = 6
+    system_importer_file_csv_config_model.csv_default_os = os_1
+    # CSV not chosen and CSV column filled out / CSV column filled out and DB chosen / +2
+    system_importer_file_csv_config_model.csv_choice_reason = False
+    system_importer_file_csv_config_model.csv_column_reason = 7
+    system_importer_file_csv_config_model.csv_default_reason = reason_1
+    # CSV not chosen and CSV column filled out / CSV column filled out and DB chosen / +2
+    system_importer_file_csv_config_model.csv_choice_recommendation = False
+    system_importer_file_csv_config_model.csv_column_recommendation = 8
+    system_importer_file_csv_config_model.csv_default_recommendation = recommendation_1
+    # CSV not chosen and CSV column filled out / CSV column filled out and DB chosen / +2
+    system_importer_file_csv_config_model.csv_choice_serviceprovider = False
+    system_importer_file_csv_config_model.csv_column_serviceprovider = 9
+    system_importer_file_csv_config_model.csv_default_serviceprovider = serviceprovider_1
+    # CSV not chosen and CSV column filled out / CSV column filled out and DB chosen / +2
+    system_importer_file_csv_config_model.csv_choice_systemtype = False
+    system_importer_file_csv_config_model.csv_column_systemtype = 10
+    system_importer_file_csv_config_model.csv_default_systemtype = systemtype_1
+    # CSV not chosen and CSV column filled out / CSV column filled out and DB chosen / +2
+    system_importer_file_csv_config_model.csv_choice_case = False
+    system_importer_file_csv_config_model.csv_column_case = 11
+    system_importer_file_csv_config_model.csv_default_case.add(case_1)
+    # CSV not chosen and CSV column filled out / CSV column filled out and DB chosen / +2
+    system_importer_file_csv_config_model.csv_choice_company = False
+    system_importer_file_csv_config_model.csv_column_company = 12
+    system_importer_file_csv_config_model.csv_default_company.add(company_1)
+    # CSV not chosen and CSV column filled out / CSV column filled out and DB chosen / +2
+    system_importer_file_csv_config_model.csv_choice_tag = False
+    system_importer_file_csv_config_model.csv_column_tag = 13
+    system_importer_file_csv_config_model.csv_default_tag.add(tag_1)
+
+    # save config
+    system_importer_file_csv_config_model.save()
+
+    # return to column choice vs default test function
+    return
+
+def set_config_column_choice_vs_default_multiple_errors_2():
+    """ set column, choice and default randomly faulty """
+
+    # get objects
+    case_1 = Case.objects.get(case_name='case_1')
+    company_1 = Company.objects.get(company_name='company_1')
+    dnsname_1 = Dnsname.objects.get(dnsname_name='dnsname_1')
+    domain_1 = Domain.objects.get(domain_name='domain_1')
+    location_1 = Location.objects.get(location_name='location_1')
+    reason_1 = Reason.objects.get(reason_name='reason_1')
+    recommendation_1 = Recommendation.objects.get(recommendation_name='recommendation_1')
+    serviceprovider_1 = Serviceprovider.objects.get(serviceprovider_name='serviceprovider_1')
+    systemtype_1 = Systemtype.objects.get(systemtype_name='systemtype_1')
+    os_1 = Os.objects.get(os_name='os_1')
+    tag_1 = Tag.objects.get(tag_name='tag_1')
+
+    # get config
+    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+
+    # set config values
+    system_importer_file_csv_config_model.csv_column_system = 1
+    # CSV chosen and no CSV column filled out / +1
+    system_importer_file_csv_config_model.csv_choice_ip = True
+    system_importer_file_csv_config_model.csv_column_ip = None
+    # CSV chosen and no CSV column filled out / CSV chosen and DB chosen / +2
+    system_importer_file_csv_config_model.csv_choice_dnsname = True
+    system_importer_file_csv_config_model.csv_column_dnsname = None
+    system_importer_file_csv_config_model.csv_default_dnsname = dnsname_1
+    # CSV chosen and no CSV column filled out / CSV chosen and DB chosen / +2
+    system_importer_file_csv_config_model.csv_choice_domain = True
+    system_importer_file_csv_config_model.csv_column_domain = None
+    system_importer_file_csv_config_model.csv_default_domain = domain_1
+    # CSV chosen and no CSV column filled out / CSV chosen and DB chosen / +2
+    system_importer_file_csv_config_model.csv_choice_location = True
+    system_importer_file_csv_config_model.csv_column_location = None
     system_importer_file_csv_config_model.csv_default_location = location_1
     # CSV chosen and no CSV column filled out / CSV chosen and DB chosen / +2
     system_importer_file_csv_config_model.csv_choice_os = True
     system_importer_file_csv_config_model.csv_column_os = None
     system_importer_file_csv_config_model.csv_default_os = os_1
-    # CSV not chosen and CSV column filled out / +1
-    system_importer_file_csv_config_model.csv_choice_reason = False
-    system_importer_file_csv_config_model.csv_column_reason = 7
-    system_importer_file_csv_config_model.csv_default_reason = None
-    # CSV not chosen and CSV column filled out / +1
-    system_importer_file_csv_config_model.csv_choice_recommendation = False
-    system_importer_file_csv_config_model.csv_column_recommendation = 8
-    system_importer_file_csv_config_model.csv_default_recommendation = None
-    # CSV not chosen and CSV column filled out / +1
-    system_importer_file_csv_config_model.csv_choice_serviceprovider = False
-    system_importer_file_csv_config_model.csv_column_serviceprovider = 9
-    system_importer_file_csv_config_model.csv_default_serviceprovider = None
-    # CSV not chosen and CSV column filled out / +1
-    system_importer_file_csv_config_model.csv_choice_systemtype = False
-    system_importer_file_csv_config_model.csv_column_systemtype = 10
-    system_importer_file_csv_config_model.csv_default_systemtype = None
-    # CSV chosen and DB chosen / CSV column filled out and DB chosen / +2
+    # CSV chosen and no CSV column filled out / CSV chosen and DB chosen / +2
+    system_importer_file_csv_config_model.csv_choice_reason = True
+    system_importer_file_csv_config_model.csv_column_reason = None
+    system_importer_file_csv_config_model.csv_default_reason = reason_1
+    # CSV chosen and no CSV column filled out / CSV chosen and DB chosen / +2
+    system_importer_file_csv_config_model.csv_choice_recommendation = True
+    system_importer_file_csv_config_model.csv_column_recommendation = None
+    system_importer_file_csv_config_model.csv_default_recommendation = recommendation_1
+    # CSV chosen and no CSV column filled out / CSV chosen and DB chosen / +2
+    system_importer_file_csv_config_model.csv_choice_serviceprovider = True
+    system_importer_file_csv_config_model.csv_column_serviceprovider = None
+    system_importer_file_csv_config_model.csv_default_serviceprovider = serviceprovider_1
+    # CSV chosen and no CSV column filled out / CSV chosen and DB chosen / +2
+    system_importer_file_csv_config_model.csv_choice_systemtype = True
+    system_importer_file_csv_config_model.csv_column_systemtype = None
+    system_importer_file_csv_config_model.csv_default_systemtype = systemtype_1
+    # CSV chosen and no CSV column filled out / CSV chosen and DB chosen / +2
     system_importer_file_csv_config_model.csv_choice_case = True
-    system_importer_file_csv_config_model.csv_column_case = 11
+    system_importer_file_csv_config_model.csv_column_case = None
     system_importer_file_csv_config_model.csv_default_case.add(case_1)
-    # CSV column filled out and DB chosen / CSV not chosen and CSV column filled out / +2
-    system_importer_file_csv_config_model.csv_choice_company = False
-    system_importer_file_csv_config_model.csv_column_company = 12
+    # CSV chosen and no CSV column filled out / CSV chosen and DB chosen / +2
+    system_importer_file_csv_config_model.csv_choice_company = True
+    system_importer_file_csv_config_model.csv_column_company = None
     system_importer_file_csv_config_model.csv_default_company.add(company_1)
     # CSV chosen and no CSV column filled out / CSV chosen and DB chosen / +2
     system_importer_file_csv_config_model.csv_choice_tag = True
@@ -243,10 +323,15 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
             case_created_by_user_id=test_user,
         )
         Company.objects.create(company_name='company_1')
+        Dnsname.objects.create(dnsname_name='dnsname_1')
         Domain.objects.create(domain_name='domain_1')
         Location.objects.create(location_name='location_1')
         Os.objects.create(os_name='os_1')
+        Reason.objects.create(reason_name='reason_1')
+        Recommendation.objects.create(recommendation_name='recommendation_1')
+        Serviceprovider.objects.create(serviceprovider_name='serviceprovider_1')
         systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
+        Systemtype.objects.create(systemtype_name='systemtype_1')
         tagcolor_1 = Tagcolor.objects.create(tagcolor_name='tagcolor_1')
         Tag.objects.create(
             tag_name='tag_1',
@@ -666,15 +751,15 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         # close file
         systemcsv.close()
 
-    """ check choice and column vs. default (multiple errors) """
+    """ check choice and column vs. default (multiple errors 1) """
 
-    def test_system_importer_file_csv_check_config_attributes_create_cron_column_choive_vs_default_multiple_errors(self):
+    def test_system_importer_file_csv_check_config_attributes_create_cron_column_choive_vs_default_multiple_errors_1(self):
         """ test importer view """
 
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # change config
-        set_config_column_choice_vs_default_multiple_errors()
+        set_config_column_choice_vs_default_multiple_errors_1()
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -683,14 +768,14 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-        self.assertEqual(messages[0].message, 'There were 18 errors regarding attributes. Check config!')
+        self.assertEqual(messages[0].message, 'There were 23 errors regarding attributes. Check config!')
         self.assertEqual(messages[0].level_tag, 'error')
 
-    def test_system_importer_file_csv_check_config_attributes_cron_column_choive_vs_default_multiple_errors(self):
+    def test_system_importer_file_csv_check_config_attributes_cron_column_choive_vs_default_multiple_errors_1(self):
         """ test importer view """
 
         # change config
-        set_config_column_choice_vs_default_multiple_errors()
+        set_config_column_choice_vs_default_multiple_errors_1()
         # execute cron job / scheduled task
         system_cron()
         # login testuser
@@ -715,13 +800,13 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')
         self.assertEqual(messages[0].level_tag, 'error')
 
-    def test_system_importer_file_csv_check_config_attributes_instant_column_choive_vs_default_multiple_errors(self):
+    def test_system_importer_file_csv_check_config_attributes_instant_column_choive_vs_default_multiple_errors_1(self):
         """ test importer view """
 
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # change config
-        set_config_column_choice_vs_default_multiple_errors()
+        set_config_column_choice_vs_default_multiple_errors_1()
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -730,16 +815,16 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-        self.assertEqual(messages[0].message, 'There were 18 errors regarding attributes. Check config!')
+        self.assertEqual(messages[0].message, 'There were 23 errors regarding attributes. Check config!')
         self.assertEqual(messages[0].level_tag, 'error')
 
-    def test_system_importer_file_csv_check_config_attributes_upload_get_column_choive_vs_default_multiple_errors(self):
+    def test_system_importer_file_csv_check_config_attributes_upload_get_column_choive_vs_default_multiple_errors_1(self):
         """ test importer view """
 
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # change config
-        set_config_column_choice_vs_default_multiple_errors()
+        set_config_column_choice_vs_default_multiple_errors_1()
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -748,16 +833,16 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-        self.assertEqual(messages[0].message, 'There were 18 errors regarding attributes. Check config!')
+        self.assertEqual(messages[0].message, 'There were 23 errors regarding attributes. Check config!')
         self.assertEqual(messages[0].level_tag, 'error')
 
-    def test_system_importer_file_csv_check_config_attributes_upload_post_column_choive_vs_default_multiple_errors(self):
+    def test_system_importer_file_csv_check_config_attributes_upload_post_column_choive_vs_default_multiple_errors_1(self):
         """ test importer view """
 
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # change config
-        set_config_column_choice_vs_default_multiple_errors()
+        set_config_column_choice_vs_default_multiple_errors_1()
         # open upload file
         systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_01_minimal_double_quotation.csv'), 'r')
         # create post data
@@ -772,7 +857,118 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-        self.assertEqual(messages[0].message, 'There were 18 errors regarding attributes. Check config!')
+        self.assertEqual(messages[0].message, 'There were 23 errors regarding attributes. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
+        # close file
+        systemcsv.close()
+
+    """ check choice and column vs. default (multiple errors 2) """
+
+    def test_system_importer_file_csv_check_config_attributes_create_cron_column_choive_vs_default_multiple_errors_2(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
+        # change config
+        set_config_column_choice_vs_default_multiple_errors_2()
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.get('/system/importer/file/csv/cron/', follow=True)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(messages[0].message, 'There were 23 errors regarding attributes. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
+
+    def test_system_importer_file_csv_check_config_attributes_cron_column_choive_vs_default_multiple_errors_2(self):
+        """ test importer view """
+
+        # change config
+        set_config_column_choice_vs_default_multiple_errors_2()
+        # execute cron job / scheduled task
+        system_cron()
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_system_importer_file_csv_check_config_attributes')
+        self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
+        # switch user context
+        self.client.logout()
+        self.client.login(username='message_user', password='POPKkir2A2biti52AYJG')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'message_user')
+        self.assertEqual(messages[0].message, '[Scheduled task CSV system importer] There was an error within the configuration. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
+
+    def test_system_importer_file_csv_check_config_attributes_instant_column_choive_vs_default_multiple_errors_2(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
+        # change config
+        set_config_column_choice_vs_default_multiple_errors_2()
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.get('/system/importer/file/csv/instant/', follow=True)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(messages[0].message, 'There were 23 errors regarding attributes. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
+
+    def test_system_importer_file_csv_check_config_attributes_upload_get_column_choive_vs_default_multiple_errors_2(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
+        # change config
+        set_config_column_choice_vs_default_multiple_errors_2()
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.get('/system/importer/file/csv/upload/', follow=True)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(messages[0].message, 'There were 23 errors regarding attributes. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
+
+    def test_system_importer_file_csv_check_config_attributes_upload_post_column_choive_vs_default_multiple_errors_2(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
+        # change config
+        set_config_column_choice_vs_default_multiple_errors_2()
+        # open upload file
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_01_minimal_double_quotation.csv'), 'r')
+        # create post data
+        data_dict = {
+            'systemcsv': systemcsv,
+        }
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.post('/system/importer/file/csv/upload/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(messages[0].message, 'There were 23 errors regarding attributes. Check config!')
         self.assertEqual(messages[0].level_tag, 'error')
         # close file
         systemcsv.close()
