@@ -40,7 +40,7 @@ def check_and_create_ip(ip_ip, model, row_counter, request=None):
         # if function was called from 'system_instant' and 'system_upload'
         if request:
             # call message
-            messages.warning(request, f'Value for ip address in row {row_counter} was not a valid IP address.')
+            messages.warning(request, f'Value for IP address in row {row_counter} was not a valid IP address.')
 
         # call logger
         warning_logger(logger_username, f' SYSTEM_IMPORTER_FILE_CSV_IP_COLUMN row_{row_counter}:invalid_ip')

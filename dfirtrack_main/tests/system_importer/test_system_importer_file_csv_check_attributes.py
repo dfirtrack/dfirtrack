@@ -6,12 +6,70 @@ from django.utils import timezone
 from dfirtrack.settings import BASE_DIR
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv import system_cron
-from dfirtrack_main.models import Analysisstatus, Ip, System, Systemstatus
+from dfirtrack_main.models import Analysisstatus, Dnsname, Ip, System, Systemstatus
 from dfirtrack_main.tests.system_importer.config_functions import change_csv_import_filename
 from mock import patch
 import os
 import urllib.parse
 
+
+def set_check_attributes_config():
+    """ set config """
+
+    # change config
+    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model.csv_column_system = 1
+    system_importer_file_csv_config_model.csv_choice_ip = True
+    system_importer_file_csv_config_model.csv_column_ip = 2
+    system_importer_file_csv_config_model.csv_choice_dnsname = True
+    system_importer_file_csv_config_model.csv_column_dnsname = 3
+    system_importer_file_csv_config_model.save()
+
+    # return to test function
+    return
+
+def check_attributes_compare_messages(self, messages):
+    """ compare messages """
+
+    # set counter
+    message_counter = 0
+
+    # compare - messages
+    self.assertEqual(messages[message_counter].message, 'Value for DNS name in row 2 was not a valid value.')
+    self.assertEqual(messages[message_counter].level_tag, 'warning')
+    message_counter += 1
+    self.assertEqual(messages[message_counter].message, 'Value for IP address in row 2 was not a valid IP address.')
+    self.assertEqual(messages[message_counter].level_tag, 'warning')
+    message_counter += 1
+    self.assertEqual(messages[message_counter].message, 'Index for DNS name in row 3 was out of range.')
+    self.assertEqual(messages[message_counter].level_tag, 'warning')
+    message_counter += 1
+    self.assertEqual(messages[message_counter].message, 'Index for IP in row 3 was out of range.')
+    self.assertEqual(messages[message_counter].level_tag, 'warning')
+    message_counter += 1
+    self.assertEqual(messages[message_counter].message, '3 systems were created.')
+    self.assertEqual(messages[message_counter].level_tag, 'success')
+    message_counter += 1
+
+    # return to test function
+    return self
+
+def check_attributes_compare_system_and_attributes(self):
+    """ compare systems and associated attributes """
+
+    # compare - systems / attributes
+    self.assertTrue(System.objects.filter(system_name='system_csv_32_001').exists())
+    self.assertTrue(System.objects.filter(system_name='system_csv_32_002').exists())
+    self.assertTrue(System.objects.filter(system_name='system_csv_32_003').exists())
+    self.assertTrue(Ip.objects.filter(ip_ip='127.32.1.1').exists())
+    self.assertTrue(Ip.objects.filter(ip_ip='127.32.1.2').exists())
+    # compare - systems / attributes
+    self.assertTrue(System.objects.get(system_name='system_csv_32_001').ip.filter(ip_ip='127.32.1.1').exists())
+    self.assertTrue(System.objects.get(system_name='system_csv_32_001').ip.filter(ip_ip='127.32.1.2').exists())
+    self.assertEqual(System.objects.get(system_name='system_csv_32_001').dnsname, Dnsname.objects.get(dnsname_name='dnsname_1'))
+
+    # return to test function
+    return self
 
 class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
     """ system importer file CSV view tests """
@@ -279,19 +337,15 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         # close file
         systemcsv.close()
 
-    """ faulty ip (ip_ip) """
+    """ faulty attributes """
 
-    def test_system_importer_file_csv_check_attributes_cron_faulty_ip(self):
+    def test_system_importer_file_csv_check_attributes_cron_faulty_attributes(self):
         """ test importer view """
 
         # change config
-        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
-        system_importer_file_csv_config_model.csv_column_system = 1
-        system_importer_file_csv_config_model.csv_choice_ip = True
-        system_importer_file_csv_config_model.csv_column_ip = 2
-        system_importer_file_csv_config_model.save()
+        set_check_attributes_config()
         # set file system attributes
-        csv_import_filename = 'system_importer_file_csv_testfile_32_faulty_ip.csv'
+        csv_import_filename = 'system_importer_file_csv_testfile_32_faulty_attributes.csv'
         # change config
         change_csv_import_filename(csv_import_filename)
 
@@ -324,28 +378,15 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         self.assertEqual(messages[0].message, 'System CSV importer: created: 3 | updated: 0 | skipped: 0 | multiple: 0 [2021-03-08 18:10:00 - 2021-03-08 18:10:00]')
         self.assertEqual(messages[0].level_tag, 'success')
         # compare - systems / attributes
-        self.assertTrue(System.objects.filter(system_name='system_csv_32_001').exists())
-        self.assertTrue(System.objects.filter(system_name='system_csv_32_002').exists())
-        self.assertTrue(System.objects.filter(system_name='system_csv_32_003').exists())
-        self.assertTrue(Ip.objects.filter(ip_ip='127.32.1.1').exists())
-        self.assertTrue(Ip.objects.filter(ip_ip='127.32.1.2').exists())
-        # get object (for better readability)
-        self.assertTrue(System.objects.filter(system_name='system_csv_32_001').exists())
-        # compare - systems / attributes
-        self.assertTrue(System.objects.get(system_name='system_csv_32_001').ip.filter(ip_ip='127.32.1.1').exists())
-        self.assertTrue(System.objects.get(system_name='system_csv_32_001').ip.filter(ip_ip='127.32.1.2').exists())
+        self = check_attributes_compare_system_and_attributes(self)
 
-    def test_system_importer_file_csv_check_attributes_instant_faulty_ip(self):
+    def test_system_importer_file_csv_check_attributes_instant_faulty_attributes(self):
         """ test importer view """
 
         # change config
-        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
-        system_importer_file_csv_config_model.csv_column_system = 1
-        system_importer_file_csv_config_model.csv_choice_ip = True
-        system_importer_file_csv_config_model.csv_column_ip = 2
-        system_importer_file_csv_config_model.save()
+        set_check_attributes_config()
         # set file system attributes
-        csv_import_filename = 'system_importer_file_csv_testfile_32_faulty_ip.csv'
+        csv_import_filename = 'system_importer_file_csv_testfile_32_faulty_attributes.csv'
         # change config
         change_csv_import_filename(csv_import_filename)
 
@@ -357,40 +398,23 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         response = self.client.get('/system/importer/file/csv/instant/', follow=True)
         # get messages
         messages = list(get_messages(response.wsgi_request))
-        # compare - messages / meta
+        # compare - meta
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-        self.assertEqual(messages[0].message, 'Value for ip address in row 2 was not a valid IP address.')
-        self.assertEqual(messages[0].level_tag, 'warning')
-        self.assertEqual(messages[1].message, 'Index for IP in row 3 was out of range.')
-        self.assertEqual(messages[1].level_tag, 'warning')
-        self.assertEqual(messages[2].message, '3 systems were created.')
-        self.assertEqual(messages[2].level_tag, 'success')
+        # compare - messages
+        self = check_attributes_compare_messages(self, messages)
         # compare - systems / attributes
-        self.assertTrue(System.objects.filter(system_name='system_csv_32_001').exists())
-        self.assertTrue(System.objects.filter(system_name='system_csv_32_002').exists())
-        self.assertTrue(System.objects.filter(system_name='system_csv_32_003').exists())
-        self.assertTrue(Ip.objects.filter(ip_ip='127.32.1.1').exists())
-        self.assertTrue(Ip.objects.filter(ip_ip='127.32.1.2').exists())
-        # get object (for better readability)
-        self.assertTrue(System.objects.filter(system_name='system_csv_32_001').exists())
-        # compare - systems / attributes
-        self.assertTrue(System.objects.get(system_name='system_csv_32_001').ip.filter(ip_ip='127.32.1.1').exists())
-        self.assertTrue(System.objects.get(system_name='system_csv_32_001').ip.filter(ip_ip='127.32.1.2').exists())
+        self = check_attributes_compare_system_and_attributes(self)
 
-    def test_system_importer_file_csv_check_attributes_upload_post_faulty_ip(self):
+    def test_system_importer_file_csv_check_attributes_upload_post_faulty_attributes(self):
         """ test importer view """
 
         # change config
-        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
-        system_importer_file_csv_config_model.csv_column_system = 1
-        system_importer_file_csv_config_model.csv_choice_ip = True
-        system_importer_file_csv_config_model.csv_column_ip = 2
-        system_importer_file_csv_config_model.save()
+        set_check_attributes_config()
 
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_attributes', password='vlQnN2tg9HVGyyyIvezt')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_32_faulty_ip.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_32_faulty_attributes.csv'), 'r')
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -401,24 +425,11 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         response = self.client.post('/system/importer/file/csv/upload/', data_dict)
         # get messages
         messages = list(get_messages(response.wsgi_request))
-        # compare - messages / meta
+        # compare - meta
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-        self.assertEqual(messages[0].message, 'Value for ip address in row 2 was not a valid IP address.')
-        self.assertEqual(messages[0].level_tag, 'warning')
-        self.assertEqual(messages[1].message, 'Index for IP in row 3 was out of range.')
-        self.assertEqual(messages[1].level_tag, 'warning')
-        self.assertEqual(messages[2].message, '3 systems were created.')
-        self.assertEqual(messages[2].level_tag, 'success')
+        # compare - messages
+        self = check_attributes_compare_messages(self, messages)
         # compare - systems / attributes
-        self.assertTrue(System.objects.filter(system_name='system_csv_32_001').exists())
-        self.assertTrue(System.objects.filter(system_name='system_csv_32_002').exists())
-        self.assertTrue(System.objects.filter(system_name='system_csv_32_003').exists())
-        self.assertTrue(Ip.objects.filter(ip_ip='127.32.1.1').exists())
-        self.assertTrue(Ip.objects.filter(ip_ip='127.32.1.2').exists())
-        # get object (for better readability)
-        self.assertTrue(System.objects.filter(system_name='system_csv_32_001').exists())
-        # compare - systems / attributes
-        self.assertTrue(System.objects.get(system_name='system_csv_32_001').ip.filter(ip_ip='127.32.1.1').exists())
-        self.assertTrue(System.objects.get(system_name='system_csv_32_001').ip.filter(ip_ip='127.32.1.2').exists())
+        self = check_attributes_compare_system_and_attributes(self)
         # close file
         systemcsv.close()
