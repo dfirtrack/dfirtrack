@@ -71,6 +71,19 @@ def set_check_attributes_config_database():
     # return to test function
     return
 
+def set_check_attributes_config_domain_name():
+    """ set config """
+
+    # change config
+    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model.csv_column_system = 1
+    system_importer_file_csv_config_model.csv_choice_domain = True
+    system_importer_file_csv_config_model.csv_column_domain = 2
+    system_importer_file_csv_config_model.save()
+
+    # return to test function
+    return
+
 def check_attributes_compare_messages_csv(self, messages):
     """ compare messages """
 
@@ -149,6 +162,16 @@ def check_attributes_compare_messages_database(self, messages):
     # return to test function
     return self
 
+def check_attributes_compare_messages_domain_name(self, messages):
+    """ compare messages """
+
+    # compare - messages
+    self.assertEqual(messages[0].message, '3 systems were created.')
+    self.assertEqual(messages[0].level_tag, 'success')
+
+    # return to test function
+    return self
+
 def check_attributes_compare_system_and_attributes_csv(self):
     """ compare systems and associated attributes """
 
@@ -182,6 +205,23 @@ def check_attributes_compare_system_and_attributes_database(self):
     self.assertTrue(System.objects.filter(system_name='system_csv_32_002').exists())
     self.assertTrue(System.objects.filter(system_name='system_csv_32_003').exists())
     self.assertTrue(System.objects.filter(system_name='system_csv_32_004').exists())
+
+    # return to test function
+    return self
+
+def check_attributes_compare_system_and_attributes_domain_name(self):
+    """ compare systems and associated attributes """
+
+    # compare - systems / attributes
+    self.assertTrue(System.objects.filter(system_name='system_csv_33_001').exists())
+    self.assertTrue(System.objects.filter(system_name='system_csv_33_002').exists())
+    self.assertTrue(System.objects.filter(system_name='system_csv_33_003').exists())
+    self.assertTrue(Domain.objects.filter(domain_name='domain_33_1').exists())
+    self.assertFalse(Domain.objects.filter(domain_name='system_csv_33_002').exists())
+    self.assertTrue(Domain.objects.filter(domain_name='domain_33_3').exists())
+    self.assertEqual(System.objects.get(system_name='system_csv_33_001').domain, Domain.objects.get(domain_name='domain_33_1'))
+    self.assertEqual(System.objects.get(system_name='system_csv_33_002').domain, None)
+    self.assertEqual(System.objects.get(system_name='system_csv_33_003').domain, Domain.objects.get(domain_name='domain_33_3'))
 
     # return to test function
     return self
@@ -502,8 +542,8 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         change_csv_import_filename(csv_import_filename)
 
         # mock timezone.now()
-        t_2 = datetime(2021, 3, 8, 18, 10, tzinfo=timezone.utc)
-        with patch.object(timezone, 'now', return_value=t_2):
+        t_3 = datetime(2021, 3, 8, 18, 15, tzinfo=timezone.utc)
+        with patch.object(timezone, 'now', return_value=t_3):
 
             # execute cron job / scheduled task
             system_cron()
@@ -516,7 +556,7 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         messages = list(get_messages(response.wsgi_request))
         # compare - user 1
         self.assertEqual(str(response.context['user']), 'testuser_system_importer_file_csv_check_attributes')
-        self.assertEqual(messages[0].message, 'System CSV importer: created: 4 | updated: 0 | skipped: 0 | multiple: 0 [2021-03-08 18:10:00 - 2021-03-08 18:10:00]')
+        self.assertEqual(messages[0].message, 'System CSV importer: created: 4 | updated: 0 | skipped: 0 | multiple: 0 [2021-03-08 18:15:00 - 2021-03-08 18:15:00]')
         self.assertEqual(messages[0].level_tag, 'success')
         # switch user context
         self.client.logout()
@@ -527,7 +567,7 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         messages = list(get_messages(response.wsgi_request))
         # compare - user 2
         self.assertEqual(str(response.context['user']), 'message_user')
-        self.assertEqual(messages[0].message, 'System CSV importer: created: 4 | updated: 0 | skipped: 0 | multiple: 0 [2021-03-08 18:10:00 - 2021-03-08 18:10:00]')
+        self.assertEqual(messages[0].message, 'System CSV importer: created: 4 | updated: 0 | skipped: 0 | multiple: 0 [2021-03-08 18:15:00 - 2021-03-08 18:15:00]')
         self.assertEqual(messages[0].level_tag, 'success')
         # compare - systems / attributes
         self = check_attributes_compare_system_and_attributes_database(self)
@@ -583,5 +623,102 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         self = check_attributes_compare_messages_database(self, messages)
         # compare - systems / attributes
         self = check_attributes_compare_system_and_attributes_database(self)
+        # close file
+        systemcsv.close()
+
+    """ domain name """
+
+    def test_system_importer_file_csv_check_attributes_cron_domain_name(self):
+        """ test importer view """
+
+        # change config
+        set_check_attributes_config_domain_name()
+        # set file system attributes
+        csv_import_filename = 'system_importer_file_csv_testfile_33_domain_name.csv'
+        # change config
+        change_csv_import_filename(csv_import_filename)
+
+        # mock timezone.now()
+        t_4 = datetime(2021, 3, 8, 18, 20, tzinfo=timezone.utc)
+        with patch.object(timezone, 'now', return_value=t_4):
+
+            # execute cron job / scheduled task
+            system_cron()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_attributes', password='vlQnN2tg9HVGyyyIvezt')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare - user 1
+        self.assertEqual(str(response.context['user']), 'testuser_system_importer_file_csv_check_attributes')
+        self.assertEqual(messages[0].message, 'System CSV importer: created: 3 | updated: 0 | skipped: 0 | multiple: 0 [2021-03-08 18:20:00 - 2021-03-08 18:20:00]')
+        self.assertEqual(messages[0].level_tag, 'success')
+        # switch user context
+        self.client.logout()
+        self.client.login(username='message_user', password='POPKkir2A2biti52AYJG')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare - user 2
+        self.assertEqual(str(response.context['user']), 'message_user')
+        self.assertEqual(messages[0].message, 'System CSV importer: created: 3 | updated: 0 | skipped: 0 | multiple: 0 [2021-03-08 18:20:00 - 2021-03-08 18:20:00]')
+        self.assertEqual(messages[0].level_tag, 'success')
+        # compare - systems / attributes
+        self = check_attributes_compare_system_and_attributes_domain_name(self)
+
+    def test_system_importer_file_csv_check_attributes_instant_domain_name(self):
+        """ test importer view """
+
+        # change config
+        set_check_attributes_config_domain_name()
+        # set file system attributes
+        csv_import_filename = 'system_importer_file_csv_testfile_33_domain_name.csv'
+        # change config
+        change_csv_import_filename(csv_import_filename)
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_attributes', password='vlQnN2tg9HVGyyyIvezt')
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.get('/system/importer/file/csv/instant/', follow=True)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare - meta
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        # compare - messages
+        self = check_attributes_compare_messages_domain_name(self, messages)
+        # compare - systems / attributes
+        self = check_attributes_compare_system_and_attributes_domain_name(self)
+
+    def test_system_importer_file_csv_check_attributes_upload_post_domain_name(self):
+        """ test importer view """
+
+        # change config
+        set_check_attributes_config_domain_name()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_attributes', password='vlQnN2tg9HVGyyyIvezt')
+        # open upload file
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_33_domain_name.csv'), 'r')
+        # create post data
+        data_dict = {
+            'systemcsv': systemcsv,
+        }
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.post('/system/importer/file/csv/upload/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare - meta
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        # compare - messages
+        self = check_attributes_compare_messages_domain_name(self, messages)
+        # compare - systems / attributes
+        self = check_attributes_compare_system_and_attributes_domain_name(self)
         # close file
         systemcsv.close()
