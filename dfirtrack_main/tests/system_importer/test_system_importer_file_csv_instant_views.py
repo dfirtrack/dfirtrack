@@ -4,7 +4,7 @@ from django.test import TestCase
 from dfirtrack.settings import BASE_DIR
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.models import Analysisstatus, Case, Company, Dnsname, Domain, Location, Ip, Os, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Tag
-from dfirtrack_main.tests.system_importer.config_functions import change_csv_import_filename
+from dfirtrack_main.tests.system_importer.config_functions import set_csv_import_filename
 import os
 import urllib.parse
 
@@ -67,7 +67,7 @@ class SystemImporterFileCsvInstantViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_instant', password='lw3V2i2uaTFlk4yTlIaV')
         # change config
-        change_csv_import_filename('system_importer_file_csv_testfile_01_minimal_double_quotation.csv')
+        set_csv_import_filename('system_importer_file_csv_testfile_01_minimal_double_quotation.csv')
         # get objects
         analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
         systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
@@ -97,7 +97,7 @@ class SystemImporterFileCsvInstantViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_instant', password='lw3V2i2uaTFlk4yTlIaV')
         # change config
-        change_csv_import_filename('system_importer_file_csv_testfile_02_minimal_single_quotation.csv')
+        set_csv_import_filename('system_importer_file_csv_testfile_02_minimal_single_quotation.csv')
         # change config
         system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
         system_importer_file_csv_config_model.csv_text_quote = 'text_single_quotation_marks'
@@ -131,7 +131,7 @@ class SystemImporterFileCsvInstantViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_instant', password='lw3V2i2uaTFlk4yTlIaV')
         # change config
-        change_csv_import_filename('system_importer_file_csv_testfile_03_minimal_headline.csv')
+        set_csv_import_filename('system_importer_file_csv_testfile_03_minimal_headline.csv')
         # change config
         system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
         system_importer_file_csv_config_model.csv_headline = True
@@ -165,7 +165,7 @@ class SystemImporterFileCsvInstantViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_instant', password='lw3V2i2uaTFlk4yTlIaV')
         # change config
-        change_csv_import_filename('system_importer_file_csv_testfile_07_complete.csv')
+        set_csv_import_filename('system_importer_file_csv_testfile_07_complete.csv')
         # change config
         system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
         system_importer_file_csv_config_model.csv_choice_tagfree_systemstatus = True
@@ -308,7 +308,7 @@ class SystemImporterFileCsvInstantViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_instant', password='lw3V2i2uaTFlk4yTlIaV')
         # change config
-        change_csv_import_filename('system_importer_file_csv_testfile_21_minimal_comma.csv')
+        set_csv_import_filename('system_importer_file_csv_testfile_21_minimal_comma.csv')
         # change config
         system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
         system_importer_file_csv_config_model.csv_field_delimiter = 'field_comma'
@@ -350,7 +350,7 @@ class SystemImporterFileCsvInstantViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_instant', password='lw3V2i2uaTFlk4yTlIaV')
         # change config
-        change_csv_import_filename('system_importer_file_csv_testfile_22_minimal_semicolon.csv')
+        set_csv_import_filename('system_importer_file_csv_testfile_22_minimal_semicolon.csv')
         # change config
         system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
         system_importer_file_csv_config_model.csv_field_delimiter = 'field_semicolon'

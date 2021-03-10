@@ -4,7 +4,7 @@ from django.test import TestCase
 from dfirtrack.settings import BASE_DIR
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv import system_cron
-from dfirtrack_main.tests.system_importer.config_functions import change_csv_import_filename, change_csv_import_path
+from dfirtrack_main.tests.system_importer.config_functions import set_csv_import_filename, set_csv_import_path
 import os
 import urllib.parse
 
@@ -44,8 +44,8 @@ class SystemImporterFileCsvCheckContentFileTypeViewTestCase(TestCase):
         csv_import_path = os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files')
         csv_import_filename = 'system_importer_file_csv_testfile_04_wrong_type.png'
         # change config
-        change_csv_import_path(csv_import_path)
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_path(csv_import_path)
+        set_csv_import_filename(csv_import_filename)
         # execute cron job / scheduled task
         system_cron()
         # login testuser
@@ -79,8 +79,8 @@ class SystemImporterFileCsvCheckContentFileTypeViewTestCase(TestCase):
         csv_import_path = os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files')
         csv_import_filename = 'system_importer_file_csv_testfile_04_wrong_type.png'
         # change config
-        change_csv_import_path(csv_import_path)
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_path(csv_import_path)
+        set_csv_import_filename(csv_import_filename)
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -123,8 +123,8 @@ class SystemImporterFileCsvCheckContentFileTypeViewTestCase(TestCase):
         csv_import_path = os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files')
         csv_import_filename = 'system_importer_file_csv_testfile_05_corrupted.csv'
         # change config
-        change_csv_import_path(csv_import_path)
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_path(csv_import_path)
+        set_csv_import_filename(csv_import_filename)
         # execute cron job / scheduled task
         system_cron()
         # login testuser
@@ -158,8 +158,8 @@ class SystemImporterFileCsvCheckContentFileTypeViewTestCase(TestCase):
         csv_import_path = os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files')
         csv_import_filename = 'system_importer_file_csv_testfile_05_corrupted.csv'
         # change config
-        change_csv_import_path(csv_import_path)
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_path(csv_import_path)
+        set_csv_import_filename(csv_import_filename)
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response

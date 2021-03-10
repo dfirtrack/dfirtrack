@@ -7,7 +7,7 @@ from dfirtrack.settings import BASE_DIR
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv import system_cron
 from dfirtrack_main.models import Analysisstatus, System, Systemstatus
-from dfirtrack_main.tests.system_importer.config_functions import change_csv_import_filename
+from dfirtrack_main.tests.system_importer.config_functions import set_csv_import_filename
 from mock import patch
 import os
 
@@ -87,7 +87,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         # set file system attributes
         csv_import_filename = 'system_importer_file_csv_testfile_11_messages_single_system.csv'
         # change config
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_filename(csv_import_filename)
         # change config
         set_csv_skip_existing_system(True)
 
@@ -129,7 +129,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         # set file system attributes
         csv_import_filename = 'system_importer_file_csv_testfile_11_messages_single_system.csv'
         # change config
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_filename(csv_import_filename)
         # change config
         set_csv_skip_existing_system(False)
 
@@ -171,7 +171,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         # set file system attributes
         csv_import_filename = 'system_importer_file_csv_testfile_11_messages_single_system.csv'
         # change config
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_filename(csv_import_filename)
         # change config
         set_csv_skip_existing_system(True)
 
@@ -214,7 +214,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         # set file system attributes
         csv_import_filename = 'system_importer_file_csv_testfile_11_messages_single_system.csv'
         # change config
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_filename(csv_import_filename)
         # change config
         set_csv_skip_existing_system(False)
 
@@ -257,7 +257,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         # set file system attributes
         csv_import_filename = 'system_importer_file_csv_testfile_11_messages_single_system.csv'
         # change config
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_filename(csv_import_filename)
         # change config
         set_csv_skip_existing_system(True)
 
@@ -280,7 +280,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         # set file system attributes
         csv_import_filename = 'system_importer_file_csv_testfile_11_messages_single_system.csv'
         # change config
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_filename(csv_import_filename)
         # change config
         set_csv_skip_existing_system(False)
 
@@ -303,7 +303,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         # set file system attributes
         csv_import_filename = 'system_importer_file_csv_testfile_11_messages_single_system.csv'
         # change config
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_filename(csv_import_filename)
         # change config
         set_csv_skip_existing_system(True)
 
@@ -327,7 +327,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         # set file system attributes
         csv_import_filename = 'system_importer_file_csv_testfile_11_messages_single_system.csv'
         # change config
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_filename(csv_import_filename)
         # change config
         set_csv_skip_existing_system(True)
 
@@ -453,7 +453,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         # set file system attributes
         csv_import_filename = 'system_importer_file_csv_testfile_12_messages_many_systems.csv'
         # change config
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_filename(csv_import_filename)
         # change config
         set_csv_skip_existing_system(True)
 
@@ -497,7 +497,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         # set file system attributes
         csv_import_filename = 'system_importer_file_csv_testfile_12_messages_many_systems.csv'
         # change config
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_filename(csv_import_filename)
         # change config
         set_csv_skip_existing_system(False)
 
@@ -541,7 +541,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         # set file system attributes
         csv_import_filename = 'system_importer_file_csv_testfile_12_messages_many_systems.csv'
         # change config
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_filename(csv_import_filename)
         # change config
         set_csv_skip_existing_system(True)
 
@@ -588,7 +588,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         # set file system attributes
         csv_import_filename = 'system_importer_file_csv_testfile_12_messages_many_systems.csv'
         # change config
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_filename(csv_import_filename)
         # change config
         set_csv_skip_existing_system(False)
 
@@ -631,7 +631,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         # set file system attributes
         csv_import_filename = 'system_importer_file_csv_testfile_12_messages_many_systems.csv'
         # change config
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_filename(csv_import_filename)
         # change config
         set_csv_skip_existing_system(True)
 
@@ -656,7 +656,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         # set file system attributes
         csv_import_filename = 'system_importer_file_csv_testfile_12_messages_many_systems.csv'
         # change config
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_filename(csv_import_filename)
         # change config
         set_csv_skip_existing_system(False)
 
@@ -681,7 +681,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         # set file system attributes
         csv_import_filename = 'system_importer_file_csv_testfile_12_messages_many_systems.csv'
         # change config
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_filename(csv_import_filename)
         # change config
         set_csv_skip_existing_system(True)
 
@@ -709,7 +709,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         # set file system attributes
         csv_import_filename = 'system_importer_file_csv_testfile_12_messages_many_systems.csv'
         # change config
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_filename(csv_import_filename)
         # change config
         set_csv_skip_existing_system(True)
 

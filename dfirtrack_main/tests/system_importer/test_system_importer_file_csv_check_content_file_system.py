@@ -5,7 +5,7 @@ from django.utils import timezone
 from dfirtrack.settings import BASE_DIR
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv import system_cron
-from dfirtrack_main.tests.system_importer.config_functions import change_csv_import_filename, change_csv_import_path
+from dfirtrack_main.tests.system_importer.config_functions import set_csv_import_filename, set_csv_import_path
 import os
 import urllib.parse
 
@@ -51,7 +51,7 @@ class SystemImporterFileCsvCheckConfigContentFileSystemViewTestCase(TestCase):
         # set file system attributes
         csv_import_path = '/path_not_existing'
         # change config
-        change_csv_import_path(csv_import_path)
+        set_csv_import_path(csv_import_path)
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -69,7 +69,7 @@ class SystemImporterFileCsvCheckConfigContentFileSystemViewTestCase(TestCase):
         # set file system attributes
         csv_import_path = '/path_not_existing'
         # change config
-        change_csv_import_path(csv_import_path)
+        set_csv_import_path(csv_import_path)
         # execute cron job / scheduled task
         system_cron()
         # login testuser
@@ -102,7 +102,7 @@ class SystemImporterFileCsvCheckConfigContentFileSystemViewTestCase(TestCase):
         # set file system attributes
         csv_import_path = '/path_not_existing'
         # change config
-        change_csv_import_path(csv_import_path)
+        set_csv_import_path(csv_import_path)
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -122,7 +122,7 @@ class SystemImporterFileCsvCheckConfigContentFileSystemViewTestCase(TestCase):
         # set file system attributes
         csv_import_path = '/root'
         # change config
-        change_csv_import_path(csv_import_path)
+        set_csv_import_path(csv_import_path)
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -140,7 +140,7 @@ class SystemImporterFileCsvCheckConfigContentFileSystemViewTestCase(TestCase):
         # set file system attributes
         csv_import_path = '/root'
         # change config
-        change_csv_import_path(csv_import_path)
+        set_csv_import_path(csv_import_path)
         # execute cron job / scheduled task
         system_cron()
         # login testuser
@@ -173,7 +173,7 @@ class SystemImporterFileCsvCheckConfigContentFileSystemViewTestCase(TestCase):
         # set file system attributes
         csv_import_path = '/root'
         # change config
-        change_csv_import_path(csv_import_path)
+        set_csv_import_path(csv_import_path)
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -194,8 +194,8 @@ class SystemImporterFileCsvCheckConfigContentFileSystemViewTestCase(TestCase):
         csv_import_path = '/tmp'
         csv_import_filename = 'filename_not_existing.abc'
         # change config
-        change_csv_import_path(csv_import_path)
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_path(csv_import_path)
+        set_csv_import_filename(csv_import_filename)
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -214,8 +214,8 @@ class SystemImporterFileCsvCheckConfigContentFileSystemViewTestCase(TestCase):
         csv_import_path = '/tmp'
         csv_import_filename = 'filename_not_existing.abc'
         # change config
-        change_csv_import_path(csv_import_path)
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_path(csv_import_path)
+        set_csv_import_filename(csv_import_filename)
         # execute cron job / scheduled task
         system_cron()
         # login testuser
@@ -249,8 +249,8 @@ class SystemImporterFileCsvCheckConfigContentFileSystemViewTestCase(TestCase):
         csv_import_path = '/tmp'
         csv_import_filename = 'filename_not_existing.abc'
         # change config
-        change_csv_import_path(csv_import_path)
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_path(csv_import_path)
+        set_csv_import_filename(csv_import_filename)
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -273,8 +273,8 @@ class SystemImporterFileCsvCheckConfigContentFileSystemViewTestCase(TestCase):
         csv_import_path = '/tmp'
         csv_import_filename = f'{t1}_create_cron_no_read_permission.csv'
         # change config
-        change_csv_import_path(csv_import_path)
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_path(csv_import_path)
+        set_csv_import_filename(csv_import_filename)
         # create file
         create_file_no_read_permission(csv_import_path, csv_import_filename)
         # create url
@@ -297,8 +297,8 @@ class SystemImporterFileCsvCheckConfigContentFileSystemViewTestCase(TestCase):
         csv_import_path = '/tmp'
         csv_import_filename = f'{t1}_cron_no_read_permission.csv'
         # change config
-        change_csv_import_path(csv_import_path)
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_path(csv_import_path)
+        set_csv_import_filename(csv_import_filename)
         # create file
         create_file_no_read_permission(csv_import_path, csv_import_filename)
         # execute cron job / scheduled task
@@ -336,8 +336,8 @@ class SystemImporterFileCsvCheckConfigContentFileSystemViewTestCase(TestCase):
         csv_import_path = '/tmp'
         csv_import_filename = f'{t1}_instant_no_read_permission.csv'
         # change config
-        change_csv_import_path(csv_import_path)
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_path(csv_import_path)
+        set_csv_import_filename(csv_import_filename)
         # create file
         create_file_no_read_permission(csv_import_path, csv_import_filename)
         # create url
@@ -360,8 +360,8 @@ class SystemImporterFileCsvCheckConfigContentFileSystemViewTestCase(TestCase):
         csv_import_path = os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/')
         csv_import_filename = 'system_importer_file_csv_testfile_06_empty.csv'
         # change config
-        change_csv_import_path(csv_import_path)
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_path(csv_import_path)
+        set_csv_import_filename(csv_import_filename)
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -380,8 +380,8 @@ class SystemImporterFileCsvCheckConfigContentFileSystemViewTestCase(TestCase):
         csv_import_path = os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/')
         csv_import_filename = 'system_importer_file_csv_testfile_06_empty.csv'
         # change config
-        change_csv_import_path(csv_import_path)
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_path(csv_import_path)
+        set_csv_import_filename(csv_import_filename)
         # execute cron job / scheduled task
         system_cron()
         # login testuser
@@ -415,8 +415,8 @@ class SystemImporterFileCsvCheckConfigContentFileSystemViewTestCase(TestCase):
         csv_import_path = os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/')
         csv_import_filename = 'system_importer_file_csv_testfile_06_empty.csv'
         # change config
-        change_csv_import_path(csv_import_path)
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_path(csv_import_path)
+        set_csv_import_filename(csv_import_filename)
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response

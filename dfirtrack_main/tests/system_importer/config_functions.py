@@ -1,7 +1,7 @@
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 
 
-def change_csv_import_path(csv_import_path):
+def set_csv_import_path(csv_import_path):
     """ set csv_import_path """
 
     # change config
@@ -12,7 +12,7 @@ def change_csv_import_path(csv_import_path):
     # return to test function
     return
 
-def change_csv_import_filename(csv_import_filename):
+def set_csv_import_filename(csv_import_filename):
     """ set csv_import_filename """
 
     # change config

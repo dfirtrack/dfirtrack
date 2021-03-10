@@ -7,7 +7,7 @@ from dfirtrack.settings import BASE_DIR
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv import system_cron
 from dfirtrack_main.models import Analysisstatus, Dnsname, Domain, Ip, Location, Os, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype
-from dfirtrack_main.tests.system_importer.config_functions import change_csv_import_filename
+from dfirtrack_main.tests.system_importer.config_functions import set_csv_import_filename
 from mock import patch
 import os
 import urllib.parse
@@ -288,7 +288,7 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         # set file system attributes
         csv_import_filename = 'system_importer_file_csv_testfile_31_faulty_system.csv'
         # change config
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_filename(csv_import_filename)
 
         # mock timezone.now()
         t_1 = datetime(2021, 3, 8, 18, 5, tzinfo=timezone.utc)
@@ -342,7 +342,7 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         # set file system attributes
         csv_import_filename = 'system_importer_file_csv_testfile_31_faulty_system.csv'
         # change config
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_filename(csv_import_filename)
 
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_attributes', password='vlQnN2tg9HVGyyyIvezt')
@@ -388,7 +388,7 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         # set file system attributes
         csv_import_filename = 'system_importer_file_csv_testfile_31_faulty_system.csv'
         # change config
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_filename(csv_import_filename)
 
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_attributes', password='vlQnN2tg9HVGyyyIvezt')
@@ -442,7 +442,7 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         # set file system attributes
         csv_import_filename = 'system_importer_file_csv_testfile_32_faulty_attributes.csv'
         # change config
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_filename(csv_import_filename)
 
         # mock timezone.now()
         t_2 = datetime(2021, 3, 8, 18, 10, tzinfo=timezone.utc)
@@ -483,7 +483,7 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         # set file system attributes
         csv_import_filename = 'system_importer_file_csv_testfile_32_faulty_attributes.csv'
         # change config
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_filename(csv_import_filename)
 
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_attributes', password='vlQnN2tg9HVGyyyIvezt')
@@ -539,7 +539,7 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         # set file system attributes
         csv_import_filename = 'system_importer_file_csv_testfile_32_faulty_attributes.csv'
         # change config
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_filename(csv_import_filename)
 
         # mock timezone.now()
         t_3 = datetime(2021, 3, 8, 18, 15, tzinfo=timezone.utc)
@@ -580,7 +580,7 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         # set file system attributes
         csv_import_filename = 'system_importer_file_csv_testfile_32_faulty_attributes.csv'
         # change config
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_filename(csv_import_filename)
 
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_attributes', password='vlQnN2tg9HVGyyyIvezt')
@@ -636,7 +636,7 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         # set file system attributes
         csv_import_filename = 'system_importer_file_csv_testfile_33_domain_name.csv'
         # change config
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_filename(csv_import_filename)
 
         # mock timezone.now()
         t_4 = datetime(2021, 3, 8, 18, 20, tzinfo=timezone.utc)
@@ -677,7 +677,7 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         # set file system attributes
         csv_import_filename = 'system_importer_file_csv_testfile_33_domain_name.csv'
         # change config
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_filename(csv_import_filename)
 
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_attributes', password='vlQnN2tg9HVGyyyIvezt')

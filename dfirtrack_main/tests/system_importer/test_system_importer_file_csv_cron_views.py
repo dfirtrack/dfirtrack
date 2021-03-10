@@ -7,7 +7,7 @@ from dfirtrack.settings import BASE_DIR
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv import system_cron
 from dfirtrack_main.models import Analysisstatus, Case, Company, Dnsname, Domain, Location, Ip, Os, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Tag
-from dfirtrack_main.tests.system_importer.config_functions import change_csv_import_filename, change_csv_import_path
+from dfirtrack_main.tests.system_importer.config_functions import set_csv_import_filename, set_csv_import_path
 from mock import patch
 import os
 
@@ -44,7 +44,7 @@ class SystemImporterFileCsvCronViewTestCase(TestCase):
 
         # build local path with test files
         csv_import_path = os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/')
-        change_csv_import_path(csv_import_path)
+        set_csv_import_path(csv_import_path)
 
         # restore config
         system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
@@ -71,7 +71,7 @@ class SystemImporterFileCsvCronViewTestCase(TestCase):
         # set file system attributes
         csv_import_filename = 'system_importer_file_csv_testfile_01_minimal_double_quotation.csv'
         # change config
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_filename(csv_import_filename)
 
         # mock timezone.now()
         t_1 = datetime(2021, 3, 6, 17, 28, tzinfo=timezone.utc)
@@ -121,7 +121,7 @@ class SystemImporterFileCsvCronViewTestCase(TestCase):
         # set file system attributes
         csv_import_filename = 'system_importer_file_csv_testfile_02_minimal_single_quotation.csv'
         # change config
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_filename(csv_import_filename)
         # change config
         system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
         system_importer_file_csv_config_model.csv_text_quote = 'text_single_quotation_marks'
@@ -175,7 +175,7 @@ class SystemImporterFileCsvCronViewTestCase(TestCase):
         # set file system attributes
         csv_import_filename = 'system_importer_file_csv_testfile_03_minimal_headline.csv'
         # change config
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_filename(csv_import_filename)
         # change config
         system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
         system_importer_file_csv_config_model.csv_headline = True
@@ -229,7 +229,7 @@ class SystemImporterFileCsvCronViewTestCase(TestCase):
         # set file system attributes
         csv_import_filename = 'system_importer_file_csv_testfile_07_complete.csv'
         # change config
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_filename(csv_import_filename)
         # change config
         system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
         system_importer_file_csv_config_model.csv_choice_tagfree_systemstatus = True
@@ -391,7 +391,7 @@ class SystemImporterFileCsvCronViewTestCase(TestCase):
         # set file system attributes
         csv_import_filename = 'system_importer_file_csv_testfile_21_minimal_comma.csv'
         # change config
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_filename(csv_import_filename)
         # change config
         system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
         system_importer_file_csv_config_model.csv_field_delimiter = 'field_comma'
@@ -453,7 +453,7 @@ class SystemImporterFileCsvCronViewTestCase(TestCase):
         # set file system attributes
         csv_import_filename = 'system_importer_file_csv_testfile_22_minimal_semicolon.csv'
         # change config
-        change_csv_import_filename(csv_import_filename)
+        set_csv_import_filename(csv_import_filename)
         # change config
         system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
         system_importer_file_csv_config_model.csv_field_delimiter = 'field_semicolon'
