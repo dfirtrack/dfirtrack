@@ -6,7 +6,7 @@ from django.utils import timezone
 from dfirtrack.settings import BASE_DIR
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv import system_cron
-from dfirtrack_main.models import Analysisstatus, Dnsname, Ip, System, Systemstatus
+from dfirtrack_main.models import Analysisstatus, Dnsname, Domain, Ip, Location, Os, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype
 from dfirtrack_main.tests.system_importer.config_functions import change_csv_import_filename
 from mock import patch
 import os
@@ -23,6 +23,20 @@ def set_check_attributes_config():
     system_importer_file_csv_config_model.csv_column_ip = 2
     system_importer_file_csv_config_model.csv_choice_dnsname = True
     system_importer_file_csv_config_model.csv_column_dnsname = 3
+    system_importer_file_csv_config_model.csv_choice_domain = True
+    system_importer_file_csv_config_model.csv_column_domain = 4
+    system_importer_file_csv_config_model.csv_choice_location = True
+    system_importer_file_csv_config_model.csv_column_location = 5
+    system_importer_file_csv_config_model.csv_choice_os = True
+    system_importer_file_csv_config_model.csv_column_os = 6
+    system_importer_file_csv_config_model.csv_choice_reason = True
+    system_importer_file_csv_config_model.csv_column_reason = 7
+    system_importer_file_csv_config_model.csv_choice_recommendation = True
+    system_importer_file_csv_config_model.csv_column_recommendation = 8
+    system_importer_file_csv_config_model.csv_choice_serviceprovider = True
+    system_importer_file_csv_config_model.csv_column_serviceprovider = 9
+    system_importer_file_csv_config_model.csv_choice_systemtype = True
+    system_importer_file_csv_config_model.csv_column_systemtype = 10
     system_importer_file_csv_config_model.save()
 
     # return to test function
@@ -38,10 +52,52 @@ def check_attributes_compare_messages(self, messages):
     self.assertEqual(messages[message_counter].message, 'Value for DNS name in row 2 was not a valid value.')
     self.assertEqual(messages[message_counter].level_tag, 'warning')
     message_counter += 1
+    self.assertEqual(messages[message_counter].message, 'Value for domain in row 2 was not a valid value.')
+    self.assertEqual(messages[message_counter].level_tag, 'warning')
+    message_counter += 1
+    self.assertEqual(messages[message_counter].message, 'Value for location in row 2 was not a valid value.')
+    self.assertEqual(messages[message_counter].level_tag, 'warning')
+    message_counter += 1
+    self.assertEqual(messages[message_counter].message, 'Value for OS in row 2 was not a valid value.')
+    self.assertEqual(messages[message_counter].level_tag, 'warning')
+    message_counter += 1
+    self.assertEqual(messages[message_counter].message, 'Value for reason in row 2 was not a valid value.')
+    self.assertEqual(messages[message_counter].level_tag, 'warning')
+    message_counter += 1
+    self.assertEqual(messages[message_counter].message, 'Value for recommendation in row 2 was not a valid value.')
+    self.assertEqual(messages[message_counter].level_tag, 'warning')
+    message_counter += 1
+    self.assertEqual(messages[message_counter].message, 'Value for serviceprovider in row 2 was not a valid value.')
+    self.assertEqual(messages[message_counter].level_tag, 'warning')
+    message_counter += 1
+    self.assertEqual(messages[message_counter].message, 'Value for systemtype in row 2 was not a valid value.')
+    self.assertEqual(messages[message_counter].level_tag, 'warning')
+    message_counter += 1
     self.assertEqual(messages[message_counter].message, 'Value for IP address in row 2 was not a valid IP address.')
     self.assertEqual(messages[message_counter].level_tag, 'warning')
     message_counter += 1
     self.assertEqual(messages[message_counter].message, 'Index for DNS name in row 3 was out of range.')
+    self.assertEqual(messages[message_counter].level_tag, 'warning')
+    message_counter += 1
+    self.assertEqual(messages[message_counter].message, 'Index for domain in row 3 was out of range.')
+    self.assertEqual(messages[message_counter].level_tag, 'warning')
+    message_counter += 1
+    self.assertEqual(messages[message_counter].message, 'Index for location in row 3 was out of range.')
+    self.assertEqual(messages[message_counter].level_tag, 'warning')
+    message_counter += 1
+    self.assertEqual(messages[message_counter].message, 'Index for OS in row 3 was out of range.')
+    self.assertEqual(messages[message_counter].level_tag, 'warning')
+    message_counter += 1
+    self.assertEqual(messages[message_counter].message, 'Index for reason in row 3 was out of range.')
+    self.assertEqual(messages[message_counter].level_tag, 'warning')
+    message_counter += 1
+    self.assertEqual(messages[message_counter].message, 'Index for recommendation in row 3 was out of range.')
+    self.assertEqual(messages[message_counter].level_tag, 'warning')
+    message_counter += 1
+    self.assertEqual(messages[message_counter].message, 'Index for serviceprovider in row 3 was out of range.')
+    self.assertEqual(messages[message_counter].level_tag, 'warning')
+    message_counter += 1
+    self.assertEqual(messages[message_counter].message, 'Index for systemtype in row 3 was out of range.')
     self.assertEqual(messages[message_counter].level_tag, 'warning')
     message_counter += 1
     self.assertEqual(messages[message_counter].message, 'Index for IP in row 3 was out of range.')
@@ -67,6 +123,13 @@ def check_attributes_compare_system_and_attributes(self):
     self.assertTrue(System.objects.get(system_name='system_csv_32_001').ip.filter(ip_ip='127.32.1.1').exists())
     self.assertTrue(System.objects.get(system_name='system_csv_32_001').ip.filter(ip_ip='127.32.1.2').exists())
     self.assertEqual(System.objects.get(system_name='system_csv_32_001').dnsname, Dnsname.objects.get(dnsname_name='dnsname_1'))
+    self.assertEqual(System.objects.get(system_name='system_csv_32_001').domain, Domain.objects.get(domain_name='domain_1'))
+    self.assertEqual(System.objects.get(system_name='system_csv_32_001').location, Location.objects.get(location_name='location_1'))
+    self.assertEqual(System.objects.get(system_name='system_csv_32_001').os, Os.objects.get(os_name='os_1'))
+    self.assertEqual(System.objects.get(system_name='system_csv_32_001').reason, Reason.objects.get(reason_name='reason_1'))
+    self.assertEqual(System.objects.get(system_name='system_csv_32_001').recommendation, Recommendation.objects.get(recommendation_name='recommendation_1'))
+    self.assertEqual(System.objects.get(system_name='system_csv_32_001').serviceprovider, Serviceprovider.objects.get(serviceprovider_name='serviceprovider_1'))
+    self.assertEqual(System.objects.get(system_name='system_csv_32_001').systemtype, Systemtype.objects.get(systemtype_name='systemtype_1'))
 
     # return to test function
     return self
@@ -111,75 +174,6 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
 
         # save config
         system_importer_file_csv_config_model.save()
-
-#    @classmethod
-#    def setUp(cls):
-#        """ setup in advance of every test """
-#
-#        """ clean non-mandatory values which may set by other tests """
-#
-#        # get config
-#        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
-#
-#        # (re)set config values
-#        system_importer_file_csv_config_model.csv_column_system = 1
-#        system_importer_file_csv_config_model.csv_skip_existing_system = False
-#        system_importer_file_csv_config_model.csv_remove_systemstatus = False
-#        system_importer_file_csv_config_model.csv_remove_analysisstatus = False
-#        system_importer_file_csv_config_model.csv_choice_tagfree_systemstatus = False
-#        system_importer_file_csv_config_model.csv_choice_tagfree_analysisstatus = False
-#        system_importer_file_csv_config_model.csv_choice_ip = False
-#        system_importer_file_csv_config_model.csv_column_ip = None
-#        system_importer_file_csv_config_model.csv_remove_ip = False
-#        system_importer_file_csv_config_model.csv_choice_dnsname = False
-#        system_importer_file_csv_config_model.csv_column_dnsname = None
-#        system_importer_file_csv_config_model.csv_default_dnsname = None
-#        system_importer_file_csv_config_model.csv_remove_dnsname = False
-#        system_importer_file_csv_config_model.csv_choice_domain = False
-#        system_importer_file_csv_config_model.csv_column_domain = None
-#        system_importer_file_csv_config_model.csv_default_domain = None
-#        system_importer_file_csv_config_model.csv_remove_domain = False
-#        system_importer_file_csv_config_model.csv_choice_location = False
-#        system_importer_file_csv_config_model.csv_column_location = None
-#        system_importer_file_csv_config_model.csv_default_location = None
-#        system_importer_file_csv_config_model.csv_remove_location = False
-#        system_importer_file_csv_config_model.csv_choice_os = False
-#        system_importer_file_csv_config_model.csv_column_os = None
-#        system_importer_file_csv_config_model.csv_default_os = None
-#        system_importer_file_csv_config_model.csv_remove_os = False
-#        system_importer_file_csv_config_model.csv_choice_reason = False
-#        system_importer_file_csv_config_model.csv_column_reason = None
-#        system_importer_file_csv_config_model.csv_default_reason = None
-#        system_importer_file_csv_config_model.csv_remove_reason = False
-#        system_importer_file_csv_config_model.csv_choice_recommendation = False
-#        system_importer_file_csv_config_model.csv_column_recommendation = None
-#        system_importer_file_csv_config_model.csv_default_recommendation = None
-#        system_importer_file_csv_config_model.csv_remove_recommendation = False
-#        system_importer_file_csv_config_model.csv_choice_serviceprovider = False
-#        system_importer_file_csv_config_model.csv_column_serviceprovider = None
-#        system_importer_file_csv_config_model.csv_default_serviceprovider = None
-#        system_importer_file_csv_config_model.csv_remove_serviceprovider = False
-#        system_importer_file_csv_config_model.csv_choice_systemtype = False
-#        system_importer_file_csv_config_model.csv_column_systemtype = None
-#        system_importer_file_csv_config_model.csv_default_systemtype = None
-#        system_importer_file_csv_config_model.csv_remove_systemtype = False
-#        system_importer_file_csv_config_model.csv_choice_case = False
-#        system_importer_file_csv_config_model.csv_column_case = None
-#        system_importer_file_csv_config_model.csv_default_case.clear()
-#        system_importer_file_csv_config_model.csv_remove_case = False
-#        system_importer_file_csv_config_model.csv_choice_company = False
-#        system_importer_file_csv_config_model.csv_column_company = None
-#        system_importer_file_csv_config_model.csv_default_company.clear()
-#        system_importer_file_csv_config_model.csv_remove_company = False
-#        system_importer_file_csv_config_model.csv_choice_tag = False
-#        system_importer_file_csv_config_model.csv_column_tag = None
-#        system_importer_file_csv_config_model.csv_default_tag.clear()
-#        system_importer_file_csv_config_model.csv_remove_tag = 'tag_remove_prefix'
-#        system_importer_file_csv_config_model.csv_tag_prefix = 'AUTO'
-#        system_importer_file_csv_config_model.csv_tag_prefix_delimiter = 'tag_prefix_underscore'
-#
-#        # save config
-#        system_importer_file_csv_config_model.save()
 
     """ faulty system (system_name) """
 
