@@ -16,6 +16,56 @@ import os
 import urllib.parse
 
 
+def compare_messages_column_fields_numeric_values(self, messages):
+    """ compare messages """
+
+    # set counter
+    message_counter = 0
+
+    # compare - message
+    self.assertEqual(messages[message_counter].message, '`CSV_COLUMN_SYSTEM` is outside the allowed range. Check config!')
+    self.assertEqual(messages[message_counter].level_tag, 'error')
+    message_counter += 1
+    self.assertEqual(messages[message_counter].message, '`CSV_COLUMN_IP` is outside the allowed range. Check config!')
+    self.assertEqual(messages[message_counter].level_tag, 'error')
+    message_counter += 1
+    self.assertEqual(messages[message_counter].message, '`CSV_COLUMN_DNSNAME` is outside the allowed range. Check config!')
+    self.assertEqual(messages[message_counter].level_tag, 'error')
+    message_counter += 1
+    self.assertEqual(messages[message_counter].message, '`CSV_COLUMN_DOMAIN` is outside the allowed range. Check config!')
+    self.assertEqual(messages[message_counter].level_tag, 'error')
+    message_counter += 1
+    self.assertEqual(messages[message_counter].message, '`CSV_COLUMN_LOCATION` is outside the allowed range. Check config!')
+    self.assertEqual(messages[message_counter].level_tag, 'error')
+    message_counter += 1
+    self.assertEqual(messages[message_counter].message, '`CSV_COLUMN_OS` is outside the allowed range. Check config!')
+    self.assertEqual(messages[message_counter].level_tag, 'error')
+    message_counter += 1
+    self.assertEqual(messages[message_counter].message, '`CSV_COLUMN_REASON` is outside the allowed range. Check config!')
+    self.assertEqual(messages[message_counter].level_tag, 'error')
+    message_counter += 1
+    self.assertEqual(messages[message_counter].message, '`CSV_COLUMN_RECOMMENDATION` is outside the allowed range. Check config!')
+    self.assertEqual(messages[message_counter].level_tag, 'error')
+    message_counter += 1
+    self.assertEqual(messages[message_counter].message, '`CSV_COLUMN_SERVICEPROVIDER` is outside the allowed range. Check config!')
+    self.assertEqual(messages[message_counter].level_tag, 'error')
+    message_counter += 1
+    self.assertEqual(messages[message_counter].message, '`CSV_COLUMN_SYSTEMTYPE` is outside the allowed range. Check config!')
+    self.assertEqual(messages[message_counter].level_tag, 'error')
+    message_counter += 1
+    self.assertEqual(messages[message_counter].message, '`CSV_COLUMN_CASE` is outside the allowed range. Check config!')
+    self.assertEqual(messages[message_counter].level_tag, 'error')
+    message_counter += 1
+    self.assertEqual(messages[message_counter].message, '`CSV_COLUMN_COMPANY` is outside the allowed range. Check config!')
+    self.assertEqual(messages[message_counter].level_tag, 'error')
+    message_counter += 1
+    self.assertEqual(messages[message_counter].message, '`CSV_COLUMN_TAG` is outside the allowed range. Check config!')
+    self.assertEqual(messages[message_counter].level_tag, 'error')
+    message_counter += 1
+
+    # return to test function
+    return self
+
 class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
     """ system importer file CSV view tests """
 
@@ -162,34 +212,10 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         response = self.client.get('/system/importer/file/csv/cron/', follow=True)
         # get messages
         messages = list(get_messages(response.wsgi_request))
-        # compare
+        # compare - meta
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-        self.assertEqual(messages[0].message, '`CSV_COLUMN_SYSTEM` is outside the allowed range. Check config!')
-        self.assertEqual(messages[0].level_tag, 'error')
-        self.assertEqual(messages[1].message, '`CSV_COLUMN_IP` is outside the allowed range. Check config!')
-        self.assertEqual(messages[1].level_tag, 'error')
-        self.assertEqual(messages[2].message, '`CSV_COLUMN_DNSNAME` is outside the allowed range. Check config!')
-        self.assertEqual(messages[2].level_tag, 'error')
-        self.assertEqual(messages[3].message, '`CSV_COLUMN_DOMAIN` is outside the allowed range. Check config!')
-        self.assertEqual(messages[3].level_tag, 'error')
-        self.assertEqual(messages[4].message, '`CSV_COLUMN_LOCATION` is outside the allowed range. Check config!')
-        self.assertEqual(messages[4].level_tag, 'error')
-        self.assertEqual(messages[5].message, '`CSV_COLUMN_OS` is outside the allowed range. Check config!')
-        self.assertEqual(messages[5].level_tag, 'error')
-        self.assertEqual(messages[6].message, '`CSV_COLUMN_REASON` is outside the allowed range. Check config!')
-        self.assertEqual(messages[6].level_tag, 'error')
-        self.assertEqual(messages[7].message, '`CSV_COLUMN_RECOMMENDATION` is outside the allowed range. Check config!')
-        self.assertEqual(messages[7].level_tag, 'error')
-        self.assertEqual(messages[8].message, '`CSV_COLUMN_SERVICEPROVIDER` is outside the allowed range. Check config!')
-        self.assertEqual(messages[8].level_tag, 'error')
-        self.assertEqual(messages[9].message, '`CSV_COLUMN_SYSTEMTYPE` is outside the allowed range. Check config!')
-        self.assertEqual(messages[9].level_tag, 'error')
-        self.assertEqual(messages[10].message, '`CSV_COLUMN_CASE` is outside the allowed range. Check config!')
-        self.assertEqual(messages[10].level_tag, 'error')
-        self.assertEqual(messages[11].message, '`CSV_COLUMN_COMPANY` is outside the allowed range. Check config!')
-        self.assertEqual(messages[11].level_tag, 'error')
-        self.assertEqual(messages[12].message, '`CSV_COLUMN_TAG` is outside the allowed range. Check config!')
-        self.assertEqual(messages[12].level_tag, 'error')
+        # compare - message
+        self = compare_messages_column_fields_numeric_values(self, messages)
 
     def test_system_importer_file_csv_check_config_attributes_cron_column_fields_numeric_values(self):
         """ test importer view """
@@ -233,34 +259,10 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         response = self.client.get('/system/importer/file/csv/instant/', follow=True)
         # get messages
         messages = list(get_messages(response.wsgi_request))
-        # compare
+        # compare - meta
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-        self.assertEqual(messages[0].message, '`CSV_COLUMN_SYSTEM` is outside the allowed range. Check config!')
-        self.assertEqual(messages[0].level_tag, 'error')
-        self.assertEqual(messages[1].message, '`CSV_COLUMN_IP` is outside the allowed range. Check config!')
-        self.assertEqual(messages[1].level_tag, 'error')
-        self.assertEqual(messages[2].message, '`CSV_COLUMN_DNSNAME` is outside the allowed range. Check config!')
-        self.assertEqual(messages[2].level_tag, 'error')
-        self.assertEqual(messages[3].message, '`CSV_COLUMN_DOMAIN` is outside the allowed range. Check config!')
-        self.assertEqual(messages[3].level_tag, 'error')
-        self.assertEqual(messages[4].message, '`CSV_COLUMN_LOCATION` is outside the allowed range. Check config!')
-        self.assertEqual(messages[4].level_tag, 'error')
-        self.assertEqual(messages[5].message, '`CSV_COLUMN_OS` is outside the allowed range. Check config!')
-        self.assertEqual(messages[5].level_tag, 'error')
-        self.assertEqual(messages[6].message, '`CSV_COLUMN_REASON` is outside the allowed range. Check config!')
-        self.assertEqual(messages[6].level_tag, 'error')
-        self.assertEqual(messages[7].message, '`CSV_COLUMN_RECOMMENDATION` is outside the allowed range. Check config!')
-        self.assertEqual(messages[7].level_tag, 'error')
-        self.assertEqual(messages[8].message, '`CSV_COLUMN_SERVICEPROVIDER` is outside the allowed range. Check config!')
-        self.assertEqual(messages[8].level_tag, 'error')
-        self.assertEqual(messages[9].message, '`CSV_COLUMN_SYSTEMTYPE` is outside the allowed range. Check config!')
-        self.assertEqual(messages[9].level_tag, 'error')
-        self.assertEqual(messages[10].message, '`CSV_COLUMN_CASE` is outside the allowed range. Check config!')
-        self.assertEqual(messages[10].level_tag, 'error')
-        self.assertEqual(messages[11].message, '`CSV_COLUMN_COMPANY` is outside the allowed range. Check config!')
-        self.assertEqual(messages[11].level_tag, 'error')
-        self.assertEqual(messages[12].message, '`CSV_COLUMN_TAG` is outside the allowed range. Check config!')
-        self.assertEqual(messages[12].level_tag, 'error')
+        # compare - message
+        self = compare_messages_column_fields_numeric_values(self, messages)
 
     def test_system_importer_file_csv_check_config_attributes_upload_get_column_fields_numeric_values(self):
         """ test importer view """
@@ -275,34 +277,10 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         response = self.client.get('/system/importer/file/csv/upload/', follow=True)
         # get messages
         messages = list(get_messages(response.wsgi_request))
-        # compare
+        # compare - meta
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-        self.assertEqual(messages[0].message, '`CSV_COLUMN_SYSTEM` is outside the allowed range. Check config!')
-        self.assertEqual(messages[0].level_tag, 'error')
-        self.assertEqual(messages[1].message, '`CSV_COLUMN_IP` is outside the allowed range. Check config!')
-        self.assertEqual(messages[1].level_tag, 'error')
-        self.assertEqual(messages[2].message, '`CSV_COLUMN_DNSNAME` is outside the allowed range. Check config!')
-        self.assertEqual(messages[2].level_tag, 'error')
-        self.assertEqual(messages[3].message, '`CSV_COLUMN_DOMAIN` is outside the allowed range. Check config!')
-        self.assertEqual(messages[3].level_tag, 'error')
-        self.assertEqual(messages[4].message, '`CSV_COLUMN_LOCATION` is outside the allowed range. Check config!')
-        self.assertEqual(messages[4].level_tag, 'error')
-        self.assertEqual(messages[5].message, '`CSV_COLUMN_OS` is outside the allowed range. Check config!')
-        self.assertEqual(messages[5].level_tag, 'error')
-        self.assertEqual(messages[6].message, '`CSV_COLUMN_REASON` is outside the allowed range. Check config!')
-        self.assertEqual(messages[6].level_tag, 'error')
-        self.assertEqual(messages[7].message, '`CSV_COLUMN_RECOMMENDATION` is outside the allowed range. Check config!')
-        self.assertEqual(messages[7].level_tag, 'error')
-        self.assertEqual(messages[8].message, '`CSV_COLUMN_SERVICEPROVIDER` is outside the allowed range. Check config!')
-        self.assertEqual(messages[8].level_tag, 'error')
-        self.assertEqual(messages[9].message, '`CSV_COLUMN_SYSTEMTYPE` is outside the allowed range. Check config!')
-        self.assertEqual(messages[9].level_tag, 'error')
-        self.assertEqual(messages[10].message, '`CSV_COLUMN_CASE` is outside the allowed range. Check config!')
-        self.assertEqual(messages[10].level_tag, 'error')
-        self.assertEqual(messages[11].message, '`CSV_COLUMN_COMPANY` is outside the allowed range. Check config!')
-        self.assertEqual(messages[11].level_tag, 'error')
-        self.assertEqual(messages[12].message, '`CSV_COLUMN_TAG` is outside the allowed range. Check config!')
-        self.assertEqual(messages[12].level_tag, 'error')
+        # compare - message
+        self = compare_messages_column_fields_numeric_values(self, messages)
 
     def test_system_importer_file_csv_check_config_attributes_upload_post_column_fields_numeric_values(self):
         """ test importer view """
@@ -323,34 +301,10 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         response = self.client.post('/system/importer/file/csv/upload/', data_dict)
         # get messages
         messages = list(get_messages(response.wsgi_request))
-        # compare
+        # compare - meta
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-        self.assertEqual(messages[0].message, '`CSV_COLUMN_SYSTEM` is outside the allowed range. Check config!')
-        self.assertEqual(messages[0].level_tag, 'error')
-        self.assertEqual(messages[1].message, '`CSV_COLUMN_IP` is outside the allowed range. Check config!')
-        self.assertEqual(messages[1].level_tag, 'error')
-        self.assertEqual(messages[2].message, '`CSV_COLUMN_DNSNAME` is outside the allowed range. Check config!')
-        self.assertEqual(messages[2].level_tag, 'error')
-        self.assertEqual(messages[3].message, '`CSV_COLUMN_DOMAIN` is outside the allowed range. Check config!')
-        self.assertEqual(messages[3].level_tag, 'error')
-        self.assertEqual(messages[4].message, '`CSV_COLUMN_LOCATION` is outside the allowed range. Check config!')
-        self.assertEqual(messages[4].level_tag, 'error')
-        self.assertEqual(messages[5].message, '`CSV_COLUMN_OS` is outside the allowed range. Check config!')
-        self.assertEqual(messages[5].level_tag, 'error')
-        self.assertEqual(messages[6].message, '`CSV_COLUMN_REASON` is outside the allowed range. Check config!')
-        self.assertEqual(messages[6].level_tag, 'error')
-        self.assertEqual(messages[7].message, '`CSV_COLUMN_RECOMMENDATION` is outside the allowed range. Check config!')
-        self.assertEqual(messages[7].level_tag, 'error')
-        self.assertEqual(messages[8].message, '`CSV_COLUMN_SERVICEPROVIDER` is outside the allowed range. Check config!')
-        self.assertEqual(messages[8].level_tag, 'error')
-        self.assertEqual(messages[9].message, '`CSV_COLUMN_SYSTEMTYPE` is outside the allowed range. Check config!')
-        self.assertEqual(messages[9].level_tag, 'error')
-        self.assertEqual(messages[10].message, '`CSV_COLUMN_CASE` is outside the allowed range. Check config!')
-        self.assertEqual(messages[10].level_tag, 'error')
-        self.assertEqual(messages[11].message, '`CSV_COLUMN_COMPANY` is outside the allowed range. Check config!')
-        self.assertEqual(messages[11].level_tag, 'error')
-        self.assertEqual(messages[12].message, '`CSV_COLUMN_TAG` is outside the allowed range. Check config!')
-        self.assertEqual(messages[12].level_tag, 'error')
+        # compare - message
+        self = compare_messages_column_fields_numeric_values(self, messages)
         # close file
         systemcsv.close()
 
