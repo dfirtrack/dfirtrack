@@ -7,84 +7,31 @@ from dfirtrack.settings import BASE_DIR
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv import system_cron
 from dfirtrack_main.models import Analysisstatus, Dnsname, Domain, Ip, Location, Os, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype
-from dfirtrack_main.tests.system_importer.config_functions import set_csv_import_filename
+from dfirtrack_main.tests.system_importer.config_functions import set_config_check_attributes_csv, set_config_check_attributes_database, set_config_check_attributes_domain_name, set_csv_import_filename
 from mock import patch
 import os
 import urllib.parse
 
 
-def set_check_attributes_config_csv():
-    """ set config """
+def compare_messages_faulty_systems(self, messages):
+    """ compare messages """
 
-    # change config
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
-    system_importer_file_csv_config_model.csv_column_system = 1
-    system_importer_file_csv_config_model.csv_choice_ip = True
-    system_importer_file_csv_config_model.csv_column_ip = 2
-    system_importer_file_csv_config_model.csv_choice_dnsname = True
-    system_importer_file_csv_config_model.csv_column_dnsname = 3
-    system_importer_file_csv_config_model.csv_choice_domain = True
-    system_importer_file_csv_config_model.csv_column_domain = 4
-    system_importer_file_csv_config_model.csv_choice_location = True
-    system_importer_file_csv_config_model.csv_column_location = 5
-    system_importer_file_csv_config_model.csv_choice_os = True
-    system_importer_file_csv_config_model.csv_column_os = 6
-    system_importer_file_csv_config_model.csv_choice_reason = True
-    system_importer_file_csv_config_model.csv_column_reason = 7
-    system_importer_file_csv_config_model.csv_choice_recommendation = True
-    system_importer_file_csv_config_model.csv_column_recommendation = 8
-    system_importer_file_csv_config_model.csv_choice_serviceprovider = True
-    system_importer_file_csv_config_model.csv_column_serviceprovider = 9
-    system_importer_file_csv_config_model.csv_choice_systemtype = True
-    system_importer_file_csv_config_model.csv_column_systemtype = 10
-    system_importer_file_csv_config_model.save()
+    # compare - messages
+    self.assertEqual(messages[0].message, 'Value for system in row 2 was too long. System not created.')
+    self.assertEqual(messages[0].level_tag, 'warning')
+    self.assertEqual(messages[1].message, 'Value for system in row 4 was an empty string. System not created.')
+    self.assertEqual(messages[1].level_tag, 'warning')
+    self.assertEqual(messages[2].message, 'Index for system in row 5 was out of range. System not created.')
+    self.assertEqual(messages[2].level_tag, 'warning')
+    self.assertEqual(messages[3].message, '3 systems were created.')
+    self.assertEqual(messages[3].level_tag, 'success')
+    self.assertEqual(messages[4].message, '3 systems were skipped.')
+    self.assertEqual(messages[4].level_tag, 'success')
 
     # return to test function
-    return
+    return self
 
-def set_check_attributes_config_database():
-    """ set config """
-
-    # get objects
-    dnsname_db_1 = Dnsname.objects.get(dnsname_name='dnsname_db_1')
-    domain_db_1 = Domain.objects.get(domain_name='domain_db_1')
-    location_db_1 = Location.objects.get(location_name='location_db_1')
-    os_db_1 = Os.objects.get(os_name='os_db_1')
-    reason_db_1 = Reason.objects.get(reason_name='reason_db_1')
-    recommendation_db_1 = Recommendation.objects.get(recommendation_name='recommendation_db_1')
-    serviceprovider_db_1 = Serviceprovider.objects.get(serviceprovider_name='serviceprovider_db_1')
-    systemtype_db_1 = Systemtype.objects.get(systemtype_name='systemtype_db_1')
-
-    # change config
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
-    system_importer_file_csv_config_model.csv_column_system = 1
-    system_importer_file_csv_config_model.csv_default_dnsname = dnsname_db_1
-    system_importer_file_csv_config_model.csv_default_domain = domain_db_1
-    system_importer_file_csv_config_model.csv_default_location = location_db_1
-    system_importer_file_csv_config_model.csv_default_os = os_db_1
-    system_importer_file_csv_config_model.csv_default_reason = reason_db_1
-    system_importer_file_csv_config_model.csv_default_recommendation = recommendation_db_1
-    system_importer_file_csv_config_model.csv_default_serviceprovider = serviceprovider_db_1
-    system_importer_file_csv_config_model.csv_default_systemtype = systemtype_db_1
-    system_importer_file_csv_config_model.save()
-
-    # return to test function
-    return
-
-def set_check_attributes_config_domain_name():
-    """ set config """
-
-    # change config
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
-    system_importer_file_csv_config_model.csv_column_system = 1
-    system_importer_file_csv_config_model.csv_choice_domain = True
-    system_importer_file_csv_config_model.csv_column_domain = 2
-    system_importer_file_csv_config_model.save()
-
-    # return to test function
-    return
-
-def check_attributes_compare_messages_csv(self, messages):
+def compare_messages_csv(self, messages):
     """ compare messages """
 
     # set counter
@@ -152,7 +99,7 @@ def check_attributes_compare_messages_csv(self, messages):
     # return to test function
     return self
 
-def check_attributes_compare_messages_database(self, messages):
+def compare_messages_database(self, messages):
     """ compare messages """
 
     # compare - messages
@@ -162,7 +109,7 @@ def check_attributes_compare_messages_database(self, messages):
     # return to test function
     return self
 
-def check_attributes_compare_messages_domain_name(self, messages):
+def compare_messages_domain_name(self, messages):
     """ compare messages """
 
     # compare - messages
@@ -172,7 +119,25 @@ def check_attributes_compare_messages_domain_name(self, messages):
     # return to test function
     return self
 
-def check_attributes_compare_system_and_attributes_csv(self):
+def compare_system_and_attributes_faulty_systems(self):
+    """ compare systems and associated attributes """
+
+    # compare - systems / attributes
+    self.assertTrue(System.objects.filter(system_name='system_csv_31_001').exists())
+    self.assertTrue(System.objects.filter(system_name='system_csv_31_003').exists())
+    self.assertTrue(System.objects.filter(system_name='system_csv_31_006').exists())
+    # compare - systems / attributes
+    self.assertEqual(System.objects.get(system_name='system_csv_31_001').analysisstatus, Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1'))
+    self.assertEqual(System.objects.get(system_name='system_csv_31_003').analysisstatus, Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1'))
+    self.assertEqual(System.objects.get(system_name='system_csv_31_006').analysisstatus, Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1'))
+    self.assertEqual(System.objects.get(system_name='system_csv_31_001').systemstatus, Systemstatus.objects.get(systemstatus_name='systemstatus_1'))
+    self.assertEqual(System.objects.get(system_name='system_csv_31_003').systemstatus, Systemstatus.objects.get(systemstatus_name='systemstatus_1'))
+    self.assertEqual(System.objects.get(system_name='system_csv_31_006').systemstatus, Systemstatus.objects.get(systemstatus_name='systemstatus_1'))
+
+    # return to test function
+    return self
+
+def compare_system_and_attributes_csv(self):
     """ compare systems and associated attributes """
 
     # compare - systems / attributes
@@ -197,7 +162,7 @@ def check_attributes_compare_system_and_attributes_csv(self):
     # return to test function
     return self
 
-def check_attributes_compare_system_and_attributes_database(self):
+def compare_system_and_attributes_database(self):
     """ compare systems and associated attributes """
 
     # compare - systems / attributes
@@ -209,7 +174,7 @@ def check_attributes_compare_system_and_attributes_database(self):
     # return to test function
     return self
 
-def check_attributes_compare_system_and_attributes_domain_name(self):
+def compare_system_and_attributes_domain_name(self):
     """ compare systems and associated attributes """
 
     # compare - systems / attributes
@@ -278,7 +243,7 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
 
     """ faulty system (system_name) """
 
-    def test_system_importer_file_csv_check_attributes_cron_faulty_system(self):
+    def test_system_importer_file_csv_check_attributes_cron_faulty_systems(self):
         """ test importer view """
 
         # change config
@@ -297,9 +262,6 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
             # execute cron job / scheduled task
             system_cron()
 
-        # get objects
-        analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
-        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_attributes', password='vlQnN2tg9HVGyyyIvezt')
         # get response
@@ -322,17 +284,9 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         self.assertEqual(messages[0].message, 'System CSV importer: created: 3 | updated: 0 | skipped: 3 | multiple: 0 [2021-03-08 18:05:00 - 2021-03-08 18:05:00]')
         self.assertEqual(messages[0].level_tag, 'success')
         # compare - systems / attributes
-        self.assertTrue(System.objects.filter(system_name='system_csv_31_001').exists())
-        self.assertTrue(System.objects.filter(system_name='system_csv_31_003').exists())
-        self.assertTrue(System.objects.filter(system_name='system_csv_31_006').exists())
-        self.assertEqual(System.objects.get(system_name='system_csv_31_001').analysisstatus, analysisstatus_1)
-        self.assertEqual(System.objects.get(system_name='system_csv_31_003').analysisstatus, analysisstatus_1)
-        self.assertEqual(System.objects.get(system_name='system_csv_31_006').analysisstatus, analysisstatus_1)
-        self.assertEqual(System.objects.get(system_name='system_csv_31_001').systemstatus, systemstatus_1)
-        self.assertEqual(System.objects.get(system_name='system_csv_31_003').systemstatus, systemstatus_1)
-        self.assertEqual(System.objects.get(system_name='system_csv_31_006').systemstatus, systemstatus_1)
+        self = compare_system_and_attributes_faulty_systems(self)
 
-    def test_system_importer_file_csv_check_attributes_instant_faulty_system(self):
+    def test_system_importer_file_csv_check_attributes_instant_faulty_systems(self):
         """ test importer view """
 
         # change config
@@ -346,39 +300,20 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
 
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_attributes', password='vlQnN2tg9HVGyyyIvezt')
-        # get objects
-        analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
-        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
         response = self.client.get('/system/importer/file/csv/instant/', follow=True)
         # get messages
         messages = list(get_messages(response.wsgi_request))
-        # compare - messages / meta
+        # compare - meta
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-        self.assertEqual(messages[0].message, 'Value for system in row 2 was too long. System not created.')
-        self.assertEqual(messages[0].level_tag, 'warning')
-        self.assertEqual(messages[1].message, 'Value for system in row 4 was an empty string. System not created.')
-        self.assertEqual(messages[1].level_tag, 'warning')
-        self.assertEqual(messages[2].message, 'Index for system in row 5 was out of range. System not created.')
-        self.assertEqual(messages[2].level_tag, 'warning')
-        self.assertEqual(messages[3].message, '3 systems were created.')
-        self.assertEqual(messages[3].level_tag, 'success')
-        self.assertEqual(messages[4].message, '3 systems were skipped.')
-        self.assertEqual(messages[4].level_tag, 'success')
+        # compare - messages
+        self = compare_messages_faulty_systems(self, messages)
         # compare - systems / attributes
-        self.assertTrue(System.objects.filter(system_name='system_csv_31_001').exists())
-        self.assertTrue(System.objects.filter(system_name='system_csv_31_003').exists())
-        self.assertTrue(System.objects.filter(system_name='system_csv_31_006').exists())
-        self.assertEqual(System.objects.get(system_name='system_csv_31_001').analysisstatus, analysisstatus_1)
-        self.assertEqual(System.objects.get(system_name='system_csv_31_003').analysisstatus, analysisstatus_1)
-        self.assertEqual(System.objects.get(system_name='system_csv_31_006').analysisstatus, analysisstatus_1)
-        self.assertEqual(System.objects.get(system_name='system_csv_31_001').systemstatus, systemstatus_1)
-        self.assertEqual(System.objects.get(system_name='system_csv_31_003').systemstatus, systemstatus_1)
-        self.assertEqual(System.objects.get(system_name='system_csv_31_006').systemstatus, systemstatus_1)
+        self = compare_system_and_attributes_faulty_systems(self)
 
-    def test_system_importer_file_csv_check_attributes_upload_post_faulty_system(self):
+    def test_system_importer_file_csv_check_attributes_upload_post_faulty_systems(self):
         """ test importer view """
 
         # change config
@@ -398,47 +333,28 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         data_dict = {
             'systemcsv': systemcsv,
         }
-        # get objects
-        analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
-        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
         response = self.client.post('/system/importer/file/csv/upload/', data_dict)
         # get messages
         messages = list(get_messages(response.wsgi_request))
-        # compare - messages / meta
+        # compare - meta
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-        self.assertEqual(messages[0].message, 'Value for system in row 2 was too long. System not created.')
-        self.assertEqual(messages[0].level_tag, 'warning')
-        self.assertEqual(messages[1].message, 'Value for system in row 4 was an empty string. System not created.')
-        self.assertEqual(messages[1].level_tag, 'warning')
-        self.assertEqual(messages[2].message, 'Index for system in row 5 was out of range. System not created.')
-        self.assertEqual(messages[2].level_tag, 'warning')
-        self.assertEqual(messages[3].message, '3 systems were created.')
-        self.assertEqual(messages[3].level_tag, 'success')
-        self.assertEqual(messages[4].message, '3 systems were skipped.')
-        self.assertEqual(messages[4].level_tag, 'success')
+        # compare - messages
+        self = compare_messages_faulty_systems(self, messages)
         # compare - systems / attributes
-        self.assertTrue(System.objects.filter(system_name='system_csv_31_001').exists())
-        self.assertTrue(System.objects.filter(system_name='system_csv_31_003').exists())
-        self.assertTrue(System.objects.filter(system_name='system_csv_31_006').exists())
-        self.assertEqual(System.objects.get(system_name='system_csv_31_001').analysisstatus, analysisstatus_1)
-        self.assertEqual(System.objects.get(system_name='system_csv_31_003').analysisstatus, analysisstatus_1)
-        self.assertEqual(System.objects.get(system_name='system_csv_31_006').analysisstatus, analysisstatus_1)
-        self.assertEqual(System.objects.get(system_name='system_csv_31_001').systemstatus, systemstatus_1)
-        self.assertEqual(System.objects.get(system_name='system_csv_31_003').systemstatus, systemstatus_1)
-        self.assertEqual(System.objects.get(system_name='system_csv_31_006').systemstatus, systemstatus_1)
+        self = compare_system_and_attributes_faulty_systems(self)
         # close file
         systemcsv.close()
 
-    """ faulty attributes """
+    """ faulty attributes (faulty values in CSV) """
 
     def test_system_importer_file_csv_check_attributes_cron_faulty_attributes(self):
         """ test importer view """
 
         # change config
-        set_check_attributes_config_csv()
+        set_config_check_attributes_csv()
         # set file system attributes
         csv_import_filename = 'system_importer_file_csv_testfile_32_faulty_attributes.csv'
         # change config
@@ -473,13 +389,13 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         self.assertEqual(messages[0].message, 'System CSV importer: created: 4 | updated: 0 | skipped: 0 | multiple: 0 [2021-03-08 18:10:00 - 2021-03-08 18:10:00]')
         self.assertEqual(messages[0].level_tag, 'success')
         # compare - systems / attributes
-        self = check_attributes_compare_system_and_attributes_csv(self)
+        self = compare_system_and_attributes_csv(self)
 
     def test_system_importer_file_csv_check_attributes_instant_faulty_attributes(self):
         """ test importer view """
 
         # change config
-        set_check_attributes_config_csv()
+        set_config_check_attributes_csv()
         # set file system attributes
         csv_import_filename = 'system_importer_file_csv_testfile_32_faulty_attributes.csv'
         # change config
@@ -496,15 +412,15 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         # compare - meta
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
         # compare - messages
-        self = check_attributes_compare_messages_csv(self, messages)
+        self = compare_messages_csv(self, messages)
         # compare - systems / attributes
-        self = check_attributes_compare_system_and_attributes_csv(self)
+        self = compare_system_and_attributes_csv(self)
 
     def test_system_importer_file_csv_check_attributes_upload_post_faulty_attributes(self):
         """ test importer view """
 
         # change config
-        set_check_attributes_config_csv()
+        set_config_check_attributes_csv()
 
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_attributes', password='vlQnN2tg9HVGyyyIvezt')
@@ -523,9 +439,9 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         # compare - meta
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
         # compare - messages
-        self = check_attributes_compare_messages_csv(self, messages)
+        self = compare_messages_csv(self, messages)
         # compare - systems / attributes
-        self = check_attributes_compare_system_and_attributes_csv(self)
+        self = compare_system_and_attributes_csv(self)
         # close file
         systemcsv.close()
 
@@ -535,7 +451,7 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         """ test importer view """
 
         # change config
-        set_check_attributes_config_database()
+        set_config_check_attributes_database()
         # set file system attributes
         csv_import_filename = 'system_importer_file_csv_testfile_32_faulty_attributes.csv'
         # change config
@@ -570,13 +486,13 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         self.assertEqual(messages[0].message, 'System CSV importer: created: 4 | updated: 0 | skipped: 0 | multiple: 0 [2021-03-08 18:15:00 - 2021-03-08 18:15:00]')
         self.assertEqual(messages[0].level_tag, 'success')
         # compare - systems / attributes
-        self = check_attributes_compare_system_and_attributes_database(self)
+        self = compare_system_and_attributes_database(self)
 
     def test_system_importer_file_csv_check_attributes_instant_database_attributes(self):
         """ test importer view """
 
         # change config
-        set_check_attributes_config_database()
+        set_config_check_attributes_database()
         # set file system attributes
         csv_import_filename = 'system_importer_file_csv_testfile_32_faulty_attributes.csv'
         # change config
@@ -593,15 +509,15 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         # compare - meta
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
         # compare - messages
-        self = check_attributes_compare_messages_database(self, messages)
+        self = compare_messages_database(self, messages)
         # compare - systems / attributes
-        self = check_attributes_compare_system_and_attributes_database(self)
+        self = compare_system_and_attributes_database(self)
 
     def test_system_importer_file_csv_check_attributes_upload_post_database_attributes(self):
         """ test importer view """
 
         # change config
-        set_check_attributes_config_database()
+        set_config_check_attributes_database()
 
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_attributes', password='vlQnN2tg9HVGyyyIvezt')
@@ -620,9 +536,9 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         # compare - meta
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
         # compare - messages
-        self = check_attributes_compare_messages_database(self, messages)
+        self = compare_messages_database(self, messages)
         # compare - systems / attributes
-        self = check_attributes_compare_system_and_attributes_database(self)
+        self = compare_system_and_attributes_database(self)
         # close file
         systemcsv.close()
 
@@ -632,7 +548,7 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         """ test importer view """
 
         # change config
-        set_check_attributes_config_domain_name()
+        set_config_check_attributes_domain_name()
         # set file system attributes
         csv_import_filename = 'system_importer_file_csv_testfile_33_domain_name.csv'
         # change config
@@ -667,13 +583,13 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         self.assertEqual(messages[0].message, 'System CSV importer: created: 3 | updated: 0 | skipped: 0 | multiple: 0 [2021-03-08 18:20:00 - 2021-03-08 18:20:00]')
         self.assertEqual(messages[0].level_tag, 'success')
         # compare - systems / attributes
-        self = check_attributes_compare_system_and_attributes_domain_name(self)
+        self = compare_system_and_attributes_domain_name(self)
 
     def test_system_importer_file_csv_check_attributes_instant_domain_name(self):
         """ test importer view """
 
         # change config
-        set_check_attributes_config_domain_name()
+        set_config_check_attributes_domain_name()
         # set file system attributes
         csv_import_filename = 'system_importer_file_csv_testfile_33_domain_name.csv'
         # change config
@@ -690,15 +606,15 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         # compare - meta
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
         # compare - messages
-        self = check_attributes_compare_messages_domain_name(self, messages)
+        self = compare_messages_domain_name(self, messages)
         # compare - systems / attributes
-        self = check_attributes_compare_system_and_attributes_domain_name(self)
+        self = compare_system_and_attributes_domain_name(self)
 
     def test_system_importer_file_csv_check_attributes_upload_post_domain_name(self):
         """ test importer view """
 
         # change config
-        set_check_attributes_config_domain_name()
+        set_config_check_attributes_domain_name()
 
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_attributes', password='vlQnN2tg9HVGyyyIvezt')
@@ -717,8 +633,8 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         # compare - meta
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
         # compare - messages
-        self = check_attributes_compare_messages_domain_name(self, messages)
+        self = compare_messages_domain_name(self, messages)
         # compare - systems / attributes
-        self = check_attributes_compare_system_and_attributes_domain_name(self)
+        self = compare_system_and_attributes_domain_name(self)
         # close file
         systemcsv.close()

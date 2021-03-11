@@ -7,9 +7,10 @@ from dfirtrack.settings import BASE_DIR
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv import system_cron
 from dfirtrack_main.models import Analysisstatus, System, Systemstatus
-from dfirtrack_main.tests.system_importer.config_functions import set_csv_import_filename
+from dfirtrack_main.tests.system_importer.config_functions import set_csv_import_filename, set_csv_skip_existing_system
 from mock import patch
 import os
+
 
 def create_system(system_name):
     """ create system (only needed in some tests, therefore not implemented with 'setUp()') """
@@ -27,17 +28,6 @@ def create_system(system_name):
         system_created_by_user_id = test_user,
         system_modified_by_user_id = test_user,
     )
-
-    # return to test function
-    return
-
-def set_csv_skip_existing_system(csv_skip_existing_system):
-    """ set csv_skip_existing_system """
-
-    # restore config
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
-    system_importer_file_csv_config_model.csv_skip_existing_system = csv_skip_existing_system
-    system_importer_file_csv_config_model.save()
 
     # return to test function
     return
