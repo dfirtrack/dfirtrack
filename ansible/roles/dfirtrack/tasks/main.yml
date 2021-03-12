@@ -107,7 +107,7 @@
     name: acl
   become: yes
   become_method: sudo
-  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.04'
+  when: (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.04') or (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.10')
 
 - name: POSTGRESQL | Install postgresql
   apt:
