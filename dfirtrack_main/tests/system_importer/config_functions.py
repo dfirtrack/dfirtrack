@@ -366,6 +366,24 @@ def set_config_check_config_attributes_remove_choices():
     # return to remove choices test function
     return
 
+def set_config_tagfree_status():
+    """ set config to set status depending on tag in CSV """
+
+    # get config
+    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+
+    # set config values
+    system_importer_file_csv_config_model.csv_choice_tag = True
+    system_importer_file_csv_config_model.csv_column_tag = 2
+    system_importer_file_csv_config_model.csv_choice_tagfree_systemstatus = True
+    system_importer_file_csv_config_model.csv_choice_tagfree_analysisstatus = True
+
+    # save config
+    system_importer_file_csv_config_model.save()
+
+    # return to tagfree status test function
+    return
+
 def set_csv_import_filename(csv_import_filename):
     """ set csv_import_filename """
 
