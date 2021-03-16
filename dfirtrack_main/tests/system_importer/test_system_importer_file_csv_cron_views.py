@@ -227,7 +227,7 @@ class SystemImporterFileCsvCronViewTestCase(TestCase):
         """ test importer view """
 
         # set file system attributes
-        csv_import_filename = 'system_importer_file_csv_testfile_07_complete.csv'
+        csv_import_filename = 'system_importer_file_csv_testfile_07_complete_csv.csv'
         # change config
         set_csv_import_filename(csv_import_filename)
         # change config

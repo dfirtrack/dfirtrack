@@ -352,7 +352,7 @@ class SystemImporterFileCsvUploadPostViewTestCase(TestCase):
         analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
         systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_07_complete.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_07_complete_csv.csv'), 'r')
         # create post data
         data_dict = {
             'systemcsv': systemcsv,

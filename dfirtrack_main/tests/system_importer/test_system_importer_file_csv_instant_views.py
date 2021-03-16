@@ -165,7 +165,7 @@ class SystemImporterFileCsvInstantViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_instant', password='lw3V2i2uaTFlk4yTlIaV')
         # change config
-        set_csv_import_filename('system_importer_file_csv_testfile_07_complete.csv')
+        set_csv_import_filename('system_importer_file_csv_testfile_07_complete_csv.csv')
         # change config
         system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
         system_importer_file_csv_config_model.csv_choice_tagfree_systemstatus = True

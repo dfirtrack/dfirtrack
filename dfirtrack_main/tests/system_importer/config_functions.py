@@ -31,35 +31,6 @@ def set_config_check_attributes_csv():
     # return to test function
     return
 
-def set_config_check_attributes_database():
-    """ set config """
-
-    # get objects
-    dnsname_db_1 = Dnsname.objects.get(dnsname_name='dnsname_db_1')
-    domain_db_1 = Domain.objects.get(domain_name='domain_db_1')
-    location_db_1 = Location.objects.get(location_name='location_db_1')
-    os_db_1 = Os.objects.get(os_name='os_db_1')
-    reason_db_1 = Reason.objects.get(reason_name='reason_db_1')
-    recommendation_db_1 = Recommendation.objects.get(recommendation_name='recommendation_db_1')
-    serviceprovider_db_1 = Serviceprovider.objects.get(serviceprovider_name='serviceprovider_db_1')
-    systemtype_db_1 = Systemtype.objects.get(systemtype_name='systemtype_db_1')
-
-    # change config
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
-    system_importer_file_csv_config_model.csv_column_system = 1
-    system_importer_file_csv_config_model.csv_default_dnsname = dnsname_db_1
-    system_importer_file_csv_config_model.csv_default_domain = domain_db_1
-    system_importer_file_csv_config_model.csv_default_location = location_db_1
-    system_importer_file_csv_config_model.csv_default_os = os_db_1
-    system_importer_file_csv_config_model.csv_default_reason = reason_db_1
-    system_importer_file_csv_config_model.csv_default_recommendation = recommendation_db_1
-    system_importer_file_csv_config_model.csv_default_serviceprovider = serviceprovider_db_1
-    system_importer_file_csv_config_model.csv_default_systemtype = systemtype_db_1
-    system_importer_file_csv_config_model.save()
-
-    # return to test function
-    return
-
 def set_config_check_attributes_domain_name():
     """ set config """
 
@@ -382,6 +353,35 @@ def set_config_tagfree_status():
     system_importer_file_csv_config_model.save()
 
     # return to tagfree status test function
+    return
+
+def set_config_complete_attributes_database():
+    """ set config """
+
+    # get objects
+    dnsname_db_1 = Dnsname.objects.get(dnsname_name='dnsname_db_1')
+    domain_db_1 = Domain.objects.get(domain_name='domain_db_1')
+    location_db_1 = Location.objects.get(location_name='location_db_1')
+    os_db_1 = Os.objects.get(os_name='os_db_1')
+    reason_db_1 = Reason.objects.get(reason_name='reason_db_1')
+    recommendation_db_1 = Recommendation.objects.get(recommendation_name='recommendation_db_1')
+    serviceprovider_db_1 = Serviceprovider.objects.get(serviceprovider_name='serviceprovider_db_1')
+    systemtype_db_1 = Systemtype.objects.get(systemtype_name='systemtype_db_1')
+
+    # change config
+    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model.csv_column_system = 1
+    system_importer_file_csv_config_model.csv_default_dnsname = dnsname_db_1
+    system_importer_file_csv_config_model.csv_default_domain = domain_db_1
+    system_importer_file_csv_config_model.csv_default_location = location_db_1
+    system_importer_file_csv_config_model.csv_default_os = os_db_1
+    system_importer_file_csv_config_model.csv_default_reason = reason_db_1
+    system_importer_file_csv_config_model.csv_default_recommendation = recommendation_db_1
+    system_importer_file_csv_config_model.csv_default_serviceprovider = serviceprovider_db_1
+    system_importer_file_csv_config_model.csv_default_systemtype = systemtype_db_1
+    system_importer_file_csv_config_model.save()
+
+    # return to test function
     return
 
 def set_csv_import_filename(csv_import_filename):
