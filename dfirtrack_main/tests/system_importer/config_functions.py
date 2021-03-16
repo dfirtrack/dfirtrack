@@ -355,6 +355,44 @@ def set_config_tagfree_status():
     # return to tagfree status test function
     return
 
+def set_config_complete_attributes_csv():
+    """ set config """
+
+    # change config
+    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model.csv_choice_tagfree_systemstatus = True
+    system_importer_file_csv_config_model.csv_choice_tagfree_analysisstatus = True
+    system_importer_file_csv_config_model.csv_choice_ip = True
+    system_importer_file_csv_config_model.csv_column_ip = 2
+    system_importer_file_csv_config_model.csv_choice_tag = True
+    system_importer_file_csv_config_model.csv_column_tag = 3
+    system_importer_file_csv_config_model.csv_tag_prefix = 'AUTO'
+    system_importer_file_csv_config_model.csv_tag_prefix_delimiter = 'tag_prefix_underscore'
+    system_importer_file_csv_config_model.csv_choice_dnsname = True
+    system_importer_file_csv_config_model.csv_column_dnsname = 4
+    system_importer_file_csv_config_model.csv_choice_domain = True
+    system_importer_file_csv_config_model.csv_column_domain = 5
+    system_importer_file_csv_config_model.csv_choice_location = True
+    system_importer_file_csv_config_model.csv_column_location = 6
+    system_importer_file_csv_config_model.csv_choice_os = True
+    system_importer_file_csv_config_model.csv_column_os = 7
+    system_importer_file_csv_config_model.csv_choice_reason = True
+    system_importer_file_csv_config_model.csv_column_reason = 8
+    system_importer_file_csv_config_model.csv_choice_recommendation = True
+    system_importer_file_csv_config_model.csv_column_recommendation = 9
+    system_importer_file_csv_config_model.csv_choice_serviceprovider = True
+    system_importer_file_csv_config_model.csv_column_serviceprovider = 10
+    system_importer_file_csv_config_model.csv_choice_systemtype = True
+    system_importer_file_csv_config_model.csv_column_systemtype = 11
+    system_importer_file_csv_config_model.csv_choice_case = True
+    system_importer_file_csv_config_model.csv_column_case = 12
+    system_importer_file_csv_config_model.csv_choice_company = True
+    system_importer_file_csv_config_model.csv_column_company = 13
+    system_importer_file_csv_config_model.save()
+
+    # return to test function
+    return
+
 def set_config_complete_attributes_database():
     """ set config """
 

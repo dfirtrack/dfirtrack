@@ -119,7 +119,7 @@ class SystemImporterFileCsvCompleteAttributesDatabaseViewTestCase(TestCase):
 
     """ database attributes """
 
-    def test_system_importer_file_csv_complete_attributes_database_cron_database_attributes(self):
+    def test_system_importer_file_csv_complete_attributes_database_cron(self):
         """ test importer view """
 
         # change config
@@ -158,7 +158,7 @@ class SystemImporterFileCsvCompleteAttributesDatabaseViewTestCase(TestCase):
         # compare - systems / attributes
         self = compare_system_and_attributes_database(self)
 
-    def test_system_importer_file_csv_complete_attributes_database_instant_database_attributes(self):
+    def test_system_importer_file_csv_complete_attributes_database_instant(self):
         """ test importer view """
 
         # change config
@@ -181,7 +181,7 @@ class SystemImporterFileCsvCompleteAttributesDatabaseViewTestCase(TestCase):
         # compare - systems / attributes
         self = compare_system_and_attributes_database(self)
 
-    def test_system_importer_file_csv_complete_attributes_database_upload_post_database_attributes(self):
+    def test_system_importer_file_csv_complete_attributes_database_upload_post(self):
         """ test importer view """
 
         # change config
