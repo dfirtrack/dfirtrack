@@ -170,6 +170,32 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # compare - systems / attributes
         compare_system_and_attributes_csv(self, '01')
 
+    def test_system_importer_file_csv_upload_post_minimal_double_quotation(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_minimal', password='H6mM7kq9sEZLvm6CyOaW')
+        # open upload file
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_01_minimal_double_quotation.csv'), 'r')
+        # create post data
+        data_dict = {
+            'systemcsv': systemcsv,
+        }
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.post('/system/importer/file/csv/upload/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # close file
+        systemcsv.close()
+        # compare - meta
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        # compare - messages
+        compare_messages_csv(self, messages)
+        # compare - systems / attributes
+        compare_system_and_attributes_csv(self, '01')
+
     def test_system_importer_file_csv_cron_minimal_single_quotation(self):
         """ test importer view """
 
@@ -235,6 +261,36 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # compare - systems / attributes
         compare_system_and_attributes_csv(self, '02')
 
+    def test_system_importer_file_csv_upload_post_minimal_single_quotation(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_minimal', password='H6mM7kq9sEZLvm6CyOaW')
+        # change config
+        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+        system_importer_file_csv_config_model.csv_text_quote = 'text_single_quotation_marks'
+        system_importer_file_csv_config_model.save()
+        # open upload file
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_02_minimal_single_quotation.csv'), 'r')
+        # create post data
+        data_dict = {
+            'systemcsv': systemcsv,
+        }
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.post('/system/importer/file/csv/upload/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # close file
+        systemcsv.close()
+        # compare - meta
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        # compare - messages
+        compare_messages_csv(self, messages)
+        # compare - systems / attributes
+        compare_system_and_attributes_csv(self, '02')
+
     def test_system_importer_file_csv_cron_minimal_headline(self):
         """ test importer view """
 
@@ -293,6 +349,36 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         response = self.client.get('/system/importer/file/csv/instant/', follow=True)
         # get messages
         messages = list(get_messages(response.wsgi_request))
+        # compare - meta
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        # compare - messages
+        compare_messages_csv(self, messages)
+        # compare - systems / attributes
+        compare_system_and_attributes_csv(self, '03')
+
+    def test_system_importer_file_csv_upload_post_minimal_headline(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_minimal', password='H6mM7kq9sEZLvm6CyOaW')
+        # change config
+        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+        system_importer_file_csv_config_model.csv_headline = True
+        system_importer_file_csv_config_model.save()
+        # open upload file
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_03_minimal_headline.csv'), 'r')
+        # create post data
+        data_dict = {
+            'systemcsv': systemcsv,
+        }
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.post('/system/importer/file/csv/upload/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # close file
+        systemcsv.close()
         # compare - meta
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
         # compare - messages
@@ -373,6 +459,40 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # compare domain (delimiter specific)
         compare_delimiter_specific(self, '21')
 
+    def test_system_importer_file_csv_upload_post_minimal_minimal_comma(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_minimal', password='H6mM7kq9sEZLvm6CyOaW')
+        # change config
+        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+        system_importer_file_csv_config_model.csv_field_delimiter = 'field_comma'
+        system_importer_file_csv_config_model.csv_choice_domain = True
+        system_importer_file_csv_config_model.csv_column_domain = 2
+        system_importer_file_csv_config_model.save()
+        # open upload file
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_21_minimal_comma.csv'), 'r')
+        # create post data
+        data_dict = {
+            'systemcsv': systemcsv,
+        }
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.post('/system/importer/file/csv/upload/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # close file
+        systemcsv.close()
+        # compare - meta
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        # compare - messages
+        compare_messages_csv(self, messages)
+        # compare - systems / attributes
+        compare_system_and_attributes_csv(self, '21')
+        # compare domain (delimiter specific)
+        compare_delimiter_specific(self, '21')
+
     def test_system_importer_file_csv_cron_minimal_semicolon(self):
         """ test importer view """
 
@@ -431,9 +551,6 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         system_importer_file_csv_config_model.csv_choice_domain = True
         system_importer_file_csv_config_model.csv_column_domain = 2
         system_importer_file_csv_config_model.save()
-        # get objects
-        analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
-        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -441,6 +558,40 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # get messages
         messages = list(get_messages(response.wsgi_request))
         # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        # compare - messages
+        compare_messages_csv(self, messages)
+        # compare - systems / attributes
+        compare_system_and_attributes_csv(self, '22')
+        # compare domain (delimiter specific)
+        compare_delimiter_specific(self, '22')
+
+    def test_system_importer_file_csv_upload_post_minimal_minimal_semicolon(self):
+        """ test importer view """
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_minimal', password='H6mM7kq9sEZLvm6CyOaW')
+        # change config
+        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+        system_importer_file_csv_config_model.csv_field_delimiter = 'field_semicolon'
+        system_importer_file_csv_config_model.csv_choice_domain = True
+        system_importer_file_csv_config_model.csv_column_domain = 2
+        system_importer_file_csv_config_model.save()
+        # open upload file
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_22_minimal_semicolon.csv'), 'r')
+        # create post data
+        data_dict = {
+            'systemcsv': systemcsv,
+        }
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.post('/system/importer/file/csv/upload/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # close file
+        systemcsv.close()
+        # compare - meta
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
         # compare - messages
         compare_messages_csv(self, messages)
