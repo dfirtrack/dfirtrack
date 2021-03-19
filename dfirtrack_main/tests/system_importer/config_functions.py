@@ -422,6 +422,30 @@ def set_config_complete_attributes_database():
     # return to test function
     return
 
+def set_config_complete_overwrite_csv():
+    """ set config """
+
+    # change config
+    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model.csv_remove_systemstatus = True
+    system_importer_file_csv_config_model.csv_remove_analysisstatus = True
+    system_importer_file_csv_config_model.csv_remove_ip = True
+    system_importer_file_csv_config_model.csv_remove_tag = True
+    system_importer_file_csv_config_model.csv_remove_dnsname = True
+    system_importer_file_csv_config_model.csv_remove_domain = True
+    system_importer_file_csv_config_model.csv_remove_location = True
+    system_importer_file_csv_config_model.csv_remove_os = True
+    system_importer_file_csv_config_model.csv_remove_reason = True
+    system_importer_file_csv_config_model.csv_remove_recommendation = True
+    system_importer_file_csv_config_model.csv_remove_serviceprovider = True
+    system_importer_file_csv_config_model.csv_remove_systemtype = True
+    system_importer_file_csv_config_model.csv_remove_case = True
+    system_importer_file_csv_config_model.csv_remove_company = True
+    system_importer_file_csv_config_model.save()
+
+    # return to test function
+    return
+
 def set_csv_import_filename(csv_import_filename):
     """ set csv_import_filename """
 
