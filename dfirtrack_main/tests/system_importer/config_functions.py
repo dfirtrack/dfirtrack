@@ -430,7 +430,7 @@ def set_config_complete_overwrite_csv():
     system_importer_file_csv_config_model.csv_remove_systemstatus = True
     system_importer_file_csv_config_model.csv_remove_analysisstatus = True
     system_importer_file_csv_config_model.csv_remove_ip = True
-    system_importer_file_csv_config_model.csv_remove_tag = True
+    system_importer_file_csv_config_model.csv_remove_tag = 'tag_remove_prefix'
     system_importer_file_csv_config_model.csv_remove_dnsname = True
     system_importer_file_csv_config_model.csv_remove_domain = True
     system_importer_file_csv_config_model.csv_remove_location = True
@@ -441,6 +441,30 @@ def set_config_complete_overwrite_csv():
     system_importer_file_csv_config_model.csv_remove_systemtype = True
     system_importer_file_csv_config_model.csv_remove_case = True
     system_importer_file_csv_config_model.csv_remove_company = True
+    system_importer_file_csv_config_model.save()
+
+    # return to test function
+    return
+
+def set_config_complete_preserve_csv():
+    """ set config """
+
+    # change config
+    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model.csv_remove_systemstatus = False
+    system_importer_file_csv_config_model.csv_remove_analysisstatus = False
+    system_importer_file_csv_config_model.csv_remove_ip = False
+    system_importer_file_csv_config_model.csv_remove_tag = 'tag_remove_none'
+    system_importer_file_csv_config_model.csv_remove_dnsname = False
+    system_importer_file_csv_config_model.csv_remove_domain = False
+    system_importer_file_csv_config_model.csv_remove_location = False
+    system_importer_file_csv_config_model.csv_remove_os = False
+    system_importer_file_csv_config_model.csv_remove_reason = False
+    system_importer_file_csv_config_model.csv_remove_recommendation = False
+    system_importer_file_csv_config_model.csv_remove_serviceprovider = False
+    system_importer_file_csv_config_model.csv_remove_systemtype = False
+    system_importer_file_csv_config_model.csv_remove_case = False
+    system_importer_file_csv_config_model.csv_remove_company = False
     system_importer_file_csv_config_model.save()
 
     # return to test function
