@@ -6,7 +6,7 @@ from django.utils import timezone
 from dfirtrack.settings import BASE_DIR
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv import system_cron
-from dfirtrack_main.models import Analysisstatus, Dnsname, Domain, Ip, Location, Os, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype
+from dfirtrack_main.models import Analysisstatus, Case, Company, Dnsname, Domain, Ip, Location, Os, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Tag
 from dfirtrack_main.tests.system_importer.config_functions import set_config_check_attributes_csv, set_config_check_attributes_domain_name, set_csv_import_filename
 from mock import patch
 import os
@@ -65,6 +65,15 @@ def compare_messages_csv(self, messages):
     self.assertEqual(messages[message_counter].message, 'Value for IP address in row 2 was not a valid IP address.')
     self.assertEqual(messages[message_counter].level_tag, 'warning')
     message_counter += 1
+    self.assertEqual(messages[message_counter].message, 'Value for case in row 2 was not a valid value.')
+    self.assertEqual(messages[message_counter].level_tag, 'warning')
+    message_counter += 1
+    self.assertEqual(messages[message_counter].message, 'Value for company in row 2 was not a valid value.')
+    self.assertEqual(messages[message_counter].level_tag, 'warning')
+    message_counter += 1
+    self.assertEqual(messages[message_counter].message, 'Value for tag in row 2 was not a valid value.')
+    self.assertEqual(messages[message_counter].level_tag, 'warning')
+    message_counter += 1
     self.assertEqual(messages[message_counter].message, 'Index for DNS name in row 3 was out of range.')
     self.assertEqual(messages[message_counter].level_tag, 'warning')
     message_counter += 1
@@ -90,6 +99,15 @@ def compare_messages_csv(self, messages):
     self.assertEqual(messages[message_counter].level_tag, 'warning')
     message_counter += 1
     self.assertEqual(messages[message_counter].message, 'Index for IP in row 3 was out of range.')
+    self.assertEqual(messages[message_counter].level_tag, 'warning')
+    message_counter += 1
+    self.assertEqual(messages[message_counter].message, 'Index for case in row 3 was out of range.')
+    self.assertEqual(messages[message_counter].level_tag, 'warning')
+    message_counter += 1
+    self.assertEqual(messages[message_counter].message, 'Index for company in row 3 was out of range.')
+    self.assertEqual(messages[message_counter].level_tag, 'warning')
+    message_counter += 1
+    self.assertEqual(messages[message_counter].message, 'Index for tag in row 3 was out of range.')
     self.assertEqual(messages[message_counter].level_tag, 'warning')
     message_counter += 1
     self.assertEqual(messages[message_counter].message, '4 systems were created.')
@@ -137,6 +155,17 @@ def compare_system_and_attributes_csv(self):
     self.assertTrue(System.objects.filter(system_name='system_csv_32_004').exists())
     self.assertTrue(Ip.objects.filter(ip_ip='127.32.1.1').exists())
     self.assertTrue(Ip.objects.filter(ip_ip='127.32.1.2').exists())
+    self.assertTrue(Domain.objects.filter(domain_name='domain_1').exists())
+    self.assertTrue(Dnsname.objects.filter(dnsname_name='dnsname_1').exists())
+    self.assertTrue(Location.objects.filter(location_name='location_1').exists())
+    self.assertTrue(Os.objects.filter(os_name='os_1').exists())
+    self.assertTrue(Reason.objects.filter(reason_name='reason_1').exists())
+    self.assertTrue(Recommendation.objects.filter(recommendation_name='recommendation_1').exists())
+    self.assertTrue(Serviceprovider.objects.filter(serviceprovider_name='serviceprovider_1').exists())
+    self.assertTrue(Systemtype.objects.filter(systemtype_name='systemtype_1').exists())
+    self.assertTrue(Case.objects.filter(case_name='case_1').exists())
+    self.assertTrue(Company.objects.filter(company_name='company_1').exists())
+    self.assertTrue(Tag.objects.filter(tag_name='AUTO_tag_1').exists())
     # compare - systems / attributes
     self.assertTrue(System.objects.get(system_name='system_csv_32_001').ip.filter(ip_ip='127.32.1.1').exists())
     self.assertTrue(System.objects.get(system_name='system_csv_32_001').ip.filter(ip_ip='127.32.1.2').exists())
@@ -148,6 +177,9 @@ def compare_system_and_attributes_csv(self):
     self.assertEqual(System.objects.get(system_name='system_csv_32_001').recommendation, Recommendation.objects.get(recommendation_name='recommendation_1'))
     self.assertEqual(System.objects.get(system_name='system_csv_32_001').serviceprovider, Serviceprovider.objects.get(serviceprovider_name='serviceprovider_1'))
     self.assertEqual(System.objects.get(system_name='system_csv_32_001').systemtype, Systemtype.objects.get(systemtype_name='systemtype_1'))
+    self.assertTrue(System.objects.get(system_name='system_csv_32_001').case.filter(case_name='case_1').exists())
+    self.assertTrue(System.objects.get(system_name='system_csv_32_001').company.filter(company_name='company_1').exists())
+    self.assertTrue(System.objects.get(system_name='system_csv_32_001').tag.filter(tag_name='AUTO_tag_1').exists())
 
     # return to test function
     return self

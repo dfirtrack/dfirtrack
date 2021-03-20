@@ -26,6 +26,12 @@ def set_config_check_attributes_csv():
     system_importer_file_csv_config_model.csv_column_serviceprovider = 9
     system_importer_file_csv_config_model.csv_choice_systemtype = True
     system_importer_file_csv_config_model.csv_column_systemtype = 10
+    system_importer_file_csv_config_model.csv_choice_case = True
+    system_importer_file_csv_config_model.csv_column_case = 11
+    system_importer_file_csv_config_model.csv_choice_company = True
+    system_importer_file_csv_config_model.csv_column_company = 12
+    system_importer_file_csv_config_model.csv_choice_tag = True
+    system_importer_file_csv_config_model.csv_column_tag = 13
     system_importer_file_csv_config_model.save()
 
     # return to test function
