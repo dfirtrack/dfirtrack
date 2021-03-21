@@ -219,12 +219,13 @@ class SystemImporterFileCsvCompleteAttributesCsvViewTestCase(TestCase):
     def test_system_importer_file_csv_complete_attributes_csv_instant(self):
         """ test importer view """
 
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_complete_attributes_csv', password='k5wYvpoorAHuU62wJLV1')
         # change config
         set_csv_import_filename('system_importer_file_csv_testfile_07_complete_csv.csv')
         # change config
         set_config_complete_attributes_csv()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_complete_attributes_csv', password='k5wYvpoorAHuU62wJLV1')
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -241,10 +242,11 @@ class SystemImporterFileCsvCompleteAttributesCsvViewTestCase(TestCase):
     def test_system_importer_file_csv_complete_attributes_csv_upload_post(self):
         """ test importer view """
 
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_complete_attributes_csv', password='k5wYvpoorAHuU62wJLV1')
         # change config
         set_config_complete_attributes_csv()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_complete_attributes_csv', password='k5wYvpoorAHuU62wJLV1')
         # open upload file
         systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_07_complete_csv.csv'), 'r')
         # create post data

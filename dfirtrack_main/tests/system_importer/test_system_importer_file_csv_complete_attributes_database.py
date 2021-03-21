@@ -6,7 +6,7 @@ from django.utils import timezone
 from dfirtrack.settings import BASE_DIR
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv import system_cron
-from dfirtrack_main.models import Analysisstatus, Dnsname, Domain, Location, Os, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype
+from dfirtrack_main.models import Analysisstatus, Case, Company, Dnsname, Domain, Location, Os, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Tag, Tagcolor
 from dfirtrack_main.tests.system_importer.config_functions import set_config_complete_attributes_database, set_csv_import_filename
 from mock import patch
 import os
@@ -31,6 +31,14 @@ def compare_system_and_attributes_database(self):
     self.assertTrue(System.objects.filter(system_name='system_csv_08_003').exists())
     self.assertTrue(System.objects.filter(system_name='system_csv_08_004').exists())
     # compare - relations
+    self.assertTrue(System.objects.get(system_name='system_csv_08_001').case.filter(case_name='case_db_1').exists())
+    self.assertTrue(System.objects.get(system_name='system_csv_08_002').case.filter(case_name='case_db_1').exists())
+    self.assertTrue(System.objects.get(system_name='system_csv_08_003').case.filter(case_name='case_db_1').exists())
+    self.assertTrue(System.objects.get(system_name='system_csv_08_004').case.filter(case_name='case_db_1').exists())
+    self.assertTrue(System.objects.get(system_name='system_csv_08_001').company.filter(company_name='company_db_1').exists())
+    self.assertTrue(System.objects.get(system_name='system_csv_08_002').company.filter(company_name='company_db_1').exists())
+    self.assertTrue(System.objects.get(system_name='system_csv_08_003').company.filter(company_name='company_db_1').exists())
+    self.assertTrue(System.objects.get(system_name='system_csv_08_004').company.filter(company_name='company_db_1').exists())
     self.assertEqual(System.objects.get(system_name='system_csv_08_001').dnsname, Dnsname.objects.get(dnsname_name='dnsname_db_1'))
     self.assertEqual(System.objects.get(system_name='system_csv_08_002').dnsname, Dnsname.objects.get(dnsname_name='dnsname_db_1'))
     self.assertEqual(System.objects.get(system_name='system_csv_08_003').dnsname, Dnsname.objects.get(dnsname_name='dnsname_db_1'))
@@ -63,6 +71,10 @@ def compare_system_and_attributes_database(self):
     self.assertEqual(System.objects.get(system_name='system_csv_08_002').systemtype, Systemtype.objects.get(systemtype_name='systemtype_db_1'))
     self.assertEqual(System.objects.get(system_name='system_csv_08_003').systemtype, Systemtype.objects.get(systemtype_name='systemtype_db_1'))
     self.assertEqual(System.objects.get(system_name='system_csv_08_004').systemtype, Systemtype.objects.get(systemtype_name='systemtype_db_1'))
+    self.assertTrue(System.objects.get(system_name='system_csv_08_001').tag.filter(tag_name='tag_db_1').exists())
+    self.assertTrue(System.objects.get(system_name='system_csv_08_002').tag.filter(tag_name='tag_db_1').exists())
+    self.assertTrue(System.objects.get(system_name='system_csv_08_003').tag.filter(tag_name='tag_db_1').exists())
+    self.assertTrue(System.objects.get(system_name='system_csv_08_004').tag.filter(tag_name='tag_db_1').exists())
 
     # return to test function
     return self
@@ -84,6 +96,12 @@ class SystemImporterFileCsvCompleteAttributesDatabaseViewTestCase(TestCase):
         analysisstatus_1 = Analysisstatus.objects.create(analysisstatus_name='analysisstatus_1')
         systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
 
+        Case.objects.create(
+            case_name = 'case_db_1',
+            case_is_incident = True,
+            case_created_by_user_id=test_user,
+        )
+        Company.objects.create(company_name='company_db_1')
         Dnsname.objects.create(dnsname_name='dnsname_db_1')
         Domain.objects.create(domain_name='domain_db_1')
         Location.objects.create(location_name='location_db_1')
@@ -92,6 +110,12 @@ class SystemImporterFileCsvCompleteAttributesDatabaseViewTestCase(TestCase):
         Recommendation.objects.create(recommendation_name='recommendation_db_1')
         Serviceprovider.objects.create(serviceprovider_name='serviceprovider_db_1')
         Systemtype.objects.create(systemtype_name='systemtype_db_1')
+
+        tagcolor_1 = Tagcolor.objects.create(tagcolor_name='tagcolor_1')
+        Tag.objects.create(
+            tag_name = 'tag_db_1',
+            tagcolor = tagcolor_1,
+        )
 
         """ set config with fixed values """
 

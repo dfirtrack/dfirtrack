@@ -403,6 +403,8 @@ def set_config_complete_attributes_database():
     """ set config """
 
     # get objects
+    case_db_1 = Case.objects.get(case_name='case_db_1')
+    company_db_1 = Company.objects.get(company_name='company_db_1')
     dnsname_db_1 = Dnsname.objects.get(dnsname_name='dnsname_db_1')
     domain_db_1 = Domain.objects.get(domain_name='domain_db_1')
     location_db_1 = Location.objects.get(location_name='location_db_1')
@@ -411,6 +413,7 @@ def set_config_complete_attributes_database():
     recommendation_db_1 = Recommendation.objects.get(recommendation_name='recommendation_db_1')
     serviceprovider_db_1 = Serviceprovider.objects.get(serviceprovider_name='serviceprovider_db_1')
     systemtype_db_1 = Systemtype.objects.get(systemtype_name='systemtype_db_1')
+    tag_db_1 = Tag.objects.get(tag_name='tag_db_1')
 
     # change config
     system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
@@ -423,7 +426,14 @@ def set_config_complete_attributes_database():
     system_importer_file_csv_config_model.csv_default_recommendation = recommendation_db_1
     system_importer_file_csv_config_model.csv_default_serviceprovider = serviceprovider_db_1
     system_importer_file_csv_config_model.csv_default_systemtype = systemtype_db_1
+    system_importer_file_csv_config_model.csv_tag_prefix = None
+    system_importer_file_csv_config_model.csv_tag_prefix_delimiter = None
+    system_importer_file_csv_config_model.csv_remove_tag = 'tag_remove_none'
     system_importer_file_csv_config_model.save()
+
+    system_importer_file_csv_config_model.csv_default_case.add(case_db_1)
+    system_importer_file_csv_config_model.csv_default_company.add(company_db_1)
+    system_importer_file_csv_config_model.csv_default_tag.add(tag_db_1)
 
     # return to test function
     return
