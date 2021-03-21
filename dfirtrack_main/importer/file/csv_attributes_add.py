@@ -715,9 +715,12 @@ def add_many2many_attributes(system, system_created, model, row, row_counter, re
             tag_prefix_delimiter = '-'
         elif model.csv_tag_prefix_delimiter == 'tag_prefix_period':
             tag_prefix_delimiter = '.'
+        else:
+            tag_prefix_delimiter = None
 
         # build tagprefix string from prefix and delimiter
-        tagprefix = model.csv_tag_prefix + tag_prefix_delimiter
+        if model.csv_tag_prefix and tag_prefix_delimiter:
+            tagprefix = model.csv_tag_prefix + tag_prefix_delimiter
 
         """ remove tags for existing systems (either all or just with prefix) """
 
