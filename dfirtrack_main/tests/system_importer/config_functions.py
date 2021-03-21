@@ -476,6 +476,45 @@ def set_config_complete_preserve_csv():
     # return to test function
     return
 
+def set_config_ip_delimiter_comma():
+    """ set config """
+
+    # change config
+    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model.csv_choice_ip = True
+    system_importer_file_csv_config_model.csv_column_ip = 2
+    system_importer_file_csv_config_model.csv_ip_delimiter = 'ip_comma'
+    system_importer_file_csv_config_model.save()
+
+    # return to test function
+    return
+
+def set_config_ip_delimiter_semicolon():
+    """ set config """
+
+    # change config
+    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model.csv_choice_ip = True
+    system_importer_file_csv_config_model.csv_column_ip = 2
+    system_importer_file_csv_config_model.csv_ip_delimiter = 'ip_semicolon'
+    system_importer_file_csv_config_model.save()
+
+    # return to test function
+    return
+
+def set_config_ip_delimiter_space():
+    """ set config """
+
+    # change config
+    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model.csv_choice_ip = True
+    system_importer_file_csv_config_model.csv_column_ip = 2
+    system_importer_file_csv_config_model.csv_ip_delimiter = 'ip_space'
+    system_importer_file_csv_config_model.save()
+
+    # return to test function
+    return
+
 def set_csv_import_filename(csv_import_filename):
     """ set csv_import_filename """
 
