@@ -7,7 +7,7 @@ from dfirtrack.settings import BASE_DIR
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv import system_cron
 from dfirtrack_main.models import Analysisstatus, Domain, Ip, System, Systemstatus, Tag
-from dfirtrack_main.tests.system_importer.config_functions import set_config_ip_delimiter_comma, set_config_ip_delimiter_semicolon, set_config_ip_delimiter_space, set_config_tag_delimiter_comma, set_config_tag_delimiter_semicolon, set_config_tag_delimiter_space, set_csv_import_filename, set_csv_import_path
+from dfirtrack_main.tests.system_importer.config_functions import set_config_ip_delimiter_comma, set_config_ip_delimiter_semicolon, set_config_ip_delimiter_space, set_config_tag_delimiter_comma, set_config_tag_delimiter_semicolon, set_config_tag_delimiter_space, set_config_tag_prefix_delimiter_underscore, set_config_tag_prefix_delimiter_hyphen, set_config_tag_prefix_delimiter_period, set_csv_import_filename, set_csv_import_path
 from mock import patch
 import os
 import urllib.parse
@@ -85,24 +85,24 @@ def compare_ips(self, file_number):
     # return to test function
     return self
 
-def compare_tags(self, file_number):
+def compare_tags(self, file_number, delimiter):
     """ compare systems and associated attributes """
 
     # compare - existence of objects
-    self.assertTrue(Tag.objects.filter(tag_name=f'AUTO_tag_{file_number}_1').exists())
-    self.assertTrue(Tag.objects.filter(tag_name=f'AUTO_tag_{file_number}_2').exists())
-    self.assertTrue(Tag.objects.filter(tag_name=f'AUTO_tag_{file_number}_3').exists())
+    self.assertTrue(Tag.objects.filter(tag_name=f'AUTO{delimiter}tag_{file_number}_1').exists())
+    self.assertTrue(Tag.objects.filter(tag_name=f'AUTO{delimiter}tag_{file_number}_2').exists())
+    self.assertTrue(Tag.objects.filter(tag_name=f'AUTO{delimiter}tag_{file_number}_3').exists())
 
     # compare - existence of objects
-    self.assertTrue(System.objects.get(system_name=f'system_csv_{file_number}_001').tag.filter(tag_name=f'AUTO_tag_{file_number}_1').exists())
-    self.assertTrue(System.objects.get(system_name=f'system_csv_{file_number}_001').tag.filter(tag_name=f'AUTO_tag_{file_number}_2').exists())
-    self.assertTrue(System.objects.get(system_name=f'system_csv_{file_number}_001').tag.filter(tag_name=f'AUTO_tag_{file_number}_3').exists())
-    self.assertTrue(System.objects.get(system_name=f'system_csv_{file_number}_002').tag.filter(tag_name=f'AUTO_tag_{file_number}_1').exists())
-    self.assertTrue(System.objects.get(system_name=f'system_csv_{file_number}_002').tag.filter(tag_name=f'AUTO_tag_{file_number}_2').exists())
-    self.assertTrue(System.objects.get(system_name=f'system_csv_{file_number}_002').tag.filter(tag_name=f'AUTO_tag_{file_number}_3').exists())
-    self.assertTrue(System.objects.get(system_name=f'system_csv_{file_number}_003').tag.filter(tag_name=f'AUTO_tag_{file_number}_1').exists())
-    self.assertTrue(System.objects.get(system_name=f'system_csv_{file_number}_003').tag.filter(tag_name=f'AUTO_tag_{file_number}_2').exists())
-    self.assertTrue(System.objects.get(system_name=f'system_csv_{file_number}_003').tag.filter(tag_name=f'AUTO_tag_{file_number}_3').exists())
+    self.assertTrue(System.objects.get(system_name=f'system_csv_{file_number}_001').tag.filter(tag_name=f'AUTO{delimiter}tag_{file_number}_1').exists())
+    self.assertTrue(System.objects.get(system_name=f'system_csv_{file_number}_001').tag.filter(tag_name=f'AUTO{delimiter}tag_{file_number}_2').exists())
+    self.assertTrue(System.objects.get(system_name=f'system_csv_{file_number}_001').tag.filter(tag_name=f'AUTO{delimiter}tag_{file_number}_3').exists())
+    self.assertTrue(System.objects.get(system_name=f'system_csv_{file_number}_002').tag.filter(tag_name=f'AUTO{delimiter}tag_{file_number}_1').exists())
+    self.assertTrue(System.objects.get(system_name=f'system_csv_{file_number}_002').tag.filter(tag_name=f'AUTO{delimiter}tag_{file_number}_2').exists())
+    self.assertTrue(System.objects.get(system_name=f'system_csv_{file_number}_002').tag.filter(tag_name=f'AUTO{delimiter}tag_{file_number}_3').exists())
+    self.assertTrue(System.objects.get(system_name=f'system_csv_{file_number}_003').tag.filter(tag_name=f'AUTO{delimiter}tag_{file_number}_1').exists())
+    self.assertTrue(System.objects.get(system_name=f'system_csv_{file_number}_003').tag.filter(tag_name=f'AUTO{delimiter}tag_{file_number}_2').exists())
+    self.assertTrue(System.objects.get(system_name=f'system_csv_{file_number}_003').tag.filter(tag_name=f'AUTO{delimiter}tag_{file_number}_3').exists())
 
     # return to test function
     return self
@@ -1001,7 +1001,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # compare - systems / attributes
         compare_system_and_attributes_csv(self, '54')
         # compare - tags
-        compare_tags(self, '54')
+        compare_tags(self, '54', '_')
 
     def test_system_importer_file_csv_instant_tag_delimiter_comma(self):
         """ test importer view """
@@ -1026,7 +1026,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # compare - systems / attributes
         compare_system_and_attributes_csv(self, '54')
         # compare - tags
-        compare_tags(self, '54')
+        compare_tags(self, '54', '_')
 
     def test_system_importer_file_csv_upload_post_tag_delimiter_comma(self):
         """ test importer view """
@@ -1057,7 +1057,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # compare - systems / attributes
         compare_system_and_attributes_csv(self, '54')
         # compare - tags
-        compare_tags(self, '54')
+        compare_tags(self, '54', '_')
 
     def test_system_importer_file_csv_cron_tag_delimiter_semicolon(self):
         """ test importer view """
@@ -1098,7 +1098,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # compare - systems / attributes
         compare_system_and_attributes_csv(self, '55')
         # compare - tags
-        compare_tags(self, '55')
+        compare_tags(self, '55', '_')
 
     def test_system_importer_file_csv_instant_tag_delimiter_semicolon(self):
         """ test importer view """
@@ -1123,7 +1123,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # compare - systems / attributes
         compare_system_and_attributes_csv(self, '55')
         # compare - tags
-        compare_tags(self, '55')
+        compare_tags(self, '55', '_')
 
     def test_system_importer_file_csv_upload_post_tag_delimiter_semicolon(self):
         """ test importer view """
@@ -1154,7 +1154,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # compare - systems / attributes
         compare_system_and_attributes_csv(self, '55')
         # compare - tags
-        compare_tags(self, '55')
+        compare_tags(self, '55', '_')
 
     def test_system_importer_file_csv_cron_tag_delimiter_space(self):
         """ test importer view """
@@ -1195,7 +1195,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # compare - systems / attributes
         compare_system_and_attributes_csv(self, '56')
         # compare - tags
-        compare_tags(self, '56')
+        compare_tags(self, '56', '_')
 
     def test_system_importer_file_csv_instant_tag_delimiter_space(self):
         """ test importer view """
@@ -1220,7 +1220,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # compare - systems / attributes
         compare_system_and_attributes_csv(self, '56')
         # compare - tags
-        compare_tags(self, '56')
+        compare_tags(self, '56', '_')
 
     def test_system_importer_file_csv_upload_post_tag_delimiter_space(self):
         """ test importer view """
@@ -1251,4 +1251,295 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # compare - systems / attributes
         compare_system_and_attributes_csv(self, '56')
         # compare - tags
-        compare_tags(self, '56')
+        compare_tags(self, '56', '_')
+
+    def test_system_importer_file_csv_cron_tag_prefix_delimiter_underscore(self):
+        """ test importer view """
+
+        # change config
+        set_csv_import_filename('system_importer_file_csv_testfile_56_tag_delimiter_space.csv')
+        # change config
+        set_config_tag_prefix_delimiter_underscore()
+
+        # mock timezone.now()
+        t_10 = datetime(2021, 3, 22, 19, 10, tzinfo=timezone.utc)
+        with patch.object(timezone, 'now', return_value=t_10):
+
+            # execute cron job / scheduled task
+            system_cron()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_minimal', password='H6mM7kq9sEZLvm6CyOaW')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare - user 1
+        self.assertEqual(str(response.context['user']), 'testuser_system_importer_file_csv_minimal')
+        self.assertEqual(messages[0].message, 'System CSV importer: created: 3 | updated: 0 | skipped: 0 | multiple: 0 [2021-03-22 19:10:00 - 2021-03-22 19:10:00]')
+        self.assertEqual(messages[0].level_tag, 'success')
+        # switch user context
+        self.client.logout()
+        self.client.login(username='message_user', password='UFPntl9kU9vYkXwAo9SS')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare - user 2
+        self.assertEqual(str(response.context['user']), 'message_user')
+        self.assertEqual(messages[0].message, 'System CSV importer: created: 3 | updated: 0 | skipped: 0 | multiple: 0 [2021-03-22 19:10:00 - 2021-03-22 19:10:00]')
+        self.assertEqual(messages[0].level_tag, 'success')
+        # compare - systems / attributes
+        compare_system_and_attributes_csv(self, '56')
+        # compare - tags
+        compare_tags(self, '56', '_')
+
+    def test_system_importer_file_csv_instant_tag_prefix_delimiter_underscore(self):
+        """ test importer view """
+
+        # change config
+        set_csv_import_filename('system_importer_file_csv_testfile_56_tag_delimiter_space.csv')
+        # change config
+        set_config_tag_prefix_delimiter_underscore()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_minimal', password='H6mM7kq9sEZLvm6CyOaW')
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.get('/system/importer/file/csv/instant/', follow=True)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare - meta
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        # compare - messages
+        compare_messages_csv(self, messages)
+        # compare - systems / attributes
+        compare_system_and_attributes_csv(self, '56')
+        # compare - tags
+        compare_tags(self, '56', '_')
+
+    def test_system_importer_file_csv_upload_post_tag_prefix_delimiter_underscore(self):
+        """ test importer view """
+
+        # change config
+        set_config_tag_prefix_delimiter_underscore()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_minimal', password='H6mM7kq9sEZLvm6CyOaW')
+        # open upload file
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_56_tag_delimiter_space.csv'), 'r')
+        # create post data
+        data_dict = {
+            'systemcsv': systemcsv,
+        }
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.post('/system/importer/file/csv/upload/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # close file
+        systemcsv.close()
+        # compare - meta
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        # compare - messages
+        compare_messages_csv(self, messages)
+        # compare - systems / attributes
+        compare_system_and_attributes_csv(self, '56')
+        # compare - tags
+        compare_tags(self, '56', '_')
+
+    def test_system_importer_file_csv_cron_tag_prefix_delimiter_hyphen(self):
+        """ test importer view """
+
+        # change config
+        set_csv_import_filename('system_importer_file_csv_testfile_56_tag_delimiter_space.csv')
+        # change config
+        set_config_tag_prefix_delimiter_hyphen()
+
+        # mock timezone.now()
+        t_8 = datetime(2021, 3, 22, 19, 15, tzinfo=timezone.utc)
+        with patch.object(timezone, 'now', return_value=t_8):
+
+            # execute cron job / scheduled task
+            system_cron()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_minimal', password='H6mM7kq9sEZLvm6CyOaW')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare - user 1
+        self.assertEqual(str(response.context['user']), 'testuser_system_importer_file_csv_minimal')
+        self.assertEqual(messages[0].message, 'System CSV importer: created: 3 | updated: 0 | skipped: 0 | multiple: 0 [2021-03-22 19:15:00 - 2021-03-22 19:15:00]')
+        self.assertEqual(messages[0].level_tag, 'success')
+        # switch user context
+        self.client.logout()
+        self.client.login(username='message_user', password='UFPntl9kU9vYkXwAo9SS')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare - user 2
+        self.assertEqual(str(response.context['user']), 'message_user')
+        self.assertEqual(messages[0].message, 'System CSV importer: created: 3 | updated: 0 | skipped: 0 | multiple: 0 [2021-03-22 19:15:00 - 2021-03-22 19:15:00]')
+        self.assertEqual(messages[0].level_tag, 'success')
+        # compare - systems / attributes
+        compare_system_and_attributes_csv(self, '56')
+        # compare - tags
+        compare_tags(self, '56', '-')
+
+    def test_system_importer_file_csv_instant_tag_prefix_delimiter_hyphen(self):
+        """ test importer view """
+
+        # change config
+        set_csv_import_filename('system_importer_file_csv_testfile_56_tag_delimiter_space.csv')
+        # change config
+        set_config_tag_prefix_delimiter_hyphen()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_minimal', password='H6mM7kq9sEZLvm6CyOaW')
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.get('/system/importer/file/csv/instant/', follow=True)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare - meta
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        # compare - messages
+        compare_messages_csv(self, messages)
+        # compare - systems / attributes
+        compare_system_and_attributes_csv(self, '56')
+        # compare - tags
+        compare_tags(self, '56', '-')
+
+    def test_system_importer_file_csv_upload_post_tag_prefix_delimiter_hyphen(self):
+        """ test importer view """
+
+        # change config
+        set_config_tag_prefix_delimiter_hyphen()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_minimal', password='H6mM7kq9sEZLvm6CyOaW')
+        # open upload file
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_56_tag_delimiter_space.csv'), 'r')
+        # create post data
+        data_dict = {
+            'systemcsv': systemcsv,
+        }
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.post('/system/importer/file/csv/upload/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # close file
+        systemcsv.close()
+        # compare - meta
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        # compare - messages
+        compare_messages_csv(self, messages)
+        # compare - systems / attributes
+        compare_system_and_attributes_csv(self, '56')
+        # compare - tags
+        compare_tags(self, '56', '-')
+
+    def test_system_importer_file_csv_cron_tag_prefix_delimiter_period(self):
+        """ test importer view """
+
+        # change config
+        set_csv_import_filename('system_importer_file_csv_testfile_56_tag_delimiter_space.csv')
+        # change config
+        set_config_tag_prefix_delimiter_period()
+
+        # mock timezone.now()
+        t_9 = datetime(2021, 3, 22, 19, 20, tzinfo=timezone.utc)
+        with patch.object(timezone, 'now', return_value=t_9):
+
+            # execute cron job / scheduled task
+            system_cron()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_minimal', password='H6mM7kq9sEZLvm6CyOaW')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare - user 1
+        self.assertEqual(str(response.context['user']), 'testuser_system_importer_file_csv_minimal')
+        self.assertEqual(messages[0].message, 'System CSV importer: created: 3 | updated: 0 | skipped: 0 | multiple: 0 [2021-03-22 19:20:00 - 2021-03-22 19:20:00]')
+        self.assertEqual(messages[0].level_tag, 'success')
+        # switch user context
+        self.client.logout()
+        self.client.login(username='message_user', password='UFPntl9kU9vYkXwAo9SS')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare - user 2
+        self.assertEqual(str(response.context['user']), 'message_user')
+        self.assertEqual(messages[0].message, 'System CSV importer: created: 3 | updated: 0 | skipped: 0 | multiple: 0 [2021-03-22 19:20:00 - 2021-03-22 19:20:00]')
+        self.assertEqual(messages[0].level_tag, 'success')
+        # compare - systems / attributes
+        compare_system_and_attributes_csv(self, '56')
+        # compare - tags
+        compare_tags(self, '56', '.')
+
+    def test_system_importer_file_csv_instant_tag_prefix_delimiter_period(self):
+        """ test importer view """
+
+        # change config
+        set_csv_import_filename('system_importer_file_csv_testfile_56_tag_delimiter_space.csv')
+        # change config
+        set_config_tag_prefix_delimiter_period()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_minimal', password='H6mM7kq9sEZLvm6CyOaW')
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.get('/system/importer/file/csv/instant/', follow=True)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare - meta
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        # compare - messages
+        compare_messages_csv(self, messages)
+        # compare - systems / attributes
+        compare_system_and_attributes_csv(self, '56')
+        # compare - tags
+        compare_tags(self, '56', '.')
+
+    def test_system_importer_file_csv_upload_post_tag_prefix_delimiter_period(self):
+        """ test importer view """
+
+        # change config
+        set_config_tag_prefix_delimiter_period()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_minimal', password='H6mM7kq9sEZLvm6CyOaW')
+        # open upload file
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_56_tag_delimiter_space.csv'), 'r')
+        # create post data
+        data_dict = {
+            'systemcsv': systemcsv,
+        }
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.post('/system/importer/file/csv/upload/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # close file
+        systemcsv.close()
+        # compare - meta
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        # compare - messages
+        compare_messages_csv(self, messages)
+        # compare - systems / attributes
+        compare_system_and_attributes_csv(self, '56')
+        # compare - tags
+        compare_tags(self, '56', '.')
