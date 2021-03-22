@@ -525,6 +525,51 @@ def set_config_ip_delimiter_space():
     # return to test function
     return
 
+def set_config_tag_delimiter_comma():
+    """ set config """
+
+    # change config
+    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model.csv_choice_tag = True
+    system_importer_file_csv_config_model.csv_column_tag = 2
+    system_importer_file_csv_config_model.csv_tag_delimiter = 'tag_comma'
+    system_importer_file_csv_config_model.csv_tag_prefix = 'AUTO'
+    system_importer_file_csv_config_model.csv_tag_prefix_delimiter = 'tag_prefix_underscore'
+    system_importer_file_csv_config_model.save()
+
+    # return to test function
+    return
+
+def set_config_tag_delimiter_semicolon():
+    """ set config """
+
+    # change config
+    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model.csv_choice_tag = True
+    system_importer_file_csv_config_model.csv_column_tag = 2
+    system_importer_file_csv_config_model.csv_tag_delimiter = 'tag_semicolon'
+    system_importer_file_csv_config_model.csv_tag_prefix = 'AUTO'
+    system_importer_file_csv_config_model.csv_tag_prefix_delimiter = 'tag_prefix_underscore'
+    system_importer_file_csv_config_model.save()
+
+    # return to test function
+    return
+
+def set_config_tag_delimiter_space():
+    """ set config """
+
+    # change config
+    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model.csv_choice_tag = True
+    system_importer_file_csv_config_model.csv_column_tag = 2
+    system_importer_file_csv_config_model.csv_tag_delimiter = 'tag_space'
+    system_importer_file_csv_config_model.csv_tag_prefix = 'AUTO'
+    system_importer_file_csv_config_model.csv_tag_prefix_delimiter = 'tag_prefix_underscore'
+    system_importer_file_csv_config_model.save()
+
+    # return to test function
+    return
+
 def set_csv_import_filename(csv_import_filename):
     """ set csv_import_filename """
 
