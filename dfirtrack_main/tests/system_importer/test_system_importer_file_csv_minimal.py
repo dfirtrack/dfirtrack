@@ -163,6 +163,8 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         system_importer_file_csv_config_model.csv_tag_delimiter = 'tag_space'
         system_importer_file_csv_config_model.save()
 
+    """ text quote - double quotation """
+
     def test_system_importer_file_csv_cron_minimal_double_quotation(self):
         """ test importer view """
 
@@ -246,6 +248,8 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         compare_messages_csv(self, messages)
         # compare - systems / attributes
         compare_system_and_attributes_csv(self, '01')
+
+    """ text quote - single quotation """
 
     def test_system_importer_file_csv_cron_minimal_single_quotation(self):
         """ test importer view """
@@ -347,6 +351,8 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # compare - systems / attributes
         compare_system_and_attributes_csv(self, '02')
 
+    """ headline """
+
     def test_system_importer_file_csv_cron_minimal_headline(self):
         """ test importer view """
 
@@ -447,6 +453,8 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # compare - systems / attributes
         compare_system_and_attributes_csv(self, '03')
 
+    """ field delimiter - comma """
+
     def test_system_importer_file_csv_cron_minimal_comma(self):
         """ test importer view """
 
@@ -523,7 +531,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # compare domain (delimiter specific)
         compare_delimiter_specific(self, '21')
 
-    def test_system_importer_file_csv_upload_post_minimal_minimal_comma(self):
+    def test_system_importer_file_csv_upload_post_minimal_comma(self):
         """ test importer view """
 
         # TODO: [maintenance] move to config function
@@ -558,6 +566,8 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         compare_system_and_attributes_csv(self, '21')
         # compare domain (delimiter specific)
         compare_delimiter_specific(self, '21')
+
+    """ field delimiter - semicolon """
 
     def test_system_importer_file_csv_cron_minimal_semicolon(self):
         """ test importer view """
@@ -635,7 +645,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # compare domain (delimiter specific)
         compare_delimiter_specific(self, '22')
 
-    def test_system_importer_file_csv_upload_post_minimal_minimal_semicolon(self):
+    def test_system_importer_file_csv_upload_post_minimal_semicolon(self):
         """ test importer view """
 
         # TODO: [maintenance] move to config function
@@ -670,6 +680,8 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         compare_system_and_attributes_csv(self, '22')
         # compare domain (delimiter specific)
         compare_delimiter_specific(self, '22')
+
+    """ ip delimiter """
 
     def test_system_importer_file_csv_cron_ip_delimiter_comma(self):
         """ test importer view """
@@ -962,6 +974,8 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # compare - IPs
         compare_ips(self, '53')
 
+    """ tag delimiter """
+
     def test_system_importer_file_csv_cron_tag_delimiter_comma(self):
         """ test importer view """
 
@@ -1252,6 +1266,8 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         compare_system_and_attributes_csv(self, '56')
         # compare - tags
         compare_tags(self, '56', '_')
+
+    """ tag prefix delimiter """
 
     def test_system_importer_file_csv_cron_tag_prefix_delimiter_underscore(self):
         """ test importer view """

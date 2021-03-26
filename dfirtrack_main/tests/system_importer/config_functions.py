@@ -615,6 +615,39 @@ def set_config_tag_prefix_delimiter_period():
     # return to test function
     return
 
+def set_config_tag_remove_all():
+    """ set config """
+
+    # change config
+    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model.csv_remove_tag = 'tag_remove_all'
+    system_importer_file_csv_config_model.save()
+
+    # return to test function
+    return
+
+def set_config_tag_remove_prefix():
+    """ set config """
+
+    # change config
+    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model.csv_remove_tag = 'tag_remove_prefix'
+    system_importer_file_csv_config_model.save()
+
+    # return to test function
+    return
+
+def set_config_tag_remove_none():
+    """ set config """
+
+    # change config
+    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model.csv_remove_tag = 'tag_remove_none'
+    system_importer_file_csv_config_model.save()
+
+    # return to test function
+    return
+
 def set_csv_import_filename(csv_import_filename):
     """ set csv_import_filename """
 
