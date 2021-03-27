@@ -7,7 +7,21 @@ from dfirtrack.settings import BASE_DIR
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv import system_cron
 from dfirtrack_main.models import Analysisstatus, Domain, Ip, System, Systemstatus, Tag
-from dfirtrack_main.tests.system_importer.config_functions import set_config_ip_delimiter_comma, set_config_ip_delimiter_semicolon, set_config_ip_delimiter_space, set_config_tag_delimiter_comma, set_config_tag_delimiter_semicolon, set_config_tag_delimiter_space, set_config_tag_prefix_delimiter_underscore, set_config_tag_prefix_delimiter_hyphen, set_config_tag_prefix_delimiter_period, set_csv_import_filename, set_csv_import_path
+from dfirtrack_main.tests.system_importer.config_functions import set_config_field_delimiter_comma
+from dfirtrack_main.tests.system_importer.config_functions import set_config_field_delimiter_semicolon
+from dfirtrack_main.tests.system_importer.config_functions import set_config_headline
+from dfirtrack_main.tests.system_importer.config_functions import set_config_ip_delimiter_comma
+from dfirtrack_main.tests.system_importer.config_functions import set_config_ip_delimiter_semicolon
+from dfirtrack_main.tests.system_importer.config_functions import set_config_ip_delimiter_space
+from dfirtrack_main.tests.system_importer.config_functions import set_config_single_quotation
+from dfirtrack_main.tests.system_importer.config_functions import set_config_tag_delimiter_comma
+from dfirtrack_main.tests.system_importer.config_functions import set_config_tag_delimiter_semicolon
+from dfirtrack_main.tests.system_importer.config_functions import set_config_tag_delimiter_space
+from dfirtrack_main.tests.system_importer.config_functions import set_config_tag_prefix_delimiter_hyphen
+from dfirtrack_main.tests.system_importer.config_functions import set_config_tag_prefix_delimiter_period
+from dfirtrack_main.tests.system_importer.config_functions import set_config_tag_prefix_delimiter_underscore
+from dfirtrack_main.tests.system_importer.config_functions import set_csv_import_filename
+from dfirtrack_main.tests.system_importer.config_functions import set_csv_import_path
 from mock import patch
 import os
 import urllib.parse
@@ -115,34 +129,17 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         """ one-time setup """
 
         # create user
-        User.objects.create_user(username='testuser_system_importer_file_csv_minimal', password='H6mM7kq9sEZLvm6CyOaW')
+        test_user = User.objects.create_user(username='testuser_system_importer_file_csv_minimal', password='H6mM7kq9sEZLvm6CyOaW')
         User.objects.create_user(username='message_user', password='UFPntl9kU9vYkXwAo9SS')
 
         # create objects
-        Analysisstatus.objects.create(analysisstatus_name='analysisstatus_1')
-        Analysisstatus.objects.create(analysisstatus_name='analysisstatus_2')
-        Systemstatus.objects.create(systemstatus_name='systemstatus_1')
-        Systemstatus.objects.create(systemstatus_name='systemstatus_2')
-
-    @classmethod
-    def setUp(cls):
-        """ setup in advance of every test """
-
-        # get user
-        test_user = User.objects.get(username='testuser_system_importer_file_csv_minimal')
-
-        # get objects
-        analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
-        analysisstatus_2 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_2')
-        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
-        systemstatus_2 = Systemstatus.objects.get(systemstatus_name='systemstatus_2')
+        analysisstatus_1 = Analysisstatus.objects.create(analysisstatus_name='analysisstatus_1')
+        analysisstatus_2 = Analysisstatus.objects.create(analysisstatus_name='analysisstatus_2')
+        systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
+        systemstatus_2 = Systemstatus.objects.create(systemstatus_name='systemstatus_2')
 
         # build local path with test files
         set_csv_import_path(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/'))
-
-        # TODO: [maintenance] upload_post related
-        #csv_import_path = '/tmp'
-        #csv_import_filename = 'system.csv'
 
         # restore config
         system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
@@ -256,11 +253,8 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
 
         # change config
         set_csv_import_filename('system_importer_file_csv_testfile_02_minimal_single_quotation.csv')
-        # TODO: [maintenance] move to config function
         # change config
-        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
-        system_importer_file_csv_config_model.csv_text_quote = 'text_single_quotation_marks'
-        system_importer_file_csv_config_model.save()
+        set_config_single_quotation()
 
         # mock timezone.now()
         t_2 = datetime(2021, 3, 6, 17, 55, tzinfo=timezone.utc)
@@ -298,11 +292,8 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
 
         # change config
         set_csv_import_filename('system_importer_file_csv_testfile_02_minimal_single_quotation.csv')
-        # TODO: [maintenance] move to config function
         # change config
-        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
-        system_importer_file_csv_config_model.csv_text_quote = 'text_single_quotation_marks'
-        system_importer_file_csv_config_model.save()
+        set_config_single_quotation()
 
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_minimal', password='H6mM7kq9sEZLvm6CyOaW')
@@ -322,11 +313,8 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
     def test_system_importer_file_csv_upload_post_minimal_single_quotation(self):
         """ test importer view """
 
-        # TODO: [maintenance] move to config function
         # change config
-        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
-        system_importer_file_csv_config_model.csv_text_quote = 'text_single_quotation_marks'
-        system_importer_file_csv_config_model.save()
+        set_config_single_quotation()
 
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_minimal', password='H6mM7kq9sEZLvm6CyOaW')
@@ -358,11 +346,8 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
 
         # change config
         set_csv_import_filename('system_importer_file_csv_testfile_03_minimal_headline.csv')
-        # TODO: [maintenance] move to config function
         # change config
-        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
-        system_importer_file_csv_config_model.csv_headline = True
-        system_importer_file_csv_config_model.save()
+        set_config_headline()
 
         # mock timezone.now()
         t_3 = datetime(2021, 3, 6, 18, 7, tzinfo=timezone.utc)
@@ -400,11 +385,8 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
 
         # change config
         set_csv_import_filename('system_importer_file_csv_testfile_03_minimal_headline.csv')
-        # TODO: [maintenance] move to config function
         # change config
-        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
-        system_importer_file_csv_config_model.csv_headline = True
-        system_importer_file_csv_config_model.save()
+        set_config_headline()
 
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_minimal', password='H6mM7kq9sEZLvm6CyOaW')
@@ -424,11 +406,8 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
     def test_system_importer_file_csv_upload_post_minimal_headline(self):
         """ test importer view """
 
-        # TODO: [maintenance] move to config function
         # change config
-        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
-        system_importer_file_csv_config_model.csv_headline = True
-        system_importer_file_csv_config_model.save()
+        set_config_headline()
 
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_minimal', password='H6mM7kq9sEZLvm6CyOaW')
@@ -460,13 +439,8 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
 
         # change config
         set_csv_import_filename('system_importer_file_csv_testfile_21_minimal_comma.csv')
-        # TODO: [maintenance] move to config function
         # change config
-        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
-        system_importer_file_csv_config_model.csv_field_delimiter = 'field_comma'
-        system_importer_file_csv_config_model.csv_choice_domain = True
-        system_importer_file_csv_config_model.csv_column_domain = 2
-        system_importer_file_csv_config_model.save()
+        set_config_field_delimiter_comma()
 
         # mock timezone.now()
         t_5 = datetime(2021, 3, 7, 21, 12, tzinfo=timezone.utc)
@@ -506,13 +480,8 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
 
         # change config
         set_csv_import_filename('system_importer_file_csv_testfile_21_minimal_comma.csv')
-        # TODO: [maintenance] move to config function
         # change config
-        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
-        system_importer_file_csv_config_model.csv_field_delimiter = 'field_comma'
-        system_importer_file_csv_config_model.csv_choice_domain = True
-        system_importer_file_csv_config_model.csv_column_domain = 2
-        system_importer_file_csv_config_model.save()
+        set_config_field_delimiter_comma()
 
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_minimal', password='H6mM7kq9sEZLvm6CyOaW')
@@ -534,13 +503,8 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
     def test_system_importer_file_csv_upload_post_minimal_comma(self):
         """ test importer view """
 
-        # TODO: [maintenance] move to config function
         # change config
-        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
-        system_importer_file_csv_config_model.csv_field_delimiter = 'field_comma'
-        system_importer_file_csv_config_model.csv_choice_domain = True
-        system_importer_file_csv_config_model.csv_column_domain = 2
-        system_importer_file_csv_config_model.save()
+        set_config_field_delimiter_comma()
 
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_minimal', password='H6mM7kq9sEZLvm6CyOaW')
@@ -574,13 +538,8 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
 
         # change config
         set_csv_import_filename('system_importer_file_csv_testfile_22_minimal_semicolon.csv')
-        # TODO: [maintenance] move to config function
         # change config
-        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
-        system_importer_file_csv_config_model.csv_field_delimiter = 'field_semicolon'
-        system_importer_file_csv_config_model.csv_choice_domain = True
-        system_importer_file_csv_config_model.csv_column_domain = 2
-        system_importer_file_csv_config_model.save()
+        set_config_field_delimiter_semicolon()
 
         # mock timezone.now()
         t_6 = datetime(2021, 3, 7, 21, 17, tzinfo=timezone.utc)
@@ -620,13 +579,8 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
 
         # change config
         set_csv_import_filename('system_importer_file_csv_testfile_22_minimal_semicolon.csv')
-        # TODO: [maintenance] move to config function
         # change config
-        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
-        system_importer_file_csv_config_model.csv_field_delimiter = 'field_semicolon'
-        system_importer_file_csv_config_model.csv_choice_domain = True
-        system_importer_file_csv_config_model.csv_column_domain = 2
-        system_importer_file_csv_config_model.save()
+        set_config_field_delimiter_semicolon()
 
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_minimal', password='H6mM7kq9sEZLvm6CyOaW')
@@ -648,13 +602,8 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
     def test_system_importer_file_csv_upload_post_minimal_semicolon(self):
         """ test importer view """
 
-        # TODO: [maintenance] move to config function
         # change config
-        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
-        system_importer_file_csv_config_model.csv_field_delimiter = 'field_semicolon'
-        system_importer_file_csv_config_model.csv_choice_domain = True
-        system_importer_file_csv_config_model.csv_column_domain = 2
-        system_importer_file_csv_config_model.save()
+        set_config_field_delimiter_semicolon()
 
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_minimal', password='H6mM7kq9sEZLvm6CyOaW')
@@ -681,7 +630,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # compare domain (delimiter specific)
         compare_delimiter_specific(self, '22')
 
-    """ ip delimiter """
+    """ ip delimiter - comma """
 
     def test_system_importer_file_csv_cron_ip_delimiter_comma(self):
         """ test importer view """
@@ -780,6 +729,8 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # compare - IPs
         compare_ips(self, '51')
 
+    """ ip delimiter - semicolon """
+
     def test_system_importer_file_csv_cron_ip_delimiter_semicolon(self):
         """ test importer view """
 
@@ -876,6 +827,8 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         compare_system_and_attributes_csv(self, '52')
         # compare - IPs
         compare_ips(self, '52')
+
+    """ ip delimiter - space """
 
     def test_system_importer_file_csv_cron_ip_delimiter_space(self):
         """ test importer view """
@@ -974,7 +927,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # compare - IPs
         compare_ips(self, '53')
 
-    """ tag delimiter """
+    """ tag delimiter - comma """
 
     def test_system_importer_file_csv_cron_tag_delimiter_comma(self):
         """ test importer view """
@@ -1073,6 +1026,8 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # compare - tags
         compare_tags(self, '54', '_')
 
+    """ tag delimiter - semicolon """
+
     def test_system_importer_file_csv_cron_tag_delimiter_semicolon(self):
         """ test importer view """
 
@@ -1169,6 +1124,8 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         compare_system_and_attributes_csv(self, '55')
         # compare - tags
         compare_tags(self, '55', '_')
+
+    """ tag delimiter - space """
 
     def test_system_importer_file_csv_cron_tag_delimiter_space(self):
         """ test importer view """
@@ -1267,7 +1224,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # compare - tags
         compare_tags(self, '56', '_')
 
-    """ tag prefix delimiter """
+    """ tag prefix delimiter - underscore """
 
     def test_system_importer_file_csv_cron_tag_prefix_delimiter_underscore(self):
         """ test importer view """
@@ -1366,6 +1323,8 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # compare - tags
         compare_tags(self, '56', '_')
 
+    """ tag prefix delimiter - hyphen """
+
     def test_system_importer_file_csv_cron_tag_prefix_delimiter_hyphen(self):
         """ test importer view """
 
@@ -1462,6 +1421,8 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         compare_system_and_attributes_csv(self, '56')
         # compare - tags
         compare_tags(self, '56', '-')
+
+    """ tag prefix delimiter - period """
 
     def test_system_importer_file_csv_cron_tag_prefix_delimiter_period(self):
         """ test importer view """

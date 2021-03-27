@@ -2,6 +2,50 @@ from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.models import Case, Company, Dnsname, Domain, Location, Os, Reason, Recommendation, Serviceprovider, Systemtype, Tag
 
 
+def set_config_single_quotation():
+    """ set config """
+
+    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model.csv_text_quote = 'text_single_quotation_marks'
+    system_importer_file_csv_config_model.save()
+
+    # return to test function
+    return
+
+def set_config_headline():
+    """ set config """
+
+    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model.csv_headline = True
+    system_importer_file_csv_config_model.save()
+
+    # return to test function
+    return
+
+def set_config_field_delimiter_comma():
+    """ set config """
+
+    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model.csv_field_delimiter = 'field_comma'
+    system_importer_file_csv_config_model.csv_choice_domain = True
+    system_importer_file_csv_config_model.csv_column_domain = 2
+    system_importer_file_csv_config_model.save()
+
+    # return to test function
+    return
+
+def set_config_field_delimiter_semicolon():
+    """ set config """
+
+    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model.csv_field_delimiter = 'field_semicolon'
+    system_importer_file_csv_config_model.csv_choice_domain = True
+    system_importer_file_csv_config_model.csv_column_domain = 2
+    system_importer_file_csv_config_model.save()
+
+    # return to test function
+    return
+
 def set_config_check_attributes_csv():
     """ set config """
 
