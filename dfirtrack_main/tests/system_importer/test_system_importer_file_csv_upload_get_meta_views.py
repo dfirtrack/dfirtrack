@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
+from dfirtrack_main.tests.system_importer.config_functions import set_csv_skip_existing_system
 import urllib.parse
 
 
@@ -10,6 +11,7 @@ class SystemImporterFileCsvUploadGetMetaViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
+        """ one-time setup """
 
         # create user
         test_user = User.objects.create_user(username='testuser_system_importer_file_csv_upload_get_meta', password='39gE1C0nA1hmlcoxZjAd')
@@ -74,12 +76,11 @@ class SystemImporterFileCsvUploadGetMetaViewTestCase(TestCase):
     def test_system_importer_file_csv_upload_get_meta_skip_warning(self):
         """ test importer view """
 
+        # change config
+        set_csv_skip_existing_system(False)
+
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_upload_get_meta', password='39gE1C0nA1hmlcoxZjAd')
-        # change config
-        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
-        system_importer_file_csv_config_model.csv_skip_existing_system = False
-        system_importer_file_csv_config_model.save()
         # get response
         response = self.client.get('/system/importer/file/csv/upload/', follow=True)
         # get messages

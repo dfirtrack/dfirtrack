@@ -74,10 +74,8 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
     def test_system_importer_file_csv_messages_cron_single_system_create(self):
         """ test importer view """
 
-        # set file system attributes
-        csv_import_filename = 'system_importer_file_csv_testfile_11_messages_single_system.csv'
         # change config
-        set_csv_import_filename(csv_import_filename)
+        set_csv_import_filename('system_importer_file_csv_testfile_11_messages_single_system.csv')
         # change config
         set_csv_skip_existing_system(True)
 
@@ -116,10 +114,8 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         # create system
         create_system('system_csv_11_001')
 
-        # set file system attributes
-        csv_import_filename = 'system_importer_file_csv_testfile_11_messages_single_system.csv'
         # change config
-        set_csv_import_filename(csv_import_filename)
+        set_csv_import_filename('system_importer_file_csv_testfile_11_messages_single_system.csv')
         # change config
         set_csv_skip_existing_system(False)
 
@@ -158,10 +154,8 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         # create system
         create_system('system_csv_11_001')
 
-        # set file system attributes
-        csv_import_filename = 'system_importer_file_csv_testfile_11_messages_single_system.csv'
         # change config
-        set_csv_import_filename(csv_import_filename)
+        set_csv_import_filename('system_importer_file_csv_testfile_11_messages_single_system.csv')
         # change config
         set_csv_skip_existing_system(True)
 
@@ -201,10 +195,8 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         create_system('system_csv_11_001')
         create_system('system_csv_11_001')
 
-        # set file system attributes
-        csv_import_filename = 'system_importer_file_csv_testfile_11_messages_single_system.csv'
         # change config
-        set_csv_import_filename(csv_import_filename)
+        set_csv_import_filename('system_importer_file_csv_testfile_11_messages_single_system.csv')
         # change config
         set_csv_skip_existing_system(False)
 
@@ -244,10 +236,8 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
     def test_system_importer_file_csv_messages_instant_single_system_create(self):
         """ test importer view """
 
-        # set file system attributes
-        csv_import_filename = 'system_importer_file_csv_testfile_11_messages_single_system.csv'
         # change config
-        set_csv_import_filename(csv_import_filename)
+        set_csv_import_filename('system_importer_file_csv_testfile_11_messages_single_system.csv')
         # change config
         set_csv_skip_existing_system(True)
 
@@ -267,10 +257,8 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         # create system
         create_system('system_csv_11_001')
 
-        # set file system attributes
-        csv_import_filename = 'system_importer_file_csv_testfile_11_messages_single_system.csv'
         # change config
-        set_csv_import_filename(csv_import_filename)
+        set_csv_import_filename('system_importer_file_csv_testfile_11_messages_single_system.csv')
         # change config
         set_csv_skip_existing_system(False)
 
@@ -290,10 +278,8 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         # create system
         create_system('system_csv_11_001')
 
-        # set file system attributes
-        csv_import_filename = 'system_importer_file_csv_testfile_11_messages_single_system.csv'
         # change config
-        set_csv_import_filename(csv_import_filename)
+        set_csv_import_filename('system_importer_file_csv_testfile_11_messages_single_system.csv')
         # change config
         set_csv_skip_existing_system(True)
 
@@ -314,10 +300,8 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         create_system('system_csv_11_001')
         create_system('system_csv_11_001')
 
-        # set file system attributes
-        csv_import_filename = 'system_importer_file_csv_testfile_11_messages_single_system.csv'
         # change config
-        set_csv_import_filename(csv_import_filename)
+        set_csv_import_filename('system_importer_file_csv_testfile_11_messages_single_system.csv')
         # change config
         set_csv_skip_existing_system(True)
 
@@ -440,10 +424,8 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
     def test_system_importer_file_csv_messages_cron_many_systems_create(self):
         """ test importer view """
 
-        # set file system attributes
-        csv_import_filename = 'system_importer_file_csv_testfile_12_messages_many_systems.csv'
         # change config
-        set_csv_import_filename(csv_import_filename)
+        set_csv_import_filename('system_importer_file_csv_testfile_12_messages_many_systems.csv')
         # change config
         set_csv_skip_existing_system(True)
 
@@ -484,10 +466,8 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         create_system('system_csv_12_002')
         create_system('system_csv_12_003')
 
-        # set file system attributes
-        csv_import_filename = 'system_importer_file_csv_testfile_12_messages_many_systems.csv'
         # change config
-        set_csv_import_filename(csv_import_filename)
+        set_csv_import_filename('system_importer_file_csv_testfile_12_messages_many_systems.csv')
         # change config
         set_csv_skip_existing_system(False)
 
@@ -528,10 +508,8 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         create_system('system_csv_12_002')
         create_system('system_csv_12_003')
 
-        # set file system attributes
-        csv_import_filename = 'system_importer_file_csv_testfile_12_messages_many_systems.csv'
         # change config
-        set_csv_import_filename(csv_import_filename)
+        set_csv_import_filename('system_importer_file_csv_testfile_12_messages_many_systems.csv')
         # change config
         set_csv_skip_existing_system(True)
 
@@ -575,10 +553,8 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         create_system('system_csv_12_003')
         create_system('system_csv_12_003')
 
-        # set file system attributes
-        csv_import_filename = 'system_importer_file_csv_testfile_12_messages_many_systems.csv'
         # change config
-        set_csv_import_filename(csv_import_filename)
+        set_csv_import_filename('system_importer_file_csv_testfile_12_messages_many_systems.csv')
         # change config
         set_csv_skip_existing_system(False)
 
@@ -618,10 +594,8 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
     def test_system_importer_file_csv_messages_instant_many_systems_create(self):
         """ test importer view """
 
-        # set file system attributes
-        csv_import_filename = 'system_importer_file_csv_testfile_12_messages_many_systems.csv'
         # change config
-        set_csv_import_filename(csv_import_filename)
+        set_csv_import_filename('system_importer_file_csv_testfile_12_messages_many_systems.csv')
         # change config
         set_csv_skip_existing_system(True)
 
@@ -643,10 +617,8 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         create_system('system_csv_12_002')
         create_system('system_csv_12_003')
 
-        # set file system attributes
-        csv_import_filename = 'system_importer_file_csv_testfile_12_messages_many_systems.csv'
         # change config
-        set_csv_import_filename(csv_import_filename)
+        set_csv_import_filename('system_importer_file_csv_testfile_12_messages_many_systems.csv')
         # change config
         set_csv_skip_existing_system(False)
 
@@ -668,10 +640,8 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         create_system('system_csv_12_002')
         create_system('system_csv_12_003')
 
-        # set file system attributes
-        csv_import_filename = 'system_importer_file_csv_testfile_12_messages_many_systems.csv'
         # change config
-        set_csv_import_filename(csv_import_filename)
+        set_csv_import_filename('system_importer_file_csv_testfile_12_messages_many_systems.csv')
         # change config
         set_csv_skip_existing_system(True)
 
@@ -696,10 +666,8 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         create_system('system_csv_12_003')
         create_system('system_csv_12_003')
 
-        # set file system attributes
-        csv_import_filename = 'system_importer_file_csv_testfile_12_messages_many_systems.csv'
         # change config
-        set_csv_import_filename(csv_import_filename)
+        set_csv_import_filename('system_importer_file_csv_testfile_12_messages_many_systems.csv')
         # change config
         set_csv_skip_existing_system(True)
 

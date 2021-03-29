@@ -9,11 +9,12 @@ class SystemImporterFileCsvInstantMetaViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
+        """ one-time setup """
 
         # create user
         test_user = User.objects.create_user(username='testuser_system_importer_file_csv_instant_meta', password='s996KrAi8M5Hev62lP7q')
 
-        # restore config
+        # change config
         system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
         system_importer_file_csv_config_model.csv_import_username = test_user
         system_importer_file_csv_config_model.save()

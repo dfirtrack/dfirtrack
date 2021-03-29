@@ -7,7 +7,11 @@ from dfirtrack.settings import BASE_DIR
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv import system_cron
 from dfirtrack_main.models import Analysisstatus, System, Systemstatus, Tag, Tagcolor
-from dfirtrack_main.tests.system_importer.config_functions import set_config_tag_remove_all, set_config_tag_remove_prefix, set_config_tag_remove_none, set_csv_import_path, set_csv_import_filename
+from dfirtrack_main.tests.system_importer.config_functions import set_config_tag_remove_all
+from dfirtrack_main.tests.system_importer.config_functions import set_config_tag_remove_none
+from dfirtrack_main.tests.system_importer.config_functions import set_config_tag_remove_prefix
+from dfirtrack_main.tests.system_importer.config_functions import set_csv_import_filename
+from dfirtrack_main.tests.system_importer.config_functions import set_csv_import_path
 from mock import patch
 import os
 import urllib.parse

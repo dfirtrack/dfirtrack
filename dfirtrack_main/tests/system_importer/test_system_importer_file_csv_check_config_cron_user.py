@@ -22,7 +22,7 @@ class SystemImporterFileCsvCheckConfigCronUserViewTestCase(TestCase):
         system_importer_file_csv_config_model.csv_import_username = None
         system_importer_file_csv_config_model.save()
 
-    def test_system_importer_file_csv_check_config_cron_user_create_cron_path_no_import_user(self):
+    def test_system_importer_file_csv_check_config_cron_user_create_cron_no_import_user(self):
         """ test importer view """
 
         # login testuser
@@ -38,7 +38,7 @@ class SystemImporterFileCsvCheckConfigCronUserViewTestCase(TestCase):
         self.assertEqual(messages[0].message, 'No user for import defined. Check config!')
         self.assertEqual(messages[0].level_tag, 'error')
 
-    def test_system_importer_file_csv_check_config_cron_user_cron_path_no_import_user(self):
+    def test_system_importer_file_csv_check_config_cron_user_cron_no_import_user(self):
         """ test importer view """
 
         # execute cron job / scheduled task

@@ -304,6 +304,7 @@ class SystemImporterFileCsvStatusViewTestCase(TestCase):
 
         # change config
         set_csv_import_filename('system_importer_file_csv_testfile_34_lock_status.csv')
+
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_status', password='Tsu0Q6SDhuxMH2APXMBT')
         # create url
@@ -352,6 +353,7 @@ class SystemImporterFileCsvStatusViewTestCase(TestCase):
 
         # change config
         set_csv_import_filename('system_importer_file_csv_testfile_35_tagfree_status.csv')
+        # change config
         set_config_tagfree_status()
 
         # mock timezone.now()
@@ -390,7 +392,9 @@ class SystemImporterFileCsvStatusViewTestCase(TestCase):
 
         # change config
         set_csv_import_filename('system_importer_file_csv_testfile_35_tagfree_status.csv')
+        # change config
         set_config_tagfree_status()
+
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_status', password='Tsu0Q6SDhuxMH2APXMBT')
         # create url
@@ -411,6 +415,7 @@ class SystemImporterFileCsvStatusViewTestCase(TestCase):
 
         # change config
         set_config_tagfree_status()
+
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_status', password='Tsu0Q6SDhuxMH2APXMBT')
         # open upload file

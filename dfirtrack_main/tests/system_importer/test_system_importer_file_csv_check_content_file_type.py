@@ -40,12 +40,11 @@ class SystemImporterFileCsvCheckContentFileTypeViewTestCase(TestCase):
     def test_system_importer_file_csv_cron_wrong_type(self):
         """ test importer view """
 
-        # set file system attributes
-        csv_import_path = os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files')
-        csv_import_filename = 'system_importer_file_csv_testfile_04_wrong_type.png'
         # change config
-        set_csv_import_path(csv_import_path)
-        set_csv_import_filename(csv_import_filename)
+        set_csv_import_path(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files'))
+        # change config
+        set_csv_import_filename('system_importer_file_csv_testfile_04_wrong_type.png')
+
         # execute cron job / scheduled task
         system_cron()
         # login testuser
@@ -73,14 +72,13 @@ class SystemImporterFileCsvCheckContentFileTypeViewTestCase(TestCase):
     def test_system_importer_file_csv_instant_wrong_type(self):
         """ test importer view """
 
+        # change config
+        set_csv_import_path(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files'))
+        # change config
+        set_csv_import_filename('system_importer_file_csv_testfile_04_wrong_type.png')
+
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_content_file_type', password='3oKsgNPVdlmNPneLhdr9')
-        # set file system attributes
-        csv_import_path = os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files')
-        csv_import_filename = 'system_importer_file_csv_testfile_04_wrong_type.png'
-        # change config
-        set_csv_import_path(csv_import_path)
-        set_csv_import_filename(csv_import_filename)
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -119,12 +117,11 @@ class SystemImporterFileCsvCheckContentFileTypeViewTestCase(TestCase):
     def test_system_importer_file_csv_cron_corrupted(self):
         """ test importer view """
 
-        # set file system attributes
-        csv_import_path = os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files')
-        csv_import_filename = 'system_importer_file_csv_testfile_05_corrupted.csv'
         # change config
-        set_csv_import_path(csv_import_path)
-        set_csv_import_filename(csv_import_filename)
+        set_csv_import_path(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files'))
+        # change config
+        set_csv_import_filename('system_importer_file_csv_testfile_05_corrupted.csv')
+
         # execute cron job / scheduled task
         system_cron()
         # login testuser
@@ -152,14 +149,13 @@ class SystemImporterFileCsvCheckContentFileTypeViewTestCase(TestCase):
     def test_system_importer_file_csv_instant_corrupted(self):
         """ test importer view """
 
+        # change config
+        set_csv_import_path(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files'))
+        # change config
+        set_csv_import_filename('system_importer_file_csv_testfile_05_corrupted.csv')
+
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_content_file_type', password='3oKsgNPVdlmNPneLhdr9')
-        # set file system attributes
-        csv_import_path = os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files')
-        csv_import_filename = 'system_importer_file_csv_testfile_05_corrupted.csv'
-        # change config
-        set_csv_import_path(csv_import_path)
-        set_csv_import_filename(csv_import_filename)
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response

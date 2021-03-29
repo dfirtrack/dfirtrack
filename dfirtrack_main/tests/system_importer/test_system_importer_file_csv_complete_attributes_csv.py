@@ -133,27 +133,14 @@ class SystemImporterFileCsvCompleteAttributesCsvViewTestCase(TestCase):
         """ one-time setup """
 
         # create user
-        User.objects.create_user(username='testuser_system_importer_file_csv_complete_attributes_csv', password='k5wYvpoorAHuU62wJLV1')
+        test_user = User.objects.create_user(username='testuser_system_importer_file_csv_complete_attributes_csv', password='k5wYvpoorAHuU62wJLV1')
         User.objects.create_user(username='message_user', password='DsaygmEY9owS4KEA55Gt')
 
         # create objects
-        Analysisstatus.objects.create(analysisstatus_name='analysisstatus_1')
-        Analysisstatus.objects.create(analysisstatus_name='analysisstatus_2')
-        Systemstatus.objects.create(systemstatus_name='systemstatus_1')
-        Systemstatus.objects.create(systemstatus_name='systemstatus_2')
-
-    @classmethod
-    def setUp(cls):
-        """ setup in advance of every test """
-
-        # get user
-        test_user = User.objects.get(username='testuser_system_importer_file_csv_complete_attributes_csv')
-
-        # get objects
-        analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1')
-        analysisstatus_2 = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_2')
-        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
-        systemstatus_2 = Systemstatus.objects.get(systemstatus_name='systemstatus_2')
+        analysisstatus_1 = Analysisstatus.objects.create(analysisstatus_name='analysisstatus_1')
+        analysisstatus_2 = Analysisstatus.objects.create(analysisstatus_name='analysisstatus_2')
+        systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
+        systemstatus_2 = Systemstatus.objects.create(systemstatus_name='systemstatus_2')
 
         # build local path with test files
         set_csv_import_path(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/'))

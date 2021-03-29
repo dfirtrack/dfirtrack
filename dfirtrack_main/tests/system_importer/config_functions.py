@@ -1,6 +1,15 @@
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.models import Case, Company, Dnsname, Domain, Location, Os, Reason, Recommendation, Serviceprovider, Systemtype, Tag
 
+def set_config_column_system(csv_column_system):
+    """ set config """
+
+    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model.csv_column_system = csv_column_system
+    system_importer_file_csv_config_model.save()
+
+    # return to test function
+    return
 
 def set_config_single_quotation():
     """ set config """
@@ -94,6 +103,7 @@ def set_config_check_attributes_domain_name():
     # return to test function
     return
 
+# TODO: remove argument
 def set_config_check_config_attributes_choices_true(system_importer_file_csv_config_model):
     """ set choices to true for all columns """
 

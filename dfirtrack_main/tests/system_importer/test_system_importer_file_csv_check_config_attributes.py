@@ -202,10 +202,11 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
     def test_system_importer_file_csv_check_config_attributes_create_cron_column_fields_numeric_values(self):
         """ test importer view """
 
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # change config
         set_config_check_config_attributes_column_fields_numeric_values()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -222,6 +223,7 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
 
         # change config
         set_config_check_config_attributes_column_fields_numeric_values()
+
         # execute cron job / scheduled task
         system_cron()
         # login testuser
@@ -249,10 +251,11 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
     def test_system_importer_file_csv_check_config_attributes_instant_column_fields_numeric_values(self):
         """ test importer view """
 
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # change config
         set_config_check_config_attributes_column_fields_numeric_values()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -267,10 +270,11 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
     def test_system_importer_file_csv_check_config_attributes_upload_get_column_fields_numeric_values(self):
         """ test importer view """
 
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # change config
         set_config_check_config_attributes_column_fields_numeric_values()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -285,10 +289,11 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
     def test_system_importer_file_csv_check_config_attributes_upload_post_column_fields_numeric_values(self):
         """ test importer view """
 
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # change config
         set_config_check_config_attributes_column_fields_numeric_values()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # open upload file
         systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_01_minimal_double_quotation.csv'), 'r')
         # create post data
@@ -313,10 +318,11 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
     def test_system_importer_file_csv_check_config_attributes_create_cron_column_choive_vs_default_single_error(self):
         """ test importer view """
 
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # change config
         set_config_check_config_attributes_column_choice_vs_default_single_error()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -333,6 +339,7 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
 
         # change config
         set_config_check_config_attributes_column_choice_vs_default_single_error()
+
         # execute cron job / scheduled task
         system_cron()
         # login testuser
@@ -360,10 +367,11 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
     def test_system_importer_file_csv_check_config_attributes_instant_column_choive_vs_default_single_error(self):
         """ test importer view """
 
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # change config
         set_config_check_config_attributes_column_choice_vs_default_single_error()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -378,10 +386,11 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
     def test_system_importer_file_csv_check_config_attributes_upload_get_column_choive_vs_default_single_error(self):
         """ test importer view """
 
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # change config
         set_config_check_config_attributes_column_choice_vs_default_single_error()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -396,10 +405,11 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
     def test_system_importer_file_csv_check_config_attributes_upload_post_column_choive_vs_default_single_error(self):
         """ test importer view """
 
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # change config
         set_config_check_config_attributes_column_choice_vs_default_single_error()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # open upload file
         systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_01_minimal_double_quotation.csv'), 'r')
         # create post data
@@ -424,10 +434,11 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
     def test_system_importer_file_csv_check_config_attributes_create_cron_column_choive_vs_default_multiple_errors_1(self):
         """ test importer view """
 
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # change config
         set_config_check_config_attributes_column_choice_vs_default_multiple_errors_1()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -444,6 +455,7 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
 
         # change config
         set_config_check_config_attributes_column_choice_vs_default_multiple_errors_1()
+
         # execute cron job / scheduled task
         system_cron()
         # login testuser
@@ -471,10 +483,11 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
     def test_system_importer_file_csv_check_config_attributes_instant_column_choive_vs_default_multiple_errors_1(self):
         """ test importer view """
 
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # change config
         set_config_check_config_attributes_column_choice_vs_default_multiple_errors_1()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -489,10 +502,11 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
     def test_system_importer_file_csv_check_config_attributes_upload_get_column_choive_vs_default_multiple_errors_1(self):
         """ test importer view """
 
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # change config
         set_config_check_config_attributes_column_choice_vs_default_multiple_errors_1()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -507,10 +521,11 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
     def test_system_importer_file_csv_check_config_attributes_upload_post_column_choive_vs_default_multiple_errors_1(self):
         """ test importer view """
 
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # change config
         set_config_check_config_attributes_column_choice_vs_default_multiple_errors_1()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # open upload file
         systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_01_minimal_double_quotation.csv'), 'r')
         # create post data
@@ -535,10 +550,11 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
     def test_system_importer_file_csv_check_config_attributes_create_cron_column_choive_vs_default_multiple_errors_2(self):
         """ test importer view """
 
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # change config
         set_config_check_config_attributes_column_choice_vs_default_multiple_errors_2()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -555,6 +571,7 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
 
         # change config
         set_config_check_config_attributes_column_choice_vs_default_multiple_errors_2()
+
         # execute cron job / scheduled task
         system_cron()
         # login testuser
@@ -582,10 +599,11 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
     def test_system_importer_file_csv_check_config_attributes_instant_column_choive_vs_default_multiple_errors_2(self):
         """ test importer view """
 
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # change config
         set_config_check_config_attributes_column_choice_vs_default_multiple_errors_2()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -600,10 +618,11 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
     def test_system_importer_file_csv_check_config_attributes_upload_get_column_choive_vs_default_multiple_errors_2(self):
         """ test importer view """
 
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # change config
         set_config_check_config_attributes_column_choice_vs_default_multiple_errors_2()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -618,10 +637,11 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
     def test_system_importer_file_csv_check_config_attributes_upload_post_column_choive_vs_default_multiple_errors_2(self):
         """ test importer view """
 
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # change config
         set_config_check_config_attributes_column_choice_vs_default_multiple_errors_2()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # open upload file
         systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_01_minimal_double_quotation.csv'), 'r')
         # create post data
@@ -1357,10 +1377,11 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
     def test_system_importer_file_csv_check_config_attributes_create_cron_tagfree_choices(self):
         """ test importer view """
 
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # change config
         set_config_check_config_attributes_tagfree_choices()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -1379,6 +1400,7 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
 
         # change config
         set_config_check_config_attributes_tagfree_choices()
+
         # execute cron job / scheduled task
         system_cron()
         # login testuser
@@ -1406,10 +1428,11 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
     def test_system_importer_file_csv_check_config_attributes_instant_tagfree_choices(self):
         """ test importer view """
 
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # change config
         set_config_check_config_attributes_tagfree_choices()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -1426,10 +1449,11 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
     def test_system_importer_file_csv_check_config_attributes_upload_get_tagfree_choices(self):
         """ test importer view """
 
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # change config
         set_config_check_config_attributes_tagfree_choices()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -1446,10 +1470,11 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
     def test_system_importer_file_csv_check_config_attributes_upload_post_tagfree_choices(self):
         """ test importer view """
 
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # change config
         set_config_check_config_attributes_tagfree_choices()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # open upload file
         systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_01_minimal_double_quotation.csv'), 'r')
         # create post data
@@ -1476,10 +1501,11 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
     def test_system_importer_file_csv_check_config_attributes_create_cron_column_fields_different_values(self):
         """ test importer view """
 
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # change config
         set_config_check_config_attributes_column_fields_equal_values()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -1496,6 +1522,7 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
 
         # change config
         set_config_check_config_attributes_column_fields_equal_values()
+
         # execute cron job / scheduled task
         system_cron()
         # login testuser
@@ -1523,10 +1550,11 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
     def test_system_importer_file_csv_check_config_attributes_instant_column_fields_different_values(self):
         """ test importer view """
 
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # change config
         set_config_check_config_attributes_column_fields_equal_values()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -1541,10 +1569,11 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
     def test_system_importer_file_csv_check_config_attributes_upload_get_column_fields_different_values(self):
         """ test importer view """
 
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # change config
         set_config_check_config_attributes_column_fields_equal_values()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -1559,10 +1588,11 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
     def test_system_importer_file_csv_check_config_attributes_upload_post_column_fields_different_values(self):
         """ test importer view """
 
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # change config
         set_config_check_config_attributes_column_fields_equal_values()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # open upload file
         systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_01_minimal_double_quotation.csv'), 'r')
         # create post data
@@ -1587,10 +1617,11 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
     def test_system_importer_file_csv_check_config_attributes_create_cron_remove_choices(self):
         """ test importer view """
 
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # change config
         set_config_check_config_attributes_remove_choices()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -1607,6 +1638,7 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
 
         # change config
         set_config_check_config_attributes_remove_choices()
+
         # execute cron job / scheduled task
         system_cron()
         # login testuser
@@ -1634,10 +1666,11 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
     def test_system_importer_file_csv_check_config_attributes_instant_remove_choices(self):
         """ test importer view """
 
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # change config
         set_config_check_config_attributes_remove_choices()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -1652,10 +1685,11 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
     def test_system_importer_file_csv_check_config_attributes_upload_get_remove_choices(self):
         """ test importer view """
 
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # change config
         set_config_check_config_attributes_remove_choices()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -1670,10 +1704,11 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
     def test_system_importer_file_csv_check_config_attributes_upload_post_remove_choices(self):
         """ test importer view """
 
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # change config
         set_config_check_config_attributes_remove_choices()
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # open upload file
         systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_01_minimal_double_quotation.csv'), 'r')
         # create post data

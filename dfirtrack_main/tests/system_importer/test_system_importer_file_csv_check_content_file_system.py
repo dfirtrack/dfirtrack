@@ -43,15 +43,16 @@ class SystemImporterFileCsvCheckConfigContentFileSystemViewTestCase(TestCase):
         system_importer_file_csv_config_model.csv_import_username = test_user
         system_importer_file_csv_config_model.save()
 
+    """ path not existing """
+
     def test_system_importer_file_csv_check_content_file_system_create_cron_path_not_existing(self):
         """ test importer view """
 
+        # change config
+        set_csv_import_path('/path_not_existing')
+
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_content_file_system', password='mxsdGwJ2TINdQMq6rMNN')
-        # set file system attributes
-        csv_import_path = '/path_not_existing'
-        # change config
-        set_csv_import_path(csv_import_path)
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -66,10 +67,9 @@ class SystemImporterFileCsvCheckConfigContentFileSystemViewTestCase(TestCase):
     def test_system_importer_file_csv_check_content_file_system_cron_path_not_existing(self):
         """ test importer view """
 
-        # set file system attributes
-        csv_import_path = '/path_not_existing'
         # change config
-        set_csv_import_path(csv_import_path)
+        set_csv_import_path('/path_not_existing')
+
         # execute cron job / scheduled task
         system_cron()
         # login testuser
@@ -97,12 +97,11 @@ class SystemImporterFileCsvCheckConfigContentFileSystemViewTestCase(TestCase):
     def test_system_importer_file_csv_check_content_file_system_instant_path_not_existing(self):
         """ test importer view """
 
+        # change config
+        set_csv_import_path('/path_not_existing')
+
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_content_file_system', password='mxsdGwJ2TINdQMq6rMNN')
-        # set file system attributes
-        csv_import_path = '/path_not_existing'
-        # change config
-        set_csv_import_path(csv_import_path)
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -114,15 +113,16 @@ class SystemImporterFileCsvCheckConfigContentFileSystemViewTestCase(TestCase):
         self.assertEqual(messages[0].message, 'CSV import path does not exist. Check config or file system!')
         self.assertEqual(messages[0].level_tag, 'error')
 
+    """ path no read permission """
+
     def test_system_importer_file_csv_check_content_file_system_create_cron_path_no_read_permission(self):
         """ test importer view """
 
+        # change config
+        set_csv_import_path('/root')
+
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_content_file_system', password='mxsdGwJ2TINdQMq6rMNN')
-        # set file system attributes
-        csv_import_path = '/root'
-        # change config
-        set_csv_import_path(csv_import_path)
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -137,10 +137,9 @@ class SystemImporterFileCsvCheckConfigContentFileSystemViewTestCase(TestCase):
     def test_system_importer_file_csv_check_content_file_system_cron_path_no_read_permission(self):
         """ test importer view """
 
-        # set file system attributes
-        csv_import_path = '/root'
         # change config
-        set_csv_import_path(csv_import_path)
+        set_csv_import_path('/root')
+
         # execute cron job / scheduled task
         system_cron()
         # login testuser
@@ -168,12 +167,11 @@ class SystemImporterFileCsvCheckConfigContentFileSystemViewTestCase(TestCase):
     def test_system_importer_file_csv_check_content_file_system_instant_path_no_read_permission(self):
         """ test importer view """
 
+        # change config
+        set_csv_import_path('/root')
+
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_content_file_system', password='mxsdGwJ2TINdQMq6rMNN')
-        # set file system attributes
-        csv_import_path = '/root'
-        # change config
-        set_csv_import_path(csv_import_path)
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -185,17 +183,18 @@ class SystemImporterFileCsvCheckConfigContentFileSystemViewTestCase(TestCase):
         self.assertEqual(messages[0].message, 'No read permission for CSV import path. Check config or file system!')
         self.assertEqual(messages[0].level_tag, 'error')
 
+    """ file not existing """
+
     def test_system_importer_file_csv_check_content_file_system_create_cron_file_not_existing(self):
         """ test importer view """
 
+        # change config
+        set_csv_import_path('/tmp')
+        # change config
+        set_csv_import_filename('filename_not_existing.abc')
+
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_content_file_system', password='mxsdGwJ2TINdQMq6rMNN')
-        # set file system attributes
-        csv_import_path = '/tmp'
-        csv_import_filename = 'filename_not_existing.abc'
-        # change config
-        set_csv_import_path(csv_import_path)
-        set_csv_import_filename(csv_import_filename)
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -210,12 +209,11 @@ class SystemImporterFileCsvCheckConfigContentFileSystemViewTestCase(TestCase):
     def test_system_importer_file_csv_check_content_file_system_cron_file_not_existing(self):
         """ test importer view """
 
-        # set file system attributes
-        csv_import_path = '/tmp'
-        csv_import_filename = 'filename_not_existing.abc'
         # change config
-        set_csv_import_path(csv_import_path)
-        set_csv_import_filename(csv_import_filename)
+        set_csv_import_path('/tmp')
+        # change config
+        set_csv_import_filename('filename_not_existing.abc')
+
         # execute cron job / scheduled task
         system_cron()
         # login testuser
@@ -243,14 +241,13 @@ class SystemImporterFileCsvCheckConfigContentFileSystemViewTestCase(TestCase):
     def test_system_importer_file_csv_check_content_file_system_instant_file_not_existing(self):
         """ test importer view """
 
+        # change config
+        set_csv_import_path('/tmp')
+        # change config
+        set_csv_import_filename('filename_not_existing.abc')
+
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_content_file_system', password='mxsdGwJ2TINdQMq6rMNN')
-        # set file system attributes
-        csv_import_path = '/tmp'
-        csv_import_filename = 'filename_not_existing.abc'
-        # change config
-        set_csv_import_path(csv_import_path)
-        set_csv_import_filename(csv_import_filename)
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -262,21 +259,25 @@ class SystemImporterFileCsvCheckConfigContentFileSystemViewTestCase(TestCase):
         self.assertEqual(messages[0].message, 'CSV import file does not exist. Check config or provide file!')
         self.assertEqual(messages[0].level_tag, 'error')
 
+    """ file no read permission """
+
     def test_system_importer_file_csv_check_content_file_system_create_cron_file_no_read_permission(self):
         """ test importer view """
 
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_check_content_file_system', password='mxsdGwJ2TINdQMq6rMNN')
         # get timestamp string
         t1 = timezone.now().strftime('%Y%m%d_%H%M%S')
         # set file system attributes
         csv_import_path = '/tmp'
         csv_import_filename = f'{t1}_create_cron_no_read_permission.csv'
-        # change config
-        set_csv_import_path(csv_import_path)
-        set_csv_import_filename(csv_import_filename)
         # create file
         create_file_no_read_permission(csv_import_path, csv_import_filename)
+        # change config
+        set_csv_import_path(csv_import_path)
+        # change config
+        set_csv_import_filename(csv_import_filename)
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_content_file_system', password='mxsdGwJ2TINdQMq6rMNN')
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -296,11 +297,13 @@ class SystemImporterFileCsvCheckConfigContentFileSystemViewTestCase(TestCase):
         # set file system attributes
         csv_import_path = '/tmp'
         csv_import_filename = f'{t1}_cron_no_read_permission.csv'
-        # change config
-        set_csv_import_path(csv_import_path)
-        set_csv_import_filename(csv_import_filename)
         # create file
         create_file_no_read_permission(csv_import_path, csv_import_filename)
+        # change config
+        set_csv_import_path(csv_import_path)
+        # change config
+        set_csv_import_filename(csv_import_filename)
+
         # execute cron job / scheduled task
         system_cron()
         # login testuser
@@ -328,18 +331,20 @@ class SystemImporterFileCsvCheckConfigContentFileSystemViewTestCase(TestCase):
     def test_system_importer_file_csv_check_content_file_system_instant_file_no_read_permission(self):
         """ test importer view """
 
-        # login testuser
-        self.client.login(username='testuser_system_importer_file_csv_check_content_file_system', password='mxsdGwJ2TINdQMq6rMNN')
         # get timestamp string
         t1 = timezone.now().strftime('%Y%m%d_%H%M%S')
         # set file system attributes
         csv_import_path = '/tmp'
         csv_import_filename = f'{t1}_instant_no_read_permission.csv'
-        # change config
-        set_csv_import_path(csv_import_path)
-        set_csv_import_filename(csv_import_filename)
         # create file
         create_file_no_read_permission(csv_import_path, csv_import_filename)
+        # change config
+        set_csv_import_path(csv_import_path)
+        # change config
+        set_csv_import_filename(csv_import_filename)
+
+        # login testuser
+        self.client.login(username='testuser_system_importer_file_csv_check_content_file_system', password='mxsdGwJ2TINdQMq6rMNN')
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -351,17 +356,18 @@ class SystemImporterFileCsvCheckConfigContentFileSystemViewTestCase(TestCase):
         self.assertEqual(messages[0].message, 'No read permission for CSV import file. Check config or file system!')
         self.assertEqual(messages[0].level_tag, 'error')
 
+    """ file empty """
+
     def test_system_importer_file_csv_check_content_file_system_create_cron_file_empty(self):
         """ test importer view """
 
+        # change config
+        set_csv_import_path(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/'))
+        # change config
+        set_csv_import_filename('system_importer_file_csv_testfile_06_empty.csv')
+
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_content_file_system', password='mxsdGwJ2TINdQMq6rMNN')
-        # set file system attributes
-        csv_import_path = os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/')
-        csv_import_filename = 'system_importer_file_csv_testfile_06_empty.csv'
-        # change config
-        set_csv_import_path(csv_import_path)
-        set_csv_import_filename(csv_import_filename)
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
@@ -376,12 +382,11 @@ class SystemImporterFileCsvCheckConfigContentFileSystemViewTestCase(TestCase):
     def test_system_importer_file_csv_check_content_file_system_cron_file_empty(self):
         """ test importer view """
 
-        # set file system attributes
-        csv_import_path = os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/')
-        csv_import_filename = 'system_importer_file_csv_testfile_06_empty.csv'
         # change config
-        set_csv_import_path(csv_import_path)
-        set_csv_import_filename(csv_import_filename)
+        set_csv_import_path(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/'))
+        # change config
+        set_csv_import_filename('system_importer_file_csv_testfile_06_empty.csv')
+
         # execute cron job / scheduled task
         system_cron()
         # login testuser
@@ -409,14 +414,13 @@ class SystemImporterFileCsvCheckConfigContentFileSystemViewTestCase(TestCase):
     def test_system_importer_file_csv_check_content_file_system_instant_file_empty(self):
         """ test importer view """
 
+        # change config
+        set_csv_import_path(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/'))
+        # change config
+        set_csv_import_filename('system_importer_file_csv_testfile_06_empty.csv')
+
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_content_file_system', password='mxsdGwJ2TINdQMq6rMNN')
-        # set file system attributes
-        csv_import_path = os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/')
-        csv_import_filename = 'system_importer_file_csv_testfile_06_empty.csv'
-        # change config
-        set_csv_import_path(csv_import_path)
-        set_csv_import_filename(csv_import_filename)
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # get response
