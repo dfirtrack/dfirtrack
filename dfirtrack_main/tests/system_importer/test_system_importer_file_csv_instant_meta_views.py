@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
-from dfirtrack_config.models import SystemImporterFileCsvConfigModel
+from dfirtrack_main.tests.system_importer.config_functions import set_csv_import_username
 import urllib.parse
 
 
@@ -15,9 +15,7 @@ class SystemImporterFileCsvInstantMetaViewTestCase(TestCase):
         test_user = User.objects.create_user(username='testuser_system_importer_file_csv_instant_meta', password='s996KrAi8M5Hev62lP7q')
 
         # change config
-        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
-        system_importer_file_csv_config_model.csv_import_username = test_user
-        system_importer_file_csv_config_model.save()
+        set_csv_import_username(test_user)
 
     def test_system_importer_file_csv_instant_meta_not_logged_in(self):
         """ test importer view """

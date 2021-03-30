@@ -1,8 +1,8 @@
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
-from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv import system_cron
+from dfirtrack_main.tests.system_importer.config_functions import set_csv_import_username
 import urllib.parse
 
 
@@ -17,10 +17,8 @@ class SystemImporterFileCsvCheckConfigCronUserViewTestCase(TestCase):
         User.objects.create_user(username='testuser_system_importer_file_csv_check_config_cron_user', password='gRknQm6WAhvUc8uzYhbe')
         User.objects.create_user(username='message_user', password='HmiOhvi5RNzrM8UAjy7v')
 
-        # set user in config
-        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
-        system_importer_file_csv_config_model.csv_import_username = None
-        system_importer_file_csv_config_model.save()
+        # change config
+        set_csv_import_username(None)
 
     def test_system_importer_file_csv_check_config_cron_user_create_cron_no_import_user(self):
         """ test importer view """

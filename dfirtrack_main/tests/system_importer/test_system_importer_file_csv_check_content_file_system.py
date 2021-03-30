@@ -3,9 +3,8 @@ from django.contrib.messages import get_messages
 from django.test import TestCase
 from django.utils import timezone
 from dfirtrack.settings import BASE_DIR
-from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv import system_cron
-from dfirtrack_main.tests.system_importer.config_functions import set_csv_import_filename, set_csv_import_path
+from dfirtrack_main.tests.system_importer.config_functions import set_csv_import_username, set_csv_import_filename, set_csv_import_path
 import os
 import urllib.parse
 
@@ -38,10 +37,8 @@ class SystemImporterFileCsvCheckConfigContentFileSystemViewTestCase(TestCase):
         test_user = User.objects.create_user(username='testuser_system_importer_file_csv_check_content_file_system', password='mxsdGwJ2TINdQMq6rMNN')
         User.objects.create_user(username='message_user', password='8LHVC5R5D1bdVBJk56xn')
 
-        # set user in config
-        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
-        system_importer_file_csv_config_model.csv_import_username = test_user
-        system_importer_file_csv_config_model.save()
+        # change config
+        set_csv_import_username(test_user)
 
     """ path not existing """
 
