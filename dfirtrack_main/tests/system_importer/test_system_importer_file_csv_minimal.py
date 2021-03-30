@@ -141,7 +141,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # build local path with test files
         set_csv_import_path(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/'))
 
-        # restore config
+        # change config
         system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
         system_importer_file_csv_config_model.csv_column_system = 1
         system_importer_file_csv_config_model.csv_skip_existing_system = True

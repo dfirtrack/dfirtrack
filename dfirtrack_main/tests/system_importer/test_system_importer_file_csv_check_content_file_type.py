@@ -2,9 +2,8 @@ from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
 from dfirtrack.settings import BASE_DIR
-from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv import system_cron
-from dfirtrack_main.tests.system_importer.config_functions import set_csv_import_filename, set_csv_import_path
+from dfirtrack_main.tests.system_importer.config_functions import set_csv_import_username, set_csv_import_filename, set_csv_import_path
 import os
 import urllib.parse
 
@@ -19,10 +18,8 @@ class SystemImporterFileCsvCheckContentFileTypeViewTestCase(TestCase):
         test_user = User.objects.create_user(username='testuser_system_importer_file_csv_check_content_file_type', password='3oKsgNPVdlmNPneLhdr9')
         User.objects.create_user(username='message_user', password='a3ZEI74fr0lmA3pSh96b')
 
-        # restore config
-        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
-        system_importer_file_csv_config_model.csv_import_username = test_user
-        system_importer_file_csv_config_model.save()
+        # change config
+        set_csv_import_username(test_user)
 
     def test_system_importer_file_csv_upload_post_no_file_submitted(self):
         """ test importer view """
