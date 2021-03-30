@@ -79,7 +79,7 @@ def systemsorted(request):
     request_user = request.user
 
     # call logger
-    debug_logger(str(request_user), " SYSTEM_EXPORTER_MARKDOWN_SYSTEMSORTED_BEGIN")
+    debug_logger(str(request_user), " SYSTEM_EXPORTER_MARKDOWN_SYSTEMSORTED_START")
 
     # check variables
     stop_exporter_markdown = check_config(request)

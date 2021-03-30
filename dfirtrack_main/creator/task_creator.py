@@ -43,7 +43,7 @@ def task_creator(request):
         })
 
         # call logger
-        debug_logger(str(request.user), " TASK_CREATOR_ENTERED")
+        debug_logger(str(request.user), ' TASK_CREATOR_ENTERED')
 
     return render(request, 'dfirtrack_main/task/task_creator.html', {'form': form})
 
@@ -51,7 +51,7 @@ def task_creator_async(request_post, request_user):
     """ function to create many tasks for many systems at once """
 
     # call logger
-    debug_logger(str(request_user), " TASK_CREATOR_BEGIN")
+    debug_logger(str(request_user), ' TASK_CREATOR_START')
 
     # extract tasknames (list results from request object via multiple choice field)
     tasknames = request_post.getlist('taskname')
@@ -116,18 +116,24 @@ def task_creator_async(request_post, request_user):
                 tasks_created_counter  += 1
 
                 # call logger
-                task.logger( str(request_user), " TASK_CREATOR_EXECUTED")
+                task.logger( str(request_user), ' TASK_CREATOR_EXECUTED')
 
-    """ call final messages """
+    """ finish system importer """
 
-    # finish message
-    message_user(request_user, 'Task creator finished', constants.SUCCESS)
-
-    # number message
-    message_user(request_user, str(tasks_created_counter) + ' tasks created for ' + str(system_tasks_created_counter) + ' systems.', constants.SUCCESS)
-
-    # call logger
-    info_logger(str(request_user), ' TASK_CREATOR_STATUS ' + 'tasks_created:' + str(tasks_created_counter) + '|systems_affected:' + str(system_tasks_created_counter))
+    # call final message
+    message_user(
+        request_user,
+        f'{tasks_created_counter} tasks created for {system_tasks_created_counter} systems.',
+        constants.SUCCESS
+    )
 
     # call logger
-    debug_logger(str(request_user), " TASK_CREATOR_END")
+    info_logger(
+        str(request_user),
+        f' TASK_CREATOR_STATUS'
+        f' tasks_created:{tasks_created_counter}'
+        f'|systems_affected:{system_tasks_created_counter}'
+    )
+
+    # call logger
+    debug_logger(str(request_user), ' TASK_CREATOR_END')

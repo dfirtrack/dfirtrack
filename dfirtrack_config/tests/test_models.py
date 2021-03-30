@@ -1,7 +1,7 @@
 from datetime import datetime
 from django.test import TestCase
 from django.utils import timezone
-from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel, MainConfigModel, SystemExporterMarkdownConfigModel, SystemExporterSpreadsheetCsvConfigModel, SystemExporterSpreadsheetXlsConfigModel, SystemImporterFileCsvConfigbasedConfigModel, SystemImporterFileCsvFormbasedConfigModel, Statushistory
+from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel, MainConfigModel, SystemExporterMarkdownConfigModel, SystemExporterSpreadsheetCsvConfigModel, SystemExporterSpreadsheetXlsConfigModel, SystemImporterFileCsvConfigModel, Statushistory
 from mock import patch
 
 class ConfigModelTestCase(TestCase):
@@ -52,21 +52,13 @@ class ConfigModelTestCase(TestCase):
         # compare
         self.assertEqual(str(system_exporter_spreadsheet_xls_config_model), 'SystemExporterSpreadsheetXlsConfig')
 
-    def test_system_importer_file_csv_configbased_config_model_string(self):
+    def test_system_importer_file_csv_config_model_string(self):
         """ test string representation """
 
         # get object
-        system_importer_file_csv_configbased_config_model = SystemImporterFileCsvConfigbasedConfigModel.objects.get(system_importer_file_csv_configbased_config_name = 'SystemImporterFileCsvConfigbasedConfig')
+        system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name = 'SystemImporterFileCsvConfig')
         # compare
-        self.assertEqual(str(system_importer_file_csv_configbased_config_model), 'SystemImporterFileCsvConfigbasedConfig')
-
-    def test_system_importer_file_csv_formbased_config_model_string(self):
-        """ test string representation """
-
-        # get object
-        system_importer_file_csv_formbased_config_model = SystemImporterFileCsvFormbasedConfigModel.objects.get(system_importer_file_csv_formbased_config_name = 'SystemImporterFileCsvFormbasedConfig')
-        # compare
-        self.assertEqual(str(system_importer_file_csv_formbased_config_model), 'SystemImporterFileCsvFormbasedConfig')
+        self.assertEqual(str(system_importer_file_csv_config_model), 'SystemImporterFileCsvConfig')
 
     def test_statushistory_model_string(self):
         """ test string representation """

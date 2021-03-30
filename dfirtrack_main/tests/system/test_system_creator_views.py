@@ -148,10 +148,9 @@ class SystemCreatorViewTestCase(TestCase):
         messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertEqual(str(messages[0]), 'System creator started')
-        self.assertEqual(str(messages[1]), 'System creator finished')
-        self.assertEqual(str(messages[2]), '3 systems were created.')
-        self.assertEqual(str(messages[3]), "1 system was skipped. ['system_creator_duplicate_system']")
-        self.assertEqual(str(messages[4]), '2 lines out of 6 lines were faulty (see log file for details).')
+        self.assertEqual(str(messages[1]), '3 systems were created / modified.')
+        self.assertEqual(str(messages[2]), "1 system was skipped. ['system_creator_duplicate_system']")
+        self.assertEqual(str(messages[3]), '2 lines out of 6 lines were faulty (see log file for details).')
 
     def test_system_creator_post_other_messages(self):
         """ test creator view """
@@ -172,6 +171,6 @@ class SystemCreatorViewTestCase(TestCase):
         # get messages
         messages = list(get_messages(response.wsgi_request))
         # compare
-        self.assertEqual(str(messages[2]), '1 system was created.')
-        self.assertEqual(str(messages[3]), "2 systems were skipped. ['system_creator_duplicate_system', 'system_creator_duplicate_system_2']")
-        self.assertEqual(str(messages[4]), '1 line out of 4 lines was faulty (see log file for details).')
+        self.assertEqual(str(messages[1]), '1 system was created / modified.')
+        self.assertEqual(str(messages[2]), "2 systems were skipped. ['system_creator_duplicate_system', 'system_creator_duplicate_system_2']")
+        self.assertEqual(str(messages[3]), '1 line out of 4 lines was faulty (see log file for details).')

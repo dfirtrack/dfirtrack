@@ -66,39 +66,58 @@
     <div class="row copy-false">
 
         <!-- system add button -->
-        <div class="col-2">
-            <a href="{% url 'system_create' %}" type="button" class="btn btn-light copy-false">
-                <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon right-distance copy-false" alt="icon">
-                Add system
-            </a>
+        <div class="col-1">
+            <div data-toggle="tooltip" data-placement="auto" title="Create single system.">
+                <a href="{% url 'system_create' %}" type="button" class="btn btn-light copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    Add system
+                </a>
+            </div>
+        </div>
+        <!-- placeholder -->
+        <div class="col-1">
         </div>
 
         <!-- system creator button -->
-        <div class="col-2">
-            <a href="{% url 'system_creator' %}" type="button" class="btn btn-light copy-false">
-                <img src="{% static 'dfirtrack_main/icons/box.svg' %}" class="icon right-distance copy-false" alt="icon">
-                Creator
-            </a>
+        <div class="col-1">
+            <div data-toggle="tooltip" data-placement="auto" title="Create many systems with same properties.">
+                <a href="{% url 'system_creator' %}" type="button" class="btn btn-light copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/box.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    Creator
+                </a>
+            </div>
+        </div>
+        <!-- placeholder -->
+        <div class="col-1">
         </div>
 
         <!-- system modificator button -->
-        <div class="col-2">
-            <a href="{% url 'system_modificator' %}" type="button" class="btn btn-light copy-false">
-                <img src="{% static 'dfirtrack_main/icons/box.svg' %}" class="icon right-distance copy-false" alt="icon">
-                Modificator
-            </a>
+        <div class="col-1">
+            <div data-toggle="tooltip" data-placement="auto" title="Modify properties for many systems.">
+                <a href="{% url 'system_modificator' %}" type="button" class="btn btn-light copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/box.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    Modificator
+                </a>
+            </div>
+        </div>
+        <!-- placeholder -->
+        <div class="col-1">
         </div>
 
-        <!-- system importer file csv form based button -->
+        <!-- system importer file csv button -->
         <div class="col-2 btn-group">
-            <a href="{% url 'system_importer_file_csv_form_based' %}" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/list.svg' %}" class="icon right-distance copy-false" alt="icon"> Form-based</a>
-            <button onclick="system_importer_file_csv_form_based_config_popup()" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/wrench.svg' %}" class="icon copy-false" alt="icon"> </a>
-        </div>
-
-        <!-- system importer file csv config based button -->
-        <div class="col-2 btn-group">
-            <a href="{% url 'system_importer_file_csv_config_based' %}" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/list.svg' %}" class="icon right-distance copy-false" alt="icon"> Config-based</a>
-            <button onclick="system_importer_file_csv_config_based_config_popup()" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/wrench.svg' %}" class="icon copy-false" alt="icon"> </a>
+            <div data-toggle="tooltip" data-placement="auto" title="Import CSV file via upload form.">
+                <a href="{% url 'system_importer_file_csv_upload' %}" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/data-transfer-upload.svg' %}" class="icon right-distance copy-false" alt="icon"> Import CSV</a>
+            </div>
+            <div data-toggle="tooltip" data-placement="auto" title="Immediately import CSV file from server file system.">
+                <a href="{% url 'system_importer_file_csv_instant' %}" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/loop-circular.svg' %}" class="icon right-distance copy-false" alt="icon"> </a>
+            </div>
+            <div data-toggle="tooltip" data-placement="auto" title="Create scheduled task to import CSV file from server file system.">
+                <a href="{% url 'system_importer_file_csv_cron' %}" type="button" target="_blank" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/clock.svg' %}" class="icon right-distance copy-false" alt="icon"> </a>
+            </div>
+            <div data-toggle="tooltip" data-placement="auto" title="Change settings for CSV file import.">
+                <button onclick="system_importer_file_csv_config_popup()" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/wrench.svg' %}" class="icon copy-false" alt="icon"> </a>
+            </div>
         </div>
 
     <!-- button row -->
@@ -125,22 +144,38 @@
 
         <!-- export CSV button -->
         <div class="col-2 btn-group">
-            <a href="{% url 'system_exporter_spreadsheet_csv' %}" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/list.svg' %}" class="icon right-distance copy-false" alt="icon">  Export CSV</a>
-            <a href="/admin/django_q/schedule/add/?name=system_spreadsheet_exporter_csv&func=dfirtrack_main.exporter.spreadsheet.csv.system_cron" target="_blank" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/clock.svg' %}" class="icon copy-false" alt="icon"></a>
-            <button onclick="system_exporter_spreadsheet_csv_config_popup()" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/wrench.svg' %}" class="icon copy-false" alt="icon"> </a>
+            <div data-toggle="tooltip" data-placement="auto" title="Immediately download systems as CSV file.">
+                <a href="{% url 'system_exporter_spreadsheet_csv' %}" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/data-transfer-download.svg' %}" class="icon right-distance copy-false" alt="icon">  Export CSV</a>
+            </div>
+            <div data-toggle="tooltip" data-placement="auto" title="Create scheduled task to export CSV file to server file system.">
+                <a href="/admin/django_q/schedule/add/?name=system_spreadsheet_exporter_csv&func=dfirtrack_main.exporter.spreadsheet.csv.system_cron" target="_blank" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/clock.svg' %}" class="icon copy-false" alt="icon"></a>
+            </div>
+            <div data-toggle="tooltip" data-placement="auto" title="Change settings for CSV file export.">
+                <button onclick="system_exporter_spreadsheet_csv_config_popup()" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/wrench.svg' %}" class="icon copy-false" alt="icon"> </a>
+            </div>
         </div>
 
         <!-- export XLS button -->
         <div class="col-4 btn-group">
-            <a href="{% url 'system_exporter_spreadsheet_xls' %}" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/spreadsheet.svg' %}" class="icon right-distance copy-false" alt="icon"> Export XLS</a>
-            <a href="/admin/django_q/schedule/add/?name=system_spreadsheet_exporter_xls&func=dfirtrack_main.exporter.spreadsheet.xls.system_cron" target="_blank" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/clock.svg' %}" class="icon copy-false" alt="icon"></a>
-            <button onclick="system_exporter_spreadsheet_xls_config_popup()" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/wrench.svg' %}" class="icon copy-false" alt="icon"> </a>
+            <div data-toggle="tooltip" data-placement="auto" title="Immediately download systems as XLS file.">
+                <a href="{% url 'system_exporter_spreadsheet_xls' %}" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/data-transfer-download.svg' %}" class="icon right-distance copy-false" alt="icon"> Export XLS</a>
+            </div>
+            <div data-toggle="tooltip" data-placement="auto" title="Create scheduled task to export XLS file to server file system.">
+                <a href="/admin/django_q/schedule/add/?name=system_spreadsheet_exporter_xls&func=dfirtrack_main.exporter.spreadsheet.xls.system_cron" target="_blank" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/clock.svg' %}" class="icon copy-false" alt="icon"></a>
+            </div>
+            <div data-toggle="tooltip" data-placement="auto" title="Change settings for XLS file export.">
+                <button onclick="system_exporter_spreadsheet_xls_config_popup()" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/wrench.svg' %}" class="icon copy-false" alt="icon"> </a>
+            </div>
         </div>
 
         <!-- export markdown button -->
         <div class="col-6 btn-group">
-            <a href="{% url 'system_exporter_markdown' %}" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/list-rich.svg' %}" class="icon right-distance copy-false" alt="icon"> Export markdown</a>
-            <button onclick="system_exporter_markdown_config_popup()" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/wrench.svg' %}" class="icon copy-false" alt="icon"> </a>
+            <div data-toggle="tooltip" data-placement="auto" title="Immediately export systems as markdown files to server file system.">
+                <a href="{% url 'system_exporter_markdown' %}" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/list-rich.svg' %}" class="icon right-distance copy-false" alt="icon"> Export markdown</a>
+            </div>
+            <div data-toggle="tooltip" data-placement="auto" title="Change settings for markdown export.">
+                <button onclick="system_exporter_markdown_config_popup()" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/wrench.svg' %}" class="icon copy-false" alt="icon"> </a>
+            </div>
         </div>
 
     <!-- button row -->

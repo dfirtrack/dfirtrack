@@ -185,5 +185,4 @@ class TagCreatorViewTestCase(TestCase):
         messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertEqual(str(messages[0]), 'Tag creator started')
-        self.assertEqual(str(messages[1]), 'Tag creator finished')
-        self.assertEqual(str(messages[2]), '9 tags created for 3 systems.')
+        self.assertEqual(str(messages[1]), '9 tags created for 3 systems.')
