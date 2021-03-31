@@ -161,10 +161,10 @@
     postgresql_config: "/etc/postgresql/10/main/pg_hba.conf"
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '18.04'
 
-- name: POSTGRESQL | Set path of config (Ubuntu 20.04)
+- name: POSTGRESQL | Set path of config (Ubuntu 20)
   set_fact:
     postgresql_config: "/etc/postgresql/12/main/pg_hba.conf"
-  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.04'
+  when: (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.04') or (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.10')
 
 - name: POSTGRESQL | Edit config for backup
   replace:
