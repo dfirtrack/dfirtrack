@@ -22,14 +22,18 @@ jobs:
 
     services:
       postgres:
-        image: postgres:9.5
+        image: postgres
         env:
           POSTGRES_USER: dfirtrack
           POSTGRES_PASSWORD: dfirtrack
           POSTGRES_DB: github_actions
         ports:
           - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
     - name: Checkout repository
