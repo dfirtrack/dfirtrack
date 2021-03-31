@@ -278,10 +278,9 @@ class SystemModificatorViewTestCase(TestCase):
         messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertEqual(str(messages[0]), 'System modificator started')
-        self.assertEqual(str(messages[1]), 'System modificator finished')
-        self.assertEqual(str(messages[2]), '1 system was modified.')
-        self.assertEqual(str(messages[3]), "1 system was skipped. ['system_modificator_double']")
-        self.assertEqual(str(messages[4]), '1 line out of 3 lines was faulty (see log file for details).')
+        self.assertEqual(str(messages[1]), '1 system was created / modified.')
+        self.assertEqual(str(messages[2]), "1 system was skipped. ['system_modificator_double']")
+        self.assertEqual(str(messages[3]), '1 line out of 3 lines was faulty (see log file for details).')
 
     def test_system_modificator_post_other_messages(self):
         """ test modificator view """
@@ -302,6 +301,6 @@ class SystemModificatorViewTestCase(TestCase):
         # get messages
         messages = list(get_messages(response.wsgi_request))
         # compare
-        self.assertEqual(str(messages[2]), '2 systems were modified.')
-        self.assertEqual(str(messages[3]), "2 systems were skipped. ['system_modificator_not_existent', 'system_modificator_double']")
-        self.assertEqual(str(messages[4]), '2 lines out of 6 lines were faulty (see log file for details).')
+        self.assertEqual(str(messages[1]), '2 systems were created / modified.')
+        self.assertEqual(str(messages[2]), "2 systems were skipped. ['system_modificator_not_existent', 'system_modificator_double']")
+        self.assertEqual(str(messages[3]), '2 lines out of 6 lines were faulty (see log file for details).')

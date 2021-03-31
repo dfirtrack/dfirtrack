@@ -17,7 +17,21 @@ $(document).ready( function () {
     $('#table_system').DataTable( {
         "pageLength": 25,
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-        "order": [[ 1, "asc" ]]
+        "order": [[ 1, "asc" ]],
+        "processing":true,
+        "serverSide":true,
+        "ajax": {
+            "type" : "GET",
+            "url": window.location.protocol+"//"+window.location.hostname+"/system/json/"
+        },
+        "columns": [
+            { "data": "system_id" },
+            { "data": "system_name" },
+            { "data": "systemstatus" },
+            { "data": "analysisstatus" },
+            { "data": "system_create_time" },
+            { "data": "system_modify_time" }
+        ]
     } );
     $('#table_system_task_done').DataTable( {
         "pageLength": 10,

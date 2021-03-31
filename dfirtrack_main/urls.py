@@ -6,7 +6,7 @@ from dfirtrack_main.creator import system_creator, tag_creator, task_creator
 from dfirtrack_main.exporter.spreadsheet import csv as spreadsheet_csv
 from dfirtrack_main.exporter.spreadsheet import xls
 from dfirtrack_main.exporter.markdown import markdown
-from dfirtrack_main.importer.file import csv_config_based, csv_form_based
+from dfirtrack_main.importer.file import csv as csv_importer
 from dfirtrack_main.modificator import system_modificator
 
 urlpatterns = [
@@ -114,13 +114,15 @@ urlpatterns = [
     path(r'system/<int:pk>/', system_views.SystemDetail.as_view(), name='system_detail'),
     path(r'system/add/', system_views.SystemCreate.as_view(), name='system_create'),
     path(r'system/<int:pk>/edit/', system_views.SystemUpdate.as_view(), name='system_update'),
+    path(r'system/json/', system_views.get_systems_json, name='system_json'),
 
     path(r'system/creator/', system_creator.system_creator, name='system_creator'),
     path(r'system/exporter/markdown/system/', markdown.system, name='system_exporter_markdown'),
     path(r'system/exporter/spreadsheet/csv/system/', spreadsheet_csv.system, name='system_exporter_spreadsheet_csv'),
     path(r'system/exporter/spreadsheet/xls/system/', xls.system, name='system_exporter_spreadsheet_xls'),
-    path(r'system/importer/file/csv/configbased/', csv_config_based.system, name='system_importer_file_csv_config_based'),
-    path(r'system/importer/file/csv/formbased/', csv_form_based.system, name='system_importer_file_csv_form_based'),
+    path(r'system/importer/file/csv/cron/', csv_importer.system_create_cron, name='system_importer_file_csv_cron'),
+    path(r'system/importer/file/csv/instant/', csv_importer.system_instant, name='system_importer_file_csv_instant'),
+    path(r'system/importer/file/csv/upload/', csv_importer.system_upload, name='system_importer_file_csv_upload'),
     path(r'system/modificator/', system_modificator.system_modificator, name='system_modificator'),
 
     path(r'systemstatus/', systemstatus_views.SystemstatusList.as_view(), name='systemstatus_list'),

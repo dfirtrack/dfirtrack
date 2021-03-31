@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -153,6 +154,7 @@ REST_FRAMEWORK = {
 'DEFAULT_AUTHENTICATION_CLASSES' : [
    'rest_framework.authentication.BasicAuthentication',
    'rest_framework.authentication.SessionAuthentication',
+    'dfirtrack_api.authentication.TokenAuthentication',
 ],
 'DEFAULT_PERMISSION_CLASSES': [
        'rest_framework.permissions.IsAuthenticated',
@@ -161,7 +163,7 @@ REST_FRAMEWORK = {
 
 # import local settings for development
 try:
-    from .local_settings import ALLOWED_HOSTS, DATABASES, DEBUG, STATIC_ROOT
+    from .local_settings import ALLOWED_HOSTS, DATA_UPLOAD_MAX_NUMBER_FIELDS, DATABASES, DEBUG, STATIC_ROOT
 
 except ImportError:     # coverage: ignore branch
     ''' default values for testing purposes '''
