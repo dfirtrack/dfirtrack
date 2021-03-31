@@ -161,18 +161,26 @@ REST_FRAMEWORK = {
    ],
 }
 
-# import local settings for development
+"""
+import local settings from local_settings
+use settings from this file in case of missing local settings
+try statements are splitted to avoid conflicts in case of missing values
+"""
+
+# ALLOWED_HOSTS
 try:
-    from .local_settings import ALLOWED_HOSTS, DATA_UPLOAD_MAX_NUMBER_FIELDS, DATABASES, DEBUG, STATIC_ROOT
+    from .local_settings import ALLOWED_HOSTS
 
 except ImportError:     # coverage: ignore branch
-    ''' default values for testing purposes '''
-
-    # change to True for debugging
-    DEBUG = False
 
     # add IP or FQDN if relevant
     ALLOWED_HOSTS = ['localhost']
+
+# DATABASES
+try:
+    from .local_settings import DATABASES
+
+except ImportError:     # coverage: ignore branch
 
     # Database - check environment variables for context
     if "CI" in os.environ:
@@ -195,5 +203,28 @@ except ImportError:     # coverage: ignore branch
                 'NAME': os.path.join(BASE_DIR, 'dfirtrack.sqlite3'),
             }
         }
+
+# DATA_UPLOAD_MAX_NUMBER_FIELDS
+try:
+    from .local_settings import DATA_UPLOAD_MAX_NUMBER_FIELDS
+
+except ImportError:     # coverage: ignore branch
+
+    DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000
+
+# DEBUG
+try:
+    from .local_settings import DEBUG
+
+except ImportError:     # coverage: ignore branch
+
+    # change to True for debugging
+    DEBUG = False
+
+# STATIC_ROOT
+try:
+    from .local_settings import STATIC_ROOT
+
+except ImportError:     # coverage: ignore branch
 
     STATIC_ROOT = '/var/www/html/static/'

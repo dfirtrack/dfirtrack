@@ -4,9 +4,6 @@ Django settings for DFIRTrack project provided with Ansible.
 These settings extend the defaul dfirtrack.settings.
 """
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-
 ALLOWED_HOSTS = ['{{ fqdn }}','localhost']
 
 DATABASES = {
@@ -20,6 +17,8 @@ DATABASES = {
     }
 }
 
-STATIC_ROOT = '{{ www_dir }}/static/'
+DEBUG = False
 
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000
+
+STATIC_ROOT = '{{ www_dir }}/static/'
