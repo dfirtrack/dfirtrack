@@ -158,7 +158,7 @@ class Migration(migrations.Migration):
                     csv_choice_company,
                     csv_remove_company,
                     csv_choice_tag,
-                    csv_remove_tag'
+                    csv_remove_tag,
                     csv_tag_prefix,
                     csv_tag_prefix_delimiter,
                     csv_field_delimiter,
@@ -205,7 +205,7 @@ class Migration(migrations.Migration):
                     0,
                     0,
                     0,
-                    'tag_remove_prefix'
+                    'tag_remove_prefix',
                     'AUTO',
                     'tag_prefix_underscore',
                     'field_comma',
