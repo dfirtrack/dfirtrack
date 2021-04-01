@@ -8,7 +8,7 @@ from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_main.forms import TaskForm
 from dfirtrack_main.logger.default_logger import debug_logger
-from dfirtrack_main.models import Task, Taskstatus
+from dfirtrack_main.models import Task, Taskpriority, Taskstatus
 
 class TaskList(LoginRequiredMixin, ListView):
     login_url = '/login'
@@ -58,17 +58,22 @@ class TaskCreate(LoginRequiredMixin, CreateView):
     template_name = 'dfirtrack_main/task/task_add.html'
 
     def get(self, request, *args, **kwargs):
+
+        # get id of first status objects sorted by name
+        taskpriority = Taskpriority.objects.order_by('taskpriority_name')[0].taskpriority_id
+        taskstatus = Taskstatus.objects.order_by('taskstatus_name')[0].taskstatus_id
+
         if 'system' in request.GET:
             system = request.GET['system']
             form = self.form_class(initial={
                 'system': system,
-                'taskpriority': 2,
-                'taskstatus': 1,
+                'taskpriority': taskpriority,
+                'taskstatus': taskstatus,
             })
         else:
             form = self.form_class(initial={
-                'taskpriority': 2,
-                'taskstatus': 1,
+                'taskpriority': taskpriority,
+                'taskstatus': taskstatus,
             })
         debug_logger(str(request.user), " TASK_ADD_ENTERED")
         return render(request, self.template_name, {'form': form})

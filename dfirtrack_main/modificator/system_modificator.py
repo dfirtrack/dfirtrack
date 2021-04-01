@@ -7,7 +7,7 @@ from django_q.tasks import async_task
 from dfirtrack_main.async_messages.system_messages import final_messages
 from dfirtrack_main.forms import SystemModificatorForm
 from dfirtrack_main.logger.default_logger import debug_logger, info_logger, warning_logger
-from dfirtrack_main.models import System, Tag, Company
+from dfirtrack_main.models import Analysisstatus, Company, System, Systemstatus, Tag
 
 
 @login_required(login_url="/login")
@@ -36,10 +36,17 @@ def system_modificator(request):
 
     # show empty form
     else:
+
+        # get id of first status objects sorted by name
+        systemstatus = Systemstatus.objects.order_by('systemstatus_name')[0].systemstatus_id
+        analysisstatus = Analysisstatus.objects.order_by('analysisstatus_name')[0].analysisstatus_id
+
         show_systemlist = bool(int(request.GET.get('systemlist', 0)))
+
+        # show empty form with default values for convenience and speed reasons
         form = SystemModificatorForm(initial={
-            'systemstatus': 2,
-            'analysisstatus': 1,
+            'systemstatus': systemstatus,
+            'analysisstatus': analysisstatus,
         }, use_system_charfield = show_systemlist)
 
         # call logger

@@ -9,7 +9,7 @@ from dfirtrack_artifacts.models import Artifact
 from dfirtrack_config.models import MainConfigModel
 from dfirtrack_main.forms import SystemForm, SystemNameForm
 from dfirtrack_main.logger.default_logger import debug_logger, warning_logger
-from dfirtrack_main.models import Ip, System
+from dfirtrack_main.models import Analysisstatus, Ip, System, Systemstatus
 from dfirtrack.settings import INSTALLED_APPS as installed_apps
 from django.http import  JsonResponse, HttpResponseForbidden
 from django.templatetags.static import static
@@ -75,10 +75,15 @@ class SystemCreate(LoginRequiredMixin, CreateView):
     template_name = 'dfirtrack_main/system/system_add.html'
 
     def get(self, request, *args, **kwargs):
+
+        # get id of first status objects sorted by name
+        systemstatus = Systemstatus.objects.order_by('systemstatus_name')[0].systemstatus_id
+        analysisstatus = Analysisstatus.objects.order_by('analysisstatus_name')[0].analysisstatus_id
+
         # show empty form with default values for convenience and speed reasons
         form = self.form_class(initial={
-            'systemstatus': 2,
-            'analysisstatus': 1,
+            'systemstatus': systemstatus,
+            'analysisstatus': analysisstatus,
         })
         # call logger
         debug_logger(str(request.user), " SYSTEM_ADD_ENTERED")

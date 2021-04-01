@@ -8,7 +8,7 @@ from django_q.tasks import async_task
 from dfirtrack_main.async_messages import message_user
 from dfirtrack_main.forms import TaskCreatorForm
 from dfirtrack_main.logger.default_logger import debug_logger, info_logger
-from dfirtrack_main.models import System, Taskname, Taskstatus
+from dfirtrack_main.models import System, Taskname, Taskpriority, Taskstatus
 
 
 @login_required(login_url="/login")
@@ -37,9 +37,14 @@ def task_creator(request):
 
     # show empty form
     else:
+
+        # get id of first status objects sorted by name
+        taskpriority = Taskpriority.objects.order_by('taskpriority_name')[0].taskpriority_id
+        taskstatus = Taskstatus.objects.order_by('taskstatus_name')[0].taskstatus_id
+
         form = TaskCreatorForm(initial={
-            'taskpriority': 2,
-            'taskstatus': 1,
+            'taskpriority': taskpriority,
+            'taskstatus': taskstatus,
         })
 
         # call logger
