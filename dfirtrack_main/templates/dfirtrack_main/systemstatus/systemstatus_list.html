@@ -41,6 +41,11 @@
         Systemstatus
     </div>
 
+    <!-- systems headline -->
+    <div class="col-1">
+        Systems
+    </div>
+
     <!-- systemstatus note headline -->
     <div class="col-8">
         Note
@@ -67,8 +72,13 @@
             {% endwith %}
         </div>
 
+        <!-- system -->
+        <div class="col-1">
+            {{ i.systemstatus.all|length }}
+        </div>
+
         <!-- systemstatus note -->
-        <div class="col-9">
+        <div class="col-8">
             {% if i.systemstatus_note %}
                 {{ i.systemstatus_note|linebreaks }}
             {% else %}

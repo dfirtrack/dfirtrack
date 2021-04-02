@@ -41,8 +41,13 @@
         Tag
     </div>
 
+    <!-- tag name headline -->
+    <div class="col-1">
+        Systems
+    </div>
+
     <!-- tag note headline -->
-    <div class="col-6">
+    <div class="col-5">
         Note
     </div>
 
@@ -79,8 +84,13 @@
             </a>
         </div>
 
+        <!-- tag id -->
+        <div class="col-1">
+            {{ i.system_set.all|length }}
+        </div>
+
         <!-- tag note -->
-        <div class="col-6">
+        <div class="col-5">
             {% if i.tag_note %}
                 {{ i.tag_note|linebreaks }}
             {% else %}
