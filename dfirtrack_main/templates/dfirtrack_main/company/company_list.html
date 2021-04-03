@@ -46,8 +46,13 @@
         Division
     </div>
 
+    <!-- syste headline -->
+    <div class="col-1">
+        Systems
+    </div>
+
     <!-- company note headline -->
-    <div class="col-6">
+    <div class="col-5">
         Note
     </div>
 
@@ -83,8 +88,13 @@
             {% endif %}
         </div>
 
+        <!-- system -->
+        <div class="col-1">
+            {{ i.system_set.all|length }}
+        </div>
+
         <!-- company note -->
-        <div class="col-6">
+        <div class="col-5">
             {% if i.company_note %}
                 {{ i.company_note|linebreaks }}
             {% else %}
