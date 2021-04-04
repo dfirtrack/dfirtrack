@@ -41,6 +41,11 @@
         Serviceprovider name
     </div>
 
+    <!-- system headline -->
+    <div class="col-1">
+        Systems
+    </div>
+
     <!-- serviceprovider note headline -->
     <div class="col-8">
         Note
@@ -68,8 +73,13 @@
             </a>
         </div>
 
+        <!-- system -->
+        <div class="col-1">
+            {{ i.system_set.all|length }}
+        </div>
+
         <!-- serviceprovider note -->
-        <div class="col-8">
+        <div class="col-7">
             {% if i.serviceprovider_note %}
                 {{ i.serviceprovider_note|linebreaks }}
             {% else %}

@@ -41,6 +41,11 @@
         Location name
     </div>
 
+    <!-- system headline -->
+    <div class="col-1">
+        Systems
+    </div>
+
     <!-- location note headline -->
     <div class="col-8">
         Note
@@ -67,8 +72,13 @@
             </a>
         </div>
 
+        <!-- system -->
+        <div class="col-1">
+            {{ i.system_set.all|length }}
+        </div>
+
         <!-- location note -->
-        <div class="col-8">
+        <div class="col-7">
             {% if i.location_note %}
                 {{ i.location_note|linebreaks }}
             {% else %}

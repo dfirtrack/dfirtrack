@@ -37,8 +37,13 @@
     </div>
 
     <!-- operating system name headline -->
-    <div class="col-10">
+    <div class="col-2">
         Operating system
+    </div>
+
+    <!-- system headline -->
+    <div class="col-1">
+        Systems
     </div>
 
 <!-- headlines -->
@@ -56,10 +61,15 @@
         </div>
 
         <!-- operating system name -->
-        <div class="col-10">
+        <div class="col-2">
             <a href="{{ i.get_absolute_url }}">
                 {{ i.os_name }}
             </a>
+        </div>
+
+        <!-- system -->
+        <div class="col-8">
+            {{ i.system_set.all|length }}
         </div>
 
         <!-- edit button -->

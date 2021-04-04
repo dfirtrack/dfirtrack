@@ -39,6 +39,11 @@
         Recommendation
     </div>
 
+    <!-- system headline -->
+    <div class="col-1">
+        Systems
+    </div>
+
     <!-- recommendation note -->
     <div class="col-8">
         Note
@@ -65,8 +70,13 @@
             </a>
         </div>
 
+        <!-- system -->
+        <div class="col-1">
+            {{ i.system_set.all|length }}
+        </div>
+
         <!-- recommendation note -->
-        <div class="col-8">
+        <div class="col-7">
             {% if i.recommendation_note %}
                 {{ i.recommendation_note|linebreaks }}
             {% else %}

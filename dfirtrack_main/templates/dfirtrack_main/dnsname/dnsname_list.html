@@ -46,6 +46,11 @@
         Domain
     </div>
 
+    <!-- system headline -->
+    <div class="col-1">
+        Systems
+    </div>
+
     <!-- dnsname note headline -->
     <div class="col-6">
         Note
@@ -83,8 +88,13 @@
             {% endif %}
         </div>
 
+        <!-- system -->
+        <div class="col-1">
+            {{ i.system_set.all|length }}
+        </div>
+
         <!-- dnsname note -->
-        <div class="col-6">
+        <div class="col-5">
             {% if i.dnsname_note %}
                 {{ i.dnsname_note|linebreaks }}
             {% else %}
