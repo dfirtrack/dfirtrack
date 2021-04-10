@@ -22,7 +22,7 @@ $(document).ready( function () {
         "serverSide":true,
         "ajax": {
             "type" : "GET",
-            "url": window.location.protocol+"//"+window.location.hostname+"/system/json/"
+            "url": window.location.protocol+"//"+window.location.hostname+(window.location.port ? ':'+location.port: '')+"/system/json/"
         },
         "columns": [
             { "data": "system_id" },
