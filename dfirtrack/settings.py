@@ -69,6 +69,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'dfirtrack.wsgi.application'
 
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # Password validation
 
