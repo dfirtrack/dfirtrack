@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class LandingpageConfig(AppConfig):
-    name = 'landingpage'
+class DfirtrackMainConfig(AppConfig):
+    name = 'dfirtrack_main'
