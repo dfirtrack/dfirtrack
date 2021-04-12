@@ -46,6 +46,24 @@ class MainConfigModel(models.Model):
     cron_export_path = models.CharField(max_length=4096, default='/tmp')
     cron_username = models.CharField(max_length=255, default='cron')
 
+    MAIN_OVERVIEW_ARTIFACT = 'main_overview_artifact'
+    MAIN_OVERVIEW_CASE = 'main_overview_case'
+    MAIN_OVERVIEW_SYSTEM = 'main_overview_system'
+    MAIN_OVERVIEW_TAG = 'main_overview_tag'
+    MAIN_OVERVIEW_TASK = 'main_overview_task'
+    MAIN_OVERVIEW_CHOICES = [
+        (MAIN_OVERVIEW_ARTIFACT, 'Artifact'),
+        (MAIN_OVERVIEW_CASE, 'Case'),
+        (MAIN_OVERVIEW_SYSTEM, 'System'),
+        (MAIN_OVERVIEW_TAG, 'Tag'),
+        (MAIN_OVERVIEW_TASK, 'Task'),
+    ]
+    main_overview = models.CharField(
+        max_length = 50,
+        choices = MAIN_OVERVIEW_CHOICES,
+        default = MAIN_OVERVIEW_SYSTEM,
+    )
+
     # string representation
     def __str__(self):
         return self.main_config_name
