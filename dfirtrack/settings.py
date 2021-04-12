@@ -106,6 +106,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# TODO: change to something like 'reverse()' to prevent redundant code
 LOGIN_REDIRECT_URL = '/system/'
 
 LOGGING = {

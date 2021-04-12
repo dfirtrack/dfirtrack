@@ -1,9 +1,12 @@
-from django.urls import include, re_path
 from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.views import LoginView, LogoutView
+from django.urls import include, path, re_path
 from dfirtrack import views
+from dfirtrack.config import MAIN_OVERVIEW as main_overview
+from dfirtrack_artifacts.views import artifact_view
+from dfirtrack_main.views import system_views, case_views, tag_views, task_views
 
 urlpatterns = [
     re_path(r'^$', views.login_redirect, name='login_redirect'),
@@ -18,4 +21,37 @@ urlpatterns = [
 if 'dfirtrack_api' in settings.INSTALLED_APPS:
     urlpatterns += [
         re_path(r'^api/', include('dfirtrack_api.urls')),
+    ]
+
+# TODO: change to something like 'reverse()' to prevent redundant code
+
+# system
+if main_overview == 'system':
+    urlpatterns += [
+        path('system/', system_views.SystemList.as_view(), name='main_overview'),
+    ]
+# artifact
+elif main_overview == 'artifact' and 'dfirtrack_artifacts' in settings.INSTALLED_APPS:
+    urlpatterns += [
+        re_path(r'artifacts/artfiact/', artifact_view.ArtifactListView.as_view(), name='main_overview'),
+    ]
+# case
+elif main_overview == 'case':
+    urlpatterns += [
+        re_path(r'case/', case_views.CaseList.as_view(), name='main_overview'),
+    ]
+# tag
+elif main_overview == 'tag':
+    urlpatterns += [
+        re_path(r'tag/', tag_views.TagList.as_view(), name='main_overview'),
+    ]
+# task
+elif main_overview == 'task':
+    urlpatterns += [
+        re_path(r'task/', task_views.TaskStart.as_view(), name='main_overview'),
+    ]
+# catch-up pattern
+else:
+    urlpatterns += [
+        re_path(r'system/', system_views.SystemList.as_view(), name='main_overview'),
     ]
