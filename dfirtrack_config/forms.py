@@ -99,6 +99,7 @@ class MainConfigForm(forms.ModelForm):
         # this HTML forms are shown
         fields = (
             'system_name_editable',
+            'main_overview',
             'artifactstatus_open',
             'artifactstatus_requested',
             'artifactstatus_acquisition',
@@ -108,7 +109,8 @@ class MainConfigForm(forms.ModelForm):
         )
 
         labels = {
-            'system_name_editable': 'Make system name editable',
+            'system_name_editable': 'Make system name editable (may require service restart)',
+            'main_overview': 'Main overview page (may require service restart)',
             'statushistory_entry_numbers': 'Show only this number of last statushistory entries',
             'cron_export_path': 'Export files created by scheduled tasks to this path',
             'cron_username': 'Use this username for scheduled tasks (just for logging, does not have to exist)',

@@ -124,7 +124,15 @@
 
                 <!-- nav bar item -->
                 <li class="nav-item">
-                    <a class="nav-link active" href="{% url 'system_list' %}">
+                    <a class="nav-link active" href="{% url 'main_overview' %}" style="background-color: white; color: black;">
+                        <img src="{% static 'dfirtrack_main/icons/home.svg' %}" class="icon right-distance copy-false" alt="icon">
+                        Main overview
+                    </a>
+                </li>
+
+                <!-- nav bar item -->
+                <li class="nav-item">
+                    <a class="nav-link active top-distance" href="{% url 'system_list' %}">
                         <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                         Systems
                     </a>

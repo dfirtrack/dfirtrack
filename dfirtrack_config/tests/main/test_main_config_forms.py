@@ -16,7 +16,15 @@ class MainConfigFormTestCase(TestCase):
         # get object
         form = MainConfigForm()
         # compare
-        self.assertEqual(form.fields['system_name_editable'].label, 'Make system name editable')
+        self.assertEqual(form.fields['system_name_editable'].label, 'Make system name editable (may require service restart)')
+
+    def test_main_config_main_overview_form_label(self):
+        """ test form label """
+
+        # get object
+        form = MainConfigForm()
+        # compare
+        self.assertEqual(form.fields['main_overview'].label, 'Main overview page (may require service restart)')
 
     def test_main_config_artifactstatus_form_label(self):
         """ test form label """
@@ -75,13 +83,26 @@ class MainConfigFormTestCase(TestCase):
         self.assertFalse(form.is_valid())
 
     def test_main_config_form_cron_username_filled(self):
-        """ test minimum form requirements / VALID """
+        """ test minimum form requirements / INVALID """
 
         # get object
         form = MainConfigForm(data = {
             'statushistory_entry_numbers': 7,
             'cron_export_path': '/tmp',
             'cron_username': 'cron',
+        })
+        # compare
+        self.assertFalse(form.is_valid())
+
+    def test_main_config_form_main_overview_filled(self):
+        """ test minimum form requirements / VALID """
+
+        # get object
+        form = MainConfigForm(data = {
+            'statushistory_entry_numbers': 8,
+            'cron_export_path': '/tmp',
+            'cron_username': 'cron',
+            'main_overview': 'main_overview_system',
         })
         # compare
         self.assertTrue(form.is_valid())
@@ -101,6 +122,7 @@ class MainConfigFormTestCase(TestCase):
             'statushistory_entry_numbers': 6,
             'cron_export_path': '/tmp',
             'cron_username': 'cron',
+            'main_overview': 'main_overview_system',
             'artifactstatus_requested': [artifactstatus_1, artifactstatus_2, artifactstatus_3,],
             'artifactstatus_acquisition': [artifactstatus_4, artifactstatus_5, artifactstatus_6,],
         })
@@ -121,6 +143,7 @@ class MainConfigFormTestCase(TestCase):
             'statushistory_entry_numbers': 5,
             'cron_export_path': '/tmp',
             'cron_username': 'cron',
+            'main_overview': 'main_overview_system',
             'artifactstatus_requested': [artifactstatus_1, artifactstatus_2, artifactstatus_3,],
             'artifactstatus_acquisition': [artifactstatus_3, artifactstatus_4, artifactstatus_5,],
         })
