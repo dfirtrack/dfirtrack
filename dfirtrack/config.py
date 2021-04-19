@@ -15,5 +15,3 @@ LOGGING_PATH = expanduser('~')
 
 ## folder to store artifacts on DFIRTrack server (used in `dfirtrack_artifacs.models` and `dfirtrack_main.models`)
 EVIDENCE_PATH = expanduser('~') + '/dfirtrack_artifact_storage'
-
-MAIN_OVERVIEW = 'system'
