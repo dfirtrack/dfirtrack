@@ -20,7 +20,7 @@ def main_overview_redirect(request):
     if model.main_overview == 'main_overview_system':
         return redirect(reverse('system_list'))
     # artifact
-    elif model.main_overview == 'main_overview_artifact' and 'dfirtrack_artifacts' in settings.INSTALLED_APPS:
+    elif model.main_overview == 'main_overview_artifact':
         return redirect(reverse('artifacts_artifact_list'))
     # case
     elif model.main_overview == 'main_overview_case':
