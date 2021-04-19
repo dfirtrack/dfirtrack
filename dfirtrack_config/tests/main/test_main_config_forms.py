@@ -24,7 +24,7 @@ class MainConfigFormTestCase(TestCase):
         # get object
         form = MainConfigForm()
         # compare
-        self.assertEqual(form.fields['main_overview'].label, 'Main overview page (may require service restart)')
+        self.assertEqual(form.fields['main_overview'].label, 'Main overview page')
 
     def test_main_config_artifactstatus_form_label(self):
         """ test form label """
