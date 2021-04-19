@@ -2,6 +2,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.views import LoginView, LogoutView
+from django.db.utils import ProgrammingError
 from django.urls import include, path, re_path
 from dfirtrack import views
 from dfirtrack_config.models import MainConfigModel
@@ -23,38 +24,51 @@ if 'dfirtrack_api' in settings.INSTALLED_APPS:
         re_path(r'^api/', include('dfirtrack_api.urls')),
     ]
 
-# get config
-model = MainConfigModel.objects.get(main_config_name='MainConfig')
+# TODO: change this design to something more sustainable
 
-# TODO: change to something like 'reverse()' to prevent redundant code
+# Django setup builds URLs before populating database
+# so this is needed for initial migration
+try:
+    # get config
+    model = MainConfigModel.objects.get(main_config_name='MainConfig')
 
-# system
-if model.main_overview == 'main_overview_system':
-    urlpatterns += [
-        path('system/', system_views.SystemList.as_view(), name='main_overview'),
-    ]
-# artifact
-elif model.main_overview == 'main_overview_artifact' and 'dfirtrack_artifacts' in settings.INSTALLED_APPS:
-    urlpatterns += [
-        re_path(r'artifacts/artfiact/', artifact_view.ArtifactListView.as_view(), name='main_overview'),
-    ]
-# case
-elif model.main_overview == 'main_overview_case':
-    urlpatterns += [
-        re_path(r'case/', case_views.CaseList.as_view(), name='main_overview'),
-    ]
-# tag
-elif model.main_overview == 'main_overview_tag':
-    urlpatterns += [
-        re_path(r'tag/', tag_views.TagList.as_view(), name='main_overview'),
-    ]
-# task
-elif model.main_overview == 'main_overview_task':
-    urlpatterns += [
-        re_path(r'task/', task_views.TaskStart.as_view(), name='main_overview'),
-    ]
-# catch-up pattern
-else:
+    # TODO: change to something like 'reverse()' to prevent redundant code
+
+    # system
+    if model.main_overview == 'main_overview_system':
+        urlpatterns += [
+            path('system/', system_views.SystemList.as_view(), name='main_overview'),
+        ]
+    # artifact
+    elif model.main_overview == 'main_overview_artifact' and 'dfirtrack_artifacts' in settings.INSTALLED_APPS:
+        urlpatterns += [
+            re_path(r'artifacts/artfiact/', artifact_view.ArtifactListView.as_view(), name='main_overview'),
+        ]
+    # case
+    elif model.main_overview == 'main_overview_case':
+        urlpatterns += [
+            re_path(r'case/', case_views.CaseList.as_view(), name='main_overview'),
+        ]
+    # tag
+    elif model.main_overview == 'main_overview_tag':
+        urlpatterns += [
+            re_path(r'tag/', tag_views.TagList.as_view(), name='main_overview'),
+        ]
+    # task
+    elif model.main_overview == 'main_overview_task':
+        urlpatterns += [
+            re_path(r'task/', task_views.TaskStart.as_view(), name='main_overview'),
+        ]
+    # catch-up pattern
+    else:
+        urlpatterns += [
+            re_path(r'system/', system_views.SystemList.as_view(), name='main_overview'),
+        ]
+
+# database not available before first migrations
+except ProgrammingError:
+
+    # catch-up pattern
     urlpatterns += [
         re_path(r'system/', system_views.SystemList.as_view(), name='main_overview'),
     ]
