@@ -106,6 +106,117 @@ class Case(models.Model):
     def get_update_url(self):
         return reverse('case_update', args=(self.pk,))
 
+class Casepriority(models.Model):
+
+    # primary key
+    casepriority_id = models.AutoField(primary_key=True)
+
+    # main entity information
+    casepriority_name = models.CharField(max_length=255, unique=True)
+    casepriority_note = models.TextField(blank=True, null=True)
+    casepriority_slug = models.CharField(max_length=255, unique=True)
+
+    class Meta:
+        ordering = ('casepriority_id',)
+
+    # string representation
+    def __str__(self):
+        return self.casepriority_name
+
+    # define logger
+    def logger(casepriority, request_user, log_text):
+        stdlogger.info(
+            request_user +
+            log_text +
+            " casepriority_id:" + str(casepriority.casepriority_id) +
+            "|casepriority_name:" + str(casepriority.casepriority_name) +
+            "|casepriority_note:" + str(casepriority.casepriority_note) +
+            "|casepriority_slug:" + str(casepriority.casepriority_slug)
+        )
+
+    def save(self, *args, **kwargs):
+        # generate slug
+        self.casepriority_slug = slugify(self.casepriority_name)
+        return super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('casepriority_detail', args=(self.pk,))
+
+class Casestatus(models.Model):
+
+    # primary key
+    casestatus_id = models.AutoField(primary_key=True)
+
+    # main entity information
+    casestatus_name = models.CharField(max_length=255, unique=True)
+    casestatus_note = models.TextField(blank=True, null=True)
+    casestatus_slug = models.CharField(max_length=255, unique=True)
+
+    class Meta:
+        ordering = ('casestatus_id',)
+
+    # string representation
+    def __str__(self):
+        return self.casestatus_name
+
+    # define logger
+    def logger(casestatus, request_user, log_text):
+        stdlogger.info(
+            request_user +
+            log_text +
+            " casestatus_id:" + str(casestatus.casestatus_id) +
+            "|casestatus_name:" + str(casestatus.casestatus_name) +
+            "|casestatus_note:" + str(casestatus.casestatus_note) +
+            "|casestatus_slug:" + str(casestatus.casestatus_slug)
+        )
+
+    def save(self, *args, **kwargs):
+        # generate slug
+        self.casestatus_slug = slugify(self.casestatus_name)
+        return super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('casestatus_detail', args=(self.pk,))
+
+class Casetype(models.Model):
+
+    # primary key
+    casetype_id = models.AutoField(primary_key=True)
+
+    # main entity information
+    casetype_name = models.CharField(max_length=255, unique=True)
+    casetype_note = models.TextField(blank=True, null=True)
+    casetype_slug = models.CharField(max_length=255, unique=True)
+
+    class Meta:
+        ordering = ('casetype_id',)
+
+    # string representation
+    def __str__(self):
+        return self.casetype_name
+
+    # define logger
+    def logger(casetype, request_user, log_text):
+        stdlogger.info(
+            request_user +
+            log_text +
+            " casetype_id:" + str(casetype.casetype_id) +
+            "|casetype_name:" + str(casetype.casetype_name) +
+            "|casetype_note:" + str(casetype.casetype_note) +
+            "|casetype_slug:" + str(casetype.casetype_slug)
+        )
+
+    def get_absolute_url(self):
+        return reverse('cases_casetype_detail', args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse('casetype_update', args=(self.pk,))
+
+    def save(self, *args, **kwargs):
+        # generate slug
+        self.casetype_slug = slugify(self.casetype_name)
+        return super().save(*args, **kwargs)
+
 class Company(models.Model):
 
     # primary key
