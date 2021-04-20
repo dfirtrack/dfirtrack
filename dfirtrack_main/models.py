@@ -78,13 +78,26 @@ class Case(models.Model):
     # primary key
     case_id = models.AutoField(primary_key=True)
 
+    # foreign key(s)
+    casepriority = models.ForeignKey('Casepriority', on_delete=models.PROTECT, default=2)
+    casestatus = models.ForeignKey('Casestatus', on_delete=models.PROTECT, default=1)
+    casetype = models.ForeignKey('Casetype', on_delete=models.PROTECT, blank=True, null=True)
+
     # main entity information
+    case_id_external = models.CharField(max_length=50, blank=True, null=True, unique=True)
     case_name = models.CharField(max_length=50, unique=True)
     case_is_incident = models.BooleanField()
+    case_note_analysisresult = models.TextField(blank=True, null=True)
+    case_note_external = models.TextField(blank=True, null=True)
+    case_note_internal = models.TextField(blank=True, null=True)
+    case_start_time = models.DateTimeField(blank=True, null=True)
+    case_end_time = models.DateTimeField(blank=True, null=True)
 
     # meta information
     case_create_time = models.DateTimeField(auto_now_add=True)
+    case_modify_time = models.DateTimeField(auto_now=True)
     case_created_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='case_created_by')
+    case_modified_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='case_modified_by', null=True)
 
     # string representation
     def __str__(self):
@@ -96,8 +109,17 @@ class Case(models.Model):
             request_user +
             log_text +
             " case_id:" + str(case.case_id) +
+            "|case_id_external:" + str(case.case_id_external) +
             "|case_name:" + str(case.case_name) +
-            "|case_is_incident:" + str(case.case_is_incident)
+            "|case_is_incident:" + str(case.case_is_incident) +
+            "|case_note_analysisresult:" + str(case.case_note_analysisresult) +
+            "|case_note_external:" + str(case.case_note_external) +
+            "|case_note_internal:" + str(case.case_note_internal) +
+            "|case_start_time:" + str(case.case_start_time) +
+            "|case_end_time:" + str(case.case_end_time) +
+            "|casepriority:" + str(case.casepriority.casepriority_name) +
+            "|casestatus:" + str(case.casestatus.casestatus_name) +
+            "|casetype:" + str(case.casetype.casetype_name)
         )
 
     def get_absolute_url(self):
