@@ -1,0 +1,137 @@
+<!-- extending maintemplate -->
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+<!-- HTML head in maintemplate -->
+{% block head %}
+
+<!-- page title -->
+<title>
+    Casetype '{{ casetype.casetype_name }}'{% if casetype.case_set.all %} (a: {{ casetype.case_set.all|length }}){% endif %}
+</title>
+
+<!-- javascript and CSS for datatables -->
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.css' %}"/>
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.js' %}"></script>
+
+<!-- HTML head in maintemplate -->
+{% endblock %}
+
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
+{% block content %}
+
+<!-- up button -->
+<div class="row bottom-distance">
+    <div class="col-3">
+        <a href="{% url 'casetype_list' %}" type="button" class="btn btn-light copy-false">
+            <img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Up to casetype
+        </a>
+    </div>
+</div>
+
+<!-- javascript for copy button -->
+<script>
+    var clipboard = new ClipboardJS('.btn');
+</script>
+
+<!-- casetype name row -->
+<div class="row">
+
+    <!-- casetype name -->
+    <div class="col-3">
+        <h5>
+            Casetype "{{ casetype.casetype_name }}"
+        </h5>
+    </div>
+
+<!-- casetype name row -->
+</div>
+
+<!-- casetype id -->
+<div class="row bottom-distance">
+    <div class="col-3">
+        <small class="text-muted">
+            Casetype-ID: {{ casetype.casetype_id }}
+        </small>
+    </div>
+</div>
+
+<!-- casetype note headline -->
+<div class="row">
+    <div class="col-3">
+        <h5>
+            Note
+        </h5>
+    </div>
+</div>
+
+<!-- casetype note -->
+<div class="row bottom-distance">
+    <div class="col">
+        {% if casetype.casetype_note %}
+            {{ casetype.casetype_note|linebreaks }}
+        {% else %}
+            ---
+        {% endif %}
+    </div>
+</div>
+
+<!-- case headline -->
+<div class="row">
+    <div class="col-6">
+        <h5>
+            Cases of this type{% if casetype.case_set.all %} ({{ casetype.case_set.all|length }}){% endif %}
+        </h5>
+    </div>
+</div>
+
+<!-- cases -->
+{% if casetype.case_set.all %}
+
+    <!-- datatable case -->
+    <table id="table_case" class="display" width="100%">
+
+        <!-- table head -->
+        <thead>
+            {% include "dfirtrack_main/includes/datatable_thead_table_case.html" %}
+        </thead>
+
+        <!-- table body -->
+        <tbody>
+            {% for i in casetype.case_set.all %}
+                {% include "dfirtrack_main/includes/datatable_tbody_table_case.html" %}
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+    <!-- javascript for datatables -->
+    <script src="{% static 'dfirtrack_main/datatables_cases.js' %}"></script>
+
+<!-- no cases -->
+{% else %}
+<div class="row top-distance">
+    <div class="col-3">
+        ---
+    </div>
+</div>
+
+<!-- cases -->
+{% endif %}
+
+<!-- edit button -->
+<a href="{{ casetype.get_update_url }}" type="button" class="btn btn-light top-distance copy-false">
+    <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon right-distance copy-false" alt="icon">
+    Edit
+</a>
+
+<!-- javascript for datatables -->
+{% block datatables %}
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.js' %}"></script>
+{% endblock %}
+
+<!-- HTML body in maintemplate -->
+{% endblock %}

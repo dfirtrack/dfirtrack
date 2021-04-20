@@ -2,7 +2,35 @@ from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy
-from dfirtrack_main.models import Analysisstatus, Analystmemo, Case, Company, Contact, Division, Dnsname, Domain, Domainuser, Entry, Headline, Location, Os, Osimportname, Reason, Recommendation, Reportitem, Serviceprovider, System, Systemstatus, Systemtype, Systemuser, Tag, Tagcolor, Task, Taskname, Taskpriority, Taskstatus
+from dfirtrack_main.models import Analysisstatus
+from dfirtrack_main.models import Analystmemo
+from dfirtrack_main.models import Case
+from dfirtrack_main.models import Casetype
+from dfirtrack_main.models import Company
+from dfirtrack_main.models import Contact
+from dfirtrack_main.models import Division
+from dfirtrack_main.models import Dnsname
+from dfirtrack_main.models import Domain
+from dfirtrack_main.models import Domainuser
+from dfirtrack_main.models import Entry
+from dfirtrack_main.models import Headline
+from dfirtrack_main.models import Location
+from dfirtrack_main.models import Os
+from dfirtrack_main.models import Osimportname
+from dfirtrack_main.models import Reason
+from dfirtrack_main.models import Recommendation
+from dfirtrack_main.models import Reportitem
+from dfirtrack_main.models import Serviceprovider
+from dfirtrack_main.models import System
+from dfirtrack_main.models import Systemstatus
+from dfirtrack_main.models import Systemtype
+from dfirtrack_main.models import Systemuser
+from dfirtrack_main.models import Tag
+from dfirtrack_main.models import Tagcolor
+from dfirtrack_main.models import Task
+from dfirtrack_main.models import Taskname
+from dfirtrack_main.models import Taskpriority
+from dfirtrack_main.models import Taskstatus
 
 
 # inherit from this class if you want to use the ModelMultipleChoiceField with the FilteredSelectMultiple widget
@@ -65,6 +93,29 @@ class CaseForm(forms.ModelForm):
         # special form type or option
         widgets = {
             'case_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
+        }
+
+class CasetypeForm(forms.ModelForm):
+
+    class Meta:
+
+        # model
+        model = Casetype
+
+        # this HTML forms are shown
+        fields = [
+            'casetype_name',
+            'casetype_note',
+        ]
+
+        # non default form labeling
+        labels = {
+            'casetype_name': gettext_lazy('Casetype name (*)'),
+        }
+
+        # special form type or option
+        widgets = {
+            'casetype_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
         }
 
 class CompanyForm(forms.ModelForm):

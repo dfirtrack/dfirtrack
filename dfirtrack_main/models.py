@@ -230,7 +230,7 @@ class Casetype(models.Model):
         )
 
     def get_absolute_url(self):
-        return reverse('cases_casetype_detail', args=(self.pk,))
+        return reverse('casetype_detail', args=(self.pk,))
 
     def get_update_url(self):
         return reverse('casetype_update', args=(self.pk,))
