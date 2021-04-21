@@ -106,6 +106,21 @@ class Case(models.Model):
 
     # define logger
     def logger(case, request_user, log_text):
+
+        if case.case_start_time != None:
+            # cast datetime object to string
+            starttime = case.case_start_time.strftime('%Y-%m-%d %H:%M:%S')
+        else:
+            # else set default string
+            starttime = 'None'
+
+        if case.case_end_time != None:
+            # cast datetime object to string
+            endtime = case.case_end_time.strftime('%Y-%m-%d %H:%M:%S')
+        else:
+            # else set default string
+            endtime = 'None'
+
         stdlogger.info(
             request_user +
             log_text +
@@ -116,11 +131,11 @@ class Case(models.Model):
             "|case_note_analysisresult:" + str(case.case_note_analysisresult) +
             "|case_note_external:" + str(case.case_note_external) +
             "|case_note_internal:" + str(case.case_note_internal) +
-            "|case_start_time:" + str(case.case_start_time) +
-            "|case_end_time:" + str(case.case_end_time) +
-            "|casepriority:" + str(case.casepriority.casepriority_name) +
-            "|casestatus:" + str(case.casestatus.casestatus_name) +
-            "|casetype:" + str(case.casetype.casetype_name)
+            "|case_start_time:" + starttime +
+            "|case_end_time:" + endtime +
+            "|casepriority:" + str(case.casepriority) +
+            "|casestatus:" + str(case.casestatus) +
+            "|casetype:" + str(case.casetype)
         )
 
     def get_absolute_url(self):

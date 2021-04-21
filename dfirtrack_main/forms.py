@@ -81,13 +81,29 @@ class CaseForm(forms.ModelForm):
 
         # this HTML forms are shown
         fields = (
+            'case_id_external',
             'case_name',
             'case_is_incident',
+            'case_note_analysisresult',
+            'case_note_external',
+            'case_note_internal',
+            'case_start_time',
+            'case_end_time',
+            'casepriority',
+            'casestatus',
+            'casetype',
         )
 
         # non default form labeling
         labels = {
+            'case_id_external': gettext_lazy('Case external ID'),
             'case_name': gettext_lazy('Case name (*)'),
+            'case_is_incident': gettext_lazy('Is incident'),
+            'case_note_analysisresult': gettext_lazy('Analysis result'),
+            'case_note_external': gettext_lazy('External note'),
+            'case_note_internal': gettext_lazy('Internal note'),
+            'casepriority': gettext_lazy('Casepriority (*)'),
+            'casestatus': gettext_lazy('Casestatus (*)'),
         }
 
         # special form type or option

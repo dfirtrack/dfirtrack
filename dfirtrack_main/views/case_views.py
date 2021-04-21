@@ -56,6 +56,7 @@ class CaseCreate(LoginRequiredMixin, CreateView):
         if form.is_valid():
             case = form.save(commit=False)
             case.case_created_by_user_id = request.user
+            case.case_modified_by_user_id = request.user
             case.save()
             case.logger(str(request.user), " CASE_ADD_EXECUTED")
             messages.success(request, 'Case added')
@@ -80,7 +81,7 @@ class CaseUpdate(LoginRequiredMixin, UpdateView):
         form = self.form_class(request.POST, instance=case)
         if form.is_valid():
             case = form.save(commit=False)
-            case.case_created_by_user_id = request.user
+            case.case_modified_by_user_id = request.user
             case.save()
             case.logger(str(request.user), " CASE_EDIT_EXECUTED")
             messages.success(request, 'Case edited')
