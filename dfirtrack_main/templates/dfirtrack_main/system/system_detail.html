@@ -204,6 +204,7 @@
 
     <!-- tags -->
     <div class="col-6">
+        <div class="font-weight-bold">Tags</div>
         {% if system.tag.all %}
             {% for i in system.tag.all %}
                 <!-- tooltip with tag note -->
@@ -220,15 +221,18 @@
                     </a>
                 </span>
             {% endfor %}
+        {% else %}
+            ---
         {% endif %}
     </div>
 
     <!-- cases -->
     <div class="col-6">
-        <div class="font-weight-bold">Cases:</div>
+        <div class="font-weight-bold">Cases</div>
         {% if system.case.all %}
             {% for i in system.case.all %}
-                <a href="{{ i.get_absolute_url }}">
+                <a href="{{ i.get_absolute_url }}" type="button" class="btn btn-primary btn-sm bottom-left top-right top-distance copy-true">
+                    <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                     {{ i }}
                 </a>
             {% endfor %}

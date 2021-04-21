@@ -91,6 +91,14 @@
     border-radius: 0px;
 }
 
+.btn.bottom-left {
+    border-bottom-left-radius: 15px;
+}
+
+.btn.bottom-left-lg {
+    border-bottom-left-radius: 25px;
+}
+
 .btn.top-right {
     border-top-right-radius: 15px;
 }
