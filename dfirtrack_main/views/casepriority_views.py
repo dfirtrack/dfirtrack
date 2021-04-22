@@ -3,7 +3,7 @@ from django.views.generic import DetailView, ListView
 from dfirtrack_main.models import Casepriority
 from dfirtrack_main.logger.default_logger import debug_logger
 
-class CasepriorityListView(LoginRequiredMixin, ListView):
+class CasepriorityList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Casepriority
     template_name = 'dfirtrack_main/casepriority/casepriority_list.html'
@@ -13,7 +13,7 @@ class CasepriorityListView(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), ' CASEPRIORITY_LIST_ENTERED')
         return Casepriority.objects.order_by('casepriority_name')
 
-class CasepriorityDetailView(LoginRequiredMixin, DetailView):
+class CasepriorityDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Casepriority
     template_name = 'dfirtrack_main/casepriority/casepriority_detail.html'

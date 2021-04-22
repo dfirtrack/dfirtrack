@@ -5,7 +5,7 @@
 {% block head %}
 
 <title>
-    DFIRTrack - Cases
+    DFIRTrack - Closed cases
 </title>
 
 <!-- javascript and CSS for datatables -->
@@ -27,22 +27,22 @@
     <!-- headline -->
     <div class="col-3">
         <h5>
-            Open cases
+            Closed cases
         </h5>
     </div>
 
     <!-- open cases button -->
     <div class="col-2">
-        <button type="button" class="btn btn-light copy-false" disabled>
+        <a href="{% url 'case_list' %}" type="button" class="btn btn-light copy-false">
             Open cases
-        </button>
+        </a>
     </div>
 
     <!-- closed cases button -->
     <div class="col-2">
-        <a href="{% url 'case_closed' %}" type="button" class="btn btn-light copy-false">
+        <button type="button" class="btn btn-light copy-false" disabled>
             Closed cases
-        </a>
+        </button>
     </div>
 
     <!-- all cases button -->
@@ -73,29 +73,6 @@
 
 <!-- javascript for datatables -->
 <script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
-
-<!-- button block -->
-<div class="card card-body bg-dark border-light top-distance copy-false">
-
-    <!-- headlines -->
-    <div class="row copy-false">
-        <div class="col-2">
-            <h5>Create cases</h5>
-        </div>
-    </div>
-
-    <!-- add button -->
-    <div class="row copy-false">
-        <div class="col-1">
-            <a href="{% url 'case_create' %}" type="button" class="btn btn-light copy-false">
-                <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon right-distance copy-false" alt="icon">
-                Add case
-            </a>
-        </div>
-    </div>
-
-<!-- button block -->
-</div>
 
 <!-- javascript for datatables -->
 {% block datatables %}

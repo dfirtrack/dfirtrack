@@ -6,7 +6,7 @@ from dfirtrack_main.models import Casetype
 from dfirtrack_main.forms import CasetypeForm
 from dfirtrack_main.logger.default_logger import debug_logger
 
-class CasetypeListView(LoginRequiredMixin, ListView):
+class CasetypeList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Casetype
     template_name = 'dfirtrack_main/casetype/casetype_list.html'
@@ -16,7 +16,7 @@ class CasetypeListView(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " CASETYPE_LIST_ENTERED")
         return Casetype.objects.order_by('casetype_name')
 
-class CasetypeDetailView(LoginRequiredMixin, DetailView):
+class CasetypeDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Casetype
     template_name = 'dfirtrack_main/casetype/casetype_detail.html'
@@ -27,7 +27,7 @@ class CasetypeDetailView(LoginRequiredMixin, DetailView):
         casetype.logger(str(self.request.user), ' CASETYPE_DETAIL_ENTERED')
         return context
 
-class CasetypeCreateView(LoginRequiredMixin, CreateView):
+class CasetypeCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Casetype
     form_class = CasetypeForm
@@ -44,7 +44,7 @@ class CasetypeCreateView(LoginRequiredMixin, CreateView):
         messages.success(self.request, 'Casetype added')
         return super().form_valid(form)
 
-class CasetypeUpdateView(LoginRequiredMixin, UpdateView):
+class CasetypeUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Casetype
     form_class = CasetypeForm
