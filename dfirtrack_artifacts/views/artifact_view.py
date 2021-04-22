@@ -125,7 +125,7 @@ def set_artifact_times(artifact):
     # set acquisition time if new artifactstatus of system is in artifactstatus_acquisition of main config (and has not been set before)
     if artifact.artifactstatus in artifactstatus_acquisition and artifact.artifact_acquisition_time == None:
         artifact.artifact_acquisition_time = timezone.now()
-        # also set request time if it has not already been done
+        # also set requested time if it has not already been done
         if artifact.artifact_requested_time == None:
             artifact.artifact_requested_time = timezone.now()
 

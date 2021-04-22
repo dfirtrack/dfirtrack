@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from django.utils import timezone
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_artifacts.models import Artifact
@@ -115,6 +116,29 @@ class CaseDetail(LoginRequiredMixin, DetailView):
         case.logger(str(self.request.user), " CASE_DETAIL_ENTERED")
         return context
 
+def set_case_times(case):
+    """ set case times according to config """
+
+    # get config
+    main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+
+    # get relevant casestatus out of config
+    casestatus_start = main_config_model.casestatus_start.all()
+    casestatus_end = main_config_model.casestatus_end.all()
+
+    # set start time if new casestatus of system is in casestatus_start of main config (and has not been set before)
+    if case.casestatus in casestatus_start and case.case_start_time == None:
+        case.case_start_time = timezone.now()
+
+    # set end time if new casestatus of system is in casestatus_end of main config (and has not been set before)
+    if case.casestatus in casestatus_end and case.case_end_time == None:
+        case.case_end_time = timezone.now()
+        # also set start time if it has not already been done
+        if case.case_start_time == None:
+            case.case_start_time = timezone.now()
+
+    return case
+
 class CaseCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Case
@@ -132,6 +156,8 @@ class CaseCreate(LoginRequiredMixin, CreateView):
             case = form.save(commit=False)
             case.case_created_by_user_id = request.user
             case.case_modified_by_user_id = request.user
+            # set case times according to config
+            case = set_case_times(case)
             case.save()
             case.logger(str(request.user), " CASE_ADD_EXECUTED")
             messages.success(request, 'Case added')
@@ -157,6 +183,8 @@ class CaseUpdate(LoginRequiredMixin, UpdateView):
         if form.is_valid():
             case = form.save(commit=False)
             case.case_modified_by_user_id = request.user
+            # set case times according to config
+            case = set_case_times(case)
             case.save()
             case.logger(str(request.user), " CASE_EDIT_EXECUTED")
             messages.success(request, 'Case edited')
