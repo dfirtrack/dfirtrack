@@ -2,11 +2,18 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.utils import timezone
-from django.views.generic import DetailView, ListView, UpdateView, CreateView
+from django.views.generic import CreateView
+from django.views.generic import DetailView
+from django.views.generic import ListView
+from django.views.generic import UpdateView
 from dfirtrack_artifacts.forms import ArtifactForm
-from dfirtrack_artifacts.models import Artifact, Artifactpriority, Artifactstatus, Artifacttype
+from dfirtrack_artifacts.models import Artifact
+from dfirtrack_artifacts.models import Artifactpriority
+from dfirtrack_artifacts.models import Artifactstatus
+from dfirtrack_artifacts.models import Artifacttype
 from dfirtrack_config.models import MainConfigModel
 from dfirtrack_main.logger.default_logger import debug_logger
+
 
 def query_artifact(artifactstatus_list):
     """ query artifacts with a list of specific artifactstatus """
@@ -169,11 +176,6 @@ class ArtifactCreateView(LoginRequiredMixin, CreateView):
 
         return super().form_valid(form)
 
-    # TODO: remove if not used
-    #def form_invalid(self, form):
-    #    messages.error(self.request, 'Artifact could not be added')
-    #    return super().form_invalid(form)
-
 class ArtifactUpdateView(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Artifact
@@ -199,8 +201,3 @@ class ArtifactUpdateView(LoginRequiredMixin, UpdateView):
         self.object.check_existing_hashes(self.request)
 
         return super().form_valid(form)
-
-    # TODO: remove if not used
-    #def form_invalid(self, form):
-    #    messages.error(self.request, 'Artifact could not be edited')
-    #    return super().form_invalid(form)
