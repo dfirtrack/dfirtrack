@@ -300,52 +300,192 @@
 <!-- artifacts row -->
 </div>
 
+<!-- cases row -->
+<div class="row">
+
+    <!-- cases card -->
+    <div class="card col-6 bg-dark border-light card-body top-distance">
+
+        <!-- case headline row -->
+        <div class="row">
+
+            <!-- case headline -->
+            <div class="col-4">
+                <h5>
+                    Cases
+                </h5>
+            </div>
+
+            <!-- casestatus headline -->
+            <div class="col-4">
+                <h5>
+                    Cases per casestatus
+                </h5>
+            </div>
+
+            <!-- casepriority headline -->
+            <div class="col-4">
+                <h5>
+                    Cases per casepriority
+                </h5>
+            </div>
+
+        </div>
+
+        <!-- case status row -->
+        <div class="row">
+
+            <!-- case number -->
+            <div class="col-4 bottom-distance">
+
+                <!-- case number table -->
+                <table class="status-table-distance">
+
+                    <!-- case number table head -->
+                    <thead>
+                    </thead>
+
+                    <!-- case number table body -->
+                    <tbody>
+                            <tr>
+                                <td>Number of cases</td>
+                                <td>{{ cases_number }}</td>
+                            </tr>
+                            <tr>
+                                <td><br></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Cases created today</td>
+                                <td>{{ cases_today_number }}</td>
+                            </tr>
+                            <tr>
+                                <td>Cases created yesterday</td>
+                                <td>{{ cases_yesterday_number }}</td>
+                            </tr>
+                            <tr>
+                                <td>Cases created two days ago</td>
+                                <td>{{ cases_two_days_ago_number }}</td>
+                            </tr>
+                            <tr>
+                                <td>Cases created three days ago</td>
+                                <td>{{ cases_three_days_ago_number }}</td>
+                            </tr>
+                    </tbody>
+
+                <!-- case number table -->
+                </table>
+
+            <!-- case number -->
+            </div>
+
+            <!-- casestatus -->
+            <div class="col-4">
+
+                <!-- casestatus table -->
+                <table class="status-table-distance">
+
+                    <!-- casestatus table head -->
+                    <thead>
+                    </thead>
+
+                    <!-- casestatus table body -->
+                    <tbody>
+                        {% for casestatus in casestatus_all %}
+                            <tr>
+                                <td>{{ casestatus.casestatus_name }}</td>
+                                <td>{{ casestatus.case_set.all|length }}</td>
+                            </tr>
+                        {% endfor%}
+                    </tbody>
+
+                <!-- casestatus table -->
+                </table>
+
+            <!-- casestatus -->
+            </div>
+
+            <!-- casepriority -->
+            <div class="col-4">
+
+                <!-- casepriority table -->
+                <table class="status-table-distance">
+
+                    <!-- casepriority table head -->
+                    <thead>
+                    </thead>
+
+                    <!-- casepriority table body -->
+                    <tbody>
+                        {% for casepriority in casepriority_all %}
+                            <tr>
+                                <td>{{ casepriority.casepriority_name }}</td>
+                                <td>{{ casepriority.case_set.all|length }}</td>
+                            </tr>
+                        {% endfor%}
+                    </tbody>
+
+                <!-- casepriority table -->
+                </table>
+
+            <!-- casepriority -->
+            </div>
+
+        <!-- case status row -->
+        </div>
+
+    <!-- cases card -->
+    </div>
+
+<!-- cases row -->
+</div>
+
 <!-- tasks row -->
 <div class="row">
 
     <!-- tasks card -->
     <div class="card col-6 bg-dark border-light card-body top-distance">
-    
+
         <!-- task headline row -->
         <div class="row">
-    
+
             <!-- task headline -->
             <div class="col-4">
                 <h5>
                     Tasks
                 </h5>
             </div>
-    
+
             <!-- taskstatus headline -->
             <div class="col-4">
                 <h5>
                     Tasks per taskstatus
                 </h5>
             </div>
-    
+
             <!-- taskpriority headline -->
             <div class="col-4">
                 <h5>
                     Tasks per taskpriority
                 </h5>
             </div>
-    
+
         <!-- task headline row -->
         </div>
-    
+
         <!-- task status row -->
         <div class="row">
-    
+
             <!-- task number -->
             <div class="col-4 bottom-distance">
-    
+
                 <!-- task number table -->
                 <table class="status-table-distance">
-    
+
                     <!-- task number table head -->
                     <thead>
                     </thead>
-    
+
                     <!-- task number table body -->
                     <tbody>
                             <tr>
@@ -373,23 +513,23 @@
                                 <td>{{ tasks_three_days_ago_number }}</td>
                             </tr>
                     </tbody>
-    
+
                 <!-- task number table -->
                 </table>
-    
+
             <!-- task number -->
             </div>
-    
+
             <!-- taskstatus -->
             <div class="col-4">
-    
+
                 <!-- taskstatus table -->
                 <table class="status-table-distance">
-    
+
                     <!-- taskstatus table head -->
                     <thead>
                     </thead>
-    
+
                     <!-- taskstatus table body -->
                     <tbody>
                         {% for taskstatus in taskstatus_all %}
@@ -399,23 +539,23 @@
                             </tr>
                         {% endfor%}
                     </tbody>
-    
+
                 <!-- taskstatus table -->
                 </table>
-    
+
             <!-- taskstatus -->
             </div>
-    
+
             <!-- taskpriority -->
             <div class="col-4">
-    
+
                 <!-- taskpriority table -->
                 <table class="status-table-distance">
-    
+
                     <!-- taskpriority table head -->
                     <thead>
                     </thead>
-    
+
                     <!-- taskpriority table body -->
                     <tbody>
                         {% for taskpriority in taskpriority_all %}
@@ -425,16 +565,16 @@
                             </tr>
                         {% endfor%}
                     </tbody>
-    
+
                 <!-- taskpriority table -->
                 </table>
-    
+
             <!-- taskpriority -->
             </div>
-    
+
         <!-- task status row -->
         </div>
-    
+
     <!-- tasks card -->
     </div>
 

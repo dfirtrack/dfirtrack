@@ -2,9 +2,20 @@ from datetime import datetime, timedelta, time
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils import timezone
 from django.views.generic import DetailView, TemplateView
-from dfirtrack_artifacts.models import Artifact, Artifactpriority, Artifactstatus
-from dfirtrack_config.models import MainConfigModel, Statushistory
-from dfirtrack_main.models import Analysisstatus, System, Systemstatus, Task, Taskstatus, Taskpriority
+from dfirtrack_artifacts.models import Artifact
+from dfirtrack_artifacts.models import Artifactpriority
+from dfirtrack_artifacts.models import Artifactstatus
+from dfirtrack_config.models import MainConfigModel
+from dfirtrack_config.models import Statushistory
+from dfirtrack_main.models import Analysisstatus
+from dfirtrack_main.models import Case
+from dfirtrack_main.models import Casepriority
+from dfirtrack_main.models import Casestatus
+from dfirtrack_main.models import System
+from dfirtrack_main.models import Systemstatus
+from dfirtrack_main.models import Task
+from dfirtrack_main.models import Taskpriority
+from dfirtrack_main.models import Taskstatus
 from dfirtrack_main.logger.default_logger import debug_logger
 
 def get_status_objects(context):
@@ -33,6 +44,7 @@ def get_status_objects(context):
 
     # get numbers
     context['artifacts_number'] = Artifact.objects.all().count()
+    context['cases_number'] = Case.objects.all().count()
     context['systems_number'] = System.objects.all().count()
     context['tasks_number'] = Task.objects.all().count()
 
@@ -41,6 +53,10 @@ def get_status_objects(context):
     context['artifacts_yesterday_number'] = Artifact.objects.filter(artifact_create_time__lt=today_start, artifact_create_time__gte=yesterday_start).count()
     context['artifacts_two_days_ago_number'] = Artifact.objects.filter(artifact_create_time__lt=yesterday_start, artifact_create_time__gte=two_days_ago_start).count()
     context['artifacts_three_days_ago_number'] = Artifact.objects.filter(artifact_create_time__lt=two_days_ago_start, artifact_create_time__gte=three_days_ago_start).count()
+    context['cases_today_number'] = Case.objects.filter(case_create_time__lt=today_end, case_create_time__gte=today_start).count()
+    context['cases_yesterday_number'] = Case.objects.filter(case_create_time__lt=today_start, case_create_time__gte=yesterday_start).count()
+    context['cases_two_days_ago_number'] = Case.objects.filter(case_create_time__lt=yesterday_start, case_create_time__gte=two_days_ago_start).count()
+    context['cases_three_days_ago_number'] = Case.objects.filter(case_create_time__lt=two_days_ago_start, case_create_time__gte=three_days_ago_start).count()
     context['systems_today_number'] = System.objects.filter(system_create_time__lt=today_end, system_create_time__gte=today_start).count()
     context['systems_yesterday_number'] = System.objects.filter(system_create_time__lt=today_start, system_create_time__gte=yesterday_start).count()
     context['systems_two_days_ago_number'] = System.objects.filter(system_create_time__lt=yesterday_start, system_create_time__gte=two_days_ago_start).count()
@@ -54,6 +70,8 @@ def get_status_objects(context):
     context['analysisstatus_all'] = Analysisstatus.objects.all().order_by('analysisstatus_name')
     context['artifactpriority_all'] = Artifactpriority.objects.all().order_by('artifactpriority_name')
     context['artifactstatus_all'] = Artifactstatus.objects.all().order_by('artifactstatus_name')
+    context['casepriority_all'] = Casepriority.objects.all().order_by('casepriority_name')
+    context['casestatus_all'] = Casestatus.objects.all().order_by('casestatus_name')
     context['systemstatus_all'] = Systemstatus.objects.all().order_by('systemstatus_name')
     context['taskstatus_all'] = Taskstatus.objects.all().order_by('taskstatus_name')
     context['taskpriority_all'] = Taskpriority.objects.all().order_by('taskpriority_name')
