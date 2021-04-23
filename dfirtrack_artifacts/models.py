@@ -17,7 +17,7 @@ class Artifact(models.Model):
     # primary key
     artifact_id = models.AutoField(primary_key=True)
 
-    # foreing key(s)
+    # foreign key(s)
     artifactpriority = models.ForeignKey('Artifactpriority', on_delete=models.PROTECT, default=2)
     artifactstatus = models.ForeignKey('Artifactstatus', on_delete=models.PROTECT, default=1)
     artifacttype = models.ForeignKey('Artifacttype', on_delete=models.PROTECT)
@@ -55,6 +55,21 @@ class Artifact(models.Model):
 
     # define logger
     def logger(artifact, request_user, log_text):
+
+        if artifact.artifact_requested_time != None:
+            # cast datetime object to string
+            requestedtime = artifact.artifact_requested_time.strftime('%Y-%m-%d %H:%M:%S')
+        else:
+            # else set default string
+            requestedtime = 'None'
+
+        if artifact.artifact_acquisition_time != None:
+            # cast datetime object to string
+            acquisitiontime = artifact.artifact_acquisition_time.strftime('%Y-%m-%d %H:%M:%S')
+        else:
+            # else set default string
+            acquisitiontime = 'None'
+
         stdlogger.info(
             request_user +
             log_text +
@@ -69,8 +84,8 @@ class Artifact(models.Model):
             "|artifact_note_external:" + str(artifact.artifact_note_external) +
             "|artifact_note_internal:" + str(artifact.artifact_note_internal) +
             "|artifact_slug:" + str(artifact.artifact_slug) +
-            "|artifact_requested_time:" + str(artifact.artifact_requested_time) +
-            "|artifact_acquisition_time:" + str(artifact.artifact_acquisition_time) +
+            "|artifact_requested_time:" + requestedtime +
+            "|artifact_acquisition_time:" + acquisitiontime +
             "|artifact_md5:" + str(artifact.artifact_md5) +
             "|artifact_sha1:" + str(artifact.artifact_sha1) +
             "|artifact_sha256:" + str(artifact.artifact_sha256) +
@@ -280,5 +295,5 @@ class Artifacttype(models.Model):
         self.artifacttype_slug = slugify(self.artifacttype_name)
         return super().save(*args, **kwargs)
 
-#TODO: Signals for DjangoQ reciever that creates the hassums
+# TODO: signals for DjangoQ receiver that creates the hash sums
 #def artifact_created()

@@ -229,6 +229,37 @@
 
                 <!-- nav bar item -->
                 <li class="nav-item">
+                    <a class="nav-link active top-distance" href="{% url 'case_list' %}">
+                        <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                        Cases
+                    </a>
+                </li>
+
+                <!-- nav bar dropdown item -->
+                <li class="nav-item dropdown">
+
+                    <!-- nav bar dropdown toggle -->
+                    <a class="nav-link dropdown-toggle active top-distance nav-left-distance" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                        Caseitems
+                    </a>
+
+                    <!-- nav bar dropdown menu -->
+                    <div class="dropdown-menu">
+
+                        <!-- section -->
+                        <div class="dropdown-header">Status information</div>
+                        <a class="dropdown-item" href="{% url 'casepriority_list' %}">Casepriorities</a>
+                        <a class="dropdown-item" href="{% url 'casestatus_list' %}">Casestatus</a>
+                        <a class="dropdown-item" href="{% url 'casetype_list' %}">Casetype</a>
+
+                    <!-- nav bar dropdown menu -->
+                    </div>
+
+                <!-- nav bar dropdown item -->
+                </li>
+
+                <!-- nav bar item -->
+                <li class="nav-item">
                     <a class="nav-link active top-distance" href="{% url 'task_list' %}">
                         <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                         Tasks

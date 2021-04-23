@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 
+
 class ArtifactExporterSpreadsheetXlsConfigModel(models.Model):
 
     # primary key
@@ -42,6 +43,9 @@ class MainConfigModel(models.Model):
     artifactstatus_open = models.ManyToManyField('dfirtrack_artifacts.Artifactstatus', related_name='main_config_artifactstatus_open', blank=True)
     artifactstatus_requested = models.ManyToManyField('dfirtrack_artifacts.Artifactstatus', related_name='main_config_artifactstatus_requested', blank=True)
     artifactstatus_acquisition = models.ManyToManyField('dfirtrack_artifacts.Artifactstatus', related_name='main_config_artifactstatus_acquisition', blank=True)
+    casestatus_open = models.ManyToManyField('dfirtrack_main.Casestatus', related_name='main_config_casestatus_open', blank=True)
+    casestatus_start = models.ManyToManyField('dfirtrack_main.Casestatus', related_name='main_config_casestatus_start', blank=True)
+    casestatus_end = models.ManyToManyField('dfirtrack_main.Casestatus', related_name='main_config_casestatus_end', blank=True)
     statushistory_entry_numbers = models.IntegerField(default=10)
     cron_export_path = models.CharField(max_length=4096, default='/tmp')
     cron_username = models.CharField(max_length=255, default='cron')

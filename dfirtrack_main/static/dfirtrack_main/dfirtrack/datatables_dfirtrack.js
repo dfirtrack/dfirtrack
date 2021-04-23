@@ -4,6 +4,11 @@ $(document).ready( function () {
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         "order": [[ 5, "desc" ]]
     } );
+    $('#table_case').DataTable( {
+        "pageLength": 25,
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        "order": [[ 0, "asc" ]]
+    } );
     $('#table_entry').DataTable( {
         "pageLength": 30,
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],

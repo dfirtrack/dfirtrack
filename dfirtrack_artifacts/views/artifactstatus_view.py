@@ -21,5 +21,5 @@ class ArtifactstatusDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         artifactstatus = self.object
-        artifactstatus.logger(str(self.request.user), " ARTIFACTSTATUSDETAIL_ENTERED")
+        artifactstatus.logger(str(self.request.user), " ARTIFACTSTATUS_DETAIL_ENTERED")
         return context

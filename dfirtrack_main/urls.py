@@ -1,7 +1,37 @@
 from django import views as django_views
 from django.conf.urls import url
 from django.urls import path
-from dfirtrack_main.views import analysisstatus_views, analystmemo_views, case_views, company_views, contact_views, division_views, dnsname_views, domain_views, domainuser_views, entry_views, headline_views, ip_views, location_views, os_views, osimportname_views, reason_views, recommendation_views, reportitem_views, serviceprovider_views, system_views, systemstatus_views, systemtype_views, systemuser_views, tag_views, task_views, taskname_views, taskpriority_views, taskstatus_views
+from dfirtrack_main.views import analysisstatus_views
+from dfirtrack_main.views import analystmemo_views
+from dfirtrack_main.views import case_views
+from dfirtrack_main.views import casepriority_views
+from dfirtrack_main.views import casestatus_views
+from dfirtrack_main.views import casetype_views
+from dfirtrack_main.views import company_views
+from dfirtrack_main.views import contact_views
+from dfirtrack_main.views import division_views
+from dfirtrack_main.views import dnsname_views
+from dfirtrack_main.views import domain_views
+from dfirtrack_main.views import domainuser_views
+from dfirtrack_main.views import entry_views
+from dfirtrack_main.views import headline_views
+from dfirtrack_main.views import ip_views
+from dfirtrack_main.views import location_views
+from dfirtrack_main.views import os_views
+from dfirtrack_main.views import osimportname_views
+from dfirtrack_main.views import reason_views
+from dfirtrack_main.views import recommendation_views
+from dfirtrack_main.views import reportitem_views
+from dfirtrack_main.views import serviceprovider_views
+from dfirtrack_main.views import system_views
+from dfirtrack_main.views import systemstatus_views
+from dfirtrack_main.views import systemtype_views
+from dfirtrack_main.views import systemuser_views
+from dfirtrack_main.views import tag_views
+from dfirtrack_main.views import task_views
+from dfirtrack_main.views import taskname_views
+from dfirtrack_main.views import taskpriority_views
+from dfirtrack_main.views import taskstatus_views
 from dfirtrack_main.creator import system_creator, tag_creator, task_creator
 from dfirtrack_main.exporter.spreadsheet import csv as spreadsheet_csv
 from dfirtrack_main.exporter.spreadsheet import xls
@@ -20,9 +50,22 @@ urlpatterns = [
     path(r'analystmemo/<int:pk>/edit/', analystmemo_views.AnalystmemoUpdate.as_view(), name='analystmemo_update'),
 
     path(r'case/', case_views.CaseList.as_view(), name='case_list'),
+    path(r'case/closed/', case_views.CaseClosed.as_view(), name='case_closed'),
+    path(r'case/all/', case_views.CaseAll.as_view(), name='case_all'),
     path(r'case/<int:pk>/', case_views.CaseDetail.as_view(), name='case_detail'),
     path(r'case/add/', case_views.CaseCreate.as_view(), name='case_create'),
     path(r'case/<int:pk>/edit/', case_views.CaseUpdate.as_view(), name='case_update'),
+
+    path(r'casepriority/', casepriority_views.CasepriorityList.as_view(), name='casepriority_list'),
+    path(r'casepriority/detail/<int:pk>/', casepriority_views.CasepriorityDetail.as_view(), name='casepriority_detail'),
+
+    path(r'casestatus/', casestatus_views.CasestatusList.as_view(), name='casestatus_list'),
+    path(r'casestatus/detail/<int:pk>/', casestatus_views.CasestatusDetail.as_view(), name='casestatus_detail'),
+
+    path(r'casetype/', casetype_views.CasetypeList.as_view(), name='casetype_list'),
+    path(r'casetype/create/', casetype_views.CasetypeCreate.as_view(), name='casetype_create'),
+    path(r'casetype/detail/<int:pk>/', casetype_views.CasetypeDetail.as_view(), name='casetype_detail'),
+    path(r'casetype/update/<int:pk>/', casetype_views.CasetypeUpdate.as_view(), name='casetype_update'),
 
     path(r'company/', company_views.CompanyList.as_view(), name='company_list'),
     path(r'company/<int:pk>/', company_views.CompanyDetail.as_view(), name='company_detail'),

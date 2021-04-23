@@ -2,10 +2,22 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.urls import reverse
-from dfirtrack_artifacts.models import Artifact, Artifactpriority, Artifactstatus
-from dfirtrack_config.models import MainConfigModel, Statushistory, StatushistoryEntry
+from dfirtrack_artifacts.models import Artifact
+from dfirtrack_artifacts.models import Artifactpriority
+from dfirtrack_artifacts.models import Artifactstatus
+from dfirtrack_config.models import MainConfigModel
+from dfirtrack_config.models import Statushistory
+from dfirtrack_config.models import StatushistoryEntry
 from dfirtrack_main.logger.default_logger import debug_logger
-from dfirtrack_main.models import Analysisstatus, System, Systemstatus, Task, Taskpriority, Taskstatus
+from dfirtrack_main.models import Analysisstatus
+from dfirtrack_main.models import Case
+from dfirtrack_main.models import Casepriority
+from dfirtrack_main.models import Casestatus
+from dfirtrack_main.models import System
+from dfirtrack_main.models import Systemstatus
+from dfirtrack_main.models import Task
+from dfirtrack_main.models import Taskpriority
+from dfirtrack_main.models import Taskstatus
 
 
 def statushistory_save_objects(username):
@@ -13,7 +25,7 @@ def statushistory_save_objects(username):
     # create empty statushistory (just contains primary key and datetime field)
     statushistory = Statushistory.objects.create()
 
-    """ save numbers of current artifacts, systems and tasks """
+    """ save numbers of current artifacts, cases, systems and tasks """
 
     # save number of artifacts (statushistoryentry_model_key not necessary)
     artifacts_number = Artifact.objects.all().count()
@@ -21,6 +33,14 @@ def statushistory_save_objects(username):
         statushistory = statushistory,
         statushistoryentry_model_name = 'artifacts_number',
         statushistoryentry_model_value = artifacts_number,
+    )
+
+    # save number of cases (statushistoryentry_model_key not necessary)
+    cases_number = Case.objects.all().count()
+    StatushistoryEntry.objects.create(
+        statushistory = statushistory,
+        statushistoryentry_model_name = 'cases_number',
+        statushistoryentry_model_value = cases_number,
     )
 
     # save number of systems (statushistoryentry_model_key not necessary)
@@ -85,6 +105,38 @@ def statushistory_save_objects(username):
             statushistoryentry_model_name = 'artifactstatus',
             statushistoryentry_model_key = artifactstatus.artifactstatus_name,
             statushistoryentry_model_value = artifacts_number_artifactstatus,
+        )
+
+    """ save casepriority """
+
+    # get all objects
+    casepriority_all = Casepriority.objects.all().order_by('casepriority_name')
+    # loop over objects
+    for casepriority in casepriority_all:
+        # count number of associated objects
+        cases_number_casepriority = Case.objects.filter(casepriority=casepriority).count()
+        # save single object in history including its name and number of associated objects
+        StatushistoryEntry.objects.create(
+            statushistory = statushistory,
+            statushistoryentry_model_name = 'casepriority',
+            statushistoryentry_model_key = casepriority.casepriority_name,
+            statushistoryentry_model_value = cases_number_casepriority,
+        )
+
+    """ save casestatus """
+
+    # get all objects
+    casestatus_all = Casestatus.objects.all().order_by('casestatus_name')
+    # loop over objects
+    for casestatus in casestatus_all:
+        # count number of associated objects
+        cases_number_casestatus = Case.objects.filter(casestatus=casestatus).count()
+        # save single object in history including its name and number of associated objects
+        StatushistoryEntry.objects.create(
+            statushistory = statushistory,
+            statushistoryentry_model_name = 'casestatus',
+            statushistoryentry_model_key = casestatus.casestatus_name,
+            statushistoryentry_model_value = cases_number_casestatus,
         )
 
     """ save systemstatus """
