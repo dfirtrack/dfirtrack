@@ -31,7 +31,10 @@
             <!-- system headline -->
             <div class="col-4">
                 <h5>
-                    Systems
+                    <a href="{% url 'system_list' %}" type="button" class="btn btn-primary btn-sm copy-false">
+                        <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                        Systems
+                    </a>
                 </h5>
             </div>
 
@@ -172,7 +175,10 @@
             <!-- artifact headline -->
             <div class="col-4">
                 <h5>
-                    Artifacts
+                    <a href="{% url 'artifacts_artifact_list' %}" type="button" class="btn btn-primary btn-sm top-right copy-false">
+                        <img src="{% static 'dfirtrack_main/icons/bug-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                        Artifacts
+                    </a>
                 </h5>
             </div>
 
@@ -312,7 +318,10 @@
             <!-- case headline -->
             <div class="col-4">
                 <h5>
-                    Cases
+                    <a href="{% url 'case_list' %}" type="button" class="btn btn-primary btn-sm bottom-left top-right copy-false">
+                        <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                        Cases
+                    </a>
                 </h5>
             </div>
 
@@ -452,7 +461,10 @@
             <!-- task headline -->
             <div class="col-4">
                 <h5>
-                    Tasks
+                    <a href="{% url 'task_list' %}" type="button" class="btn btn-primary btn-sm sharp copy-false">
+                        <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                        Tasks
+                    </a>
                 </h5>
             </div>
 
