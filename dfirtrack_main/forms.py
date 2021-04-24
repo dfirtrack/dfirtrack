@@ -16,6 +16,7 @@ from dfirtrack_main.models import Entry
 from dfirtrack_main.models import Headline
 from dfirtrack_main.models import Location
 from dfirtrack_main.models import Os
+from dfirtrack_main.models import Osarch
 from dfirtrack_main.models import Osimportname
 from dfirtrack_main.models import Reason
 from dfirtrack_main.models import Recommendation
@@ -610,48 +611,56 @@ class SystemForm(forms.ModelForm):
     reason = forms.ModelChoiceField(
         label = gettext_lazy('Reason'),
         queryset = Reason.objects.order_by('reason_name'),
+        empty_label = 'Select reason (optional)',
         required = False,
-        widget = forms.RadioSelect(),
     )
 
     # reorder field choices
     recommendation = forms.ModelChoiceField(
         label = gettext_lazy('Recommendation'),
         queryset = Recommendation.objects.order_by('recommendation_name'),
+        empty_label = 'Select recommendation (optional)',
         required = False,
-        widget = forms.RadioSelect(),
     )
 
     # reorder field choices
     systemtype = forms.ModelChoiceField(
         label = gettext_lazy('Systemtype'),
         queryset = Systemtype.objects.order_by('systemtype_name'),
+        empty_label = 'Select systemtype (optional)',
         required = False,
-        widget = forms.RadioSelect(),
     )
 
     # reorder field choices
     domain = forms.ModelChoiceField(
         label = gettext_lazy('Domain'),
         queryset = Domain.objects.order_by('domain_name'),
+        empty_label = 'Select domain (optional)',
         required = False,
-        widget = forms.RadioSelect(),
     )
 
     # reorder field choices
     dnsname = forms.ModelChoiceField(
-        label = gettext_lazy('Dnsname'),
+        label = gettext_lazy('DNS name'),
         queryset = Dnsname.objects.order_by('dnsname_name'),
+        empty_label = 'Select DNS name (optional)',
         required = False,
-        widget = forms.RadioSelect(),
     )
 
     # reorder field choices
     os = forms.ModelChoiceField(
         label = gettext_lazy('Os'),
         queryset = Os.objects.order_by('os_name'),
+        empty_label = 'Select OS (optional)',
         required = False,
-        widget = forms.RadioSelect(),
+    )
+
+    # reorder field choices
+    osarch = forms.ModelChoiceField(
+        label = gettext_lazy('Osarch'),
+        queryset = Osarch.objects.order_by('osarch_name'),
+        empty_label = 'Select OS arch (optional)',
+        required = False,
     )
 
     # reorder field choices
@@ -666,24 +675,24 @@ class SystemForm(forms.ModelForm):
     location = forms.ModelChoiceField(
         label = gettext_lazy('Location'),
         queryset = Location.objects.order_by('location_name'),
+        empty_label = 'Select location (optional)',
         required = False,
-        widget = forms.RadioSelect(),
     )
 
     # reorder field choices
     serviceprovider = forms.ModelChoiceField(
         label = gettext_lazy('Serviceprovider'),
         queryset = Serviceprovider.objects.order_by('serviceprovider_name'),
+        empty_label = 'Select serviceprovider (optional)',
         required = False,
-        widget = forms.RadioSelect(),
     )
 
     # reorder field choices
     contact = forms.ModelChoiceField(
         label = gettext_lazy('Contact'),
         queryset = Contact.objects.order_by('contact_name'),
+        empty_label = 'Select contact (optional)',
         required = False,
-        widget = forms.RadioSelect(),
     )
 
     # reorder field choices
@@ -747,7 +756,6 @@ class SystemForm(forms.ModelForm):
         # special form type or option
         widgets = {
             'ip': forms.GenericIPAddressField(),
-            'osarch': forms.RadioSelect(),
             'system_install_time': forms.DateTimeInput(),
             'system_lastbooted_time': forms.DateTimeInput(),
             'system_deprecated_time': forms.DateTimeInput(),
