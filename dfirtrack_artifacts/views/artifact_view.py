@@ -10,7 +10,6 @@ from dfirtrack_artifacts.forms import ArtifactForm
 from dfirtrack_artifacts.models import Artifact
 from dfirtrack_artifacts.models import Artifactpriority
 from dfirtrack_artifacts.models import Artifactstatus
-from dfirtrack_artifacts.models import Artifacttype
 from dfirtrack_config.models import MainConfigModel
 from dfirtrack_main.logger.default_logger import debug_logger
 
@@ -142,7 +141,6 @@ class ArtifactCreateView(LoginRequiredMixin, CreateView):
         # get id of first status objects sorted by name
         artifactpriority = Artifactpriority.objects.order_by('artifactpriority_name')[0].artifactpriority_id
         artifactstatus = Artifactstatus.objects.order_by('artifactstatus_name')[0].artifactstatus_id
-        artifacttype = Artifacttype.objects.order_by('artifacttype_name')[0].artifacttype_id
 
         if 'system' in request.GET:
             system = request.GET['system']
@@ -150,13 +148,11 @@ class ArtifactCreateView(LoginRequiredMixin, CreateView):
                 'system': system,
                 'artifactpriority': artifactpriority,
                 'artifactstatus': artifactstatus,
-                'artifacttype': artifacttype,
             })
         else:
             form = self.form_class(initial={
                 'artifactpriority': artifactpriority,
                 'artifactstatus': artifactstatus,
-                'artifacttype': artifacttype,
             })
         debug_logger(str(request.user), ' ARTIFACT_ADD_ENTERED')
         return render(request, self.template_name, {'form': form})

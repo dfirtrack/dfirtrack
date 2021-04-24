@@ -15,6 +15,7 @@ class ArtifactForm(forms.ModelForm):
     system = forms.ModelChoiceField(
         label = gettext_lazy('System (*)'),
         queryset = System.objects.order_by('system_name'),
+        empty_label = 'Select system',
     )
 
     # reorder field choices
@@ -35,13 +36,14 @@ class ArtifactForm(forms.ModelForm):
     artifacttype = forms.ModelChoiceField(
         label = gettext_lazy('Artifacttype (*)'),
         queryset = Artifacttype.objects.order_by('artifacttype_name'),
-        empty_label=None,
+        empty_label = 'Select artifactype',
     )
 
     # reorder field choices
     case = forms.ModelChoiceField(
         label = gettext_lazy('Case'),
         queryset = Case.objects.order_by('case_name'),
+        empty_label = 'Select case (optional)',
         required = False,
     )
 
@@ -80,7 +82,10 @@ class ArtifactForm(forms.ModelForm):
 
         # special form type or option
         widgets = {
-            'artifact_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
+            'artifact_name': forms.TextInput(attrs={
+                'autofocus': 'autofocus',
+                'placeholder': 'Add artifact name',
+            }),
             'artifact_source_path': forms.TextInput(attrs={
                 'size': '100',
                 'style': 'font-family: monospace',
