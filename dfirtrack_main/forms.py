@@ -592,14 +592,6 @@ class SystemForm(forms.ModelForm):
     """ this form does not allow editing of system_name """
 
     # reorder field choices
-    systemstatus = forms.ModelChoiceField(
-        queryset = Systemstatus.objects.order_by('systemstatus_name'),
-        label = 'Systemstatus',
-        required = True,
-        widget = forms.RadioSelect(),
-    )
-
-    # reorder field choices
     analysisstatus = forms.ModelChoiceField(
         queryset = Analysisstatus.objects.order_by('analysisstatus_name'),
         label = 'Analysisstatus',
@@ -608,26 +600,26 @@ class SystemForm(forms.ModelForm):
     )
 
     # reorder field choices
-    reason = forms.ModelChoiceField(
-        label = gettext_lazy('Reason'),
-        queryset = Reason.objects.order_by('reason_name'),
-        empty_label = 'Select reason (optional)',
+    case = forms.ModelMultipleChoiceField(
+        label = gettext_lazy('Cases'),
+        queryset = Case.objects.order_by('case_name'),
         required = False,
+        widget=forms.CheckboxSelectMultiple(),
     )
 
     # reorder field choices
-    recommendation = forms.ModelChoiceField(
-        label = gettext_lazy('Recommendation'),
-        queryset = Recommendation.objects.order_by('recommendation_name'),
-        empty_label = 'Select recommendation (optional)',
+    company = forms.ModelMultipleChoiceField(
+        label = gettext_lazy('Companies'),
+        queryset = Company.objects.order_by('company_name'),
         required = False,
+        widget=forms.CheckboxSelectMultiple(),
     )
 
     # reorder field choices
-    systemtype = forms.ModelChoiceField(
-        label = gettext_lazy('Systemtype'),
-        queryset = Systemtype.objects.order_by('systemtype_name'),
-        empty_label = 'Select systemtype (optional)',
+    contact = forms.ModelChoiceField(
+        label = gettext_lazy('Contact'),
+        queryset = Contact.objects.order_by('contact_name'),
+        empty_label = 'Select contact (optional)',
         required = False,
     )
 
@@ -648,27 +640,23 @@ class SystemForm(forms.ModelForm):
     )
 
     # reorder field choices
-    os = forms.ModelChoiceField(
-        label = gettext_lazy('Os'),
-        queryset = Os.objects.order_by('os_name'),
-        empty_label = 'Select OS (optional)',
+    host_system = forms.ModelChoiceField(
+        label = gettext_lazy('Host system (hypervisor)'),
+        queryset = System.objects.order_by('system_name'),
+        empty_label = 'Select host system (optional)',
         required = False,
     )
 
-    # reorder field choices
-    osarch = forms.ModelChoiceField(
-        label = gettext_lazy('Osarch'),
-        queryset = Osarch.objects.order_by('osarch_name'),
-        empty_label = 'Select OS arch (optional)',
+    # large text area for line separated iplist
+    iplist = forms.CharField(
+        label = gettext_lazy('IP addresses'),
+        widget=forms.Textarea(
+            attrs={
+                'rows': 3,
+                'placeholder': 'One IP address per line',
+            },
+        ),
         required = False,
-    )
-
-    # reorder field choices
-    company = forms.ModelMultipleChoiceField(
-        label = gettext_lazy('Company'),
-        queryset = Company.objects.order_by('company_name'),
-        required = False,
-        widget=forms.CheckboxSelectMultiple(),
     )
 
     # reorder field choices
@@ -676,6 +664,38 @@ class SystemForm(forms.ModelForm):
         label = gettext_lazy('Location'),
         queryset = Location.objects.order_by('location_name'),
         empty_label = 'Select location (optional)',
+        required = False,
+    )
+
+    # reorder field choices
+    os = forms.ModelChoiceField(
+        label = gettext_lazy('Operating system'),
+        queryset = Os.objects.order_by('os_name'),
+        empty_label = 'Select OS (optional)',
+        required = False,
+    )
+
+    # reorder field choices
+    osarch = forms.ModelChoiceField(
+        label = gettext_lazy('OS architecture'),
+        queryset = Osarch.objects.order_by('osarch_name'),
+        empty_label = 'Select OS architecture (optional)',
+        required = False,
+    )
+
+    # reorder field choices
+    reason = forms.ModelChoiceField(
+        label = gettext_lazy('Reason for investigation'),
+        queryset = Reason.objects.order_by('reason_name'),
+        empty_label = 'Select reason (optional)',
+        required = False,
+    )
+
+    # reorder field choices
+    recommendation = forms.ModelChoiceField(
+        label = gettext_lazy('Recommendation'),
+        queryset = Recommendation.objects.order_by('recommendation_name'),
+        empty_label = 'Select recommendation (optional)',
         required = False,
     )
 
@@ -688,38 +708,27 @@ class SystemForm(forms.ModelForm):
     )
 
     # reorder field choices
-    contact = forms.ModelChoiceField(
-        label = gettext_lazy('Contact'),
-        queryset = Contact.objects.order_by('contact_name'),
-        empty_label = 'Select contact (optional)',
+    systemstatus = forms.ModelChoiceField(
+        queryset = Systemstatus.objects.order_by('systemstatus_name'),
+        label = 'Systemstatus (*)',
+        required = True,
+        widget = forms.RadioSelect(),
+    )
+
+    # reorder field choices
+    systemtype = forms.ModelChoiceField(
+        label = gettext_lazy('Systemtype'),
+        queryset = Systemtype.objects.order_by('systemtype_name'),
+        empty_label = 'Select systemtype (optional)',
         required = False,
     )
 
     # reorder field choices
     tag = forms.ModelMultipleChoiceField(
-        label = gettext_lazy('Tag'),
+        label = gettext_lazy('Tags'),
         queryset = Tag.objects.order_by('tag_name'),
         required = False,
         widget=forms.CheckboxSelectMultiple(),
-    )
-
-    # reorder field choices
-    case = forms.ModelMultipleChoiceField(
-        label = gettext_lazy('Case'),
-        queryset = Case.objects.order_by('case_name'),
-        required = False,
-        widget=forms.CheckboxSelectMultiple(),
-    )
-
-    # large text area for line separated iplist
-    iplist = forms.CharField(
-        widget=forms.Textarea(
-            attrs={
-                'rows': 3,
-                'placeholder': 'One ip address per line',
-            },
-        ),
-        required = False,
     )
 
     class Meta:
@@ -753,6 +762,16 @@ class SystemForm(forms.ModelForm):
             'system_export_spreadsheet',
         )
 
+        # non default form labeling
+        labels = {
+            'system_install_time': gettext_lazy('Installation time (YYYY-MM-DD HH:MM:SS)'),
+            'system_lastbooted_time': gettext_lazy('Last booted (YYYY-MM-DD HH:MM:SS)'),
+            'system_deprecated_time': gettext_lazy('System is deprecated since (YYYY-MM-DD HH:MM:SS)'),
+            'system_is_vm': gettext_lazy('System is a VM'),
+            'system_export_markdown': gettext_lazy('Export system to markdown'),
+            'system_export_spreadsheet': gettext_lazy('Export system to spreadsheet'),
+        }
+
         # special form type or option
         widgets = {
             'ip': forms.GenericIPAddressField(),
@@ -772,6 +791,9 @@ class SystemNameForm(SystemForm):
         fields = SystemForm.Meta.fields + (
             'system_name',
         )
+
+        # non default form labeling for system_name
+        SystemForm.Meta.labels['system_name'] = gettext_lazy('System name (*)')
 
         # special form type or option for system_name
         SystemForm.Meta.widgets['system_name'] = forms.TextInput(
