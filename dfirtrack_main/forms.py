@@ -1151,7 +1151,7 @@ class TaskForm(forms.ModelForm):
     # reorder field choices
     taskpriority = forms.ModelChoiceField(
         queryset = Taskpriority.objects.order_by('taskpriority_name'),
-        label = 'Taskpriority',
+        label = 'Taskpriority (*)',
         required = True,
         widget = forms.RadioSelect(),
     )
@@ -1159,35 +1159,36 @@ class TaskForm(forms.ModelForm):
     # reorder field choices
     taskstatus = forms.ModelChoiceField(
         queryset = Taskstatus.objects.order_by('taskstatus_name'),
-        label = 'Taskstatus',
+        label = 'Taskstatus (*)',
         required = True,
         widget = forms.RadioSelect(),
     )
 
     # reorder field choices
     taskname = forms.ModelChoiceField(
-        label = gettext_lazy('Taskname'),
+        label = gettext_lazy('Taskname (*)'),
         queryset = Taskname.objects.order_by('taskname_name'),
     )
 
     # reorder field choices
     system = forms.ModelChoiceField(
-        label = gettext_lazy('System'),
+        label = gettext_lazy('Corresponding system'),
         queryset = System.objects.order_by('system_name'),
         required = False,
+        empty_label = 'Select system (optional)',
     )
 
     # reorder field choices
     task_assigned_to_user_id = forms.ModelChoiceField(
-        label = gettext_lazy('Task assigned to user id'),
+        label = gettext_lazy('Assigned to user'),
         queryset = User.objects.order_by('username'),
         required = False,
-        widget = forms.RadioSelect(),
+        empty_label = 'Select user (optional)',
     )
 
     # reorder field choices
     tag = forms.ModelMultipleChoiceField(
-        label = gettext_lazy('Tag'),
+        label = gettext_lazy('Tags'),
         queryset = Tag.objects.order_by('tag_name'),
         required = False,
         widget=forms.CheckboxSelectMultiple(),
@@ -1211,6 +1212,13 @@ class TaskForm(forms.ModelForm):
             'task_scheduled_time',
             'task_due_time',
         )
+
+        # non default form labeling
+        labels = {
+            'task_note': gettext_lazy('Task note'),
+            'task_scheduled_time': gettext_lazy('Scheduled (YYYY-MM-DD HH:MM:SS)'),
+            'task_due_time': gettext_lazy('Due (YYYY-MM-DD HH:MM:SS)'),
+        }
 
         # special form type or option
         widgets = {
