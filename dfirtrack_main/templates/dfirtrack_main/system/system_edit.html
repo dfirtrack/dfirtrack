@@ -135,25 +135,25 @@
 
             <!-- system name -->
             <div class="col-3">
-                <div class="card card-body bg-dark border-light top-distance">
 
                     <!-- show editable field if system_name_editable in dfirtrack_config is true -->
                     {% if system_name_edit == True %}
-                        <!-- system name errors -->
-                        <div class="text-danger">
-                            {{ form.system_name.errors }}
+                        <div class="card card-body bg-dark border-light top-distance">
+                            <!-- system name errors -->
+                            <div class="text-danger">
+                                {{ form.system_name.errors }}
+                            </div>
+                            {{ form.system_name }}
                         </div>
-                        {{ form.system_name }}
 
                     <!-- show system_name only otherwise -->
                     {% else %}
-                        <h5>
+                        <div class="btn btn-primary btn-lg copy-true">
                             <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                             {{ system.system_name }}
-                        </h5>
+                        </div>
                     {% endif %}
 
-                </div>
             <!-- system name -->
             </div>
 
