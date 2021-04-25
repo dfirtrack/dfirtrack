@@ -23,14 +23,26 @@
 <!-- HTML body in maintemplate -->
 {% block content %}
 
-<!-- up button -->
+<!-- button row -->
 <div class="row bottom-distance">
-    <div class="col-3">
+
+    <!-- up button -->
+    <div class="col-6">
         <a href="{% url 'case_list' %}" type="button" class="btn btn-light copy-false">
             <img src="{%static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon right-distance copy-false" alt="icon">
             Up to cases
         </a>
     </div>
+
+    <!-- edit button -->
+    <div class="col-3">
+        <a href="{{ case.get_update_url }}" type="button" class="btn btn-light copy-false">
+            <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Edit
+        </a>
+    </div>
+
+<!-- button row -->
 </div>
 
 <!-- javascript for copy button -->
@@ -43,9 +55,10 @@
 
     <!-- case name -->
     <div class="col-3">
-        <h5>
-            Case "{{ case.case_name }}"
-        </h5>
+        <div class="btn btn-primary btn-lg bottom-left top-right top-distance copy-true">
+            <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+            {{ case.case_name }}
+        </div>
     </div>
 
     <!-- copy button -->
@@ -61,7 +74,7 @@
 </div>
 
 <!-- case id row -->
-<div class="row bottom-distance">
+<div class="row top-distance">
     <div class="col-3">
         <small class="text-muted">
             Case-ID: {{ case.case_id }}
@@ -69,63 +82,286 @@
     </div>
 </div>
 
-<!-- case is incident row -->
+<!-- case id external row -->
 <div class="row bottom-distance">
     <div class="col-3">
-        <h5>
-            Is incident: {{ case.case_is_incident }}
-        </h5>
+        <small>
+            External Case-ID: {{ case.case_id_external }}
+        </small>
     </div>
 </div>
 
-<!-- systems headline row -->
-<div class="row bottom-distance">
-    <div class="col-3">
-        <h5>
-            Systems associated with this case{% if case.system_set.all %} ({{ case.system_set.all|length }}){% endif %}
-        </h5>
-    </div>
-</div>
+<!-- case information -->
+<div class="card bg-dark border-light card-body top-distance">
 
-<!-- systems -->
-{% if case.system_set.all %}
-
-    <!-- datatable system -->
-    <table id="table_system" class="display" width="100%">
-
-        <!-- table head -->
-        <thead>
-            {% include "dfirtrack_main/includes/datatable_thead_table_system.html" %}
-        </thead>
-
-        <!-- table body -->
-        <tbody>
-        </tbody>
-
-    <!-- datatable system -->
-    </table>
-
-    <!-- javascript for datatables -->
-    <script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
-
-<!-- no systems -->
-{% else %}
-    <div class="row top-distance">
-        <div class="col-3">
-            ---
+    <!-- case information headline -->
+    <div class="row">
+        <div class="col">
+            <h5>Case information</h5>
         </div>
     </div>
 
-<!-- systems -->
-{% endif %}
+    <!-- case information row -->
+    <div class="row bottom-distance">
+
+        <!-- casestatus -->
+        <div class="col-3">
+            <div class="font-weight-bold">Casestatus:</div>
+            <a href="{{ case.casestatus.get_absolute_url }}">
+                {{ case.casestatus.casestatus_name }}
+            </a>
+        </div>
+
+        <!-- casepriority -->
+        <div class="col-3">
+            <div class="font-weight-bold">Casepriority:</div>
+            <a href="{{ case.casepriority.get_absolute_url }}">
+                {{ case.casepriority.casepriority_name }}
+            </a>
+        </div>
+
+        <!-- case start time -->
+        <div class="col-3">
+            <div class="font-weight-bold">Start time:</div>
+            {% if case.case_start_time %}
+                {{ case.case_start_time|date:"Y-m-d H:i" }}
+            {% else %}
+                ---
+            {% endif  %}
+        </div>
+
+        <!-- case end time -->
+        <div class="col-3">
+            <div class="font-weight-bold">End time:</div>
+            {% if case.case_end_time %}
+                {{ case.case_end_time|date:"Y-m-d H:i" }}
+            {% else %}
+                ---
+            {% endif  %}
+        </div>
+
+    <!-- case information row -->
+    </div>
+
+    <!-- case information row -->
+    <div class="row bottom-distance">
+
+        <!-- casetype -->
+        <div class="col-3">
+            <div class="font-weight-bold">Casetype:</div>
+            {% if case.casetype %}
+                <a href="{{ case.casetype.get_absolute_url }}">
+                    {{ case.casetype.casetype_name }}
+                </a>
+            {% else %}
+                ---
+            {% endif  %}
+        </div>
+
+        <!-- case is incident -->
+        <div class="col-3">
+            <div class="font-weight-bold">Is incident:</div>
+            {% with case=case %}
+                {% include "dfirtrack_main/includes/button_case_is_incident.html" %}
+            {% endwith %}
+        </div>
+
+    <!-- case information row -->
+    </div>
+
+<!-- case information end -->
+</div>
+
+<!-- case notes -->
+<div class="card bg-dark border-light card-body top-distance">
+
+    <!-- case notes - headline row-->
+    <div class="row">
+
+        <!-- case internal note headline -->
+        <div class="col-4">
+            <h5>
+                Internal note
+            </h5>
+        </div>
+
+        <!-- case external note headline -->
+        <div class="col-4">
+            <h5>
+                External note
+            </h5>
+        </div>
+
+        <!-- case analysis result note headline -->
+        <div class="col-4">
+            <h5>
+                Analysis result
+            </h5>
+        </div>
+
+    <!-- case notes - headline row-->
+    </div>
+
+    <!-- case notes - content row-->
+    <div class="row">
+
+        <!-- case internal note -->
+        <div class="col-4">
+            {% if case.case_note_internal %}
+                {{ case.case_note_internal|linebreaks }}
+            {% else %}
+                ---
+            {% endif  %}
+        </div>
+
+        <!-- case external note -->
+        <div class="col-4">
+            {% if case.case_note_external %}
+                {{ case.case_note_external|linebreaks }}
+            {% else %}
+                ---
+            {% endif  %}
+        </div>
+
+        <!-- case analysis result note -->
+        <div class="col-4">
+            {% if case.case_note_analysisresult %}
+                {{ case.case_note_analysisresult|linebreaks }}
+            {% else %}
+                ---
+            {% endif  %}
+        </div>
+
+    <!-- case notes - content row-->
+    </div>
+
+<!-- case notes -->
+</div>
+
+<!-- meta information -->
+<div class="card bg-dark border-secondary card-body top-distance">
+
+    <!-- meta information headline -->
+    <div class="row text-muted">
+        <div class="col">
+            <h5>Meta information</h5>
+        </div>
+    </div>
+
+    <!-- meta information row -->
+    <div class="row text-muted">
+
+        <!-- case create time -->
+        <div class="col-3">
+            <div class="font-weight-bold">Created:</div>
+            {{ case.case_create_time|date:"Y-m-d H:i" }}
+        </div>
+
+        <!-- user creating case -->
+        <div class="col-3">
+            <div class="font-weight-bold">Created by:</div>
+            {{ case.case_created_by_user_id }}
+        </div>
+
+        <!-- case modify time -->
+        <div class="col-3">
+            <div class="font-weight-bold">Last modified:</div>
+            {{ case.case_modify_time|date:"Y-m-d H:i" }}
+        </div>
+
+        <!-- user modifying case -->
+        <div class="col-3">
+            <div class="font-weight-bold">Modified by:</div>
+            {{ case.case_modified_by_user_id }}
+        </div>
+
+    <!-- meta information row -->
+    </div>
+
+<!-- meta information -->
+</div>
+
+<!-- button row -->
+<div class="row top-distance">
+
+    <!-- up button -->
+    <div class="col-6">
+        <a href="{% url 'case_list' %}" type="button" class="btn btn-light copy-false">
+            <img src="{%static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Up to cases
+        </a>
+    </div>
+
+    <!-- edit button -->
+    <div class="col-3">
+        <a href="{{ case.get_update_url }}" type="button" class="btn btn-light copy-false">
+            <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Edit
+        </a>
+    </div>
+
+<!-- button row -->
+</div>
+
+<!-- system block -->
+<div class="card bg-dark border-light card-body top-distance">
+
+    <!-- systems headline row -->
+    <div class="row top-distance bottom-distance">
+        <div class="col-3">
+            <h5>
+                <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                Systems associated with this case{% if case.system_set.all %} ({{ case.system_set.all|length }}){% endif %}
+            </h5>
+        </div>
+    </div>
+    
+    <!-- systems -->
+    {% if case.system_set.all %}
+    
+        <!-- datatable system -->
+        <table id="table_system" class="display" width="100%">
+    
+            <!-- table head -->
+            <thead>
+                {% include "dfirtrack_main/includes/datatable_thead_table_system.html" %}
+            </thead>
+    
+            <!-- table body -->
+            <tbody>
+            </tbody>
+    
+        <!-- datatable system -->
+        </table>
+    
+        <!-- javascript for datatables -->
+        <script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
+    
+    <!-- no systems -->
+    {% else %}
+        <div class="row top-distance">
+            <div class="col-3">
+                ---
+            </div>
+        </div>
+    
+    <!-- systems -->
+    {% endif %}
+
+<!-- system block -->
+</div>
 
 <!-- check for artifacts app -->
 {% if dfirtrack_artifacts == True %}
+
+<!-- artifact block -->
+<div class="card bg-dark border-light card-body top-distance">
 
 <!-- artifacts headline row -->
 <div class="row bottom-distance top-distance">
     <div class="col-3">
         <h5>
+            <img src="{% static 'dfirtrack_main/icons/bug-light.svg' %}" class="icon right-distance copy-false" alt="icon">
             Artifacts associated with this case{% if artifacts %} ({{ artifacts|length }}){% endif %}
         </h5>
     </div>
@@ -167,6 +403,9 @@
 <!-- artifacts -->
 {% endif %}
 
+<!-- artifact block -->
+</div>
+
 <!-- check for artifacts app -->
 {% endif %}
 
@@ -175,11 +414,27 @@
 <script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.js' %}"></script>
 {% endblock %}
 
-<!-- edit button -->
-<a href="{{ case.get_update_url }}" type="button" class="btn btn-light top-distance copy-false">
-    <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon right-distance copy-false" alt="icon">
-    Edit
-</a>
+<!-- button row -->
+<div class="row top-distance">
+
+    <!-- up button -->
+    <div class="col-6">
+        <a href="{% url 'case_list' %}" type="button" class="btn btn-light copy-false">
+            <img src="{%static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Up to cases
+        </a>
+    </div>
+
+    <!-- edit button -->
+    <div class="col-3">
+        <a href="{{ case.get_update_url }}" type="button" class="btn btn-light copy-false">
+            <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Edit
+        </a>
+    </div>
+
+<!-- button row -->
+</div>
 
 <!-- HTML body in maintemplate -->
 {% endblock %}

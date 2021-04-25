@@ -1,0 +1,15 @@
+{% load static %}
+
+<!-- case is incident -->
+{% if case.case_is_incident %}
+    <div class="btn btn-light btn-sm copy-false">
+        <img src="{% static 'dfirtrack_main/icons/circle-check.svg' %}" class="icon-sm copy-false" alt="icon">
+    </div>
+
+<!-- case is NOT incident -->
+{% else %}
+    <div class="btn btn-light btn-sm copy-false">
+        <img src="{% static 'dfirtrack_main/icons/circle-x.svg' %}" class="icon-sm copy-false" alt="icon">
+    </div>
+
+{% endif %}
