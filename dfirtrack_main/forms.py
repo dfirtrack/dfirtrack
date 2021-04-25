@@ -5,6 +5,8 @@ from django.utils.translation import gettext_lazy
 from dfirtrack_main.models import Analysisstatus
 from dfirtrack_main.models import Analystmemo
 from dfirtrack_main.models import Case
+from dfirtrack_main.models import Casepriority
+from dfirtrack_main.models import Casestatus
 from dfirtrack_main.models import Casetype
 from dfirtrack_main.models import Company
 from dfirtrack_main.models import Contact
@@ -75,6 +77,27 @@ class AnalystmemoForm(forms.ModelForm):
 
 class CaseForm(forms.ModelForm):
 
+    # reorder field choices
+    casepriority = forms.ModelChoiceField(
+        label = gettext_lazy('Casepriority (*)'),
+        queryset = Casepriority.objects.order_by('casepriority_name'),
+        widget = forms.RadioSelect(),
+    )
+
+    # reorder field choices
+    casestatus = forms.ModelChoiceField(
+        label = gettext_lazy('Casestatus (*)'),
+        queryset = Casestatus.objects.order_by('casestatus_name'),
+        widget = forms.RadioSelect(),
+    )
+
+    # reorder field choices
+    casetype = forms.ModelChoiceField(
+        label = gettext_lazy('Casetype'),
+        queryset = Casetype.objects.order_by('casetype_name'),
+        empty_label = 'Select caseype (optional)',
+    )
+
     class Meta:
 
         # model
@@ -103,8 +126,6 @@ class CaseForm(forms.ModelForm):
             'case_note_analysisresult': gettext_lazy('Analysis result'),
             'case_note_external': gettext_lazy('External note'),
             'case_note_internal': gettext_lazy('Internal note'),
-            'casepriority': gettext_lazy('Casepriority (*)'),
-            'casestatus': gettext_lazy('Casestatus (*)'),
         }
 
         # special form type or option

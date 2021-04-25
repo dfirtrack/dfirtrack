@@ -10,6 +10,7 @@ from dfirtrack_config.models import MainConfigModel
 from dfirtrack_main.forms import CaseForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Case
+from dfirtrack_main.models import Casepriority
 from dfirtrack_main.models import Casestatus
 from dfirtrack.settings import INSTALLED_APPS as installed_apps
 
@@ -146,7 +147,15 @@ class CaseCreate(LoginRequiredMixin, CreateView):
     template_name = 'dfirtrack_main/case/case_add.html'
 
     def get(self, request, *args, **kwargs):
-        form = self.form_class()
+
+        # get id of first status objects sorted by name
+        casepriority = Casepriority.objects.order_by('casepriority_name')[0].casepriority_id
+        casestatus = Casestatus.objects.order_by('casestatus_name')[0].casestatus_id
+
+        form = self.form_class(initial={
+            'casepriority': casepriority,
+            'casestatus': casestatus,
+        })
         debug_logger(str(request.user), " CASE_ADD_ENTERED")
         return render(request, self.template_name, {'form': form})
 
