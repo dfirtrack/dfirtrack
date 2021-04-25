@@ -1,6 +1,8 @@
 from django.test import TestCase
 from dfirtrack_main.forms import CaseForm
-from dfirtrack_main.models import Casepriority, Casestatus
+from dfirtrack_main.models import Casepriority
+from dfirtrack_main.models import Casestatus
+
 
 class CaseFormTestCase(TestCase):
     """ case form tests """
@@ -74,6 +76,14 @@ class CaseFormTestCase(TestCase):
         form = CaseForm()
         # compare
         self.assertEqual(form.fields['casestatus'].label, 'Casestatus (*)')
+
+    def test_casetype_form_label(self):
+        """ test form label """
+
+        # get object
+        form = CaseForm()
+        # compare
+        self.assertEqual(form.fields['casetype'].empty_label, 'Select casetype (optional)')
 
     def test_case_form_empty(self):
         """ test minimum form requirements / INVALID """

@@ -73,6 +73,7 @@ class ArtifactFormTestCase(TestCase):
         form = ArtifactForm()
         # compare
         self.assertEqual(form.fields['artifacttype'].label, 'Artifacttype (*)')
+        self.assertEqual(form.fields['artifacttype'].empty_label, 'Select artifacttype')
 
     def test_artifact_source_path_form_label(self):
         """ test form label """
@@ -89,6 +90,7 @@ class ArtifactFormTestCase(TestCase):
         form = ArtifactForm()
         # compare
         self.assertEqual(form.fields['system'].label, 'System (*)')
+        self.assertEqual(form.fields['system'].empty_label, 'Select system')
 
     def test_artifact_case_form_label(self):
         """ test form label """
@@ -97,6 +99,7 @@ class ArtifactFormTestCase(TestCase):
         form = ArtifactForm()
         # compare
         self.assertEqual(form.fields['case'].label, 'Case')
+        self.assertEqual(form.fields['case'].empty_label, 'Select case (optional)')
 
     def test_artifact_md5_form_label(self):
         """ test form label """
