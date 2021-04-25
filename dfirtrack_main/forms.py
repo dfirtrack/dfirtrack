@@ -95,7 +95,8 @@ class CaseForm(forms.ModelForm):
     casetype = forms.ModelChoiceField(
         label = gettext_lazy('Casetype'),
         queryset = Casetype.objects.order_by('casetype_name'),
-        empty_label = 'Select caseype (optional)',
+        empty_label = 'Select casetype (optional)',
+        required = False,
     )
 
     class Meta:
