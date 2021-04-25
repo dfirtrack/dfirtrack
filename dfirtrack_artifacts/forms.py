@@ -36,7 +36,7 @@ class ArtifactForm(forms.ModelForm):
     artifacttype = forms.ModelChoiceField(
         label = gettext_lazy('Artifacttype (*)'),
         queryset = Artifacttype.objects.order_by('artifacttype_name'),
-        empty_label = 'Select artifactype',
+        empty_label = 'Select artifacttype',
     )
 
     # reorder field choices
