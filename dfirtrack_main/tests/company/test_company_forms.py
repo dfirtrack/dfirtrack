@@ -2,6 +2,7 @@ from django.test import TestCase
 from dfirtrack_main.forms import CompanyForm
 from dfirtrack_main.models import Division
 
+
 class CompanyFormTestCase(TestCase):
     """ company form tests """
 
@@ -26,6 +27,7 @@ class CompanyFormTestCase(TestCase):
         form = CompanyForm()
         # compare
         self.assertEqual(form.fields['division'].label, 'Division')
+        self.assertEqual(form.fields['division'].empty_label, 'Select division (optional)')
 
     def test_company_note_form_label(self):
         """ test form label """

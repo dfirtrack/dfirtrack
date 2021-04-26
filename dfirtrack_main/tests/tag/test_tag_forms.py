@@ -26,6 +26,7 @@ class TagFormTestCase(TestCase):
         form = TagForm()
         # compare
         self.assertEqual(form.fields['tagcolor'].label, 'Tag color (*)')
+        self.assertEqual(form.fields['tagcolor'].empty_label, 'Select tag color')
 
     def test_tag_note_form_label(self):
         """ test form label """

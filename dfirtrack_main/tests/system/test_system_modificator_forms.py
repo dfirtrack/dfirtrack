@@ -116,6 +116,7 @@ class SystemModificatorFormTestCase(TestCase):
         form = SystemModificatorForm()
         # compare
         self.assertEqual(form.fields['location'].label, 'Location')
+        self.assertEqual(form.fields['location'].empty_label, 'Select location (optional)')
 
     def test_system_modificator_serviceprovider_form_label(self):
         """ test form label """
@@ -124,6 +125,7 @@ class SystemModificatorFormTestCase(TestCase):
         form = SystemModificatorForm()
         # compare
         self.assertEqual(form.fields['serviceprovider'].label, 'Serviceprovider')
+        self.assertEqual(form.fields['serviceprovider'].empty_label, 'Select serviceprovider (optional)')
 
     def test_system_modificator_contact_form_label(self):
         """ test form label """
@@ -132,6 +134,7 @@ class SystemModificatorFormTestCase(TestCase):
         form = SystemModificatorForm()
         # compare
         self.assertEqual(form.fields['contact'].label, 'Contact')
+        self.assertEqual(form.fields['contact'].empty_label, 'Select contact (optional)')
 
     def test_system_modificator_form_empty(self):
         """ test minimum form requirements / INVALID """

@@ -2,7 +2,10 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
 from dfirtrack_main.forms import ReportitemForm
-from dfirtrack_main.models import Headline, System, Systemstatus
+from dfirtrack_main.models import Headline
+from dfirtrack_main.models import System
+from dfirtrack_main.models import Systemstatus
+
 
 class ReportitemFormTestCase(TestCase):
     """ reportitem form tests """
@@ -35,6 +38,7 @@ class ReportitemFormTestCase(TestCase):
         form = ReportitemForm()
         # compare
         self.assertEqual(form.fields['system'].label, 'System (*)')
+        self.assertEqual(form.fields['system'].empty_label, 'Select system')
 
     def test_reportitem_headline_form_label(self):
         """ test form label """
@@ -43,6 +47,7 @@ class ReportitemFormTestCase(TestCase):
         form = ReportitemForm()
         # compare
         self.assertEqual(form.fields['headline'].label, 'Headline (*)')
+        self.assertEqual(form.fields['headline'].empty_label, 'Select headline')
 
     def test_reportitem_subheadline_form_label(self):
         """ test form label """

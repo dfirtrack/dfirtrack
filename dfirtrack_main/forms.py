@@ -52,6 +52,7 @@ class AnalystmemoForm(forms.ModelForm):
     # reorder field choices
     system = forms.ModelChoiceField(
         label = gettext_lazy('System (*)'),
+        empty_label = 'Select system',
         queryset = System.objects.order_by('system_name'),
     )
 
@@ -166,6 +167,7 @@ class CompanyForm(forms.ModelForm):
     # reorder field choices
     division = forms.ModelChoiceField(
         label = gettext_lazy('Division'),
+        empty_label = 'Select division (optional)',
         queryset = Division.objects.order_by('division_name'),
         required = False,
     )
@@ -249,6 +251,7 @@ class DnsnameForm(forms.ModelForm):
     # reorder field choices
     domain = forms.ModelChoiceField(
         label = gettext_lazy('Domain'),
+        empty_label = 'Select domain (optional)',
         queryset = Domain.objects.order_by('domain_name'),
         required = False,
     )
@@ -306,6 +309,7 @@ class DomainuserForm(forms.ModelForm):
     # reorder field choices
     domain = forms.ModelChoiceField(
         label = gettext_lazy('Domain (*)'),
+        empty_label = 'Select domain',
         queryset = Domain.objects.order_by('domain_name'),
     )
 
@@ -346,6 +350,7 @@ class EntryForm(forms.ModelForm):
     # reorder field choices
     case = forms.ModelChoiceField(
         label = gettext_lazy('Case'),
+        empty_label = 'Select case (optional)',
         queryset = Case.objects.order_by('case_name'),
         required = False,
     )
@@ -353,6 +358,7 @@ class EntryForm(forms.ModelForm):
     # reorder field choices
     system = forms.ModelChoiceField(
         label = gettext_lazy('System (*)'),
+        empty_label = 'Select system',
         queryset = System.objects.order_by('system_name'),
     )
 
@@ -488,6 +494,7 @@ class OsimportnameForm(forms.ModelForm):
     # reorder field choices
     os = forms.ModelChoiceField(
         label = gettext_lazy('Operating system (*)'),
+        empty_label = 'Select OS',
         queryset = Os.objects.order_by('os_name'),
     )
 
@@ -568,12 +575,14 @@ class ReportitemForm(forms.ModelForm):
     # reorder field choices
     headline = forms.ModelChoiceField(
         label = gettext_lazy('Headline (*)'),
+        empty_label = 'Select headline',
         queryset = Headline.objects.order_by('headline_name'),
     )
 
     # reorder field choices
     system = forms.ModelChoiceField(
         label = gettext_lazy('System (*)'),
+        empty_label = 'Select system',
         queryset = System.objects.order_by('system_name'),
     )
 
@@ -995,6 +1004,7 @@ class SystemuserForm(forms.ModelForm):
     # reorder field choices
     system = forms.ModelChoiceField(
         label = gettext_lazy('System (*)'),
+        empty_label = 'Select system',
         queryset = System.objects.order_by('system_name'),
     )
 
@@ -1028,6 +1038,7 @@ class TagForm(forms.ModelForm):
     # reorder field choices
     tagcolor = forms.ModelChoiceField(
         label = gettext_lazy('Tag color (*)'),
+        empty_label = 'Select tag color',
         queryset = Tagcolor.objects.order_by('tagcolor_name'),
     )
 
@@ -1074,6 +1085,30 @@ class TaskForm(forms.ModelForm):
     """ default model form """
 
     # reorder field choices
+    parent_task = forms.ModelChoiceField(
+        label = gettext_lazy('Parent task'),
+        queryset = Task.objects.order_by('task_id'),
+        required = False,
+        empty_label = 'Select parent task (optional)',
+    )
+
+    # reorder field choices
+    system = forms.ModelChoiceField(
+        label = gettext_lazy('Corresponding system'),
+        queryset = System.objects.order_by('system_name'),
+        required = False,
+        empty_label = 'Select system (optional)',
+    )
+
+    # reorder field choices
+    tag = forms.ModelMultipleChoiceField(
+        label = gettext_lazy('Tags'),
+        queryset = Tag.objects.order_by('tag_name'),
+        required = False,
+        widget=forms.CheckboxSelectMultiple(),
+    )
+
+    # reorder field choices
     taskpriority = forms.ModelChoiceField(
         queryset = Taskpriority.objects.order_by('taskpriority_name'),
         label = 'Taskpriority (*)',
@@ -1092,15 +1127,8 @@ class TaskForm(forms.ModelForm):
     # reorder field choices
     taskname = forms.ModelChoiceField(
         label = gettext_lazy('Taskname (*)'),
+        empty_label = 'Select taskname',
         queryset = Taskname.objects.order_by('taskname_name'),
-    )
-
-    # reorder field choices
-    system = forms.ModelChoiceField(
-        label = gettext_lazy('Corresponding system'),
-        queryset = System.objects.order_by('system_name'),
-        required = False,
-        empty_label = 'Select system (optional)',
     )
 
     # reorder field choices
@@ -1109,14 +1137,6 @@ class TaskForm(forms.ModelForm):
         queryset = User.objects.order_by('username'),
         required = False,
         empty_label = 'Select user (optional)',
-    )
-
-    # reorder field choices
-    tag = forms.ModelMultipleChoiceField(
-        label = gettext_lazy('Tags'),
-        queryset = Tag.objects.order_by('tag_name'),
-        required = False,
-        widget=forms.CheckboxSelectMultiple(),
     )
 
     class Meta:

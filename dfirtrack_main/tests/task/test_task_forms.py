@@ -72,6 +72,7 @@ class TaskFormTestCase(TestCase):
         form = TaskForm()
         # compare
         self.assertEqual(form.fields['taskname'].label, 'Taskname (*)')
+        self.assertEqual(form.fields['taskname'].empty_label, 'Select taskname')
 
     def test_task_parent_task_form_label(self):
         """ test form label """
@@ -80,6 +81,7 @@ class TaskFormTestCase(TestCase):
         form = TaskForm()
         # compare
         self.assertEqual(form.fields['parent_task'].label, 'Parent task')
+        self.assertEqual(form.fields['parent_task'].empty_label, 'Select parent task (optional)')
 
     def test_task_taskpriority_form_label(self):
         """ test form label """

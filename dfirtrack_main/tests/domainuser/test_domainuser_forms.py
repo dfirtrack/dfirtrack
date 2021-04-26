@@ -2,6 +2,7 @@ from django.test import TestCase
 from dfirtrack_main.forms import DomainuserForm
 from dfirtrack_main.models import Domain
 
+
 class DomainuserFormTestCase(TestCase):
     """ domainuser form tests """
 
@@ -36,6 +37,7 @@ class DomainuserFormTestCase(TestCase):
         form = DomainuserForm()
         # compare
         self.assertEqual(form.fields['domain'].label, 'Domain (*)')
+        self.assertEqual(form.fields['domain'].empty_label, 'Select domain')
 
     def test_domainuser_system_was_logged_on_form_label(self):
         """ test form label """

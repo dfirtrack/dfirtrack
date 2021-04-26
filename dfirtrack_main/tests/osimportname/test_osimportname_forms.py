@@ -2,6 +2,7 @@ from django.test import TestCase
 from dfirtrack_main.forms import OsimportnameForm
 from dfirtrack_main.models import Os
 
+
 class OsimportnameFormTestCase(TestCase):
     """ osimportname form tests """
 
@@ -26,6 +27,7 @@ class OsimportnameFormTestCase(TestCase):
         form = OsimportnameForm()
         # compare
         self.assertEqual(form.fields['os'].label, 'Operating system (*)')
+        self.assertEqual(form.fields['os'].empty_label, 'Select OS')
 
     def test_osimportname_importer_form_label(self):
         """ test form label """

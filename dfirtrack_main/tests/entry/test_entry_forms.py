@@ -47,6 +47,7 @@ class EntryFormTestCase(TestCase):
         form = EntryForm()
         # compare
         self.assertEqual(form.fields['system'].label, 'System (*)')
+        self.assertEqual(form.fields['system'].empty_label, 'Select system')
 
     def test_entry_sha1_form_label(self):
         """ test form label """
@@ -111,6 +112,7 @@ class EntryFormTestCase(TestCase):
         form = EntryForm()
         # compare
         self.assertEqual(form.fields['case'].label, 'Case')
+        self.assertEqual(form.fields['case'].empty_label, 'Select case (optional)')
 
     def test_entry_form_empty(self):
         """ test minimum form requirements / INVALID """

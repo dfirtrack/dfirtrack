@@ -2,7 +2,9 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
 from dfirtrack_main.forms import SystemuserForm
-from dfirtrack_main.models import System, Systemstatus
+from dfirtrack_main.models import System
+from dfirtrack_main.models import Systemstatus
+
 
 class SystemuserFormTestCase(TestCase):
     """ systemuser form tests """
@@ -56,6 +58,7 @@ class SystemuserFormTestCase(TestCase):
         form = SystemuserForm()
         # compare
         self.assertEqual(form.fields['system'].label, 'System (*)')
+        self.assertEqual(form.fields['system'].empty_label, 'Select system')
 
     def test_systemuser_form_empty(self):
         """ test minimum form requirements / INVALID """
