@@ -713,8 +713,8 @@ class SystemBaseForm(forms.ModelForm):
             'tag',
         )
 
-class SystemForm(SystemBaseForm):
-    """ this form does not allow editing of system_name """
+class SystemExtendedBaseForm(SystemBaseForm):
+    """ extended form base class with shared form fields for system, inherits from system base form """
 
     # reorder field choices
     case = forms.ModelMultipleChoiceField(
@@ -739,6 +739,54 @@ class SystemForm(SystemBaseForm):
         empty_label = 'Select domain (optional)',
         required = False,
     )
+
+    # reorder field choices
+    os = forms.ModelChoiceField(
+        label = gettext_lazy('Operating system'),
+        queryset = Os.objects.order_by('os_name'),
+        empty_label = 'Select OS (optional)',
+        required = False,
+    )
+
+    # reorder field choices
+    osarch = forms.ModelChoiceField(
+        label = gettext_lazy('OS architecture'),
+        queryset = Osarch.objects.order_by('osarch_name'),
+        empty_label = 'Select OS architecture (optional)',
+        required = False,
+    )
+
+    # reorder field choices
+    reason = forms.ModelChoiceField(
+        label = gettext_lazy('Reason for investigation'),
+        queryset = Reason.objects.order_by('reason_name'),
+        empty_label = 'Select reason (optional)',
+        required = False,
+    )
+
+    # reorder field choices
+    systemtype = forms.ModelChoiceField(
+        label = gettext_lazy('Systemtype'),
+        queryset = Systemtype.objects.order_by('systemtype_name'),
+        empty_label = 'Select systemtype (optional)',
+        required = False,
+    )
+
+    class Meta(SystemBaseForm.Meta):
+
+        # this HTML forms are shown
+        fields = SystemBaseForm.Meta.fields + (
+            'case',
+            'dnsname',
+            'domain',
+            'os',
+            'osarch',
+            'reason',
+            'systemtype',
+        )
+
+class SystemForm(SystemExtendedBaseForm):
+    """ this form does not allow editing of system_name, inherits from system extended base form """
 
     # reorder field choices
     host_system = forms.ModelChoiceField(
@@ -761,30 +809,6 @@ class SystemForm(SystemBaseForm):
     )
 
     # reorder field choices
-    os = forms.ModelChoiceField(
-        label = gettext_lazy('Operating system'),
-        queryset = Os.objects.order_by('os_name'),
-        empty_label = 'Select OS (optional)',
-        required = False,
-    )
-
-    # reorder field choices
-    osarch = forms.ModelChoiceField(
-        label = gettext_lazy('OS architecture'),
-        queryset = Osarch.objects.order_by('osarch_name'),
-        empty_label = 'Select OS architecture (optional)',
-        required = False,
-    )
-
-    # reorder field choices
-    reason = forms.ModelChoiceField(
-        label = gettext_lazy('Reason for investigation'),
-        queryset = Reason.objects.order_by('reason_name'),
-        empty_label = 'Select reason (optional)',
-        required = False,
-    )
-
-    # reorder field choices
     recommendation = forms.ModelChoiceField(
         label = gettext_lazy('Recommendation'),
         queryset = Recommendation.objects.order_by('recommendation_name'),
@@ -792,28 +816,11 @@ class SystemForm(SystemBaseForm):
         required = False,
     )
 
-    # reorder field choices
-    systemtype = forms.ModelChoiceField(
-        label = gettext_lazy('Systemtype'),
-        queryset = Systemtype.objects.order_by('systemtype_name'),
-        empty_label = 'Select systemtype (optional)',
-        required = False,
-    )
-
-    class Meta:
-
-        # model
-        model = System
+    class Meta(SystemExtendedBaseForm.Meta):
 
         # this HTML forms are shown
-        fields = SystemBaseForm.Meta.fields + (
-            'case',
-            'dnsname',
-            'domain',
+        fields = SystemExtendedBaseForm.Meta.fields + (
             'host_system',
-            'os',
-            'osarch',
-            'reason',
             'recommendation',
             'system_deprecated_time',
             'system_export_markdown',
@@ -821,7 +828,6 @@ class SystemForm(SystemBaseForm):
             'system_install_time',
             'system_is_vm',
             'system_lastbooted_time',
-            'systemtype',
         )
 
         # non default form labeling
@@ -844,7 +850,7 @@ class SystemForm(SystemBaseForm):
         }
 
 class SystemNameForm(SystemForm):
-    """ this form allows editing of system_name """
+    """ this form allows editing of system_name, inherits from system form """
 
     class Meta(SystemForm.Meta):
 
@@ -864,56 +870,8 @@ class SystemNameForm(SystemForm):
             }
         )
 
-class SystemCreatorForm(SystemBaseForm):
-    """ system creator form, inherits from system base form """
-
-    # reorder field choices
-    case = forms.ModelMultipleChoiceField(
-        label = gettext_lazy('Cases'),
-        queryset = Case.objects.order_by('case_name'),
-        required = False,
-        widget=forms.CheckboxSelectMultiple(),
-    )
-
-    # reorder field choices
-    dnsname = forms.ModelChoiceField(
-        label = gettext_lazy('DNS name'),
-        queryset = Dnsname.objects.order_by('dnsname_name'),
-        required = False,
-        empty_label = 'Select DNS name (optional)',
-    )
-
-    # reorder field choices
-    domain = forms.ModelChoiceField(
-        label = gettext_lazy('Domain'),
-        queryset = Domain.objects.order_by('domain_name'),
-        required = False,
-        empty_label = 'Select domain (optional)',
-    )
-
-    # reorder field choices
-    os = forms.ModelChoiceField(
-        label = gettext_lazy('Operating system'),
-        queryset = Os.objects.order_by('os_name'),
-        required = False,
-        empty_label = 'Select OS (optional)',
-    )
-
-    # reorder field choices
-    osarch = forms.ModelChoiceField(
-        label = gettext_lazy('OS architecture'),
-        queryset = Osarch.objects.order_by('osarch_name'),
-        required = False,
-        empty_label = 'Select OS architecture (optional)',
-    )
-
-    # reorder field choices
-    reason = forms.ModelChoiceField(
-        label = gettext_lazy('Reason for investigation'),
-        queryset = Reason.objects.order_by('reason_name'),
-        required = False,
-        empty_label = 'Select reason (optional)',
-    )
+class SystemCreatorForm(SystemExtendedBaseForm):
+    """ system creator form, inherits from system extended base form """
 
     # large text area for line separated systemlist
     systemlist = forms.CharField(
@@ -926,27 +884,6 @@ class SystemCreatorForm(SystemBaseForm):
         ),
         label = 'System list (*)',
     )
-
-    # reorder field choices
-    systemtype = forms.ModelChoiceField(
-        label = gettext_lazy('Systemtype'),
-        queryset = Systemtype.objects.order_by('systemtype_name'),
-        required = False,
-        empty_label = 'Select systemtype (optional)',
-    )
-
-    class Meta(SystemBaseForm.Meta):
-
-        # add system_name to shown HTML forms
-        fields = SystemForm.Meta.fields + (
-            'case',
-            'dnsname',
-            'domain',
-            'os',
-            'osarch',
-            'reason',
-            'systemtype',
-        )
 
 class SystemModificatorForm(AdminStyleSelectorForm, SystemBaseForm):
     """ system modificator form, inherits from system base form """
@@ -1162,10 +1099,7 @@ class TaskForm(TaskBaseForm):
         queryset = Taskname.objects.order_by('taskname_name'),
     )
 
-    class Meta:
-
-        # model
-        model = Task
+    class Meta(TaskBaseForm.Meta):
 
         # this HTML forms are shown
         fields = TaskBaseForm.Meta.fields + (
