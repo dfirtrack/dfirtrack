@@ -1066,6 +1066,7 @@ class TagForm(forms.ModelForm):
         }
 
 class TagCreatorForm(forms.Form):
+    """ tag creator form """
 
     # show all existing tag objects as multiple choice field
     tag = forms.ModelMultipleChoiceField(
@@ -1081,24 +1082,8 @@ class TagCreatorForm(forms.Form):
         label = 'Systems (*)',
     )
 
-class TaskForm(forms.ModelForm):
-    """ default model form """
-
-    # reorder field choices
-    parent_task = forms.ModelChoiceField(
-        label = gettext_lazy('Parent task'),
-        queryset = Task.objects.order_by('task_id'),
-        required = False,
-        empty_label = 'Select parent task (optional)',
-    )
-
-    # reorder field choices
-    system = forms.ModelChoiceField(
-        label = gettext_lazy('Corresponding system'),
-        queryset = System.objects.order_by('system_name'),
-        required = False,
-        empty_label = 'Select system (optional)',
-    )
+class TaskBaseForm(forms.ModelForm):
+    """ form base class with shared form fields for task """
 
     # reorder field choices
     tag = forms.ModelMultipleChoiceField(
@@ -1106,6 +1091,14 @@ class TaskForm(forms.ModelForm):
         queryset = Tag.objects.order_by('tag_name'),
         required = False,
         widget=forms.CheckboxSelectMultiple(),
+    )
+
+    # reorder field choices
+    task_assigned_to_user_id = forms.ModelChoiceField(
+        label = gettext_lazy('Assigned to user'),
+        queryset = User.objects.order_by('username'),
+        required = False,
+        empty_label = 'Select user (optional)',
     )
 
     # reorder field choices
@@ -1124,6 +1117,44 @@ class TaskForm(forms.ModelForm):
         widget = forms.RadioSelect(),
     )
 
+    class Meta:
+
+        # model
+        model = Task
+
+        # this HTML forms are shown
+        fields = (
+            'tag',
+            'task_assigned_to_user_id',
+            'task_note',
+            'taskpriority',
+            'taskstatus',
+        )
+
+        # special form type or option
+        widgets = {
+            'task_note': forms.Textarea(attrs={'rows': 10}),
+        }
+
+class TaskForm(TaskBaseForm):
+    """ default model form, inherits from task base form  """
+
+    # reorder field choices
+    parent_task = forms.ModelChoiceField(
+        label = gettext_lazy('Parent task'),
+        queryset = Task.objects.order_by('task_id'),
+        required = False,
+        empty_label = 'Select parent task (optional)',
+    )
+
+    # reorder field choices
+    system = forms.ModelChoiceField(
+        label = gettext_lazy('Corresponding system'),
+        queryset = System.objects.order_by('system_name'),
+        required = False,
+        empty_label = 'Select system (optional)',
+    )
+
     # reorder field choices
     taskname = forms.ModelChoiceField(
         label = gettext_lazy('Taskname (*)'),
@@ -1131,114 +1162,49 @@ class TaskForm(forms.ModelForm):
         queryset = Taskname.objects.order_by('taskname_name'),
     )
 
-    # reorder field choices
-    task_assigned_to_user_id = forms.ModelChoiceField(
-        label = gettext_lazy('Assigned to user'),
-        queryset = User.objects.order_by('username'),
-        required = False,
-        empty_label = 'Select user (optional)',
-    )
-
     class Meta:
 
         # model
         model = Task
 
         # this HTML forms are shown
-        fields = (
-            'taskname',
+        fields = TaskBaseForm.Meta.fields + (
             'parent_task',
-            'taskpriority',
-            'taskstatus',
             'system',
-            'task_assigned_to_user_id',
-            'task_note',
-            'tag',
-            'task_scheduled_time',
             'task_due_time',
+            'task_scheduled_time',
+            'taskname',
         )
 
         # non default form labeling
         labels = {
-            'task_note': gettext_lazy('Task note'),
-            'task_scheduled_time': gettext_lazy('Scheduled (YYYY-MM-DD HH:MM:SS)'),
             'task_due_time': gettext_lazy('Due (YYYY-MM-DD HH:MM:SS)'),
+            'task_scheduled_time': gettext_lazy('Scheduled (YYYY-MM-DD HH:MM:SS)'),
         }
 
         # special form type or option
-        widgets = {
-            'parent_task': forms.Select(),
-            'task_note': forms.Textarea(attrs={'rows': 10}),
-            'task_scheduled_time': forms.DateTimeInput(),
+        new_widgets = {
             'task_due_time': forms.DateTimeInput(),
+            'task_scheduled_time': forms.DateTimeInput(),
         }
+        TaskBaseForm.Meta.widgets.update(new_widgets)
 
-class TaskCreatorForm(AdminStyleSelectorForm):
-
-    # show all existing taskname objects as multiple choice field
-    taskname = forms.ModelMultipleChoiceField(
-        queryset = Taskname.objects.order_by('taskname_name'),
-        widget = forms.CheckboxSelectMultiple(),
-        label = 'Tasknames',
-    )
-
-    # reorder field choices
-    taskpriority = forms.ModelChoiceField(
-        queryset = Taskpriority.objects.order_by('taskpriority_name'),
-        label = 'Taskpriority',
-        required = True,
-        widget = forms.RadioSelect(),
-    )
-
-    # reorder field choices
-    taskstatus = forms.ModelChoiceField(
-        queryset = Taskstatus.objects.order_by('taskstatus_name'),
-        label = 'Taskstatus',
-        required = True,
-        widget = forms.RadioSelect(),
-    )
+class TaskCreatorForm(AdminStyleSelectorForm, TaskBaseForm):
+    """ task creator form, inherits from task base form """
 
     # admin UI style system chooser
     system = forms.ModelMultipleChoiceField(
         queryset = System.objects.order_by('system_name'),
         widget = FilteredSelectMultiple('Systems', is_stacked=False),
-        label = 'Systems',
+        label = 'Corresponding systems (*)',
     )
 
-    # reorder field choices
-    task_assigned_to_user_id = forms.ModelChoiceField(
-        label = gettext_lazy('Task assigned to user id'),
-        queryset = User.objects.order_by('username'),
-        required = False,
-        widget = forms.RadioSelect(),
+    # show all existing taskname objects as multiple choice field
+    taskname = forms.ModelMultipleChoiceField(
+        queryset = Taskname.objects.order_by('taskname_name'),
+        widget = forms.CheckboxSelectMultiple(),
+        label = 'Tasknames (*)',
     )
-
-    # reorder field choices
-    tag = forms.ModelMultipleChoiceField(
-        label = gettext_lazy('Tag'),
-        queryset = Tag.objects.order_by('tag_name'),
-        required = False,
-        widget=forms.CheckboxSelectMultiple(),
-    )
-
-    class Meta:
-
-        # model
-        model = Task
-
-        # this HTML forms are shown
-        fields = (
-            'taskpriority',
-            'taskstatus',
-            'task_assigned_to_user_id',
-            'task_note',
-            'tag',
-        )
-
-        # special form type or option
-        widgets = {
-            'task_note': forms.Textarea(attrs={'rows': 10}),
-        }
 
 class TasknameForm(forms.ModelForm):
     """ default model form """

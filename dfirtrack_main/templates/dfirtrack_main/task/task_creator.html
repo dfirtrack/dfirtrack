@@ -55,7 +55,8 @@
         <div class="row">
             <div class="col">
                 <h5>
-                    Tasknames (*):
+                    <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    {{ form.taskname.label }}
                 </h5>
             </div>
         </div>
@@ -87,7 +88,8 @@
         <div class="row">
             <div class="col">
                 <h5>
-                    Tags
+                    <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    {{ form.tag.label }}
                 </h5>
             </div>
         </div>
@@ -124,24 +126,34 @@
             </div>
         </div>
 
-        <!-- taskpriority / taskstatus / user  headline -->
+        <!-- taskpriority / taskstatus / user headline -->
         <div class="row">
+
+            <!-- taskpriority headline -->
             <div class="col-3">
                 <div class="font-weight-bold">
-                    Priority (*):
+                    {{ form.taskpriority.label }}
                 </div>
             </div>
+
+            <!-- taskstatus headline -->
             <div class="col-3">
                 <div class="font-weight-bold">
-                    Status (*):
+                    {{ form.taskstatus.label }}
                 </div>
             </div>
+
+            <!-- user headline -->
             <div class="col-3">
                 <div class="font-weight-bold">
-                    Assigned to user:
+                    <img src="{% static 'dfirtrack_main/icons/person-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    {{ form.task_assigned_to_user_id.label }}
                 </div>
             </div>
+
+        <!-- taskpriority / taskstatus / user headline -->
         </div>
+
         <!-- taskpriority / taskstatus / user -->
         <div class="row">
 
@@ -177,9 +189,7 @@
                     <div class="text-danger">
                         {{ form.task_assigned_to_user_id.errors }}
                     </div>
-                    {% for i in form.task_assigned_to_user_id %}
-                        {{ i }}
-                    {% endfor %}
+                    {{ form.task_assigned_to_user_id }}
                 </div>
             </div>
 
@@ -190,7 +200,8 @@
         <div class="row top-distance">
             <div class="col-3">
                 <div class="font-weight-bold top-distance bottom-distance">
-                    Corresponding systems:
+                    <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    {{ form.system.label }}
                 </div>
             </div>
         </div>
@@ -226,7 +237,7 @@
         <div class="row">
             <div class="col">
                 <h5>
-                    Note
+                    {{ form.task_note.label }}
                 </h5>
             </div>
         </div>
