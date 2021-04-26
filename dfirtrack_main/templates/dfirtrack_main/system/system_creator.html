@@ -60,13 +60,14 @@
 
             <div class="col-6">
                 <h5>
-                    Systemlist (*):
+                    <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    {{ form.systemlist.label }}
                 </h5>
             </div>
 
             <div class="col-6">
                 <h5>
-                    DNS name:
+                    {{ form.dnsname.label }}
                 </h5>
             </div>
 
@@ -100,9 +101,7 @@
                     <div class="text-danger">
                         {{ form.dnsname.errors }}
                     </div>
-                    {% for i in form.dnsname %}
-                        {{ i }}<br>
-                    {% endfor %}
+                    {{ form.dnsname }}
                 </div>
             </div>
 
@@ -141,14 +140,16 @@
             <!-- tag headline -->
             <div class="col-6">
                 <h5>
-                    Tags
+                    <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    {{ form.tag.label }}
                 </h5>
             </div>
 
             <!-- case headline -->
             <div class="col-6">
                 <h5>
-                    Cases
+                    <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    {{ form.case.label }}
                 </h5>
             </div>
 
@@ -209,21 +210,21 @@
             <!-- systemstatus headline -->
             <div class="col-3">
                 <div class="font-weight-bold">
-                    Systemstatus (*):
+                    {{ form.systemstatus.label }}
                 </div>
             </div>
 
             <!-- analysisstatus headline -->
             <div class="col-3">
                 <div class="font-weight-bold">
-                    Analysisstatus:
+                    {{ form.analysisstatus.label }}
                 </div>
             </div>
 
             <!-- reason -->
             <div class="col-3">
                 <div class="font-weight-bold">
-                    Reason for investigation:
+                    {{ form.reason.label }}
                 </div>
             </div>
 
@@ -270,9 +271,7 @@
                     <div class="text-danger">
                         {{ form.reason.errors }}
                     </div>
-                    {% for i in form.reason %}
-                        {{ i }}<br>
-                    {% endfor %}
+                    {{ form.reason }}
                 </div>
             </div>
 
@@ -327,7 +326,7 @@
             <!-- systemtype headline -->
             <div class="col-3">
                 <div class="font-weight-bold">
-                    Systemtype:
+                    {{ form.systemtype.label }}
                 </div>
             </div>
 
@@ -338,14 +337,14 @@
             <!-- domain headline -->
             <div class="col-3">
                 <div class="font-weight-bold">
-                    Domain:
+                    {{ form.domain.label }}
                 </div>
             </div>
 
             <!-- operating system headline -->
             <div class="col-3">
                 <div class="font-weight-bold">
-                    Operating system:
+                    {{ form.os.label }}
                 </div>
             </div>
 
@@ -362,9 +361,7 @@
                     <div class="text-danger">
                         {{ form.systemtype.errors }}
                     </div>
-                    {% for i in form.systemtype %}
-                        {{ i }}<br>
-                    {% endfor %}
+                    {{ form.systemtype }}
                 </div>
             </div>
 
@@ -379,9 +376,7 @@
                     <div class="text-danger">
                         {{ form.domain.errors }}
                     </div>
-                    {% for i in form.domain %}
-                        {{ i }}<br>
-                    {% endfor %}
+                    {{ form.domain }}
                 </div>
             </div>
 
@@ -392,9 +387,7 @@
                     <div class="text-danger">
                         {{ form.os.errors }}
                     </div>
-                    {% for i in form.os %}
-                        {{ i }}<br>
-                    {% endfor %}
+                    {{ form.os }}
                 </div>
             </div>
 
@@ -445,7 +438,7 @@
             <!-- osarch headline -->
             <div class="col-3">
                 <div class="font-weight-bold">
-                    OS architecture:
+                    {{ form.osarch.label }}
                 </div>
             </div>
 
@@ -466,9 +459,7 @@
                     <div class="text-danger">
                         {{ form.osarch.errors }}
                     </div>
-                    {% for i in form.osarch %}
-                        {{ i }}<br>
-                    {% endfor %}
+                    {{ form.osarch }}
                 </div>
             </div>
 
@@ -498,28 +489,28 @@
             <!-- company headline -->
             <div class="col-3">
                 <div class="font-weight-bold">
-                    Company:
+                    {{ form.company.label }}
                 </div>
             </div>
 
             <!-- location headline -->
             <div class="col-3">
                 <div class="font-weight-bold">
-                    Location:
+                    {{ form.location.label }}
                 </div>
             </div>
 
             <!-- serviceprovider headline -->
             <div class="col-3">
                 <div class="font-weight-bold">
-                    Serviceprovider:
+                    {{ form.serviceprovider.label }}
                 </div>
             </div>
 
             <!-- contact headline -->
             <div class="col-3">
                 <div class="font-weight-bold">
-                    Contact:
+                    {{ form.contact.label }}
                 </div>
             </div>
 
@@ -549,9 +540,7 @@
                     <div class="text-danger">
                         {{ form.location.errors }}
                     </div>
-                    {% for i in form.location %}
-                        {{ i }}<br>
-                    {% endfor %}
+                    {{ form.location }}
                 </div>
             </div>
 
@@ -562,9 +551,7 @@
                     <div class="text-danger">
                         {{ form.serviceprovider.errors }}
                     </div>
-                    {% for i in form.serviceprovider %}
-                        {{ i }}<br>
-                    {% endfor %}
+                    {{ form.serviceprovider }}
                 </div>
             </div>
 
@@ -575,9 +562,7 @@
                     <div class="text-danger">
                         {{ form.contact.errors }}
                     </div>
-                    {% for i in form.contact %}
-                        {{ i }}<br>
-                    {% endfor %}
+                    {{ form.contact }}
                 </div>
             </div>
 

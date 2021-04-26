@@ -828,14 +828,6 @@ class SystemNameForm(SystemForm):
 class SystemCreatorForm(forms.ModelForm):
 
     # reorder field choices
-    systemstatus = forms.ModelChoiceField(
-        queryset = Systemstatus.objects.order_by('systemstatus_name'),
-        label = 'Systemstatus',
-        required = True,
-        widget = forms.RadioSelect(),
-    )
-
-    # reorder field choices
     analysisstatus = forms.ModelChoiceField(
         queryset = Analysisstatus.objects.order_by('analysisstatus_name'),
         required = False,
@@ -844,67 +836,19 @@ class SystemCreatorForm(forms.ModelForm):
     )
 
     # reorder field choices
-    reason = forms.ModelChoiceField(
-        label = gettext_lazy('Reason'),
-        queryset = Reason.objects.order_by('reason_name'),
-        required = False,
-        widget = forms.RadioSelect(),
-    )
-
-    # reorder field choices
-    systemtype = forms.ModelChoiceField(
-        label = gettext_lazy('Systemtype'),
-        queryset = Systemtype.objects.order_by('systemtype_name'),
-        required = False,
-        widget = forms.RadioSelect(),
-    )
-
-    # reorder field choices
-    domain = forms.ModelChoiceField(
-        label = gettext_lazy('Domain'),
-        queryset = Domain.objects.order_by('domain_name'),
-        required = False,
-        widget = forms.RadioSelect(),
-    )
-
-    # reorder field choices
-    dnsname = forms.ModelChoiceField(
-        label = gettext_lazy('Dnsname'),
-        queryset = Dnsname.objects.order_by('dnsname_name'),
-        required = False,
-        widget = forms.RadioSelect(),
-    )
-
-    # reorder field choices
-    os = forms.ModelChoiceField(
-        label = gettext_lazy('Os'),
-        queryset = Os.objects.order_by('os_name'),
-        required = False,
-        widget = forms.RadioSelect(),
-    )
-
-    # reorder field choices
-    company = forms.ModelMultipleChoiceField(
-        label = gettext_lazy('Company'),
-        queryset = Company.objects.order_by('company_name'),
+    case = forms.ModelMultipleChoiceField(
+        label = gettext_lazy('Cases'),
+        queryset = Case.objects.order_by('case_name'),
         required = False,
         widget=forms.CheckboxSelectMultiple(),
     )
 
     # reorder field choices
-    location = forms.ModelChoiceField(
-        label = gettext_lazy('Location'),
-        queryset = Location.objects.order_by('location_name'),
+    company = forms.ModelMultipleChoiceField(
+        label = gettext_lazy('Companies'),
+        queryset = Company.objects.order_by('company_name'),
         required = False,
-        widget = forms.RadioSelect(),
-    )
-
-    # reorder field choices
-    serviceprovider = forms.ModelChoiceField(
-        label = gettext_lazy('Serviceprovider'),
-        queryset = Serviceprovider.objects.order_by('serviceprovider_name'),
-        required = False,
-        widget = forms.RadioSelect(),
+        widget=forms.CheckboxSelectMultiple(),
     )
 
     # reorder field choices
@@ -912,23 +856,63 @@ class SystemCreatorForm(forms.ModelForm):
         label = gettext_lazy('Contact'),
         queryset = Contact.objects.order_by('contact_name'),
         required = False,
-        widget = forms.RadioSelect(),
+        empty_label = 'Select contact (optional)',
     )
 
     # reorder field choices
-    tag = forms.ModelMultipleChoiceField(
-        label = gettext_lazy('Tag'),
-        queryset = Tag.objects.order_by('tag_name'),
+    dnsname = forms.ModelChoiceField(
+        label = gettext_lazy('DNS name'),
+        queryset = Dnsname.objects.order_by('dnsname_name'),
         required = False,
-        widget=forms.CheckboxSelectMultiple(),
+        empty_label = 'Select DNS name (optional)',
     )
 
     # reorder field choices
-    case = forms.ModelMultipleChoiceField(
-        label = gettext_lazy('Case'),
-        queryset = Case.objects.order_by('case_name'),
+    domain = forms.ModelChoiceField(
+        label = gettext_lazy('Domain'),
+        queryset = Domain.objects.order_by('domain_name'),
         required = False,
-        widget=forms.CheckboxSelectMultiple(),
+        empty_label = 'Select domain (optional)',
+    )
+
+    # reorder field choices
+    location = forms.ModelChoiceField(
+        label = gettext_lazy('Location'),
+        queryset = Location.objects.order_by('location_name'),
+        required = False,
+        empty_label = 'Select location (optional)',
+    )
+
+    # reorder field choices
+    os = forms.ModelChoiceField(
+        label = gettext_lazy('Operating system'),
+        queryset = Os.objects.order_by('os_name'),
+        required = False,
+        empty_label = 'Select OS (optional)',
+    )
+
+    # reorder field choices
+    osarch = forms.ModelChoiceField(
+        label = gettext_lazy('OS architecture'),
+        queryset = Osarch.objects.order_by('osarch_name'),
+        required = False,
+        empty_label = 'Select OS architecture (optional)',
+    )
+
+    # reorder field choices
+    reason = forms.ModelChoiceField(
+        label = gettext_lazy('Reason for investigation'),
+        queryset = Reason.objects.order_by('reason_name'),
+        required = False,
+        empty_label = 'Select reason (optional)',
+    )
+
+    # reorder field choices
+    serviceprovider = forms.ModelChoiceField(
+        label = gettext_lazy('Serviceprovider'),
+        queryset = Serviceprovider.objects.order_by('serviceprovider_name'),
+        required = False,
+        empty_label = 'Select serviceprovider (optional)',
     )
 
     # large text area for line separated systemlist
@@ -940,7 +924,31 @@ class SystemCreatorForm(forms.ModelForm):
                 'autofocus': 'autofocus',
             },
         ),
-        label = 'System list',
+        label = 'System list (*)',
+    )
+
+    # reorder field choices
+    systemstatus = forms.ModelChoiceField(
+        queryset = Systemstatus.objects.order_by('systemstatus_name'),
+        label = 'Systemstatus (*)',
+        required = True,
+        widget = forms.RadioSelect(),
+    )
+
+    # reorder field choices
+    systemtype = forms.ModelChoiceField(
+        label = gettext_lazy('Systemtype'),
+        queryset = Systemtype.objects.order_by('systemtype_name'),
+        required = False,
+        empty_label = 'Select systemtype (optional)',
+    )
+
+    # reorder field choices
+    tag = forms.ModelMultipleChoiceField(
+        label = gettext_lazy('Tags'),
+        queryset = Tag.objects.order_by('tag_name'),
+        required = False,
+        widget=forms.CheckboxSelectMultiple(),
     )
 
     class Meta:
@@ -965,11 +973,6 @@ class SystemCreatorForm(forms.ModelForm):
             'tag',
             'case',
         )
-
-        # special form type or option
-        widgets = {
-            'osarch': forms.RadioSelect(),
-        }
 
 class SystemModificatorForm(AdminStyleSelectorForm):
 
