@@ -2,7 +2,16 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
 from dfirtrack_main.forms import SystemModificatorForm
-from dfirtrack_main.models import Analysisstatus, Company, Contact, Location, Serviceprovider, System, Systemstatus, Tag, Tagcolor
+from dfirtrack_main.models import Analysisstatus
+from dfirtrack_main.models import Company
+from dfirtrack_main.models import Contact
+from dfirtrack_main.models import Location
+from dfirtrack_main.models import Serviceprovider
+from dfirtrack_main.models import System
+from dfirtrack_main.models import Systemstatus
+from dfirtrack_main.models import Tag
+from dfirtrack_main.models import Tagcolor
+
 
 class SystemModificatorFormTestCase(TestCase):
     """ system modificator form tests """
@@ -66,7 +75,7 @@ class SystemModificatorFormTestCase(TestCase):
         # get object
         form = SystemModificatorForm()
         # compare
-        self.assertEqual(form.fields['systemlist'].label, 'System list')
+        self.assertEqual(form.fields['systemlist'].label, 'System list (*)')
 
     def test_system_modificator_tag_form_label(self):
         """ test form label """
@@ -74,7 +83,7 @@ class SystemModificatorFormTestCase(TestCase):
         # get object
         form = SystemModificatorForm()
         # compare
-        self.assertEqual(form.fields['tag'].label, 'Tag')
+        self.assertEqual(form.fields['tag'].label, 'Tags')
 
     def test_system_modificator_systemstatus_form_label(self):
         """ test form label """
@@ -82,7 +91,7 @@ class SystemModificatorFormTestCase(TestCase):
         # get object
         form = SystemModificatorForm()
         # compare
-        self.assertEqual(form.fields['systemstatus'].label, 'Systemstatus')
+        self.assertEqual(form.fields['systemstatus'].label, 'Systemstatus (*)')
 
     def test_system_modificator_analysisstatus_form_label(self):
         """ test form label """
@@ -98,7 +107,7 @@ class SystemModificatorFormTestCase(TestCase):
         # get object
         form = SystemModificatorForm()
         # compare
-        self.assertEqual(form.fields['company'].label, 'Company')
+        self.assertEqual(form.fields['company'].label, 'Companies')
 
     def test_system_modificator_location_form_label(self):
         """ test form label """

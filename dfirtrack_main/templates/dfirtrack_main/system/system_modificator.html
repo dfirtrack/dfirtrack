@@ -64,7 +64,8 @@
 
             <div class="col-6">
                 <h5>
-                    Systemlist (*):
+                    <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    {{ form.systemlist.label }}
                 </h5>
             </div>
 
@@ -101,7 +102,8 @@
             <!-- tag headline -->
             <div class="col-6">
                 <h5>
-                    Tags
+                    <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    {{ form.tag.label }}
                 </h5>
             </div>
 
@@ -150,14 +152,14 @@
             <!-- systemstatus headline -->
             <div class="col-3">
                 <div class="font-weight-bold">
-                    Systemstatus (*):
+                    {{ form.systemstatus.label }}
                 </div>
             </div>
 
             <!-- analysisstatus headline -->
             <div class="col-3">
                 <div class="font-weight-bold">
-                    Analysisstatus:
+                    {{ form.analysisstatus.label }}
                 </div>
             </div>
 
@@ -217,28 +219,28 @@
             <!-- company headline -->
             <div class="col-3">
                 <div class="font-weight-bold">
-                    Company:
+                    {{ form.company.label }}
                 </div>
             </div>
 
             <!-- location headline -->
             <div class="col-3">
                 <div class="font-weight-bold">
-                    Location:
+                    {{ form.location.label }}
                 </div>
             </div>
 
             <!-- serviceprovider headline -->
             <div class="col-3">
                 <div class="font-weight-bold">
-                    Serviceprovider:
+                    {{ form.serviceprovider.label }}
                 </div>
             </div>
 
             <!-- contact headline -->
             <div class="col-3">
                 <div class="font-weight-bold">
-                    Contact:
+                    {{ form.contact.label }}
                 </div>
             </div>
 
@@ -264,39 +266,33 @@
             <!-- location -->
             <div class="col-3">
                 <div class="card card-body bg-dark border-light top-distance">
-                    <!-- analysisstatus errors -->
+                    <!-- location errors -->
                     <div class="text-danger">
                         {{ form.location.errors }}
                     </div>
-                    {% for i in form.location %}
-                        {{ i }}<br>
-                    {% endfor %}
+                    {{ form.location }}
                 </div>
             </div>
 
             <!-- serviceprovider -->
             <div class="col-3">
                 <div class="card card-body bg-dark border-light top-distance">
-                    <!-- analysisstatus errors -->
+                    <!-- serviceprovider errors -->
                     <div class="text-danger">
                         {{ form.serviceprovider.errors }}
                     </div>
-                    {% for i in form.serviceprovider %}
-                        {{ i }}<br>
-                    {% endfor %}
+                    {{ form.serviceprovider }}
                 </div>
             </div>
 
             <!-- contact -->
             <div class="col-3">
                 <div class="card card-body bg-dark border-light top-distance">
-                    <!-- analysisstatus errors -->
+                    <!-- contact errors -->
                     <div class="text-danger">
                         {{ form.contact.errors }}
                     </div>
-                    {% for i in form.contact %}
-                        {{ i }}<br>
-                    {% endfor %}
+                    {{ form.contact }}
                 </div>
             </div>
 
