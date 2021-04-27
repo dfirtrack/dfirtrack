@@ -220,12 +220,13 @@ class SystemCreatorViewTestCase(TestCase):
         # create objects
         analysisstatus_1 = Analysisstatus.objects.create(analysisstatus_name = 'analysisstatus_1')
         systemstatus_2 = Systemstatus.objects.get(systemstatus_name = 'systemstatus_2')
+        workflow_1 = Workflow.objects.get(workflow_name='workflow_1')
         # create post data
         data_dict = {
-            'systemlist': 'system_creator_workflow_1',
+            'systemlist': 'system_creator_workflow_2',
             'analysisstatus': analysisstatus_1.analysisstatus_id,
             'systemstatus': systemstatus_2.systemstatus_id,
-            'workflow': 99
+            'workflow': [workflow_1.workflow_id, 99]
         }
         # get response
         response = self.client.post('/system/creator/', data_dict, follow=True)

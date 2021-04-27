@@ -425,8 +425,9 @@ class Workflow(models.Model):
         )
     
     def apply(workflows, system, user):
-        try:
-            for workflow_id in workflows:
+        errors = 0
+        for workflow_id in workflows:
+            try:
                 workflow = Workflow.objects.get(pk=workflow_id)
                 # create tasks based on taskname
                 for taskname in workflow.tasknames.all():
@@ -446,11 +447,12 @@ class Workflow(models.Model):
                     new_artifact.artifact_modified_by_user_id = user
                     new_artifact.system = system
                     new_artifact.save()
-            return 0
-        except Workflow.DoesNotExist:
-            return 1
-        except ValueError:
-            return 1
+            except Workflow.DoesNotExist:
+                errors+=1
+            except ValueError:
+                errors+=1
+        return errors
+        
 
 class WorkflowDefaultArtifactname(models.Model):
 

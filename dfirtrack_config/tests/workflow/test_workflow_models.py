@@ -67,13 +67,13 @@ class WorkflowModelTestCase(TestCase):
         # get object
         workflow = Workflow.objects.get(workflow_id=1)
         # compare
-        self.assertEqual(workflow.get_update_url(), '/config/workflow/update/1')
+        self.assertEqual(workflow.get_update_url(), '/config/workflow/1/update/')
 
     def test_workflow_get_delete_url(self):        
         # get object
         workflow = Workflow.objects.get(workflow_id=1)
         # compare
-        self.assertEqual(workflow.get_delete_url(), '/config/workflow/delete/1')
+        self.assertEqual(workflow.get_delete_url(), '/config/workflow/1/delete/')
 
     def helper_apply_workflow(self, system, workflow_name, workflow_amount):
         # get worklow

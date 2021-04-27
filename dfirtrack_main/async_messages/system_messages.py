@@ -2,7 +2,7 @@ from django.contrib.messages import constants
 from dfirtrack_main.async_messages import message_user
 
 
-def final_messages(systems_touched_counter, systems_skipped_counter, lines_faulty_counter, skipped_systems, number_of_lines, request_user, workflows_applied):
+def final_messages(systems_touched_counter, systems_skipped_counter, lines_faulty_counter, skipped_systems, number_of_lines, request_user, workflow_count=0, workflows_applied=0):
     """ final messages for 'system_creator' and 'system_modificator' """
 
     # number messages
@@ -19,19 +19,6 @@ def final_messages(systems_touched_counter, systems_skipped_counter, lines_fault
                 request_user,
                 f'{systems_touched_counter} systems were created / modified.',
                 constants.SUCCESS
-            )
-       
-        if workflows_applied == systems_touched_counter:
-            message_user(
-                request_user,
-                f'System creator workflows applied',
-                constants.SUCCESS
-            )
-        else:
-            message_user(
-                request_user,
-                f'Could not apply all workflows.',
-                constants.WARNING
             )
 
     if systems_skipped_counter > 0:
@@ -59,6 +46,20 @@ def final_messages(systems_touched_counter, systems_skipped_counter, lines_fault
             message_user(
                 request_user,
                 f'{lines_faulty_counter} lines out of {number_of_lines} lines were faulty (see log file for details).',
+                constants.WARNING
+            )
+
+    if systems_touched_counter > 0 and workflow_count > 0:
+        if workflows_applied == systems_touched_counter*workflow_count:
+            message_user(
+                request_user,
+                f'System creator workflows applied',
+                constants.SUCCESS
+            )
+        else:
+            message_user(
+                request_user,
+                f'Could not apply all workflows.',
                 constants.WARNING
             )
 

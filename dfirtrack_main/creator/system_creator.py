@@ -84,6 +84,10 @@ def system_creator_async(request_post, request_user):
     workflows = request_post.getlist("workflow")
 
     # set workflows_applied (needed for messages)
+    if workflows:
+        workflow_count = len(workflows)
+    else:
+        workflow_count = 0
     workflows_applied = 0
 
     # iterate over lines
@@ -163,12 +167,10 @@ def system_creator_async(request_post, request_user):
                     system.logger(str(request_user), ' COULD_NOT_APPLY_WORKFLOW')
                 else:
                     workflows_applied += 1
-
     """ finish system importer """
 
-
     # call final messages
-    final_messages(systems_created_counter, systems_skipped_counter, lines_faulty_counter, skipped_systems, number_of_lines, request_user, workflows_applied)
+    final_messages(systems_created_counter, systems_skipped_counter, lines_faulty_counter, skipped_systems, number_of_lines, request_user, workflow_count, workflows_applied)
 
     # call logger
     info_logger(
