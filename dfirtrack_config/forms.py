@@ -1,4 +1,5 @@
 from django import forms
+from django.utils.translation import gettext_lazy
 from django.contrib.auth.models import User
 from dfirtrack_artifacts.models import Artifactstatus
 from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel
@@ -7,6 +8,8 @@ from dfirtrack_config.models import SystemExporterMarkdownConfigModel
 from dfirtrack_config.models import SystemExporterSpreadsheetCsvConfigModel
 from dfirtrack_config.models import SystemExporterSpreadsheetXlsConfigModel
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
+from dfirtrack_config.models import Workflow
+from dfirtrack_config.models import WorkflowDefaultArtifactname
 from dfirtrack_main.models import Analysisstatus
 from dfirtrack_main.models import Case
 from dfirtrack_main.models import Casestatus
@@ -21,7 +24,9 @@ from dfirtrack_main.models import Serviceprovider
 from dfirtrack_main.models import Systemstatus
 from dfirtrack_main.models import Systemtype
 from dfirtrack_main.models import Tag
+from dfirtrack_main.models import Taskname
 import os
+
 
 class ArtifactExporterSpreadsheetXlsConfigForm(forms.ModelForm):
     """ artifact exporter spreadsheet xls config form """
@@ -1088,3 +1093,38 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
             raise forms.ValidationError(validation_errors)
 
         return cleaned_data
+
+'''
+    modelformset_factory for WorkflowDefaultArtifactnameFormSet
+    to add multiple WorkflowDefaultArtifactname at once
+
+    to add more than one extra WorkflowDefaultArtifactname, refere to template javascript
+'''
+
+WorkflowDefaultArtifactnameFormSet = forms.modelformset_factory(
+        WorkflowDefaultArtifactname, fields=('artifacttype', 'artifact_default_name'), extra=1
+)
+
+class WorkflowForm(forms.ModelForm):
+
+    # reorder field choices
+    workflow_name = forms.CharField(
+        max_length=50,
+        label= gettext_lazy('Workflow name (*)')
+    )
+
+    tasknames = forms.ModelMultipleChoiceField(
+            label = gettext_lazy('Tasknames'),
+            queryset = Taskname.objects.order_by('taskname_name'),
+            widget=forms.CheckboxSelectMultiple(attrs={'class' : 'form-checkboxes'}),
+            required=False,
+    )
+
+    class Meta:
+        # model
+        model = Workflow
+
+        fields = [
+            'workflow_name',
+            'tasknames',
+        ]

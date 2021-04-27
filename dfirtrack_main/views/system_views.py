@@ -6,7 +6,7 @@ from django.utils import timezone
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_artifacts.models import Artifact
-from dfirtrack_config.models import MainConfigModel
+from dfirtrack_config.models import MainConfigModel, Workflow
 from dfirtrack_main.forms import SystemForm, SystemNameForm
 from dfirtrack_main.logger.default_logger import debug_logger, warning_logger
 from dfirtrack_main.models import Analysisstatus, Ip, System, Systemstatus
@@ -64,6 +64,9 @@ class SystemDetail(LoginRequiredMixin, DetailView):
         else:
             context['dfirtrack_api'] = False
 
+        # get all workflows
+        context['workflows'] = Workflow.objects.all()
+
         # call logger
         system.logger(str(self.request.user), " SYSTEM_DETAIL_ENTERED")
         return context
@@ -80,6 +83,9 @@ class SystemCreate(LoginRequiredMixin, CreateView):
         systemstatus = Systemstatus.objects.order_by('systemstatus_name')[0].systemstatus_id
         analysisstatus = Analysisstatus.objects.order_by('analysisstatus_name')[0].analysisstatus_id
 
+        # get all workflows
+        workflows = Workflow.objects.all()
+
         # show empty form with default values for convenience and speed reasons
         form = self.form_class(initial={
             'systemstatus': systemstatus,
@@ -87,7 +93,7 @@ class SystemCreate(LoginRequiredMixin, CreateView):
         })
         # call logger
         debug_logger(str(request.user), " SYSTEM_ADD_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {'form': form, 'workflows': workflows})
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -103,6 +109,14 @@ class SystemCreate(LoginRequiredMixin, CreateView):
             lines = request.POST.get('iplist').splitlines()
             # call function to save ips
             ips_save(request, system, lines)
+
+            # workflow handling
+            if 'workflow' in request.POST:
+                error_code = Workflow.apply(request.POST.getlist("workflow"), system, request.user)
+                if error_code:
+                    messages.warning(request, 'Could not apply workflow')
+                else:
+                    messages.success(request, 'Workflow applied')
 
             # call logger
             system.logger(str(request.user), ' SYSTEM_ADD_EXECUTED')
