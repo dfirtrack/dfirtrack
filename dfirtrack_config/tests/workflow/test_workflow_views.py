@@ -276,7 +276,7 @@ class WorkflowViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'dfirtrack_config/workflow/workflow_generic_form.html')
 
-    def test_workflow_update_post_redirect(self):
+    def test_workflow_update_post(self):
         # login testuser
         self.client.login(username='testuser_workflow', password='QVe1EH1Z5MshOW2GHS4b')
         # get object
