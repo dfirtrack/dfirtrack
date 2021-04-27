@@ -276,7 +276,31 @@ class WorkflowViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'dfirtrack_config/workflow/workflow_generic_form.html')
 
-    def test_workflow_update_not_logged_in(self):
+    def test_workflow_update_post_redirect(self):
+        # login testuser
+        self.client.login(username='testuser_workflow', password='QVe1EH1Z5MshOW2GHS4b')
+        # get object
+        taskname_id = Taskname.objects.get(taskname_name='taskname_1').taskname_id
+        artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
+        workflow_1 = Workflow.objects.get(workflow_name='workflow_1').workflow_id
+        # create post data
+        data_dict = {
+            'workflow_name': 'workflow_1',
+            'tasknames': [taskname_id],
+            'form-TOTAL_FORMS': '1',
+            'form-INITIAL_FORMS': '0',
+            'form-0-artifacttype': artifacttype_id,
+            'form-0-artifact_default_name': 'default_name_1'
+        }
+        # get response
+        response = self.client.post('/config/workflow/{}/update/'.format(workflow_1), data_dict, follow=True)
+        artifacttype_workflow_id = Workflow.objects.get(workflow_name='workflow_1').artifacttypes.all()
+        # get object
+        self.assertContains(response, 'default_name_1')
+        self.assertEqual(artifacttype_id, artifacttype_workflow_id[0].artifacttype_id)
+
+
+    def test_workflow_delete_not_logged_in(self):
         # get object
         workflow_1 = Workflow.objects.get(workflow_name='workflow_1').workflow_id
         # create url
