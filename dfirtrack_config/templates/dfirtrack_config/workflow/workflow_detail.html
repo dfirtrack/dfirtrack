@@ -1,0 +1,150 @@
+<!-- extending maintemplate -->
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+<!-- HTML head in maintemplate -->
+{% block head %}
+
+<!-- page title -->
+<title>
+    DFIRTrack - Status
+</title>
+
+<!-- HTML head in maintemplate -->
+{% endblock %}
+
+{% load static %}
+
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
+{% block content %}
+
+<!-- up button -->
+<div class="row bottom-distance">
+    <div class="col-3">
+        <a href="{% url 'workflow_list' %}" type="button" class="btn btn-light copy-false">
+            <img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Up to workflows
+        </a>
+    </div>
+</div>
+
+<!-- headline -->
+<div class="row bottom-distance">
+    <div class="col">
+        <h5>Workflow "{{workflow.workflow_name}}"</h5>
+    </div>
+</div>
+
+<div class="row bottom-distance top-distance">
+    <!-- taworkflow id -->
+    <div class="col-3">
+        <small class="text-muted">
+            Workflow-ID: {{ workflow.workflow_id }}
+        </small>
+    </div>
+
+
+    <div class="col-3">
+        <small class="text-muted">
+            Modified by:
+            {% if workflow.workflow_modified_by_user_id %}
+                {{ workflow.workflow_modified_by_user_id }}
+            {% else %}
+                ---
+            {% endif %}
+        </small>
+    </div>
+</div>
+<!-- headline -->
+
+<!--Tasks -->
+<div class="row bottom-distance">
+    <div class="col-3">
+        Tasknames
+    </div>
+</div>
+
+<!--Task List-->
+{% if workflow.tasknames.all|length > 0 %}
+    <div class="row bottom-distance">
+        <div class="col-3">ID</div>
+        <div class="col-9">Taskname</div>
+    </div>
+    {% for taskname in workflow.tasknames.all %}
+        <div class="row bottom-distance">
+            <div class="col-3">
+                {{taskname.taskname_id}}
+            </div>
+            <div class="col-9">
+                <a href="{{ taskname.get_absolute_url }}"> 
+                    {{taskname}}
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+ {% else %}
+    --
+{% endif %}
+<!--Task List-->
+<!--Tasks -->
+
+<!--Artifacttypes -->
+<div class="row bottom-distance">
+    <div class="col-3">
+        Artifacts
+    </div>
+</div>
+
+<!--Artifacttypes List-->
+{% if artifacttypes|length > 0 %}
+    <div class="row bottom-distance">
+        <div class="col-3 font-weight-bold">ID</div>
+        <div class="col-3 font-weight-bold">Artifacttypes</div>
+        <div class="col-3 font-weight-bold">Artifact Default Name</div>
+    </div>
+    {% for artifacttype in artifacttypes %}
+        <div class="row bottom-distance">
+            <div class="col-3">
+                {{artifacttype.artifacttype_id}}
+            </div>
+            <div class="col-3">
+                <a href="{{ artifacttype.get_absolute_url }}"> 
+                    {{artifacttype.artifacttype}}
+                </a>
+            </div>
+            <div class="col-3">
+                    {{artifacttype.artifact_default_name}}
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+    --
+{% endif %}
+<!--Artifacttypes List-->
+<!--Artifacttypes -->
+
+<!-- button row -->
+<div class="row top-distance">
+
+    <!-- edit button -->
+    <div class="col-1">
+        <a href="{{ workflow.get_update_url }}" type="button" class="btn btn-light copy-false">
+            <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Edit
+        </a>
+    </div>
+
+    <!-- delete button -->
+    <div class="col-1">
+        <a href="{{ workflow.get_delete_url }}" type="button" class="btn btn-light copy-false">
+            <img src="{% static 'dfirtrack_main/icons/trash.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Delete
+        </a>
+    </div>
+
+<!-- button row -->
+</div>
+
+{% endblock %}
+<!-- HTML body in maintemplate -->

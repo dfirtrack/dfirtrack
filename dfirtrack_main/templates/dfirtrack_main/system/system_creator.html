@@ -132,7 +132,7 @@
 
     <!-- ############################################ -->
 
-    <!-- tag / case block -->
+    <!-- tag / workflow / case block -->
     <div class="card card-body bg-dark border-light top-distance">
 
         <!-- tag / case headline row -->
@@ -186,7 +186,29 @@
         <!-- tag / case row -->
         </div>
 
-    <!-- tag / case block -->
+        <!-- workflow row -->
+        <div class="row top-distance">
+            <!-- tags headline -->
+            <div class="col-6">
+                <h5>Workflows</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="card card-body bg-dark border-light top-distance">
+                    {% for workflow in workflows %}
+                        <label for="id_form_workflow_{{ workflow.workflow_id }}">
+                            <input type="checkbox" name="workflow" value="{{ workflow.workflow_id }}" id="id_form_workflow_{{ workflow.workflow_id }}">
+                            {{workflow}}
+                        </label>
+                        <br />
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <!-- workflow row -->
+
+    <!-- tag / workflow / case block -->
     </div>
 
     <!-- ############################################ -->
