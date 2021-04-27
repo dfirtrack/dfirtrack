@@ -9,6 +9,7 @@ from dfirtrack_config.models import Workflow
 from dfirtrack_main.models import Ip, System, Systemstatus
 import urllib.parse
 
+
 class SystemViewTestCase(TestCase):
     """ system view tests """
 
@@ -31,7 +32,7 @@ class SystemViewTestCase(TestCase):
         )
 
         # create object
-        workflow_1 = Workflow.objects.create(
+        Workflow.objects.create(
             workflow_name='workflow_1',
             workflow_created_by_user_id = test_user,
             workflow_modified_by_user_id = test_user,
@@ -193,6 +194,8 @@ class SystemViewTestCase(TestCase):
         self.assertTrue(response.context['dfirtrack_artifacts'])
 
     def test_system_detail_context_workflows(self):
+        """ test detail view """
+
         # add app to dfirtrack.settings
         if 'dfirtrack_config' not in installed_apps:
             installed_apps.append('dfirtrack_config')
@@ -204,6 +207,10 @@ class SystemViewTestCase(TestCase):
         response = self.client.get('/system/{}/'.format(system_1.system_id))
         # compare
         self.assertEquals(str(response.context['workflows'][0]), 'workflow_1')
+
+    # TODO: check for system in conjunction with workflow-related tasks / artifacts
+    # TODO: check for system missing workflow-related tasks / artifacts
+    # TODO: is this useful from system detail?
 
     def test_system_detail_context_without_artifacts(self):
         """ test detail view """
@@ -455,6 +462,8 @@ class SystemViewTestCase(TestCase):
         self.assertEqual(str(messages[0]), 'IP already exists in database')
 
     def test_system_add_context_workflows(self):
+        """ test add view """
+
         # add app to dfirtrack.settings
         if 'dfirtrack_config' not in installed_apps:
             installed_apps.append('dfirtrack_config')
@@ -465,7 +474,10 @@ class SystemViewTestCase(TestCase):
         # compare
         self.assertEquals(str(response.context['workflows'][0]), 'workflow_1')
 
+    # TODO: check for system in conjunction with workflow-related tasks / artifacts
     def test_system_add_post_workflows(self):
+        """ test add view """
+
         # add app to dfirtrack.settings
         if 'dfirtrack_config' not in installed_apps:
             installed_apps.append('dfirtrack_config')
@@ -476,7 +488,7 @@ class SystemViewTestCase(TestCase):
         workflow_id = Workflow.objects.get(workflow_name='workflow_1').workflow_id
         # create post data
         data_dict = {
-            'system_name': 'system_add_with_workflow',
+            'system_name': 'system_add_with_valid_workflow',
             'systemstatus': systemstatus_id,
             'workflow': workflow_id,
             'iplist': '127.0.0.1'
@@ -486,7 +498,10 @@ class SystemViewTestCase(TestCase):
         # compare
         self.assertContains(response, 'Workflow applied')
 
+    # TODO: check for system missing workflow-related tasks / artifacts
     def test_system_add_post_nonexistent_workflows(self):
+        """ test add view """
+
         # add app to dfirtrack.settings
         if 'dfirtrack_config' not in installed_apps:
             installed_apps.append('dfirtrack_config')
@@ -496,7 +511,7 @@ class SystemViewTestCase(TestCase):
         systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
         # create post data
         data_dict = {
-            'system_name': 'system_add_with_workflow',
+            'system_name': 'system_add_with_invalid_workflow',
             'systemstatus': systemstatus_id,
             'workflow': 99,
             'iplist': '127.0.0.1'

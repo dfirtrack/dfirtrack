@@ -53,13 +53,13 @@ def final_messages(systems_touched_counter, systems_skipped_counter, lines_fault
         if workflows_applied == systems_touched_counter*workflow_count:
             message_user(
                 request_user,
-                f'System creator workflows applied',
+                'System creator workflows applied.',
                 constants.SUCCESS
             )
         else:
             message_user(
                 request_user,
-                f'Could not apply all workflows.',
+                'Could not apply all workflows.',
                 constants.WARNING
             )
 

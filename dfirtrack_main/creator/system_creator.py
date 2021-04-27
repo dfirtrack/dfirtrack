@@ -4,11 +4,11 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils import timezone
 from django_q.tasks import async_task
+from dfirtrack_config.models import Workflow
 from dfirtrack_main.async_messages.system_messages import final_messages
 from dfirtrack_main.forms import SystemCreatorForm
 from dfirtrack_main.logger.default_logger import debug_logger, info_logger, warning_logger
 from dfirtrack_main.models import Analysisstatus, System, Systemstatus
-from dfirtrack_config.models import Workflow
 
 
 @login_required(login_url="/login")
@@ -41,7 +41,7 @@ def system_creator(request):
         # get id of first status objects sorted by name
         systemstatus = Systemstatus.objects.order_by('systemstatus_name')[0].systemstatus_id
         analysisstatus = Analysisstatus.objects.order_by('analysisstatus_name')[0].analysisstatus_id
-        
+
         # get all workflows
         workflows = Workflow.objects.all()
 
@@ -159,7 +159,7 @@ def system_creator_async(request_post, request_user):
 
             # call logger
             system.logger(str(request_user), ' SYSTEM_CREATOR_EXECUTED')
-            
+
             # apply workflows
             if workflows:
                 error_code = Workflow.apply(workflows, system, request_user)
@@ -167,6 +167,7 @@ def system_creator_async(request_post, request_user):
                     system.logger(str(request_user), ' COULD_NOT_APPLY_WORKFLOW')
                 else:
                     workflows_applied += 1
+
     """ finish system importer """
 
     # call final messages

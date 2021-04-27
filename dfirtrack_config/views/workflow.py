@@ -1,4 +1,3 @@
-from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -6,11 +5,11 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
-
 from dfirtrack_config.models import Workflow, WorkflowDefaultArtifactname
 from dfirtrack_config.forms import WorkflowForm, WorkflowDefaultArtifactnameFormSet
 from dfirtrack_main.models import System
 from dfirtrack_main.logger.default_logger import debug_logger
+
 
 class WorkflowList(LoginRequiredMixin, ListView):
     login_url = '/login'
@@ -30,7 +29,7 @@ class WorkflowDetail(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         workflow = self.object
-        
+
         # get workflow artifacttype names mapping to include default_names
         context['artifacttypes'] = WorkflowDefaultArtifactname.objects.filter(workflow=workflow)
 
@@ -60,7 +59,7 @@ class WorkflowCreate(LoginRequiredMixin, CreateView):
         )
 
         # check default form and custom artifacttypes_formset
-        if form.is_valid() and artifacttypes_formset.is_valid():            
+        if form.is_valid() and artifacttypes_formset.is_valid():
             workflow = form.save(commit=False)
             workflow.workflow_created_by_user_id = request.user
             workflow.workflow_modified_by_user_id = request.user
@@ -73,7 +72,7 @@ class WorkflowCreate(LoginRequiredMixin, CreateView):
                     workflow_artifacttype = artifacttypes_form.save(commit=False)
                     workflow_artifacttype.workflow = workflow
                     workflow_artifacttype.save()
-            
+
             workflow.logger(str(request.user), " WORKFLOW_ADD_EXECUTED")
             messages.success(request, 'Workflow added')
             return redirect(reverse('workflow_detail', args=(workflow.workflow_id,)))
@@ -100,7 +99,7 @@ class WorkflowUpdate(LoginRequiredMixin, UpdateView):
         form = self.form_class(request.POST, instance=workflow)
         # filter artifacttypes based on workflow
         artifacttypes_formset = WorkflowDefaultArtifactnameFormSet(
-            request.POST, 
+            request.POST,
             queryset=WorkflowDefaultArtifactname.objects.filter(workflow=workflow)
         )
 
@@ -109,15 +108,15 @@ class WorkflowUpdate(LoginRequiredMixin, UpdateView):
             workflow = form.save(commit=False)
             workflow.workflow_modified_by_user_id = request.user
             workflow.save()
-            form.save_m2m()      
+            form.save_m2m()
 
-            # create WorkflowDefaultArtifactname mapping for every sub-form      
+            # create WorkflowDefaultArtifactname mapping for every sub-form
             for artifacttypes_form in artifacttypes_formset:
                 if artifacttypes_form.is_valid() and artifacttypes_form.has_changed():
                     workflow_artifacttype = artifacttypes_form.save(commit=False)
                     workflow_artifacttype.workflow = workflow
                     workflow_artifacttype.save()
-            
+
             workflow.logger(str(request.user), " WORKFLOW_EDIT_EXECUTED")
             messages.success(request, 'Workflow edited')
             return redirect(reverse('workflow_detail', args=(workflow.workflow_id,)))
@@ -144,7 +143,7 @@ class WorkflowDelete(LoginRequiredMixin, DeleteView):
 @login_required(login_url='/login')
 def apply_workflows(request, system_id=None):
     try:
-        # get system by id 
+        # get system by id
         system = System.objects.get(pk=system_id)
     except System.DoesNotExist:
         # faulty system id
@@ -158,4 +157,3 @@ def apply_workflows(request, system_id=None):
         return redirect(reverse('workflow_list'))
     messages.success(request, 'Workflow applied')
     return redirect(reverse('system_detail', args=(system.system_id,)))
-        

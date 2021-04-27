@@ -2,7 +2,6 @@ from django import forms
 from django.utils.translation import gettext_lazy
 from django.contrib.auth.models import User
 from dfirtrack_artifacts.models import Artifactstatus
-from dfirtrack_artifacts.models import Artifacttype
 from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel
 from dfirtrack_config.models import MainConfigModel
 from dfirtrack_config.models import SystemExporterMarkdownConfigModel
@@ -27,6 +26,7 @@ from dfirtrack_main.models import Systemtype
 from dfirtrack_main.models import Tag
 from dfirtrack_main.models import Taskname
 import os
+
 
 class ArtifactExporterSpreadsheetXlsConfigForm(forms.ModelForm):
     """ artifact exporter spreadsheet xls config form """
@@ -1103,7 +1103,7 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
 
 WorkflowDefaultArtifactnameFormSet = forms.modelformset_factory(
         WorkflowDefaultArtifactname, fields=('artifacttype', 'artifact_default_name'), extra=1
-) 
+)
 
 class WorkflowForm(forms.ModelForm):
 
@@ -1122,11 +1122,9 @@ class WorkflowForm(forms.ModelForm):
 
     class Meta:
         # model
-        model = Workflow      
- 
+        model = Workflow
+
         fields = [
             'workflow_name',
             'tasknames',
         ]
-
-

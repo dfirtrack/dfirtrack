@@ -1,9 +1,12 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
-from dfirtrack_main.models import System, Task, Taskstatus, Taskpriority
-from dfirtrack_artifacts.models import Artifact, Artifactpriority, Artifactstatus
-
+from dfirtrack_main.models import Task
+from dfirtrack_main.models import Taskstatus
+from dfirtrack_main.models import Taskpriority
+from dfirtrack_artifacts.models import Artifact
+from dfirtrack_artifacts.models import Artifactpriority
+from dfirtrack_artifacts.models import Artifactstatus
 import logging
 
 stdlogger = logging.getLogger(__name__)
@@ -387,8 +390,8 @@ class Workflow(models.Model):
     # foreign key
     tasknames = models.ManyToManyField('dfirtrack_main.Taskname', related_name='main_config_workflow_taskname', blank=True)
     artifacttypes = models.ManyToManyField(
-        'dfirtrack_artifacts.Artifacttype', 
-        related_name='main_config_workflow_artifacttype', 
+        'dfirtrack_artifacts.Artifacttype',
+        related_name='main_config_workflow_artifacttype',
         through='WorkflowDefaultArtifactname',
         blank=True,
     )
@@ -423,7 +426,9 @@ class Workflow(models.Model):
                 workflow.workflow_name
             )
         )
-    
+
+    # TODO: remove hardcoded values for status and priorities
+    # TODO: add logger for task / artifact (either here or check at task / artifact model)
     def apply(workflows, system, user):
         errors = 0
         for workflow_id in workflows:
@@ -452,18 +457,17 @@ class Workflow(models.Model):
             except ValueError:
                 errors+=1
         return errors
-        
 
 class WorkflowDefaultArtifactname(models.Model):
 
     # primary key
-    workflow_default_artifcatname_id = models.AutoField(primary_key=True)
+    workflow_default_artifactname_id = models.AutoField(primary_key=True)
 
     # foreign key
     artifacttype = models.ForeignKey('dfirtrack_artifacts.Artifacttype', on_delete=models.CASCADE, related_name='workflow_artifacttype_mapping')
     workflow = models.ForeignKey(Workflow, on_delete=models.CASCADE, related_name='workflow_mapping')
 
-    #main entity
+    # main entity
     artifact_default_name = models.CharField(max_length=50)
 
     def __str__(self):

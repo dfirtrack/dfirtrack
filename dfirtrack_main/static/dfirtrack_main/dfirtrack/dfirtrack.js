@@ -201,12 +201,12 @@ function add_artifacttype_to_list() {
 
     artifacttypes_tr_new.html(artifacttypes_tr_new.html().replace(formRegex, `form-${formNum}-`))
     artifacttypes_name_tr_new.html(artifacttypes_name_tr_new.html().replace(formRegex, `form-${formNum}-`));
-    
+
     artifacttypes_tr_new.find('select').prop("selectedIndex", 0);
     artifacttypes_name_tr_new.find('input').val("");
-    
+
     $('#workflow_form').append(artifacttypes_tr_new);
     $('#workflow_form').append(artifacttypes_name_tr_new);
-        
+
     totalForms.setAttribute('value', `${formNum+1}`);
 }

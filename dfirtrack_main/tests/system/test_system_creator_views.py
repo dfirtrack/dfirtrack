@@ -6,6 +6,7 @@ from dfirtrack_main.models import Analysisstatus, System, Systemstatus
 from dfirtrack_config.models import Workflow
 import urllib.parse
 
+
 class SystemCreatorViewTestCase(TestCase):
     """ system creator view tests """
 
@@ -81,6 +82,8 @@ class SystemCreatorViewTestCase(TestCase):
         self.assertEqual(str(response.context['user']), 'testuser_system_creator')
 
     def test_system_creator_context_workflows(self):
+        """ test creator view """
+
         # login testuser
         self.client.login(username='testuser_system_creator', password='Jbf5fZBhpg1aZsCW6L8r')
         # get response
@@ -191,6 +194,7 @@ class SystemCreatorViewTestCase(TestCase):
         self.assertEqual(str(messages[2]), "2 systems were skipped. ['system_creator_duplicate_system', 'system_creator_duplicate_system_2']")
         self.assertEqual(str(messages[3]), '1 line out of 4 lines was faulty (see log file for details).')
 
+    # TODO: check for system in conjunction with workflow-related tasks / artifacts
     def test_system_creator_post_workflow_messages(self):
         """ test creator view """
 
@@ -210,8 +214,9 @@ class SystemCreatorViewTestCase(TestCase):
         # get response
         response = self.client.post('/system/creator/', data_dict, follow=True)
         # compare
-        self.assertContains(response, 'System creator workflows applied')
+        self.assertContains(response, 'System creator workflows applied.')
 
+    # TODO: check for system missing workflow-related tasks / artifacts
     def test_system_creator_post_nonexistent_workflow_messages(self):
         """ test creator view """
 

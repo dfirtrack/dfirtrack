@@ -2,7 +2,9 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
 from dfirtrack_config.models import Workflow
-from dfirtrack_main.models import System, Systemstatus, Taskname
+from dfirtrack_main.models import System
+from dfirtrack_main.models import Systemstatus
+from dfirtrack_main.models import Taskname
 from dfirtrack_artifacts.models import Artifacttype
 import urllib.parse
 
@@ -12,6 +14,7 @@ class WorkflowViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
+
         # create objects
         test_user = User.objects.create_user(username='testuser_workflow', password='QVe1EH1Z5MshOW2GHS4b')
 
@@ -34,12 +37,16 @@ class WorkflowViewTestCase(TestCase):
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
-        
+
     def help_client_logedin_request(self, uri):
+        """ helper function """
+
         self.client.login(username='testuser_workflow', password='QVe1EH1Z5MshOW2GHS4b')
         return self.client.get(uri)
 
     def help_create_workflow(self, workflow_name):
+        """ helper function """
+
         test_user = User.objects.get(username='testuser_workflow')
         return Workflow.objects.create(
             workflow_name=workflow_name,
@@ -48,32 +55,43 @@ class WorkflowViewTestCase(TestCase):
         )
 
     def test_workflow_list_not_logged_in(self):
+        """ test view """
+
         # create url
         destination = '/login/?next=' + urllib.parse.quote('/config/workflow/', safe='')
         # get response
-        response = self.client.get('/config/workflow', follow=True)
+        response = self.client.get('/config/workflow/', follow=True)
         # compare
-        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_workflow_list_logged_in(self):
+        """ test view """
+
         # get response
         response = self.help_client_logedin_request('/config/workflow/')
         # compare
         self.assertEqual(response.status_code, 200)
 
     def test_workflow_list_template(self):
+        """ test view """
+
         # get response
         response = self.help_client_logedin_request('/config/workflow/')
         # compare
         self.assertTemplateUsed(response, 'dfirtrack_config/workflow/workflows.html')
 
     def test_workflow_list_get_user_context(self):
+        """ test view """
+
         # get response
         response = self.help_client_logedin_request('/config/workflow/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_workflow')
 
     def test_workflow_list_redirect(self):
+        """ test view """
+
+        # create url
         destination = urllib.parse.quote('/config/workflow/', safe='/')
         # get response
         response = self.help_client_logedin_request('/config/workflow')
@@ -81,6 +99,8 @@ class WorkflowViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
     def test_workflow_detail_not_logged_in(self):
+        """ test view """
+
         # get object
         workflow_1 = Workflow.objects.get(workflow_name='workflow_1').workflow_id
         # create url
@@ -91,6 +111,8 @@ class WorkflowViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_workflow_detail_logged_in(self):
+        """ test view """
+
         # get object
         workflow_1 = Workflow.objects.get(workflow_name='workflow_1').workflow_id
         # get response
@@ -99,6 +121,8 @@ class WorkflowViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_workflow_detail_template(self):
+        """ test view """
+
         # get object
         workflow_1 = Workflow.objects.get(workflow_name='workflow_1').workflow_id
         # get response
@@ -107,6 +131,8 @@ class WorkflowViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_config/workflow/workflow_detail.html')
 
     def test_workflow_detail_get_user_context(self):
+        """ test view """
+
         # get object
         workflow_1 = Workflow.objects.get(workflow_name='workflow_1').workflow_id
         # get response
@@ -114,7 +140,9 @@ class WorkflowViewTestCase(TestCase):
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_workflow')
 
-    def testworkflow_detail_redirect(self):
+    def test_workflow_detail_redirect(self):
+        """ test view """
+
         # get object
         workflow_1 = Workflow.objects.get(workflow_name='workflow_1').workflow_id
         # create url
@@ -125,36 +153,46 @@ class WorkflowViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
     def test_workflow_add_not_logged_in(self):
+        """ test view """
+
         # create url
         destination = '/login/?next=' + urllib.parse.quote('/config/workflow/add/', safe='')
         # get response
-        response = self.client.get('/config/workflow/add', follow=True)
+        response = self.client.get('/config/workflow/add/', follow=True)
         # compare
-        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_workflow_add_logged_in(self):
+        """ test view """
+
         # get response
         response = self.help_client_logedin_request('/config/workflow/add/')
         # compare
         self.assertEqual(response.status_code, 200)
 
     def test_workflow_add_template(self):
+        """ test view """
+
         # get response
         response = self.help_client_logedin_request('/config/workflow/add/')
         # compare
         self.assertTemplateUsed(response, 'dfirtrack_config/workflow/workflow_generic_form.html')
 
     def test_workflow_add_tasknames(self):
-        #get objects
+        """ test view """
+
+        # get objects
         taskname = Taskname.objects.get(taskname_name='taskname_1')
         # get response
         response = self.help_client_logedin_request('/config/workflow/add/')
         # compare
-        qs = response.context['form'].fields['tasknames'].queryset 
+        qs = response.context['form'].fields['tasknames'].queryset
         self.assertEquals(str(qs[0]), str(taskname))
 
     def test_workflow_add_artifacctypes(self):
-        #get objects
+        """ test view """
+
+        # get objects
         artifacttypes = Artifacttype.objects.all()
         # get response
         response = self.help_client_logedin_request('/config/workflow/add/')
@@ -163,12 +201,16 @@ class WorkflowViewTestCase(TestCase):
         self.assertEquals(list(qs), list(artifacttypes))
 
     def test_workflow_add_get_user_context(self):
+        """ test view """
+
         # get response
         response = self.help_client_logedin_request('/config/workflow/add/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_workflow')
 
     def test_workflow_add_redirect(self):
+        """ test view """
+
         # create url
         destination = urllib.parse.quote('/config/workflow/add/', safe='/')
         # get response
@@ -177,6 +219,8 @@ class WorkflowViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
     def test_workflow_add_post_redirect(self):
+        """ test view """
+
         # login testuser
         self.client.login(username='testuser_workflow', password='QVe1EH1Z5MshOW2GHS4b')
         # get object
@@ -201,6 +245,8 @@ class WorkflowViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_workflow_add_post_invalid(self):
+        """ test view """
+
         # login testuser
         self.client.login(username='testuser_workflow', password='QVe1EH1Z5MshOW2GHS4b')
         # create post data
@@ -212,6 +258,8 @@ class WorkflowViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_config/workflow/workflow_generic_form.html')
 
     def test_workflow_update_not_logged_in(self):
+        """ test view """
+
         # get object
         workflow_1 = Workflow.objects.get(workflow_name='workflow_1').workflow_id
         # create url
@@ -219,9 +267,11 @@ class WorkflowViewTestCase(TestCase):
         # get response
         response = self.client.get('/config/workflow/{}/update/'.format(workflow_1), follow=True)
         # compare
-        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_workflow_update_logged_in(self):
+        """ test view """
+
         # get object
         workflow_1 = Workflow.objects.get(workflow_name='workflow_1').workflow_id
         # get response
@@ -230,6 +280,8 @@ class WorkflowViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_workflow_update_template(self):
+        """ test view """
+
         # get object
         workflow_1 = Workflow.objects.get(workflow_name='workflow_1').workflow_id
         # get response
@@ -238,6 +290,8 @@ class WorkflowViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_config/workflow/workflow_generic_form.html')
 
     def test_workflow_update_get_user_context(self):
+        """ test view """
+
         # get object
         workflow_1 = Workflow.objects.get(workflow_name='workflow_1').workflow_id
         # get response
@@ -246,6 +300,8 @@ class WorkflowViewTestCase(TestCase):
         self.assertEqual(str(response.context['user']), 'testuser_workflow')
 
     def test_workflow_update_post_redirect(self):
+        """ test view """
+
         # login testuser
         self.client.login(username='testuser_workflow', password='QVe1EH1Z5MshOW2GHS4b')
         # create object
@@ -264,6 +320,8 @@ class WorkflowViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_workflow_update_post_invalid(self):
+        """ test view """
+
         # login testuser
         self.client.login(username='testuser_workflow', password='QVe1EH1Z5MshOW2GHS4b')
         # get object
@@ -277,6 +335,8 @@ class WorkflowViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_config/workflow/workflow_generic_form.html')
 
     def test_workflow_update_post(self):
+        """ test view """
+
         # login testuser
         self.client.login(username='testuser_workflow', password='QVe1EH1Z5MshOW2GHS4b')
         # get object
@@ -299,18 +359,21 @@ class WorkflowViewTestCase(TestCase):
         self.assertContains(response, 'default_name_1')
         self.assertEqual(artifacttype_id, artifacttype_workflow_id[0].artifacttype_id)
 
-
     def test_workflow_delete_not_logged_in(self):
+        """ test view """
+
         # get object
         workflow_1 = Workflow.objects.get(workflow_name='workflow_1').workflow_id
         # create url
         destination = '/login/?next=' + urllib.parse.quote('/config/workflow/{}/delete/'.format(workflow_1), safe='')
         # get response
-        response = self.client.get('/config/workflow/{}/delete'.format(workflow_1), follow=True)
+        response = self.client.get('/config/workflow/{}/delete/'.format(workflow_1), follow=True)
         # compare
-        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_workflow_delete_logged_in(self):
+        """ test view """
+
         # get object
         workflow_1 = Workflow.objects.get(workflow_name='workflow_1').workflow_id
         # get response
@@ -319,6 +382,8 @@ class WorkflowViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_workflow_delete_template(self):
+        """ test view """
+
         # get object
         workflow_1 = Workflow.objects.get(workflow_name='workflow_1').workflow_id
         # get response
@@ -327,6 +392,8 @@ class WorkflowViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_config/workflow/workflow_delete.html')
 
     def test_workflow_delete_get_user_context(self):
+        """ test view """
+
         # get object
         workflow_1 = Workflow.objects.get(workflow_name='workflow_1').workflow_id
         # get response
@@ -335,6 +402,8 @@ class WorkflowViewTestCase(TestCase):
         self.assertEqual(str(response.context['user']), 'testuser_workflow')
 
     def test_workflow_delete_post_redirect(self):
+        """ test view """
+
         # login testuser
         self.client.login(username='testuser_workflow', password='QVe1EH1Z5MshOW2GHS4b')
         # create object
@@ -347,6 +416,8 @@ class WorkflowViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_workflow_apply_not_logged_in(self):
+        """ test view """
+
         # get object
         system = System.objects.get(system_name='system_1').system_id
         # create url
@@ -357,6 +428,8 @@ class WorkflowViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_workflow_apply_logged_in(self):
+        """ test view """
+
         # login testuser
         self.client.login(username='testuser_workflow', password='QVe1EH1Z5MshOW2GHS4b')
         # get object
@@ -369,6 +442,8 @@ class WorkflowViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_workflow_apply_workflow(self):
+        """ test view """
+
         # login testuser
         self.client.login(username='testuser_workflow', password='QVe1EH1Z5MshOW2GHS4b')
         # get object
@@ -387,6 +462,8 @@ class WorkflowViewTestCase(TestCase):
         self.assertContains(response, 'Workflow applied')
 
     def test_workflow_apply_nonexistent_system(self):
+        """ test view """
+
         # login testuser
         self.client.login(username='testuser_workflow', password='QVe1EH1Z5MshOW2GHS4b')
         # create url
@@ -398,6 +475,8 @@ class WorkflowViewTestCase(TestCase):
         self.assertContains(response, 'System does not exist')
 
     def test_workflow_apply_nonexistent_workflow(self):
+        """ test view """
+
         # login testuser
         self.client.login(username='testuser_workflow', password='QVe1EH1Z5MshOW2GHS4b')
         # get object
