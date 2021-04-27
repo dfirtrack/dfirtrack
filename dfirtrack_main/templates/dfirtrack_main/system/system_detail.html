@@ -326,6 +326,20 @@
                 Add task
             </a>
         </div>
+        <div class="col-5">
+            <form method="post" action="{% url 'workflow_apply' system.system_id %}">
+                {% csrf_token %}
+                <select name="workflow">
+                        {% for workflow in workflows %}
+                        <option value="{{workflow.workflow_id}}">{{workflow}}</option>
+                        {% endfor %}
+                </select>
+                    <button class="btn btn-light btn-sm copy-false" type="submit">
+                        <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                            Apply Workflow
+                    </button>
+            </form>
+        </div>            
     </div>
 
     <!-- closed tasks headline -->
@@ -574,6 +588,20 @@
                     Add artifact
                 </a>
             </div>
+            <div class="col-5">
+            <form method="post" action="{% url 'workflow_apply' system.system_id %}">
+                {% csrf_token %}
+                <select name="workflow">
+                        {% for workflow in workflows %}
+                        <option value="{{workflow.workflow_id}}">{{workflow}}</option>
+                        {% endfor %}
+                </select>
+                    <button class="btn btn-light btn-sm copy-false" type="submit">
+                        <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                            Apply Workflow
+                    </button>
+            </form>
+        </div>   
         </div>
 
     <!-- artifacts collapse -->

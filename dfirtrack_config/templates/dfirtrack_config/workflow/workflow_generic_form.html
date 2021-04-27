@@ -1,0 +1,118 @@
+<!-- extending maintemplate -->
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+<!-- HTML head in maintemplate -->
+{% block head %}
+
+<!-- page title -->
+<title>
+    DFIRTrack - {{title}} Workflow
+</title>
+
+<style type="text/css">
+
+.form-checkboxes li {
+    list-style-type: none;
+}
+
+#workflow_form input {
+    margin-left: 40px;
+}
+
+#workflow_form select {
+    margin-left: 40px;
+}
+
+#workflow_form ul {
+    margin-top: 10px;
+    margin-left: -30px;
+}
+
+.bt {
+    color: #000;
+}
+
+</style>
+
+<!-- HTML head in maintemplate -->
+{% endblock %}
+
+{% load static %}
+
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
+{% block content %}
+        
+<!-- headline -->
+<div class="bottom-distance">
+    <h4>
+        {{title}} Workflow
+    </h4>
+</div>
+<!-- headline -->
+
+<!-- form -->
+<form method="POST" class="post-form">
+
+    {% csrf_token %}
+
+    <!-- show form related errors -->
+    {% include "dfirtrack_main/includes/form_errors.html" %}
+    <!-- artifacttypes field errors -->
+    {% if artifacttypes_formset.errors %}
+        <div class="row">
+            <div class="col">
+                <div class="text-danger">
+                    Field error(s):<br>
+                    {% for error in artifacttypes_formset.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    <!-- artifacttypes field errors -->
+    
+    <!-- include forms -->
+    <table id="workflow_form">
+        <!-- include standard form -->
+        {{ form.as_table }}
+        <!-- include artifacttype form -->
+        {{artifacttypes_formset.as_table }}
+    </table>
+     <!-- include forms -->
+
+    <!-- add artifacttype via javascript -->
+    <div class="row top-distance">
+        <div class="col-1"></div>
+        <div class="col-2">
+            <button type="button" class="btn btn-light btn-sm copy-false" onclick="add_artifacttype_to_list()">
+                <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm copy-false right-distance" alt="icon">
+                Add Artifacttype
+            </a>
+        </div>
+    </div>
+    <!-- add artifacttype via javascript -->
+
+    <!-- button row -->
+    <div class="row top-distance">
+
+        <!-- save button -->
+        <div class="col-1">
+            {% include "dfirtrack_main/includes/button_save.html" %}
+        </div>
+
+        <!-- cancel button -->
+        <div class="col-1">
+            {% include "dfirtrack_main/includes/button_cancel.html" %}
+        </div>
+
+    <!-- button row -->
+    </div>
+
+<!-- form -->
+</form>
+    
+<!-- HTML body in maintemplate -->
+{% endblock %}

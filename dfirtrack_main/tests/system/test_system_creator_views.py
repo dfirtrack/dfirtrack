@@ -3,6 +3,7 @@ from django.contrib.messages import get_messages
 from django.test import TestCase
 from django.utils import timezone
 from dfirtrack_main.models import Analysisstatus, System, Systemstatus
+from dfirtrack_config.models import Workflow
 import urllib.parse
 
 class SystemCreatorViewTestCase(TestCase):
@@ -30,6 +31,13 @@ class SystemCreatorViewTestCase(TestCase):
             system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
+        )
+
+        # create objscts
+        Workflow.objects.create(
+            workflow_name = 'workflow_1',
+            workflow_created_by_user_id = test_user,
+            workflow_modified_by_user_id = test_user,
         )
 
     def test_system_creator_not_logged_in(self):
@@ -71,6 +79,14 @@ class SystemCreatorViewTestCase(TestCase):
         response = self.client.get('/system/creator/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_system_creator')
+
+    def test_system_creator_context_workflows(self):
+        # login testuser
+        self.client.login(username='testuser_system_creator', password='Jbf5fZBhpg1aZsCW6L8r')
+        # get response
+        response = self.client.get('/system/creator/')
+        # compare
+        self.assertEquals(str(response.context['workflows'][0]), 'workflow_1')
 
     def test_system_creator_redirect(self):
         """ test creator view """
@@ -174,3 +190,45 @@ class SystemCreatorViewTestCase(TestCase):
         self.assertEqual(str(messages[1]), '1 system was created / modified.')
         self.assertEqual(str(messages[2]), "2 systems were skipped. ['system_creator_duplicate_system', 'system_creator_duplicate_system_2']")
         self.assertEqual(str(messages[3]), '1 line out of 4 lines was faulty (see log file for details).')
+
+    def test_system_creator_post_workflow_messages(self):
+        """ test creator view """
+
+        # login testuser
+        self.client.login(username='testuser_system_creator', password='Jbf5fZBhpg1aZsCW6L8r')
+        # create objects
+        analysisstatus_1 = Analysisstatus.objects.create(analysisstatus_name = 'analysisstatus_1')
+        systemstatus_2 = Systemstatus.objects.get(systemstatus_name = 'systemstatus_2')
+        workflow_1 = Workflow.objects.get(workflow_name='workflow_1')
+        # create post data
+        data_dict = {
+            'systemlist': 'system_creator_workflow_1',
+            'analysisstatus': analysisstatus_1.analysisstatus_id,
+            'systemstatus': systemstatus_2.systemstatus_id,
+            'workflow': workflow_1.workflow_id
+        }
+        # get response
+        response = self.client.post('/system/creator/', data_dict, follow=True)
+        # compare
+        self.assertContains(response, 'System creator workflows applied')
+
+    def test_system_creator_post_nonexistent_workflow_messages(self):
+        """ test creator view """
+
+        # login testuser
+        self.client.login(username='testuser_system_creator', password='Jbf5fZBhpg1aZsCW6L8r')
+        # create objects
+        analysisstatus_1 = Analysisstatus.objects.create(analysisstatus_name = 'analysisstatus_1')
+        systemstatus_2 = Systemstatus.objects.get(systemstatus_name = 'systemstatus_2')
+        workflow_1 = Workflow.objects.get(workflow_name='workflow_1')
+        # create post data
+        data_dict = {
+            'systemlist': 'system_creator_workflow_2',
+            'analysisstatus': analysisstatus_1.analysisstatus_id,
+            'systemstatus': systemstatus_2.systemstatus_id,
+            'workflow': [workflow_1.workflow_id, 99]
+        }
+        # get response
+        response = self.client.post('/system/creator/', data_dict, follow=True)
+        # compare
+        self.assertContains(response, 'Could not apply all workflows.')
