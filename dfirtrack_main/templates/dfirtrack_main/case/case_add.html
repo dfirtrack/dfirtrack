@@ -17,7 +17,7 @@
 
 <!-- HTML body in maintemplate -->
 {% block content %}
-        
+
 <!-- headline -->
 <div class="bottom-distance">
     <h4>
@@ -27,14 +27,6 @@
 
 <!-- form -->
 <form method="POST" class="post-form">
-
-    {% csrf_token %}
-
-    <!-- show form related errors -->
-    {% include "dfirtrack_main/includes/form_errors.html" %}
-
-    <!-- include standard form -->
-    {% include "dfirtrack_main/includes/form.html" %}
 
     <!-- button row -->
     <div class="row top-distance">
@@ -48,11 +40,293 @@
         <div class="col-1">
             {% include "dfirtrack_main/includes/button_cancel.html" %}
         </div>
+
+    <!-- button row -->
+    </div>
+
+    {% csrf_token %}
+
+    <!-- show form related errors -->
+    {% include "dfirtrack_main/includes/form_errors.html" %}
+
+    <!-- ############################################ -->
+
+    <!-- case_name block -->
+    <div class="card card-body bg-dark border-light top-distance">
+
+        <!-- case_name headline row -->
+        <div class="row">
+
+            <!-- case_name headline -->
+            <div class="col-3">
+                <h5>
+                    <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    {{ form.case_name.label }}
+                </h5>
+            </div>
+
+        <!-- case_name headline row -->
+        </div>
+
+        <!-- case_name row -->
+        <div class="row">
+
+            <!-- case_name  -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- case_name errors -->
+                    <div class="text-danger">
+                        {{ form.case_name.errors }}
+                    </div>
+                    {{ form.case_name }}
+                </div>
+            </div>
+
+        <!-- case_name row -->
+        </div>
+
+    <!-- case_name block -->
+    </div>
+
+    <!-- ############################################ -->
+
+    <!-- tag block -->
+    <div class="card card-body bg-dark border-light top-distance">
+
+        <!-- tag  headline -->
+        <div class="row">
+
+            <!-- placeholder for tag headline -->
+            <div class="col-6">
+            </div>
+
+        <!-- tag  headline -->
+        </div>
+
+        <!-- tag -->
+        <div class="row">
+
+            <!-- placeholder for tag -->
+            <div class="col-6">
+            </div>
+
+        <!-- tag -->
+        </div>
+
+    <!-- tag block -->
+    </div>
+
+    <!-- ############################################ -->
+
+    <!-- case information block -->
+    <div class="card card-body bg-dark border-light top-distance">
+
+        <!-- case information headline -->
+        <div class="row">
+            <div class="col">
+                <h5>
+                    Case information
+                </h5>
+            </div>
+        </div>
+
+        <!-- casestatus / casepriority headlines row -->
+        <div class="row">
+
+            <!-- casestatus headline -->
+            <div class="col-3">
+                <div class="font-weight-bold">
+                    {{ form.casestatus.label }}
+                </div>
+            </div>
+
+            <!-- casepriority headline -->
+            <div class="col-3">
+                <div class="font-weight-bold">
+                    {{ form.casepriority.label }}
+                </div>
+            </div>
+
+        <!-- casestatus / casepriority headlines row -->
+        </div>
+
+        <!-- casestatus / casepriority row -->
+        <div class="row">
+
+            <!-- casestatus -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- casestatus errors -->
+                    <div class="text-danger">
+                        {{ form.casestatus.errors }}
+                    </div>
+                    {% for i in form.casestatus %}
+                        {{ i }}<br>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- casepriority -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- casepriority errors -->
+                    <div class="text-danger">
+                        {{ form.casepriority.errors }}
+                    </div>
+                    {% for i in form.casepriority %}
+                        {{ i }}<br>
+                    {% endfor %}
+                </div>
+            </div>
+
+        <!-- casestatus / casepriority row -->
+        </div>
+
+        <!-- casetype / incident headlines row -->
+        <div class="row top-distance">
+
+            <!-- casetype headline -->
+            <div class="col-3">
+                <div class="font-weight-bold">
+                    {{ form.casetype.label }}
+                </div>
+            </div>
+
+            <!-- case_is_incident headline -->
+            <div class="col-1">
+                <div class="font-weight-bold">
+                    {{ form.case_is_incident.label }}
+                </div>
+            </div>
+
+        <!-- casetype / incident headlines row -->
+        </div>
+
+        <!-- casetype / incident row -->
+        <div class="row">
+
+            <!-- casetype -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- casetype errors -->
+                    <div class="text-danger">
+                        {{ form.casetype.errors }}
+                    </div>
+                    {{ form.casetype }}
+                </div>
+            </div>
+
+            <!-- case_is_incident -->
+            <div class="col-1">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- case_is_incident errors -->
+                    <div class="text-danger">
+                        {{ form.case_is_incident.errors }}
+                    </div>
+                    {{ form.case_is_incident }}
+                </div>
+            </div>
+
+        <!-- casetype / incident row -->
+        </div>
+
+    <!-- case information block -->
+    </div>
+
+    <!-- ############################################ -->
+
+    <!-- case note block -->
+    <div class="card card-body bg-dark border-light top-distance bottom-distance">
+
+        <!-- case note headline row -->
+        <div class="row">
+
+            <!-- case_note_internal headline -->
+            <div class="col-4">
+                <h5>
+                    {{ form.case_note_internal.label }}
+                </h5>
+            </div>
+
+            <!-- case_note_external headline -->
+            <div class="col-4">
+                <h5>
+                    {{ form.case_note_external.label }}
+                </h5>
+            </div>
+
+            <!-- case_note_analysisresult headline -->
+            <div class="col-4">
+                <h5>
+                    {{ form.case_note_analysisresult.label }}
+                </h5>
+            </div>
+
+        <!-- case note headline row -->
+        </div>
+
+        <!-- case note row -->
+        <div class="row">
+
+            <!-- case_note_internal -->
+            <div class="col-4">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- case note errors -->
+                    <div class="text-danger">
+                        {{ form.case_note_internal.errors }}
+                    </div>
+                    {{ form.case_note_internal }}
+                </div>
+            </div>
+
+            <!-- case_note_external -->
+            <div class="col-4">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- case note errors -->
+                    <div class="text-danger">
+                        {{ form.case_note_external.errors }}
+                    </div>
+                    {{ form.case_note_external }}
+                </div>
+            </div>
+
+            <!-- case_note_analysisresult -->
+            <div class="col-4">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- case note errors -->
+                    <div class="text-danger">
+                        {{ form.case_note_analysisresult.errors }}
+                    </div>
+                    {{ form.case_note_analysisresult }}
+                </div>
+            </div>
+
+        <!-- case note row -->
+        </div>
+
+    <!-- case note block -->
+    </div>
+
+    <!-- ############################################ -->
+
+    <!-- button row -->
+    <div class="row top-distance">
+
+        <!-- save button -->
+        <div class="col-1">
+            {% include "dfirtrack_main/includes/button_save.html" %}
+        </div>
+
+        <!-- cancel button -->
+        <div class="col-1">
+            {% include "dfirtrack_main/includes/button_cancel.html" %}
+        </div>
+
     <!-- button row -->
     </div>
 
 <!-- form -->
 </form>
-    
+
 <!-- HTML body in maintemplate -->
 {% endblock %}

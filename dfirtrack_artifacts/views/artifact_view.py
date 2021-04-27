@@ -2,11 +2,17 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.utils import timezone
-from django.views.generic import DetailView, ListView, UpdateView, CreateView
+from django.views.generic import CreateView
+from django.views.generic import DetailView
+from django.views.generic import ListView
+from django.views.generic import UpdateView
 from dfirtrack_artifacts.forms import ArtifactForm
-from dfirtrack_artifacts.models import Artifact, Artifactpriority, Artifactstatus, Artifacttype
+from dfirtrack_artifacts.models import Artifact
+from dfirtrack_artifacts.models import Artifactpriority
+from dfirtrack_artifacts.models import Artifactstatus
 from dfirtrack_config.models import MainConfigModel
 from dfirtrack_main.logger.default_logger import debug_logger
+
 
 def query_artifact(artifactstatus_list):
     """ query artifacts with a list of specific artifactstatus """
@@ -118,7 +124,7 @@ def set_artifact_times(artifact):
     # set acquisition time if new artifactstatus of system is in artifactstatus_acquisition of main config (and has not been set before)
     if artifact.artifactstatus in artifactstatus_acquisition and artifact.artifact_acquisition_time == None:
         artifact.artifact_acquisition_time = timezone.now()
-        # also set request time if it has not already been done
+        # also set requested time if it has not already been done
         if artifact.artifact_requested_time == None:
             artifact.artifact_requested_time = timezone.now()
 
@@ -135,7 +141,6 @@ class ArtifactCreateView(LoginRequiredMixin, CreateView):
         # get id of first status objects sorted by name
         artifactpriority = Artifactpriority.objects.order_by('artifactpriority_name')[0].artifactpriority_id
         artifactstatus = Artifactstatus.objects.order_by('artifactstatus_name')[0].artifactstatus_id
-        artifacttype = Artifacttype.objects.order_by('artifacttype_name')[0].artifacttype_id
 
         if 'system' in request.GET:
             system = request.GET['system']
@@ -143,13 +148,11 @@ class ArtifactCreateView(LoginRequiredMixin, CreateView):
                 'system': system,
                 'artifactpriority': artifactpriority,
                 'artifactstatus': artifactstatus,
-                'artifacttype': artifacttype,
             })
         else:
             form = self.form_class(initial={
                 'artifactpriority': artifactpriority,
                 'artifactstatus': artifactstatus,
-                'artifacttype': artifacttype,
             })
         debug_logger(str(request.user), ' ARTIFACT_ADD_ENTERED')
         return render(request, self.template_name, {'form': form})
@@ -168,11 +171,6 @@ class ArtifactCreateView(LoginRequiredMixin, CreateView):
         self.object.check_existing_hashes(self.request)
 
         return super().form_valid(form)
-
-    # TODO: remove if not used
-    #def form_invalid(self, form):
-    #    messages.error(self.request, 'Artifact could not be added')
-    #    return super().form_invalid(form)
 
 class ArtifactUpdateView(LoginRequiredMixin, UpdateView):
     login_url = '/login'
@@ -199,8 +197,3 @@ class ArtifactUpdateView(LoginRequiredMixin, UpdateView):
         self.object.check_existing_hashes(self.request)
 
         return super().form_valid(form)
-
-    # TODO: remove if not used
-    #def form_invalid(self, form):
-    #    messages.error(self.request, 'Artifact could not be edited')
-    #    return super().form_invalid(form)

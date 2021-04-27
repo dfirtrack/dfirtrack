@@ -1,8 +1,8 @@
-from django.urls import include, re_path
 from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.views import LoginView, LogoutView
+from django.urls import include, path, re_path
 from dfirtrack import views
 
 urlpatterns = [
@@ -19,3 +19,7 @@ if 'dfirtrack_api' in settings.INSTALLED_APPS:
     urlpatterns += [
         re_path(r'^api/', include('dfirtrack_api.urls')),
     ]
+
+urlpatterns += [
+    path('main_overview/', views.main_overview_redirect, name='main_overview'),
+]

@@ -1,5 +1,6 @@
 from django.test import TestCase
 from dfirtrack_artifacts.models import Artifactstatus
+from dfirtrack_main.models import Casestatus
 from dfirtrack_config.forms import MainConfigForm
 
 class MainConfigFormTestCase(TestCase):
@@ -16,7 +17,15 @@ class MainConfigFormTestCase(TestCase):
         # get object
         form = MainConfigForm()
         # compare
-        self.assertEqual(form.fields['system_name_editable'].label, 'Make system name editable')
+        self.assertEqual(form.fields['system_name_editable'].label, 'Make system name editable (may require service restart)')
+
+    def test_main_config_main_overview_form_label(self):
+        """ test form label """
+
+        # get object
+        form = MainConfigForm()
+        # compare
+        self.assertEqual(form.fields['main_overview'].label, 'Main overview page')
 
     def test_main_config_artifactstatus_form_label(self):
         """ test form label """
@@ -27,6 +36,16 @@ class MainConfigFormTestCase(TestCase):
         self.assertEqual(form.fields['artifactstatus_open'].label, 'Artifactstatus to be considered open')
         self.assertEqual(form.fields['artifactstatus_requested'].label, 'Artifactstatus setting the artifact requested time')
         self.assertEqual(form.fields['artifactstatus_acquisition'].label, 'Artifactstatus setting the artifact acquisition time')
+
+    def test_main_config_casestatus_form_label(self):
+        """ test form label """
+
+        # get object
+        form = MainConfigForm()
+        # compare
+        self.assertEqual(form.fields['casestatus_open'].label, 'Casestatus to be considered open')
+        self.assertEqual(form.fields['casestatus_start'].label, 'Casestatus setting the case start time')
+        self.assertEqual(form.fields['casestatus_end'].label, 'Casestatus setting the case end time')
 
     def test_main_config_statushistory_entry_numbers_form_label(self):
         """ test form label """
@@ -75,7 +94,7 @@ class MainConfigFormTestCase(TestCase):
         self.assertFalse(form.is_valid())
 
     def test_main_config_form_cron_username_filled(self):
-        """ test minimum form requirements / VALID """
+        """ test minimum form requirements / INVALID """
 
         # get object
         form = MainConfigForm(data = {
@@ -84,9 +103,22 @@ class MainConfigFormTestCase(TestCase):
             'cron_username': 'cron',
         })
         # compare
+        self.assertFalse(form.is_valid())
+
+    def test_main_config_form_main_overview_filled(self):
+        """ test minimum form requirements / VALID """
+
+        # get object
+        form = MainConfigForm(data = {
+            'statushistory_entry_numbers': 6,
+            'cron_export_path': '/tmp',
+            'cron_username': 'cron',
+            'main_overview': 'main_overview_system',
+        })
+        # compare
         self.assertTrue(form.is_valid())
 
-    def test_main_config_form_statushistory_different_artifactstatus(self):
+    def test_main_config_form_different_artifactstatus(self):
         """ test custom field validation """
 
         # create obects
@@ -98,16 +130,17 @@ class MainConfigFormTestCase(TestCase):
         artifactstatus_6 = Artifactstatus.objects.create(artifactstatus_name='artifactstatus_6').artifactstatus_id
         # get object
         form = MainConfigForm(data = {
-            'statushistory_entry_numbers': 6,
+            'statushistory_entry_numbers': 5,
             'cron_export_path': '/tmp',
             'cron_username': 'cron',
+            'main_overview': 'main_overview_system',
             'artifactstatus_requested': [artifactstatus_1, artifactstatus_2, artifactstatus_3,],
             'artifactstatus_acquisition': [artifactstatus_4, artifactstatus_5, artifactstatus_6,],
         })
         # compare
         self.assertTrue(form.is_valid())
 
-    def test_main_config_form_statushistory_same_artifactstatus(self):
+    def test_main_config_form_same_artifactstatus(self):
         """ test custom field validation """
 
         # create obects
@@ -118,11 +151,55 @@ class MainConfigFormTestCase(TestCase):
         artifactstatus_5 = Artifactstatus.objects.create(artifactstatus_name='artifactstatus_5').artifactstatus_id
         # get object
         form = MainConfigForm(data = {
-            'statushistory_entry_numbers': 5,
+            'statushistory_entry_numbers': 4,
             'cron_export_path': '/tmp',
             'cron_username': 'cron',
+            'main_overview': 'main_overview_system',
             'artifactstatus_requested': [artifactstatus_1, artifactstatus_2, artifactstatus_3,],
             'artifactstatus_acquisition': [artifactstatus_3, artifactstatus_4, artifactstatus_5,],
+        })
+        # compare
+        self.assertFalse(form.is_valid())
+
+    def test_main_config_form_different_casestatus(self):
+        """ test custom field validation """
+
+        # create obects
+        casestatus_1 = Casestatus.objects.create(casestatus_name='casestatus_1').casestatus_id
+        casestatus_2 = Casestatus.objects.create(casestatus_name='casestatus_2').casestatus_id
+        casestatus_3 = Casestatus.objects.create(casestatus_name='casestatus_3').casestatus_id
+        casestatus_4 = Casestatus.objects.create(casestatus_name='casestatus_4').casestatus_id
+        casestatus_5 = Casestatus.objects.create(casestatus_name='casestatus_5').casestatus_id
+        casestatus_6 = Casestatus.objects.create(casestatus_name='casestatus_6').casestatus_id
+        # get object
+        form = MainConfigForm(data = {
+            'statushistory_entry_numbers': 3,
+            'cron_export_path': '/tmp',
+            'cron_username': 'cron',
+            'main_overview': 'main_overview_system',
+            'casestatus_start': [casestatus_1, casestatus_2, casestatus_3,],
+            'casestatus_end': [casestatus_4, casestatus_5, casestatus_6,],
+        })
+        # compare
+        self.assertTrue(form.is_valid())
+
+    def test_main_config_form_same_casestatus(self):
+        """ test custom field validation """
+
+        # create obects
+        casestatus_1 = Casestatus.objects.create(casestatus_name='casestatus_1').casestatus_id
+        casestatus_2 = Casestatus.objects.create(casestatus_name='casestatus_2').casestatus_id
+        casestatus_3 = Casestatus.objects.create(casestatus_name='casestatus_3').casestatus_id
+        casestatus_4 = Casestatus.objects.create(casestatus_name='casestatus_4').casestatus_id
+        casestatus_5 = Casestatus.objects.create(casestatus_name='casestatus_5').casestatus_id
+        # get object
+        form = MainConfigForm(data = {
+            'statushistory_entry_numbers': 2,
+            'cron_export_path': '/tmp',
+            'cron_username': 'cron',
+            'main_overview': 'main_overview_system',
+            'casestatus_start': [casestatus_1, casestatus_2, casestatus_3,],
+            'casestatus_end': [casestatus_3, casestatus_4, casestatus_5,],
         })
         # compare
         self.assertFalse(form.is_valid())

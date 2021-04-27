@@ -2,7 +2,38 @@ from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy
-from dfirtrack_main.models import Analysisstatus, Analystmemo, Case, Company, Contact, Division, Dnsname, Domain, Domainuser, Entry, Headline, Location, Os, Osimportname, Reason, Recommendation, Reportitem, Serviceprovider, System, Systemstatus, Systemtype, Systemuser, Tag, Tagcolor, Task, Taskname, Taskpriority, Taskstatus
+from dfirtrack_main.models import Analysisstatus
+from dfirtrack_main.models import Analystmemo
+from dfirtrack_main.models import Case
+from dfirtrack_main.models import Casepriority
+from dfirtrack_main.models import Casestatus
+from dfirtrack_main.models import Casetype
+from dfirtrack_main.models import Company
+from dfirtrack_main.models import Contact
+from dfirtrack_main.models import Division
+from dfirtrack_main.models import Dnsname
+from dfirtrack_main.models import Domain
+from dfirtrack_main.models import Domainuser
+from dfirtrack_main.models import Entry
+from dfirtrack_main.models import Headline
+from dfirtrack_main.models import Location
+from dfirtrack_main.models import Os
+from dfirtrack_main.models import Osarch
+from dfirtrack_main.models import Osimportname
+from dfirtrack_main.models import Reason
+from dfirtrack_main.models import Recommendation
+from dfirtrack_main.models import Reportitem
+from dfirtrack_main.models import Serviceprovider
+from dfirtrack_main.models import System
+from dfirtrack_main.models import Systemstatus
+from dfirtrack_main.models import Systemtype
+from dfirtrack_main.models import Systemuser
+from dfirtrack_main.models import Tag
+from dfirtrack_main.models import Tagcolor
+from dfirtrack_main.models import Task
+from dfirtrack_main.models import Taskname
+from dfirtrack_main.models import Taskpriority
+from dfirtrack_main.models import Taskstatus
 
 
 # inherit from this class if you want to use the ModelMultipleChoiceField with the FilteredSelectMultiple widget
@@ -46,6 +77,28 @@ class AnalystmemoForm(forms.ModelForm):
 
 class CaseForm(forms.ModelForm):
 
+    # reorder field choices
+    casepriority = forms.ModelChoiceField(
+        label = gettext_lazy('Casepriority (*)'),
+        queryset = Casepriority.objects.order_by('casepriority_name'),
+        widget = forms.RadioSelect(),
+    )
+
+    # reorder field choices
+    casestatus = forms.ModelChoiceField(
+        label = gettext_lazy('Casestatus (*)'),
+        queryset = Casestatus.objects.order_by('casestatus_name'),
+        widget = forms.RadioSelect(),
+    )
+
+    # reorder field choices
+    casetype = forms.ModelChoiceField(
+        label = gettext_lazy('Casetype'),
+        queryset = Casetype.objects.order_by('casetype_name'),
+        empty_label = 'Select casetype (optional)',
+        required = False,
+    )
+
     class Meta:
 
         # model
@@ -53,18 +106,55 @@ class CaseForm(forms.ModelForm):
 
         # this HTML forms are shown
         fields = (
+            'case_id_external',
             'case_name',
             'case_is_incident',
+            'case_note_analysisresult',
+            'case_note_external',
+            'case_note_internal',
+            'case_start_time',
+            'case_end_time',
+            'casepriority',
+            'casestatus',
+            'casetype',
         )
 
         # non default form labeling
         labels = {
+            'case_id_external': gettext_lazy('Case external ID'),
             'case_name': gettext_lazy('Case name (*)'),
+            'case_is_incident': gettext_lazy('Is incident'),
+            'case_note_analysisresult': gettext_lazy('Analysis result'),
+            'case_note_external': gettext_lazy('External note'),
+            'case_note_internal': gettext_lazy('Internal note'),
         }
 
         # special form type or option
         widgets = {
             'case_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
+        }
+
+class CasetypeForm(forms.ModelForm):
+
+    class Meta:
+
+        # model
+        model = Casetype
+
+        # this HTML forms are shown
+        fields = [
+            'casetype_name',
+            'casetype_note',
+        ]
+
+        # non default form labeling
+        labels = {
+            'casetype_name': gettext_lazy('Casetype name (*)'),
+        }
+
+        # special form type or option
+        widgets = {
+            'casetype_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
         }
 
 class CompanyForm(forms.ModelForm):
@@ -524,14 +614,6 @@ class SystemForm(forms.ModelForm):
     """ this form does not allow editing of system_name """
 
     # reorder field choices
-    systemstatus = forms.ModelChoiceField(
-        queryset = Systemstatus.objects.order_by('systemstatus_name'),
-        label = 'Systemstatus',
-        required = True,
-        widget = forms.RadioSelect(),
-    )
-
-    # reorder field choices
     analysisstatus = forms.ModelChoiceField(
         queryset = Analysisstatus.objects.order_by('analysisstatus_name'),
         label = 'Analysisstatus',
@@ -540,18 +622,118 @@ class SystemForm(forms.ModelForm):
     )
 
     # reorder field choices
-    reason = forms.ModelChoiceField(
-        label = gettext_lazy('Reason'),
-        queryset = Reason.objects.order_by('reason_name'),
+    case = forms.ModelMultipleChoiceField(
+        label = gettext_lazy('Cases'),
+        queryset = Case.objects.order_by('case_name'),
         required = False,
-        widget = forms.RadioSelect(),
+        widget=forms.CheckboxSelectMultiple(),
+    )
+
+    # reorder field choices
+    company = forms.ModelMultipleChoiceField(
+        label = gettext_lazy('Companies'),
+        queryset = Company.objects.order_by('company_name'),
+        required = False,
+        widget=forms.CheckboxSelectMultiple(),
+    )
+
+    # reorder field choices
+    contact = forms.ModelChoiceField(
+        label = gettext_lazy('Contact'),
+        queryset = Contact.objects.order_by('contact_name'),
+        empty_label = 'Select contact (optional)',
+        required = False,
+    )
+
+    # reorder field choices
+    domain = forms.ModelChoiceField(
+        label = gettext_lazy('Domain'),
+        queryset = Domain.objects.order_by('domain_name'),
+        empty_label = 'Select domain (optional)',
+        required = False,
+    )
+
+    # reorder field choices
+    dnsname = forms.ModelChoiceField(
+        label = gettext_lazy('DNS name'),
+        queryset = Dnsname.objects.order_by('dnsname_name'),
+        empty_label = 'Select DNS name (optional)',
+        required = False,
+    )
+
+    # reorder field choices
+    host_system = forms.ModelChoiceField(
+        label = gettext_lazy('Host system (hypervisor)'),
+        queryset = System.objects.order_by('system_name'),
+        empty_label = 'Select host system (optional)',
+        required = False,
+    )
+
+    # large text area for line separated iplist
+    iplist = forms.CharField(
+        label = gettext_lazy('IP addresses'),
+        widget=forms.Textarea(
+            attrs={
+                'rows': 3,
+                'placeholder': 'One IP address per line',
+            },
+        ),
+        required = False,
+    )
+
+    # reorder field choices
+    location = forms.ModelChoiceField(
+        label = gettext_lazy('Location'),
+        queryset = Location.objects.order_by('location_name'),
+        empty_label = 'Select location (optional)',
+        required = False,
+    )
+
+    # reorder field choices
+    os = forms.ModelChoiceField(
+        label = gettext_lazy('Operating system'),
+        queryset = Os.objects.order_by('os_name'),
+        empty_label = 'Select OS (optional)',
+        required = False,
+    )
+
+    # reorder field choices
+    osarch = forms.ModelChoiceField(
+        label = gettext_lazy('OS architecture'),
+        queryset = Osarch.objects.order_by('osarch_name'),
+        empty_label = 'Select OS architecture (optional)',
+        required = False,
+    )
+
+    # reorder field choices
+    reason = forms.ModelChoiceField(
+        label = gettext_lazy('Reason for investigation'),
+        queryset = Reason.objects.order_by('reason_name'),
+        empty_label = 'Select reason (optional)',
+        required = False,
     )
 
     # reorder field choices
     recommendation = forms.ModelChoiceField(
         label = gettext_lazy('Recommendation'),
         queryset = Recommendation.objects.order_by('recommendation_name'),
+        empty_label = 'Select recommendation (optional)',
         required = False,
+    )
+
+    # reorder field choices
+    serviceprovider = forms.ModelChoiceField(
+        label = gettext_lazy('Serviceprovider'),
+        queryset = Serviceprovider.objects.order_by('serviceprovider_name'),
+        empty_label = 'Select serviceprovider (optional)',
+        required = False,
+    )
+
+    # reorder field choices
+    systemstatus = forms.ModelChoiceField(
+        queryset = Systemstatus.objects.order_by('systemstatus_name'),
+        label = 'Systemstatus (*)',
+        required = True,
         widget = forms.RadioSelect(),
     )
 
@@ -559,91 +741,16 @@ class SystemForm(forms.ModelForm):
     systemtype = forms.ModelChoiceField(
         label = gettext_lazy('Systemtype'),
         queryset = Systemtype.objects.order_by('systemtype_name'),
+        empty_label = 'Select systemtype (optional)',
         required = False,
-        widget = forms.RadioSelect(),
-    )
-
-    # reorder field choices
-    domain = forms.ModelChoiceField(
-        label = gettext_lazy('Domain'),
-        queryset = Domain.objects.order_by('domain_name'),
-        required = False,
-        widget = forms.RadioSelect(),
-    )
-
-    # reorder field choices
-    dnsname = forms.ModelChoiceField(
-        label = gettext_lazy('Dnsname'),
-        queryset = Dnsname.objects.order_by('dnsname_name'),
-        required = False,
-        widget = forms.RadioSelect(),
-    )
-
-    # reorder field choices
-    os = forms.ModelChoiceField(
-        label = gettext_lazy('Os'),
-        queryset = Os.objects.order_by('os_name'),
-        required = False,
-        widget = forms.RadioSelect(),
-    )
-
-    # reorder field choices
-    company = forms.ModelMultipleChoiceField(
-        label = gettext_lazy('Company'),
-        queryset = Company.objects.order_by('company_name'),
-        required = False,
-        widget=forms.CheckboxSelectMultiple(),
-    )
-
-    # reorder field choices
-    location = forms.ModelChoiceField(
-        label = gettext_lazy('Location'),
-        queryset = Location.objects.order_by('location_name'),
-        required = False,
-        widget = forms.RadioSelect(),
-    )
-
-    # reorder field choices
-    serviceprovider = forms.ModelChoiceField(
-        label = gettext_lazy('Serviceprovider'),
-        queryset = Serviceprovider.objects.order_by('serviceprovider_name'),
-        required = False,
-        widget = forms.RadioSelect(),
-    )
-
-    # reorder field choices
-    contact = forms.ModelChoiceField(
-        label = gettext_lazy('Contact'),
-        queryset = Contact.objects.order_by('contact_name'),
-        required = False,
-        widget = forms.RadioSelect(),
     )
 
     # reorder field choices
     tag = forms.ModelMultipleChoiceField(
-        label = gettext_lazy('Tag'),
+        label = gettext_lazy('Tags'),
         queryset = Tag.objects.order_by('tag_name'),
         required = False,
         widget=forms.CheckboxSelectMultiple(),
-    )
-
-    # reorder field choices
-    case = forms.ModelMultipleChoiceField(
-        label = gettext_lazy('Case'),
-        queryset = Case.objects.order_by('case_name'),
-        required = False,
-        widget=forms.CheckboxSelectMultiple(),
-    )
-
-    # large text area for line separated iplist
-    iplist = forms.CharField(
-        widget=forms.Textarea(
-            attrs={
-                'rows': 3,
-                'placeholder': 'One ip address per line',
-            },
-        ),
-        required = False,
     )
 
     class Meta:
@@ -677,10 +784,19 @@ class SystemForm(forms.ModelForm):
             'system_export_spreadsheet',
         )
 
+        # non default form labeling
+        labels = {
+            'system_install_time': gettext_lazy('Installation time (YYYY-MM-DD HH:MM:SS)'),
+            'system_lastbooted_time': gettext_lazy('Last booted (YYYY-MM-DD HH:MM:SS)'),
+            'system_deprecated_time': gettext_lazy('System is deprecated since (YYYY-MM-DD HH:MM:SS)'),
+            'system_is_vm': gettext_lazy('System is a VM'),
+            'system_export_markdown': gettext_lazy('Export system to markdown'),
+            'system_export_spreadsheet': gettext_lazy('Export system to spreadsheet'),
+        }
+
         # special form type or option
         widgets = {
             'ip': forms.GenericIPAddressField(),
-            'osarch': forms.RadioSelect(),
             'system_install_time': forms.DateTimeInput(),
             'system_lastbooted_time': forms.DateTimeInput(),
             'system_deprecated_time': forms.DateTimeInput(),
@@ -697,6 +813,9 @@ class SystemNameForm(SystemForm):
         fields = SystemForm.Meta.fields + (
             'system_name',
         )
+
+        # non default form labeling for system_name
+        SystemForm.Meta.labels['system_name'] = gettext_lazy('System name (*)')
 
         # special form type or option for system_name
         SystemForm.Meta.widgets['system_name'] = forms.TextInput(
@@ -1033,7 +1152,7 @@ class TaskForm(forms.ModelForm):
     # reorder field choices
     taskpriority = forms.ModelChoiceField(
         queryset = Taskpriority.objects.order_by('taskpriority_name'),
-        label = 'Taskpriority',
+        label = 'Taskpriority (*)',
         required = True,
         widget = forms.RadioSelect(),
     )
@@ -1041,35 +1160,36 @@ class TaskForm(forms.ModelForm):
     # reorder field choices
     taskstatus = forms.ModelChoiceField(
         queryset = Taskstatus.objects.order_by('taskstatus_name'),
-        label = 'Taskstatus',
+        label = 'Taskstatus (*)',
         required = True,
         widget = forms.RadioSelect(),
     )
 
     # reorder field choices
     taskname = forms.ModelChoiceField(
-        label = gettext_lazy('Taskname'),
+        label = gettext_lazy('Taskname (*)'),
         queryset = Taskname.objects.order_by('taskname_name'),
     )
 
     # reorder field choices
     system = forms.ModelChoiceField(
-        label = gettext_lazy('System'),
+        label = gettext_lazy('Corresponding system'),
         queryset = System.objects.order_by('system_name'),
         required = False,
+        empty_label = 'Select system (optional)',
     )
 
     # reorder field choices
     task_assigned_to_user_id = forms.ModelChoiceField(
-        label = gettext_lazy('Task assigned to user id'),
+        label = gettext_lazy('Assigned to user'),
         queryset = User.objects.order_by('username'),
         required = False,
-        widget = forms.RadioSelect(),
+        empty_label = 'Select user (optional)',
     )
 
     # reorder field choices
     tag = forms.ModelMultipleChoiceField(
-        label = gettext_lazy('Tag'),
+        label = gettext_lazy('Tags'),
         queryset = Tag.objects.order_by('tag_name'),
         required = False,
         widget=forms.CheckboxSelectMultiple(),
@@ -1093,6 +1213,13 @@ class TaskForm(forms.ModelForm):
             'task_scheduled_time',
             'task_due_time',
         )
+
+        # non default form labeling
+        labels = {
+            'task_note': gettext_lazy('Task note'),
+            'task_scheduled_time': gettext_lazy('Scheduled (YYYY-MM-DD HH:MM:SS)'),
+            'task_due_time': gettext_lazy('Due (YYYY-MM-DD HH:MM:SS)'),
+        }
 
         # special form type or option
         widgets = {

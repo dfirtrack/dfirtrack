@@ -31,7 +31,10 @@
             <!-- system headline -->
             <div class="col-4">
                 <h5>
-                    Systems
+                    <a href="{% url 'system_list' %}" type="button" class="btn btn-primary btn-sm copy-false">
+                        <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                        Systems
+                    </a>
                 </h5>
             </div>
 
@@ -166,7 +169,10 @@
             <!-- system headline -->
             <div class="col-4">
                 <h5>
-                    Systems
+                    <a href="{% url 'system_list' %}" type="button" class="btn btn-secondary btn-sm copy-false">
+                        <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                        Systems
+                    </a>
                 </h5>
             </div>
 
@@ -232,7 +238,7 @@
 
                     <!-- systemstatus table body -->
                     <tbody>
-                        {% for i in  statushistory.statushistoryentry_set.all %}
+                        {% for i in  statushistory.statushistoryentry_set.all|dictsort:"statushistoryentry_model_key" %}
                             {% if i.statushistoryentry_model_name == 'systemstatus' %}
                                 <tr>
                                     <td>{{ i.statushistoryentry_model_key }}</td>
@@ -260,7 +266,7 @@
 
                     <!-- analysisstatus table body -->
                     <tbody>
-                        {% for i in  statushistory.statushistoryentry_set.all %}
+                        {% for i in  statushistory.statushistoryentry_set.all|dictsort:"statushistoryentry_model_key" %}
                             {% if i.statushistoryentry_model_name == 'analysisstatus' %}
                                 <tr>
                                     <td>{{ i.statushistoryentry_model_key }}</td>
@@ -297,7 +303,10 @@
             <!-- artifact headline -->
             <div class="col-4">
                 <h5>
-                    Artifacts
+                    <a href="{% url 'artifacts_artifact_list' %}" type="button" class="btn btn-primary btn-sm top-right copy-false">
+                        <img src="{% static 'dfirtrack_main/icons/bug-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                        Artifacts
+                    </a>
                 </h5>
             </div>
 
@@ -431,7 +440,10 @@
             <!-- artifact headline -->
             <div class="col-4">
                 <h5>
-                    Artifacts
+                    <a href="{% url 'artifacts_artifact_list' %}" type="button" class="btn btn-secondary btn-sm top-right copy-false">
+                        <img src="{% static 'dfirtrack_main/icons/bug-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                        Artifacts
+                    </a>
                 </h5>
             </div>
 
@@ -496,7 +508,7 @@
 
                     <!-- artifactstatus table body -->
                     <tbody>
-                        {% for i in  statushistory.statushistoryentry_set.all %}
+                        {% for i in  statushistory.statushistoryentry_set.all|dictsort:"statushistoryentry_model_key" %}
                             {% if i.statushistoryentry_model_name == 'artifactstatus' %}
                                 <tr>
                                     <td>{{ i.statushistoryentry_model_key }}</td>
@@ -524,7 +536,7 @@
 
                     <!-- artifactpriority table body -->
                     <tbody>
-                        {% for i in  statushistory.statushistoryentry_set.all %}
+                        {% for i in  statushistory.statushistoryentry_set.all|dictsort:"statushistoryentry_model_key" %}
                             {% if i.statushistoryentry_model_name == 'artifactpriority' %}
                                 <tr>
                                     <td>{{ i.statushistoryentry_model_key }}</td>
@@ -549,6 +561,276 @@
 <!-- artifacts row -->
 </div>
 
+<!-- cases row -->
+<div class="row">
+
+    <!-- cases card -->
+    <div class="card col-6 bg-dark border-light card-body top-distance">
+
+        <!-- case headline row -->
+        <div class="row">
+
+            <!-- case headline -->
+            <div class="col-4">
+                <h5>
+                    <a href="{% url 'case_list' %}" type="button" class="btn btn-primary btn-sm bottom-left top-right copy-false">
+                        <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                        Cases
+                    </a>
+                </h5>
+            </div>
+
+            <!-- casestatus headline -->
+            <div class="col-4">
+                <h5>
+                    Cases per casestatus
+                </h5>
+            </div>
+
+            <!-- casepriority headline -->
+            <div class="col-4">
+                <h5>
+                    Cases per casepriority
+                </h5>
+            </div>
+
+        </div>
+
+        <!-- case status row -->
+        <div class="row">
+
+            <!-- case number -->
+            <div class="col-4 bottom-distance">
+
+                <!-- case number table -->
+                <table class="status-table-distance">
+
+                    <!-- case number table head -->
+                    <thead>
+                    </thead>
+
+                    <!-- case number table body -->
+                    <tbody>
+                            <tr>
+                                <td>Number of cases</td>
+                                <td>{{ cases_number }}</td>
+                            </tr>
+                            <tr>
+                                <td><br></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Cases created today</td>
+                                <td>{{ cases_today_number }}</td>
+                            </tr>
+                            <tr>
+                                <td>Cases created yesterday</td>
+                                <td>{{ cases_yesterday_number }}</td>
+                            </tr>
+                            <tr>
+                                <td>Cases created two days ago</td>
+                                <td>{{ cases_two_days_ago_number }}</td>
+                            </tr>
+                            <tr>
+                                <td>Cases created three days ago</td>
+                                <td>{{ cases_three_days_ago_number }}</td>
+                            </tr>
+                    </tbody>
+
+                <!-- case number table -->
+                </table>
+
+            <!-- case number -->
+            </div>
+
+            <!-- casestatus -->
+            <div class="col-4">
+
+                <!-- casestatus table -->
+                <table class="status-table-distance">
+
+                    <!-- casestatus table head -->
+                    <thead>
+                    </thead>
+
+                    <!-- casestatus table body -->
+                    <tbody>
+                        {% for casestatus in casestatus_all %}
+                            <tr>
+                                <td>{{ casestatus.casestatus_name }}</td>
+                                <td>{{ casestatus.case_set.all|length }}</td>
+                            </tr>
+                        {% endfor%}
+                    </tbody>
+
+                <!-- casestatus table -->
+                </table>
+
+            <!-- casestatus -->
+            </div>
+
+            <!-- casepriority -->
+            <div class="col-4">
+
+                <!-- casepriority table -->
+                <table class="status-table-distance">
+
+                    <!-- casepriority table head -->
+                    <thead>
+                    </thead>
+
+                    <!-- casepriority table body -->
+                    <tbody>
+                        {% for casepriority in casepriority_all %}
+                            <tr>
+                                <td>{{ casepriority.casepriority_name }}</td>
+                                <td>{{ casepriority.case_set.all|length }}</td>
+                            </tr>
+                        {% endfor%}
+                    </tbody>
+
+                <!-- casepriority table -->
+                </table>
+
+            <!-- casepriority -->
+            </div>
+
+        <!-- case status row -->
+        </div>
+
+    <!-- cases card -->
+    </div>
+
+    <!-- cases card -->
+    <div class="card col-5.5 bg-dark border-secondary card-body left-distance top-distance">
+
+        <!-- case headline row -->
+        <div class="row">
+
+            <!-- case headline -->
+            <div class="col-4">
+                <h5>
+                    <a href="{% url 'case_list' %}" type="button" class="btn btn-secondary btn-sm bottom-left top-right copy-false">
+                        <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                        Cases
+                    </a>
+                </h5>
+            </div>
+
+            <!-- casestatus headline -->
+            <div class="col-4">
+                <h5>
+                    Cases per casestatus
+                </h5>
+            </div>
+
+            <!-- casepriority headline -->
+            <div class="col-4">
+                <h5>
+                    Cases per casepriority
+                </h5>
+            </div>
+
+        </div>
+
+        <!-- case status row -->
+        <div class="row">
+
+            <!-- case number -->
+            <div class="col-4 bottom-distance">
+
+                <!-- case number table -->
+                <table class="status-table-distance">
+
+                    <!-- case number table head -->
+                    <thead>
+                    </thead>
+
+                    <!-- case number table body -->
+                    <tbody>
+                            <tr>
+                                <td>Number of cases</td>
+                                <td>
+                                    {% for i in  statushistory.statushistoryentry_set.all %}
+                                        {% if i.statushistoryentry_model_name == 'cases_number' %}
+                                            {{ i.statushistoryentry_model_value }}
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                    </tbody>
+
+                <!-- case number table -->
+                </table>
+
+            <!-- case number -->
+            </div>
+
+            <!-- casestatus -->
+            <div class="col-4">
+
+                <!-- casestatus table -->
+                <table class="status-table-distance">
+
+                    <!-- casestatus table head -->
+                    <thead>
+                    </thead>
+
+                    <!-- casestatus table body -->
+                    <tbody>
+                        {% for i in  statushistory.statushistoryentry_set.all|dictsort:"statushistoryentry_model_key" %}
+                            {% if i.statushistoryentry_model_name == 'casestatus' %}
+                                <tr>
+                                    <td>{{ i.statushistoryentry_model_key }}</td>
+                                    <td>{{ i.statushistoryentry_model_value }}</td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+
+                <!-- casestatus table -->
+                </table>
+
+            <!-- casestatus -->
+            </div>
+
+            <!-- casepriority -->
+            <div class="col-4">
+
+                <!-- casepriority table -->
+                <table class="status-table-distance">
+
+                    <!-- casepriority table head -->
+                    <thead>
+                    </thead>
+
+                    <!-- casepriority table body -->
+                    <tbody>
+                        {% for i in  statushistory.statushistoryentry_set.all|dictsort:"statushistoryentry_model_key" %}
+                            {% if i.statushistoryentry_model_name == 'casepriority' %}
+                                <tr>
+                                    <td>{{ i.statushistoryentry_model_key }}</td>
+                                    <td>{{ i.statushistoryentry_model_value }}</td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+
+                <!-- casepriority table -->
+                </table>
+
+            <!-- casepriority -->
+            </div>
+
+        <!-- case status row -->
+        </div>
+
+    <!-- cases card -->
+    </div>
+
+<!-- cases row -->
+</div>
+
 <!-- tasks row -->
 <div class="row">
 
@@ -561,7 +843,10 @@
             <!-- task headline -->
             <div class="col-4">
                 <h5>
-                    Tasks
+                    <a href="{% url 'task_list' %}" type="button" class="btn btn-primary btn-sm sharp copy-false">
+                        <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                        Tasks
+                    </a>
                 </h5>
             </div>
 
@@ -696,7 +981,10 @@
             <!-- task headline -->
             <div class="col-4">
                 <h5>
-                    Tasks
+                    <a href="{% url 'task_list' %}" type="button" class="btn btn-secondary btn-sm sharp copy-false">
+                        <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                        Tasks
+                    </a>
                 </h5>
             </div>
 
@@ -762,7 +1050,7 @@
 
                     <!-- taskstatus table body -->
                     <tbody>
-                        {% for i in  statushistory.statushistoryentry_set.all %}
+                        {% for i in  statushistory.statushistoryentry_set.all|dictsort:"statushistoryentry_model_key" %}
                             {% if i.statushistoryentry_model_name == 'taskstatus' %}
                                 <tr>
                                     <td>{{ i.statushistoryentry_model_key }}</td>
@@ -790,7 +1078,7 @@
 
                     <!-- taskpriority table body -->
                     <tbody>
-                        {% for i in  statushistory.statushistoryentry_set.all %}
+                        {% for i in  statushistory.statushistoryentry_set.all|dictsort:"statushistoryentry_model_key" %}
                             {% if i.statushistoryentry_model_name == 'taskpriority' %}
                                 <tr>
                                     <td>{{ i.statushistoryentry_model_key }}</td>

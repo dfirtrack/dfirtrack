@@ -124,7 +124,15 @@
 
                 <!-- nav bar item -->
                 <li class="nav-item">
-                    <a class="nav-link active" href="{% url 'system_list' %}">
+                    <a class="nav-link active" href="{% url 'main_overview' %}" style="background-color: white; color: black;">
+                        <img src="{% static 'dfirtrack_main/icons/home.svg' %}" class="icon right-distance copy-false" alt="icon">
+                        Main overview
+                    </a>
+                </li>
+
+                <!-- nav bar item -->
+                <li class="nav-item">
+                    <a class="nav-link active top-distance" href="{% url 'system_list' %}">
                         <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                         Systems
                     </a>
@@ -216,6 +224,37 @@
 
                     <!-- nav bar dropdown menu -->
                     </div>
+                <!-- nav bar dropdown item -->
+                </li>
+
+                <!-- nav bar item -->
+                <li class="nav-item">
+                    <a class="nav-link active top-distance" href="{% url 'case_list' %}">
+                        <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                        Cases
+                    </a>
+                </li>
+
+                <!-- nav bar dropdown item -->
+                <li class="nav-item dropdown">
+
+                    <!-- nav bar dropdown toggle -->
+                    <a class="nav-link dropdown-toggle active top-distance nav-left-distance" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                        Caseitems
+                    </a>
+
+                    <!-- nav bar dropdown menu -->
+                    <div class="dropdown-menu">
+
+                        <!-- section -->
+                        <div class="dropdown-header">Status information</div>
+                        <a class="dropdown-item" href="{% url 'casepriority_list' %}">Casepriorities</a>
+                        <a class="dropdown-item" href="{% url 'casestatus_list' %}">Casestatus</a>
+                        <a class="dropdown-item" href="{% url 'casetype_list' %}">Casetype</a>
+
+                    <!-- nav bar dropdown menu -->
+                    </div>
+
                 <!-- nav bar dropdown item -->
                 </li>
 

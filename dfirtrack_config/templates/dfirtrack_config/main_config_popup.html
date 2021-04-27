@@ -29,6 +29,22 @@
 <!-- form -->
 <form method="POST" class="post-form">
 
+    <!-- button row -->
+    <div class="row top-distance">
+
+        <!-- save button -->
+        <div class="col-2">
+            {% include "dfirtrack_main/includes/button_save.html" %}
+        </div>
+
+        <!-- cancel button -->
+        <div class="col-1">
+            {% include "dfirtrack_main/includes/button_cancel_popup.html" %}
+        </div>
+
+    <!-- button row -->
+    </div>
+
     {% csrf_token %}
 
     <!-- show form related errors -->
@@ -48,6 +64,7 @@
 
                 <table>
                     <tr><td>{{ form.system_name_editable }}</td> <td>{{ form.system_name_editable.label }}</td></tr>
+                    <tr><td>{{ form.main_overview }}</td> <td>{{ form.main_overview.label }}</td></tr>
                     <tr><td>{{ form.statushistory_entry_numbers }}</td> <td>{{ form.statushistory_entry_numbers.label }}</td></tr>
                 </table>
 
@@ -96,8 +113,15 @@
         <!-- config block -->
         </div>
 
+    <!-- row -->
+    </div>
+
+    <!-- row -->
+    <div class="row">
+
         <!-- artifactstatus_open block -->
-        <div class="col-6">
+        <div class="col-4">
+
             <div class="card card-body bg-dark border-light top-distance">
 
                 <h5>
@@ -112,18 +136,13 @@
                     {{ i }}<br>
                 {% endfor %}
 
-            <!-- artifactstatus_open block -->
             </div>
+
+        <!-- artifactstatus_open block -->
         </div>
 
-    <!-- row -->
-    </div>
-
-    <!-- row -->
-    <div class="row">
-
         <!-- artifactstatus_requested block -->
-        <div class="col-6">
+        <div class="col-4">
 
             <div class="card card-body bg-dark border-light top-distance">
 
@@ -145,7 +164,8 @@
         </div>
 
         <!-- artifactstatus_acquisition block -->
-        <div class="col-6">
+        <div class="col-4">
+
             <div class="card card-body bg-dark border-light top-distance">
 
                 <h5>
@@ -160,8 +180,81 @@
                     {{ i }}<br>
                 {% endfor %}
 
-            <!-- artifactstatus_acquisition block -->
             </div>
+
+        <!-- artifactstatus_acquisition block -->
+        </div>
+
+    <!-- row -->
+    </div>
+
+    <!-- row -->
+    <div class="row">
+
+        <!-- casestatus_open block -->
+        <div class="col-4">
+
+            <div class="card card-body bg-dark border-light top-distance">
+
+                <h5>
+                    {{ form.casestatus_open.label }}
+                </h5>
+
+                <!-- errors -->
+                <div class="text-danger">
+                    {{ form.casestatus_open.errors }}
+                </div>
+                {% for i in form.casestatus_open %}
+                    {{ i }}<br>
+                {% endfor %}
+
+            </div>
+
+        <!-- casestatus_open block -->
+        </div>
+
+        <!-- casestatus_start block -->
+        <div class="col-4">
+
+            <div class="card card-body bg-dark border-light top-distance">
+
+                <h5>
+                    {{ form.casestatus_start.label }}
+                </h5>
+
+                <!-- errors -->
+                <div class="text-danger">
+                    {{ form.casestatus_start.errors }}
+                </div>
+                {% for i in form.casestatus_start %}
+                    {{ i }}<br>
+                {% endfor %}
+
+            </div>
+
+        <!-- casestatus_start block -->
+        </div>
+
+        <!-- casestatus_end block -->
+        <div class="col-4">
+
+            <div class="card card-body bg-dark border-light top-distance">
+
+                <h5>
+                    {{ form.casestatus_end.label }}
+                </h5>
+
+                <!-- errors -->
+                <div class="text-danger">
+                    {{ form.casestatus_end.errors }}
+                </div>
+                {% for i in form.casestatus_end %}
+                    {{ i }}<br>
+                {% endfor %}
+
+            </div>
+
+        <!-- casestatus_end block -->
         </div>
 
     <!-- row -->

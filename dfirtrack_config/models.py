@@ -8,6 +8,7 @@ import logging
 
 stdlogger = logging.getLogger(__name__)
 
+
 class ArtifactExporterSpreadsheetXlsConfigModel(models.Model):
 
     # primary key
@@ -48,9 +49,30 @@ class MainConfigModel(models.Model):
     artifactstatus_open = models.ManyToManyField('dfirtrack_artifacts.Artifactstatus', related_name='main_config_artifactstatus_open', blank=True)
     artifactstatus_requested = models.ManyToManyField('dfirtrack_artifacts.Artifactstatus', related_name='main_config_artifactstatus_requested', blank=True)
     artifactstatus_acquisition = models.ManyToManyField('dfirtrack_artifacts.Artifactstatus', related_name='main_config_artifactstatus_acquisition', blank=True)
+    casestatus_open = models.ManyToManyField('dfirtrack_main.Casestatus', related_name='main_config_casestatus_open', blank=True)
+    casestatus_start = models.ManyToManyField('dfirtrack_main.Casestatus', related_name='main_config_casestatus_start', blank=True)
+    casestatus_end = models.ManyToManyField('dfirtrack_main.Casestatus', related_name='main_config_casestatus_end', blank=True)
     statushistory_entry_numbers = models.IntegerField(default=10)
     cron_export_path = models.CharField(max_length=4096, default='/tmp')
     cron_username = models.CharField(max_length=255, default='cron')
+
+    MAIN_OVERVIEW_ARTIFACT = 'main_overview_artifact'
+    MAIN_OVERVIEW_CASE = 'main_overview_case'
+    MAIN_OVERVIEW_SYSTEM = 'main_overview_system'
+    MAIN_OVERVIEW_TAG = 'main_overview_tag'
+    MAIN_OVERVIEW_TASK = 'main_overview_task'
+    MAIN_OVERVIEW_CHOICES = [
+        (MAIN_OVERVIEW_ARTIFACT, 'Artifact'),
+        (MAIN_OVERVIEW_CASE, 'Case'),
+        (MAIN_OVERVIEW_SYSTEM, 'System'),
+        (MAIN_OVERVIEW_TAG, 'Tag'),
+        (MAIN_OVERVIEW_TASK, 'Task'),
+    ]
+    main_overview = models.CharField(
+        max_length = 50,
+        choices = MAIN_OVERVIEW_CHOICES,
+        default = MAIN_OVERVIEW_SYSTEM,
+    )
 
     # string representation
     def __str__(self):

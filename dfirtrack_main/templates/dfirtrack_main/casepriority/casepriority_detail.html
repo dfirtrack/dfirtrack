@@ -1,0 +1,127 @@
+<!-- extending maintemplate -->
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+<!-- HTML head in maintemplate -->
+{% block head %}
+
+<!-- page title -->
+<title>
+    Casepriority '{{ casepriority.casepriority_name }}'{% if casepriority.case_set.all %} (c: {{ casepriority.case_set.all|length }}){% endif %}
+</title>
+
+<!-- javascript and CSS for datatables -->
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.css' %}"/>
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.js' %}"></script>
+
+<!-- HTML head in maintemplate -->
+{% endblock %}
+
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
+{% block content %}
+
+<!-- up button -->
+<div class="row bottom-distance">
+    <div class="col-3">
+        <a href="{% url 'casepriority_list' %}" type="button" class="btn btn-light copy-false">
+            <img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Up to casepriority
+        </a>
+    </div>
+</div>
+
+<!-- casepriority name row -->
+<div class="row">
+
+    <!-- casepriority name -->
+    <div class="col-3">
+        <h5>
+            Casepriority 
+            {{ casepriority.casepriority_name }}
+        </h5>
+    </div>
+
+<!-- casepriority name row -->
+</div>
+
+<!-- casepriority id -->
+<div class="row bottom-distance">
+    <div class="col-3">
+        <small class="text-muted">
+            Casepriority-ID: {{ casepriority.casepriority_id }}
+        </small>
+    </div>
+</div>
+
+<!-- casepriority note headline -->
+<div class="row">
+    <div class="col-3">
+        <h5>
+            Note
+        </h5>
+    </div>
+</div>
+
+<!-- casepriority note -->
+<div class="row bottom-distance">
+    <div class="col">
+        {% if casepriority.casepriority_note %}
+            {{ casepriority.casepriority_note|linebreaks }}
+        {% else %}
+            ---
+        {% endif %}
+    </div>
+</div>
+
+<!-- case headline -->
+<div class="row">
+    <div class="col-6">
+        <h5>
+            Cases with this priority{% if casepriority.case_set.all %} ({{ casepriority.case_set.all|length }}){% endif %}
+        </h5>
+    </div>
+</div>
+
+<!-- cases -->
+{% if casepriority.case_set.all %}
+
+    <!-- datatable case -->
+    <table id="table_case" class="display" width="100%">
+
+        <!-- table head -->
+        <thead>
+            {% include "dfirtrack_main/includes/datatable_thead_table_case.html" %}
+        </thead>
+
+        <!-- table body -->
+        <tbody>
+            {% for i in casepriority.case_set.all %}
+                {% include "dfirtrack_main/includes/datatable_tbody_table_case.html" %}
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+    <!-- javascript for datatables -->
+    <script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
+
+<!-- no cases -->
+{% else %}
+    <div class="row top-distance">
+        <div class="col-3">
+            ---
+        </div>
+    </div>
+
+<!-- cases -->
+{% endif %}
+
+<!-- javascript for datatables -->
+{% block datatables %}
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.js' %}"></script>
+{% endblock %}
+
+<!-- HTML body in maintemplate -->
+{% endblock %}

@@ -83,6 +83,12 @@
 </div>
 
 <!-- tags -->
+<h5 class="top-distance">
+    <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+    Tags
+</h5>
+
+<!-- tags -->
 {% if task.tag.all %}
     <div class="row">
         <div class="col-6">
@@ -100,6 +106,8 @@
             {% endfor %}
         </div>
     </div>
+{% else %}
+    ---
 {% endif %}
 
 <!-- ############################################ -->
@@ -122,7 +130,7 @@
         <!-- taskstatus -->
         <div class="col-3">
             <div class="font-weight-bold">
-                Status:
+                Taskstatus:
             </div>
             <a href="{{ task.taskstatus.get_absolute_url }}">
                 {% with taskstatus=task.taskstatus %}
@@ -135,7 +143,7 @@
         <!-- taskpriority -->
         <div class="col-3">
             <div class="font-weight-bold">
-                Priority:
+                Taskpriority:
             </div>
             <a href="{{ task.taskpriority.get_absolute_url }}">
                 {% with taskpriority=task.taskpriority %}
@@ -154,6 +162,7 @@
         <!-- system -->
         <div class="col-3">
             <div class="font-weight-bold">
+                <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                 Corresponding system:
             </div>
             {% if task.system %}
@@ -169,6 +178,7 @@
         <!-- assigned user -->
         <div class="col-3">
             <div class="font-weight-bold">
+                <img src="{% static 'dfirtrack_main/icons/person-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                 Assigned to user:
             </div>
             {% if task.task_assigned_to_user_id %}

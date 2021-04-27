@@ -1,7 +1,11 @@
 from django import forms
 from django.utils.translation import gettext_lazy
+from dfirtrack_main.models import Case
 from dfirtrack_main.models import System
-from dfirtrack_artifacts.models import Artifact, Artifactpriority, Artifactstatus, Artifacttype
+from dfirtrack_artifacts.models import Artifact
+from dfirtrack_artifacts.models import Artifactpriority
+from dfirtrack_artifacts.models import Artifactstatus
+from dfirtrack_artifacts.models import Artifacttype
 import re
 
 
@@ -11,18 +15,36 @@ class ArtifactForm(forms.ModelForm):
     system = forms.ModelChoiceField(
         label = gettext_lazy('System (*)'),
         queryset = System.objects.order_by('system_name'),
+        empty_label = 'Select system',
     )
 
     # reorder field choices
     artifactpriority = forms.ModelChoiceField(
         label = gettext_lazy('Artifactpriority (*)'),
         queryset = Artifactpriority.objects.order_by('artifactpriority_name'),
+        widget = forms.RadioSelect(),
     )
 
     # reorder field choices
     artifactstatus = forms.ModelChoiceField(
         label = gettext_lazy('Artifactstatus (*)'),
         queryset = Artifactstatus.objects.order_by('artifactstatus_name'),
+        widget = forms.RadioSelect(),
+    )
+
+    # reorder field choices
+    artifacttype = forms.ModelChoiceField(
+        label = gettext_lazy('Artifacttype (*)'),
+        queryset = Artifacttype.objects.order_by('artifacttype_name'),
+        empty_label = 'Select artifacttype',
+    )
+
+    # reorder field choices
+    case = forms.ModelChoiceField(
+        label = gettext_lazy('Case'),
+        queryset = Case.objects.order_by('case_name'),
+        empty_label = 'Select case (optional)',
+        required = False,
     )
 
     class Meta:
@@ -50,7 +72,6 @@ class ArtifactForm(forms.ModelForm):
         # non default form labeling
         labels = {
             'artifact_name': gettext_lazy('Artifact name (*)'),
-            'artifacttype': gettext_lazy('Artifacttype (*)'),
             'artifact_md5': gettext_lazy('MD5'),
             'artifact_sha1': gettext_lazy('SHA1'),
             'artifact_sha256': gettext_lazy('SHA256'),
@@ -61,7 +82,10 @@ class ArtifactForm(forms.ModelForm):
 
         # special form type or option
         widgets = {
-            'artifact_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
+            'artifact_name': forms.TextInput(attrs={
+                'autofocus': 'autofocus',
+                'placeholder': 'Add artifact name',
+            }),
             'artifact_source_path': forms.TextInput(attrs={
                 'size': '100',
                 'style': 'font-family: monospace',

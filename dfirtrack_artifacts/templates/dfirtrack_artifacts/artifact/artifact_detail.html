@@ -100,11 +100,16 @@
 <!-- case row -->
 <div class="row">
 
+    <!-- placeholder -->
+    <div class="col-6">
+    </div>
+
     <!-- case -->
-    <div class="col">
-        <div class="font-weight-bold">Case:</div>
+    <div class="col-6">
+        <div class="font-weight-bold">Case</div>
         {% if artifact.case %}
-            <a href="{{ artifact.case.get_absolute_url }}">
+            <a href="{{ artifact.case.get_absolute_url }}" type="button" class="btn btn-primary btn-sm bottom-left top-right top-distance copy-true">
+                <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                 {{ artifact.case.case_name }}
             </a>
         {% else %}

@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from dfirtrack.settings import INSTALLED_APPS as installed_apps
-from dfirtrack_main.models import Case
+from dfirtrack_main.models import Case, Casepriority, Casestatus
 import urllib.parse
 
 class CaseViewTestCase(TestCase):
@@ -13,11 +13,17 @@ class CaseViewTestCase(TestCase):
         # create user
         test_user = User.objects.create_user(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
 
+        # create objects
+        casepriority_1 = Casepriority.objects.create(casepriority_name='casepriority_1')
+        casestatus_1 = Casestatus.objects.create(casestatus_name='casestatus_1')
+
         # create object
         Case.objects.create(
             case_name='case_1',
             case_is_incident=True,
             case_created_by_user_id=test_user,
+            casepriority = casepriority_1,
+            casestatus = casestatus_1,
         )
 
     def test_case_list_not_logged_in(self):
@@ -219,12 +225,18 @@ class CaseViewTestCase(TestCase):
     def test_case_add_post_redirect(self):
         """ test add view """
 
+        # get objects
+        casepriority_1 = Casepriority.objects.get(casepriority_name='casepriority_1').casepriority_id
+        casestatus_1 = Casestatus.objects.get(casestatus_name='casestatus_1').casestatus_id
+
         # login testuser
         self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
         # create post data
         data_dict = {
             'case_name': 'case_add_post_test',
             'case_is_incident': 'on',
+            'casepriority': casepriority_1,
+            'casestatus': casestatus_1,
         }
         # get response
         response = self.client.post('/case/add/', data_dict)
@@ -324,6 +336,10 @@ class CaseViewTestCase(TestCase):
     def test_case_edit_post_redirect(self):
         """ test edit view """
 
+        # get objects
+        casepriority_1 = Casepriority.objects.get(casepriority_name='casepriority_1').casepriority_id
+        casestatus_1 = Casestatus.objects.get(casestatus_name='casestatus_1').casestatus_id
+
         # login testuser
         self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
         # get user
@@ -334,6 +350,8 @@ class CaseViewTestCase(TestCase):
         data_dict = {
             'case_name': 'case_edit_post_test_2',
             'case_is_incident': 'on',
+            'casepriority': casepriority_1,
+            'casestatus': casestatus_1,
         }
         # get response
         response = self.client.post('/case/' + str(case_1.case_id) + '/edit/', data_dict)
