@@ -1,11 +1,6 @@
 from django import forms
 from django.utils.translation import gettext_lazy
 from django.contrib.auth.models import User
-<<<<<<< HEAD
-from dfirtrack_artifacts.models import Artifactstatus, Artifacttype
-from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel, MainConfigModel, SystemExporterMarkdownConfigModel, SystemExporterSpreadsheetCsvConfigModel, SystemExporterSpreadsheetXlsConfigModel, SystemImporterFileCsvConfigModel, Workflow, WorkflowDefaultArtifactname
-from dfirtrack_main.models import Analysisstatus, Case, Company, Dnsname, Domain, Location, Os, Reason, Recommendation, Serviceprovider, Systemstatus, Systemtype, Tag, Taskname
-=======
 from dfirtrack_artifacts.models import Artifactstatus
 from dfirtrack_artifacts.models import Artifacttype
 from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel
@@ -31,7 +26,6 @@ from dfirtrack_main.models import Systemstatus
 from dfirtrack_main.models import Systemtype
 from dfirtrack_main.models import Tag
 from dfirtrack_main.models import Taskname
->>>>>>> 61e456489bcea26f1bcd1b9deaa39e6cfa1b77fb
 import os
 
 class ArtifactExporterSpreadsheetXlsConfigForm(forms.ModelForm):
