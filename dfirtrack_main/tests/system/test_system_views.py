@@ -208,10 +208,6 @@ class SystemViewTestCase(TestCase):
         # compare
         self.assertEquals(str(response.context['workflows'][0]), 'workflow_1')
 
-    # TODO: check for system in conjunction with workflow-related tasks / artifacts
-    # TODO: check for system missing workflow-related tasks / artifacts
-    # TODO: is this useful from system detail?
-
     def test_system_detail_context_without_artifacts(self):
         """ test detail view """
 
@@ -474,7 +470,6 @@ class SystemViewTestCase(TestCase):
         # compare
         self.assertEquals(str(response.context['workflows'][0]), 'workflow_1')
 
-    # TODO: check for system in conjunction with workflow-related tasks / artifacts
     def test_system_add_post_workflows(self):
         """ test add view """
 
@@ -498,7 +493,6 @@ class SystemViewTestCase(TestCase):
         # compare
         self.assertContains(response, 'Workflow applied')
 
-    # TODO: check for system missing workflow-related tasks / artifacts
     def test_system_add_post_nonexistent_workflows(self):
         """ test add view """
 
