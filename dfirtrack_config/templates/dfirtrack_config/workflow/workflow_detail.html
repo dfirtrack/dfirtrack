@@ -6,7 +6,7 @@
 
 <!-- page title -->
 <title>
-    DFIRTrack - Status
+    DFIRTrack - Workflows
 </title>
 
 <!-- HTML head in maintemplate -->
@@ -32,35 +32,45 @@
 <!-- headline -->
 <div class="row bottom-distance">
     <div class="col">
-        <h5>Workflow "{{workflow.workflow_name}}"</h5>
+        <h5>
+            <img src="{% static 'dfirtrack_main/icons/layers-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+            Workflow "{{workflow.workflow_name}}"
+        </h5>
     </div>
 </div>
 
+<!-- metadata row -->
 <div class="row bottom-distance top-distance">
-    <!-- taworkflow id -->
+
+    <!-- workflow id -->
     <div class="col-3">
         <small class="text-muted">
             Workflow-ID: {{ workflow.workflow_id }}
         </small>
     </div>
 
-
+    <!-- created -->
     <div class="col-3">
         <small class="text-muted">
-            Modified by:
-            {% if workflow.workflow_modified_by_user_id %}
-                {{ workflow.workflow_modified_by_user_id }}
-            {% else %}
-                ---
-            {% endif %}
+            Created by: {{ workflow.workflow_created_by_user_id }} <br>
+            {{ workflow.workflow_create_time|date:"Y-m-d H:i" }}
         </small>
     </div>
+
+    <!-- modified -->
+    <div class="col-3">
+        <small class="text-muted">
+            Modified by: {{ workflow.workflow_modified_by_user_id }} <br>
+            {{ workflow.workflow_modify_time|date:"Y-m-d H:i" }}
+        </small>
+    </div>
+
+<!-- metadata row -->
 </div>
-<!-- headline -->
 
 <!--Tasks -->
 <div class="row bottom-distance">
-    <div class="col-3">
+    <div class="col-3 font-weight-bold">
         Tasknames
     </div>
 </div>
@@ -68,31 +78,31 @@
 <!--Task List-->
 {% if workflow.tasknames.all|length > 0 %}
     <div class="row bottom-distance">
-        <div class="col-3">ID</div>
-        <div class="col-9">Taskname</div>
+        <div class="col-3 font-weight-bold">ID</div>
+        <div class="col-9 font-weight-bold">Taskname</div>
     </div>
     {% for taskname in workflow.tasknames.all %}
         <div class="row bottom-distance">
             <div class="col-3">
-                {{taskname.taskname_id}}
+                {{ taskname.taskname_id }}
             </div>
             <div class="col-9">
-                <a href="{{ taskname.get_absolute_url }}"> 
-                    {{taskname}}
+                <a href="{{ taskname.get_absolute_url }}">
+                    {{ taskname }}
                 </a>
             </div>
         </div>
     {% endfor %}
  {% else %}
-    --
+    ---
 {% endif %}
 <!--Task List-->
 <!--Tasks -->
 
 <!--Artifacttypes -->
-<div class="row bottom-distance">
-    <div class="col-3">
-        Artifacts
+<div class="row top-distance bottom-distance">
+    <div class="col-3 font-weight-bold">
+        Artifacttypes
     </div>
 </div>
 
@@ -100,26 +110,26 @@
 {% if artifacttypes|length > 0 %}
     <div class="row bottom-distance">
         <div class="col-3 font-weight-bold">ID</div>
-        <div class="col-3 font-weight-bold">Artifacttypes</div>
-        <div class="col-3 font-weight-bold">Artifact Default Name</div>
+        <div class="col-3 font-weight-bold">Artifacttype</div>
+        <div class="col-3 font-weight-bold">Artifact default name</div>
     </div>
     {% for artifacttype in artifacttypes %}
         <div class="row bottom-distance">
             <div class="col-3">
-                {{artifacttype.artifacttype_id}}
+                {{ artifacttype.artifacttype_id }}
             </div>
             <div class="col-3">
-                <a href="{{ artifacttype.get_absolute_url }}"> 
-                    {{artifacttype.artifacttype}}
+                <a href="{{ artifacttype.artifacttype.get_absolute_url }}">
+                    {{ artifacttype.artifacttype }}
                 </a>
             </div>
             <div class="col-3">
-                    {{artifacttype.artifact_default_name}}
+                    {{ artifacttype.artifact_default_name }}
             </div>
         </div>
     {% endfor %}
 {% else %}
-    --
+    ---
 {% endif %}
 <!--Artifacttypes List-->
 <!--Artifacttypes -->

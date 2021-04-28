@@ -285,7 +285,6 @@
                         <!-- section -->
                         <div class="dropdown-header">Meta utilities</div>
                         <a class="dropdown-item" href="{% url 'taskname_list' %}">Tasknames</a>
-                        <a class="dropdown-item" href="{% url 'workflow_list' %}">Workflows</a>
 
                     <!-- nav bar dropdown menu -->
                     </div>
@@ -298,6 +297,14 @@
                     <a class="nav-link active top-distance" href="{% url 'tag_list' %}">
                         <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                         Tags
+                    </a>
+                </li>
+
+                <!-- nav bar item -->
+                <li class="nav-item">
+                    <a class="nav-link active top-distance" href="{% url 'workflow_list' %}" style="background-color: white; color: black;">
+                        <img src="{% static 'dfirtrack_main/icons/layers.svg' %}" class="icon right-distance copy-false" alt="icon">
+                        Workflows
                     </a>
                 </li>
 

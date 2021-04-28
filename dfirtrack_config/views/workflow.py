@@ -137,7 +137,7 @@ class WorkflowDelete(LoginRequiredMixin, DeleteView):
         workflow = self.get_object()
         workflow.logger(str(request.user), " WORKFLOW_DELETE_EXECUTED")
         workflow.delete()
-        messages.success(request, 'Worlflow deleted')
+        messages.success(request, 'Workflow deleted')
         return redirect(reverse('workflow_list'))
 
 @login_required(login_url='/login')

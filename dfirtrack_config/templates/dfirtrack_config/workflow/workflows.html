@@ -6,7 +6,7 @@
 
 <!-- page title -->
 <title>
-    DFIRTrack - Workflow
+    DFIRTrack - Workflows
 </title>
 
 <!-- HTML head in maintemplate -->
@@ -18,10 +18,12 @@
 
 <!-- HTML body in maintemplate -->
 {% block content %}
+
 <!-- headline -->
 <div class="row bottom-distance">
     <div class="col">
         <h5>
+            <img src="{% static 'dfirtrack_main/icons/layers-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
             Workflows
         </h5>
     </div>
@@ -30,28 +32,58 @@
 
 <!-- headlines -->
 <div class="row font-weight-bold">
-    <!-- tag id headline -->
+
+    <!-- workflow id headline -->
     <div class="col-1">
         ID
     </div>
-    <!-- tag name headline -->
-    <div class="col-9">
+
+    <!-- workflow name headline -->
+    <div class="col-1">
         Workflow
     </div>
+
+    <!-- taskname headline -->
+    <div class="col-2">
+        Tasks / Tasknames
+    </div>
+
+    <!-- artifacttype headline -->
+    <div class="col-7">
+        Artifacts / Artifacttypes
+    </div>
+
 </div>
 <!-- headlines -->
 
 <!-- workflow list -->
 {% for workflow in workflow_list %}
+
+    <!-- workflow row -->
     <div class="row top-distance">
+
+        <!-- workflow id -->
         <div class="col-1">
             {{ workflow.workflow_id }}
         </div>
-        <div class="col-9">
+
+        <!-- workflow name -->
+        <div class="col-1">
             <a href="{{ workflow.get_absolute_url }}">
                 {{ workflow.workflow_name }}
             </a>
         </div>
+
+        <!-- tasknames -->
+        <div class="col-2">
+            {{ workflow.tasknames.all|length }}
+        </div>
+
+        <!-- artfiacttypes -->
+        <div class="col-7">
+            {{ workflow.artifacttypes.all|length }}
+        </div>
+
         <!-- edit button -->
         <div class="col-1">
             <a href="{{ workflow.get_update_url }}" type="button" class="btn btn-sm btn-light copy-false">
@@ -59,7 +91,10 @@
                 Edit
             </a>
         </div>
+
+    <!-- workflow row -->
     </div>
+
 {% endfor %}
 <!-- workflow list -->
 
