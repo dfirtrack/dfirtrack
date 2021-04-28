@@ -6,8 +6,14 @@ from django.utils import timezone
 from django_q.tasks import async_task
 from dfirtrack_main.async_messages.system_messages import final_messages
 from dfirtrack_main.forms import SystemModificatorForm
-from dfirtrack_main.logger.default_logger import debug_logger, info_logger, warning_logger
-from dfirtrack_main.models import Analysisstatus, Company, System, Systemstatus, Tag
+from dfirtrack_main.logger.default_logger import debug_logger
+from dfirtrack_main.logger.default_logger import info_logger
+from dfirtrack_main.logger.default_logger import warning_logger
+from dfirtrack_main.models import Analysisstatus
+from dfirtrack_main.models import Company
+from dfirtrack_main.models import System
+from dfirtrack_main.models import Systemstatus
+from dfirtrack_main.models import Tag
 
 
 @login_required(login_url="/login")
@@ -173,6 +179,8 @@ def system_modificator_async(request_post, request_user):
             system.system_modified_by_user_id = request_user
             system.system_modify_time = timezone.now()
 
+            # TODO: add handling for contact, location and serviceprovider according to delete checkbox
+
             # save object
             system.save()
 
@@ -186,7 +194,9 @@ def system_modificator_async(request_post, request_user):
 
             """ many 2 many """
 
-            # TODO: add check for empty list
+            # remove existing relations if checkbox is set
+            if form['tag_delete'].value():
+                system.tag.clear()
             # add tags (using save_m2m would replace existing tags)
             for tag_id in tags:
                 # get object
@@ -194,6 +204,10 @@ def system_modificator_async(request_post, request_user):
                 # add tag to system
                 system.tag.add(tag)
 
+            # remove existing relations if checkbox is set
+            if form['company_delete'].value():
+                system.company.clear()
+            # add companies (using save_m2m would replace existing companies)
             for company_id in companies:
                 # get object
                 company = Company.objects.get(company_id=company_id)

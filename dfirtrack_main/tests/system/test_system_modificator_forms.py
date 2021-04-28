@@ -85,6 +85,14 @@ class SystemModificatorFormTestCase(TestCase):
         # compare
         self.assertEqual(form.fields['tag'].label, 'Tags')
 
+    def test_system_modificator_tag_delete_form_label(self):
+        """ test form label """
+
+        # get object
+        form = SystemModificatorForm()
+        # compare
+        self.assertEqual(form.fields['tag_delete'].label, 'Delete / overwrite existing tags')
+
     def test_system_modificator_systemstatus_form_label(self):
         """ test form label """
 
@@ -109,6 +117,14 @@ class SystemModificatorFormTestCase(TestCase):
         # compare
         self.assertEqual(form.fields['company'].label, 'Companies')
 
+    def test_system_modificator_company_delete_form_label(self):
+        """ test form label """
+
+        # get object
+        form = SystemModificatorForm()
+        # compare
+        self.assertEqual(form.fields['company_delete'].label, 'Delete / overwrite existing companies')
+
     def test_system_modificator_location_form_label(self):
         """ test form label """
 
@@ -117,6 +133,14 @@ class SystemModificatorFormTestCase(TestCase):
         # compare
         self.assertEqual(form.fields['location'].label, 'Location')
         self.assertEqual(form.fields['location'].empty_label, 'Select location (optional)')
+
+    def test_system_modificator_location_delete_form_label(self):
+        """ test form label """
+
+        # get object
+        form = SystemModificatorForm()
+        # compare
+        self.assertEqual(form.fields['location_delete'].label, 'Delete existing locations (if nothing is selected)')
 
     def test_system_modificator_serviceprovider_form_label(self):
         """ test form label """
@@ -127,6 +151,14 @@ class SystemModificatorFormTestCase(TestCase):
         self.assertEqual(form.fields['serviceprovider'].label, 'Serviceprovider')
         self.assertEqual(form.fields['serviceprovider'].empty_label, 'Select serviceprovider (optional)')
 
+    def test_system_modificator_serviceprovider_delete_form_label(self):
+        """ test form label """
+
+        # get object
+        form = SystemModificatorForm()
+        # compare
+        self.assertEqual(form.fields['serviceprovider_delete'].label, 'Delete existing serviceproviders (if nothing is selected)')
+
     def test_system_modificator_contact_form_label(self):
         """ test form label """
 
@@ -135,6 +167,14 @@ class SystemModificatorFormTestCase(TestCase):
         # compare
         self.assertEqual(form.fields['contact'].label, 'Contact')
         self.assertEqual(form.fields['contact'].empty_label, 'Select contact (optional)')
+
+    def test_system_modificator_contact_delete_form_label(self):
+        """ test form label """
+
+        # get object
+        form = SystemModificatorForm()
+        # compare
+        self.assertEqual(form.fields['contact_delete'].label, 'Delete existing contacts (if nothing is selected)')
 
     def test_system_modificator_form_empty(self):
         """ test minimum form requirements / INVALID """

@@ -129,6 +129,23 @@
         <!-- tag / case row -->
         </div>
 
+        <!-- delete checkbox row -->
+        <div class="row">
+
+            <!-- tag_delete -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- tag_delete errors -->
+                    <div class="text-danger">
+                        {{ form.tag_delete.errors }}
+                    </div>
+                    {{ form.tag_delete }} {{ form.tag_delete.label }}
+                </div>
+            </div>
+
+        <!-- delete checkbox row -->
+        </div>
+
     <!-- tag / case block -->
     </div>
 
@@ -297,6 +314,56 @@
             </div>
 
         <!-- company information row  -->
+        </div>
+
+        <!-- delete checkbox row -->
+        <div class="row">
+
+            <!-- company_delete -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- company_delete errors -->
+                    <div class="text-danger">
+                        {{ form.company_delete.errors }}
+                    </div>
+                    {{ form.company_delete }} {{ form.company_delete.label }}
+                </div>
+            </div>
+
+            <!-- location_delete -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- location_delete errors -->
+                    <div class="text-danger">
+                        {{ form.location_delete.errors }}
+                    </div>
+                    {{ form.location_delete }} {{ form.location_delete.label }}
+                </div>
+            </div>
+
+            <!-- serviceprovider_delete -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- serviceprovider_delete errors -->
+                    <div class="text-danger">
+                        {{ form.serviceprovider_delete.errors }}
+                    </div>
+                    {{ form.serviceprovider_delete }} {{ form.serviceprovider_delete.label }}
+                </div>
+            </div>
+
+            <!-- contact_delete -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- contact_delete errors -->
+                    <div class="text-danger">
+                        {{ form.contact_delete.errors }}
+                    </div>
+                    {{ form.contact_delete }} {{ form.contact_delete.label }}
+                </div>
+            </div>
+
+        <!-- delete checkbox row -->
         </div>
 
     <!-- company information -->

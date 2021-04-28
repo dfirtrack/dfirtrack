@@ -888,6 +888,31 @@ class SystemCreatorForm(SystemExtendedBaseForm):
 class SystemModificatorForm(AdminStyleSelectorForm, SystemBaseForm):
     """ system modificator form, inherits from system base form """
 
+    company_delete = forms.BooleanField(
+        label = gettext_lazy('Delete / overwrite existing companies'),
+        required = False,
+    )
+
+    contact_delete = forms.BooleanField(
+        label = gettext_lazy('Delete existing contacts (if nothing is selected)'),
+        required = False,
+    )
+
+    location_delete = forms.BooleanField(
+        label = gettext_lazy('Delete existing locations (if nothing is selected)'),
+        required = False,
+    )
+
+    serviceprovider_delete = forms.BooleanField(
+        label = gettext_lazy('Delete existing serviceproviders (if nothing is selected)'),
+        required = False,
+    )
+
+    tag_delete = forms.BooleanField(
+        label = gettext_lazy('Delete / overwrite existing tags'),
+        required = False,
+    )
+
     def __init__(self, *args, **kwargs):
         self.use_system_charfield = kwargs.pop('use_system_charfield', False)
         super(SystemModificatorForm, self).__init__(*args, **kwargs)
