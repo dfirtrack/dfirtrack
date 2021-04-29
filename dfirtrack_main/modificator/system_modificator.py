@@ -11,6 +11,9 @@ from dfirtrack_main.logger.default_logger import info_logger
 from dfirtrack_main.logger.default_logger import warning_logger
 from dfirtrack_main.models import Analysisstatus
 from dfirtrack_main.models import Company
+from dfirtrack_main.models import Contact
+from dfirtrack_main.models import Location
+from dfirtrack_main.models import Serviceprovider
 from dfirtrack_main.models import System
 from dfirtrack_main.models import Systemstatus
 from dfirtrack_main.models import Tag
@@ -167,6 +170,8 @@ def system_modificator_async(request_post, request_user):
         # extract companies (list results from request object via multiple choice field)
         companies = request_post.getlist('company')
 
+        # TODO: [code] add condition for invalid form
+
         # modify system
         if form.is_valid():
 
@@ -179,7 +184,38 @@ def system_modificator_async(request_post, request_user):
             system.system_modified_by_user_id = request_user
             system.system_modify_time = timezone.now()
 
-            # TODO: add handling for contact, location and serviceprovider according to delete checkbox
+            # replace / delete, if delete checkbox was checked
+            if form['contact_delete'].value():
+                # replace, if value was submitted via form
+                if form['contact'].value():
+                    contact_id = form['contact'].value()
+                    contact = Contact.objects.get(contact_id = contact_id)
+                    system.contact = contact
+                # delete, if form field was empty
+                else:
+                    system.contact = None
+
+            # replace / delete, if delete checkbox was checked
+            if form['location_delete'].value():
+                # replace, if value was submitted via form
+                if form['location'].value():
+                    location_id = form['location'].value()
+                    location = Location.objects.get(location_id = location_id)
+                    system.location = location
+                # delete, if form field was empty
+                else:
+                    system.location = None
+
+            # replace / delete, if delete checkbox was checked
+            if form['serviceprovider_delete'].value():
+                # replace, if value was submitted via form
+                if form['serviceprovider'].value():
+                    serviceprovider_id = form['serviceprovider'].value()
+                    serviceprovider = Serviceprovider.objects.get(serviceprovider_id = serviceprovider_id)
+                    system.serviceprovider = serviceprovider
+                # delete, if form field was empty
+                else:
+                    system.serviceprovider = None
 
             # save object
             system.save()
@@ -194,6 +230,7 @@ def system_modificator_async(request_post, request_user):
 
             """ many 2 many """
 
+            # TODO: [logic] decide between add / overwrite (delete) or add additional checkbox
             # remove existing relations if checkbox is set
             if form['tag_delete'].value():
                 system.tag.clear()
@@ -204,6 +241,7 @@ def system_modificator_async(request_post, request_user):
                 # add tag to system
                 system.tag.add(tag)
 
+            # TODO: [logic] decide between add / overwrite (delete) or add additional checkbox
             # remove existing relations if checkbox is set
             if form['company_delete'].value():
                 system.company.clear()
@@ -213,6 +251,8 @@ def system_modificator_async(request_post, request_user):
                 company = Company.objects.get(company_id=company_id)
                 # add company to system
                 system.company.add(company)
+
+        # TODO: [code] add condition for invalid form
 
     """ finish system importer """
 

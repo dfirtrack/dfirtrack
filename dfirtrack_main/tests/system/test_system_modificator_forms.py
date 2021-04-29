@@ -85,6 +85,7 @@ class SystemModificatorFormTestCase(TestCase):
         # compare
         self.assertEqual(form.fields['tag'].label, 'Tags')
 
+    # TODO: [maintenance] change label text according to functionality
     def test_system_modificator_tag_delete_form_label(self):
         """ test form label """
 
@@ -117,6 +118,7 @@ class SystemModificatorFormTestCase(TestCase):
         # compare
         self.assertEqual(form.fields['company'].label, 'Companies')
 
+    # TODO: [maintenance] change label text according to functionality
     def test_system_modificator_company_delete_form_label(self):
         """ test form label """
 
@@ -134,6 +136,7 @@ class SystemModificatorFormTestCase(TestCase):
         self.assertEqual(form.fields['location'].label, 'Location')
         self.assertEqual(form.fields['location'].empty_label, 'Select location (optional)')
 
+    # TODO: [maintenance] change label text according to functionality
     def test_system_modificator_location_delete_form_label(self):
         """ test form label """
 
@@ -151,6 +154,7 @@ class SystemModificatorFormTestCase(TestCase):
         self.assertEqual(form.fields['serviceprovider'].label, 'Serviceprovider')
         self.assertEqual(form.fields['serviceprovider'].empty_label, 'Select serviceprovider (optional)')
 
+    # TODO: [maintenance] change label text according to functionality
     def test_system_modificator_serviceprovider_delete_form_label(self):
         """ test form label """
 
@@ -168,6 +172,7 @@ class SystemModificatorFormTestCase(TestCase):
         self.assertEqual(form.fields['contact'].label, 'Contact')
         self.assertEqual(form.fields['contact'].empty_label, 'Select contact (optional)')
 
+    # TODO: [maintenance] change label text according to functionality
     def test_system_modificator_contact_delete_form_label(self):
         """ test form label """
 

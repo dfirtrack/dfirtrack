@@ -658,30 +658,6 @@ class SystemBaseForm(forms.ModelForm):
     )
 
     # reorder field choices
-    contact = forms.ModelChoiceField(
-        label = gettext_lazy('Contact'),
-        queryset = Contact.objects.order_by('contact_name'),
-        required = False,
-        empty_label = 'Select contact (optional)',
-    )
-
-    # reorder field choices
-    location = forms.ModelChoiceField(
-        label = gettext_lazy('Location'),
-        queryset = Location.objects.order_by('location_name'),
-        required = False,
-        empty_label = 'Select location (optional)',
-    )
-
-    # reorder field choices
-    serviceprovider = forms.ModelChoiceField(
-        label = gettext_lazy('Serviceprovider'),
-        queryset = Serviceprovider.objects.order_by('serviceprovider_name'),
-        required = False,
-        empty_label = 'Select serviceprovider (optional)',
-    )
-
-    # reorder field choices
     systemstatus = forms.ModelChoiceField(
         queryset = Systemstatus.objects.order_by('systemstatus_name'),
         label = 'Systemstatus (*)',
@@ -706,9 +682,6 @@ class SystemBaseForm(forms.ModelForm):
         fields = (
             'analysisstatus',
             'company',
-            'contact',
-            'location',
-            'serviceprovider',
             'systemstatus',
             'tag',
         )
@@ -725,6 +698,14 @@ class SystemExtendedBaseForm(SystemBaseForm):
     )
 
     # reorder field choices
+    contact = forms.ModelChoiceField(
+        label = gettext_lazy('Contact'),
+        queryset = Contact.objects.order_by('contact_name'),
+        required = False,
+        empty_label = 'Select contact (optional)',
+    )
+
+    # reorder field choices
     dnsname = forms.ModelChoiceField(
         label = gettext_lazy('DNS name'),
         queryset = Dnsname.objects.order_by('dnsname_name'),
@@ -738,6 +719,14 @@ class SystemExtendedBaseForm(SystemBaseForm):
         queryset = Domain.objects.order_by('domain_name'),
         empty_label = 'Select domain (optional)',
         required = False,
+    )
+
+    # reorder field choices
+    location = forms.ModelChoiceField(
+        label = gettext_lazy('Location'),
+        queryset = Location.objects.order_by('location_name'),
+        required = False,
+        empty_label = 'Select location (optional)',
     )
 
     # reorder field choices
@@ -765,6 +754,14 @@ class SystemExtendedBaseForm(SystemBaseForm):
     )
 
     # reorder field choices
+    serviceprovider = forms.ModelChoiceField(
+        label = gettext_lazy('Serviceprovider'),
+        queryset = Serviceprovider.objects.order_by('serviceprovider_name'),
+        required = False,
+        empty_label = 'Select serviceprovider (optional)',
+    )
+
+    # reorder field choices
     systemtype = forms.ModelChoiceField(
         label = gettext_lazy('Systemtype'),
         queryset = Systemtype.objects.order_by('systemtype_name'),
@@ -777,11 +774,14 @@ class SystemExtendedBaseForm(SystemBaseForm):
         # this HTML forms are shown
         fields = SystemBaseForm.Meta.fields + (
             'case',
+            'contact',
             'dnsname',
             'domain',
+            'location',
             'os',
             'osarch',
             'reason',
+            'serviceprovider',
             'systemtype',
         )
 
@@ -888,26 +888,62 @@ class SystemCreatorForm(SystemExtendedBaseForm):
 class SystemModificatorForm(AdminStyleSelectorForm, SystemBaseForm):
     """ system modificator form, inherits from system base form """
 
+    # no model field comes into question, because optional choice in combination with delete checkbox
+    contact = forms.ModelChoiceField(
+        label = gettext_lazy('Contact'),
+        queryset = Contact.objects.order_by('contact_name'),
+        required = False,
+        empty_label = 'Select contact (optional)',
+    )
+
+    # no model field comes into question, because optional choice in combination with delete checkbox
+    location = forms.ModelChoiceField(
+        label = gettext_lazy('Location'),
+        queryset = Location.objects.order_by('location_name'),
+        required = False,
+        empty_label = 'Select location (optional)',
+    )
+
+    # no model field comes into question, because optional choice in combination with delete checkbox
+    serviceprovider = forms.ModelChoiceField(
+        label = gettext_lazy('Serviceprovider'),
+        queryset = Serviceprovider.objects.order_by('serviceprovider_name'),
+        required = False,
+        empty_label = 'Select serviceprovider (optional)',
+    )
+
+    # TODO: [logic] decide between add / overwrite (delete) or add additional checkbox
+    # TODO: [maintenance] change label text according to functionality
+    # add checkbox
     company_delete = forms.BooleanField(
         label = gettext_lazy('Delete / overwrite existing companies'),
         required = False,
     )
 
+    # TODO: [maintenance] change label text according to functionality
+    # add checkbox
     contact_delete = forms.BooleanField(
         label = gettext_lazy('Delete existing contacts (if nothing is selected)'),
         required = False,
     )
 
+    # TODO: [maintenance] change label text according to functionality
+    # add checkbox
     location_delete = forms.BooleanField(
         label = gettext_lazy('Delete existing locations (if nothing is selected)'),
         required = False,
     )
 
+    # TODO: [maintenance] change label text according to functionality
+    # add checkbox
     serviceprovider_delete = forms.BooleanField(
         label = gettext_lazy('Delete existing serviceproviders (if nothing is selected)'),
         required = False,
     )
 
+    # TODO: [logic] decide between add / overwrite (delete) or add additional checkbox
+    # TODO: [maintenance] change label text according to functionality
+    # add checkbox
     tag_delete = forms.BooleanField(
         label = gettext_lazy('Delete / overwrite existing tags'),
         required = False,

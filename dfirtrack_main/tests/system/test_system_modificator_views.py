@@ -2,8 +2,53 @@ from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
 from django.utils import timezone
-from dfirtrack_main.models import Analysisstatus, Company, System, Systemstatus, Tag, Tagcolor
+from dfirtrack_main.models import Analysisstatus
+from dfirtrack_main.models import Company
+from dfirtrack_main.models import Contact
+from dfirtrack_main.models import Location
+from dfirtrack_main.models import Serviceprovider
+from dfirtrack_main.models import System
+from dfirtrack_main.models import Systemstatus
+from dfirtrack_main.models import Tag
+from dfirtrack_main.models import Tagcolor
 import urllib.parse
+
+
+def create_system(system_name):
+    """ helper function """
+
+    # get user
+    test_user = User.objects.get(username='testuser_system_modificator')
+
+    # get objects
+    analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name = 'analysisstatus_1')
+    systemstatus_1 = Systemstatus.objects.get(systemstatus_name = 'systemstatus_1')
+
+    company_1 = Company.objects.get(company_name = 'company_1')
+    contact_1 = Contact.objects.get(contact_name = 'contact_1')
+    location_1 = Location.objects.get(location_name = 'location_1')
+    serviceprovider_1 = Serviceprovider.objects.get(serviceprovider_name = 'serviceprovider_1')
+    tag_1 = Tag.objects.get(tag_name = 'tag_1')
+
+    # create system
+    system = System.objects.create(
+        system_name = system_name,
+        analysisstatus = analysisstatus_1,
+        systemstatus = systemstatus_1,
+        contact = contact_1,
+        location = location_1,
+        serviceprovider = serviceprovider_1,
+        system_modify_time = timezone.now(),
+        system_created_by_user_id = test_user,
+        system_modified_by_user_id = test_user,
+    )
+
+    # add many2many
+    system.company.add(company_1)
+    system.tag.add(tag_1)
+
+    # return to setup function
+    return
 
 class SystemModificatorViewTestCase(TestCase):
     """ system modificator view tests """
@@ -12,18 +57,21 @@ class SystemModificatorViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create user
-        test_user = User.objects.create_user(username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G')
+        User.objects.create_user(username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G')
 
         # create objects
-        analysisstatus_1 = Analysisstatus.objects.create(analysisstatus_name = 'analysisstatus_1')
+        Analysisstatus.objects.create(analysisstatus_name = 'analysisstatus_1')
         Analysisstatus.objects.create(analysisstatus_name = 'analysisstatus_2')
-        Company.objects.create(
-            company_name = 'company_1',
-        )
-        Company.objects.create(
-            company_name = 'company_2',
-        )
-        systemstatus_1 = Systemstatus.objects.create(systemstatus_name = 'systemstatus_1')
+        Company.objects.create(company_name = 'company_1')
+        Company.objects.create(company_name = 'company_2')
+        Company.objects.create(company_name = 'company_3')
+        Contact.objects.create(contact_name = 'contact_1', contact_email = 'con1@example.com')
+        Contact.objects.create(contact_name = 'contact_2', contact_email = 'con2@example.com')
+        Location.objects.create(location_name = 'location_1')
+        Location.objects.create(location_name = 'location_2')
+        Serviceprovider.objects.create(serviceprovider_name = 'serviceprovider_1')
+        Serviceprovider.objects.create(serviceprovider_name = 'serviceprovider_2')
+        Systemstatus.objects.create(systemstatus_name = 'systemstatus_1')
         Systemstatus.objects.create(systemstatus_name = 'systemstatus_2')
         tagcolor_1 = Tagcolor.objects.create(tagcolor_name = 'tagcolor_1')
         Tag.objects.create(
@@ -34,86 +82,21 @@ class SystemModificatorViewTestCase(TestCase):
             tag_name = 'tag_2',
             tagcolor = tagcolor_1,
         )
-        System.objects.create(
-            system_name = 'system_modificator_system_1',
-            analysisstatus = analysisstatus_1,
-            systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
-            system_created_by_user_id = test_user,
-            system_modified_by_user_id = test_user,
+        Tag.objects.create(
+            tag_name = 'tag_3',
+            tagcolor = tagcolor_1,
         )
-        System.objects.create(
-            system_name = 'system_modificator_system_2',
-            analysisstatus = analysisstatus_1,
-            systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
-            system_created_by_user_id = test_user,
-            system_modified_by_user_id = test_user,
-        )
-        System.objects.create(
-            system_name = 'system_modificator_system_3',
-            analysisstatus = analysisstatus_1,
-            systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
-            system_created_by_user_id = test_user,
-            system_modified_by_user_id = test_user,
-        )
-        System.objects.create(
-            system_name = 'system_modificator_redirect',
-            analysisstatus = analysisstatus_1,
-            systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
-            system_created_by_user_id = test_user,
-            system_modified_by_user_id = test_user,
-        )
-        System.objects.create(
-            system_name = 'system_modificator_char_field_1',
-            analysisstatus = analysisstatus_1,
-            systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
-            system_created_by_user_id = test_user,
-            system_modified_by_user_id = test_user,
-        )
-        System.objects.create(
-            system_name = 'system_modificator_char_field_2',
-            analysisstatus = analysisstatus_1,
-            systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
-            system_created_by_user_id = test_user,
-            system_modified_by_user_id = test_user,
-        )
-        System.objects.create(
-            system_name = 'system_modificator_messages_1',
-            analysisstatus = analysisstatus_1,
-            systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
-            system_created_by_user_id = test_user,
-            system_modified_by_user_id = test_user,
-        )
-        System.objects.create(
-            system_name = 'system_modificator_messages_2',
-            analysisstatus = analysisstatus_1,
-            systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
-            system_created_by_user_id = test_user,
-            system_modified_by_user_id = test_user,
-        )
-        System.objects.create(
-            system_name = 'system_modificator_double',
-            analysisstatus = analysisstatus_1,
-            systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
-            system_created_by_user_id = test_user,
-            system_modified_by_user_id = test_user,
-        )
-        System.objects.create(
-            system_name = 'system_modificator_double',
-            analysisstatus = analysisstatus_1,
-            systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
-            system_created_by_user_id = test_user,
-            system_modified_by_user_id = test_user,
-        )
+        # create systems
+        create_system('system_modificator_system_1')
+        create_system('system_modificator_system_2')
+        create_system('system_modificator_system_3')
+        create_system('system_modificator_redirect')
+        create_system('system_modificator_char_field_1')
+        create_system('system_modificator_char_field_2')
+        create_system('system_modificator_messages_1')
+        create_system('system_modificator_messages_2')
+        create_system('system_modificator_double')
+        create_system('system_modificator_double')
 
     def test_system_modificator_not_logged_in(self):
         """ test modificator view """
@@ -188,7 +171,35 @@ class SystemModificatorViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
-    def test_system_modificator_post_systems(self):
+    # TODO: [code] add redirect template test for invalid form
+
+    def test_system_modificator_post_systems_status(self):
+        """ test modificator view """
+
+        # login testuser
+        self.client.login(username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G')
+        # get objects
+        analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name = 'analysisstatus_1')
+        analysisstatus_2 = Analysisstatus.objects.get(analysisstatus_name = 'analysisstatus_2')
+        systemstatus_1 = Systemstatus.objects.get(systemstatus_name = 'systemstatus_1')
+        systemstatus_2 = Systemstatus.objects.get(systemstatus_name = 'systemstatus_2')
+        # create post data
+        data_dict = {
+            'systemlist': 'system_modificator_system_1\nsystem_modificator_system_2',
+            'analysisstatus': analysisstatus_2.analysisstatus_id,
+            'systemstatus': systemstatus_2.systemstatus_id,
+        }
+        # get response
+        self.client.post('/system/modificator/', data_dict)
+        # compare
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_1').analysisstatus, analysisstatus_2)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_2').analysisstatus, analysisstatus_2)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_3').analysisstatus, analysisstatus_1)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_1').systemstatus, systemstatus_2)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_2').systemstatus, systemstatus_2)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_3').systemstatus, systemstatus_1)
+
+    def test_system_modificator_post_systems_delete_false_attributes_false(self):
         """ test modificator view """
 
         # login testuser
@@ -196,39 +207,250 @@ class SystemModificatorViewTestCase(TestCase):
         # get objects
         analysisstatus_2 = Analysisstatus.objects.get(analysisstatus_name = 'analysisstatus_2')
         systemstatus_2 = Systemstatus.objects.get(systemstatus_name = 'systemstatus_2')
-        company_1 = Company.objects.get(company_name = 'company_1')
-        company_2 = Company.objects.get(company_name = 'company_2')
-        tag_1 = Tag.objects.get(tag_name = 'tag_1')
-        tag_2 = Tag.objects.get(tag_name = 'tag_2')
+        contact_1 = Contact.objects.get(contact_name = 'contact_1')
+        location_1 = Location.objects.get(location_name = 'location_1')
+        serviceprovider_1 = Serviceprovider.objects.get(serviceprovider_name = 'serviceprovider_1')
         # create post data
         data_dict = {
             'systemlist': 'system_modificator_system_1\nsystem_modificator_system_2',
             'analysisstatus': analysisstatus_2.analysisstatus_id,
             'systemstatus': systemstatus_2.systemstatus_id,
-            'company': [str(company_1.company_id), str(company_2.company_id)],
-            'tag': [str(tag_1.tag_id), str(tag_2.tag_id)],
+            'company_delete': False,
+            'contact_delete': False,
+            'location_delete': False,
+            'serviceprovider_delete': False,
+            'tag_delete': False,
         }
         # get response
         self.client.post('/system/modificator/', data_dict)
-        # compare
-        self.assertEqual(System.objects.get(system_name='system_modificator_system_1').analysisstatus.analysisstatus_name, 'analysisstatus_2')
-        self.assertEqual(System.objects.get(system_name='system_modificator_system_2').analysisstatus.analysisstatus_name, 'analysisstatus_2')
-        self.assertEqual(System.objects.get(system_name='system_modificator_system_3').analysisstatus.analysisstatus_name, 'analysisstatus_1')
-        self.assertEqual(System.objects.get(system_name='system_modificator_system_1').systemstatus.systemstatus_name, 'systemstatus_2')
-        self.assertEqual(System.objects.get(system_name='system_modificator_system_2').systemstatus.systemstatus_name, 'systemstatus_2')
-        self.assertEqual(System.objects.get(system_name='system_modificator_system_3').systemstatus.systemstatus_name, 'systemstatus_1')
+        # compare - company (m2m)
         self.assertTrue(System.objects.get(system_name='system_modificator_system_1').company.filter(company_name='company_1').exists())
-        self.assertTrue(System.objects.get(system_name='system_modificator_system_1').company.filter(company_name='company_2').exists())
+        self.assertFalse(System.objects.get(system_name='system_modificator_system_1').company.filter(company_name='company_2').exists())
+        self.assertFalse(System.objects.get(system_name='system_modificator_system_1').company.filter(company_name='company_3').exists())
         self.assertTrue(System.objects.get(system_name='system_modificator_system_2').company.filter(company_name='company_1').exists())
-        self.assertTrue(System.objects.get(system_name='system_modificator_system_2').company.filter(company_name='company_2').exists())
-        self.assertFalse(System.objects.get(system_name='system_modificator_system_3').company.filter(company_name='company_1').exists())
+        self.assertFalse(System.objects.get(system_name='system_modificator_system_2').company.filter(company_name='company_2').exists())
+        self.assertFalse(System.objects.get(system_name='system_modificator_system_2').company.filter(company_name='company_3').exists())
+        self.assertTrue(System.objects.get(system_name='system_modificator_system_3').company.filter(company_name='company_1').exists())
         self.assertFalse(System.objects.get(system_name='system_modificator_system_3').company.filter(company_name='company_2').exists())
+        self.assertFalse(System.objects.get(system_name='system_modificator_system_3').company.filter(company_name='company_3').exists())
+        # compare - contact (fk)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_1').contact, contact_1)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_2').contact, contact_1)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_3').contact, contact_1)
+        # compare - location (fk)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_1').location, location_1)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_2').location, location_1)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_3').location, location_1)
+        # compare - serviceprovider (fk)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_1').serviceprovider, serviceprovider_1)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_2').serviceprovider, serviceprovider_1)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_3').serviceprovider, serviceprovider_1)
+        # compare - tag (m2m)
         self.assertTrue(System.objects.get(system_name='system_modificator_system_1').tag.filter(tag_name='tag_1').exists())
-        self.assertTrue(System.objects.get(system_name='system_modificator_system_1').tag.filter(tag_name='tag_2').exists())
+        self.assertFalse(System.objects.get(system_name='system_modificator_system_1').tag.filter(tag_name='tag_2').exists())
+        self.assertFalse(System.objects.get(system_name='system_modificator_system_1').tag.filter(tag_name='tag_3').exists())
         self.assertTrue(System.objects.get(system_name='system_modificator_system_2').tag.filter(tag_name='tag_1').exists())
-        self.assertTrue(System.objects.get(system_name='system_modificator_system_2').tag.filter(tag_name='tag_2').exists())
-        self.assertFalse(System.objects.get(system_name='system_modificator_system_3').tag.filter(tag_name='tag_1').exists())
+        self.assertFalse(System.objects.get(system_name='system_modificator_system_2').tag.filter(tag_name='tag_2').exists())
+        self.assertFalse(System.objects.get(system_name='system_modificator_system_2').tag.filter(tag_name='tag_3').exists())
+        self.assertTrue(System.objects.get(system_name='system_modificator_system_3').tag.filter(tag_name='tag_1').exists())
         self.assertFalse(System.objects.get(system_name='system_modificator_system_3').tag.filter(tag_name='tag_2').exists())
+        self.assertFalse(System.objects.get(system_name='system_modificator_system_3').tag.filter(tag_name='tag_3').exists())
+
+    # TODO: [logic] decide between add / overwrite (delete) or add additional checkbox
+    def test_system_modificator_post_systems_delete_false_attributes_true(self):
+        """ test modificator view """
+
+        # login testuser
+        self.client.login(username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G')
+        # get objects
+        analysisstatus_2 = Analysisstatus.objects.get(analysisstatus_name = 'analysisstatus_2')
+        systemstatus_2 = Systemstatus.objects.get(systemstatus_name = 'systemstatus_2')
+        company_2 = Company.objects.get(company_name = 'company_2')
+        company_3 = Company.objects.get(company_name = 'company_3')
+        contact_1 = Contact.objects.get(contact_name = 'contact_1')
+        contact_2 = Contact.objects.get(contact_name = 'contact_2')
+        location_1 = Location.objects.get(location_name = 'location_1')
+        location_2 = Location.objects.get(location_name = 'location_2')
+        serviceprovider_1 = Serviceprovider.objects.get(serviceprovider_name = 'serviceprovider_1')
+        serviceprovider_2 = Serviceprovider.objects.get(serviceprovider_name = 'serviceprovider_2')
+        tag_2 = Tag.objects.get(tag_name = 'tag_2')
+        tag_3 = Tag.objects.get(tag_name = 'tag_3')
+        # create post data
+        data_dict = {
+            'systemlist': 'system_modificator_system_1\nsystem_modificator_system_2',
+            'analysisstatus': analysisstatus_2.analysisstatus_id,
+            'systemstatus': systemstatus_2.systemstatus_id,
+            'company': [str(company_2.company_id), str(company_3.company_id)],
+            'company_delete': False,
+            'contact': contact_2.contact_id,
+            'contact_delete': False,
+            'location': location_2.location_id,
+            'location_delete': False,
+            'serviceprovider': serviceprovider_2.serviceprovider_id,
+            'serviceprovider_delete': False,
+            'tag': [str(tag_2.tag_id), str(tag_3.tag_id)],
+            'tag_delete': False,
+        }
+        # get response
+        self.client.post('/system/modificator/', data_dict)
+        # compare - company (m2m)
+#        self.assertTrue(System.objects.get(system_name='system_modificator_system_1').company.filter(company_name='company_1').exists())
+#        self.assertFalse(System.objects.get(system_name='system_modificator_system_1').company.filter(company_name='company_2').exists())
+#        self.assertFalse(System.objects.get(system_name='system_modificator_system_1').company.filter(company_name='company_3').exists())
+#        self.assertTrue(System.objects.get(system_name='system_modificator_system_2').company.filter(company_name='company_1').exists())
+#        self.assertFalse(System.objects.get(system_name='system_modificator_system_2').company.filter(company_name='company_2').exists())
+#        self.assertFalse(System.objects.get(system_name='system_modificator_system_2').company.filter(company_name='company_3').exists())
+#        self.assertTrue(System.objects.get(system_name='system_modificator_system_3').company.filter(company_name='company_1').exists())
+#        self.assertFalse(System.objects.get(system_name='system_modificator_system_3').company.filter(company_name='company_2').exists())
+#        self.assertFalse(System.objects.get(system_name='system_modificator_system_3').company.filter(company_name='company_3').exists())
+        # compare - contact (fk)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_1').contact, contact_1)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_2').contact, contact_1)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_3').contact, contact_1)
+        # compare - location (fk)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_1').location, location_1)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_2').location, location_1)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_3').location, location_1)
+        # compare - serviceprovider (fk)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_1').serviceprovider, serviceprovider_1)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_2').serviceprovider, serviceprovider_1)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_3').serviceprovider, serviceprovider_1)
+        # compare - tag (m2m)
+#        self.assertTrue(System.objects.get(system_name='system_modificator_system_1').tag.filter(tag_name='tag_1').exists())
+#        self.assertFalse(System.objects.get(system_name='system_modificator_system_1').tag.filter(tag_name='tag_2').exists())
+#        self.assertFalse(System.objects.get(system_name='system_modificator_system_1').tag.filter(tag_name='tag_3').exists())
+#        self.assertTrue(System.objects.get(system_name='system_modificator_system_2').tag.filter(tag_name='tag_1').exists())
+#        self.assertFalse(System.objects.get(system_name='system_modificator_system_2').tag.filter(tag_name='tag_2').exists())
+#        self.assertFalse(System.objects.get(system_name='system_modificator_system_2').tag.filter(tag_name='tag_3').exists())
+#        self.assertTrue(System.objects.get(system_name='system_modificator_system_3').tag.filter(tag_name='tag_1').exists())
+#        self.assertFalse(System.objects.get(system_name='system_modificator_system_3').tag.filter(tag_name='tag_2').exists())
+#        self.assertFalse(System.objects.get(system_name='system_modificator_system_3').tag.filter(tag_name='tag_3').exists())
+
+    def test_system_modificator_post_systems_delete_true_attributes_false(self):
+        """ test modificator view """
+
+        # login testuser
+        self.client.login(username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G')
+        # get objects
+        analysisstatus_2 = Analysisstatus.objects.get(analysisstatus_name = 'analysisstatus_2')
+        systemstatus_2 = Systemstatus.objects.get(systemstatus_name = 'systemstatus_2')
+        contact_1 = Contact.objects.get(contact_name = 'contact_1')
+        location_1 = Location.objects.get(location_name = 'location_1')
+        serviceprovider_1 = Serviceprovider.objects.get(serviceprovider_name = 'serviceprovider_1')
+        # create post data
+        data_dict = {
+            'systemlist': 'system_modificator_system_1\nsystem_modificator_system_2',
+            'analysisstatus': analysisstatus_2.analysisstatus_id,
+            'systemstatus': systemstatus_2.systemstatus_id,
+            'company_delete': True,
+            'contact_delete': True,
+            'location_delete': True,
+            'serviceprovider_delete': True,
+            'tag_delete': True,
+        }
+        # get response
+        self.client.post('/system/modificator/', data_dict)
+        # compare - company (m2m)
+        self.assertFalse(System.objects.get(system_name='system_modificator_system_1').company.filter(company_name='company_1').exists())
+        self.assertFalse(System.objects.get(system_name='system_modificator_system_1').company.filter(company_name='company_2').exists())
+        self.assertFalse(System.objects.get(system_name='system_modificator_system_1').company.filter(company_name='company_3').exists())
+        self.assertFalse(System.objects.get(system_name='system_modificator_system_2').company.filter(company_name='company_1').exists())
+        self.assertFalse(System.objects.get(system_name='system_modificator_system_2').company.filter(company_name='company_2').exists())
+        self.assertFalse(System.objects.get(system_name='system_modificator_system_2').company.filter(company_name='company_3').exists())
+        self.assertTrue(System.objects.get(system_name='system_modificator_system_3').company.filter(company_name='company_1').exists())
+        self.assertFalse(System.objects.get(system_name='system_modificator_system_3').company.filter(company_name='company_2').exists())
+        self.assertFalse(System.objects.get(system_name='system_modificator_system_3').company.filter(company_name='company_3').exists())
+        # compare - contact (fk)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_1').contact, None)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_2').contact, None)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_3').contact, contact_1)
+        # compare - location (fk)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_1').location, None)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_2').location, None)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_3').location, location_1)
+        # compare - serviceprovider (fk)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_1').serviceprovider, None)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_2').serviceprovider, None)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_3').serviceprovider, serviceprovider_1)
+        # compare - tag (m2m)
+        self.assertFalse(System.objects.get(system_name='system_modificator_system_1').tag.filter(tag_name='tag_1').exists())
+        self.assertFalse(System.objects.get(system_name='system_modificator_system_1').tag.filter(tag_name='tag_2').exists())
+        self.assertFalse(System.objects.get(system_name='system_modificator_system_1').tag.filter(tag_name='tag_3').exists())
+        self.assertFalse(System.objects.get(system_name='system_modificator_system_2').tag.filter(tag_name='tag_1').exists())
+        self.assertFalse(System.objects.get(system_name='system_modificator_system_2').tag.filter(tag_name='tag_2').exists())
+        self.assertFalse(System.objects.get(system_name='system_modificator_system_2').tag.filter(tag_name='tag_3').exists())
+        self.assertTrue(System.objects.get(system_name='system_modificator_system_3').tag.filter(tag_name='tag_1').exists())
+        self.assertFalse(System.objects.get(system_name='system_modificator_system_3').tag.filter(tag_name='tag_2').exists())
+        self.assertFalse(System.objects.get(system_name='system_modificator_system_3').tag.filter(tag_name='tag_3').exists())
+
+    def test_system_modificator_post_systems_delete_true_attributes_true(self):
+        """ test modificator view """
+
+        # login testuser
+        self.client.login(username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G')
+        # get objects
+        analysisstatus_2 = Analysisstatus.objects.get(analysisstatus_name = 'analysisstatus_2')
+        systemstatus_2 = Systemstatus.objects.get(systemstatus_name = 'systemstatus_2')
+        company_2 = Company.objects.get(company_name = 'company_2')
+        company_3 = Company.objects.get(company_name = 'company_3')
+        contact_1 = Contact.objects.get(contact_name = 'contact_1')
+        contact_2 = Contact.objects.get(contact_name = 'contact_2')
+        location_1 = Location.objects.get(location_name = 'location_1')
+        location_2 = Location.objects.get(location_name = 'location_2')
+        serviceprovider_1 = Serviceprovider.objects.get(serviceprovider_name = 'serviceprovider_1')
+        serviceprovider_2 = Serviceprovider.objects.get(serviceprovider_name = 'serviceprovider_2')
+        tag_2 = Tag.objects.get(tag_name = 'tag_2')
+        tag_3 = Tag.objects.get(tag_name = 'tag_3')
+        # create post data
+        data_dict = {
+            'systemlist': 'system_modificator_system_1\nsystem_modificator_system_2',
+            'analysisstatus': analysisstatus_2.analysisstatus_id,
+            'systemstatus': systemstatus_2.systemstatus_id,
+            'company': [str(company_2.company_id), str(company_3.company_id)],
+            'company_delete': True,
+            'contact': contact_2.contact_id,
+            'contact_delete': True,
+            'location': location_2.location_id,
+            'location_delete': True,
+            'serviceprovider': serviceprovider_2.serviceprovider_id,
+            'serviceprovider_delete': True,
+            'tag': [str(tag_2.tag_id), str(tag_3.tag_id)],
+            'tag_delete': True,
+        }
+        # get response
+        self.client.post('/system/modificator/', data_dict)
+        # compare - company (m2m)
+        self.assertFalse(System.objects.get(system_name='system_modificator_system_1').company.filter(company_name='company_1').exists())
+        self.assertTrue(System.objects.get(system_name='system_modificator_system_1').company.filter(company_name='company_2').exists())
+        self.assertTrue(System.objects.get(system_name='system_modificator_system_1').company.filter(company_name='company_3').exists())
+        self.assertFalse(System.objects.get(system_name='system_modificator_system_2').company.filter(company_name='company_1').exists())
+        self.assertTrue(System.objects.get(system_name='system_modificator_system_2').company.filter(company_name='company_2').exists())
+        self.assertTrue(System.objects.get(system_name='system_modificator_system_2').company.filter(company_name='company_3').exists())
+        self.assertTrue(System.objects.get(system_name='system_modificator_system_3').company.filter(company_name='company_1').exists())
+        self.assertFalse(System.objects.get(system_name='system_modificator_system_3').company.filter(company_name='company_2').exists())
+        self.assertFalse(System.objects.get(system_name='system_modificator_system_3').company.filter(company_name='company_3').exists())
+        # compare - contact (fk)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_1').contact, contact_2)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_2').contact, contact_2)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_3').contact, contact_1)
+        # compare - location (fk)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_1').location, location_2)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_2').location, location_2)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_3').location, location_1)
+        # compare - serviceprovider (fk)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_1').serviceprovider, serviceprovider_2)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_2').serviceprovider, serviceprovider_2)
+        self.assertEqual(System.objects.get(system_name='system_modificator_system_3').serviceprovider, serviceprovider_1)
+        # compare - tag (m2m)
+        self.assertFalse(System.objects.get(system_name='system_modificator_system_1').tag.filter(tag_name='tag_1').exists())
+        self.assertTrue(System.objects.get(system_name='system_modificator_system_1').tag.filter(tag_name='tag_2').exists())
+        self.assertTrue(System.objects.get(system_name='system_modificator_system_1').tag.filter(tag_name='tag_3').exists())
+        self.assertFalse(System.objects.get(system_name='system_modificator_system_2').tag.filter(tag_name='tag_1').exists())
+        self.assertTrue(System.objects.get(system_name='system_modificator_system_2').tag.filter(tag_name='tag_2').exists())
+        self.assertTrue(System.objects.get(system_name='system_modificator_system_2').tag.filter(tag_name='tag_3').exists())
+        self.assertTrue(System.objects.get(system_name='system_modificator_system_3').tag.filter(tag_name='tag_1').exists())
+        self.assertFalse(System.objects.get(system_name='system_modificator_system_3').tag.filter(tag_name='tag_2').exists())
+        self.assertFalse(System.objects.get(system_name='system_modificator_system_3').tag.filter(tag_name='tag_3').exists())
 
     def test_system_modificator_post_char_field(self):
         """ test modificator view """
