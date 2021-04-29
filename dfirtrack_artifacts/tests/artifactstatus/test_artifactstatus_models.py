@@ -18,6 +18,14 @@ class ArtifactstatusModelTestCase(TestCase):
         # compare
         self.assertEqual(str(artifactstatus_1), 'artifactstatus_1')
 
+    def test_artifactstatus_verbose_name_plural(self):
+        """ test string representation """
+
+        # get object
+        artifactstatus_1 = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1')
+        # compare
+        self.assertEqual(artifactstatus_1._meta.verbose_name_plural, 'artifactstatus')
+
     def test_artifactstatus_id_attribute_label(self):
         """ test attribute label """
 

@@ -18,6 +18,14 @@ class CasestatusModelTestCase(TestCase):
         # compare
         self.assertEqual(str(casestatus_1), 'casestatus_1')
 
+    def test_casestatus_verbose_name_plural(self):
+        """ test string representation """
+
+        # get object
+        casestatus_1 = Casestatus.objects.get(casestatus_name='casestatus_1')
+        # compare
+        self.assertEqual(casestatus_1._meta.verbose_name_plural, 'casestatus')
+
     def test_casestatus_id_attribute_label(self):
         """ test attribute label """
 

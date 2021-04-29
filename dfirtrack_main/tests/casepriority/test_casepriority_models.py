@@ -18,6 +18,14 @@ class CasepriorityModelTestCase(TestCase):
         # compare
         self.assertEqual(str(casepriority_1), 'casepriority_1')
 
+    def test_casepriority_verbose_name_plural(self):
+        """ test string representation """
+
+        # get object
+        casepriority_1 = Casepriority.objects.get(casepriority_name='casepriority_1')
+        # compare
+        self.assertEqual(casepriority_1._meta.verbose_name_plural, 'casepriorities')
+
     def test_casepriority_id_attribute_label(self):
         """ test attribute label """
 

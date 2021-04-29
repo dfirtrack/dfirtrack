@@ -43,6 +43,14 @@ class EntryModelTestCase(TestCase):
         # compare
         self.assertEqual(str(entry_1), str(entry_id) + ' | ' + str(entry_1.system) + ' | ' + 'da39a3ee5e6b4b0d3255bfef95601890afd80709')
 
+    def test_entry_verbose_name_plural(self):
+        """ test string representation """
+
+        # get object
+        entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
+        # compare
+        self.assertEqual(entry_1._meta.verbose_name_plural, 'entries')
+
     def test_entry_id_attribute_label(self):
         """ test attribute label """
 

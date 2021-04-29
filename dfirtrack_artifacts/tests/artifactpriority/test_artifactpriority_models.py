@@ -18,6 +18,14 @@ class ArtifactpriorityModelTestCase(TestCase):
         # compare
         self.assertEqual(str(artifactpriority_1), 'artifactpriority_1')
 
+    def test_artifactpriority_verbose_name_plural(self):
+        """ test string representation """
+
+        # get object
+        artifactpriority_1 = Artifactpriority.objects.get(artifactpriority_name='artifactpriority_1')
+        # compare
+        self.assertEqual(artifactpriority_1._meta.verbose_name_plural, 'artifactpriorities')
+
     def test_artifactpriority_id_attribute_label(self):
         """ test attribute label """
 

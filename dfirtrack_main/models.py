@@ -20,6 +20,9 @@ class Analysisstatus(models.Model):
     analysisstatus_name = models.CharField(max_length=30, unique=True)
     analysisstatus_note = models.TextField(blank=True, null=True)
 
+    class Meta:
+        verbose_name_plural = 'analysisstatus'
+
     # string representation
     def __str__(self):
         return self.analysisstatus_name
@@ -156,6 +159,7 @@ class Casepriority(models.Model):
 
     class Meta:
         ordering = ('casepriority_id',)
+        verbose_name_plural = 'casepriorities'
 
     # string representation
     def __str__(self):
@@ -192,6 +196,7 @@ class Casestatus(models.Model):
 
     class Meta:
         ordering = ('casestatus_id',)
+        verbose_name_plural = 'casestatus'
 
     # string representation
     def __str__(self):
@@ -266,6 +271,9 @@ class Company(models.Model):
     # main entity information
     company_name = models.CharField(max_length=50, unique=True)
     company_note = models.TextField(blank=True, null=True)
+
+    class Meta:
+        verbose_name_plural = 'companies'
 
     # string representation
     def __str__(self):
@@ -497,9 +505,9 @@ class Entry(models.Model):
     entry_created_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='entry_created_by')
     entry_modified_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='entry_modified_by')
 
-    # define unique together
     class Meta:
         unique_together = ('system', 'entry_sha1')
+        verbose_name_plural = 'entries'
 
     # string representation
     def __str__(self):
@@ -610,6 +618,9 @@ class Os(models.Model):
 
     # main entity information
     os_name = models.CharField(max_length=30, unique=True)
+
+    class Meta:
+        verbose_name_plural = 'os'
 
     # string representation
     def __str__(self):
@@ -1126,6 +1137,9 @@ class Systemstatus(models.Model):
     # main entity information
     systemstatus_name = models.CharField(max_length=30, unique=True)
     systemstatus_note = models.TextField(blank=True, null=True)
+
+    class Meta:
+        verbose_name_plural = 'systemstatus'
 
     # string representation
     def __str__(self):

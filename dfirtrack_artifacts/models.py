@@ -194,6 +194,7 @@ class Artifactpriority(models.Model):
 
     class Meta:
         ordering = ('artifactpriority_id',)
+        verbose_name_plural = 'artifactpriorities'
 
     # string representation
     def __str__(self):
@@ -231,6 +232,7 @@ class Artifactstatus(models.Model):
 
     class Meta:
         ordering = ('artifactstatus_id',)
+        verbose_name_plural = 'artifactstatus'
 
     # string representation
     def __str__(self):

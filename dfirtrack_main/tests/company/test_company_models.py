@@ -18,6 +18,14 @@ class CompanyModelTestCase(TestCase):
         # compare
         self.assertEqual(str(company_1), 'company_1')
 
+    def test_company_verbose_name_plural(self):
+        """ test string representation """
+
+        # get object
+        company_1 = Company.objects.get(company_name='company_1')
+        # compare
+        self.assertEqual(company_1._meta.verbose_name_plural, 'companies')
+
     def test_company_id_attribute_label(self):
         """ test attribute label """
 
