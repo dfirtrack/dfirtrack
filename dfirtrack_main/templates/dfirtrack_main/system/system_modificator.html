@@ -139,7 +139,12 @@
                     <div class="text-danger">
                         {{ form.tag_delete.errors }}
                     </div>
-                    {{ form.tag_delete }} {{ form.tag_delete.label }}
+                    <div class="bottom-distance">
+                        {{ form.tag_delete.label }}
+                    </div>
+                    {% for i in form.tag_delete %}
+                        {{ i }}
+                    {% endfor %}
                 </div>
             </div>
 
@@ -326,7 +331,12 @@
                     <div class="text-danger">
                         {{ form.company_delete.errors }}
                     </div>
-                    {{ form.company_delete }} {{ form.company_delete.label }}
+                    <div class="bottom-distance">
+                        {{ form.company_delete.label }}
+                    </div>
+                    {% for i in form.company_delete %}
+                        {{ i }}
+                    {% endfor %}
                 </div>
             </div>
 
@@ -337,7 +347,12 @@
                     <div class="text-danger">
                         {{ form.location_delete.errors }}
                     </div>
-                    {{ form.location_delete }} {{ form.location_delete.label }}
+                    <div class="bottom-distance">
+                        {{ form.location_delete.label }}
+                    </div>
+                    {% for i in form.location_delete %}
+                        {{ i }}
+                    {% endfor %}
                 </div>
             </div>
 
@@ -348,7 +363,12 @@
                     <div class="text-danger">
                         {{ form.serviceprovider_delete.errors }}
                     </div>
-                    {{ form.serviceprovider_delete }} {{ form.serviceprovider_delete.label }}
+                    <div class="bottom-distance">
+                        {{ form.serviceprovider_delete.label }}
+                    </div>
+                    {% for i in form.serviceprovider_delete %}
+                        {{ i }}
+                    {% endfor %}
                 </div>
             </div>
 
@@ -359,7 +379,12 @@
                     <div class="text-danger">
                         {{ form.contact_delete.errors }}
                     </div>
-                    {{ form.contact_delete }} {{ form.contact_delete.label }}
+                    <div class="bottom-distance">
+                        {{ form.contact_delete.label }}
+                    </div>
+                    {% for i in form.contact_delete %}
+                        {{ i }}
+                    {% endfor %}
                 </div>
             </div>
 

@@ -85,14 +85,13 @@ class SystemModificatorFormTestCase(TestCase):
         # compare
         self.assertEqual(form.fields['tag'].label, 'Tags')
 
-    # TODO: [maintenance] change label text according to functionality
     def test_system_modificator_tag_delete_form_label(self):
         """ test form label """
 
         # get object
         form = SystemModificatorForm()
         # compare
-        self.assertEqual(form.fields['tag_delete'].label, 'Delete / overwrite existing tags')
+        self.assertEqual(form.fields['tag_delete'].label, 'How to deal with existing tags')
 
     def test_system_modificator_systemstatus_form_label(self):
         """ test form label """
@@ -118,14 +117,13 @@ class SystemModificatorFormTestCase(TestCase):
         # compare
         self.assertEqual(form.fields['company'].label, 'Companies')
 
-    # TODO: [maintenance] change label text according to functionality
     def test_system_modificator_company_delete_form_label(self):
         """ test form label """
 
         # get object
         form = SystemModificatorForm()
         # compare
-        self.assertEqual(form.fields['company_delete'].label, 'Delete / overwrite existing companies')
+        self.assertEqual(form.fields['company_delete'].label, 'How to deal with existing companies')
 
     def test_system_modificator_location_form_label(self):
         """ test form label """
@@ -136,14 +134,13 @@ class SystemModificatorFormTestCase(TestCase):
         self.assertEqual(form.fields['location'].label, 'Location')
         self.assertEqual(form.fields['location'].empty_label, 'Select location (optional)')
 
-    # TODO: [maintenance] change label text according to functionality
     def test_system_modificator_location_delete_form_label(self):
         """ test form label """
 
         # get object
         form = SystemModificatorForm()
         # compare
-        self.assertEqual(form.fields['location_delete'].label, 'Delete existing locations (if nothing is selected)')
+        self.assertEqual(form.fields['location_delete'].label, 'How to deal with locations')
 
     def test_system_modificator_serviceprovider_form_label(self):
         """ test form label """
@@ -154,14 +151,13 @@ class SystemModificatorFormTestCase(TestCase):
         self.assertEqual(form.fields['serviceprovider'].label, 'Serviceprovider')
         self.assertEqual(form.fields['serviceprovider'].empty_label, 'Select serviceprovider (optional)')
 
-    # TODO: [maintenance] change label text according to functionality
     def test_system_modificator_serviceprovider_delete_form_label(self):
         """ test form label """
 
         # get object
         form = SystemModificatorForm()
         # compare
-        self.assertEqual(form.fields['serviceprovider_delete'].label, 'Delete existing serviceproviders (if nothing is selected)')
+        self.assertEqual(form.fields['serviceprovider_delete'].label, 'How to deal with serviceproviders')
 
     def test_system_modificator_contact_form_label(self):
         """ test form label """
@@ -172,14 +168,13 @@ class SystemModificatorFormTestCase(TestCase):
         self.assertEqual(form.fields['contact'].label, 'Contact')
         self.assertEqual(form.fields['contact'].empty_label, 'Select contact (optional)')
 
-    # TODO: [maintenance] change label text according to functionality
     def test_system_modificator_contact_delete_form_label(self):
         """ test form label """
 
         # get object
         form = SystemModificatorForm()
         # compare
-        self.assertEqual(form.fields['contact_delete'].label, 'Delete existing contacts (if nothing is selected)')
+        self.assertEqual(form.fields['contact_delete'].label, 'How to deal with contacts')
 
     def test_system_modificator_form_empty(self):
         """ test minimum form requirements / INVALID """
@@ -199,6 +194,23 @@ class SystemModificatorFormTestCase(TestCase):
         # compare
         self.assertFalse(form.is_valid())
 
+    def test_system_modificator_delete_options_form_filled(self):
+        """ test minimum form requirements / INVALID """
+
+        # get object
+        system = System.objects.get(system_name='system_1')
+        # get object
+        form = SystemModificatorForm(data = {
+            'systemlist': [str(system.system_id),],
+            'company_delete': 'keep_not_add',
+            'tag_delete': 'keep_not_add',
+            'contact_delete': 'keep_existing',
+            'location_delete': 'keep_existing',
+            'serviceprovider_delete': 'keep_existing',
+        })
+        # compare
+        self.assertFalse(form.is_valid())
+
     def test_system_modificator_systemstatus_form_filled(self):
         """ test minimum form requirements / VALID """
 
@@ -210,6 +222,11 @@ class SystemModificatorFormTestCase(TestCase):
         form = SystemModificatorForm(data = {
             'systemlist': [str(system.system_id),],
             'systemstatus': systemstatus_id,
+            'company_delete': 'keep_not_add',
+            'tag_delete': 'keep_not_add',
+            'contact_delete': 'keep_existing',
+            'location_delete': 'keep_existing',
+            'serviceprovider_delete': 'keep_existing',
         })
         # compare
         self.assertTrue(form.is_valid())
@@ -228,6 +245,11 @@ class SystemModificatorFormTestCase(TestCase):
             'systemlist': [str(system.system_id),],
             'systemstatus': systemstatus_id,
             'analysisstatus': analysisstatus_id,
+            'company_delete': 'keep_not_add',
+            'tag_delete': 'keep_not_add',
+            'contact_delete': 'keep_existing',
+            'location_delete': 'keep_existing',
+            'serviceprovider_delete': 'keep_existing',
         })
         # compare
         self.assertTrue(form.is_valid())
@@ -247,22 +269,11 @@ class SystemModificatorFormTestCase(TestCase):
             'systemlist': [str(system.system_id),],
             'systemstatus': systemstatus_id,
             'tag': [tag_1_id, tag_2_id],
-        })
-        # compare
-        self.assertTrue(form.is_valid())
-
-    def test_system_modificator_systemlist_multi_line(self):
-        """ test for multiple line input """
-
-        # get object
-        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
-        # get object
-        system1 = System.objects.get(system_name='system_1')
-        system2 = System.objects.get(system_name='system_2')
-        # get object
-        form = SystemModificatorForm(data = {
-            'systemlist': [str(system1.system_id),str(system2.system_id),],
-            'systemstatus': systemstatus_id,
+            'company_delete': 'keep_not_add',
+            'tag_delete': 'keep_not_add',
+            'contact_delete': 'keep_existing',
+            'location_delete': 'keep_existing',
+            'serviceprovider_delete': 'keep_existing',
         })
         # compare
         self.assertTrue(form.is_valid())
@@ -281,6 +292,11 @@ class SystemModificatorFormTestCase(TestCase):
             'systemlist': [str(system.system_id),],
             'systemstatus': systemstatus_id,
             'company': [company_id],
+            'company_delete': 'keep_not_add',
+            'tag_delete': 'keep_not_add',
+            'contact_delete': 'keep_existing',
+            'location_delete': 'keep_existing',
+            'serviceprovider_delete': 'keep_existing',
         })
         # compare
         self.assertTrue(form.is_valid())
@@ -299,6 +315,11 @@ class SystemModificatorFormTestCase(TestCase):
             'systemlist': [str(system.system_id),],
             'systemstatus': systemstatus_id,
             'location': location_id,
+            'company_delete': 'keep_not_add',
+            'tag_delete': 'keep_not_add',
+            'contact_delete': 'keep_existing',
+            'location_delete': 'keep_existing',
+            'serviceprovider_delete': 'keep_existing',
         })
         # compare
         self.assertTrue(form.is_valid())
@@ -317,6 +338,11 @@ class SystemModificatorFormTestCase(TestCase):
             'systemlist': [str(system.system_id),],
             'systemstatus': systemstatus_id,
             'serviceprovider': serviceprovider_id,
+            'company_delete': 'keep_not_add',
+            'tag_delete': 'keep_not_add',
+            'contact_delete': 'keep_existing',
+            'location_delete': 'keep_existing',
+            'serviceprovider_delete': 'keep_existing',
         })
         # compare
         self.assertTrue(form.is_valid())
@@ -335,6 +361,32 @@ class SystemModificatorFormTestCase(TestCase):
             'systemlist': [str(system.system_id),],
             'systemstatus': systemstatus_id,
             'contact': contact_id,
+            'company_delete': 'keep_not_add',
+            'tag_delete': 'keep_not_add',
+            'contact_delete': 'keep_existing',
+            'location_delete': 'keep_existing',
+            'serviceprovider_delete': 'keep_existing',
+        })
+        # compare
+        self.assertTrue(form.is_valid())
+
+    def test_system_modificator_systemlist_admin_style(self):
+        """ test for multiple line input """
+
+        # get object
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
+        # get object
+        system1 = System.objects.get(system_name='system_1')
+        system2 = System.objects.get(system_name='system_2')
+        # get object
+        form = SystemModificatorForm(data = {
+            'systemlist': [str(system1.system_id),str(system2.system_id),],
+            'systemstatus': systemstatus_id,
+            'company_delete': 'keep_not_add',
+            'tag_delete': 'keep_not_add',
+            'contact_delete': 'keep_existing',
+            'location_delete': 'keep_existing',
+            'serviceprovider_delete': 'keep_existing',
         })
         # compare
         self.assertTrue(form.is_valid())

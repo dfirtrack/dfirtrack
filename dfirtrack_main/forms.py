@@ -888,6 +888,8 @@ class SystemCreatorForm(SystemExtendedBaseForm):
 class SystemModificatorForm(AdminStyleSelectorForm, SystemBaseForm):
     """ system modificator form, inherits from system base form """
 
+    """ non-model fields referencing models """
+
     # no model field comes into question, because optional choice in combination with delete checkbox
     contact = forms.ModelChoiceField(
         label = gettext_lazy('Contact'),
@@ -912,42 +914,59 @@ class SystemModificatorForm(AdminStyleSelectorForm, SystemBaseForm):
         empty_label = 'Select serviceprovider (optional)',
     )
 
-    # TODO: [logic] decide between add / overwrite (delete) or add additional checkbox
-    # TODO: [maintenance] change label text according to functionality
-    # add checkbox
-    company_delete = forms.BooleanField(
-        label = gettext_lazy('Delete / overwrite existing companies'),
-        required = False,
+    """ m2m related choices """
+
+    # prepare m2m choices
+    M2M_CHOICES = (
+        ('keep_not_add', 'Do not change and keep existing'),
+        ('keep_and_add', 'Keep existing and add new items'),
+        ('remove_and_add', 'Delete existing and add new items'),
     )
 
-    # TODO: [maintenance] change label text according to functionality
     # add checkbox
-    contact_delete = forms.BooleanField(
-        label = gettext_lazy('Delete existing contacts (if nothing is selected)'),
-        required = False,
+    company_delete = forms.ChoiceField(
+        label = gettext_lazy('How to deal with existing companies'),
+        widget = forms.RadioSelect(),
+        choices = M2M_CHOICES,
     )
 
-    # TODO: [maintenance] change label text according to functionality
     # add checkbox
-    location_delete = forms.BooleanField(
-        label = gettext_lazy('Delete existing locations (if nothing is selected)'),
-        required = False,
+    tag_delete = forms.ChoiceField(
+        label = gettext_lazy('How to deal with existing tags'),
+        widget = forms.RadioSelect(),
+        choices = M2M_CHOICES,
     )
 
-    # TODO: [maintenance] change label text according to functionality
-    # add checkbox
-    serviceprovider_delete = forms.BooleanField(
-        label = gettext_lazy('Delete existing serviceproviders (if nothing is selected)'),
-        required = False,
+    """ fk related choices """
+
+    # prepare fk choices
+    FK_CHOICES = (
+        ('keep_existing', 'Do not change and keep existing'),
+        ('switch_new', 'Switch to selected item or none'),
     )
 
-    # TODO: [logic] decide between add / overwrite (delete) or add additional checkbox
-    # TODO: [maintenance] change label text according to functionality
     # add checkbox
-    tag_delete = forms.BooleanField(
-        label = gettext_lazy('Delete / overwrite existing tags'),
-        required = False,
+    contact_delete = forms.ChoiceField(
+        label = gettext_lazy('How to deal with contacts'),
+        widget = forms.RadioSelect(),
+        choices = FK_CHOICES,
     )
+
+    # add checkbox
+    location_delete = forms.ChoiceField(
+        label = gettext_lazy('How to deal with locations'),
+        widget = forms.RadioSelect(),
+        choices = FK_CHOICES,
+    )
+
+    # add checkbox
+    serviceprovider_delete = forms.ChoiceField(
+        label = gettext_lazy('How to deal with serviceproviders'),
+        widget = forms.RadioSelect(),
+        choices = FK_CHOICES,
+    )
+
+    """ admin UI style related functions """
 
     def __init__(self, *args, **kwargs):
         self.use_system_charfield = kwargs.pop('use_system_charfield', False)
@@ -965,6 +984,7 @@ class SystemModificatorForm(AdminStyleSelectorForm, SystemBaseForm):
                 label = 'System list (*)',
             )
 
+    # TODO: [code] required flag for ModelMultipleChoiceField does not seem to work
     # admin UI style system chooser
     systemlist = forms.ModelMultipleChoiceField(
         queryset = System.objects.order_by('system_name'),

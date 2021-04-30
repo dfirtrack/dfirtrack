@@ -56,6 +56,11 @@ def system_modificator(request):
         form = SystemModificatorForm(initial={
             'systemstatus': systemstatus,
             'analysisstatus': analysisstatus,
+            'company_delete': 'keep_not_add',
+            'tag_delete': 'keep_not_add',
+            'contact_delete': 'keep_existing',
+            'location_delete': 'keep_existing',
+            'serviceprovider_delete': 'keep_existing',
         }, use_system_charfield = show_systemlist)
 
         # call logger
@@ -184,8 +189,11 @@ def system_modificator_async(request_post, request_user):
             system.system_modified_by_user_id = request_user
             system.system_modify_time = timezone.now()
 
-            # replace / delete, if delete checkbox was checked
-            if form['contact_delete'].value():
+            """ fk non-model fields """
+
+            # replace / delete, if 'switch_new / Switch to selected item or none' was selected
+            if form['contact_delete'].value() == 'switch_new':
+
                 # replace, if value was submitted via form
                 if form['contact'].value():
                     contact_id = form['contact'].value()
@@ -195,8 +203,9 @@ def system_modificator_async(request_post, request_user):
                 else:
                     system.contact = None
 
-            # replace / delete, if delete checkbox was checked
-            if form['location_delete'].value():
+            # replace / delete, if 'switch_new / Switch to selected item or none' was selected
+            if form['location_delete'].value() == 'switch_new':
+
                 # replace, if value was submitted via form
                 if form['location'].value():
                     location_id = form['location'].value()
@@ -206,8 +215,9 @@ def system_modificator_async(request_post, request_user):
                 else:
                     system.location = None
 
-            # replace / delete, if delete checkbox was checked
-            if form['serviceprovider_delete'].value():
+            # replace / delete, if 'switch_new / Switch to selected item or none' was selected
+            if form['serviceprovider_delete'].value() == 'switch_new':
+
                 # replace, if value was submitted via form
                 if form['serviceprovider'].value():
                     serviceprovider_id = form['serviceprovider'].value()
@@ -230,29 +240,37 @@ def system_modificator_async(request_post, request_user):
 
             """ many 2 many """
 
-            # TODO: [logic] decide between add / overwrite (delete) or add additional checkbox
-            # remove existing relations if checkbox is set
-            if form['tag_delete'].value():
+            # remove existing relations if 'remove_and_add / Delete existing and add new items' was selected
+            if form['tag_delete'].value() == 'remove_and_add':
+
+                # remove all m2m
                 system.tag.clear()
-            # add tags (using save_m2m would replace existing tags)
-            for tag_id in tags:
-                # get object
-                tag = Tag.objects.get(tag_id=tag_id)
-                # add tag to system
-                system.tag.add(tag)
 
-            # TODO: [logic] decide between add / overwrite (delete) or add additional checkbox
-            # remove existing relations if checkbox is set
-            if form['company_delete'].value():
+            # add new relations if not 'keep_not_add / Do not change and keep existing' was selected
+            if form['tag_delete'].value() != 'keep_not_add':
+
+                # add new tags (using save_m2m would replace existing tags it there were any)
+                for tag_id in tags:
+                    # get object
+                    tag = Tag.objects.get(tag_id=tag_id)
+                    # add tag to system
+                    system.tag.add(tag)
+
+            # remove existing relations if 'remove_and_add / Delete existing and add new items' was selected
+            if form['company_delete'].value() == 'remove_and_add':
+
+                # remove all m2m
                 system.company.clear()
-            # add companies (using save_m2m would replace existing companies)
-            for company_id in companies:
-                # get object
-                company = Company.objects.get(company_id=company_id)
-                # add company to system
-                system.company.add(company)
 
-        # TODO: [code] add condition for invalid form
+            # add new relations if not 'keep_not_add / Do not change and keep existing' was selected
+            if form['company_delete'].value() != 'keep_not_add':
+
+                # add new companies (using save_m2m would replace existing companies it there were any)
+                for company_id in companies:
+                    # get object
+                    company = Company.objects.get(company_id=company_id)
+                    # add company to system
+                    system.company.add(company)
 
     """ finish system importer """
 
