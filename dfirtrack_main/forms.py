@@ -137,6 +137,25 @@ class CaseForm(forms.ModelForm):
             'case_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
         }
 
+class CaseCreatorForm(forms.Form):
+    """ case creator form """
+
+    # show all existing case objects as multiple choice field
+    case = forms.ModelMultipleChoiceField(
+        queryset = Case.objects.order_by('case_name'),
+        widget = forms.CheckboxSelectMultiple(),
+        label = 'Cases (*)',
+        required = True,
+    )
+
+    # show all existing system objects as multiple choice field
+    system = forms.ModelMultipleChoiceField(
+        queryset = System.objects.order_by('system_name'),
+        widget = forms.CheckboxSelectMultiple(),
+        label = 'Systems (*)',
+        required = True,
+    )
+
 class CasetypeForm(forms.ModelForm):
     """ default model form """
 
