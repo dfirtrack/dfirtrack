@@ -1110,6 +1110,7 @@ class TagCreatorForm(forms.Form):
         queryset = Tag.objects.order_by('tag_name'),
         widget = forms.CheckboxSelectMultiple(),
         label = 'Tags (*)',
+        required = True,
     )
 
     # show all existing system objects as multiple choice field
@@ -1117,6 +1118,7 @@ class TagCreatorForm(forms.Form):
         queryset = System.objects.order_by('system_name'),
         widget = forms.CheckboxSelectMultiple(),
         label = 'Systems (*)',
+        required = True,
     )
 
 class TaskBaseForm(forms.ModelForm):

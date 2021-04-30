@@ -6,8 +6,10 @@ from django.urls import reverse
 from django_q.tasks import async_task
 from dfirtrack_main.async_messages import message_user
 from dfirtrack_main.forms import CaseCreatorForm
-from dfirtrack_main.logger.default_logger import debug_logger, info_logger
-from dfirtrack_main.models import Case, System
+from dfirtrack_main.logger.default_logger import debug_logger
+from dfirtrack_main.logger.default_logger import info_logger
+from dfirtrack_main.models import Case
+from dfirtrack_main.models import System
 
 
 @login_required(login_url="/login")

@@ -6,8 +6,10 @@ from django.urls import reverse
 from django_q.tasks import async_task
 from dfirtrack_main.async_messages import message_user
 from dfirtrack_main.forms import TagCreatorForm
-from dfirtrack_main.logger.default_logger import debug_logger, info_logger
-from dfirtrack_main.models import Tag, System
+from dfirtrack_main.logger.default_logger import debug_logger
+from dfirtrack_main.logger.default_logger import info_logger
+from dfirtrack_main.models import System
+from dfirtrack_main.models import Tag
 
 
 @login_required(login_url="/login")
@@ -17,22 +19,34 @@ def tag_creator(request):
     # form was valid to post
     if request.method == 'POST':
 
-        # get objects from request object
-        request_post = request.POST
-        request_user = request.user
+        # get form
+        form = TagCreatorForm(request.POST)
 
-        # show immediate message for user
-        messages.success(request, 'Tag creator started')
+        # form was valid
+        if form.is_valid():
 
-        # call async function
-        async_task(
-            "dfirtrack_main.creator.tag_creator.tag_creator_async",
-            request_post,
-            request_user,
-        )
+            # get objects from request object
+            request_post = request.POST
+            request_user = request.user
 
-        # return directly to tag list
-        return redirect(reverse('tag_list'))
+            # show immediate message for user
+            messages.success(request, 'Tag creator started')
+
+            # call async function
+            async_task(
+                "dfirtrack_main.creator.tag_creator.tag_creator_async",
+                request_post,
+                request_user,
+            )
+
+            # return directly to tag list
+            return redirect(reverse('tag_list'))
+
+        # form was not valid
+        else:
+
+            # show form again
+            form = TagCreatorForm()
 
     # show empty form
     else:
