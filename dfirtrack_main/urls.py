@@ -32,7 +32,7 @@ from dfirtrack_main.views import task_views
 from dfirtrack_main.views import taskname_views
 from dfirtrack_main.views import taskpriority_views
 from dfirtrack_main.views import taskstatus_views
-from dfirtrack_main.creator import system_creator, tag_creator, task_creator
+from dfirtrack_main.creator import case_creator, system_creator, tag_creator, task_creator
 from dfirtrack_main.exporter.spreadsheet import csv as spreadsheet_csv
 from dfirtrack_main.exporter.spreadsheet import xls
 from dfirtrack_main.exporter.markdown import markdown
@@ -55,6 +55,8 @@ urlpatterns = [
     path(r'case/<int:pk>/', case_views.CaseDetail.as_view(), name='case_detail'),
     path(r'case/add/', case_views.CaseCreate.as_view(), name='case_create'),
     path(r'case/<int:pk>/edit/', case_views.CaseUpdate.as_view(), name='case_update'),
+
+    path(r'case/creator/', case_creator.case_creator, name='case_creator'),
 
     path(r'casepriority/', casepriority_views.CasepriorityList.as_view(), name='casepriority_list'),
     path(r'casepriority/detail/<int:pk>/', casepriority_views.CasepriorityDetail.as_view(), name='casepriority_detail'),

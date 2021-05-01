@@ -7,8 +7,12 @@ from django.utils import timezone
 from django_q.tasks import async_task
 from dfirtrack_main.async_messages import message_user
 from dfirtrack_main.forms import TaskCreatorForm
-from dfirtrack_main.logger.default_logger import debug_logger, info_logger
-from dfirtrack_main.models import System, Taskname, Taskpriority, Taskstatus
+from dfirtrack_main.logger.default_logger import debug_logger
+from dfirtrack_main.logger.default_logger import info_logger
+from dfirtrack_main.models import System
+from dfirtrack_main.models import Taskname
+from dfirtrack_main.models import Taskpriority
+from dfirtrack_main.models import Taskstatus
 
 
 @login_required(login_url="/login")
@@ -18,22 +22,28 @@ def task_creator(request):
     # form was valid to post
     if request.method == 'POST':
 
-        # get objects from request object
-        request_post = request.POST
-        request_user = request.user
+        # get form
+        form = TaskCreatorForm(request.POST)
 
-        # show immediate message for user
-        messages.success(request, 'Task creator started')
+        # form was valid
+        if form.is_valid():
 
-        # call async function
-        async_task(
-            "dfirtrack_main.creator.task_creator.task_creator_async",
-            request_post,
-            request_user,
-        )
+            # get objects from request object
+            request_post = request.POST
+            request_user = request.user
 
-        # return directly to task list
-        return redirect(reverse('task_list'))
+            # show immediate message for user
+            messages.success(request, 'Task creator started')
+
+            # call async function
+            async_task(
+                "dfirtrack_main.creator.task_creator.task_creator_async",
+                request_post,
+                request_user,
+            )
+
+            # return directly to task list
+            return redirect(reverse('task_list'))
 
     # show empty form
     else:
