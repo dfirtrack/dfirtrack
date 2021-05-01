@@ -42,12 +42,6 @@ def case_creator(request):
             # return directly to case list
             return redirect(reverse('case_list'))
 
-        # form was not valid
-        else:
-
-            # show form again
-            form = CaseCreatorForm()
-
     # show empty form
     else:
         form = CaseCreatorForm()

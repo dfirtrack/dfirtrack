@@ -7,7 +7,8 @@ from django.utils import timezone
 from django_q.tasks import async_task
 from dfirtrack_main.async_messages import message_user
 from dfirtrack_main.forms import TaskCreatorForm
-from dfirtrack_main.logger.default_logger import debug_logger, info_logger
+from dfirtrack_main.logger.default_logger import debug_logger
+from dfirtrack_main.logger.default_logger import info_logger
 from dfirtrack_main.models import System
 from dfirtrack_main.models import Taskname
 from dfirtrack_main.models import Taskpriority

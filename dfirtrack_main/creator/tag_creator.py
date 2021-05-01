@@ -42,12 +42,6 @@ def tag_creator(request):
             # return directly to tag list
             return redirect(reverse('tag_list'))
 
-        # form was not valid
-        else:
-
-            # show form again
-            form = TagCreatorForm()
-
     # show empty form
     else:
         form = TagCreatorForm()
