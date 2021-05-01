@@ -1233,6 +1233,7 @@ class TaskCreatorForm(AdminStyleSelectorForm, TaskBaseForm):
         queryset = System.objects.order_by('system_name'),
         widget = FilteredSelectMultiple('Systems', is_stacked=False),
         label = 'Corresponding systems (*)',
+        required = True,
     )
 
     # show all existing taskname objects as multiple choice field
@@ -1240,6 +1241,7 @@ class TaskCreatorForm(AdminStyleSelectorForm, TaskBaseForm):
         queryset = Taskname.objects.order_by('taskname_name'),
         widget = forms.CheckboxSelectMultiple(),
         label = 'Tasknames (*)',
+        required = True,
     )
 
 class TasknameForm(forms.ModelForm):
