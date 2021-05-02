@@ -85,6 +85,36 @@
         <!-- case_name row -->
         </div>
 
+        <!-- case_id_external headline row -->
+        <div class="row top-distance">
+
+            <!-- case_id_external headline -->
+            <div class="col-3">
+                <div class="font-weight-bold">
+                    {{ form.case_id_external.label }}
+                </div>
+            </div>
+
+        <!-- case_id_external headline row -->
+        </div>
+
+        <!-- case_id_external row -->
+        <div class="row">
+
+            <!-- case_id_external  -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- case_id_external errors -->
+                    <div class="text-danger">
+                        {{ form.case_id_external.errors }}
+                    </div>
+                    {{ form.case_id_external }}
+                </div>
+            </div>
+
+        <!-- case_id_external row -->
+        </div>
+
     <!-- case_name block -->
     </div>
 

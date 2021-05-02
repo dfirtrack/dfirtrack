@@ -86,7 +86,12 @@
 <div class="row bottom-distance">
     <div class="col-3">
         <small>
-            External Case-ID: {{ case.case_id_external }}
+            External Case-ID:
+            {% if case.case_id_external %}
+                {{ case.case_id_external }}
+            {% else %}
+                ---
+            {% endif %}
         </small>
     </div>
 </div>

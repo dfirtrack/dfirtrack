@@ -115,8 +115,6 @@ class CaseForm(forms.ModelForm):
             'case_note_analysisresult',
             'case_note_external',
             'case_note_internal',
-            'case_start_time',
-            'case_end_time',
             'casepriority',
             'casestatus',
             'casetype',
