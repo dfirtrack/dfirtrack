@@ -1333,6 +1333,25 @@ class Task(models.Model):
     def __str__(self):
         return '[%s] %s (%s)' % (self.task_id, self.taskname, self.system)
 
+    # set abandoned flag
+    def set_abandoned(self):
+
+        # set abandoned if task has no artifact, case or system
+        if not self.artifact and not self.case and not self.system:
+            self.task_is_abandoned = True
+        else:
+            self.task_is_abandoned = False
+
+        return self
+
+    # extend save method
+    def save(self, *args, **kwargs):
+
+        # set abandoned flag
+        self.set_abandoned()
+
+        return super().save(*args, **kwargs)
+
     # define logger
     def logger(task, request_user, log_text):
 
