@@ -269,7 +269,7 @@
     <div class="row font-weight-bold top-distance bottom-distance">
         <div class="col-3">Open tasks</div>
     </div>
-    
+
     <!-- open tasks datatable -->
     <table id="table_system_task_open" class="display" width="100%">
 
@@ -317,29 +317,49 @@
 
     <!-- open tasks datatable -->
     </table>
-    
-    <!-- add task button -->
+
+    <!-- add task / workflow button row -->
     <div class="row bottom-distance top-distance">
+
+        <!-- add task button -->
         <div class="col-1">
             <a href="{% url 'task_create' %}?system={{ system.system_id }}" type="button" class="btn btn-light btn-sm copy-false">
                 <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm copy-false right-distance" alt="icon">
                 Add task
             </a>
         </div>
+
+        <!-- add workflow button -->
         <div class="col-5">
             <form method="post" action="{% url 'workflow_apply' system.system_id %}">
+
                 {% csrf_token %}
+
+                <!-- workflow dropdown -->
                 <select name="workflow">
-                        {% for workflow in workflows %}
+                    {% for workflow in workflows %}
                         <option value="{{workflow.workflow_id}}">{{workflow}}</option>
-                        {% endfor %}
+                    {% endfor %}
                 </select>
+
+                {% if workflows %}
+                    <!-- workflow apply button -->
                     <button class="btn btn-light btn-sm copy-false" type="submit">
                         <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                            Apply Workflow
+                        Apply workflow
                     </button>
+                {% else %}
+                    <!-- disabled button -->
+                    <button class="btn btn-light btn-sm copy-false" disabled>
+                        <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                        Apply workflow
+                    </button>
+                {% endif %}
+
             </form>
-        </div>            
+        </div>
+
+    <!-- add task / workflow button row -->
     </div>
 
     <!-- closed tasks headline -->
@@ -351,7 +371,7 @@
             </a>
         </div>
     </div>
-    
+
     <!-- closed tasks collapse -->
     <div id="closed_tasks" class="collapse">
 
@@ -580,28 +600,48 @@
         <!-- javascript for datatables -->
         <script src="{% static 'dfirtrack_artifacts/datatables_artifacts.js' %}"></script>
 
-        <!-- add artifact button -->
+        <!-- add artifact / workflow button row -->
         <div class="row bottom-distance top-distance">
+
+            <!-- add artifact button -->
             <div class="col-1">
                 <a href="{% url 'artifacts_artifact_create' %}?system={{ system.system_id }}" type="button" class="btn btn-light btn-sm copy-false">
                     <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm copy-false right-distance" alt="icon">
                     Add artifact
                 </a>
             </div>
+
+            <!-- add workflow button -->
             <div class="col-5">
-            <form method="post" action="{% url 'workflow_apply' system.system_id %}">
-                {% csrf_token %}
-                <select name="workflow">
+                <form method="post" action="{% url 'workflow_apply' system.system_id %}">
+
+                    {% csrf_token %}
+
+                    <!-- workflow dropdown -->
+                    <select name="workflow">
                         {% for workflow in workflows %}
-                        <option value="{{workflow.workflow_id}}">{{workflow}}</option>
+                            <option value="{{workflow.workflow_id}}">{{workflow}}</option>
                         {% endfor %}
-                </select>
-                    <button class="btn btn-light btn-sm copy-false" type="submit">
-                        <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                            Apply Workflow
-                    </button>
-            </form>
-        </div>   
+                    </select>
+
+                    {% if workflows %}
+                        <!-- workflow apply button -->
+                        <button class="btn btn-light btn-sm copy-false" type="submit">
+                            <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                            Apply workflow
+                        </button>
+                    {% else %}
+                        <!-- disabled button -->
+                        <button class="btn btn-light btn-sm copy-false" disabled>
+                            <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                            Apply workflow
+                        </button>
+                    {% endif %}
+
+                </form>
+            </div>
+
+        <!-- add artifact / workflow button row -->
         </div>
 
     <!-- artifacts collapse -->
@@ -751,7 +791,7 @@
             </a>
         </div>
     </div>
-    
+
     <!-- technical information collapse -->
     <div id="technical_information" class="collapse">
 
@@ -881,7 +921,7 @@
             </a>
         </div>
     </div>
-    
+
     <!-- virtualization information collapse -->
     <div id="virtualization_information" class="collapse">
 
@@ -935,7 +975,7 @@
             </a>
         </div>
     </div>
-    
+
     <!-- company information collapse -->
     <div id="company_information" class="collapse">
 
@@ -1163,7 +1203,7 @@
             <div class="text-muted copy-false">(will be exported to the systemreport)</div>
         </div>
     </div>
-    
+
     <!-- reportitems collapse -->
     <div id="reportitems" class="collapse">
 
