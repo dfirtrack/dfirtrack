@@ -168,6 +168,7 @@ class CaseCreate(LoginRequiredMixin, CreateView):
             # set case times according to config
             case = set_case_times(case)
             case.save()
+            form.save_m2m()
             case.logger(str(request.user), " CASE_ADD_EXECUTED")
             messages.success(request, 'Case added')
             return redirect(reverse('case_detail', args=(case.case_id,)))
@@ -195,6 +196,7 @@ class CaseUpdate(LoginRequiredMixin, UpdateView):
             # set case times according to config
             case = set_case_times(case)
             case.save()
+            form.save_m2m()
             case.logger(str(request.user), " CASE_EDIT_EXECUTED")
             messages.success(request, 'Case edited')
             return redirect(reverse('case_detail', args=(case.case_id,)))

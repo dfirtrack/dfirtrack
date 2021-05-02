@@ -102,6 +102,14 @@ class CaseForm(forms.ModelForm):
         required = False,
     )
 
+    # reorder field choices
+    tag = forms.ModelMultipleChoiceField(
+        label = gettext_lazy('Tags'),
+        queryset = Tag.objects.order_by('tag_name'),
+        required = False,
+        widget=forms.CheckboxSelectMultiple(),
+    )
+
     class Meta:
 
         # model
@@ -118,6 +126,7 @@ class CaseForm(forms.ModelForm):
             'casepriority',
             'casestatus',
             'casetype',
+            'tag',
         )
 
         # non default form labeling

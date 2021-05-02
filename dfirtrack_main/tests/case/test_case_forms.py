@@ -85,6 +85,14 @@ class CaseFormTestCase(TestCase):
         # compare
         self.assertEqual(form.fields['casetype'].empty_label, 'Select casetype (optional)')
 
+    def test_tag_form_label(self):
+        """ test form label """
+
+        # get object
+        form = CaseForm()
+        # compare
+        self.assertEqual(form.fields['tag'].label, 'Tags')
+
     def test_case_form_empty(self):
         """ test minimum form requirements / INVALID """
 

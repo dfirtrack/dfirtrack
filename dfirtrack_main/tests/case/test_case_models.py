@@ -186,6 +186,16 @@ class CaseModelTestCase(TestCase):
         # compare
         self.assertEqual(field_label, 'casetype')
 
+    def test_tag_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        case_1 = Case.objects.get(case_name='case_1')
+        # get label
+        field_label = case_1._meta.get_field('tag').verbose_name
+        # compare
+        self.assertEqual(field_label, 'tag')
+
     def test_case_name_length(self):
         """ test for max length """
 
