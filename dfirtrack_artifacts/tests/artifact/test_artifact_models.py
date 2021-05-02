@@ -1,10 +1,15 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
-from dfirtrack_artifacts.models import Artifact, Artifactpriority, Artifactstatus, Artifacttype
+from dfirtrack_artifacts.models import Artifact
+from dfirtrack_artifacts.models import Artifactpriority
+from dfirtrack_artifacts.models import Artifactstatus
+from dfirtrack_artifacts.models import Artifacttype
 from dfirtrack.config import EVIDENCE_PATH
-from dfirtrack_main.models import System, Systemstatus
+from dfirtrack_main.models import System
+from dfirtrack_main.models import Systemstatus
 import os
+
 
 class ArtifactModelTestCase(TestCase):
     """ artifact model tests """
@@ -98,6 +103,16 @@ class ArtifactModelTestCase(TestCase):
         field_label = artifact_1._meta.get_field('artifacttype').verbose_name
         # compare
         self.assertEqual(field_label, 'artifacttype')
+
+    def test_artifact_tag_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
+        # get label
+        field_label = artifact_1._meta.get_field('tag').verbose_name
+        # compare
+        self.assertEqual(field_label, 'tag')
 
     def test_artifact_case_attribute_label(self):
         """ test attribute label """

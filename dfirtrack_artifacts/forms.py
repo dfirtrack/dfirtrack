@@ -2,6 +2,7 @@ from django import forms
 from django.utils.translation import gettext_lazy
 from dfirtrack_main.models import Case
 from dfirtrack_main.models import System
+from dfirtrack_main.models import Tag
 from dfirtrack_artifacts.models import Artifact
 from dfirtrack_artifacts.models import Artifactpriority
 from dfirtrack_artifacts.models import Artifactstatus
@@ -47,6 +48,14 @@ class ArtifactForm(forms.ModelForm):
         required = False,
     )
 
+    # reorder field choices
+    tag = forms.ModelMultipleChoiceField(
+        label = gettext_lazy('Tags'),
+        queryset = Tag.objects.order_by('tag_name'),
+        required = False,
+        widget=forms.CheckboxSelectMultiple(),
+    )
+
     class Meta:
 
         # model
@@ -61,6 +70,7 @@ class ArtifactForm(forms.ModelForm):
             'artifact_source_path',
             'system',
             'case',
+            'tag',
             'artifact_md5',
             'artifact_sha1',
             'artifact_sha256',

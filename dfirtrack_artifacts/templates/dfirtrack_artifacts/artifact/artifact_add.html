@@ -115,8 +115,12 @@
         <!-- tag / case  headline -->
         <div class="row">
 
-            <!-- placeholder for tag headline -->
-            <div class="col-6">
+            <!-- tags headline -->
+            <div class="col">
+                <h5>
+                    <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    {{ form.tag.label }}
+                </h5>
             </div>
 
             <!-- case headline -->
@@ -133,8 +137,17 @@
         <!-- tag / case -->
         <div class="row">
 
-            <!-- placeholder for tag -->
+            <!-- tags -->
             <div class="col-6">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- tag errors -->
+                    <div class="text-danger">
+                        {{ form.tag.errors }}
+                    </div>
+                    {% for i in form.tag %}
+                        {{ i }}<br>
+                    {% endfor %}
+                </div>
             </div>
 
             <div class="col-6">
