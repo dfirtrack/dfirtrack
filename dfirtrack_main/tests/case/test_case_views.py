@@ -84,6 +84,110 @@ class CaseViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
+    def test_case_closed_not_logged_in(self):
+        """ test list view """
+
+        # create url
+        destination = '/login/?next=' + urllib.parse.quote('/case/closed/', safe='')
+        # get response
+        response = self.client.get('/case/closed/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_case_closed_logged_in(self):
+        """ test list view """
+
+        # login testuser
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        # get response
+        response = self.client.get('/case/closed/')
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_case_closed_template(self):
+        """ test list view """
+
+        # login testuser
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        # get response
+        response = self.client.get('/case/closed/')
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/case/case_closed.html')
+
+    def test_case_closed_get_user_context(self):
+        """ test list view """
+
+        # login testuser
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        # get response
+        response = self.client.get('/case/closed/')
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_case')
+
+    def test_case_closed_redirect(self):
+        """ test list view """
+
+        # login testuser
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        # create url
+        destination = urllib.parse.quote('/case/closed/', safe='/')
+        # get response
+        response = self.client.get('/case/closed', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_case_all_not_logged_in(self):
+        """ test list view """
+
+        # create url
+        destination = '/login/?next=' + urllib.parse.quote('/case/all/', safe='')
+        # get response
+        response = self.client.get('/case/all/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_case_all_logged_in(self):
+        """ test list view """
+
+        # login testuser
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        # get response
+        response = self.client.get('/case/all/')
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_case_all_template(self):
+        """ test list view """
+
+        # login testuser
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        # get response
+        response = self.client.get('/case/all/')
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/case/case_all.html')
+
+    def test_case_all_get_user_context(self):
+        """ test list view """
+
+        # login testuser
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        # get response
+        response = self.client.get('/case/all/')
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_case')
+
+    def test_case_all_redirect(self):
+        """ test list view """
+
+        # login testuser
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        # create url
+        destination = urllib.parse.quote('/case/all/', safe='/')
+        # get response
+        response = self.client.get('/case/all', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
     def test_case_detail_not_logged_in(self):
         """ test detail view """
 
