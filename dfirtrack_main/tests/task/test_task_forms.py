@@ -99,6 +99,24 @@ class TaskFormTestCase(TestCase):
         # compare
         self.assertEqual(form.fields['taskstatus'].label, 'Taskstatus (*)')
 
+    def test_task_artifact_form_label(self):
+        """ test form label """
+
+        # get object
+        form = TaskForm()
+        # compare
+        self.assertEqual(form.fields['artifact'].label, 'Corresponding artifact')
+        self.assertEqual(form.fields['artifact'].empty_label, 'Select artifact (optional)')
+
+    def test_task_case_form_label(self):
+        """ test form label """
+
+        # get object
+        form = TaskForm()
+        # compare
+        self.assertEqual(form.fields['case'].label, 'Corresponding case')
+        self.assertEqual(form.fields['case'].empty_label, 'Select case (optional)')
+
     def test_task_system_form_label(self):
         """ test form label """
 

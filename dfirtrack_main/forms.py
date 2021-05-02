@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy
+from dfirtrack_artifacts.models import Artifact
 from dfirtrack_main.models import Analysisstatus
 from dfirtrack_main.models import Analystmemo
 from dfirtrack_main.models import Case
@@ -1186,6 +1187,22 @@ class TaskForm(TaskBaseForm):
     """ default model form, inherits from task base form  """
 
     # reorder field choices
+    artifact = forms.ModelChoiceField(
+        label = gettext_lazy('Corresponding artifact'),
+        queryset = Artifact.objects.order_by('artifact_id'),
+        required = False,
+        empty_label = 'Select artifact (optional)',
+    )
+
+    # reorder field choices
+    case = forms.ModelChoiceField(
+        label = gettext_lazy('Corresponding case'),
+        queryset = Case.objects.order_by('case_name'),
+        required = False,
+        empty_label = 'Select case (optional)',
+    )
+
+    # reorder field choices
     parent_task = forms.ModelChoiceField(
         label = gettext_lazy('Parent task'),
         queryset = Task.objects.order_by('task_id'),
@@ -1213,6 +1230,8 @@ class TaskForm(TaskBaseForm):
         # this HTML forms are shown
         fields = TaskBaseForm.Meta.fields + (
             'parent_task',
+            'artifact',
+            'case',
             'system',
             'task_due_time',
             'task_scheduled_time',
