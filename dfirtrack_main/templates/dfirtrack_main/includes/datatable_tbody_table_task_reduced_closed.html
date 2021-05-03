@@ -49,7 +49,7 @@
 
     <!-- task renew button -->
     <td>
-        <a href="{{ i.get_renew_url }}?system={{ system.system_id }}" type="button" class="btn btn-sm btn-secondary copy-false">
+        <a href="{{ i.get_renew_url }}?{{ get_key }}={{ key_id }}" type="button" class="btn btn-sm btn-secondary copy-false">
             <img src="{% static 'dfirtrack_main/icons/circle-x.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
             Renew
         </a>

@@ -38,7 +38,7 @@ $(document).ready( function () {
             { "data": "system_modify_time" }
         ]
     } );
-    $('#table_system_task_done').DataTable( {
+    $('#table_task_reduced_closed').DataTable( {
         "pageLength": 10,
         "order": [[ 0, "asc" ]],
         "columnDefs": [
@@ -52,7 +52,7 @@ $(document).ready( function () {
             { "width": "10%", "targets": 7 },
         ]
     } );
-    $('#table_system_task_open').DataTable( {
+    $('#table_task_reduced_open').DataTable( {
         "pageLength": 10,
         "order": [[ 0, "asc" ]],
         "columnDefs": [
