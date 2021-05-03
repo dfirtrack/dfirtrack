@@ -41,8 +41,13 @@
         Casepriority
     </div>
 
+    <!-- case headline -->
+    <div class="col-1">
+        Cases
+    </div>
+
     <!-- casepriority note headline -->
-    <div class="col-8">
+    <div class="col-7">
         Note
     </div>
 
@@ -67,8 +72,13 @@
             </a>
         </div>
 
+        <!-- case -->
+        <div class="col-1">
+            {{ i.case_set.all|length }}
+        </div>
+
         <!-- casepriority note -->
-        <div class="col-9">
+        <div class="col-8">
             {% if i.casepriority_note %}
                 {{ i.casepriority_note|linebreaks }}
             {% else %}

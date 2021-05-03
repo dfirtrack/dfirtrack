@@ -41,6 +41,11 @@
         Artifacttype
     </div>
 
+    <!-- artifact headline -->
+    <div class="col-1">
+        Artifacts
+    </div>
+
     <!-- artifacttype note headline -->
     <div class="col-8">
         Note
@@ -67,8 +72,13 @@
             </a>
         </div>
 
+        <!-- artifact -->
+        <div class="col-1">
+            {{ i.artifact_set.all|length }}
+        </div>
+
         <!-- artifacttype note -->
-        <div class="col-8">
+        <div class="col-7">
             {% if i.artifacttype_note %}
                 {{ i.artifacttype_note|linebreaks }}
             {% else %}

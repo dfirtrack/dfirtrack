@@ -41,6 +41,11 @@
         Casetype
     </div>
 
+    <!-- case headline -->
+    <div class="col-1">
+        Cases
+    </div>
+
     <!-- casetype note headline -->
     <div class="col-8">
         Note
@@ -67,8 +72,13 @@
             </a>
         </div>
 
+        <!-- case -->
+        <div class="col-1">
+            {{ i.case_set.all|length }}
+        </div>
+
         <!-- casetype note -->
-        <div class="col-8">
+        <div class="col-7">
             {% if i.casetype_note %}
                 {{ i.casetype_note|linebreaks }}
             {% else %}

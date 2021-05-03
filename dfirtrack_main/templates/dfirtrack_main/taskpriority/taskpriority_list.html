@@ -37,8 +37,13 @@
     </div>
 
     <!-- taskpriority name headline -->
-    <div class="col-10">
+    <div class="col-2">
         Taskpriority
+    </div>
+
+    <!-- task headline -->
+    <div class="col-9">
+        Tasks
     </div>
 
 <!-- headlines -->
@@ -56,13 +61,18 @@
         </div>
 
         <!-- taskpriority name -->
-        <div class="col-11">
+        <div class="col-2">
             <a href="{{ i.get_absolute_url }}">
                 {% with priority_name=i.taskpriority_name %}
                     {% include "dfirtrack_main/includes/button_priority.html" %}
                 {% endwith %}
                 {{ i.taskpriority_name }}
             </a>
+        </div>
+
+        <!-- task -->
+        <div class="col-9">
+            {{ i.task_set.all|length }}
         </div>
 
     <!-- taskpriority row -->

@@ -41,6 +41,11 @@
         Artifactpriority
     </div>
 
+    <!-- artifact headline -->
+    <div class="col-1">
+        Artifacts
+    </div>
+
     <!-- artifactpriority note headline -->
     <div class="col-8">
         Note
@@ -70,8 +75,13 @@
             </a>
         </div>
 
+        <!-- artifact -->
+        <div class="col-1">
+            {{ i.artifact_set.all|length }}
+        </div>
+
         <!-- artifactpriority note -->
-        <div class="col-9">
+        <div class="col-8">
             {% if i.artifactpriority_note %}
                 {{ i.artifactpriority_note|linebreaks }}
             {% else %}
