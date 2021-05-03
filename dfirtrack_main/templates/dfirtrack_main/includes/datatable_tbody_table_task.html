@@ -17,6 +17,9 @@
             <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
             {{ i.taskname }}
         </a>
+        {% if i.task_is_abandoned %}
+            {% include "dfirtrack_main/includes/button_task_is_abandoned.html" %}
+        {% endif %}
     </td>
 
     <!-- system -->
