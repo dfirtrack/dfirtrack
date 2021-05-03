@@ -39,7 +39,7 @@
     <div class="col-3">
         <h5>
             Artifactpriority 
-            {% with artifactpriority=artifactpriority %}
+            {% with priority_name=artifactpriority.artifactpriority_name %}
                 {% include "dfirtrack_artifacts/includes/button_artifactpriority.html" %}
             {% endwith %}
             {{ artifactpriority.artifactpriority_name }}

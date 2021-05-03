@@ -63,7 +63,7 @@
         <!-- artifactpriority name -->
         <div class="col-2">
             <a href="{{ i.get_absolute_url }}">
-                {% with artifactpriority=i %}
+                {% with priority_name=i.artifactpriority_name %}
                     {% include "dfirtrack_artifacts/includes/button_artifactpriority.html" %}
                 {% endwith %}
                 {{ i.artifactpriority_name }}

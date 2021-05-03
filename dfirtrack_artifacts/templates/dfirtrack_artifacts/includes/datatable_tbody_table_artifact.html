@@ -29,7 +29,7 @@
     <!-- artifactpriority -->
     <td>
         <a href="{{ i.artifactpriority.get_absolute_url }}">
-            {% with artifactpriority=i.artifactpriority %}
+            {% with priority_name=i.artifactpriority.artifactpriority_name %}
                 {% include "dfirtrack_artifacts/includes/button_artifactpriority.html" %}
             {% endwith %}
             {{ i.artifactpriority.artifactpriority_name }}
