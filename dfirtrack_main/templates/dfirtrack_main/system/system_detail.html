@@ -577,14 +577,14 @@
 
             <!-- table head -->
             <thead>
-                {% include "dfirtrack_artifacts/includes/datatable_thead_table_system_artifact.html" %}
+                {% include "dfirtrack_artifacts/includes/datatable_thead_table_artifact_reduced.html" %}
             </thead>
 
             <!-- table body -->
             <tbody>
                 {% if artifacts %}
                     {% for i in artifacts %}
-                        {% include "dfirtrack_artifacts/includes/datatable_tbody_table_system_artifact.html" %}
+                        {% include "dfirtrack_artifacts/includes/datatable_tbody_table_artifact_reduced.html" %}
                     {% endfor %}
                 {% else %}
                     <tr>
