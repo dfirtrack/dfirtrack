@@ -6,7 +6,7 @@
 
 <!-- page title -->
 <title>
-    DFIRTrack - Casepriority
+    DFIRTrack - Casepriorities
 </title>
 
 {% load static %}
@@ -23,7 +23,7 @@
 <div class="row bottom-distance">
     <div class="col">
         <h5>
-            Casepriority
+            Casepriorities
         </h5>
     </div>
 </div>
@@ -68,6 +68,9 @@
         <!-- casepriority name -->
         <div class="col-2">
             <a href="{{ i.get_absolute_url }}">
+                {% with priority_name=i.casepriority_name %}
+                    {% include "dfirtrack_main/includes/button_priority.html" %}
+                {% endwith %}
                 {{ i.casepriority_name }}
             </a>
         </div>

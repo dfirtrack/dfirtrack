@@ -158,6 +158,9 @@
         <div class="col-3">
             <div class="font-weight-bold">Casepriority:</div>
             <a href="{{ case.casepriority.get_absolute_url }}">
+                {% with priority_name=case.casepriority.casepriority_name %}
+                    {% include "dfirtrack_main/includes/button_priority.html" %}
+                {% endwith %}
                 {{ case.casepriority.casepriority_name }}
             </a>
         </div>
