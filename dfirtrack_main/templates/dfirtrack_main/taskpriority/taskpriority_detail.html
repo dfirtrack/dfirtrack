@@ -36,8 +36,8 @@
     <div class="col-3">
         <h5>
             Taskpriority
-            {% with taskpriority=taskpriority %}
-                {% include "dfirtrack_main/includes/button_taskpriority.html" %}
+            {% with priority_name=taskpriority.taskpriority_name %}
+                {% include "dfirtrack_main/includes/button_priority.html" %}
             {% endwith %}
             {{ taskpriority.taskpriority_name }}
         </h5>

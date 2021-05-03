@@ -85,8 +85,8 @@
     <!-- taskpriority -->
     <td>
         <a href="{{ i.taskpriority.get_absolute_url }}">
-            {% with taskpriority=i.taskpriority %}
-                {% include "dfirtrack_main/includes/button_taskpriority.html" %}
+            {% with priority_name=i.taskpriority.taskpriority_name %}
+                {% include "dfirtrack_main/includes/button_priority.html" %}
             {% endwith %}
             {{ i.taskpriority }}
         </a>
