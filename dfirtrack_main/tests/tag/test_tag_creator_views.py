@@ -148,19 +148,29 @@ class TagCreatorViewTestCase(TestCase):
         self.assertFalse(system_3.tag.filter(tag_name=tag_2.tag_name).exists())
         self.assertFalse(system_3.tag.filter(tag_name=tag_3.tag_name).exists())
 
-    def test_tag_creator_post_empty_redirect(self):
+    def test_tag_creator_post_invalid_reload(self):
         """ test creator view """
 
         # login testuser
         self.client.login(username='testuser_tag_creator', password='X4zm4Em28xrKgVMBpsWF')
         # create post data
         data_dict = {}
-        # create url
-        destination = '/tag/'
         # get response
         response = self.client.post('/tag/creator/', data_dict)
         # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(response.status_code, 200)
+
+    def test_tag_creator_post_invalid_template(self):
+        """ test creator view """
+
+        # login testuser
+        self.client.login(username='testuser_tag_creator', password='X4zm4Em28xrKgVMBpsWF')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/tag/creator/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/tag/tag_creator.html')
 
     def test_tag_creator_post_messages(self):
         """ test creator view """

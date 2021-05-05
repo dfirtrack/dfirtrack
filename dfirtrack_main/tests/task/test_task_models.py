@@ -1,7 +1,13 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
-from dfirtrack_main.models import System, Systemstatus, Task, Taskname, Taskpriority, Taskstatus
+from dfirtrack_main.models import System
+from dfirtrack_main.models import Systemstatus
+from dfirtrack_main.models import Task
+from dfirtrack_main.models import Taskname
+from dfirtrack_main.models import Taskpriority
+from dfirtrack_main.models import Taskstatus
+
 
 class TaskModelTestCase(TestCase):
     """ task model tests """
@@ -112,6 +118,30 @@ class TaskModelTestCase(TestCase):
         field_label = task_1._meta.get_field('taskstatus').verbose_name
         # compare
         self.assertEqual(field_label, 'taskstatus')
+
+    def test_task_artifact_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
+        # get object
+        task_1 = Task.objects.get(taskname=taskname_1)
+        # get label
+        field_label = task_1._meta.get_field('artifact').verbose_name
+        # compare
+        self.assertEqual(field_label, 'artifact')
+
+    def test_task_case_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
+        # get object
+        task_1 = Task.objects.get(taskname=taskname_1)
+        # get label
+        field_label = task_1._meta.get_field('case').verbose_name
+        # compare
+        self.assertEqual(field_label, 'case')
 
     def test_task_system_attribute_label(self):
         """ test attribute label """

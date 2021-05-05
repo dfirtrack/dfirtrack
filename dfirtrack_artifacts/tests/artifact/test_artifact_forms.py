@@ -2,8 +2,13 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
 from dfirtrack_artifacts.forms import ArtifactForm
-from dfirtrack_artifacts.models import Artifactpriority, Artifactstatus, Artifacttype
-from dfirtrack_main.models import Case, System, Systemstatus
+from dfirtrack_artifacts.models import Artifactpriority
+from dfirtrack_artifacts.models import Artifactstatus
+from dfirtrack_artifacts.models import Artifacttype
+from dfirtrack_main.models import Case
+from dfirtrack_main.models import System
+from dfirtrack_main.models import Systemstatus
+
 
 class ArtifactFormTestCase(TestCase):
     """ artifact form tests """
@@ -91,6 +96,14 @@ class ArtifactFormTestCase(TestCase):
         # compare
         self.assertEqual(form.fields['system'].label, 'System (*)')
         self.assertEqual(form.fields['system'].empty_label, 'Select system')
+
+    def test_artifact_tag_form_label(self):
+        """ test form label """
+
+        # get object
+        form = ArtifactForm()
+        # compare
+        self.assertEqual(form.fields['tag'].label, 'Tags')
 
     def test_artifact_case_form_label(self):
         """ test form label """

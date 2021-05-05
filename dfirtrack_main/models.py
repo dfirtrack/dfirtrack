@@ -86,6 +86,7 @@ class Case(models.Model):
     casepriority = models.ForeignKey('Casepriority', on_delete=models.PROTECT, default=2)
     casestatus = models.ForeignKey('Casestatus', on_delete=models.PROTECT, default=1)
     casetype = models.ForeignKey('Casetype', on_delete=models.PROTECT, blank=True, null=True)
+    tag = models.ManyToManyField('Tag', blank=True)
 
     # main entity information
     case_id_external = models.CharField(max_length=50, blank=True, null=True, unique=True)
@@ -124,6 +125,19 @@ class Case(models.Model):
             # else set default string
             endtime = 'None'
 
+        # get objects
+        tags = case.tag.all()
+        # create empty list
+        taglist = []
+        # set default string if there is no object at all
+        tagstring = 'None'
+        # iterate over objects
+        for tag in tags:
+            # append object to list
+            taglist.append(tag.tag_name)
+            # join list to comma separated string if there are any objects, else default string will remain
+            tagstring = ','.join(taglist)
+
         stdlogger.info(
             request_user +
             log_text +
@@ -131,6 +145,7 @@ class Case(models.Model):
             "|case_id_external:" + str(case.case_id_external) +
             "|case_name:" + str(case.case_name) +
             "|case_is_incident:" + str(case.case_is_incident) +
+            "|tag:" + tagstring +
             "|case_note_analysisresult:" + str(case.case_note_analysisresult) +
             "|case_note_external:" + str(case.case_note_external) +
             "|case_note_internal:" + str(case.case_note_internal) +
@@ -1290,11 +1305,13 @@ class Task(models.Model):
     task_id = models.AutoField(primary_key=True)
 
     # foreign key(s)
+    artifact = models.ForeignKey('dfirtrack_artifacts.Artifact', on_delete=models.SET_NULL, blank=True, null=True)
+    case = models.ForeignKey('Case', on_delete=models.SET_NULL, blank=True, null=True)
     parent_task = models.ForeignKey('self', on_delete=models.PROTECT, blank=True, null=True)
     taskname = models.ForeignKey('Taskname', on_delete=models.PROTECT)
     taskpriority = models.ForeignKey('Taskpriority', on_delete=models.PROTECT)
     taskstatus = models.ForeignKey('Taskstatus', on_delete=models.PROTECT)
-    system = models.ForeignKey('System', on_delete=models.CASCADE, blank=True, null=True)
+    system = models.ForeignKey('System', on_delete=models.SET_NULL, blank=True, null=True)
     task_assigned_to_user_id = models.ForeignKey(User, on_delete=models.PROTECT, blank=True, null=True, related_name='task_assigned_to')
     tag = models.ManyToManyField('Tag', blank=True)
 
@@ -1304,6 +1321,7 @@ class Task(models.Model):
     task_started_time = models.DateTimeField(blank=True, null=True)
     task_finished_time = models.DateTimeField(blank=True, null=True)
     task_due_time = models.DateTimeField(blank=True, null=True)
+    task_is_abandoned = models.BooleanField(blank=True, default=True)
 
     # meta information
     task_create_time = models.DateTimeField(auto_now_add=True)
@@ -1314,6 +1332,25 @@ class Task(models.Model):
     # string representation
     def __str__(self):
         return '[%s] %s (%s)' % (self.task_id, self.taskname, self.system)
+
+    # set abandoned flag
+    def set_abandoned(self):
+
+        # set abandoned if task has no artifact, case or system
+        if not self.artifact and not self.case and not self.system:
+            self.task_is_abandoned = True
+        else:
+            self.task_is_abandoned = False
+
+        return self
+
+    # extend save method
+    def save(self, *args, **kwargs):
+
+        # set abandoned flag
+        self.set_abandoned()
+
+        return super().save(*args, **kwargs)
 
     # define logger
     def logger(task, request_user, log_text):
@@ -1369,6 +1406,8 @@ class Task(models.Model):
             "|taskpriority:" + str(task.taskpriority) +
             "|taskstatus:" + str(task.taskstatus) +
             "|system:" + str(task.system) +
+            "|case:" + str(task.case) +
+            "|artifact:" + str(task.artifact) +
             "|task_assigned_to_user_id:" + str(task.task_assigned_to_user_id) +
             "|task_note:" + str(task.task_note) +
             "|task_scheduled_time:" + scheduledtime +

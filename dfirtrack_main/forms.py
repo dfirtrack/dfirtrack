@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy
+from dfirtrack_artifacts.models import Artifact
 from dfirtrack_main.models import Analysisstatus
 from dfirtrack_main.models import Analystmemo
 from dfirtrack_main.models import Case
@@ -102,6 +103,14 @@ class CaseForm(forms.ModelForm):
         required = False,
     )
 
+    # reorder field choices
+    tag = forms.ModelMultipleChoiceField(
+        label = gettext_lazy('Tags'),
+        queryset = Tag.objects.order_by('tag_name'),
+        required = False,
+        widget=forms.CheckboxSelectMultiple(),
+    )
+
     class Meta:
 
         # model
@@ -115,11 +124,10 @@ class CaseForm(forms.ModelForm):
             'case_note_analysisresult',
             'case_note_external',
             'case_note_internal',
-            'case_start_time',
-            'case_end_time',
             'casepriority',
             'casestatus',
             'casetype',
+            'tag',
         )
 
         # non default form labeling
@@ -136,6 +144,25 @@ class CaseForm(forms.ModelForm):
         widgets = {
             'case_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
         }
+
+class CaseCreatorForm(forms.Form):
+    """ case creator form """
+
+    # show all existing case objects as multiple choice field
+    case = forms.ModelMultipleChoiceField(
+        queryset = Case.objects.order_by('case_name'),
+        widget = forms.CheckboxSelectMultiple(),
+        label = 'Cases (*)',
+        required = True,
+    )
+
+    # show all existing system objects as multiple choice field
+    system = forms.ModelMultipleChoiceField(
+        queryset = System.objects.order_by('system_name'),
+        widget = forms.CheckboxSelectMultiple(),
+        label = 'Systems (*)',
+        required = True,
+    )
 
 class CasetypeForm(forms.ModelForm):
     """ default model form """
@@ -658,30 +685,6 @@ class SystemBaseForm(forms.ModelForm):
     )
 
     # reorder field choices
-    contact = forms.ModelChoiceField(
-        label = gettext_lazy('Contact'),
-        queryset = Contact.objects.order_by('contact_name'),
-        required = False,
-        empty_label = 'Select contact (optional)',
-    )
-
-    # reorder field choices
-    location = forms.ModelChoiceField(
-        label = gettext_lazy('Location'),
-        queryset = Location.objects.order_by('location_name'),
-        required = False,
-        empty_label = 'Select location (optional)',
-    )
-
-    # reorder field choices
-    serviceprovider = forms.ModelChoiceField(
-        label = gettext_lazy('Serviceprovider'),
-        queryset = Serviceprovider.objects.order_by('serviceprovider_name'),
-        required = False,
-        empty_label = 'Select serviceprovider (optional)',
-    )
-
-    # reorder field choices
     systemstatus = forms.ModelChoiceField(
         queryset = Systemstatus.objects.order_by('systemstatus_name'),
         label = 'Systemstatus (*)',
@@ -706,9 +709,6 @@ class SystemBaseForm(forms.ModelForm):
         fields = (
             'analysisstatus',
             'company',
-            'contact',
-            'location',
-            'serviceprovider',
             'systemstatus',
             'tag',
         )
@@ -725,6 +725,14 @@ class SystemExtendedBaseForm(SystemBaseForm):
     )
 
     # reorder field choices
+    contact = forms.ModelChoiceField(
+        label = gettext_lazy('Contact'),
+        queryset = Contact.objects.order_by('contact_name'),
+        required = False,
+        empty_label = 'Select contact (optional)',
+    )
+
+    # reorder field choices
     dnsname = forms.ModelChoiceField(
         label = gettext_lazy('DNS name'),
         queryset = Dnsname.objects.order_by('dnsname_name'),
@@ -738,6 +746,14 @@ class SystemExtendedBaseForm(SystemBaseForm):
         queryset = Domain.objects.order_by('domain_name'),
         empty_label = 'Select domain (optional)',
         required = False,
+    )
+
+    # reorder field choices
+    location = forms.ModelChoiceField(
+        label = gettext_lazy('Location'),
+        queryset = Location.objects.order_by('location_name'),
+        required = False,
+        empty_label = 'Select location (optional)',
     )
 
     # reorder field choices
@@ -765,6 +781,14 @@ class SystemExtendedBaseForm(SystemBaseForm):
     )
 
     # reorder field choices
+    serviceprovider = forms.ModelChoiceField(
+        label = gettext_lazy('Serviceprovider'),
+        queryset = Serviceprovider.objects.order_by('serviceprovider_name'),
+        required = False,
+        empty_label = 'Select serviceprovider (optional)',
+    )
+
+    # reorder field choices
     systemtype = forms.ModelChoiceField(
         label = gettext_lazy('Systemtype'),
         queryset = Systemtype.objects.order_by('systemtype_name'),
@@ -777,11 +801,14 @@ class SystemExtendedBaseForm(SystemBaseForm):
         # this HTML forms are shown
         fields = SystemBaseForm.Meta.fields + (
             'case',
+            'contact',
             'dnsname',
             'domain',
+            'location',
             'os',
             'osarch',
             'reason',
+            'serviceprovider',
             'systemtype',
         )
 
@@ -888,6 +915,86 @@ class SystemCreatorForm(SystemExtendedBaseForm):
 class SystemModificatorForm(AdminStyleSelectorForm, SystemBaseForm):
     """ system modificator form, inherits from system base form """
 
+    """ non-model fields referencing models """
+
+    # no model field comes into question, because optional choice in combination with delete checkbox
+    contact = forms.ModelChoiceField(
+        label = gettext_lazy('Contact'),
+        queryset = Contact.objects.order_by('contact_name'),
+        required = False,
+        empty_label = 'Select contact (optional)',
+    )
+
+    # no model field comes into question, because optional choice in combination with delete checkbox
+    location = forms.ModelChoiceField(
+        label = gettext_lazy('Location'),
+        queryset = Location.objects.order_by('location_name'),
+        required = False,
+        empty_label = 'Select location (optional)',
+    )
+
+    # no model field comes into question, because optional choice in combination with delete checkbox
+    serviceprovider = forms.ModelChoiceField(
+        label = gettext_lazy('Serviceprovider'),
+        queryset = Serviceprovider.objects.order_by('serviceprovider_name'),
+        required = False,
+        empty_label = 'Select serviceprovider (optional)',
+    )
+
+    """ m2m related choices """
+
+    # prepare m2m choices
+    M2M_CHOICES = (
+        ('keep_not_add', 'Do not change and keep existing'),
+        ('keep_and_add', 'Keep existing and add new items'),
+        ('remove_and_add', 'Delete existing and add new items'),
+    )
+
+    # add checkbox
+    company_delete = forms.ChoiceField(
+        label = gettext_lazy('How to deal with existing companies'),
+        widget = forms.RadioSelect(),
+        choices = M2M_CHOICES,
+    )
+
+    # add checkbox
+    tag_delete = forms.ChoiceField(
+        label = gettext_lazy('How to deal with existing tags'),
+        widget = forms.RadioSelect(),
+        choices = M2M_CHOICES,
+    )
+
+    """ fk related choices """
+
+    # prepare fk choices
+    FK_CHOICES = (
+        ('keep_existing', 'Do not change and keep existing'),
+        ('switch_new', 'Switch to selected item or none'),
+    )
+
+    # add checkbox
+    contact_delete = forms.ChoiceField(
+        label = gettext_lazy('How to deal with contacts'),
+        widget = forms.RadioSelect(),
+        choices = FK_CHOICES,
+    )
+
+    # add checkbox
+    location_delete = forms.ChoiceField(
+        label = gettext_lazy('How to deal with locations'),
+        widget = forms.RadioSelect(),
+        choices = FK_CHOICES,
+    )
+
+    # add checkbox
+    serviceprovider_delete = forms.ChoiceField(
+        label = gettext_lazy('How to deal with serviceproviders'),
+        widget = forms.RadioSelect(),
+        choices = FK_CHOICES,
+    )
+
+    """ admin UI style related functions """
+
     def __init__(self, *args, **kwargs):
         self.use_system_charfield = kwargs.pop('use_system_charfield', False)
         super(SystemModificatorForm, self).__init__(*args, **kwargs)
@@ -904,6 +1011,7 @@ class SystemModificatorForm(AdminStyleSelectorForm, SystemBaseForm):
                 label = 'System list (*)',
             )
 
+    # TODO: [code] required flag for ModelMultipleChoiceField does not seem to work
     # admin UI style system chooser
     systemlist = forms.ModelMultipleChoiceField(
         queryset = System.objects.order_by('system_name'),
@@ -1010,6 +1118,7 @@ class TagCreatorForm(forms.Form):
         queryset = Tag.objects.order_by('tag_name'),
         widget = forms.CheckboxSelectMultiple(),
         label = 'Tags (*)',
+        required = True,
     )
 
     # show all existing system objects as multiple choice field
@@ -1017,6 +1126,7 @@ class TagCreatorForm(forms.Form):
         queryset = System.objects.order_by('system_name'),
         widget = forms.CheckboxSelectMultiple(),
         label = 'Systems (*)',
+        required = True,
     )
 
 class TaskBaseForm(forms.ModelForm):
@@ -1077,6 +1187,22 @@ class TaskForm(TaskBaseForm):
     """ default model form, inherits from task base form  """
 
     # reorder field choices
+    artifact = forms.ModelChoiceField(
+        label = gettext_lazy('Corresponding artifact'),
+        queryset = Artifact.objects.order_by('artifact_id'),
+        required = False,
+        empty_label = 'Select artifact (optional)',
+    )
+
+    # reorder field choices
+    case = forms.ModelChoiceField(
+        label = gettext_lazy('Corresponding case'),
+        queryset = Case.objects.order_by('case_name'),
+        required = False,
+        empty_label = 'Select case (optional)',
+    )
+
+    # reorder field choices
     parent_task = forms.ModelChoiceField(
         label = gettext_lazy('Parent task'),
         queryset = Task.objects.order_by('task_id'),
@@ -1104,6 +1230,8 @@ class TaskForm(TaskBaseForm):
         # this HTML forms are shown
         fields = TaskBaseForm.Meta.fields + (
             'parent_task',
+            'artifact',
+            'case',
             'system',
             'task_due_time',
             'task_scheduled_time',
@@ -1131,6 +1259,7 @@ class TaskCreatorForm(AdminStyleSelectorForm, TaskBaseForm):
         queryset = System.objects.order_by('system_name'),
         widget = FilteredSelectMultiple('Systems', is_stacked=False),
         label = 'Corresponding systems (*)',
+        required = True,
     )
 
     # show all existing taskname objects as multiple choice field
@@ -1138,6 +1267,7 @@ class TaskCreatorForm(AdminStyleSelectorForm, TaskBaseForm):
         queryset = Taskname.objects.order_by('taskname_name'),
         widget = forms.CheckboxSelectMultiple(),
         label = 'Tasknames (*)',
+        required = True,
     )
 
 class TasknameForm(forms.ModelForm):

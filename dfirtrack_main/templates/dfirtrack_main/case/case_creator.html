@@ -1,0 +1,139 @@
+<!-- extending maintemplate -->
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+<!-- HTML head in maintemplate -->
+{% block head %}
+
+<!-- page title -->
+<title>Cases creator</title>
+
+{% load static %}
+
+<!-- HTML head in maintemplate -->
+{% endblock %}
+
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
+{% block content %}
+
+<!-- headline -->
+<div class="bottom-distance">
+    <h4>
+        Assign cases
+    </h4>
+</div>
+
+<!-- form -->
+<form method="POST" class="post-form">
+
+    <!-- button row -->
+    <div class="row">
+
+        <!-- save button -->
+        <div class="col-1">
+            {% include "dfirtrack_main/includes/button_save.html" %}
+        </div>
+
+        <!-- cancel button -->
+        <div class="col-1">
+            {% include "dfirtrack_main/includes/button_cancel.html" %}
+        </div>
+
+    <!-- button row -->
+    </div>
+
+    {% csrf_token %}
+
+    <!-- show form related errors -->
+    {% include "dfirtrack_main/includes/form_errors.html" %}
+
+    <!-- case block -->
+    <div class="card card-body bg-dark border-light top-distance">
+
+        <!-- case headline -->
+        <div class="row">
+            <div class="col">
+                <h5>
+                    <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    {{ form.case.label }}
+                </h5>
+            </div>
+        </div>
+
+        <!-- cases -->
+        <div class="row">
+            <div class="col-6">
+                <div class="card card-body bg-dark border-light top-distance">
+                <!-- case errors -->
+                <div class="text-danger">
+                    {{ form.case.errors }}
+                </div>
+                {% for i in form.case %}
+                    {{ i }}
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+
+    <!-- case block -->
+    </div>
+
+    <!-- ############################################ -->
+
+    <!-- system block -->
+    <div class="card card-body bg-dark border-light top-distance">
+
+        <!-- system headline -->
+        <div class="row">
+            <div class="col">
+                <h5>
+                    <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    {{ form.system.label }}
+                </h5>
+            </div>
+        </div>
+
+        <!-- system -->
+        <div class="row">
+
+            <!-- system -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- system errors -->
+                    <div class="text-danger">
+                        {{ form.system.errors }}
+                    </div>
+                    {% for i in form.system %}
+                        {{ i }}
+                    {% endfor %}
+                </div>
+            </div>
+
+        <!-- system -->
+        </div>
+
+    <!-- system block -->
+    </div>
+
+    <!-- button row -->
+    <div class="row top-distance">
+
+        <!-- save button -->
+        <div class="col-1">
+            {% include "dfirtrack_main/includes/button_save.html" %}
+        </div>
+
+        <!-- cancel button -->
+        <div class="col-1">
+            {% include "dfirtrack_main/includes/button_cancel.html" %}
+        </div>
+
+    <!-- button row -->
+    </div>
+
+<!-- form -->
+</form>
+
+<!-- HTML body in maintemplate -->
+{% endblock %}

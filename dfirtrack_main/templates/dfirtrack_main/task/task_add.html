@@ -18,7 +18,7 @@
 
 <!-- HTML body in maintemplate -->
 {% block content %}
-        
+
 <!-- headline -->
 <div class="bottom-distance">
     <h4>
@@ -105,21 +105,35 @@
 
     <!-- ############################################ -->
 
-    <!-- tag block -->
+    <!-- tags / case block -->
     <div class="card card-body bg-dark border-light top-distance">
 
-        <!-- tag headline -->
+        <!-- tags / case headline row -->
         <div class="row">
+
+            <!-- tags headline -->
             <div class="col">
                 <h5>
                     <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                     {{ form.tag.label }}
                 </h5>
             </div>
+
+            <!-- case headline -->
+            <div class="col">
+                <h5>
+                    <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    {{ form.case.label }}
+                </h5>
+            </div>
+
+        <!-- tags / case headline row -->
         </div>
 
-        <!-- tags -->
+        <!-- tags / case -->
         <div class="row">
+
+            <!-- tags -->
             <div class="col-6">
                 <div class="card card-body bg-dark border-light top-distance">
                     <!-- tag errors -->
@@ -131,9 +145,22 @@
                     {% endfor %}
                 </div>
             </div>
+
+            <!-- case -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- case errors -->
+                    <div class="text-danger">
+                        {{ form.case.errors }}
+                    </div>
+                    {{ form.case }}
+                </div>
+            </div>
+
+        <!-- tags / case -->
         </div>
 
-    <!-- tag block -->
+    <!-- tags / case block -->
     </div>
 
     <!-- ############################################ -->
@@ -250,6 +277,37 @@
             </div>
 
         <!-- system / user row -->
+        </div>
+
+        <!-- artifact headlines row -->
+        <div class="row top-distance">
+
+            <!-- artifact headline -->
+            <div class="col-3">
+                <div class="font-weight-bold">
+                    <img src="{% static 'dfirtrack_main/icons/bug-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    {{ form.artifact.label }}
+                </div>
+            </div>
+
+        <!-- artifact headlines row -->
+        </div>
+
+        <!-- artifact row -->
+        <div class="row">
+
+            <!-- artifact -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- artifact errors -->
+                    <div class="text-danger">
+                        {{ form.artifact.errors }}
+                    </div>
+                    {{ form.artifact }}
+                </div>
+            </div>
+
+        <!-- artifact row -->
         </div>
 
     <!-- status information block -->
@@ -406,6 +464,6 @@
 
 <!-- form -->
 </form>
-    
+
 <!-- HTML body in maintemplate -->
 {% endblock %}

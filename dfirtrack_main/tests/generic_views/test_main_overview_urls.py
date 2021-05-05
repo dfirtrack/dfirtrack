@@ -4,6 +4,7 @@ from django.urls import reverse
 from dfirtrack_config.models import MainConfigModel
 import urllib.parse
 
+
 def set_main_overview(main_overview):
     """ change config """
 
@@ -22,6 +23,16 @@ class MainOverviewViewTestCase(TestCase):
 
         # create user
         User.objects.create_user(username='testuser_main_overview', password='RYgxCfV2NRcfXlJvsSHP')
+
+    def test_main_overview_not_logged_in(self):
+        """ test main overview """
+
+        # create url
+        destination = '/login/?next=' + urllib.parse.quote('/main_overview/', safe='')
+        # get response
+        response = self.client.get('/main_overview/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_main_overview_system_url(self):
         """ test main overview url and redirect """
@@ -75,6 +86,25 @@ class MainOverviewViewTestCase(TestCase):
         self.assertEqual(url, '/main_overview/')
         # create url
         destination = urllib.parse.quote('/case/')
+        # get response
+        response = self.client.get('/main_overview/')
+        # compare redirect
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_main_overview_status_url(self):
+        """ test main overview url and redirect """
+
+        # change config
+        set_main_overview('status')
+
+        # login testuser
+        self.client.login(username='testuser_main_overview', password='RYgxCfV2NRcfXlJvsSHP')
+        # get reverse url
+        url = reverse('main_overview')
+        # compare url
+        self.assertEqual(url, '/main_overview/')
+        # create url
+        destination = urllib.parse.quote('/config/status/')
         # get response
         response = self.client.get('/main_overview/')
         # compare redirect

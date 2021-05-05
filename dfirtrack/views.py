@@ -4,12 +4,13 @@ from django.urls import reverse
 from dfirtrack import settings
 from dfirtrack_config.models import MainConfigModel
 
+
 def login_redirect(request):
     """ redirect to login """
 
     return redirect('/login')
 
-@login_required
+@login_required(login_url="/login")
 def main_overview_redirect(request):
     """ redirect main overview according to config """
 
@@ -25,6 +26,9 @@ def main_overview_redirect(request):
     # case
     elif model.main_overview == 'main_overview_case':
         return redirect(reverse('case_list'))
+    # status
+    elif model.main_overview == 'main_overview_status':
+        return redirect(reverse('status'))
     # tag
     elif model.main_overview == 'main_overview_tag':
         return redirect(reverse('tag_list'))

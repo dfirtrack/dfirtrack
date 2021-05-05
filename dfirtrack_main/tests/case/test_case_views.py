@@ -1,8 +1,14 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
+from django.utils import timezone
 from dfirtrack.settings import INSTALLED_APPS as installed_apps
-from dfirtrack_main.models import Case, Casepriority, Casestatus
+from dfirtrack_config.models import MainConfigModel
+from dfirtrack_main.models import Case
+from dfirtrack_main.models import Casepriority
+from dfirtrack_main.models import Casestatus
+from mock import patch
 import urllib.parse
+
 
 class CaseViewTestCase(TestCase):
     """ case view tests """
@@ -75,6 +81,110 @@ class CaseViewTestCase(TestCase):
         destination = urllib.parse.quote('/case/', safe='/')
         # get response
         response = self.client.get('/case', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_case_closed_not_logged_in(self):
+        """ test list view """
+
+        # create url
+        destination = '/login/?next=' + urllib.parse.quote('/case/closed/', safe='')
+        # get response
+        response = self.client.get('/case/closed/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_case_closed_logged_in(self):
+        """ test list view """
+
+        # login testuser
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        # get response
+        response = self.client.get('/case/closed/')
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_case_closed_template(self):
+        """ test list view """
+
+        # login testuser
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        # get response
+        response = self.client.get('/case/closed/')
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/case/case_closed.html')
+
+    def test_case_closed_get_user_context(self):
+        """ test list view """
+
+        # login testuser
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        # get response
+        response = self.client.get('/case/closed/')
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_case')
+
+    def test_case_closed_redirect(self):
+        """ test list view """
+
+        # login testuser
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        # create url
+        destination = urllib.parse.quote('/case/closed/', safe='/')
+        # get response
+        response = self.client.get('/case/closed', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_case_all_not_logged_in(self):
+        """ test list view """
+
+        # create url
+        destination = '/login/?next=' + urllib.parse.quote('/case/all/', safe='')
+        # get response
+        response = self.client.get('/case/all/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_case_all_logged_in(self):
+        """ test list view """
+
+        # login testuser
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        # get response
+        response = self.client.get('/case/all/')
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_case_all_template(self):
+        """ test list view """
+
+        # login testuser
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        # get response
+        response = self.client.get('/case/all/')
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/case/case_all.html')
+
+    def test_case_all_get_user_context(self):
+        """ test list view """
+
+        # login testuser
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        # get response
+        response = self.client.get('/case/all/')
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_case')
+
+    def test_case_all_redirect(self):
+        """ test list view """
+
+        # login testuser
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        # create url
+        destination = urllib.parse.quote('/case/all/', safe='/')
+        # get response
+        response = self.client.get('/case/all', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
@@ -389,3 +499,317 @@ class CaseViewTestCase(TestCase):
         response = self.client.post('/case/' + str(case_id) + '/edit/', data_dict)
         # compare
         self.assertTemplateUsed(response, 'dfirtrack_main/case/case_edit.html')
+
+    def test_case_add_post_set_start_time(self):
+        """ creation of case with proper casestatus should set case_start_time """
+
+        # get object
+        casestatus_1 = Casestatus.objects.get(casestatus_name = 'casestatus_1')
+        # get config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        # clean config
+        main_config_model.casestatus_start.clear()
+        main_config_model.casestatus_end.clear()
+        # set config
+        main_config_model.casestatus_start.add(casestatus_1)
+        # login testuser
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        # get objects
+        casepriority_id = Casepriority.objects.get(casepriority_name = 'casepriority_1').casepriority_id
+        casestatus_id = Casestatus.objects.get(casestatus_name = 'casestatus_1').casestatus_id
+        # create post data
+        data_dict = {
+            'case_name': 'case_add_post_set_start_time',
+            'casepriority': casepriority_id,
+            'casestatus': casestatus_id,
+        }
+
+        # mock timezone.now()
+        t2_now = timezone.now()
+        with patch.object(timezone, 'now', return_value=t2_now):
+
+            # get response
+            self.client.post('/case/add/', data_dict)
+
+        # get object
+        case_add_post_set_start_time = Case.objects.get(case_name = 'case_add_post_set_start_time')
+        # compare
+        self.assertEqual(case_add_post_set_start_time.case_start_time, t2_now)
+        self.assertEqual(case_add_post_set_start_time.case_end_time, None)
+
+    def test_case_add_post_set_end_time(self):
+        """ creation of case with proper casestatus should set case_start_time and case_end_time """
+
+        # get object
+        casestatus_1 = Casestatus.objects.get(casestatus_name = 'casestatus_1')
+        # get config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        # clean config
+        main_config_model.casestatus_start.clear()
+        main_config_model.casestatus_end.clear()
+        # set config
+        main_config_model.casestatus_end.add(casestatus_1)
+        # login testuser
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        # get objects
+        casepriority_id = Casepriority.objects.get(casepriority_name = 'casepriority_1').casepriority_id
+        casestatus_id = Casestatus.objects.get(casestatus_name = 'casestatus_1').casestatus_id
+        # create post data
+        data_dict = {
+            'case_name': 'case_add_post_set_end_time',
+            'casepriority': casepriority_id,
+            'casestatus': casestatus_id,
+        }
+
+        # mock timezone.now()
+        t3_now = timezone.now()
+        with patch.object(timezone, 'now', return_value=t3_now):
+
+            # get response
+            self.client.post('/case/add/', data_dict)
+
+        # get object
+        case_add_post_set_end_time = Case.objects.get(case_name = 'case_add_post_set_end_time')
+        # compare
+        self.assertEqual(case_add_post_set_end_time.case_start_time, t3_now)
+        self.assertEqual(case_add_post_set_end_time.case_end_time, t3_now)
+
+    def test_case_edit_post_set_start_time(self):
+        """ update of case with proper casestatus should set case_start_time if not set before """
+
+        # get object
+        casestatus_1 = Casestatus.objects.get(casestatus_name = 'casestatus_1')
+        # get config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        # clean config
+        main_config_model.casestatus_start.clear()
+        main_config_model.casestatus_end.clear()
+        # set config
+        main_config_model.casestatus_start.add(casestatus_1)
+        # login testuser
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        # get user
+        test_user = User.objects.get(username='testuser_case')
+        # get objects
+        casepriority = Casepriority.objects.get(casepriority_name = 'casepriority_1')
+        casestatus = Casestatus.objects.get(casestatus_name = 'casestatus_1')
+        # create object
+        case_edit_post_set_start_time = Case.objects.create(
+            case_name = 'case_edit_post_set_start_time',
+            casepriority = casepriority,
+            casestatus = casestatus,
+            case_is_incident=True,
+            case_created_by_user_id = test_user,
+            case_modified_by_user_id = test_user,
+        )
+        # compare (before POST, should be 'None' because model does not have 'auto_now' or 'auto_now_add', setting time is done via view, therefore redundantly using 'casestatus_1' is sufficient)
+        self.assertEqual(case_edit_post_set_start_time.case_start_time, None)
+        self.assertEqual(case_edit_post_set_start_time.case_end_time, None)
+        # get objects
+        casepriority_id = Casepriority.objects.get(casepriority_name = 'casepriority_1').casepriority_id
+        casestatus_id = Casestatus.objects.get(casestatus_name = 'casestatus_1').casestatus_id
+        # update post data
+        data_dict = {
+            'case_name': 'case_edit_post_set_start_time',
+            'casepriority': casepriority_id,
+            'casestatus': casestatus_id,
+        }
+
+        # mock timezone.now()
+        t4_now = timezone.now()
+        with patch.object(timezone, 'now', return_value=t4_now):
+
+            # get response
+            self.client.post('/case/' + str(case_edit_post_set_start_time.case_id) + '/edit/', data_dict)
+
+        # refresh object
+        case_edit_post_set_start_time.refresh_from_db()
+        # compare
+        self.assertEqual(case_edit_post_set_start_time.case_start_time, t4_now)
+        self.assertEqual(case_edit_post_set_start_time.case_end_time, None)
+
+    def test_case_edit_post_set_end_time(self):
+        """ update of case with proper casestatus should set case_start_time and case_end_time if not set before """
+
+        # get object
+        casestatus_1 = Casestatus.objects.get(casestatus_name = 'casestatus_1')
+        # get config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        # clean config
+        main_config_model.casestatus_start.clear()
+        main_config_model.casestatus_end.clear()
+        # set config
+        main_config_model.casestatus_end.add(casestatus_1)
+        # login testuser
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        # get user
+        test_user = User.objects.get(username='testuser_case')
+        # get objects
+        casepriority = Casepriority.objects.get(casepriority_name = 'casepriority_1')
+        casestatus = Casestatus.objects.get(casestatus_name = 'casestatus_1')
+        # create object
+        case_edit_post_set_end_time = Case.objects.create(
+            case_name = 'case_edit_post_set_end_time',
+            casepriority = casepriority,
+            casestatus = casestatus,
+            case_is_incident=True,
+            case_created_by_user_id = test_user,
+            case_modified_by_user_id = test_user,
+        )
+        # compare (before POST, should be 'None' because model does not have 'auto_now' or 'auto_now_add', setting time is done via view, therefore redundantly using 'casestatus_1' is sufficient)
+        self.assertEqual(case_edit_post_set_end_time.case_start_time, None)
+        self.assertEqual(case_edit_post_set_end_time.case_end_time, None)
+        # get objects
+        casepriority_id = Casepriority.objects.get(casepriority_name = 'casepriority_1').casepriority_id
+        casestatus_id = Casestatus.objects.get(casestatus_name = 'casestatus_1').casestatus_id
+        # create post data
+        data_dict = {
+            'case_name': 'case_edit_post_set_end_time',
+            'casepriority': casepriority_id,
+            'casestatus': casestatus_id,
+        }
+
+        # mock timezone.now()
+        t5_now = timezone.now()
+        with patch.object(timezone, 'now', return_value=t5_now):
+
+            # get response
+            self.client.post('/case/' + str(case_edit_post_set_end_time.case_id) + '/edit/', data_dict)
+
+        # refresh object
+        case_edit_post_set_end_time.refresh_from_db()
+        # compare
+        self.assertEqual(case_edit_post_set_end_time.case_start_time, t5_now)
+        self.assertEqual(case_edit_post_set_end_time.case_end_time, t5_now)
+
+    def test_case_edit_post_retain_start_time(self):
+        """ update of case with proper casestatus should not set case_start_time if set before """
+
+        # get object
+        casestatus_1 = Casestatus.objects.get(casestatus_name = 'casestatus_1')
+        # get config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        # clean config
+        main_config_model.casestatus_start.clear()
+        main_config_model.casestatus_end.clear()
+        # set config
+        main_config_model.casestatus_start.add(casestatus_1)
+        # login testuser
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        # get objects
+        casepriority_id = Casepriority.objects.get(casepriority_name = 'casepriority_1').casepriority_id
+        casestatus_id = Casestatus.objects.get(casestatus_name = 'casestatus_1').casestatus_id
+        # create post data
+        data_dict = {
+            'case_name': 'case_edit_post_retain_start_time',
+            'casepriority': casepriority_id,
+            'casestatus': casestatus_id,
+        }
+
+        # mock timezone.now()
+        t6_now = timezone.now()
+        with patch.object(timezone, 'now', return_value=t6_now):
+
+            # get response
+            self.client.post('/case/add/', data_dict)
+
+        # get object
+        case_edit_post_retain_start_time = Case.objects.get(case_name = 'case_edit_post_retain_start_time')
+        # compare (after create)
+        self.assertEqual(case_edit_post_retain_start_time.case_start_time, t6_now)
+        self.assertEqual(case_edit_post_retain_start_time.case_end_time, None)
+
+        # create object
+        casestatus_2 = Casestatus.objects.create(casestatus_name = 'casestatus_2')
+        # get config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        # clean config
+        main_config_model.casestatus_start.clear()
+        main_config_model.casestatus_end.clear()
+        # set config
+        main_config_model.casestatus_start.add(casestatus_2)
+        # create post data
+        data_dict = {
+            'case_name': 'case_edit_post_retain_start_time',
+            'casepriority': casepriority_id,
+            'casestatus': casestatus_2.casestatus_id,
+        }
+
+        # mock timezone.now()
+        t7_now = timezone.now()
+        with patch.object(timezone, 'now', return_value=t7_now):
+
+            # get response
+            self.client.post('/case/' + str(case_edit_post_retain_start_time.case_id) + '/edit/', data_dict)
+
+        # refresh object
+        case_edit_post_retain_start_time.refresh_from_db()
+        # compare (after update)
+        self.assertEqual(case_edit_post_retain_start_time.case_start_time, t6_now)
+        self.assertEqual(case_edit_post_retain_start_time.case_end_time, None)
+
+    def test_case_edit_post_retain_end_time(self):
+        """ update of case with proper casestatus should not set case_start_time and case_end_time if set before """
+
+        # get object
+        casestatus_1 = Casestatus.objects.get(casestatus_name = 'casestatus_1')
+        # get config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        # clean config
+        main_config_model.casestatus_start.clear()
+        main_config_model.casestatus_end.clear()
+        # set config
+        main_config_model.casestatus_end.add(casestatus_1)
+        # login testuser
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        # get objects
+        casepriority_id = Casepriority.objects.get(casepriority_name = 'casepriority_1').casepriority_id
+        casestatus_id = Casestatus.objects.get(casestatus_name = 'casestatus_1').casestatus_id
+        # create post data
+        data_dict = {
+            'case_name': 'case_edit_post_retain_end_time',
+            'casepriority': casepriority_id,
+            'casestatus': casestatus_id,
+        }
+
+        # mock timezone.now()
+        t8_now = timezone.now()
+        with patch.object(timezone, 'now', return_value=t8_now):
+
+            # get response
+            self.client.post('/case/add/', data_dict)
+
+        # get object
+        case_edit_post_retain_end_time = Case.objects.get(case_name = 'case_edit_post_retain_end_time')
+        # compare (after create)
+        self.assertEqual(case_edit_post_retain_end_time.case_start_time, t8_now)
+        self.assertEqual(case_edit_post_retain_end_time.case_end_time, t8_now)
+
+        # create object
+        casestatus_2 = Casestatus.objects.create(casestatus_name = 'casestatus_2')
+        # get config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        # clean config
+        main_config_model.casestatus_start.clear()
+        main_config_model.casestatus_end.clear()
+        # set config
+        main_config_model.casestatus_end.add(casestatus_2)
+        # create post data
+        data_dict = {
+            'case_name': 'case_edit_post_retain_end_time',
+            'casepriority': casepriority_id,
+            'casestatus': casestatus_2.casestatus_id,
+        }
+
+        # mock timezone.now()
+        t9_now = timezone.now()
+        with patch.object(timezone, 'now', return_value=t9_now):
+
+            # get response
+            self.client.post('/case/' + str(case_edit_post_retain_end_time.case_id) + '/edit/', data_dict)
+
+        # refresh object
+        case_edit_post_retain_end_time.refresh_from_db()
+        # compare (after update)
+        self.assertEqual(case_edit_post_retain_end_time.case_start_time, t8_now)
+        self.assertEqual(case_edit_post_retain_end_time.case_end_time, t8_now)

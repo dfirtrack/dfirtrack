@@ -21,8 +21,9 @@ class Artifact(models.Model):
     artifactpriority = models.ForeignKey('Artifactpriority', on_delete=models.PROTECT, default=2)
     artifactstatus = models.ForeignKey('Artifactstatus', on_delete=models.PROTECT, default=1)
     artifacttype = models.ForeignKey('Artifacttype', on_delete=models.PROTECT)
-    case = models.ForeignKey('dfirtrack_main.Case', related_name='artifact_case',on_delete=models.PROTECT, blank=True, null=True)
-    system = models.ForeignKey('dfirtrack_main.System', related_name='artifact_system',on_delete=models.PROTECT)
+    case = models.ForeignKey('dfirtrack_main.Case', related_name='artifact_case', on_delete=models.PROTECT, blank=True, null=True)
+    system = models.ForeignKey('dfirtrack_main.System', related_name='artifact_system', on_delete=models.PROTECT)
+    tag = models.ManyToManyField('dfirtrack_main.Tag', related_name='artifact_tag', blank=True)
 
     # main entity information
     artifact_acquisition_time = models.DateTimeField(blank=True, null=True)
@@ -70,6 +71,19 @@ class Artifact(models.Model):
             # else set default string
             acquisitiontime = 'None'
 
+        # get objects
+        tags = artifact.tag.all()
+        # create empty list
+        taglist = []
+        # set default string if there is no object at all
+        tagstring = 'None'
+        # iterate over objects
+        for tag in tags:
+            # append object to list
+            taglist.append(tag.tag_name)
+            # join list to comma separated string if there are any objects, else default string will remain
+            tagstring = ','.join(taglist)
+
         stdlogger.info(
             request_user +
             log_text +
@@ -80,6 +94,7 @@ class Artifact(models.Model):
             "|artifacttype:" + str(artifact.artifacttype.artifacttype_name) +
             "|system:" + str(artifact.system) +
             "|case:" + str(artifact.case) +
+            "|tag:" + tagstring +
             "|artifact_note_analysisresult:" + str(artifact.artifact_note_analysisresult) +
             "|artifact_note_external:" + str(artifact.artifact_note_external) +
             "|artifact_note_internal:" + str(artifact.artifact_note_internal) +

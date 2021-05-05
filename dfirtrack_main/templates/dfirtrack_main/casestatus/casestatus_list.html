@@ -41,6 +41,11 @@
         Casestatus
     </div>
 
+    <!-- case headline -->
+    <div class="col-1">
+        Cases
+    </div>
+
     <!-- casestatus note headline -->
     <div class="col-8">
         Note
@@ -67,8 +72,13 @@
             </a>
         </div>
 
+        <!-- case -->
+        <div class="col-1">
+            {{ i.case_set.all|length }}
+        </div>
+
         <!-- casestatus note -->
-        <div class="col-9">
+        <div class="col-8">
             {% if i.casestatus_note %}
                 {{ i.casestatus_note|linebreaks }}
             {% else %}

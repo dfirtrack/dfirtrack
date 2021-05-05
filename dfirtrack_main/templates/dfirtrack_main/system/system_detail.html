@@ -252,162 +252,6 @@
 
 <!-- ############################################ -->
 
-<!-- tasks information -->
-<div class="card bg-dark border-light card-body top-distance">
-
-    <!-- tasks information headline -->
-    <div class="row">
-        <div class="col">
-            <h5>
-                <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon right-distance copy-false" alt="icon">
-                Tasks
-            </h5>
-        </div>
-    </div>
-
-    <!-- open tasks headline -->
-    <div class="row font-weight-bold top-distance bottom-distance">
-        <div class="col-3">Open tasks</div>
-    </div>
-    
-    <!-- open tasks datatable -->
-    <table id="table_system_task_open" class="display" width="100%">
-
-        <!-- table head -->
-        <thead>
-            <tr>
-                {% include "dfirtrack_main/includes/datatable_thead_table_system_task_open.html" %}
-            </tr>
-        </thead>
-
-        <!-- table body -->
-        <tbody>
-
-            <!-- open tasks -->
-            {% if system.task_set.all %}
-                {% for i in system.task_set.all %}
-                    {% if i.taskstatus.taskstatus_name != '30_done' %}
-
-                        <!-- table row -->
-                        {% include "dfirtrack_main/includes/datatable_tbody_table_system_task_open.html" %}
-
-                    {% endif %}
-                {% endfor %}
-
-            <!-- no open tasks -->
-            {% else %}
-
-                <!-- empty table row -->
-                <tr>
-                    <td>---</td>
-                    <td>---</td>
-                    <td>---</td>
-                    <td></td>
-                    <td>---</td>
-                    <td></td>
-                    <td></td>
-                    <td>---</td>
-                    <td>---</td>
-                </tr>
-
-            {% endif %}
-
-        <!-- table body -->
-        </tbody>
-
-    <!-- open tasks datatable -->
-    </table>
-    
-    <!-- add task button -->
-    <div class="row bottom-distance top-distance">
-        <div class="col-1">
-            <a href="{% url 'task_create' %}?system={{ system.system_id }}" type="button" class="btn btn-light btn-sm copy-false">
-                <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm copy-false right-distance" alt="icon">
-                Add task
-            </a>
-        </div>
-        <div class="col-5">
-            <form method="post" action="{% url 'workflow_apply' system.system_id %}">
-                {% csrf_token %}
-                <select name="workflow">
-                        {% for workflow in workflows %}
-                        <option value="{{workflow.workflow_id}}">{{workflow}}</option>
-                        {% endfor %}
-                </select>
-                    <button class="btn btn-light btn-sm copy-false" type="submit">
-                        <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                            Apply Workflow
-                    </button>
-            </form>
-        </div>            
-    </div>
-
-    <!-- closed tasks headline -->
-    <div class="row font-weight-bold bottom-distance">
-        <div class="col-3">
-            <a href="#closed_tasks" data-toggle="collapse" class="copy-true">
-                Closed tasks
-                <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon-sm copy-false left-distance" alt="icon">
-            </a>
-        </div>
-    </div>
-    
-    <!-- closed tasks collapse -->
-    <div id="closed_tasks" class="collapse">
-
-        <!-- closed tasks datatable -->
-        <table id="table_system_task_done" class="display" width="100%">
-
-            <!-- table head -->
-            <thead>
-                <tr>
-                    {% include "dfirtrack_main/includes/datatable_thead_table_system_task_closed.html" %}
-                </tr>
-            </thead>
-
-            <!-- table body -->
-            <tbody>
-
-                <!-- closed tasks -->
-                {% if system.task_set.all %}
-                    {% for i in system.task_set.all %}
-                        {% if i.taskstatus.taskstatus_name == '30_done' %}
-
-                            <!-- table row -->
-                            {% include "dfirtrack_main/includes/datatable_tbody_table_system_task_closed.html" %}
-
-                        {% endif %}
-                    {% endfor %}
-                {% else %}
-
-                    <!-- empty table row -->
-                    <tr>
-                        <td>---</td>
-                        <td>---</td>
-                        <td>---</td>
-                        <td>---</td>
-                        <td></td>
-                        <td>---</td>
-                        <td>---</td>
-                    </tr>
-
-                <!-- closed tasks -->
-                {% endif %}
-
-            <!-- table body -->
-            </tbody>
-
-        <!-- closed tasks datatable -->
-        </table>
-
-    <!-- closed tasks collapse -->
-    </div>
-
-<!-- tasks information -->
-</div>
-
-<!-- ############################################ -->
-
 <!-- status information -->
 <div class="card bg-dark border-light card-body top-distance">
 
@@ -526,6 +370,186 @@
 
 <!-- ############################################ -->
 
+<!-- tasks information -->
+<div class="card bg-dark border-light card-body top-distance">
+
+    <!-- tasks information headline -->
+    <div class="row">
+        <div class="col">
+            <h5>
+                <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                Tasks
+            </h5>
+        </div>
+    </div>
+
+    <!-- open tasks headline -->
+    <div class="row font-weight-bold top-distance bottom-distance">
+        <div class="col-3">Open tasks</div>
+    </div>
+
+    <!-- open tasks datatable -->
+    <table id="table_task_reduced_open" class="display" width="100%">
+
+        <!-- table head -->
+        <thead>
+            <tr>
+                {% include "dfirtrack_main/includes/datatable_thead_table_task_reduced_open.html" %}
+            </tr>
+        </thead>
+
+        <!-- table body -->
+        <tbody>
+
+            <!-- open tasks -->
+            {% if system.task_set.all %}
+                {% for i in system.task_set.all %}
+                    {% if i.taskstatus.taskstatus_name != '30_done' %}
+
+                        <!-- table row -->
+                        {% with get_key='system' key_id=system.system_id %}
+                            {% include "dfirtrack_main/includes/datatable_tbody_table_task_reduced_open.html" %}
+                        {% endwith  %}
+
+                    {% endif %}
+                {% endfor %}
+
+            <!-- no open tasks -->
+            {% else %}
+
+                <!-- empty table row -->
+                <tr>
+                    <td>---</td>
+                    <td>---</td>
+                    <td>---</td>
+                    <td></td>
+                    <td>---</td>
+                    <td></td>
+                    <td></td>
+                    <td>---</td>
+                    <td>---</td>
+                </tr>
+
+            {% endif %}
+
+        <!-- table body -->
+        </tbody>
+
+    <!-- open tasks datatable -->
+    </table>
+
+    <!-- add task / workflow button row -->
+    <div class="row bottom-distance top-distance">
+
+        <!-- add task button -->
+        <div class="col-1">
+            <a href="{% url 'task_create' %}?system={{ system.system_id }}" type="button" class="btn btn-light btn-sm copy-false">
+                <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm copy-false right-distance" alt="icon">
+                Add task
+            </a>
+        </div>
+
+        <!-- add workflow button -->
+        <div class="col-5">
+            <form method="post" action="{% url 'workflow_apply' system.system_id %}">
+
+                {% csrf_token %}
+
+                <!-- workflow dropdown -->
+                <select name="workflow">
+                    {% for workflow in workflows %}
+                        <option value="{{workflow.workflow_id}}">{{workflow}}</option>
+                    {% endfor %}
+                </select>
+
+                {% if workflows %}
+                    <!-- workflow apply button -->
+                    <button class="btn btn-light btn-sm copy-false" type="submit">
+                        <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                        Apply workflow
+                    </button>
+                {% else %}
+                    <!-- disabled button -->
+                    <button class="btn btn-light btn-sm copy-false" disabled>
+                        <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                        Apply workflow
+                    </button>
+                {% endif %}
+
+            </form>
+        </div>
+
+    <!-- add task / workflow button row -->
+    </div>
+
+    <!-- closed tasks headline -->
+    <div class="row font-weight-bold bottom-distance">
+        <div class="col-3">
+            <a href="#closed_tasks" data-toggle="collapse" class="copy-true">
+                Closed tasks
+                <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon-sm copy-false left-distance" alt="icon">
+            </a>
+        </div>
+    </div>
+
+    <!-- closed tasks collapse -->
+    <div id="closed_tasks" class="collapse">
+
+        <!-- closed tasks datatable -->
+        <table id="table_task_reduced_closed" class="display" width="100%">
+
+            <!-- table head -->
+            <thead>
+                <tr>
+                    {% include "dfirtrack_main/includes/datatable_thead_table_task_reduced_closed.html" %}
+                </tr>
+            </thead>
+
+            <!-- table body -->
+            <tbody>
+
+                <!-- closed tasks -->
+                {% if system.task_set.all %}
+                    {% for i in system.task_set.all %}
+                        {% if i.taskstatus.taskstatus_name == '30_done' %}
+
+                            <!-- table row -->
+                            {% with get_key='system' key_id=system.system_id %}
+                                {% include "dfirtrack_main/includes/datatable_tbody_table_task_reduced_closed.html" %}
+                            {% endwith %}
+
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+
+                    <!-- empty table row -->
+                    <tr>
+                        <td>---</td>
+                        <td>---</td>
+                        <td>---</td>
+                        <td>---</td>
+                        <td></td>
+                        <td>---</td>
+                        <td>---</td>
+                    </tr>
+
+                <!-- closed tasks -->
+                {% endif %}
+
+            <!-- table body -->
+            </tbody>
+
+        <!-- closed tasks datatable -->
+        </table>
+
+    <!-- closed tasks collapse -->
+    </div>
+
+<!-- tasks information -->
+</div>
+
+<!-- ############################################ -->
+
 <!-- check for artifacts app -->
 {% if dfirtrack_artifacts == True %}
 
@@ -553,14 +577,14 @@
 
             <!-- table head -->
             <thead>
-                {% include "dfirtrack_artifacts/includes/datatable_thead_table_system_artifact.html" %}
+                {% include "dfirtrack_artifacts/includes/datatable_thead_table_artifact_reduced.html" %}
             </thead>
 
             <!-- table body -->
             <tbody>
                 {% if artifacts %}
                     {% for i in artifacts %}
-                        {% include "dfirtrack_artifacts/includes/datatable_tbody_table_system_artifact.html" %}
+                        {% include "dfirtrack_artifacts/includes/datatable_tbody_table_artifact_reduced.html" %}
                     {% endfor %}
                 {% else %}
                     <tr>
@@ -580,28 +604,48 @@
         <!-- javascript for datatables -->
         <script src="{% static 'dfirtrack_artifacts/datatables_artifacts.js' %}"></script>
 
-        <!-- add artifact button -->
+        <!-- add artifact / workflow button row -->
         <div class="row bottom-distance top-distance">
+
+            <!-- add artifact button -->
             <div class="col-1">
                 <a href="{% url 'artifacts_artifact_create' %}?system={{ system.system_id }}" type="button" class="btn btn-light btn-sm copy-false">
                     <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm copy-false right-distance" alt="icon">
                     Add artifact
                 </a>
             </div>
+
+            <!-- add workflow button -->
             <div class="col-5">
-            <form method="post" action="{% url 'workflow_apply' system.system_id %}">
-                {% csrf_token %}
-                <select name="workflow">
+                <form method="post" action="{% url 'workflow_apply' system.system_id %}">
+
+                    {% csrf_token %}
+
+                    <!-- workflow dropdown -->
+                    <select name="workflow">
                         {% for workflow in workflows %}
-                        <option value="{{workflow.workflow_id}}">{{workflow}}</option>
+                            <option value="{{workflow.workflow_id}}">{{workflow}}</option>
                         {% endfor %}
-                </select>
-                    <button class="btn btn-light btn-sm copy-false" type="submit">
-                        <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                            Apply Workflow
-                    </button>
-            </form>
-        </div>   
+                    </select>
+
+                    {% if workflows %}
+                        <!-- workflow apply button -->
+                        <button class="btn btn-light btn-sm copy-false" type="submit">
+                            <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                            Apply workflow
+                        </button>
+                    {% else %}
+                        <!-- disabled button -->
+                        <button class="btn btn-light btn-sm copy-false" disabled>
+                            <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                            Apply workflow
+                        </button>
+                    {% endif %}
+
+                </form>
+            </div>
+
+        <!-- add artifact / workflow button row -->
         </div>
 
     <!-- artifacts collapse -->
@@ -751,7 +795,7 @@
             </a>
         </div>
     </div>
-    
+
     <!-- technical information collapse -->
     <div id="technical_information" class="collapse">
 
@@ -881,7 +925,7 @@
             </a>
         </div>
     </div>
-    
+
     <!-- virtualization information collapse -->
     <div id="virtualization_information" class="collapse">
 
@@ -935,7 +979,7 @@
             </a>
         </div>
     </div>
-    
+
     <!-- company information collapse -->
     <div id="company_information" class="collapse">
 
@@ -1163,7 +1207,7 @@
             <div class="text-muted copy-false">(will be exported to the systemreport)</div>
         </div>
     </div>
-    
+
     <!-- reportitems collapse -->
     <div id="reportitems" class="collapse">
 

@@ -61,12 +61,14 @@ class MainConfigModel(models.Model):
 
     MAIN_OVERVIEW_ARTIFACT = 'main_overview_artifact'
     MAIN_OVERVIEW_CASE = 'main_overview_case'
+    MAIN_OVERVIEW_STATUS = 'main_overview_status'
     MAIN_OVERVIEW_SYSTEM = 'main_overview_system'
     MAIN_OVERVIEW_TAG = 'main_overview_tag'
     MAIN_OVERVIEW_TASK = 'main_overview_task'
     MAIN_OVERVIEW_CHOICES = [
         (MAIN_OVERVIEW_ARTIFACT, 'Artifact'),
         (MAIN_OVERVIEW_CASE, 'Case'),
+        (MAIN_OVERVIEW_STATUS, 'Status'),
         (MAIN_OVERVIEW_SYSTEM, 'System'),
         (MAIN_OVERVIEW_TAG, 'Tag'),
         (MAIN_OVERVIEW_TASK, 'Task'),

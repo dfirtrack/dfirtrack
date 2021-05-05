@@ -13,7 +13,7 @@
 
     <!-- task name -->
     <td>
-        <a href="{{ i.get_absolute_url }}" type="button" class="btn btn-primary btn-sm sharp copy-true">
+        <a href="{{ i.get_absolute_url }}" type="button" class="btn btn-primary btn-sm sharp top-distance copy-true">
             <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
             {{ i.taskname }}
         </a>
@@ -41,13 +41,13 @@
     <td>
         <!-- assign button -->
         {% if not i.task_assigned_to_user_id %}
-            <a href="{{ i.get_set_user_url }}?system={{ system.system_id }}" type="button" class="btn btn-sm btn-light copy-false">
+            <a href="{{ i.get_set_user_url }}?{{ get_key }}={{ key_id }}" type="button" class="btn btn-sm btn-light copy-false">
                 <img src="{% static 'dfirtrack_main/icons/person.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                 Grab
             </a>
         <!-- free button -->
         {% else %}
-            <a href="{{ i.get_unset_user_url }}?system={{ system.system_id }}" type="button" class="btn btn-sm btn-light copy-false">
+            <a href="{{ i.get_unset_user_url }}?{{ get_key }}={{ key_id }}" type="button" class="btn btn-sm btn-light copy-false">
                 <img src="{% static 'dfirtrack_main/icons/delete.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                 Free
             </a>
@@ -67,7 +67,7 @@
     <!-- task start button -->
     <td>
         {% if not i.task_started_time %}
-            <a href="{{ i.get_start_url }}?system={{ system.system_id }}" type="button" class="btn btn-sm btn-light copy-false">
+            <a href="{{ i.get_start_url }}?{{ get_key }}={{ key_id }}" type="button" class="btn btn-sm btn-light copy-false">
                 <img src="{% static 'dfirtrack_main/icons/play-circle.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                 Start
             </a>
@@ -76,7 +76,7 @@
     
     <!-- task finish button -->
     <td>
-        <a href="{{ i.get_finish_url }}?system={{ system.system_id }}" type="button" class="btn btn-sm btn-light copy-false">
+        <a href="{{ i.get_finish_url }}?{{ get_key }}={{ key_id }}" type="button" class="btn btn-sm btn-light copy-false">
             <img src="{% static 'dfirtrack_main/icons/circle-check.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
             Finish
         </a>
@@ -85,8 +85,8 @@
     <!-- taskpriority -->
     <td>
         <a href="{{ i.taskpriority.get_absolute_url }}">
-            {% with taskpriority=i.taskpriority %}
-                {% include "dfirtrack_main/includes/button_taskpriority.html" %}
+            {% with priority_name=i.taskpriority.taskpriority_name %}
+                {% include "dfirtrack_main/includes/button_priority.html" %}
             {% endwith %}
             {{ i.taskpriority }}
         </a>
@@ -94,7 +94,7 @@
 
     <!-- task edit button -->
     <td>
-        <a href="{{ i.get_update_url }}?system={{ system.system_id }}" type="button" class="btn btn-sm btn-light copy-false">
+        <a href="{{ i.get_update_url }}?{{ get_key }}={{ key_id }}" type="button" class="btn btn-sm btn-light copy-false">
             <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
             Edit
         </a>

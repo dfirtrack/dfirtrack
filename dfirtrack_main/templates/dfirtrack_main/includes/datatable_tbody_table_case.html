@@ -38,6 +38,9 @@
     <!-- casepriority -->
     <td>
         <a href="{{ i.casepriority.get_absolute_url }}">
+            {% with priority_name=i.casepriority.casepriority_name %}
+                {% include "dfirtrack_main/includes/button_priority.html" %}
+            {% endwith %}
             {{ i.casepriority.casepriority_name }}
         </a>
     </td>
@@ -56,6 +59,11 @@
     <!-- systems -->
     <td>
         {{ i.system_set.all|length }}
+    </td>
+
+    <!-- artifacts -->
+    <td>
+        {{ i.artifact_case.all|length }}
     </td>
 
     <!-- case start time -->

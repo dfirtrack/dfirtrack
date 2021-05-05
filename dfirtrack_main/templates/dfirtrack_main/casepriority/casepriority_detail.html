@@ -39,6 +39,9 @@
     <div class="col-3">
         <h5>
             Casepriority 
+            {% with priority_name=casepriority.casepriority_name %}
+                {% include "dfirtrack_main/includes/button_priority.html" %}
+            {% endwith %}
             {{ casepriority.casepriority_name }}
         </h5>
     </div>
