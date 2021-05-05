@@ -388,11 +388,15 @@ class Workflow(models.Model):
     workflow_id = models.AutoField(primary_key=True)
 
     # foreign key
-    tasknames = models.ManyToManyField('dfirtrack_main.Taskname', related_name='main_config_workflow_taskname', blank=True)
+    tasknames = models.ManyToManyField(
+        'dfirtrack_main.Taskname', 
+        related_name='main_config_workflow_taskname', 
+        through='WorkflowDefaultTasknameAttributes',
+        blank=True)
     artifacttypes = models.ManyToManyField(
         'dfirtrack_artifacts.Artifacttype',
         related_name='main_config_workflow_artifacttype',
-        through='WorkflowDefaultArtifactname',
+        through='WorkflowDefaultArtifactAttributes',
         blank=True,
     )
 
@@ -427,48 +431,65 @@ class Workflow(models.Model):
             )
         )
 
-    # TODO: remove hardcoded values for status and priorities
-    # TODO: add logger for task / artifact (either here or check at task / artifact model)
     def apply(workflows, system, user):
         errors = 0
         for workflow_id in workflows:
             try:
                 workflow = Workflow.objects.get(pk=workflow_id)
                 # create tasks based on taskname
-                for taskname in workflow.tasknames.all():
-                    new_task = Task(taskname=taskname)
+                for mapping in WorkflowDefaultTasknameAttributes.objects.filter(workflow=workflow):
+                    new_task = Task(taskname=mapping.taskname)
                     new_task.task_created_by_user_id = user
                     new_task.task_modified_by_user_id = user
-                    new_task.taskstatus = Taskstatus.objects.get(taskstatus_name="10_pending")
-                    new_task.taskpriority = Taskpriority.objects.get(taskpriority_name="10_low")
+                    new_task.taskstatus = mapping.task_default_status
+                    new_task.taskpriority = mapping.task_default_priority
                     new_task.system = system
                     new_task.save()
+                    new_task.logger(str(user), f' CREATED_BY_WORKFLOW_{workflow_id}')
                 # create artifact based on artifacttype and artifact default name
-                for mapping in WorkflowDefaultArtifactname.objects.filter(workflow=workflow):
+                for mapping in WorkflowDefaultArtifactAttributes.objects.filter(workflow=workflow):
                     new_artifact = Artifact(artifacttype=mapping.artifacttype, artifact_name=mapping.artifact_default_name)
-                    new_artifact.artifactpriority = Artifactpriority.objects.get(artifactpriority_name="10_low")
-                    new_artifact.artifactstatus = Artifactstatus.objects.get(artifactstatus_name="10_needs_analysis")
+                    #new_artifact.artifactpriority = Artifactpriority.objects.get(artifactpriority_name=mapping.artifact_default_priority)
+                    new_artifact.artifactpriority = mapping.artifact_default_priority
+                    new_artifact.artifactstatus = mapping.artifact_default_status
                     new_artifact.artifact_created_by_user_id = user
                     new_artifact.artifact_modified_by_user_id = user
                     new_artifact.system = system
                     new_artifact.save()
+                    new_artifact.logger(str(user), f' CREATED_BY_WORKFLOW_{workflow_id}')
             except Workflow.DoesNotExist:
                 errors+=1
             except ValueError:
                 errors+=1
         return errors
 
-class WorkflowDefaultArtifactname(models.Model):
+class WorkflowDefaultArtifactAttributes(models.Model):
 
     # primary key
     workflow_default_artifactname_id = models.AutoField(primary_key=True)
 
     # foreign key
     artifacttype = models.ForeignKey('dfirtrack_artifacts.Artifacttype', on_delete=models.CASCADE, related_name='workflow_artifacttype_mapping')
-    workflow = models.ForeignKey(Workflow, on_delete=models.CASCADE, related_name='workflow_mapping')
+    workflow = models.ForeignKey(Workflow, on_delete=models.CASCADE, related_name='workflow_artifactname_mapping')
+    artifact_default_priority = models.ForeignKey('dfirtrack_artifacts.Artifactpriority', on_delete=models.PROTECT, related_name='workflow_default_artifact_priority')
+    artifact_default_status = models.ForeignKey('dfirtrack_artifacts.Artifactstatus', on_delete=models.PROTECT, related_name='workflow_default_artifact_status')    
 
     # main entity
     artifact_default_name = models.CharField(max_length=50)
 
     def __str__(self):
         return self.artifact_default_name
+
+class WorkflowDefaultTasknameAttributes(models.Model):
+
+    # primary key
+    workflow_default_taskname_id = models.AutoField(primary_key=True)
+
+    # foreign key
+    taskname = models.ForeignKey('dfirtrack_main.Taskname', on_delete=models.CASCADE, related_name='workflow_taskname_mapping')
+    workflow = models.ForeignKey(Workflow, on_delete=models.CASCADE, related_name='workflow_taskattribute_mapping')
+    task_default_priority = models.ForeignKey('dfirtrack_main.Taskpriority', on_delete=models.PROTECT, related_name='workflow_default_task_priority')
+    task_default_status = models.ForeignKey('dfirtrack_main.Taskstatus', on_delete=models.PROTECT, related_name='workflow_default_task_status')   
+
+    def __str__(self):
+        return self.taskname.taskname_name
