@@ -239,6 +239,18 @@ class TaskModelTestCase(TestCase):
         # compare
         self.assertEqual(field_label, 'task due time')
 
+    def test_task_is_abandoned_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
+        # get object
+        task_1 = Task.objects.get(taskname=taskname_1)
+        # get label
+        field_label = task_1._meta.get_field('task_is_abandoned').verbose_name
+        # compare
+        self.assertEqual(field_label, 'task is abandoned')
+
     def test_task_create_time_attribute_label(self):
         """ test attribute label """
 
