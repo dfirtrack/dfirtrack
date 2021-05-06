@@ -9,7 +9,8 @@ from dfirtrack_config.models import SystemExporterSpreadsheetCsvConfigModel
 from dfirtrack_config.models import SystemExporterSpreadsheetXlsConfigModel
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_config.models import Workflow
-from dfirtrack_config.models import WorkflowDefaultArtifactname
+from dfirtrack_config.models import WorkflowDefaultArtifactAttributes
+from dfirtrack_config.models import WorkflowDefaultTasknameAttributes
 from dfirtrack_main.models import Analysisstatus
 from dfirtrack_main.models import Case
 from dfirtrack_main.models import Casestatus
@@ -1101,8 +1102,28 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
     to add more than one extra WorkflowDefaultArtifactname, refere to template javascript
 '''
 
-WorkflowDefaultArtifactnameFormSet = forms.modelformset_factory(
-        WorkflowDefaultArtifactname, fields=('artifacttype', 'artifact_default_name'), extra=1
+WorkflowDefaultArtifactAttributesFormSet = forms.modelformset_factory(
+    WorkflowDefaultArtifactAttributes, 
+    fields = [
+            'artifacttype',
+            'artifact_default_name',
+            'artifact_default_status',
+            'artifact_default_priority'
+    ], 
+    widgets= {
+        'artifact_default_name': forms.TextInput(attrs={'placeholder': 'Enter default artifact name'})
+    },
+    extra=1
+)
+
+WorkflowDefaultTasknameAttributesFormSet = forms.modelformset_factory(
+    WorkflowDefaultTasknameAttributes, 
+    fields = [
+            'taskname',
+            'task_default_status',
+            'task_default_priority'
+    ],
+    extra=1,
 )
 
 class WorkflowForm(forms.ModelForm):
@@ -1110,21 +1131,14 @@ class WorkflowForm(forms.ModelForm):
     # reorder field choices
     workflow_name = forms.CharField(
         max_length=50,
-        label= gettext_lazy('Workflow name (*)')
-    )
-
-    tasknames = forms.ModelMultipleChoiceField(
-            label = gettext_lazy('Tasknames'),
-            queryset = Taskname.objects.order_by('taskname_name'),
-            widget=forms.CheckboxSelectMultiple(attrs={'class' : 'form-checkboxes'}),
-            required=False,
+        label= gettext_lazy('Workflow name (*)'),
+        widget=forms.TextInput(attrs={'placeholder': 'Enter workflow name'})
     )
 
     class Meta:
         # model
         model = Workflow
 
-        fields = [
+        fields = [ 
             'workflow_name',
-            'tasknames',
         ]

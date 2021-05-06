@@ -5,7 +5,11 @@ from dfirtrack_config.models import Workflow
 from dfirtrack_main.models import System
 from dfirtrack_main.models import Systemstatus
 from dfirtrack_main.models import Taskname
+from dfirtrack_main.models import Taskpriority
+from dfirtrack_main.models import Taskstatus
 from dfirtrack_artifacts.models import Artifacttype
+from dfirtrack_artifacts.models import Artifactstatus
+from dfirtrack_artifacts.models import Artifactpriority
 import urllib.parse
 
 
@@ -182,12 +186,12 @@ class WorkflowViewTestCase(TestCase):
         """ test view """
 
         # get objects
-        taskname = Taskname.objects.get(taskname_name='taskname_1')
+        tasknames = Taskname.objects.all()
         # get response
         response = self.help_client_logedin_request('/config/workflow/add/')
         # compare
-        qs = response.context['form'].fields['tasknames'].queryset
-        self.assertEquals(str(qs[0]), str(taskname))
+        qs = response.context['tasknames_formset'].forms[0].fields['taskname'].queryset
+        self.assertEquals(list(qs), list(tasknames))
 
     def test_workflow_add_artifacctypes(self):
         """ test view """
@@ -225,18 +229,36 @@ class WorkflowViewTestCase(TestCase):
         self.client.login(username='testuser_workflow', password='QVe1EH1Z5MshOW2GHS4b')
         # get object
         taskname_id = Taskname.objects.get(taskname_name='taskname_1').taskname_id
+        taskstatus_id = Taskstatus.objects.get(taskstatus_name='10_pending').taskstatus_id
+        taskpriority_id = Taskpriority.objects.get(taskpriority_name='10_low').taskpriority_id
+        
         artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
+        artfactstatus_id = Artifactstatus.objects.get(artifactstatus_name='10_needs_analysis').artifactstatus_id
+        artfactpriority_id = Artifactpriority.objects.get(artifactpriority_name='10_low').artifactpriority_id
+
         # create post data
         data_dict = {
             'workflow_name': 'workflow_add_post_test',
-            'tasknames': [taskname_id],
-            'form-TOTAL_FORMS': '1',
-            'form-INITIAL_FORMS': '0',
-            'form-0-artifacttype': artifacttype_id,
-            'form-0-artifact_default_name': 'default_name_1'
+            'artifact-TOTAL_FORMS': '1',
+            'artifact-INITIAL_FORMS': '0',
+            'artifact-MIN_NUM_FORMS': 0,
+            'artifact-MAX_NUM_FORMS': 1000,
+            'artifact-0-artifacttype': artifacttype_id,
+            'artifact-0-artifact_default_name': 'default_name_1',
+            'artifact-0-artifact_default_priority': artfactpriority_id,
+            'artifact-0-artifact_default_status': artfactstatus_id,
+            'artifact-0-workflow_default_artifactname_id':'',
+            'taskname-TOTAL_FORMS': '1',
+            'taskname-INITIAL_FORMS': '0',
+            'taskname-MIN_NUM_FORMS': 0,
+            'taskname-MAX_NUM_FORMS': 1000,
+            'taskname-0-taskname': taskname_id,
+            'taskname-0-task_default_priority': taskpriority_id,
+            'taskname-0-task_default_status': taskstatus_id,
+            'taskname-0-workflow_default_taskname_id':'',
         }
         # get response
-        response = self.client.post('/config/workflow/add/', data_dict)
+        response = self.client.post('/config/workflow/add/', data_dict, follow=True)
         # get object
         workflow_id = Workflow.objects.get(workflow_name = 'workflow_add_post_test').workflow_id
         # create url
@@ -251,6 +273,21 @@ class WorkflowViewTestCase(TestCase):
         self.client.login(username='testuser_workflow', password='QVe1EH1Z5MshOW2GHS4b')
         # create post data
         data_dict = {}
+        # get response
+        response = self.client.post('/config/workflow/add/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'dfirtrack_config/workflow/workflow_generic_form.html')
+
+    def test_workflow_add_post_invalid_workflow_name_only(self):
+        """ test view """
+
+        # login testuser
+        self.client.login(username='testuser_workflow', password='QVe1EH1Z5MshOW2GHS4b')
+        # create post data
+        data_dict = {
+            'workflow_name': 'workflow_add_post_name_only',
+        }
         # get response
         response = self.client.post('/config/workflow/add/', data_dict)
         # compare
@@ -309,6 +346,23 @@ class WorkflowViewTestCase(TestCase):
         # create post data
         data_dict = {
             'workflow_name': 'workflow_update_post_test_2',
+            'artifact-TOTAL_FORMS': '1',
+            'artifact-INITIAL_FORMS': '0',
+            'artifact-MIN_NUM_FORMS': 0,
+            'artifact-MAX_NUM_FORMS': 1000,
+            'artifact-0-artifacttype': '',
+            'artifact-0-artifact_default_name': '',
+            'artifact-0-artifact_default_priority': '',
+            'artifact-0-artifact_default_status': '',
+            'artifact-0-workflow_default_artifactname_id':'',
+            'taskname-TOTAL_FORMS': '1',
+            'taskname-INITIAL_FORMS': '0',
+            'taskname-MIN_NUM_FORMS': 0,
+            'taskname-MAX_NUM_FORMS': 1000,
+            'taskname-0-taskname': '',
+            'taskname-0-task_default_priority': '',
+            'taskname-0-task_default_status': '',
+            'taskname-0-workflow_default_taskname_id':'',
         }
         # get response
         response = self.client.post('/config/workflow/{}/update/'.format(workflow_1.workflow_id), data_dict)
@@ -341,23 +395,43 @@ class WorkflowViewTestCase(TestCase):
         self.client.login(username='testuser_workflow', password='QVe1EH1Z5MshOW2GHS4b')
         # get object
         taskname_id = Taskname.objects.get(taskname_name='taskname_1').taskname_id
+        taskstatus_id = Taskstatus.objects.get(taskstatus_name='10_pending').taskstatus_id
+        taskpriority_id = Taskpriority.objects.get(taskpriority_name='10_low').taskpriority_id
+        
         artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
+        artfactstatus_id = Artifactstatus.objects.get(artifactstatus_name='10_needs_analysis').artifactstatus_id
+        artfactpriority_id = Artifactpriority.objects.get(artifactpriority_name='10_low').artifactpriority_id
+
         workflow_1 = Workflow.objects.get(workflow_name='workflow_1').workflow_id
         # create post data
         data_dict = {
             'workflow_name': 'workflow_1',
-            'tasknames': [taskname_id],
-            'form-TOTAL_FORMS': '1',
-            'form-INITIAL_FORMS': '0',
-            'form-0-artifacttype': artifacttype_id,
-            'form-0-artifact_default_name': 'default_name_1'
+            'artifact-TOTAL_FORMS': '1',
+            'artifact-INITIAL_FORMS': '0',
+            'artifact-MIN_NUM_FORMS': 0,
+            'artifact-MAX_NUM_FORMS': 1000,
+            'artifact-0-artifacttype': artifacttype_id,
+            'artifact-0-artifact_default_name': 'default_name_1',
+            'artifact-0-artifact_default_priority': artfactpriority_id,
+            'artifact-0-artifact_default_status': artfactstatus_id,
+            'artifact-0-workflow_default_artifactname_id':'',
+            'taskname-TOTAL_FORMS': '1',
+            'taskname-INITIAL_FORMS': '0',
+            'taskname-MIN_NUM_FORMS': 0,
+            'taskname-MAX_NUM_FORMS': 1000,
+            'taskname-0-taskname': taskname_id,
+            'taskname-0-task_default_priority': taskpriority_id,
+            'taskname-0-task_default_status': taskstatus_id,
+            'taskname-0-workflow_default_taskname_id':'',
         }
         # get response
         response = self.client.post('/config/workflow/{}/update/'.format(workflow_1), data_dict, follow=True)
         artifacttype_workflow_id = Workflow.objects.get(workflow_name='workflow_1').artifacttypes.all()
+        tasknames_workflow_id = Workflow.objects.get(workflow_name='workflow_1').tasknames.all()
         # get object
         self.assertContains(response, 'default_name_1')
         self.assertEqual(artifacttype_id, artifacttype_workflow_id[0].artifacttype_id)
+        self.assertEqual(taskname_id, tasknames_workflow_id[0].taskname_id)
 
     def test_workflow_delete_not_logged_in(self):
         """ test view """

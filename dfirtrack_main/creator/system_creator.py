@@ -166,7 +166,7 @@ def system_creator_async(request_post, request_user):
                 if error_code:
                     system.logger(str(request_user), ' COULD_NOT_APPLY_WORKFLOW')
                 else:
-                    workflows_applied += 1
+                    workflows_applied += workflow_count
 
     """ finish system importer """
 

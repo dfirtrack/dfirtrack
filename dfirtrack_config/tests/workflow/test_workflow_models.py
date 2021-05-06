@@ -3,12 +3,17 @@ from django.test import TestCase
 from django.utils import timezone
 from dfirtrack_artifacts.models import Artifact
 from dfirtrack_artifacts.models import Artifacttype
+from dfirtrack_artifacts.models import Artifactpriority
+from dfirtrack_artifacts.models import Artifactstatus
 from dfirtrack_config.models import Workflow
-from dfirtrack_config.models import WorkflowDefaultArtifactname
+from dfirtrack_config.models import WorkflowDefaultArtifactAttributes
+from dfirtrack_config.models import WorkflowDefaultTasknameAttributes
 from dfirtrack_main.models import System
 from dfirtrack_main.models import Systemstatus
 from dfirtrack_main.models import Task
 from dfirtrack_main.models import Taskname
+from dfirtrack_main.models import Taskpriority
+from dfirtrack_main.models import Taskstatus
 
 
 class WorkflowModelTestCase(TestCase):
@@ -16,12 +21,16 @@ class WorkflowModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         """ default objects """
-
+        
         # create objects
         artifacttype_1 = Artifacttype.objects.create(artifacttype_name='artifacttype_1')
+        artfactstatus_1 = Artifactstatus.objects.get(artifactstatus_name='10_needs_analysis')
+        artfactpriority_1 = Artifactpriority.objects.get(artifactpriority_name='10_low')
+
         taskname_1 = Taskname.objects.create(taskname_name='taskname_1')
+        taskstatus_1 = Taskstatus.objects.get(taskstatus_name='10_pending')
+        taskpriority_1 = Taskpriority.objects.get(taskpriority_name='10_low')
 
         systemstatus = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
         test_user = User.objects.create_user(username='testuser_workflow', password='QVe1EH1Z5MshOW2GHS4b')
@@ -36,6 +45,13 @@ class WorkflowModelTestCase(TestCase):
 
         """ workflow objects """
 
+        # create empty workflow object
+        workflow_task = Workflow.objects.create(
+            workflow_name='workflow_1',
+            workflow_created_by_user_id = test_user,
+            workflow_modified_by_user_id = test_user,
+        )
+
         # create task workflow object
         workflow_task = Workflow.objects.create(
             workflow_name='workflow_task',
@@ -44,7 +60,12 @@ class WorkflowModelTestCase(TestCase):
         )
 
         # add taskname
-        workflow_task.tasknames.set((taskname_1,))
+        WorkflowDefaultTasknameAttributes.objects.create(
+            workflow=workflow_task,
+            taskname=taskname_1,
+            task_default_priority=taskpriority_1,
+            task_default_status=taskstatus_1
+        )
 
         # create artifact workflow object
         workflow_artifact = Workflow.objects.create(
@@ -54,10 +75,12 @@ class WorkflowModelTestCase(TestCase):
         )
 
         # add default artifactname
-        WorkflowDefaultArtifactname.objects.create(
+        WorkflowDefaultArtifactAttributes.objects.create(
             workflow=workflow_artifact,
             artifacttype=artifacttype_1,
             artifact_default_name='artifact_default_name_1',
+            artifact_default_priority=artfactpriority_1,
+            artifact_default_status=artfactstatus_1
         )
 
     ''' test model methods '''
@@ -128,7 +151,41 @@ class WorkflowModelTestCase(TestCase):
         task = Task.objects.get(system=system)
         # compare
         self.assertEqual(error_code, 0)
-        self.assertEqual(str(task.taskname), 'taskname_1')
+        self.assertTupleEqual(
+            (str(task.taskname), str(task.taskpriority), str(task.taskstatus)),
+            ('taskname_1', '10_low', '10_pending')
+        )
+
+    def test_apply_workflow_differnt_taskattributes_creation(self):
+        """ test task creation with different attributes """
+
+        # get object
+        system = System.objects.get(system_name='system_1')
+        workflow_1 = Workflow.objects.get(workflow_name='workflow_1')
+
+        # create obects
+        taskname_1 = Taskname.objects.create(taskname_name='taskname_2')
+        taskstatus_1 = Taskstatus.objects.get(taskstatus_name='20_working')
+        taskpriority_1 = Taskpriority.objects.get(taskpriority_name='20_medium')
+
+        WorkflowDefaultTasknameAttributes.objects.create(
+            workflow=workflow_1,
+            taskname=taskname_1,
+            task_default_priority=taskpriority_1,
+            task_default_status=taskstatus_1
+        )
+
+         # apply workflow
+        error_code = self.helper_apply_workflow(system, 'workflow_1', 1)
+
+        # get created task for system
+        task = Task.objects.get(system=system)
+        # compare
+        self.assertEqual(error_code, 0)
+        self.assertTupleEqual(
+            (str(task.taskname), str(task.taskpriority), str(task.taskstatus)),
+            ('taskname_2', '20_medium', '20_working')
+        )
 
     def test_apply_workflow_artifact_creation(self):
         """ test artifact creation """
@@ -143,8 +200,60 @@ class WorkflowModelTestCase(TestCase):
         # compare
         self.assertEqual(error_code, 0)
         self.assertTupleEqual(
-                (artifact.artifact_name, artifact.artifacttype.artifacttype_name),
-                ('artifact_default_name_1', 'artifacttype_1')
+                (
+                    str(artifact.artifact_name), 
+                    str(artifact.artifacttype.artifacttype_name),
+                    str(artifact.artifactstatus),
+                    str(artifact.artifactpriority)
+                ),
+                (
+                    'artifact_default_name_1', 
+                    'artifacttype_1',
+                    '10_needs_analysis',
+                    '10_low'
+                )
+        )
+
+    def test_apply_workflow_differnt_artifactattributes_creation(self):
+        """ test artifact creation with different attributes """
+
+        # get object
+        system = System.objects.get(system_name='system_1')
+        workflow_1 = Workflow.objects.get(workflow_name='workflow_1')
+
+        # create obects
+        artifacttype_1 = Artifacttype.objects.create(artifacttype_name='artifacttype_2')
+        artfactstatus_1 = Artifactstatus.objects.get(artifactstatus_name='20_requested')
+        artfactpriority_1 = Artifactpriority.objects.get(artifactpriority_name='20_medium')
+
+        WorkflowDefaultArtifactAttributes.objects.create(
+            workflow=workflow_1,
+            artifacttype=artifacttype_1,
+            artifact_default_name='artifact_default_name_2',
+            artifact_default_priority=artfactpriority_1,
+            artifact_default_status=artfactstatus_1
+        )
+
+         # apply workflow
+        error_code = self.helper_apply_workflow(system, 'workflow_1', 1)
+
+        # get created artifacts for system
+        artifact = Artifact.objects.get(system=system)
+        # compare
+        self.assertEqual(error_code, 0)
+        self.assertTupleEqual(
+                (
+                    str(artifact.artifact_name), 
+                    str(artifact.artifacttype.artifacttype_name),
+                    str(artifact.artifactstatus),
+                    str(artifact.artifactpriority)
+                ),
+                (
+                    'artifact_default_name_2', 
+                    'artifacttype_2',
+                    '20_requested',
+                    '20_medium'
+                )
         )
 
     def test_apply_multiple_workflows_task_creation(self):
