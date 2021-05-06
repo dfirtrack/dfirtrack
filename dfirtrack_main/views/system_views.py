@@ -101,7 +101,6 @@ class SystemCreate(LoginRequiredMixin, CreateView):
             system = form.save(commit=False)
             system.system_created_by_user_id = request.user
             system.system_modified_by_user_id = request.user
-            system.system_modify_time = timezone.now()
             system.save()
             form.save_m2m()
 
@@ -206,7 +205,6 @@ class SystemUpdate(LoginRequiredMixin, UpdateView):
         if form.is_valid():
             system = form.save(commit=False)
             system.system_modified_by_user_id = request.user
-            system.system_modify_time = timezone.now()
             system.save()
             form.save_m2m()
 
