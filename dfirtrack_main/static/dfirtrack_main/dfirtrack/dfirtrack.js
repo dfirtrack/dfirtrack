@@ -182,31 +182,34 @@ function go_to_top() {
 
 // ####################################
 // #
-// # workflow add and update dynamic artifacts
+// # workflow add and update dynamic artifacts/tasknames
 // #
 // ####################################
 
-function add_artifacttype_to_list() {
-    let formRegex = RegExp(`form-(\\d){1,3}-`,'g');
-    let totalForms = $("#id_form-TOTAL_FORMS").get(0);
-    let artifacttypes_tr = $('#id_form-0-artifacttype').parent().parent()
-    let artifacttypes_name_tr = $('#id_form-0-artifact_default_name').parent().parent();
+// get empty form as template and save it to global var
+var form_container_template = {};
 
-    let formNum = totalForms.value-1;
+$('.formsetLoader').each(function() {
+    let formset = $(this).attr('id').split('-')[1]
+    let totalForms = $(`#id_${formset}-TOTAL_FORMS`).get(0);
+    let formNum =  parseInt(totalForms.value);
+    form_container_template[formset] = $(`#formset-${formset}-${formNum-1}-container`).clone(true);
+})
 
-    let artifacttypes_tr_new = artifacttypes_tr.clone(true);
-    let artifacttypes_name_tr_new = artifacttypes_name_tr.clone(true);
+// append tempalte form to formset
+$('.addForm').click(function(event) {
+    let formset = $(this).attr('id').split('-')[1]
+    
+    let formRegex = RegExp(`${formset}-(\\d){1,3}-`,'g');
+    let totalForms = $(`#id_${formset}-TOTAL_FORMS`).get(0);
+    let formNum =  parseInt(totalForms.value);
 
-    formNum++;
+    let form_container = form_container_template[formset].clone(true);
+    form_container.removeAttr('id')
+    form_container.removeClass('d-none')
+    form_container.html(form_container.html().replace(formRegex, `${formset}-${formNum}-`));
 
-    artifacttypes_tr_new.html(artifacttypes_tr_new.html().replace(formRegex, `form-${formNum}-`))
-    artifacttypes_name_tr_new.html(artifacttypes_name_tr_new.html().replace(formRegex, `form-${formNum}-`));
-
-    artifacttypes_tr_new.find('select').prop("selectedIndex", 0);
-    artifacttypes_name_tr_new.find('input').val("");
-
-    $('#workflow_form').append(artifacttypes_tr_new);
-    $('#workflow_form').append(artifacttypes_name_tr_new);
-
+    $(`#formset-${formset}-container`).append(form_container);
+    
     totalForms.setAttribute('value', `${formNum+1}`);
-}
+});

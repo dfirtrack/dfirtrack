@@ -15,19 +15,6 @@
     list-style-type: none;
 }
 
-#workflow_form input {
-    margin-left: 40px;
-}
-
-#workflow_form select {
-    margin-left: 40px;
-}
-
-#workflow_form ul {
-    margin-top: 10px;
-    margin-left: -30px;
-}
-
 .bt {
     color: #000;
 }
@@ -59,41 +46,165 @@
 
     <!-- show form related errors -->
     {% include "dfirtrack_main/includes/form_errors.html" %}
-    <!-- artifacttypes field errors -->
-    {% if artifacttypes_formset.errors %}
+
+    {% include "dfirtrack_main/includes/formset_errors.html" with formset=artifacttypes_formset %}
+    {% include "dfirtrack_main/includes/formset_errors.html" with formset=tasknames_formset %}
+
+    <!-- show form related errors -->
+
+    <!-- workflow name div -->
+    <div class="card card-body bg-dark border-light top-distance">
         <div class="row">
-            <div class="col">
-                <div class="text-danger">
-                    Field error(s):<br>
-                    {% for error in artifacttypes_formset.errors %}
-                        {{ error }}
-                    {% endfor %}
+            <!-- workflow name header -->
+            <div class="col-3">
+                <h5>
+                    <img src="/static/dfirtrack_main/icons/layers-light.svg" class="icon-sm right-distance copy-false" alt="icon" />
+                    {{form.workflow_name.label}}
+                </h5>
+            </div>
+            <!-- workflow name header -->
+        </div>
+        <div class="row"> 
+            <!-- workflow name form -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    {{form.workflow_name}}
                 </div>
             </div>
+            <!-- workflow name form -->
         </div>
-    {% endif %}
-    <!-- artifacttypes field errors -->
-
-    <!-- include forms -->
-    <table id="workflow_form">
-        <!-- include standard form -->
-        {{ form.as_table }}
-        <!-- include artifacttype form -->
-        {{artifacttypes_formset.as_table }}
-    </table>
-     <!-- include forms -->
-
-    <!-- add artifacttype via javascript -->
-    <div class="row top-distance">
-        <div class="col-1"></div>
-        <div class="col-2">
-            <button type="button" class="btn btn-light btn-sm copy-false" onclick="add_artifacttype_to_list()">
-                <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm copy-false right-distance" alt="icon">
-                Add artifacttype
-            </a>
-        </div>
+        <!-- workflow name div -->
     </div>
-    <!-- add artifacttype via javascript -->
+    <!-- task name div -->
+    <div id="formset-taskname-container" class="card card-body bg-dark border-light top-distance formsetLoader">
+        <!-- task name div header -->
+       <div class="row justify-content-between"> 
+            <div class="col-2">                       
+                <h5>
+                    <img src="/static/dfirtrack_main/icons/task-light.svg" class="icon right-distance copy-false" alt="icon">
+                    {{tasknames_formset.forms.0.taskname.label}}
+                </h5>
+            </div>
+            <div class="col-2">
+                <!-- tasknames_formset mandatory management form -->
+                <div id="tasknames_formset_management" class="d-none">{{tasknames_formset.management_form}}</div>
+                <!-- tasknames_formset mandatory management form -->  
+            </div>
+            <div class="col-2">
+                <!-- add artifacttype via javascript -->                
+                <button type="button" class="btn btn-light btn-sm copy-false addForm" id="add-taskname">
+                    <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm copy-false right-distance" alt="icon">
+                    Add taskname
+                </a>                
+                <!-- add artifacttype via javascript -->
+            </div>
+        </div>
+        <!-- task name div header -->
+        <!-- artifacttype forms -->
+        {% for taskname_form in tasknames_formset.forms %} 
+            <!-- hide first element to use as template -->
+            <div id="formset-taskname-{{ forloop.counter0 }}-container"  class="card card-body bg-dark border-light top-distance">
+                <!-- taskname form header -->
+                <div class="row">
+                    <div class="col">
+                        {{taskname_form.taskname.label}}
+                    </div>
+                    <div class="col">
+                        {{taskname_form.task_default_status.label}}
+                    </div>
+                    <div class="col">
+                        {{taskname_form.task_default_priority.label}}
+                    </div>
+                </div>
+                <!-- taskname form header -->
+                <!-- taskname form content -->
+                <div class="row">
+                    <div class="col top-distance">
+                        {{taskname_form.workflow_default_taskname_id}}
+                        {{taskname_form.taskname}}
+                    </div>
+                    <div class="col top-distance">
+                        {{taskname_form.task_default_status}}
+                    </div>
+                    <div class="col top-distance">
+                        {{taskname_form.task_default_priority}}
+                    </div>
+                </div>
+                <!-- taskname form content -->
+            </div>
+        {%endfor%}
+        <!-- taskname forms -->
+    </div>
+    <!-- task name div -->
+
+    <!-- artifacttype div -->
+    <div id="formset-artifact-container" class="card card-body bg-dark border-light top-distance bottom-distance formsetLoader">
+        <div class="row justify-content-between">                 
+            <!-- artifacttype div header -->
+            <div class="col-2">
+                <h5>
+                    <img src="/static/dfirtrack_main/icons/bug-light.svg" class="icon right-distance copy-false" alt="icon">
+                    {{artifacttypes_formset.forms.0.artifacttype.label}}
+                </h5>
+            </div>
+            <div class="col-2">
+                <!-- artifacttypes_formset mandatory management form -->
+                <div id="artifacttypes_formset_management" class="d-none">{{artifacttypes_formset.management_form}}</div>
+                <!-- artifacttypes_formset mandatory management form -->  
+            </div>
+            <div class="col-2">
+                <!-- add artifacttype via javascript -->                
+                <button type="button" class="btn btn-light btn-sm copy-false addForm" id="add-artifact">
+                    <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm copy-false right-distance" alt="icon">
+                    Add artifact
+                </a>                
+                <!-- add artifacttype via javascript -->
+            </div>
+            <!-- artifacttype div header -->
+        </div>
+            
+        <!-- artifacttype forms -->
+        {% for artifacttype_form in artifacttypes_formset.forms %} 
+            <!-- hide first element to use as template -->
+            <div id="formset-artifact-{{ forloop.counter0 }}-container" class="card card-body bg-dark border-light top-distance">
+                <!-- artifacttype form header -->
+                <div class="row">
+                    <div class="col">
+                        {{artifacttype_form.artifact_default_name.label}}
+                    </div>
+                    <div class="col">
+                        {{artifacttype_form.artifacttype.label}}
+                    </div>
+                    <div class="col">
+                        {{artifacttype_form.artifact_default_status.label}}
+                    </div>
+                    <div class="col">
+                        {{artifacttype_form.artifact_default_priority.label}}
+                    </div>
+                </div>
+                <!-- artifacttype form header -->
+                <!-- artifacttype form content -->
+                <div class="row">
+                    <div class="col top-distance">
+                        {{artifacttype_form.workflow_default_artifactname_id}}
+                        {{artifacttype_form.artifact_default_name}}
+                    </div>
+                    <div class="col top-distance">
+                        {{artifacttype_form.artifacttype}}
+                    </div>
+                    <div class="col top-distance">
+                        {{artifacttype_form.artifact_default_status}}
+                    </div>
+                    <div class="col top-distance">
+                        {{artifacttype_form.artifact_default_priority}}
+                    </div>
+                </div>
+                <!-- artifacttype form content -->
+            </div>
+        {%endfor%}
+        <!-- artifacttype forms -->
+    </div>
+    <!-- artifacttype div -->
 
     <!-- button row -->
     <div class="row top-distance">

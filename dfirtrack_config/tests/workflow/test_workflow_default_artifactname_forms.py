@@ -1,19 +1,23 @@
 from django.test import TestCase
 from dfirtrack_config.models import Workflow
-from dfirtrack_config.forms import WorkflowDefaultArtifactnameFormSet
+from dfirtrack_config.forms import WorkflowDefaultArtifactAttributesFormSet
 from dfirtrack_artifacts.models import Artifacttype
+from dfirtrack_artifacts.models import Artifactstatus
+from dfirtrack_artifacts.models import Artifactpriority
 from django.contrib.auth.models import User
 
 
-class WorkflowFormTestCase(TestCase):
-    """ workflowdefaultartifactname formset tests """
+class WWorkflowDefaultArtifactAttributesFormSetTestCase(TestCase):
+    """ WorkflowDefaultArtifactAttributes formset tests """
 
     @classmethod
     def setUpTestData(cls):
 
         # create objects
         Artifacttype.objects.create(artifacttype_name='artifacttype_1')
-        test_user = User.objects.create_user(username='testuser_workflowdefaultartifactname', password='QVe1EH1Z5MshOW2GHS4b')
+        artfactstatus_1 = Artifactstatus.objects.get(artifactstatus_name='10_needs_analysis')
+        artfactpriority_1 = Artifactpriority.objects.get(artifactpriority_name='10_low')
+        test_user = User.objects.create_user(username='testuser_WorkflowDefaultArtifactAttributes', password='QVe1EH1Z5MshOW2GHS4b')
 
         Workflow.objects.create(
             workflow_name='workflow_1',
@@ -25,7 +29,7 @@ class WorkflowFormTestCase(TestCase):
         """ formset test - INVALID """
 
         # get object
-        form = WorkflowDefaultArtifactnameFormSet(data = {})
+        form = WorkflowDefaultArtifactAttributesFormSet(data = {})
         # compare
         self.assertFalse(form.is_valid())
 
@@ -34,12 +38,17 @@ class WorkflowFormTestCase(TestCase):
 
         # get object
         artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
+        artfactstatus_id = Artifactstatus.objects.get(artifactstatus_name='10_needs_analysis').artifactstatus_id
+        artfactpriority_id = Artifactpriority.objects.get(artifactpriority_name='10_low').artifactpriority_id
+
         # create form
-        form = WorkflowDefaultArtifactnameFormSet(data = {
+        form = WorkflowDefaultArtifactAttributesFormSet(data = {
             'form-TOTAL_FORMS': '1',
             'form-INITIAL_FORMS': '0',
             'form-0-artifacttype': artifacttype_id,
-            'form-0-artifact_default_name': 'default_name_1'
+            'form-0-artifact_default_name': 'default_name_1',
+            'form-0-artifact_default_status': artfactstatus_id,
+            'form-0-artifact_default_priority': artfactpriority_id
         })
         # compare
         self.assertTrue(form.is_valid())
@@ -49,14 +58,21 @@ class WorkflowFormTestCase(TestCase):
 
         # get object
         artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
+        artfactstatus_id = Artifactstatus.objects.get(artifactstatus_name='10_needs_analysis').artifactstatus_id
+        artfactpriority_id = Artifactpriority.objects.get(artifactpriority_name='10_low').artifactpriority_id
+
         # create form
-        form = WorkflowDefaultArtifactnameFormSet(data = {
+        form = WorkflowDefaultArtifactAttributesFormSet(data = {
             'form-TOTAL_FORMS': '2',
             'form-INITIAL_FORMS': '0',
             'form-0-artifacttype': artifacttype_id,
             'form-0-artifact_default_name': 'default_name_1',
+            'form-0-artifact_default_status': artfactstatus_id,
+            'form-0-artifact_default_priority': artfactpriority_id,
             'form-1-artifacttype': -1,
-            'form-1-artifact_default_name': 'default_name_2'
+            'form-1-artifact_default_name': 'default_name_2',
+            'form-1-artifact_default_status': artfactstatus_id,
+            'form-1-artifact_default_priority': artfactpriority_id
         })
         # compare
         self.assertFalse(form.is_valid())

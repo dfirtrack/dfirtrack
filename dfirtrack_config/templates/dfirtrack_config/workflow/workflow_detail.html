@@ -76,20 +76,28 @@
 </div>
 
 <!--Task List-->
-{% if workflow.tasknames.all|length > 0 %}
+{% if tasknames|length > 0 %}
     <div class="row bottom-distance">
-        <div class="col-3 font-weight-bold">ID</div>
-        <div class="col-9 font-weight-bold">Taskname</div>
+        <div class="col-1 font-weight-bold">ID</div>
+        <div class="col-2 font-weight-bold">Taskname</div>
+        <div class="col-2 font-weight-bold">Taskname default status</div>
+        <div class="col-2 font-weight-bold">Taskname default priority</div>
     </div>
-    {% for taskname in workflow.tasknames.all %}
+    {% for taskname in tasknames %}
         <div class="row bottom-distance">
-            <div class="col-3">
+            <div class="col-1">
                 {{ taskname.taskname_id }}
             </div>
-            <div class="col-9">
+            <div class="col-2">
                 <a href="{{ taskname.get_absolute_url }}">
                     {{ taskname }}
                 </a>
+            </div>
+            <div class="col-2">
+                {{ taskname.task_default_status }}
+            </div>
+            <div class="col-2">
+                {{ taskname.task_default_priority }}
             </div>
         </div>
     {% endfor %}
@@ -109,22 +117,30 @@
 <!--Artifacttypes List-->
 {% if artifacttypes|length > 0 %}
     <div class="row bottom-distance">
-        <div class="col-3 font-weight-bold">ID</div>
-        <div class="col-3 font-weight-bold">Artifacttype</div>
-        <div class="col-3 font-weight-bold">Artifact default name</div>
+        <div class="col-1 font-weight-bold">ID</div>
+        <div class="col-2 font-weight-bold">Artifacttype</div>
+        <div class="col-2 font-weight-bold">Artifact default name</div>
+        <div class="col-2 font-weight-bold">Artifact default status</div>
+        <div class="col-2 font-weight-bold">Artifact default priority</div>
     </div>
     {% for artifacttype in artifacttypes %}
         <div class="row bottom-distance">
-            <div class="col-3">
+            <div class="col-1">
                 {{ artifacttype.artifacttype_id }}
             </div>
-            <div class="col-3">
+            <div class="col-2">
                 <a href="{{ artifacttype.artifacttype.get_absolute_url }}">
                     {{ artifacttype.artifacttype }}
                 </a>
             </div>
-            <div class="col-3">
+            <div class="col-2">
                     {{ artifacttype.artifact_default_name }}
+            </div>
+            <div class="col-2">
+                    {{ artifacttype.artifact_default_status }}
+            </div>
+            <div class="col-2">
+                    {{ artifacttype.artifact_default_priority }}
             </div>
         </div>
     {% endfor %}

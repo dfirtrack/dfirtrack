@@ -20,14 +20,6 @@ class WorkflowFormTestCase(TestCase):
         # compare
         self.assertEqual(form.fields['workflow_name'].label, 'Workflow name (*)')
 
-    def test_workflow_tasknames_form_label(self):
-        """ workflow form label test """
-
-        # get object
-        form = WorkflowForm()
-        # compare
-        self.assertEqual(form.fields['tasknames'].label, 'Tasknames')
-
     def test_workflow_form_empty(self):
         """ INVALID """
 
@@ -45,29 +37,6 @@ class WorkflowFormTestCase(TestCase):
         })
         # compare
         self.assertTrue(form.is_valid())
-
-    def test_workflow_form_taskname_filled(self):
-        """ VALID """
-
-        # get foreign key object id
-        taskname_id = Taskname.objects.get(taskname_name='taskname_1').taskname_id
-        # get object
-        form = WorkflowForm(data = {
-            'workflow_name': 'workflow_1',
-            'tasknames': [taskname_id,],
-        })
-        # compare
-        self.assertTrue(form.is_valid())
-
-    def test_workflow_form_taskname_multiplechoice(self):
-        """ workflow form test """
-
-        # get object
-        form = WorkflowForm()
-        # get count
-        prefilled_data_count = form.fields['tasknames'].queryset.count()
-        # compare
-        self.assertEqual(Taskname.objects.all().count(), prefilled_data_count)
 
     def test_workflow_name_proper_chars(self):
         """ test chars - VALID """

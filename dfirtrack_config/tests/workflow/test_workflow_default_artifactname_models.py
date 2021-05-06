@@ -1,11 +1,13 @@
 from django.test import TestCase
 from dfirtrack_config.models import Workflow
-from dfirtrack_config.models import WorkflowDefaultArtifactname
+from dfirtrack_config.models import WorkflowDefaultArtifactAttributes
 from dfirtrack_artifacts.models import Artifacttype
+from dfirtrack_artifacts.models import Artifactstatus
+from dfirtrack_artifacts.models import Artifactpriority
 from django.contrib.auth.models import User
 
 
-class WorkflowDefaultArtifactnameModelTestCase(TestCase):
+class WorkflowDefaultArtifactAttributesModelTestCase(TestCase):
     """ workflow model tests """
 
     @classmethod
@@ -13,6 +15,8 @@ class WorkflowDefaultArtifactnameModelTestCase(TestCase):
 
         # create objects
         artifacttype_1 = Artifacttype.objects.create(artifacttype_name='artifacttype_1')
+        artfactstatus_1 = Artifactstatus.objects.get(artifactstatus_name='10_needs_analysis')
+        artfactpriority_1 = Artifactpriority.objects.get(artifactpriority_name='10_low')
 
         test_user = User.objects.create_user(username='testuser_workflow_artifact_default_name', password='QVe1EH1Z5MshOW2GHS4b')
 
@@ -22,10 +26,12 @@ class WorkflowDefaultArtifactnameModelTestCase(TestCase):
             workflow_modified_by_user_id = test_user,
         )
 
-        WorkflowDefaultArtifactname.objects.create(
+        WorkflowDefaultArtifactAttributes.objects.create(
             workflow=workflow,
             artifacttype=artifacttype_1,
             artifact_default_name='artifact_default_name_1',
+            artifact_default_priority=artfactpriority_1,
+            artifact_default_status=artfactstatus_1
         )
 
     ''' test model methods '''
@@ -34,7 +40,7 @@ class WorkflowDefaultArtifactnameModelTestCase(TestCase):
         """ model test """
 
         # get object
-        wda = WorkflowDefaultArtifactname.objects.get(artifact_default_name='artifact_default_name_1')
+        wda = WorkflowDefaultArtifactAttributes.objects.get(artifact_default_name='artifact_default_name_1')
         # compare
         self.assertEqual(str(wda), 'artifact_default_name_1')
 
@@ -42,7 +48,7 @@ class WorkflowDefaultArtifactnameModelTestCase(TestCase):
         """ model test """
 
         # get object
-        wda = WorkflowDefaultArtifactname.objects.get(artifact_default_name='artifact_default_name_1')
+        wda = WorkflowDefaultArtifactAttributes.objects.get(artifact_default_name='artifact_default_name_1')
         # get max length
         max_length = wda._meta.get_field('artifact_default_name').max_length
         # compare
@@ -54,7 +60,7 @@ class WorkflowDefaultArtifactnameModelTestCase(TestCase):
         """ helper function """
 
         # get object
-        wda = WorkflowDefaultArtifactname.objects.get(artifact_default_name='artifact_default_name_1')
+        wda = WorkflowDefaultArtifactAttributes.objects.get(artifact_default_name='artifact_default_name_1')
         # get label
         field_label = wda._meta.get_field(field).verbose_name
         # compare
@@ -75,3 +81,11 @@ class WorkflowDefaultArtifactnameModelTestCase(TestCase):
     def test_workflow_default_artifactname_artifact_default_name_attribute_label(self):
         """ label test """
         self.helper_workflow_default_artifactname_attribute_label('artifact_default_name', 'artifact default name')
+
+    def test_workflow_default_artifactname_artifact_default_priority_attribute_label(self):
+        """ label test """
+        self.helper_workflow_default_artifactname_attribute_label('artifact_default_priority', 'artifact default priority')
+
+    def test_workflow_default_artifactname_artifact_default_status_attribute_label(self):
+        """ label test """
+        self.helper_workflow_default_artifactname_attribute_label('artifact_default_status', 'artifact default status')
