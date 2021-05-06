@@ -19,7 +19,6 @@ class SystemModelTestCase(TestCase):
         System.objects.create(
             system_name = 'system_1',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
@@ -29,7 +28,6 @@ class SystemModelTestCase(TestCase):
             system_name = 'system_2',
             systemstatus = systemstatus_1,
             system_install_time = timezone.now(),
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
@@ -311,16 +309,6 @@ class SystemModelTestCase(TestCase):
         field_label = system_1._meta.get_field('system_modify_time').verbose_name
         # compare
         self.assertEqual(field_label, 'system modify time')
-
-    def test_system_api_time_attribute_label(self):
-        """ test attribute label """
-
-        # get object
-        system_1 = System.objects.get(system_name='system_1')
-        # get label
-        field_label = system_1._meta.get_field('system_api_time').verbose_name
-        # compare
-        self.assertEqual(field_label, 'system api time')
 
     def test_system_created_by_user_id_attribute_label(self):
         """ test attribute label """

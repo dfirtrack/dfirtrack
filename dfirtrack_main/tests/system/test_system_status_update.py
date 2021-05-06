@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
-from django.utils import timezone
 from dfirtrack_main.models import Analysisstatus, System, Systemstatus
+
 
 class SystemStatusUpdateModelTestCase(TestCase):
     """ system status update model tests """
@@ -24,7 +24,6 @@ class SystemStatusUpdateModelTestCase(TestCase):
         System.objects.create(
             system_name='system_1',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
@@ -34,7 +33,6 @@ class SystemStatusUpdateModelTestCase(TestCase):
             system_name='system_2',
             analysisstatus = analysisstatus_1,
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )

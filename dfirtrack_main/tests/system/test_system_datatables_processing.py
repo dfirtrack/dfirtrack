@@ -1,10 +1,10 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
-from django.utils import timezone
 from dfirtrack_main.models import System, Systemstatus, Analysisstatus, Case, Tag, Tagcolor
 import json
 import datetime
 import pytz
+
 
 class SystemDatatablesProcessingTestCase(TestCase):
     """ system datatables (server-side) processing tests """
@@ -43,7 +43,6 @@ class SystemDatatablesProcessingTestCase(TestCase):
             system_name = 'system_1',
             systemstatus = systemstatus_1,
             analysisstatus = analysisstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
@@ -54,7 +53,6 @@ class SystemDatatablesProcessingTestCase(TestCase):
         System.objects.create(
             system_name = 'system_2',
             systemstatus = systemstatus_2,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
@@ -64,7 +62,6 @@ class SystemDatatablesProcessingTestCase(TestCase):
             system_name = 'system_3',
             systemstatus = systemstatus_1,
             analysisstatus = analysisstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
@@ -85,7 +82,6 @@ class SystemDatatablesProcessingTestCase(TestCase):
         System.objects.create(
             system_name = 'system_5',
             systemstatus = systemstatus_2,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
@@ -93,7 +89,6 @@ class SystemDatatablesProcessingTestCase(TestCase):
         System.objects.create(
             system_name = 'system_6',
             systemstatus = systemstatus_2,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
