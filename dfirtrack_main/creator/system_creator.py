@@ -2,7 +2,6 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from django.utils import timezone
 from django_q.tasks import async_task
 from dfirtrack_config.models import Workflow
 from dfirtrack_main.async_messages.system_messages import final_messages
@@ -144,7 +143,6 @@ def system_creator_async(request_post, request_user):
             # set auto values
             system.system_created_by_user_id = request_user
             system.system_modified_by_user_id = request_user
-            system.system_modify_time = timezone.now()
 
             # save object
             system.save()
