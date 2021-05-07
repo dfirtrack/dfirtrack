@@ -181,7 +181,6 @@ def system_handler(request=None, uploadfile=False):
             )
 
             # change mandatory meta attributes
-            system.system_modify_time = timezone.now()
             system.system_modified_by_user_id = csv_import_user
 
             # set value for already existing system (modify system)
@@ -236,7 +235,6 @@ def system_handler(request=None, uploadfile=False):
             system.system_name = system_name
 
             # add mandatory meta attributes
-            system.system_modify_time = timezone.now()
             system.system_created_by_user_id = csv_import_user
             system.system_modified_by_user_id = csv_import_user
 

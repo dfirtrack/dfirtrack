@@ -129,7 +129,6 @@ class SystemImporterFileCsvStatusViewTestCase(TestCase):
             system_name = 'system_csv_34_001',
             systemstatus = systemstatus_1,
             analysisstatus = analysisstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
@@ -138,7 +137,6 @@ class SystemImporterFileCsvStatusViewTestCase(TestCase):
             system_name = 'system_csv_34_002',
             systemstatus = systemstatus_1,
             analysisstatus = analysisstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
@@ -147,7 +145,6 @@ class SystemImporterFileCsvStatusViewTestCase(TestCase):
             system_name = 'system_csv_35_001',
             systemstatus = systemstatus_1,
             analysisstatus = analysisstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
@@ -156,7 +153,6 @@ class SystemImporterFileCsvStatusViewTestCase(TestCase):
             system_name = 'system_csv_35_002',
             systemstatus = systemstatus_1,
             analysisstatus = analysisstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
@@ -165,7 +161,6 @@ class SystemImporterFileCsvStatusViewTestCase(TestCase):
             system_name = 'system_csv_35_003',
             systemstatus = systemstatus_1,
             analysisstatus = analysisstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
@@ -174,7 +169,6 @@ class SystemImporterFileCsvStatusViewTestCase(TestCase):
             system_name = 'system_csv_35_004',
             systemstatus = systemstatus_1,
             analysisstatus = analysisstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
