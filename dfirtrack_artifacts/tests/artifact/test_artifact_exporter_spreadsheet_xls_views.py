@@ -10,6 +10,7 @@ from mock import patch
 import urllib.parse
 import xlrd
 
+
 class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
     """ artifact exporter spreadsheet XLS view tests """
 
@@ -42,7 +43,6 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         system_1 = System.objects.create(
             system_name='artifact_exporter_spreadsheet_xls_system_1',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
