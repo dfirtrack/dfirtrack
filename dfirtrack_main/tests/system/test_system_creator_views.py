@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
-from django.utils import timezone
 from dfirtrack_main.models import Analysisstatus, System, Systemstatus
 from dfirtrack_config.models import Workflow
 import urllib.parse
@@ -22,14 +21,12 @@ class SystemCreatorViewTestCase(TestCase):
         System.objects.create(
             system_name = 'system_creator_duplicate_system',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
         System.objects.create(
             system_name = 'system_creator_duplicate_system_2',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )

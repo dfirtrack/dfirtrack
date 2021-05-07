@@ -21,6 +21,7 @@ from dfirtrack_main.models import Taskstatus
 from mock import patch
 import urllib.parse
 
+
 class StatushistoryViewTestCase(TestCase):
     """ statushistory view tests """
 
@@ -61,21 +62,18 @@ class StatushistoryViewTestCase(TestCase):
         system_1 = System.objects.create(
             system_name = 'system_1',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
         System.objects.create(
             system_name = 'system_2',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
         System.objects.create(
             system_name = 'system_3',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )

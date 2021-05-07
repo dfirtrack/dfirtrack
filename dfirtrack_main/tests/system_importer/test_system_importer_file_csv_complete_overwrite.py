@@ -12,6 +12,7 @@ from mock import patch
 import os
 import urllib.parse
 
+
 def compare_messages_csv(self, messages):
     """ compare messages """
 
@@ -286,7 +287,6 @@ class SystemImporterFileCsvCompleteOverwriteViewTestCase(TestCase):
             recommendation = recommendation_1,
             serviceprovider = serviceprovider_1,
             systemtype = systemtype_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
@@ -302,7 +302,6 @@ class SystemImporterFileCsvCompleteOverwriteViewTestCase(TestCase):
             recommendation = recommendation_1,
             serviceprovider = serviceprovider_1,
             systemtype = systemtype_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
@@ -318,7 +317,6 @@ class SystemImporterFileCsvCompleteOverwriteViewTestCase(TestCase):
             recommendation = recommendation_1,
             serviceprovider = serviceprovider_1,
             systemtype = systemtype_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )

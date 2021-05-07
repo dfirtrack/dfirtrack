@@ -276,7 +276,6 @@ class SystemSerializer(serializers.ModelSerializer):
             'contact',
             'tag',
             'case',
-            'system_api_time',
             'system_create_time',
             'system_created_by_user_id',
             'system_modify_time',

@@ -1,8 +1,8 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
-from django.utils import timezone
 from dfirtrack_main.models import Headline, Reportitem, System, Systemstatus
 import urllib.parse
+
 
 class ReportitemViewTestCase(TestCase):
     """ reportitem view tests """
@@ -20,7 +20,6 @@ class ReportitemViewTestCase(TestCase):
         system_1 = System.objects.create(
             system_name='system_1',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )

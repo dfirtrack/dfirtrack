@@ -109,7 +109,6 @@ class SystemExporterMarkdownViewTestCase(TestCase):
             recommendation = recommendation_1,
             systemtype = systemtype_1,
             system_install_time = system_install_time,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
@@ -119,7 +118,6 @@ class SystemExporterMarkdownViewTestCase(TestCase):
             system_name = 'system_2',
             systemstatus = systemstatus_unknown,
             domain = domain_2,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
@@ -127,7 +125,6 @@ class SystemExporterMarkdownViewTestCase(TestCase):
         System.objects.create(
             system_name = 'system_3',
             systemstatus = systemstatus_analysis_ongoing,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
@@ -136,7 +133,6 @@ class SystemExporterMarkdownViewTestCase(TestCase):
             system_name = 'system_4',
             systemstatus = systemstatus_1,
             system_export_markdown = False,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
@@ -145,7 +141,6 @@ class SystemExporterMarkdownViewTestCase(TestCase):
             system_name = 'system_5',
             systemstatus = systemstatus_clean,
             domain = domain_2,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
@@ -153,7 +148,6 @@ class SystemExporterMarkdownViewTestCase(TestCase):
         System.objects.create(
             system_name = 'system_6',
             systemstatus = systemstatus_not_analyzed,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )

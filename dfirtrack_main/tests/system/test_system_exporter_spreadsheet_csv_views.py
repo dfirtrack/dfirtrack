@@ -83,7 +83,6 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
                 os = os_1,
                 location = location_1,
                 serviceprovider = serviceprovider_1,
-                system_modify_time = timezone.now(),
                 system_created_by_user_id = test_user,
                 system_modified_by_user_id = test_user,
             )
@@ -110,7 +109,6 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
             System.objects.create(
                 system_name = 'system_2_no_attributes',
                 systemstatus = systemstatus_1,
-                system_modify_time = timezone.now(),
                 system_created_by_user_id = test_user,
                 system_modified_by_user_id = test_user,
             )
@@ -120,7 +118,6 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
             system_name = 'system_3_not_exported',
             systemstatus = systemstatus_1,
             system_export_spreadsheet = False,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )

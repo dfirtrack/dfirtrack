@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
-from django.utils import timezone
 from dfirtrack.settings import INSTALLED_APPS as installed_apps
 from dfirtrack_artifacts.models import Artifact
 #from dfirtrack_config.models import MainConfigModel
@@ -26,7 +25,6 @@ class SystemViewTestCase(TestCase):
         System.objects.create(
             system_name = 'system_1',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
@@ -610,7 +608,6 @@ class SystemViewTestCase(TestCase):
         system_1 = System.objects.create(
             system_name = 'system_edit_post_test_1',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
@@ -676,7 +673,6 @@ class SystemViewTestCase(TestCase):
 #        system_1 = System.objects.create(
 #            system_name = 'system_edit_post_test_3',
 #            systemstatus = systemstatus_1,
-#            system_modify_time = timezone.now(),
 #            system_created_by_user_id = test_user,
 #            system_modified_by_user_id = test_user,
 #        )
@@ -708,7 +704,6 @@ class SystemViewTestCase(TestCase):
         system_1 = System.objects.create(
             system_name = 'system_edit_post_test_5',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )

@@ -128,7 +128,6 @@ class SystemImporterFileCsvTagRemovalViewTestCase(TestCase):
             system_name = 'system_csv_56_001',
             systemstatus = systemstatus_1,
             analysisstatus = analysisstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
@@ -136,7 +135,6 @@ class SystemImporterFileCsvTagRemovalViewTestCase(TestCase):
             system_name = 'system_csv_56_002',
             systemstatus = systemstatus_1,
             analysisstatus = analysisstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
@@ -144,7 +142,6 @@ class SystemImporterFileCsvTagRemovalViewTestCase(TestCase):
             system_name = 'system_csv_56_003',
             systemstatus = systemstatus_1,
             analysisstatus = analysisstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )

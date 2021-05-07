@@ -883,8 +883,7 @@ class System(models.Model):
 
     # meta information
     system_create_time = models.DateTimeField(auto_now_add=True)
-    system_modify_time = models.DateTimeField()
-    system_api_time = models.DateTimeField(null=True)
+    system_modify_time = models.DateTimeField(auto_now=True)
     system_created_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='system_created_by')
     system_modified_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='system_modified_by')
     system_export_markdown = models.BooleanField(default=True)

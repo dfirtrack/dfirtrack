@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
-from django.utils import timezone
 from dfirtrack_main.models import Analysisstatus
 from dfirtrack_main.models import Company
 from dfirtrack_main.models import Contact
@@ -38,7 +37,6 @@ def create_system(system_name):
         contact = contact_1,
         location = location_1,
         serviceprovider = serviceprovider_1,
-        system_modify_time = timezone.now(),
         system_created_by_user_id = test_user,
         system_modified_by_user_id = test_user,
     )

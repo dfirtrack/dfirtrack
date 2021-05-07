@@ -24,7 +24,6 @@ def create_system(system_name):
     System.objects.create(
         system_name = system_name,
         systemstatus = systemstatus_1,
-        system_modify_time = timezone.now(),
         system_created_by_user_id = test_user,
         system_modified_by_user_id = test_user,
     )

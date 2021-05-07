@@ -2,7 +2,6 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from django.utils import timezone
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_artifacts.models import Artifact
@@ -101,7 +100,6 @@ class SystemCreate(LoginRequiredMixin, CreateView):
             system = form.save(commit=False)
             system.system_created_by_user_id = request.user
             system.system_modified_by_user_id = request.user
-            system.system_modify_time = timezone.now()
             system.save()
             form.save_m2m()
 
@@ -206,7 +204,6 @@ class SystemUpdate(LoginRequiredMixin, UpdateView):
         if form.is_valid():
             system = form.save(commit=False)
             system.system_modified_by_user_id = request.user
-            system.system_modify_time = timezone.now()
             system.save()
             form.save_m2m()
 
