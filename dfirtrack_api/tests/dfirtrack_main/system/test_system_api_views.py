@@ -43,7 +43,6 @@ class SystemAPIViewTestCase(TestCase):
         System.objects.create(
             system_name = 'hostsystem_api_1',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
@@ -75,7 +74,6 @@ class SystemAPIViewTestCase(TestCase):
         System.objects.create(
             system_name = 'system_api_1',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
@@ -111,7 +109,6 @@ class SystemAPIViewTestCase(TestCase):
         poststring = {
             "system_name": "system_api_2",
             "systemstatus": systemstatus_id,
-            "system_modify_time": timezone.now().strftime('%Y-%m-%dT%H:%M'),
             "system_created_by_user_id": test_user_id,
             "system_modified_by_user_id": test_user_id,
         }
@@ -192,7 +189,6 @@ class SystemAPIViewTestCase(TestCase):
             "system_lastbooted_time": timezone.now().strftime('%Y-%m-%dT%H:%M'),
             "system_deprecated_time": timezone.now().strftime('%Y-%m-%dT%H:%M'),
             "system_is_vm": True,
-            "system_modify_time": timezone.now().strftime('%Y-%m-%dT%H:%M'),
             "system_created_by_user_id": test_user_id,
             "system_modified_by_user_id": test_user_id,
             "system_export_markdown": False,
@@ -222,7 +218,6 @@ class SystemAPIViewTestCase(TestCase):
 #                "analysisstatus_name": analysisstatus_name,
 #            },
 #            "systemstatus": systemstatus_id,
-#            "system_modify_time": timezone.now().strftime('%Y-%m-%dT%H:%M'),
 #            "system_created_by_user_id": test_user_id,
 #            "system_modified_by_user_id": test_user_id,
 #        }
@@ -294,7 +289,6 @@ class SystemAPIViewTestCase(TestCase):
         putstring = {
             "system_name": "new_system_api_1",
             "systemstatus": systemstatus_id,
-            "system_modify_time": timezone.now().strftime('%Y-%m-%dT%H:%M'),
             "system_created_by_user_id": test_user_id,
             "system_modified_by_user_id": test_user_id,
         }
@@ -379,7 +373,6 @@ class SystemAPIViewTestCase(TestCase):
             "system_lastbooted_time": timezone.now().strftime('%Y-%m-%dT%H:%M'),
             "system_deprecated_time": timezone.now().strftime('%Y-%m-%dT%H:%M'),
             "system_is_vm": True,
-            "system_modify_time": timezone.now().strftime('%Y-%m-%dT%H:%M'),
             "system_created_by_user_id": test_user_id,
             "system_modified_by_user_id": test_user_id,
             "system_export_markdown": False,
@@ -413,7 +406,6 @@ class SystemAPIViewTestCase(TestCase):
 #                "analysisstatus_name": analysisstatus_name,
 #            },
 #            "systemstatus": systemstatus_id,
-#            "system_modify_time": timezone.now().strftime('%Y-%m-%dT%H:%M'),
 #            "system_created_by_user_id": test_user_id,
 #            "system_modified_by_user_id": test_user_id,
 #        }

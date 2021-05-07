@@ -4,6 +4,7 @@ from django.utils import timezone
 from dfirtrack_main.models import System, Systemstatus, Tag, Tagcolor, Task, Taskname, Taskpriority, Taskstatus
 import urllib.parse
 
+
 class TaskAPIViewTestCase(TestCase):
     """ task API view tests """
 
@@ -46,7 +47,6 @@ class TaskAPIViewTestCase(TestCase):
         System.objects.create(
             system_name = 'system_api_1',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )

@@ -2,7 +2,7 @@ openapi: 3.0.2
 info:
   title: DFIRTrack
   description: OpenAPI 3 - Documentation of DFIRTrack API
-  version: v1.0.0
+  version: v1.2.1
 paths:
   /api/artifact/:
     get:
@@ -3242,10 +3242,6 @@ components:
           type: array
           items:
             type: integer
-        system_api_time:
-          type: string
-          format: date-time
-          nullable: true
         system_create_time:
           type: string
           format: date-time
@@ -3255,6 +3251,7 @@ components:
         system_modify_time:
           type: string
           format: date-time
+          readOnly: true
         system_modified_by_user_id:
           type: integer
         system_export_markdown:
@@ -3265,7 +3262,6 @@ components:
       - system_name
       - systemstatus
       - system_created_by_user_id
-      - system_modify_time
       - system_modified_by_user_id
     Systemstatus:
       type: object
