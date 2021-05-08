@@ -1,15 +1,14 @@
-from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Domain, Domainuser, Ip, Location, Os, Osarch, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Systemuser, Tag, Tagcolor, Task, Taskname, Taskpriority, Taskstatus
+from dfirtrack_main import models as dfirtrack_main_models
+from dfirtrack_api.serializers import dfirtrack_main_fk
 from dfirtrack_api.serializers.dfirtrack_artifacts_fk import ArtifactFkSerializer
-from . import dfirtrack_main_fk
 from rest_framework import serializers
 
-# model serializers
 
 class AnalysisstatusSerializer(serializers.ModelSerializer):
     """ create serializer for model instance """
 
     class Meta:
-        model = Analysisstatus
+        model = dfirtrack_main_models.Analysisstatus
         # attributes made available for api
         fields = (
             'analysisstatus_id',
@@ -34,7 +33,7 @@ class CaseSerializer(serializers.ModelSerializer):
         return representation
 
     class Meta:
-        model = Case
+        model = dfirtrack_main_models.Case
         # attributes made available for api
         fields = (
             'case_id',
@@ -43,6 +42,39 @@ class CaseSerializer(serializers.ModelSerializer):
             'case_is_incident',
             'case_created_by_user_id',
             'case_create_time',
+        )
+
+class CaseprioritySerializer(serializers.ModelSerializer):
+    """ create serializer for model instance """
+
+    class Meta:
+        model = dfirtrack_main_models.Casepriority
+        # attributes made available for api
+        fields = (
+            'casepriority_id',
+            'casepriority_name',
+        )
+
+class CasestatusSerializer(serializers.ModelSerializer):
+    """ create serializer for model instance """
+
+    class Meta:
+        model = dfirtrack_main_models.Casestatus
+        # attributes made available for api
+        fields = (
+            'casestatus_id',
+            'casestatus_name',
+        )
+
+class CasetypeSerializer(serializers.ModelSerializer):
+    """ create serializer for model instance """
+
+    class Meta:
+        model = dfirtrack_main_models.Casetype
+        # attributes made available for api
+        fields = (
+            'casetype_id',
+            'casetype_name',
         )
 
 class CompanySerializer(serializers.ModelSerializer):
@@ -54,7 +86,7 @@ class CompanySerializer(serializers.ModelSerializer):
         return super(CompanySerializer, self).to_representation(instance)
 
     class Meta:
-        model = Company
+        model = dfirtrack_main_models.Company
         # attributes made available for api
         fields = (
             'company_id',
@@ -66,7 +98,7 @@ class ContactSerializer(serializers.ModelSerializer):
     """ create serializer for model instance """
 
     class Meta:
-        model = Contact
+        model = dfirtrack_main_models.Contact
         # attributes made available for api
         fields = (
             'contact_id',
@@ -79,7 +111,7 @@ class DivisionSerializer(serializers.ModelSerializer):
     """ create serializer for model instance """
 
     class Meta:
-        model = Division
+        model = dfirtrack_main_models.Division
         # attributes made available for api
         fields = (
             'division_id',
@@ -95,7 +127,7 @@ class DnsnameSerializer(serializers.ModelSerializer):
         return super(DnsnameSerializer, self).to_representation(instance)
 
     class Meta:
-        model = Dnsname
+        model = dfirtrack_main_models.Dnsname
         # attributes made available for api
         fields = (
             'dnsname_id',
@@ -107,7 +139,7 @@ class DomainSerializer(serializers.ModelSerializer):
     """ create serializer for model instance """
 
     class Meta:
-        model = Domain
+        model = dfirtrack_main_models.Domain
         # attributes made available for api
         fields = (
             'domain_id',
@@ -123,7 +155,7 @@ class DomainuserSerializer(serializers.ModelSerializer):
         return super(DomainuserSerializer, self).to_representation(instance)
 
     class Meta:
-        model = Domainuser
+        model = dfirtrack_main_models.Domainuser
         # attributes made available for api
         fields = (
             'domainuser_id',
@@ -136,7 +168,7 @@ class IpSerializer(serializers.ModelSerializer):
     """ create serializer for model instance """
 
     class Meta:
-        model = Ip
+        model = dfirtrack_main_models.Ip
         # attributes made available for api
         fields = (
             'ip_id',
@@ -147,7 +179,7 @@ class LocationSerializer(serializers.ModelSerializer):
     """ create serializer for model instance """
 
     class Meta:
-        model = Location
+        model = dfirtrack_main_models.Location
         # attributes made available for api
         fields = (
             'location_id',
@@ -158,7 +190,7 @@ class OsSerializer(serializers.ModelSerializer):
     """ create serializer for model instance """
 
     class Meta:
-        model = Os
+        model = dfirtrack_main_models.Os
         # attributes made available for api
         fields = (
             'os_id',
@@ -169,7 +201,7 @@ class OsarchSerializer(serializers.ModelSerializer):
     """ create serializer for model instance """
 
     class Meta:
-        model = Osarch
+        model = dfirtrack_main_models.Osarch
         # attributes made available for api
         fields = (
             'osarch_id',
@@ -180,7 +212,7 @@ class ReasonSerializer(serializers.ModelSerializer):
     """ create serializer for model instance """
 
     class Meta:
-        model = Reason
+        model = dfirtrack_main_models.Reason
         # attributes made available for api
         fields = (
             'reason_id',
@@ -191,7 +223,7 @@ class RecommendationSerializer(serializers.ModelSerializer):
     """ create serializer for model instance """
 
     class Meta:
-        model = Recommendation
+        model = dfirtrack_main_models.Recommendation
         # attributes made available for api
         fields = (
             'recommendation_id',
@@ -202,7 +234,7 @@ class ServiceproviderSerializer(serializers.ModelSerializer):
     """ create serializer for model instance """
 
     class Meta:
-        model = Serviceprovider
+        model = dfirtrack_main_models.Serviceprovider
         # attributes made available for api
         fields = (
             'serviceprovider_id',
@@ -253,7 +285,7 @@ class SystemSerializer(serializers.ModelSerializer):
         return representation
 
     class Meta:
-        model = System
+        model = dfirtrack_main_models.System
         # attributes made available for api in a sorted fashion
         fields = (
             'system_id',
@@ -293,7 +325,7 @@ class SystemstatusSerializer(serializers.ModelSerializer):
     """ create serializer for model instance """
 
     class Meta:
-        model = Systemstatus
+        model = dfirtrack_main_models.Systemstatus
         # attributes made available for api
         fields = (
             'systemstatus_id',
@@ -304,7 +336,7 @@ class SystemtypeSerializer(serializers.ModelSerializer):
     """ create serializer for model instance """
 
     class Meta:
-        model = Systemtype
+        model = dfirtrack_main_models.Systemtype
         # attributes made available for api
         fields = (
             'systemtype_id',
@@ -330,7 +362,7 @@ class SystemuserSerializer(serializers.ModelSerializer):
         return representation
 
     class Meta:
-        model = Systemuser
+        model = dfirtrack_main_models.Systemuser
         # attributes made available for api
         fields = (
             'systemuser_id',
@@ -349,7 +381,7 @@ class TagSerializer(serializers.ModelSerializer):
         return super(TagSerializer, self).to_representation(instance)
 
     class Meta:
-        model = Tag
+        model = dfirtrack_main_models.Tag
         # attributes made available for api
         fields = (
             'tag_id',
@@ -361,7 +393,7 @@ class TagcolorSerializer(serializers.ModelSerializer):
     """ create serializer for model instance """
 
     class Meta:
-        model = Tagcolor
+        model = dfirtrack_main_models.Tagcolor
         # attributes made available for api
         fields = (
             'tagcolor_id',
@@ -404,7 +436,7 @@ class TaskSerializer(serializers.ModelSerializer):
         return representation
 
     class Meta:
-        model = Task
+        model = dfirtrack_main_models.Task
         # attributes made available for api
         fields = (
             'task_id',
@@ -431,7 +463,7 @@ class TasknameSerializer(serializers.ModelSerializer):
     """ create serializer for model instance """
 
     class Meta:
-        model = Taskname
+        model = dfirtrack_main_models.Taskname
         # attributes made available for api
         fields = (
             'taskname_id',
@@ -442,7 +474,7 @@ class TaskprioritySerializer(serializers.ModelSerializer):
     """ create serializer for model instance """
 
     class Meta:
-        model = Taskpriority
+        model = dfirtrack_main_models.Taskpriority
         # attributes made available for api
         fields = (
             'taskpriority_id',
@@ -453,7 +485,7 @@ class TaskstatusSerializer(serializers.ModelSerializer):
     """ create serializer for model instance """
 
     class Meta:
-        model = Taskstatus
+        model = dfirtrack_main_models.Taskstatus
         # attributes made available for api
         fields = (
             'taskstatus_id',
