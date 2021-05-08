@@ -22,6 +22,9 @@ class CaseSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
 
         # get serializers of foreignkey relationsships
+        self.fields['casepriority'] = dfirtrack_main_fk.CasepriorityFkSerializer(many=False, read_only=True)
+        self.fields['casestatus'] = dfirtrack_main_fk.CasestatusFkSerializer(many=False, read_only=True)
+        self.fields['casetype'] = dfirtrack_main_fk.CasetypeFkSerializer(many=False, read_only=True)
         self.fields['tag'] =  dfirtrack_main_fk.TagFkSerializer(many=True, read_only=True)
 
         # get existing to_representation
@@ -29,6 +32,13 @@ class CaseSerializer(serializers.ModelSerializer):
 
         # change mandatory time strings
         representation['case_create_time'] = instance.case_create_time.strftime('%Y-%m-%dT%H:%M')
+        representation['case_modify_time'] = instance.case_modify_time.strftime('%Y-%m-%dT%H:%M')
+
+        # change optional time strings
+        if instance.case_start_time:
+            representation['case_start_time'] = instance.case_start_time.strftime('%Y-%m-%dT%H:%M')
+        if instance.case_end_time:
+            representation['case_end_time'] = instance.case_end_time.strftime('%Y-%m-%dT%H:%M')
 
         return representation
 
@@ -37,11 +47,19 @@ class CaseSerializer(serializers.ModelSerializer):
         # attributes made available for api
         fields = (
             'case_id',
+            'case_id_external',
             'case_name',
+            'casepriority',
+            'casestatus',
+            'casetype',
             'tag',
             'case_is_incident',
+            'case_start_time',
+            'case_end_time',
             'case_created_by_user_id',
             'case_create_time',
+            'case_modified_by_user_id',
+            'case_modify_time',
         )
 
 class CaseprioritySerializer(serializers.ModelSerializer):
