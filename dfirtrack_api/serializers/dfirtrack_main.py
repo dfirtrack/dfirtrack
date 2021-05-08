@@ -1,4 +1,5 @@
 from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Division, Dnsname, Domain, Domainuser, Ip, Location, Os, Osarch, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Systemuser, Tag, Tagcolor, Task, Taskname, Taskpriority, Taskstatus
+from dfirtrack_api.serializers.dfirtrack_artifacts_fk import ArtifactFkSerializer
 from . import dfirtrack_main_fk
 from rest_framework import serializers
 
@@ -21,6 +22,9 @@ class CaseSerializer(serializers.ModelSerializer):
     # redefine representation
     def to_representation(self, instance):
 
+        # get serializers of foreignkey relationsships
+        self.fields['tag'] =  dfirtrack_main_fk.TagFkSerializer(many=True, read_only=True)
+
         # get existing to_representation
         representation = super(CaseSerializer, self).to_representation(instance)
 
@@ -35,6 +39,7 @@ class CaseSerializer(serializers.ModelSerializer):
         fields = (
             'case_id',
             'case_name',
+            'tag',
             'case_is_incident',
             'case_created_by_user_id',
             'case_create_time',
@@ -370,6 +375,8 @@ class TaskSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
 
         # get serializers of foreignkey relationsships
+        self.fields['artifact'] =  ArtifactFkSerializer(many=False, read_only=True)
+        self.fields['case'] =  dfirtrack_main_fk.CaseFkSerializer(many=False, read_only=True)
         self.fields['parent_task'] =  dfirtrack_main_fk.ParentTaskFkSerializer(many=False, read_only=True)
         self.fields['system'] =  dfirtrack_main_fk.SystemFkSerializer(many=False, read_only=True)
         self.fields['tag'] =  dfirtrack_main_fk.TagFkSerializer(many=True, read_only=True)
@@ -405,6 +412,8 @@ class TaskSerializer(serializers.ModelSerializer):
             'taskname',
             'taskpriority',
             'taskstatus',
+            'artifact',
+            'case',
             'system',
             'task_assigned_to_user_id',
             'tag',

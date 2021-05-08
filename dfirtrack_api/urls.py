@@ -10,6 +10,8 @@ urlpatterns = [
     # dfirtrack_artifacts
     re_path(r'^artifact/$', dfirtrack_artifacts.ArtifactListApi.as_view()),
     re_path(r'^artifact/(?P<pk>\d+)/$', dfirtrack_artifacts.ArtifactDetailApi.as_view()),
+    re_path(r'^artifactpriority/$', dfirtrack_artifacts.ArtifactpriorityListApi.as_view()),
+    re_path(r'^artifactpriority/(?P<pk>\d+)/$', dfirtrack_artifacts.ArtifactpriorityDetailApi.as_view()),
     re_path(r'^artifactstatus/$', dfirtrack_artifacts.ArtifactstatusListApi.as_view()),
     re_path(r'^artifactstatus/(?P<pk>\d+)/$', dfirtrack_artifacts.ArtifactstatusDetailApi.as_view()),
     re_path(r'^artifacttype/$', dfirtrack_artifacts.ArtifacttypeListApi.as_view()),

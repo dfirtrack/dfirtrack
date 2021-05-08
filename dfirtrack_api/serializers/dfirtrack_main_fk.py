@@ -20,6 +20,7 @@ class CaseFkSerializer(serializers.ModelSerializer):
         model = Case
         # attributes made available for api
         fields = (
+            'case_id',
             'case_name',
         )
 
@@ -171,6 +172,7 @@ class SystemFkSerializer(serializers.ModelSerializer):
         model = System
         # attributes made available for api
         fields = (
+            'system_id',
             'system_name',
         )
 
@@ -201,6 +203,7 @@ class TagFkSerializer(serializers.ModelSerializer):
         model = Tag
         # attributes made available for api
         fields = (
+            'tag_id',
             'tag_name',
         )
 
@@ -212,6 +215,16 @@ class TagcolorFkSerializer(serializers.ModelSerializer):
         # attributes made available for api
         fields = (
             'tagcolor_name',
+        )
+
+class TaskFkSerializer(serializers.ModelSerializer):
+    """ create serializer for foreignkey relationsship """
+
+    class Meta:
+        model = Task
+        # attributes made available for api
+        fields = (
+            'task_id',
         )
 
 class TasknameFkSerializer(serializers.ModelSerializer):
