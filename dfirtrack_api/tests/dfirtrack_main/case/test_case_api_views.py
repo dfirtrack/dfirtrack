@@ -82,6 +82,10 @@ class CaseAPIViewTestCase(TestCase):
             "case_is_incident": False,
             "case_created_by_user_id": test_user_id,
         }
+        # check for existence of object
+        case_api_2_none = Case.objects.filter(case_name='case_api_2')
+        # compare
+        self.assertEqual(len(case_api_2_none), 0)
         # get response
         response = self.client.post('/api/case/', data=poststring)
         # compare
@@ -122,6 +126,10 @@ class CaseAPIViewTestCase(TestCase):
             "case_created_by_user_id": test_user_id,
             "case_modified_by_user_id": test_user_id,
         }
+        # check for existence of object
+        case_api_3_none = Case.objects.filter(case_name='case_api_3')
+        # compare
+        self.assertEqual(len(case_api_3_none), 0)
         # get response
         response = self.client.post('/api/case/', data=poststring)
         # compare

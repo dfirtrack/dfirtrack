@@ -106,6 +106,10 @@ class ArtifactAPIViewTestCase(TestCase):
             "artifact_created_by_user_id": test_user_id,
             "artifact_modified_by_user_id": test_user_id,
         }
+        # check for existence of object
+        artifact_api_2_none = Artifact.objects.filter(artifact_name='artifact_api_2')
+        # compare
+        self.assertEqual(len(artifact_api_2_none), 0)
         # get response
         response = self.client.post('/api/artifact/', data=poststring, content_type='application/json')
         # compare
@@ -153,10 +157,12 @@ class ArtifactAPIViewTestCase(TestCase):
             "artifact_created_by_user_id": test_user_id,
             "artifact_modified_by_user_id": test_user_id,
         }
-
+        # check for existence of object
+        artifact_api_3_none = Artifact.objects.filter(artifact_name='artifact_api_3')
+        # compare
+        self.assertEqual(len(artifact_api_3_none), 0)
         # get response
         response = self.client.post('/api/artifact/', data=poststring, content_type='application/json')
-
         # compare
         self.assertEqual(response.status_code, 201)
         # get new object
