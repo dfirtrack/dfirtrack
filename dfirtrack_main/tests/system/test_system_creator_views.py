@@ -210,7 +210,7 @@ class SystemCreatorViewTestCase(TestCase):
         # get response
         response = self.client.post('/system/creator/', data_dict, follow=True)
         # compare
-        self.assertContains(response, 'System creator workflows applied.')
+        self.assertContains(response, 'System creator/modificator workflows applied.')
 
     def test_system_creator_post_nonexistent_workflow_messages(self):
         """ test creator view """
