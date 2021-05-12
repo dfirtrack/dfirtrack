@@ -21,7 +21,7 @@ class WorkflowModelTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
         """ default objects """
-        
+
         # create objects
         artifacttype_1 = Artifacttype.objects.create(artifacttype_name='artifacttype_1')
         artfactstatus_1 = Artifactstatus.objects.get(artifactstatus_name='10_needs_analysis')
@@ -199,13 +199,13 @@ class WorkflowModelTestCase(TestCase):
         self.assertEqual(error_code, 0)
         self.assertTupleEqual(
                 (
-                    str(artifact.artifact_name), 
+                    str(artifact.artifact_name),
                     str(artifact.artifacttype.artifacttype_name),
                     str(artifact.artifactstatus),
                     str(artifact.artifactpriority)
                 ),
                 (
-                    'artifact_default_name_1', 
+                    'artifact_default_name_1',
                     'artifacttype_1',
                     '10_needs_analysis',
                     '10_low'
@@ -241,13 +241,13 @@ class WorkflowModelTestCase(TestCase):
         self.assertEqual(error_code, 0)
         self.assertTupleEqual(
                 (
-                    str(artifact.artifact_name), 
+                    str(artifact.artifact_name),
                     str(artifact.artifacttype.artifacttype_name),
                     str(artifact.artifactstatus),
                     str(artifact.artifactpriority)
                 ),
                 (
-                    'artifact_default_name_2', 
+                    'artifact_default_name_2',
                     'artifacttype_2',
                     '20_requested',
                     '20_medium'

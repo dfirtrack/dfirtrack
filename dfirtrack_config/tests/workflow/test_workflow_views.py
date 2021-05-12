@@ -229,7 +229,7 @@ class WorkflowViewTestCase(TestCase):
         taskname_id = Taskname.objects.get(taskname_name='taskname_1').taskname_id
         taskstatus_id = Taskstatus.objects.get(taskstatus_name='10_pending').taskstatus_id
         taskpriority_id = Taskpriority.objects.get(taskpriority_name='10_low').taskpriority_id
-        
+
         artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
         artfactstatus_id = Artifactstatus.objects.get(artifactstatus_name='10_needs_analysis').artifactstatus_id
         artfactpriority_id = Artifactpriority.objects.get(artifactpriority_name='10_low').artifactpriority_id
@@ -395,7 +395,7 @@ class WorkflowViewTestCase(TestCase):
         taskname_id = Taskname.objects.get(taskname_name='taskname_1').taskname_id
         taskstatus_id = Taskstatus.objects.get(taskstatus_name='10_pending').taskstatus_id
         taskpriority_id = Taskpriority.objects.get(taskpriority_name='10_low').taskpriority_id
-        
+
         artifacttype_id = Artifacttype.objects.get(artifacttype_name='artifacttype_1').artifacttype_id
         artfactstatus_id = Artifactstatus.objects.get(artifactstatus_name='10_needs_analysis').artifactstatus_id
         artfactpriority_id = Artifactpriority.objects.get(artifactpriority_name='10_low').artifactpriority_id

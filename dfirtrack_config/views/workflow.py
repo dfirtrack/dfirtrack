@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.urls import reverse
-from django.views.generic import DetailView 
+from django.views.generic import DetailView
 from django.views.generic import  ListView
 from django.views.generic.edit import CreateView
 from django.views.generic.edit import DeleteView
@@ -16,9 +16,6 @@ from dfirtrack_config.forms import WorkflowForm
 from dfirtrack_config.forms import WorkflowDefaultArtifactAttributesFormSet
 from dfirtrack_config.forms import WorkflowDefaultTasknameAttributesFormSet
 from dfirtrack_main.models import System
-from dfirtrack_main.models import Taskname
-from dfirtrack_main.models import Taskpriority
-from dfirtrack_main.models import Taskstatus
 from dfirtrack_main.logger.default_logger import debug_logger
 
 
@@ -70,9 +67,9 @@ class WorkflowCreate(LoginRequiredMixin, CreateView):
 
         debug_logger(str(request.user), " WORKFLOW_ADD_ENTERED")
         return render(request, self.template_name, {
-            'form': form, 
-            'title': 'Add', 
-            'artifacttypes_formset': artifacttypes_formset, 
+            'form': form,
+            'title': 'Add',
+            'artifacttypes_formset': artifacttypes_formset,
             'tasknames_formset': tasknames_formset
         })
 
@@ -84,10 +81,10 @@ class WorkflowCreate(LoginRequiredMixin, CreateView):
             prefix='artifact'
         )
         tasknames_formset = WorkflowDefaultTasknameAttributesFormSet(
-            request.POST, 
+            request.POST,
             prefix='taskname'
         )
-        
+
         if not tasknames_formset.has_changed() and not artifacttypes_formset.has_changed():
             form.errors['General'] = ': You need to configure a taskname or artifacttype.'
 
@@ -118,8 +115,8 @@ class WorkflowCreate(LoginRequiredMixin, CreateView):
             return redirect(reverse('workflow_detail', args=(workflow.workflow_id,)))
         else:
             return render(request, self.template_name, {
-                'form': form,  
-                'title': 'Add', 
+                'form': form,
+                'title': 'Add',
                 'artifacttypes_formset': artifacttypes_formset,
                 'tasknames_formset': tasknames_formset
             })
@@ -145,8 +142,8 @@ class WorkflowUpdate(LoginRequiredMixin, UpdateView):
 
         workflow.logger(str(request.user), " TAG_EDIT_ENTERED")
         return render(request, self.template_name, {
-            'form': form, 
-            'title': 'Edit', 
+            'form': form,
+            'title': 'Edit',
             'artifacttypes_formset': artifacttypes_formset,
             'tasknames_formset': tasknames_formset
         })
@@ -192,8 +189,8 @@ class WorkflowUpdate(LoginRequiredMixin, UpdateView):
             return redirect(reverse('workflow_detail', args=(workflow.workflow_id,)))
         else:
             return render(request, self.template_name, {
-                'form': form, 
-                'title': 'Edit', 
+                'form': form,
+                'title': 'Edit',
                 'artifacttypes_formset': artifacttypes_formset,
                 'tasknames_formset': tasknames_formset
             })
