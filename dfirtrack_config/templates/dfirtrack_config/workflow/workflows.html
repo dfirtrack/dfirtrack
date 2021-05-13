@@ -39,7 +39,7 @@
     </div>
 
     <!-- workflow name headline -->
-    <div class="col-1">
+    <div class="col-3">
         Workflow
     </div>
 
@@ -49,7 +49,7 @@
     </div>
 
     <!-- artifacttype headline -->
-    <div class="col-7">
+    <div class="col-5">
         Artifacts / Artifacttypes
     </div>
 
@@ -68,7 +68,7 @@
         </div>
 
         <!-- workflow name -->
-        <div class="col-1">
+        <div class="col-3">
             <a href="{{ workflow.get_absolute_url }}">
                 {{ workflow.workflow_name }}
             </a>
@@ -80,7 +80,7 @@
         </div>
 
         <!-- artfiacttypes -->
-        <div class="col-7">
+        <div class="col-5">
             {{ workflow.artifacttypes.all|length }}
         </div>
 
@@ -129,7 +129,6 @@
     </div>
 
 <!-- button block -->
-</div>
 
 <!-- HTML body in maintemplate -->
 {% endblock %}

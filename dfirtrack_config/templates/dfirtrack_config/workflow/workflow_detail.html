@@ -43,14 +43,14 @@
 <div class="row bottom-distance top-distance">
 
     <!-- workflow id -->
-    <div class="col-3">
+    <div class="col-5">
         <small class="text-muted">
             Workflow-ID: {{ workflow.workflow_id }}
         </small>
     </div>
 
     <!-- created -->
-    <div class="col-3">
+    <div class="col-2">
         <small class="text-muted">
             Created by: {{ workflow.workflow_created_by_user_id }} <br>
             {{ workflow.workflow_create_time|date:"Y-m-d H:i" }}
@@ -68,87 +68,125 @@
 <!-- metadata row -->
 </div>
 
-<!--Tasks -->
+<!-- taskname -->
 <div class="row bottom-distance">
     <div class="col-3 font-weight-bold">
-        Tasknames
+        Tasks to create
     </div>
 </div>
 
-<!--Task List-->
+<!-- taskname list-->
 {% if tasknames|length > 0 %}
+
+    <!-- taskname headlines-->
     <div class="row bottom-distance">
         <div class="col-1 font-weight-bold">ID</div>
-        <div class="col-2 font-weight-bold">Taskname</div>
-        <div class="col-2 font-weight-bold">Taskname default status</div>
-        <div class="col-2 font-weight-bold">Taskname default priority</div>
+        <div class="col-4 font-weight-bold">Taskname</div>
+        <div class="col-2 font-weight-bold">Default taskstatus</div>
+        <div class="col-2 font-weight-bold">Default taskpriority</div>
     </div>
+
+    <!-- tasknames -->
     {% for taskname in tasknames %}
-        <div class="row bottom-distance">
-            <div class="col-1">
-                {{ taskname.taskname_id }}
-            </div>
-            <div class="col-2">
-                <a href="{{ taskname.get_absolute_url }}">
-                    {{ taskname }}
-                </a>
-            </div>
-            <div class="col-2">
-                {{ taskname.task_default_status }}
-            </div>
-            <div class="col-2">
-                {{ taskname.task_default_priority }}
-            </div>
+    <div class="row bottom-distance">
+
+        <!-- taskname id -->
+        <div class="col-1">
+            {{ taskname.taskname_id }}
         </div>
+
+        <!-- taskname -->
+        <div class="col-4">
+            <a href="{{ taskname.taskname.get_absolute_url }}">
+                {{ taskname }}
+            </a>
+        </div>
+
+        <!-- taskstatus -->
+        <div class="col-2">
+            <a href="{{ taskname.task_default_status.get_absolute_url }}">
+                {{ taskname.task_default_status }}
+            </a>
+        </div>
+
+        <!-- taskpriority -->
+        <div class="col-2">
+            <a href="{{ taskname.task_default_priority.get_absolute_url }}">
+                {{ taskname.task_default_priority }}
+            </a>
+        </div>
+
+    <!-- tasknames -->
+    </div>
     {% endfor %}
- {% else %}
+
+<!-- taskname list-->
+{% else %}
     ---
 {% endif %}
-<!--Task List-->
-<!--Tasks -->
 
-<!--Artifacttypes -->
+<!-- artifacttype -->
 <div class="row top-distance bottom-distance">
     <div class="col-3 font-weight-bold">
-        Artifacttypes
+        Artifacts to create
     </div>
 </div>
 
-<!--Artifacttypes List-->
+<!-- artifacttype list -->
 {% if artifacttypes|length > 0 %}
+
+    <!-- artifacttype headlines-->
     <div class="row bottom-distance">
         <div class="col-1 font-weight-bold">ID</div>
         <div class="col-2 font-weight-bold">Artifacttype</div>
         <div class="col-2 font-weight-bold">Artifact default name</div>
-        <div class="col-2 font-weight-bold">Artifact default status</div>
-        <div class="col-2 font-weight-bold">Artifact default priority</div>
+        <div class="col-2 font-weight-bold">Default artifactstatus</div>
+        <div class="col-2 font-weight-bold">Default artifactpriority</div>
     </div>
+
+    <!-- artifacttypes -->
     {% for artifacttype in artifacttypes %}
-        <div class="row bottom-distance">
-            <div class="col-1">
-                {{ artifacttype.artifacttype_id }}
-            </div>
-            <div class="col-2">
-                <a href="{{ artifacttype.artifacttype.get_absolute_url }}">
-                    {{ artifacttype.artifacttype }}
-                </a>
-            </div>
-            <div class="col-2">
-                    {{ artifacttype.artifact_default_name }}
-            </div>
-            <div class="col-2">
-                    {{ artifacttype.artifact_default_status }}
-            </div>
-            <div class="col-2">
-                    {{ artifacttype.artifact_default_priority }}
-            </div>
+    <div class="row bottom-distance">
+
+        <!-- artifacttype id -->
+        <div class="col-1">
+            {{ artifacttype.artifacttype_id }}
         </div>
+
+        <!-- artifacttype -->
+        <div class="col-2">
+            <a href="{{ artifacttype.artifacttype.get_absolute_url }}">
+                {{ artifacttype.artifacttype }}
+            </a>
+        </div>
+
+        <!-- artifact default name -->
+        <div class="col-2">
+                {{ artifacttype.artifact_default_name }}
+        </div>
+
+        <!-- artifactstatus -->
+        <div class="col-2">
+            <a href="{{ artifacttype.artifact_default_status.get_absolute_url }}">
+                {{ artifacttype.artifact_default_status }}
+            </a>
+        </div>
+
+        <!-- artifactpriority -->
+        <div class="col-2">
+            <a href="{{ artifacttype.artifact_default_priority.get_absolute_url }}">
+                {{ artifacttype.artifact_default_priority }}
+            </a>
+        </div>
+
+    <!-- artifacttypes -->
+    </div>
     {% endfor %}
+
+<!-- artifacttype list -->
 {% else %}
     ---
 {% endif %}
-<!--Artifacttypes List-->
-<!--Artifacttypes -->
 
 <!-- button row -->
 <div class="row top-distance">
