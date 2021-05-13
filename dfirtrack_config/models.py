@@ -2,11 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 from dfirtrack_main.models import Task
-from dfirtrack_main.models import Taskstatus
-from dfirtrack_main.models import Taskpriority
 from dfirtrack_artifacts.models import Artifact
-from dfirtrack_artifacts.models import Artifactpriority
-from dfirtrack_artifacts.models import Artifactstatus
 import logging
 
 stdlogger = logging.getLogger(__name__)
@@ -391,8 +387,8 @@ class Workflow(models.Model):
 
     # foreign key
     tasknames = models.ManyToManyField(
-        'dfirtrack_main.Taskname', 
-        related_name='main_config_workflow_taskname', 
+        'dfirtrack_main.Taskname',
+        related_name='main_config_workflow_taskname',
         through='WorkflowDefaultTasknameAttributes',
         blank=True)
     artifacttypes = models.ManyToManyField(
@@ -474,7 +470,7 @@ class WorkflowDefaultArtifactAttributes(models.Model):
     artifacttype = models.ForeignKey('dfirtrack_artifacts.Artifacttype', on_delete=models.CASCADE, related_name='workflow_artifacttype_mapping')
     workflow = models.ForeignKey(Workflow, on_delete=models.CASCADE, related_name='workflow_artifactname_mapping')
     artifact_default_priority = models.ForeignKey('dfirtrack_artifacts.Artifactpriority', on_delete=models.PROTECT, related_name='workflow_default_artifact_priority')
-    artifact_default_status = models.ForeignKey('dfirtrack_artifacts.Artifactstatus', on_delete=models.PROTECT, related_name='workflow_default_artifact_status')    
+    artifact_default_status = models.ForeignKey('dfirtrack_artifacts.Artifactstatus', on_delete=models.PROTECT, related_name='workflow_default_artifact_status')
 
     # main entity
     artifact_default_name = models.CharField(max_length=50)
@@ -491,7 +487,7 @@ class WorkflowDefaultTasknameAttributes(models.Model):
     taskname = models.ForeignKey('dfirtrack_main.Taskname', on_delete=models.CASCADE, related_name='workflow_taskname_mapping')
     workflow = models.ForeignKey(Workflow, on_delete=models.CASCADE, related_name='workflow_taskattribute_mapping')
     task_default_priority = models.ForeignKey('dfirtrack_main.Taskpriority', on_delete=models.PROTECT, related_name='workflow_default_task_priority')
-    task_default_status = models.ForeignKey('dfirtrack_main.Taskstatus', on_delete=models.PROTECT, related_name='workflow_default_task_status')   
+    task_default_status = models.ForeignKey('dfirtrack_main.Taskstatus', on_delete=models.PROTECT, related_name='workflow_default_task_status')
 
     def __str__(self):
         return self.taskname.taskname_name

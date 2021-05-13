@@ -16,6 +16,7 @@ from dfirtrack_main.models import Serviceprovider
 from dfirtrack_main.models import System
 from dfirtrack_main.models import Systemstatus
 from dfirtrack_main.models import Tag
+from dfirtrack_config.models import Workflow
 
 
 @login_required(login_url="/login")
@@ -51,6 +52,9 @@ def system_modificator(request):
 
         show_systemlist = bool(int(request.GET.get('systemlist', 0)))
 
+        # workflows
+        workflows = Workflow.objects.all()
+
         # show empty form with default values for convenience and speed reasons
         form = SystemModificatorForm(initial={
             'systemstatus': systemstatus,
@@ -65,7 +69,7 @@ def system_modificator(request):
         # call logger
         debug_logger(str(request.user), ' SYSTEM_MODIFICATOR_ENTERED')
 
-    return render(request, 'dfirtrack_main/system/system_modificator.html', {'form': form})
+    return render(request, 'dfirtrack_main/system/system_modificator.html', {'form': form, 'workflows': workflows})
 
 def system_modificator_async(request_post, request_user):
     """ function to modify many systems at once """
@@ -97,6 +101,16 @@ def system_modificator_async(request_post, request_user):
 
     # create empty list (needed for messages)
     skipped_systems = []
+
+    # workflows to apply
+    workflows = request_post.getlist("workflow")
+
+    # set workflows_applied (needed for messages)
+    if workflows:
+        workflow_count = len(workflows)
+    else:
+        workflow_count = 0
+    workflows_applied = 0
 
     # iterate over lines
     for line in lines:
@@ -270,10 +284,18 @@ def system_modificator_async(request_post, request_user):
                     # add company to system
                     system.company.add(company)
 
+            # apply workflows
+            if workflows:
+                error_code = Workflow.apply(workflows, system, request_user)
+                if error_code:
+                    system.logger(str(request_user), ' COULD_NOT_APPLY_WORKFLOW')
+                else:
+                    workflows_applied += workflow_count
+
     """ finish system importer """
 
     # call final messages
-    final_messages(systems_modified_counter, systems_skipped_counter, lines_faulty_counter, skipped_systems, number_of_lines, request_user)
+    final_messages(systems_modified_counter, systems_skipped_counter, lines_faulty_counter, skipped_systems, number_of_lines, request_user, workflow_count, workflows_applied)
 
     # call logger
     info_logger(

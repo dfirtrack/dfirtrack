@@ -25,7 +25,6 @@ from dfirtrack_main.models import Serviceprovider
 from dfirtrack_main.models import Systemstatus
 from dfirtrack_main.models import Systemtype
 from dfirtrack_main.models import Tag
-from dfirtrack_main.models import Taskname
 import os
 
 
@@ -1103,13 +1102,13 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
 '''
 
 WorkflowDefaultArtifactAttributesFormSet = forms.modelformset_factory(
-    WorkflowDefaultArtifactAttributes, 
+    WorkflowDefaultArtifactAttributes,
     fields = [
             'artifacttype',
             'artifact_default_name',
             'artifact_default_status',
             'artifact_default_priority'
-    ], 
+    ],
     widgets= {
         'artifact_default_name': forms.TextInput(attrs={'placeholder': 'Enter default artifact name'})
     },
@@ -1117,7 +1116,7 @@ WorkflowDefaultArtifactAttributesFormSet = forms.modelformset_factory(
 )
 
 WorkflowDefaultTasknameAttributesFormSet = forms.modelformset_factory(
-    WorkflowDefaultTasknameAttributes, 
+    WorkflowDefaultTasknameAttributes,
     fields = [
             'taskname',
             'task_default_status',
@@ -1139,6 +1138,6 @@ class WorkflowForm(forms.ModelForm):
         # model
         model = Workflow
 
-        fields = [ 
+        fields = [
             'workflow_name',
         ]

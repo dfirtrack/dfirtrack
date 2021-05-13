@@ -15,8 +15,8 @@ class WWorkflowDefaultArtifactAttributesFormSetTestCase(TestCase):
 
         # create objects
         Artifacttype.objects.create(artifacttype_name='artifacttype_1')
-        artfactstatus_1 = Artifactstatus.objects.get(artifactstatus_name='10_needs_analysis')
-        artfactpriority_1 = Artifactpriority.objects.get(artifactpriority_name='10_low')
+        Artifactstatus.objects.get(artifactstatus_name='10_needs_analysis')
+        Artifactpriority.objects.get(artifactpriority_name='10_low')
         test_user = User.objects.create_user(username='testuser_WorkflowDefaultArtifactAttributes', password='QVe1EH1Z5MshOW2GHS4b')
 
         Workflow.objects.create(

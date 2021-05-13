@@ -13,10 +13,10 @@ class WorkflowDefaultTasknameAttributesFormSetTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
 
-        # create objects
-        taskname_1 = Taskname.objects.create(taskname_name='taskname_1')
-        taskpriority_1  = Taskpriority.objects.get(taskpriority_name='10_low')
-        taskstastus_1 = Taskstatus.objects.get(taskstatus_name="10_pending")
+        # create or get objects
+        Taskname.objects.create(taskname_name='taskname_1')
+        Taskpriority.objects.get(taskpriority_name='10_low')
+        Taskstatus.objects.get(taskstatus_name="10_pending")
 
         test_user = User.objects.create_user(username='testuser_WorkflowDefaultTasknameAttributes', password='QVe1EH1Z5MshOW2GHS4b')
 

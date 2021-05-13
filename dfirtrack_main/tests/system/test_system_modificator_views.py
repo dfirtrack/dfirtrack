@@ -10,6 +10,7 @@ from dfirtrack_main.models import System
 from dfirtrack_main.models import Systemstatus
 from dfirtrack_main.models import Tag
 from dfirtrack_main.models import Tagcolor
+from dfirtrack_config.models import Workflow
 import urllib.parse
 
 
@@ -55,7 +56,7 @@ class SystemModificatorViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create user
-        User.objects.create_user(username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G')
+        test_user = User.objects.create_user(username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G')
 
         # create objects
         Analysisstatus.objects.create(analysisstatus_name = 'analysisstatus_1')
@@ -96,6 +97,13 @@ class SystemModificatorViewTestCase(TestCase):
         create_system('system_modificator_double')
         create_system('system_modificator_double')
 
+        # create objscts
+        Workflow.objects.create(
+            workflow_name = 'workflow_1',
+            workflow_created_by_user_id = test_user,
+            workflow_modified_by_user_id = test_user,
+        )
+
     def test_system_modificator_not_logged_in(self):
         """ test modificator view """
 
@@ -135,6 +143,16 @@ class SystemModificatorViewTestCase(TestCase):
         response = self.client.get('/system/modificator/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_system_modificator')
+
+    def test_system_modificator_context_workflows(self):
+        """ test modificator view """
+
+        # login testuser
+        self.client.login(username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G')
+        # get response
+        response = self.client.get('/system/modificator/')
+        # compare
+        self.assertEquals(str(response.context['workflows'][0]), 'workflow_1')
 
     def test_system_modificator_redirect(self):
         """ test modificator view """
@@ -589,3 +607,56 @@ class SystemModificatorViewTestCase(TestCase):
         self.assertEqual(str(messages[1]), '2 systems were created / modified.')
         self.assertEqual(str(messages[2]), "2 systems were skipped. ['system_modificator_not_existent', 'system_modificator_double']")
         self.assertEqual(str(messages[3]), '2 lines out of 6 lines were faulty (see log file for details).')
+
+    #TODO
+    def test_system_modificator_post_workflow_messages(self):
+        """ test modificator view """
+
+        # login testuser
+        self.client.login(username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G')
+        # create objects
+        analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name = 'analysisstatus_1')
+        systemstatus_2 = Systemstatus.objects.get(systemstatus_name = 'systemstatus_2')
+        workflow_1 = Workflow.objects.get(workflow_name='workflow_1')
+        # create post data
+        data_dict = {
+            'systemlist': 'system_modificator_system_1',
+            'analysisstatus': analysisstatus_1.analysisstatus_id,
+            'systemstatus': systemstatus_2.systemstatus_id,
+            'workflow': workflow_1.workflow_id,
+            'company_delete': 'keep_not_add',
+            'contact_delete': 'keep_existing',
+            'location_delete': 'keep_existing',
+            'serviceprovider_delete': 'keep_existing',
+            'tag_delete': 'keep_not_add'
+        }
+        # get response
+        response = self.client.post('/system/modificator/', data_dict, follow=True)
+        # compare
+        self.assertContains(response, 'System creator/modificator workflows applied.')
+
+    def test_system_modificator_post_nonexistent_workflow_messages(self):
+        """ test modificator view """
+
+        # login testuser
+        self.client.login(username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G')
+        # create objects
+        analysisstatus_1 = Analysisstatus.objects.get(analysisstatus_name = 'analysisstatus_1')
+        systemstatus_2 = Systemstatus.objects.get(systemstatus_name = 'systemstatus_2')
+        workflow_1 = Workflow.objects.get(workflow_name='workflow_1')
+        # create post data
+        data_dict = {
+            'systemlist': 'system_modificator_system_1',
+            'analysisstatus': analysisstatus_1.analysisstatus_id,
+            'systemstatus': systemstatus_2.systemstatus_id,
+            'workflow': [workflow_1.workflow_id, 99],
+            'company_delete': 'keep_not_add',
+            'contact_delete': 'keep_existing',
+            'location_delete': 'keep_existing',
+            'serviceprovider_delete': 'keep_existing',
+            'tag_delete': 'keep_not_add',
+        }
+        # get response
+        response = self.client.post('/system/modificator/', data_dict, follow=True)
+        # compare
+        self.assertContains(response, 'Could not apply all workflows.')
