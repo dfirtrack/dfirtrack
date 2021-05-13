@@ -16,6 +16,7 @@ from django.template.loader import render_to_string
 from django.core.exceptions import FieldError
 import ipaddress
 
+
 class SystemList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = System
@@ -264,7 +265,7 @@ def get_systems_json(request):
         if not all((x.isalnum() or x.isspace() or x == '_' or x == '-' or x == ':') for x in search_value):
             search_value = ''
 
-        # if no search value is given, get all objects and order them according to user setting, if the table is not generated on the general system overview page, only show the systems with the relevant id 
+        # if no search value is given, get all objects and order them according to user setting, if the table is not generated on the general system overview page, only show the systems with the relevant id
         if search_value == '':
             if referer.endswith('/system/'):
                 system_values = System.objects.all().order_by(order_dir+order_column_name)

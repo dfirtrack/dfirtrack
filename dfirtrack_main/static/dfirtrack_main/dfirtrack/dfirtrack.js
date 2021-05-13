@@ -199,7 +199,7 @@ $('.formsetLoader').each(function() {
 // append tempalte form to formset
 $('.addForm').click(function(event) {
     let formset = $(this).attr('id').split('-')[1]
-    
+
     let formRegex = RegExp(`${formset}-(\\d){1,3}-`,'g');
     let totalForms = $(`#id_${formset}-TOTAL_FORMS`).get(0);
     let formNum =  parseInt(totalForms.value);
@@ -210,6 +210,6 @@ $('.addForm').click(function(event) {
     form_container.html(form_container.html().replace(formRegex, `${formset}-${formNum}-`));
 
     $(`#formset-${formset}-container`).append(form_container);
-    
+
     totalForms.setAttribute('value', `${formNum+1}`);
 });
