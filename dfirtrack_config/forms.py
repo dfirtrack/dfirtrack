@@ -1109,6 +1109,10 @@ WorkflowDefaultArtifactAttributesFormSet = forms.modelformset_factory(
             'artifact_default_status',
             'artifact_default_priority'
     ],
+    labels = {
+        'artifact_default_status': 'Default artifactstatus',
+        'artifact_default_priority': 'Default artifactpriority',
+    },
     widgets= {
         'artifact_default_name': forms.TextInput(attrs={'placeholder': 'Enter default artifact name'})
     },
@@ -1122,6 +1126,10 @@ WorkflowDefaultTasknameAttributesFormSet = forms.modelformset_factory(
             'task_default_status',
             'task_default_priority'
     ],
+    labels = {
+        'task_default_status': 'Default taskstatus',
+        'task_default_priority': 'Default taskpriority',
+    },
     extra=1,
 )
 
