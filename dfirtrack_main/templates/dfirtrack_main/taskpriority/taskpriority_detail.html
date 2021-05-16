@@ -9,7 +9,10 @@
     Taskpriority '{{ taskpriority.taskpriority_name }}'{% if taskpriority.task_set.all %} (t: {{ taskpriority.task_set.all|length }}){% endif %}
 </title>
 
+<!-- javascript and CSS for datatables -->
 {% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.css' %}"/>
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.js' %}"></script>
 
 <!-- HTML head in maintemplate -->
 {% endblock %}
@@ -67,19 +70,26 @@
 <!-- tasks -->
 {% if taskpriority.task_set.all %}
 
-    {% for i in taskpriority.task_set.all %}
-        <div class="row top-distance">
-            <div class="col-3">
-                <a href="{{ i.get_absolute_url }}" type="button" class="btn btn-primary btn-sm sharp copy-true">
-                    <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                    {{ i.taskname }}
-                    {% if i.system %}
-                        | {{ i.system.system_name }}
-                    {% endif %}
-                </a>
-            </div>
-        </div>
-    {% endfor %}
+    <!-- datatable task open -->
+    <table id="table_task" class="display" width="100%">
+
+        <!-- table head -->
+        <thead>
+            {% include "dfirtrack_main/includes/datatable_thead_table_task.html" %}
+        </thead>
+
+        <!-- table body -->
+        <tbody>
+            {% for i in taskpriority.task_set.all %}
+                {% include "dfirtrack_main/includes/datatable_tbody_table_task.html" %}
+            {% endfor %}
+        </tbody>
+
+    <!-- datatable task open -->
+    </table>
+
+    <!-- javascript for datatables -->
+    <script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
 
 <!-- no tasks -->
 {% else %}
@@ -91,6 +101,11 @@
 
 <!-- tasks -->
 {% endif %}
+
+<!-- javascript for datatables -->
+{% block datatables %}
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.js' %}"></script>
+{% endblock %}
 
 <!-- HTML body in maintemplate -->
 {% endblock %}
