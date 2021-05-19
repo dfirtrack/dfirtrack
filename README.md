@@ -68,6 +68,19 @@ New features and changes are added to the develop branch and merged into master 
 Everything merged into develop should run too but might need manual changes.
 So if you want to see the latest features and progress: "check out" develop.
 
+## API
+
+DFIRTrack uses the OpenAPI specification that is provided by the Django Restframework.
+To retrieve the current OpenAPI scheme just visit the the DFIRTrack url `https://<DFIRTRACKHOST>/api/openapi/`.
+
+If you want to use the DFIRTRack API Clients you can use the following api clients:
+
+* **Python**
+    * [Github: n3x77dfirtrack-api-python-client](https://github.com/n3x77/dfirtrack-api-python-client)
+    * [Github:  Python minimalistic example](https://github.com/n3x77/dfirtrack-python-api-example)
+* **GO**
+    * [Github: n3x77/dfirtrackapi](https://github.com/n3x77/dfirtrackapi)
+
 ## License
 
 See `LICENSE` file in the root directory.
