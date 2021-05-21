@@ -26,8 +26,10 @@ if not "CI" in environ:
         # not in GitHub action --> get and return current branch
         working_dir = getcwd()
         repo = Repo(working_dir)
-        branch = repo.active_branch
-        return branch
+        try:
+            return repo.active_branch
+        except TypeError:
+            return repo.git.describe('--tags')
 else:
     @register.simple_tag
     def dfirtrack_branch():
