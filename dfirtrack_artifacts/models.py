@@ -55,7 +55,7 @@ class Artifact(models.Model):
         return 'Artifact {0} ({1})'.format(str(self.artifact_id), self.system)
 
     # define logger
-    def logger(artifact, request_user, log_text):
+    def logger(artifact, request_user, log_text):   # coverage: ignore branch
 
         if artifact.artifact_requested_time != None:
             # cast datetime object to string

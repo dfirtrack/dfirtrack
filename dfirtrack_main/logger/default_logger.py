@@ -31,9 +31,10 @@ def error_logger(request_user, log_text):
         log_text
     )
 
-# log level CRITICAL
-def critical_logger(request_user, log_text):
-    stdlogger.critical(
-        request_user +
-        log_text
-    )
+# not used at the moment
+## log level CRITICAL
+#def critical_logger(request_user, log_text):
+#    stdlogger.critical(
+#        request_user +
+#        log_text
+#    )

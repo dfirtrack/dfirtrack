@@ -380,6 +380,7 @@ class ArtifactViewTestCase(TestCase):
                 'artifacttype': artifacttype_id,
                 # 'case': TODO
                 'system': system_id,
+                # 'tag': TODO
                 #'artifact_aqcquisition_time': '2020-02-01 12:34:56',
                 'artifact_md5': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
                 'artifact_name': 'Artifact Create_post_complete_test',

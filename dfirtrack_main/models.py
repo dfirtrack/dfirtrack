@@ -109,7 +109,7 @@ class Case(models.Model):
         return self.case_name
 
     # define logger
-    def logger(case, request_user, log_text):
+    def logger(case, request_user, log_text):   # coverage: ignore branch
 
         if case.case_start_time != None:
             # cast datetime object to string
@@ -457,7 +457,7 @@ class Domainuser(models.Model):
         return '%s (%s)' % (self.domainuser_name, self.domain)
 
     # define logger
-    def logger(domainuser, request_user, log_text):
+    def logger(domainuser, request_user, log_text):     # coverage: ignore branch
 
         """
         ManyToMany-Relationsship don't get the default 'None' string if they are empty.
@@ -669,7 +669,7 @@ class Osarch(models.Model):
         return self.osarch_name
 
     # define logger
-    def logger(osarch, request_user, log_text):
+    def logger(osarch, request_user, log_text):     # coverage: ignore branch
         stdlogger.info(
             request_user +
             log_text +
@@ -677,10 +677,10 @@ class Osarch(models.Model):
             "|osarch_name:" + str(osarch.osarch_name)
         )
 
-    def get_absolute_url(self):
+    def get_absolute_url(self):     # coverage: ignore branch
         return reverse('osarch_detail', args=(self.pk,))
 
-    def get_update_url(self):
+    def get_update_url(self):       # coverage: ignore branch
         return reverse('osarch_update', args=(self.pk,))
 
 class Osimportname(models.Model):
@@ -989,7 +989,7 @@ class System(models.Model):
         return super().save(*args, **kwargs)
 
     # define logger
-    def logger(system, request_user, log_text):
+    def logger(system, request_user, log_text):     # coverage: ignore branch
 
         """
         ManyToMany-Relationsship don't get the default 'None' string if they are empty.
@@ -1290,7 +1290,7 @@ class Tagcolor(models.Model):
         return self.tagcolor_name
 
     # define logger
-    def logger(tagcolor, request_user, log_text):
+    def logger(tagcolor, request_user, log_text):   # coverage: ignore branch
         stdlogger.info(
             request_user +
             log_text +
@@ -1343,7 +1343,7 @@ class Task(models.Model):
 
         return super().save(*args, **kwargs)
 
-    def logger(task, request_user, log_text):
+    def logger(task, request_user, log_text):   # coverage: ignore branch
         """ define logger """
 
         if task.task_scheduled_time != None:
