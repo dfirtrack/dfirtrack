@@ -132,7 +132,7 @@ class SystemUpdate(LoginRequiredMixin, UpdateView):
     # get config model (without try statement 'manage.py migrate' fails (but not in tests))
     try:
         system_name_editable = MainConfigModel.objects.get(main_config_name = 'MainConfig').system_name_editable
-    except:
+    except:     # coverage: ignore branch
         system_name_editable  = False
 
     # choose form class depending on variable
@@ -150,7 +150,7 @@ class SystemUpdate(LoginRequiredMixin, UpdateView):
         # get config model (without try statement 'manage.py migrate' fails (but not in tests))
         try:
             system_name_editable = MainConfigModel.objects.get(main_config_name = 'MainConfig').system_name_editable
-        except:
+        except:     # coverage: ignore branch
             system_name_editable  = False
 
         # set system_name_editable for template
