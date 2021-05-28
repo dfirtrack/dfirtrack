@@ -325,7 +325,7 @@ def get_systems_json(request):
                             filter_kwargs["tag__tag_id"] = tag_id
                         system_values = system_values | System.objects.filter(**filter_kwargs)
             # make the resulting queryset unique and sort it according to user settings
-            system_values = system_values.distinct()
+            system_values = system_values.distinct().order_by(order_dir+order_column_name)
 
         # starting point for records in table
         start = int(get_params['start'])
