@@ -29,6 +29,7 @@ $(document).ready( function () {
             "type" : "GET",
             "url": window.location.protocol+"//"+window.location.hostname+(window.location.port ? ':'+location.port: '')+"/system/json/"
         },
+        "bStateSave": true,
         "columns": [
             { "data": "system_id" },
             { "data": "system_name" },
