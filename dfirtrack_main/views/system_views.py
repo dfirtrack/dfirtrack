@@ -271,16 +271,16 @@ def get_systems_json(request):
                 system_values = System.objects.all().order_by(order_dir+order_column_name)
             elif '/analysisstatus/' in referer:
                 analysisstatus_id = referer.split("/")[-2]
-                system_values = System.objects.filter(analysisstatus__analysisstatus_id=analysisstatus_id)
+                system_values = System.objects.filter(analysisstatus__analysisstatus_id=analysisstatus_id).order_by(order_dir+order_column_name)
             elif '/systemstatus/' in referer:
                 systemstatus_id = referer.split("/")[-2]
-                system_values = System.objects.filter(systemstatus__systemstatus_id=systemstatus_id)
+                system_values = System.objects.filter(systemstatus__systemstatus_id=systemstatus_id).order_by(order_dir+order_column_name)
             elif '/case/' in referer:
                 case_id = referer.split("/")[-2]
-                system_values = System.objects.filter(case__case_id=case_id)
+                system_values = System.objects.filter(case__case_id=case_id).order_by(order_dir+order_column_name)
             elif '/tag/' in referer:
                 tag_id = referer.split("/")[-2]
-                system_values = System.objects.filter(tag__tag_id=tag_id)
+                system_values = System.objects.filter(tag__tag_id=tag_id).order_by(order_dir+order_column_name)
 
 
         # if search value is given, go through all cloumn-raw-data and search for it
@@ -325,7 +325,7 @@ def get_systems_json(request):
                             filter_kwargs["tag__tag_id"] = tag_id
                         system_values = system_values | System.objects.filter(**filter_kwargs)
             # make the resulting queryset unique and sort it according to user settings
-            system_values = system_values.distinct().order_by(order_dir+order_column_name)
+            system_values = system_values.distinct()
 
         # starting point for records in table
         start = int(get_params['start'])
