@@ -125,9 +125,11 @@
         </div>
     </div>
 
+    <!-- javascript for datatables -->
+    <script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
+
     <!-- systems -->
     {% if tag.system_set.all %}
-
         <!-- datatable system -->
         <table id="table_system" class="display" width="100%">
 
@@ -142,6 +144,8 @@
 
         <!-- datatable system -->
         </table>
+
+
 
     <!-- no systems -->
     {% else %}
@@ -289,9 +293,6 @@
 
         <!-- datatable task -->
         </table>
-
-        <!-- javascript for datatables -->
-        <script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
 
     <!-- no tasks -->
     {% else %}
