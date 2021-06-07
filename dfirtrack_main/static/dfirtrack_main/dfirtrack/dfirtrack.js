@@ -50,7 +50,7 @@ function reloadWithArgs(arg) {
 
 // tooltip
 $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
+    $('[data-toggle="tooltip"]').tooltip()
 })
 
 // ####################################
@@ -189,27 +189,29 @@ function go_to_top() {
 // get empty form as template and save it to global var
 var form_container_template = {};
 
-$('.formsetLoader').each(function() {
-    let formset = $(this).attr('id').split('-')[1]
-    let totalForms = $(`#id_${formset}-TOTAL_FORMS`).get(0);
-    let formNum =  parseInt(totalForms.value);
-    form_container_template[formset] = $(`#formset-${formset}-${formNum-1}-container`).clone(true);
-})
+$(function () {
+    $('.formsetLoader').each(function() {
+        let formset = $(this).attr('id').split('-')[1]
+        let totalForms = $(`#id_${formset}-TOTAL_FORMS`).get(0);
+        let formNum =  parseInt(totalForms.value);
+        form_container_template[formset] = $(`#formset-${formset}-${formNum-1}-container`).clone(true);
+    });
 
-// append tempalte form to formset
-$('.addForm').click(function(event) {
-    let formset = $(this).attr('id').split('-')[1]
+    // append tempalte form to formset
+    $('.addForm').click(function(event) {
+        let formset = $(this).attr('id').split('-')[1]
 
-    let formRegex = RegExp(`${formset}-(\\d){1,3}-`,'g');
-    let totalForms = $(`#id_${formset}-TOTAL_FORMS`).get(0);
-    let formNum =  parseInt(totalForms.value);
+        let formRegex = RegExp(`${formset}-(\\d){1,3}-`,'g');
+        let totalForms = $(`#id_${formset}-TOTAL_FORMS`).get(0);
+        let formNum =  parseInt(totalForms.value);
 
-    let form_container = form_container_template[formset].clone(true);
-    form_container.removeAttr('id')
-    form_container.removeClass('d-none')
-    form_container.html(form_container.html().replace(formRegex, `${formset}-${formNum}-`));
+        let form_container = form_container_template[formset].clone(true);
+        form_container.removeAttr('id')
+        form_container.removeClass('d-none')
+        form_container.html(form_container.html().replace(formRegex, `${formset}-${formNum}-`));
 
-    $(`#formset-${formset}-container`).append(form_container);
+        $(`#formset-${formset}-container`).append(form_container);
 
-    totalForms.setAttribute('value', `${formNum+1}`);
+        totalForms.setAttribute('value', `${formNum+1}`);
+    });
 });
