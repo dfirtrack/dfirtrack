@@ -8,9 +8,9 @@ services:
             POSTGRES_PASSWORD: ${pg_password}
         volumes:
           - db-data:/var/lib/postgresql/data
-          
+
     dfirtrack:
-        build: 
+        build:
           context: ../../
           dockerfile: ./docker/dev/Dockerfile
           args:
@@ -26,9 +26,10 @@ services:
           - 443:443
         depends_on:
           - db
+# this is the volume where the dfirtrack repo from the host is mounted to
         volumes:
           - ../../:/dfirtrack/
-         
+
 
 volumes:
     db-data:

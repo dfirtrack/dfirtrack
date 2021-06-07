@@ -8,11 +8,11 @@ services:
             POSTGRES_PASSWORD: ${pg_password}
         volumes:
           - db-data:/var/lib/postgresql/data
-          
+
     dfirtrack:
-        build: 
-          context: ../
-          dockerfile: ./docker/Dockerfile
+        build:
+          context: ../../
+          dockerfile: ./docker/prod/Dockerfile
           args:
             - pgpass_user=${pg_user}
             - pgpass_pw=${pg_password}
@@ -26,7 +26,7 @@ services:
           - 443:443
         depends_on:
           - db
-         
+
 
 volumes:
     db-data:
