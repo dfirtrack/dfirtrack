@@ -1,3 +1,8 @@
+/* container maring */
+.container-fluid {
+    margin-bottom: 10px;
+}
+
 /* icon sizes */
 
 .icon {
@@ -134,12 +139,18 @@
     padding:0 15px;
 }
 
+table.dataTable{
+    margin-top: 15px !important;
+    margin-bottom: 10px !important;
+}
+
 a {
     color: White;
 }
 a:hover {
     color: White;
 }
+
 
 /* go to top of page button */
 
@@ -149,4 +160,15 @@ a:hover {
     bottom: 20px;       /* 20px from the bottom */
     right: 30px;        /* 30px from the right */
     z-index: 99;        /* show in foreground */
+}
+
+/* fixes bootstrap 5.0.1 */
+
+.btn {
+    white-space: nowrap !important;
+    margin-left: 2px;
+}
+
+.selector {
+    width: 100% !important;
 }
