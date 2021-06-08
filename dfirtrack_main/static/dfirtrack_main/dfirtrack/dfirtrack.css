@@ -146,6 +146,7 @@ table.dataTable{
 
 a {
     color: White;
+    text-decoration: none;
 }
 a:hover {
     color: White;
