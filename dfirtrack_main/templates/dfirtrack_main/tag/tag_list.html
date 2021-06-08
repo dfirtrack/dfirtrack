@@ -149,22 +149,17 @@
 
     <!-- button row -->
     <div class="row copy-false">
-
-        <!-- add button -->
-        <div class="col-1">
+        
+        <div class="col btn-group">
+            <!-- add button -->
             <div data-toggle="tooltip" data-placement="auto" title="Create single tag.">
                 <a href="{% url 'tag_create' %}" type="button" class="btn btn-light copy-false">
                     <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon right-distance copy-false" alt="icon">
                     Add tag
                 </a>
             </div>
-        </div>
-        <!-- placeholder -->
-        <div class="col-1">
-        </div>
 
-        <!-- creator button -->
-        <div class="col-1">
+            <!-- creator button -->
             <div data-toggle="tooltip" data-placement="auto" title="Create many tag-to-system relations.">
                 <a href="{% url 'tag_creator' %}" type="button" class="btn btn-light copy-false">
                     <img src="{% static 'dfirtrack_main/icons/box.svg' %}" class="icon right-distance copy-false" alt="icon">
