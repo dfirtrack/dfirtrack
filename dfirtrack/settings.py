@@ -149,7 +149,7 @@ Q_CLUSTER = {
     'timeout': 1800,                    # timeout tasks after half an hour
     'retry': 1801,                      # retry tasks only after timeout time (skip retry is not possible afaik)
     'save_limit': 0,                    # save unlimited successful tasks in the database
-    #'sync': True,                       # remove comment for synchronous execution (done for testing via 'dfirtrack.test_settings')
+    'sync': False,                      # switch for synchronous execution (also done for testing via 'dfirtrack.test_settings')
 }
 
 REST_FRAMEWORK = {
