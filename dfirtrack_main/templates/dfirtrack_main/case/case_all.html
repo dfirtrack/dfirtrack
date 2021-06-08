@@ -31,26 +31,8 @@
         </h5>
     </div>
 
-    <!-- open cases button -->
-    <div class="col-2">
-        <a href="{% url 'case_list' %}" type="button" class="btn btn-light copy-false">
-            Open cases
-        </a>
-    </div>
-
-    <!-- closed cases button -->
-    <div class="col-2">
-        <a href="{% url 'case_closed' %}" type="button" class="btn btn-light copy-false">
-            Closed cases
-        </a>
-    </div>
-
-    <!-- all cases button -->
-    <div class="col-2">
-        <button type="button" class="btn btn-light copy-false" disabled>
-            All cases
-        </button>
-    </div>
+    <!-- headline buttons -->
+    {% include "dfirtrack_main/includes/top_menu_cases.html" %}
 
 </div>
 
@@ -73,6 +55,9 @@
 
 <!-- javascript for datatables -->
 <script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
+
+<!-- bottom menu -->
+{% include "dfirtrack_main/includes/bottom_menu_cases.html" %}
 
 <!-- javascript for datatables -->
 {% block datatables %}

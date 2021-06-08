@@ -1,0 +1,36 @@
+{% load static %}
+<!-- button block -->
+<div class="card card-body bg-dark border-light top-distance copy-false">
+
+    <!-- headlines -->
+    <div class="row copy-false">
+        <div class="col-2">
+            <h5>Create cases</h5>
+        </div>
+    </div>
+
+    <!-- button row -->
+    <div class="row copy-false">
+        <div class="col btn-group">
+            <!-- add button -->
+            <div data-toggle="tooltip" data-placement="auto" title="Create single case.">
+                <a href="{% url 'case_create' %}" type="button" class="btn btn-light copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    Add case
+                </a>
+            </div>
+
+            <!-- creator button -->
+            <div data-toggle="tooltip" data-placement="auto" title="Create many case-to-system relations.">
+                <a href="{% url 'case_creator' %}" type="button" class="btn btn-light copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/box.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    Creator
+                </a>
+            </div>
+        </div>
+
+    <!-- button row -->
+    </div>
+
+<!-- button block -->
+</div>

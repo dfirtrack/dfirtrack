@@ -32,26 +32,7 @@
         </h5>
     </div>
 
-    <!-- open artifacts button -->
-    <div class="col-2">
-        <a href="{% url 'artifacts_artifact_list' %}" type="button" class="btn btn-light copy-false">
-            Open artifacts
-        </a>
-    </div>
-
-    <!-- closed artifacts button -->
-    <div class="col-2">
-        <button type="button" class="btn btn-light copy-false" disabled>
-            Closed artifacts
-        </button>
-    </div>
-
-    <!-- all artifacts button -->
-    <div class="col-2">
-        <a href="{% url 'artifacts_artifact_all' %}" type="button" class="btn btn-light copy-false">
-            All artifacts
-        </a>
-    </div>
+   {% include "dfirtrack_artifacts/includes/top_menu_artifacts.html" %}
 
 <!-- headline -->
 </div>
@@ -76,6 +57,8 @@
 
 <!-- javascript for datatables -->
 <script src="{% static 'dfirtrack_artifacts/datatables_artifacts.js' %}"></script>
+
+{% include "dfirtrack_artifacts/includes/bottom_menu_artifacts.html" %}
 
 <!-- javascript for datatables -->
 {% block datatables %}

@@ -31,26 +31,8 @@
         </h5>
     </div>
 
-    <!-- open cases button -->
-    <div class="col-2">
-        <button type="button" class="btn btn-light copy-false" disabled>
-            Open cases
-        </button>
-    </div>
-
-    <!-- closed cases button -->
-    <div class="col-2">
-        <a href="{% url 'case_closed' %}" type="button" class="btn btn-light copy-false">
-            Closed cases
-        </a>
-    </div>
-
-    <!-- all cases button -->
-    <div class="col-2">
-        <a href="{% url 'case_all' %}" type="button" class="btn btn-light copy-false">
-            All cases
-        </a>
-    </div>
+    <!-- headline buttons -->
+    {% include "dfirtrack_main/includes/top_menu_cases.html" %}
 
 </div>
 
@@ -74,46 +56,8 @@
 <!-- javascript for datatables -->
 <script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
 
-<!-- button block -->
-<div class="card card-body bg-dark border-light top-distance copy-false">
-
-    <!-- headlines -->
-    <div class="row copy-false">
-        <div class="col-2">
-            <h5>Create cases</h5>
-        </div>
-    </div>
-
-    <!-- button row -->
-    <div class="row copy-false">
-
-        <!-- add button -->
-        <div class="col-1">
-            <a href="{% url 'case_create' %}" type="button" class="btn btn-light copy-false">
-                <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon right-distance copy-false" alt="icon">
-                Add case
-            </a>
-        </div>
-
-        <!-- placeholder -->
-        <div class="col-1">
-        </div>
-
-        <!-- creator button -->
-        <div class="col-1">
-            <div data-toggle="tooltip" data-placement="auto" title="Create many case-to-system relations.">
-                <a href="{% url 'case_creator' %}" type="button" class="btn btn-light copy-false">
-                    <img src="{% static 'dfirtrack_main/icons/box.svg' %}" class="icon right-distance copy-false" alt="icon">
-                    Creator
-                </a>
-            </div>
-        </div>
-
-    <!-- button row -->
-    </div>
-
-<!-- button block -->
-</div>
+<!-- bottom menu -->
+{% include "dfirtrack_main/includes/bottom_menu_cases.html" %}
 
 <!-- javascript for datatables -->
 {% block datatables %}
