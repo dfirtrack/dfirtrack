@@ -1,3 +1,8 @@
+/* container maring */
+.container-fluid {
+    margin-bottom: 10px;
+}
+
 /* icon sizes */
 
 .icon {
@@ -35,6 +40,11 @@
 .btn-black:hover {
     background: DarkGray;
     color: White;
+}
+
+.btn-light:hover {
+    background: LightGray;
+    border-color: LightGray;
 }
 
 .btn-green {
@@ -107,6 +117,18 @@
     border-top-right-radius: 25px;
 }
 
+.btn.left {
+    border-radius: 0px;
+    border-bottom-left-radius: .25rem;
+    border-top-left-radius: .25rem;
+}
+
+.btn.right {
+    border-radius: 0px;
+    border-bottom-right-radius: .25rem;
+    border-top-right-radius: .25rem;
+}
+
 /* distances */
 
 .top-distance {
@@ -119,6 +141,10 @@
 
 .right-distance {
     margin-right: 10px;
+}
+
+.right-s-distance {
+    margin-right: 5px;
 }
 
 .left-distance {
@@ -134,12 +160,19 @@
     padding:0 15px;
 }
 
+table.dataTable{
+    margin-top: 15px !important;
+    margin-bottom: 10px !important;
+}
+
 a {
     color: White;
+    text-decoration: none;
 }
 a:hover {
     color: White;
 }
+
 
 /* go to top of page button */
 
@@ -149,4 +182,14 @@ a:hover {
     bottom: 20px;       /* 20px from the bottom */
     right: 30px;        /* 30px from the right */
     z-index: 99;        /* show in foreground */
+}
+
+/* fixes bootstrap 5.0.1 */
+
+.btn {
+    white-space: nowrap !important;
+}
+
+.selector {
+    width: 100% !important;
 }

@@ -324,7 +324,7 @@
     <!-- systemhistory headline row -->
     <div class="row top-distance bottom-distance">
         <div class="col">
-            <a href="#systemhistory" data-toggle="collapse">
+            <a href="#systemhistory" data-bs-toggle="collapse">
                 Systemhistory
                 <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
             </a>
@@ -439,44 +439,46 @@
     </table>
 
     <!-- add task / workflow button row -->
-    <div class="row bottom-distance top-distance">
+    <div class="row bottom-distance top-distance ">
+        <div class="col btn-group">
 
-        <!-- add task button -->
-        <div class="col-1">
-            <a href="{% url 'task_create' %}?system={{ system.system_id }}" type="button" class="btn btn-light btn-sm copy-false">
-                <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm copy-false right-distance" alt="icon">
-                Add task
-            </a>
-        </div>
+            <!-- add task button -->
+            <div>
+                <a href="{% url 'task_create' %}?system={{ system.system_id }}" type="button" class="btn btn-light btn-sm copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm copy-false right-distance" alt="icon">
+                    Add task
+                </a>
+            </div>
 
-        <!-- add workflow button -->
-        <div class="col-5">
-            <form method="post" action="{% url 'workflow_apply' system.system_id %}">
+            <!-- add workflow button -->
+            <div>
+                <form method="post" action="{% url 'workflow_apply' system.system_id %}">
 
-                {% csrf_token %}
+                    {% csrf_token %}
 
-                <!-- workflow dropdown -->
-                <select name="workflow">
-                    {% for workflow in workflows %}
-                        <option value="{{workflow.workflow_id}}">{{workflow}}</option>
-                    {% endfor %}
-                </select>
+                    {% if workflows %}
+                        <!-- workflow apply button -->
+                        <button class="btn btn-light btn-sm copy-false" type="submit">
+                            <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                            Apply workflow
+                        </button>
+                    {% else %}
+                        <!-- disabled button -->
+                        <button class="btn btn-light btn-sm copy-false" disabled>
+                            <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                            Apply workflow
+                        </button>
+                    {% endif %}
 
-                {% if workflows %}
-                    <!-- workflow apply button -->
-                    <button class="btn btn-light btn-sm copy-false" type="submit">
-                        <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                        Apply workflow
-                    </button>
-                {% else %}
-                    <!-- disabled button -->
-                    <button class="btn btn-light btn-sm copy-false" disabled>
-                        <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                        Apply workflow
-                    </button>
-                {% endif %}
+                    <!-- workflow dropdown -->
+                    <select name="workflow">
+                        {% for workflow in workflows %}
+                            <option value="{{workflow.workflow_id}}">{{workflow}}</option>
+                        {% endfor %}
+                    </select>
 
-            </form>
+                </form>
+            </div>
         </div>
 
     <!-- add task / workflow button row -->
@@ -485,7 +487,7 @@
     <!-- closed tasks headline -->
     <div class="row font-weight-bold bottom-distance">
         <div class="col-3">
-            <a href="#closed_tasks" data-toggle="collapse" class="copy-true">
+            <a href="#closed_tasks" data-bs-toggle="collapse" class="copy-true">
                 Closed tasks
                 <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon-sm copy-false left-distance" alt="icon">
             </a>
@@ -559,7 +561,7 @@
     <!-- artifacts  headline -->
     <div class="row bottom-distance">
         <div class="col">
-            <a href="#artifacts" data-toggle="collapse">
+            <a href="#artifacts" data-bs-toggle="collapse">
                 <h5>
                     <img src="{% static 'dfirtrack_main/icons/bug-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                     Artifacts
@@ -606,46 +608,48 @@
 
         <!-- add artifact / workflow button row -->
         <div class="row bottom-distance top-distance">
+            <div class="col btn-group">
 
-            <!-- add artifact button -->
-            <div class="col-1">
-                <a href="{% url 'artifacts_artifact_create' %}?system={{ system.system_id }}" type="button" class="btn btn-light btn-sm copy-false">
-                    <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm copy-false right-distance" alt="icon">
-                    Add artifact
-                </a>
+                <!-- add artifact button -->
+                <div>
+                    <a href="{% url 'artifacts_artifact_create' %}?system={{ system.system_id }}" type="button" class="btn btn-light btn-sm copy-false">
+                        <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm copy-false right-distance" alt="icon">
+                        Add artifact
+                    </a>
+                </div>
+
+                <!-- add workflow button -->
+                <div>
+                    <form method="post" action="{% url 'workflow_apply' system.system_id %}">
+
+                        {% csrf_token %}
+
+                        {% if workflows %}
+                            <!-- workflow apply button -->
+                            <button class="btn btn-light btn-sm copy-false" type="submit">
+                                <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                                Apply workflow
+                            </button>
+                        {% else %}
+                            <!-- disabled button -->
+                            <button class="btn btn-light btn-sm copy-false" disabled>
+                                <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                                Apply workflow
+                            </button>
+                        {% endif %}
+
+                        <!-- workflow dropdown -->
+                        <select name="workflow">
+                            {% for workflow in workflows %}
+                                <option value="{{workflow.workflow_id}}">{{workflow}}</option>
+                            {% endfor %}
+                        </select>
+
+                    </form>
+                </div>
+
+            <!-- add artifact / workflow button row -->
             </div>
-
-            <!-- add workflow button -->
-            <div class="col-5">
-                <form method="post" action="{% url 'workflow_apply' system.system_id %}">
-
-                    {% csrf_token %}
-
-                    <!-- workflow dropdown -->
-                    <select name="workflow">
-                        {% for workflow in workflows %}
-                            <option value="{{workflow.workflow_id}}">{{workflow}}</option>
-                        {% endfor %}
-                    </select>
-
-                    {% if workflows %}
-                        <!-- workflow apply button -->
-                        <button class="btn btn-light btn-sm copy-false" type="submit">
-                            <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                            Apply workflow
-                        </button>
-                    {% else %}
-                        <!-- disabled button -->
-                        <button class="btn btn-light btn-sm copy-false" disabled>
-                            <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                            Apply workflow
-                        </button>
-                    {% endif %}
-
-                </form>
-            </div>
-
-        <!-- add artifact / workflow button row -->
         </div>
 
     <!-- artifacts collapse -->
@@ -665,7 +669,7 @@
     <!-- timeline headline -->
     <div class="row bottom-distance">
         <div class="col">
-            <a href="#timeline" data-toggle="collapse">
+            <a href="#timeline" data-bs-toggle="collapse">
                 <h5>Timeline
                     <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
                 </h5>
@@ -788,7 +792,7 @@
     <!-- technical information headline -->
     <div class="row">
         <div class="col">
-            <a href="#technical_information" data-toggle="collapse">
+            <a href="#technical_information" data-bs-toggle="collapse">
                 <h5>Technical information
                     <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
                 </h5>
@@ -918,7 +922,7 @@
     <!-- virtualization headline -->
     <div class="row">
         <div class="col">
-            <a href="#virtualization_information" data-toggle="collapse">
+            <a href="#virtualization_information" data-bs-toggle="collapse">
                 <h5>Virtualization information
                     <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
                 </h5>
@@ -972,7 +976,7 @@
     <!-- company information headline -->
     <div class="row">
         <div class="col">
-            <a href="#company_information" data-toggle="collapse">
+            <a href="#company_information" data-bs-toggle="collapse">
                 <h5>Company information
                     <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
                 </h5>
@@ -1065,7 +1069,7 @@
     <!-- systemusers headline  -->
     <div class="row">
         <div class="col">
-            <a href="#systemusers" data-toggle="collapse">
+            <a href="#systemusers" data-bs-toggle="collapse">
                 <h5>Systemusers
                     <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
                 </h5>
@@ -1121,7 +1125,7 @@
     <!-- analystmemos headline -->
     <div class="row">
         <div class="col">
-            <a href="#analystmemos" data-toggle="collapse">
+            <a href="#analystmemos" data-bs-toggle="collapse">
                 <h5>Analystmemos
                     <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
                 </h5>
@@ -1143,7 +1147,7 @@
                     <!-- single analystmemo headline -->
                     <div class="row">
                         <div class="col">
-                            <a href="#analystmemo_{{ i.analystmemo_id }}" data-toggle="collapse">
+                            <a href="#analystmemo_{{ i.analystmemo_id }}" data-bs-toggle="collapse">
                                 Analystmemo
                                 <span class="text-muted">
                                     created {{ i.analystmemo_create_time|date:"Y-m-d H:i" }} by {{ i.analystmemo_created_by_user_id }} and last edited {{ i.analystmemo_modify_time|date:"Y-m-d H:i" }} by {{ i.analystmemo_modified_by_user_id }}
@@ -1199,7 +1203,7 @@
     <!-- reportitems headline -->
     <div class="row">
         <div class="col">
-            <a href="#reportitems" data-toggle="collapse">
+            <a href="#reportitems" data-bs-toggle="collapse">
                 <h5>Reportitems
                     <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
                 </h5>
@@ -1221,7 +1225,7 @@
                     <!-- single reportitem headline -->
                     <div class="row top-distance">
                         <div class="col">
-                            <a href="#reportitem_{{ i.reportitem_id }}" data-toggle="collapse">
+                            <a href="#reportitem_{{ i.reportitem_id }}" data-bs-toggle="collapse">
 
                                 <!-- with subheadline -->
                                 {% if i.reportitem_subheadline %}

@@ -29,29 +29,8 @@
         </h5>
     </div>
 
-    <!-- open tasks button -->
-    <div class="col-2">
-        <a href="{% url 'task_list' %}" type="button" class="btn btn-light copy-false">
-            <img src="{% static 'dfirtrack_main/icons/task.svg' %}" class="icon right-distance copy-false" alt="icon">
-            Open tasks
-        </a>
-    </div>
-
-    <!-- closed tasks button -->
-    <div class="col-2">
-        <button type="button" class="btn btn-light copy-false" disabled>
-            <img src="{% static 'dfirtrack_main/icons/task.svg' %}" class="icon right-distance copy-false" alt="icon">
-            Closed tasks
-        </button>
-    </div>
-
-    <!-- all tasks button -->
-    <div class="col-2">
-        <a href="{% url 'task_all' %}" type="button" class="btn btn-light copy-false">
-            <img src="{% static 'dfirtrack_main/icons/task.svg' %}" class="icon right-distance copy-false" alt="icon">
-            All tasks
-        </a>
-    </div>
+    <!-- headline button -->
+    {% include "dfirtrack_main/includes/top_menu_tasks.html" %}
 
 <!-- headline -->
 </div>
@@ -76,6 +55,9 @@
 
 <!-- javascript for datatables -->
 <script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
+
+<!-- bottom menu -->
+{% include "dfirtrack_main/includes/bottom_menu_tasks.html" %}
 
 <!-- javascript for datatables -->
 {% block datatables %}
