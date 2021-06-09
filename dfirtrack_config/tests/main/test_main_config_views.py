@@ -163,7 +163,9 @@ class MainConfigViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN')
         # create post data
-        data_dict = {}
+        data_dict = {
+            'cron_export_path': '/tmp',
+        }
         # get response
         response = self.client.post('/config/main/', data_dict)
         # compare
@@ -175,7 +177,9 @@ class MainConfigViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN')
         # create post data
-        data_dict = {}
+        data_dict = {
+            'cron_export_path': '/tmp',
+        }
         # get response
         response = self.client.post('/config/main/', data_dict)
         # compare

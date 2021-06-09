@@ -68,7 +68,9 @@ class MainConfigFormTestCase(TestCase):
         """ test minimum form requirements / INVALID """
 
         # get object
-        form = MainConfigForm(data = {})
+        form = MainConfigForm(data = {
+            'cron_export_path': '/tmp',
+        })
         # compare
         self.assertFalse(form.is_valid())
 
@@ -78,6 +80,7 @@ class MainConfigFormTestCase(TestCase):
         # get object
         form = MainConfigForm(data = {
             'statushistory_entry_numbers': 9,
+            'cron_export_path': '/tmp',
         })
         # compare
         self.assertFalse(form.is_valid())
