@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.utils import timezone
 from dfirtrack_config.models import MainConfigModel, SystemExporterSpreadsheetCsvConfigModel
+from dfirtrack_main.exporter.spreadsheet.checks import check_content_file_system
 from dfirtrack_main.logger.default_logger import debug_logger, info_logger
 from dfirtrack_main.models import System
 import csv
@@ -292,6 +293,14 @@ def system_cron():
 
     # get config
     main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+
+    # check file system
+    stop_cron_exporter = check_content_file_system(main_config_model, 'SYSTEM_CSV')
+
+    # leave if config caused errors
+    if stop_cron_exporter:
+        # return to scheduled task
+        return
 
     # prepare output file path
     output_file_path = main_config_model.cron_export_path + '/' + filetime + '_systems.csv'

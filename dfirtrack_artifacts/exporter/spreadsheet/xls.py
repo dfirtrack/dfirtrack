@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.utils import timezone
 from dfirtrack_artifacts.models import Artifact, Artifactstatus, Artifacttype
 from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel, MainConfigModel
+from dfirtrack_main.exporter.spreadsheet.checks import check_content_file_system
 from dfirtrack_main.exporter.spreadsheet.xls import style_default, style_headline, write_row
 from dfirtrack_main.logger.default_logger import debug_logger, info_logger
 from time import strftime
@@ -350,6 +351,14 @@ def artifact_cron():
 
     # get config
     main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+
+    # check file system
+    stop_cron_exporter = check_content_file_system(main_config_model, 'ARTIFACT_XLS')
+
+    # leave if config caused errors
+    if stop_cron_exporter:
+        # return to scheduled task
+        return
 
     # prepare output file path
     output_file_path = main_config_model.cron_export_path + '/' + filetime + '_artifacts.xls'
