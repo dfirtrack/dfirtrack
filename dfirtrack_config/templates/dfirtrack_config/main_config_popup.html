@@ -83,8 +83,14 @@
 
                 <div class="row">
 
-                    <div class="col-12">
-                            {{ form.cron_export_path }}
+                    <div class="col-6">
+                        <!-- errors -->
+                        {{ form.cron_export_path }}
+                    </div>
+
+                    <!-- errors -->
+                    <div class="col-6 text-danger">
+                        {{ form.cron_export_path.errors }}
                     </div>
 
                 <!-- cron_export_path -->
