@@ -1,5 +1,6 @@
 from datetime import datetime
 from django.contrib.auth.models import User
+from django.contrib.messages import get_messages
 from django.test import TestCase
 from django.utils import timezone
 from dfirtrack_artifacts.exporter.spreadsheet.xls import artifact_cron
@@ -19,6 +20,7 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
 
         # create user
         test_user = User.objects.create_user(username='testuser_artifact_exporter_spreadsheet_xls', password='LTzoNHIdxiJydsaJKf1G')
+        User.objects.create_user(username='message_user', password='gwvXRsMEfYVNIJXK8NZq')
 
         # create object
         artifactstatus_3 = Artifactstatus.objects.create(artifactstatus_name = 'artifactstatus_3')
@@ -518,3 +520,71 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         self.assertEqual(sheet_artifacts.cell(4,1).value, t3_now.strftime('%Y-%m-%d %H:%M'))
         self.assertEqual(sheet_artifacts.cell(5,0).value, 'Created by:')
         self.assertEqual(sheet_artifacts.cell(5,1).value, 'cron')
+
+    def test_artifact_exporter_spreadsheet_xls_path_not_existent(self):
+        """ test exporter view """
+
+        # get and modify main config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        main_config_model.cron_export_path = '/this_path_does_not_exist'
+        main_config_model.cron_username = 'cron'
+        main_config_model.save()
+
+        # create spreadsheet without GET by directly calling the function
+        artifact_cron()
+
+        # login testuser
+        self.client.login(username='testuser_artifact_exporter_spreadsheet_xls', password='LTzoNHIdxiJydsaJKf1G')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_artifact_exporter_spreadsheet_xls')
+        self.assertEqual(messages[0].message, '[Scheduled task spreadsheet exporter] ARTIFACT_XLS: Export path does not exist. Check config or file system!')
+        self.assertEqual(messages[0].level_tag, 'error')
+        # switch user context
+        self.client.logout()
+        self.client.login(username='message_user', password='gwvXRsMEfYVNIJXK8NZq')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'message_user')
+        self.assertEqual(messages[0].message, '[Scheduled task spreadsheet exporter] ARTIFACT_XLS: Export path does not exist. Check config or file system!')
+        self.assertEqual(messages[0].level_tag, 'error')
+
+    def test_artifact_exporter_spreadsheet_xls_path_no_write_permission(self):
+        """ test exporter view """
+
+        # get and modify main config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        main_config_model.cron_export_path = '/root'
+        main_config_model.cron_username = 'cron'
+        main_config_model.save()
+
+        # create spreadsheet without GET by directly calling the function
+        artifact_cron()
+
+        # login testuser
+        self.client.login(username='testuser_artifact_exporter_spreadsheet_xls', password='LTzoNHIdxiJydsaJKf1G')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_artifact_exporter_spreadsheet_xls')
+        self.assertEqual(messages[0].message, '[Scheduled task spreadsheet exporter] ARTIFACT_XLS: No write permission for export path. Check config or file system!')
+        self.assertEqual(messages[0].level_tag, 'error')
+        # switch user context
+        self.client.logout()
+        self.client.login(username='message_user', password='gwvXRsMEfYVNIJXK8NZq')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'message_user')
+        self.assertEqual(messages[0].message, '[Scheduled task spreadsheet exporter] ARTIFACT_XLS: No write permission for export path. Check config or file system!')
+        self.assertEqual(messages[0].level_tag, 'error')

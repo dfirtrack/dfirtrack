@@ -1,6 +1,7 @@
 import csv
 from datetime import datetime
 from django.contrib.auth.models import User
+from django.contrib.messages import get_messages
 from django.test import TestCase
 from django.utils import timezone
 from dfirtrack_config.models import MainConfigModel, SystemExporterSpreadsheetCsvConfigModel
@@ -17,6 +18,7 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
 
         # create user
         test_user = User.objects.create_user(username='testuser_system_exporter_spreadsheet_csv', password='XJzSzgX2q39OUWluwxoj')
+        User.objects.create_user(username='message_user', password='3qXjYKBj1CVCakjbCd7A')
 
         # create objects
         dnsname_1 = Dnsname.objects.create(dnsname_name='dnsname_1')
@@ -496,3 +498,71 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
 
         # close file
         csv_disk.close()
+
+    def test_system_exporter_spreadsheet_csv_path_not_existent(self):
+        """ test exporter view """
+
+        # get and modify main config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        main_config_model.cron_export_path = '/this_path_does_not_exist'
+        main_config_model.cron_username = 'cron'
+        main_config_model.save()
+
+        # create spreadsheet without GET by directly calling the function
+        system_cron()
+
+        # login testuser
+        self.client.login(username='testuser_system_exporter_spreadsheet_csv', password='XJzSzgX2q39OUWluwxoj')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_system_exporter_spreadsheet_csv')
+        self.assertEqual(messages[0].message, '[Scheduled task spreadsheet exporter] SYSTEM_CSV: Export path does not exist. Check config or file system!')
+        self.assertEqual(messages[0].level_tag, 'error')
+        # switch user context
+        self.client.logout()
+        self.client.login(username='message_user', password='3qXjYKBj1CVCakjbCd7A')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'message_user')
+        self.assertEqual(messages[0].message, '[Scheduled task spreadsheet exporter] SYSTEM_CSV: Export path does not exist. Check config or file system!')
+        self.assertEqual(messages[0].level_tag, 'error')
+
+    def test_system_exporter_spreadsheet_csv_path_no_write_permission(self):
+        """ test exporter view """
+
+        # get and modify main config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        main_config_model.cron_export_path = '/root'
+        main_config_model.cron_username = 'cron'
+        main_config_model.save()
+
+        # create spreadsheet without GET by directly calling the function
+        system_cron()
+
+        # login testuser
+        self.client.login(username='testuser_system_exporter_spreadsheet_csv', password='XJzSzgX2q39OUWluwxoj')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_system_exporter_spreadsheet_csv')
+        self.assertEqual(messages[0].message, '[Scheduled task spreadsheet exporter] SYSTEM_CSV: No write permission for export path. Check config or file system!')
+        self.assertEqual(messages[0].level_tag, 'error')
+        # switch user context
+        self.client.logout()
+        self.client.login(username='message_user', password='3qXjYKBj1CVCakjbCd7A')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'message_user')
+        self.assertEqual(messages[0].message, '[Scheduled task spreadsheet exporter] SYSTEM_CSV: No write permission for export path. Check config or file system!')
+        self.assertEqual(messages[0].level_tag, 'error')
