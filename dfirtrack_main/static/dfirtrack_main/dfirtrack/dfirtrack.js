@@ -197,7 +197,7 @@ $(function () {
         form_container_template[formset] = $(`#formset-${formset}-${formNum-1}-container`).clone(true);
     });
 
-    // append tempalte form to formset
+    // append template form to formset
     $('.addForm').click(function(event) {
         let formset = $(this).attr('id').split('-')[1]
 
