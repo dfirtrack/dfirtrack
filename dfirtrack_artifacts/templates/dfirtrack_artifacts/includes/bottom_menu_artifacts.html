@@ -45,16 +45,16 @@
         <!-- export XLS button -->
         <div class="col btn-group">
             <div data-toggle="tooltip" data-placement="auto" title="Immediately download artifacts as XLS file.">
-                <a href="{% url 'artifact_exporter_spreadsheet_xls' %}" type="button" class="btn btn-light copy-false">
+                <a href="{% url 'artifact_exporter_spreadsheet_xls' %}" type="button" class="btn left btn-light copy-false">
                     <img src="{% static 'dfirtrack_main/icons/spreadsheet.svg' %}" class="icon right-distance copy-false" alt="icon">
                     Export XLS
                 </a>
             </div>
             <div data-toggle="tooltip" data-placement="auto" title="Create scheduled task to export XLS file to server file system.">
-                <a href="/admin/django_q/schedule/add/?name=artifact_spreadsheet_exporter_xls&func=dfirtrack_artifacts.exporter.spreadsheet.xls.artifact_cron" target="_blank" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/clock.svg' %}" class="icon copy-false" alt="icon"></a>
+                <a href="/admin/django_q/schedule/add/?name=artifact_spreadsheet_exporter_xls&func=dfirtrack_artifacts.exporter.spreadsheet.xls.artifact_cron" target="_blank" type="button" class="btn sharp btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/clock.svg' %}" class="icon copy-false" alt="icon"></a>
             </div>
             <div data-toggle="tooltip" data-placement="auto" title="Change settings for XLS file export.">
-                <button onclick="artifact_exporter_spreadsheet_xls_config_popup()" type="button" class="btn btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/wrench.svg' %}" class="icon copy-false" alt="icon"> </a>
+                <button onclick="artifact_exporter_spreadsheet_xls_config_popup()" type="button" class="btn right btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/wrench.svg' %}" class="icon copy-false" alt="icon"> </a>
             </div>
         </div>
 

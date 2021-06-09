@@ -42,6 +42,11 @@
     color: White;
 }
 
+.btn-light:hover {
+    background: LightGray;
+    border-color: LightGray;
+}
+
 .btn-green {
     background: MediumSeaGreen;
     border: MediumSeaGreen;
@@ -110,6 +115,18 @@
 
 .btn.top-right-lg {
     border-top-right-radius: 25px;
+}
+
+.btn.left {
+    border-radius: 0px;
+    border-bottom-left-radius: .25rem;
+    border-top-left-radius: .25rem;
+}
+
+.btn.right {
+    border-radius: 0px;
+    border-bottom-right-radius: .25rem;
+    border-top-right-radius: .25rem;
 }
 
 /* distances */
