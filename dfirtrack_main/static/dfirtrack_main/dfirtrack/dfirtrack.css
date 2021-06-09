@@ -126,6 +126,10 @@
     margin-right: 10px;
 }
 
+.right-s-distance {
+    margin-right: 5px;
+}
+
 .left-distance {
     margin-left: 10px;
 }
@@ -167,7 +171,6 @@ a:hover {
 
 .btn {
     white-space: nowrap !important;
-    margin-left: 2px;
 }
 
 .selector {
