@@ -233,9 +233,9 @@ class MainConfigForm(forms.ModelForm):
         if not os.path.isdir(self.cleaned_data['cron_export_path']):
             validation_errors['cron_export_path'] = 'Export path does not exist.'
         else:
-            # cron export path is not readable - stop immediately
+            # cron export path is not writeable - stop immediately
             if not os.access(self.cleaned_data['cron_export_path'], os.R_OK):
-                validation_errors['cron_export_path'] = 'No read permission for export path.'
+                validation_errors['cron_export_path'] = 'No write permission for export path.'
 
         """ raise error """
 
