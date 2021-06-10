@@ -11,6 +11,7 @@ urlpatterns = (
     path(r'artifact/detail/<int:pk>/', artifact_view.ArtifactDetailView.as_view(), name='artifacts_artifact_detail'),
     path(r'artifact/update/<int:pk>/', artifact_view.ArtifactUpdateView.as_view(), name='artifacts_artifact_update'),
     path(r'artifact/exporter/spreadsheet/xls/artifact/', xls.artifact, name='artifact_exporter_spreadsheet_xls'),
+    path(r'artifact/exporter/spreadsheet/xls/artifact/cron/', xls.artifact_create_cron, name='artifact_exporter_spreadsheet_xls_cron'),
 )
 
 urlpatterns += (

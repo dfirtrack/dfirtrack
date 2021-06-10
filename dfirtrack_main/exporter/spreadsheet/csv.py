@@ -1,5 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.shortcuts import redirect
+from django.urls import reverse
 from django.utils import timezone
 from dfirtrack_config.models import MainConfigModel, SystemExporterSpreadsheetCsvConfigModel
 from dfirtrack_main.exporter.spreadsheet.checks import check_content_file_system
@@ -267,6 +269,26 @@ def write_csv(username, csv_file):
 
     # return csv object
     return csv_file
+
+@login_required(login_url="/login")
+def system_create_cron(request):
+    """ helper function to check config before creating scheduled task """
+
+    # get config
+    main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+
+    # check file system
+    stop_cron_exporter = check_content_file_system(main_config_model, 'SYSTEM_CSV')
+    # TODO: add request (user)
+
+    # check stop condition
+    if stop_cron_exporter:
+        # return to 'system_list'
+        return redirect(reverse('system_list'))
+    else:
+        # TODO: [logic] build url with python
+        # open django admin with pre-filled form for scheduled task
+        return redirect('/admin/django_q/schedule/add/?name=system_spreadsheet_exporter_csv&func=dfirtrack_main.exporter.spreadsheet.csv.system_cron')
 
 @login_required(login_url="/login")
 def system(request):
