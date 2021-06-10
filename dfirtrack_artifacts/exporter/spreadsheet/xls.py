@@ -347,6 +347,7 @@ def artifact_create_cron(request):
 
 @login_required(login_url="/login")
 def artifact(request):
+    """  XLS export via button for direct download via browser """
 
     # create xls MIME type object
     xls_browser = HttpResponse(content_type='application/ms-excel')
@@ -367,6 +368,7 @@ def artifact(request):
     return xls_browser
 
 def artifact_cron():
+    """  XLS export via scheduled task to server file system """
 
     # prepare time for output file
     filetime = timezone.now().strftime('%Y%m%d_%H%M')
