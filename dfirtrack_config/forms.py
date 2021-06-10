@@ -227,7 +227,7 @@ class MainConfigForm(forms.ModelForm):
         """ check file system """
 
         # build csv file path
-        cron_export_path = self.cleaned_data['cron_export_path']
+        self.cleaned_data['cron_export_path']
 
         # cron export path does not exist - stop immediately
         if not os.path.isdir(self.cleaned_data['cron_export_path']):
