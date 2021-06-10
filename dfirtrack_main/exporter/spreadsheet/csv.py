@@ -278,8 +278,7 @@ def system_create_cron(request):
     main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
 
     # check file system
-    stop_cron_exporter = check_content_file_system(main_config_model, 'SYSTEM_CSV')
-    # TODO: add request (user)
+    stop_cron_exporter = check_content_file_system(main_config_model, 'SYSTEM_CSV', request)
 
     # check stop condition
     if stop_cron_exporter:
