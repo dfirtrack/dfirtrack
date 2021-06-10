@@ -530,6 +530,29 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         main_config_model.cron_username = 'cron'
         main_config_model.save()
 
+        # login testuser
+        self.client.login(username='testuser_artifact_exporter_spreadsheet_xls', password='LTzoNHIdxiJydsaJKf1G')
+
+        # create url
+        destination = urllib.parse.quote('/artifacts/artifact/', safe='/')
+        # get response
+        response = self.client.get('/artifacts/artifact/exporter/spreadsheet/xls/artifact/cron/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(messages[0].message, 'Export path does not exist. Check config or file system!')
+        self.assertEqual(messages[0].level_tag, 'error')
+
+    def test_artifact_exporter_spreadsheet_xls_cron_path_not_existent(self):
+        """ test exporter view """
+
+        # get and modify main config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        main_config_model.cron_export_path = '/this_path_does_not_exist'
+        main_config_model.cron_username = 'cron'
+        main_config_model.save()
+
         # create spreadsheet without GET by directly calling the function
         artifact_cron()
 
@@ -556,6 +579,29 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         self.assertEqual(messages[0].level_tag, 'error')
 
     def test_artifact_exporter_spreadsheet_xls_path_no_write_permission(self):
+        """ test exporter view """
+
+        # get and modify main config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        main_config_model.cron_export_path = '/root'
+        main_config_model.cron_username = 'cron'
+        main_config_model.save()
+
+        # login testuser
+        self.client.login(username='testuser_artifact_exporter_spreadsheet_xls', password='LTzoNHIdxiJydsaJKf1G')
+
+        # create url
+        destination = urllib.parse.quote('/artifacts/artifact/', safe='/')
+        # get response
+        response = self.client.get('/artifacts/artifact/exporter/spreadsheet/xls/artifact/cron/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(messages[0].message, 'No write permission for export path. Check config or file system!')
+        self.assertEqual(messages[0].level_tag, 'error')
+
+    def test_artifact_exporter_spreadsheet_xls_cron_path_no_write_permission(self):
         """ test exporter view """
 
         # get and modify main config
