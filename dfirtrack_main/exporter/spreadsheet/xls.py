@@ -46,6 +46,7 @@ def style_default():
     return style
 
 def write_xls(username):
+    """ write spreadsheet """
 
     # create workbook object with UTF-8 encoding
     workbook = xlwt.Workbook(encoding='utf-8')
@@ -601,7 +602,7 @@ def system_create_cron(request):
 
 @login_required(login_url="/login")
 def system(request):
-    """  XLS export via button for direct download via browser """
+    """ instant spreadsheet export via button for direct download via browser """
 
     # create xls MIME type object
     xls_browser = HttpResponse(content_type='application/ms-excel')
@@ -622,7 +623,7 @@ def system(request):
     return xls_browser
 
 def system_cron():
-    """  XLS export via scheduled task to server file system """
+    """ spreadsheet export via scheduled task to server file system """
 
     # prepare time for output file
     filetime = timezone.now().strftime('%Y%m%d_%H%M')

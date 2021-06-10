@@ -142,7 +142,7 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         )
 
     def test_system_exporter_spreadsheet_csv_not_logged_in(self):
-        """ test exporter view """
+        """ test instant spreadsheet export via button for direct download via browser """
 
         # create url
         destination = '/login/?next=' + urllib.parse.quote('/system/exporter/spreadsheet/csv/system/', safe='')
@@ -152,7 +152,7 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_system_exporter_spreadsheet_csv_logged_in(self):
-        """ test exporter view """
+        """ test instant spreadsheet export via button for direct download via browser """
 
         # login testuser
         self.client.login(username='testuser_system_exporter_spreadsheet_csv', password='XJzSzgX2q39OUWluwxoj')
@@ -162,7 +162,7 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_system_exporter_spreadsheet_csv_redirect(self):
-        """ test exporter view """
+        """ test instant spreadsheet export via button for direct download via browser """
 
         # login testuser
         self.client.login(username='testuser_system_exporter_spreadsheet_csv', password='XJzSzgX2q39OUWluwxoj')
@@ -174,7 +174,7 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
     def test_system_exporter_spreadsheet_csv_minimal_spreadsheet(self):
-        """ test exporter view """
+        """ test instant spreadsheet export via button for direct download via browser """
 
         """ modify config section """
 
@@ -247,7 +247,7 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
             i += 1
 
     def test_system_exporter_spreadsheet_csv_complete_spreadsheet(self):
-        """ test exporter view """
+        """ test instant spreadsheet export via button for direct download via browser """
 
         """ modify config section """
 
@@ -377,7 +377,7 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
             i += 1
 
     def test_system_exporter_spreadsheet_csv_cron_complete_spreadsheet(self):
-        """ test exporter view """
+        """ test spreadsheet export via scheduled task to server file system """
 
         """ modify config section """
 
@@ -516,8 +516,8 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         # close file
         csv_disk.close()
 
-    def test_system_exporter_spreadsheet_csv_path_not_existent(self):
-        """ test exporter view """
+    def test_system_exporter_spreadsheet_csv_create_cron_path_not_existent(self):
+        """ test helper function to check config before creating scheduled task """
 
         # get and modify main config
         main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
@@ -540,7 +540,7 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         self.assertEqual(messages[0].level_tag, 'error')
 
     def test_system_exporter_spreadsheet_csv_cron_path_not_existent(self):
-        """ test exporter view """
+        """ test spreadsheet export via scheduled task to server file system """
 
         # get and modify main config
         main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
@@ -573,8 +573,8 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         self.assertEqual(messages[0].message, '[Scheduled task spreadsheet exporter] SYSTEM_CSV: Export path does not exist. Check config or file system!')
         self.assertEqual(messages[0].level_tag, 'error')
 
-    def test_system_exporter_spreadsheet_csv_path_no_write_permission(self):
-        """ test exporter view """
+    def test_system_exporter_spreadsheet_csv_create_cron_path_no_write_permission(self):
+        """ test helper function to check config before creating scheduled task """
 
         # get and modify main config
         main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
@@ -597,7 +597,7 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         self.assertEqual(messages[0].level_tag, 'error')
 
     def test_system_exporter_spreadsheet_csv_cron_path_no_write_permission(self):
-        """ test exporter view """
+        """ test spreadsheet export via scheduled task to server file system """
 
         # get and modify main config
         main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')

@@ -11,7 +11,9 @@ from dfirtrack_main.logger.default_logger import debug_logger, info_logger
 from time import strftime
 import xlwt
 
+
 def write_xls(username):
+    """ write spreadsheet """
 
     # create workbook object with UTF-8 encoding
     workbook = xlwt.Workbook(encoding='utf-8')
@@ -346,7 +348,7 @@ def artifact_create_cron(request):
 
 @login_required(login_url="/login")
 def artifact(request):
-    """  XLS export via button for direct download via browser """
+    """ instant spreadsheet export via button for direct download via browser """
 
     # create xls MIME type object
     xls_browser = HttpResponse(content_type='application/ms-excel')
@@ -367,7 +369,7 @@ def artifact(request):
     return xls_browser
 
 def artifact_cron():
-    """  XLS export via scheduled task to server file system """
+    """ spreadsheet export via scheduled task to server file system """
 
     # prepare time for output file
     filetime = timezone.now().strftime('%Y%m%d_%H%M')

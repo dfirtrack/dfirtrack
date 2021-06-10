@@ -12,6 +12,7 @@ from time import strftime
 
 
 def write_csv(username, csv_file):
+    """ write spreadsheet """
 
     # create file object for writing lines
     csv_writer = csv.writer(csv_file)
@@ -291,7 +292,7 @@ def system_create_cron(request):
 
 @login_required(login_url="/login")
 def system(request):
-    """  CSV export via button for direct download via browser """
+    """ instant spreadsheet export via button for direct download via browser """
 
     # create csv MIME type object
     csv_browser = HttpResponse(content_type='text/csv')
@@ -309,7 +310,7 @@ def system(request):
     return csv_browser
 
 def system_cron():
-    """  CSV export via scheduled task to server file system """
+    """ spreadsheet export via scheduled task to server file system """
 
     # prepare time for output file
     filetime = timezone.now().strftime('%Y%m%d_%H%M')

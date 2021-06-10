@@ -97,7 +97,7 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         )
 
     def test_artifact_exporter_spreadsheet_xls_not_logged_in(self):
-        """ test exporter view """
+        """ test instant spreadsheet export via button for direct download via browser """
 
         # create url
         destination = '/login/?next=' + urllib.parse.quote('/artifacts/artifact/exporter/spreadsheet/xls/artifact/', safe='')
@@ -107,7 +107,7 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_artifact_exporter_spreadsheet_xls_logged_in(self):
-        """ test exporter view """
+        """ test instant spreadsheet export via button for direct download via browser """
 
         # login testuser
         self.client.login(username='testuser_artifact_exporter_spreadsheet_xls', password='LTzoNHIdxiJydsaJKf1G')
@@ -117,7 +117,7 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_artifact_exporter_spreadsheet_xls_redirect(self):
-        """ test exporter view """
+        """ test instant spreadsheet export via button for direct download via browser """
 
         # login testuser
         self.client.login(username='testuser_artifact_exporter_spreadsheet_xls', password='LTzoNHIdxiJydsaJKf1G')
@@ -129,7 +129,7 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
     def test_artifact_exporter_spreadsheet_xls_minimal_spreadsheet(self):
-        """ test exporter view """
+        """ test instant spreadsheet export via button for direct download via browser """
 
         """ modify config section """
 
@@ -208,7 +208,7 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         self.assertEqual(sheet_artifacts.cell(5,1).value, 'testuser_artifact_exporter_spreadsheet_xls')
 
     def test_artifact_exporter_spreadsheet_xls_complete_spreadsheet(self):
-        """ test exporter view """
+        """ test instant spreadsheet export via button for direct download via browser """
 
         """ modify config section """
 
@@ -360,7 +360,7 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         self.assertEqual(sheet_artifacts.cell(5,1).value, 'testuser_artifact_exporter_spreadsheet_xls')
 
     def test_artifact_exporter_spreadsheet_xls_cron_complete_spreadsheet(self):
-        """ test exporter view """
+        """ test spreadsheet export via scheduled task to server file system """
 
         """ modify config section """
 
@@ -521,8 +521,8 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         self.assertEqual(sheet_artifacts.cell(5,0).value, 'Created by:')
         self.assertEqual(sheet_artifacts.cell(5,1).value, 'cron')
 
-    def test_artifact_exporter_spreadsheet_xls_path_not_existent(self):
-        """ test exporter view """
+    def test_artifact_exporter_spreadsheet_xls_create_cron_path_not_existent(self):
+        """ test helper function to check config before creating scheduled task """
 
         # get and modify main config
         main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
@@ -545,7 +545,7 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         self.assertEqual(messages[0].level_tag, 'error')
 
     def test_artifact_exporter_spreadsheet_xls_cron_path_not_existent(self):
-        """ test exporter view """
+        """ test spreadsheet export via scheduled task to server file system """
 
         # get and modify main config
         main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
@@ -578,8 +578,8 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         self.assertEqual(messages[0].message, '[Scheduled task spreadsheet exporter] ARTIFACT_XLS: Export path does not exist. Check config or file system!')
         self.assertEqual(messages[0].level_tag, 'error')
 
-    def test_artifact_exporter_spreadsheet_xls_path_no_write_permission(self):
-        """ test exporter view """
+    def test_artifact_exporter_spreadsheet_xls_create_cron_path_no_write_permission(self):
+        """ test helper function to check config before creating scheduled task """
 
         # get and modify main config
         main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
@@ -602,7 +602,7 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         self.assertEqual(messages[0].level_tag, 'error')
 
     def test_artifact_exporter_spreadsheet_xls_cron_path_no_write_permission(self):
-        """ test exporter view """
+        """ test spreadsheet export via scheduled task to server file system """
 
         # get and modify main config
         main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
