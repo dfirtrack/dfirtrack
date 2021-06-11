@@ -3,7 +3,11 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
+from django.utils import timezone
 from dfirtrack.config import EVIDENCE_PATH
+
+from dfirtrack_config.models import MainConfigModel
+
 import logging
 import uuid
 import os
@@ -146,6 +150,26 @@ class Artifact(models.Model):
         #    self.artifact_storage_path = artifact_evidence_path
         ##TODO: check if this works or if wee need
         ## super().save(*args,**kwargs)
+
+        """ set artifact time according to config """
+
+        # get config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+
+        # get relevant artifactstatus out of config
+        artifactstatus_requested = main_config_model.artifactstatus_requested.all()
+        artifactstatus_acquisition = main_config_model.artifactstatus_acquisition.all()
+
+        # set requested time if new artifactstatus of system is in artifactstatus_requested of main config (and has not been set before)
+        if self.artifactstatus in artifactstatus_requested and self.artifact_requested_time == None:
+            self.artifact_requested_time = timezone.now()
+
+        # set acquisition time if new artifactstatus of system is in artifactstatus_acquisition of main config (and has not been set before)
+        if self.artifactstatus in artifactstatus_acquisition and self.artifact_acquisition_time == None:
+            self.artifact_acquisition_time = timezone.now()
+            # also set requested time if it has not already been done
+            if self.artifact_requested_time == None:
+                self.artifact_requested_time = timezone.now()
 
         return super().save(*args, **kwargs)
 
