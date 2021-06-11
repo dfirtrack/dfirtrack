@@ -438,15 +438,15 @@
     <!-- open tasks datatable -->
     </table>
 
-    <!-- add artifact / workflow button row -->
+    <!-- add task / workflow button row -->
     <div class="row bottom-distance top-distance">
         <div class="col btn-group">
 
-            <!-- add artifact button -->
+            <!-- add task button -->
             <div>
-                <a href="{% url 'artifacts_artifact_create' %}?system={{ system.system_id }}" type="button" class="btn right-s-distance btn-light btn-sm copy-false">
+                <a href="{% url 'task_create' %}?system={{ system.system_id }}" type="button" class="btn btn-light btn-sm copy-false right-distance">
                     <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm copy-false right-distance" alt="icon">
-                    Add artifact
+                    Add task
                 </a>
             </div>
 
@@ -479,9 +479,9 @@
 
                 </form>
             </div>
-
-        <!-- add artifact / workflow button row -->
         </div>
+
+    <!-- add task / workflow button row -->
     </div>
 
     <!-- closed tasks headline -->
@@ -612,7 +612,7 @@
 
                 <!-- add artifact button -->
                 <div>
-                    <a href="{% url 'artifacts_artifact_create' %}?system={{ system.system_id }}" type="button" class="btn right-s-distance btn-light btn-sm copy-false">
+                    <a href="{% url 'artifacts_artifact_create' %}?system={{ system.system_id }}" type="button" class="btn btn-light btn-sm copy-false right-distance">
                         <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm copy-false right-distance" alt="icon">
                         Add artifact
                     </a>
