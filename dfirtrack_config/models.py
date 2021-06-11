@@ -2,7 +2,6 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 from dfirtrack_main.models import Task
-from dfirtrack_artifacts.models import Artifact
 import logging
 
 stdlogger = logging.getLogger(__name__)
@@ -446,6 +445,8 @@ class Workflow(models.Model):
                     new_task.logger(str(user), f' CREATED_BY_WORKFLOW_{workflow_id}')
                 # create artifact based on artifacttype and artifact default name
                 for mapping in WorkflowDefaultArtifactAttributes.objects.filter(workflow=workflow):
+                    # hotfix circular imports, could be avoided by refactoring models
+                    from dfirtrack_artifacts.models import Artifact
                     new_artifact = Artifact(artifacttype=mapping.artifacttype, artifact_name=mapping.artifact_default_name)
                     #new_artifact.artifactpriority = Artifactpriority.objects.get(artifactpriority_name=mapping.artifact_default_priority)
                     new_artifact.artifactpriority = mapping.artifact_default_priority
