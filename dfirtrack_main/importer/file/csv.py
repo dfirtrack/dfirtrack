@@ -11,6 +11,7 @@ from dfirtrack_main.logger.default_logger import debug_logger
 
 @login_required(login_url="/login")
 def system_create_cron(request):
+    """ helper function to check config before creating scheduled task """
 
     # get config model
     model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name = 'SystemImporterFileCsvConfig')

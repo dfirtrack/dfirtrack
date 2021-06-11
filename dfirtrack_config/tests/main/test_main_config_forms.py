@@ -68,7 +68,9 @@ class MainConfigFormTestCase(TestCase):
         """ test minimum form requirements / INVALID """
 
         # get object
-        form = MainConfigForm(data = {})
+        form = MainConfigForm(data = {
+            'cron_export_path': '/tmp',
+        })
         # compare
         self.assertFalse(form.is_valid())
 
@@ -78,6 +80,7 @@ class MainConfigFormTestCase(TestCase):
         # get object
         form = MainConfigForm(data = {
             'statushistory_entry_numbers': 9,
+            'cron_export_path': '/tmp',
         })
         # compare
         self.assertFalse(form.is_valid())
@@ -160,6 +163,8 @@ class MainConfigFormTestCase(TestCase):
         })
         # compare
         self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors['artifactstatus_requested'], ['Same artifactstatus were chosen for requested and acquisition time.'])
+        self.assertEqual(form.errors['artifactstatus_acquisition'], ['Same artifactstatus were chosen for requested and acquisition time.'])
 
     def test_main_config_form_different_casestatus(self):
         """ test custom field validation """
@@ -203,3 +208,33 @@ class MainConfigFormTestCase(TestCase):
         })
         # compare
         self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors['casestatus_start'], ['Same casestatus were chosen for start and end time.'])
+        self.assertEqual(form.errors['casestatus_end'], ['Same casestatus were chosen for start and end time.'])
+
+    def test_main_config_form_path_not_existent(self):
+        """ test custom field validation """
+
+        # get object
+        form = MainConfigForm(data = {
+            'statushistory_entry_numbers': 6,
+            'cron_export_path': '/this_path_does_not_exist',
+            'cron_username': 'cron',
+            'main_overview': 'main_overview_system',
+        })
+        # compare
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors['cron_export_path'], ['Export path does not exist.'])
+
+    def test_main_config_form_path_no_write_permission(self):
+        """ test custom field validation """
+
+        # get object
+        form = MainConfigForm(data = {
+            'statushistory_entry_numbers': 6,
+            'cron_export_path': '/root',
+            'cron_username': 'cron',
+            'main_overview': 'main_overview_system',
+        })
+        # compare
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors['cron_export_path'], ['No write permission for export path.'])

@@ -1,5 +1,6 @@
 from datetime import datetime
 from django.contrib.auth.models import User
+from django.contrib.messages import get_messages
 from django.test import TestCase
 from django.utils import timezone
 from dfirtrack_artifacts.exporter.spreadsheet.xls import artifact_cron
@@ -18,7 +19,13 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create user
-        test_user = User.objects.create_user(username='testuser_artifact_exporter_spreadsheet_xls', password='LTzoNHIdxiJydsaJKf1G')
+        test_user = User.objects.create_user(
+            username='testuser_artifact_exporter_spreadsheet_xls',
+            is_staff = True,
+            is_superuser = True,
+            password='LTzoNHIdxiJydsaJKf1G',
+        )
+        User.objects.create_user(username='message_user', password='gwvXRsMEfYVNIJXK8NZq')
 
         # create object
         artifactstatus_3 = Artifactstatus.objects.create(artifactstatus_name = 'artifactstatus_3')
@@ -95,7 +102,7 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         )
 
     def test_artifact_exporter_spreadsheet_xls_not_logged_in(self):
-        """ test exporter view """
+        """ test instant spreadsheet export via button for direct download via browser """
 
         # create url
         destination = '/login/?next=' + urllib.parse.quote('/artifacts/artifact/exporter/spreadsheet/xls/artifact/', safe='')
@@ -105,7 +112,7 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_artifact_exporter_spreadsheet_xls_logged_in(self):
-        """ test exporter view """
+        """ test instant spreadsheet export via button for direct download via browser """
 
         # login testuser
         self.client.login(username='testuser_artifact_exporter_spreadsheet_xls', password='LTzoNHIdxiJydsaJKf1G')
@@ -115,7 +122,7 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_artifact_exporter_spreadsheet_xls_redirect(self):
-        """ test exporter view """
+        """ test instant spreadsheet export via button for direct download via browser """
 
         # login testuser
         self.client.login(username='testuser_artifact_exporter_spreadsheet_xls', password='LTzoNHIdxiJydsaJKf1G')
@@ -127,7 +134,7 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
     def test_artifact_exporter_spreadsheet_xls_minimal_spreadsheet(self):
-        """ test exporter view """
+        """ test instant spreadsheet export via button for direct download via browser """
 
         """ modify config section """
 
@@ -206,7 +213,7 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         self.assertEqual(sheet_artifacts.cell(5,1).value, 'testuser_artifact_exporter_spreadsheet_xls')
 
     def test_artifact_exporter_spreadsheet_xls_complete_spreadsheet(self):
-        """ test exporter view """
+        """ test instant spreadsheet export via button for direct download via browser """
 
         """ modify config section """
 
@@ -357,8 +364,76 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         self.assertEqual(sheet_artifacts.cell(5,0).value, 'Created by:')
         self.assertEqual(sheet_artifacts.cell(5,1).value, 'testuser_artifact_exporter_spreadsheet_xls')
 
+    def test_artifact_exporter_spreadsheet_xls_cron_path_not_existent(self):
+        """ test spreadsheet export via scheduled task to server file system """
+
+        # get and modify main config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        main_config_model.cron_export_path = '/this_path_does_not_exist'
+        main_config_model.cron_username = 'cron'
+        main_config_model.save()
+
+        # create spreadsheet without GET by directly calling the function
+        artifact_cron()
+
+        # login testuser
+        self.client.login(username='testuser_artifact_exporter_spreadsheet_xls', password='LTzoNHIdxiJydsaJKf1G')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_artifact_exporter_spreadsheet_xls')
+        self.assertEqual(messages[0].message, '[Scheduled task spreadsheet exporter] ARTIFACT_XLS: Export path does not exist. Check config or file system!')
+        self.assertEqual(messages[0].level_tag, 'error')
+        # switch user context
+        self.client.logout()
+        self.client.login(username='message_user', password='gwvXRsMEfYVNIJXK8NZq')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'message_user')
+        self.assertEqual(messages[0].message, '[Scheduled task spreadsheet exporter] ARTIFACT_XLS: Export path does not exist. Check config or file system!')
+        self.assertEqual(messages[0].level_tag, 'error')
+
+    def test_artifact_exporter_spreadsheet_xls_cron_path_no_write_permission(self):
+        """ test spreadsheet export via scheduled task to server file system """
+
+        # get and modify main config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        main_config_model.cron_export_path = '/root'
+        main_config_model.cron_username = 'cron'
+        main_config_model.save()
+
+        # create spreadsheet without GET by directly calling the function
+        artifact_cron()
+
+        # login testuser
+        self.client.login(username='testuser_artifact_exporter_spreadsheet_xls', password='LTzoNHIdxiJydsaJKf1G')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_artifact_exporter_spreadsheet_xls')
+        self.assertEqual(messages[0].message, '[Scheduled task spreadsheet exporter] ARTIFACT_XLS: No write permission for export path. Check config or file system!')
+        self.assertEqual(messages[0].level_tag, 'error')
+        # switch user context
+        self.client.logout()
+        self.client.login(username='message_user', password='gwvXRsMEfYVNIJXK8NZq')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'message_user')
+        self.assertEqual(messages[0].message, '[Scheduled task spreadsheet exporter] ARTIFACT_XLS: No write permission for export path. Check config or file system!')
+        self.assertEqual(messages[0].level_tag, 'error')
+
     def test_artifact_exporter_spreadsheet_xls_cron_complete_spreadsheet(self):
-        """ test exporter view """
+        """ test spreadsheet export via scheduled task to server file system """
 
         """ modify config section """
 
@@ -518,3 +593,83 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         self.assertEqual(sheet_artifacts.cell(4,1).value, t3_now.strftime('%Y-%m-%d %H:%M'))
         self.assertEqual(sheet_artifacts.cell(5,0).value, 'Created by:')
         self.assertEqual(sheet_artifacts.cell(5,1).value, 'cron')
+
+    def test_artifact_exporter_spreadsheet_xls_create_cron_not_logged_in(self):
+        """ test helper function to check config before creating scheduled task """
+
+        # create url
+        destination = '/login/?next=' + urllib.parse.quote('/artifacts/artifact/exporter/spreadsheet/xls/artifact/cron/', safe='')
+        # get response
+        response = self.client.get('/artifacts/artifact/exporter/spreadsheet/xls/artifact/cron/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_artifact_exporter_spreadsheet_xls_create_cron_logged_in(self):
+        """ test helper function to check config before creating scheduled task """
+
+        # login testuser
+        self.client.login(username='testuser_artifact_exporter_spreadsheet_xls', password='LTzoNHIdxiJydsaJKf1G')
+        # create url
+        destination = urllib.parse.quote('/admin/django_q/schedule/add/?name=artifact_spreadsheet_exporter_xls&func=dfirtrack_artifacts.exporter.spreadsheet.xls.artifact_cron', safe='/?=&')
+        # get response
+        response = self.client.get('/artifacts/artifact/exporter/spreadsheet/xls/artifact/cron/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_artifact_exporter_spreadsheet_xls_create_cron_redirect(self):
+        """ test helper function to check config before creating scheduled task """
+
+        # login testuser
+        self.client.login(username='testuser_artifact_exporter_spreadsheet_xls', password='LTzoNHIdxiJydsaJKf1G')
+        # create url
+        destination = urllib.parse.quote('/admin/django_q/schedule/add/?name=artifact_spreadsheet_exporter_xls&func=dfirtrack_artifacts.exporter.spreadsheet.xls.artifact_cron', safe='/?=&')
+        # get response
+        response = self.client.get('/artifacts/artifact/exporter/spreadsheet/xls/artifact/cron', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_artifact_exporter_spreadsheet_xls_create_cron_path_not_existent(self):
+        """ test helper function to check config before creating scheduled task """
+
+        # get and modify main config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        main_config_model.cron_export_path = '/this_path_does_not_exist'
+        main_config_model.cron_username = 'cron'
+        main_config_model.save()
+
+        # login testuser
+        self.client.login(username='testuser_artifact_exporter_spreadsheet_xls', password='LTzoNHIdxiJydsaJKf1G')
+
+        # create url
+        destination = urllib.parse.quote('/artifacts/artifact/', safe='/')
+        # get response
+        response = self.client.get('/artifacts/artifact/exporter/spreadsheet/xls/artifact/cron/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(messages[0].message, 'Export path does not exist. Check config or file system!')
+        self.assertEqual(messages[0].level_tag, 'error')
+
+    def test_artifact_exporter_spreadsheet_xls_create_cron_path_no_write_permission(self):
+        """ test helper function to check config before creating scheduled task """
+
+        # get and modify main config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        main_config_model.cron_export_path = '/root'
+        main_config_model.cron_username = 'cron'
+        main_config_model.save()
+
+        # login testuser
+        self.client.login(username='testuser_artifact_exporter_spreadsheet_xls', password='LTzoNHIdxiJydsaJKf1G')
+
+        # create url
+        destination = urllib.parse.quote('/artifacts/artifact/', safe='/')
+        # get response
+        response = self.client.get('/artifacts/artifact/exporter/spreadsheet/xls/artifact/cron/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(messages[0].message, 'No write permission for export path. Check config or file system!')
+        self.assertEqual(messages[0].level_tag, 'error')

@@ -1,14 +1,19 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.shortcuts import redirect
+from django.urls import reverse
 from django.utils import timezone
 from dfirtrack_artifacts.models import Artifact, Artifactstatus, Artifacttype
 from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel, MainConfigModel
+from dfirtrack_main.exporter.spreadsheet.checks import check_content_file_system
 from dfirtrack_main.exporter.spreadsheet.xls import style_default, style_headline, write_row
 from dfirtrack_main.logger.default_logger import debug_logger, info_logger
 from time import strftime
 import xlwt
 
+
 def write_xls(username):
+    """ write spreadsheet """
 
     # create workbook object with UTF-8 encoding
     workbook = xlwt.Workbook(encoding='utf-8')
@@ -323,7 +328,27 @@ def write_xls(username):
     return workbook
 
 @login_required(login_url="/login")
+def artifact_create_cron(request):
+    """ helper function to check config before creating scheduled task """
+
+    # get config
+    main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+
+    # check file system
+    stop_cron_exporter = check_content_file_system(main_config_model, 'ARTIFACT_XLS', request)
+
+    # check stop condition
+    if stop_cron_exporter:
+        # return to 'artifact_list'
+        return redirect(reverse('artifacts_artifact_list'))
+    else:
+        # TODO: [logic] build url with python
+        # open django admin with pre-filled form for scheduled task
+        return redirect('/admin/django_q/schedule/add/?name=artifact_spreadsheet_exporter_xls&func=dfirtrack_artifacts.exporter.spreadsheet.xls.artifact_cron')
+
+@login_required(login_url="/login")
 def artifact(request):
+    """ instant spreadsheet export via button for direct download via browser """
 
     # create xls MIME type object
     xls_browser = HttpResponse(content_type='application/ms-excel')
@@ -344,12 +369,21 @@ def artifact(request):
     return xls_browser
 
 def artifact_cron():
+    """ spreadsheet export via scheduled task to server file system """
 
     # prepare time for output file
     filetime = timezone.now().strftime('%Y%m%d_%H%M')
 
     # get config
     main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+
+    # check file system
+    stop_cron_exporter = check_content_file_system(main_config_model, 'ARTIFACT_XLS')
+
+    # leave if config caused errors
+    if stop_cron_exporter:
+        # return to scheduled task
+        return
 
     # prepare output file path
     output_file_path = main_config_model.cron_export_path + '/' + filetime + '_artifacts.xls'

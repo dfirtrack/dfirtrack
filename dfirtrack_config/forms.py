@@ -224,6 +224,19 @@ class MainConfigForm(forms.ModelForm):
             validation_errors['casestatus_start'] = 'Same casestatus were chosen for start and end time.'
             validation_errors['casestatus_end'] = 'Same casestatus were chosen for start and end time.'
 
+        """ check file system """
+
+        # build csv file path
+        self.cleaned_data['cron_export_path']
+
+        # cron export path does not exist - stop immediately
+        if not os.path.isdir(self.cleaned_data['cron_export_path']):
+            validation_errors['cron_export_path'] = 'Export path does not exist.'
+        else:
+            # cron export path is not writeable - stop immediately
+            if not os.access(self.cleaned_data['cron_export_path'], os.R_OK):
+                validation_errors['cron_export_path'] = 'No write permission for export path.'
+
         """ raise error """
 
         # finally raise validation error
