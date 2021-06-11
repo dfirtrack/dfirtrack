@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# export needed environment vars
 export APPDIR=/dfirtrack
 export PGPASSWORD=${DB_PASSWORD:-'{{ postgresql_user_password }}'}
 export PGHOST=${DB_HOST:-'db'}
@@ -7,12 +8,14 @@ export PGUSER=${DB_USER:-'dfirtrack'}
 export PGNAME=${DB_NAME:-'dfirtrack'}
 export DISABLE_HTTPS=${DISABLE_HTTPS:-'{{ disable_https }}'}
 
+# wait for psql docker container to come up
 until psql -h $PGHOST -U $PGUSER -d $PGNAME -c '\q'
 do
     echo "Waiting for Postgres..."
     sleep 1
 done
 
+# choose the right nginx conf
 if [ $DISABLE_HTTPS = 'true' ]
   then ln -s /etc/nginx/sites-available/dfirtrack_insecure /etc/nginx/sites-enabled/
   else ln -s /etc/nginx/sites-available/dfirtrack /etc/nginx/sites-enabled/
@@ -31,5 +34,5 @@ fi
 gunicorn --log-file=/var/log/gunicorn.log --workers 4 --bind localhost:5000 dfirtrack.wsgi &
 sleep 10
 echo "Container started"
-echo "!!!! You may run docker/setup_admin.sh from the host system to create a new superuser !!!!"
+echo "!!!! You may run docker/prod/setup_admin.sh from the host system to create a new superuser !!!!"
 sleep infinity
