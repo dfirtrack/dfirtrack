@@ -34,7 +34,12 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create user
-        test_user = User.objects.create_user(username='testuser_system_exporter_spreadsheet_csv', password='XJzSzgX2q39OUWluwxoj')
+        test_user = User.objects.create_user(
+            username='testuser_system_exporter_spreadsheet_csv',
+            is_staff = True,
+            is_superuser = True,
+            password='XJzSzgX2q39OUWluwxoj',
+        )
         User.objects.create_user(username='message_user', password='3qXjYKBj1CVCakjbCd7A')
 
         # create objects
@@ -583,6 +588,40 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
 
         # close file
         csv_disk.close()
+
+    def test_system_exporter_spreadsheet_csv_create_cron_not_logged_in(self):
+        """ test helper function to check config before creating scheduled task """
+
+        # create url
+        destination = '/login/?next=' + urllib.parse.quote('/system/exporter/spreadsheet/csv/system/cron/', safe='')
+        # get response
+        response = self.client.get('/system/exporter/spreadsheet/csv/system/cron/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_system_exporter_spreadsheet_csv_create_cron_logged_in(self):
+        """ test helper function to check config before creating scheduled task """
+
+        # login testuser
+        self.client.login(username='testuser_system_exporter_spreadsheet_csv', password='XJzSzgX2q39OUWluwxoj')
+        # create url
+        destination = urllib.parse.quote('/admin/django_q/schedule/add/?name=system_spreadsheet_exporter_csv&func=dfirtrack_main.exporter.spreadsheet.csv.system_cron', safe='/?=&')
+        # get response
+        response = self.client.get('/system/exporter/spreadsheet/csv/system/cron/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_system_exporter_spreadsheet_csv_create_cron_redirect(self):
+        """ test helper function to check config before creating scheduled task """
+
+        # login testuser
+        self.client.login(username='testuser_system_exporter_spreadsheet_csv', password='XJzSzgX2q39OUWluwxoj')
+        # create url
+        destination = urllib.parse.quote('/admin/django_q/schedule/add/?name=system_spreadsheet_exporter_csv&func=dfirtrack_main.exporter.spreadsheet.csv.system_cron', safe='/?=&')
+        # get response
+        response = self.client.get('/system/exporter/spreadsheet/csv/system/cron', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
     def test_system_exporter_spreadsheet_csv_create_cron_path_not_existent(self):
         """ test helper function to check config before creating scheduled task """

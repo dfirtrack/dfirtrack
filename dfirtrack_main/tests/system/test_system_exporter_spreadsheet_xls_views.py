@@ -34,7 +34,12 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create user
-        test_user = User.objects.create_user(username='testuser_system_exporter_spreadsheet_xls', password='AIsOtQ2zchYhNZBfWIHu')
+        test_user = User.objects.create_user(
+            username = 'testuser_system_exporter_spreadsheet_xls',
+            is_staff = True,
+            is_superuser = True,
+            password = 'AIsOtQ2zchYhNZBfWIHu',
+        )
         User.objects.create_user(username='message_user', password='qbldDxAdkR5rbKQ1WHMW')
 
         # create objects
@@ -757,6 +762,40 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
         self.assertEqual(sheet_systems.cell(4,1).value,  t3_now.strftime('%Y-%m-%d %H:%M'))
         self.assertEqual(sheet_systems.cell(5,0).value, 'Created by:')
         self.assertEqual(sheet_systems.cell(5,1).value, 'cron')
+
+    def test_system_exporter_spreadsheet_xls_create_cron_not_logged_in(self):
+        """ test helper function to check config before creating scheduled task """
+
+        # create url
+        destination = '/login/?next=' + urllib.parse.quote('/system/exporter/spreadsheet/xls/system/cron/', safe='')
+        # get response
+        response = self.client.get('/system/exporter/spreadsheet/xls/system/cron/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_system_exporter_spreadsheet_xls_create_cron_logged_in(self):
+        """ test helper function to check config before creating scheduled task """
+
+        # login testuser
+        self.client.login(username='testuser_system_exporter_spreadsheet_xls', password='AIsOtQ2zchYhNZBfWIHu')
+        # create url
+        destination = urllib.parse.quote('/admin/django_q/schedule/add/?name=system_spreadsheet_exporter_xls&func=dfirtrack_main.exporter.spreadsheet.xls.system_cron', safe='/?=&')
+        # get response
+        response = self.client.get('/system/exporter/spreadsheet/xls/system/cron/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_system_exporter_spreadsheet_xls_create_cron_redirect(self):
+        """ test helper function to check config before creating scheduled task """
+
+        # login testuser
+        self.client.login(username='testuser_system_exporter_spreadsheet_xls', password='AIsOtQ2zchYhNZBfWIHu')
+        # create url
+        destination = urllib.parse.quote('/admin/django_q/schedule/add/?name=system_spreadsheet_exporter_xls&func=dfirtrack_main.exporter.spreadsheet.xls.system_cron', safe='/?=&')
+        # get response
+        response = self.client.get('/system/exporter/spreadsheet/xls/system/cron', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
     def test_system_exporter_spreadsheet_xls_create_cron_path_not_existent(self):
         """ test helper function to check config before creating scheduled task """

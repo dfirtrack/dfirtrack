@@ -19,7 +19,12 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create user
-        test_user = User.objects.create_user(username='testuser_artifact_exporter_spreadsheet_xls', password='LTzoNHIdxiJydsaJKf1G')
+        test_user = User.objects.create_user(
+            username='testuser_artifact_exporter_spreadsheet_xls',
+            is_staff = True,
+            is_superuser = True,
+            password='LTzoNHIdxiJydsaJKf1G',
+        )
         User.objects.create_user(username='message_user', password='gwvXRsMEfYVNIJXK8NZq')
 
         # create object
@@ -588,6 +593,40 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         self.assertEqual(sheet_artifacts.cell(4,1).value, t3_now.strftime('%Y-%m-%d %H:%M'))
         self.assertEqual(sheet_artifacts.cell(5,0).value, 'Created by:')
         self.assertEqual(sheet_artifacts.cell(5,1).value, 'cron')
+
+    def test_artifact_exporter_spreadsheet_xls_create_cron_not_logged_in(self):
+        """ test helper function to check config before creating scheduled task """
+
+        # create url
+        destination = '/login/?next=' + urllib.parse.quote('/artifacts/artifact/exporter/spreadsheet/xls/artifact/cron/', safe='')
+        # get response
+        response = self.client.get('/artifacts/artifact/exporter/spreadsheet/xls/artifact/cron/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_artifact_exporter_spreadsheet_xls_create_cron_logged_in(self):
+        """ test helper function to check config before creating scheduled task """
+
+        # login testuser
+        self.client.login(username='testuser_artifact_exporter_spreadsheet_xls', password='LTzoNHIdxiJydsaJKf1G')
+        # create url
+        destination = urllib.parse.quote('/admin/django_q/schedule/add/?name=artifact_spreadsheet_exporter_xls&func=dfirtrack_artifacts.exporter.spreadsheet.xls.artifact_cron', safe='/?=&')
+        # get response
+        response = self.client.get('/artifacts/artifact/exporter/spreadsheet/xls/artifact/cron/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_artifact_exporter_spreadsheet_xls_create_cron_redirect(self):
+        """ test helper function to check config before creating scheduled task """
+
+        # login testuser
+        self.client.login(username='testuser_artifact_exporter_spreadsheet_xls', password='LTzoNHIdxiJydsaJKf1G')
+        # create url
+        destination = urllib.parse.quote('/admin/django_q/schedule/add/?name=artifact_spreadsheet_exporter_xls&func=dfirtrack_artifacts.exporter.spreadsheet.xls.artifact_cron', safe='/?=&')
+        # get response
+        response = self.client.get('/artifacts/artifact/exporter/spreadsheet/xls/artifact/cron', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
     def test_artifact_exporter_spreadsheet_xls_create_cron_path_not_existent(self):
         """ test helper function to check config before creating scheduled task """
