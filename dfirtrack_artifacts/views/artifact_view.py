@@ -107,29 +107,6 @@ class ArtifactDetailView(LoginRequiredMixin, DetailView):
         systemtype.logger(str(self.request.user), ' ARTIFACT_DETAIL_ENTERED')
         return context
 
-def set_artifact_times(artifact):
-    """ set artifact times according to config """
-
-    # get config
-    main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
-
-    # get relevant artifactstatus out of config
-    artifactstatus_requested = main_config_model.artifactstatus_requested.all()
-    artifactstatus_acquisition = main_config_model.artifactstatus_acquisition.all()
-
-    # set requested time if new artifactstatus of system is in artifactstatus_requested of main config (and has not been set before)
-    if artifact.artifactstatus in artifactstatus_requested and artifact.artifact_requested_time == None:
-        artifact.artifact_requested_time = timezone.now()
-
-    # set acquisition time if new artifactstatus of system is in artifactstatus_acquisition of main config (and has not been set before)
-    if artifact.artifactstatus in artifactstatus_acquisition and artifact.artifact_acquisition_time == None:
-        artifact.artifact_acquisition_time = timezone.now()
-        # also set requested time if it has not already been done
-        if artifact.artifact_requested_time == None:
-            artifact.artifact_requested_time = timezone.now()
-
-    return artifact
-
 class ArtifactCreateView(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Artifact
@@ -161,8 +138,6 @@ class ArtifactCreateView(LoginRequiredMixin, CreateView):
         self.object = form.save(commit=False)
         self.object.artifact_created_by_user_id = self.request.user
         self.object.artifact_modified_by_user_id = self.request.user
-        # set artifact times according to config
-        self.object = set_artifact_times(self.object)
         self.object.save()
         self.object.logger(str(self.request.user), ' ARTIFACT_ADD_EXECUTED')
         messages.success(self.request, 'Artifact added')
@@ -187,8 +162,6 @@ class ArtifactUpdateView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.artifact_modified_by_user_id = self.request.user
-        # set artifact times according to config
-        self.object = set_artifact_times(self.object)
         self.object.save()
         self.object.logger(str(self.request.user), ' ARTIFACT_EDIT_EXECUTED')
         messages.success(self.request, 'Artifact edited')

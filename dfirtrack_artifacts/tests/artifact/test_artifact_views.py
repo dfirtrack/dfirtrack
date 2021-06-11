@@ -817,7 +817,7 @@ class ArtifactViewTestCase(TestCase):
         test_user = User.objects.get(username='testuser_artifact')
         # get objects
         artifactpriority = Artifactpriority.objects.get(artifactpriority_name = 'artifactpriority_1')
-        artifactstatus = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1')
+        artifactstatus = Artifactstatus.objects.create(artifactstatus_name = 'artifactstatus_2')
         artifacttype = Artifacttype.objects.get(artifacttype_name = 'artifacttype_1')
         system = System.objects.get(system_name = 'system_1')
         # create object
@@ -830,7 +830,7 @@ class ArtifactViewTestCase(TestCase):
             artifact_created_by_user_id = test_user,
             artifact_modified_by_user_id = test_user,
         )
-        # compare (before POST, should be 'None' because model does not have 'auto_now' or 'auto_now_add', setting time is done via view, therefore redundantly using 'artifactstatus_1' is sufficient)
+        # compare (before POST, should be 'None' because model does not have 'auto_now' or 'auto_now_add'
         self.assertEqual(artifact_update_post_set_requested_time.artifact_requested_time, None)
         self.assertEqual(artifact_update_post_set_requested_time.artifact_acquisition_time, None)
         # get objects
@@ -878,7 +878,7 @@ class ArtifactViewTestCase(TestCase):
         test_user = User.objects.get(username='testuser_artifact')
         # get objects
         artifactpriority = Artifactpriority.objects.get(artifactpriority_name = 'artifactpriority_1')
-        artifactstatus = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1')
+        artifactstatus = Artifactstatus.objects.create(artifactstatus_name = 'artifactstatus_2')
         artifacttype = Artifacttype.objects.get(artifacttype_name = 'artifacttype_1')
         system = System.objects.get(system_name = 'system_1')
         # create object
@@ -891,7 +891,7 @@ class ArtifactViewTestCase(TestCase):
             artifact_created_by_user_id = test_user,
             artifact_modified_by_user_id = test_user,
         )
-        # compare (before POST, should be 'None' because model does not have 'auto_now' or 'auto_now_add', setting time is done via view, therefore redundantly using 'artifactstatus_1' is sufficient)
+        # compare (before POST, should be 'None' because model does not have 'auto_now' or 'auto_now_add'
         self.assertEqual(artifact_update_post_set_acquisition_time.artifact_requested_time, None)
         self.assertEqual(artifact_update_post_set_acquisition_time.artifact_acquisition_time, None)
         # get objects
