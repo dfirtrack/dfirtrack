@@ -349,7 +349,7 @@ class ArtifactModelTestCase(TestCase):
         self.assertTrue(os.path.exists(artifact_storage_path))
 
     def test_artifact_set_requested_time(self):
-        """ test artifact save requested time """     
+        """ test artifact save requested time """
 
         # get object
         artifactpriority = Artifactpriority.objects.get(artifactpriority_name = 'artifactpriority_1')
@@ -370,7 +370,7 @@ class ArtifactModelTestCase(TestCase):
                 artifact_modified_by_user_id = test_user,
             )
 
-        self.assertEqual(artifact_set_requested_time.artifact_requested_time, None) 
+        self.assertEqual(artifact_set_requested_time.artifact_requested_time, None)
         self.assertEqual(artifact_set_requested_time.artifact_acquisition_time, None)
 
         # get config
@@ -380,10 +380,10 @@ class ArtifactModelTestCase(TestCase):
         main_config_model.artifactstatus_acquisition.clear()
         # set config
         main_config_model.artifactstatus_requested.add(artifactstatus)
-        
+
         with patch.object(timezone, 'now', return_value=t_now):
             artifact_set_requested_time.save()
-        
+
         self.assertEqual(artifact_set_requested_time.artifact_requested_time, t_now)
         self.assertEqual(artifact_set_requested_time.artifact_acquisition_time, None)
 
@@ -409,7 +409,7 @@ class ArtifactModelTestCase(TestCase):
                 artifact_modified_by_user_id = test_user,
             )
 
-        self.assertEqual(artifact_set_acquisition_time.artifact_requested_time, None) 
+        self.assertEqual(artifact_set_acquisition_time.artifact_requested_time, None)
         self.assertEqual(artifact_set_acquisition_time.artifact_acquisition_time, None)
 
         # get config
@@ -419,9 +419,9 @@ class ArtifactModelTestCase(TestCase):
         main_config_model.artifactstatus_acquisition.clear()
         # set config
         main_config_model.artifactstatus_acquisition.add(artifactstatus)
-        
+
         with patch.object(timezone, 'now', return_value=t_now):
             artifact_set_acquisition_time.save()
-        
+
         self.assertEqual(artifact_set_acquisition_time.artifact_requested_time, t_now)
         self.assertEqual(artifact_set_acquisition_time.artifact_acquisition_time, t_now)

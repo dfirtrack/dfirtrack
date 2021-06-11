@@ -150,9 +150,10 @@ class Artifact(models.Model):
         #    self.artifact_storage_path = artifact_evidence_path
         ##TODO: check if this works or if wee need
         ## super().save(*args,**kwargs)
-            # get config
 
-        # set artifact time according to config
+        """ set artifact time according to config """
+
+        # get config
         main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
 
         # get relevant artifactstatus out of config

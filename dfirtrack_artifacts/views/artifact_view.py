@@ -1,7 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
-from django.utils import timezone
 from django.views.generic import CreateView
 from django.views.generic import DetailView
 from django.views.generic import ListView
