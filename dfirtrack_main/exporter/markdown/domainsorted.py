@@ -1,10 +1,8 @@
-from django.contrib import messages
-from django.contrib.messages import constants
 from django.core.files import File
 from django_q.tasks import async_task
 from dfirtrack_config.models import SystemExporterMarkdownConfigModel
-from dfirtrack_main.async_messages import message_user
 from dfirtrack_main.exporter.markdown.markdown_check_data import check_config
+from dfirtrack_main.exporter.markdown.messages import end_message, start_message
 from dfirtrack_main.exporter.markdown import clean_directory, read_or_create_mkdocs_yml, write_report
 from dfirtrack_main.logger.default_logger import debug_logger, info_logger
 from dfirtrack_main.models import Domain, System
@@ -105,7 +103,7 @@ def domainsorted(request):
         return
 
     # show immediate message for user (but only if no errors have occured before)
-    messages.success(request, 'System exporter markdown (sorted by domain) started')
+    start_message(request, 'domain')
 
     # call async function
     async_task(
@@ -261,10 +259,9 @@ def domainsorted_async(username, request_user=None):
         # write filtered lines back to file
         filehandle.writelines(lines)
 
-    # TODO switch to message for all users in case of cron
     # finish message
     if request_user:
-        message_user(request_user, 'System exporter markdown (sorted by domain) finished', constants.SUCCESS)
+        end_message(request_user, 'domain')
 
     # call logger
     debug_logger(username, " SYSTEM_EXPORTER_MARKDOWN_DOMAINSORTED_END")
