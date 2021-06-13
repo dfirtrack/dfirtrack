@@ -1,6 +1,6 @@
 from django.core.files import File
 from django_q.tasks import async_task
-from dfirtrack_config.models import SystemExporterMarkdownConfigModel
+from dfirtrack_config.models import MainConfigModel, SystemExporterMarkdownConfigModel
 from dfirtrack_main.exporter.markdown.markdown_check_data import check_config
 from dfirtrack_main.exporter.markdown.messages import end_message, start_message
 from dfirtrack_main.exporter.markdown import clean_directory, read_or_create_mkdocs_yml, write_report
@@ -87,30 +87,48 @@ def write_report_domainsorted(system, username):
     # return strings for mkdocs.yml (only used in domainsorted_async)
     return(rid, rfqdn, rpath, rdomain)
 
-def domainsorted(request):
+def domainsorted(request=None):
     """ exports markdown report for all systems sorted by domain (helper function to call the real function) """
 
-    username = str(request.user)
+    # get username
+    if request:
+        # get username from request object
+        username = str(request.user)
+    else:
+        # get config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        # get username from config
+        username = main_config_model.cron_username
 
     # call logger
     debug_logger(username, " SYSTEM_EXPORTER_MARKDOWN_DOMAINSORTED_START")
 
     # check variables
-    stop_exporter_markdown = check_config(username, request)
+    if request:
+        stop_exporter_markdown = check_config(username, request)
+    else:
+        stop_exporter_markdown = check_config(username)
 
     # leave if variables caused errors
     if stop_exporter_markdown:
         return
 
     # show immediate message for user (but only if no errors have occured before)
-    start_message(request, 'domain')
+    if request:
+        start_message(request, 'domain')
 
     # call async function
-    async_task(
-        "dfirtrack_main.exporter.markdown.domainsorted.domainsorted_async",
-        username,
-        request.user,
-    )
+    if request:
+        async_task(
+            "dfirtrack_main.exporter.markdown.domainsorted.domainsorted_async",
+            username,
+            request.user,
+        )
+    else:
+        async_task(
+            "dfirtrack_main.exporter.markdown.domainsorted.domainsorted_async",
+            username,
+        )
 
     return
 
