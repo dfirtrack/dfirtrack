@@ -5,12 +5,25 @@ from django.test import TestCase
 from django.utils import timezone
 from dfirtrack.settings import BASE_DIR
 from dfirtrack_config.models import SystemExporterMarkdownConfigModel
-from dfirtrack_main.models import Dnsname, Domain, Entry, Headline, Ip, Os, Reason, Recommendation, Reportitem, System, Systemstatus, Systemtype, Systemuser
+from dfirtrack_main.models import Dnsname
+from dfirtrack_main.models import Domain
+from dfirtrack_main.models import Entry
+from dfirtrack_main.models import Headline
+from dfirtrack_main.models import Ip
+from dfirtrack_main.models import Os
+from dfirtrack_main.models import Reason
+from dfirtrack_main.models import Recommendation
+from dfirtrack_main.models import Reportitem
+from dfirtrack_main.models import System
+from dfirtrack_main.models import Systemstatus
+from dfirtrack_main.models import Systemtype
+from dfirtrack_main.models import Systemuser
 import filecmp
 import os
 import shutil
 import stat
 import urllib.parse
+
 
 def clean_markdown_path(markdown_path):
     """ helper function """
@@ -237,7 +250,7 @@ class SystemExporterMarkdownViewTestCase(TestCase):
         # get messages
         messages = list(get_messages(response.wsgi_request))
         # compare
-        self.assertEqual(str(messages[0]), '`MARKDOWN_PATH` contains an emtpy string. Check config!')
+        self.assertEqual(str(messages[0]), 'Markdown path contains an emtpy string. Check config!')
 
     def test_system_exporter_markdown_non_existing_markdown_path_message(self):
         """ test exporter view """
@@ -256,7 +269,7 @@ class SystemExporterMarkdownViewTestCase(TestCase):
         # get messages
         messages = list(get_messages(response.wsgi_request))
         # compare
-        self.assertEqual(str(messages[0]), '`MARKDOWN_PATH` does not exist in file system. Check config or filesystem!')
+        self.assertEqual(str(messages[0]), 'Markdown path does not exist in file system. Check config or filesystem!')
 
     def test_system_exporter_markdown_non_writeable_markdown_path_message(self):
         """ test exporter view """
@@ -276,7 +289,7 @@ class SystemExporterMarkdownViewTestCase(TestCase):
         messages = list(get_messages(response.wsgi_request))
         # compare
         if os.geteuid() != 0:
-            self.assertEqual(str(messages[0]), '`MARKDOWN_PATH` is not writeable. Check config or filesystem!')
+            self.assertEqual(str(messages[0]), 'No write permission for markdown path. Check config or filesystem!')
         else:
             pass #TODO: if we are running in docker container, we are root and the path is therefore writable. think of an alternative to check here
 

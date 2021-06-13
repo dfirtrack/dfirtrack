@@ -1,6 +1,7 @@
 from django.contrib import messages
 from dfirtrack_config.models import SystemExporterMarkdownConfigModel
-from dfirtrack_main.logger.default_logger import warning_logger
+from dfirtrack_main.exporter.markdown.messages import error_message_cron
+from dfirtrack_main.logger.default_logger import error_logger
 import os
 
 
@@ -13,33 +14,43 @@ def check_config(username, request=None):
     # reset stop condition
     stop_exporter_markdown = False
 
-    # check MARKDOWN_PATH for empty string
+    # check MARKDOWN_PATH for empty string - stop immediately
     if not model.markdown_path:
-        # TODO switch to message for all users in case of cron
+        # if function was called from 'system'
         if request:
-            messages.error(request, "`MARKDOWN_PATH` contains an emtpy string. Check config!")
+            messages.error(request, 'Markdown path contains an emtpy string. Check config!')
+        # if function was called from 'system_cron'
+        else:
+            error_message_cron('Markdown path contains an emtpy string. Check config!')
         # call logger
-        warning_logger(username, " EXPORTER_MARKDOWN variable MARKDOWN_PATH empty string")
+        error_logger(username, ' MARKDOWN_EXPORTER_MARKDOWN_PATH_EMPTY_STRING')
+        # set stop condition
         stop_exporter_markdown = True
-
-    # check MARKDOWN_PATH for existence in file system (check only if it actually is a non-empty string)
-    if model.markdown_path:
+    else:
+        # check MARKDOWN_PATH for existence in file system - stop immediately
         if not os.path.isdir(model.markdown_path):
-            # TODO switch to message for all users in case of cron
+            # if function was called from 'system'
             if request:
-                messages.error(request, "`MARKDOWN_PATH` does not exist in file system. Check config or filesystem!")
+                messages.error(request, 'Markdown path does not exist in file system. Check config or filesystem!')
+            # if function was called from 'system_cron'
+            else:
+                error_message_cron('Markdown path does not exist in file system. Check config or filesystem!')
             # call logger
-            warning_logger(username, " EXPORTER_MARKDOWN path MARKDOWN_PATH not existing")
+            error_logger(username, ' MARKDOWN_EXPORTER_MARKDOWN_PATH_NOT_EXISTING')
+            # set stop condition
             stop_exporter_markdown = True
-
-    # check MARKDOWN_PATH for write permission (check only if it actually is a non-empty string)
-    if model.markdown_path:
-        if not os.access(model.markdown_path, os.W_OK):
-            # TODO switch to message for all users in case of cron
-            if request:
-                messages.error(request, "`MARKDOWN_PATH` is not writeable. Check config or filesystem!")
-            # call logger
-            warning_logger(username, " EXPORTER_MARKDOWN path MARKDOWN_PATH not writeable")
-            stop_exporter_markdown = True
+        else:
+            # check MARKDOWN_PATH for write permission - stop immediately
+            if not os.access(model.markdown_path, os.W_OK):
+                # if function was called from 'system'
+                if request:
+                    messages.error(request, 'No write permission for markdown path. Check config or filesystem!')
+                # if function was called from 'system_cron'
+                else:
+                    error_message_cron('No write permission for markdown path. Check config or filesystem!')
+                # call logger
+                error_logger(username, ' MARKDOWN_EXPORTER_MARKDOWN_PATH_NO_WRITE_PERMISSION')
+                # set stop condition
+                stop_exporter_markdown = True
 
     return stop_exporter_markdown
