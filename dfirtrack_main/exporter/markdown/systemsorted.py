@@ -12,7 +12,7 @@ from time import strftime
 import yaml
 
 
-def write_report_systemsorted(system, request_user):
+def write_report_systemsorted(system, username):
     """ function that prepares return values and pathes """
 
     """
@@ -68,7 +68,7 @@ def write_report_systemsorted(system, request_user):
     report.close()
 
     # call logger
-    info_logger(request_user, " SYSTEM_MARKDOWN_CREATED system_id:" + str(system.system_id) + "|system_name:" + str(system.system_name))
+    info_logger(username, " SYSTEM_MARKDOWN_CREATED system_id:" + str(system.system_id) + "|system_name:" + str(system.system_name))
 
     # return strings for mkdocs.yml (only used in systemsorted_async)
     return(rid, rfqdn, rpath)
@@ -76,13 +76,13 @@ def write_report_systemsorted(system, request_user):
 def systemsorted(request):
     """ exports markdown report for all systems (helper function to call the real function) """
 
-    request_user = request.user
+    username = str(request.user)
 
     # call logger
-    debug_logger(str(request_user), " SYSTEM_EXPORTER_MARKDOWN_SYSTEMSORTED_START")
+    debug_logger(username, " SYSTEM_EXPORTER_MARKDOWN_SYSTEMSORTED_START")
 
     # check variables
-    stop_exporter_markdown = check_config(request)
+    stop_exporter_markdown = check_config(username, request)
 
     # leave if variables caused errors
     if stop_exporter_markdown:
@@ -94,16 +94,17 @@ def systemsorted(request):
     # call async function
     async_task(
         "dfirtrack_main.exporter.markdown.systemsorted.systemsorted_async",
-        request_user,
+        username,
+        request.user,
     )
 
     return
 
-def systemsorted_async(request_user):
+def systemsorted_async(username, request_user=None):
     """ exports markdown report for all systems """
 
     # call directory cleaning function
-    clean_directory.clean_directory(str(request_user))
+    clean_directory.clean_directory(username)
 
     # get all systems
     systems = System.objects.all().order_by('system_name')
@@ -120,7 +121,7 @@ def systemsorted_async(request_user):
             continue
 
         # call writing function (and get return values)
-        rid, rfqdn, rpath = write_report_systemsorted(system, str(request_user))
+        rid, rfqdn, rpath = write_report_systemsorted(system, username)
 
         """ build a dict that is used for the system section in mkdocs.yml """
 
@@ -140,7 +141,7 @@ def systemsorted_async(request_user):
     mkdconfpath = model.markdown_path + "/mkdocs.yml"
 
     # read content (dictionary) of mkdocs.yml if existent, else create dummy content
-    mkdconfdict = read_or_create_mkdocs_yml.read_or_create_mkdocs_yml(str(request_user), mkdconfpath)
+    mkdconfdict = read_or_create_mkdocs_yml.read_or_create_mkdocs_yml(username, mkdconfpath)
 
     # get pages list
     mkdconflist = mkdconfdict['pages']
@@ -177,8 +178,10 @@ def systemsorted_async(request_user):
     # close file
     mkdconffile.close()
 
+    # TODO switch to message for all users in case of cron
     # finish message
-    message_user(request_user, 'System exporter markdown (sorted by system) finished', constants.SUCCESS)
+    if request_user:
+        message_user(request_user, 'System exporter markdown (sorted by system) finished', constants.SUCCESS)
 
     # call logger
-    debug_logger(str(request_user), " SYSTEM_EXPORTER_MARKDOWN_SYSTEMSORTED_END")
+    debug_logger(username, " SYSTEM_EXPORTER_MARKDOWN_SYSTEMSORTED_END")

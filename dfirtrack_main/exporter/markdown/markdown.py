@@ -5,6 +5,7 @@ from dfirtrack_config.models import SystemExporterMarkdownConfigModel
 from dfirtrack_main.exporter.markdown.domainsorted import domainsorted
 from dfirtrack_main.exporter.markdown.systemsorted import systemsorted
 
+
 @login_required(login_url="/login")
 def system(request):
     """ function to decide between sorted by system or sorted by domain """
