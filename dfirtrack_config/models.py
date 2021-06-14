@@ -92,7 +92,7 @@ class SystemExporterMarkdownConfigModel(models.Model):
     ]
 
     # config fields
-    markdown_path = models.CharField(max_length=4096, blank=True, null=True)
+    markdown_path = models.CharField(max_length=4096, blank=False, null=True)    # null is allowed for initial creation of config model via migration, blank is not allowed in form
     markdown_sorting = models.CharField(
         max_length = 3,
         choices = MARKDOWN_SORTING_CHOICES,

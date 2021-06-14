@@ -272,6 +272,35 @@ class SystemExporterMarkdownConfigForm(forms.ModelForm):
             'markdown_sorting': forms.RadioSelect(),
         }
 
+    def clean(self):
+        """ custom field validation """
+
+        """ prepare validation errors """
+
+        # get form data
+        cleaned_data = super().clean()
+
+        # create dict for validation errors
+        validation_errors = {}
+
+        """ check file system """
+
+        # markdown path does not exist - stop immediately
+        if not os.path.isdir(self.cleaned_data['markdown_path']):
+            validation_errors['markdown_path'] = 'Markdown path does not exist.'
+        else:
+            # markdown path is not readable - stop immediately
+            if not os.access(self.cleaned_data['markdown_path'], os.W_OK):
+                validation_errors['markdown_path'] = 'No write permission for markdown path.'
+
+        """ raise error """
+
+        # finally raise validation error
+        if validation_errors:
+            raise forms.ValidationError(validation_errors)
+
+        return cleaned_data
+
 class SystemExporterSpreadsheetCsvConfigForm(forms.ModelForm):
     """ system exporter spreadsheet CSV config form """
 
