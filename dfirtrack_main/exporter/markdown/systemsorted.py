@@ -1,7 +1,6 @@
 from django.core.files import File
 from django_q.tasks import async_task
 from dfirtrack_config.models import MainConfigModel, SystemExporterMarkdownConfigModel
-from dfirtrack_main.exporter.markdown.markdown_check_data import check_config
 from dfirtrack_main.exporter.markdown.messages import end_message, start_message
 from dfirtrack_main.exporter.markdown import clean_directory, read_or_create_mkdocs_yml, write_report
 from dfirtrack_main.logger.default_logger import debug_logger, info_logger
@@ -86,16 +85,6 @@ def systemsorted(request=None):
 
     # call logger
     debug_logger(username, " SYSTEM_EXPORTER_MARKDOWN_SYSTEMSORTED_START")
-
-    # check variables
-    if request:
-        stop_exporter_markdown = check_config(username, request)
-    else:
-        stop_exporter_markdown = check_config(username)
-
-    # leave if variables caused errors
-    if stop_exporter_markdown:
-        return
 
     # show immediate message for user (but only if no errors have occured before)
     if request:

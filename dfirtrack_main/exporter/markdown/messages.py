@@ -45,5 +45,5 @@ def error_message_cron(message_text):
         constants.ERROR
     )
 
-    # return to calling function in 'markdown_check_data'
+    # return to calling function in 'checks'
     return
