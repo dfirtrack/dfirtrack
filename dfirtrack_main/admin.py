@@ -1,5 +1,5 @@
 from django.contrib import admin
-from dfirtrack_main.models import Analysisstatus, Analystmemo, Case, Casepriority, Casestatus, Casetype, Company, Contact, Division, Dnsname, Domain, Domainuser, Entry, Headline, Ip, Location, Os, Osarch, Osimportname, Reason, Recommendation, Reportitem, Serviceprovider, System, Systemstatus, Systemtype, Systemuser, Tag, Task, Taskname
+from dfirtrack_main.models import Analysisstatus, Analystmemo, Case, Casepriority, Casestatus, Casetype, Company, Contact, Division, Dnsname, Domain, Domainuser, Entry, Headline, Ip, Location, Os, Osarch, Osimportname, Reason, Recommendation, Reportitem, Serviceprovider, System, Systemstatus, Systemtype, Systemuser, Tag, Task, Taskname, Note
 
 # all registered models will show up in admin app
 admin.site.register(Analysisstatus)
@@ -32,3 +32,4 @@ admin.site.register(Systemuser)
 admin.site.register(Tag)
 admin.site.register(Task)
 admin.site.register(Taskname)
+admin.site.register(Note)

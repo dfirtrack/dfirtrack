@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
+from django.core.exceptions import ValidationError
 import logging
 from time import strftime
 import uuid
@@ -1506,3 +1507,50 @@ class Taskstatus(models.Model):
 
     def get_absolute_url(self):
         return reverse('taskstatus_detail', args=(self.pk,))
+
+class Note(models.Model):
+
+    # primary key
+    note_id = models.AutoField(primary_key=True)
+
+    # main entity information
+    title = models.CharField(max_length=250, unique=True)
+    content = models.TextField()
+    version = models.IntegerField(editable=False)
+    
+    # foreign key(s)
+    case = models.ForeignKey('Case', on_delete=models.SET_NULL, blank=True, null=True)
+
+    # meta information
+    note_create_time = models.DateTimeField(auto_now_add=True)
+    note_modify_time = models.DateTimeField(auto_now=True)
+    note_created_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='note_created_by')
+    note_modified_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='note_modified_by')
+
+    # string representation
+    def __str__(self):
+        return self.title
+
+    # define logger
+    def logger(note, request_user, log_text):
+        stdlogger.info(
+            request_user +
+            log_text +
+            " note_id:" + str(note.note_id) +
+            "|note_name:" + str(note.note_name)
+        )
+
+    # custom save method
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            # set version number on creation
+            self.version = 1
+        else:
+            # auto increase version by every change
+            self.version += 1
+            # check if a newer version of the note exists
+            current_version = Note.objects.get(note_id=self.id)
+            if self.version < current_version.version:
+                raise ValidationError('There is a newer version of this note.')
+
+        super().save(*args, **kwargs)
