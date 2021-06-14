@@ -163,6 +163,7 @@ urlpatterns = [
 
     path(r'system/creator/', system_creator.system_creator, name='system_creator'),
     path(r'system/exporter/markdown/system/', markdown.system, name='system_exporter_markdown'),
+    path(r'system/exporter/markdown/system/cron/', markdown.system_create_cron, name='system_exporter_markdown_cron'),
     path(r'system/exporter/spreadsheet/csv/system/', spreadsheet_csv.system, name='system_exporter_spreadsheet_csv'),
     path(r'system/exporter/spreadsheet/xls/system/', xls.system, name='system_exporter_spreadsheet_xls'),
     path(r'system/exporter/spreadsheet/csv/system/cron/', spreadsheet_csv.system_create_cron, name='system_exporter_spreadsheet_csv_cron'),

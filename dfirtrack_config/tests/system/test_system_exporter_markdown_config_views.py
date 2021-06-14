@@ -4,6 +4,7 @@ from django.contrib.messages import get_messages
 from django.test import TestCase
 import urllib.parse
 
+
 class SystemExporterMarkdownConfigViewTestCase(TestCase):
     """ system exporter markdown config view tests """
 
@@ -72,6 +73,7 @@ class SystemExporterMarkdownConfigViewTestCase(TestCase):
             self.client.login(username='testuser_system_exporter_markdown_config', password='Rg6YK8f9LSlIY4yaBDxS')
             # create post data
             data_dict = {
+                'markdown_path': '/tmp',
                 'markdown_sorting': 'sys',
             }
             # get response
@@ -88,6 +90,7 @@ class SystemExporterMarkdownConfigViewTestCase(TestCase):
             self.client.login(username='testuser_system_exporter_markdown_config', password='Rg6YK8f9LSlIY4yaBDxS')
             # create post data
             data_dict = {
+                'markdown_path': '/tmp',
                 'markdown_sorting': 'sys',
             }
             # get response
@@ -102,6 +105,7 @@ class SystemExporterMarkdownConfigViewTestCase(TestCase):
             self.client.login(username='testuser_system_exporter_markdown_config', password='Rg6YK8f9LSlIY4yaBDxS')
             # create post data
             data_dict = {
+                'markdown_path': '/tmp',
                 'markdown_sorting': 'sys',
             }
             # get response
@@ -118,6 +122,7 @@ class SystemExporterMarkdownConfigViewTestCase(TestCase):
             self.client.login(username='testuser_system_exporter_markdown_config', password='Rg6YK8f9LSlIY4yaBDxS')
             # create post data
             data_dict = {
+                'markdown_path': '/tmp',
                 'markdown_sorting': 'dom',
             }
             # get response
@@ -133,7 +138,10 @@ class SystemExporterMarkdownConfigViewTestCase(TestCase):
             # login testuser
             self.client.login(username='testuser_system_exporter_markdown_config', password='Rg6YK8f9LSlIY4yaBDxS')
             # create post data
-            data_dict = {}
+            data_dict = {
+                'markdown_path': '/foobar',
+                'markdown_sorting': 'dom',
+            }
             # get response
             response = self.client.post('/config/system/exporter/markdown/', data_dict)
             # compare
@@ -145,7 +153,10 @@ class SystemExporterMarkdownConfigViewTestCase(TestCase):
             # login testuser
             self.client.login(username='testuser_system_exporter_markdown_config', password='Rg6YK8f9LSlIY4yaBDxS')
             # create post data
-            data_dict = {}
+            data_dict = {
+                'markdown_path': '/root',
+                'markdown_sorting': 'dom',
+            }
             # get response
             response = self.client.post('/config/system/exporter/markdown/', data_dict)
             # compare

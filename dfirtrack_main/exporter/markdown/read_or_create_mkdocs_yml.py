@@ -1,7 +1,8 @@
 from dfirtrack_main.logger.default_logger import warning_logger
 import yaml
 
-def read_or_create_mkdocs_yml(request_user, mkdconfpath):
+
+def read_or_create_mkdocs_yml(username, mkdconfpath):
 
     # open mkdocs.yml for reading
     try:
@@ -15,7 +16,7 @@ def read_or_create_mkdocs_yml(request_user, mkdconfpath):
 
     except FileNotFoundError:
         # call logger
-        warning_logger(request_user, " SYSTEM_EXPORTER_MARKDOWN no mkdocs.yml found")
+        warning_logger(username, " SYSTEM_EXPORTER_MARKDOWN no mkdocs.yml found")
         # set empty dummydict for non-existing file to make code work as usual (just for the first execution because afterwards 'mkdocs.yml' will be there)
         mkdconfdict = {'pages': [{'Systems': []}]}
 
