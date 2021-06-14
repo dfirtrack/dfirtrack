@@ -1,0 +1,8 @@
+markdown_extensions:
+- admonition
+pages:
+- Home: index.md
+- Systems:
+  - s1 (1): systems/s1.md
+site_name: markdown
+theme: readthedocs

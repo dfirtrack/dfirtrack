@@ -5,6 +5,7 @@ from django.test import TestCase
 from django.utils import timezone
 from dfirtrack.settings import BASE_DIR
 from dfirtrack_config.models import SystemExporterMarkdownConfigModel
+from dfirtrack_main.exporter.markdown.markdown import system_cron
 from dfirtrack_main.models import Dnsname
 from dfirtrack_main.models import Domain
 from dfirtrack_main.models import Entry
@@ -58,6 +59,7 @@ class SystemExporterMarkdownViewTestCase(TestCase):
             is_superuser = True,
             password='2anJuuSjzjLmb2pOYuLf',
         )
+        User.objects.create_user(username='message_user', password='eYZTI1hin7sW5iMARxcd')
 
         # set default config
         system_exporter_markdown_config_model = SystemExporterMarkdownConfigModel.objects.get(system_exporter_markdown_config_name = 'SystemExporterMarkdownConfig')
@@ -282,7 +284,7 @@ class SystemExporterMarkdownViewTestCase(TestCase):
         messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-        self.assertEqual(str(messages[0]), 'Markdown path does not exist in file system. Check config or filesystem!')
+        self.assertEqual(str(messages[0]), 'Markdown path does not exist. Check config or file system!')
         self.assertEqual(messages[0].level_tag, 'error')
 
     def test_system_exporter_markdown_markdown_path_no_write_permission(self):
@@ -301,7 +303,7 @@ class SystemExporterMarkdownViewTestCase(TestCase):
         messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-        self.assertEqual(str(messages[0]), 'No write permission for markdown path. Check config or filesystem!')
+        self.assertEqual(str(messages[0]), 'No write permission for markdown path. Check config or file system!')
         self.assertEqual(messages[0].level_tag, 'error')
 
     def test_system_exporter_markdown_systemsorted(self):
@@ -371,12 +373,169 @@ class SystemExporterMarkdownViewTestCase(TestCase):
     def test_system_exporter_markdown_clean_directory(self):
         """ test instant markdown export via button to server file system """
 
+        # create systems subfolder to test removal and re-creation
+        os.makedirs('/tmp/dfirtrack_test/docs/systems/')
+
         # login testuser
         self.client.login(username='testuser_system_exporter_markdown', password='2anJuuSjzjLmb2pOYuLf')
         # get response
         self.client.get('/system/exporter/markdown/system/', follow=True)
         # compare
         self.assertTrue(os.path.exists('/tmp/dfirtrack_test/docs/systems/'))
+
+    def test_system_exporter_markdown_read_mkdocs_yml(self):
+        """ test instant markdown export via button to server file system """
+
+        # cope dummy mkdocs.yml to test file reading
+        shutil.copy(f'{os.getcwd()}/dfirtrack_main/tests/system/files/mkdocs.yml', '/tmp/dfirtrack_test/mkdocs.yml')
+
+        # login testuser
+        self.client.login(username='testuser_system_exporter_markdown', password='2anJuuSjzjLmb2pOYuLf')
+        # get response
+        self.client.get('/system/exporter/markdown/system/', follow=True)
+        # compare
+        self.assertTrue(os.path.exists('/tmp/dfirtrack_test/docs/systems/'))
+
+    def test_system_exporter_markdown_cron_markdown_path_empty(self):
+        """ test markdown export via scheduled task to server file system """
+
+        # change config
+        set_markdown_path('')
+
+        # export markdown without GET by directly calling the function
+        system_cron()
+
+        # login testuser
+        self.client.login(username='testuser_system_exporter_markdown', password='2anJuuSjzjLmb2pOYuLf')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_system_exporter_markdown')
+        self.assertEqual(messages[0].message, '[Scheduled task markdown exporter] Markdown path contains an emtpy string. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
+        # switch user context
+        self.client.logout()
+        self.client.login(username='message_user', password='eYZTI1hin7sW5iMARxcd')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'message_user')
+        self.assertEqual(messages[0].message, '[Scheduled task markdown exporter] Markdown path contains an emtpy string. Check config!')
+        self.assertEqual(messages[0].level_tag, 'error')
+
+    def test_system_exporter_markdown_cron_markdown_path_not_existent(self):
+        """ test markdown export via scheduled task to server file system """
+
+        # change config
+        set_markdown_path('/foobar')
+
+        # export markdown without GET by directly calling the function
+        system_cron()
+
+        # login testuser
+        self.client.login(username='testuser_system_exporter_markdown', password='2anJuuSjzjLmb2pOYuLf')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_system_exporter_markdown')
+        self.assertEqual(messages[0].message, '[Scheduled task markdown exporter] Markdown path does not exist. Check config or file system!')
+        self.assertEqual(messages[0].level_tag, 'error')
+        # switch user context
+        self.client.logout()
+        self.client.login(username='message_user', password='eYZTI1hin7sW5iMARxcd')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'message_user')
+        self.assertEqual(messages[0].message, '[Scheduled task markdown exporter] Markdown path does not exist. Check config or file system!')
+        self.assertEqual(messages[0].level_tag, 'error')
+
+    def test_system_exporter_markdown_cron_markdown_path_no_write_permission(self):
+        """ test markdown export via scheduled task to server file system """
+
+        # change config
+        set_markdown_path('/root')
+
+        # export markdown without GET by directly calling the function
+        system_cron()
+
+        # login testuser
+        self.client.login(username='testuser_system_exporter_markdown', password='2anJuuSjzjLmb2pOYuLf')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_system_exporter_markdown')
+        self.assertEqual(messages[0].message, '[Scheduled task markdown exporter] No write permission for markdown path. Check config or file system!')
+        self.assertEqual(messages[0].level_tag, 'error')
+        # switch user context
+        self.client.logout()
+        self.client.login(username='message_user', password='eYZTI1hin7sW5iMARxcd')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'message_user')
+        self.assertEqual(messages[0].message, '[Scheduled task markdown exporter] No write permission for markdown path. Check config or file system!')
+        self.assertEqual(messages[0].level_tag, 'error')
+
+    def test_system_exporter_markdown_cron_systemsorted(self):
+        """ test markdown export via scheduled task to server file system """
+
+        # export markdown without GET by directly calling the function
+        system_cron()
+
+        # compare - file system
+        self.assertTrue(os.path.exists('/tmp/dfirtrack_test/docs/systems/'))
+        self.assertTrue(os.path.isfile('/tmp/dfirtrack_test//mkdocs.yml'))
+        self.assertTrue(os.path.isfile('/tmp/dfirtrack_test/docs/systems/system_1_domain_1_20200102_123456.md'))
+        self.assertTrue(os.path.isfile('/tmp/dfirtrack_test/docs/systems/system_2_domain_2.md'))
+        self.assertTrue(os.path.isfile('/tmp/dfirtrack_test/docs/systems/system_3.md'))
+        self.assertFalse(os.path.isfile('/tmp/dfirtrack_test/docs/systems/system_4.md'))
+        self.assertTrue(os.path.isfile('/tmp/dfirtrack_test/docs/systems/system_5_domain_2.md'))
+        self.assertTrue(os.path.isfile('/tmp/dfirtrack_test/docs/systems/system_6.md'))
+        self.assertTrue(filecmp.cmp('/tmp/dfirtrack_test/docs/systems/system_1_domain_1_20200102_123456.md', os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_exporter_markdown_testfile_system_1.md'), shallow = False))
+        self.assertTrue(filecmp.cmp('/tmp/dfirtrack_test/docs/systems/system_2_domain_2.md', os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_exporter_markdown_testfile_system_2.md'), shallow = False))
+        self.assertTrue(filecmp.cmp('/tmp/dfirtrack_test/docs/systems/system_3.md', os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_exporter_markdown_testfile_system_3.md'), shallow = False))
+        self.assertTrue(filecmp.cmp('/tmp/dfirtrack_test/docs/systems/system_5_domain_2.md', os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_exporter_markdown_testfile_system_5.md'), shallow = False))
+        self.assertTrue(filecmp.cmp('/tmp/dfirtrack_test/docs/systems/system_6.md', os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_exporter_markdown_testfile_system_6.md'), shallow = False))
+
+    def test_system_exporter_markdown_cron_domainsorted(self):
+        """ test markdown export via scheduled task to server file system """
+
+        # change config
+        set_markdown_sorting_dom()
+
+        # export markdown without GET by directly calling the function
+        system_cron()
+
+        # compare
+        self.assertTrue(os.path.exists('/tmp/dfirtrack_test/docs/systems/'))
+        self.assertTrue(os.path.exists('/tmp/dfirtrack_test/docs/systems/domain_1/'))
+        self.assertTrue(os.path.exists('/tmp/dfirtrack_test/docs/systems/domain_2/'))
+        self.assertTrue(os.path.exists('/tmp/dfirtrack_test/docs/systems/other_domains/'))
+        self.assertTrue(os.path.isfile('/tmp/dfirtrack_test//mkdocs.yml'))
+        self.assertTrue(os.path.isfile('/tmp/dfirtrack_test/docs/systems/domain_1/system_1_domain_1_20200102_123456.md'))
+        self.assertTrue(os.path.isfile('/tmp/dfirtrack_test/docs/systems/domain_2/system_2_domain_2.md'))
+        self.assertTrue(os.path.isfile('/tmp/dfirtrack_test/docs/systems/other_domains/system_3.md'))
+        self.assertFalse(os.path.isfile('/tmp/dfirtrack_test/docs/systems/other_domains/system_4.md'))
+        self.assertTrue(os.path.isfile('/tmp/dfirtrack_test/docs/systems/domain_2/system_5_domain_2.md'))
+        self.assertTrue(os.path.isfile('/tmp/dfirtrack_test/docs/systems/other_domains/system_6.md'))
+        self.assertTrue(filecmp.cmp('/tmp/dfirtrack_test/docs/systems/domain_1/system_1_domain_1_20200102_123456.md', os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_exporter_markdown_testfile_system_1.md'), shallow = False))
+        self.assertTrue(filecmp.cmp('/tmp/dfirtrack_test/docs/systems/domain_2/system_2_domain_2.md', os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_exporter_markdown_testfile_system_2.md'), shallow = False))
+        self.assertTrue(filecmp.cmp('/tmp/dfirtrack_test/docs/systems/other_domains/system_3.md', os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_exporter_markdown_testfile_system_3.md'), shallow = False))
+        self.assertTrue(filecmp.cmp('/tmp/dfirtrack_test/docs/systems/domain_2/system_5_domain_2.md', os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_exporter_markdown_testfile_system_5.md'), shallow = False))
+        self.assertTrue(filecmp.cmp('/tmp/dfirtrack_test/docs/systems/other_domains/system_6.md', os.path.join(BASE_DIR, 'dfirtrack_main/tests/system/files/system_exporter_markdown_testfile_system_6.md'), shallow = False))
 
     def test_system_exporter_markdown_create_cron_not_logged_in(self):
         """ test helper function to check config before creating scheduled task """
@@ -447,7 +606,7 @@ class SystemExporterMarkdownViewTestCase(TestCase):
         messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-        self.assertEqual(str(messages[0]), 'Markdown path does not exist in file system. Check config or filesystem!')
+        self.assertEqual(str(messages[0]), 'Markdown path does not exist. Check config or file system!')
         self.assertEqual(messages[0].level_tag, 'error')
 
     def test_system_exporter_markdown_create_cron_markdown_path_no_write_permission(self):
@@ -466,5 +625,5 @@ class SystemExporterMarkdownViewTestCase(TestCase):
         messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-        self.assertEqual(str(messages[0]), 'No write permission for markdown path. Check config or filesystem!')
+        self.assertEqual(str(messages[0]), 'No write permission for markdown path. Check config or file system!')
         self.assertEqual(messages[0].level_tag, 'error')

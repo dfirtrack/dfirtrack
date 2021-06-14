@@ -43,10 +43,10 @@ def check_content_file_system(request=None):
         if not os.path.isdir(model.markdown_path):
             # if function was called from 'system'
             if request:
-                messages.error(request, 'Markdown path does not exist in file system. Check config or filesystem!')
+                messages.error(request, 'Markdown path does not exist. Check config or file system!')
             # if function was called from 'system_cron'
             else:
-                error_message_cron('Markdown path does not exist in file system. Check config or filesystem!')
+                error_message_cron('Markdown path does not exist. Check config or file system!')
             # call logger
             error_logger(logger_username, ' MARKDOWN_EXPORTER_MARKDOWN_PATH_NOT_EXISTING')
             # set stop condition
@@ -56,10 +56,10 @@ def check_content_file_system(request=None):
             if not os.access(model.markdown_path, os.W_OK):
                 # if function was called from 'system'
                 if request:
-                    messages.error(request, 'No write permission for markdown path. Check config or filesystem!')
+                    messages.error(request, 'No write permission for markdown path. Check config or file system!')
                 # if function was called from 'system_cron'
                 else:
-                    error_message_cron('No write permission for markdown path. Check config or filesystem!')
+                    error_message_cron('No write permission for markdown path. Check config or file system!')
                 # call logger
                 error_logger(logger_username, ' MARKDOWN_EXPORTER_MARKDOWN_PATH_NO_WRITE_PERMISSION')
                 # set stop condition
