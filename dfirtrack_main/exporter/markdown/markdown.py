@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.urls import reverse
-from dfirtrack_config.models import SystemExporterMarkdownConfigModel
+from dfirtrack_config.models import MainConfigModel, SystemExporterMarkdownConfigModel
 from dfirtrack_main.exporter.markdown.domainsorted import domainsorted
 from dfirtrack_main.exporter.markdown.systemsorted import systemsorted
 
@@ -10,8 +10,25 @@ from dfirtrack_main.exporter.markdown.systemsorted import systemsorted
 def system_create_cron(request):
     """ helper function to check config before creating scheduled task """
 
-    # TODO: add logic like in 'dfirtrack_main.exporter.file.xls.system_create_cron'
-    pass
+    # get config
+    main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+
+    # TODO: [code] change check
+    # check file system
+    #stop_exporter_markdown = check_config(username, request)
+
+    # TODO: [code] make work
+    ## check stop condition
+    #if stop_exporter_markdown:
+    #    # return to 'system_list'
+    #    return redirect(reverse('system_list'))
+    #else:
+    #    # TODO: [logic] build url with python
+    #    # open django admin with pre-filled form for scheduled task
+    #    return redirect('/admin/django_q/schedule/add/?name=system_markdown_exporter&func=dfirtrack_main.exporter.markdown.markdown.system_cron')
+
+    # TODO: [debug] remove
+    return redirect('/admin/django_q/schedule/add/?name=system_markdown_exporter&func=dfirtrack_main.exporter.markdown.markdown.system_cron')
 
 @login_required(login_url="/login")
 def system(request):
