@@ -3,6 +3,9 @@ from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
 from django.core.exceptions import ValidationError
+
+from markdownx.models import MarkdownxField
+
 import logging
 from time import strftime
 import uuid
@@ -1520,6 +1523,7 @@ class Note(models.Model):
     
     # foreign key(s)
     case = models.ForeignKey('Case', on_delete=models.SET_NULL, blank=True, null=True)
+    tag = models.ManyToManyField('Tag', blank=True)
 
     # meta information
     note_create_time = models.DateTimeField(auto_now_add=True)
@@ -1537,7 +1541,7 @@ class Note(models.Model):
             request_user +
             log_text +
             " note_id:" + str(note.note_id) +
-            "|note_name:" + str(note.note_name)
+            "|note_title:" + str(note.title)
         )
 
     # custom save method
@@ -1554,3 +1558,6 @@ class Note(models.Model):
                 raise ValidationError('There is a newer version of this note.')
 
         super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('note_detail', args=(self.pk,))

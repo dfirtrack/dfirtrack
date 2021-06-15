@@ -17,6 +17,7 @@ from dfirtrack_main.views import entry_views
 from dfirtrack_main.views import headline_views
 from dfirtrack_main.views import ip_views
 from dfirtrack_main.views import location_views
+from dfirtrack_main.views import note_views
 from dfirtrack_main.views import os_views
 from dfirtrack_main.views import osimportname_views
 from dfirtrack_main.views import reason_views
@@ -121,6 +122,11 @@ urlpatterns = [
     path(r'location/add/', location_views.LocationCreate.as_view(), name='location_create'),
     path(r'location/add_popup/', location_views.LocationCreatePopup.as_view(), name='location_add_popup'),
     path(r'location/<int:pk>/edit/', location_views.LocationUpdate.as_view(), name='location_update'),
+
+    path(r'note/', note_views.NoteList.as_view(), name='note_list'),
+    path(r'note/<int:pk>/', note_views.NoteDetail.as_view(), name='note_detail'),
+    path(r'note/add/', note_views.NoteCreate.as_view(), name='note_add'),
+    path(r'note/<int:pk>/edit/', note_views.NoteUpdate.as_view(), name='note_update'),
 
     path(r'os/', os_views.OsList.as_view(), name='os_list'),
     path(r'os/<int:pk>/', os_views.OsDetail.as_view(), name='os_detail'),

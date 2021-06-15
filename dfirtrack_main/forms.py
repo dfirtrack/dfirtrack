@@ -35,6 +35,7 @@ from dfirtrack_main.models import Task
 from dfirtrack_main.models import Taskname
 from dfirtrack_main.models import Taskpriority
 from dfirtrack_main.models import Taskstatus
+from dfirtrack_main.models import Note
 
 
 class AdminStyleSelectorForm(forms.ModelForm):
@@ -1291,4 +1292,31 @@ class TasknameForm(forms.ModelForm):
         # special form type or option
         widgets = {
             'taskname_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
+        }
+
+class NoteForm(forms.ModelForm):
+    """ default model form """
+
+    class Meta:
+
+        # model
+        model = Note
+
+        # this HTML forms are shown
+        fields = (
+            'title',
+            'content',
+            'tag',
+            'case'
+        )
+
+        # non default form labeling
+        labels = {
+            'title': gettext_lazy('Title (*)'),
+            'content': gettext_lazy('Content (*)'),
+        }
+
+        # special form type or option
+        widgets = {
+            'title': forms.TextInput(attrs={'autofocus': 'autofocus'}),
         }
