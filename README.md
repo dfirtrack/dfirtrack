@@ -85,10 +85,10 @@ To retrieve the current OpenAPI scheme just visit the the DFIRTrack URL `https:/
 If you want to use the DFIRTrack API you can use the following API clients:
 
 * **Python**
-    * [Github: n3x77/dfirtrack-api-python-client](https://github.com/n3x77/dfirtrack-api-python-client)
-    * [Github: Python minimalistic example](https://github.com/n3x77/dfirtrack-python-api-example)
+    * [Github: dfirtrack/dfirtrack-api-python-client](https://github.com/dfirtrack/dfirtrack-api-python-client)
+    * [Github: Python minimalistic API example](https://github.com/dfirtrack/dfirtrack-python-api-example)
 * **GO**
-    * [Github: n3x77/dfirtrackapi](https://github.com/n3x77/dfirtrackapi)
+    * [Github: dfirtrack/dfirtrackapi](https://github.com/dfirtrack/dfirtrackapi)
 
 ## License
 
