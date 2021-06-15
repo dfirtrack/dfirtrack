@@ -36,9 +36,9 @@ The following functions are implemented for now:
 * Exporter
     * [Markdown](https://github.com/dfirtrack/dfirtrack/wiki/Export-data#system-markdown-exporter) for so-called system reports (for use in a [MkDocs](https://www.mkdocs.org/) structure),
     * Spreadsheet for systems ([CSV](https://github.com/dfirtrack/dfirtrack/wiki/Export-data#system-spreadsheet-exporter-csv) and [XLS](https://github.com/dfirtrack/dfirtrack/wiki/Export-data#system-spreadsheet-exporter-xls)) and artifacts ([XLS](https://github.com/dfirtrack/dfirtrack/wiki/Export-data#artifact-spreadsheet-exporter-xls)).
-* Modificator
+* [Modificator](https://github.com/dfirtrack/dfirtrack/wiki/Modify-data#modificator)
     * quick change of status of systems.
-* Workflows
+* [Workflows](https://github.com/dfirtrack/dfirtrack/wiki/Modify-data#workflow)
     * fast automatic generation for tasks and artifacts to one or more systems
 
 ## Installation
