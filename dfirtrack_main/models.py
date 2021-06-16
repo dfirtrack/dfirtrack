@@ -2,8 +2,6 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
-from django.core.exceptions import ValidationError
-
 import logging
 from time import strftime
 import uuid
@@ -627,6 +625,117 @@ class Location(models.Model):
 
     def get_update_url(self):
         return reverse('location_update', args=(self.pk,))
+
+class Note(models.Model):
+
+    # primary key
+    note_id = models.AutoField(primary_key=True)
+
+    # main entity information
+    note_title = models.CharField(max_length=250, unique=True)
+    note_content = models.TextField()
+    note_version = models.IntegerField()
+    note_is_abandoned = models.BooleanField(blank=True, default=True)
+
+    # foreign key(s)
+    case = models.ForeignKey('Case', on_delete=models.SET_NULL, blank=True, null=True)
+    notestatus = models.ForeignKey('Notestatus', on_delete=models.PROTECT, default=1)
+    tag = models.ManyToManyField('Tag', blank=True)
+
+    # meta information
+    note_create_time = models.DateTimeField(auto_now_add=True)
+    note_modify_time = models.DateTimeField(auto_now=True)
+    note_created_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='note_created_by')
+    note_modified_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='note_modified_by')
+
+    # string representation
+    def __str__(self):
+        return self.note_title
+
+    # define logger
+    def logger(note, request_user, log_text):
+
+        # get objects
+        tags = note.tag.all()
+        # create empty list
+        taglist = []
+        # set default string if there is no object at all
+        tagstring = 'None'
+        # iterate over objects
+        for tag in tags:
+            # append object to list
+            taglist.append(tag.tag_name)
+            # join list to comma separated string if there are any objects, else default string will remain
+            tagstring = ','.join(taglist)
+
+        # finally write log
+        stdlogger.info(
+            request_user +
+            log_text +
+            " note_id:" + str(note.note_id) +
+            "|note_title:" + str(note.note_title) +
+            "|note_version:" + str(note.note_version) +
+            "|notestatus:" + str(note.notestatus) +
+            "|case:" + str(note.case) +
+            "|tag:" + tagstring
+        )
+
+    # custom save method
+    def save(self, *args, **kwargs):
+
+        """ note_version """
+
+        if not self.pk:
+            # set version number on creation
+            self.note_version = 1
+        else:
+            # auto increase version by every change
+            self.note_version += 1
+
+        """ note_is_abandoned """
+
+        # set abandoned if note has no case
+        if not self.case:
+            self.note_is_abandoned = True
+        else:
+            self.note_is_abandoned = False
+
+        super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('note_detail', args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse('note_update', args=(self.pk,))
+
+class Notestatus(models.Model):
+
+    # primary key
+    notestatus_id = models.AutoField(primary_key=True)
+
+    # main entity information
+    notestatus_name = models.CharField(max_length=30, unique=True)
+    notestatus_note = models.TextField(blank=True, null=True)
+
+    class Meta:
+        verbose_name_plural = 'notestatus'
+
+    # string representation
+    def __str__(self):
+        return self.notestatus_name
+
+    # define logger
+    def logger(notestatus, request_user, log_text):
+        stdlogger.info(
+            request_user +
+            log_text +
+            " notestatus_id:" + str(notestatus.notestatus_id) +
+            "|notestatus_name:" + str(notestatus.notestatus_name) +
+            "|notestatus_note:" + str(notestatus.notestatus_note)
+        )
+
+    def get_absolute_url(self):
+        return reverse('notestatus_detail', args=(self.pk,))
 
 class Os(models.Model):
 
@@ -1508,53 +1617,3 @@ class Taskstatus(models.Model):
 
     def get_absolute_url(self):
         return reverse('taskstatus_detail', args=(self.pk,))
-
-class Note(models.Model):
-
-    # primary key
-    note_id = models.AutoField(primary_key=True)
-
-    # main entity information
-    title = models.CharField(max_length=250, unique=True)
-    content = models.TextField()
-    version = models.IntegerField()
-    
-    # foreign key(s)
-    case = models.ForeignKey('Case', on_delete=models.SET_NULL, blank=True, null=True)
-    tag = models.ManyToManyField('Tag', blank=True)
-
-    # meta information
-    note_create_time = models.DateTimeField(auto_now_add=True)
-    note_modify_time = models.DateTimeField(auto_now=True)
-    note_created_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='note_created_by')
-    note_modified_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='note_modified_by')
-
-    # string representation
-    def __str__(self):
-        return self.title
-
-    # define logger
-    def logger(note, request_user, log_text):
-        stdlogger.info(
-            request_user +
-            log_text +
-            " note_id:" + str(note.note_id) +
-            "|note_title:" + str(note.title)
-        )
-
-    # custom save method
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            # set version number on creation
-            self.version = 1
-        else:
-            # auto increase version by every change
-            self.version += 1
-           
-        super().save(*args, **kwargs)
-
-    def get_absolute_url(self):
-        return reverse('note_detail', args=(self.pk,))
-
-    def get_update_url(self):
-        return reverse('note_update', args=(self.pk,))

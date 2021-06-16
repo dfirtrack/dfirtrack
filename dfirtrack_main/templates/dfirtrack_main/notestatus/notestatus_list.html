@@ -1,0 +1,96 @@
+<!-- extending maintemplate -->
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+<!-- HTML head in maintemplate -->
+{% block head %}
+
+<!-- page title -->
+<title>
+    DFIRTrack - Notestatus
+</title>
+
+{% load static %}
+
+<!-- HTML head in maintemplate -->
+{% endblock %}
+
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
+{% block content %}
+
+<!-- headline -->
+<div class="row bottom-distance">
+    <div class="col">
+        <h5>
+            Notestatus
+        </h5>
+    </div>
+</div>
+
+<!-- headlines -->
+<div class="row font-weight-bold">
+
+    <!-- notestatus id headline -->
+    <div class="col-1">
+        ID
+    </div>
+
+    <!-- notestatus name headline -->
+    <div class="col-2">
+        Notestatus
+    </div>
+
+    <!-- notes headline -->
+    <div class="col-1">
+        Notes
+    </div>
+
+    <!-- notestatus note headline -->
+    <div class="col-8">
+        Note
+    </div>
+
+<!-- headlines -->
+</div>
+
+<!-- notestatus list -->
+{% for i in notestatus_list %}
+
+    <!-- notestatus row -->
+    <div class="row top-distance">
+
+        <!-- notestatus id -->
+        <div class="col-1">
+            {{ i.notestatus_id }}
+        </div>
+
+        <!-- notestatus name -->
+        <div class="col-2">
+            <a href="{{ i.get_absolute_url }}">
+                {{ i.notestatus_name }}
+            </a>
+        </div>
+
+        <!-- note -->
+        <div class="col-1">
+            {{ i.notestatus.all|length }}
+        </div>
+
+        <!-- notestatus note -->
+        <div class="col-8">
+            {% if i.notestatus_note %}
+                {{ i.notestatus_note|linebreaks }}
+            {% else %}
+                ---
+            {% endif %}
+        </div>
+
+    <!-- notestatus row -->
+    </div>
+
+<!-- notestatus list -->
+{% endfor %}
+
+<!-- HTML body in maintemplate -->
+{% endblock %}

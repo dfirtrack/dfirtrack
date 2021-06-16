@@ -8,6 +8,7 @@ from dfirtrack_main.forms import NoteForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Note
 
+
 class NoteList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Note
@@ -16,7 +17,7 @@ class NoteList(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         debug_logger(str(self.request.user), " NOTE_LIST_ENTERED")
-        return Note.objects.order_by('title')
+        return Note.objects.order_by('note_title')
 
 class NoteDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'

@@ -20,6 +20,7 @@ from dfirtrack_main.models import Domainuser
 from dfirtrack_main.models import Entry
 from dfirtrack_main.models import Headline
 from dfirtrack_main.models import Location
+from dfirtrack_main.models import Note
 from dfirtrack_main.models import Os
 from dfirtrack_main.models import Osarch
 from dfirtrack_main.models import Osimportname
@@ -37,7 +38,6 @@ from dfirtrack_main.models import Task
 from dfirtrack_main.models import Taskname
 from dfirtrack_main.models import Taskpriority
 from dfirtrack_main.models import Taskstatus
-from dfirtrack_main.models import Note
 
 from dfirtrack_main.widgets import TagWidget
 
@@ -497,6 +497,52 @@ class LocationForm(forms.ModelForm):
         # special form type or option
         widgets = {
             'location_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
+        }
+
+class NoteForm(forms.ModelForm):
+    """ default model form """
+
+    note_version = forms.CharField(widget=forms.HiddenInput, required=False)
+
+    note_content = MartorFormField()
+
+    #tag = forms.ModelChoiceField(widget=TagWidget, queryset=Tag.objects.all())
+
+    def clean_version(self):
+        note_version = self.cleaned_data['note_version']
+        if note_version != '':
+            note_version = int(note_version)+1
+            note_title = self.cleaned_data['note_title']
+            current_version = Note.objects.get(note_title=note_title)
+            if note_version <= current_version.note_version:
+                raise ValidationError('There is a newer version of this note.')
+        return note_version
+
+    class Meta:
+
+        # model
+        model = Note
+
+        # this HTML forms are shown
+        fields = (
+            'note_title',
+            'note_content',
+            'tag',
+            'case',
+            'note_version',
+            'notestatus',
+        )
+
+        # non default form labeling
+        labels = {
+            'note_title': gettext_lazy('Title (*)'),
+            'note_content': gettext_lazy('Content (*)'),
+            'notestatus': gettext_lazy('Notestatus (*)'),
+        }
+
+        # special form type or option
+        widgets = {
+            'note_title': forms.TextInput(attrs={'autofocus': 'autofocus'}),
         }
 
 class OsForm(forms.ModelForm):
@@ -1298,48 +1344,4 @@ class TasknameForm(forms.ModelForm):
         # special form type or option
         widgets = {
             'taskname_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
-        }
-
-class NoteForm(forms.ModelForm):
-    """ default model form """
-
-    version = forms.CharField(widget=forms.HiddenInput, required=False)
-
-    content = MartorFormField()
-
-    #tag = forms.ModelChoiceField(widget=TagWidget, queryset=Tag.objects.all())
-
-    def clean_version(self):
-        version = self.cleaned_data['version']
-        if version != '': 
-            version = int(version)+1
-            title = self.cleaned_data['title']
-            current_version = Note.objects.get(title=title)
-            if version <= current_version.version:
-                raise ValidationError('There is a newer version of this note.')
-        return version
-
-    class Meta:
-
-        # model
-        model = Note
-
-        # this HTML forms are shown
-        fields = (
-            'title',
-            'content',
-            'tag',
-            'case',
-            'version',
-        )
-
-        # non default form labeling
-        labels = {
-            'title': gettext_lazy('Title (*)'),
-            'content': gettext_lazy('Content (*)'),
-        }
-
-        # special form type or option
-        widgets = {
-            'title': forms.TextInput(attrs={'autofocus': 'autofocus'}),
         }
