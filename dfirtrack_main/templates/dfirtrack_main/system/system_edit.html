@@ -33,7 +33,7 @@
 <form method="POST" class="post-form">
 
     <!-- button row -->
-    <div class="row bottom-distance">
+    <div class="row">
 
         <!-- save button -->
         <div class="col-1">
@@ -69,7 +69,7 @@
                 <!-- system name headline -->
                 <div class="col-3">
                     <h5>
-                        <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                        <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                         {{ form.system_name.label }}
                     </h5>
                 </div>
@@ -92,40 +92,6 @@
 
             <!-- placeholder -->
             <div class="col-3">
-            </div>
-
-            <!-- system export values -->
-            <div class="col-3">
-
-                <table>
-
-                    <!-- system export markdown -->
-                    <tr>
-                        <td>
-                            <span class="font-weight-bold right-distance">
-                                {{ form.system_export_markdown.label }}
-                            </span>
-                        </td>
-                        <td>
-                            {{ form.system_export_markdown }}
-                        </td>
-                    </tr>
-
-                    <!-- system export spreadsheet -->
-                    <tr>
-                        <td>
-                            <span class="font-weight-bold right-distance">
-                                {{ form.system_export_spreadsheet.label }}
-                            </span>
-                        </td>
-                        <td>
-                            {{ form.system_export_spreadsheet }}
-                        </td>
-                    </tr>
-
-                </table>
-
-            <!-- export values -->
             </div>
 
         <!-- system name headline row -->
@@ -167,6 +133,44 @@
                     </div>
                     {{ form.dnsname }}
                 </div>
+            </div>
+
+            <!-- placeholder -->
+            <div class="col-3">
+            </div>
+
+            <!-- system export values -->
+            <div class="col-3">
+
+                <table>
+
+                    <!-- system export markdown -->
+                    <tr>
+                        <td>
+                            <span class="font-weight-bold right-distance">
+                                {{ form.system_export_markdown.label }}
+                            </span>
+                        </td>
+                        <td>
+                            {{ form.system_export_markdown }}
+                        </td>
+                    </tr>
+
+                    <!-- system export spreadsheet -->
+                    <tr>
+                        <td>
+                            <span class="font-weight-bold right-distance">
+                                {{ form.system_export_spreadsheet.label }}
+                            </span>
+                        </td>
+                        <td>
+                            {{ form.system_export_spreadsheet }}
+                        </td>
+                    </tr>
+
+                </table>
+
+            <!-- export values -->
             </div>
 
         <!-- system name row -->

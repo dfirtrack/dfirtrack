@@ -238,7 +238,7 @@
         {% if system.case.all %}
             {% for i in system.case.all|dictsort:"case_name" %}
                 <a href="{{ i.get_absolute_url }}" type="button" class="btn btn-primary btn-sm bottom-left top-right top-distance copy-true">
-                    <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                     {{ i }}
                 </a>
             {% endfor %}
