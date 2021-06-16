@@ -10,9 +10,11 @@
 
 {% load static %}
 
-<link rel="stylesheet" href="//cdn.jsdelivr.net/editor/0.1.0/editor.css">
-<script src="//cdn.jsdelivr.net/editor/0.1.0/editor.js"></script>
-<script src="//cdn.jsdelivr.net/editor/0.1.0/marked.js"></script>
+{% block css %}
+  <link href="{% static 'plugins/css/ace.min.css' %}" type="text/css" media="all" rel="stylesheet" />
+  <link href="{% static 'plugins/css/resizable.min.css' %}" type="text/css" media="all" rel="stylesheet" />
+  <link href="{% static 'martor/css/martor.bootstrap.min.css' %}" type="text/css" media="all" rel="stylesheet" />
+{% endblock %}
 
 <!-- HTML head in maintemplate -->
 {% endblock %}
@@ -55,12 +57,50 @@
 
     <!-- ############################################ -->
 
-    <!-- case_name block -->
+    <!-- note meta information block -->
     <div class="card card-body bg-dark border-light top-distance">
+        <div class="row">
+            <div class="col">
+                <h5>
+                    {{ form.title.label }}
+                </h5>
+            </div>
+            <div class="col">
+                <h5>
+                    <img src="/static/dfirtrack_main/icons/list-light.svg" class="icon right-distance copy-false" alt="icon">
+                    {{ form.case.label }}
+                </h5>
+            </div>
+            <div class="col">
+                <h5>
+                    <img src="/static/dfirtrack_main/icons/tag-light.svg" class="icon right-distance copy-false" alt="icon">
+                    {{ form.tag.label }}
+                </h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="card card-body bg-dark border-light top-distance">
+                    {{ form.title }}
+                    {{ form.version }}
+                </div>
+            </div>
+            <div class="col">
+                <div class="card card-body bg-dark border-light top-distance">
+                    {{ form.case }}
+                </div>
+            </div>
+            <div class="col">
+                <div class="card card-body bg-dark border-light top-distance">
+                    {{ form.tag }}
+                </div>
+            </div>
+        </div>
     
-        {{ form }}
-    
-    <!-- case note block -->
+    </div>
+    <!-- note meta information block -->
+    <div class="card card-body bg-dark border-light top-distance">
+        {{ form.content }}    
     </div>
 
     <!-- ############################################ -->
@@ -84,13 +124,16 @@
 <!-- form -->
 </form>
 
-{{ form.media }}
-
-<script type="text/javascript">
-    new Editor({
-    element: document.getElementById('id_content'),
-    })
-</script>
+{% block js %}
+    <script src="/static/plugins/js/bootstrap.min.js"></script>
+    <script src="/static/plugins/js/ace.js"></script>
+    <script src="/static/plugins/js/mode-markdown.js"></script>
+    <script src="/static/plugins/js/theme-github.js"></script>
+    <script src="/static/plugins/js/highlight.min.js"></script>
+    <script src="/static/plugins/js/resizable.min.js"></script>
+    <script src="/static/plugins/js/emojis.min.js"></script>
+    <script src="/static/martor/js/martor.bootstrap.min.js"></script>
+{% endblock %}
 
 <!-- HTML body in maintemplate -->
 {% endblock %}

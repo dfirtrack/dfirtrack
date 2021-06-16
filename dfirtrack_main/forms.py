@@ -1,7 +1,9 @@
 from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.contrib.auth.models import User
+from django.db.models.query import QuerySet
 from django.utils.translation import gettext_lazy
+from django.core.exceptions import ValidationError
 from dfirtrack_artifacts.models import Artifact
 from dfirtrack_main.models import Analysisstatus
 from dfirtrack_main.models import Analystmemo
@@ -36,6 +38,10 @@ from dfirtrack_main.models import Taskname
 from dfirtrack_main.models import Taskpriority
 from dfirtrack_main.models import Taskstatus
 from dfirtrack_main.models import Note
+
+from dfirtrack_main.widgets import TagWidget
+
+from martor.fields import MartorFormField
 
 
 class AdminStyleSelectorForm(forms.ModelForm):
@@ -1297,6 +1303,22 @@ class TasknameForm(forms.ModelForm):
 class NoteForm(forms.ModelForm):
     """ default model form """
 
+    version = forms.CharField(widget=forms.HiddenInput, required=False)
+
+    content = MartorFormField()
+
+    #tag = forms.ModelChoiceField(widget=TagWidget, queryset=Tag.objects.all())
+
+    def clean_version(self):
+        version = self.cleaned_data['version']
+        if version != '': 
+            version = int(version)+1
+            title = self.cleaned_data['title']
+            current_version = Note.objects.get(title=title)
+            if version <= current_version.version:
+                raise ValidationError('There is a newer version of this note.')
+        return version
+
     class Meta:
 
         # model
@@ -1307,7 +1329,8 @@ class NoteForm(forms.ModelForm):
             'title',
             'content',
             'tag',
-            'case'
+            'case',
+            'version',
         )
 
         # non default form labeling

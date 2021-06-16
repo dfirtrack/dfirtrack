@@ -11,6 +11,10 @@
 
 {% load static %}
 
+{% block css %}
+  <link href="{% static 'plugins/css/ace.min.css' %}" type="text/css" media="all" rel="stylesheet" />
+{% endblock %}
+
 <!-- HTML head in maintemplate -->
 {% endblock %}
 
@@ -19,10 +23,101 @@
 <!-- HTML body in maintemplate -->
 {% block content %}
 
+{% load martortags %}
 
-{{note.title}}<br />
+<!-- top buttons -->
+<div class="row bottom-distance">
+    <div class="col-10">
+        <a href="{% url 'note_list' %}" type="button" class="btn btn-light copy-false">
+            <img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Up to notes
+        </a>
+    </div>
+    <div class="col">
+        <a href="{{ note.get_update_url }}" type="button" class="btn btn-light copy-false">
+            <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Edit
+        </a>
+    </div>
+</div>
+<!-- top buttons -->
 
-{{note.content}}
+<!-- note meta infos -->
+<div class="row">
+    <!-- note meta infos headline -->
+    <div class="col-3">
+        <h5>
+            <div class="btn btn-primary btn-lg copy-true">
+                <img src="/static/dfirtrack_main/icons/paperclip.svg" class="icon right-distance copy-false" alt="icon">
+                {{note.title}}
+            </div>
+        </h5>
+    </div>
+    <div class="col-3">
+        <h5>
+            <img src="/static/dfirtrack_main/icons/list-light.svg" class="icon right-distance copy-false" alt="icon">
+            Case
+        </h5>
+    </div>
+     <div class="col-6">
+        <h5>
+            <img src="/static/dfirtrack_main/icons/tag-light.svg" class="icon right-distance copy-false" alt="icon">
+            Tags
+        </h5>
+    </div>
+    <!-- note meta infos headline -->
+</div>
+
+<div class="row">
+    <!-- note meta infos content -->
+    <div class="col-3 bottom-distance"></div>
+    <div class="col-3 bottom-distance">
+        {% if note.case %}
+            <a href="{{ note.case.get_absolute_url }}" type="button" class="btn btn-primary btn-sm bottom-left top-right top-distance copy-true">
+                    <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    {{ note.case }}
+            </a>
+        {% else %}
+            ---
+        {% endif %}
+    </div>
+    <div class="col-6 bottom-distance">
+        {% if note.tag.all %}
+            {% for i in note.tag.all|dictsort:"tag_name" %}
+                <!-- tooltip with tag note -->
+                <span data-toggle="tooltip" data-placement="auto" title="{{ i.tag_note }}">
+                    <a href="{{ i.get_absolute_url }}" type="button" class="btn btn-sm btn-{{ i.tagcolor }} round copy-true top-distance">
+                        <!-- black tag icon for white tag (black color of font is defined in corresponding CSS for button) -->
+                        {% if i.tagcolor.tagcolor_name == 'white' %}
+                            <img src="{% static 'dfirtrack_main/icons/tag.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                        <!-- white tag icon for other tags (white color of font is defined in corresponding CSS for button) -->
+                        {% else %}
+                            <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                        {% endif %}
+                        {{ i }}
+                    </a>
+                </span>
+            {% endfor %}
+        {% else %}
+            ---
+        {% endif %}
+    </div>
+    <!-- note meta infos content -->
+</div>
+<!-- note meta infos -->
+
+<!-- note content -->
+<div class="row">
+        <div class="col markdown-preview top-distance">
+            {{note.content|safe_markdown}}
+        </div>
+    </div>
+</div>
+<!-- note content -->
+
+{% block js %}
+  <script type="text/javascript" src="{% static 'plugins/js/highlight.min.js' %}"></script>
+{% endblock %}
 
 <!-- HTML body in maintemplate -->
 {% endblock %}

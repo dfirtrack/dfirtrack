@@ -190,6 +190,7 @@ function go_to_top() {
 var form_container_template = {};
 
 $(function () {
+
     $('.formsetLoader').each(function() {
         let formset = $(this).attr('id').split('-')[1]
         let totalForms = $(`#id_${formset}-TOTAL_FORMS`).get(0);
@@ -214,4 +215,19 @@ $(function () {
 
         totalForms.setAttribute('value', `${formNum+1}`);
     });
+
+
+    // ####################################
+    // #
+    // # markdown preview
+    // #
+    // ####################################
+
+    $('.markdown-preview pre').each(function(i, block){
+        hljs.highlightBlock(block);
+    });
+    $('.markdown-preview code').each(function(i, block){
+        hljs.highlightBlock(block);
+    });
+
 });

@@ -50,7 +50,7 @@ class NoteCreate(LoginRequiredMixin, CreateView):
             form.save_m2m()
             note.logger(str(request.user), " NOTE_ADD_EXECUTED")
             messages.success(request, 'Note added')
-            return redirect(reverse('note_detail', args=(Note.note_id,)))
+            return redirect(reverse('note_detail', args=(note.note_id,)))
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -75,7 +75,7 @@ class NoteUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Note
     form_class = NoteForm
-    template_name = 'dfirtrack_main/note/note_edit.html'
+    template_name = 'dfirtrack_main/note/note_add.html'
 
     def get(self, request, *args, **kwargs):
         Note = self.get_object()
@@ -87,12 +87,12 @@ class NoteUpdate(LoginRequiredMixin, UpdateView):
         Note = self.get_object()
         form = self.form_class(request.POST, instance=Note)
         if form.is_valid():
-            Note = form.save(commit=False)
-            Note.Note_modified_by_user_id = request.user
-            Note.save()
-            Note.save_m2m()
-            Note.logger(str(request.user), " NOTE_EDIT_EXECUTED")
+            note = form.save(commit=False)
+            note.Note_modified_by_user_id = request.user
+            note.save()
+            form.save_m2m()
+            note.logger(str(request.user), " NOTE_EDIT_EXECUTED")
             messages.success(request, 'Note edited')
-            return redirect(reverse('note_detail', args=(Note.note_id,)))
+            return redirect(reverse('note_detail', args=(note.note_id,)))
         else:
             return render(request, self.template_name, {'form': form})

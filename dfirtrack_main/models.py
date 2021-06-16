@@ -4,8 +4,6 @@ from django.urls import reverse
 from django.utils.text import slugify
 from django.core.exceptions import ValidationError
 
-from markdownx.models import MarkdownxField
-
 import logging
 from time import strftime
 import uuid
