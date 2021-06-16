@@ -1519,7 +1519,7 @@ class Note(models.Model):
     # main entity information
     title = models.CharField(max_length=250, unique=True)
     content = models.TextField()
-    version = models.IntegerField(editable=False)
+    version = models.IntegerField()
     
     # foreign key(s)
     case = models.ForeignKey('Case', on_delete=models.SET_NULL, blank=True, null=True)
@@ -1552,12 +1552,11 @@ class Note(models.Model):
         else:
             # auto increase version by every change
             self.version += 1
-            # check if a newer version of the note exists
-            current_version = Note.objects.get(note_id=self.id)
-            if self.version < current_version.version:
-                raise ValidationError('There is a newer version of this note.')
-
+           
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse('note_detail', args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse('note_update', args=(self.pk,))
