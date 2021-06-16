@@ -59,6 +59,7 @@
 
     <!-- note meta information block -->
     <div class="card card-body bg-dark border-light top-distance">
+
         <div class="row">
             <div class="col">
                 <h5>
@@ -78,6 +79,7 @@
                 </h5>
             </div>
         </div>
+
         <div class="row">
             <div class="col">
                 <div class="card card-body bg-dark border-light top-distance">
@@ -97,8 +99,32 @@
             </div>
         </div>
 
-    </div>
     <!-- note meta information block -->
+    </div>
+
+    <!-- note meta information block -->
+    <div class="card card-body bg-dark border-light top-distance">
+
+        <div class="row">
+            <div class="col">
+                <h5>
+                    {{ form.notestatus.label }}
+                </h5>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="card card-body bg-dark border-light top-distance">
+                    {{ form.notestatus }}
+                </div>
+            </div>
+        </div>
+
+    <!-- note meta information block -->
+    </div>
+
+    <!-- note content block -->
     <div class="card card-body bg-dark border-light top-distance">
         {{ form.note_content }}
     </div>
