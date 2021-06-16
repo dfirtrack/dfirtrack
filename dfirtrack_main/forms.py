@@ -21,6 +21,7 @@ from dfirtrack_main.models import Entry
 from dfirtrack_main.models import Headline
 from dfirtrack_main.models import Location
 from dfirtrack_main.models import Note
+from dfirtrack_main.models import Notestatus
 from dfirtrack_main.models import Os
 from dfirtrack_main.models import Osarch
 from dfirtrack_main.models import Osimportname
@@ -508,6 +509,30 @@ class NoteForm(forms.ModelForm):
 
     #tag = forms.ModelChoiceField(widget=TagWidget, queryset=Tag.objects.all())
 
+    # reorder field choices
+    case = forms.ModelChoiceField(
+        label = gettext_lazy('Corresponding case'),
+        queryset = Case.objects.order_by('case_name'),
+        required = False,
+        empty_label = 'Select case (optional)',
+    )
+
+    # reorder field choices
+    notestatus = forms.ModelChoiceField(
+        queryset = Notestatus.objects.order_by('notestatus_name'),
+        label = 'Notestatus (*)',
+        required = False,
+        widget = forms.RadioSelect(),
+    )
+
+    # reorder field choices
+    tag = forms.ModelMultipleChoiceField(
+        label = gettext_lazy('Tags'),
+        queryset = Tag.objects.order_by('tag_name'),
+        required = False,
+        widget=forms.CheckboxSelectMultiple(),
+    )
+
     def clean_version(self):
         note_version = self.cleaned_data['note_version']
         if note_version != '':
@@ -535,9 +560,8 @@ class NoteForm(forms.ModelForm):
 
         # non default form labeling
         labels = {
-            'note_title': gettext_lazy('Title (*)'),
+            'note_title': gettext_lazy('Note title (*)'),
             'note_content': gettext_lazy('Content (*)'),
-            'notestatus': gettext_lazy('Notestatus (*)'),
         }
 
         # special form type or option

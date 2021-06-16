@@ -5,7 +5,7 @@
 {% block head %}
 
 <title>
-    DFIRTrack - Add note
+    DFIRTrack - {{title}} note
 </title>
 
 {% load static %}
@@ -27,7 +27,7 @@
 <!-- headline -->
 <div class="bottom-distance">
     <h4>
-        Add note
+        {{title}} note
     </h4>
 </div>
 
@@ -57,72 +57,128 @@
 
     <!-- ############################################ -->
 
-    <!-- note meta information block -->
+    <!-- note_title block -->
     <div class="card card-body bg-dark border-light top-distance">
 
+        <!-- note_title headline -->
         <div class="row">
-            <div class="col">
+            <div class="col-3">
                 <h5>
                     {{ form.note_title.label }}
                 </h5>
             </div>
-            <div class="col">
-                <h5>
-                    <img src="/static/dfirtrack_main/icons/list-light.svg" class="icon right-distance copy-false" alt="icon">
-                    {{ form.case.label }}
-                </h5>
-            </div>
-            <div class="col">
-                <h5>
-                    <img src="/static/dfirtrack_main/icons/tag-light.svg" class="icon right-distance copy-false" alt="icon">
-                    {{ form.tag.label }}
-                </h5>
-            </div>
         </div>
 
+        <!-- note_title -->
         <div class="row">
-            <div class="col">
+            <div class="col-3">
                 <div class="card card-body bg-dark border-light top-distance">
                     {{ form.note_title }}
                     {{ form.note_version }}
                 </div>
             </div>
-            <div class="col">
+        </div>
+
+    <!-- note_title block -->
+    </div>
+
+    <!-- ############################################ -->
+
+    <!-- tag / case block -->
+    <div class="card card-body bg-dark border-light top-distance">
+
+        <!-- tag / case  headline -->
+        <div class="row">
+
+            <!-- tags headline -->
+            <div class="col-6">
+                <h5>
+                    <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    {{ form.tag.label }}
+                </h5>
+            </div>
+
+            <!-- case headline -->
+            <div class="col-3">
+                <h5>
+                    <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    {{ form.case.label }}
+                </h5>
+            </div>
+
+        <!-- tag / case  headline -->
+        </div>
+
+        <!-- tag / case -->
+        <div class="row">
+
+            <!-- tags -->
+            <div class="col-6">
                 <div class="card card-body bg-dark border-light top-distance">
+                    <!-- tag errors -->
+                    <div class="text-danger">
+                        {{ form.tag.errors }}
+                    </div>
+                    {% for i in form.tag %}
+                        {{ i }}<br>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- case errors -->
+                    <div class="text-danger">
+                        {{ form.case.errors }}
+                    </div>
                     {{ form.case }}
                 </div>
             </div>
-            <div class="col">
-                <div class="card card-body bg-dark border-light top-distance">
-                    {{ form.tag }}
-                </div>
-            </div>
+
+        <!-- tag / case -->
         </div>
 
-    <!-- note meta information block -->
+    <!-- tag / case block -->
     </div>
 
-    <!-- note meta information block -->
+    <!-- ############################################ -->
+
+    <!-- note information block -->
     <div class="card card-body bg-dark border-light top-distance">
 
+        <!-- note information headline -->
         <div class="row">
             <div class="col">
                 <h5>
-                    {{ form.notestatus.label }}
+                    Note information
                 </h5>
             </div>
         </div>
 
+        <!-- notestatus headline row -->
         <div class="row">
-            <div class="col">
-                <div class="card card-body bg-dark border-light top-distance">
-                    {{ form.notestatus }}
+            <div class="col-3">
+                <div class="font-weight-bold">
+                    {{ form.notestatus.label }}
                 </div>
             </div>
         </div>
 
-    <!-- note meta information block -->
+        <!-- notestatus row -->
+        <div class="row">
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    {% for i in form.notestatus %}
+                        {{ i }}<br>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+    <!-- note information block -->
     </div>
+
+    <!-- ############################################ -->
 
     <!-- note content block -->
     <div class="card card-body bg-dark border-light top-distance">

@@ -34,12 +34,15 @@ class NoteCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Note
     form_class = NoteForm
-    template_name = 'dfirtrack_main/note/note_add.html'
+    template_name = 'dfirtrack_main/note/note_generic_form.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " NOTE_ADD_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+        })
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -53,7 +56,10 @@ class NoteCreate(LoginRequiredMixin, CreateView):
             messages.success(request, 'Note added')
             return redirect(reverse('note_detail', args=(note.note_id,)))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Add',
+            })
 
 class NoteDelete(LoginRequiredMixin, DeleteView):
     login_url = '/login'
@@ -76,13 +82,16 @@ class NoteUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Note
     form_class = NoteForm
-    template_name = 'dfirtrack_main/note/note_add.html'
+    template_name = 'dfirtrack_main/note/note_generic_form.html'
 
     def get(self, request, *args, **kwargs):
         Note = self.get_object()
         form = self.form_class(instance=Note)
         Note.logger(str(request.user), " NOTE_EDIT_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Edit',
+        })
 
     def post(self, request, *args, **kwargs):
         Note = self.get_object()
@@ -96,4 +105,7 @@ class NoteUpdate(LoginRequiredMixin, UpdateView):
             messages.success(request, 'Note edited')
             return redirect(reverse('note_detail', args=(note.note_id,)))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Edit',
+            })
