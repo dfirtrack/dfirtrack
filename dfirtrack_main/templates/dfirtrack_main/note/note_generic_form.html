@@ -34,6 +34,10 @@
 <!-- form -->
 <form method="POST" class="post-form">
 
+    <!-- hidden form fields are required for custom field validation -->
+    {{ form.note_version }}
+    {{ form.note_id }}
+
     <!-- button row -->
     <div class="row top-distance">
 
@@ -80,8 +84,6 @@
             <div class="col-3">
                 <div class="card card-body bg-dark border-light top-distance">
                     {{ form.note_title }}
-                    {{ form.note_version }}
-                    {{ form.note_id }}
                 </div>
             </div>
         </div>
