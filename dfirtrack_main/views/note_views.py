@@ -120,4 +120,5 @@ class NoteUpdate(LoginRequiredMixin, UpdateView):
             return render(request, self.template_name, {
                 'form': form,
                 'title': 'Edit',
+                'note': note,
             })
