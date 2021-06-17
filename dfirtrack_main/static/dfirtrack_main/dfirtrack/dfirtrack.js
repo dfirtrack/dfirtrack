@@ -238,24 +238,60 @@ $(function () {
 // #
 // ####################################
 
+// internal tag array
 var added_tags = [];
 
+// var tags = {} will be generated within template file
+
 function add_tag(value, label) {
+    // add to internal array
     added_tags.push(value)
+    // check tag hidden checkbox form
     $(`#hidden_tags input[value='${value}']`).attr( "checked", "" );
+    // remove tag from dropdown
     $(`#tag_select option[value='${value}']`).remove()
-    let tag_html = `<span><a type="button" onclick="remove_tag(this, ${value})" class="btn btn-sm btn-${tags[value][1]} round copy-true top-distance">${label} x</a> </span>`
-    $(`#selected_tags`).append(tag_html);
+    
+    // create span
+    let tag_span = $('<span>', {text: " "});
+    // create tag icon image default light icon
+    let tag_img = $('<img>', {
+        src: tag_icon_light,
+        class: "icon-sm right-distance copy-false"
+    });
+    // if tag color is white dark icon
+    if(tags[value][1] == "white") {
+        tag_img.attr("src", tag_icon)
+    }
+    // create tag button
+    let tag_link = $('<a>', {
+        text: `${label} x`,
+        class: `btn btn-sm round copy-true top-distance btn-${tags[value][1]}`,
+        type: 'button'
+    });
+    // add image to tag button
+    tag_link.prepend(tag_img)
+    // add remove tag function to tag button
+    tag_link.attr("onclick", `remove_tag(this, ${value})`)
+    // add tag button to span
+    tag_span.append(tag_link)
+    
+    // add visual tag to div
+    $(`#selected_tags`).append(tag_span);
 }
 
 function remove_tag(self, tag_id) {
+    // remove tag from div
     self.remove()
+    // uncheck tag from hidden checkbox form
     $(`#hidden_tags input[value='${tag_id}']`).removeAttr("checked");
+    // add tag to dropdown
     $('#tag_select').append(new Option(tags[tag_id][0], tag_id))
+    // remove from internal array
     added_tags.pop(tag_id)
 }
 
 $(function () {
+    // if site is loaded, iterate over all pre checked tags (hidden checkbox)
     $('#hidden_tags input').each(function() {
         if($(this).is(':checked')) {
             let check_tag_value = $(this).val();
@@ -264,10 +300,14 @@ $(function () {
         }
     });
 
+    // onclick add tag button
     $('#add_tag').click(function(event) {
+        // get tag information id and text
         let selected_tag_value = $('#tag_select').val();
         let selected_tag_label = $('#tag_select option:selected').text();
+        // check if tag not already set
         if (!added_tags.includes(selected_tag_value) && selected_tag_value != "") {
+            // adds tag
             add_tag(selected_tag_value, selected_tag_label);
         }
     });
