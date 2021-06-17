@@ -1,0 +1,181 @@
+<!-- extending maintemplate -->
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+<!-- HTML head in maintemplate -->
+{% block head %}
+
+<!-- page title -->
+<title>
+    DFIRTrack - Documentation
+</title>
+
+{% load static %}
+
+<!-- javascript and CSS for datatables -->
+<link rel="stylesheet" type="text/css" href="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.css' %}"/>
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.js' %}"></script>
+
+<!-- HTML head in maintemplate -->
+{% endblock %}
+
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
+{% block content %}
+
+<!-- headline -->
+<div class="row bottom-distance">
+    <div class="col">
+        <h1>
+            <img src="{% static 'dfirtrack_main/icons/document-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Documentation
+        </h1>
+    </div>
+</div>
+
+<!-- ############################################ -->
+
+<!-- NOTES -->
+
+<!-- headline -->
+<div class="row bottom-distance">
+    <div class="col">
+        <h2>
+            Case-based documentation (notes)
+        </h2>
+    </div>
+</div>
+
+<!-- iterate over notes -->
+{% for i in note_list %}
+
+    <!-- note headline row -->
+    <div class="row top-distance">
+
+        <!-- note headline and subheadline -->
+        <h3>
+            <img src="/static/dfirtrack_main/icons/paperclip-light.svg" class="icon right-distance copy-false" alt="icon">
+            <a href="{{ i.get_absolute_url }}">
+                {{ i.note_title }}
+            </a>
+        </h3>
+
+    <!-- note headline row -->
+    </div>
+
+    <!-- note metadata row -->
+    <div class="row small text-muted">
+
+        <!-- note id -->
+        <div class="col-1">
+            Note-ID: {{ i.note_id }}
+        </div>
+
+        <!-- note version -->
+        <div class="col-5">
+            Version: {{ i.note_version }}
+        </div>
+
+        <!-- note create time / user -->
+        <div class="col-3">
+            Created {{ i.note_create_time|date:"Y-m-d H:i" }} by {{ i.note_created_by_user_id }}
+        </div>
+
+        <!-- note modify time / user -->
+        <div class="col-3">
+            Modified {{ i.note_modify_time|date:"Y-m-d H:i" }} by {{ i.note_modified_by_user_id }}
+        </div>
+
+    <!-- note metadata row -->
+    </div>
+
+    <!-- note content row -->
+    <div class="card bg-dark border-light card-body top-distance bottom-distance">
+        {{ i.note_content|linebreaks }}
+    </div>
+    <!-- note content -->
+
+<!-- iterate over notes -->
+{% endfor %}
+
+<!-- ############################################ -->
+
+<!-- REPORTITEMS -->
+
+<!-- headline -->
+<div class="row bottom-distance">
+    <div class="col">
+        <h2>
+            System-based documentation (reportitems)
+        </h2>
+    </div>
+</div>
+
+<!-- iterate over reportitems -->
+{% for i in reportitem_list %}
+
+    <!-- system reportitem headline row -->
+    <div class="row top-distance">
+
+        <!-- reportitem headline and subheadline -->
+        <div class="col-2">
+            <a href="{{ i.get_absolute_url }}">
+                <h3>
+                    {{ i.headline }} {% if i.reportitem_subheadline %} - {{ i.reportitem_subheadline }}{% endif %}
+                </h3>
+            </a>
+        </div>
+
+        <!-- system -->
+        <div class="col-2">
+            <a href="{{ i.system.get_absolute_url }}" type="button" class="btn btn-primary btn-sm copy-true">
+                <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                {{ i.system.system_name }}
+            </a>
+        </div>
+
+    <!-- system reportitem headline row -->
+    </div>
+
+    <!-- system reportitem metadata row -->
+    <div class="row small text-muted">
+
+        <!-- reportitem id -->
+        <div class="col-6">
+            Reportitem-ID: {{ i.reportitem_id }}
+        </div>
+
+        <!-- reportitem create time -->
+        <div class="col-3">
+            Created {{ i.reportitem_create_time|date:"Y-m-d H:i" }} by {{ i.reportitem_created_by_user_id }}
+        </div>
+
+        <!-- reportitem modify time -->
+        <div class="col-3">
+            Modified {{ i.reportitem_modify_time|date:"Y-m-d H:i" }} by {{ i.reportitem_modified_by_user_id }}
+        </div>
+
+    <!-- system reportitem metadata row -->
+    </div>
+
+    <!-- reportitem note row -->
+    <div class="card bg-dark border-light card-body top-distance bottom-distance">
+        {{ i.reportitem_note|linebreaks }}
+    </div>
+    <!-- reportitem note -->
+
+<!-- iterate over reportitems -->
+{% endfor %}
+
+<!-- ############################################ -->
+
+<!-- javascript for datatables -->
+<script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
+
+<!-- javascript for datatables -->
+{% block datatables %}
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.js' %}"></script>
+{% endblock %}
+
+<!-- HTML body in maintemplate -->
+{% endblock %}

@@ -11,6 +11,7 @@ from dfirtrack_main.views import company_views
 from dfirtrack_main.views import contact_views
 from dfirtrack_main.views import division_views
 from dfirtrack_main.views import dnsname_views
+from dfirtrack_main.views import documentation_views
 from dfirtrack_main.views import domain_views
 from dfirtrack_main.views import domainuser_views
 from dfirtrack_main.views import entry_views
@@ -93,6 +94,8 @@ urlpatterns = [
     path(r'dnsname/add/', dnsname_views.DnsnameCreate.as_view(), name='dnsname_create'),
     path(r'dnsname/add_popup/', dnsname_views.DnsnameCreatePopup.as_view(), name='dnsname_add_popup'),
     path(r'dnsname/<int:pk>/edit/', dnsname_views.DnsnameUpdate.as_view(), name='dnsname_update'),
+
+    path(r'documentation/', documentation_views.DocumentationList.as_view(), name='documentation_list'),
 
     path(r'domain/', domain_views.DomainList.as_view(), name='domain_list'),
     path(r'domain/<int:pk>/', domain_views.DomainDetail.as_view(), name='domain_detail'),
