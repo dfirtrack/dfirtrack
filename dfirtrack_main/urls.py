@@ -129,7 +129,7 @@ urlpatterns = [
 
     path(r'note/', note_views.NoteList.as_view(), name='note_list'),
     path(r'note/<int:pk>/', note_views.NoteDetail.as_view(), name='note_detail'),
-    path(r'note/add/', note_views.NoteCreate.as_view(), name='note_add'),
+    path(r'note/add/', note_views.NoteCreate.as_view(), name='note_create'),
     path(r'note/<int:pk>/edit/', note_views.NoteUpdate.as_view(), name='note_update'),
 
     path(r'notestatus/', notestatus_views.NotestatusList.as_view(), name='notestatus_list'),

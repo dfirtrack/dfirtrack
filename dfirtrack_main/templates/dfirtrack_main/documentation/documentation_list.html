@@ -31,20 +31,38 @@
 
 <!-- ############################################ -->
 
-<!-- headline -->
-<div class="row bottom-distance">
-    <div class="col">
+<!-- headline / button row -->
+<div class="row">
+
+    <!-- headline -->
+    <div class="col-6">
         <h1>
             <img src="{% static 'dfirtrack_main/icons/document-light.svg' %}" class="icon right-distance copy-false" alt="icon">
             Documentation
         </h1>
     </div>
+
+    <!-- note / reportitem add button -->
+    <div class="col-6">
+
+        <a href="{% url 'note_create' %}?documentation" type="button" class="btn btn-light btn-sm copy-false">
+            <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+            Add note
+        </a>
+
+        <a href="{% url 'reportitem_create' %}?documentation" type="button" class="btn btn-light btn-sm copy-false">
+            <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+            Add reportitem
+        </a>
+
+    </div>
+
 </div>
 
 <!-- ############################################ -->
 
 <!-- headline -->
-<div class="row bottom-distance">
+<div class="row top-distance bottom-distance">
     <div class="col">
         <h2 id="case_based_documentation">
             Case-based documentation (notes)

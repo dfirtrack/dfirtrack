@@ -55,7 +55,10 @@ class ReportitemCreate(LoginRequiredMixin, CreateView):
             reportitem.save()
             reportitem.logger(str(request.user), " REPORTITEM_ADD_EXECUTED")
             messages.success(request, 'Reportitem added')
-            return redirect(reverse('system_detail', args=(reportitem.system.system_id,)))
+            if 'documentation' in request.GET:
+                return redirect(reverse('documentation_list') + f'#reportitem_id_{reportitem.reportitem_id}')
+            else:
+                return redirect(reverse('system_detail', args=(reportitem.system.system_id,)))
         else:
             return render(request, self.template_name, {'form': form})
 
