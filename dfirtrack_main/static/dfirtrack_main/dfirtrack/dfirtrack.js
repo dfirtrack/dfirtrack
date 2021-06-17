@@ -215,19 +215,61 @@ $(function () {
 
         totalForms.setAttribute('value', `${formNum+1}`);
     });
+});
 
+// ####################################
+// #
+// # markdown preview
+// #
+// ####################################
 
-    // ####################################
-    // #
-    // # markdown preview
-    // #
-    // ####################################
-
+$(function () {
     $('.markdown-preview pre').each(function(i, block){
         hljs.highlightBlock(block);
     });
     $('.markdown-preview code').each(function(i, block){
         hljs.highlightBlock(block);
     });
-
 });
+
+// ####################################
+// #
+// # dynamic tag selector
+// #
+// ####################################
+
+var added_tags = [];
+
+function add_tag(value, label) {
+    added_tags.push(value)
+    $(`#hidden_tags input[value='${value}']`).attr( "checked", "" );
+    $(`#tag_select option[value='${value}']`).remove()
+    let tag_html = `<span><a type="button" onclick="remove_tag(this, ${value})" class="btn btn-sm btn-${tags[value][1]} round copy-true top-distance">${label} x</a> </span>`
+    $(`#selected_tags`).append(tag_html);
+}
+
+function remove_tag(self, tag_id) {
+    self.remove()
+    $(`#hidden_tags input[value='${tag_id}']`).removeAttr("checked");
+    $('#tag_select').append(new Option(tags[tag_id][0], tag_id))
+    added_tags.pop(tag_id)
+}
+
+$(function () {
+    $('#hidden_tags input').each(function() {
+        if($(this).is(':checked')) {
+            let check_tag_value = $(this).val();
+            let checked_tag_label = $(`#tag_select option[value='${check_tag_value}']`).text();
+            add_tag(check_tag_value, checked_tag_label);
+        }
+    });
+
+    $('#add_tag').click(function(event) {
+        let selected_tag_value = $('#tag_select').val();
+        let selected_tag_label = $('#tag_select option:selected').text();
+        if (!added_tags.includes(selected_tag_value) && selected_tag_value != "") {
+            add_tag(selected_tag_value, selected_tag_label);
+        }
+    });
+});
+

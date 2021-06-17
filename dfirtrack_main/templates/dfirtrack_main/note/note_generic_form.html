@@ -116,13 +116,10 @@
             <!-- tags -->
             <div class="col-6">
                 <div class="card card-body bg-dark border-light top-distance">
-                    <!-- tag errors -->
                     <div class="text-danger">
-                        {{ form.tag.errors }}
+                            {{ form.tag.errors }}
                     </div>
-                    {% for i in form.tag %}
-                        {{ i }}<br>
-                    {% endfor %}
+                    {{ form.tag }}
                 </div>
             </div>
 

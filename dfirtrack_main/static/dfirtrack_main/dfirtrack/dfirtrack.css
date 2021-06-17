@@ -3,6 +3,12 @@
     margin-bottom: 10px;
 }
 
+/* font color */ 
+
+.martor-preview {
+    color: black;
+}
+
 /* icon sizes */
 
 .icon {

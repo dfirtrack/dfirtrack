@@ -1,0 +1,39 @@
+<div id="selected_tags" class="bottom-distance"></div>
+
+<div id="hidden_tags" style="display:none;"> 
+    {% for group_name, group_choices, group_index in widget.optgroups %}
+        {% for option in group_choices %}   
+            <input 
+                type="{{ option.type }}" name="{{ widget.name }}" value="{{ option.value }}"
+                {% for name, value in option.attrs.items %}
+                    {% if value is not False %} 
+                        {{ name }}{% if value is not True %}="{{ value|stringformat:'s' }}"{% endif %}
+                    {% endif %}
+                {% endfor %}
+            >
+         {% endfor %}
+    {% endfor %}
+</div>
+
+<div class="row">
+    <div class="col">
+        <select id="tag_select">
+        {% for group_name, group_choices, group_index in widget.optgroups %}
+            {% for option in group_choices %}
+                <option value="{{ option.value|stringformat:'s' }}">{{ option.label }}</option>
+            {% endfor %}
+        {% endfor %}
+        </select>
+    
+        <button  id="add_tag" type="button" class="btn btn-light btn-sm copy-false">
+            Add Tag
+        </button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var tags = {};
+    {% for i in tags%}
+        tags[{{ i.tag_id }}] = ["{{ i }}", "{{ i.tagcolor }}"]
+    {% endfor %}
+</script>

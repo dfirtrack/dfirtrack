@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.admin import widgets
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.contrib.auth.models import User
 from django.db.models.query import QuerySet
@@ -505,9 +506,15 @@ class NoteForm(forms.ModelForm):
 
     note_version = forms.CharField(widget=forms.HiddenInput, required=False)
 
+    # markdown field
     note_content = MartorFormField()
-
-    #tag = forms.ModelChoiceField(widget=TagWidget, queryset=Tag.objects.all())
+    
+    # reorder field choices
+    tag = forms.ModelMultipleChoiceField(
+        widget=TagWidget, 
+        queryset=Tag.objects.order_by('tag_name'), 
+        required=False
+    )
 
     # reorder field choices
     case = forms.ModelChoiceField(
@@ -525,15 +532,7 @@ class NoteForm(forms.ModelForm):
         widget = forms.RadioSelect(),
     )
 
-    # reorder field choices
-    tag = forms.ModelMultipleChoiceField(
-        label = gettext_lazy('Tags'),
-        queryset = Tag.objects.order_by('tag_name'),
-        required = False,
-        widget=forms.CheckboxSelectMultiple(),
-    )
-
-    def clean_version(self):
+    def clean_note_version(self):
         note_version = self.cleaned_data['note_version']
         if note_version != '':
             note_version = int(note_version)+1
