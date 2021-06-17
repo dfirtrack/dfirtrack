@@ -23,6 +23,14 @@
 <!-- HTML body in maintemplate -->
 {% block content %}
 
+<!-- overall row -->
+<div class="row">
+
+<!-- content column -->
+<div class="col-10">
+
+<!-- ############################################ -->
+
 <!-- headline -->
 <div class="row bottom-distance">
     <div class="col">
@@ -40,7 +48,7 @@
 <!-- headline -->
 <div class="row bottom-distance">
     <div class="col">
-        <h2>
+        <h2 id="case_based_documentation">
             Case-based documentation (notes)
         </h2>
     </div>
@@ -53,7 +61,7 @@
     <div class="row top-distance">
 
         <!-- note headline and subheadline -->
-        <h3>
+        <h3 id="note_id_{{ i.note_id }}">
             <img src="/static/dfirtrack_main/icons/paperclip-light.svg" class="icon right-distance copy-false" alt="icon">
             <a href="{{ i.get_absolute_url }}">
                 {{ i.note_title }}
@@ -105,7 +113,7 @@
 <!-- headline -->
 <div class="row bottom-distance">
     <div class="col">
-        <h2>
+        <h2 id="system_based_documentation">
             System-based documentation (reportitems)
         </h2>
     </div>
@@ -117,21 +125,25 @@
     <!-- system reportitem headline row -->
     <div class="row top-distance">
 
-        <!-- reportitem headline and subheadline -->
-        <div class="col-2">
-            <a href="{{ i.get_absolute_url }}">
-                <h3>
-                    {{ i.headline }} {% if i.reportitem_subheadline %} - {{ i.reportitem_subheadline }}{% endif %}
-                </h3>
-            </a>
-        </div>
-
-        <!-- system -->
-        <div class="col-2">
-            <a href="{{ i.system.get_absolute_url }}" type="button" class="btn btn-primary btn-sm copy-true">
-                <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                {{ i.system.system_name }}
-            </a>
+        <!-- system, reportitem headline and subheadline -->
+        <div class="col-6">
+            <h3 id="reportitem_id_{{ i.reportitem_id }}">
+                <!-- system -->
+                <a href="{{ i.system.get_absolute_url }}">
+                    <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    {{ i.system.system_name }}
+                </a>
+                <!-- hyphen -->
+                -
+                <!-- reportitem headline and subheadline -->
+                <a href="{{ i.get_absolute_url }}">
+                    {{ i.headline }}
+                </a>
+                <!-- reportitem headline and subheadline -->
+                {% if i.reportitem_subheadline %}
+                    - {{ i.reportitem_subheadline }}
+                {% endif %}
+            </h3>
         </div>
 
     <!-- system reportitem headline row -->
@@ -166,6 +178,75 @@
 
 <!-- iterate over reportitems -->
 {% endfor %}
+
+<!-- ############################################ -->
+
+<!-- content column -->
+</div>
+
+<!-- ############################################ -->
+
+<!-- TABLE OF CONTENT -->
+
+<!-- table of content column -->
+<div class="col-2">
+
+    <ul>
+        <!-- case_based_documentation -->
+        <a href="#case_based_documentation">
+            Case-based documentation
+        </a>
+
+        <!-- note list -->
+        <ul>
+            <!-- iterate over notes -->
+            {% for i in note_list %}
+
+                <!-- note -->
+                <li>
+                    <a href="#note_id_{{ i.note_id }}">
+                        {{ i.note_title }}
+                    </a>
+                </li>
+
+            <!-- iterate over notes -->
+            {% endfor %}
+
+        <!-- note list -->
+        </ul>
+
+        <!-- system_based_documentation -->
+        <a href="#system_based_documentation">
+            System-based documentation
+        </a>
+
+        <!-- reportitem list -->
+        <ul>
+            <!-- iterate over reportitems -->
+            {% for i in reportitem_list %}
+
+                <!-- reportitem -->
+                <li>
+                    <a href="#reportitem_id_{{ i.reportitem_id }}">
+                        {{ i.system.system_name }} - {{ i.headline.headline_name }}
+                    </a>
+                </li>
+
+            <!-- iterate over reportitems -->
+            {% endfor %}
+
+        <!-- note list -->
+        </ul>
+
+    </ul>
+
+<!-- table of content column -->
+</div>
+
+<!-- ############################################ -->
+
+<!-- overall row -->
+</div>
 
 <!-- ############################################ -->
 
