@@ -5,7 +5,7 @@
 {% block head %}
 
 <title>
-    DFIRTrack - {{title}} note
+    {{title}} note
 </title>
 
 {% load static %}
@@ -67,6 +67,11 @@
                     <img src="{% static 'dfirtrack_main/icons/paperclip-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                     {{ form.note_title.label }}
                 </h5>
+            </div>
+            <div class="col-3">
+                {% if note %}
+                    Version you are editing: {{ note.note_version }}
+                {% endif %}
             </div>
         </div>
 
