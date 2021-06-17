@@ -43,8 +43,6 @@
 
 <!-- ############################################ -->
 
-<!-- NOTES -->
-
 <!-- headline -->
 <div class="row bottom-distance">
     <div class="col">
@@ -54,6 +52,8 @@
     </div>
 </div>
 
+<!-- NOTES -->
+
 <!-- iterate over notes -->
 {% for i in note_list %}
 
@@ -61,12 +61,22 @@
     <div class="row top-distance">
 
         <!-- note headline and subheadline -->
-        <h3 id="note_id_{{ i.note_id }}">
-            <img src="/static/dfirtrack_main/icons/paperclip-light.svg" class="icon right-distance copy-false" alt="icon">
-            <a href="{{ i.get_absolute_url }}">
-                {{ i.note_title }}
+        <div class="col-6">
+            <h3 id="note_id_{{ i.note_id }}">
+                <img src="/static/dfirtrack_main/icons/paperclip-light.svg" class="icon right-distance copy-false" alt="icon">
+                <a href="{{ i.get_absolute_url }}">
+                    {{ i.note_title }}
+                </a>
+            </h3>
+        </div>
+
+        <!-- edit button -->
+        <div class="col-6">
+            <a href="{{ i.get_update_url }}?documentation" type="button" class="btn btn-sm btn-light copy-false">
+                <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                Edit
             </a>
-        </h3>
+        </div>
 
     <!-- note headline row -->
     </div>
@@ -108,8 +118,6 @@
 
 <!-- ############################################ -->
 
-<!-- REPORTITEMS -->
-
 <!-- headline -->
 <div class="row bottom-distance">
     <div class="col">
@@ -118,6 +126,8 @@
         </h2>
     </div>
 </div>
+
+<!-- REPORTITEMS -->
 
 <!-- iterate over reportitems -->
 {% for i in reportitem_list %}
@@ -144,6 +154,14 @@
                     - {{ i.reportitem_subheadline }}
                 {% endif %}
             </h3>
+        </div>
+
+        <!-- edit button -->
+        <div class="col-6">
+            <a href="{{ i.get_update_url }}?documentation" type="button" class="btn btn-sm btn-light copy-false">
+                <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                Edit
+            </a>
         </div>
 
     <!-- system reportitem headline row -->

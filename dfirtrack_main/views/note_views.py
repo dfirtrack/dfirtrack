@@ -115,7 +115,10 @@ class NoteUpdate(LoginRequiredMixin, UpdateView):
             form.save_m2m()
             note.logger(str(request.user), " NOTE_EDIT_EXECUTED")
             messages.success(request, 'Note edited')
-            return redirect(reverse('note_detail', args=(note.note_id,)))
+            if 'documentation' in request.GET:
+                return redirect(reverse('documentation_list') + f'#note_id_{note.note_id}')
+            else:
+                return redirect(reverse('note_detail', args=(note.note_id,)))
         else:
             return render(request, self.template_name, {
                 'form': form,
