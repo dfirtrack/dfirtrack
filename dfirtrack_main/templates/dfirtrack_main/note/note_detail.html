@@ -6,7 +6,7 @@
 
 <!-- page title -->
 <title>
-    DFIRTrack - Notes
+    Note {{ note.note_id }}
 </title>
 
 {% load static %}
@@ -27,13 +27,17 @@
 
 <!-- top buttons -->
 <div class="row bottom-distance">
-    <div class="col-10">
+
+    <!-- up button -->
+    <div class="col-6">
         <a href="{% url 'note_list' %}" type="button" class="btn btn-light copy-false">
             <img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon right-distance copy-false" alt="icon">
             Up to notes
         </a>
     </div>
-    <div class="col">
+
+    <!-- edit button -->
+    <div class="col-3">
         <a href="{{ note.get_update_url }}" type="button" class="btn btn-light copy-false">
             <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon right-distance copy-false" alt="icon">
             Edit
@@ -42,46 +46,41 @@
 </div>
 <!-- top buttons -->
 
-<!-- note meta infos -->
+<!-- note title row -->
 <div class="row">
-    <!-- note meta infos headline -->
     <div class="col-3">
         <h5>
-            <div class="btn btn-primary btn-lg copy-true">
+            <div class="top-distance">
                 <img src="/static/dfirtrack_main/icons/paperclip-light.svg" class="icon right-distance copy-false" alt="icon">
-                {{note.note_title}}
+                {{ note.note_title }}
             </div>
         </h5>
     </div>
     <div class="col-3">
-        <h5>
-            <img src="/static/dfirtrack_main/icons/list-light.svg" class="icon right-distance copy-false" alt="icon">
-            Case
-        </h5>
+        Version: {{ note.note_version }}
     </div>
-     <div class="col-6">
-        <h5>
-            <img src="/static/dfirtrack_main/icons/tag-light.svg" class="icon right-distance copy-false" alt="icon">
-            Tags
-        </h5>
-    </div>
-    <!-- note meta infos headline -->
 </div>
 
-<div class="row">
-    <!-- note meta infos content -->
-    <div class="col-3 bottom-distance"></div>
-    <div class="col-3 bottom-distance">
-        {% if note.case %}
-            <a href="{{ note.case.get_absolute_url }}" type="button" class="btn btn-primary btn-sm bottom-left top-right top-distance copy-true">
-                    <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon right-distance copy-false" alt="icon">
-                    {{ note.case }}
-            </a>
-        {% else %}
-            ---
-        {% endif %}
+<!-- note id row -->
+<div class="row top-distance bottom-distance">
+    <div class="col-3">
+        <small class="text-muted">
+            Note-ID: {{ note.note_id }}
+        </small>
     </div>
-    <div class="col-6 bottom-distance">
+</div>
+
+<!-- ############################################ -->
+
+<!-- tags / case row -->
+<div class="row">
+
+    <!-- tags -->
+    <div class="col-6">
+        <h5>
+            <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Tags
+        </h5>
         {% if note.tag.all %}
             {% for i in note.tag.all|dictsort:"tag_name" %}
                 <!-- tooltip with tag note -->
@@ -102,18 +101,67 @@
             ---
         {% endif %}
     </div>
-    <!-- note meta infos content -->
+
+    <!-- case -->
+    <div class="col-6">
+        <h5>
+            <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Corresponding case
+        </h5>
+        {% if note.case %}
+            <a href="{{ note.case.get_absolute_url }}" type="button" class="btn btn-primary btn-sm bottom-left top-right top-distance copy-true">
+                <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                {{ note.case.case_name }}
+            </a>
+        {% else %}
+            ---
+        {% endif %}
+    </div>
+
+<!-- tags / case row -->
 </div>
-<!-- note meta infos -->
+
+<!-- ############################################ -->
+
+<!-- note information -->
+<div class="card bg-dark border-light card-body top-distance">
+
+    <!-- note information headline -->
+    <div class="row">
+        <div class="col">
+            <h5>Note information</h5>
+        </div>
+    </div>
+
+    <!-- note information row -->
+    <div class="row bottom-distance">
+
+        <!-- notestatus -->
+        <div class="col-3">
+            <div class="font-weight-bold">Notestatus:</div>
+            <a href="{{ note.notestatus.get_absolute_url }}">
+                {{ note.notestatus.notestatus_name }}
+            </a>
+        </div>
+
+    <!-- note information row -->
+    </div>
+
+<!-- note information end -->
+</div>
+
+<!-- ############################################ -->
 
 <!-- note content -->
-<div class="row">
+<div class="card bg-dark border-light card-body top-distance">
         <div class="col markdown-preview top-distance">
             {{note.note_content|safe_markdown}}
         </div>
     </div>
 </div>
 <!-- note content -->
+
+<!-- ############################################ -->
 
 {% block js %}
   <script type="text/javascript" src="{% static 'plugins/js/highlight.min.js' %}"></script>

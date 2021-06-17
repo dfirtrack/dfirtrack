@@ -6,7 +6,7 @@ from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from dfirtrack_main.forms import NoteForm
 from dfirtrack_main.logger.default_logger import debug_logger
-from dfirtrack_main.models import Note
+from dfirtrack_main.models import Note, Notestatus
 
 
 class NoteList(LoginRequiredMixin, ListView):
@@ -37,7 +37,14 @@ class NoteCreate(LoginRequiredMixin, CreateView):
     template_name = 'dfirtrack_main/note/note_generic_form.html'
 
     def get(self, request, *args, **kwargs):
-        form = self.form_class()
+
+        # get id of first status objects sorted by name
+        notestatus = Notestatus.objects.order_by('notestatus_name')[0].notestatus_id
+
+        # show empty form with default values for convenience and speed reasons
+        form = self.form_class(initial={
+            'notestatus': notestatus,
+        })
         debug_logger(str(request.user), " NOTE_ADD_ENTERED")
         return render(request, self.template_name, {
             'form': form,
@@ -85,17 +92,22 @@ class NoteUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'dfirtrack_main/note/note_generic_form.html'
 
     def get(self, request, *args, **kwargs):
-        Note = self.get_object()
-        form = self.form_class(instance=Note)
-        Note.logger(str(request.user), " NOTE_EDIT_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Edit',
-        })
+        note = self.get_object()
+        form = self.form_class(instance=note)
+        note.logger(str(request.user), " NOTE_EDIT_ENTERED")
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Edit',
+                'note': note,
+            }
+        )
 
     def post(self, request, *args, **kwargs):
-        Note = self.get_object()
-        form = self.form_class(request.POST, instance=Note)
+        note = self.get_object()
+        form = self.form_class(request.POST, instance=note)
         if form.is_valid():
             note = form.save(commit=False)
             note.Note_modified_by_user_id = request.user

@@ -504,7 +504,11 @@ class LocationForm(forms.ModelForm):
 class NoteForm(forms.ModelForm):
     """ default model form """
 
-    note_version = forms.CharField(widget=forms.HiddenInput, required=False)
+    # make hidden version field to make custom field validation work
+    note_version = forms.CharField(
+        widget=forms.HiddenInput,
+        required=False,
+    )
 
     # markdown field
     note_content = MartorFormField()
@@ -528,11 +532,13 @@ class NoteForm(forms.ModelForm):
     notestatus = forms.ModelChoiceField(
         queryset = Notestatus.objects.order_by('notestatus_name'),
         label = 'Notestatus (*)',
-        required = False,
+        required = True,
         widget = forms.RadioSelect(),
     )
 
     def clean_note_version(self):
+        """ custom field validation to prevent accidental overwriting between analysts """
+
         note_version = self.cleaned_data['note_version']
         if note_version != '':
             note_version = int(note_version)+1
