@@ -510,6 +510,12 @@ class NoteForm(forms.ModelForm):
         required=False,
     )
 
+    # make hidden id field to make custom field validation work
+    note_id = forms.CharField(
+        widget=forms.HiddenInput,
+        required=False,
+    )
+
     # markdown field
     note_content = MartorFormField()
     
@@ -541,10 +547,9 @@ class NoteForm(forms.ModelForm):
 
         note_version = self.cleaned_data['note_version']
         if note_version != '':
-            note_version = int(note_version)+1
-            note_title = self.cleaned_data['note_title']
-            current_version = Note.objects.get(note_title=note_title)
-            if note_version <= current_version.note_version:
+            note_id = self.initial['note_id']
+            current_version = Note.objects.get(note_id=note_id)
+            if int(note_version)+1 <= current_version.note_version:
                 raise ValidationError('There is a newer version of this note.')
         return note_version
 
@@ -555,6 +560,7 @@ class NoteForm(forms.ModelForm):
 
         # this HTML forms are shown
         fields = (
+            'note_id',
             'note_title',
             'note_content',
             'tag',
