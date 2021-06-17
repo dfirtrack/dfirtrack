@@ -225,54 +225,49 @@
 <!-- TABLE OF CONTENT -->
 
 <!-- table of content column -->
-<div class="col-2">
+<div class="col-2 copy-false">
 
-    <ul>
+    <ul class="nav flex-column">
+
         <!-- case_based_documentation -->
-        <a href="#case_based_documentation">
-            Case-based documentation
-        </a>
+        <li class="nav-item">
+            <a  class="nav-link active" href="#case_based_documentation" style="color: white">
+                Case-based documentation
+            </a>
+        </li>
 
-        <!-- note list -->
-        <ul style="list-style-type:none;">
-            <!-- iterate over notes -->
-            {% for i in note_list %}
+        <!-- iterate over notes -->
+        {% for i in note_list %}
 
-                <!-- note -->
-                <li>
-                    <a href="#note_id_{{ i.note_id }}">
-                        {{ i.note_title }}
-                    </a>
-                </li>
+            <!-- note -->
+            <li class="nav-item nav-left-distance">
+                <a class="nav-link active" href="#note_id_{{ i.note_id }}" style="color: white">
+                    {{ i.note_title }}
+                </a>
+            </li>
 
-            <!-- iterate over notes -->
-            {% endfor %}
-
-        <!-- note list -->
-        </ul>
+        <!-- iterate over notes -->
+        {% endfor %}
 
         <!-- system_based_documentation -->
-        <a href="#system_based_documentation">
-            System-based documentation
-        </a>
+        <li class="nav-item">
+            <a class="nav-link active" href="#system_based_documentation" style="color: white">
+                System-based documentation
+            </a>
+        </li>
 
-        <!-- reportitem list -->
-        <ul style="list-style-type:none;">
-            <!-- iterate over reportitems -->
-            {% for i in reportitem_list %}
+        <!-- iterate over reportitems -->
+        {% for i in reportitem_list %}
 
-                <!-- reportitem -->
-                <li>
-                    <a href="#reportitem_id_{{ i.reportitem_id }}">
-                        {{ i.system.system_name }} - {{ i.headline.headline_name }}
-                    </a>
-                </li>
+        <!-- reportitem -->
+            <li class="nav-item nav-left-distance">
+                <a class="nav-link active" href="#reportitem_id_{{ i.reportitem_id }}" style="color: white">
+                    {{ i.system.system_name }} - {{ i.headline.headline_name }}
+                </a>
+            </li>
 
-            <!-- iterate over reportitems -->
-            {% endfor %}
-
-        <!-- note list -->
-        </ul>
+        <!-- iterate over reportitems -->
+        {% endfor %}
 
     </ul>
 
