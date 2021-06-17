@@ -17,5 +17,5 @@ class DocumentationList(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         debug_logger(str(self.request.user), " DOCUMENTATION_LIST_ENTERED")
-        context['reportitem_list'] = Reportitem.objects.order_by('system')
+        context['reportitem_list'] = Reportitem.objects.order_by('system__system_name', 'headline__headline_name')
         return context
