@@ -51,6 +51,11 @@
         Apply filters
     </button>
 
+    <a href="{% url 'documentation_list' %}" class="btn btn-sm btn-light copy-false">
+        <img src="{% static 'dfirtrack_main/icons/x.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+        Clear filters
+    </a>
+
     <!-- form -->
     </form>
 
@@ -98,24 +103,24 @@
 <!-- NOTES -->
 
 <!-- iterate over notes -->
-{% for i in note_list %}
+{% for note in note_list %}
 
     <!-- note headline row -->
     <div class="row top-distance">
 
         <!-- note headline and subheadline -->
         <div class="col-auto me-auto">
-            <h3 id="note_id_{{ i.note_id }}">
+            <h3 id="note_id_{{ note.note_id }}">
                 <img src="/static/dfirtrack_main/icons/paperclip-light.svg" class="icon right-distance copy-false" alt="icon">
-                <a href="{{ i.get_absolute_url }}">
-                    {{ i.note_title }}
+                <a href="{{ note.get_absolute_url }}">
+                    {{ note.note_title }}
                 </a>
             </h3>
         </div>
 
         <!-- edit button -->
         <div class="col-auto">
-            <a href="{{ i.get_update_url }}?documentation" type="button" class="btn btn-sm btn-light copy-false">
+            <a href="{{ note.get_update_url }}?documentation" type="button" class="btn btn-sm btn-light copy-false">
                 <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                 Edit
             </a>
@@ -129,30 +134,35 @@
 
         <!-- note id -->
         <div class="col-1">
-            Note-ID: {{ i.note_id }}
+            Note-ID: {{ note.note_id }}
         </div>
 
         <!-- note version -->
         <div class="col-5">
-            Version: {{ i.note_version }}
+            Version: {{ note.note_version }}
         </div>
 
         <!-- note create time / user -->
         <div class="col-3">
-            Created {{ i.note_create_time|date:"Y-m-d H:i" }} by {{ i.note_created_by_user_id }}
+            Created {{ note.note_create_time|date:"Y-m-d H:i" }} by {{ note.note_created_by_user_id }}
         </div>
 
         <!-- note modify time / user -->
         <div class="col-3">
-            Modified {{ i.note_modify_time|date:"Y-m-d H:i" }} by {{ i.note_modified_by_user_id }}
+            Modified {{ note.note_modify_time|date:"Y-m-d H:i" }} by {{ note.note_modified_by_user_id }}
         </div>
 
     <!-- note metadata row -->
     </div>
 
+    <!-- tags / case row -->
+    {% with model=note %}
+        {% include "dfirtrack_main/includes/card_tag_case.html" %}
+    {% endwith %}
+
     <!-- note content row -->
     <div class="card bg-dark border-light card-body top-distance bottom-distance markdown-preview">
-        {{ i.note_content|safe_markdown }}
+        {{ note.note_content|safe_markdown }}
     </div>
     <!-- note content -->
 
@@ -173,35 +183,35 @@
 <!-- REPORTITEMS -->
 
 <!-- iterate over reportitems -->
-{% for i in reportitem_list %}
+{% for reportitem in reportitem_list %}
 
     <!-- system reportitem headline row -->
     <div class="row top-distance">
 
         <!-- system, reportitem headline and subheadline -->
         <div class="col-auto me-auto">
-            <h3 id="reportitem_id_{{ i.reportitem_id }}">
+            <h3 id="reportitem_id_{{ reportitem.reportitem_id }}">
                 <!-- system -->
-                <a href="{{ i.system.get_absolute_url }}">
+                <a href="{{ reportitem.system.get_absolute_url }}">
                     <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon right-distance copy-false" alt="icon">
-                    {{ i.system.system_name }}
+                    {{ reportitem.system.system_name }}
                 </a>
                 <!-- hyphen -->
                 -
                 <!-- reportitem headline and subheadline -->
-                <a href="{{ i.get_absolute_url }}">
-                    {{ i.headline }}
+                <a href="{{ reportitem.get_absolute_url }}">
+                    {{ reportitem.headline }}
                 </a>
                 <!-- reportitem headline and subheadline -->
-                {% if i.reportitem_subheadline %}
-                    - {{ i.reportitem_subheadline }}
+                {% if reportitem.reportitem_subheadline %}
+                    - {{ reportitem.reportitem_subheadline }}
                 {% endif %}
             </h3>
         </div>
 
         <!-- edit button -->
         <div class="col-auto">
-            <a href="{{ i.get_update_url }}?documentation" type="button" class="btn btn-sm btn-light copy-false">
+            <a href="{{ reportitem.get_update_url }}?documentation" type="button" class="btn btn-sm btn-light copy-false">
                 <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                 Edit
             </a>
@@ -215,25 +225,30 @@
 
         <!-- reportitem id -->
         <div class="col-6">
-            Reportitem-ID: {{ i.reportitem_id }}
+            Reportitem-ID: {{ reportitem.reportitem_id }}
         </div>
 
         <!-- reportitem create time -->
         <div class="col-3">
-            Created {{ i.reportitem_create_time|date:"Y-m-d H:i" }} by {{ i.reportitem_created_by_user_id }}
+            Created {{ reportitem.reportitem_create_time|date:"Y-m-d H:i" }} by {{ reportitem.reportitem_created_by_user_id }}
         </div>
 
         <!-- reportitem modify time -->
         <div class="col-3">
-            Modified {{ i.reportitem_modify_time|date:"Y-m-d H:i" }} by {{ i.reportitem_modified_by_user_id }}
+            Modified {{ reportitem.reportitem_modify_time|date:"Y-m-d H:i" }} by {{ reportitem.reportitem_modified_by_user_id }}
         </div>
 
     <!-- system reportitem metadata row -->
     </div>
 
+    <!-- tags / case row -->
+    {% with model=reportitem %}
+        {% include "dfirtrack_main/includes/card_tag_case.html" %}
+    {% endwith %}
+
     <!-- reportitem note row -->
     <div class="card bg-dark border-light card-body top-distance bottom-distance markdown-preview">
-        {{ i.reportitem_note|safe_markdown }}
+        {{ reportitem.reportitem_note|safe_markdown }}
     </div>
     <!-- reportitem note -->
 
@@ -264,12 +279,12 @@
             </li>
 
             <!-- iterate over notes -->
-            {% for i in note_list %}
+            {% for note in note_list %}
 
                 <!-- note -->
                 <li class="nav-item nav-left-distance">
-                    <a class="nav-link" href="#note_id_{{ i.note_id }}">
-                        {{ i.note_title }}
+                    <a class="nav-link" href="#note_id_{{ note.note_id }}">
+                        {{ note.note_title }}
                     </a>
                 </li>
 
@@ -284,12 +299,12 @@
             </li>
 
             <!-- iterate over reportitems -->
-            {% for i in reportitem_list %}
+            {% for reportitem in reportitem_list %}
 
             <!-- reportitem -->
                 <li class="nav-item nav-left-distance">
-                    <a class="nav-link" href="#reportitem_id_{{ i.reportitem_id }}">
-                        {{ i.system.system_name }} - {{ i.headline.headline_name }}
+                    <a class="nav-link" href="#reportitem_id_{{ reportitem.reportitem_id }}">
+                        {{ reportitem.system.system_name }} - {{ reportitem.headline.headline_name }}
                     </a>
                 </li>
 
