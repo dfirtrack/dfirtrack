@@ -180,6 +180,7 @@ MARTOR_TOOLBAR_BUTTONS = [
     'link', 'direct-mention', 'toggle-maximize', 'help'
 ]
 
+MARTOR_ENABLE_LABEL = True
 
 """
 import local settings from local_settings

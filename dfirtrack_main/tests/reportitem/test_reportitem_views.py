@@ -190,7 +190,7 @@ class ReportitemViewTestCase(TestCase):
         # get response
         response = self.client.get('/reportitem/add/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/reportitem/reportitem_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/reportitem/reportitem_generic_form.html')
 
     def test_reportitem_add_get_user_context(self):
         """ test add view """
@@ -258,7 +258,7 @@ class ReportitemViewTestCase(TestCase):
         # get response
         response = self.client.post('/reportitem/add/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/reportitem/reportitem_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/reportitem/reportitem_generic_form.html')
 
     def test_reportitem_edit_not_logged_in(self):
         """ test edit view """
@@ -294,7 +294,7 @@ class ReportitemViewTestCase(TestCase):
         # get response
         response = self.client.get('/reportitem/' + str(reportitem_1.reportitem_id) + '/edit/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/reportitem/reportitem_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/reportitem/reportitem_generic_form.html')
 
     def test_reportitem_edit_get_user_context(self):
         """ test edit view """
@@ -380,4 +380,4 @@ class ReportitemViewTestCase(TestCase):
         # get response
         response = self.client.post('/reportitem/' + str(reportitem_id) + '/edit/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/reportitem/reportitem_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/reportitem/reportitem_generic_form.html')

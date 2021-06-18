@@ -115,9 +115,9 @@ class CaseForm(forms.ModelForm):
     # reorder field choices
     tag = forms.ModelMultipleChoiceField(
         label = gettext_lazy('Tags'),
-        queryset = Tag.objects.order_by('tag_name'),
-        required = False,
-        widget=forms.CheckboxSelectMultiple(),
+        widget=TagWidget, 
+        queryset=Tag.objects.order_by('tag_name'), 
+        required=False
     )
 
     class Meta:
@@ -521,6 +521,7 @@ class NoteForm(forms.ModelForm):
     
     # reorder field choices
     tag = forms.ModelMultipleChoiceField(
+        label = gettext_lazy('Tags'),
         widget=TagWidget, 
         queryset=Tag.objects.order_by('tag_name'), 
         required=False
@@ -694,7 +695,9 @@ class ReportitemForm(forms.ModelForm):
         queryset = Headline.objects.order_by('headline_name'),
     )
 
-    reportitem_note = MartorFormField()
+    reportitem_note = MartorFormField(
+        label = gettext_lazy('Note (*)'),
+    )
 
     # reorder field choices
     system = forms.ModelChoiceField(
@@ -785,9 +788,9 @@ class SystemBaseForm(forms.ModelForm):
     # reorder field choices
     tag = forms.ModelMultipleChoiceField(
         label = gettext_lazy('Tags'),
-        queryset = Tag.objects.order_by('tag_name'),
-        required = False,
-        widget=forms.CheckboxSelectMultiple(),
+        widget=TagWidget, 
+        queryset=Tag.objects.order_by('tag_name'), 
+        required=False
     )
 
     class Meta:
@@ -1203,13 +1206,14 @@ class TagForm(forms.ModelForm):
 class TagCreatorForm(forms.Form):
     """ tag creator form """
 
-    # show all existing tag objects as multiple choice field
+    # show all existing tag objects as tag widget
     tag = forms.ModelMultipleChoiceField(
-        queryset = Tag.objects.order_by('tag_name'),
-        widget = forms.CheckboxSelectMultiple(),
-        label = 'Tags (*)',
-        required = True,
+        label = gettext_lazy('Tags (*)'),
+        widget=TagWidget, 
+        queryset=Tag.objects.order_by('tag_name'), 
+        required=True
     )
+
 
     # show all existing system objects as multiple choice field
     system = forms.ModelMultipleChoiceField(
@@ -1225,9 +1229,9 @@ class TaskBaseForm(forms.ModelForm):
     # reorder field choices
     tag = forms.ModelMultipleChoiceField(
         label = gettext_lazy('Tags'),
-        queryset = Tag.objects.order_by('tag_name'),
-        required = False,
-        widget=forms.CheckboxSelectMultiple(),
+        widget=TagWidget, 
+        queryset=Tag.objects.order_by('tag_name'), 
+        required=False
     )
 
     # reorder field choices
