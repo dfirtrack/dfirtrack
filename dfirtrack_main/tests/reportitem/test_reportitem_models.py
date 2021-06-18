@@ -53,15 +53,15 @@ class ReportitemModelTestCase(TestCase):
         # compare
         self.assertEqual(field_label, 'reportitem id')
 
-    def test_reportitem_system_attribute_label(self):
+    def test_reportitem_case_attribute_label(self):
         """ test attribute label """
 
         # get object
         reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
         # get label
-        field_label = reportitem_1._meta.get_field('system').verbose_name
+        field_label = reportitem_1._meta.get_field('case').verbose_name
         # compare
-        self.assertEqual(field_label, 'system')
+        self.assertEqual(field_label, 'case')
 
     def test_reportitem_headline_attribute_label(self):
         """ test attribute label """
@@ -72,6 +72,36 @@ class ReportitemModelTestCase(TestCase):
         field_label = reportitem_1._meta.get_field('headline').verbose_name
         # compare
         self.assertEqual(field_label, 'headline')
+
+    def test_reportitem_notestatus_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
+        # get label
+        field_label = reportitem_1._meta.get_field('notestatus').verbose_name
+        # compare
+        self.assertEqual(field_label, 'notestatus')
+
+    def test_reportitem_system_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
+        # get label
+        field_label = reportitem_1._meta.get_field('system').verbose_name
+        # compare
+        self.assertEqual(field_label, 'system')
+
+    def test_reportitem_tag_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
+        # get label
+        field_label = reportitem_1._meta.get_field('tag').verbose_name
+        # compare
+        self.assertEqual(field_label, 'tag')
 
     def test_reportitem_subheadline_attribute_label(self):
         """ test attribute label """

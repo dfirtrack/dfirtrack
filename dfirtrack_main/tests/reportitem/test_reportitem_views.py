@@ -1,6 +1,10 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
-from dfirtrack_main.models import Headline, Reportitem, System, Systemstatus
+from dfirtrack_main.models import Headline
+from dfirtrack_main.models import Notestatus
+from dfirtrack_main.models import Reportitem
+from dfirtrack_main.models import System
+from dfirtrack_main.models import Systemstatus
 import urllib.parse
 
 
@@ -13,7 +17,9 @@ class ReportitemViewTestCase(TestCase):
         # create user
         test_user = User.objects.create_user(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
 
-        # create object
+        # create objects
+        headline_1 = Headline.objects.create(headline_name='headline_1')
+        Notestatus.objects.create(notestatus_name='notestatus_1')
         systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
 
         # create object
@@ -23,9 +29,6 @@ class ReportitemViewTestCase(TestCase):
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
-
-        # create object
-        headline_1 = Headline.objects.create(headline_name='headline_1')
 
         # create object
         Reportitem.objects.create(
@@ -219,15 +222,16 @@ class ReportitemViewTestCase(TestCase):
 
         # login testuser
         self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
-        # get object
-        system_id = System.objects.get(system_name = 'system_1').system_id
-        # get object
+        # get objects
         headline_id = Headline.objects.get(headline_name = 'headline_1').headline_id
+        notestatus_id = Notestatus.objects.get(notestatus_name = 'notestatus_1').notestatus_id
+        system_id = System.objects.get(system_name = 'system_1').system_id
         # create post data
         data_dict = {
             'reportitem_note': 'reportitem_add_post_test',
-            'system': system_id,
             'headline': headline_id,
+            'notestatus': notestatus_id,
+            'system': system_id,
         }
         # get response
         response = self.client.post('/reportitem/add/', data_dict)
@@ -329,23 +333,25 @@ class ReportitemViewTestCase(TestCase):
         self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
         # get user
         test_user = User.objects.get(username='testuser_reportitem')
-        # get object
-        system_1 = System.objects.get(system_name = 'system_1')
-        # get object
+        # get objects
         headline_1 = Headline.objects.get(headline_name = 'headline_1')
+        notestatus_1 = Notestatus.objects.get(notestatus_name = 'notestatus_1')
+        system_1 = System.objects.get(system_name = 'system_1')
         # create object
         reportitem_1 = Reportitem.objects.create(
             reportitem_note = 'reportitem_edit_post_test_1',
-            system = system_1,
             headline = headline_1,
+            notestatus = notestatus_1,
+            system = system_1,
             reportitem_created_by_user_id = test_user,
             reportitem_modified_by_user_id = test_user,
         )
         # create post data
         data_dict = {
             'reportitem_note': 'reportitem_edit_post_test_2',
-            'system': system_1.system_id,
             'headline': headline_1.headline_id,
+            'notestatus': notestatus_1.notestatus_id,
+            'system': system_1.system_id,
         }
         # get response
         response = self.client.post('/reportitem/' + str(reportitem_1.reportitem_id) + '/edit/', data_dict)
