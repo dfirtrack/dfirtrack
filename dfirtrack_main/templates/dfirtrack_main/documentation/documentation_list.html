@@ -92,13 +92,15 @@
 <!-- ############################################ -->
 
 <!-- headline -->
-<div class="row top-distance bottom-distance">
-    <div class="col">
-        <h2 id="cross_system_documentation">
-            Cross-system documentation (notes)
-        </h2>
+{% if note_list %}
+    <div class="row top-distance bottom-distance">
+        <div class="col">
+            <h2 id="cross_system_documentation">
+                Cross-system documentation (notes)
+            </h2>
+        </div>
     </div>
-</div>
+{% endif %}
 
 <!-- NOTES -->
 
@@ -177,13 +179,15 @@
 <!-- ############################################ -->
 
 <!-- headline -->
-<div class="row bottom-distance">
-    <div class="col">
-        <h2 id="system_based_documentation">
-            System-based documentation (reportitems)
-        </h2>
+{% if reportitem_list %}
+    <div class="row bottom-distance">
+        <div class="col">
+            <h2 id="system_based_documentation">
+                System-based documentation (reportitems)
+            </h2>
+        </div>
     </div>
-</div>
+{% endif %}
 
 <!-- REPORTITEMS -->
 
@@ -282,11 +286,13 @@
         <ul class="nav navbar-nav flex-column">
 
             <!-- cross_system_documentation -->
-            <li class="nav-item">
-                <a  class="nav-link" href="#cross_system_documentation">
-                    Cross-based documentation
-                </a>
-            </li>
+            {% if note_list %}
+                <li class="nav-item">
+                    <a  class="nav-link" href="#cross_system_documentation">
+                        Cross-based documentation
+                    </a>
+                </li>
+            {% endif %}
 
             <!-- iterate over notes -->
             {% for note in note_list %}
@@ -302,11 +308,13 @@
             {% endfor %}
 
             <!-- system_based_documentation -->
-            <li class="nav-item">
-                <a class="nav-link" href="#system_based_documentation">
-                    System-based documentation
-                </a>
-            </li>
+            {% if reportitem_list %}
+                <li class="nav-item">
+                    <a class="nav-link" href="#system_based_documentation">
+                        System-based documentation
+                    </a>
+                </li>
+            {% endif %}
 
             <!-- iterate over reportitems -->
             {% for reportitem in reportitem_list %}
