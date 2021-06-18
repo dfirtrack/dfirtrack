@@ -185,7 +185,29 @@
 
     <!-- note content block -->
     <div class="card card-body bg-dark border-light top-distance">
-        {{ form.note_content }}
+
+        <!-- note content headline -->
+        <div class="row">
+            <div class="col">
+                <h5>
+                    {{ form.note_content.label }}
+                </h5>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- note content errors -->
+                    <div class="text-danger">
+                        {{ form.note_content.errors }}
+                    </div>
+                    {{ form.note_content }}
+                </div>
+            </div>
+        </div>
+
+    <!-- note content block -->
     </div>
 
     <!-- ############################################ -->

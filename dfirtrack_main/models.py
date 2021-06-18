@@ -888,8 +888,11 @@ class Reportitem(models.Model):
     reportitem_id = models.AutoField(primary_key=True)
 
     # foreign key(s)
-    system = models.ForeignKey('System', on_delete=models.CASCADE)
+    case = models.ForeignKey('Case', on_delete=models.PROTECT, blank=True, null=True)
     headline = models.ForeignKey('Headline', on_delete=models.PROTECT)
+    notestatus = models.ForeignKey('Notestatus', on_delete=models.PROTECT, default=1)
+    system = models.ForeignKey('System', on_delete=models.CASCADE)
+    tag = models.ManyToManyField('Tag', blank=True)
 
     # main entity information
     reportitem_subheadline = models.CharField(max_length=100, blank=True, null=True)
@@ -911,14 +914,31 @@ class Reportitem(models.Model):
 
     # define logger
     def logger(reportitem, request_user, log_text):
+
+        # get objects
+        tags = reportitem.tag.all()
+        # create empty list
+        taglist = []
+        # set default string if there is no object at all
+        tagstring = 'None'
+        # iterate over objects
+        for tag in tags:
+            # append object to list
+            taglist.append(tag.tag_name)
+            # join list to comma separated string if there are any objects, else default string will remain
+            tagstring = ','.join(taglist)
+
+        # finally write log
         stdlogger.info(
             request_user +
             log_text +
             " reportitem_id:" + str(reportitem.reportitem_id) +
-            "|system:" + str(reportitem.system) +
             "|headline:" + str(reportitem.headline) +
+            "|notestatus:" + str(reportitem.notestatus) +
             "|reportitem_subheadline:" + str(reportitem.reportitem_subheadline) +
-            "|reportitem_note:" + str(reportitem.reportitem_note)
+            "|system:" + str(reportitem.system) +
+            "|case:" + str(reportitem.case) +
+            "|tag:" + tagstring
         )
 
     def get_absolute_url(self):

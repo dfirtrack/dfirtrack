@@ -115,9 +115,9 @@ class CaseForm(forms.ModelForm):
     # reorder field choices
     tag = forms.ModelMultipleChoiceField(
         label = gettext_lazy('Tags'),
-        widget=TagWidget, 
-        queryset=Tag.objects.order_by('tag_name'), 
-        required=False
+        widget=TagWidget,
+        queryset=Tag.objects.order_by('tag_name'),
+        required=False,
     )
 
     class Meta:
@@ -517,16 +517,10 @@ class NoteForm(forms.ModelForm):
     )
 
     # markdown field
-    note_content = MartorFormField()
-    
-    # reorder field choices
-    tag = forms.ModelMultipleChoiceField(
-        label = gettext_lazy('Tags'),
-        widget=TagWidget, 
-        queryset=Tag.objects.order_by('tag_name'), 
-        required=False
+    note_content = MartorFormField(
+        label = gettext_lazy('Note (*)'),
     )
-
+    
     # reorder field choices
     case = forms.ModelChoiceField(
         label = gettext_lazy('Corresponding case'),
@@ -541,6 +535,14 @@ class NoteForm(forms.ModelForm):
         label = 'Notestatus (*)',
         required = True,
         widget = forms.RadioSelect(),
+    )
+
+    # reorder field choices
+    tag = forms.ModelMultipleChoiceField(
+        label = gettext_lazy('Tags'),
+        widget=TagWidget,
+        queryset=Tag.objects.order_by('tag_name'),
+        required=False,
     )
 
     def clean_note_version(self):
@@ -573,7 +575,6 @@ class NoteForm(forms.ModelForm):
         # non default form labeling
         labels = {
             'note_title': gettext_lazy('Note title (*)'),
-            'note_content': gettext_lazy('Content (*)'),
         }
 
         # special form type or option
@@ -689,6 +690,14 @@ class ReportitemForm(forms.ModelForm):
     """ default model form """
 
     # reorder field choices
+    case = forms.ModelChoiceField(
+        label = gettext_lazy('Corresponding case'),
+        queryset = Case.objects.order_by('case_name'),
+        required = False,
+        empty_label = 'Select case (optional)',
+    )
+
+    # reorder field choices
     headline = forms.ModelChoiceField(
         label = gettext_lazy('Headline (*)'),
         empty_label = 'Select headline',
@@ -700,10 +709,26 @@ class ReportitemForm(forms.ModelForm):
     )
 
     # reorder field choices
+    notestatus = forms.ModelChoiceField(
+        queryset = Notestatus.objects.order_by('notestatus_name'),
+        label = 'Notestatus (*)',
+        required = True,
+        widget = forms.RadioSelect(),
+    )
+
+    # reorder field choices
     system = forms.ModelChoiceField(
         label = gettext_lazy('System (*)'),
         empty_label = 'Select system',
         queryset = System.objects.order_by('system_name'),
+    )
+
+    # reorder field choices
+    tag = forms.ModelMultipleChoiceField(
+        label = gettext_lazy('Tags'),
+        widget=TagWidget,
+        queryset=Tag.objects.order_by('tag_name'),
+        required=False,
     )
 
     class Meta:
@@ -713,8 +738,11 @@ class ReportitemForm(forms.ModelForm):
 
         # this HTML forms are shown
         fields = (
-            'system',
+            'case',
             'headline',
+            'notestatus',
+            'system',
+            'tag',
             'reportitem_subheadline',
             'reportitem_note',
         )
@@ -722,7 +750,6 @@ class ReportitemForm(forms.ModelForm):
         # non default form labeling
         labels = {
             'reportitem_subheadline': gettext_lazy('Subheadline'),
-            'reportitem_note': gettext_lazy('Note (*)'),
         }
 
         # special form type or option
@@ -788,9 +815,9 @@ class SystemBaseForm(forms.ModelForm):
     # reorder field choices
     tag = forms.ModelMultipleChoiceField(
         label = gettext_lazy('Tags'),
-        widget=TagWidget, 
-        queryset=Tag.objects.order_by('tag_name'), 
-        required=False
+        widget=TagWidget,
+        queryset=Tag.objects.order_by('tag_name'),
+        required=False,
     )
 
     class Meta:
@@ -1209,9 +1236,9 @@ class TagCreatorForm(forms.Form):
     # show all existing tag objects as tag widget
     tag = forms.ModelMultipleChoiceField(
         label = gettext_lazy('Tags (*)'),
-        widget=TagWidget, 
-        queryset=Tag.objects.order_by('tag_name'), 
-        required=True
+        widget=TagWidget,
+        queryset=Tag.objects.order_by('tag_name'),
+        required=True,
     )
 
 
@@ -1229,9 +1256,9 @@ class TaskBaseForm(forms.ModelForm):
     # reorder field choices
     tag = forms.ModelMultipleChoiceField(
         label = gettext_lazy('Tags'),
-        widget=TagWidget, 
-        queryset=Tag.objects.order_by('tag_name'), 
-        required=False
+        widget=TagWidget,
+        queryset=Tag.objects.order_by('tag_name'),
+        required=False,
     )
 
     # reorder field choices

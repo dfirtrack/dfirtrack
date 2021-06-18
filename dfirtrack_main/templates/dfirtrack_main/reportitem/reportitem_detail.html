@@ -66,62 +66,116 @@
     </div>
 </div>
 
+<!-- ############################################ -->
+
+<!-- tags / case row -->
+<div class="row">
+
+    <!-- tags -->
+    <div class="col-6">
+        <h5>
+            <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Tags
+        </h5>
+        {% if reportitem.tag.all %}
+            {% for i in reportitem.tag.all|dictsort:"tag_name" %}
+                <!-- tooltip with tag reportitem -->
+                <span data-toggle="tooltip" data-placement="auto" title="{{ i.tag_reportitem }}">
+                    <a href="{{ i.get_absolute_url }}" type="button" class="btn btn-sm btn-{{ i.tagcolor }} round copy-true top-distance">
+                        <!-- black tag icon for white tag (black color of font is defined in corresponding CSS for button) -->
+                        {% if i.tagcolor.tagcolor_name == 'white' %}
+                            <img src="{% static 'dfirtrack_main/icons/tag.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                        <!-- white tag icon for other tags (white color of font is defined in corresponding CSS for button) -->
+                        {% else %}
+                            <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                        {% endif %}
+                        {{ i }}
+                    </a>
+                </span>
+            {% endfor %}
+        {% else %}
+            ---
+        {% endif %}
+    </div>
+
+    <!-- case -->
+    <div class="col-6">
+        <h5>
+            <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Corresponding case
+        </h5>
+        {% if reportitem.case %}
+            <a href="{{ reportitem.case.get_absolute_url }}" type="button" class="btn btn-primary btn-sm bottom-left top-right top-distance copy-true">
+                <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                {{ reportitem.case.case_name }}
+            </a>
+        {% else %}
+            ---
+        {% endif %}
+    </div>
+
+<!-- tags / case row -->
+</div>
+
+<!-- ############################################ -->
+
 <!-- reportitem note -->
-<div class="row bottom-distance card bg-dark border-light card-body">
+<div class="top-distance card bg-dark border-light card-body">
     <div class="col markdown-preview">
         {{ reportitem.reportitem_note|safe_markdown }}
     </div>
 </div>
 
-<!-- meta information headline -->
-<div class="row text-muted">
-    <div class="col">
-        <h5>
-            Meta information
-        </h5>
-    </div>
-</div>
+<!-- ############################################ -->
+
+<!-- TODO: switch to generic model attributes -->
+<!-- compare with 'card_meta_information.html' -->
 
 <!-- meta information -->
-<div class="row text-muted">
+<div class="card bg-dark border-secondary card-body bottom-distance top-distance">
 
-    <!-- reportitem create time -->
-    <div class="col-3">
-        <div class="font-weight-bold">
-            Created:
+    <!-- meta information headline -->
+    <div class="row text-muted">
+        <div class="col">
+            <h5>Meta information</h5>
         </div>
-        {{ reportitem.reportitem_create_time|date:"Y-m-d H:i" }}
     </div>
 
-    <!-- reportitem create user -->
-    <div class="col-3">
-        <div class="font-weight-bold">
-            Created by:
-        </div>
-        {{ reportitem.reportitem_created_by_user_id }}
-    </div>
+    <!-- meta information row -->
+    <div class="row text-muted">
 
-    <!-- reportitem modify time -->
-    <div class="col-3">
-        <div class="font-weight-bold">
-            Last modified:
+        <!-- reportitem create time -->
+        <div class="col-3">
+            <div class="font-weight-bold">Created:</div>
+            {{ reportitem.reportitem_create_time|date:"Y-m-d H:i" }}
         </div>
-        {{ reportitem.reportitem_modify_time|date:"Y-m-d H:i" }}
-    </div>
 
-    <!-- reportitem modify user -->
-    <div class="col-3">
-        <div class="font-weight-bold">
-            Modified by:
+        <!-- user creating reportitem -->
+        <div class="col-3">
+            <div class="font-weight-bold">Created by:</div>
+            {{ reportitem.reportitem_created_by_user_id }}
         </div>
-        {{ reportitem.reportitem_modified_by_user_id }}
+
+        <!-- reportitem modify time -->
+        <div class="col-3">
+            <div class="font-weight-bold">Last modified:</div>
+            {{ reportitem.reportitem_modify_time|date:"Y-m-d H:i" }}
+        </div>
+
+        <!-- user modifying reportitem -->
+        <div class="col-3">
+            <div class="font-weight-bold">Modified by:</div>
+            {{ reportitem.reportitem_modified_by_user_id }}
+        </div>
+
+    <!-- meta information row -->
     </div>
 
 <!-- meta information -->
 </div>
 
 <!-- edit button -->
-<a href="{{ reportitem.get_update_url }}" type="button" class="btn btn-light top-distance copy-false">
+<a href="{{ reportitem.get_update_url }}" type="button" class="btn btn-light copy-false">
     <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon right-distance copy-false" alt="icon">
     Edit
 </a>
