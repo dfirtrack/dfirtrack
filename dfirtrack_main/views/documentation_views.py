@@ -15,55 +15,54 @@ class DocumentationList(LoginRequiredMixin, FormView):
     template_name = 'dfirtrack_main/documentation/documentation_list.html'
 
     def get_context_data(self, **kwargs):
+        """ filter objects according to GET parameters """
 
         # get context
         context = super().get_context_data(**kwargs)
 
-        """ query note """
-
         # initial query with desired ordering
         note_query = Note.objects.order_by('note_title')
+        reportitem_query = Reportitem.objects.order_by('system__system_name', 'headline__headline_name')
+
+        # create dict to initialize form values set by filtering in previous view
+        form_initial = {}
 
         # filter for case
         if 'case' in self.request.GET:
+            # get id
             case_id = self.request.GET['case']
+            # filter objects
             note_query = note_query.filter(case=case_id)
+            reportitem_query = reportitem_query.filter(case=case_id)
+            # remember initial value for form
+            form_initial['case'] = case_id
 
         # filter for notestatus
         if 'notestatus' in self.request.GET:
+            # get id
             notestatus_id = self.request.GET['notestatus']
+            # filter objects
             note_query = note_query.filter(notestatus=notestatus_id)
+            reportitem_query = reportitem_query.filter(notestatus=notestatus_id)
+            # remember initial value for form
+            form_initial['notestatus'] = notestatus_id
 
         # filter for tag
         if 'tag' in self.request.GET:
+            # get id
             tag_id = self.request.GET['tag']
+            # filter objects
             note_query = note_query.filter(tag=tag_id)
+            reportitem_query = reportitem_query.filter(tag=tag_id)
+            # remember initial value for form
+            form_initial['tag'] = tag_id
 
         # add to context
         context['note_list'] = note_query
-
-        """ query reportitem """
-
-        # initial query with desired ordering
-        reportitem_query = Reportitem.objects.order_by('system__system_name', 'headline__headline_name')
-
-        # filter for case
-        if 'case' in self.request.GET:
-            case_id = self.request.GET['case']
-            reportitem_query = reportitem_query.filter(case=case_id)
-
-        # filter for notestatus
-        if 'notestatus' in self.request.GET:
-            notestatus_id = self.request.GET['notestatus']
-            reportitem_query = reportitem_query.filter(notestatus=notestatus_id)
-
-        # filter for tag
-        if 'tag' in self.request.GET:
-            tag_id = self.request.GET['tag']
-            reportitem_query = reportitem_query.filter(tag=tag_id)
+        context['reportitem_list'] = reportitem_query
 
         # add to context
-        context['reportitem_list'] = reportitem_query
+        context['form'] = self.form_class(initial = form_initial)
 
         # call logger
         debug_logger(str(self.request.user), " DOCUMENTATION_LIST_ENTERED")
@@ -72,6 +71,7 @@ class DocumentationList(LoginRequiredMixin, FormView):
         return context
 
     def form_valid(self, form):
+        """ evaluate form data and call view again with GET parameters """
 
         # create parameter dict
         params = {}
@@ -94,4 +94,4 @@ class DocumentationList(LoginRequiredMixin, FormView):
         documentation_list_query = urlunparse(('','',urlpath,'',urlquery,''))
 
         # call view with queries
-        return redirect(documentation_list_query)
+        return redirect(documentation_list_query, form)
