@@ -5,11 +5,11 @@
 
     <!-- tags -->
     <div class="col-6">
-        <h5>
-            <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon right-distance copy-false" alt="icon">
-            Tags
-        </h5>
         {% if model.tag.all %}
+            <h5>
+                <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                Tags
+            </h5>
             {% for i in model.tag.all|dictsort:"tag_name" %}
                 <!-- tooltip with tag model -->
                 <span data-toggle="tooltip" data-placement="auto" title="{{ i.tag_model }}">
@@ -25,24 +25,20 @@
                     </a>
                 </span>
             {% endfor %}
-        {% else %}
-            ---
         {% endif %}
     </div>
 
     <!-- case -->
     <div class="col-6">
-        <h5>
-            <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon right-distance copy-false" alt="icon">
-            Corresponding case
-        </h5>
         {% if model.case %}
+            <h5>
+                <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                Corresponding case
+            </h5>
             <a href="{{ model.case.get_absolute_url }}" type="button" class="btn btn-primary btn-sm bottom-left top-right top-distance copy-true">
                 <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                 {{ model.case.case_name }}
             </a>
-        {% else %}
-            ---
         {% endif %}
     </div>
 
