@@ -35,7 +35,9 @@ class DocumentationList(LoginRequiredMixin, FormView):
             note_query = note_query.filter(notestatus=notestatus_id)
 
         # filter for tag
-        # TODO: filter for tag (m2m)
+        if 'tag' in self.request.GET:
+            tag_id = self.request.GET['tag']
+            note_query = note_query.filter(tag=tag_id)
 
         # add to context
         context['note_list'] = note_query
@@ -46,10 +48,19 @@ class DocumentationList(LoginRequiredMixin, FormView):
         reportitem_query = Reportitem.objects.order_by('system__system_name', 'headline__headline_name')
 
         # filter for case
-        # TODO: filter for case
+        if 'case' in self.request.GET:
+            case_id = self.request.GET['case']
+            reportitem_query = reportitem_query.filter(case=case_id)
 
         # filter for notestatus
-        # TODO: filter for notestatus
+        if 'notestatus' in self.request.GET:
+            notestatus_id = self.request.GET['notestatus']
+            reportitem_query = reportitem_query.filter(notestatus=notestatus_id)
+
+        # filter for tag
+        if 'tag' in self.request.GET:
+            tag_id = self.request.GET['tag']
+            reportitem_query = reportitem_query.filter(tag=tag_id)
 
         # add to context
         context['reportitem_list'] = reportitem_query
