@@ -10,10 +10,14 @@
 </title>
 
 {% load static %}
+{% load martortags %}
 
 <!-- javascript and CSS for datatables -->
 <link rel="stylesheet" type="text/css" href="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.css' %}"/>
 <script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.js' %}"></script>
+
+<!-- martor -->
+{% include "dfirtrack_main/includes/martor_css.html" %}
 
 <!-- HTML head in maintemplate -->
 {% endblock %}
@@ -126,8 +130,8 @@
     </div>
 
     <!-- note content row -->
-    <div class="card bg-dark border-light card-body top-distance bottom-distance">
-        {{ i.note_content|linebreaks }}
+    <div class="card bg-dark border-light card-body top-distance bottom-distance markdown-preview">
+        {{ i.note_content|safe_markdown }}
     </div>
     <!-- note content -->
 
@@ -207,8 +211,8 @@
     </div>
 
     <!-- reportitem note row -->
-    <div class="card bg-dark border-light card-body top-distance bottom-distance">
-        {{ i.reportitem_note|linebreaks }}
+    <div class="card bg-dark border-light card-body top-distance bottom-distance markdown-preview">
+        {{ i.reportitem_note|safe_markdown }}
     </div>
     <!-- reportitem note -->
 
@@ -288,6 +292,9 @@
 {% block datatables %}
 <script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.js' %}"></script>
 {% endblock %}
+
+<!-- martor -->
+{% include "dfirtrack_main/includes/martor_javascript.html" %}
 
 <!-- HTML body in maintemplate -->
 {% endblock %}

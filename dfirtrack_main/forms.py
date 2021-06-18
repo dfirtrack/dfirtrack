@@ -694,6 +694,8 @@ class ReportitemForm(forms.ModelForm):
         queryset = Headline.objects.order_by('headline_name'),
     )
 
+    reportitem_note = MartorFormField()
+
     # reorder field choices
     system = forms.ModelChoiceField(
         label = gettext_lazy('System (*)'),

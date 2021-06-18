@@ -10,11 +10,8 @@
 
 {% load static %}
 
-{% block css %}
-  <link href="{% static 'plugins/css/ace.min.css' %}" type="text/css" media="all" rel="stylesheet" />
-  <link href="{% static 'plugins/css/resizable.min.css' %}" type="text/css" media="all" rel="stylesheet" />
-  <link href="{% static 'martor/css/martor.bootstrap.min.css' %}" type="text/css" media="all" rel="stylesheet" />
-{% endblock %}
+<!-- martor -->
+{% include "dfirtrack_main/includes/martor_css.html" with editor="true" %}
 
 <!-- HTML head in maintemplate -->
 {% endblock %}
@@ -212,16 +209,8 @@
 <!-- form -->
 </form>
 
-{% block js %}
-    <script src="/static/plugins/js/bootstrap.min.js"></script>
-    <script src="/static/plugins/js/ace.js"></script>
-    <script src="/static/plugins/js/mode-markdown.js"></script>
-    <script src="/static/plugins/js/theme-github.js"></script>
-    <script src="/static/plugins/js/highlight.min.js"></script>
-    <script src="/static/plugins/js/resizable.min.js"></script>
-    <script src="/static/plugins/js/emojis.min.js"></script>
-    <script src="/static/martor/js/martor.bootstrap.min.js"></script>
-{% endblock %}
+<!-- martor -->
+{% include "dfirtrack_main/includes/martor_javascript.html" with editor="true" %}
 
 <!-- HTML body in maintemplate -->
 {% endblock %}

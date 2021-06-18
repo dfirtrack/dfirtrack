@@ -10,10 +10,9 @@
 </title>
 
 {% load static %}
+{% load martortags %}
 
-{% block css %}
-  <link href="{% static 'plugins/css/ace.min.css' %}" type="text/css" media="all" rel="stylesheet" />
-{% endblock %}
+{% include "dfirtrack_main/includes/martor_css.html" %}
 
 <!-- HTML head in maintemplate -->
 {% endblock %}
@@ -22,8 +21,6 @@
 
 <!-- HTML body in maintemplate -->
 {% block content %}
-
-{% load martortags %}
 
 <!-- top buttons -->
 <div class="row bottom-distance">
@@ -163,9 +160,7 @@
 
 <!-- ############################################ -->
 
-{% block js %}
-  <script type="text/javascript" src="{% static 'plugins/js/highlight.min.js' %}"></script>
-{% endblock %}
+{% include "dfirtrack_main/includes/martor_javascript.html" %}
 
 <!-- HTML body in maintemplate -->
 {% endblock %}

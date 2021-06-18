@@ -10,6 +10,10 @@
 </title>
 
 {% load static %}
+{% load martortags %}
+
+<!-- martor -->
+{% include "dfirtrack_main/includes/martor_css.html" %}    
 
 <!-- HTML head in maintemplate -->
 {% endblock %}
@@ -62,19 +66,10 @@
     </div>
 </div>
 
-<!-- reportitem note headline -->
-<div class="row">
-    <div class="col-3">
-        <h5>
-            Note
-        </h5>
-    </div>
-</div>
-
 <!-- reportitem note -->
-<div class="row bottom-distance">
-    <div class="col">
-        {{ reportitem.reportitem_note|linebreaks }}
+<div class="row bottom-distance card bg-dark border-light card-body">
+    <div class="col markdown-preview">
+        {{ reportitem.reportitem_note|safe_markdown }}
     </div>
 </div>
 
@@ -130,6 +125,9 @@
     <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon right-distance copy-false" alt="icon">
     Edit
 </a>
+
+<!-- martor -->
+{% include "dfirtrack_main/includes/martor_javascript.html" %}    
 
 <!-- HTML body in maintemplate -->
 {% endblock %}
