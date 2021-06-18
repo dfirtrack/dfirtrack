@@ -130,7 +130,7 @@
     </div>
 
     <!-- note metadata row -->
-    <div class="row small text-muted">
+    <div class="row small text-muted bottom-distance">
 
         <!-- note id -->
         <div class="col-1">
@@ -138,8 +138,13 @@
         </div>
 
         <!-- note version -->
-        <div class="col-5">
+        <div class="col-2">
             Version: {{ note.note_version }}
+        </div>
+
+        <!-- notestatus -->
+        <div class="col-3">
+            Notestatus: {{ note.notestatus }}
         </div>
 
         <!-- note create time / user -->
@@ -221,11 +226,16 @@
     </div>
 
     <!-- system reportitem metadata row -->
-    <div class="row small text-muted">
+    <div class="row small text-muted bottom-distance">
 
         <!-- reportitem id -->
-        <div class="col-6">
+        <div class="col-3">
             Reportitem-ID: {{ reportitem.reportitem_id }}
+        </div>
+
+        <!-- notestatus -->
+        <div class="col-3">
+            Notestatus: {{ reportitem.notestatus }}
         </div>
 
         <!-- reportitem create time -->
