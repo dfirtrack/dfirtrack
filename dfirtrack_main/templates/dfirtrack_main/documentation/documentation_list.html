@@ -39,7 +39,7 @@
 <div class="row">
 
     <!-- headline -->
-    <div class="col-6">
+    <div class="col-auto me-auto">
         <h1>
             <img src="{% static 'dfirtrack_main/icons/document-light.svg' %}" class="icon right-distance copy-false" alt="icon">
             Documentation
@@ -47,7 +47,7 @@
     </div>
 
     <!-- note / reportitem add button -->
-    <div class="col-6">
+    <div class="col-auto">
 
         <a href="{% url 'note_create' %}?documentation" type="button" class="btn btn-light btn-sm copy-false">
             <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
@@ -83,7 +83,7 @@
     <div class="row top-distance">
 
         <!-- note headline and subheadline -->
-        <div class="col-6">
+        <div class="col-auto me-auto">
             <h3 id="note_id_{{ i.note_id }}">
                 <img src="/static/dfirtrack_main/icons/paperclip-light.svg" class="icon right-distance copy-false" alt="icon">
                 <a href="{{ i.get_absolute_url }}">
@@ -93,7 +93,7 @@
         </div>
 
         <!-- edit button -->
-        <div class="col-6">
+        <div class="col-auto">
             <a href="{{ i.get_update_url }}?documentation" type="button" class="btn btn-sm btn-light copy-false">
                 <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                 Edit
@@ -158,7 +158,7 @@
     <div class="row top-distance">
 
         <!-- system, reportitem headline and subheadline -->
-        <div class="col-6">
+        <div class="col-auto me-auto">
             <h3 id="reportitem_id_{{ i.reportitem_id }}">
                 <!-- system -->
                 <a href="{{ i.system.get_absolute_url }}">
@@ -179,7 +179,7 @@
         </div>
 
         <!-- edit button -->
-        <div class="col-6">
+        <div class="col-auto">
             <a href="{{ i.get_update_url }}?documentation" type="button" class="btn btn-sm btn-light copy-false">
                 <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                 Edit
@@ -229,52 +229,54 @@
 <!-- TABLE OF CONTENT -->
 
 <!-- table of content column -->
-<div class="col-2 copy-false">
+<div class="col-2 copy-false toc">
 
-    <ul class="nav flex-column">
+    <nav id="tableOfContents" class="navbar">
 
-        <!-- cross_system_documentation -->
-        <li class="nav-item">
-            <a  class="nav-link active" href="#cross_system_documentation" style="color: white">
-                Cross-based documentation
-            </a>
-        </li>
+        <ul class="nav navbar-nav flex-column">
 
-        <!-- iterate over notes -->
-        {% for i in note_list %}
-
-            <!-- note -->
-            <li class="nav-item nav-left-distance">
-                <a class="nav-link active" href="#note_id_{{ i.note_id }}" style="color: white">
-                    {{ i.note_title }}
+            <!-- cross_system_documentation -->
+            <li class="nav-item">
+                <a  class="nav-link" href="#cross_system_documentation">
+                    Cross-based documentation
                 </a>
             </li>
 
-        <!-- iterate over notes -->
-        {% endfor %}
+            <!-- iterate over notes -->
+            {% for i in note_list %}
 
-        <!-- system_based_documentation -->
-        <li class="nav-item">
-            <a class="nav-link active" href="#system_based_documentation" style="color: white">
-                System-based documentation
-            </a>
-        </li>
+                <!-- note -->
+                <li class="nav-item nav-left-distance">
+                    <a class="nav-link" href="#note_id_{{ i.note_id }}">
+                        {{ i.note_title }}
+                    </a>
+                </li>
 
-        <!-- iterate over reportitems -->
-        {% for i in reportitem_list %}
+            <!-- iterate over notes -->
+            {% endfor %}
 
-        <!-- reportitem -->
-            <li class="nav-item nav-left-distance">
-                <a class="nav-link active" href="#reportitem_id_{{ i.reportitem_id }}" style="color: white">
-                    {{ i.system.system_name }} - {{ i.headline.headline_name }}
+            <!-- system_based_documentation -->
+            <li class="nav-item">
+                <a class="nav-link" href="#system_based_documentation">
+                    System-based documentation
                 </a>
             </li>
 
-        <!-- iterate over reportitems -->
-        {% endfor %}
+            <!-- iterate over reportitems -->
+            {% for i in reportitem_list %}
 
-    </ul>
+            <!-- reportitem -->
+                <li class="nav-item nav-left-distance">
+                    <a class="nav-link" href="#reportitem_id_{{ i.reportitem_id }}">
+                        {{ i.system.system_name }} - {{ i.headline.headline_name }}
+                    </a>
+                </li>
 
+            <!-- iterate over reportitems -->
+            {% endfor %}
+
+        </ul>
+    </nav>
 <!-- table of content column -->
 </div>
 
