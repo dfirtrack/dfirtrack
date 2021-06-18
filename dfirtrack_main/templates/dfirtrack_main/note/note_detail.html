@@ -43,8 +43,9 @@
             Edit
         </a>
     </div>
-</div>
+
 <!-- top buttons -->
+</div>
 
 <!-- note title row -->
 <div class="row">
@@ -154,12 +155,19 @@
 
 <!-- note content -->
 <div class="card bg-dark border-light card-body top-distance">
-        <div class="col markdown-preview top-distance">
-            {{note.note_content|safe_markdown}}
-        </div>
+    <div class="col markdown-preview top-distance">
+        {{note.note_content|safe_markdown}}
     </div>
 </div>
 <!-- note content -->
+
+<!-- ############################################ -->
+
+<!-- TODO: switch to generic model attributes -->
+<!-- meta information -->
+{% with model=note %}
+    {% include "dfirtrack_main/includes/card_meta_information.html" %}
+{% endwith %}
 
 <!-- ############################################ -->
 
