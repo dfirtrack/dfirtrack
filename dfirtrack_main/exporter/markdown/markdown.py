@@ -5,6 +5,7 @@ from dfirtrack_config.models import SystemExporterMarkdownConfigModel
 from dfirtrack_main.exporter.markdown.checks import check_content_file_system
 from dfirtrack_main.exporter.markdown.domainsorted import domainsorted
 from dfirtrack_main.exporter.markdown.systemsorted import systemsorted
+from urllib.parse import urlencode, urlunparse
 
 
 @login_required(login_url="/login")
@@ -19,9 +20,21 @@ def system_create_cron(request):
         # return to 'system_list'
         return redirect(reverse('system_list'))
     else:
-        # TODO: [logic] build url with python
+
+        # create parameter dict
+        params = {}
+
+        # prepare parameter dict
+        params['name'] = 'system_markdown_exporter'
+        params['func'] = 'dfirtrack_main.exporter.markdown.markdown.system_cron'
+
+        # build url
+        urlpath = '/admin/django_q/schedule/add/'
+        urlquery = urlencode(params)
+        admin_url_create_cron = urlunparse(('','',urlpath,'',urlquery,''))
+
         # open django admin with pre-filled form for scheduled task
-        return redirect('/admin/django_q/schedule/add/?name=system_markdown_exporter&func=dfirtrack_main.exporter.markdown.markdown.system_cron')
+        return redirect(admin_url_create_cron)
 
 @login_required(login_url="/login")
 def system(request):
