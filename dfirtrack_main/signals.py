@@ -1,6 +1,10 @@
+from django.contrib.auth.models import User
+from django.contrib.messages import constants
 from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
 from dfirtrack_artifacts.models import Artifact
+from dfirtrack_main.async_messages import message_users
+from dfirtrack_main.logger.default_logger import info_logger
 from dfirtrack_main.models import Case
 from dfirtrack_main.models import Reportitem
 from dfirtrack_main.models import System
@@ -101,5 +105,15 @@ def reportitem_post_save_system_case(sender, instance, *args, **kwargs):
             # link reportitem's system with reportitem's case
             reportitem_system.case.add(reportitem_case)
 
-            # TODO [code] add some kind of message
-            # TODO [code] add logger, but what instance?
+            # get all users
+            all_users = User.objects.all()
+
+            # call message for all users
+            message_users(
+                all_users,
+                f"System '{reportitem_system.system_name}' was assigned to case '{reportitem_case.case_name}' due to reportitem assignment.",
+                constants.SUCCESS
+            )
+
+            # call logger
+            info_logger('signal', f' SYSTEM_CASE_ASSIGNMENT system_id:{reportitem_system.system_id}|system_name:{reportitem_system.system_name}|case_id:{reportitem_case.case_id}|case_name:{reportitem_case.case_name}|reason:reportitem_assignment')
