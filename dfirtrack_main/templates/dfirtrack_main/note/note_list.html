@@ -9,7 +9,10 @@
     DFIRTrack - Notes
 </title>
 
+<!-- javascript and CSS for datatables -->
 {% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.css' %}"/>
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.js' %}"></script>
 
 <!-- HTML head in maintemplate -->
 {% endblock %}
@@ -30,45 +33,48 @@
 
 <!-- headlines -->
 
-
 <!-- datatable notes -->
 <table id="table_notes" class="display" width="100%">
-    <tr>
-        <!-- note id headline -->
-        <th>
-            ID
-        </th>
 
-        <!-- note title headline -->
-        <th>
-            Title
-        </th>
+    <!-- table body -->
+    <thead>
+        <tr>
+            <!-- note id headline -->
+            <th>
+                ID
+            </th>
 
-        <!-- note version headline -->
-        <th>
-            Version
-        </th>
+            <!-- note title headline -->
+            <th>
+                Title
+            </th>
 
-        <!-- notestatus headline -->
-        <th>
-            Notestatus
-        </th>
+            <!-- note version headline -->
+            <th>
+                Version
+            </th>
 
-        <!-- case name headline -->
-        <th>
-            Case
-        </th>
+            <!-- notestatus headline -->
+            <th>
+                Notestatus
+            </th>
 
-        <!-- creation time headline -->
-        <th>
-            Created
-        </th>
+            <!-- case name headline -->
+            <th>
+                Case
+            </th>
 
-        <!-- modification time headline -->
-        <th>
-            Modified
-        </th>
-    </tr>
+            <!-- creation time headline -->
+            <th>
+                Created
+            </th>
+
+            <!-- modification time headline -->
+            <th>
+                Modified
+            </th>
+        </tr>
+    </thead>
 
     <!-- table body -->
     <tbody>
