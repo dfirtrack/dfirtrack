@@ -520,7 +520,7 @@ class NoteForm(forms.ModelForm):
     note_content = MartorFormField(
         label = gettext_lazy('Note (*)'),
     )
-    
+
     # reorder field choices
     case = forms.ModelChoiceField(
         label = gettext_lazy('Corresponding case'),
