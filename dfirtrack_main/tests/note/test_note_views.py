@@ -14,13 +14,14 @@ class NoteViewTestCase(TestCase):
         # create user
         test_user = User.objects.create_user(username='testuser_note', password='oh8Szsuk8BpbEJ1RRL21')
 
-        # create objects
-        Notestatus.objects.create(notestatus_name='notestatus_1')
+        # create object
+        notestatus_1 = Notestatus.objects.create(notestatus_name='notestatus_1')
 
         # create object
         Note.objects.create(
             note_title = 'note_1',
             note_content = 'lorem ipsum',
+            notestatus = notestatus_1,
             note_created_by_user_id = test_user,
             note_modified_by_user_id = test_user,
         )
