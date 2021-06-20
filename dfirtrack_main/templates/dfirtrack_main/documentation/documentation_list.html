@@ -75,12 +75,12 @@
     <!-- note / reportitem add button -->
     <div class="col-auto">
 
-        <a href="{% url 'note_create' %}?documentation" type="button" class="btn btn-light btn-sm copy-false">
+        <a href="{% url 'note_create' %}?documentation" type="button" class="btn btn-light btn-sm copy-false" data-toggle="tooltip" data-placement="auto" title="Add cross-system documentation.">
             <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
             Add note
         </a>
 
-        <a href="{% url 'reportitem_create' %}?documentation" type="button" class="btn btn-light btn-sm copy-false">
+        <a href="{% url 'reportitem_create' %}?documentation" type="button" class="btn btn-light btn-sm copy-false" data-toggle="tooltip" data-placement="auto" title="Add system-based documentation.">
             <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
             Add reportitem
         </a>
@@ -289,7 +289,7 @@
             {% if note_list %}
                 <li class="nav-item">
                     <a  class="nav-link" href="#cross_system_documentation">
-                        Cross-based documentation
+                        Cross-system documentation
                     </a>
                 </li>
             {% endif %}
