@@ -212,6 +212,7 @@ class NoteViewTestCase(TestCase):
         destination = urllib.parse.quote('/note/' + str(note_add_post_test.note_id) + '/', safe='/')
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(note_add_post_test.note_version, 1)
 
     def test_note_add_post_invalid_reload(self):
         """ test add view """
@@ -316,10 +317,15 @@ class NoteViewTestCase(TestCase):
             note_created_by_user_id = test_user,
             note_modified_by_user_id = test_user,
         )
+        # get note version because it needs to be (hidden) part of the form
+        note_version = Note.objects.get(note_title='note_edit_post_test_1').note_version
+        # compare
+        self.assertEqual(note_1.note_version, 1)
         # create post data
         data_dict = {
-            'note_content': 'note_edit_post_test_2',
-            'note_title': 'lorem ipsum',
+            'note_title': 'note_edit_post_test_2',
+            'note_content': 'lorem ipsum',
+            'note_version': note_version,
             'notestatus': notestatus_1.notestatus_id,
         }
         # get response
@@ -328,6 +334,8 @@ class NoteViewTestCase(TestCase):
         destination = urllib.parse.quote('/note/' + str(note_1.note_id) + '/', safe='/')
         # get object
         note_edit_post_test_2 = Note.objects.get(note_title='note_edit_post_test_2')
+        # compare
+        self.assertEqual(note_edit_post_test_2.note_version, 2)
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
