@@ -34,47 +34,21 @@
 
     {% csrf_token %}
 
+    <!-- row save cancel -->
+    {% include "dfirtrack_main/includes/row_save_cancel.html" %}
+
     <!-- show form related errors -->
     {% include "dfirtrack_main/includes/form_errors.html" %}
 
     <!-- ############################################ -->
 
-    <!-- system name block -->
+    <!-- system, headline and subheadline block -->
     <div class="card card-body bg-dark border-light top-distance">
 
-        <!-- system name headline row -->
+        <!-- system / headline -->
         <div class="row">
-            <div class="col-3">
-                <h5>
-                    <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon right-distance copy-false" alt="icon">
-                    {{ form.system.label }}
-                </h5>
-            </div>
-        </div>
 
-        <!-- system name row -->
-        <div class="row">
-            <div class="col-3">
-                <div class="card card-body bg-dark border-light top-distance">
-                    <!-- system name errors -->
-                    <div class="text-danger">
-                        {{ form.system.errors }}
-                    </div>
-                    {{ form.system }}
-                </div>
-            </div>
-        </div>
-
-    <!-- system name block -->
-    </div>
-
-    <!-- ############################################ -->
-
-    <!-- headline and subheadline block -->
-    <div class="card card-body bg-dark border-light top-distance">
-
-        <!-- headline -->
-        <div class="row">
+            <!-- headline -->
             <div class="col-3">
                 <h5>
                     {{ form.headline.label }}
@@ -83,6 +57,23 @@
                     {{ form.headline }}
                 </div>
             </div>
+
+            <!-- system -->
+            <div class="col-3">
+                <h5>
+                    <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    {{ form.system.label }}
+                </h5>
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- system name errors -->
+                    <div class="text-danger">
+                        {{ form.system.errors }}
+                    </div>
+                    {{ form.system }}
+                </div>
+            </div>
+
+        <!-- system / headline -->
         </div>
 
         <!-- subheadline -->
@@ -97,7 +88,7 @@
             </div>
         </div>
 
-    <!-- headline and subheadline block -->
+    <!-- system, headline and subheadline block -->
     </div>
 
     <!-- ############################################ -->
@@ -225,21 +216,8 @@
 
     <!-- ############################################ -->
 
-    <!-- button row -->
-    <div class="row top-distance">
-
-        <!-- save button -->
-        <div class="col-1">
-            {% include "dfirtrack_main/includes/button_save.html" %}
-        </div>
-
-        <!-- cancel button -->
-        <div class="col-1">
-            {% include "dfirtrack_main/includes/button_cancel.html" %}
-        </div>
-
-    <!-- button row -->
-    </div>
+    <!-- row save cancel -->
+    {% include "dfirtrack_main/includes/row_save_cancel.html" %}
 
 <!-- form -->
 </form>

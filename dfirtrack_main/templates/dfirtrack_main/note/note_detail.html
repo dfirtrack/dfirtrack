@@ -44,6 +44,8 @@
 <!-- top buttons -->
 </div>
 
+<!-- ############################################ -->
+
 <!-- note title row -->
 <div class="row">
     <div class="col-3">
@@ -54,17 +56,17 @@
             </div>
         </h5>
     </div>
-    <div class="col-3">
-        Version: {{ note.note_version }}
-    </div>
 </div>
 
 <!-- note id row -->
 <div class="row top-distance bottom-distance">
-    <div class="col-3">
+    <div class="col-1">
         <small class="text-muted">
             Note-ID: {{ note.note_id }}
         </small>
+    </div>
+    <div class="col-5">
+        Version: {{ note.note_version }}
     </div>
 </div>
 
@@ -150,13 +152,25 @@
 
 <!-- ############################################ -->
 
-<!-- note content -->
+<!-- note content block -->
 <div class="card bg-dark border-light card-body top-distance">
-    <div class="col markdown-preview top-distance">
-        {{note.note_content|safe_markdown}}
+
+    <!-- note content headline -->
+    <div class="row">
+        <div class="col">
+            <h5>Note</h5>
+        </div>
     </div>
+
+    <!-- note content -->
+    <div class="row">
+        <div class="col markdown-preview top-distance">
+            {{note.note_content|safe_markdown}}
+        </div>
+    </div>
+
+<!-- note content block -->
 </div>
-<!-- note content -->
 
 <!-- TODO: switch to generic model attributes -->
 <!-- meta information -->
