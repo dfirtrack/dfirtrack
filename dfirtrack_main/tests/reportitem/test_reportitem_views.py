@@ -5,6 +5,8 @@ from dfirtrack_main.models import Notestatus
 from dfirtrack_main.models import Reportitem
 from dfirtrack_main.models import System
 from dfirtrack_main.models import Systemstatus
+from dfirtrack_main.models import Tag
+from dfirtrack_main.models import Tagcolor
 import urllib.parse
 
 
@@ -38,6 +40,11 @@ class ReportitemViewTestCase(TestCase):
             reportitem_created_by_user_id = test_user,
             reportitem_modified_by_user_id = test_user,
         )
+
+        # create object
+        tagcolor_1 = Tagcolor.objects.create(tagcolor_name='tagcolor_1')
+        # create object
+        Tag.objects.create(tag_name='tag_1', tagcolor = tagcolor_1)
 
     def test_reportitem_list_not_logged_in(self):
         """ test list view """
@@ -226,17 +233,46 @@ class ReportitemViewTestCase(TestCase):
         headline_id = Headline.objects.get(headline_name = 'headline_1').headline_id
         notestatus_id = Notestatus.objects.get(notestatus_name = 'notestatus_1').notestatus_id
         system_id = System.objects.get(system_name = 'system_1').system_id
+        tag_id = Tag.objects.get(tag_name = 'tag_1').tag_id
         # create post data
         data_dict = {
             'reportitem_note': 'reportitem_add_post_test',
             'headline': headline_id,
             'notestatus': notestatus_id,
             'system': system_id,
+            'tag': [tag_id, ],
         }
         # get response
         response = self.client.post('/reportitem/add/', data_dict)
         # create url
         destination = urllib.parse.quote('/system/' + str(system_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_reportitem_add_post_redirect_documentation(self):
+        """ test add view """
+
+        # login testuser
+        self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
+        # get objects
+        headline_id = Headline.objects.get(headline_name = 'headline_1').headline_id
+        notestatus_id = Notestatus.objects.get(notestatus_name = 'notestatus_1').notestatus_id
+        system_id = System.objects.get(system_name = 'system_1').system_id
+        tag_id = Tag.objects.get(tag_name = 'tag_1').tag_id
+        # create post data
+        data_dict = {
+            'reportitem_note': 'reportitem_add_post_test_documentation',
+            'headline': headline_id,
+            'notestatus': notestatus_id,
+            'system': system_id,
+            'tag': [tag_id, ],
+        }
+        # get response
+        response = self.client.post('/reportitem/add/?documentation', data_dict)
+        # get object
+        reportitem_id = Reportitem.objects.get(reportitem_note='reportitem_add_post_test_documentation').reportitem_id
+        # create url
+        destination = urllib.parse.quote(f'/documentation/#reportitem_id_{str(reportitem_id)}', safe='#/')
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
@@ -337,6 +373,7 @@ class ReportitemViewTestCase(TestCase):
         headline_1 = Headline.objects.get(headline_name = 'headline_1')
         notestatus_1 = Notestatus.objects.get(notestatus_name = 'notestatus_1')
         system_1 = System.objects.get(system_name = 'system_1')
+        tag_id = Tag.objects.get(tag_name = 'tag_1').tag_id
         # create object
         reportitem_1 = Reportitem.objects.create(
             reportitem_note = 'reportitem_edit_post_test_1',
@@ -352,11 +389,50 @@ class ReportitemViewTestCase(TestCase):
             'headline': headline_1.headline_id,
             'notestatus': notestatus_1.notestatus_id,
             'system': system_1.system_id,
+            'tag': [tag_id, ],
         }
         # get response
         response = self.client.post('/reportitem/' + str(reportitem_1.reportitem_id) + '/edit/', data_dict)
         # create url
         destination = urllib.parse.quote('/system/' + str(system_1.system_id) + '/', safe='/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_reportitem_edit_post_redirect_documentation(self):
+        """ test edit view """
+
+        # login testuser
+        self.client.login(username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS')
+        # get user
+        test_user = User.objects.get(username='testuser_reportitem')
+        # get objects
+        headline_1 = Headline.objects.get(headline_name = 'headline_1')
+        notestatus_1 = Notestatus.objects.get(notestatus_name = 'notestatus_1')
+        system_1 = System.objects.get(system_name = 'system_1')
+        tag_id = Tag.objects.get(tag_name = 'tag_1').tag_id
+        # create object
+        reportitem_1 = Reportitem.objects.create(
+            reportitem_note = 'reportitem_edit_post_test_1_documentation',
+            headline = headline_1,
+            notestatus = notestatus_1,
+            system = system_1,
+            reportitem_created_by_user_id = test_user,
+            reportitem_modified_by_user_id = test_user,
+        )
+        # create post data
+        data_dict = {
+            'reportitem_note': 'reportitem_edit_post_test_2_documentation',
+            'headline': headline_1.headline_id,
+            'notestatus': notestatus_1.notestatus_id,
+            'system': system_1.system_id,
+            'tag': [tag_id, ],
+        }
+        # get response
+        response = self.client.post('/reportitem/' + str(reportitem_1.reportitem_id) + '/edit/?documentation', data_dict)
+        # get object
+        reportitem_id = Reportitem.objects.get(reportitem_note='reportitem_edit_post_test_2_documentation').reportitem_id
+        # create url
+        destination = urllib.parse.quote(f'/documentation/#reportitem_id_{str(reportitem_id)}', safe='#/')
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
