@@ -1,0 +1,48 @@
+<!-- table body for datatable note -->
+
+{% load static %}
+
+<!-- table row -->
+<!-- (just one row, iterating over rows is done outside of this include file) -->
+<tr>
+
+    <!-- note id headline -->
+    <td>{{ i.note_id }}</td>
+
+    <!-- note title headline -->
+    <td>
+        <a href="{{ i.get_absolute_url }}">
+            {{ i.note_title }}
+        </a>
+    </td>
+
+    <!-- note version headline -->
+    <td>{{ i.note_version }}</td>
+
+    <!-- notestatus headline -->
+    <td>
+        <a href="{{ i.notestatus.get_absolute_url }}">
+            {{ i.notestatus }}
+        </a>
+    </td>
+
+    <!-- case headline -->
+    <td>
+        {% if i.case %}
+            <a href="{{ i.case.get_absolute_url }}" type="button" class="btn btn-primary btn-sm bottom-left top-right top-distance copy-true">
+                <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                {{ i.case.case_name }}
+            </a>
+        {% else %}
+            ---
+        {% endif %}
+    </td>
+
+    <!-- note create time -->
+    <td>{{ i.note_create_time|date:"Y-m-d H:i" }}</td>
+
+    <!-- note modify time -->
+    <td>{{ i.note_modify_time|date:"Y-m-d H:i" }}</td>
+
+<!-- table row -->
+</tr>

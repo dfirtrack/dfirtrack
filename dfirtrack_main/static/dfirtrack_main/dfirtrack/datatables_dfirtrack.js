@@ -85,7 +85,7 @@ $(document).ready( function () {
         "order": [[ 1, "asc" ]]
     } );
     $('#table_notes').DataTable( {
-        "pageLength": 30,
+        "pageLength": 25,
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         "order": [[ 0, "asc" ]]
     } );
