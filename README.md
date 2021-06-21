@@ -1,7 +1,15 @@
-# DFIRTrack
+<div>
+    <p align="center">
+        <img src="dfirtrack_main/static/dfirtrack_main/img/dfirtrack_logo.png" width="600">
+    </p>
+</div>
 
-![Django Tests](https://github.com/stuhli/dfirtrack/workflows/Django%20Tests/badge.svg?branch=master)
-[![codecov](https://codecov.io/gh/dfirtrack/dfirtrack/branch/master/graph/badge.svg)](https://codecov.io/gh/dfirtrack/dfirtrack)
+<div>
+    <p align="center">
+        <a href><img src="https://github.com/stuhli/dfirtrack/workflows/Django%20Tests/badge.svg?branch=master" alt="Test badge"></a>
+        <a href="https://codecov.io/gh/dfirtrack/dfirtrack" target="_blank"><img src="https://codecov.io/gh/dfirtrack/dfirtrack/branch/master/graph/badge.svg" alt="Codecov coverage"></a>
+    </p>
+</div>
 
 DFIRTrack (Digital Forensics and Incident Response Tracking application) is an open source web application mainly based on [Django](https://www.djangoproject.com/) using a [PostgreSQL](https://www.postgresql.org/) database back end.
 
@@ -19,6 +27,7 @@ The main entities for incident tracking are:
 * tasks
 * cases
 * tags
+* notes and reportitems
 
 ![Systems list view](screenshots/systems_list.png)
 
