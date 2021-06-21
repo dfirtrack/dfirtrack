@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from dfirtrack_main.models import Note
 from dfirtrack_main.models import Notestatus
+from dfirtrack_main.models import Case
 
 
 class NoteModelTestCase(TestCase):
@@ -15,6 +16,13 @@ class NoteModelTestCase(TestCase):
 
         # create object
         notestatus_1 = Notestatus.objects.create(notestatus_name='notestatus_1')
+
+        #creat objects
+        Case.objects.create(
+            case_name='case_1',
+            case_is_incident=True,
+            case_created_by_user_id=test_user,
+        )
 
         # create object
         Note.objects.create(
@@ -162,3 +170,31 @@ class NoteModelTestCase(TestCase):
         max_length = note_1._meta.get_field('note_title').max_length
         # compare
         self.assertEqual(max_length, 250)
+
+    def test_note_save_version(self):
+        """ test version inc of save """
+        
+        # get object
+        note_1 = Note.objects.get(note_title='note_1')      
+        # get current version
+        current_version = note_1.note_version
+        # save note object
+        note_1.save()
+        self.assertEqual(current_version+1, note_1.note_version)
+
+    def test_note_save_abandoned(self):
+        """ test version inc of save """
+        
+        # get object
+        note_1 = Note.objects.get(note_title='note_1')      
+        case_1 = Case.objects.get(case_name='case_1')
+
+        # check
+        self.assertTrue(note_1.note_is_abandoned)
+
+        # set case and save note
+        note_1.case = case_1
+        note_1.save()
+        
+        # check
+        self.assertFalse(note_1.note_is_abandoned)

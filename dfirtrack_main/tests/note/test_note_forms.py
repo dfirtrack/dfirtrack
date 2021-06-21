@@ -183,56 +183,51 @@ class NoteFormTestCase(TestCase):
         # compare
         self.assertFalse(form.is_valid())
 
-#    def test_note_version_error(self):
-#        """ test custom field validation """
-#
-#        # login testuser
-#        self.client.login(username='testuser_note', password='i6mefWrT8pAMwzZj8VCf')
-#        # get user
-#        test_user = User.objects.get(username='testuser_note')
-#        # get object
-#        notestatus_1 = Notestatus.objects.get(notestatus_name='notestatus_1')
-#        # create object
-#        note_version_error = Note.objects.create(
-#            note_title = 'note_version_error',
-#            note_content = 'lorem ipsum',
-#            notestatus = notestatus_1,
-#            note_created_by_user_id = test_user,
-#            note_modified_by_user_id = test_user,
-#        )
-#
-#        # get id and version of previously created note at this time
-#        #note_id = note_version_error.note_id
-#        note_version = Note.objects.get(note_title='note_version_error').note_version
-#
-#        # compare
-#        self.assertEqual(note_version_error.note_version, 1)
-#
-#        import pudb; pudb.set_trace()
-#
-#        # create post data with current version
-#        data_dict = {
-#            'note_title': 'note_version_error',
-#            'note_content': 'lorem ipsum updated via post',
-#            'note_version': note_version,
-#            'notestatus': notestatus_1.notestatus_id,
-#        }
-#        # a competing user post request with the same version precedes the form
-#        self.client.post('/note/' + str(note_version_error.note_id) + '/edit/', data_dict)
-#
-#        note_version_error.refresh_from_db()
-#
-#        # create form data with meanwhile outdated version (id is required because of NoteForm.fields
-#        form = NoteForm(
-#            data = {
-#                #'note_id': note_id,
-#                'note_title': 'note_version_error',
-#                'note_content': 'lorem impsum updated via form',
-#                #'note_version': note_version,
-#                'notestatus': notestatus_1.notestatus_id,
-#            },
-#            instance = note_version_error,
-#        )
-#        # compare
-#        self.assertTrue(form.is_valid())
-#        self.assertEqual(form.errors['note_version'], ['bar'])
+    def test_note_version_error(self):
+        """ test custom field validation """
+
+        # login testuser
+        self.client.login(username='testuser_note', password='i6mefWrT8pAMwzZj8VCf')
+        # get user
+        test_user = User.objects.get(username='testuser_note')
+        # get object
+        notestatus_1 = Notestatus.objects.get(notestatus_name='notestatus_1')
+        # create object
+        note_version_error = Note.objects.create(
+            note_title = 'note_version_error',
+            note_content = 'lorem ipsum',
+            notestatus = notestatus_1,
+            note_created_by_user_id = test_user,
+            note_modified_by_user_id = test_user,
+        )
+
+        # get current note version
+        note_version = Note.objects.get(note_title='note_version_error').note_version
+
+        # create post data with current version
+        data_dict = {
+            'note_id': note_version_error.note_id,
+            'note_title': 'note_version_error',
+            'note_content': 'lorem ipsum updated via post',
+            'note_version': note_version,
+            'notestatus': notestatus_1.notestatus_id,
+        }
+        # a competing user post request with the same version precedes the form
+        self.client.post('/note/' + str(note_version_error.note_id) + '/edit/', data_dict)
+
+        note_version_error.refresh_from_db()
+
+        # create form data with meanwhile outdated version (id is required because of NoteForm.fields)
+        form = NoteForm(
+            data = {
+                'note_id': note_version_error.note_id,
+                'note_title': 'note_version_error',
+                'note_content': 'lorem impsum updated via form',
+                'note_version': note_version,
+                'notestatus': notestatus_1.notestatus_id,
+            },
+            instance=note_version_error
+        )
+        # compare
+        self.assertFalse(form.is_valid())
+        self.assertInHTML("There is a newer version of this note.", str(form.errors))

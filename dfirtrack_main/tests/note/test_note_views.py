@@ -367,3 +367,49 @@ class NoteViewTestCase(TestCase):
         response = self.client.post('/note/' + str(note_id) + '/edit/', data_dict)
         # compare
         self.assertTemplateUsed(response, 'dfirtrack_main/note/note_generic_form.html')
+
+    def test_note_edit_documentation_redirect(self):
+        """ test note edit documentation redirect """
+
+        # login testuser
+        self.client.login(username='testuser_note', password='oh8Szsuk8BpbEJ1RRL21')
+        # get object
+        note_1 = Note.objects.get(note_title='note_1')
+        notestatus_1 = Notestatus.objects.get(notestatus_name='notestatus_1')
+        # create post data
+        data_dict = data_dict = {
+            'note_title': note_1.note_title,
+            'note_content': 'lorem ipsum',
+            'note_version': note_1.note_version,
+            'notestatus': notestatus_1.notestatus_id,
+        }
+        # get response
+        response = self.client.post('/note/' + str(note_1.note_id) + '/edit/?documentation', data_dict)
+        # create url
+        destination = urllib.parse.quote(f'/documentation/#note_id_{note_1.note_id}', safe='/#') 
+
+        #check
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_note_add_documentation_redirect(self):
+        """ test note add documentation redirect """
+
+        # login testuser
+        self.client.login(username='testuser_note', password='oh8Szsuk8BpbEJ1RRL21')
+        # get object
+        notestatus_1 = Notestatus.objects.get(notestatus_name='notestatus_1')
+        # create post data
+        data_dict = data_dict = {
+            'note_title': "test add note redirect",
+            'note_content': 'lorem ipsum',
+            'notestatus': notestatus_1.notestatus_id,
+        }
+        # get response
+        response = self.client.post('/note/add/?documentation', data_dict)
+        # get latest note
+        new_note = Note.objects.latest('note_create_time')
+        # create url
+        destination = urllib.parse.quote(f'/documentation/#note_id_{new_note.note_id}', safe='/#') 
+
+        #check
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)

@@ -71,23 +71,6 @@ class NoteCreate(LoginRequiredMixin, CreateView):
                 'title': 'Add',
             })
 
-class NoteDelete(LoginRequiredMixin, DeleteView):
-    login_url = '/login'
-    model = Note
-    template_name = 'dfirtrack_main/note/note_delete.html'
-
-    def get(self, request, *args, **kwargs):
-        Note = self.get_object()
-        Note.logger(str(request.user), " NOTE_DELETE_ENTERED")
-        return render(request, self.template_name, {'Note': Note})
-
-    def post(self, request, *args, **kwargs):
-        Note = self.get_object()
-        Note.logger(str(request.user), " NOTE_DELETE_EXECUTED")
-        Note.delete()
-        messages.success(request, 'Note deleted')
-        return redirect(reverse('note_list'))
-
 class NoteUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Note
