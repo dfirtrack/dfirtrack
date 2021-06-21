@@ -1,0 +1,15 @@
+{% load static %}
+{% block js %}
+    {% if editor %}
+        <script src="/static/plugins/js/bootstrap.min.js"></script>
+        <script src="/static/plugins/js/ace.js"></script>
+        <script src="/static/plugins/js/mode-markdown.js"></script>
+        <script src="/static/plugins/js/theme-github.js"></script>
+        <script src="/static/plugins/js/highlight.min.js"></script>
+        <script src="/static/plugins/js/resizable.min.js"></script>
+        <script src="/static/plugins/js/emojis.min.js"></script>
+        <script src="/static/martor/js/martor.bootstrap.min.js"></script>
+    {% else %}
+        <script type="text/javascript" src="{% static 'plugins/js/highlight.min.js' %}"></script>
+    {% endif %}
+{% endblock %}

@@ -11,12 +11,15 @@ from dfirtrack_main.views import company_views
 from dfirtrack_main.views import contact_views
 from dfirtrack_main.views import division_views
 from dfirtrack_main.views import dnsname_views
+from dfirtrack_main.views import documentation_views
 from dfirtrack_main.views import domain_views
 from dfirtrack_main.views import domainuser_views
 from dfirtrack_main.views import entry_views
 from dfirtrack_main.views import headline_views
 from dfirtrack_main.views import ip_views
 from dfirtrack_main.views import location_views
+from dfirtrack_main.views import note_views
+from dfirtrack_main.views import notestatus_views
 from dfirtrack_main.views import os_views
 from dfirtrack_main.views import osimportname_views
 from dfirtrack_main.views import reason_views
@@ -92,6 +95,8 @@ urlpatterns = [
     path(r'dnsname/add_popup/', dnsname_views.DnsnameCreatePopup.as_view(), name='dnsname_add_popup'),
     path(r'dnsname/<int:pk>/edit/', dnsname_views.DnsnameUpdate.as_view(), name='dnsname_update'),
 
+    path(r'documentation/', documentation_views.DocumentationList.as_view(), name='documentation_list'),
+
     path(r'domain/', domain_views.DomainList.as_view(), name='domain_list'),
     path(r'domain/<int:pk>/', domain_views.DomainDetail.as_view(), name='domain_detail'),
     path(r'domain/add/', domain_views.DomainCreate.as_view(), name='domain_create'),
@@ -121,6 +126,14 @@ urlpatterns = [
     path(r'location/add/', location_views.LocationCreate.as_view(), name='location_create'),
     path(r'location/add_popup/', location_views.LocationCreatePopup.as_view(), name='location_add_popup'),
     path(r'location/<int:pk>/edit/', location_views.LocationUpdate.as_view(), name='location_update'),
+
+    path(r'note/', note_views.NoteList.as_view(), name='note_list'),
+    path(r'note/<int:pk>/', note_views.NoteDetail.as_view(), name='note_detail'),
+    path(r'note/add/', note_views.NoteCreate.as_view(), name='note_create'),
+    path(r'note/<int:pk>/edit/', note_views.NoteUpdate.as_view(), name='note_update'),
+
+    path(r'notestatus/', notestatus_views.NotestatusList.as_view(), name='notestatus_list'),
+    path(r'notestatus/<int:pk>/', notestatus_views.NotestatusDetail.as_view(), name='notestatus_detail'),
 
     path(r'os/', os_views.OsList.as_view(), name='os_list'),
     path(r'os/<int:pk>/', os_views.OsDetail.as_view(), name='os_detail'),

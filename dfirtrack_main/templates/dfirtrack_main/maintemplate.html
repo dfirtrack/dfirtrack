@@ -115,7 +115,7 @@
     <div class="row">
 
         <!-- nav bar column -->
-        <div class="col-2 copy-false">
+        <div id="dfirtrack-navbar" class="col-2 copy-false">
 
             <!-- nav bar -->
             <ul class="nav flex-column nav-pills">
@@ -292,9 +292,48 @@
 
                 <!-- nav bar item -->
                 <li class="nav-item">
+                    <div data-toggle="tooltip" data-placement="auto" title="Cross-system documentation. For system-based documentation use reportitems instead.">
+                        <a class="nav-link active top-distance" href="{% url 'note_list' %}">
+                            <img src="{% static 'dfirtrack_main/icons/paperclip-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                            Notes
+                        </a>
+                    </div>
+                </li>
+
+                <!-- nav bar dropdown item -->
+                <li class="nav-item dropdown">
+
+                    <!-- nav bar dropdown toggle -->
+                    <a id="dropDownNoteItems" class="nav-link dropdown-toggle active top-distance nav-left-distance" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                        Noteitems
+                    </a>
+
+                    <!-- nav bar dropdown menu -->
+                    <div class="dropdown-menu" aria-labelledby="dropDownNoteItems">
+
+                        <!-- section -->
+                        <div class="dropdown-header">Note information</div>
+                        <a class="dropdown-item" href="{% url 'notestatus_list' %}">Notestatus</a>
+
+                    <!-- nav bar dropdown menu -->
+                    </div>
+
+                <!-- nav bar dropdown item -->
+                </li>
+
+                <!-- nav bar item -->
+                <li class="nav-item">
                     <a class="nav-link active top-distance" href="{% url 'tag_list' %}">
                         <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                         Tags
+                    </a>
+                </li>
+
+                <!-- nav bar item -->
+                <li class="nav-item">
+                    <a class="nav-link active top-distance" href="{% url 'documentation_list' %}" style="background-color: white; color: black;">
+                        <img src="{% static 'dfirtrack_main/icons/document.svg' %}" class="icon right-distance copy-false" alt="icon">
+                        Documentation
                     </a>
                 </li>
 

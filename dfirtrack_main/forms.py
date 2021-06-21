@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy
+from django.core.exceptions import ValidationError
 from dfirtrack_artifacts.models import Artifact
 from dfirtrack_main.models import Analysisstatus
 from dfirtrack_main.models import Analystmemo
@@ -18,6 +19,8 @@ from dfirtrack_main.models import Domainuser
 from dfirtrack_main.models import Entry
 from dfirtrack_main.models import Headline
 from dfirtrack_main.models import Location
+from dfirtrack_main.models import Note
+from dfirtrack_main.models import Notestatus
 from dfirtrack_main.models import Os
 from dfirtrack_main.models import Osarch
 from dfirtrack_main.models import Osimportname
@@ -35,6 +38,10 @@ from dfirtrack_main.models import Task
 from dfirtrack_main.models import Taskname
 from dfirtrack_main.models import Taskpriority
 from dfirtrack_main.models import Taskstatus
+
+from dfirtrack_main.widgets import TagWidget
+
+from martor.fields import MartorFormField
 
 
 class AdminStyleSelectorForm(forms.ModelForm):
@@ -106,9 +113,9 @@ class CaseForm(forms.ModelForm):
     # reorder field choices
     tag = forms.ModelMultipleChoiceField(
         label = gettext_lazy('Tags'),
-        queryset = Tag.objects.order_by('tag_name'),
-        required = False,
-        widget=forms.CheckboxSelectMultiple(),
+        widget=TagWidget,
+        queryset=Tag.objects.order_by('tag_name'),
+        required=False,
     )
 
     class Meta:
@@ -492,6 +499,87 @@ class LocationForm(forms.ModelForm):
             'location_name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
         }
 
+class NoteForm(forms.ModelForm):
+    """ default model form """
+
+    # make hidden version field to make custom field validation work
+    note_version = forms.CharField(
+        widget=forms.HiddenInput,
+        required=False,
+    )
+
+    # make hidden id field to make custom field validation work
+    note_id = forms.CharField(
+        widget=forms.HiddenInput,
+        required=False,
+    )
+
+    # markdown field
+    note_content = MartorFormField(
+        label = gettext_lazy('Note (*)'),
+    )
+
+    # reorder field choices
+    case = forms.ModelChoiceField(
+        label = gettext_lazy('Corresponding case'),
+        queryset = Case.objects.order_by('case_name'),
+        required = False,
+        empty_label = 'Select case (optional)',
+    )
+
+    # reorder field choices
+    notestatus = forms.ModelChoiceField(
+        queryset = Notestatus.objects.order_by('notestatus_name'),
+        label = 'Notestatus (*)',
+        required = True,
+        widget = forms.RadioSelect(),
+    )
+
+    # reorder field choices
+    tag = forms.ModelMultipleChoiceField(
+        label = gettext_lazy('Tags'),
+        widget=TagWidget,
+        queryset=Tag.objects.order_by('tag_name'),
+        required=False,
+    )
+
+    def clean_note_version(self):
+        """ custom field validation to prevent accidental overwriting between analysts """
+
+        note_version = self.cleaned_data['note_version']
+        if note_version != '':
+            note_id = self.initial['note_id']
+            current_version = Note.objects.get(note_id=note_id)
+            if int(note_version)+1 <= current_version.note_version:
+                raise ValidationError('There is a newer version of this note.')
+        return note_version
+
+    class Meta:
+
+        # model
+        model = Note
+
+        # this HTML forms are shown
+        fields = (
+            'note_id',
+            'note_title',
+            'note_content',
+            'tag',
+            'case',
+            'note_version',
+            'notestatus',
+        )
+
+        # non default form labeling
+        labels = {
+            'note_title': gettext_lazy('Note title (*)'),
+        }
+
+        # special form type or option
+        widgets = {
+            'note_title': forms.TextInput(attrs={'autofocus': 'autofocus'}),
+        }
+
 class OsForm(forms.ModelForm):
     """ default model form """
 
@@ -600,10 +688,30 @@ class ReportitemForm(forms.ModelForm):
     """ default model form """
 
     # reorder field choices
+    case = forms.ModelChoiceField(
+        label = gettext_lazy('Corresponding case'),
+        queryset = Case.objects.order_by('case_name'),
+        required = False,
+        empty_label = 'Select case (optional)',
+    )
+
+    # reorder field choices
     headline = forms.ModelChoiceField(
         label = gettext_lazy('Headline (*)'),
         empty_label = 'Select headline',
         queryset = Headline.objects.order_by('headline_name'),
+    )
+
+    reportitem_note = MartorFormField(
+        label = gettext_lazy('Note (*)'),
+    )
+
+    # reorder field choices
+    notestatus = forms.ModelChoiceField(
+        queryset = Notestatus.objects.order_by('notestatus_name'),
+        label = 'Notestatus (*)',
+        required = True,
+        widget = forms.RadioSelect(),
     )
 
     # reorder field choices
@@ -613,6 +721,14 @@ class ReportitemForm(forms.ModelForm):
         queryset = System.objects.order_by('system_name'),
     )
 
+    # reorder field choices
+    tag = forms.ModelMultipleChoiceField(
+        label = gettext_lazy('Tags'),
+        widget=TagWidget,
+        queryset=Tag.objects.order_by('tag_name'),
+        required=False,
+    )
+
     class Meta:
 
         # model
@@ -620,8 +736,11 @@ class ReportitemForm(forms.ModelForm):
 
         # this HTML forms are shown
         fields = (
-            'system',
+            'case',
             'headline',
+            'notestatus',
+            'system',
+            'tag',
             'reportitem_subheadline',
             'reportitem_note',
         )
@@ -629,7 +748,6 @@ class ReportitemForm(forms.ModelForm):
         # non default form labeling
         labels = {
             'reportitem_subheadline': gettext_lazy('Subheadline'),
-            'reportitem_note': gettext_lazy('Note (*)'),
         }
 
         # special form type or option
@@ -695,9 +813,9 @@ class SystemBaseForm(forms.ModelForm):
     # reorder field choices
     tag = forms.ModelMultipleChoiceField(
         label = gettext_lazy('Tags'),
-        queryset = Tag.objects.order_by('tag_name'),
-        required = False,
-        widget=forms.CheckboxSelectMultiple(),
+        widget=TagWidget,
+        queryset=Tag.objects.order_by('tag_name'),
+        required=False,
     )
 
     class Meta:
@@ -1113,13 +1231,14 @@ class TagForm(forms.ModelForm):
 class TagCreatorForm(forms.Form):
     """ tag creator form """
 
-    # show all existing tag objects as multiple choice field
+    # show all existing tag objects as tag widget
     tag = forms.ModelMultipleChoiceField(
-        queryset = Tag.objects.order_by('tag_name'),
-        widget = forms.CheckboxSelectMultiple(),
-        label = 'Tags (*)',
-        required = True,
+        label = gettext_lazy('Tags (*)'),
+        widget=TagWidget,
+        queryset=Tag.objects.order_by('tag_name'),
+        required=True,
     )
+
 
     # show all existing system objects as multiple choice field
     system = forms.ModelMultipleChoiceField(
@@ -1135,9 +1254,9 @@ class TaskBaseForm(forms.ModelForm):
     # reorder field choices
     tag = forms.ModelMultipleChoiceField(
         label = gettext_lazy('Tags'),
-        queryset = Tag.objects.order_by('tag_name'),
-        required = False,
-        widget=forms.CheckboxSelectMultiple(),
+        widget=TagWidget,
+        queryset=Tag.objects.order_by('tag_name'),
+        required=False,
     )
 
     # reorder field choices

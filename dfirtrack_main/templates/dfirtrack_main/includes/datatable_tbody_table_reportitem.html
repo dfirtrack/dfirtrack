@@ -1,0 +1,56 @@
+<!-- table body for datatable reportitem -->
+
+{% load static %}
+
+<!-- table row -->
+<!-- (just one row, iterating over rows is done outside of this include file) -->
+<tr>
+
+    <!-- reportitem id -->
+    <td>
+        {{ i.reportitem_id }}
+    </td>
+
+    <!-- reportitem headline -->
+    <td>
+        <a href="{{ i.get_absolute_url }}">
+            {{ i.headline }}
+        </a>
+    </td>
+
+    <!-- reportitem subheadline -->
+    <td>
+        {% if i.reportitem_subheadline %}
+            {{ i.reportitem_subheadline }}
+        {% else %}
+            ---
+        {% endif %}
+    </td>
+
+    <!-- notestatus -->
+    <td>
+        <a href="{{ i.notestatus.get_absolute_url }}">
+            {{ i.notestatus }}
+        </a>
+    </td>
+
+    <!-- system -->
+    <td>
+        <a href="{{ i.system.get_absolute_url }}" type="button" class="btn btn-primary btn-sm top-distance copy-true">
+            <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+            {{ i.system.system_name }}
+        </a>
+    </td>
+
+    <!-- reportitem create time -->
+    <td>
+        {{ i.reportitem_create_time|date:"Y-m-d H:i" }}
+    </td>
+
+    <!-- reportitem modify time -->
+    <td>
+        {{ i.reportitem_modify_time|date:"Y-m-d H:i" }}
+    </td>
+
+<!-- table row -->
+</tr>

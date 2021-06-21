@@ -1,6 +1,6 @@
 from django import template
 from git import Repo, GitCommandError
-from os import environ, getcwd
+from os import getcwd
 
 register = template.Library()
 

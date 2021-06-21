@@ -15,9 +15,18 @@ $(document).ready( function () {
         "order": [[ 3, "asc" ]]
     } );
     $('#table_reportitem').DataTable( {
-        "pageLength": 15,
+        "pageLength": 25,
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-        "order": [[ 5, "desc" ]]
+        "order": [[ 5, "desc" ]],
+        "columnDefs": [
+            { "width": "3%", "targets": 0 },
+            { "width": "17%", "targets": 1 },
+            { "width": "10%", "targets": 2 },
+            { "width": "10%", "targets": 3 },
+            { "width": "10%", "targets": 4 },
+            { "width": "20%", "targets": 5 },
+            { "width": "10%", "targets": 6 },
+        ]
     } );
     $('#table_system').DataTable( {
         "pageLength": 25,
@@ -83,5 +92,19 @@ $(document).ready( function () {
         "pageLength": 30,
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         "order": [[ 1, "asc" ]]
+    } );
+    $('#table_note').DataTable( {
+        "pageLength": 25,
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        "order": [[ 0, "asc" ]],
+        "columnDefs": [
+            { "width": "3%", "targets": 0 },
+            { "width": "17%", "targets": 1 },
+            { "width": "10%", "targets": 2 },
+            { "width": "10%", "targets": 3 },
+            { "width": "10%", "targets": 4 },
+            { "width": "20%", "targets": 5 },
+            { "width": "10%", "targets": 6 },
+        ]
     } );
 } );

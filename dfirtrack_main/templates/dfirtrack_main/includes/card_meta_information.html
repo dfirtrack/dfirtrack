@@ -1,0 +1,46 @@
+{% load static %}
+
+<!-- TODO: switch to generic model attributes -->
+
+<!-- meta information -->
+<div class="card bg-dark border-secondary card-body bottom-distance top-distance">
+
+    <!-- meta information headline -->
+    <div class="row text-muted">
+        <div class="col">
+            <h5>Meta information</h5>
+        </div>
+    </div>
+
+    <!-- meta information row -->
+    <div class="row text-muted">
+
+        <!-- model create time -->
+        <div class="col-3">
+            <div class="font-weight-bold">Created:</div>
+            {{ create_time|date:"Y-m-d H:i" }}
+        </div>
+
+        <!-- user creating model -->
+        <div class="col-3">
+            <div class="font-weight-bold">Created by:</div>
+            {{ created_by_user_id }}
+        </div>
+
+        <!-- model modify time -->
+        <div class="col-3">
+            <div class="font-weight-bold">Last modified:</div>
+            {{ modify_time|date:"Y-m-d H:i" }}
+        </div>
+
+        <!-- user modifying model -->
+        <div class="col-3">
+            <div class="font-weight-bold">Modified by:</div>
+            {{ modified_by_user_id }}
+        </div>
+
+    <!-- meta information row -->
+    </div>
+
+<!-- meta information -->
+</div>

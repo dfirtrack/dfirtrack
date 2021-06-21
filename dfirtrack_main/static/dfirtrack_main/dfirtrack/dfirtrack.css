@@ -3,6 +3,12 @@
     margin-bottom: 10px;
 }
 
+/* font color */ 
+
+.martor-preview {
+    color: black;
+}
+
 /* icon sizes */
 
 .icon {
@@ -173,6 +179,37 @@ a:hover {
     color: White;
 }
 
+/* sticky navbar */
+
+.toc {
+    position: sticky;
+    top: 10px;
+    right: 0;
+    height: 100%;
+    overflow-y: auto;
+}
+
+#dfirtrack-navbar {
+    position: sticky;
+    top: 10px;
+    left: 0;
+    height: 100%;
+    overflow-y: auto;
+}
+
+#tableOfContents a {
+    color: White;
+    text-decoration: none;
+}
+
+#tableOfContents a:hover {
+    color: White;
+    text-decoration: none;
+}
+
+#tableOfContents .nav-link {
+    padding: .1rem 0rem;
+}
 
 /* go to top of page button */
 
@@ -192,4 +229,10 @@ a:hover {
 
 .selector {
     width: 100% !important;
+}
+
+/* datatabel height */
+
+.dataTable tr {
+    height: 43px;
 }

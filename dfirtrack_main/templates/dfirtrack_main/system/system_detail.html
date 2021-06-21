@@ -14,11 +14,17 @@
 
 <!-- static files -->
 {% load static %}
+{% load martortags %}
+
 
 <!-- CSS for datatables -->
 <link rel="stylesheet" type="text/css" href="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.css' %}"/>
 <!-- javascript for datatables -->
 <script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.js' %}"></script>
+
+<!-- martor -->
+{% include "dfirtrack_main/includes/martor_css.html" %}    
+
 
 <!-- HTML head in maintemplate -->
 {% endblock %}
@@ -1249,10 +1255,10 @@
                     </div>
 
                     <!-- single reportitem collapse -->
-                    <div id="reportitem_{{ i.reportitem_id }}" class="collapse">
+                    <div id="reportitem_{{ i.reportitem_id }}" class="collapse markdown-preview">
 
                         <!-- reportitem note with linebreaks -->
-                        {{ i.reportitem_note|linebreaks }}
+                        {{ i.reportitem_note|safe_markdown }}
 
                         <!-- reportitem edit button -->
                         <a href="{{ i.get_update_url }}" type="button" class="btn btn-light btn-sm top-distance copy-false">
@@ -1371,6 +1377,9 @@
 {% block datatables %}
 <script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.js' %}"></script>
 {% endblock %}
+
+<!-- martor -->
+{% include "dfirtrack_main/includes/martor_javascript.html" %}
 
 <!-- HTML body in maintemplate -->
 {% endblock %}

@@ -1,0 +1,238 @@
+<!-- extending maintemplate -->
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+<!-- HTML head in maintemplate -->
+{% block head %}
+
+<title>
+    {{title}} note
+</title>
+
+{% load static %}
+
+<!-- martor -->
+{% include "dfirtrack_main/includes/martor_css.html" with editor="true" %}
+
+<!-- HTML head in maintemplate -->
+{% endblock %}
+
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
+{% block content %}
+
+<!-- headline -->
+<div class="bottom-distance">
+    <h4>
+        {{title}} note
+    </h4>
+</div>
+
+<!-- form -->
+<form method="POST" class="post-form">
+
+    <!-- hidden form fields are required for custom field validation -->
+    {{ form.note_version }}
+    {{ form.note_id }}
+
+    <!-- button row -->
+    <div class="row top-distance">
+
+        <!-- save button -->
+        <div class="col-1">
+            {% include "dfirtrack_main/includes/button_save.html" %}
+        </div>
+
+        <!-- cancel button -->
+        <div class="col-1">
+            {% include "dfirtrack_main/includes/button_cancel.html" %}
+        </div>
+
+    <!-- button row -->
+    </div>
+
+    {% csrf_token %}
+
+    <!-- show form related errors -->
+    {% include "dfirtrack_main/includes/form_errors.html" %}
+
+    <!-- ############################################ -->
+
+    <!-- note_title block -->
+    <div class="card card-body bg-dark border-light top-distance">
+
+        <!-- note_title headline -->
+        <div class="row">
+            <div class="col-3">
+                <h5>
+                    <img src="{% static 'dfirtrack_main/icons/paperclip-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    {{ form.note_title.label }}
+                </h5>
+            </div>
+            <div class="col-3">
+                {% if note %}
+                    Version you are editing: {{ note.note_version }}
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- note_title -->
+        <div class="row">
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    {{ form.note_title }}
+                </div>
+            </div>
+        </div>
+
+    <!-- note_title block -->
+    </div>
+
+    <!-- ############################################ -->
+
+    <!-- tag / case block -->
+    <div class="card card-body bg-dark border-light top-distance">
+
+        <!-- tag / case  headline -->
+        <div class="row">
+
+            <!-- tags headline -->
+            <div class="col-6">
+                <h5>
+                    <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    {{ form.tag.label }}
+                </h5>
+            </div>
+
+            <!-- case headline -->
+            <div class="col-3">
+                <h5>
+                    <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    {{ form.case.label }}
+                </h5>
+            </div>
+
+        <!-- tag / case  headline -->
+        </div>
+
+        <!-- tag / case -->
+        <div class="row">
+
+            <!-- tags -->
+            <div class="col-6">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <div class="text-danger">
+                            {{ form.tag.errors }}
+                    </div>
+                    {{ form.tag }}
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- case errors -->
+                    <div class="text-danger">
+                        {{ form.case.errors }}
+                    </div>
+                    {{ form.case }}
+                </div>
+            </div>
+
+        <!-- tag / case -->
+        </div>
+
+    <!-- tag / case block -->
+    </div>
+
+    <!-- ############################################ -->
+
+    <!-- note information block -->
+    <div class="card card-body bg-dark border-light top-distance">
+
+        <!-- note information headline -->
+        <div class="row">
+            <div class="col">
+                <h5>
+                    Note information
+                </h5>
+            </div>
+        </div>
+
+        <!-- notestatus headline row -->
+        <div class="row">
+            <div class="col-3">
+                <div class="font-weight-bold">
+                    {{ form.notestatus.label }}
+                </div>
+            </div>
+        </div>
+
+        <!-- notestatus row -->
+        <div class="row">
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    {% for i in form.notestatus %}
+                        {{ i }}<br>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+    <!-- note information block -->
+    </div>
+
+    <!-- ############################################ -->
+
+    <!-- note content block -->
+    <div class="card card-body bg-dark border-light top-distance">
+
+        <!-- note content headline -->
+        <div class="row">
+            <div class="col">
+                <h5>
+                    {{ form.note_content.label }}
+                </h5>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- note content errors -->
+                    <div class="text-danger">
+                        {{ form.note_content.errors }}
+                    </div>
+                    {{ form.note_content }}
+                </div>
+            </div>
+        </div>
+
+    <!-- note content block -->
+    </div>
+
+    <!-- ############################################ -->
+
+    <!-- button row -->
+    <div class="row top-distance">
+
+        <!-- save button -->
+        <div class="col-1">
+            {% include "dfirtrack_main/includes/button_save.html" %}
+        </div>
+
+        <!-- cancel button -->
+        <div class="col-1">
+            {% include "dfirtrack_main/includes/button_cancel.html" %}
+        </div>
+
+    <!-- button row -->
+    </div>
+
+<!-- form -->
+</form>
+
+<!-- martor -->
+{% include "dfirtrack_main/includes/martor_javascript.html" with editor="true" %}
+
+<!-- HTML body in maintemplate -->
+{% endblock %}

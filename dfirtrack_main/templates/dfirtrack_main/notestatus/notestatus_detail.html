@@ -1,0 +1,186 @@
+<!-- extending maintemplate -->
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+<!-- HTML head in maintemplate -->
+{% block head %}
+
+<!-- page title -->
+<title>
+    Notestatus '{{ notestatus.notestatus_name }}'{% if notestatus.notestatus.all %} (s: {{ notestatus.notestatus.all|length }}){% endif %}
+</title>
+
+{% load static %}
+
+<!-- javascript and CSS for datatables -->
+<link rel="stylesheet" type="text/css" href="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.css' %}"/>
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.js' %}"></script>
+
+<!-- HTML head in maintemplate -->
+{% endblock %}
+
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
+{% block content %}
+
+<!-- up button -->
+<div class="row bottom-distance">
+    <div class="col-3">
+        <a href="{% url 'notestatus_list' %}" type="button" class="btn btn-light">
+            <img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon" alt="icon">
+            Up to notestatus
+        </a>
+    </div>
+</div>
+
+<!-- headline row -->
+<div class="row">
+
+    <!-- headline -->
+    <div class="col-3">
+        <h5>
+            Notestatus "{{ notestatus.notestatus_name }}"
+	</h5>
+    </div>
+
+<!-- headline row -->
+</div>
+
+<!-- notestatus id -->
+<div class="row bottom-distance">
+    <div class="col-3">
+        <small class="text-muted">
+            Notestatus-ID: {{ notestatus.notestatus_id }}
+        </small>
+    </div>
+</div>
+
+<!-- notestatus note headline -->
+<div class="row">
+    <div class="col-3">
+        <h5>
+            Note
+        </h5>
+    </div>
+</div>
+
+<!-- notestatus note -->
+<div class="row bottom-distance">
+    <div class="col">
+        {% if notestatus.notestatus_note %}
+            {{ notestatus.notestatus_note|linebreaks }}
+        {% else %}
+            ---
+        {% endif %}
+    </div>
+</div>
+
+<!-- ############################################ -->
+
+<!-- note block -->
+<div class="card bg-dark border-light card-body top-distance">
+
+    <!-- note headline -->
+    <div class="row">
+        <div class="col-6">
+            <h5>
+                <img src="/static/dfirtrack_main/icons/paperclip-light.svg" class="icon right-distance copy-false" alt="icon">
+                Notes with this status{% if notestatus.note_set.all %} ({{ notestatus.note_set.all|length }}){% endif %}
+            </h5>
+        </div>
+    </div>
+
+    <!-- notes -->
+    {% if notestatus.note_set.all %}
+
+    <!-- datatable notes -->
+    <table id="table_note" class="display" width="100%">
+
+        <!-- table head -->
+        <thead>
+            {% include "dfirtrack_main/includes/datatable_thead_table_note.html" %}
+        </thead>
+
+        <!-- table body -->
+        <tbody>
+            {% for i in notestatus.note_set.all %}
+                {% include "dfirtrack_main/includes/datatable_tbody_table_note.html" %}
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+    <!-- no notes -->
+    {% else %}
+        <div class="row top-distance">
+            <div class="col-3">
+                ---
+            </div>
+        </div>
+
+    <!-- notes -->
+    {% endif %}
+
+<!-- note block -->
+</div>
+
+<!-- ############################################ -->
+
+<!-- reportitem block -->
+<div class="card bg-dark border-light card-body top-distance">
+
+    <!-- reportitem headline -->
+    <div class="row">
+        <div class="col-6">
+            <h5>
+                Reportitems with this status{% if notestatus.reportitem_set.all %} ({{ notestatus.reportitem_set.all|length }}){% endif %}
+            </h5>
+        </div>
+    </div>
+
+    <!-- reportitems -->
+    {% if notestatus.reportitem_set.all %}
+
+    <!-- datatable reportitems -->
+    <table id="table_reportitem" class="display" width="100%">
+
+        <!-- table head -->
+        <thead>
+            {% include "dfirtrack_main/includes/datatable_thead_table_reportitem.html" %}
+        </thead>
+
+        <!-- table body -->
+        <tbody>
+            {% for i in notestatus.reportitem_set.all %}
+                {% include "dfirtrack_main/includes/datatable_tbody_table_reportitem.html" %}
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+    <!-- no reportitems -->
+    {% else %}
+        <div class="row top-distance">
+            <div class="col-3">
+                ---
+            </div>
+        </div>
+
+    <!-- reportitems -->
+    {% endif %}
+
+<!-- reportitem block -->
+</div>
+
+<!-- ############################################ -->
+
+<!-- javascript for datatables -->
+<script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
+
+<!-- javascript for datatables -->
+{% block datatables %}
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.js' %}"></script>
+{% endblock %}
+
+<!-- HTML body in maintemplate -->
+{% endblock %}

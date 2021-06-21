@@ -1,0 +1,389 @@
+<!-- extending maintemplate -->
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+<!-- HTML head in maintemplate -->
+{% block head %}
+
+<!-- page title -->
+<title>
+    DFIRTrack - Documentation
+</title>
+
+{% load static %}
+{% load martortags %}
+
+<!-- javascript and CSS for datatables -->
+<link rel="stylesheet" type="text/css" href="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.css' %}"/>
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.js' %}"></script>
+
+<!-- martor -->
+{% include "dfirtrack_main/includes/martor_css.html" %}
+
+<!-- HTML head in maintemplate -->
+{% endblock %}
+
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
+{% block content %}
+
+<!-- overall row -->
+<div class="row">
+
+<!-- content column -->
+<div class="col-10">
+
+<!-- ############################################ -->
+
+<!-- headline / button row -->
+<div class="row">
+
+    <!-- headline -->
+    <div class="col-auto me-auto">
+        <h1>
+            <img src="{% static 'dfirtrack_main/icons/document-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Documentation
+        </h1>
+    </div>
+
+    <!-- note / reportitem add button -->
+    <div class="col-auto">
+
+        <a href="{% url 'note_create' %}?documentation" type="button" class="btn btn-light btn-sm copy-false" data-toggle="tooltip" data-placement="auto" title="Add cross-system documentation.">
+            <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+            Add note
+        </a>
+
+        <a href="{% url 'reportitem_create' %}?documentation" type="button" class="btn btn-light btn-sm copy-false" data-toggle="tooltip" data-placement="auto" title="Add system-based documentation.">
+            <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+            Add reportitem
+        </a>
+
+    </div>
+
+</div>
+
+<!-- ############################################ -->
+
+<div class"row top-distance bottom-distance">
+
+    <div class="col top-distance bottom-distance">
+        <!-- form -->
+        <form method="POST" class="post-form">
+
+            {% csrf_token %}
+
+            <!-- show form related errors -->
+            {% include "dfirtrack_main/includes/form_errors.html" %}
+
+            <!-- form fields -->
+            
+                {{ form.case }}
+                {{ form.notestatus }}
+                {{ form.tag }}
+        
+                <button type="submit" class="save btn btn-sm btn-light copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/loop.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    Apply filters
+                </button>
+
+                <a href="{% url 'documentation_list' %}" class="btn btn-sm btn-light copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/x.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    Clear filters
+                </a>
+        <!-- form -->
+        </form>
+    </div>    
+
+</div>
+
+<!-- headline -->
+{% if note_list %}
+    <div class="row top-distance bottom-distance">
+        <div class="col">
+            <h2 id="cross_system_documentation">
+                Cross-system documentation (notes)
+            </h2>
+        </div>
+    </div>
+{% endif %}
+
+<!-- NOTES -->
+
+<!-- iterate over notes -->
+{% for note in note_list %}
+
+    <!-- note headline row -->
+    <div class="row top-distance">
+
+        <!-- note headline and subheadline -->
+        <div class="col-auto me-auto">
+            <h3 id="note_id_{{ note.note_id }}">
+                <img src="/static/dfirtrack_main/icons/paperclip-light.svg" class="icon right-distance copy-false" alt="icon">
+                <a href="{{ note.get_absolute_url }}">
+                    {{ note.note_title }}
+                </a>
+            </h3>
+        </div>
+
+        <!-- edit button -->
+        <div class="col-auto">
+            <a href="{{ note.get_update_url }}?documentation" type="button" class="btn btn-sm btn-light copy-false">
+                <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                Edit
+            </a>
+        </div>
+
+    <!-- note headline row -->
+    </div>
+
+    <!-- note metadata row -->
+    <div class="row small text-muted bottom-distance">
+
+        <!-- note id -->
+        <div class="col">
+            Note-ID: {{ note.note_id }}
+        </div>
+
+        <!-- note version -->
+        <div class="col">
+            Version: {{ note.note_version }}
+        </div>
+
+        <div class="col">
+            Case: 
+            {% if note.case %}
+                {{ note.case }}
+            {% else %}
+                --
+            {% endif %}
+        </div>
+
+        <!-- notestatus -->
+        <div class="col">
+            Notestatus: {{ note.notestatus }}
+        </div>
+
+        <!-- note create time / user -->
+        <div class="col-3">
+            Created {{ note.note_create_time|date:"Y-m-d H:i" }} by {{ note.note_created_by_user_id }}
+        </div>
+
+        <!-- note modify time / user -->
+        <div class="col-3">
+            Modified {{ note.note_modify_time|date:"Y-m-d H:i" }} by {{ note.note_modified_by_user_id }}
+        </div>
+
+    <!-- note metadata row -->
+    </div>
+
+    <!-- tags / case row -->
+    {% with model=note %}
+        {% include "dfirtrack_main/includes/card_tag_case.html" %}
+    {% endwith %}
+
+    <!-- note content row -->
+    <div class="card bg-dark border-light card-body top-distance bottom-distance markdown-preview">
+        {{ note.note_content|safe_markdown }}
+    </div>
+    <!-- note content -->
+
+<!-- iterate over notes -->
+{% endfor %}
+
+<!-- ############################################ -->
+
+<!-- headline -->
+{% if reportitem_list %}
+    <div class="row bottom-distance">
+        <div class="col">
+            <h2 id="system_based_documentation">
+                System-based documentation (reportitems)
+            </h2>
+        </div>
+    </div>
+{% endif %}
+
+<!-- REPORTITEMS -->
+
+<!-- iterate over reportitems -->
+{% for reportitem in reportitem_list %}
+
+    <!-- system reportitem headline row -->
+    <div class="row top-distance">
+
+        <!-- system, reportitem headline and subheadline -->
+        <div class="col-auto me-auto">
+            <h3 id="reportitem_id_{{ reportitem.reportitem_id }}">
+                <!-- system -->
+                <a href="{{ reportitem.system.get_absolute_url }}">
+                    <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    {{ reportitem.system.system_name }}
+                </a>
+                <!-- hyphen -->
+                -
+                <!-- reportitem headline and subheadline -->
+                <a href="{{ reportitem.get_absolute_url }}">
+                    {{ reportitem.headline }}
+                </a>
+                <!-- reportitem headline and subheadline -->
+                {% if reportitem.reportitem_subheadline %}
+                    - {{ reportitem.reportitem_subheadline }}
+                {% endif %}
+            </h3>
+        </div>
+
+        <!-- edit button -->
+        <div class="col-auto">
+            <a href="{{ reportitem.get_update_url }}?documentation" type="button" class="btn btn-sm btn-light copy-false">
+                <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                Edit
+            </a>
+        </div>
+
+    <!-- system reportitem headline row -->
+    </div>
+
+    <!-- system reportitem metadata row -->
+    <div class="row small text-muted bottom-distance">
+
+        <!-- reportitem id -->
+        <div class="col">
+            Reportitem-ID: {{ reportitem.reportitem_id }}
+        </div>
+
+        <!-- notestatus -->
+        <div class="col">
+            Notestatus: {{ reportitem.notestatus }}
+        </div>
+
+        <div class="col">
+            Case: 
+            {% if note.case %}
+                {{ note.case }}
+            {% else %}
+                --
+            {% endif %}
+        </div>
+
+        <!-- reportitem create time -->
+        <div class="col-3">
+            Created {{ reportitem.reportitem_create_time|date:"Y-m-d H:i" }} by {{ reportitem.reportitem_created_by_user_id }}
+        </div>
+
+        <!-- reportitem modify time -->
+        <div class="col-3">
+            Modified {{ reportitem.reportitem_modify_time|date:"Y-m-d H:i" }} by {{ reportitem.reportitem_modified_by_user_id }}
+        </div>
+
+    <!-- system reportitem metadata row -->
+    </div>
+
+    <!-- tags / case row -->
+    {% with model=reportitem %}
+        {% include "dfirtrack_main/includes/card_tag_case.html" %}
+    {% endwith %}
+
+    <!-- reportitem note row -->
+    <div class="card bg-dark border-light card-body top-distance bottom-distance markdown-preview">
+        {{ reportitem.reportitem_note|safe_markdown }}
+    </div>
+    <!-- reportitem note -->
+
+<!-- iterate over reportitems -->
+{% endfor %}
+
+<!-- ############################################ -->
+
+<!-- content column -->
+</div>
+
+<!-- ############################################ -->
+
+<!-- TABLE OF CONTENT -->
+
+<!-- table of content column -->
+<div class="col-2 copy-false toc">
+
+    <nav id="tableOfContents" class="navbar">
+
+        <ul class="nav navbar-nav flex-column">
+
+            <!-- cross_system_documentation -->
+            {% if note_list %}
+                <li class="nav-item">
+                    <a  class="nav-link" href="#cross_system_documentation">
+                        Cross-system documentation
+                    </a>
+                </li>
+            {% endif %}
+
+            <!-- iterate over notes -->
+            {% for note in note_list %}
+
+                <!-- note -->
+                <li class="nav-item nav-left-distance">
+                    <a class="nav-link" href="#note_id_{{ note.note_id }}">
+                        {{ note.note_title }}
+                    </a>
+                </li>
+
+            <!-- iterate over notes -->
+            {% endfor %}
+
+            <!-- system_based_documentation -->
+            {% if reportitem_list %}
+                <li class="nav-item">
+                    <a class="nav-link" href="#system_based_documentation">
+                        System-based documentation
+                    </a>
+                </li>
+            {% endif %}
+
+            <!-- iterate over reportitems -->
+            {% for reportitem in reportitem_list %}
+
+            <!-- reportitem -->
+                <li class="nav-item nav-left-distance">
+                    <a class="nav-link" href="#reportitem_id_{{ reportitem.reportitem_id }}">
+                        {{ reportitem.system.system_name }} - {{ reportitem.headline.headline_name }}
+                    </a>
+                </li>
+
+            <!-- iterate over reportitems -->
+            {% endfor %}
+
+        </ul>
+    </nav>
+<!-- table of content column -->
+</div>
+
+<!-- no notes or reportitems to display -->
+{% if not reportitem_list and not reportitem_list %}
+    <div class="row top-distance bottom-distance">
+        <div class="col">
+            No documentation items found.
+        </div>
+    </div>
+{% endif %}
+
+<!-- ############################################ -->
+
+<!-- overall row -->
+</div>
+
+<!-- ############################################ -->
+
+<!-- javascript for datatables -->
+<script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
+
+<!-- javascript for datatables -->
+{% block datatables %}
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.js' %}"></script>
+{% endblock %}
+
+<!-- martor -->
+{% include "dfirtrack_main/includes/martor_javascript.html" %}
+
+<!-- HTML body in maintemplate -->
+{% endblock %}
