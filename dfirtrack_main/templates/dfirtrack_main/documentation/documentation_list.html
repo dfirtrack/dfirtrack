@@ -33,32 +33,6 @@
 <!-- content column -->
 <div class="col-10">
 
-    <!-- form -->
-    <form method="POST" class="post-form">
-
-        {% csrf_token %}
-
-        <!-- show form related errors -->
-        {% include "dfirtrack_main/includes/form_errors.html" %}
-
-        <!-- form fields -->
-        {{ form.case }}
-        {{ form.notestatus }}
-        {{ form.tag }}
-
-    <button type="submit" class="save btn btn-sm btn-light copy-false">
-        <img src="{% static 'dfirtrack_main/icons/loop.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-        Apply filters
-    </button>
-
-    <a href="{% url 'documentation_list' %}" class="btn btn-sm btn-light copy-false">
-        <img src="{% static 'dfirtrack_main/icons/x.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-        Clear filters
-    </a>
-
-    <!-- form -->
-    </form>
-
 <!-- ############################################ -->
 
 <!-- headline / button row -->
@@ -90,6 +64,38 @@
 </div>
 
 <!-- ############################################ -->
+
+<div class"row top-distance bottom-distance">
+
+    <div class="col top-distance bottom-distance">
+        <!-- form -->
+        <form method="POST" class="post-form">
+
+            {% csrf_token %}
+
+            <!-- show form related errors -->
+            {% include "dfirtrack_main/includes/form_errors.html" %}
+
+            <!-- form fields -->
+            
+                {{ form.case }}
+                {{ form.notestatus }}
+                {{ form.tag }}
+        
+                <button type="submit" class="save btn btn-sm btn-light copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/loop.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    Apply filters
+                </button>
+
+                <a href="{% url 'documentation_list' %}" class="btn btn-sm btn-light copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/x.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    Clear filters
+                </a>
+        <!-- form -->
+        </form>
+    </div>    
+
+</div>
 
 <!-- headline -->
 {% if note_list %}
@@ -135,17 +141,26 @@
     <div class="row small text-muted bottom-distance">
 
         <!-- note id -->
-        <div class="col-1">
+        <div class="col">
             Note-ID: {{ note.note_id }}
         </div>
 
         <!-- note version -->
-        <div class="col-2">
+        <div class="col">
             Version: {{ note.note_version }}
         </div>
 
+        <div class="col">
+            Case: 
+            {% if note.case %}
+                {{ note.case }}
+            {% else %}
+                --
+            {% endif %}
+        </div>
+
         <!-- notestatus -->
-        <div class="col-3">
+        <div class="col">
             Notestatus: {{ note.notestatus }}
         </div>
 
@@ -233,13 +248,22 @@
     <div class="row small text-muted bottom-distance">
 
         <!-- reportitem id -->
-        <div class="col-3">
+        <div class="col">
             Reportitem-ID: {{ reportitem.reportitem_id }}
         </div>
 
         <!-- notestatus -->
-        <div class="col-3">
+        <div class="col">
             Notestatus: {{ reportitem.notestatus }}
+        </div>
+
+        <div class="col">
+            Case: 
+            {% if note.case %}
+                {{ note.case }}
+            {% else %}
+                --
+            {% endif %}
         </div>
 
         <!-- reportitem create time -->
@@ -333,6 +357,15 @@
     </nav>
 <!-- table of content column -->
 </div>
+
+<!-- no notes or reportitems to display -->
+{% if not reportitem_list and not reportitem_list %}
+    <div class="row top-distance bottom-distance">
+        <div class="col">
+            No documentation items found.
+        </div>
+    </div>
+{% endif %}
 
 <!-- ############################################ -->
 
