@@ -409,9 +409,9 @@ class NoteViewTestCase(TestCase):
         # get response
         response = self.client.post('/note/' + str(note_1.note_id) + '/edit/?documentation', data_dict)
         # create url
-        destination = urllib.parse.quote(f'/documentation/#note_id_{note_1.note_id}', safe='/#') 
+        destination = urllib.parse.quote(f'/documentation/#note_id_{note_1.note_id}', safe='/#')
 
-        #check
+        # check
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_note_add_documentation_redirect(self):
@@ -432,9 +432,9 @@ class NoteViewTestCase(TestCase):
         # get latest note
         new_note = Note.objects.latest('note_create_time')
         # create url
-        destination = urllib.parse.quote(f'/documentation/#note_id_{new_note.note_id}', safe='/#') 
+        destination = urllib.parse.quote(f'/documentation/#note_id_{new_note.note_id}', safe='/#')
 
-        #check
+        # check
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_note_edit_valid_tag(self):

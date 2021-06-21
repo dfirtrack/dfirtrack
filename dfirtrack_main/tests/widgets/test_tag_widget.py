@@ -27,7 +27,7 @@ class TagWidgetTestCase(TestCase):
         value = ['1']
         context = tagWidget.get_context('tag', value, None)
 
-        #check
+        # check
         self.assertEquals(context['widget']['name'], 'tag')
         self.assertEquals(context['widget']['value'], value)
 
@@ -39,6 +39,6 @@ class TagWidgetTestCase(TestCase):
         # get render output
         output_string = tagWidget.render('tag', list(), {'id': 'id_tag'})
 
-        #check
-        self.assertTrue('tag_1' in output_string)        
+        # check
+        self.assertTrue('tag_1' in output_string)
         self.assertTrue('tag_color_1' in output_string)

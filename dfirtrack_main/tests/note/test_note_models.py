@@ -173,9 +173,9 @@ class NoteModelTestCase(TestCase):
 
     def test_note_save_version(self):
         """ test version inc of save """
-        
+
         # get object
-        note_1 = Note.objects.get(note_title='note_1')      
+        note_1 = Note.objects.get(note_title='note_1')
         # get current version
         current_version = note_1.note_version
         # save note object
@@ -183,10 +183,10 @@ class NoteModelTestCase(TestCase):
         self.assertEqual(current_version+1, note_1.note_version)
 
     def test_note_save_abandoned(self):
-        """ test version inc of save """
-        
+        """ test abandoned of save """
+
         # get object
-        note_1 = Note.objects.get(note_title='note_1')      
+        note_1 = Note.objects.get(note_title='note_1')
         case_1 = Case.objects.get(case_name='case_1')
 
         # check
@@ -195,6 +195,6 @@ class NoteModelTestCase(TestCase):
         # set case and save note
         note_1.case = case_1
         note_1.save()
-        
+
         # check
         self.assertFalse(note_1.note_is_abandoned)

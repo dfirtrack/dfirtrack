@@ -13,7 +13,7 @@ class DocumentationViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        
+
         # create user
         test_user = User.objects.create_user(username='testuser_documentation', password='dRekxM3R5frr')
 
@@ -117,8 +117,8 @@ class DocumentationViewTestCase(TestCase):
         test_user = User.objects.get(username='testuser_documentation')
         # create note
         case_note = Note.objects.create(
-            note_title="Case Note Testcase", 
-            note_content="Lorem ipsum", 
+            note_title="Case Note Testcase",
+            note_content="Lorem ipsum",
             case=case_1,
             note_created_by_user_id = test_user,
             note_modified_by_user_id = test_user
@@ -128,7 +128,7 @@ class DocumentationViewTestCase(TestCase):
         # get response
         response = self.client.get(filter_url, follow=True)
 
-        # check 
+        # check
         self.assertContains(response, case_note.note_title)
         self.assertNotContains(response, note_1.note_title)
 
@@ -143,8 +143,8 @@ class DocumentationViewTestCase(TestCase):
         test_user = User.objects.get(username='testuser_documentation')
         # create note
         tag_note = Note.objects.create(
-            note_title="Tag Note Testcase", 
-            note_content="Lorem ipsum", 
+            note_title="Tag Note Testcase",
+            note_content="Lorem ipsum",
             note_created_by_user_id = test_user,
             note_modified_by_user_id = test_user
         )
@@ -154,7 +154,7 @@ class DocumentationViewTestCase(TestCase):
         # get response
         response = self.client.get(filter_url, follow=True)
 
-        # check 
+        # check
         self.assertContains(response, tag_note.note_title)
         self.assertNotContains(response, note_1.note_title)
 
@@ -169,8 +169,8 @@ class DocumentationViewTestCase(TestCase):
         test_user = User.objects.get(username='testuser_documentation')
         # create note
         notestatus_note = Note.objects.create(
-            note_title="Tag Note Testcase", 
-            note_content="Lorem ipsum", 
+            note_title="Tag Note Testcase",
+            note_content="Lorem ipsum",
             notestatus=notestatus_2,
             note_created_by_user_id = test_user,
             note_modified_by_user_id = test_user,
@@ -180,7 +180,7 @@ class DocumentationViewTestCase(TestCase):
         # get response
         response = self.client.get(filter_url, follow=True)
 
-        # check 
+        # check
         self.assertContains(response, notestatus_note.note_title)
         self.assertNotContains(response, note_1.note_title)
 
@@ -191,7 +191,7 @@ class DocumentationViewTestCase(TestCase):
         self.client.login(username='testuser_documentation', password='dRekxM3R5frr')
         # get object
         case_1 = Case.objects.get(case_name='case_1')
-        
+
         form_data = {
             'case': case_1.case_id,
             'tag': '',
@@ -199,9 +199,9 @@ class DocumentationViewTestCase(TestCase):
         }
         response = self.client.post('/documentation/', form_data)
         # create url
-        destination = urllib.parse.quote(f'/documentation/?case={case_1.case_id}', safe='/?=') 
+        destination = urllib.parse.quote(f'/documentation/?case={case_1.case_id}', safe='/?=')
 
-        #check
+        # check
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_documentation_form_data_redirect_tag(self):
@@ -211,7 +211,7 @@ class DocumentationViewTestCase(TestCase):
         self.client.login(username='testuser_documentation', password='dRekxM3R5frr')
         # get object
         tag_1 = Tag.objects.get(tag_name='tag_1')
-        
+
         form_data = {
             'case': '',
             'tag': tag_1.tag_id,
@@ -219,11 +219,11 @@ class DocumentationViewTestCase(TestCase):
         }
         response = self.client.post('/documentation/', form_data)
         # create url
-        destination = urllib.parse.quote(f'/documentation/?tag={tag_1.tag_id}', safe='/?=') 
+        destination = urllib.parse.quote(f'/documentation/?tag={tag_1.tag_id}', safe='/?=')
 
-        #check
+        # check
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-    
+
     def test_documentation_form_data_redirect_notestatus(self):
         """ test documentation form data redirect """
 
@@ -231,7 +231,7 @@ class DocumentationViewTestCase(TestCase):
         self.client.login(username='testuser_documentation', password='dRekxM3R5frr')
         # get object
         notestatus_1 = Notestatus.objects.get(notestatus_name='notestatus_1')
-        
+
         form_data = {
             'case': '',
             'tag': '',
@@ -239,7 +239,7 @@ class DocumentationViewTestCase(TestCase):
         }
         response = self.client.post('/documentation/', form_data)
         # create url
-        destination = urllib.parse.quote(f'/documentation/?notestatus={notestatus_1.notestatus_id}', safe='/?=') 
+        destination = urllib.parse.quote(f'/documentation/?notestatus={notestatus_1.notestatus_id}', safe='/?=')
 
-        #check
+        # check
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)

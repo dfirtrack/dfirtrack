@@ -513,7 +513,7 @@ class ReportitemViewTestCase(TestCase):
         response = self.client.post('/reportitem/' + str(reportitem_1.reportitem_id) + '/edit/', data_dict, follow=True)
         # create url
         destination = urllib.parse.quote('/system/' + str(system_1.system_id) + '/', safe='/')
-        
+
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
         self.assertContains(response, f"System &#x27;{system_1.system_name}&#x27; was assigned to case &#x27;{case_1.case_name}&#x27; due to reportitem assignment.")
