@@ -230,3 +230,9 @@ a:hover {
 .selector {
     width: 100% !important;
 }
+
+/* datatabel height */
+
+.dataTable tr {
+    height: 43px;
+}

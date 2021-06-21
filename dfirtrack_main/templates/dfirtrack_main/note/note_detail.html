@@ -174,7 +174,7 @@
 
 <!-- TODO: switch to generic model attributes -->
 <!-- meta information -->
-{% with model=note %}
+{% with create_time=note.note_create_time created_by_user_id=note.note_created_by_user_id modify_time=note.note_modify_time modified_by_user_id=note.note_modified_by_user_id %}
     {% include "dfirtrack_main/includes/card_meta_information.html" %}
 {% endwith %}
 
