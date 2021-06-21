@@ -10,13 +10,7 @@ services:
             - db-data:/var/lib/postgresql/data
 
     dfirtrack:
-        build:
-            context: ../../
-            dockerfile: ./docker/prod/Dockerfile
-            args:
-                - openssl_o=${openssl_o}
-                - fqdn=${fqdn}
-                - openssl_ou=${openssl_ou}
+        image: dfirtrack/dfirtrack:latest
         environment:
             - DB_HOST=db
             - DB_USER=${pg_user}
