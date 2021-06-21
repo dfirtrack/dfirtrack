@@ -165,12 +165,14 @@
     <!-- note content -->
     <div class="row">
         <div class="col markdown-preview top-distance">
-            {{note.note_content|safe_markdown}}
+            {{ note.note_content|safe_markdown }}
         </div>
     </div>
 
 <!-- note content block -->
 </div>
+
+<!-- ############################################ -->
 
 <!-- meta information -->
 {% with create_time=note.note_create_time created_by_user_id=note.note_created_by_user_id modify_time=note.note_modify_time modified_by_user_id=note.note_modified_by_user_id %}

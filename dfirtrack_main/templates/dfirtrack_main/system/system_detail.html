@@ -1296,47 +1296,11 @@
 <!-- ############################################ -->
 
 <!-- meta information -->
-<div class="card bg-dark border-secondary card-body bottom-distance top-distance">
+{% with create_time=system.system_create_time created_by_user_id=system.system_created_by_user_id modify_time=system.system_modify_time modified_by_user_id=system.system_modified_by_user_id %}
+    {% include "dfirtrack_main/includes/card_meta_information.html" %}
+{% endwith %}
 
-    <!-- meta information headline -->
-    <div class="row text-muted">
-        <div class="col">
-            <h5>Meta information</h5>
-        </div>
-    </div>
-
-    <!-- meta information row -->
-    <div class="row text-muted">
-
-        <!-- system create time -->
-        <div class="col-3">
-            <div class="font-weight-bold">Created</div>
-            {{ system.system_create_time|date:"Y-m-d H:i" }}
-        </div>
-
-        <!-- user creating system -->
-        <div class="col-3">
-            <div class="font-weight-bold">Created by</div>
-            {{ system.system_created_by_user_id }}
-        </div>
-
-        <!-- system modify time -->
-        <div class="col-3">
-            <div class="font-weight-bold">Last modified</div>
-            {{ system.system_modify_time|date:"Y-m-d H:i" }}
-        </div>
-
-        <!-- user modifying system -->
-        <div class="col-3">
-            <div class="font-weight-bold">Modified by</div>
-            {{ system.system_modified_by_user_id }}
-        </div>
-
-    <!-- meta information row -->
-    </div>
-
-<!-- meta information -->
-</div>
+<!-- ############################################ -->
 
 <!-- lower buttons row -->
 <div class="row top-distance">
