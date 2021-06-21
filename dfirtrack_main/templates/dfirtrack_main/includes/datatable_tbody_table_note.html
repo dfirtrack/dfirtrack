@@ -6,27 +6,27 @@
 <!-- (just one row, iterating over rows is done outside of this include file) -->
 <tr>
 
-    <!-- note id headline -->
+    <!-- note id -->
     <td>{{ i.note_id }}</td>
 
-    <!-- note title headline -->
+    <!-- note title -->
     <td>
         <a href="{{ i.get_absolute_url }}">
             {{ i.note_title }}
         </a>
     </td>
 
-    <!-- note version headline -->
+    <!-- note version -->
     <td>{{ i.note_version }}</td>
 
-    <!-- notestatus headline -->
+    <!-- notestatus -->
     <td>
         <a href="{{ i.notestatus.get_absolute_url }}">
             {{ i.notestatus }}
         </a>
     </td>
 
-    <!-- case headline -->
+    <!-- case -->
     <td>
         {% if i.case %}
             <a href="{{ i.case.get_absolute_url }}" type="button" class="btn btn-primary btn-sm bottom-left top-right top-distance copy-true">

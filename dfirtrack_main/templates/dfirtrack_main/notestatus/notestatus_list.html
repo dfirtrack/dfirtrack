@@ -46,8 +46,13 @@
         Notes
     </div>
 
+    <!-- reportitems headline -->
+    <div class="col-1">
+        Reportitems
+    </div>
+
     <!-- notestatus note headline -->
-    <div class="col-8">
+    <div class="col-7">
         Note
     </div>
 
@@ -77,8 +82,13 @@
             {{ i.note_set.all|length }}
         </div>
 
+        <!-- reportitem -->
+        <div class="col-1">
+            {{ i.reportitem_set.all|length }}
+        </div>
+
         <!-- notestatus note -->
-        <div class="col-8">
+        <div class="col-7">
             {% if i.notestatus_note %}
                 {{ i.notestatus_note|linebreaks }}
             {% else %}
