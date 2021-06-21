@@ -37,8 +37,13 @@
     </div>
 
     <!-- taskname name headline -->
-    <div class="col-10">
+    <div class="col-2">
         Taskname
+    </div>
+
+    <!-- task headline -->
+    <div class="col-7">
+        Tasks
     </div>
 
 <!-- headlines -->
@@ -56,10 +61,15 @@
         </div>
 
         <!-- taskname name -->
-        <div class="col-9">
+        <div class="col-2">
             <a href="{{ i.get_absolute_url }}">
                 {{ i.taskname_name }}
             </a>
+        </div>
+
+        <!-- task -->
+        <div class="col-7">
+            {{ i.task_set.all|length }}
         </div>
 
         <!-- edit & close button -->

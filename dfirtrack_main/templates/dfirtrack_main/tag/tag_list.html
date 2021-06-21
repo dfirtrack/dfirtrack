@@ -46,9 +46,19 @@
         Systems
     </div>
 
-    <!-- tag note headline -->
-    <div class="col-5">
-        Note
+    <!-- artifact headline -->
+    <div class="col-1">
+        Artifacts
+    </div>
+
+    <!-- case headline -->
+    <div class="col-1">
+        Cases
+    </div>
+
+    <!-- task headline -->
+    <div class="col-3">
+        Tasks
     </div>
 
     <!-- tag modify user headline -->
@@ -89,13 +99,19 @@
             {{ i.system_set.all|length }}
         </div>
 
-        <!-- tag note -->
-        <div class="col-5">
-            {% if i.tag_note %}
-                {{ i.tag_note|linebreaks }}
-            {% else %}
-                ---
-            {% endif %}
+        <!-- artifact -->
+        <div class="col-1">
+            {{ i.artifact_tag.all|length }}
+        </div>
+
+        <!-- case -->
+        <div class="col-1">
+            {{ i.case_set.all|length }}
+        </div>
+
+        <!-- task -->
+        <div class="col-3">
+            {{ i.task_set.all|length }}
         </div>
 
         <!-- tag modify user -->
@@ -133,24 +149,19 @@
 
     <!-- button row -->
     <div class="row copy-false">
-
-        <!-- add button -->
-        <div class="col-1">
+        
+        <div class="col btn-group">
+            <!-- add button -->
             <div data-toggle="tooltip" data-placement="auto" title="Create single tag.">
-                <a href="{% url 'tag_create' %}" type="button" class="btn btn-light copy-false">
+                <a href="{% url 'tag_create' %}" type="button" class="btn btn-light copy-false right-s-distance">
                     <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon right-distance copy-false" alt="icon">
                     Add tag
                 </a>
             </div>
-        </div>
-        <!-- placeholder -->
-        <div class="col-1">
-        </div>
 
-        <!-- creator button -->
-        <div class="col-1">
+            <!-- creator button -->
             <div data-toggle="tooltip" data-placement="auto" title="Create many tag-to-system relations.">
-                <a href="{% url 'tag_creator' %}" type="button" class="btn btn-light copy-false">
+                <a href="{% url 'tag_creator' %}" type="button" class="btn btn-light copy-false right-s-distance">
                     <img src="{% static 'dfirtrack_main/icons/box.svg' %}" class="icon right-distance copy-false" alt="icon">
                     Creator
                 </a>

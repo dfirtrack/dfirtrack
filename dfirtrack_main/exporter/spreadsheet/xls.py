@@ -1,11 +1,15 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.shortcuts import redirect
+from django.urls import reverse
 from django.utils import timezone
 from dfirtrack_config.models import MainConfigModel, SystemExporterSpreadsheetXlsConfigModel
+from dfirtrack_main.exporter.spreadsheet.checks import check_content_file_system
 from dfirtrack_main.logger.default_logger import debug_logger, info_logger
 from dfirtrack_main.models import Analysisstatus, Reason, Recommendation, System, Systemstatus, Tag
 from time import strftime
 import xlwt
+from urllib.parse import urlencode, urlunparse
 
 
 def write_row(worksheet, content, row_num, style):
@@ -43,6 +47,7 @@ def style_default():
     return style
 
 def write_xls(username):
+    """ write spreadsheet """
 
     # create workbook object with UTF-8 encoding
     workbook = xlwt.Workbook(encoding='utf-8')
@@ -578,7 +583,39 @@ def write_xls(username):
     return workbook
 
 @login_required(login_url="/login")
+def system_create_cron(request):
+    """ helper function to check config before creating scheduled task """
+
+    # get config
+    main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+
+    # check file system
+    stop_cron_exporter = check_content_file_system(main_config_model, 'SYSTEM_XLS', request)
+
+    # check stop condition
+    if stop_cron_exporter:
+        # return to 'system_list'
+        return redirect(reverse('system_list'))
+    else:
+
+        # create parameter dict
+        params = {}
+
+        # prepare parameter dict
+        params['name'] = 'system_spreadsheet_exporter_xls'
+        params['func'] = 'dfirtrack_main.exporter.spreadsheet.xls.system_cron'
+
+        # build url
+        urlpath = '/admin/django_q/schedule/add/'
+        urlquery = urlencode(params)
+        admin_url_create_cron = urlunparse(('','',urlpath,'',urlquery,''))
+
+        # open django admin with pre-filled form for scheduled task
+        return redirect(admin_url_create_cron)
+
+@login_required(login_url="/login")
 def system(request):
+    """ instant spreadsheet export via button for direct download via browser """
 
     # create xls MIME type object
     xls_browser = HttpResponse(content_type='application/ms-excel')
@@ -599,12 +636,21 @@ def system(request):
     return xls_browser
 
 def system_cron():
+    """ spreadsheet export via scheduled task to server file system """
 
     # prepare time for output file
     filetime = timezone.now().strftime('%Y%m%d_%H%M')
 
     # get config
     main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+
+    # check file system
+    stop_cron_exporter = check_content_file_system(main_config_model, 'SYSTEM_XLS')
+
+    # leave if config caused errors
+    if stop_cron_exporter:
+        # return to scheduled task
+        return
 
     # prepare output file path
     output_file_path = main_config_model.cron_export_path + '/' + filetime + '_systems.xls'

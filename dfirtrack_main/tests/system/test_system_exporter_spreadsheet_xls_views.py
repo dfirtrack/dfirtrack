@@ -1,13 +1,31 @@
 from datetime import datetime
 from django.contrib.auth.models import User
+from django.contrib.messages import get_messages
 from django.test import TestCase
 from django.utils import timezone
-from dfirtrack_config.models import MainConfigModel, SystemExporterSpreadsheetXlsConfigModel
+from dfirtrack_config.models import MainConfigModel
+from dfirtrack_config.models import SystemExporterSpreadsheetXlsConfigModel
 from dfirtrack_main.exporter.spreadsheet.xls import system_cron
-from dfirtrack_main.models import Analysisstatus, Case, Company, Dnsname, Domain, Ip, Location, Os, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Tag, Tagcolor
+from dfirtrack_main.models import Analysisstatus
+from dfirtrack_main.models import Case
+from dfirtrack_main.models import Company
+from dfirtrack_main.models import Dnsname
+from dfirtrack_main.models import Domain
+from dfirtrack_main.models import Ip
+from dfirtrack_main.models import Location
+from dfirtrack_main.models import Os
+from dfirtrack_main.models import Reason
+from dfirtrack_main.models import Recommendation
+from dfirtrack_main.models import Serviceprovider
+from dfirtrack_main.models import System
+from dfirtrack_main.models import Systemstatus
+from dfirtrack_main.models import Systemtype
+from dfirtrack_main.models import Tag
+from dfirtrack_main.models import Tagcolor
 from mock import patch
 import urllib.parse
 import xlrd
+
 
 class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
     """ system exporter spreadsheet XLS view tests """
@@ -16,7 +34,13 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create user
-        test_user = User.objects.create_user(username='testuser_system_exporter_spreadsheet_xls', password='AIsOtQ2zchYhNZBfWIHu')
+        test_user = User.objects.create_user(
+            username = 'testuser_system_exporter_spreadsheet_xls',
+            is_staff = True,
+            is_superuser = True,
+            password = 'AIsOtQ2zchYhNZBfWIHu',
+        )
+        User.objects.create_user(username='message_user', password='qbldDxAdkR5rbKQ1WHMW')
 
         # create objects
         dnsname_1 = Dnsname.objects.create(dnsname_name='dnsname_1')
@@ -83,7 +107,6 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
                 os = os_1,
                 location = location_1,
                 serviceprovider = serviceprovider_1,
-                system_modify_time = timezone.now(),
                 system_created_by_user_id = test_user,
                 system_modified_by_user_id = test_user,
             )
@@ -110,7 +133,6 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
             System.objects.create(
                 system_name = 'system_2_no_attributes',
                 systemstatus = systemstatus_1,
-                system_modify_time = timezone.now(),
                 system_created_by_user_id = test_user,
                 system_modified_by_user_id = test_user,
             )
@@ -120,13 +142,12 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
             system_name = 'system_3_not_exported',
             systemstatus = systemstatus_1,
             system_export_spreadsheet = False,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
 
     def test_system_exporter_spreadsheet_xls_not_logged_in(self):
-        """ test exporter view """
+        """ test instant spreadsheet export via button for direct download via browser """
 
         # create url
         destination = '/login/?next=' + urllib.parse.quote('/system/exporter/spreadsheet/xls/system/', safe='')
@@ -136,7 +157,7 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_system_exporter_spreadsheet_xls_logged_in(self):
-        """ test exporter view """
+        """ test instant spreadsheet export via button for direct download via browser """
 
         # login testuser
         self.client.login(username='testuser_system_exporter_spreadsheet_xls', password='AIsOtQ2zchYhNZBfWIHu')
@@ -146,7 +167,7 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_system_exporter_spreadsheet_xls_redirect(self):
-        """ test exporter view """
+        """ test instant spreadsheet export via button for direct download via browser """
 
         # login testuser
         self.client.login(username='testuser_system_exporter_spreadsheet_xls', password='AIsOtQ2zchYhNZBfWIHu')
@@ -158,7 +179,7 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
     def test_system_exporter_spreadsheet_xls_minimal_spreadsheet(self):
-        """ test exporter view """
+        """ test instant spreadsheet export via button for direct download via browser """
 
         """ modify config section """
 
@@ -240,7 +261,7 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
         self.assertEqual(sheet_systems.cell(5,1).value, 'testuser_system_exporter_spreadsheet_xls')
 
     def test_system_exporter_spreadsheet_xls_complete_spreadsheet(self):
-        """ test exporter view """
+        """ test instant spreadsheet export via button for direct download via browser """
 
         """ modify config section """
 
@@ -453,8 +474,76 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
         self.assertEqual(sheet_systems.cell(5,0).value, 'Created by:')
         self.assertEqual(sheet_systems.cell(5,1).value, 'testuser_system_exporter_spreadsheet_xls')
 
+    def test_system_exporter_spreadsheet_xls_cron_path_not_existent(self):
+        """ test spreadsheet export via scheduled task to server file system """
+
+        # get and modify main config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        main_config_model.cron_export_path = '/this_path_does_not_exist'
+        main_config_model.cron_username = 'cron'
+        main_config_model.save()
+
+        # create spreadsheet without GET by directly calling the function
+        system_cron()
+
+        # login testuser
+        self.client.login(username='testuser_system_exporter_spreadsheet_xls', password='AIsOtQ2zchYhNZBfWIHu')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_system_exporter_spreadsheet_xls')
+        self.assertEqual(messages[0].message, '[Scheduled task spreadsheet exporter] SYSTEM_XLS: Export path does not exist. Check config or file system!')
+        self.assertEqual(messages[0].level_tag, 'error')
+        # switch user context
+        self.client.logout()
+        self.client.login(username='message_user', password='qbldDxAdkR5rbKQ1WHMW')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'message_user')
+        self.assertEqual(messages[0].message, '[Scheduled task spreadsheet exporter] SYSTEM_XLS: Export path does not exist. Check config or file system!')
+        self.assertEqual(messages[0].level_tag, 'error')
+
+    def test_system_exporter_spreadsheet_xls_cron_path_no_write_permission(self):
+        """ test spreadsheet export via scheduled task to server file system """
+
+        # get and modify main config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        main_config_model.cron_export_path = '/root'
+        main_config_model.cron_username = 'cron'
+        main_config_model.save()
+
+        # create spreadsheet without GET by directly calling the function
+        system_cron()
+
+        # login testuser
+        self.client.login(username='testuser_system_exporter_spreadsheet_xls', password='AIsOtQ2zchYhNZBfWIHu')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_system_exporter_spreadsheet_xls')
+        self.assertEqual(messages[0].message, '[Scheduled task spreadsheet exporter] SYSTEM_XLS: No write permission for export path. Check config or file system!')
+        self.assertEqual(messages[0].level_tag, 'error')
+        # switch user context
+        self.client.logout()
+        self.client.login(username='message_user', password='qbldDxAdkR5rbKQ1WHMW')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'message_user')
+        self.assertEqual(messages[0].message, '[Scheduled task spreadsheet exporter] SYSTEM_XLS: No write permission for export path. Check config or file system!')
+        self.assertEqual(messages[0].level_tag, 'error')
+
     def test_system_exporter_spreadsheet_xls_cron_complete_spreadsheet(self):
-        """ test exporter view """
+        """ test spreadsheet export via scheduled task to server file system """
 
         """ modify config section """
 
@@ -673,3 +762,83 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
         self.assertEqual(sheet_systems.cell(4,1).value,  t3_now.strftime('%Y-%m-%d %H:%M'))
         self.assertEqual(sheet_systems.cell(5,0).value, 'Created by:')
         self.assertEqual(sheet_systems.cell(5,1).value, 'cron')
+
+    def test_system_exporter_spreadsheet_xls_create_cron_not_logged_in(self):
+        """ test helper function to check config before creating scheduled task """
+
+        # create url
+        destination = '/login/?next=' + urllib.parse.quote('/system/exporter/spreadsheet/xls/system/cron/', safe='')
+        # get response
+        response = self.client.get('/system/exporter/spreadsheet/xls/system/cron/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_system_exporter_spreadsheet_xls_create_cron_logged_in(self):
+        """ test helper function to check config before creating scheduled task """
+
+        # login testuser
+        self.client.login(username='testuser_system_exporter_spreadsheet_xls', password='AIsOtQ2zchYhNZBfWIHu')
+        # create url
+        destination = urllib.parse.quote('/admin/django_q/schedule/add/?name=system_spreadsheet_exporter_xls&func=dfirtrack_main.exporter.spreadsheet.xls.system_cron', safe='/?=&')
+        # get response
+        response = self.client.get('/system/exporter/spreadsheet/xls/system/cron/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_system_exporter_spreadsheet_xls_create_cron_redirect(self):
+        """ test helper function to check config before creating scheduled task """
+
+        # login testuser
+        self.client.login(username='testuser_system_exporter_spreadsheet_xls', password='AIsOtQ2zchYhNZBfWIHu')
+        # create url
+        destination = urllib.parse.quote('/admin/django_q/schedule/add/?name=system_spreadsheet_exporter_xls&func=dfirtrack_main.exporter.spreadsheet.xls.system_cron', safe='/?=&')
+        # get response
+        response = self.client.get('/system/exporter/spreadsheet/xls/system/cron', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_system_exporter_spreadsheet_xls_create_cron_path_not_existent(self):
+        """ test helper function to check config before creating scheduled task """
+
+        # get and modify main config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        main_config_model.cron_export_path = '/this_path_does_not_exist'
+        main_config_model.cron_username = 'cron'
+        main_config_model.save()
+
+        # login testuser
+        self.client.login(username='testuser_system_exporter_spreadsheet_xls', password='AIsOtQ2zchYhNZBfWIHu')
+
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.get('/system/exporter/spreadsheet/xls/system/cron/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(messages[0].message, 'Export path does not exist. Check config or file system!')
+        self.assertEqual(messages[0].level_tag, 'error')
+
+    def test_system_exporter_spreadsheet_xls_create_cron_path_no_write_permission(self):
+        """ test helper function to check config before creating scheduled task """
+
+        # get and modify main config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        main_config_model.cron_export_path = '/root'
+        main_config_model.cron_username = 'cron'
+        main_config_model.save()
+
+        # login testuser
+        self.client.login(username='testuser_system_exporter_spreadsheet_xls', password='AIsOtQ2zchYhNZBfWIHu')
+
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.get('/system/exporter/spreadsheet/xls/system/cron/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(messages[0].message, 'No write permission for export path. Check config or file system!')
+        self.assertEqual(messages[0].level_tag, 'error')

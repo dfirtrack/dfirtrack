@@ -3,6 +3,7 @@ from django.test import TestCase
 from django.utils import timezone
 from dfirtrack_main.models import Entry, System, Systemstatus
 
+
 class EntryModelTestCase(TestCase):
     """ entry model tests """
 
@@ -19,7 +20,6 @@ class EntryModelTestCase(TestCase):
         system_1 = System.objects.create(
             system_name='system_1',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
@@ -42,6 +42,14 @@ class EntryModelTestCase(TestCase):
         entry_id = entry_1.entry_id
         # compare
         self.assertEqual(str(entry_1), str(entry_id) + ' | ' + str(entry_1.system) + ' | ' + 'da39a3ee5e6b4b0d3255bfef95601890afd80709')
+
+    def test_entry_verbose_name_plural(self):
+        """ test string representation """
+
+        # get object
+        entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
+        # compare
+        self.assertEqual(entry_1._meta.verbose_name_plural, 'entries')
 
     def test_entry_id_attribute_label(self):
         """ test attribute label """

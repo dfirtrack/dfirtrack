@@ -18,7 +18,7 @@
 
 <!-- HTML body in maintemplate -->
 {% block content %}
-        
+
 <!-- headline -->
 <div class="bottom-distance">
     <h4>
@@ -59,7 +59,8 @@
         <div class="row">
             <div class="col">
                 <h5>
-                    Taskname (*):
+                    <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    {{ form.taskname.label }}
                 </h5>
             </div>
         </div>
@@ -78,10 +79,10 @@
         </div>
 
         <!-- parent task headline -->
-        <div class="row">
+        <div class="row top-distance">
             <div class="col-3">
                 <div class="font-weight-bold">
-                    Parent task:
+                    {{ form.parent_task.label }}
                 </div>
             </div>
         </div>
@@ -104,34 +105,60 @@
 
     <!-- ############################################ -->
 
-    <!-- tag block -->
+    <!-- tags / case block -->
     <div class="card card-body bg-dark border-light top-distance">
 
-        <!-- tag headline -->
+        <!-- tags / case headline row -->
         <div class="row">
+
+            <!-- tags headline -->
             <div class="col">
                 <h5>
-                    Tags
+                    <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    {{ form.tag.label }}
                 </h5>
             </div>
+
+            <!-- case headline -->
+            <div class="col">
+                <h5>
+                    <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    {{ form.case.label }}
+                </h5>
+            </div>
+
+        <!-- tags / case headline row -->
         </div>
 
-        <!-- tags -->
+        <!-- tags / case -->
         <div class="row">
+
+            <!-- tags -->
             <div class="col-6">
                 <div class="card card-body bg-dark border-light top-distance">
                     <!-- tag errors -->
                     <div class="text-danger">
                         {{ form.tag.errors }}
                     </div>
-                    {% for i in form.tag %}
-                        {{ i }}<br>
-                    {% endfor %}
+                    {{ form.tag }}
                 </div>
             </div>
+
+            <!-- case -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- case errors -->
+                    <div class="text-danger">
+                        {{ form.case.errors }}
+                    </div>
+                    {{ form.case }}
+                </div>
+            </div>
+
+        <!-- tags / case -->
         </div>
 
-    <!-- tag block -->
+    <!-- tags / case block -->
     </div>
 
     <!-- ############################################ -->
@@ -154,14 +181,14 @@
             <!-- taskstatus headline -->
             <div class="col-3">
                 <div class="font-weight-bold">
-                    Status (*):
+                    {{ form.taskstatus.label }}
                 </div>
             </div>
 
             <!-- taskpriority headline -->
             <div class="col-3">
                 <div class="font-weight-bold">
-                    Priority (*):
+                    {{ form.taskpriority.label }}
                 </div>
             </div>
 
@@ -206,14 +233,16 @@
             <!-- system headline -->
             <div class="col-3">
                 <div class="font-weight-bold">
-                    Corresponding system:
+                    <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    {{ form.system.label }}
                 </div>
             </div>
 
             <!-- assigned user headline -->
             <div class="col-3">
                 <div class="font-weight-bold">
-                    Assigned to user:
+                    <img src="{% static 'dfirtrack_main/icons/person-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    {{ form.task_assigned_to_user_id.label }}
                 </div>
             </div>
 
@@ -241,13 +270,42 @@
                     <div class="text-danger">
                         {{ form.task_assigned_to_user_id.errors }}
                     </div>
-                    {% for i in form.task_assigned_to_user_id %}
-                        {{ i }}<br>
-                    {% endfor %}
+                    {{ form.task_assigned_to_user_id }}
                 </div>
             </div>
 
         <!-- system / user row -->
+        </div>
+
+        <!-- artifact headlines row -->
+        <div class="row top-distance">
+
+            <!-- artifact headline -->
+            <div class="col-3">
+                <div class="font-weight-bold">
+                    <img src="{% static 'dfirtrack_main/icons/bug-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    {{ form.artifact.label }}
+                </div>
+            </div>
+
+        <!-- artifact headlines row -->
+        </div>
+
+        <!-- artifact row -->
+        <div class="row">
+
+            <!-- artifact -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- artifact errors -->
+                    <div class="text-danger">
+                        {{ form.artifact.errors }}
+                    </div>
+                    {{ form.artifact }}
+                </div>
+            </div>
+
+        <!-- artifact row -->
         </div>
 
     <!-- status information block -->
@@ -272,8 +330,7 @@
 
             <!-- task scheduled time headline -->
             <div class="col-2">
-                    Scheduled:<br>
-                    (YYYY-MM-DD HH:MM:SS)
+                {{ form.task_scheduled_time.label }}
             </div>
 
             <!-- task scheduled time tooltip -->
@@ -309,8 +366,7 @@
 
             <!-- task due time headline -->
             <div class="col-2">
-                    Due:<br>
-                    (YYYY-MM-DD HH:MM:SS)
+                {{ form.task_due_time.label }}
             </div>
 
             <!-- task due time tooltip -->
@@ -367,7 +423,7 @@
         <div class="row">
             <div class="col">
                 <h5>
-                    Note
+                    {{ form.task_note.label }}
                 </h5>
             </div>
         </div>
@@ -406,6 +462,6 @@
 
 <!-- form -->
 </form>
-    
+
 <!-- HTML body in maintemplate -->
 {% endblock %}

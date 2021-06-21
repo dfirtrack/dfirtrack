@@ -1,0 +1,55 @@
+<!-- custom widget template -->
+{% load static %}
+
+<!-- display for selected tags -->
+<div id="selected_tags" class="bottom-distance"></div>
+<!-- display for selected tags -->
+
+<!-- hidden tag checkboxed, will be selected via javascript -->
+<div id="hidden_tags" style="display:none;"> 
+    {% for group_name, group_choices, group_index in widget.optgroups %}
+        {% for option in group_choices %}   
+            <!-- tag input options.attr.items set django input attributes for exmaple checked items -->
+            <input 
+                type="{{ option.type }}" name="{{ widget.name }}" value="{{ option.value }}"
+                {% for name, value in option.attrs.items %}
+                    {% if value is not False %} 
+                        {{ name }}{% if value is not True %}="{{ value|stringformat:'s' }}"{% endif %}
+                    {% endif %}
+                {% endfor %}
+            >
+         {% endfor %}
+    {% endfor %}
+</div>
+<!-- hidden tag checkboxed, will be selected via javascript -->
+
+<!-- tag dropdown list and add tag button -->
+<div class="row">
+    <div class="col">
+        <select id="tag_select">
+        {% for group_name, group_choices, group_index in widget.optgroups %}
+            {% for option in group_choices %}
+                <option value="{{ option.value|stringformat:'s' }}">{{ option.label }}</option>
+            {% endfor %}
+        {% endfor %}
+        </select>
+    
+        <button  id="add_tag" type="button" class="btn btn-light btn-sm copy-false">
+            Add Tag
+        </button>
+    </div>
+</div>
+<!-- tag dropdown list and add tag button -->
+
+<!-- tag javascript array for custom javascript code in dfirtrack.js -->
+<script type="text/javascript">
+    var tags = {};
+    {% for i in tags%}
+        tags[{{ i.tag_id }}] = ["{{ i }}", "{{ i.tagcolor }}"]
+    {% endfor %}
+    var tag_icon = "{% static 'dfirtrack_main/icons/tag.svg' %}"
+    var tag_icon_light = "{% static 'dfirtrack_main/icons/tag-light.svg' %}"
+</script>
+<!-- tag javascript array -->
+
+<!-- custom widget template -->

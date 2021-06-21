@@ -1,0 +1,214 @@
+<!-- extending maintemplate -->
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+<!-- HTML head in maintemplate -->
+{% block head %}
+
+<!-- page title -->
+<title>
+    DFIRTrack - Workflows
+</title>
+
+<!-- HTML head in maintemplate -->
+{% endblock %}
+
+{% load static %}
+
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
+{% block content %}
+
+<!-- up button -->
+<div class="row bottom-distance">
+    <div class="col-3">
+        <a href="{% url 'workflow_list' %}" type="button" class="btn btn-light copy-false">
+            <img src="{% static 'dfirtrack_main/icons/arrow-circle-top.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Up to workflows
+        </a>
+    </div>
+</div>
+
+<!-- headline -->
+<div class="row bottom-distance">
+    <div class="col">
+        <h5>
+            <img src="{% static 'dfirtrack_main/icons/layers-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+            Workflow "{{workflow.workflow_name}}"
+        </h5>
+    </div>
+</div>
+
+<!-- metadata row -->
+<div class="row bottom-distance top-distance">
+
+    <!-- workflow id -->
+    <div class="col-5">
+        <small class="text-muted">
+            Workflow-ID: {{ workflow.workflow_id }}
+        </small>
+    </div>
+
+    <!-- created -->
+    <div class="col-2">
+        <small class="text-muted">
+            Created by: {{ workflow.workflow_created_by_user_id }} <br>
+            {{ workflow.workflow_create_time|date:"Y-m-d H:i" }}
+        </small>
+    </div>
+
+    <!-- modified -->
+    <div class="col-3">
+        <small class="text-muted">
+            Modified by: {{ workflow.workflow_modified_by_user_id }} <br>
+            {{ workflow.workflow_modify_time|date:"Y-m-d H:i" }}
+        </small>
+    </div>
+
+<!-- metadata row -->
+</div>
+
+<!-- taskname -->
+<div class="row bottom-distance">
+    <div class="col-3 font-weight-bold">
+        Tasks to create
+    </div>
+</div>
+
+<!-- taskname list-->
+{% if tasknames|length > 0 %}
+
+    <!-- taskname headlines-->
+    <div class="row bottom-distance">
+        <div class="col-1 font-weight-bold">ID</div>
+        <div class="col-4 font-weight-bold">Taskname</div>
+        <div class="col-2 font-weight-bold">Default taskstatus</div>
+        <div class="col-2 font-weight-bold">Default taskpriority</div>
+    </div>
+
+    <!-- tasknames -->
+    {% for taskname in tasknames %}
+    <div class="row bottom-distance">
+
+        <!-- taskname id -->
+        <div class="col-1">
+            {{ taskname.taskname_id }}
+        </div>
+
+        <!-- taskname -->
+        <div class="col-4">
+            <a href="{{ taskname.taskname.get_absolute_url }}">
+                {{ taskname }}
+            </a>
+        </div>
+
+        <!-- taskstatus -->
+        <div class="col-2">
+            <a href="{{ taskname.task_default_status.get_absolute_url }}">
+                {{ taskname.task_default_status }}
+            </a>
+        </div>
+
+        <!-- taskpriority -->
+        <div class="col-2">
+            <a href="{{ taskname.task_default_priority.get_absolute_url }}">
+                {{ taskname.task_default_priority }}
+            </a>
+        </div>
+
+    <!-- tasknames -->
+    </div>
+    {% endfor %}
+
+<!-- taskname list-->
+{% else %}
+    ---
+{% endif %}
+
+<!-- artifacttype -->
+<div class="row top-distance bottom-distance">
+    <div class="col-3 font-weight-bold">
+        Artifacts to create
+    </div>
+</div>
+
+<!-- artifacttype list -->
+{% if artifacttypes|length > 0 %}
+
+    <!-- artifacttype headlines-->
+    <div class="row bottom-distance">
+        <div class="col-1 font-weight-bold">ID</div>
+        <div class="col-2 font-weight-bold">Artifacttype</div>
+        <div class="col-2 font-weight-bold">Artifact default name</div>
+        <div class="col-2 font-weight-bold">Default artifactstatus</div>
+        <div class="col-2 font-weight-bold">Default artifactpriority</div>
+    </div>
+
+    <!-- artifacttypes -->
+    {% for artifacttype in artifacttypes %}
+    <div class="row bottom-distance">
+
+        <!-- artifacttype id -->
+        <div class="col-1">
+            {{ artifacttype.artifacttype_id }}
+        </div>
+
+        <!-- artifacttype -->
+        <div class="col-2">
+            <a href="{{ artifacttype.artifacttype.get_absolute_url }}">
+                {{ artifacttype.artifacttype }}
+            </a>
+        </div>
+
+        <!-- artifact default name -->
+        <div class="col-2">
+                {{ artifacttype.artifact_default_name }}
+        </div>
+
+        <!-- artifactstatus -->
+        <div class="col-2">
+            <a href="{{ artifacttype.artifact_default_status.get_absolute_url }}">
+                {{ artifacttype.artifact_default_status }}
+            </a>
+        </div>
+
+        <!-- artifactpriority -->
+        <div class="col-2">
+            <a href="{{ artifacttype.artifact_default_priority.get_absolute_url }}">
+                {{ artifacttype.artifact_default_priority }}
+            </a>
+        </div>
+
+    <!-- artifacttypes -->
+    </div>
+    {% endfor %}
+
+<!-- artifacttype list -->
+{% else %}
+    ---
+{% endif %}
+
+<!-- button row -->
+<div class="row top-distance">
+
+    <!-- edit button -->
+    <div class="col-1">
+        <a href="{{ workflow.get_update_url }}" type="button" class="btn btn-light copy-false">
+            <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Edit
+        </a>
+    </div>
+
+    <!-- delete button -->
+    <div class="col-1">
+        <a href="{{ workflow.get_delete_url }}" type="button" class="btn btn-light copy-false">
+            <img src="{% static 'dfirtrack_main/icons/trash.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Delete
+        </a>
+    </div>
+
+<!-- button row -->
+</div>
+
+{% endblock %}
+<!-- HTML body in maintemplate -->

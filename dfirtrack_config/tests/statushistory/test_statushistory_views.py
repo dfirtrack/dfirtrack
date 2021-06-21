@@ -3,12 +3,24 @@ from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
 from django.utils import timezone
-from dfirtrack_artifacts.models import Artifact, Artifactstatus, Artifacttype
-from dfirtrack_config.models import Statushistory, StatushistoryEntry
+from dfirtrack_artifacts.models import Artifact
+from dfirtrack_artifacts.models import Artifactstatus
+from dfirtrack_artifacts.models import Artifacttype
+from dfirtrack_config.models import Statushistory
+from dfirtrack_config.models import StatushistoryEntry
 from dfirtrack_config.views.statushistory import statushistory_save_cron
-from dfirtrack_main.models import System, Systemstatus, Task, Taskname, Taskpriority, Taskstatus
+from dfirtrack_main.models import Case
+from dfirtrack_main.models import Casepriority
+from dfirtrack_main.models import Casestatus
+from dfirtrack_main.models import System
+from dfirtrack_main.models import Systemstatus
+from dfirtrack_main.models import Task
+from dfirtrack_main.models import Taskname
+from dfirtrack_main.models import Taskpriority
+from dfirtrack_main.models import Taskstatus
 from mock import patch
 import urllib.parse
+
 
 class StatushistoryViewTestCase(TestCase):
     """ statushistory view tests """
@@ -29,6 +41,12 @@ class StatushistoryViewTestCase(TestCase):
         artifacttype_1 = Artifacttype.objects.create(artifacttype_name='artifacttype_1')
 
         # create object
+        casepriority_1 = Casepriority.objects.create(casepriority_name='casepriority_1')
+
+        # create object
+        casestatus_1 = Casestatus.objects.create(casestatus_name='casestatus_1')
+
+        # create object
         systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
 
         # create object
@@ -44,21 +62,18 @@ class StatushistoryViewTestCase(TestCase):
         system_1 = System.objects.create(
             system_name = 'system_1',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
         System.objects.create(
             system_name = 'system_2',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
         System.objects.create(
             system_name = 'system_3',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
@@ -89,6 +104,36 @@ class StatushistoryViewTestCase(TestCase):
             system = system_1,
             artifact_created_by_user_id = test_user,
             artifact_modified_by_user_id = test_user,
+        )
+
+        # create object
+        Case.objects.create(
+            case_name = 'case_1',
+            casepriority = casepriority_1,
+            casestatus = casestatus_1,
+            case_is_incident = True,
+            case_created_by_user_id = test_user,
+        )
+        Case.objects.create(
+            case_name = 'case_2',
+            casepriority = casepriority_1,
+            casestatus = casestatus_1,
+            case_is_incident = True,
+            case_created_by_user_id = test_user,
+        )
+        Case.objects.create(
+            case_name = 'case_3',
+            casepriority = casepriority_1,
+            casestatus = casestatus_1,
+            case_is_incident = True,
+            case_created_by_user_id = test_user,
+        )
+        Case.objects.create(
+            case_name = 'case_4',
+            casepriority = casepriority_1,
+            casestatus = casestatus_1,
+            case_is_incident = True,
+            case_created_by_user_id = test_user,
         )
 
     def test_statushistory_save_view_not_logged_in(self):
@@ -157,6 +202,10 @@ class StatushistoryViewTestCase(TestCase):
             statushistory = statushistory,
             statushistoryentry_model_name = 'artifacts_number',
         )
+        cases_number = StatushistoryEntry.objects.get(
+            statushistory = statushistory,
+            statushistoryentry_model_name = 'cases_number',
+        )
         systems_number = StatushistoryEntry.objects.get(
             statushistory = statushistory,
             statushistoryentry_model_name = 'systems_number',
@@ -190,6 +239,14 @@ class StatushistoryViewTestCase(TestCase):
             statushistory = statushistory,
             statushistoryentry_model_name = 'artifactstatus',
         )
+        casepriority_all = StatushistoryEntry.objects.filter(
+            statushistory = statushistory,
+            statushistoryentry_model_name = 'casepriority',
+        )
+        casestatus_all = StatushistoryEntry.objects.filter(
+            statushistory = statushistory,
+            statushistoryentry_model_name = 'casestatus',
+        )
         systemstatus_all = StatushistoryEntry.objects.filter(
             statushistory = statushistory,
             statushistoryentry_model_name = 'systemstatus',
@@ -204,6 +261,7 @@ class StatushistoryViewTestCase(TestCase):
         )
         # compare numbers
         self.assertEqual(artifacts_number.statushistoryentry_model_value, 2)
+        self.assertEqual(cases_number.statushistoryentry_model_value, 4)
         self.assertEqual(systems_number.statushistoryentry_model_value, 3)
         self.assertEqual(tasks_number.statushistoryentry_model_value, 1)
         # compare artifactpriority
@@ -221,6 +279,16 @@ class StatushistoryViewTestCase(TestCase):
                 self.assertEqual(artifactstatus.statushistoryentry_model_value, 2)
             else:
                 self.assertEqual(artifactstatus.statushistoryentry_model_value, 0)
+        for casepriority in casepriority_all:
+            if casepriority.statushistoryentry_model_key == 'casepriority_1':
+                self.assertEqual(casepriority.statushistoryentry_model_value, 4)
+            else:
+                self.assertEqual(casepriority.statushistoryentry_model_value, 0)
+        for casestatus in casestatus_all:
+            if casestatus.statushistoryentry_model_key == 'casestatus_1':
+                self.assertEqual(casestatus.statushistoryentry_model_value, 4)
+            else:
+                self.assertEqual(casestatus.statushistoryentry_model_value, 0)
         for systemstatus in systemstatus_all:
             if systemstatus.statushistoryentry_model_key == 'systemstatus_1':
                 self.assertEqual(systemstatus.statushistoryentry_model_value, 3)
@@ -254,6 +322,10 @@ class StatushistoryViewTestCase(TestCase):
             statushistory = statushistory,
             statushistoryentry_model_name = 'artifacts_number',
         )
+        cases_number = StatushistoryEntry.objects.get(
+            statushistory = statushistory,
+            statushistoryentry_model_name = 'cases_number',
+        )
         systems_number = StatushistoryEntry.objects.get(
             statushistory = statushistory,
             statushistoryentry_model_name = 'systems_number',
@@ -287,6 +359,14 @@ class StatushistoryViewTestCase(TestCase):
             statushistory = statushistory,
             statushistoryentry_model_name = 'artifactstatus',
         )
+        casepriority_all = StatushistoryEntry.objects.filter(
+            statushistory = statushistory,
+            statushistoryentry_model_name = 'casepriority',
+        )
+        casestatus_all = StatushistoryEntry.objects.filter(
+            statushistory = statushistory,
+            statushistoryentry_model_name = 'casestatus',
+        )
         systemstatus_all = StatushistoryEntry.objects.filter(
             statushistory = statushistory,
             statushistoryentry_model_name = 'systemstatus',
@@ -301,6 +381,7 @@ class StatushistoryViewTestCase(TestCase):
         )
         # compare numbers
         self.assertEqual(artifacts_number.statushistoryentry_model_value, 2)
+        self.assertEqual(cases_number.statushistoryentry_model_value, 4)
         self.assertEqual(systems_number.statushistoryentry_model_value, 3)
         self.assertEqual(tasks_number.statushistoryentry_model_value, 1)
         # compare artifactpriority
@@ -318,6 +399,16 @@ class StatushistoryViewTestCase(TestCase):
                 self.assertEqual(artifactstatus.statushistoryentry_model_value, 2)
             else:
                 self.assertEqual(artifactstatus.statushistoryentry_model_value, 0)
+        for casepriority in casepriority_all:
+            if casepriority.statushistoryentry_model_key == 'casepriority_1':
+                self.assertEqual(casepriority.statushistoryentry_model_value, 4)
+            else:
+                self.assertEqual(casepriority.statushistoryentry_model_value, 0)
+        for casestatus in casestatus_all:
+            if casestatus.statushistoryentry_model_key == 'casestatus_1':
+                self.assertEqual(casestatus.statushistoryentry_model_value, 4)
+            else:
+                self.assertEqual(casestatus.statushistoryentry_model_value, 0)
         for systemstatus in systemstatus_all:
             if systemstatus.statushistoryentry_model_key == 'systemstatus_1':
                 self.assertEqual(systemstatus.statushistoryentry_model_value, 3)

@@ -64,7 +64,8 @@
 
             <div class="col-6">
                 <h5>
-                    Systemlist (*):
+                    <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    {{ form.systemlist.label }}
                 </h5>
             </div>
 
@@ -92,7 +93,7 @@
 
     <!-- ############################################ -->
 
-    <!-- tag / case block -->
+    <!-- tag / workflow / case block -->
     <div class="card card-body bg-dark border-light top-distance">
 
         <!-- tag / case headline row -->
@@ -101,7 +102,8 @@
             <!-- tag headline -->
             <div class="col-6">
                 <h5>
-                    Tags
+                    <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    {{ form.tag.label }}
                 </h5>
             </div>
 
@@ -118,16 +120,62 @@
                     <div class="text-danger">
                         {{ form.tag.errors }}
                     </div>
-                    {% for i in form.tag %}
-                        {{ i }}<br>
-                    {% endfor %}
+                    {{ form.tag }}
                 </div>
             </div>
 
         <!-- tag / case row -->
         </div>
 
-    <!-- tag / case block -->
+        <!-- delete checkbox row -->
+        <div class="row">
+
+            <!-- tag_delete -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- tag_delete errors -->
+                    <div class="text-danger">
+                        {{ form.tag_delete.errors }}
+                    </div>
+                    <div class="bottom-distance">
+                        {{ form.tag_delete.label }}
+                    </div>
+                    {% for i in form.tag_delete %}
+                        {{ i }}
+                    {% endfor %}
+                </div>
+            </div>
+
+        <!-- delete checkbox row -->
+        </div>
+
+    
+        <!-- workflow row -->
+        <div class="row top-distance">
+            <!-- tags headline -->
+            <div class="col-6">
+                <h5>
+                    <img src="{% static 'dfirtrack_main/icons/layers-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    Workflows
+                </h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="card card-body bg-dark border-light top-distance">
+                    {% for workflow in workflows %}
+                        <label for="id_form_workflow_{{ workflow.workflow_id }}">
+                            <input type="checkbox" name="workflow" value="{{ workflow.workflow_id }}" id="id_form_workflow_{{ workflow.workflow_id }}">
+                            {{workflow}}
+                        </label>
+                        <br />
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <!-- workflow row -->
+
+    <!-- tag / workflow / case block -->
     </div>
 
     <!-- ############################################ -->
@@ -150,14 +198,14 @@
             <!-- systemstatus headline -->
             <div class="col-3">
                 <div class="font-weight-bold">
-                    Systemstatus (*):
+                    {{ form.systemstatus.label }}
                 </div>
             </div>
 
             <!-- analysisstatus headline -->
             <div class="col-3">
                 <div class="font-weight-bold">
-                    Analysisstatus:
+                    {{ form.analysisstatus.label }}
                 </div>
             </div>
 
@@ -217,28 +265,28 @@
             <!-- company headline -->
             <div class="col-3">
                 <div class="font-weight-bold">
-                    Company:
+                    {{ form.company.label }}
                 </div>
             </div>
 
             <!-- location headline -->
             <div class="col-3">
                 <div class="font-weight-bold">
-                    Location:
+                    {{ form.location.label }}
                 </div>
             </div>
 
             <!-- serviceprovider headline -->
             <div class="col-3">
                 <div class="font-weight-bold">
-                    Serviceprovider:
+                    {{ form.serviceprovider.label }}
                 </div>
             </div>
 
             <!-- contact headline -->
             <div class="col-3">
                 <div class="font-weight-bold">
-                    Contact:
+                    {{ form.contact.label }}
                 </div>
             </div>
 
@@ -264,43 +312,107 @@
             <!-- location -->
             <div class="col-3">
                 <div class="card card-body bg-dark border-light top-distance">
-                    <!-- analysisstatus errors -->
+                    <!-- location errors -->
                     <div class="text-danger">
                         {{ form.location.errors }}
                     </div>
-                    {% for i in form.location %}
-                        {{ i }}<br>
-                    {% endfor %}
+                    {{ form.location }}
                 </div>
             </div>
 
             <!-- serviceprovider -->
             <div class="col-3">
                 <div class="card card-body bg-dark border-light top-distance">
-                    <!-- analysisstatus errors -->
+                    <!-- serviceprovider errors -->
                     <div class="text-danger">
                         {{ form.serviceprovider.errors }}
                     </div>
-                    {% for i in form.serviceprovider %}
-                        {{ i }}<br>
-                    {% endfor %}
+                    {{ form.serviceprovider }}
                 </div>
             </div>
 
             <!-- contact -->
             <div class="col-3">
                 <div class="card card-body bg-dark border-light top-distance">
-                    <!-- analysisstatus errors -->
+                    <!-- contact errors -->
                     <div class="text-danger">
                         {{ form.contact.errors }}
                     </div>
-                    {% for i in form.contact %}
-                        {{ i }}<br>
-                    {% endfor %}
+                    {{ form.contact }}
                 </div>
             </div>
 
         <!-- company information row  -->
+        </div>
+
+        <!-- delete checkbox row -->
+        <div class="row">
+
+            <!-- company_delete -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- company_delete errors -->
+                    <div class="text-danger">
+                        {{ form.company_delete.errors }}
+                    </div>
+                    <div class="bottom-distance">
+                        {{ form.company_delete.label }}
+                    </div>
+                    {% for i in form.company_delete %}
+                        {{ i }}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- location_delete -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- location_delete errors -->
+                    <div class="text-danger">
+                        {{ form.location_delete.errors }}
+                    </div>
+                    <div class="bottom-distance">
+                        {{ form.location_delete.label }}
+                    </div>
+                    {% for i in form.location_delete %}
+                        {{ i }}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- serviceprovider_delete -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- serviceprovider_delete errors -->
+                    <div class="text-danger">
+                        {{ form.serviceprovider_delete.errors }}
+                    </div>
+                    <div class="bottom-distance">
+                        {{ form.serviceprovider_delete.label }}
+                    </div>
+                    {% for i in form.serviceprovider_delete %}
+                        {{ i }}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- contact_delete -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- contact_delete errors -->
+                    <div class="text-danger">
+                        {{ form.contact_delete.errors }}
+                    </div>
+                    <div class="bottom-distance">
+                        {{ form.contact_delete.label }}
+                    </div>
+                    {% for i in form.contact_delete %}
+                        {{ i }}
+                    {% endfor %}
+                </div>
+            </div>
+
+        <!-- delete checkbox row -->
         </div>
 
     <!-- company information -->

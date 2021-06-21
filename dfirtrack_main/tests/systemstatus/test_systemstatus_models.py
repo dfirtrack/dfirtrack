@@ -18,6 +18,14 @@ class SystemstatusModelTestCase(TestCase):
         # compare
         self.assertEqual(str(systemstatus_1), 'systemstatus_1')
 
+    def test_systemstatus_verbose_name_plural(self):
+        """ test string representation """
+
+        # get object
+        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+        # compare
+        self.assertEqual(systemstatus_1._meta.verbose_name_plural, 'systemstatus')
+
     def test_systemstatus_id_attribute_label(self):
         """ test attribute label """
 

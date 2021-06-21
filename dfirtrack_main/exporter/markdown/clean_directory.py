@@ -4,7 +4,7 @@ import os
 import shutil
 
 
-def clean_directory(request_user):
+def clean_directory(username):
     """ function to clean the system path within the markdown directory """
 
     # get config model
@@ -17,9 +17,9 @@ def clean_directory(request_user):
         # recreate markdown directory
         os.mkdir(model.markdown_path + "/docs/systems/")
         # call logger
-        debug_logger(request_user, " SYSTEM_MARKDOWN_ALL_SYSTEMS_DIRECTORY_CLEANED")
+        debug_logger(username, " SYSTEM_MARKDOWN_ALL_SYSTEMS_DIRECTORY_CLEANED")
     else:
         # create markdown directory
         os.makedirs(model.markdown_path + "/docs/systems/")
         # call logger
-        info_logger(request_user, " SYSTEM_MARKDOWN_FOLDER_CREATED")
+        info_logger(username, " SYSTEM_MARKDOWN_FOLDER_CREATED")

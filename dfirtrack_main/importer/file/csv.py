@@ -7,10 +7,12 @@ from dfirtrack_main.importer.file.csv_checks import check_config_attributes, che
 from dfirtrack_main.importer.file.csv_importer_forms import SystemImporterFileCsvForm
 from dfirtrack_main.importer.file.csv_main import system_handler
 from dfirtrack_main.logger.default_logger import debug_logger
+from urllib.parse import urlencode, urlunparse
 
 
 @login_required(login_url="/login")
 def system_create_cron(request):
+    """ helper function to check config before creating scheduled task """
 
     # get config model
     model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name = 'SystemImporterFileCsvConfig')
@@ -45,9 +47,21 @@ def system_create_cron(request):
         # return to 'system_list'
         return redirect(reverse('system_list'))
     else:
-        # TODO: [logic] build url with python
+
+        # create parameter dict
+        params = {}
+
+        # prepare parameter dict
+        params['name'] = 'system_importer_file_csv'
+        params['func'] = 'dfirtrack_main.importer.file.csv.system_cron'
+
+        # build url
+        urlpath = '/admin/django_q/schedule/add/'
+        urlquery = urlencode(params)
+        admin_url_create_cron = urlunparse(('','',urlpath,'',urlquery,''))
+
         # open django admin with pre-filled form for scheduled task
-        return redirect('/admin/django_q/schedule/add/?name=system_importer_file_csv&func=dfirtrack_main.importer.file.csv.system_cron')
+        return redirect(admin_url_create_cron)
 
 def system_cron():
     """  CSV import via scheduled task, file is on server file system """

@@ -6,7 +6,7 @@
 
 <!-- page title -->
 <title>
-    DFIRTrack - Artifactpriority
+    DFIRTrack - Artifactpriorities
 </title>
 
 {% load static %}
@@ -23,7 +23,7 @@
 <div class="row bottom-distance">
     <div class="col">
         <h5>
-            Artifactpriority
+            Artifactpriorities
         </h5>
     </div>
 </div>
@@ -39,6 +39,11 @@
     <!-- artifactpriority name headline -->
     <div class="col-2">
         Artifactpriority
+    </div>
+
+    <!-- artifact headline -->
+    <div class="col-1">
+        Artifacts
     </div>
 
     <!-- artifactpriority note headline -->
@@ -63,15 +68,20 @@
         <!-- artifactpriority name -->
         <div class="col-2">
             <a href="{{ i.get_absolute_url }}">
-                {% with artifactpriority=i %}
-                    {% include "dfirtrack_artifacts/includes/button_artifactpriority.html" %}
+                {% with priority_name=i.artifactpriority_name %}
+                    {% include "dfirtrack_main/includes/button_priority.html" %}
                 {% endwith %}
                 {{ i.artifactpriority_name }}
             </a>
         </div>
 
+        <!-- artifact -->
+        <div class="col-1">
+            {{ i.artifact_set.all|length }}
+        </div>
+
         <!-- artifactpriority note -->
-        <div class="col-9">
+        <div class="col-8">
             {% if i.artifactpriority_note %}
                 {{ i.artifactpriority_note|linebreaks }}
             {% else %}

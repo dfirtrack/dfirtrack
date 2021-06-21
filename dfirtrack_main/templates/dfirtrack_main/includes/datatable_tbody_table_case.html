@@ -1,0 +1,98 @@
+<!-- table body for datatable case -->
+
+{% load static %}
+
+<!-- table row -->
+<!-- (just one row, iterating over rows is done outside of this include file) -->
+<tr>
+
+    <!-- case id -->
+    <td>
+        {{ i.case_id }}
+    </td>
+
+    <!-- case id external -->
+    <td>
+        {% if i.case_id_external %}
+            {{ i.case_id_external }}
+        {% else %}
+            ---
+        {% endif %}
+    </td>
+
+    <!-- case name -->
+    <td>
+        <a href="{{ i.get_absolute_url }}" type="button" class="btn btn-primary btn-sm bottom-left top-right top-distance copy-true">
+            <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+            {{ i.case_name }}
+        </a>
+    </td>
+
+    <!-- casestatus -->
+    <td>
+        <a href="{{ i.casestatus.get_absolute_url }}">
+            {{ i.casestatus.casestatus_name }}
+        </a>
+    </td>
+
+    <!-- casepriority -->
+    <td>
+        <a href="{{ i.casepriority.get_absolute_url }}">
+            {% with priority_name=i.casepriority.casepriority_name %}
+                {% include "dfirtrack_main/includes/button_priority.html" %}
+            {% endwith %}
+            {{ i.casepriority.casepriority_name }}
+        </a>
+    </td>
+
+    <!-- casetype -->
+    <td>
+        {% if i.casetype.casetype_name %}
+            <a href="{{ i.casetype.get_absolute_url }}">
+                {{ i.casetype.casetype_name }}
+            </a>
+        {% else %}
+            ---
+        {% endif %}
+    </td>
+
+    <!-- systems -->
+    <td>
+        {{ i.system_set.all|length }}
+    </td>
+
+    <!-- artifacts -->
+    <td>
+        {{ i.artifact_case.all|length }}
+    </td>
+
+    <!-- case start time -->
+    <td class="text-muted">
+        {% if i.case_start_time %}
+            {{ i.case_start_time|date:"Y-m-d H:i" }}
+        {% else %}
+            ---
+        {% endif %}
+    </td>
+
+    <!-- case end time -->
+    <td class="text-muted">
+        {% if i.case_end_time %}
+            {{ i.case_end_time|date:"Y-m-d H:i" }}
+        {% else %}
+            ---
+        {% endif %}
+    </td>
+
+    <!-- case create time -->
+    <td class="text-muted">
+        {{ i.case_create_time|date:"Y-m-d H:i" }}
+    </td>
+
+    <!-- case modify time -->
+    <td class="text-muted">
+        {{ i.case_modify_time|date:"Y-m-d H:i" }}
+    </td>
+
+<!-- table row -->
+</tr>

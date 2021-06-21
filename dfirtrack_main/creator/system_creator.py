@@ -2,8 +2,8 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from django.utils import timezone
 from django_q.tasks import async_task
+from dfirtrack_config.models import Workflow
 from dfirtrack_main.async_messages.system_messages import final_messages
 from dfirtrack_main.forms import SystemCreatorForm
 from dfirtrack_main.logger.default_logger import debug_logger, info_logger, warning_logger
@@ -41,6 +41,9 @@ def system_creator(request):
         systemstatus = Systemstatus.objects.order_by('systemstatus_name')[0].systemstatus_id
         analysisstatus = Analysisstatus.objects.order_by('analysisstatus_name')[0].analysisstatus_id
 
+        # get all workflows
+        workflows = Workflow.objects.all()
+
         # show empty form with default values for convenience and speed reasons
         form = SystemCreatorForm(initial={
             'systemstatus': systemstatus,
@@ -50,7 +53,7 @@ def system_creator(request):
         # call logger
         debug_logger(str(request.user), ' SYSTEM_CREATOR_ENTERED')
 
-    return render(request, 'dfirtrack_main/system/system_creator.html', {'form': form})
+    return render(request, 'dfirtrack_main/system/system_creator.html', {'form': form, 'workflows': workflows})
 
 def system_creator_async(request_post, request_user):
     """ function to create many systems at once """
@@ -75,6 +78,16 @@ def system_creator_async(request_post, request_user):
 
     # create empty list (needed for messages)
     skipped_systems = []
+
+    # workflows to apply
+    workflows = request_post.getlist("workflow")
+
+    # set workflows_applied (needed for messages)
+    if workflows:
+        workflow_count = len(workflows)
+    else:
+        workflow_count = 0
+    workflows_applied = 0
 
     # iterate over lines
     for line in lines:
@@ -130,7 +143,6 @@ def system_creator_async(request_post, request_user):
             # set auto values
             system.system_created_by_user_id = request_user
             system.system_modified_by_user_id = request_user
-            system.system_modify_time = timezone.now()
 
             # save object
             system.save()
@@ -146,10 +158,18 @@ def system_creator_async(request_post, request_user):
             # call logger
             system.logger(str(request_user), ' SYSTEM_CREATOR_EXECUTED')
 
+            # apply workflows
+            if workflows:
+                error_code = Workflow.apply(workflows, system, request_user)
+                if error_code:
+                    system.logger(str(request_user), ' COULD_NOT_APPLY_WORKFLOW')
+                else:
+                    workflows_applied += workflow_count
+
     """ finish system importer """
 
     # call final messages
-    final_messages(systems_created_counter, systems_skipped_counter, lines_faulty_counter, skipped_systems, number_of_lines, request_user)
+    final_messages(systems_created_counter, systems_skipped_counter, lines_faulty_counter, skipped_systems, number_of_lines, request_user, workflow_count, workflows_applied)
 
     # call logger
     info_logger(
@@ -158,6 +178,7 @@ def system_creator_async(request_post, request_user):
         f' created:{systems_created_counter}'
         f'|skipped:{systems_skipped_counter}'
         f'|faulty_lines:{lines_faulty_counter}'
+        f'|workflows_applied:{workflows_applied}'
     )
 
     # call logger

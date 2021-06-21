@@ -1,10 +1,18 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
-from dfirtrack_artifacts.models import Artifact, Artifactpriority, Artifactstatus, Artifacttype
+from dfirtrack_artifacts.models import Artifact
+from dfirtrack_artifacts.models import Artifactpriority
+from dfirtrack_artifacts.models import Artifactstatus
+from dfirtrack_artifacts.models import Artifacttype
 from dfirtrack.config import EVIDENCE_PATH
-from dfirtrack_main.models import System, Systemstatus
+from dfirtrack_config.models import MainConfigModel
+from dfirtrack_main.models import System
+from dfirtrack_main.models import Systemstatus
+
+from mock import patch
 import os
+
 
 class ArtifactModelTestCase(TestCase):
     """ artifact model tests """
@@ -22,7 +30,6 @@ class ArtifactModelTestCase(TestCase):
         system_1 = System.objects.create(
             system_name='system_1',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
@@ -98,6 +105,16 @@ class ArtifactModelTestCase(TestCase):
         field_label = artifact_1._meta.get_field('artifacttype').verbose_name
         # compare
         self.assertEqual(field_label, 'artifacttype')
+
+    def test_artifact_tag_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
+        # get label
+        field_label = artifact_1._meta.get_field('tag').verbose_name
+        # compare
+        self.assertEqual(field_label, 'tag')
 
     def test_artifact_case_attribute_label(self):
         """ test attribute label """
@@ -330,3 +347,81 @@ class ArtifactModelTestCase(TestCase):
         artifact_storage_path = (EVIDENCE_PATH + '/' + str(system_uuid) + '/' + artifacttype_name + '/' + str(artifact_uuid))
         # compare
         self.assertTrue(os.path.exists(artifact_storage_path))
+
+    def test_artifact_set_requested_time(self):
+        """ test artifact save requested time """
+
+        # get object
+        artifactpriority = Artifactpriority.objects.get(artifactpriority_name = 'artifactpriority_1')
+        artifactstatus = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1')
+        artifacttype = Artifacttype.objects.get(artifacttype_name = 'artifacttype_1')
+        system = System.objects.get(system_name = 'system_1')
+        test_user = User.objects.get(username='testuser_artifact')
+        # create object
+        t_now = timezone.now()
+
+        artifact_set_requested_time = Artifact.objects.create(
+                artifact_name = 'artifact_set_requested_time',
+                artifactpriority = artifactpriority,
+                artifactstatus = artifactstatus,
+                artifacttype = artifacttype,
+                system = system,
+                artifact_created_by_user_id = test_user,
+                artifact_modified_by_user_id = test_user,
+            )
+
+        self.assertEqual(artifact_set_requested_time.artifact_requested_time, None)
+        self.assertEqual(artifact_set_requested_time.artifact_acquisition_time, None)
+
+        # get config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        # clean config
+        main_config_model.artifactstatus_requested.clear()
+        main_config_model.artifactstatus_acquisition.clear()
+        # set config
+        main_config_model.artifactstatus_requested.add(artifactstatus)
+
+        with patch.object(timezone, 'now', return_value=t_now):
+            artifact_set_requested_time.save()
+
+        self.assertEqual(artifact_set_requested_time.artifact_requested_time, t_now)
+        self.assertEqual(artifact_set_requested_time.artifact_acquisition_time, None)
+
+    def test_artifact_set_acquisition_time(self):
+        """ test artifact save requested time """
+
+          # get object
+        artifactpriority = Artifactpriority.objects.get(artifactpriority_name = 'artifactpriority_1')
+        artifactstatus = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1')
+        artifacttype = Artifacttype.objects.get(artifacttype_name = 'artifacttype_1')
+        system = System.objects.get(system_name = 'system_1')
+        test_user = User.objects.get(username='testuser_artifact')
+        # create object
+        t_now = timezone.now()
+
+        artifact_set_acquisition_time = Artifact.objects.create(
+                artifact_name = 'artifact_set_acquisition_time',
+                artifactpriority = artifactpriority,
+                artifactstatus = artifactstatus,
+                artifacttype = artifacttype,
+                system = system,
+                artifact_created_by_user_id = test_user,
+                artifact_modified_by_user_id = test_user,
+            )
+
+        self.assertEqual(artifact_set_acquisition_time.artifact_requested_time, None)
+        self.assertEqual(artifact_set_acquisition_time.artifact_acquisition_time, None)
+
+        # get config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        # clean config
+        main_config_model.artifactstatus_requested.clear()
+        main_config_model.artifactstatus_acquisition.clear()
+        # set config
+        main_config_model.artifactstatus_acquisition.add(artifactstatus)
+
+        with patch.object(timezone, 'now', return_value=t_now):
+            artifact_set_acquisition_time.save()
+
+        self.assertEqual(artifact_set_acquisition_time.artifact_requested_time, t_now)
+        self.assertEqual(artifact_set_acquisition_time.artifact_acquisition_time, t_now)

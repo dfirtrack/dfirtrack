@@ -1,8 +1,41 @@
 from django import views as django_views
 from django.conf.urls import url
 from django.urls import path
-from dfirtrack_main.views import analysisstatus_views, analystmemo_views, case_views, company_views, contact_views, division_views, dnsname_views, domain_views, domainuser_views, entry_views, headline_views, ip_views, location_views, os_views, osimportname_views, reason_views, recommendation_views, reportitem_views, serviceprovider_views, system_views, systemstatus_views, systemtype_views, systemuser_views, tag_views, task_views, taskname_views, taskpriority_views, taskstatus_views
-from dfirtrack_main.creator import system_creator, tag_creator, task_creator
+from dfirtrack_main.views import analysisstatus_views
+from dfirtrack_main.views import analystmemo_views
+from dfirtrack_main.views import case_views
+from dfirtrack_main.views import casepriority_views
+from dfirtrack_main.views import casestatus_views
+from dfirtrack_main.views import casetype_views
+from dfirtrack_main.views import company_views
+from dfirtrack_main.views import contact_views
+from dfirtrack_main.views import division_views
+from dfirtrack_main.views import dnsname_views
+from dfirtrack_main.views import documentation_views
+from dfirtrack_main.views import domain_views
+from dfirtrack_main.views import domainuser_views
+from dfirtrack_main.views import entry_views
+from dfirtrack_main.views import headline_views
+from dfirtrack_main.views import ip_views
+from dfirtrack_main.views import location_views
+from dfirtrack_main.views import note_views
+from dfirtrack_main.views import notestatus_views
+from dfirtrack_main.views import os_views
+from dfirtrack_main.views import osimportname_views
+from dfirtrack_main.views import reason_views
+from dfirtrack_main.views import recommendation_views
+from dfirtrack_main.views import reportitem_views
+from dfirtrack_main.views import serviceprovider_views
+from dfirtrack_main.views import system_views
+from dfirtrack_main.views import systemstatus_views
+from dfirtrack_main.views import systemtype_views
+from dfirtrack_main.views import systemuser_views
+from dfirtrack_main.views import tag_views
+from dfirtrack_main.views import task_views
+from dfirtrack_main.views import taskname_views
+from dfirtrack_main.views import taskpriority_views
+from dfirtrack_main.views import taskstatus_views
+from dfirtrack_main.creator import case_creator, system_creator, tag_creator, task_creator
 from dfirtrack_main.exporter.spreadsheet import csv as spreadsheet_csv
 from dfirtrack_main.exporter.spreadsheet import xls
 from dfirtrack_main.exporter.markdown import markdown
@@ -20,9 +53,24 @@ urlpatterns = [
     path(r'analystmemo/<int:pk>/edit/', analystmemo_views.AnalystmemoUpdate.as_view(), name='analystmemo_update'),
 
     path(r'case/', case_views.CaseList.as_view(), name='case_list'),
+    path(r'case/closed/', case_views.CaseClosed.as_view(), name='case_closed'),
+    path(r'case/all/', case_views.CaseAll.as_view(), name='case_all'),
     path(r'case/<int:pk>/', case_views.CaseDetail.as_view(), name='case_detail'),
     path(r'case/add/', case_views.CaseCreate.as_view(), name='case_create'),
     path(r'case/<int:pk>/edit/', case_views.CaseUpdate.as_view(), name='case_update'),
+
+    path(r'case/creator/', case_creator.case_creator, name='case_creator'),
+
+    path(r'casepriority/', casepriority_views.CasepriorityList.as_view(), name='casepriority_list'),
+    path(r'casepriority/detail/<int:pk>/', casepriority_views.CasepriorityDetail.as_view(), name='casepriority_detail'),
+
+    path(r'casestatus/', casestatus_views.CasestatusList.as_view(), name='casestatus_list'),
+    path(r'casestatus/detail/<int:pk>/', casestatus_views.CasestatusDetail.as_view(), name='casestatus_detail'),
+
+    path(r'casetype/', casetype_views.CasetypeList.as_view(), name='casetype_list'),
+    path(r'casetype/create/', casetype_views.CasetypeCreate.as_view(), name='casetype_create'),
+    path(r'casetype/detail/<int:pk>/', casetype_views.CasetypeDetail.as_view(), name='casetype_detail'),
+    path(r'casetype/update/<int:pk>/', casetype_views.CasetypeUpdate.as_view(), name='casetype_update'),
 
     path(r'company/', company_views.CompanyList.as_view(), name='company_list'),
     path(r'company/<int:pk>/', company_views.CompanyDetail.as_view(), name='company_detail'),
@@ -46,6 +94,8 @@ urlpatterns = [
     path(r'dnsname/add/', dnsname_views.DnsnameCreate.as_view(), name='dnsname_create'),
     path(r'dnsname/add_popup/', dnsname_views.DnsnameCreatePopup.as_view(), name='dnsname_add_popup'),
     path(r'dnsname/<int:pk>/edit/', dnsname_views.DnsnameUpdate.as_view(), name='dnsname_update'),
+
+    path(r'documentation/', documentation_views.DocumentationList.as_view(), name='documentation_list'),
 
     path(r'domain/', domain_views.DomainList.as_view(), name='domain_list'),
     path(r'domain/<int:pk>/', domain_views.DomainDetail.as_view(), name='domain_detail'),
@@ -76,6 +126,14 @@ urlpatterns = [
     path(r'location/add/', location_views.LocationCreate.as_view(), name='location_create'),
     path(r'location/add_popup/', location_views.LocationCreatePopup.as_view(), name='location_add_popup'),
     path(r'location/<int:pk>/edit/', location_views.LocationUpdate.as_view(), name='location_update'),
+
+    path(r'note/', note_views.NoteList.as_view(), name='note_list'),
+    path(r'note/<int:pk>/', note_views.NoteDetail.as_view(), name='note_detail'),
+    path(r'note/add/', note_views.NoteCreate.as_view(), name='note_create'),
+    path(r'note/<int:pk>/edit/', note_views.NoteUpdate.as_view(), name='note_update'),
+
+    path(r'notestatus/', notestatus_views.NotestatusList.as_view(), name='notestatus_list'),
+    path(r'notestatus/<int:pk>/', notestatus_views.NotestatusDetail.as_view(), name='notestatus_detail'),
 
     path(r'os/', os_views.OsList.as_view(), name='os_list'),
     path(r'os/<int:pk>/', os_views.OsDetail.as_view(), name='os_detail'),
@@ -118,8 +176,11 @@ urlpatterns = [
 
     path(r'system/creator/', system_creator.system_creator, name='system_creator'),
     path(r'system/exporter/markdown/system/', markdown.system, name='system_exporter_markdown'),
+    path(r'system/exporter/markdown/system/cron/', markdown.system_create_cron, name='system_exporter_markdown_cron'),
     path(r'system/exporter/spreadsheet/csv/system/', spreadsheet_csv.system, name='system_exporter_spreadsheet_csv'),
     path(r'system/exporter/spreadsheet/xls/system/', xls.system, name='system_exporter_spreadsheet_xls'),
+    path(r'system/exporter/spreadsheet/csv/system/cron/', spreadsheet_csv.system_create_cron, name='system_exporter_spreadsheet_csv_cron'),
+    path(r'system/exporter/spreadsheet/xls/system/cron/', xls.system_create_cron, name='system_exporter_spreadsheet_xls_cron'),
     path(r'system/importer/file/csv/cron/', csv_importer.system_create_cron, name='system_importer_file_csv_cron'),
     path(r'system/importer/file/csv/instant/', csv_importer.system_instant, name='system_importer_file_csv_instant'),
     path(r'system/importer/file/csv/upload/', csv_importer.system_upload, name='system_importer_file_csv_upload'),

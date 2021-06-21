@@ -37,8 +37,13 @@
     </div>
 
     <!-- taskstatus name headline -->
-    <div class="col-10">
+    <div class="col-2">
         Taskstatus
+    </div>
+
+    <!-- task headline -->
+    <div class="col-9">
+        Tasks
     </div>
 
 <!-- headlines -->
@@ -56,13 +61,18 @@
         </div>
 
         <!-- taskstatus name -->
-        <div class="col-11">
+        <div class="col-2">
             <a href="{{ i.get_absolute_url }}">
                 {% with taskstatus=i %}
                     {% include "dfirtrack_main/includes/button_taskstatus.html" %}
                 {% endwith %}
                 {{ i.taskstatus_name }}
             </a>
+        </div>
+
+        <!-- task -->
+        <div class="col-9">
+            {{ i.task_set.all|length }}
         </div>
 
     <!-- taskstatus row -->

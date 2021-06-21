@@ -1,8 +1,11 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
-from django.utils import timezone
 from dfirtrack_main.forms import ReportitemForm
-from dfirtrack_main.models import Headline, System, Systemstatus
+from dfirtrack_main.models import Headline
+from dfirtrack_main.models import Notestatus
+from dfirtrack_main.models import System
+from dfirtrack_main.models import Systemstatus
+
 
 class ReportitemFormTestCase(TestCase):
     """ reportitem form tests """
@@ -14,27 +17,17 @@ class ReportitemFormTestCase(TestCase):
         test_user = User.objects.create_user(username='testuser_reportitem', password='6vrj2phUKrw6cjbbtN9V')
 
         # create object
+        Headline.objects.create(headline_name='headline_1')
+        Notestatus.objects.create(notestatus_name='notestatus_1')
         systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
 
         # create object
         System.objects.create(
             system_name='system_1',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
-
-        # create object
-        Headline.objects.create(headline_name='headline_1')
-
-    def test_reportitem_system_form_label(self):
-        """ test form label """
-
-        # get object
-        form = ReportitemForm()
-        # compare
-        self.assertEqual(form.fields['system'].label, 'System (*)')
 
     def test_reportitem_headline_form_label(self):
         """ test form label """
@@ -43,6 +36,41 @@ class ReportitemFormTestCase(TestCase):
         form = ReportitemForm()
         # compare
         self.assertEqual(form.fields['headline'].label, 'Headline (*)')
+        self.assertEqual(form.fields['headline'].empty_label, 'Select headline')
+
+    def test_reportitem_case_form_label(self):
+        """ test form label """
+
+        # get object
+        form = ReportitemForm()
+        # compare
+        self.assertEqual(form.fields['case'].label, 'Corresponding case')
+        self.assertEqual(form.fields['case'].empty_label, 'Select case (optional)')
+
+    def test_reportitem_notestatus_form_label(self):
+        """ test form label """
+
+        # get object
+        form = ReportitemForm()
+        # compare
+        self.assertEqual(form.fields['notestatus'].label, 'Notestatus (*)')
+
+    def test_reportitem_system_form_label(self):
+        """ test form label """
+
+        # get object
+        form = ReportitemForm()
+        # compare
+        self.assertEqual(form.fields['system'].label, 'System (*)')
+        self.assertEqual(form.fields['system'].empty_label, 'Select system')
+
+    def test_reportitem_tag_form_label(self):
+        """ test form label """
+
+        # get object
+        form = ReportitemForm()
+        # compare
+        self.assertEqual(form.fields['tag'].label, 'Tags')
 
     def test_reportitem_subheadline_form_label(self):
         """ test form label """
@@ -78,14 +106,29 @@ class ReportitemFormTestCase(TestCase):
         # compare
         self.assertFalse(form.is_valid())
 
+    def test_reportitem_notestatus_form_filled(self):
+        """ test minimum form requirements / INVALID """
+
+        # get foreign key object id
+        notestatus_id = Notestatus.objects.get(notestatus_name='notestatus_1').notestatus_id
+        # get object
+        form = ReportitemForm(data = {
+            'reportitem_note': 'lorem ipsum',
+            'notestatus': notestatus_id,
+        })
+        # compare
+        self.assertFalse(form.is_valid())
+
     def test_reportitem_system_form_filled(self):
         """ test minimum form requirements / INVALID """
 
         # get foreign key object id
+        notestatus_id = Notestatus.objects.get(notestatus_name='notestatus_1').notestatus_id
         system_id = System.objects.get(system_name='system_1').system_id
         # get object
         form = ReportitemForm(data = {
             'reportitem_note': 'lorem ipsum',
+            'notestatus': notestatus_id,
             'system': system_id,
         })
         # compare
@@ -96,13 +139,14 @@ class ReportitemFormTestCase(TestCase):
 
         # get foreign key object id
         headline_id = Headline.objects.get(headline_name='headline_1').headline_id
-        # get foreign key object id
+        notestatus_id = Notestatus.objects.get(notestatus_name='notestatus_1').notestatus_id
         system_id = System.objects.get(system_name='system_1').system_id
         # get object
         form = ReportitemForm(data = {
             'reportitem_note': 'lorem ipsum',
-            'system': system_id,
             'headline': headline_id,
+            'notestatus': notestatus_id,
+            'system': system_id,
         })
         # compare
         self.assertTrue(form.is_valid())
@@ -112,13 +156,14 @@ class ReportitemFormTestCase(TestCase):
 
         # get foreign key object id
         headline_id = Headline.objects.get(headline_name='headline_1').headline_id
-        # get foreign key object id
+        notestatus_id = Notestatus.objects.get(notestatus_name='notestatus_1').notestatus_id
         system_id = System.objects.get(system_name='system_1').system_id
         # get object
         form = ReportitemForm(data = {
             'reportitem_note': 'lorem ipsum',
-            'system': system_id,
             'headline': headline_id,
+            'notestatus': notestatus_id,
+            'system': system_id,
             'reportitem_subheadline': 'subheadline_1',
         })
         # compare
@@ -129,14 +174,15 @@ class ReportitemFormTestCase(TestCase):
 
         # get foreign key object id
         headline_id = Headline.objects.get(headline_name='headline_1').headline_id
-        # get foreign key object id
+        notestatus_id = Notestatus.objects.get(notestatus_name='notestatus_1').notestatus_id
         system_id = System.objects.get(system_name='system_1').system_id
         # get object
         form = ReportitemForm(data = {
             'reportitem_note': 'lorem ipsum',
-            'system': system_id,
             'headline': headline_id,
-            'reportitem_subheadline': 'ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss',
+            'notestatus': notestatus_id,
+            'system': system_id,
+            'reportitem_subheadline': 's' * 100,
         })
         # compare
         self.assertTrue(form.is_valid())
@@ -146,14 +192,15 @@ class ReportitemFormTestCase(TestCase):
 
         # get foreign key object id
         headline_id = Headline.objects.get(headline_name='headline_1').headline_id
-        # get foreign key object id
+        notestatus_id = Notestatus.objects.get(notestatus_name='notestatus_1').notestatus_id
         system_id = System.objects.get(system_name='system_1').system_id
         # get object
         form = ReportitemForm(data = {
             'reportitem_note': 'lorem ipsum',
-            'system': system_id,
             'headline': headline_id,
-            'reportitem_subheadline': 'sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss'
+            'notestatus': notestatus_id,
+            'system': system_id,
+            'reportitem_subheadline': 's' * 101,
         })
         # compare
         self.assertFalse(form.is_valid())

@@ -2,11 +2,24 @@ from datetime import datetime
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
-from dfirtrack_artifacts.models import Artifact, Artifactpriority, Artifactstatus, Artifacttype
+from dfirtrack_artifacts.models import Artifact
+from dfirtrack_artifacts.models import Artifactpriority
+from dfirtrack_artifacts.models import Artifactstatus
+from dfirtrack_artifacts.models import Artifacttype
 from dfirtrack_config.models import Statushistory
-from dfirtrack_main.models import Analysisstatus, System, Systemstatus, Task, Taskname, Taskpriority, Taskstatus
+from dfirtrack_main.models import Analysisstatus
+from dfirtrack_main.models import Case
+from dfirtrack_main.models import Casepriority
+from dfirtrack_main.models import Casestatus
+from dfirtrack_main.models import System
+from dfirtrack_main.models import Systemstatus
+from dfirtrack_main.models import Task
+from dfirtrack_main.models import Taskname
+from dfirtrack_main.models import Taskpriority
+from dfirtrack_main.models import Taskstatus
 from mock import patch
 import urllib.parse
+
 
 class StatusViewTestCase(TestCase):
     """ status view tests """
@@ -24,6 +37,12 @@ class StatusViewTestCase(TestCase):
         artifacttype_1 = Artifacttype.objects.create(artifacttype_name='artifacttype_1')
 
         # create object
+        casepriority_1 = Casepriority.objects.create(casepriority_name='casepriority_1')
+
+        # create object
+        casestatus_1 = Casestatus.objects.create(casestatus_name='casestatus_1')
+
+        # create object
         systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
 
         # create object
@@ -39,21 +58,18 @@ class StatusViewTestCase(TestCase):
         system_1 = System.objects.create(
             system_name = 'system_1',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
         System.objects.create(
             system_name = 'system_2',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
         System.objects.create(
             system_name = 'system_3',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
@@ -84,6 +100,36 @@ class StatusViewTestCase(TestCase):
             system = system_1,
             artifact_created_by_user_id = test_user,
             artifact_modified_by_user_id = test_user,
+        )
+
+        # create object
+        Case.objects.create(
+            case_name = 'case_1',
+            casepriority = casepriority_1,
+            casestatus = casestatus_1,
+            case_is_incident = True,
+            case_created_by_user_id = test_user,
+        )
+        Case.objects.create(
+            case_name = 'case_2',
+            casepriority = casepriority_1,
+            casestatus = casestatus_1,
+            case_is_incident = True,
+            case_created_by_user_id = test_user,
+        )
+        Case.objects.create(
+            case_name = 'case_3',
+            casepriority = casepriority_1,
+            casestatus = casestatus_1,
+            case_is_incident = True,
+            case_created_by_user_id = test_user,
+        )
+        Case.objects.create(
+            case_name = 'case_4',
+            casepriority = casepriority_1,
+            casestatus = casestatus_1,
+            case_is_incident = True,
+            case_created_by_user_id = test_user,
         )
 
         # mock timezone.now()
@@ -156,16 +202,21 @@ class StatusViewTestCase(TestCase):
         analysisstatus_all = Analysisstatus.objects.all().order_by('analysisstatus_name')
         artifactpriority_all = Artifactpriority.objects.all().order_by('artifactpriority_name')
         artifactstatus_all = Artifactstatus.objects.all().order_by('artifactstatus_name')
+        casepriority_all = Casepriority.objects.all().order_by('casepriority_name')
+        casestatus_all = Casestatus.objects.all().order_by('casestatus_name')
         systemstatus_all = Systemstatus.objects.all().order_by('systemstatus_name')
         taskstatus_all = Taskstatus.objects.all().order_by('taskstatus_name')
         taskpriority_all = Taskpriority.objects.all().order_by('taskpriority_name')
         # compare
         self.assertEqual(response.context['artifacts_number'], 2)
+        self.assertEqual(response.context['cases_number'], 4)
         self.assertEqual(response.context['systems_number'], 3)
         self.assertEqual(response.context['tasks_number'], 1)
         self.assertEqual(type(response.context['analysisstatus_all']), type(analysisstatus_all))
         self.assertEqual(type(response.context['artifactpriority_all']), type(artifactpriority_all))
         self.assertEqual(type(response.context['artifactstatus_all']), type(artifactstatus_all))
+        self.assertEqual(type(response.context['casepriority_all']), type(casepriority_all))
+        self.assertEqual(type(response.context['casestatus_all']), type(casestatus_all))
         self.assertEqual(type(response.context['systemstatus_all']), type(systemstatus_all))
         self.assertEqual(type(response.context['taskpriority_all']), type(taskpriority_all))
         self.assertEqual(type(response.context['taskstatus_all']), type(taskstatus_all))

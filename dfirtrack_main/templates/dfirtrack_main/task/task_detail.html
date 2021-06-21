@@ -49,9 +49,12 @@
 <div class="row">
     <div class="col-6">
         <div class="btn btn-primary btn-lg sharp copy-true">
-            <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon right-distance copy-true" alt="icon">  
+            <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon right-distance copy-false" alt="icon">
             {{task.taskname}}
         </div>
+        {% if task.task_is_abandoned %}
+            {% include "dfirtrack_main/includes/button_task_is_abandoned.html" %}
+        {% endif %}
     </div>
 </div>
 
@@ -82,25 +85,54 @@
 <!-- task id row -->
 </div>
 
-<!-- tags -->
-{% if task.tag.all %}
-    <div class="row">
-        <div class="col-6">
-            {% for i in task.tag.all %}
-                <a href="{{ i.get_absolute_url }}" type="button" class="btn btn-{{ i.tagcolor }} btn-sm round top-distance copy-true">
-                    <!-- black tag icon for white tag (black color of font is defined in corresponding CSS for button) -->
-                    {% if i.tagcolor.tagcolor_name == 'white' %}
-                        <img src="{% static 'dfirtrack_main/icons/tag.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                    <!-- white tag icon for other tags (white color of font is defined in corresponding CSS for button) -->
-                    {% else %}
-                        <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                    {% endif %}
-                    {{ i }}
-                </a>
+<!-- tags / cases row -->
+<div class="row top-distance">
+
+    <!-- tags -->
+    <div class="col-6">
+        <h5>
+            <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Tags
+        </h5>
+        {% if task.tag.all %}
+            {% for i in task.tag.all|dictsort:"tag_name" %}
+                <!-- tooltip with tag note -->
+                <span data-toggle="tooltip" data-placement="auto" title="{{ i.tag_note }}">
+                    <a href="{{ i.get_absolute_url }}" type="button" class="btn btn-sm btn-{{ i.tagcolor }} round copy-true top-distance">
+                        <!-- black tag icon for white tag (black color of font is defined in corresponding CSS for button) -->
+                        {% if i.tagcolor.tagcolor_name == 'white' %}
+                            <img src="{% static 'dfirtrack_main/icons/tag.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                        <!-- white tag icon for other tags (white color of font is defined in corresponding CSS for button) -->
+                        {% else %}
+                            <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                        {% endif %}
+                        {{ i }}
+                    </a>
+                </span>
             {% endfor %}
-        </div>
+        {% else %}
+            ---
+        {% endif %}
     </div>
-{% endif %}
+
+    <!-- cases -->
+    <div class="col-6">
+        <h5>
+            <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Corresponding case
+        </h5>
+        {% if task.case %}
+            <a href="{{ task.case.get_absolute_url }}" type="button" class="btn btn-primary btn-sm bottom-left top-right top-distance copy-true">
+                <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                {{ task.case }}
+            </a>
+        {% else %}
+            ---
+        {% endif %}
+    </div>
+
+<!-- tags / cases row -->
+</div>
 
 <!-- ############################################ -->
 
@@ -115,14 +147,14 @@
             </h5>
         </div>
     </div>
-    
+
     <!-- status information row -->
     <div class="row top-distance bottom-distance">
 
         <!-- taskstatus -->
         <div class="col-3">
             <div class="font-weight-bold">
-                Status:
+                Taskstatus:
             </div>
             <a href="{{ task.taskstatus.get_absolute_url }}">
                 {% with taskstatus=task.taskstatus %}
@@ -135,11 +167,11 @@
         <!-- taskpriority -->
         <div class="col-3">
             <div class="font-weight-bold">
-                Priority:
+                Taskpriority:
             </div>
             <a href="{{ task.taskpriority.get_absolute_url }}">
-                {% with taskpriority=task.taskpriority %}
-                    {% include "dfirtrack_main/includes/button_taskpriority.html" %}
+                {% with priority_name=task.taskpriority.taskpriority_name %}
+                    {% include "dfirtrack_main/includes/button_priority.html" %}
                 {% endwith %}
                 {{ task.taskpriority }}
             </a>
@@ -147,13 +179,14 @@
 
     <!-- status information row -->
     </div>
-    
+
     <!-- system / user row -->
     <div class="row">
 
         <!-- system -->
         <div class="col-3">
             <div class="font-weight-bold">
+                <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                 Corresponding system:
             </div>
             {% if task.system %}
@@ -169,6 +202,7 @@
         <!-- assigned user -->
         <div class="col-3">
             <div class="font-weight-bold">
+                <img src="{% static 'dfirtrack_main/icons/person-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                 Assigned to user:
             </div>
             {% if task.task_assigned_to_user_id %}
@@ -212,6 +246,28 @@
     <!-- button row -->
     </div>
 
+    <!-- artifact row -->
+    <div class="row">
+
+        <!-- artifact -->
+        <div class="col-3">
+            <div class="font-weight-bold">
+                <img src="{% static 'dfirtrack_main/icons/bug-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                Corresponding artifact:
+            </div>
+            {% if task.artifact %}
+                <a href="{{ task.artifact.get_absolute_url }}" type="button" class="btn btn-primary btn-sm top-right top-distance copy-true">
+                    <img src="{% static 'dfirtrack_main/icons/bug-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    {{ task.artifact.artifact_name }}
+                </a>
+            {% else %}
+                ---
+            {% endif %}
+        </div>
+
+    <!-- artifact row -->
+    </div>
+
 <!-- status information -->
 </div>
 
@@ -223,7 +279,7 @@
     <!-- timing information headline -->
     <div class="row">
         <div class="col">
-            <a href="#timing_information" data-toggle="collapse">
+            <a href="#timing_information" data-bs-toggle="collapse">
                 <h5>
                     Timing information
                     <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
@@ -231,7 +287,7 @@
             </a>
         </div>
     </div>
-    
+
     <!-- timing information collapse -->
     <div id="timing_information" class="collapse">
 
@@ -343,7 +399,7 @@
     <!-- task note headline -->
     <div class="row">
         <div class="col">
-            <a href="#note" data-toggle="collapse">
+            <a href="#note" data-bs-toggle="collapse">
                 <h5>
                     Note
                     <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
@@ -351,7 +407,7 @@
             </a>
         </div>
     </div>
-    
+
     <!-- task note collapse -->
     <div id="note" class="collapse">
         <div class="row">
@@ -379,7 +435,7 @@
             </h5>
         </div>
     </div>
-    
+
     <!-- meta information row -->
     <div class="row text-muted">
 

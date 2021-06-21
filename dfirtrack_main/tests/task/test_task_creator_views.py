@@ -3,9 +3,15 @@ from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
 from django.utils import timezone
-from dfirtrack_main.models import System, Systemstatus, Task, Taskname, Taskpriority, Taskstatus
+from dfirtrack_main.models import System
+from dfirtrack_main.models import Systemstatus
+from dfirtrack_main.models import Task
+from dfirtrack_main.models import Taskname
+from dfirtrack_main.models import Taskpriority
+from dfirtrack_main.models import Taskstatus
 from mock import patch
 import urllib.parse
+
 
 class TaskCreatorViewTestCase(TestCase):
     """ task creator view tests """
@@ -28,21 +34,18 @@ class TaskCreatorViewTestCase(TestCase):
         System.objects.create(
             system_name = 'task_creator_system_1',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
         System.objects.create(
             system_name = 'task_creator_system_2',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
         System.objects.create(
             system_name = 'task_creator_system_3',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
@@ -228,19 +231,29 @@ class TaskCreatorViewTestCase(TestCase):
             self.assertEqual(task_finished.task_started_time, timezone.now())
             self.assertEqual(task_finished.task_finished_time, timezone.now())
 
-    def test_task_creator_empty_redirect(self):
+    def test_task_creator_post_invalid_reload(self):
         """ test creator view """
 
         # login testuser
         self.client.login(username='testuser_task_creator', password='E5BGU4meULjw7kdtvnzn')
         # create post data
         data_dict = {}
-        # create url
-        destination = '/task/'
         # get response
         response = self.client.post('/task/creator/', data_dict)
         # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(response.status_code, 200)
+
+    def test_task_creator_post_invalid_template(self):
+        """ test creator view """
+
+        # login testuser
+        self.client.login(username='testuser_task_creator', password='E5BGU4meULjw7kdtvnzn')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/task/creator/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/task/task_creator.html')
 
     def test_task_creator_post_messages(self):
         """ test creator view """

@@ -1,0 +1,89 @@
+<!-- extending maintemplate -->
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+<!-- HTML head in maintemplate -->
+{% block head %}
+
+<!-- page title -->
+<title>
+    DFIRTrack - Notes
+</title>
+
+<!-- javascript and CSS for datatables -->
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.css' %}"/>
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.js' %}"></script>
+
+<!-- HTML head in maintemplate -->
+{% endblock %}
+
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
+{% block content %}
+
+<!-- headline -->
+<div class="row bottom-distance">
+    <div class="col">
+        <h5>
+            Notes
+        </h5>
+    </div>
+</div>
+
+<!-- datatable notes -->
+<table id="table_note" class="display" width="100%">
+
+    <!-- table head -->
+    <thead>
+        {% include "dfirtrack_main/includes/datatable_thead_table_note.html" %}
+    </thead>
+
+    <!-- table body -->
+    <tbody>
+        {% for i in note_list %}
+            {% include "dfirtrack_main/includes/datatable_tbody_table_note.html" %}
+        {% endfor %}
+    </tbody>
+
+</table>
+
+<!-- javascript for datatables -->
+<script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
+
+<!-- button block -->
+<div class="card card-body bg-dark border-light top-distance copy-false">
+
+    <!-- headlines -->
+    <div class="row copy-false">
+        <div class="col-2">
+            <h5>Create notes</h5>
+        </div>
+    </div>
+
+    <!-- button row -->
+    <div class="row copy-false">
+
+        <div class="col btn-group">
+            <!-- add button -->
+            <div data-toggle="tooltip" data-placement="auto" title="Create single note.">
+                <a href="{% url 'note_create' %}" type="button" class="btn btn-light copy-false right-s-distance">
+                    <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    Add note
+                </a>
+            </div>
+        </div>
+
+    <!-- button row -->
+    </div>
+
+<!-- button block -->
+</div>
+
+<!-- javascript for datatables -->
+{% block datatables %}
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.js' %}"></script>
+{% endblock %}
+
+<!-- HTML body in maintemplate -->
+{% endblock %}

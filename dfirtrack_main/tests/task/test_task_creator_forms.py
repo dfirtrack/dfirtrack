@@ -1,8 +1,14 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
-from django.utils import timezone
 from dfirtrack_main.forms import TaskCreatorForm
-from dfirtrack_main.models import System, Systemstatus, Tag, Tagcolor, Taskname, Taskpriority, Taskstatus
+from dfirtrack_main.models import System
+from dfirtrack_main.models import Systemstatus
+from dfirtrack_main.models import Tag
+from dfirtrack_main.models import Tagcolor
+from dfirtrack_main.models import Taskname
+from dfirtrack_main.models import Taskpriority
+from dfirtrack_main.models import Taskstatus
+
 
 class TaskCreatorFormTestCase(TestCase):
     """ task creator form tests """
@@ -20,14 +26,12 @@ class TaskCreatorFormTestCase(TestCase):
         System.objects.create(
             system_name = 'system_1',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
         System.objects.create(
             system_name = 'system_2',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
@@ -61,7 +65,7 @@ class TaskCreatorFormTestCase(TestCase):
         # get object
         form = TaskCreatorForm()
         # compare
-        self.assertEqual(form.fields['taskname'].label, 'Tasknames')
+        self.assertEqual(form.fields['taskname'].label, 'Tasknames (*)')
 
     def test_task_creator_system_form_label(self):
         """ test form label """
@@ -69,7 +73,7 @@ class TaskCreatorFormTestCase(TestCase):
         # get object
         form = TaskCreatorForm()
         # compare
-        self.assertEqual(form.fields['system'].label, 'Systems')
+        self.assertEqual(form.fields['system'].label, 'Corresponding systems (*)')
 
     def test_task_creator_taskpriority_form_label(self):
         """ test form label """
@@ -77,7 +81,7 @@ class TaskCreatorFormTestCase(TestCase):
         # get object
         form = TaskCreatorForm()
         # compare
-        self.assertEqual(form.fields['taskpriority'].label, 'Taskpriority')
+        self.assertEqual(form.fields['taskpriority'].label, 'Taskpriority (*)')
 
     def test_task_creator_taskstatus_form_label(self):
         """ test form label """
@@ -85,7 +89,7 @@ class TaskCreatorFormTestCase(TestCase):
         # get object
         form = TaskCreatorForm()
         # compare
-        self.assertEqual(form.fields['taskstatus'].label, 'Taskstatus')
+        self.assertEqual(form.fields['taskstatus'].label, 'Taskstatus (*)')
 
     def test_task_creator_assigned_to_user_id_form_label(self):
         """ test form label """
@@ -93,7 +97,8 @@ class TaskCreatorFormTestCase(TestCase):
         # get object
         form = TaskCreatorForm()
         # compare
-        self.assertEqual(form.fields['task_assigned_to_user_id'].label, 'Task assigned to user id')
+        self.assertEqual(form.fields['task_assigned_to_user_id'].label, 'Assigned to user')
+        self.assertEqual(form.fields['task_assigned_to_user_id'].empty_label, 'Select user (optional)')
 
     def test_task_creator_note_form_label(self):
         """ test form label """
@@ -109,7 +114,7 @@ class TaskCreatorFormTestCase(TestCase):
         # get object
         form = TaskCreatorForm()
         # compare
-        self.assertEqual(form.fields['tag'].label, 'Tag')
+        self.assertEqual(form.fields['tag'].label, 'Tags')
 
     def test_task_creator_form_empty(self):
         """ test minimum form requirements / INVALID """

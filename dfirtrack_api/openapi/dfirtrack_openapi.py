@@ -1,4 +1,4 @@
-from rest_framework.schemas.openapi import SchemaGenerator 
+from rest_framework.schemas.openapi import SchemaGenerator
 from dfirtrack_main.templatetags.dfirtrack_main_tags import dfirtrack_version
 
 

@@ -55,7 +55,8 @@
         <div class="row">
             <div class="col">
                 <h5>
-                    Tags (*):
+                    <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    {{ form.tag.label }}
                 </h5>
             </div>
         </div>
@@ -68,9 +69,7 @@
                 <div class="text-danger">
                     {{ form.tag.errors }}
                 </div>
-                {% for i in form.tag %}
-                    {{ i }}
-                {% endfor %}
+                {{ form.tag }}
                 </div>
             </div>
         </div>
@@ -80,14 +79,15 @@
 
     <!-- ############################################ -->
 
-    <!-- status information block -->
+    <!-- system block -->
     <div class="card card-body bg-dark border-light top-distance">
 
-        <!-- status information headline -->
+        <!-- system headline -->
         <div class="row">
             <div class="col">
                 <h5>
-                    Systems (*):
+                    <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    {{ form.system.label }}
                 </h5>
             </div>
         </div>
@@ -111,7 +111,7 @@
         <!-- system -->
         </div>
 
-    <!-- status information block -->
+    <!-- system block -->
     </div>
 
     <!-- button row -->

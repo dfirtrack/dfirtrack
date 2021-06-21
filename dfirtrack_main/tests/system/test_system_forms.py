@@ -1,8 +1,26 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
-from dfirtrack_main.forms import SystemForm, SystemNameForm
-from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Dnsname, Domain, Location, Os, Osarch, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Tag, Tagcolor
+from dfirtrack_main.forms import SystemForm
+from dfirtrack_main.forms import SystemNameForm
+from dfirtrack_main.models import Analysisstatus
+from dfirtrack_main.models import Case
+from dfirtrack_main.models import Company
+from dfirtrack_main.models import Contact
+from dfirtrack_main.models import Dnsname
+from dfirtrack_main.models import Domain
+from dfirtrack_main.models import Location
+from dfirtrack_main.models import Os
+from dfirtrack_main.models import Osarch
+from dfirtrack_main.models import Reason
+from dfirtrack_main.models import Recommendation
+from dfirtrack_main.models import Serviceprovider
+from dfirtrack_main.models import System
+from dfirtrack_main.models import Systemstatus
+from dfirtrack_main.models import Systemtype
+from dfirtrack_main.models import Tag
+from dfirtrack_main.models import Tagcolor
+
 
 class SystemFormTestCase(TestCase):
     """ system form tests """
@@ -85,11 +103,9 @@ class SystemFormTestCase(TestCase):
         System.objects.create(
             system_name = 'system_1',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
-
 
     def test_system_name_form_label(self):
         """ test form label """
@@ -97,7 +113,7 @@ class SystemFormTestCase(TestCase):
         # get object
         form = SystemNameForm()
         # compare
-        self.assertEqual(form.fields['system_name'].label, 'System name')
+        self.assertEqual(form.fields['system_name'].label, 'System name (*)')
 
     def test_system_systemstatus_form_label(self):
         """ test form label """
@@ -105,7 +121,7 @@ class SystemFormTestCase(TestCase):
         # get object
         form = SystemForm()
         # compare
-        self.assertEqual(form.fields['systemstatus'].label, 'Systemstatus')
+        self.assertEqual(form.fields['systemstatus'].label, 'Systemstatus (*)')
 
     def test_system_analysisstatus_form_label(self):
         """ test form label """
@@ -121,7 +137,8 @@ class SystemFormTestCase(TestCase):
         # get object
         form = SystemForm()
         # compare
-        self.assertEqual(form.fields['reason'].label, 'Reason')
+        self.assertEqual(form.fields['reason'].label, 'Reason for investigation')
+        self.assertEqual(form.fields['reason'].empty_label, 'Select reason (optional)')
 
     def test_system_recommendation_form_label(self):
         """ test form label """
@@ -130,6 +147,7 @@ class SystemFormTestCase(TestCase):
         form = SystemForm()
         # compare
         self.assertEqual(form.fields['recommendation'].label, 'Recommendation')
+        self.assertEqual(form.fields['recommendation'].empty_label, 'Select recommendation (optional)')
 
     def test_system_systemtype_form_label(self):
         """ test form label """
@@ -138,6 +156,7 @@ class SystemFormTestCase(TestCase):
         form = SystemForm()
         # compare
         self.assertEqual(form.fields['systemtype'].label, 'Systemtype')
+        self.assertEqual(form.fields['systemtype'].empty_label, 'Select systemtype (optional)')
 
     def test_system_domain_form_label(self):
         """ test form label """
@@ -146,6 +165,7 @@ class SystemFormTestCase(TestCase):
         form = SystemForm()
         # compare
         self.assertEqual(form.fields['domain'].label, 'Domain')
+        self.assertEqual(form.fields['domain'].empty_label, 'Select domain (optional)')
 
     def test_system_dnsname_form_label(self):
         """ test form label """
@@ -153,7 +173,8 @@ class SystemFormTestCase(TestCase):
         # get object
         form = SystemForm()
         # compare
-        self.assertEqual(form.fields['dnsname'].label, 'Dnsname')
+        self.assertEqual(form.fields['dnsname'].label, 'DNS name')
+        self.assertEqual(form.fields['dnsname'].empty_label, 'Select DNS name (optional)')
 
     def test_system_os_form_label(self):
         """ test form label """
@@ -161,7 +182,8 @@ class SystemFormTestCase(TestCase):
         # get object
         form = SystemForm()
         # compare
-        self.assertEqual(form.fields['os'].label, 'Os')
+        self.assertEqual(form.fields['os'].label, 'Operating system')
+        self.assertEqual(form.fields['os'].empty_label, 'Select OS (optional)')
 
     def test_system_osarch_form_label(self):
         """ test form label """
@@ -169,7 +191,8 @@ class SystemFormTestCase(TestCase):
         # get object
         form = SystemForm()
         # compare
-        self.assertEqual(form.fields['osarch'].label, 'Osarch')
+        self.assertEqual(form.fields['osarch'].label, 'OS architecture')
+        self.assertEqual(form.fields['osarch'].empty_label, 'Select OS architecture (optional)')
 
     def test_system_install_time_form_label(self):
         """ test form label """
@@ -177,7 +200,7 @@ class SystemFormTestCase(TestCase):
         # get object
         form = SystemForm()
         # compare
-        self.assertEqual(form.fields['system_install_time'].label, 'System install time')
+        self.assertEqual(form.fields['system_install_time'].label, 'Installation time (YYYY-MM-DD HH:MM:SS)')
 
     def test_system_lastbooted_time_form_label(self):
         """ test form label """
@@ -185,7 +208,7 @@ class SystemFormTestCase(TestCase):
         # get object
         form = SystemForm()
         # compare
-        self.assertEqual(form.fields['system_lastbooted_time'].label, 'System lastbooted time')
+        self.assertEqual(form.fields['system_lastbooted_time'].label, 'Last booted (YYYY-MM-DD HH:MM:SS)')
 
     def test_system_deprecated_time_form_label(self):
         """ test form label """
@@ -193,7 +216,7 @@ class SystemFormTestCase(TestCase):
         # get object
         form = SystemForm()
         # compare
-        self.assertEqual(form.fields['system_deprecated_time'].label, 'System deprecated time')
+        self.assertEqual(form.fields['system_deprecated_time'].label, 'System is deprecated since (YYYY-MM-DD HH:MM:SS)')
 
     def test_system_is_vm_form_label(self):
         """ test form label """
@@ -201,7 +224,7 @@ class SystemFormTestCase(TestCase):
         # get object
         form = SystemForm()
         # compare
-        self.assertEqual(form.fields['system_is_vm'].label, 'System is vm')
+        self.assertEqual(form.fields['system_is_vm'].label, 'System is a VM')
 
     def test_system_host_system_form_label(self):
         """ test form label """
@@ -209,7 +232,8 @@ class SystemFormTestCase(TestCase):
         # get object
         form = SystemForm()
         # compare
-        self.assertEqual(form.fields['host_system'].label, 'Host system')
+        self.assertEqual(form.fields['host_system'].label, 'Host system (hypervisor)')
+        self.assertEqual(form.fields['host_system'].empty_label, 'Select host system (optional)')
 
     def test_system_company_form_label(self):
         """ test form label """
@@ -217,7 +241,7 @@ class SystemFormTestCase(TestCase):
         # get object
         form = SystemForm()
         # compare
-        self.assertEqual(form.fields['company'].label, 'Company')
+        self.assertEqual(form.fields['company'].label, 'Companies')
 
     def test_system_location_form_label(self):
         """ test form label """
@@ -226,6 +250,7 @@ class SystemFormTestCase(TestCase):
         form = SystemForm()
         # compare
         self.assertEqual(form.fields['location'].label, 'Location')
+        self.assertEqual(form.fields['location'].empty_label, 'Select location (optional)')
 
     def test_system_serviceprovider_form_label(self):
         """ test form label """
@@ -234,6 +259,7 @@ class SystemFormTestCase(TestCase):
         form = SystemForm()
         # compare
         self.assertEqual(form.fields['serviceprovider'].label, 'Serviceprovider')
+        self.assertEqual(form.fields['serviceprovider'].empty_label, 'Select serviceprovider (optional)')
 
     def test_system_contact_form_label(self):
         """ test form label """
@@ -242,6 +268,7 @@ class SystemFormTestCase(TestCase):
         form = SystemForm()
         # compare
         self.assertEqual(form.fields['contact'].label, 'Contact')
+        self.assertEqual(form.fields['contact'].empty_label, 'Select contact (optional)')
 
     def test_system_tag_form_label(self):
         """ test form label """
@@ -249,7 +276,23 @@ class SystemFormTestCase(TestCase):
         # get object
         form = SystemForm()
         # compare
-        self.assertEqual(form.fields['tag'].label, 'Tag')
+        self.assertEqual(form.fields['tag'].label, 'Tags')
+
+    def test_system_export_markdown_form_label(self):
+        """ test form label """
+
+        # get object
+        form = SystemForm()
+        # compare
+        self.assertEqual(form.fields['system_export_markdown'].label, 'Export system to markdown')
+
+    def test_system_export_spreadsheet_form_label(self):
+        """ test form label """
+
+        # get object
+        form = SystemForm()
+        # compare
+        self.assertEqual(form.fields['system_export_spreadsheet'].label, 'Export system to spreadsheet')
 
     def test_system_case_form_label(self):
         """ test form label """
@@ -257,7 +300,7 @@ class SystemFormTestCase(TestCase):
         # get object
         form = SystemForm()
         # compare
-        self.assertEqual(form.fields['case'].label, 'Case')
+        self.assertEqual(form.fields['case'].label, 'Cases')
 
     def test_system_form_empty(self):
         """ test minimum form requirements / INVALID """

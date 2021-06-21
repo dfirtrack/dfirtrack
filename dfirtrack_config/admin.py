@@ -1,5 +1,14 @@
 from django.contrib import admin
-from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel, MainConfigModel, SystemExporterMarkdownConfigModel, SystemExporterSpreadsheetCsvConfigModel, SystemExporterSpreadsheetXlsConfigModel, SystemImporterFileCsvConfigModel, Statushistory
+from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel
+from dfirtrack_config.models import MainConfigModel
+from dfirtrack_config.models import SystemExporterMarkdownConfigModel
+from dfirtrack_config.models import SystemExporterSpreadsheetCsvConfigModel
+from dfirtrack_config.models import SystemExporterSpreadsheetXlsConfigModel
+from dfirtrack_config.models import SystemImporterFileCsvConfigModel
+from dfirtrack_config.models import Statushistory
+from dfirtrack_config.models import Workflow
+from dfirtrack_config.models import WorkflowDefaultArtifactAttributes
+from dfirtrack_config.models import WorkflowDefaultTasknameAttributes
 
 # all registered models will show up in admin app
 admin.site.register(ArtifactExporterSpreadsheetXlsConfigModel)
@@ -9,3 +18,6 @@ admin.site.register(SystemExporterSpreadsheetCsvConfigModel)
 admin.site.register(SystemExporterSpreadsheetXlsConfigModel)
 admin.site.register(SystemImporterFileCsvConfigModel)
 admin.site.register(Statushistory)
+admin.site.register(Workflow)
+admin.site.register(WorkflowDefaultArtifactAttributes)
+admin.site.register(WorkflowDefaultTasknameAttributes)

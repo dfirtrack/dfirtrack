@@ -1,3 +1,14 @@
+/* container margin */
+.container-fluid {
+    margin-bottom: 10px;
+}
+
+/* font color */ 
+
+.martor-preview {
+    color: black;
+}
+
 /* icon sizes */
 
 .icon {
@@ -35,6 +46,11 @@
 .btn-black:hover {
     background: DarkGray;
     color: White;
+}
+
+.btn-light:hover {
+    background: LightGray;
+    border-color: LightGray;
 }
 
 .btn-green {
@@ -91,12 +107,32 @@
     border-radius: 0px;
 }
 
+.btn.bottom-left {
+    border-bottom-left-radius: 15px;
+}
+
+.btn.bottom-left-lg {
+    border-bottom-left-radius: 25px;
+}
+
 .btn.top-right {
     border-top-right-radius: 15px;
 }
 
 .btn.top-right-lg {
     border-top-right-radius: 25px;
+}
+
+.btn.left {
+    border-radius: 0px;
+    border-bottom-left-radius: .25rem;
+    border-top-left-radius: .25rem;
+}
+
+.btn.right {
+    border-radius: 0px;
+    border-bottom-right-radius: .25rem;
+    border-top-right-radius: .25rem;
 }
 
 /* distances */
@@ -113,6 +149,10 @@
     margin-right: 10px;
 }
 
+.right-s-distance {
+    margin-right: 5px;
+}
+
 .left-distance {
     margin-left: 10px;
 }
@@ -126,11 +166,49 @@
     padding:0 15px;
 }
 
+table.dataTable{
+    margin-top: 15px !important;
+    margin-bottom: 10px !important;
+}
+
 a {
     color: White;
+    text-decoration: none;
 }
 a:hover {
     color: White;
+}
+
+/* sticky navbar */
+
+.toc {
+    position: sticky;
+    top: 10px;
+    right: 0;
+    height: 100%;
+    overflow-y: auto;
+}
+
+#dfirtrack-navbar {
+    position: sticky;
+    top: 10px;
+    left: 0;
+    height: 100%;
+    overflow-y: auto;
+}
+
+#tableOfContents a {
+    color: White;
+    text-decoration: none;
+}
+
+#tableOfContents a:hover {
+    color: White;
+    text-decoration: none;
+}
+
+#tableOfContents .nav-link {
+    padding: .1rem 0rem;
 }
 
 /* go to top of page button */
@@ -141,4 +219,20 @@ a:hover {
     bottom: 20px;       /* 20px from the bottom */
     right: 30px;        /* 30px from the right */
     z-index: 99;        /* show in foreground */
+}
+
+/* fixes bootstrap 5.0.1 */
+
+.btn {
+    white-space: nowrap !important;
+}
+
+.selector {
+    width: 100% !important;
+}
+
+/* datatabel height */
+
+.dataTable tr {
+    height: 43px;
 }

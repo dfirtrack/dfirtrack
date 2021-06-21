@@ -1,8 +1,9 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
-from django.utils import timezone
 from dfirtrack_main.forms import AnalystmemoForm
-from dfirtrack_main.models import System, Systemstatus
+from dfirtrack_main.models import System
+from dfirtrack_main.models import Systemstatus
+
 
 class AnalystmemoFormTestCase(TestCase):
     """ analystmemo form tests """
@@ -20,7 +21,6 @@ class AnalystmemoFormTestCase(TestCase):
         System.objects.create(
             system_name='system_1',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
@@ -40,6 +40,7 @@ class AnalystmemoFormTestCase(TestCase):
         form = AnalystmemoForm()
         # compare
         self.assertEqual(form.fields['system'].label, 'System (*)')
+        self.assertEqual(form.fields['system'].empty_label, 'Select system')
 
     def test_analystmemo_form_empty(self):
         """ test minimum form requirements / INVALID """

@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework.authtoken',
+    'martor',
 ]
 
 MIDDLEWARE = [
@@ -106,7 +107,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-LOGIN_REDIRECT_URL = '/system/'
+# TODO: change to something like 'reverse()' to prevent redundant code
+LOGIN_REDIRECT_URL = '/main_overview/'
 
 LOGGING = {
     'version': 1,
@@ -148,19 +150,37 @@ Q_CLUSTER = {
     'timeout': 1800,                    # timeout tasks after half an hour
     'retry': 1801,                      # retry tasks only after timeout time (skip retry is not possible afaik)
     'save_limit': 0,                    # save unlimited successful tasks in the database
-    #'sync': True,                       # remove comment for synchronous execution (done for testing via 'dfirtrack.test_settings')
+    'sync': False,                      # switch for synchronous execution (also done for testing via 'dfirtrack.test_settings')
 }
 
 REST_FRAMEWORK = {
 'DEFAULT_AUTHENTICATION_CLASSES' : [
-   'rest_framework.authentication.BasicAuthentication',
-   'rest_framework.authentication.SessionAuthentication',
+    'rest_framework.authentication.BasicAuthentication',
+    'rest_framework.authentication.SessionAuthentication',
     'dfirtrack_api.authentication.TokenAuthentication',
 ],
 'DEFAULT_PERMISSION_CLASSES': [
-       'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.IsAuthenticated',
    ],
 }
+
+MARTOR_ENABLE_CONFIGS = {
+    'emoji': 'true',        # to enable/disable emoji icons.
+    'imgur': 'false',        # to enable/disable imgur/custom uploader.
+    'mention': 'false',     # to enable/disable mention
+    'jquery': 'true',       # to include/revoke jquery (require for admin default django)
+    'living': 'false',      # to enable/disable live updates in preview
+    'spellcheck': 'false',  # to enable/disable spellcheck in form textareas
+    'hljs': 'true',         # to enable/disable hljs highlighting in preview
+}
+
+MARTOR_TOOLBAR_BUTTONS = [
+    'bold', 'italic', 'horizontal', 'heading', 'pre-code',
+    'blockquote', 'unordered-list', 'ordered-list',
+    'link', 'direct-mention', 'toggle-maximize', 'help'
+]
+
+MARTOR_ENABLE_LABEL = True
 
 """
 import local settings from local_settings

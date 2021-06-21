@@ -3,7 +3,11 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
+from django.utils import timezone
 from dfirtrack.config import EVIDENCE_PATH
+
+from dfirtrack_config.models import MainConfigModel
+
 import logging
 import uuid
 import os
@@ -17,12 +21,13 @@ class Artifact(models.Model):
     # primary key
     artifact_id = models.AutoField(primary_key=True)
 
-    # foreing key(s)
+    # foreign key(s)
     artifactpriority = models.ForeignKey('Artifactpriority', on_delete=models.PROTECT, default=2)
     artifactstatus = models.ForeignKey('Artifactstatus', on_delete=models.PROTECT, default=1)
     artifacttype = models.ForeignKey('Artifacttype', on_delete=models.PROTECT)
-    case = models.ForeignKey('dfirtrack_main.Case', related_name='artifact_case',on_delete=models.PROTECT, blank=True, null=True)
-    system = models.ForeignKey('dfirtrack_main.System', related_name='artifact_system',on_delete=models.PROTECT)
+    case = models.ForeignKey('dfirtrack_main.Case', related_name='artifact_case', on_delete=models.PROTECT, blank=True, null=True)
+    system = models.ForeignKey('dfirtrack_main.System', related_name='artifact_system', on_delete=models.PROTECT)
+    tag = models.ManyToManyField('dfirtrack_main.Tag', related_name='artifact_tag', blank=True)
 
     # main entity information
     artifact_acquisition_time = models.DateTimeField(blank=True, null=True)
@@ -54,7 +59,35 @@ class Artifact(models.Model):
         return 'Artifact {0} ({1})'.format(str(self.artifact_id), self.system)
 
     # define logger
-    def logger(artifact, request_user, log_text):
+    def logger(artifact, request_user, log_text):   # coverage: ignore branch
+
+        if artifact.artifact_requested_time != None:
+            # cast datetime object to string
+            requestedtime = artifact.artifact_requested_time.strftime('%Y-%m-%d %H:%M:%S')
+        else:
+            # else set default string
+            requestedtime = 'None'
+
+        if artifact.artifact_acquisition_time != None:
+            # cast datetime object to string
+            acquisitiontime = artifact.artifact_acquisition_time.strftime('%Y-%m-%d %H:%M:%S')
+        else:
+            # else set default string
+            acquisitiontime = 'None'
+
+        # get objects
+        tags = artifact.tag.all()
+        # create empty list
+        taglist = []
+        # set default string if there is no object at all
+        tagstring = 'None'
+        # iterate over objects
+        for tag in tags:
+            # append object to list
+            taglist.append(tag.tag_name)
+            # join list to comma separated string if there are any objects, else default string will remain
+            tagstring = ','.join(taglist)
+
         stdlogger.info(
             request_user +
             log_text +
@@ -65,12 +98,13 @@ class Artifact(models.Model):
             "|artifacttype:" + str(artifact.artifacttype.artifacttype_name) +
             "|system:" + str(artifact.system) +
             "|case:" + str(artifact.case) +
+            "|tag:" + tagstring +
             "|artifact_note_analysisresult:" + str(artifact.artifact_note_analysisresult) +
             "|artifact_note_external:" + str(artifact.artifact_note_external) +
             "|artifact_note_internal:" + str(artifact.artifact_note_internal) +
             "|artifact_slug:" + str(artifact.artifact_slug) +
-            "|artifact_requested_time:" + str(artifact.artifact_requested_time) +
-            "|artifact_acquisition_time:" + str(artifact.artifact_acquisition_time) +
+            "|artifact_requested_time:" + requestedtime +
+            "|artifact_acquisition_time:" + acquisitiontime +
             "|artifact_md5:" + str(artifact.artifact_md5) +
             "|artifact_sha1:" + str(artifact.artifact_sha1) +
             "|artifact_sha256:" + str(artifact.artifact_sha256) +
@@ -116,6 +150,26 @@ class Artifact(models.Model):
         #    self.artifact_storage_path = artifact_evidence_path
         ##TODO: check if this works or if wee need
         ## super().save(*args,**kwargs)
+
+        """ set artifact time according to config """
+
+        # get config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+
+        # get relevant artifactstatus out of config
+        artifactstatus_requested = main_config_model.artifactstatus_requested.all()
+        artifactstatus_acquisition = main_config_model.artifactstatus_acquisition.all()
+
+        # set requested time if new artifactstatus of system is in artifactstatus_requested of main config (and has not been set before)
+        if self.artifactstatus in artifactstatus_requested and self.artifact_requested_time == None:
+            self.artifact_requested_time = timezone.now()
+
+        # set acquisition time if new artifactstatus of system is in artifactstatus_acquisition of main config (and has not been set before)
+        if self.artifactstatus in artifactstatus_acquisition and self.artifact_acquisition_time == None:
+            self.artifact_acquisition_time = timezone.now()
+            # also set requested time if it has not already been done
+            if self.artifact_requested_time == None:
+                self.artifact_requested_time = timezone.now()
 
         return super().save(*args, **kwargs)
 
@@ -179,6 +233,7 @@ class Artifactpriority(models.Model):
 
     class Meta:
         ordering = ('artifactpriority_id',)
+        verbose_name_plural = 'artifactpriorities'
 
     # string representation
     def __str__(self):
@@ -216,6 +271,7 @@ class Artifactstatus(models.Model):
 
     class Meta:
         ordering = ('artifactstatus_id',)
+        verbose_name_plural = 'artifactstatus'
 
     # string representation
     def __str__(self):
@@ -280,5 +336,5 @@ class Artifacttype(models.Model):
         self.artifacttype_slug = slugify(self.artifacttype_name)
         return super().save(*args, **kwargs)
 
-#TODO: Signals for DjangoQ reciever that creates the hassums
+# TODO: signals for DjangoQ receiver that creates the hash sums
 #def artifact_created()

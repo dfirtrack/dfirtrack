@@ -4,11 +4,16 @@ from django.test import TestCase
 from django.utils import timezone
 #from django.utils.dateparse import parse_datetime
 from dfirtrack.config import EVIDENCE_PATH
-from dfirtrack_artifacts.models import Artifact, Artifactpriority, Artifactstatus, Artifacttype
+from dfirtrack_artifacts.models import Artifact
+from dfirtrack_artifacts.models import Artifactpriority
+from dfirtrack_artifacts.models import Artifactstatus
+from dfirtrack_artifacts.models import Artifacttype
 from dfirtrack_config.models import MainConfigModel
-from dfirtrack_main.models import System, Systemstatus
+from dfirtrack_main.models import System
+from dfirtrack_main.models import Systemstatus
 from mock import patch
 import urllib.parse
+
 
 class ArtifactViewTestCase(TestCase):
     """ artifact view tests """
@@ -35,7 +40,6 @@ class ArtifactViewTestCase(TestCase):
         system_1 = System.objects.create(
             system_name='system_1',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
@@ -376,6 +380,7 @@ class ArtifactViewTestCase(TestCase):
                 'artifacttype': artifacttype_id,
                 # 'case': TODO
                 'system': system_id,
+                # 'tag': TODO
                 #'artifact_aqcquisition_time': '2020-02-01 12:34:56',
                 'artifact_md5': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
                 'artifact_name': 'Artifact Create_post_complete_test',
@@ -812,7 +817,7 @@ class ArtifactViewTestCase(TestCase):
         test_user = User.objects.get(username='testuser_artifact')
         # get objects
         artifactpriority = Artifactpriority.objects.get(artifactpriority_name = 'artifactpriority_1')
-        artifactstatus = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1')
+        artifactstatus = Artifactstatus.objects.create(artifactstatus_name = 'artifactstatus_2')
         artifacttype = Artifacttype.objects.get(artifacttype_name = 'artifacttype_1')
         system = System.objects.get(system_name = 'system_1')
         # create object
@@ -825,7 +830,7 @@ class ArtifactViewTestCase(TestCase):
             artifact_created_by_user_id = test_user,
             artifact_modified_by_user_id = test_user,
         )
-        # compare (before POST, should be 'None' because model does not have 'auto_now' or 'auto_now_add', setting time is done via view, therefore redundantly using 'artifactstatus_1' is sufficient)
+        # compare (before POST, should be 'None' because model does not have 'auto_now' or 'auto_now_add'
         self.assertEqual(artifact_update_post_set_requested_time.artifact_requested_time, None)
         self.assertEqual(artifact_update_post_set_requested_time.artifact_acquisition_time, None)
         # get objects
@@ -873,7 +878,7 @@ class ArtifactViewTestCase(TestCase):
         test_user = User.objects.get(username='testuser_artifact')
         # get objects
         artifactpriority = Artifactpriority.objects.get(artifactpriority_name = 'artifactpriority_1')
-        artifactstatus = Artifactstatus.objects.get(artifactstatus_name = 'artifactstatus_1')
+        artifactstatus = Artifactstatus.objects.create(artifactstatus_name = 'artifactstatus_2')
         artifacttype = Artifacttype.objects.get(artifacttype_name = 'artifacttype_1')
         system = System.objects.get(system_name = 'system_1')
         # create object
@@ -886,7 +891,7 @@ class ArtifactViewTestCase(TestCase):
             artifact_created_by_user_id = test_user,
             artifact_modified_by_user_id = test_user,
         )
-        # compare (before POST, should be 'None' because model does not have 'auto_now' or 'auto_now_add', setting time is done via view, therefore redundantly using 'artifactstatus_1' is sufficient)
+        # compare (before POST, should be 'None' because model does not have 'auto_now' or 'auto_now_add'
         self.assertEqual(artifact_update_post_set_acquisition_time.artifact_requested_time, None)
         self.assertEqual(artifact_update_post_set_acquisition_time.artifact_acquisition_time, None)
         # get objects

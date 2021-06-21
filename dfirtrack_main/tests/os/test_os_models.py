@@ -18,6 +18,14 @@ class OsModelTestCase(TestCase):
         # compare
         self.assertEqual(str(os_1), 'os_1')
 
+    def test_os_verbose_name_plural(self):
+        """ test string representation """
+
+        # get object
+        os_1 = Os.objects.get(os_name='os_1')
+        # compare
+        self.assertEqual(os_1._meta.verbose_name_plural, 'os')
+
     def test_os_id_attribute_label(self):
         """ test attribute label """
 

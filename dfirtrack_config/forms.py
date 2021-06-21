@@ -1,9 +1,32 @@
 from django import forms
+from django.utils.translation import gettext_lazy
 from django.contrib.auth.models import User
 from dfirtrack_artifacts.models import Artifactstatus
-from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel, MainConfigModel, SystemExporterMarkdownConfigModel, SystemExporterSpreadsheetCsvConfigModel, SystemExporterSpreadsheetXlsConfigModel, SystemImporterFileCsvConfigModel
-from dfirtrack_main.models import Analysisstatus, Case, Company, Dnsname, Domain, Location, Os, Reason, Recommendation, Serviceprovider, Systemstatus, Systemtype, Tag
+from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel
+from dfirtrack_config.models import MainConfigModel
+from dfirtrack_config.models import SystemExporterMarkdownConfigModel
+from dfirtrack_config.models import SystemExporterSpreadsheetCsvConfigModel
+from dfirtrack_config.models import SystemExporterSpreadsheetXlsConfigModel
+from dfirtrack_config.models import SystemImporterFileCsvConfigModel
+from dfirtrack_config.models import Workflow
+from dfirtrack_config.models import WorkflowDefaultArtifactAttributes
+from dfirtrack_config.models import WorkflowDefaultTasknameAttributes
+from dfirtrack_main.models import Analysisstatus
+from dfirtrack_main.models import Case
+from dfirtrack_main.models import Casestatus
+from dfirtrack_main.models import Company
+from dfirtrack_main.models import Dnsname
+from dfirtrack_main.models import Domain
+from dfirtrack_main.models import Location
+from dfirtrack_main.models import Os
+from dfirtrack_main.models import Reason
+from dfirtrack_main.models import Recommendation
+from dfirtrack_main.models import Serviceprovider
+from dfirtrack_main.models import Systemstatus
+from dfirtrack_main.models import Systemtype
+from dfirtrack_main.models import Tag
 import os
+
 
 class ArtifactExporterSpreadsheetXlsConfigForm(forms.ModelForm):
     """ artifact exporter spreadsheet xls config form """
@@ -91,6 +114,30 @@ class MainConfigForm(forms.ModelForm):
         widget = forms.CheckboxSelectMultiple(),
     )
 
+    # reorder field choices
+    casestatus_open = forms.ModelMultipleChoiceField(
+        queryset = Casestatus.objects.order_by('casestatus_name'),
+        label = 'Casestatus to be considered open',
+        required = False,
+        widget = forms.CheckboxSelectMultiple(),
+    )
+
+    # reorder field choices
+    casestatus_start = forms.ModelMultipleChoiceField(
+        queryset = Casestatus.objects.order_by('casestatus_name'),
+        label = 'Casestatus setting the case start time',
+        required = False,
+        widget = forms.CheckboxSelectMultiple(),
+    )
+
+    # reorder field choices
+    casestatus_end = forms.ModelMultipleChoiceField(
+        queryset = Casestatus.objects.order_by('casestatus_name'),
+        label = 'Casestatus setting the case end time',
+        required = False,
+        widget = forms.CheckboxSelectMultiple(),
+    )
+
     class Meta:
 
         # model
@@ -99,16 +146,21 @@ class MainConfigForm(forms.ModelForm):
         # this HTML forms are shown
         fields = (
             'system_name_editable',
+            'main_overview',
             'artifactstatus_open',
             'artifactstatus_requested',
             'artifactstatus_acquisition',
+            'casestatus_open',
+            'casestatus_start',
+            'casestatus_end',
             'statushistory_entry_numbers',
             'cron_export_path',
             'cron_username',
         )
 
         labels = {
-            'system_name_editable': 'Make system name editable',
+            'system_name_editable': 'Make system name editable (may require service restart)',
+            'main_overview': 'Main overview page',
             'statushistory_entry_numbers': 'Show only this number of last statushistory entries',
             'cron_export_path': 'Export files created by scheduled tasks to this path',
             'cron_username': 'Use this username for scheduled tasks (just for logging, does not have to exist)',
@@ -141,6 +193,11 @@ class MainConfigForm(forms.ModelForm):
         # get form data
         cleaned_data = super().clean()
 
+        # create dict for validation errors
+        validation_errors = {}
+
+        """ artifactstatus multiple selection """
+
         # get relevant values
         artifactstatus_requested = self.cleaned_data['artifactstatus_requested']
         artifactstatus_acquisition = self.cleaned_data['artifactstatus_acquisition']
@@ -150,7 +207,41 @@ class MainConfigForm(forms.ModelForm):
 
         # check if there are any artifactstatus in this queryset
         if artifactstatus_shared.count() !=0:
-            raise forms.ValidationError('Same artifactstatus were chosen for requested an acquisition time.')
+            validation_errors['artifactstatus_requested'] = 'Same artifactstatus were chosen for requested and acquisition time.'
+            validation_errors['artifactstatus_acquisition'] = 'Same artifactstatus were chosen for requested and acquisition time.'
+
+        """ casestatus multiple selection """
+
+        # get relevant values
+        casestatus_start = self.cleaned_data['casestatus_start']
+        casestatus_end = self.cleaned_data['casestatus_end']
+
+        # get casestatus that have been choosen for both time settings
+        casestatus_shared = casestatus_start.intersection(casestatus_end)
+
+        # check if there are any casestatus in this queryset
+        if casestatus_shared.count() !=0:
+            validation_errors['casestatus_start'] = 'Same casestatus were chosen for start and end time.'
+            validation_errors['casestatus_end'] = 'Same casestatus were chosen for start and end time.'
+
+        """ check file system """
+
+        # build csv file path
+        self.cleaned_data['cron_export_path']
+
+        # cron export path does not exist - stop immediately
+        if not os.path.isdir(self.cleaned_data['cron_export_path']):
+            validation_errors['cron_export_path'] = 'Export path does not exist.'
+        else:
+            # cron export path is not writeable - stop immediately
+            if not os.access(self.cleaned_data['cron_export_path'], os.R_OK):
+                validation_errors['cron_export_path'] = 'No write permission for export path.'
+
+        """ raise error """
+
+        # finally raise validation error
+        if validation_errors:
+            raise forms.ValidationError(validation_errors)
 
         return cleaned_data
 
@@ -180,6 +271,35 @@ class SystemExporterMarkdownConfigForm(forms.ModelForm):
             }),
             'markdown_sorting': forms.RadioSelect(),
         }
+
+    def clean(self):
+        """ custom field validation """
+
+        """ prepare validation errors """
+
+        # get form data
+        cleaned_data = super().clean()
+
+        # create dict for validation errors
+        validation_errors = {}
+
+        """ check file system """
+
+        # markdown path does not exist - stop immediately
+        if not os.path.isdir(self.cleaned_data['markdown_path']):
+            validation_errors['markdown_path'] = 'Markdown path does not exist.'
+        else:
+            # markdown path is not readable - stop immediately
+            if not os.access(self.cleaned_data['markdown_path'], os.W_OK):
+                validation_errors['markdown_path'] = 'No write permission for markdown path.'
+
+        """ raise error """
+
+        # finally raise validation error
+        if validation_errors:
+            raise forms.ValidationError(validation_errors)
+
+        return cleaned_data
 
 class SystemExporterSpreadsheetCsvConfigForm(forms.ModelForm):
     """ system exporter spreadsheet CSV config form """
@@ -568,7 +688,7 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
                     'size': '20',
                 },
             ),
-            'csv_tag_lock_systemstatus': forms.TextInput(
+            'csv_tag_lock_analysisstatus': forms.TextInput(
                 attrs={
                     'size': '20',
                 },
@@ -1015,3 +1135,59 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
             raise forms.ValidationError(validation_errors)
 
         return cleaned_data
+
+'''
+    modelformset_factory for WorkflowDefaultArtifactnameFormSet
+    to add multiple WorkflowDefaultArtifactname at once
+
+    to add more than one extra WorkflowDefaultArtifactname, refere to template javascript
+'''
+
+WorkflowDefaultArtifactAttributesFormSet = forms.modelformset_factory(
+    WorkflowDefaultArtifactAttributes,
+    fields = [
+            'artifacttype',
+            'artifact_default_name',
+            'artifact_default_status',
+            'artifact_default_priority'
+    ],
+    labels = {
+        'artifact_default_status': 'Default artifactstatus',
+        'artifact_default_priority': 'Default artifactpriority',
+    },
+    widgets= {
+        'artifact_default_name': forms.TextInput(attrs={'placeholder': 'Enter default artifact name'})
+    },
+    extra=1
+)
+
+WorkflowDefaultTasknameAttributesFormSet = forms.modelformset_factory(
+    WorkflowDefaultTasknameAttributes,
+    fields = [
+            'taskname',
+            'task_default_status',
+            'task_default_priority'
+    ],
+    labels = {
+        'task_default_status': 'Default taskstatus',
+        'task_default_priority': 'Default taskpriority',
+    },
+    extra=1,
+)
+
+class WorkflowForm(forms.ModelForm):
+
+    # reorder field choices
+    workflow_name = forms.CharField(
+        max_length=50,
+        label= gettext_lazy('Workflow name (*)'),
+        widget=forms.TextInput(attrs={'placeholder': 'Enter workflow name'})
+    )
+
+    class Meta:
+        # model
+        model = Workflow
+
+        fields = [
+            'workflow_name',
+        ]

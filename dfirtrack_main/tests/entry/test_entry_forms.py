@@ -1,8 +1,8 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
-from django.utils import timezone
 from dfirtrack_main.forms import EntryForm
 from dfirtrack_main.models import Case, System, Systemstatus
+
 
 class EntryFormTestCase(TestCase):
     """ entry form tests """
@@ -20,7 +20,6 @@ class EntryFormTestCase(TestCase):
         System.objects.create(
             system_name='system_1',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
@@ -47,6 +46,7 @@ class EntryFormTestCase(TestCase):
         form = EntryForm()
         # compare
         self.assertEqual(form.fields['system'].label, 'System (*)')
+        self.assertEqual(form.fields['system'].empty_label, 'Select system')
 
     def test_entry_sha1_form_label(self):
         """ test form label """
@@ -111,6 +111,7 @@ class EntryFormTestCase(TestCase):
         form = EntryForm()
         # compare
         self.assertEqual(form.fields['case'].label, 'Case')
+        self.assertEqual(form.fields['case'].empty_label, 'Select case (optional)')
 
     def test_entry_form_empty(self):
         """ test minimum form requirements / INVALID """

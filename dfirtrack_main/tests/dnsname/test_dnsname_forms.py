@@ -2,6 +2,7 @@ from django.test import TestCase
 from dfirtrack_main.forms import DnsnameForm
 from dfirtrack_main.models import Domain
 
+
 class DnsnameFormTestCase(TestCase):
     """ dnsname form tests """
 
@@ -18,6 +19,7 @@ class DnsnameFormTestCase(TestCase):
         form = DnsnameForm()
         # compare
         self.assertEqual(form.fields['domain'].label, 'Domain')
+        self.assertEqual(form.fields['domain'].empty_label, 'Select domain (optional)')
 
     def test_dnsname_name_form_label(self):
         """ test form label """

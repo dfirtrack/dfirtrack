@@ -2,7 +2,7 @@ openapi: 3.0.2
 info:
   title: DFIRTrack
   description: OpenAPI 3 - Documentation of DFIRTrack API
-  version: v1.0.0
+  version: v1.2.1
 paths:
   /api/artifact/:
     get:
@@ -121,6 +121,42 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Artifact'
+          description: ''
+      tags:
+      - api
+  /api/artifactpriority/:
+    get:
+      operationId: listArtifactprioritys
+      description: 'all objects, allowed: GET'
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Artifactpriority'
+          description: ''
+      tags:
+      - api
+  /api/artifactpriority/{artifactpriority_id}/:
+    get:
+      operationId: retrieveArtifactpriority
+      description: 'single object, allowed: GET'
+      parameters:
+      - name: artifactpriority_id
+        in: path
+        required: true
+        description: A unique integer value identifying this artifactpriority.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Artifactpriority'
           description: ''
       tags:
       - api
@@ -433,6 +469,198 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Case'
+          description: ''
+      tags:
+      - api
+  /api/casepriority/:
+    get:
+      operationId: listCaseprioritys
+      description: 'all objects, allowed: GET'
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Casepriority'
+          description: ''
+      tags:
+      - api
+  /api/casepriority/{casepriority_id}/:
+    get:
+      operationId: retrieveCasepriority
+      description: 'single object, allowed: GET'
+      parameters:
+      - name: casepriority_id
+        in: path
+        required: true
+        description: A unique integer value identifying this casepriority.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Casepriority'
+          description: ''
+      tags:
+      - api
+  /api/casestatus/:
+    get:
+      operationId: listCasestatus
+      description: 'all objects, allowed: GET'
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Casestatus'
+          description: ''
+      tags:
+      - api
+  /api/casestatus/{casestatus_id}/:
+    get:
+      operationId: retrieveCasestatus
+      description: 'single object, allowed: GET'
+      parameters:
+      - name: casestatus_id
+        in: path
+        required: true
+        description: A unique integer value identifying this casestatus.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Casestatus'
+          description: ''
+      tags:
+      - api
+  /api/casetype/:
+    get:
+      operationId: listCasetypes
+      description: 'all objects, allowed: GET + POST'
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Casetype'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createCasetype
+      description: 'all objects, allowed: GET + POST'
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Casetype'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Casetype'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Casetype'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Casetype'
+          description: ''
+      tags:
+      - api
+  /api/casetype/{casetype_id}/:
+    get:
+      operationId: retrieveCasetype
+      description: 'single object, allowed: GET + PUT'
+      parameters:
+      - name: casetype_id
+        in: path
+        required: true
+        description: A unique integer value identifying this casetype.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Casetype'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateCasetype
+      description: 'single object, allowed: GET + PUT'
+      parameters:
+      - name: casetype_id
+        in: path
+        required: true
+        description: A unique integer value identifying this casetype.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Casetype'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Casetype'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Casetype'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Casetype'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateCasetype
+      description: 'single object, allowed: GET + PUT'
+      parameters:
+      - name: casetype_id
+        in: path
+        required: true
+        description: A unique integer value identifying this casetype.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Casetype'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Casetype'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Casetype'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Casetype'
           description: ''
       tags:
       - api
@@ -2900,6 +3128,8 @@ components:
         artifact_name:
           type: string
           maxLength: 4096
+        artifactpriority:
+          type: integer
         artifactstatus:
           type: integer
         artifacttype:
@@ -2909,6 +3139,10 @@ components:
           nullable: true
         system:
           type: integer
+        tag:
+          type: array
+          items:
+            type: integer
         artifact_md5:
           type: string
           nullable: true
@@ -2954,9 +3188,23 @@ components:
       - system
       - artifact_created_by_user_id
       - artifact_modified_by_user_id
+    Artifactpriority:
+      type: object
+      properties:
+        artifactpriority_id:
+          type: integer
+          readOnly: true
+        artifactpriority_name:
+          type: string
+          maxLength: 255
+      required:
+      - artifactpriority_name
     Artifactstatus:
       type: object
       properties:
+        artifactstatus_id:
+          type: integer
+          readOnly: true
         artifactstatus_name:
           type: string
           maxLength: 255
@@ -2965,6 +3213,9 @@ components:
     Artifacttype:
       type: object
       properties:
+        artifacttype_id:
+          type: integer
+          readOnly: true
         artifacttype_name:
           type: string
           maxLength: 255
@@ -2987,14 +3238,44 @@ components:
         case_id:
           type: integer
           readOnly: true
+        case_id_external:
+          type: string
+          nullable: true
+          maxLength: 50
         case_name:
           type: string
           maxLength: 50
+        casepriority:
+          type: integer
+        casestatus:
+          type: integer
+        casetype:
+          type: integer
+          nullable: true
+        tag:
+          type: array
+          items:
+            type: integer
         case_is_incident:
           type: boolean
+        case_start_time:
+          type: string
+          format: date-time
+          nullable: true
+        case_end_time:
+          type: string
+          format: date-time
+          nullable: true
         case_created_by_user_id:
           type: integer
         case_create_time:
+          type: string
+          format: date-time
+          readOnly: true
+        case_modified_by_user_id:
+          type: integer
+          nullable: true
+        case_modify_time:
           type: string
           format: date-time
           readOnly: true
@@ -3002,6 +3283,39 @@ components:
       - case_name
       - case_is_incident
       - case_created_by_user_id
+    Casepriority:
+      type: object
+      properties:
+        casepriority_id:
+          type: integer
+          readOnly: true
+        casepriority_name:
+          type: string
+          maxLength: 255
+      required:
+      - casepriority_name
+    Casestatus:
+      type: object
+      properties:
+        casestatus_id:
+          type: integer
+          readOnly: true
+        casestatus_name:
+          type: string
+          maxLength: 255
+      required:
+      - casestatus_name
+    Casetype:
+      type: object
+      properties:
+        casetype_id:
+          type: integer
+          readOnly: true
+        casetype_name:
+          type: string
+          maxLength: 255
+      required:
+      - casetype_name
     Company:
       type: object
       properties:
@@ -3242,10 +3556,6 @@ components:
           type: array
           items:
             type: integer
-        system_api_time:
-          type: string
-          format: date-time
-          nullable: true
         system_create_time:
           type: string
           format: date-time
@@ -3255,6 +3565,7 @@ components:
         system_modify_time:
           type: string
           format: date-time
+          readOnly: true
         system_modified_by_user_id:
           type: integer
         system_export_markdown:
@@ -3265,7 +3576,6 @@ components:
       - system_name
       - systemstatus
       - system_created_by_user_id
-      - system_modify_time
       - system_modified_by_user_id
     Systemstatus:
       type: object
@@ -3350,6 +3660,12 @@ components:
           type: integer
         taskstatus:
           type: integer
+        artifact:
+          type: integer
+          nullable: true
+        case:
+          type: integer
+          nullable: true
         system:
           type: integer
           nullable: true

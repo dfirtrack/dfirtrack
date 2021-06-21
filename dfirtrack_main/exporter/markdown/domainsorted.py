@@ -1,10 +1,7 @@
-from django.contrib import messages
-from django.contrib.messages import constants
 from django.core.files import File
 from django_q.tasks import async_task
-from dfirtrack_config.models import SystemExporterMarkdownConfigModel
-from dfirtrack_main.async_messages import message_user
-from dfirtrack_main.exporter.markdown.markdown_check_data import check_config
+from dfirtrack_config.models import MainConfigModel, SystemExporterMarkdownConfigModel
+from dfirtrack_main.exporter.markdown.messages import end_message, start_message
 from dfirtrack_main.exporter.markdown import clean_directory, read_or_create_mkdocs_yml, write_report
 from dfirtrack_main.logger.default_logger import debug_logger, info_logger
 from dfirtrack_main.models import Domain, System
@@ -15,7 +12,7 @@ from time import strftime
 import yaml
 
 
-def write_report_domainsorted(system, request_user):
+def write_report_domainsorted(system, username):
     """ function that prepares return values and pathes """
 
     """
@@ -84,42 +81,51 @@ def write_report_domainsorted(system, request_user):
     report.close()
 
     # call logger
-    info_logger(request_user, " SYSTEM_MARKDOWN_CREATED system_id:" + str(system.system_id) + "|system_name:" + str(system.system_name))
+    info_logger(username, " SYSTEM_MARKDOWN_CREATED system_id:" + str(system.system_id) + "|system_name:" + str(system.system_name))
 
     # return strings for mkdocs.yml (only used in domainsorted_async)
     return(rid, rfqdn, rpath, rdomain)
 
-def domainsorted(request):
+def domainsorted(request=None):
     """ exports markdown report for all systems sorted by domain (helper function to call the real function) """
 
-    request_user = request.user
+    # get username
+    if request:
+        # get username from request object
+        username = str(request.user)
+    else:
+        # get config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        # get username from config
+        username = main_config_model.cron_username
 
     # call logger
-    debug_logger(str(request_user), " SYSTEM_EXPORTER_MARKDOWN_DOMAINSORTED_START")
-
-    # check variables
-    stop_exporter_markdown = check_config(request)
-
-    # leave if variables caused errors
-    if stop_exporter_markdown:
-        return
+    debug_logger(username, " SYSTEM_EXPORTER_MARKDOWN_DOMAINSORTED_START")
 
     # show immediate message for user (but only if no errors have occured before)
-    messages.success(request, 'System exporter markdown (sorted by domain) started')
+    if request:
+        start_message(request, 'domain')
 
     # call async function
-    async_task(
-        "dfirtrack_main.exporter.markdown.domainsorted.domainsorted_async",
-        request_user,
-    )
+    if request:
+        async_task(
+            "dfirtrack_main.exporter.markdown.domainsorted.domainsorted_async",
+            username,
+            request.user,
+        )
+    else:
+        async_task(
+            "dfirtrack_main.exporter.markdown.domainsorted.domainsorted_async",
+            username,
+        )
 
     return
 
-def domainsorted_async(request_user):
+def domainsorted_async(username, request_user=None):
     """ exports markdown report for all systems sorted by domain """
 
     # call directory cleaning function
-    clean_directory.clean_directory(str(request_user))
+    clean_directory.clean_directory(username)
 
     # get all domains
     domains = Domain.objects.all()
@@ -152,7 +158,7 @@ def domainsorted_async(request_user):
             continue
 
         # call writing function (and get return values)
-        rid, rfqdn, rpath, rdomain = write_report_domainsorted(system, str(request_user))
+        rid, rfqdn, rpath, rdomain = write_report_domainsorted(system, username)
 
         """ build a dict that is used for the system section in mkdocs.yml """
 
@@ -184,7 +190,7 @@ def domainsorted_async(request_user):
     mkdconfpath = model.markdown_path + "/mkdocs.yml"
 
     # read content (dictionary) of mkdocs.yml if existent, else create dummy content
-    mkdconfdict = read_or_create_mkdocs_yml.read_or_create_mkdocs_yml(str(request_user), mkdconfpath)
+    mkdconfdict = read_or_create_mkdocs_yml.read_or_create_mkdocs_yml(username, mkdconfpath)
 
     # get pages list
     mkdconflist = mkdconfdict['pages']
@@ -261,7 +267,8 @@ def domainsorted_async(request_user):
         filehandle.writelines(lines)
 
     # finish message
-    message_user(request_user, 'System exporter markdown (sorted by domain) finished', constants.SUCCESS)
+    if request_user:
+        end_message(request_user, 'domain')
 
     # call logger
-    debug_logger(str(request_user), " SYSTEM_EXPORTER_MARKDOWN_DOMAINSORTED_END")
+    debug_logger(username, " SYSTEM_EXPORTER_MARKDOWN_DOMAINSORTED_END")

@@ -2,11 +2,10 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from django.utils import timezone
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_artifacts.models import Artifact
-from dfirtrack_config.models import MainConfigModel
+from dfirtrack_config.models import MainConfigModel, Workflow
 from dfirtrack_main.forms import SystemForm, SystemNameForm
 from dfirtrack_main.logger.default_logger import debug_logger, warning_logger
 from dfirtrack_main.models import Analysisstatus, Ip, System, Systemstatus
@@ -16,6 +15,7 @@ from django.templatetags.static import static
 from django.template.loader import render_to_string
 from django.core.exceptions import FieldError
 import ipaddress
+
 
 class SystemList(LoginRequiredMixin, ListView):
     login_url = '/login'
@@ -64,6 +64,9 @@ class SystemDetail(LoginRequiredMixin, DetailView):
         else:
             context['dfirtrack_api'] = False
 
+        # get all workflows
+        context['workflows'] = Workflow.objects.all()
+
         # call logger
         system.logger(str(self.request.user), " SYSTEM_DETAIL_ENTERED")
         return context
@@ -80,6 +83,9 @@ class SystemCreate(LoginRequiredMixin, CreateView):
         systemstatus = Systemstatus.objects.order_by('systemstatus_name')[0].systemstatus_id
         analysisstatus = Analysisstatus.objects.order_by('analysisstatus_name')[0].analysisstatus_id
 
+        # get all workflows
+        workflows = Workflow.objects.all()
+
         # show empty form with default values for convenience and speed reasons
         form = self.form_class(initial={
             'systemstatus': systemstatus,
@@ -87,7 +93,7 @@ class SystemCreate(LoginRequiredMixin, CreateView):
         })
         # call logger
         debug_logger(str(request.user), " SYSTEM_ADD_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {'form': form, 'workflows': workflows})
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -95,7 +101,6 @@ class SystemCreate(LoginRequiredMixin, CreateView):
             system = form.save(commit=False)
             system.system_created_by_user_id = request.user
             system.system_modified_by_user_id = request.user
-            system.system_modify_time = timezone.now()
             system.save()
             form.save_m2m()
 
@@ -103,6 +108,14 @@ class SystemCreate(LoginRequiredMixin, CreateView):
             lines = request.POST.get('iplist').splitlines()
             # call function to save ips
             ips_save(request, system, lines)
+
+            # workflow handling
+            if 'workflow' in request.POST:
+                error_code = Workflow.apply(request.POST.getlist("workflow"), system, request.user)
+                if error_code:
+                    messages.warning(request, 'Could not apply workflow')
+                else:
+                    messages.success(request, 'Workflow applied')
 
             # call logger
             system.logger(str(request.user), ' SYSTEM_ADD_EXECUTED')
@@ -119,7 +132,7 @@ class SystemUpdate(LoginRequiredMixin, UpdateView):
     # get config model (without try statement 'manage.py migrate' fails (but not in tests))
     try:
         system_name_editable = MainConfigModel.objects.get(main_config_name = 'MainConfig').system_name_editable
-    except:
+    except:     # coverage: ignore branch
         system_name_editable  = False
 
     # choose form class depending on variable
@@ -137,7 +150,7 @@ class SystemUpdate(LoginRequiredMixin, UpdateView):
         # get config model (without try statement 'manage.py migrate' fails (but not in tests))
         try:
             system_name_editable = MainConfigModel.objects.get(main_config_name = 'MainConfig').system_name_editable
-        except:
+        except:     # coverage: ignore branch
             system_name_editable  = False
 
         # set system_name_editable for template
@@ -192,7 +205,6 @@ class SystemUpdate(LoginRequiredMixin, UpdateView):
         if form.is_valid():
             system = form.save(commit=False)
             system.system_modified_by_user_id = request.user
-            system.system_modify_time = timezone.now()
             system.save()
             form.save_m2m()
 
@@ -253,22 +265,22 @@ def get_systems_json(request):
         if not all((x.isalnum() or x.isspace() or x == '_' or x == '-' or x == ':') for x in search_value):
             search_value = ''
 
-        # if no search value is given, get all objects and order them according to user setting, if the table is not generated on the general system overview page, only show the systems with the relevant id 
+        # if no search value is given, get all objects and order them according to user setting, if the table is not generated on the general system overview page, only show the systems with the relevant id
         if search_value == '':
             if referer.endswith('/system/'):
                 system_values = System.objects.all().order_by(order_dir+order_column_name)
             elif '/analysisstatus/' in referer:
                 analysisstatus_id = referer.split("/")[-2]
-                system_values = System.objects.filter(analysisstatus__analysisstatus_id=analysisstatus_id)
+                system_values = System.objects.filter(analysisstatus__analysisstatus_id=analysisstatus_id).order_by(order_dir+order_column_name)
             elif '/systemstatus/' in referer:
                 systemstatus_id = referer.split("/")[-2]
-                system_values = System.objects.filter(systemstatus__systemstatus_id=systemstatus_id)
+                system_values = System.objects.filter(systemstatus__systemstatus_id=systemstatus_id).order_by(order_dir+order_column_name)
             elif '/case/' in referer:
                 case_id = referer.split("/")[-2]
-                system_values = System.objects.filter(case__case_id=case_id)
+                system_values = System.objects.filter(case__case_id=case_id).order_by(order_dir+order_column_name)
             elif '/tag/' in referer:
                 tag_id = referer.split("/")[-2]
-                system_values = System.objects.filter(tag__tag_id=tag_id)
+                system_values = System.objects.filter(tag__tag_id=tag_id).order_by(order_dir+order_column_name)
 
 
         # if search value is given, go through all cloumn-raw-data and search for it

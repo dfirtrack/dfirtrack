@@ -2,8 +2,13 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
 from dfirtrack_artifacts.forms import ArtifactForm
-from dfirtrack_artifacts.models import Artifactpriority, Artifactstatus, Artifacttype
-from dfirtrack_main.models import Case, System, Systemstatus
+from dfirtrack_artifacts.models import Artifactpriority
+from dfirtrack_artifacts.models import Artifactstatus
+from dfirtrack_artifacts.models import Artifacttype
+from dfirtrack_main.models import Case
+from dfirtrack_main.models import System
+from dfirtrack_main.models import Systemstatus
+
 
 class ArtifactFormTestCase(TestCase):
     """ artifact form tests """
@@ -37,7 +42,6 @@ class ArtifactFormTestCase(TestCase):
         System.objects.create(
             system_name='system_1',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
@@ -73,6 +77,7 @@ class ArtifactFormTestCase(TestCase):
         form = ArtifactForm()
         # compare
         self.assertEqual(form.fields['artifacttype'].label, 'Artifacttype (*)')
+        self.assertEqual(form.fields['artifacttype'].empty_label, 'Select artifacttype')
 
     def test_artifact_source_path_form_label(self):
         """ test form label """
@@ -89,6 +94,15 @@ class ArtifactFormTestCase(TestCase):
         form = ArtifactForm()
         # compare
         self.assertEqual(form.fields['system'].label, 'System (*)')
+        self.assertEqual(form.fields['system'].empty_label, 'Select system')
+
+    def test_artifact_tag_form_label(self):
+        """ test form label """
+
+        # get object
+        form = ArtifactForm()
+        # compare
+        self.assertEqual(form.fields['tag'].label, 'Tags')
 
     def test_artifact_case_form_label(self):
         """ test form label """
@@ -97,6 +111,7 @@ class ArtifactFormTestCase(TestCase):
         form = ArtifactForm()
         # compare
         self.assertEqual(form.fields['case'].label, 'Case')
+        self.assertEqual(form.fields['case'].empty_label, 'Select case (optional)')
 
     def test_artifact_md5_form_label(self):
         """ test form label """

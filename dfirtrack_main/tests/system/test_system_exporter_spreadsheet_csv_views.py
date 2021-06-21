@@ -1,13 +1,31 @@
 import csv
 from datetime import datetime
 from django.contrib.auth.models import User
+from django.contrib.messages import get_messages
 from django.test import TestCase
 from django.utils import timezone
-from dfirtrack_config.models import MainConfigModel, SystemExporterSpreadsheetCsvConfigModel
+from dfirtrack_config.models import MainConfigModel
+from dfirtrack_config.models import SystemExporterSpreadsheetCsvConfigModel
 from dfirtrack_main.exporter.spreadsheet.csv import system_cron
-from dfirtrack_main.models import Analysisstatus, Case, Company, Dnsname, Domain, Ip, Location, Os, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Tag, Tagcolor
+from dfirtrack_main.models import Analysisstatus
+from dfirtrack_main.models import Case
+from dfirtrack_main.models import Company
+from dfirtrack_main.models import Dnsname
+from dfirtrack_main.models import Domain
+from dfirtrack_main.models import Ip
+from dfirtrack_main.models import Location
+from dfirtrack_main.models import Os
+from dfirtrack_main.models import Reason
+from dfirtrack_main.models import Recommendation
+from dfirtrack_main.models import Serviceprovider
+from dfirtrack_main.models import System
+from dfirtrack_main.models import Systemstatus
+from dfirtrack_main.models import Systemtype
+from dfirtrack_main.models import Tag
+from dfirtrack_main.models import Tagcolor
 from mock import patch
 import urllib.parse
+
 
 class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
     """ system exporter spreadsheet CSV view tests """
@@ -16,7 +34,13 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create user
-        test_user = User.objects.create_user(username='testuser_system_exporter_spreadsheet_csv', password='XJzSzgX2q39OUWluwxoj')
+        test_user = User.objects.create_user(
+            username='testuser_system_exporter_spreadsheet_csv',
+            is_staff = True,
+            is_superuser = True,
+            password='XJzSzgX2q39OUWluwxoj',
+        )
+        User.objects.create_user(username='message_user', password='3qXjYKBj1CVCakjbCd7A')
 
         # create objects
         dnsname_1 = Dnsname.objects.create(dnsname_name='dnsname_1')
@@ -83,7 +107,6 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
                 os = os_1,
                 location = location_1,
                 serviceprovider = serviceprovider_1,
-                system_modify_time = timezone.now(),
                 system_created_by_user_id = test_user,
                 system_modified_by_user_id = test_user,
             )
@@ -110,7 +133,6 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
             System.objects.create(
                 system_name = 'system_2_no_attributes',
                 systemstatus = systemstatus_1,
-                system_modify_time = timezone.now(),
                 system_created_by_user_id = test_user,
                 system_modified_by_user_id = test_user,
             )
@@ -120,13 +142,12 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
             system_name = 'system_3_not_exported',
             systemstatus = systemstatus_1,
             system_export_spreadsheet = False,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
 
     def test_system_exporter_spreadsheet_csv_not_logged_in(self):
-        """ test exporter view """
+        """ test instant spreadsheet export via button for direct download via browser """
 
         # create url
         destination = '/login/?next=' + urllib.parse.quote('/system/exporter/spreadsheet/csv/system/', safe='')
@@ -136,7 +157,7 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
     def test_system_exporter_spreadsheet_csv_logged_in(self):
-        """ test exporter view """
+        """ test instant spreadsheet export via button for direct download via browser """
 
         # login testuser
         self.client.login(username='testuser_system_exporter_spreadsheet_csv', password='XJzSzgX2q39OUWluwxoj')
@@ -146,7 +167,7 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_system_exporter_spreadsheet_csv_redirect(self):
-        """ test exporter view """
+        """ test instant spreadsheet export via button for direct download via browser """
 
         # login testuser
         self.client.login(username='testuser_system_exporter_spreadsheet_csv', password='XJzSzgX2q39OUWluwxoj')
@@ -158,7 +179,7 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=301, target_status_code=200)
 
     def test_system_exporter_spreadsheet_csv_minimal_spreadsheet(self):
-        """ test exporter view """
+        """ test instant spreadsheet export via button for direct download via browser """
 
         """ modify config section """
 
@@ -231,7 +252,7 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
             i += 1
 
     def test_system_exporter_spreadsheet_csv_complete_spreadsheet(self):
-        """ test exporter view """
+        """ test instant spreadsheet export via button for direct download via browser """
 
         """ modify config section """
 
@@ -360,8 +381,76 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
             # increase counter
             i += 1
 
+    def test_system_exporter_spreadsheet_csv_cron_path_not_existent(self):
+        """ test spreadsheet export via scheduled task to server file system """
+
+        # get and modify main config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        main_config_model.cron_export_path = '/this_path_does_not_exist'
+        main_config_model.cron_username = 'cron'
+        main_config_model.save()
+
+        # create spreadsheet without GET by directly calling the function
+        system_cron()
+
+        # login testuser
+        self.client.login(username='testuser_system_exporter_spreadsheet_csv', password='XJzSzgX2q39OUWluwxoj')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_system_exporter_spreadsheet_csv')
+        self.assertEqual(messages[0].message, '[Scheduled task spreadsheet exporter] SYSTEM_CSV: Export path does not exist. Check config or file system!')
+        self.assertEqual(messages[0].level_tag, 'error')
+        # switch user context
+        self.client.logout()
+        self.client.login(username='message_user', password='3qXjYKBj1CVCakjbCd7A')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'message_user')
+        self.assertEqual(messages[0].message, '[Scheduled task spreadsheet exporter] SYSTEM_CSV: Export path does not exist. Check config or file system!')
+        self.assertEqual(messages[0].level_tag, 'error')
+
+    def test_system_exporter_spreadsheet_csv_cron_path_no_write_permission(self):
+        """ test spreadsheet export via scheduled task to server file system """
+
+        # get and modify main config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        main_config_model.cron_export_path = '/root'
+        main_config_model.cron_username = 'cron'
+        main_config_model.save()
+
+        # create spreadsheet without GET by directly calling the function
+        system_cron()
+
+        # login testuser
+        self.client.login(username='testuser_system_exporter_spreadsheet_csv', password='XJzSzgX2q39OUWluwxoj')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_system_exporter_spreadsheet_csv')
+        self.assertEqual(messages[0].message, '[Scheduled task spreadsheet exporter] SYSTEM_CSV: No write permission for export path. Check config or file system!')
+        self.assertEqual(messages[0].level_tag, 'error')
+        # switch user context
+        self.client.logout()
+        self.client.login(username='message_user', password='3qXjYKBj1CVCakjbCd7A')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'message_user')
+        self.assertEqual(messages[0].message, '[Scheduled task spreadsheet exporter] SYSTEM_CSV: No write permission for export path. Check config or file system!')
+        self.assertEqual(messages[0].level_tag, 'error')
+
     def test_system_exporter_spreadsheet_csv_cron_complete_spreadsheet(self):
-        """ test exporter view """
+        """ test spreadsheet export via scheduled task to server file system """
 
         """ modify config section """
 
@@ -499,3 +588,83 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
 
         # close file
         csv_disk.close()
+
+    def test_system_exporter_spreadsheet_csv_create_cron_not_logged_in(self):
+        """ test helper function to check config before creating scheduled task """
+
+        # create url
+        destination = '/login/?next=' + urllib.parse.quote('/system/exporter/spreadsheet/csv/system/cron/', safe='')
+        # get response
+        response = self.client.get('/system/exporter/spreadsheet/csv/system/cron/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_system_exporter_spreadsheet_csv_create_cron_logged_in(self):
+        """ test helper function to check config before creating scheduled task """
+
+        # login testuser
+        self.client.login(username='testuser_system_exporter_spreadsheet_csv', password='XJzSzgX2q39OUWluwxoj')
+        # create url
+        destination = urllib.parse.quote('/admin/django_q/schedule/add/?name=system_spreadsheet_exporter_csv&func=dfirtrack_main.exporter.spreadsheet.csv.system_cron', safe='/?=&')
+        # get response
+        response = self.client.get('/system/exporter/spreadsheet/csv/system/cron/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_system_exporter_spreadsheet_csv_create_cron_redirect(self):
+        """ test helper function to check config before creating scheduled task """
+
+        # login testuser
+        self.client.login(username='testuser_system_exporter_spreadsheet_csv', password='XJzSzgX2q39OUWluwxoj')
+        # create url
+        destination = urllib.parse.quote('/admin/django_q/schedule/add/?name=system_spreadsheet_exporter_csv&func=dfirtrack_main.exporter.spreadsheet.csv.system_cron', safe='/?=&')
+        # get response
+        response = self.client.get('/system/exporter/spreadsheet/csv/system/cron', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_system_exporter_spreadsheet_csv_create_cron_path_not_existent(self):
+        """ test helper function to check config before creating scheduled task """
+
+        # get and modify main config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        main_config_model.cron_export_path = '/this_path_does_not_exist'
+        main_config_model.cron_username = 'cron'
+        main_config_model.save()
+
+        # login testuser
+        self.client.login(username='testuser_system_exporter_spreadsheet_csv', password='XJzSzgX2q39OUWluwxoj')
+
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.get('/system/exporter/spreadsheet/csv/system/cron/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(messages[0].message, 'Export path does not exist. Check config or file system!')
+        self.assertEqual(messages[0].level_tag, 'error')
+
+    def test_system_exporter_spreadsheet_csv_create_cron_path_no_write_permission(self):
+        """ test helper function to check config before creating scheduled task """
+
+        # get and modify main config
+        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        main_config_model.cron_export_path = '/root'
+        main_config_model.cron_username = 'cron'
+        main_config_model.save()
+
+        # login testuser
+        self.client.login(username='testuser_system_exporter_spreadsheet_csv', password='XJzSzgX2q39OUWluwxoj')
+
+        # create url
+        destination = urllib.parse.quote('/system/', safe='/')
+        # get response
+        response = self.client.get('/system/exporter/spreadsheet/csv/system/cron/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(messages[0].message, 'No write permission for export path. Check config or file system!')
+        self.assertEqual(messages[0].level_tag, 'error')

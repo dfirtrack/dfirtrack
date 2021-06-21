@@ -21,5 +21,5 @@ class ArtifactpriorityDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         artifactpriority = self.object
-        artifactpriority.logger(str(self.request.user), " ARTIFACTPRIORITYDETAIL_ENTERED")
+        artifactpriority.logger(str(self.request.user), " ARTIFACTPRIORITY_DETAIL_ENTERED")
         return context

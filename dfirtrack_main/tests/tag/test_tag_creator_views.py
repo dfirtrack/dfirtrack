@@ -1,9 +1,9 @@
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
-from django.utils import timezone
 from dfirtrack_main.models import System, Systemstatus, Tag, Tagcolor
 import urllib.parse
+
 
 class TagCreatorViewTestCase(TestCase):
     """ tag creator view tests """
@@ -27,21 +27,18 @@ class TagCreatorViewTestCase(TestCase):
         System.objects.create(
             system_name = 'tag_creator_system_1',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
         System.objects.create(
             system_name = 'tag_creator_system_2',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
         System.objects.create(
             system_name = 'tag_creator_system_3',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
@@ -148,19 +145,29 @@ class TagCreatorViewTestCase(TestCase):
         self.assertFalse(system_3.tag.filter(tag_name=tag_2.tag_name).exists())
         self.assertFalse(system_3.tag.filter(tag_name=tag_3.tag_name).exists())
 
-    def test_tag_creator_post_empty_redirect(self):
+    def test_tag_creator_post_invalid_reload(self):
         """ test creator view """
 
         # login testuser
         self.client.login(username='testuser_tag_creator', password='X4zm4Em28xrKgVMBpsWF')
         # create post data
         data_dict = {}
-        # create url
-        destination = '/tag/'
         # get response
         response = self.client.post('/tag/creator/', data_dict)
         # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertEqual(response.status_code, 200)
+
+    def test_tag_creator_post_invalid_template(self):
+        """ test creator view """
+
+        # login testuser
+        self.client.login(username='testuser_tag_creator', password='X4zm4Em28xrKgVMBpsWF')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/tag/creator/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/tag/tag_creator.html')
 
     def test_tag_creator_post_messages(self):
         """ test creator view """

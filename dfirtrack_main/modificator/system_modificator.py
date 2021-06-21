@@ -2,12 +2,21 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from django.utils import timezone
 from django_q.tasks import async_task
 from dfirtrack_main.async_messages.system_messages import final_messages
 from dfirtrack_main.forms import SystemModificatorForm
-from dfirtrack_main.logger.default_logger import debug_logger, info_logger, warning_logger
-from dfirtrack_main.models import Analysisstatus, Company, System, Systemstatus, Tag
+from dfirtrack_main.logger.default_logger import debug_logger
+from dfirtrack_main.logger.default_logger import info_logger
+from dfirtrack_main.logger.default_logger import warning_logger
+from dfirtrack_main.models import Analysisstatus
+from dfirtrack_main.models import Company
+from dfirtrack_main.models import Contact
+from dfirtrack_main.models import Location
+from dfirtrack_main.models import Serviceprovider
+from dfirtrack_main.models import System
+from dfirtrack_main.models import Systemstatus
+from dfirtrack_main.models import Tag
+from dfirtrack_config.models import Workflow
 
 
 @login_required(login_url="/login")
@@ -43,16 +52,24 @@ def system_modificator(request):
 
         show_systemlist = bool(int(request.GET.get('systemlist', 0)))
 
+        # workflows
+        workflows = Workflow.objects.all()
+
         # show empty form with default values for convenience and speed reasons
         form = SystemModificatorForm(initial={
             'systemstatus': systemstatus,
             'analysisstatus': analysisstatus,
+            'company_delete': 'keep_not_add',
+            'tag_delete': 'keep_not_add',
+            'contact_delete': 'keep_existing',
+            'location_delete': 'keep_existing',
+            'serviceprovider_delete': 'keep_existing',
         }, use_system_charfield = show_systemlist)
 
         # call logger
         debug_logger(str(request.user), ' SYSTEM_MODIFICATOR_ENTERED')
 
-    return render(request, 'dfirtrack_main/system/system_modificator.html', {'form': form})
+    return render(request, 'dfirtrack_main/system/system_modificator.html', {'form': form, 'workflows': workflows})
 
 def system_modificator_async(request_post, request_user):
     """ function to modify many systems at once """
@@ -84,6 +101,16 @@ def system_modificator_async(request_post, request_user):
 
     # create empty list (needed for messages)
     skipped_systems = []
+
+    # workflows to apply
+    workflows = request_post.getlist("workflow")
+
+    # set workflows_applied (needed for messages)
+    if workflows:
+        workflow_count = len(workflows)
+    else:
+        workflow_count = 0
+    workflows_applied = 0
 
     # iterate over lines
     for line in lines:
@@ -161,6 +188,8 @@ def system_modificator_async(request_post, request_user):
         # extract companies (list results from request object via multiple choice field)
         companies = request_post.getlist('company')
 
+        # TODO: [code] add condition for invalid form
+
         # modify system
         if form.is_valid():
 
@@ -171,7 +200,44 @@ def system_modificator_async(request_post, request_user):
 
             # set auto values
             system.system_modified_by_user_id = request_user
-            system.system_modify_time = timezone.now()
+
+            """ fk non-model fields """
+
+            # replace / delete, if 'switch_new / Switch to selected item or none' was selected
+            if form['contact_delete'].value() == 'switch_new':
+
+                # replace, if value was submitted via form
+                if form['contact'].value():
+                    contact_id = form['contact'].value()
+                    contact = Contact.objects.get(contact_id = contact_id)
+                    system.contact = contact
+                # delete, if form field was empty
+                else:
+                    system.contact = None
+
+            # replace / delete, if 'switch_new / Switch to selected item or none' was selected
+            if form['location_delete'].value() == 'switch_new':
+
+                # replace, if value was submitted via form
+                if form['location'].value():
+                    location_id = form['location'].value()
+                    location = Location.objects.get(location_id = location_id)
+                    system.location = location
+                # delete, if form field was empty
+                else:
+                    system.location = None
+
+            # replace / delete, if 'switch_new / Switch to selected item or none' was selected
+            if form['serviceprovider_delete'].value() == 'switch_new':
+
+                # replace, if value was submitted via form
+                if form['serviceprovider'].value():
+                    serviceprovider_id = form['serviceprovider'].value()
+                    serviceprovider = Serviceprovider.objects.get(serviceprovider_id = serviceprovider_id)
+                    system.serviceprovider = serviceprovider
+                # delete, if form field was empty
+                else:
+                    system.serviceprovider = None
 
             # save object
             system.save()
@@ -186,24 +252,50 @@ def system_modificator_async(request_post, request_user):
 
             """ many 2 many """
 
-            # TODO: add check for empty list
-            # add tags (using save_m2m would replace existing tags)
-            for tag_id in tags:
-                # get object
-                tag = Tag.objects.get(tag_id=tag_id)
-                # add tag to system
-                system.tag.add(tag)
+            # remove existing relations if 'remove_and_add / Delete existing and add new items' was selected
+            if form['tag_delete'].value() == 'remove_and_add':
 
-            for company_id in companies:
-                # get object
-                company = Company.objects.get(company_id=company_id)
-                # add company to system
-                system.company.add(company)
+                # remove all m2m
+                system.tag.clear()
+
+            # add new relations if not 'keep_not_add / Do not change and keep existing' was selected
+            if form['tag_delete'].value() != 'keep_not_add':
+
+                # add new tags (using save_m2m would replace existing tags it there were any)
+                for tag_id in tags:
+                    # get object
+                    tag = Tag.objects.get(tag_id=tag_id)
+                    # add tag to system
+                    system.tag.add(tag)
+
+            # remove existing relations if 'remove_and_add / Delete existing and add new items' was selected
+            if form['company_delete'].value() == 'remove_and_add':
+
+                # remove all m2m
+                system.company.clear()
+
+            # add new relations if not 'keep_not_add / Do not change and keep existing' was selected
+            if form['company_delete'].value() != 'keep_not_add':
+
+                # add new companies (using save_m2m would replace existing companies it there were any)
+                for company_id in companies:
+                    # get object
+                    company = Company.objects.get(company_id=company_id)
+                    # add company to system
+                    system.company.add(company)
+
+            # apply workflows
+            if workflows:
+                error_code = Workflow.apply(workflows, system, request_user)
+                if error_code:
+                    system.logger(str(request_user), ' COULD_NOT_APPLY_WORKFLOW')
+                else:
+                    workflows_applied += workflow_count
 
     """ finish system importer """
 
     # call final messages
-    final_messages(systems_modified_counter, systems_skipped_counter, lines_faulty_counter, skipped_systems, number_of_lines, request_user)
+    final_messages(systems_modified_counter, systems_skipped_counter, lines_faulty_counter, skipped_systems, number_of_lines, request_user, workflow_count, workflows_applied)
 
     # call logger
     info_logger(

@@ -1,0 +1,114 @@
+<!-- extending maintemplate -->
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+<!-- HTML head in maintemplate -->
+{% block head %}
+
+<!-- page title -->
+<title>
+    DFIRTrack - Casetypes
+</title>
+
+{% load static %}
+
+<!-- HTML head in maintemplate -->
+{% endblock %}
+
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
+{% block content %}
+
+<!-- headline -->
+<div class="row bottom-distance">
+    <div class="col">
+        <h5>
+            Casetypes
+        </h5>
+    </div>
+</div>
+
+<!-- headlines -->
+<div class="row font-weight-bold">
+
+    <!-- casetype id headline -->
+    <div class="col-1">
+        ID
+    </div>
+
+    <!-- casetype name headline -->
+    <div class="col-2">
+        Casetype
+    </div>
+
+    <!-- case headline -->
+    <div class="col-1">
+        Cases
+    </div>
+
+    <!-- casetype note headline -->
+    <div class="col-8">
+        Note
+    </div>
+
+<!-- headlines -->
+</div>
+
+<!-- casetype list -->
+{% for i in casetype_list %}
+
+    <!-- casetype row -->
+    <div class="row top-distance">
+
+        <!-- casetype id -->
+        <div class="col-1">
+            {{ i.casetype_id }}
+        </div>
+
+        <!-- casetype name -->
+        <div class="col-2">
+            <a href="{{ i.get_absolute_url }}">
+                {{ i.casetype_name }}
+            </a>
+        </div>
+
+        <!-- case -->
+        <div class="col-1">
+            {{ i.case_set.all|length }}
+        </div>
+
+        <!-- casetype note -->
+        <div class="col-7">
+            {% if i.casetype_note %}
+                {{ i.casetype_note|linebreaks }}
+            {% else %}
+                ---
+            {% endif %}
+        </div>
+
+        <!-- edit button -->
+        <div class="col-1">
+            <a href="{{ i.get_update_url }}" type="button" class="btn btn-light copy-false">
+                <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                Edit
+            </a>
+        </div>
+
+    <!-- casetype row -->
+    </div>
+
+<!-- casetype list -->
+{% endfor %}
+
+<!-- add button -->
+<div class="row top-distance">
+    <div class="col-1">
+        <a href="{% url 'casetype_create' %}" type="button" class="btn btn-light copy-false">
+            <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Add casetype
+        </a>
+    </div>
+</div>
+
+<!-- HTML body in maintemplate -->
+{% endblock %}

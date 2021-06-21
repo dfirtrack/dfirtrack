@@ -1,12 +1,13 @@
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
-from django.utils import timezone
 from dfirtrack.settings import INSTALLED_APPS as installed_apps
 from dfirtrack_artifacts.models import Artifact
 #from dfirtrack_config.models import MainConfigModel
+from dfirtrack_config.models import Workflow
 from dfirtrack_main.models import Ip, System, Systemstatus
 import urllib.parse
+
 
 class SystemViewTestCase(TestCase):
     """ system view tests """
@@ -24,9 +25,15 @@ class SystemViewTestCase(TestCase):
         System.objects.create(
             system_name = 'system_1',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
+        )
+
+        # create object
+        Workflow.objects.create(
+            workflow_name='workflow_1',
+            workflow_created_by_user_id = test_user,
+            workflow_modified_by_user_id = test_user,
         )
 
     def test_system_list_not_logged_in(self):
@@ -183,6 +190,21 @@ class SystemViewTestCase(TestCase):
         response = self.client.get('/system/' + str(system_1.system_id) + '/')
         # compare
         self.assertTrue(response.context['dfirtrack_artifacts'])
+
+    def test_system_detail_context_workflows(self):
+        """ test detail view """
+
+        # add app to dfirtrack.settings
+        if 'dfirtrack_config' not in installed_apps:
+            installed_apps.append('dfirtrack_config')
+        # get object
+        system_1 = System.objects.get(system_name='system_1')
+        # login testuser
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get response
+        response = self.client.get('/system/{}/'.format(system_1.system_id))
+        # compare
+        self.assertEquals(str(response.context['workflows'][0]), 'workflow_1')
 
     def test_system_detail_context_without_artifacts(self):
         """ test detail view """
@@ -433,6 +455,64 @@ class SystemViewTestCase(TestCase):
         # compare
         self.assertEqual(str(messages[0]), 'IP already exists in database')
 
+    def test_system_add_context_workflows(self):
+        """ test add view """
+
+        # add app to dfirtrack.settings
+        if 'dfirtrack_config' not in installed_apps:
+            installed_apps.append('dfirtrack_config')
+        # login testuser
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get response
+        response = self.client.get('/system/add/')
+        # compare
+        self.assertEquals(str(response.context['workflows'][0]), 'workflow_1')
+
+    def test_system_add_post_workflows(self):
+        """ test add view """
+
+        # add app to dfirtrack.settings
+        if 'dfirtrack_config' not in installed_apps:
+            installed_apps.append('dfirtrack_config')
+        # login testuser
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+         # get object
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
+        workflow_id = Workflow.objects.get(workflow_name='workflow_1').workflow_id
+        # create post data
+        data_dict = {
+            'system_name': 'system_add_with_valid_workflow',
+            'systemstatus': systemstatus_id,
+            'workflow': workflow_id,
+            'iplist': '127.0.0.1'
+        }
+        # get response
+        response = self.client.post('/system/add/', data_dict, follow=True)
+        # compare
+        self.assertContains(response, 'Workflow applied')
+
+    def test_system_add_post_nonexistent_workflows(self):
+        """ test add view """
+
+        # add app to dfirtrack.settings
+        if 'dfirtrack_config' not in installed_apps:
+            installed_apps.append('dfirtrack_config')
+        # login testuser
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+         # get object
+        systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
+        # create post data
+        data_dict = {
+            'system_name': 'system_add_with_invalid_workflow',
+            'systemstatus': systemstatus_id,
+            'workflow': 99,
+            'iplist': '127.0.0.1'
+        }
+        # get response
+        response = self.client.post('/system/add/', data_dict, follow=True)
+        # compare
+        self.assertContains(response, 'Could not apply workflow')
+
     def test_system_edit_not_logged_in(self):
         """ test edit view """
 
@@ -528,7 +608,6 @@ class SystemViewTestCase(TestCase):
         system_1 = System.objects.create(
             system_name = 'system_edit_post_test_1',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )
@@ -594,7 +673,6 @@ class SystemViewTestCase(TestCase):
 #        system_1 = System.objects.create(
 #            system_name = 'system_edit_post_test_3',
 #            systemstatus = systemstatus_1,
-#            system_modify_time = timezone.now(),
 #            system_created_by_user_id = test_user,
 #            system_modified_by_user_id = test_user,
 #        )
@@ -626,7 +704,6 @@ class SystemViewTestCase(TestCase):
         system_1 = System.objects.create(
             system_name = 'system_edit_post_test_5',
             systemstatus = systemstatus_1,
-            system_modify_time = timezone.now(),
             system_created_by_user_id = test_user,
             system_modified_by_user_id = test_user,
         )

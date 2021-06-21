@@ -1,0 +1,65 @@
+{% load static %}
+
+<!-- button block -->
+<div class="card card-body bg-dark border-light top-distance copy-false">
+
+    <!-- headlines -->
+    <div class="row copy-false">
+        <div class="col-12">
+            <h5>Create artifacts</h5>
+        </div>
+    </div>
+
+    <!-- button row -->
+    <div class="row copy-false">
+
+        <!-- artifact add button -->
+        <div class="col-1">
+            <div data-toggle="tooltip" data-placement="auto" title="Create single artifact.">
+                <a href="{% url 'artifacts_artifact_create' %}" type="button" class="btn btn-light copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    Add artifact
+                </a>
+            </div>
+        </div>
+
+    <!-- button row -->
+    </div>
+
+<!-- button block -->
+</div>
+
+<!-- button block -->
+<div class="card card-body bg-dark border-light top-distance copy-false">
+
+    <!-- headlines -->
+    <div class="row copy-false">
+        <div class="col">
+            <h5>Export to spreadsheet</h5>
+        </div>
+    </div>
+
+    <!-- button row -->
+    <div class="row copy-false">
+
+        <!-- export XLS button -->
+        <div class="col btn-group">
+            <div data-toggle="tooltip" data-placement="auto" title="Immediately download artifacts as XLS file.">
+                <a href="{% url 'artifact_exporter_spreadsheet_xls' %}" type="button" class="btn left btn-light copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/spreadsheet.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    Export XLS
+                </a>
+            </div>
+            <div data-toggle="tooltip" data-placement="auto" title="Create scheduled task to export XLS file to server file system.">
+                <a href="{% url 'artifact_exporter_spreadsheet_xls_cron' %}" target="_blank" type="button" class="btn sharp btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/clock.svg' %}" class="icon copy-false" alt="icon"></a>
+            </div>
+            <div data-toggle="tooltip" data-placement="auto" title="Change settings for XLS file export.">
+                <button onclick="artifact_exporter_spreadsheet_xls_config_popup()" type="button" class="btn right btn-light copy-false"><img src="{% static 'dfirtrack_main/icons/wrench.svg' %}" class="icon copy-false" alt="icon"> </a>
+            </div>
+        </div>
+
+    <!-- button row -->
+    </div>
+
+<!-- button block -->
+</div>

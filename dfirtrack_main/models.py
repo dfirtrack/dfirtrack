@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
+from django.utils.text import slugify
 import logging
 from time import strftime
 import uuid
@@ -18,6 +19,9 @@ class Analysisstatus(models.Model):
     # main entity information
     analysisstatus_name = models.CharField(max_length=30, unique=True)
     analysisstatus_note = models.TextField(blank=True, null=True)
+
+    class Meta:
+        verbose_name_plural = 'analysisstatus'
 
     # string representation
     def __str__(self):
@@ -78,26 +82,78 @@ class Case(models.Model):
     # primary key
     case_id = models.AutoField(primary_key=True)
 
+    # foreign key(s)
+    casepriority = models.ForeignKey('Casepriority', on_delete=models.PROTECT, default=2)
+    casestatus = models.ForeignKey('Casestatus', on_delete=models.PROTECT, default=1)
+    casetype = models.ForeignKey('Casetype', on_delete=models.PROTECT, blank=True, null=True)
+    tag = models.ManyToManyField('Tag', blank=True)
+
     # main entity information
+    case_id_external = models.CharField(max_length=50, blank=True, null=True, unique=True)
     case_name = models.CharField(max_length=50, unique=True)
     case_is_incident = models.BooleanField()
+    case_note_analysisresult = models.TextField(blank=True, null=True)
+    case_note_external = models.TextField(blank=True, null=True)
+    case_note_internal = models.TextField(blank=True, null=True)
+    case_start_time = models.DateTimeField(blank=True, null=True)
+    case_end_time = models.DateTimeField(blank=True, null=True)
 
     # meta information
     case_create_time = models.DateTimeField(auto_now_add=True)
+    case_modify_time = models.DateTimeField(auto_now=True)
     case_created_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='case_created_by')
+    case_modified_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='case_modified_by', null=True)
 
     # string representation
     def __str__(self):
         return self.case_name
 
     # define logger
-    def logger(case, request_user, log_text):
+    def logger(case, request_user, log_text):   # coverage: ignore branch
+
+        if case.case_start_time != None:
+            # cast datetime object to string
+            starttime = case.case_start_time.strftime('%Y-%m-%d %H:%M:%S')
+        else:
+            # else set default string
+            starttime = 'None'
+
+        if case.case_end_time != None:
+            # cast datetime object to string
+            endtime = case.case_end_time.strftime('%Y-%m-%d %H:%M:%S')
+        else:
+            # else set default string
+            endtime = 'None'
+
+        # get objects
+        tags = case.tag.all()
+        # create empty list
+        taglist = []
+        # set default string if there is no object at all
+        tagstring = 'None'
+        # iterate over objects
+        for tag in tags:
+            # append object to list
+            taglist.append(tag.tag_name)
+            # join list to comma separated string if there are any objects, else default string will remain
+            tagstring = ','.join(taglist)
+
         stdlogger.info(
             request_user +
             log_text +
             " case_id:" + str(case.case_id) +
+            "|case_id_external:" + str(case.case_id_external) +
             "|case_name:" + str(case.case_name) +
-            "|case_is_incident:" + str(case.case_is_incident)
+            "|case_is_incident:" + str(case.case_is_incident) +
+            "|tag:" + tagstring +
+            "|case_note_analysisresult:" + str(case.case_note_analysisresult) +
+            "|case_note_external:" + str(case.case_note_external) +
+            "|case_note_internal:" + str(case.case_note_internal) +
+            "|case_start_time:" + starttime +
+            "|case_end_time:" + endtime +
+            "|casepriority:" + str(case.casepriority) +
+            "|casestatus:" + str(case.casestatus) +
+            "|casetype:" + str(case.casetype)
         )
 
     def get_absolute_url(self):
@@ -105,6 +161,119 @@ class Case(models.Model):
 
     def get_update_url(self):
         return reverse('case_update', args=(self.pk,))
+
+class Casepriority(models.Model):
+
+    # primary key
+    casepriority_id = models.AutoField(primary_key=True)
+
+    # main entity information
+    casepriority_name = models.CharField(max_length=255, unique=True)
+    casepriority_note = models.TextField(blank=True, null=True)
+    casepriority_slug = models.CharField(max_length=255, unique=True)
+
+    class Meta:
+        ordering = ('casepriority_id',)
+        verbose_name_plural = 'casepriorities'
+
+    # string representation
+    def __str__(self):
+        return self.casepriority_name
+
+    # define logger
+    def logger(casepriority, request_user, log_text):
+        stdlogger.info(
+            request_user +
+            log_text +
+            " casepriority_id:" + str(casepriority.casepriority_id) +
+            "|casepriority_name:" + str(casepriority.casepriority_name) +
+            "|casepriority_note:" + str(casepriority.casepriority_note) +
+            "|casepriority_slug:" + str(casepriority.casepriority_slug)
+        )
+
+    def save(self, *args, **kwargs):
+        # generate slug
+        self.casepriority_slug = slugify(self.casepriority_name)
+        return super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('casepriority_detail', args=(self.pk,))
+
+class Casestatus(models.Model):
+
+    # primary key
+    casestatus_id = models.AutoField(primary_key=True)
+
+    # main entity information
+    casestatus_name = models.CharField(max_length=255, unique=True)
+    casestatus_note = models.TextField(blank=True, null=True)
+    casestatus_slug = models.CharField(max_length=255, unique=True)
+
+    class Meta:
+        ordering = ('casestatus_id',)
+        verbose_name_plural = 'casestatus'
+
+    # string representation
+    def __str__(self):
+        return self.casestatus_name
+
+    # define logger
+    def logger(casestatus, request_user, log_text):
+        stdlogger.info(
+            request_user +
+            log_text +
+            " casestatus_id:" + str(casestatus.casestatus_id) +
+            "|casestatus_name:" + str(casestatus.casestatus_name) +
+            "|casestatus_note:" + str(casestatus.casestatus_note) +
+            "|casestatus_slug:" + str(casestatus.casestatus_slug)
+        )
+
+    def save(self, *args, **kwargs):
+        # generate slug
+        self.casestatus_slug = slugify(self.casestatus_name)
+        return super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('casestatus_detail', args=(self.pk,))
+
+class Casetype(models.Model):
+
+    # primary key
+    casetype_id = models.AutoField(primary_key=True)
+
+    # main entity information
+    casetype_name = models.CharField(max_length=255, unique=True)
+    casetype_note = models.TextField(blank=True, null=True)
+    casetype_slug = models.CharField(max_length=255, unique=True)
+
+    class Meta:
+        ordering = ('casetype_id',)
+
+    # string representation
+    def __str__(self):
+        return self.casetype_name
+
+    # define logger
+    def logger(casetype, request_user, log_text):
+        stdlogger.info(
+            request_user +
+            log_text +
+            " casetype_id:" + str(casetype.casetype_id) +
+            "|casetype_name:" + str(casetype.casetype_name) +
+            "|casetype_note:" + str(casetype.casetype_note) +
+            "|casetype_slug:" + str(casetype.casetype_slug)
+        )
+
+    def get_absolute_url(self):
+        return reverse('casetype_detail', args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse('casetype_update', args=(self.pk,))
+
+    def save(self, *args, **kwargs):
+        # generate slug
+        self.casetype_slug = slugify(self.casetype_name)
+        return super().save(*args, **kwargs)
 
 class Company(models.Model):
 
@@ -117,6 +286,9 @@ class Company(models.Model):
     # main entity information
     company_name = models.CharField(max_length=50, unique=True)
     company_note = models.TextField(blank=True, null=True)
+
+    class Meta:
+        verbose_name_plural = 'companies'
 
     # string representation
     def __str__(self):
@@ -285,7 +457,7 @@ class Domainuser(models.Model):
         return '%s (%s)' % (self.domainuser_name, self.domain)
 
     # define logger
-    def logger(domainuser, request_user, log_text):
+    def logger(domainuser, request_user, log_text):     # coverage: ignore branch
 
         """
         ManyToMany-Relationsship don't get the default 'None' string if they are empty.
@@ -348,9 +520,9 @@ class Entry(models.Model):
     entry_created_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='entry_created_by')
     entry_modified_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='entry_modified_by')
 
-    # define unique together
     class Meta:
         unique_together = ('system', 'entry_sha1')
+        verbose_name_plural = 'entries'
 
     # string representation
     def __str__(self):
@@ -454,6 +626,117 @@ class Location(models.Model):
     def get_update_url(self):
         return reverse('location_update', args=(self.pk,))
 
+class Note(models.Model):
+
+    # primary key
+    note_id = models.AutoField(primary_key=True)
+
+    # main entity information
+    note_title = models.CharField(max_length=250, unique=True)
+    note_content = models.TextField()
+    note_version = models.IntegerField()
+    note_is_abandoned = models.BooleanField(blank=True, default=True)
+
+    # foreign key(s)
+    case = models.ForeignKey('Case', on_delete=models.SET_NULL, blank=True, null=True)
+    notestatus = models.ForeignKey('Notestatus', on_delete=models.PROTECT, default=1)
+    tag = models.ManyToManyField('Tag', blank=True)
+
+    # meta information
+    note_create_time = models.DateTimeField(auto_now_add=True)
+    note_modify_time = models.DateTimeField(auto_now=True)
+    note_created_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='note_created_by')
+    note_modified_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='note_modified_by')
+
+    # string representation
+    def __str__(self):
+        return self.note_title
+
+    # define logger
+    def logger(note, request_user, log_text):
+
+        # get objects
+        tags = note.tag.all()
+        # create empty list
+        taglist = []
+        # set default string if there is no object at all
+        tagstring = 'None'
+        # iterate over objects
+        for tag in tags:
+            # append object to list
+            taglist.append(tag.tag_name)
+            # join list to comma separated string if there are any objects, else default string will remain
+            tagstring = ','.join(taglist)
+
+        # finally write log
+        stdlogger.info(
+            request_user +
+            log_text +
+            " note_id:" + str(note.note_id) +
+            "|note_title:" + str(note.note_title) +
+            "|note_version:" + str(note.note_version) +
+            "|notestatus:" + str(note.notestatus) +
+            "|case:" + str(note.case) +
+            "|tag:" + tagstring
+        )
+
+    # custom save method
+    def save(self, *args, **kwargs):
+
+        """ note_version """
+
+        if not self.pk:
+            # set version number on creation
+            self.note_version = 1
+        else:
+            # auto increase version by every change
+            self.note_version += 1
+
+        """ note_is_abandoned """
+
+        # set abandoned if note has no case
+        if not self.case:
+            self.note_is_abandoned = True
+        else:
+            self.note_is_abandoned = False
+
+        super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('note_detail', args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse('note_update', args=(self.pk,))
+
+class Notestatus(models.Model):
+
+    # primary key
+    notestatus_id = models.AutoField(primary_key=True)
+
+    # main entity information
+    notestatus_name = models.CharField(max_length=30, unique=True)
+    notestatus_note = models.TextField(blank=True, null=True)
+
+    class Meta:
+        verbose_name_plural = 'notestatus'
+
+    # string representation
+    def __str__(self):
+        return self.notestatus_name
+
+    # define logger
+    def logger(notestatus, request_user, log_text):
+        stdlogger.info(
+            request_user +
+            log_text +
+            " notestatus_id:" + str(notestatus.notestatus_id) +
+            "|notestatus_name:" + str(notestatus.notestatus_name) +
+            "|notestatus_note:" + str(notestatus.notestatus_note)
+        )
+
+    def get_absolute_url(self):
+        return reverse('notestatus_detail', args=(self.pk,))
+
 class Os(models.Model):
 
     # primary key
@@ -461,6 +744,9 @@ class Os(models.Model):
 
     # main entity information
     os_name = models.CharField(max_length=30, unique=True)
+
+    class Meta:
+        verbose_name_plural = 'os'
 
     # string representation
     def __str__(self):
@@ -494,7 +780,7 @@ class Osarch(models.Model):
         return self.osarch_name
 
     # define logger
-    def logger(osarch, request_user, log_text):
+    def logger(osarch, request_user, log_text):     # coverage: ignore branch
         stdlogger.info(
             request_user +
             log_text +
@@ -502,10 +788,10 @@ class Osarch(models.Model):
             "|osarch_name:" + str(osarch.osarch_name)
         )
 
-    def get_absolute_url(self):
+    def get_absolute_url(self):     # coverage: ignore branch
         return reverse('osarch_detail', args=(self.pk,))
 
-    def get_update_url(self):
+    def get_update_url(self):       # coverage: ignore branch
         return reverse('osarch_update', args=(self.pk,))
 
 class Osimportname(models.Model):
@@ -602,8 +888,11 @@ class Reportitem(models.Model):
     reportitem_id = models.AutoField(primary_key=True)
 
     # foreign key(s)
-    system = models.ForeignKey('System', on_delete=models.CASCADE)
+    case = models.ForeignKey('Case', on_delete=models.PROTECT, blank=True, null=True)
     headline = models.ForeignKey('Headline', on_delete=models.PROTECT)
+    notestatus = models.ForeignKey('Notestatus', on_delete=models.PROTECT, default=1)
+    system = models.ForeignKey('System', on_delete=models.CASCADE)
+    tag = models.ManyToManyField('Tag', blank=True)
 
     # main entity information
     reportitem_subheadline = models.CharField(max_length=100, blank=True, null=True)
@@ -625,14 +914,31 @@ class Reportitem(models.Model):
 
     # define logger
     def logger(reportitem, request_user, log_text):
+
+        # get objects
+        tags = reportitem.tag.all()
+        # create empty list
+        taglist = []
+        # set default string if there is no object at all
+        tagstring = 'None'
+        # iterate over objects
+        for tag in tags:
+            # append object to list
+            taglist.append(tag.tag_name)
+            # join list to comma separated string if there are any objects, else default string will remain
+            tagstring = ','.join(taglist)
+
+        # finally write log
         stdlogger.info(
             request_user +
             log_text +
             " reportitem_id:" + str(reportitem.reportitem_id) +
-            "|system:" + str(reportitem.system) +
             "|headline:" + str(reportitem.headline) +
+            "|notestatus:" + str(reportitem.notestatus) +
             "|reportitem_subheadline:" + str(reportitem.reportitem_subheadline) +
-            "|reportitem_note:" + str(reportitem.reportitem_note)
+            "|system:" + str(reportitem.system) +
+            "|case:" + str(reportitem.case) +
+            "|tag:" + tagstring
         )
 
     def get_absolute_url(self):
@@ -708,8 +1014,7 @@ class System(models.Model):
 
     # meta information
     system_create_time = models.DateTimeField(auto_now_add=True)
-    system_modify_time = models.DateTimeField()
-    system_api_time = models.DateTimeField(null=True)
+    system_modify_time = models.DateTimeField(auto_now=True)
     system_created_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='system_created_by')
     system_modified_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='system_modified_by')
     system_export_markdown = models.BooleanField(default=True)
@@ -815,7 +1120,7 @@ class System(models.Model):
         return super().save(*args, **kwargs)
 
     # define logger
-    def logger(system, request_user, log_text):
+    def logger(system, request_user, log_text):     # coverage: ignore branch
 
         """
         ManyToMany-Relationsship don't get the default 'None' string if they are empty.
@@ -978,6 +1283,9 @@ class Systemstatus(models.Model):
     systemstatus_name = models.CharField(max_length=30, unique=True)
     systemstatus_note = models.TextField(blank=True, null=True)
 
+    class Meta:
+        verbose_name_plural = 'systemstatus'
+
     # string representation
     def __str__(self):
         return self.systemstatus_name
@@ -1113,7 +1421,7 @@ class Tagcolor(models.Model):
         return self.tagcolor_name
 
     # define logger
-    def logger(tagcolor, request_user, log_text):
+    def logger(tagcolor, request_user, log_text):   # coverage: ignore branch
         stdlogger.info(
             request_user +
             log_text +
@@ -1127,11 +1435,13 @@ class Task(models.Model):
     task_id = models.AutoField(primary_key=True)
 
     # foreign key(s)
+    artifact = models.ForeignKey('dfirtrack_artifacts.Artifact', on_delete=models.SET_NULL, blank=True, null=True)
+    case = models.ForeignKey('Case', on_delete=models.SET_NULL, blank=True, null=True)
     parent_task = models.ForeignKey('self', on_delete=models.PROTECT, blank=True, null=True)
     taskname = models.ForeignKey('Taskname', on_delete=models.PROTECT)
     taskpriority = models.ForeignKey('Taskpriority', on_delete=models.PROTECT)
     taskstatus = models.ForeignKey('Taskstatus', on_delete=models.PROTECT)
-    system = models.ForeignKey('System', on_delete=models.CASCADE, blank=True, null=True)
+    system = models.ForeignKey('System', on_delete=models.SET_NULL, blank=True, null=True)
     task_assigned_to_user_id = models.ForeignKey(User, on_delete=models.PROTECT, blank=True, null=True, related_name='task_assigned_to')
     tag = models.ManyToManyField('Tag', blank=True)
 
@@ -1141,6 +1451,7 @@ class Task(models.Model):
     task_started_time = models.DateTimeField(blank=True, null=True)
     task_finished_time = models.DateTimeField(blank=True, null=True)
     task_due_time = models.DateTimeField(blank=True, null=True)
+    task_is_abandoned = models.BooleanField(blank=True, default=True)
 
     # meta information
     task_create_time = models.DateTimeField(auto_now_add=True)
@@ -1152,8 +1463,19 @@ class Task(models.Model):
     def __str__(self):
         return '[%s] %s (%s)' % (self.task_id, self.taskname, self.system)
 
-    # define logger
-    def logger(task, request_user, log_text):
+    def save(self, *args, **kwargs):
+        """ extend save method """
+
+        # set abandoned if task has no artifact, case or system
+        if not self.artifact and not self.case and not self.system:
+            self.task_is_abandoned = True
+        else:
+            self.task_is_abandoned = False
+
+        return super().save(*args, **kwargs)
+
+    def logger(task, request_user, log_text):   # coverage: ignore branch
+        """ define logger """
 
         if task.task_scheduled_time != None:
             # cast datetime object to string
@@ -1206,6 +1528,8 @@ class Task(models.Model):
             "|taskpriority:" + str(task.taskpriority) +
             "|taskstatus:" + str(task.taskstatus) +
             "|system:" + str(task.system) +
+            "|case:" + str(task.case) +
+            "|artifact:" + str(task.artifact) +
             "|task_assigned_to_user_id:" + str(task.task_assigned_to_user_id) +
             "|task_note:" + str(task.task_note) +
             "|task_scheduled_time:" + scheduledtime +

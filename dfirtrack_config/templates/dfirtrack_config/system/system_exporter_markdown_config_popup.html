@@ -54,28 +54,25 @@
                     Configure system markdown export
                 </h5>
 
-                <!-- markdown_path -->
+                <!-- markdown_path - label -->
                 <div class="row">
-
-                    <div class="col top-distance bottom-distance">
+                    <div class="col top-distance">
                         {{ form.markdown_path.label }}
                     </div>
-
                 </div>
 
+                <!-- markdown_path - error -->
                 <div class="row">
-
-                    <!-- placeholder -->
-                    <div class="col-1">
+                    <div class="col text-danger">
+                        {{ form.markdown_path.errors }}
                     </div>
+                </div>
 
-                    <div class="col-11">
-                        {% for i in form.markdown_path %}
-                            {{ i }}<br>
-                        {% endfor %}
+                <!-- markdown_path - field -->
+                <div class="row">
+                    <div class="col top-distance">
+                        {{ form.markdown_path }}
                     </div>
-
-                <!-- markdown_path -->
                 </div>
 
                 <!-- markdown_sorting -->
@@ -90,11 +87,7 @@
 
                 <div class="row">
 
-                    <!-- placeholder -->
-                    <div class="col-1">
-                    </div>
-
-                    <div class="col-11">
+                    <div class="col">
                         {% for i in form.markdown_sorting %}
                             {{ i }}<br>
                         {% endfor %}

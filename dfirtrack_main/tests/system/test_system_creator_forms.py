@@ -1,7 +1,22 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from dfirtrack_main.forms import SystemCreatorForm
-from dfirtrack_main.models import Analysisstatus, Case, Company, Contact, Dnsname, Domain, Location, Os, Osarch, Reason, Serviceprovider, Systemstatus, Systemtype, Tag, Tagcolor
+from dfirtrack_main.models import Analysisstatus
+from dfirtrack_main.models import Case
+from dfirtrack_main.models import Company
+from dfirtrack_main.models import Contact
+from dfirtrack_main.models import Dnsname
+from dfirtrack_main.models import Domain
+from dfirtrack_main.models import Location
+from dfirtrack_main.models import Os
+from dfirtrack_main.models import Osarch
+from dfirtrack_main.models import Reason
+from dfirtrack_main.models import Serviceprovider
+from dfirtrack_main.models import Systemstatus
+from dfirtrack_main.models import Systemtype
+from dfirtrack_main.models import Tag
+from dfirtrack_main.models import Tagcolor
+
 
 class SystemCreatorFormTestCase(TestCase):
     """ system creator form tests """
@@ -77,14 +92,13 @@ class SystemCreatorFormTestCase(TestCase):
             case_created_by_user_id = test_user,
         )
 
-
     def test_system_creator_systemlist_form_label(self):
         """ test form label """
 
         # get object
         form = SystemCreatorForm()
         # compare
-        self.assertEqual(form.fields['systemlist'].label, 'System list')
+        self.assertEqual(form.fields['systemlist'].label, 'System list (*)')
 
     def test_system_creator_systemstatus_form_label(self):
         """ test form label """
@@ -92,7 +106,7 @@ class SystemCreatorFormTestCase(TestCase):
         # get object
         form = SystemCreatorForm()
         # compare
-        self.assertEqual(form.fields['systemstatus'].label, 'Systemstatus')
+        self.assertEqual(form.fields['systemstatus'].label, 'Systemstatus (*)')
 
     def test_system_creator_analysisstatus_form_label(self):
         """ test form label """
@@ -108,7 +122,8 @@ class SystemCreatorFormTestCase(TestCase):
         # get object
         form = SystemCreatorForm()
         # compare
-        self.assertEqual(form.fields['reason'].label, 'Reason')
+        self.assertEqual(form.fields['reason'].label, 'Reason for investigation')
+        self.assertEqual(form.fields['reason'].empty_label, 'Select reason (optional)')
 
     def test_system_creator_systemtype_form_label(self):
         """ test form label """
@@ -117,6 +132,7 @@ class SystemCreatorFormTestCase(TestCase):
         form = SystemCreatorForm()
         # compare
         self.assertEqual(form.fields['systemtype'].label, 'Systemtype')
+        self.assertEqual(form.fields['systemtype'].empty_label, 'Select systemtype (optional)')
 
     def test_system_creator_domain_form_label(self):
         """ test form label """
@@ -125,6 +141,7 @@ class SystemCreatorFormTestCase(TestCase):
         form = SystemCreatorForm()
         # compare
         self.assertEqual(form.fields['domain'].label, 'Domain')
+        self.assertEqual(form.fields['domain'].empty_label, 'Select domain (optional)')
 
     def test_system_creator_dnsname_form_label(self):
         """ test form label """
@@ -132,7 +149,8 @@ class SystemCreatorFormTestCase(TestCase):
         # get object
         form = SystemCreatorForm()
         # compare
-        self.assertEqual(form.fields['dnsname'].label, 'Dnsname')
+        self.assertEqual(form.fields['dnsname'].label, 'DNS name')
+        self.assertEqual(form.fields['dnsname'].empty_label, 'Select DNS name (optional)')
 
     def test_system_creator_os_form_label(self):
         """ test form label """
@@ -140,7 +158,8 @@ class SystemCreatorFormTestCase(TestCase):
         # get object
         form = SystemCreatorForm()
         # compare
-        self.assertEqual(form.fields['os'].label, 'Os')
+        self.assertEqual(form.fields['os'].label, 'Operating system')
+        self.assertEqual(form.fields['os'].empty_label, 'Select OS (optional)')
 
     def test_system_creator_osarch_form_label(self):
         """ test form label """
@@ -148,7 +167,8 @@ class SystemCreatorFormTestCase(TestCase):
         # get object
         form = SystemCreatorForm()
         # compare
-        self.assertEqual(form.fields['osarch'].label, 'Osarch')
+        self.assertEqual(form.fields['osarch'].label, 'OS architecture')
+        self.assertEqual(form.fields['osarch'].empty_label, 'Select OS architecture (optional)')
 
     def test_system_creator_company_form_label(self):
         """ test form label """
@@ -156,7 +176,7 @@ class SystemCreatorFormTestCase(TestCase):
         # get object
         form = SystemCreatorForm()
         # compare
-        self.assertEqual(form.fields['company'].label, 'Company')
+        self.assertEqual(form.fields['company'].label, 'Companies')
 
     def test_system_creator_location_form_label(self):
         """ test form label """
@@ -165,6 +185,7 @@ class SystemCreatorFormTestCase(TestCase):
         form = SystemCreatorForm()
         # compare
         self.assertEqual(form.fields['location'].label, 'Location')
+        self.assertEqual(form.fields['location'].empty_label, 'Select location (optional)')
 
     def test_system_creator_serviceprovider_form_label(self):
         """ test form label """
@@ -173,6 +194,7 @@ class SystemCreatorFormTestCase(TestCase):
         form = SystemCreatorForm()
         # compare
         self.assertEqual(form.fields['serviceprovider'].label, 'Serviceprovider')
+        self.assertEqual(form.fields['serviceprovider'].empty_label, 'Select serviceprovider (optional)')
 
     def test_system_creator_contact_form_label(self):
         """ test form label """
@@ -181,6 +203,7 @@ class SystemCreatorFormTestCase(TestCase):
         form = SystemCreatorForm()
         # compare
         self.assertEqual(form.fields['contact'].label, 'Contact')
+        self.assertEqual(form.fields['contact'].empty_label, 'Select contact (optional)')
 
     def test_system_creator_tag_form_label(self):
         """ test form label """
@@ -188,7 +211,7 @@ class SystemCreatorFormTestCase(TestCase):
         # get object
         form = SystemCreatorForm()
         # compare
-        self.assertEqual(form.fields['tag'].label, 'Tag')
+        self.assertEqual(form.fields['tag'].label, 'Tags')
 
     def test_system_creator_case_form_label(self):
         """ test form label """
@@ -196,7 +219,7 @@ class SystemCreatorFormTestCase(TestCase):
         # get object
         form = SystemCreatorForm()
         # compare
-        self.assertEqual(form.fields['case'].label, 'Case')
+        self.assertEqual(form.fields['case'].label, 'Cases')
 
     def test_system_creator_form_empty(self):
         """ test minimum form requirements / INVALID """

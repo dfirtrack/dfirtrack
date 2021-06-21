@@ -1,0 +1,68 @@
+<!-- extending maintemplate -->
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+<!-- HTML head in maintemplate -->
+{% block head %}
+
+<title>
+    DFIRTrack - Closed cases
+</title>
+
+<!-- javascript and CSS for datatables -->
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.css' %}"/>
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.js' %}"></script>
+
+<!-- HTML head in maintemplate -->
+{% endblock %}
+
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
+{% block content %}
+
+<!-- headline and buttons -->
+<div class="row bottom-distance">
+
+    <!-- headline -->
+    <div class="col-3">
+        <h5>
+            Closed cases
+        </h5>
+    </div>
+
+    <!-- headline buttons -->
+    {% include "dfirtrack_main/includes/top_menu_cases.html" %}
+
+</div>
+
+<!-- datatable case -->
+<table id="table_case" class="display" width="100%">
+
+    <!-- table head -->
+    <thead>
+        {% include "dfirtrack_main/includes/datatable_thead_table_case.html" %}
+    </thead>
+
+    <!-- table body -->
+    <tbody>
+        {% for i in case_list %}
+            {% include "dfirtrack_main/includes/datatable_tbody_table_case.html" %}
+        {% endfor %}
+    </tbody>
+
+</table>
+
+<!-- javascript for datatables -->
+<script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
+
+<!-- bottom menu -->
+{% include "dfirtrack_main/includes/bottom_menu_cases.html" %}
+
+<!-- javascript for datatables -->
+{% block datatables %}
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.js' %}"></script>
+{% endblock %}
+
+<!-- HTML body in maintemplate -->
+{% endblock %}

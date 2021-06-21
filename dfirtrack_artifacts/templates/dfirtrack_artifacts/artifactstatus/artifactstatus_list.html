@@ -23,7 +23,7 @@
 <div class="row bottom-distance">
     <div class="col">
         <h5>
-            Artifacstatus
+            Artifactstatus
         </h5>
     </div>
 </div>
@@ -38,7 +38,12 @@
 
     <!-- artifactstatus name headline -->
     <div class="col-2">
-        Artifacstatus
+        Artifactstatus
+    </div>
+
+    <!-- artifact headline -->
+    <div class="col-1">
+        Artifacts
     </div>
 
     <!-- artifactstatus note headline -->
@@ -67,8 +72,13 @@
             </a>
         </div>
 
+        <!-- artifact -->
+        <div class="col-1">
+            {{ i.artifact_set.all|length }}
+        </div>
+
         <!-- artifactstatus note -->
-        <div class="col-9">
+        <div class="col-8">
             {% if i.artifactstatus_note %}
                 {{ i.artifactstatus_note|linebreaks }}
             {% else %}
