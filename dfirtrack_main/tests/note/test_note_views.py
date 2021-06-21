@@ -1,7 +1,12 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
+from dfirtrack_main.models import Case
+from dfirtrack_main.models import Casepriority
+from dfirtrack_main.models import Casestatus
 from dfirtrack_main.models import Note
 from dfirtrack_main.models import Notestatus
+from dfirtrack_main.models import Tag
+from dfirtrack_main.models import Tagcolor
 import urllib.parse
 
 
@@ -24,6 +29,24 @@ class NoteViewTestCase(TestCase):
             notestatus = notestatus_1,
             note_created_by_user_id = test_user,
             note_modified_by_user_id = test_user,
+        )
+
+        # create object
+        tagcolor_1 = Tagcolor.objects.create(tagcolor_name='tagcolor_1')
+        # create object
+        Tag.objects.create(tag_name='tag_1', tagcolor = tagcolor_1)
+
+        # create objects
+        casepriority_1 = Casepriority.objects.create(casepriority_name='casepriority_1')
+        casestatus_1 = Casestatus.objects.create(casestatus_name='casestatus_1')
+
+        # create object
+        Case.objects.create(
+            case_name='case_1',
+            case_is_incident=True,
+            case_created_by_user_id=test_user,
+            casepriority = casepriority_1,
+            casestatus = casestatus_1,
         )
 
     def test_note_list_not_logged_in(self):
@@ -412,4 +435,79 @@ class NoteViewTestCase(TestCase):
         destination = urllib.parse.quote(f'/documentation/#note_id_{new_note.note_id}', safe='/#') 
 
         #check
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_note_edit_valid_tag(self):
+        """ test edit view """
+
+        # login testuser
+        self.client.login(username='testuser_note', password='oh8Szsuk8BpbEJ1RRL21')
+        # get user
+        test_user = User.objects.get(username='testuser_note')
+        # get objects
+        notestatus_1 = Notestatus.objects.get(notestatus_name = 'notestatus_1')
+        tag_1 = Tag.objects.get(tag_name='tag_1')
+        # create object
+        note_1 = Note.objects.create(
+            note_title = 'tag_note_edit_post_test_1',
+            note_content = 'lorem ipsum',
+            notestatus = notestatus_1,
+            note_created_by_user_id = test_user,
+            note_modified_by_user_id = test_user,
+        )
+        # create post data
+        data_dict = {
+            'note_title': 'tag_note_edit_post_test_2',
+            'note_content': 'lorem ipsum',
+            'note_version': note_1.note_version,
+            'notestatus': notestatus_1.notestatus_id,
+            'tag': [tag_1.tag_id, ]
+        }
+        # get response
+        response = self.client.post('/note/' + str(note_1.note_id) + '/edit/', data_dict)
+        # create url
+        destination = urllib.parse.quote('/note/' + str(note_1.note_id) + '/', safe='/')
+        # get object
+        note_edit_post_test_2 = Note.objects.get(note_title='tag_note_edit_post_test_2')
+        # compare
+        self.assertEqual(len(note_edit_post_test_2.tag.all()), 1)
+        self.assertEqual(note_edit_post_test_2.tag.all()[0].tag_name, 'tag_1')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_note_edit_valid_case(self):
+        """ test edit view """
+
+        # login testuser
+        self.client.login(username='testuser_note', password='oh8Szsuk8BpbEJ1RRL21')
+        # get user
+        test_user = User.objects.get(username='testuser_note')
+        # get objects
+        notestatus_1 = Notestatus.objects.get(notestatus_name = 'notestatus_1')
+        case_1 = Case.objects.get(case_name='case_1')
+        # create object
+        note_1 = Note.objects.create(
+            note_title = 'case_note_edit_post_test_1',
+            note_content = 'lorem ipsum',
+            notestatus = notestatus_1,
+            note_created_by_user_id = test_user,
+            note_modified_by_user_id = test_user,
+        )
+        # create post data
+        data_dict = {
+            'note_title': 'case_note_edit_post_test_2',
+            'note_content': 'lorem ipsum',
+            'note_version': note_1.note_version,
+            'notestatus': notestatus_1.notestatus_id,
+            'case': [case_1.case_id, ]
+        }
+        # get response
+        response = self.client.post('/note/' + str(note_1.note_id) + '/edit/', data_dict)
+        # create url
+        destination = urllib.parse.quote('/note/' + str(note_1.note_id) + '/', safe='/')
+        # get object
+        note_edit_post_test_2 = Note.objects.get(note_title='case_note_edit_post_test_2')
+        # compare
+        self.assertEqual(note_edit_post_test_2.case.case_name, 'case_1')
+        # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
