@@ -141,27 +141,20 @@
     <div class="row small text-muted bottom-distance">
 
         <!-- note id -->
-        <div class="col">
+        <div class="col-1">
             Note-ID: {{ note.note_id }}
         </div>
 
         <!-- note version -->
-        <div class="col">
+        <div class="col-2">
             Version: {{ note.note_version }}
         </div>
 
-        <div class="col">
-            Case: 
-            {% if note.case %}
-                {{ note.case }}
-            {% else %}
-                --
-            {% endif %}
-        </div>
-
         <!-- notestatus -->
-        <div class="col">
-            Notestatus: {{ note.notestatus }}
+        <div class="col-3">
+            <a href="{{ note.notestatus.get_absolute_url }}">
+                Notestatus: {{ note.notestatus }}
+            </a>
         </div>
 
         <!-- note create time / user -->
@@ -248,22 +241,15 @@
     <div class="row small text-muted bottom-distance">
 
         <!-- reportitem id -->
-        <div class="col">
+        <div class="col-3">
             Reportitem-ID: {{ reportitem.reportitem_id }}
         </div>
 
         <!-- notestatus -->
-        <div class="col">
-            Notestatus: {{ reportitem.notestatus }}
-        </div>
-
-        <div class="col">
-            Case: 
-            {% if note.case %}
-                {{ note.case }}
-            {% else %}
-                --
-            {% endif %}
+        <div class="col-3">
+            <a href="{{ reportitem.notestatus.get_absolute_url }}">
+                Notestatus: {{ reportitem.notestatus }}
+            </a>
         </div>
 
         <!-- reportitem create time -->
