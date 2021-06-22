@@ -5,6 +5,7 @@
 
     <!-- tags -->
     <div class="col-6">
+        <!-- used in template for artifact, case, documentation, note, reportitem, system, task -->
         {% if model.tag.all %}
             <h5>
                 <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon right-distance copy-false" alt="icon">
@@ -30,15 +31,32 @@
 
     <!-- case -->
     <div class="col-6">
-        {% if model.case %}
-            <h5>
-                <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon right-distance copy-false" alt="icon">
-                Corresponding case
-            </h5>
-            <a href="{{ model.case.get_absolute_url }}" type="button" class="btn btn-primary btn-sm bottom-left top-right top-distance copy-true">
-                <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                {{ model.case.case_name }}
-            </a>
+        <!-- used in template for system -->
+        {% if model == system %}
+            {% if model.case.all %}
+                <h5>
+                    <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    Cases
+                </h5>
+                {% for i in model.case.all|dictsort:"case_name" %}
+                    <a href="{{ i.case.get_absolute_url }}" type="button" class="btn btn-primary btn-sm bottom-left top-right top-distance copy-true">
+                        <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                        {{ i.case_name }}
+                    </a>
+                {% endfor %}
+            {% endif %}
+        {% else %}
+            <!-- used in template for artifact, documentation, note, reportitem, task -->
+            {% if model.case %}
+                <h5>
+                    <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    Corresponding case
+                </h5>
+                <a href="{{ model.case.get_absolute_url }}" type="button" class="btn btn-primary btn-sm bottom-left top-right top-distance copy-true">
+                    <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    {{ model.case.case_name }}
+                </a>
+            {% endif %}
         {% endif %}
     </div>
 
