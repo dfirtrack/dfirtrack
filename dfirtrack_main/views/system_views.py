@@ -362,7 +362,7 @@ def get_systems_json(request):
             visible_system_list.append(
                 {
                 "system_id": i.system_id,
-                "system_name": "<a href='"+i.get_absolute_url()+"' type='button' class='btn btn-primary btn-sm top-distance copy-true'><img src='"+static("dfirtrack_main/icons/monitor-light.svg")+"' class='icon right-distance copy-false' alt='icon'>"+i.system_name+"</a>",
+                "system_name": "<a href='"+i.get_absolute_url()+"' type='button' class='btn btn-primary btn-sm copy-true'><img src='"+static("dfirtrack_main/icons/monitor-light.svg")+"' class='icon right-distance copy-false' alt='icon'>"+i.system_name+"</a>",
                 "systemstatus": render_to_string('dfirtrack_main/includes/button_systemstatus.html', {'systemstatus': i.systemstatus}),
                 "analysisstatus": "<span data-toggle='tooltip' data-placement='auto' title='"+str(i.analysisstatus.analysisstatus_note or "")+"'><a href='"+i.analysisstatus.get_absolute_url()+"'>"+str(i.analysisstatus)+"</a></span>" if i.analysisstatus is not None else "---",
                 "system_create_time": i.system_create_time.strftime("%Y-%m-%d %H:%M"),
