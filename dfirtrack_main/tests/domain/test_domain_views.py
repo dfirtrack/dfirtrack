@@ -3,6 +3,7 @@ from django.test import TestCase
 from dfirtrack_main.models import Domain
 import urllib.parse
 
+
 class DomainViewTestCase(TestCase):
     """ domain view tests """
 
@@ -156,7 +157,7 @@ class DomainViewTestCase(TestCase):
         # get response
         response = self.client.get('/domain/add/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/domain/domain_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/domain/domain_generic_form.html')
 
     def test_domain_add_get_user_context(self):
         """ test add view """
@@ -220,7 +221,7 @@ class DomainViewTestCase(TestCase):
         # get response
         response = self.client.post('/domain/add/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/domain/domain_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/domain/domain_generic_form.html')
 
     def test_domain_add_popup_not_logged_in(self):
         """ test add view """
@@ -346,7 +347,7 @@ class DomainViewTestCase(TestCase):
         # get response
         response = self.client.get('/domain/' + str(domain_1.domain_id) + '/edit/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/domain/domain_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/domain/domain_generic_form.html')
 
     def test_domain_edit_get_user_context(self):
         """ test edit view """
@@ -420,4 +421,4 @@ class DomainViewTestCase(TestCase):
         # get response
         response = self.client.post('/domain/' + str(domain_id) + '/edit/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/domain/domain_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/domain/domain_generic_form.html')

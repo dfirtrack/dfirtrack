@@ -6,7 +6,7 @@
 
 <!-- page title -->
 <title>
-    Add domain
+    {{ title }} domain {% if form.domain_name.value %}'{{ form.domain_name.value }}'{% endif %}
 </title>
 
 {% load static %}
@@ -22,7 +22,7 @@
 <!-- headline -->
 <div class="bottom-distance">
     <h4>
-        Add domain
+        {{ title }} domain
     </h4>
 </div>
 
