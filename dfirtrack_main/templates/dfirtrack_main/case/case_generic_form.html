@@ -5,7 +5,7 @@
 {% block head %}
 
 <title>
-    Edit case '{{ form.case_name.value }}'
+    {{ title }} case {% if form.case_name.value %}'{{ form.case_name.value }}'{% endif %}
 </title>
 
 {% load static %}
@@ -21,7 +21,7 @@
 <!-- headline -->
 <div class="bottom-distance">
     <h4>
-        Edit case
+        {{ title }} case
     </h4>
 </div>
 

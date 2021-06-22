@@ -144,7 +144,7 @@ class CaseCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Case
     form_class = CaseForm
-    template_name = 'dfirtrack_main/case/case_add.html'
+    template_name = 'dfirtrack_main/case/case_generic_form.html'
 
     def get(self, request, *args, **kwargs):
 
@@ -157,7 +157,10 @@ class CaseCreate(LoginRequiredMixin, CreateView):
             'casestatus': casestatus,
         })
         debug_logger(str(request.user), " CASE_ADD_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+        })
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -173,19 +176,25 @@ class CaseCreate(LoginRequiredMixin, CreateView):
             messages.success(request, 'Case added')
             return redirect(reverse('case_detail', args=(case.case_id,)))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Add',
+            })
 
 class CaseUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Case
     form_class = CaseForm
-    template_name = 'dfirtrack_main/case/case_edit.html'
+    template_name = 'dfirtrack_main/case/case_generic_form.html'
 
     def get(self, request, *args, **kwargs):
         case = self.get_object()
         form = self.form_class(instance=case)
         case.logger(str(request.user), " CASE_EDIT_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Edit',
+        })
 
     def post(self, request, *args, **kwargs):
         case = self.get_object()
@@ -201,4 +210,7 @@ class CaseUpdate(LoginRequiredMixin, UpdateView):
             messages.success(request, 'Case edited')
             return redirect(reverse('case_detail', args=(case.case_id,)))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Edit',
+            })

@@ -308,7 +308,7 @@ class CaseViewTestCase(TestCase):
         # get response
         response = self.client.get('/case/add/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/case/case_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/case/case_generic_form.html')
 
     def test_case_add_get_user_context(self):
         """ test add view """
@@ -379,7 +379,7 @@ class CaseViewTestCase(TestCase):
         # get response
         response = self.client.post('/case/add/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/case/case_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/case/case_generic_form.html')
 
     def test_case_edit_not_logged_in(self):
         """ test edit view """
@@ -415,7 +415,7 @@ class CaseViewTestCase(TestCase):
         # get response
         response = self.client.get('/case/' + str(case_1.case_id) + '/edit/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/case/case_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/case/case_generic_form.html')
 
     def test_case_edit_get_user_context(self):
         """ test edit view """
@@ -498,7 +498,7 @@ class CaseViewTestCase(TestCase):
         # get response
         response = self.client.post('/case/' + str(case_id) + '/edit/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/case/case_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/case/case_generic_form.html')
 
     def test_case_add_post_set_start_time(self):
         """ creation of case with proper casestatus should set case_start_time """
