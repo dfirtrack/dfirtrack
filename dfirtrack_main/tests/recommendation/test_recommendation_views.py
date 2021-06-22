@@ -156,7 +156,7 @@ class RecommendationViewTestCase(TestCase):
         # get response
         response = self.client.get('/recommendation/add/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/recommendation/recommendation_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/recommendation/recommendation_generic_form.html')
 
     def test_recommendation_add_get_user_context(self):
         """ test add view """
@@ -220,7 +220,7 @@ class RecommendationViewTestCase(TestCase):
         # get response
         response = self.client.post('/recommendation/add/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/recommendation/recommendation_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/recommendation/recommendation_generic_form.html')
 
     def test_recommendation_add_popup_not_logged_in(self):
         """ test add view """
@@ -346,7 +346,7 @@ class RecommendationViewTestCase(TestCase):
         # get response
         response = self.client.get('/recommendation/' + str(recommendation_1.recommendation_id) + '/edit/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/recommendation/recommendation_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/recommendation/recommendation_generic_form.html')
 
     def test_recommendation_edit_get_user_context(self):
         """ test edit view """
@@ -420,4 +420,4 @@ class RecommendationViewTestCase(TestCase):
         # get response
         response = self.client.post('/recommendation/' + str(recommendation_id) + '/edit/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/recommendation/recommendation_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/recommendation/recommendation_generic_form.html')

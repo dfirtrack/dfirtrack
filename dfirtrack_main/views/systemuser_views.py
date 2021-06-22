@@ -33,12 +33,15 @@ class SystemuserCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Systemuser
     form_class = SystemuserForm
-    template_name = 'dfirtrack_main/systemuser/systemuser_add.html'
+    template_name = 'dfirtrack_main/systemuser/systemuser_generic_form.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " SYSTEMUSER_ADD_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+        })
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -49,19 +52,25 @@ class SystemuserCreate(LoginRequiredMixin, CreateView):
             messages.success(request, 'Systemuser added')
             return redirect(reverse('systemuser_detail', args=(systemuser.systemuser_id,)))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Add',
+            })
 
 class SystemuserUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Systemuser
     form_class = SystemuserForm
-    template_name = 'dfirtrack_main/systemuser/systemuser_edit.html'
+    template_name = 'dfirtrack_main/systemuser/systemuser_generic_form.html'
 
     def get(self, request, *args, **kwargs):
         systemuser = self.get_object()
         form = self.form_class(instance=systemuser)
         systemuser.logger(str(request.user), " SYSTEMUSER_EDIT_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Edit',
+        })
 
     def post(self, request, *args, **kwargs):
         systemuser = self.get_object()
@@ -73,4 +82,7 @@ class SystemuserUpdate(LoginRequiredMixin, UpdateView):
             messages.success(request, 'Systemuser edited')
             return redirect(reverse('systemuser_detail', args=(systemuser.systemuser_id,)))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Edit',
+            })

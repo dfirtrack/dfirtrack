@@ -34,12 +34,15 @@ class LocationCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Location
     form_class = LocationForm
-    template_name = 'dfirtrack_main/location/location_add.html'
+    template_name = 'dfirtrack_main/location/location_generic_form.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " LOCATION_ADD_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+        })
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -50,7 +53,10 @@ class LocationCreate(LoginRequiredMixin, CreateView):
             messages.success(request, 'Location added')
             return redirect(reverse('location_detail', args=(location.location_id,)))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Add',
+            })
 
 class LocationCreatePopup(LoginRequiredMixin, CreateView):
     login_url = '/login'
@@ -78,13 +84,16 @@ class LocationUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Location
     form_class = LocationForm
-    template_name = 'dfirtrack_main/location/location_edit.html'
+    template_name = 'dfirtrack_main/location/location_generic_form.html'
 
     def get(self, request, *args, **kwargs):
         location = self.get_object()
         form = self.form_class(instance=location)
         location.logger(str(request.user), " LOCATION_EDIT_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Edit',
+        })
 
     def post(self, request, *args, **kwargs):
         location = self.get_object()
@@ -96,4 +105,7 @@ class LocationUpdate(LoginRequiredMixin, UpdateView):
             messages.success(request, 'Location edited')
             return redirect(reverse('location_detail', args=(location.location_id,)))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Edit',
+            })

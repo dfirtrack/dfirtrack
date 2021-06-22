@@ -6,7 +6,7 @@
 
 <!-- page title -->
 <title>
-    Add entry
+    {{ title }} location {% if form.location_name.value %}'{{ form.location_name.value }}'{% endif %}
 </title>
 
 {% load static %}
@@ -22,7 +22,7 @@
 <!-- headline -->
 <div class="bottom-distance">
     <h4>
-        Add entry
+        {{ title }} location
     </h4>
 </div>
 
@@ -38,14 +38,14 @@
     {% include "dfirtrack_main/includes/form.html" %}
 
     <!-- button row -->
-    <div class="row top-distance">
+    <div class="row">
 
         <!-- save button -->
         <div class="col-1">
             {% include "dfirtrack_main/includes/button_save.html" %}
         </div>
 
-        <!-- cancel button -->
+        <!-- copy button -->
         <div class="col-1">
             {% include "dfirtrack_main/includes/button_cancel.html" %}
         </div>

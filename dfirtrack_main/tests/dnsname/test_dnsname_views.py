@@ -156,7 +156,7 @@ class DnsnameViewTestCase(TestCase):
         # get response
         response = self.client.get('/dnsname/add/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/dnsname/dnsname_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/dnsname/dnsname_generic_form.html')
 
     def test_dnsname_add_get_user_context(self):
         """ test add view """
@@ -220,7 +220,7 @@ class DnsnameViewTestCase(TestCase):
         # get response
         response = self.client.post('/dnsname/add/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/dnsname/dnsname_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/dnsname/dnsname_generic_form.html')
 
     def test_dnsname_add_popup_not_logged_in(self):
         """ test add view """
@@ -346,7 +346,7 @@ class DnsnameViewTestCase(TestCase):
         # get response
         response = self.client.get('/dnsname/' + str(dnsname_1.dnsname_id) + '/edit/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/dnsname/dnsname_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/dnsname/dnsname_generic_form.html')
 
     def test_dnsname_edit_get_user_context(self):
         """ test edit view """
@@ -420,4 +420,4 @@ class DnsnameViewTestCase(TestCase):
         # get response
         response = self.client.post('/dnsname/' + str(dnsname_id) + '/edit/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/dnsname/dnsname_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/dnsname/dnsname_generic_form.html')

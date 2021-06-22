@@ -34,12 +34,15 @@ class ReasonCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Reason
     form_class = ReasonForm
-    template_name = 'dfirtrack_main/reason/reason_add.html'
+    template_name = 'dfirtrack_main/reason/reason_generic_form.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " REASON_ADD_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+        })
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -50,7 +53,10 @@ class ReasonCreate(LoginRequiredMixin, CreateView):
             messages.success(request, 'Reason added')
             return redirect(reverse('reason_detail', args=(reason.reason_id,)))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Add',
+            })
 
 class ReasonCreatePopup(LoginRequiredMixin, CreateView):
     login_url = '/login'
@@ -78,13 +84,16 @@ class ReasonUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Reason
     form_class = ReasonForm
-    template_name = 'dfirtrack_main/reason/reason_edit.html'
+    template_name = 'dfirtrack_main/reason/reason_generic_form.html'
 
     def get(self, request, *args, **kwargs):
         reason = self.get_object()
         form = self.form_class(instance=reason)
         reason.logger(str(request.user), " REASON_EDIT_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Edit',
+        })
 
     def post(self, request, *args, **kwargs):
         reason = self.get_object()
@@ -96,4 +105,7 @@ class ReasonUpdate(LoginRequiredMixin, UpdateView):
             messages.success(request, 'Reason edited')
             return redirect(reverse('reason_detail', args=(reason.reason_id,)))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Edit',
+            })

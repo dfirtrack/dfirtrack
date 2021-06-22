@@ -34,12 +34,15 @@ class OsCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Os
     form_class = OsForm
-    template_name = 'dfirtrack_main/os/os_add.html'
+    template_name = 'dfirtrack_main/os/os_generic_form.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " OS_ADD_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+        })
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -50,7 +53,10 @@ class OsCreate(LoginRequiredMixin, CreateView):
             messages.success(request, 'OS added')
             return redirect(reverse('os_detail', args=(os.os_id,)))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Add',
+            })
 
 class OsCreatePopup(LoginRequiredMixin, CreateView):
     login_url = '/login'
@@ -78,13 +84,16 @@ class OsUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Os
     form_class = OsForm
-    template_name = 'dfirtrack_main/os/os_edit.html'
+    template_name = 'dfirtrack_main/os/os_generic_form.html'
 
     def get(self, request, *args, **kwargs):
         os = self.get_object()
         form = self.form_class(instance=os)
         os.logger(str(request.user), " OS_EDIT_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Edit',
+        })
 
     def post(self, request, *args, **kwargs):
         os = self.get_object()
@@ -96,4 +105,7 @@ class OsUpdate(LoginRequiredMixin, UpdateView):
             messages.success(request, 'OS edited')
             return redirect(reverse('os_detail', args=(os.os_id,)))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Edit',
+            })

@@ -6,7 +6,7 @@
 
 <!-- page title -->
 <title>
-    Add company
+    {{ title }} taskname {% if form.taskname_name.value %}'{{ form.taskname_name.value }}'{% endif %}
 </title>
 
 {% load static %}
@@ -22,7 +22,7 @@
 <!-- headline -->
 <div class="bottom-distance">
     <h4>
-        Add company
+        {{ title }} taskname
     </h4>
 </div>
 

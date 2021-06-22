@@ -156,7 +156,7 @@ class ReasonViewTestCase(TestCase):
         # get response
         response = self.client.get('/reason/add/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/reason/reason_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/reason/reason_generic_form.html')
 
     def test_reason_add_get_user_context(self):
         """ test add view """
@@ -220,7 +220,7 @@ class ReasonViewTestCase(TestCase):
         # get response
         response = self.client.post('/reason/add/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/reason/reason_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/reason/reason_generic_form.html')
 
     def test_reason_add_popup_not_logged_in(self):
         """ test add view """
@@ -346,7 +346,7 @@ class ReasonViewTestCase(TestCase):
         # get response
         response = self.client.get('/reason/' + str(reason_1.reason_id) + '/edit/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/reason/reason_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/reason/reason_generic_form.html')
 
     def test_reason_edit_get_user_context(self):
         """ test edit view """
@@ -420,4 +420,4 @@ class ReasonViewTestCase(TestCase):
         # get response
         response = self.client.post('/reason/' + str(reason_id) + '/edit/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/reason/reason_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/reason/reason_generic_form.html')

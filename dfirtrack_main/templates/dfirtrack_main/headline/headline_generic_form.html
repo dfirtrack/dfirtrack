@@ -6,7 +6,7 @@
 
 <!-- page title -->
 <title>
-    Edit serviceprovider '{{ form.serviceprovider_name.value }}'
+    {{ title }} headline {% if form.headline_name.value %}'{{ form.headline_name.value }}'{% endif %}
 </title>
 
 {% load static %}
@@ -22,7 +22,7 @@
 <!-- headline -->
 <div class="bottom-distance">
     <h4>
-        Edit serviceprovider
+        {{ title }} headline
     </h4>
 </div>
 
@@ -45,7 +45,7 @@
             {% include "dfirtrack_main/includes/button_save.html" %}
         </div>
 
-        <!-- cancel button -->
+        <!-- save button -->
         <div class="col-1">
             {% include "dfirtrack_main/includes/button_cancel.html" %}
         </div>

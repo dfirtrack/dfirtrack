@@ -35,12 +35,15 @@ class TasknameCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Taskname
     form_class = TasknameForm
-    template_name = 'dfirtrack_main/taskname/taskname_add.html'
+    template_name = 'dfirtrack_main/taskname/taskname_generic_form.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " TASKNAME_ADD_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+        })
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -51,19 +54,25 @@ class TasknameCreate(LoginRequiredMixin, CreateView):
             messages.success(request, 'Taskname added')
             return redirect(reverse('taskname_detail', args=(taskname.taskname_id,)))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Add',
+            })
 
 class TasknameUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Taskname
     form_class = TasknameForm
-    template_name = 'dfirtrack_main/taskname/taskname_edit.html'
+    template_name = 'dfirtrack_main/taskname/taskname_generic_form.html'
 
     def get(self, request, *args, **kwargs):
         taskname = self.get_object()
         form = self.form_class(instance=taskname)
         taskname.logger(str(request.user), " TASKNAME_EDIT_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Edit',
+        })
 
     def post(self, request, *args, **kwargs):
         taskname = self.get_object()
@@ -75,7 +84,10 @@ class TasknameUpdate(LoginRequiredMixin, UpdateView):
             messages.success(request, 'Taskname edited')
             return redirect(reverse('taskname_detail', args=(taskname.taskname_id,)))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Edit',
+            })
 
 class TasknameClose(LoginRequiredMixin, UpdateView):
     login_url = '/login'

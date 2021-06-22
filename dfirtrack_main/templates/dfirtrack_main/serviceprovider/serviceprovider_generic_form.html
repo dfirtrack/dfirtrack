@@ -6,7 +6,7 @@
 
 <!-- page title -->
 <title>
-    Add casetype
+    {{ title }} serviceprovider {% if form.serviceprovider_name.value %}'{{ form.serviceprovider_name.value }}'{% endif %}
 </title>
 
 {% load static %}
@@ -22,7 +22,7 @@
 <!-- headline -->
 <div class="bottom-distance">
     <h4>
-        Add casetype
+        {{ title }} serviceprovider
     </h4>
 </div>
 
@@ -56,5 +56,5 @@
 <!-- form -->
 </form>
     
-<!-- HTML head in maintemplate -->
+<!-- HTML body in maintemplate -->
 {% endblock %}

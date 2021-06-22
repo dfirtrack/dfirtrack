@@ -6,7 +6,7 @@
 
 <!-- page title -->
 <title>
-    Edit entry
+    {{ title }} artifacttype {% if form.artifacttype_name.value %}'{{ form.artifacttype_name.value }}'{% endif %}
 </title>
 
 {% load static %}
@@ -22,7 +22,7 @@
 <!-- headline -->
 <div class="bottom-distance">
     <h4>
-        Edit entry
+        {{ title }} artifacttype
     </h4>
 </div>
 
@@ -56,5 +56,5 @@
 <!-- form -->
 </form>
     
-<!-- HTML body in maintemplate -->
+<!-- HTML head in maintemplate -->
 {% endblock %}

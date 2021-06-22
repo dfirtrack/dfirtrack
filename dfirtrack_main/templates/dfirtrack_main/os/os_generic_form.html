@@ -6,7 +6,7 @@
 
 <!-- page title -->
 <title>
-    Edit contact '{{ form.contact_name.value }}'
+    {{ title }} OS {% if form.os_name.value %}'{{ form.os_name.value }}'{% endif %}
 </title>
 
 {% load static %}
@@ -22,7 +22,7 @@
 <!-- headline -->
 <div class="bottom-distance">
     <h4>
-        Edit contact
+        {{ title }} OS
     </h4>
 </div>
 

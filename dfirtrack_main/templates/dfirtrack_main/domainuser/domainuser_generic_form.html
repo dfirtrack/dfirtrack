@@ -6,7 +6,7 @@
 
 <!-- page title -->
 <title>
-    Edit headline '{{ form.headline_name.value }}'
+    {{ title }} domainuser {% if form.domainuser_name.value %}'{{ form.domainuser_name.value }}'{% endif %}
 </title>
 
 {% load static %}
@@ -18,11 +18,11 @@
 
 <!-- HTML body in maintemplate -->
 {% block content %}
-        
+
 <!-- headline -->
 <div class="bottom-distance">
     <h4>
-        Edit headline
+        {{ title }} domainuser
     </h4>
 </div>
 
@@ -45,7 +45,7 @@
             {% include "dfirtrack_main/includes/button_save.html" %}
         </div>
 
-        <!-- save button -->
+        <!-- cancel button -->
         <div class="col-1">
             {% include "dfirtrack_main/includes/button_cancel.html" %}
         </div>
@@ -55,6 +55,6 @@
 
 <!-- form -->
 </form>
-    
+
 <!-- HTML body in maintemplate -->
 {% endblock %}

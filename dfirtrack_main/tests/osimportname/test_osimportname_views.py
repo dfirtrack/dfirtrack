@@ -96,7 +96,7 @@ class OsimportnameViewTestCase(TestCase):
         # get response
         response = self.client.get('/osimportname/add/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/osimportname/osimportname_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/osimportname/osimportname_generic_form.html')
 
     def test_osimportname_add_get_user_context(self):
         """ test add view """
@@ -162,7 +162,7 @@ class OsimportnameViewTestCase(TestCase):
         # get response
         response = self.client.post('/osimportname/add/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/osimportname/osimportname_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/osimportname/osimportname_generic_form.html')
 
     def test_osimportname_edit_not_logged_in(self):
         """ test edit view """
@@ -198,7 +198,7 @@ class OsimportnameViewTestCase(TestCase):
         # get response
         response = self.client.get('/osimportname/' + str(osimportname_1.osimportname_id) + '/edit/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/osimportname/osimportname_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/osimportname/osimportname_generic_form.html')
 
     def test_osimportname_edit_get_user_context(self):
         """ test edit view """
@@ -278,4 +278,4 @@ class OsimportnameViewTestCase(TestCase):
         # get response
         response = self.client.post('/osimportname/' + str(osimportname_id) + '/edit/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/osimportname/osimportname_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/osimportname/osimportname_generic_form.html')

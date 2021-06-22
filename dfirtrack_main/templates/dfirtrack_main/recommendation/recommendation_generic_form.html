@@ -6,7 +6,7 @@
 
 <!-- page title -->
 <title>
-    Edit reason '{{ form.reason_name.value }}'
+    {{ title }} recommendation {% if form.recommendation_name.value %}'{{ form.recommendation_name.value }}'{% endif %}
 </title>
 
 {% load static %}
@@ -18,11 +18,11 @@
 
 <!-- HTML body in maintemplate -->
 {% block content %}
-        
+
 <!-- headline -->
 <div class="bottom-distance">
     <h4>
-        Edit reason
+        {{ title }} recommendation
     </h4>
 </div>
 

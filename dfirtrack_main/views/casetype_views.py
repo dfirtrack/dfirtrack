@@ -31,12 +31,15 @@ class CasetypeCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Casetype
     form_class = CasetypeForm
-    template_name = 'dfirtrack_main/casetype/casetype_add.html'
+    template_name = 'dfirtrack_main/casetype/casetype_generic_form.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), ' CASETYPE_ADD_ENTERED')
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+        })
 
     def form_valid(self, form):
         self.object = form.save()
@@ -48,13 +51,16 @@ class CasetypeUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Casetype
     form_class = CasetypeForm
-    template_name = 'dfirtrack_main/casetype/casetype_edit.html'
+    template_name = 'dfirtrack_main/casetype/casetype_generic_form.html'
 
     def get(self, request, *args, **kwargs):
         casetype = self.get_object()
         form = self.form_class(instance = casetype)
         casetype.logger(str(request.user), ' CASETYPE_EDIT_ENTERED')
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Edit',
+        })
 
     def form_valid(self, form):
         self.object = form.save()

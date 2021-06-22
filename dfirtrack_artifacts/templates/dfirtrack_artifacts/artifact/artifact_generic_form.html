@@ -5,7 +5,7 @@
 {% block head %}
 
 <title>
-    Edit artifact '{{ form.artifact_name.value }}'
+    {{ title }} artifact {% if form.artifact_name.value %}'{{ form.artifact_name.value }}'{% endif %}
 </title>
 
 {% load static %}
@@ -21,7 +21,7 @@
 <!-- headline -->
 <div class="bottom-distance">
     <h4>
-        Edit artifact
+        {{ title }} artifact
     </h4>
 </div>
 

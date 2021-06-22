@@ -31,12 +31,15 @@ class ArtifacttypeCreateView(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Artifacttype
     form_class = ArtifacttypeForm
-    template_name = 'dfirtrack_artifacts/artifacttype/artifacttype_add.html'
+    template_name = 'dfirtrack_artifacts/artifacttype/artifacttype_generic_form.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), ' ARTIFACTTYPE_ADD_ENTERED')
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+        })
 
     def form_valid(self, form):
         self.object = form.save()
@@ -48,13 +51,16 @@ class ArtifacttypeUpdateView(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Artifacttype
     form_class = ArtifacttypeForm
-    template_name = 'dfirtrack_artifacts/artifacttype/artifacttype_edit.html'
+    template_name = 'dfirtrack_artifacts/artifacttype/artifacttype_generic_form.html'
 
     def get(self, request, *args, **kwargs):
         artifacttype = self.get_object()
         form = self.form_class(instance = artifacttype)
         artifacttype.logger(str(request.user), ' ARTIFACTTYPE_EDIT_ENTERED')
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Edit',
+        })
 
     def form_valid(self, form):
         self.object = form.save()

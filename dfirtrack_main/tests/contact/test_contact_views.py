@@ -156,7 +156,7 @@ class ContactViewTestCase(TestCase):
         # get response
         response = self.client.get('/contact/add/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/contact/contact_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/contact/contact_generic_form.html')
 
     def test_contact_add_get_user_context(self):
         """ test add view """
@@ -221,7 +221,7 @@ class ContactViewTestCase(TestCase):
         # get response
         response = self.client.post('/contact/add/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/contact/contact_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/contact/contact_generic_form.html')
 
     def test_contact_add_popup_not_logged_in(self):
         """ test add view """
@@ -348,7 +348,7 @@ class ContactViewTestCase(TestCase):
         # get response
         response = self.client.get('/contact/' + str(contact_1.contact_id) + '/edit/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/contact/contact_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/contact/contact_generic_form.html')
 
     def test_contact_edit_get_user_context(self):
         """ test edit view """
@@ -426,4 +426,4 @@ class ContactViewTestCase(TestCase):
         # get response
         response = self.client.post('/contact/' + str(contact_id) + '/edit/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/contact/contact_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/contact/contact_generic_form.html')

@@ -156,7 +156,7 @@ class HeadlineViewTestCase(TestCase):
         # get response
         response = self.client.get('/headline/add/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/headline/headline_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/headline/headline_generic_form.html')
 
     def test_headline_add_get_user_context(self):
         """ test add view """
@@ -220,7 +220,7 @@ class HeadlineViewTestCase(TestCase):
         # get response
         response = self.client.post('/headline/add/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/headline/headline_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/headline/headline_generic_form.html')
 
     def test_headline_edit_not_logged_in(self):
         """ test edit view """
@@ -256,7 +256,7 @@ class HeadlineViewTestCase(TestCase):
         # get response
         response = self.client.get('/headline/' + str(headline_1.headline_id) + '/edit/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/headline/headline_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/headline/headline_generic_form.html')
 
     def test_headline_edit_get_user_context(self):
         """ test edit view """
@@ -330,4 +330,4 @@ class HeadlineViewTestCase(TestCase):
         # get response
         response = self.client.post('/headline/' + str(headline_id) + '/edit/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/headline/headline_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/headline/headline_generic_form.html')

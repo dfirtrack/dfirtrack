@@ -33,12 +33,15 @@ class TagCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Tag
     form_class = TagForm
-    template_name = 'dfirtrack_main/tag/tag_add.html'
+    template_name = 'dfirtrack_main/tag/tag_generic_form.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " TAG_ADD_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+        })
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -50,7 +53,10 @@ class TagCreate(LoginRequiredMixin, CreateView):
             messages.success(request, 'Tag added')
             return redirect(reverse('tag_detail', args=(tag.tag_id,)))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Add',
+            })
 
 class TagDelete(LoginRequiredMixin, DeleteView):
     login_url = '/login'
@@ -73,13 +79,16 @@ class TagUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Tag
     form_class = TagForm
-    template_name = 'dfirtrack_main/tag/tag_edit.html'
+    template_name = 'dfirtrack_main/tag/tag_generic_form.html'
 
     def get(self, request, *args, **kwargs):
         tag = self.get_object()
         form = self.form_class(instance=tag)
         tag.logger(str(request.user), " TAG_EDIT_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Edit',
+        })
 
     def post(self, request, *args, **kwargs):
         tag = self.get_object()
@@ -92,4 +101,7 @@ class TagUpdate(LoginRequiredMixin, UpdateView):
             messages.success(request, 'Tag edited')
             return redirect(reverse('tag_detail', args=(tag.tag_id,)))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Edit',
+            })

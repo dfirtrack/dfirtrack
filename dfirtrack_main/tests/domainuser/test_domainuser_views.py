@@ -162,7 +162,7 @@ class DomainuserViewTestCase(TestCase):
         # get response
         response = self.client.get('/domainuser/add/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/domainuser/domainuser_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/domainuser/domainuser_generic_form.html')
 
     def test_domainuser_add_get_user_context(self):
         """ test add view """
@@ -229,7 +229,7 @@ class DomainuserViewTestCase(TestCase):
         # get response
         response = self.client.post('/domainuser/add/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/domainuser/domainuser_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/domainuser/domainuser_generic_form.html')
 
     def test_domainuser_edit_not_logged_in(self):
         """ test edit view """
@@ -265,7 +265,7 @@ class DomainuserViewTestCase(TestCase):
         # get response
         response = self.client.get('/domainuser/' + str(domainuser_1.domainuser_id) + '/edit/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/domainuser/domainuser_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/domainuser/domainuser_generic_form.html')
 
     def test_domainuser_edit_get_user_context(self):
         """ test edit view """
@@ -345,4 +345,4 @@ class DomainuserViewTestCase(TestCase):
         # get response
         response = self.client.post('/domainuser/' + str(domainuser_id) + '/edit/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/domainuser/domainuser_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/domainuser/domainuser_generic_form.html')

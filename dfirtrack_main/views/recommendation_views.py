@@ -34,12 +34,15 @@ class RecommendationCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Recommendation
     form_class = RecommendationForm
-    template_name = 'dfirtrack_main/recommendation/recommendation_add.html'
+    template_name = 'dfirtrack_main/recommendation/recommendation_generic_form.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " RECOMMENDATION_ADD_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+        })
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -50,7 +53,10 @@ class RecommendationCreate(LoginRequiredMixin, CreateView):
             messages.success(request, 'Recommendation added')
             return redirect(reverse('recommendation_detail', args=(recommendation.recommendation_id,)))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Add',
+            })
 
 class RecommendationCreatePopup(LoginRequiredMixin, CreateView):
     login_url = '/login'
@@ -78,13 +84,16 @@ class RecommendationUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Recommendation
     form_class = RecommendationForm
-    template_name = 'dfirtrack_main/recommendation/recommendation_edit.html'
+    template_name = 'dfirtrack_main/recommendation/recommendation_generic_form.html'
 
     def get(self, request, *args, **kwargs):
         recommendation = self.get_object()
         form = self.form_class(instance=recommendation)
         recommendation.logger(str(request.user), " RECOMMENDATION_EDIT_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Edit',
+        })
 
     def post(self, request, *args, **kwargs):
         recommendation = self.get_object()
@@ -96,4 +105,7 @@ class RecommendationUpdate(LoginRequiredMixin, UpdateView):
             messages.success(request, 'Recommendation edited')
             return redirect(reverse('recommendation_detail', args=(recommendation.recommendation_id,)))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Edit',
+            })

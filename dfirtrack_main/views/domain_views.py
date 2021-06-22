@@ -41,7 +41,7 @@ class DomainCreate(LoginRequiredMixin, CreateView):
         debug_logger(str(request.user), " DOMAIN_ADD_ENTERED")
         return render(request, self.template_name, {
             'form': form,
-            'title': 'Add'
+            'title': 'Add',
         })
 
     def post(self, request, *args, **kwargs):
@@ -55,7 +55,7 @@ class DomainCreate(LoginRequiredMixin, CreateView):
         else:
             return render(request, self.template_name, {
                 'form': form,
-                'title': 'Add'
+                'title': 'Add',
             })
 
 class DomainCreatePopup(LoginRequiredMixin, CreateView):
@@ -92,7 +92,7 @@ class DomainUpdate(LoginRequiredMixin, UpdateView):
         domain.logger(str(request.user), " DOMAIN_EDIT_ENTERED")
         return render(request, self.template_name, {
             'form': form,
-            'title': 'Edit'
+            'title': 'Edit',
         })
 
     def post(self, request, *args, **kwargs):
@@ -107,5 +107,5 @@ class DomainUpdate(LoginRequiredMixin, UpdateView):
         else:
             return render(request, self.template_name, {
                 'form': form,
-                'title': 'Edit'
+                'title': 'Edit',
             })

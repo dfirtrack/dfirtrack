@@ -6,7 +6,7 @@
 
 <!-- page title -->
 <title>
-    Add contact
+    {{ title }} reason {% if form.reason_name.value %}'{{ form.reason_name.value }}'{% endif %}
 </title>
 
 {% load static %}
@@ -22,7 +22,7 @@
 <!-- headline -->
 <div class="bottom-distance">
     <h4>
-        Add contact
+        {{ title }} reason
     </h4>
 </div>
 

@@ -6,7 +6,7 @@
 
 <!-- page title -->
 <title>
-    Add tag
+    {{ title }} DNS name {% if form.dnsname_name.value %}'{{ form.dnsname_name.value }}'{% endif %}
 </title>
 
 {% load static %}
@@ -22,7 +22,7 @@
 <!-- headline -->
 <div class="bottom-distance">
     <h4>
-        Add tag
+        {{ title }} DNS name
     </h4>
 </div>
 

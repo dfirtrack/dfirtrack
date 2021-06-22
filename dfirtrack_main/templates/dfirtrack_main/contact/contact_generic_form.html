@@ -4,8 +4,9 @@
 <!-- HTML head in maintemplate -->
 {% block head %}
 
+<!-- page title -->
 <title>
-    Add division
+    {{ title }} contact {% if form.contact_name.value %}'{{ form.contact_name.value }}'{% endif %}
 </title>
 
 {% load static %}
@@ -21,7 +22,7 @@
 <!-- headline -->
 <div class="bottom-distance">
     <h4>
-        Add division
+        {{ title }} contact
     </h4>
 </div>
 

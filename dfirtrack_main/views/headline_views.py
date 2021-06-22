@@ -33,12 +33,15 @@ class HeadlineCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Headline
     form_class = HeadlineForm
-    template_name = 'dfirtrack_main/headline/headline_add.html'
+    template_name = 'dfirtrack_main/headline/headline_generic_form.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " HEADLINE_ADD_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+        })
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -49,19 +52,25 @@ class HeadlineCreate(LoginRequiredMixin, CreateView):
             messages.success(request, 'Headline added')
             return redirect(reverse('headline_detail', args=(headline.headline_id,)))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Add',
+            })
 
 class HeadlineUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Headline
     form_class = HeadlineForm
-    template_name = 'dfirtrack_main/headline/headline_edit.html'
+    template_name = 'dfirtrack_main/headline/headline_generic_form.html'
 
     def get(self, request, *args, **kwargs):
         headline = self.get_object()
         form = self.form_class(instance=headline)
         headline.logger(str(request.user), " HEADLINE_EDIT_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Edit',
+        })
 
     def post(self, request, *args, **kwargs):
         headline = self.get_object()
@@ -73,4 +82,7 @@ class HeadlineUpdate(LoginRequiredMixin, UpdateView):
             messages.success(request, 'Headline edited')
             return redirect(reverse('headline_detail', args=(headline.headline_id,)))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Edit',
+            })

@@ -156,7 +156,7 @@ class CasetypeViewTestCase(TestCase):
         # get response
         response = self.client.get('/casetype/create/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/casetype/casetype_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/casetype/casetype_generic_form.html')
 
     def test_casetype_create_get_user_context(self):
         """ test create view """
@@ -220,7 +220,7 @@ class CasetypeViewTestCase(TestCase):
         # get response
         response = self.client.post('/casetype/create/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/casetype/casetype_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/casetype/casetype_generic_form.html')
 
     def test_casetype_update_not_logged_in(self):
         """ test update view """
@@ -256,7 +256,7 @@ class CasetypeViewTestCase(TestCase):
         # get response
         response = self.client.get('/casetype/update/' + str(casetype_1.casetype_id) + '/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/casetype/casetype_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/casetype/casetype_generic_form.html')
 
     def test_casetype_update_get_user_context(self):
         """ test update view """
@@ -328,4 +328,4 @@ class CasetypeViewTestCase(TestCase):
         # get response
         response = self.client.post('/casetype/update/' + str(casetype_id) + '/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/casetype/casetype_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/casetype/casetype_generic_form.html')

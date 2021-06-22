@@ -22,12 +22,15 @@ class OsimportnameCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Osimportname
     form_class = OsimportnameForm
-    template_name = 'dfirtrack_main/osimportname/osimportname_add.html'
+    template_name = 'dfirtrack_main/osimportname/osimportname_generic_form.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " OSIMPORTNAME_ADD_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+        })
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -38,19 +41,25 @@ class OsimportnameCreate(LoginRequiredMixin, CreateView):
             messages.success(request, 'OS-Importname added')
             return redirect(reverse('osimportname_list'))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Add',
+            })
 
 class OsimportnameUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Osimportname
     form_class = OsimportnameForm
-    template_name = 'dfirtrack_main/osimportname/osimportname_edit.html'
+    template_name = 'dfirtrack_main/osimportname/osimportname_generic_form.html'
 
     def get(self, request, *args, **kwargs):
         osimportname = self.get_object()
         form = self.form_class(instance=osimportname)
         osimportname.logger(str(request.user), " OSIMPORTNAME_EDIT_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Edit',
+        })
 
     def post(self, request, *args, **kwargs):
         osimportname = self.get_object()
@@ -62,4 +71,7 @@ class OsimportnameUpdate(LoginRequiredMixin, UpdateView):
             messages.success(request, 'OS-Importname edited')
             return redirect(reverse('osimportname_list'))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Edit',
+            })

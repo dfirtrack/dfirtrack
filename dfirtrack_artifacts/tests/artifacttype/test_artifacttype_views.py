@@ -156,7 +156,7 @@ class ArtifacttypeViewTestCase(TestCase):
         # get response
         response = self.client.get('/artifacts/artifacttype/create/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_artifacts/artifacttype/artifacttype_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_artifacts/artifacttype/artifacttype_generic_form.html')
 
     def test_artifacttype_create_get_user_context(self):
         """ test create view """
@@ -220,7 +220,7 @@ class ArtifacttypeViewTestCase(TestCase):
         # get response
         response = self.client.post('/artifacts/artifacttype/create/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_artifacts/artifacttype/artifacttype_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_artifacts/artifacttype/artifacttype_generic_form.html')
 
     def test_artifacttype_update_not_logged_in(self):
         """ test update view """
@@ -256,7 +256,7 @@ class ArtifacttypeViewTestCase(TestCase):
         # get response
         response = self.client.get('/artifacts/artifacttype/update/' + str(artifacttype_1.artifacttype_id) + '/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_artifacts/artifacttype/artifacttype_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_artifacts/artifacttype/artifacttype_generic_form.html')
 
     def test_artifacttype_update_get_user_context(self):
         """ test update view """
@@ -328,4 +328,4 @@ class ArtifacttypeViewTestCase(TestCase):
         # get response
         response = self.client.post('/artifacts/artifacttype/update/' + str(artifacttype_id) + '/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_artifacts/artifacttype/artifacttype_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_artifacts/artifacttype/artifacttype_generic_form.html')
