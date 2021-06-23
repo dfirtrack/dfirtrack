@@ -29,22 +29,6 @@
 <!-- form -->
 <form method="POST" class="post-form">
 
-    <!-- button row -->
-    <div class="row top-distance">
-
-        <!-- save button -->
-        <div class="col-2">
-            {% include "dfirtrack_main/includes/button_save.html" %}
-        </div>
-
-        <!-- cancel button -->
-        <div class="col-1">
-            {% include "dfirtrack_main/includes/button_cancel_popup.html" %}
-        </div>
-
-    <!-- button row -->
-    </div>
-
     {% csrf_token %}
 
     <!-- show form related errors -->
@@ -266,21 +250,8 @@
     <!-- row -->
     </div>
 
-    <!-- button row -->
-    <div class="row top-distance">
-
-        <!-- save button -->
-        <div class="col-2">
-            {% include "dfirtrack_main/includes/button_save.html" %}
-        </div>
-
-        <!-- cancel button -->
-        <div class="col-1">
-            {% include "dfirtrack_main/includes/button_cancel_popup.html" %}
-        </div>
-
-    <!-- button row -->
-    </div>
+    <!-- row save cancel -->
+    {% include "dfirtrack_main/includes/row_save_cancel_popup.html" %}
 
 <!-- form -->
 </form>

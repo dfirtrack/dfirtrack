@@ -29,21 +29,8 @@
 <!-- form -->
 <form method="POST" class="post-form">
 
-    <!-- button row -->
-    <div class="row">
-
-        <!-- save button -->
-        <div class="col-1">
-            {% include "dfirtrack_main/includes/button_save.html" %}
-        </div>
-
-        <!-- cancel button -->
-        <div class="col-1">
-            {% include "dfirtrack_main/includes/button_cancel.html" %}
-        </div>
-
-    <!-- button row -->
-    </div>
+    <!-- row save cancel -->
+    {% include "dfirtrack_main/includes/row_save_cancel.html" %}
 
     {% csrf_token %}
 
@@ -444,21 +431,8 @@
     <!-- task note block -->
     </div>
 
-    <!-- button row -->
-    <div class="row">
-
-        <!-- save button -->
-        <div class="col-1">
-            {% include "dfirtrack_main/includes/button_save.html" %}
-        </div>
-
-        <!-- cancel button -->
-        <div class="col-1">
-            {% include "dfirtrack_main/includes/button_cancel.html" %}
-        </div>
-
-    <!-- button row -->
-    </div>
+    <!-- row save cancel -->
+    {% include "dfirtrack_main/includes/row_save_cancel.html" %}
 
 <!-- form -->
 </form>
