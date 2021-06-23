@@ -9,6 +9,7 @@ from dfirtrack_main.forms import RecommendationForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Recommendation
 
+
 class RecommendationList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Recommendation
@@ -34,7 +35,7 @@ class RecommendationCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Recommendation
     form_class = RecommendationForm
-    template_name = 'dfirtrack_main/recommendation/recommendation_generic_form.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -42,6 +43,7 @@ class RecommendationCreate(LoginRequiredMixin, CreateView):
         return render(request, self.template_name, {
             'form': form,
             'title': 'Add',
+            'object_type': 'recommendation',
         })
 
     def post(self, request, *args, **kwargs):
@@ -56,6 +58,7 @@ class RecommendationCreate(LoginRequiredMixin, CreateView):
             return render(request, self.template_name, {
                 'form': form,
                 'title': 'Add',
+                'object_type': 'recommendation',
             })
 
 class RecommendationCreatePopup(LoginRequiredMixin, CreateView):
@@ -84,7 +87,7 @@ class RecommendationUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Recommendation
     form_class = RecommendationForm
-    template_name = 'dfirtrack_main/recommendation/recommendation_generic_form.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         recommendation = self.get_object()
@@ -93,6 +96,8 @@ class RecommendationUpdate(LoginRequiredMixin, UpdateView):
         return render(request, self.template_name, {
             'form': form,
             'title': 'Edit',
+            'object_type': 'recommendation',
+            'object_name': recommendation.recommendation_name,
         })
 
     def post(self, request, *args, **kwargs):
@@ -108,4 +113,6 @@ class RecommendationUpdate(LoginRequiredMixin, UpdateView):
             return render(request, self.template_name, {
                 'form': form,
                 'title': 'Edit',
+                'object_type': 'recommendation',
+                'object_name': recommendation.recommendation_name,
             })

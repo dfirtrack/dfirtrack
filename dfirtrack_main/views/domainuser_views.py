@@ -8,6 +8,7 @@ from dfirtrack_main.forms import DomainuserForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Domainuser
 
+
 class DomainuserList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Domainuser
@@ -33,7 +34,7 @@ class DomainuserCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Domainuser
     form_class = DomainuserForm
-    template_name = 'dfirtrack_main/domainuser/domainuser_generic_form.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -41,6 +42,7 @@ class DomainuserCreate(LoginRequiredMixin, CreateView):
         return render(request, self.template_name, {
             'form': form,
             'title': 'Add',
+            'object_type': 'domainuser',
         })
 
     def post(self, request, *args, **kwargs):
@@ -56,13 +58,14 @@ class DomainuserCreate(LoginRequiredMixin, CreateView):
             return render(request, self.template_name, {
                 'form': form,
                 'title': 'Add',
+                'object_type': 'domainuser',
             })
 
 class DomainuserUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Domainuser
     form_class = DomainuserForm
-    template_name = 'dfirtrack_main/domainuser/domainuser_generic_form.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         domainuser = self.get_object()
@@ -71,6 +74,8 @@ class DomainuserUpdate(LoginRequiredMixin, UpdateView):
         return render(request, self.template_name, {
             'form': form,
             'title': 'Edit',
+            'object_type': 'domainuser',
+            'object_name': domainuser.domainuser_name ,
         })
 
     def post(self, request, *args, **kwargs):
@@ -87,4 +92,6 @@ class DomainuserUpdate(LoginRequiredMixin, UpdateView):
             return render(request, self.template_name, {
                 'form': form,
                 'title': 'Edit',
+                'object_type': 'domainuser',
+                'object_name': domainuser.domainuser_name ,
             })

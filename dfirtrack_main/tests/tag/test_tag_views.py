@@ -3,6 +3,7 @@ from django.test import TestCase
 from dfirtrack_main.models import Tag, Tagcolor
 import urllib.parse
 
+
 class TagViewTestCase(TestCase):
     """ tag view tests """
 
@@ -158,7 +159,7 @@ class TagViewTestCase(TestCase):
         # get response
         response = self.client.get('/tag/add/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/tag/tag_generic_form.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
 
     def test_tag_add_get_user_context(self):
         """ test add view """
@@ -225,7 +226,7 @@ class TagViewTestCase(TestCase):
         # get response
         response = self.client.post('/tag/add/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/tag/tag_generic_form.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
 
     def test_tag_edit_not_logged_in(self):
         """ test edit view """
@@ -261,7 +262,7 @@ class TagViewTestCase(TestCase):
         # get response
         response = self.client.get('/tag/' + str(tag_1.tag_id) + '/edit/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/tag/tag_generic_form.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
 
     def test_tag_edit_get_user_context(self):
         """ test edit view """
@@ -338,7 +339,7 @@ class TagViewTestCase(TestCase):
         # get response
         response = self.client.post('/tag/' + str(tag_id) + '/edit/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/tag/tag_generic_form.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
 
     def test_tag_delete_logged_in(self):
         """ test delete view """

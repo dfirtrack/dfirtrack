@@ -8,6 +8,7 @@ from dfirtrack_main.forms import TagForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Tag
 
+
 class TagList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Tag
@@ -33,7 +34,7 @@ class TagCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Tag
     form_class = TagForm
-    template_name = 'dfirtrack_main/tag/tag_generic_form.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -41,6 +42,7 @@ class TagCreate(LoginRequiredMixin, CreateView):
         return render(request, self.template_name, {
             'form': form,
             'title': 'Add',
+            'object_type': 'tag',
         })
 
     def post(self, request, *args, **kwargs):
@@ -56,6 +58,7 @@ class TagCreate(LoginRequiredMixin, CreateView):
             return render(request, self.template_name, {
                 'form': form,
                 'title': 'Add',
+                'object_type': 'tag',
             })
 
 class TagDelete(LoginRequiredMixin, DeleteView):
@@ -79,7 +82,7 @@ class TagUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Tag
     form_class = TagForm
-    template_name = 'dfirtrack_main/tag/tag_generic_form.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         tag = self.get_object()
@@ -88,6 +91,8 @@ class TagUpdate(LoginRequiredMixin, UpdateView):
         return render(request, self.template_name, {
             'form': form,
             'title': 'Edit',
+            'object_type': 'tag',
+            'object_name': tag.tag_name,
         })
 
     def post(self, request, *args, **kwargs):
@@ -104,4 +109,6 @@ class TagUpdate(LoginRequiredMixin, UpdateView):
             return render(request, self.template_name, {
                 'form': form,
                 'title': 'Edit',
+                'object_type': 'tag',
+                'object_name': tag.tag_name,
             })

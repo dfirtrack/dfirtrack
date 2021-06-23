@@ -9,6 +9,7 @@ from dfirtrack_main.forms import SystemtypeForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Systemtype
 
+
 class SystemtypeList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Systemtype
@@ -34,7 +35,7 @@ class SystemtypeCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Systemtype
     form_class = SystemtypeForm
-    template_name = 'dfirtrack_main/systemtype/systemtype_generic_form.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -42,6 +43,7 @@ class SystemtypeCreate(LoginRequiredMixin, CreateView):
         return render(request, self.template_name, {
             'form': form,
             'title': 'Add',
+            'object_type': 'systemtype',
         })
 
     def post(self, request, *args, **kwargs):
@@ -56,6 +58,7 @@ class SystemtypeCreate(LoginRequiredMixin, CreateView):
             return render(request, self.template_name, {
                 'form': form,
                 'title': 'Add',
+                'object_type': 'systemtype',
             })
 
 class SystemtypeCreatePopup(LoginRequiredMixin, CreateView):
@@ -84,7 +87,7 @@ class SystemtypeUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Systemtype
     form_class = SystemtypeForm
-    template_name = 'dfirtrack_main/systemtype/systemtype_generic_form.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         systemtype = self.get_object()
@@ -93,6 +96,8 @@ class SystemtypeUpdate(LoginRequiredMixin, UpdateView):
         return render(request, self.template_name, {
             'form': form,
             'title': 'Edit',
+            'object_type': 'systemtype',
+            'object_name': systemtype.systemtype_name,
         })
 
     def post(self, request, *args, **kwargs):
@@ -108,4 +113,6 @@ class SystemtypeUpdate(LoginRequiredMixin, UpdateView):
             return render(request, self.template_name, {
                 'form': form,
                 'title': 'Edit',
+                'object_type': 'systemtype',
+                'object_name': systemtype.systemtype_name,
             })

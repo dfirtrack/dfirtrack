@@ -8,6 +8,7 @@ from dfirtrack_main.forms import EntryForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Entry
 
+
 class EntryList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Entry
@@ -33,7 +34,7 @@ class EntryCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Entry
     form_class = EntryForm
-    template_name = 'dfirtrack_main/entry/entry_generic_form.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         if 'system' in request.GET:
@@ -47,6 +48,7 @@ class EntryCreate(LoginRequiredMixin, CreateView):
         return render(request, self.template_name, {
             'form': form,
             'title': 'Add',
+            'object_type': 'entry',
         })
 
     def post(self, request, *args, **kwargs):
@@ -63,13 +65,14 @@ class EntryCreate(LoginRequiredMixin, CreateView):
             return render(request, self.template_name, {
                 'form': form,
                 'title': 'Add',
+                'object_type': 'entry',
             })
 
 class EntryUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Entry
     form_class = EntryForm
-    template_name = 'dfirtrack_main/entry/entry_generic_form.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         entry = self.get_object()
@@ -78,6 +81,7 @@ class EntryUpdate(LoginRequiredMixin, UpdateView):
         return render(request, self.template_name, {
             'form': form,
             'title': 'Edit',
+            'object_type': 'entry',
         })
 
     def post(self, request, *args, **kwargs):
@@ -94,4 +98,5 @@ class EntryUpdate(LoginRequiredMixin, UpdateView):
             return render(request, self.template_name, {
                 'form': form,
                 'title': 'Edit',
+                'object_type': 'entry',
             })

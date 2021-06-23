@@ -8,6 +8,7 @@ from dfirtrack_main.forms import DivisionForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Division
 
+
 class DivisionList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Division
@@ -33,7 +34,7 @@ class DivisionCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Division
     form_class = DivisionForm
-    template_name = 'dfirtrack_main/division/division_generic_form.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -41,6 +42,7 @@ class DivisionCreate(LoginRequiredMixin, CreateView):
         return render(request, self.template_name, {
             'form': form,
             'title': 'Add',
+            'object_type': 'division',
         })
 
     def post(self, request, *args, **kwargs):
@@ -55,13 +57,14 @@ class DivisionCreate(LoginRequiredMixin, CreateView):
             return render(request, self.template_name, {
                 'form': form,
                 'title': 'Add',
+                'object_type': 'division',
             })
 
 class DivisionUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Division
     form_class = DivisionForm
-    template_name = 'dfirtrack_main/division/division_generic_form.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         division = self.get_object()
@@ -70,6 +73,8 @@ class DivisionUpdate(LoginRequiredMixin, UpdateView):
         return render(request, self.template_name, {
             'form': form,
             'title': 'Edit',
+            'object_type': 'division',
+            'object_name': division.division_name,
         })
 
     def post(self, request, *args, **kwargs):
@@ -85,4 +90,6 @@ class DivisionUpdate(LoginRequiredMixin, UpdateView):
             return render(request, self.template_name, {
                 'form': form,
                 'title': 'Edit',
+                'object_type': 'division',
+                'object_name': division.division_name,
             })

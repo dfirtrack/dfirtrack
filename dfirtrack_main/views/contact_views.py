@@ -9,6 +9,7 @@ from dfirtrack_main.forms import ContactForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Contact
 
+
 class ContactList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Contact
@@ -34,14 +35,15 @@ class ContactCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Contact
     form_class = ContactForm
-    template_name = 'dfirtrack_main/contact/contact_generic_form.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " CONTACT_ADD_ENTERED")
-        return render(request, 'dfirtrack_main/contact/contact_generic_form.html', {
+        return render(request, self.template_name, {
             'form': form,
             'title': 'Add',
+            'object_type': 'contact',
         })
 
     def post(self, request, *args, **kwargs):
@@ -56,6 +58,7 @@ class ContactCreate(LoginRequiredMixin, CreateView):
             return render(request, self.template_name, {
                 'form': form,
                 'title': 'Add',
+                'object_type': 'contact',
             })
 
 class ContactCreatePopup(LoginRequiredMixin, CreateView):
@@ -84,15 +87,17 @@ class ContactUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Contact
     form_class = ContactForm
-    template_name = 'dfirtrack_main/contact/contact_generic_form.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         contact = self.get_object()
         form = self.form_class(instance=contact)
         contact.logger(str(request.user), " CONTACT_EDIT_ENTERED")
-        return render(request, 'dfirtrack_main/contact/contact_generic_form.html', {
+        return render(request, self.template_name, {
             'form': form,
             'title': 'Edit',
+            'object_type': 'contact',
+            'object_name': contact.contact_name,
         })
 
     def post(self, request, *args, **kwargs):
@@ -105,7 +110,9 @@ class ContactUpdate(LoginRequiredMixin, UpdateView):
             messages.success(request, 'Contact edited')
             return redirect(reverse('contact_detail', args=(contact.contact_id,)))
         else:
-            return render(request, 'dfirtrack_main/contact/contact_generic_form.html', {
+            return render(request, self.template_name, {
                 'form': form,
                 'title': 'Edit',
+                'object_type': 'contact',
+                'object_name': contact.contact_name,
             })

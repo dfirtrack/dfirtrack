@@ -9,6 +9,7 @@ from dfirtrack_main.forms import ServiceproviderForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Serviceprovider
 
+
 class ServiceproviderList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Serviceprovider
@@ -34,7 +35,7 @@ class ServiceproviderCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Serviceprovider
     form_class = ServiceproviderForm
-    template_name = 'dfirtrack_main/serviceprovider/serviceprovider_generic_form.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -42,6 +43,7 @@ class ServiceproviderCreate(LoginRequiredMixin, CreateView):
         return render(request, self.template_name, {
             'form': form,
             'title': 'Add',
+            'object_type': 'serviceprovider',
         })
 
     def post(self, request, *args, **kwargs):
@@ -56,6 +58,7 @@ class ServiceproviderCreate(LoginRequiredMixin, CreateView):
             return render(request, self.template_name, {
                 'form': form,
                 'title': 'Add',
+                'object_type': 'serviceprovider',
             })
 
 class ServiceproviderCreatePopup(LoginRequiredMixin, CreateView):
@@ -84,7 +87,7 @@ class ServiceproviderUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Serviceprovider
     form_class = ServiceproviderForm
-    template_name = 'dfirtrack_main/serviceprovider/serviceprovider_generic_form.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         serviceprovider = self.get_object()
@@ -93,6 +96,8 @@ class ServiceproviderUpdate(LoginRequiredMixin, UpdateView):
         return render(request, self.template_name, {
             'form': form,
             'title': 'Edit',
+            'object_type': 'serviceprovider',
+            'object_name': serviceprovider.serviceprovider_name,
         })
 
     def post(self, request, *args, **kwargs):
@@ -108,4 +113,6 @@ class ServiceproviderUpdate(LoginRequiredMixin, UpdateView):
             return render(request, self.template_name, {
                 'form': form,
                 'title': 'Edit',
+                'object_type': 'serviceprovider',
+                'object_name': serviceprovider.serviceprovider_name,
             })

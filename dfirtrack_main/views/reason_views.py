@@ -9,6 +9,7 @@ from dfirtrack_main.forms import ReasonForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Reason
 
+
 class ReasonList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Reason
@@ -34,7 +35,7 @@ class ReasonCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Reason
     form_class = ReasonForm
-    template_name = 'dfirtrack_main/reason/reason_generic_form.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -42,6 +43,7 @@ class ReasonCreate(LoginRequiredMixin, CreateView):
         return render(request, self.template_name, {
             'form': form,
             'title': 'Add',
+            'object_type': 'reason',
         })
 
     def post(self, request, *args, **kwargs):
@@ -56,6 +58,7 @@ class ReasonCreate(LoginRequiredMixin, CreateView):
             return render(request, self.template_name, {
                 'form': form,
                 'title': 'Add',
+                'object_type': 'reason',
             })
 
 class ReasonCreatePopup(LoginRequiredMixin, CreateView):
@@ -84,7 +87,7 @@ class ReasonUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Reason
     form_class = ReasonForm
-    template_name = 'dfirtrack_main/reason/reason_generic_form.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         reason = self.get_object()
@@ -93,6 +96,8 @@ class ReasonUpdate(LoginRequiredMixin, UpdateView):
         return render(request, self.template_name, {
             'form': form,
             'title': 'Edit',
+            'object_type': 'reason',
+            'object_name': reason.reason_name,
         })
 
     def post(self, request, *args, **kwargs):
@@ -108,4 +113,6 @@ class ReasonUpdate(LoginRequiredMixin, UpdateView):
             return render(request, self.template_name, {
                 'form': form,
                 'title': 'Edit',
+                'object_type': 'reason',
+                'object_name': reason.reason_name,
             })

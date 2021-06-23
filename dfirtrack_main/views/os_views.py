@@ -9,6 +9,7 @@ from dfirtrack_main.forms import OsForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Os
 
+
 class OsList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Os
@@ -34,7 +35,7 @@ class OsCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Os
     form_class = OsForm
-    template_name = 'dfirtrack_main/os/os_generic_form.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -42,6 +43,7 @@ class OsCreate(LoginRequiredMixin, CreateView):
         return render(request, self.template_name, {
             'form': form,
             'title': 'Add',
+            'object_type': 'os',
         })
 
     def post(self, request, *args, **kwargs):
@@ -56,6 +58,7 @@ class OsCreate(LoginRequiredMixin, CreateView):
             return render(request, self.template_name, {
                 'form': form,
                 'title': 'Add',
+                'object_type': 'os',
             })
 
 class OsCreatePopup(LoginRequiredMixin, CreateView):
@@ -84,7 +87,7 @@ class OsUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Os
     form_class = OsForm
-    template_name = 'dfirtrack_main/os/os_generic_form.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         os = self.get_object()
@@ -93,6 +96,8 @@ class OsUpdate(LoginRequiredMixin, UpdateView):
         return render(request, self.template_name, {
             'form': form,
             'title': 'Edit',
+            'object_type': 'os',
+            'object_name': os.os_name,
         })
 
     def post(self, request, *args, **kwargs):
@@ -108,4 +113,6 @@ class OsUpdate(LoginRequiredMixin, UpdateView):
             return render(request, self.template_name, {
                 'form': form,
                 'title': 'Edit',
+                'object_type': 'os',
+                'object_name': os.os_name,
             })

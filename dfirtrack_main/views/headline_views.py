@@ -8,6 +8,7 @@ from dfirtrack_main.forms import HeadlineForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Headline
 
+
 class HeadlineList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Headline
@@ -33,7 +34,7 @@ class HeadlineCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Headline
     form_class = HeadlineForm
-    template_name = 'dfirtrack_main/headline/headline_generic_form.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -41,6 +42,7 @@ class HeadlineCreate(LoginRequiredMixin, CreateView):
         return render(request, self.template_name, {
             'form': form,
             'title': 'Add',
+            'object_type': 'headline',
         })
 
     def post(self, request, *args, **kwargs):
@@ -55,13 +57,14 @@ class HeadlineCreate(LoginRequiredMixin, CreateView):
             return render(request, self.template_name, {
                 'form': form,
                 'title': 'Add',
+                'object_type': 'headline',
             })
 
 class HeadlineUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Headline
     form_class = HeadlineForm
-    template_name = 'dfirtrack_main/headline/headline_generic_form.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         headline = self.get_object()
@@ -70,6 +73,8 @@ class HeadlineUpdate(LoginRequiredMixin, UpdateView):
         return render(request, self.template_name, {
             'form': form,
             'title': 'Edit',
+            'object_type': 'headline',
+            'object_name': headline.headline_name,
         })
 
     def post(self, request, *args, **kwargs):
@@ -85,4 +90,6 @@ class HeadlineUpdate(LoginRequiredMixin, UpdateView):
             return render(request, self.template_name, {
                 'form': form,
                 'title': 'Edit',
+                'object_type': 'headline',
+                'object_name': headline.headline_name,
             })

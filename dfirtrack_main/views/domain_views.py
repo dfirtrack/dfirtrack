@@ -9,6 +9,7 @@ from dfirtrack_main.forms import DomainForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Domain
 
+
 class DomainList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Domain
@@ -34,7 +35,7 @@ class DomainCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Domain
     form_class = DomainForm
-    template_name = 'dfirtrack_main/domain/domain_generic_form.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -42,6 +43,7 @@ class DomainCreate(LoginRequiredMixin, CreateView):
         return render(request, self.template_name, {
             'form': form,
             'title': 'Add',
+            'object_type': 'domain',
         })
 
     def post(self, request, *args, **kwargs):
@@ -56,6 +58,7 @@ class DomainCreate(LoginRequiredMixin, CreateView):
             return render(request, self.template_name, {
                 'form': form,
                 'title': 'Add',
+                'object_type': 'domain',
             })
 
 class DomainCreatePopup(LoginRequiredMixin, CreateView):
@@ -84,7 +87,7 @@ class DomainUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Domain
     form_class = DomainForm
-    template_name = 'dfirtrack_main/domain/domain_generic_form.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         domain = self.get_object()
@@ -93,6 +96,8 @@ class DomainUpdate(LoginRequiredMixin, UpdateView):
         return render(request, self.template_name, {
             'form': form,
             'title': 'Edit',
+            'object_type': 'domain',
+            'object_name': domain.domain_name,
         })
 
     def post(self, request, *args, **kwargs):
@@ -108,4 +113,6 @@ class DomainUpdate(LoginRequiredMixin, UpdateView):
             return render(request, self.template_name, {
                 'form': form,
                 'title': 'Edit',
+                'object_type': 'domain',
+                'object_name': domain.domain_name,
             })

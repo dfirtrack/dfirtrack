@@ -4,6 +4,7 @@ from django.test import TestCase
 from dfirtrack_main.models import Task, Taskname, Taskpriority, Taskstatus
 import urllib.parse
 
+
 class TasknameViewTestCase(TestCase):
     """ taskname view tests """
 
@@ -164,7 +165,7 @@ class TasknameViewTestCase(TestCase):
         # get response
         response = self.client.get('/taskname/add/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/taskname/taskname_generic_form.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
 
     def test_taskname_add_get_user_context(self):
         """ test add view """
@@ -228,7 +229,7 @@ class TasknameViewTestCase(TestCase):
         # get response
         response = self.client.post('/taskname/add/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/taskname/taskname_generic_form.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
 
     def test_taskname_edit_not_logged_in(self):
         """ test edit view """
@@ -264,7 +265,7 @@ class TasknameViewTestCase(TestCase):
         # get response
         response = self.client.get('/taskname/' + str(taskname_1.taskname_id) + '/edit/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/taskname/taskname_generic_form.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
 
     def test_taskname_edit_get_user_context(self):
         """ test edit view """
@@ -338,7 +339,7 @@ class TasknameViewTestCase(TestCase):
         # get response
         response = self.client.post('/taskname/' + str(taskname_id) + '/edit/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/taskname/taskname_generic_form.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
 
     def test_taskname_close_not_logged_in(self):
         """ test close view """

@@ -3,6 +3,7 @@ from django.test import TestCase
 from dfirtrack_main.models import Location
 import urllib.parse
 
+
 class LocationViewTestCase(TestCase):
     """ location view tests """
 
@@ -156,7 +157,7 @@ class LocationViewTestCase(TestCase):
         # get response
         response = self.client.get('/location/add/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/location/location_generic_form.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
 
     def test_location_add_get_user_context(self):
         """ test add view """
@@ -220,7 +221,7 @@ class LocationViewTestCase(TestCase):
         # get response
         response = self.client.post('/location/add/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/location/location_generic_form.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
 
     def test_location_add_popup_not_logged_in(self):
         """ test add view """
@@ -346,7 +347,7 @@ class LocationViewTestCase(TestCase):
         # get response
         response = self.client.get('/location/' + str(location_1.location_id) + '/edit/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/location/location_generic_form.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
 
     def test_location_edit_get_user_context(self):
         """ test edit view """
@@ -420,4 +421,4 @@ class LocationViewTestCase(TestCase):
         # get response
         response = self.client.post('/location/' + str(location_id) + '/edit/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/location/location_generic_form.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')

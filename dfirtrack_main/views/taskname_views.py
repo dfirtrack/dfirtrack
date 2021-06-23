@@ -10,6 +10,7 @@ from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Taskname, Task, Taskstatus
 from dfirtrack_main.views.task_views import TaskFinish
 
+
 class TasknameList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Taskname
@@ -35,7 +36,7 @@ class TasknameCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Taskname
     form_class = TasknameForm
-    template_name = 'dfirtrack_main/taskname/taskname_generic_form.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -43,6 +44,7 @@ class TasknameCreate(LoginRequiredMixin, CreateView):
         return render(request, self.template_name, {
             'form': form,
             'title': 'Add',
+            'object_type': 'taskname',
         })
 
     def post(self, request, *args, **kwargs):
@@ -57,13 +59,14 @@ class TasknameCreate(LoginRequiredMixin, CreateView):
             return render(request, self.template_name, {
                 'form': form,
                 'title': 'Add',
+                'object_type': 'taskname',
             })
 
 class TasknameUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Taskname
     form_class = TasknameForm
-    template_name = 'dfirtrack_main/taskname/taskname_generic_form.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         taskname = self.get_object()
@@ -72,6 +75,8 @@ class TasknameUpdate(LoginRequiredMixin, UpdateView):
         return render(request, self.template_name, {
             'form': form,
             'title': 'Edit',
+            'object_type': 'taskname',
+            'object_name': taskname.taskname_name,
         })
 
     def post(self, request, *args, **kwargs):
@@ -87,6 +92,8 @@ class TasknameUpdate(LoginRequiredMixin, UpdateView):
             return render(request, self.template_name, {
                 'form': form,
                 'title': 'Edit',
+                'object_type': 'taskname',
+                'object_name': taskname.taskname_name,
             })
 
 class TasknameClose(LoginRequiredMixin, UpdateView):

@@ -9,6 +9,7 @@ from dfirtrack_main.forms import CompanyForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Company
 
+
 class CompanyList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Company
@@ -34,7 +35,7 @@ class CompanyCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Company
     form_class = CompanyForm
-    template_name = 'dfirtrack_main/company/company_generic_form.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -42,6 +43,7 @@ class CompanyCreate(LoginRequiredMixin, CreateView):
         return render(request, self.template_name, {
             'form': form,
             'title': 'Add',
+            'object_type': 'company',
         })
 
     def post(self, request, *args, **kwargs):
@@ -56,6 +58,7 @@ class CompanyCreate(LoginRequiredMixin, CreateView):
             return render(request, self.template_name, {
                 'form': form,
                 'title': 'Add',
+                'object_type': 'company',
             })
 
 class CompanyCreatePopup(LoginRequiredMixin, CreateView):
@@ -84,7 +87,7 @@ class CompanyUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Company
     form_class = CompanyForm
-    template_name = 'dfirtrack_main/company/company_generic_form.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         company = self.get_object()
@@ -93,6 +96,8 @@ class CompanyUpdate(LoginRequiredMixin, UpdateView):
         return render(request, self.template_name, {
             'form': form,
             'title': 'Edit',
+            'object_type': 'company',
+            'object_name': company.company_name,
         })
 
     def post(self, request, *args, **kwargs):
@@ -108,4 +113,6 @@ class CompanyUpdate(LoginRequiredMixin, UpdateView):
             return render(request, self.template_name, {
                 'form': form,
                 'title': 'Edit',
+                'object_type': 'company',
+                'object_name': company.company_name,
             })

@@ -3,6 +3,7 @@ from django.test import TestCase
 from dfirtrack_main.models import Os
 import urllib.parse
 
+
 class OsViewTestCase(TestCase):
     """ os view tests """
 
@@ -156,7 +157,7 @@ class OsViewTestCase(TestCase):
         # get response
         response = self.client.get('/os/add/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/os/os_generic_form.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
 
     def test_os_add_get_user_context(self):
         """ test add view """
@@ -219,7 +220,7 @@ class OsViewTestCase(TestCase):
         # get response
         response = self.client.post('/os/add/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/os/os_generic_form.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
 
     def test_os_add_popup_not_logged_in(self):
         """ test add view """
@@ -345,7 +346,7 @@ class OsViewTestCase(TestCase):
         # get response
         response = self.client.get('/os/' + str(os_1.os_id) + '/edit/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/os/os_generic_form.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
 
     def test_os_edit_get_user_context(self):
         """ test edit view """
@@ -419,4 +420,4 @@ class OsViewTestCase(TestCase):
         # get response
         response = self.client.post('/os/' + str(os_id) + '/edit/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/os/os_generic_form.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')

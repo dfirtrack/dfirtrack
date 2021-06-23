@@ -9,6 +9,7 @@ from dfirtrack_main.forms import LocationForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Location
 
+
 class LocationList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Location
@@ -34,7 +35,7 @@ class LocationCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Location
     form_class = LocationForm
-    template_name = 'dfirtrack_main/location/location_generic_form.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -42,6 +43,7 @@ class LocationCreate(LoginRequiredMixin, CreateView):
         return render(request, self.template_name, {
             'form': form,
             'title': 'Add',
+            'object_type': 'location',
         })
 
     def post(self, request, *args, **kwargs):
@@ -56,6 +58,7 @@ class LocationCreate(LoginRequiredMixin, CreateView):
             return render(request, self.template_name, {
                 'form': form,
                 'title': 'Add',
+                'object_type': 'location',
             })
 
 class LocationCreatePopup(LoginRequiredMixin, CreateView):
@@ -84,7 +87,7 @@ class LocationUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Location
     form_class = LocationForm
-    template_name = 'dfirtrack_main/location/location_generic_form.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         location = self.get_object()
@@ -93,6 +96,8 @@ class LocationUpdate(LoginRequiredMixin, UpdateView):
         return render(request, self.template_name, {
             'form': form,
             'title': 'Edit',
+            'object_type': 'location',
+            'object_name': location.location_name,
         })
 
     def post(self, request, *args, **kwargs):
@@ -108,4 +113,6 @@ class LocationUpdate(LoginRequiredMixin, UpdateView):
             return render(request, self.template_name, {
                 'form': form,
                 'title': 'Edit',
+                'object_type': 'location',
+                'object_name': location.location_name,
             })

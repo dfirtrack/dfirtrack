@@ -9,6 +9,7 @@ from dfirtrack_main.forms import DnsnameForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Dnsname
 
+
 class DnsnameList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Dnsname
@@ -34,7 +35,7 @@ class DnsnameCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Dnsname
     form_class = DnsnameForm
-    template_name = 'dfirtrack_main/dnsname/dnsname_generic_form.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -42,6 +43,7 @@ class DnsnameCreate(LoginRequiredMixin, CreateView):
         return render(request, self.template_name, {
             'form': form,
             'title': 'Add',
+            'object_type': 'dnsname',
         })
 
     def post(self, request, *args, **kwargs):
@@ -56,6 +58,7 @@ class DnsnameCreate(LoginRequiredMixin, CreateView):
             return render(request, self.template_name, {
                 'form': form,
                 'title': 'Add',
+                'object_type': 'dnsname',
             })
 
 class DnsnameCreatePopup(LoginRequiredMixin, CreateView):
@@ -84,7 +87,7 @@ class DnsnameUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Dnsname
     form_class = DnsnameForm
-    template_name = 'dfirtrack_main/dnsname/dnsname_generic_form.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         dnsname = self.get_object()
@@ -93,6 +96,8 @@ class DnsnameUpdate(LoginRequiredMixin, UpdateView):
         return render(request, self.template_name, {
             'form': form,
             'title': 'Edit',
+            'object_type': 'dnsname',
+            'object_name': dnsname.dnsname_name,
         })
 
     def post(self, request, *args, **kwargs):
@@ -108,4 +113,6 @@ class DnsnameUpdate(LoginRequiredMixin, UpdateView):
             return render(request, self.template_name, {
                 'form': form,
                 'title': 'Edit',
+                'object_type': 'dnsname',
+                'object_name': dnsname.dnsname_name,
             })

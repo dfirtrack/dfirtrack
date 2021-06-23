@@ -3,6 +3,7 @@ from django.test import TestCase
 from dfirtrack_main.models import Systemtype
 import urllib.parse
 
+
 class SystemtypeViewTestCase(TestCase):
     """ systemtype view tests """
 
@@ -156,7 +157,7 @@ class SystemtypeViewTestCase(TestCase):
         # get response
         response = self.client.get('/systemtype/add/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/systemtype/systemtype_generic_form.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
 
     def test_systemtype_add_get_user_context(self):
         """ test add view """
@@ -220,7 +221,7 @@ class SystemtypeViewTestCase(TestCase):
         # get response
         response = self.client.post('/systemtype/add/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/systemtype/systemtype_generic_form.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
 
     def test_systemtype_add_popup_not_logged_in(self):
         """ test add view """
@@ -346,7 +347,7 @@ class SystemtypeViewTestCase(TestCase):
         # get response
         response = self.client.get('/systemtype/' + str(systemtype_1.systemtype_id) + '/edit/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/systemtype/systemtype_generic_form.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
 
     def test_systemtype_edit_get_user_context(self):
         """ test edit view """
@@ -420,4 +421,4 @@ class SystemtypeViewTestCase(TestCase):
         # get response
         response = self.client.post('/systemtype/' + str(systemtype_id) + '/edit/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/systemtype/systemtype_generic_form.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')

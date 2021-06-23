@@ -8,6 +8,7 @@ from dfirtrack_main.forms import OsimportnameForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Osimportname
 
+
 class OsimportnameList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Osimportname
@@ -22,7 +23,7 @@ class OsimportnameCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Osimportname
     form_class = OsimportnameForm
-    template_name = 'dfirtrack_main/osimportname/osimportname_generic_form.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -30,6 +31,7 @@ class OsimportnameCreate(LoginRequiredMixin, CreateView):
         return render(request, self.template_name, {
             'form': form,
             'title': 'Add',
+            'object_type': 'osimportname',
         })
 
     def post(self, request, *args, **kwargs):
@@ -44,13 +46,14 @@ class OsimportnameCreate(LoginRequiredMixin, CreateView):
             return render(request, self.template_name, {
                 'form': form,
                 'title': 'Add',
+                'object_type': 'osimportname',
             })
 
 class OsimportnameUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Osimportname
     form_class = OsimportnameForm
-    template_name = 'dfirtrack_main/osimportname/osimportname_generic_form.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         osimportname = self.get_object()
@@ -59,6 +62,8 @@ class OsimportnameUpdate(LoginRequiredMixin, UpdateView):
         return render(request, self.template_name, {
             'form': form,
             'title': 'Edit',
+            'object_type': 'osimportname',
+            'object_name': osimportname.osimportname_name,
         })
 
     def post(self, request, *args, **kwargs):
@@ -74,4 +79,6 @@ class OsimportnameUpdate(LoginRequiredMixin, UpdateView):
             return render(request, self.template_name, {
                 'form': form,
                 'title': 'Edit',
+                'object_type': 'osimportname',
+                'object_name': osimportname.osimportname_name,
             })

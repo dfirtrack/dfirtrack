@@ -3,6 +3,7 @@ from django.test import TestCase
 from dfirtrack_main.models import Division
 import urllib.parse
 
+
 class DivisionViewTestCase(TestCase):
     """ division view tests """
 
@@ -156,7 +157,7 @@ class DivisionViewTestCase(TestCase):
         # get response
         response = self.client.get('/division/add/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/division/division_generic_form.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
 
     def test_division_add_get_user_context(self):
         """ test add view """
@@ -220,7 +221,7 @@ class DivisionViewTestCase(TestCase):
         # get response
         response = self.client.post('/division/add/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/division/division_generic_form.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
 
     def test_division_edit_not_logged_in(self):
         """ test edit view """
@@ -256,7 +257,7 @@ class DivisionViewTestCase(TestCase):
         # get response
         response = self.client.get('/division/' + str(division_1.division_id) + '/edit/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/division/division_generic_form.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
 
     def test_division_edit_get_user_context(self):
         """ test edit view """
@@ -330,4 +331,4 @@ class DivisionViewTestCase(TestCase):
         # get response
         response = self.client.post('/division/' + str(division_id) + '/edit/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/division/division_generic_form.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
