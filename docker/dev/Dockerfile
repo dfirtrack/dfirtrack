@@ -30,7 +30,7 @@ RUN sed -i "s/server_name dfirtrack_app;/server_name $fqdn;/" /etc/nginx/sites-a
 COPY docker/shared_files/local_settings.py dfirtrack/local_settings.py
 
 # copy entrypoint
-COPY docker/prod/entrypoint.sh docker/prod/entrypoint.sh
+COPY docker/dev/entrypoint.sh docker/dev/entrypoint.sh
 
 EXPOSE 80
 EXPOSE 443
