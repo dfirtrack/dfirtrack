@@ -44,6 +44,8 @@ urlpatterns = [
     re_path(r'^ip/(?P<pk>\d+)/$', dfirtrack_main.IpDetailApi.as_view()),
     re_path(r'^location/$', dfirtrack_main.LocationListApi.as_view()),
     re_path(r'^location/(?P<pk>\d+)/$', dfirtrack_main.LocationDetailApi.as_view()),
+    re_path(r'^notestatus/$', dfirtrack_main.NotestatusListApi.as_view()),
+    re_path(r'^notestatus/(?P<pk>\d+)/$', dfirtrack_main.NotestatusDetailApi.as_view()),
     re_path(r'^os/$', dfirtrack_main.OsListApi.as_view()),
     re_path(r'^os/(?P<pk>\d+)/$', dfirtrack_main.OsDetailApi.as_view()),
     re_path(r'^osarch/$', dfirtrack_main.OsarchListApi.as_view()),

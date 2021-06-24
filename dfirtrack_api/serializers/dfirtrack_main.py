@@ -204,6 +204,17 @@ class LocationSerializer(serializers.ModelSerializer):
             'location_name',
         )
 
+class NotestatusSerializer(serializers.ModelSerializer):
+    """ create serializer for model instance """
+
+    class Meta:
+        model = dfirtrack_main_models.Notestatus
+        # attributes made available for api
+        fields = (
+            'notestatus_id',
+            'notestatus_name',
+        )
+
 class OsSerializer(serializers.ModelSerializer):
     """ create serializer for model instance """
 

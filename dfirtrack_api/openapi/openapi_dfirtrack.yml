@@ -2,7 +2,7 @@ openapi: 3.0.2
 info:
   title: DFIRTrack
   description: OpenAPI 3 - Documentation of DFIRTrack API
-  version: v1.2.1
+  version: v1.5.2
 paths:
   /api/artifact/:
     get:
@@ -1621,6 +1621,42 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Location'
+          description: ''
+      tags:
+      - api
+  /api/notestatus/:
+    get:
+      operationId: listNotestatus
+      description: 'all objects, allowed: GET'
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Notestatus'
+          description: ''
+      tags:
+      - api
+  /api/notestatus/{notestatus_id}/:
+    get:
+      operationId: retrieveNotestatus
+      description: 'single object, allowed: GET'
+      parameters:
+      - name: notestatus_id
+        in: path
+        required: true
+        description: A unique integer value identifying this notestatus.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notestatus'
           description: ''
       tags:
       - api
@@ -3423,6 +3459,17 @@ components:
           maxLength: 50
       required:
       - location_name
+    Notestatus:
+      type: object
+      properties:
+        notestatus_id:
+          type: integer
+          readOnly: true
+        notestatus_name:
+          type: string
+          maxLength: 30
+      required:
+      - notestatus_name
     Os:
       type: object
       properties:
