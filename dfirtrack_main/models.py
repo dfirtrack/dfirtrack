@@ -506,9 +506,6 @@ class Entry(models.Model):
     # main entity information
     entry_time = models.DateTimeField()
     entry_sha1 = models.CharField(max_length=40, blank=True, null=True)
-    entry_date = models.CharField(max_length=10, blank=True, null=True)
-    entry_utc = models.CharField(max_length=8, blank=True, null=True)
-    entry_system = models.CharField(max_length=30, blank=True, null=True)
     entry_type = models.CharField(max_length=30, blank=True, null=True)
     entry_content = models.TextField(blank=True, null=True)
     entry_note = models.TextField(blank=True, null=True)
@@ -519,6 +516,20 @@ class Entry(models.Model):
     entry_api_time = models.DateTimeField(null=True)
     entry_created_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='entry_created_by')
     entry_modified_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='entry_modified_by')
+
+    # property fields
+
+    @property
+    def entry_date(self):
+        return self.entry_time.strftime('%Y-%m-%d')
+    
+    @property
+    def entry_utc(self):
+        return self.entry_time.strftime('%H:%M:%S')
+
+    @property
+    def entry_system(self):
+        return self.system.system_name
 
     class Meta:
         unique_together = ('system', 'entry_sha1')

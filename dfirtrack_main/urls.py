@@ -112,6 +112,8 @@ urlpatterns = [
     path(r'entry/<int:pk>/', entry_views.EntryDetail.as_view(), name='entry_detail'),
     path(r'entry/add/', entry_views.EntryCreate.as_view(), name='entry_create'),
     path(r'entry/<int:pk>/edit/', entry_views.EntryUpdate.as_view(), name='entry_update'),
+    path(r'entry/import/step1/', entry_views.import_csv_step1, name='entry_import_step1'),
+    path(r'entry/import/step2/', entry_views.import_csv_step2, name='entry_import_step2'),
 
     path(r'headline/', headline_views.HeadlineList.as_view(), name='headline_list'),
     path(r'headline/<int:pk>/', headline_views.HeadlineDetail.as_view(), name='headline_detail'),

@@ -1,0 +1,85 @@
+<!-- extending maintemplate -->
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+<!-- HTML head in maintemplate -->
+{% block head %}
+
+<!-- page title -->
+<title>
+    DFIRTrack - Entry CSV import
+</title>
+
+{% load static %}
+
+<!-- HTML head in maintemplate -->
+{% endblock %}
+
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
+{% block content %}
+        
+<!-- headline -->
+<div class="bottom-distance">
+    <h4>
+        Entry CSV import step (1/2)
+    </h4>
+</div>
+
+<!-- form -->
+<div class="bottom-distance">
+    <form method="POST" class="post-form" enctype="multipart/form-data">
+
+        {% csrf_token %}
+       
+        <div class="row top-distance">
+            <!-- show form related errors -->
+            {% include "dfirtrack_main/includes/form_errors.html" %}
+
+            <div class="row">
+                <div class="form-group col-6">
+                    <label for="id_system" class="form-label">{{form.system.label}}</label>
+                    {{form.system}}
+                    <small id="system_help" class="form-text text-muted">
+                        The import will be performed for the selected system.
+                    </small>
+                </div>
+            </div>
+            <div class="row top-distance">
+                <div class="form-group col-6">
+                    <label for="id_case" class="form-label">{{form.case.label}}</label>
+                    {{form.case}}
+                </div>
+            </div>
+            <div class="row top-distance bottom-distance">
+                <div class="form-group col-6">
+                    <label for="id_entryfile" class="form-label">{{form.entryfile.label}}</label>
+                    {{form.entryfile}}
+                </div>
+            </div>
+        </div>
+
+        <!-- button row -->
+        <div class="row top-distance">
+
+            <!-- save button -->
+            <div class="col-3">
+                <button type="submit" class="save btn btn-light copy-false">
+                    <img src="/static/dfirtrack_main/icons/check.svg" class="icon right-distance copy-false" alt="icon">
+                    Upload
+                </button>
+           
+            <!-- cancel button -->
+           
+                {% include "dfirtrack_main/includes/button_cancel.html" %}
+            </div>
+
+        <!-- button row -->
+        </div>
+</div>
+
+<!-- form -->
+</form>
+    
+<!-- HTML body in maintemplate -->
+{% endblock %}
