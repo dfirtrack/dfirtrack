@@ -1384,6 +1384,126 @@ paths:
           description: ''
       tags:
       - api
+  /api/headline/:
+    get:
+      operationId: listHeadlines
+      description: 'all objects, allowed: GET + POST'
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Headline'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createHeadline
+      description: 'all objects, allowed: GET + POST'
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Headline'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Headline'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Headline'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Headline'
+          description: ''
+      tags:
+      - api
+  /api/headline/{headline_id}/:
+    get:
+      operationId: retrieveHeadline
+      description: 'single object, allowed: GET + PUT'
+      parameters:
+      - name: headline_id
+        in: path
+        required: true
+        description: A unique integer value identifying this headline.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Headline'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateHeadline
+      description: 'single object, allowed: GET + PUT'
+      parameters:
+      - name: headline_id
+        in: path
+        required: true
+        description: A unique integer value identifying this headline.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Headline'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Headline'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Headline'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Headline'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateHeadline
+      description: 'single object, allowed: GET + PUT'
+      parameters:
+      - name: headline_id
+        in: path
+        required: true
+        description: A unique integer value identifying this headline.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Headline'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Headline'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Headline'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Headline'
+          description: ''
+      tags:
+      - api
   /api/ip/:
     get:
       operationId: listIps
@@ -3558,6 +3678,17 @@ components:
       required:
       - domainuser_name
       - domain
+    Headline:
+      type: object
+      properties:
+        headline_id:
+          type: integer
+          readOnly: true
+        headline_name:
+          type: string
+          maxLength: 100
+      required:
+      - headline_name
     Ip:
       type: object
       properties:

@@ -135,6 +135,18 @@ class DomainuserDetailApi(generics.RetrieveUpdateAPIView):
     queryset = dfirtrack_main_models.Domainuser.objects.all()
     serializer_class = dfirtrack_main_serializers.DomainuserSerializer
 
+class HeadlineListApi(generics.ListCreateAPIView):
+    """ all objects, allowed: GET + POST """
+
+    queryset = dfirtrack_main_models.Headline.objects.all()
+    serializer_class = dfirtrack_main_serializers.HeadlineSerializer
+
+class HeadlineDetailApi(generics.RetrieveUpdateAPIView):
+    """ single object, allowed: GET + PUT """
+
+    queryset = dfirtrack_main_models.Headline.objects.all()
+    serializer_class = dfirtrack_main_serializers.HeadlineSerializer
+
 class IpListApi(generics.ListCreateAPIView):
     """ all objects, allowed: GET + POST """
 

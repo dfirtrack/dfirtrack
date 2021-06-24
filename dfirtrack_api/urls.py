@@ -40,6 +40,8 @@ urlpatterns = [
     re_path(r'^domain/(?P<pk>\d+)/$', dfirtrack_main.DomainDetailApi.as_view()),
     re_path(r'^domainuser/$', dfirtrack_main.DomainuserListApi.as_view()),
     re_path(r'^domainuser/(?P<pk>\d+)/$', dfirtrack_main.DomainuserDetailApi.as_view()),
+    re_path(r'^headline/$', dfirtrack_main.HeadlineListApi.as_view()),
+    re_path(r'^headline/(?P<pk>\d+)/$', dfirtrack_main.HeadlineDetailApi.as_view()),
     re_path(r'^ip/$', dfirtrack_main.IpListApi.as_view()),
     re_path(r'^ip/(?P<pk>\d+)/$', dfirtrack_main.IpDetailApi.as_view()),
     re_path(r'^location/$', dfirtrack_main.LocationListApi.as_view()),

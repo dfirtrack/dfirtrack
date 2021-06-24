@@ -182,6 +182,17 @@ class DomainuserSerializer(serializers.ModelSerializer):
             'domainuser_is_domainadmin',
         )
 
+class HeadlineSerializer(serializers.ModelSerializer):
+    """ create serializer for model instance """
+
+    class Meta:
+        model = dfirtrack_main_models.Headline
+        # attributes made available for api
+        fields = (
+            'headline_id',
+            'headline_name',
+        )
+
 class IpSerializer(serializers.ModelSerializer):
     """ create serializer for model instance """
 
