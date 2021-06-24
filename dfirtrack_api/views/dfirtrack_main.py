@@ -159,6 +159,18 @@ class LocationDetailApi(generics.RetrieveUpdateAPIView):
     queryset = dfirtrack_main_models.Location.objects.all()
     serializer_class = dfirtrack_main_serializers.LocationSerializer
 
+class NoteListApi(generics.ListCreateAPIView):
+    """ all objects, allowed: GET + POST """
+
+    queryset = dfirtrack_main_models.Note.objects.all()
+    serializer_class = dfirtrack_main_serializers.NoteSerializer
+
+class NoteDetailApi(generics.RetrieveUpdateAPIView):
+    """ single object, allowed: GET + PUT """
+
+    queryset = dfirtrack_main_models.Note.objects.all()
+    serializer_class = dfirtrack_main_serializers.NoteSerializer
+
 class NotestatusListApi(generics.ListAPIView):
     """ all objects, allowed: GET """
 

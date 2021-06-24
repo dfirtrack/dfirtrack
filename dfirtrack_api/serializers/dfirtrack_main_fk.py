@@ -134,6 +134,16 @@ class LocationFkSerializer(serializers.ModelSerializer):
             'location_name',
         )
 
+class NotestatusFkSerializer(serializers.ModelSerializer):
+    """ create serializer for foreignkey relationsships """
+
+    class Meta:
+        model = dfirtrack_main_models.Notestatus
+        # attributes made available for api
+        fields = (
+            'notestatus_name',
+        )
+
 class OsFkSerializer(serializers.ModelSerializer):
     """ create serializer for foreignkey relationsships """
 

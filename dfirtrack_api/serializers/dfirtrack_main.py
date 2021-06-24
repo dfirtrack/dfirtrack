@@ -204,6 +204,43 @@ class LocationSerializer(serializers.ModelSerializer):
             'location_name',
         )
 
+class NoteSerializer(serializers.ModelSerializer):
+    """ create serializer for model instance """
+
+    # redefine representation
+    def to_representation(self, instance):
+
+        # get serializers of foreignkey relationsships
+        self.fields['case'] =  dfirtrack_main_fk.CaseFkSerializer(many=False, read_only=True)
+        self.fields['notestatus'] =  dfirtrack_main_fk.NotestatusFkSerializer(many=False, read_only=True)
+        self.fields['tag'] =  dfirtrack_main_fk.TagFkSerializer(many=True, read_only=True)
+
+        # get existing to_representation
+        representation = super(NoteSerializer, self).to_representation(instance)
+
+        # change mandatory time strings
+        representation['note_create_time'] = instance.note_create_time.strftime('%Y-%m-%dT%H:%M')
+        representation['note_modify_time'] = instance.note_modify_time.strftime('%Y-%m-%dT%H:%M')
+
+        return representation
+
+    class Meta:
+        model = dfirtrack_main_models.Note
+        # attributes made available for api
+        fields = (
+            'note_id',
+            'note_title',
+            'note_content',
+            'note_version',
+            'case',
+            'notestatus',
+            'tag',
+            'note_create_time',
+            'note_created_by_user_id',
+            'note_modify_time',
+            'note_modified_by_user_id',
+        )
+
 class NotestatusSerializer(serializers.ModelSerializer):
     """ create serializer for model instance """
 

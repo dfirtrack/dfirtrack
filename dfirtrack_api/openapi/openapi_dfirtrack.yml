@@ -1624,6 +1624,126 @@ paths:
           description: ''
       tags:
       - api
+  /api/note/:
+    get:
+      operationId: listNotes
+      description: 'all objects, allowed: GET + POST'
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Note'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createNote
+      description: 'all objects, allowed: GET + POST'
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Note'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Note'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Note'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Note'
+          description: ''
+      tags:
+      - api
+  /api/note/{note_id}/:
+    get:
+      operationId: retrieveNote
+      description: 'single object, allowed: GET + PUT'
+      parameters:
+      - name: note_id
+        in: path
+        required: true
+        description: A unique integer value identifying this note.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Note'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateNote
+      description: 'single object, allowed: GET + PUT'
+      parameters:
+      - name: note_id
+        in: path
+        required: true
+        description: A unique integer value identifying this note.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Note'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Note'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Note'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Note'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateNote
+      description: 'single object, allowed: GET + PUT'
+      parameters:
+      - name: note_id
+        in: path
+        required: true
+        description: A unique integer value identifying this note.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Note'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Note'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Note'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Note'
+          description: ''
+      tags:
+      - api
   /api/notestatus/:
     get:
       operationId: listNotestatus
@@ -3459,6 +3579,48 @@ components:
           maxLength: 50
       required:
       - location_name
+    Note:
+      type: object
+      properties:
+        note_id:
+          type: integer
+          readOnly: true
+        note_title:
+          type: string
+          maxLength: 250
+        note_content:
+          type: string
+        note_version:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        case:
+          type: integer
+          nullable: true
+        notestatus:
+          type: integer
+        tag:
+          type: array
+          items:
+            type: integer
+        note_create_time:
+          type: string
+          format: date-time
+          readOnly: true
+        note_created_by_user_id:
+          type: integer
+        note_modify_time:
+          type: string
+          format: date-time
+          readOnly: true
+        note_modified_by_user_id:
+          type: integer
+      required:
+      - note_title
+      - note_content
+      - note_version
+      - note_created_by_user_id
+      - note_modified_by_user_id
     Notestatus:
       type: object
       properties:
