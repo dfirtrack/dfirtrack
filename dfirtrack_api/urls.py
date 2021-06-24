@@ -1,4 +1,5 @@
 from django.urls import re_path
+from django.views.generic import TemplateView
 from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework.schemas import get_schema_view
 from rest_framework.authtoken.views import obtain_auth_token
@@ -80,5 +81,11 @@ urlpatterns = [
     re_path(r'^openapi/$', get_schema_view(generator_class=DFIRTrackSchemaGenerator,
             public=True,
         ), name='openapi-schema'),
+    # Route TemplateView to serve Swagger UI template.
+    #   * Provide `extra_context` with view name of `SchemaView`.
+    re_path('^documentation/$', TemplateView.as_view(
+        template_name='dfirtrack_api/swagger-ui.html',
+        extra_context={'schema_url':'openapi-schema'}
+    ), name='swagger-ui'),
 ]
 urlpatterns = format_suffix_patterns(urlpatterns)
