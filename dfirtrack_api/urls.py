@@ -83,7 +83,7 @@ urlpatterns = [
         ), name='openapi-schema'),
     # Route TemplateView to serve Swagger UI template.
     #   * Provide `extra_context` with view name of `SchemaView`.
-    re_path('^documentation/$', TemplateView.as_view(
+    re_path('^docs/$', TemplateView.as_view(
         template_name='dfirtrack_api/swagger-ui.html',
         extra_context={'schema_url':'openapi-schema'}
     ), name='swagger-ui'),
