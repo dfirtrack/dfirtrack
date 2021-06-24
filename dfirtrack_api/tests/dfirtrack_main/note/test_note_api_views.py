@@ -1,7 +1,5 @@
-from datetime import datetime
 from django.contrib.auth.models import User
 from django.test import TestCase
-from django.utils import timezone
 from dfirtrack_main.models import Case
 from dfirtrack_main.models import Note
 from dfirtrack_main.models import Notestatus
