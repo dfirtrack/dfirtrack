@@ -12,7 +12,7 @@ class DFIRTrackOpenAPIViewTestCase(TestCase):
         # create user
         User.objects.create_user(username='testuser_openapi_api_1', password='ZxMzUqYU6mrDzO9q')
 
-    def test_openapi_api_view_unuathorized(self):
+    def test_openapi_api_view_unauthorized(self):
         """ unauthorized access is forbidden """
 
         # get response
