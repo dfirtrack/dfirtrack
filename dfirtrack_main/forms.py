@@ -433,6 +433,7 @@ class EntryFileImport(forms.ModelForm):
     # reorder field choices
     system = forms.ModelChoiceField(
         label='System (*)',
+        empty_label = 'Select system',
         queryset=System.objects.order_by('system_name'),
         widget=forms.Select(
             attrs={
@@ -444,6 +445,7 @@ class EntryFileImport(forms.ModelForm):
     # reorder field choice
     case = forms.ModelChoiceField(
         label='Case',
+        empty_label = 'Select case (optional)',
         queryset=Case.objects.order_by('case_name'),
         required=False,
         widget=forms.Select(
@@ -472,11 +474,13 @@ class EntryFileImport(forms.ModelForm):
             'case'
         )
 
-class EntryFileImportColumns(forms.Form):
-    """ file import column assignment """
+class EntryFileImportFields(forms.Form):
+    """ entry csv import field assignment """
     
+    # placeholder, choices will be generated
     INITIAL_CHOICES = []
 
+    # entry_time mapping
     entry_time = forms.ChoiceField(
         label='Datetime field',
         choices=INITIAL_CHOICES,
@@ -486,6 +490,8 @@ class EntryFileImportColumns(forms.Form):
             }
         )
     )
+
+    # entry type mapping
     entry_type = forms.ChoiceField(
         choices=INITIAL_CHOICES,
         widget=forms.Select(
@@ -494,6 +500,8 @@ class EntryFileImportColumns(forms.Form):
             }
         )
     )
+
+    # entry content mapping
     entry_content = forms.ChoiceField(
         choices=INITIAL_CHOICES,
         widget=forms.Select(
@@ -507,8 +515,9 @@ class EntryFileImportColumns(forms.Form):
         super().__init__(*args, **kwargs)
 
         index = list(range(0, len(choices)))
-        form_choices = set(zip(index, choices))
+        form_choices = sorted(set(zip(index, choices)))
 
+        # set select choices dynamically, based on uploaded csv file
         self.fields['entry_time'].choices = form_choices
         self.fields['entry_type'].choices = form_choices
         self.fields['entry_content'].choices = form_choices

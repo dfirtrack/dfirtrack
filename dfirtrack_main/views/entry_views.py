@@ -4,7 +4,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
-from dfirtrack_main.forms import EntryForm, EntryFileImport, EntryFileImportColumns
+from dfirtrack_main.forms import EntryForm, EntryFileImport, EntryFileImportFields
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Entry
 from django.contrib.auth.decorators import login_required
@@ -93,52 +93,67 @@ class EntryUpdate(LoginRequiredMixin, UpdateView):
 def import_csv_step1(request):
 
     if request.method == "POST":
+        # POST request
         form = EntryFileImport(request.POST, request.FILES)
         if form.is_valid():
             f = request.FILES['entryfile']
 
-            file_name = '/tmp/' + str(uuid.uuid4())
+            # write upload to random tmp file
+            file_name = f'/tmp/{uuid.uuid4()}'
             with open(file_name, 'wb+') as dest:
                 for chunk in f.chunks():
                     dest.write(chunk)
   
+            # get first row of uploaded csv (fields)
             with open(file_name, newline='') as csvfile:
                 spamreader = csv.reader(csvfile, delimiter=',', quotechar='"')
-                columns = next(spamreader)
+                fields = next(spamreader)
 
+            # save form for case and system info
             entry = form.save(commit=False)
 
+            # add all values to session to access during step2
             request.session['entry_csv_import'] = {
-                'columns': columns,
+                'fields': fields,
                 'system': entry.system.system_id,
                 'case': entry.case.case_id if entry.case else None,
                 'file_name': file_name
             }
+
+            messages.success(request, 'Uploaded csv to DFIRTrack.')
            
+            # goto step 2
             return redirect(reverse('entry_import_step2'))
         else:
             return render(request, 'dfirtrack_main/entry/entry_import_step1.html', {'form': form})
     else:
+        # GET request
+        debug_logger(str(request.user), ' ENTRY_CSV_IMPORTER_STEP1_ENTERED')
         form = EntryFileImport()
         return render(request, 'dfirtrack_main/entry/entry_import_step1.html', {'form': form})    
 
-
+@login_required(login_url="/login")
 def import_csv_step2(request):
-    
+    # check if step1 was successful
+    if 'entry_csv_import' not in request.session:
+            return redirect(reverse('entry_import_step1'))
+
+    # POST request
     if request.method == "POST":
-        #TODO injection testen
-        form = EntryFileImportColumns(
-            request.session['entry_csv_import']['columns'], 
+        # get form with dynamic fileds
+        form = EntryFileImportFields(
+            request.session['entry_csv_import']['fields'], 
             request.POST
         )
         if form.is_valid():
-            
+            # get field mappings
             field_mapping = {
                 'entry_time': int(form.cleaned_data['entry_time']),
                 'entry_type': int(form.cleaned_data['entry_type']),
                 'entry_content': int(form.cleaned_data['entry_content']),
             }
 
+            # run async task
             async_task(
                 "dfirtrack_main.importer.file.csv_entry_import.csv_entry_import_async",
                 request.session['entry_csv_import']['system'],
@@ -147,12 +162,17 @@ def import_csv_step2(request):
                 request.user,
                 request.session['entry_csv_import']['case'],
             )
+            # delete session information
+            del(request.session['entry_csv_import'])
 
-            messages.success(request, 'Entry timesketch importer started')
+            messages.success(request, 'Entry csv importer started')
             
             return redirect(reverse('entry_list'))
         else:
             return render(request, 'dfirtrack_main/entry/entry_import_step2.html', {'form': form})
     else:
-        form = EntryFileImportColumns(request.session['entry_csv_import']['columns'])
+        # GET request
+        debug_logger(str(request.user), ' ENTRY_CSV_IMPORTER_STEP2_ENTERED')
+        # prepare dynamic form with csv field information
+        form = EntryFileImportFields(request.session['entry_csv_import']['fields'])
         return render(request, 'dfirtrack_main/entry/entry_import_step2.html', {'form': form})  

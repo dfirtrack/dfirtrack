@@ -181,18 +181,9 @@ class SystemExporterMarkdownViewTestCase(TestCase):
         # create objects
         Entry.objects.create(
             system = system_1,
-            entry_time = timezone.now(),
-            entry_created_by_user_id = test_user,
-            entry_modified_by_user_id = test_user,
-        )
-        Entry.objects.create(
-            system = system_1,
-            entry_date = '2020-02-03',
-            entry_utc = '01:23:45',
-            entry_system = 'system_1',
             entry_type = 'type_1',
             entry_content = 'lorem ipsum',
-            entry_time = timezone.now(),
+            entry_time = "2020-02-03T01:23:45+00:00",
             entry_created_by_user_id = test_user,
             entry_modified_by_user_id = test_user,
         )

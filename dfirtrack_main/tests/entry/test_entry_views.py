@@ -1,8 +1,11 @@
 from django.contrib.auth.models import User
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 from django.utils import timezone
-from dfirtrack_main.models import Entry, System, Systemstatus
+from dfirtrack_main.models import Entry, System, Systemstatus, Case
 import urllib.parse
+import uuid
+from mock import patch
 
 
 class EntryViewTestCase(TestCase):
@@ -381,3 +384,228 @@ class EntryViewTestCase(TestCase):
         response = self.client.post('/entry/' + str(entry_id) + '/edit/', data_dict)
         # compare
         self.assertTemplateUsed(response, 'dfirtrack_main/entry/entry_edit.html')
+
+    def test_entry_csv_import_step1_not_logged_in(self):
+        """ test step1 view """
+
+        # create url
+        destination = '/login/?next=' + urllib.parse.quote('/entry/import/step1/', safe='')
+        # get response
+        response = self.client.get('/entry/import/step1/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_entry_csv_import_step1_logged_in(self):
+        """ test step1 view """
+
+        # login testuser
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        # get response
+        response = self.client.get('/entry/import/step1/')
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_entry_csv_import_step1(self):
+        """ test step1 view """
+
+        # login testuser
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        # get response
+        response = self.client.get('/entry/import/step1/')
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/entry/entry_import_step1.html')
+
+    def test_entry_csv_import_post_step1_redirect(self):
+        """ test step1 view """
+
+        # get objects
+        system_1 = System.objects.get(system_name='system_1')
+        # sample file
+        csv_file = SimpleUploadedFile("test.csv", b"datetime,timestamp_desc,message", content_type="text/csv")
+        # login testuser
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        # create post data
+        data_dict = {
+            'system': system_1.system_id,
+            'entryfile': csv_file
+        }
+        destination = '/entry/import/step2/'
+
+        # get response
+        response = self.client.post('/entry/import/step1/', data_dict, follow=True)
+        # check
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertInHTML('datetime', str(response.content))
+        self.assertInHTML('timestamp_desc', str(response.content))
+        self.assertInHTML('message', str(response.content))  
+
+    def test_entry_csv_import_post_step1_no_case(self):
+        """ test step1 view """
+
+        # get objects
+        system_1 = System.objects.get(system_name='system_1')
+        # sample file
+        csv_file = SimpleUploadedFile("test.csv", b"datetime,timestamp_desc,message", content_type="text/csv")
+        # login testuser
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        # create post data
+        data_dict = {
+            'system': system_1.system_id,
+            'entryfile': csv_file
+        }
+        # static uuid
+        test_uuid = uuid.uuid4()
+        with patch.object(uuid, 'uuid4', return_value=test_uuid):
+            # get response
+            response = self.client.post('/entry/import/step1/', data_dict)
+            # compare
+            self.assertEquals(self.client.session['entry_csv_import']['file_name'], f'/tmp/{test_uuid}')
+            self.assertEquals(self.client.session['entry_csv_import']['system'], system_1.system_id)
+            self.assertEquals(self.client.session['entry_csv_import']['case'], None)
+            self.assertEquals(self.client.session['entry_csv_import']['fields'], ['datetime','timestamp_desc','message'])
+
+    def test_entry_csv_import_post_step1_with_case(self):
+        """ test step1 view """
+
+        # get objects
+        system_1 = System.objects.get(system_name='system_1')
+        test_user = User.objects.get(username='testuser_entry')
+        case_1 = Case.objects.create(
+            case_name='case_1',
+            case_is_incident=True,
+            case_created_by_user_id=test_user,
+        )
+        # sample file
+        csv_file = SimpleUploadedFile("test.csv", b"datetime,timestamp_desc,message", content_type="text/csv")
+        # login testuser
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        # create post data
+        data_dict = {
+            'system': system_1.system_id,
+            'case': case_1.case_id,
+            'entryfile': csv_file
+        }
+        # get response
+        test_uuid = uuid.uuid4()
+        with patch.object(uuid, 'uuid4', return_value=test_uuid):
+            self.client.post('/entry/import/step1/', data_dict)
+            # compare
+            self.assertEquals(self.client.session['entry_csv_import']['file_name'], f'/tmp/{test_uuid}')
+            self.assertEquals(self.client.session['entry_csv_import']['system'], system_1.system_id)
+            self.assertEquals(self.client.session['entry_csv_import']['case'], case_1.case_id)
+            self.assertEquals(self.client.session['entry_csv_import']['fields'], ['datetime','timestamp_desc','message'])   
+
+    def test_entry_csv_import_step1_post_invalid_data(self):
+        """ test step1 view """
+
+           # login testuser
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/entry/import/step1/', data_dict)
+        self.assertTemplateUsed(response, 'dfirtrack_main/entry/entry_import_step1.html')
+        self.assertContains(response, 'This field is required')  
+
+    def test_entry_csv_import_step2_not_logged_in(self):
+        """ test step2 view """
+
+        # create url
+        destination = '/login/?next=' + urllib.parse.quote('/entry/import/step2/', safe='')
+        # get response
+        response = self.client.get('/entry/import/step2/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_entry_csv_import_step2_logged_in(self):
+        """ test step2 view """
+
+        # login testuser
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        # mock session
+        session = self.client.session
+        session['entry_csv_import'] =  {
+            'fields': ['dummy']
+        }
+        session.save()
+        # get response
+        response = self.client.get('/entry/import/step2/')
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_entry_csv_import_step2(self):
+        """ test step2 view """
+
+        # login testuser
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        # mock session
+        session = self.client.session
+        session['entry_csv_import'] =  {
+            'fields': ['dummy']
+        }
+        session.save()
+        # get response
+        response = self.client.get('/entry/import/step2/')
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/entry/entry_import_step2.html')
+
+    def test_entry_csv_import_step2_post_invalid_data(self):
+        """ test step1 view """
+
+           # login testuser
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        # mock session
+        session = self.client.session
+        session['entry_csv_import'] =  {
+            'fields': ['dummy']
+        }
+        session.save()
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/entry/import/step2/', data_dict)
+        self.assertTemplateUsed(response, 'dfirtrack_main/entry/entry_import_step2.html')
+        self.assertContains(response, 'This field is required')
+
+    def test_entry_csv_import_get_step1_missing_step1_redirect(self):
+        """ test step1 view """
+
+        # login testuser
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+
+        # destination
+        destination = '/entry/import/step1/'
+        # get response
+        response = self.client.get('/entry/import/step2/')
+        # check
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_entry_csv_import_post_step2_success_redirect(self):
+        """ test step1 view """
+
+        # get objects
+        system_id = System.objects.get(system_name='system_1').system_id
+        # login testuser
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        # prepare session
+        session = self.client.session
+        session['entry_csv_import'] = {
+            'fields': ["datetime","timestamp_desc","message"],
+            'system': system_id,
+            'case': None,
+            'file_name': 'test_file_name'
+        }
+        session.save()
+        # create post data
+        data_dict = {
+            'entry_time': 0,
+            'entry_type': 1,
+            'entry_content': 2
+        }
+        # destination
+        destination = '/entry/'
+        # post data
+        response = self.client.post('/entry/import/step2/', data_dict, follow=True)
+        
+        # check
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)

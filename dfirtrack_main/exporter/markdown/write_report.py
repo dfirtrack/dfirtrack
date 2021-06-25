@@ -186,7 +186,7 @@ def write_entries_to_table(django_report, system):
     """ write all entries to table """
 
     # TODO: change behavior, currently check for entry attributes is necessary because of 'null=True'
-    entrys = system.entry_set.all().order_by('entry_date', 'entry_utc')
+    entrys = system.entry_set.all().order_by('entry_time')
     if entrys.exists():
         # iterate over entries
         for entry in entrys:
