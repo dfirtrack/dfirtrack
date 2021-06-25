@@ -103,6 +103,16 @@ class DomainFkSerializer(serializers.ModelSerializer):
             'domain_name',
         )
 
+class HeadlineFkSerializer(serializers.ModelSerializer):
+    """ create serializer for foreignkey relationsships """
+
+    class Meta:
+        model = dfirtrack_main_models.Headline
+        # attributes made available for api
+        fields = (
+            'headline_name',
+        )
+
 class HostSystemFkSerializer(serializers.ModelSerializer):
     """ create serializer for foreignkey relationsship """
 

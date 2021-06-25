@@ -2380,6 +2380,126 @@ paths:
           description: ''
       tags:
       - api
+  /api/reportitem/:
+    get:
+      operationId: listReportitems
+      description: 'all objects, allowed: GET + POST'
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Reportitem'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createReportitem
+      description: 'all objects, allowed: GET + POST'
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Reportitem'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Reportitem'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Reportitem'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reportitem'
+          description: ''
+      tags:
+      - api
+  /api/reportitem/{reportitem_id}/:
+    get:
+      operationId: retrieveReportitem
+      description: 'single object, allowed: GET + PUT'
+      parameters:
+      - name: reportitem_id
+        in: path
+        required: true
+        description: A unique integer value identifying this reportitem.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reportitem'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateReportitem
+      description: 'single object, allowed: GET + PUT'
+      parameters:
+      - name: reportitem_id
+        in: path
+        required: true
+        description: A unique integer value identifying this reportitem.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Reportitem'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Reportitem'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Reportitem'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reportitem'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateReportitem
+      description: 'single object, allowed: GET + PUT'
+      parameters:
+      - name: reportitem_id
+        in: path
+        required: true
+        description: A unique integer value identifying this reportitem.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Reportitem'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Reportitem'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Reportitem'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reportitem'
+          description: ''
+      tags:
+      - api
   /api/serviceprovider/:
     get:
       operationId: listServiceproviders
@@ -3807,6 +3927,50 @@ components:
           maxLength: 30
       required:
       - recommendation_name
+    Reportitem:
+      type: object
+      properties:
+        reportitem_id:
+          type: integer
+          readOnly: true
+        case:
+          type: integer
+          nullable: true
+        headline:
+          type: integer
+        notestatus:
+          type: integer
+        system:
+          type: integer
+        tag:
+          type: array
+          items:
+            type: integer
+        reportitem_subheadline:
+          type: string
+          nullable: true
+          maxLength: 100
+        reportitem_note:
+          type: string
+        reportitem_create_time:
+          type: string
+          format: date-time
+          readOnly: true
+        reportitem_created_by_user_id:
+          type: integer
+        reportitem_modify_time:
+          type: string
+          format: date-time
+          readOnly: true
+        reportitem_modified_by_user_id:
+          type: integer
+      required:
+      - headline
+      - system
+      - reportitem_subheadline
+      - reportitem_note
+      - reportitem_created_by_user_id
+      - reportitem_modified_by_user_id
     Serviceprovider:
       type: object
       properties:

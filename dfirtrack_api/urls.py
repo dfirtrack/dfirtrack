@@ -58,6 +58,8 @@ urlpatterns = [
     re_path(r'^reason/(?P<pk>\d+)/$', dfirtrack_main.ReasonDetailApi.as_view()),
     re_path(r'^recommendation/$', dfirtrack_main.RecommendationListApi.as_view()),
     re_path(r'^recommendation/(?P<pk>\d+)/$', dfirtrack_main.RecommendationDetailApi.as_view()),
+    re_path(r'^reportitem/$', dfirtrack_main.ReportitemListApi.as_view()),
+    re_path(r'^reportitem/(?P<pk>\d+)/$', dfirtrack_main.ReportitemDetailApi.as_view()),
     re_path(r'^serviceprovider/$', dfirtrack_main.ServiceproviderListApi.as_view()),
     re_path(r'^serviceprovider/(?P<pk>\d+)/$', dfirtrack_main.ServiceproviderDetailApi.as_view()),
     re_path(r'^system/$', dfirtrack_main.SystemListApi.as_view()),
