@@ -22,7 +22,7 @@ class EntryCsvImporterTestCase(TestCase):
         systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
 
         # create object
-        system_1 = System.objects.create(
+        System.objects.create(
             system_name='system_1',
             systemstatus = systemstatus_1,
             system_created_by_user_id = test_user,
@@ -51,7 +51,7 @@ class EntryCsvImporterTestCase(TestCase):
                     field_mapping,
                     test_user
                  )
-                
+
                 # check mockup file access
                 mock_file.assert_called_with(test_file_path, newline='')
                 mock_os.assert_called_with(test_file_path)
@@ -61,7 +61,7 @@ class EntryCsvImporterTestCase(TestCase):
 
         # login
         self.client.login(username='testuser_entry', password='GB1237lbSGB13jXjCRoL')
-        # prepare csv string        
+        # prepare csv string
         now = datetime.now(tz=get_current_timezone())
         csv_string = f'datetime,type,message\n"{now}",single_test,"Lorem ipsum"'
         # run task
@@ -82,30 +82,30 @@ class EntryCsvImporterTestCase(TestCase):
     def test_upload_csv_entry_sha1_calculation(self):
         """ test upload one entry sha1 calculation """
 
-        # prepare csv string        
+        # prepare csv string
         now = datetime.now(tz=get_current_timezone())
         csv_string = f'datetime,type,message\n"{now}",sha1_test,"Lorem ipsum"'
         # calculate hash
         m = hashlib.sha1()
-        m.update(str(now).encode())                
+        m.update(str(now).encode())
         m.update('sha1_test'.encode())
         m.update('Lorem ipsum'.encode())
 
         # start task
         self.execute_csv_entry_import_async(csv_string)
-        
+
         # get created entry
-        entry = Entry.objects.get(entry_sha1=m.hexdigest())        
+        entry = Entry.objects.get(entry_sha1=m.hexdigest())
         #check
         self.assertIsNotNone(entry)
         self.assertEquals(entry.entry_type, 'sha1_test')
-        
+
     def test_upload_csv_duplicated_entries(self):
         """ test upload duplicated entries """
 
         # login
         self.client.login(username='testuser_entry', password='GB1237lbSGB13jXjCRoL')
-        # prepare csv string        
+        # prepare csv string
         now = datetime.now(tz=get_current_timezone())
         csv_string = f'datetime,type,message\n"{now}",dup_test,"Lorem ipsum"\n"{now}",dup_test,"Lorem ipsum"'
 
@@ -127,12 +127,12 @@ class EntryCsvImporterTestCase(TestCase):
 
         # login
         self.client.login(username='testuser_entry', password='GB1237lbSGB13jXjCRoL')
-        # prepare csv string        
-        csv_string = f'datetime,type,message\n"12345679",faulty_test,"Lorem ipsum"'
+        # prepare csv string
+        csv_string = 'datetime,type,message\n"12345679",faulty_test,"Lorem ipsum"'
 
         # execute
         self.execute_csv_entry_import_async(csv_string)
-      
+
         # get messages
         response = self.client.get('/entry/')
         messages = list(response.context['messages'])
@@ -164,9 +164,9 @@ class EntryCsvImporterTestCase(TestCase):
             field_mapping,
             test_user
             )
-        
+
         # check mockup file access
-        
+
         response = self.client.get('/entry/')
         messages = list(response.context['messages'])
         self.assertEquals(len(messages), 1)

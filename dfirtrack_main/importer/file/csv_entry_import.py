@@ -1,14 +1,11 @@
 import csv
 import hashlib
 import os
-from datetime import datetime
-from logging import debug
 from dfirtrack_main.logger.default_logger import info_logger, debug_logger
 from dfirtrack_main.async_messages import message_user
 from dfirtrack_main.models import Case, Entry, System
 from django.contrib.messages import constants
 from django.core.exceptions import ValidationError
-from django.utils.timezone import get_current_timezone
 
 
 def csv_entry_import_async(system_id, file_name, field_mapping, request_user, case_id=None):
@@ -60,12 +57,12 @@ def csv_entry_import_async(system_id, file_name, field_mapping, request_user, ca
     except FileNotFoundError:
         info_logger(
             str(request_user),
-            f' ENTRY_CSV_IMPORT'
-            f' ERROR: File not found'
+            ' ENTRY_CSV_IMPORT'
+            ' ERROR: File not found'
         )
         message_user(
             request_user,
-            f"Could not import the csv file. Maybe the upload wasn't successfull or the file was deleted.",
+            "Could not import the csv file. Maybe the upload wasn't successfull or the file was deleted.",
             constants.ERROR
         )
         return

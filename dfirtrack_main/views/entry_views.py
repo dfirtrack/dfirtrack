@@ -103,7 +103,7 @@ def import_csv_step1(request):
             with open(file_name, 'wb+') as dest:
                 for chunk in f.chunks():
                     dest.write(chunk)
-  
+
             # get first row of uploaded csv (fields)
             with open(file_name, newline='') as csvfile:
                 spamreader = csv.reader(csvfile, delimiter=',', quotechar='"')
@@ -121,7 +121,7 @@ def import_csv_step1(request):
             }
 
             messages.success(request, 'Uploaded csv to DFIRTrack.')
-           
+
             # goto step 2
             return redirect(reverse('entry_import_step2'))
         else:
@@ -130,7 +130,7 @@ def import_csv_step1(request):
         # GET request
         debug_logger(str(request.user), ' ENTRY_CSV_IMPORTER_STEP1_ENTERED')
         form = EntryFileImport()
-        return render(request, 'dfirtrack_main/entry/entry_import_step1.html', {'form': form})    
+        return render(request, 'dfirtrack_main/entry/entry_import_step1.html', {'form': form})
 
 @login_required(login_url="/login")
 def import_csv_step2(request):
@@ -142,7 +142,7 @@ def import_csv_step2(request):
     if request.method == "POST":
         # get form with dynamic fileds
         form = EntryFileImportFields(
-            request.session['entry_csv_import']['fields'], 
+            request.session['entry_csv_import']['fields'],
             request.POST
         )
         if form.is_valid():
@@ -166,7 +166,7 @@ def import_csv_step2(request):
             del(request.session['entry_csv_import'])
 
             messages.success(request, 'Entry csv importer started')
-            
+
             return redirect(reverse('entry_list'))
         else:
             return render(request, 'dfirtrack_main/entry/entry_import_step2.html', {'form': form})
@@ -175,4 +175,4 @@ def import_csv_step2(request):
         debug_logger(str(request.user), ' ENTRY_CSV_IMPORTER_STEP2_ENTERED')
         # prepare dynamic form with csv field information
         form = EntryFileImportFields(request.session['entry_csv_import']['fields'])
-        return render(request, 'dfirtrack_main/entry/entry_import_step2.html', {'form': form})  
+        return render(request, 'dfirtrack_main/entry/entry_import_step2.html', {'form': form})

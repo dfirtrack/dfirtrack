@@ -18,7 +18,7 @@
 
 <!-- HTML body in maintemplate -->
 {% block content %}
-        
+
 <!-- headline -->
 <div class="bottom-distance">
     <h4>
@@ -31,7 +31,7 @@
     <form method="POST" class="post-form" enctype="multipart/form-data">
 
         {% csrf_token %}
-       
+
         <div class="row top-distance">
             <!-- show form related errors -->
             {% include "dfirtrack_main/includes/form_errors.html" %}
@@ -68,9 +68,9 @@
                     <img src="/static/dfirtrack_main/icons/check.svg" class="icon right-distance copy-false" alt="icon">
                     Upload
                 </button>
-           
+
             <!-- cancel button -->
-           
+
                 {% include "dfirtrack_main/includes/button_cancel.html" %}
             </div>
 
@@ -80,6 +80,6 @@
 
 <!-- form -->
 </form>
-    
+
 <!-- HTML body in maintemplate -->
 {% endblock %}

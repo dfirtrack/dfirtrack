@@ -1,7 +1,6 @@
 from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.contrib.auth.models import User
-from django.forms.fields import FilePathField
 from django.utils.translation import gettext_lazy
 from django.core.exceptions import ValidationError
 from dfirtrack_artifacts.models import Artifact
@@ -476,7 +475,7 @@ class EntryFileImport(forms.ModelForm):
 
 class EntryFileImportFields(forms.Form):
     """ entry csv import field assignment """
-    
+
     # placeholder, choices will be generated
     INITIAL_CHOICES = []
 
@@ -521,7 +520,6 @@ class EntryFileImportFields(forms.Form):
         self.fields['entry_time'].choices = form_choices
         self.fields['entry_type'].choices = form_choices
         self.fields['entry_content'].choices = form_choices
-
 
 class HeadlineForm(forms.ModelForm):
     """ default model form """

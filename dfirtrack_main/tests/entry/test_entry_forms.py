@@ -287,7 +287,7 @@ class EntryFormTestCase(TestCase):
         # get object
         form = EntryFileImport()
         # compare
-        self.assertEqual(form.fields['entryfile'].label, 'CSV file (*)')        
+        self.assertEqual(form.fields['entryfile'].label, 'CSV file (*)')
         self.assertEqual(form.fields['entryfile'].widget.attrs['class'], 'form-control')
 
     def test_entry_file_import_form_filled(self):
@@ -323,7 +323,7 @@ class EntryFormTestCase(TestCase):
 
         # get object
         form = EntryFileImportFields([])
-        # compare        
+        # compare
         self.assertEqual(form.fields['entry_type'].widget.attrs['class'], 'form-select')
 
     def test_entry_file_import_fileds_entry_content_form_label(self):
@@ -331,7 +331,7 @@ class EntryFormTestCase(TestCase):
 
         # get object
         form = EntryFileImportFields([])
-        # compare        
+        # compare
         self.assertEqual(form.fields['entry_content'].widget.attrs['class'], 'form-select')
 
     def test_entry_file_import_fileds_empty_choices(self):
@@ -355,7 +355,7 @@ class EntryFormTestCase(TestCase):
             (0, 'c_0'),
             (1, 'c_1'),
             (2, 'c_2'),
-        ] 
+        ]
 
         #check
         self.assertEqual(form.fields['entry_time'].choices, result)

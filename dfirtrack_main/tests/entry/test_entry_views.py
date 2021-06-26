@@ -437,7 +437,7 @@ class EntryViewTestCase(TestCase):
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
         self.assertInHTML('datetime', str(response.content))
         self.assertInHTML('timestamp_desc', str(response.content))
-        self.assertInHTML('message', str(response.content))  
+        self.assertInHTML('message', str(response.content))
 
     def test_entry_csv_import_post_step1_no_case(self):
         """ test step1 view """
@@ -457,7 +457,7 @@ class EntryViewTestCase(TestCase):
         test_uuid = uuid.uuid4()
         with patch.object(uuid, 'uuid4', return_value=test_uuid):
             # get response
-            response = self.client.post('/entry/import/step1/', data_dict)
+            self.client.post('/entry/import/step1/', data_dict)
             # compare
             self.assertEquals(self.client.session['entry_csv_import']['file_name'], f'/tmp/{test_uuid}')
             self.assertEquals(self.client.session['entry_csv_import']['system'], system_1.system_id)
@@ -493,7 +493,7 @@ class EntryViewTestCase(TestCase):
             self.assertEquals(self.client.session['entry_csv_import']['file_name'], f'/tmp/{test_uuid}')
             self.assertEquals(self.client.session['entry_csv_import']['system'], system_1.system_id)
             self.assertEquals(self.client.session['entry_csv_import']['case'], case_1.case_id)
-            self.assertEquals(self.client.session['entry_csv_import']['fields'], ['datetime','timestamp_desc','message'])   
+            self.assertEquals(self.client.session['entry_csv_import']['fields'], ['datetime','timestamp_desc','message'])
 
     def test_entry_csv_import_step1_post_invalid_data(self):
         """ test step1 view """
@@ -505,7 +505,7 @@ class EntryViewTestCase(TestCase):
         # get response
         response = self.client.post('/entry/import/step1/', data_dict)
         self.assertTemplateUsed(response, 'dfirtrack_main/entry/entry_import_step1.html')
-        self.assertContains(response, 'This field is required')  
+        self.assertContains(response, 'This field is required')
 
     def test_entry_csv_import_step2_not_logged_in(self):
         """ test step2 view """
@@ -606,6 +606,6 @@ class EntryViewTestCase(TestCase):
         destination = '/entry/'
         # post data
         response = self.client.post('/entry/import/step2/', data_dict, follow=True)
-        
+
         # check
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)

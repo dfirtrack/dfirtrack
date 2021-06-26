@@ -2,7 +2,6 @@ from dateutil.parser import parse
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
-from django.utils import timezone
 from dfirtrack.settings import BASE_DIR
 from dfirtrack_config.models import SystemExporterMarkdownConfigModel
 from dfirtrack_main.exporter.markdown.markdown import system_cron
