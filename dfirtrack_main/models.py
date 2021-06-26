@@ -513,7 +513,6 @@ class Entry(models.Model):
     # meta information
     entry_create_time = models.DateTimeField(auto_now_add=True)
     entry_modify_time = models.DateTimeField(auto_now=True)
-    entry_api_time = models.DateTimeField(null=True)
     entry_created_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='entry_created_by')
     entry_modified_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='entry_modified_by')
 
@@ -522,7 +521,7 @@ class Entry(models.Model):
     @property
     def entry_date(self):
         return self.entry_time.strftime('%Y-%m-%d')
-    
+
     @property
     def entry_utc(self):
         return self.entry_time.strftime('%H:%M:%S')

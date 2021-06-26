@@ -151,16 +151,6 @@ class EntryModelTestCase(TestCase):
         # compare
         self.assertEqual(field_label, 'entry modify time')
 
-    def test_entry_api_time_attribute_label(self):
-        """ test attribute label """
-
-        # get object
-        entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
-        # get label
-        field_label = entry_1._meta.get_field('entry_api_time').verbose_name
-        # compare
-        self.assertEqual(field_label, 'entry api time')
-
     def test_entry_created_by_user_id_attribute_label(self):
         """ test attribute label """
 
@@ -245,6 +235,6 @@ class EntryModelTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
-        
+
         # compare
         self.assertEqual(entry_1.entry_system, system_1.system_name)

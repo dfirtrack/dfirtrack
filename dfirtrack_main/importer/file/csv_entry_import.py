@@ -17,29 +17,28 @@ def csv_entry_import_async(system_id, file_name, field_mapping, request_user, ca
     row_count = 0
     fail_count = 0
     dup_count = 0
-    
+
     system = System.objects.get(system_id=system_id)
     case = Case.objects.get(case_id=case_id) if case_id else None
     try:
         with open(file_name, newline='') as csvfile:
             spamreader = csv.reader(csvfile, delimiter=',', quotechar='"')
             next(spamreader)
-            for row in spamreader: 
+            for row in spamreader:
                 try:
                     row_count += 1
                     entry = Entry()
                     entry.system = system
                     entry.entry_created_by_user_id = request_user
-                    entry.entry_modified_by_user_id = request_user                
+                    entry.entry_modified_by_user_id = request_user
                     m = hashlib.sha1()
                     entry.entry_time = row[field_mapping['entry_time']]
-                    entry.entry_api_time = datetime.now(tz=get_current_timezone())
-                    m.update(entry.entry_time.encode())                
+                    m.update(entry.entry_time.encode())
                     entry.entry_type = row[field_mapping['entry_type']]
                     m.update(entry.entry_type .encode())
                     entry.entry_content = row[field_mapping['entry_content']]
-                    m.update(entry.entry_content.encode())                       
-                    entry.entry_sha1 = m.hexdigest()                    
+                    m.update(entry.entry_content.encode())
+                    entry.entry_sha1 = m.hexdigest()
                     entry.case = case
                     if not Entry.objects.filter(entry_sha1=m.hexdigest()).exists():
                         entry.full_clean()
@@ -83,7 +82,7 @@ def csv_entry_import_async(system_id, file_name, field_mapping, request_user, ca
             f'Imported {row_count} entries for system "{system.system_name}".',
             constants.SUCCESS
         )
-    else: 
+    else:
         message_user(
             request_user,
             f'Could not import {fail_count} of {row_count} entries for system "{system.system_name}".',
