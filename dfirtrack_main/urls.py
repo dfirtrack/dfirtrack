@@ -69,6 +69,7 @@ urlpatterns = [
 
     path(r'casetype/', casetype_views.CasetypeList.as_view(), name='casetype_list'),
     path(r'casetype/create/', casetype_views.CasetypeCreate.as_view(), name='casetype_create'),
+    path(r'casetype/add_popup/', casetype_views.CasetypeCreatePopup.as_view(), name='casetype_add_popup'),
     path(r'casetype/detail/<int:pk>/', casetype_views.CasetypeDetail.as_view(), name='casetype_detail'),
     path(r'casetype/update/<int:pk>/', casetype_views.CasetypeUpdate.as_view(), name='casetype_update'),
 

@@ -66,6 +66,12 @@ function artifacttype_add_popup() {
     artifacttype_add_popup = window.open("/artifacts/artifacttype/add_popup/", "artifacttype_add_popup", "height=600, width=1000");
 }
 
+// popup window for adding casetype
+var casetype_add_popup;
+function casetype_add_popup() {
+    casetype_add_popup = window.open("/casetype/add_popup/", "casetype_add_popup", "height=600, width=1000");
+}
+
 // popup window for adding company
 var company_add_popup;
 function company_add_popup() {
