@@ -59,6 +59,13 @@ $(function () {
 // #
 // ####################################
 
+// TODO: move to 'dfirtrack/dfirtrack_artifacts/static/dfirtrack_artifacts/dfirtrack_artifacts.js'
+// popup window for adding artifacttype
+var artifacttype_add_popup;
+function artifacttype_add_popup() {
+    artifacttype_add_popup = window.open("/artifacts/artifacttype/add_popup/", "artifacttype_add_popup", "height=600, width=1000");
+}
+
 // popup window for adding company
 var company_add_popup;
 function company_add_popup() {

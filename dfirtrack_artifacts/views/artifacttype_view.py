@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import DetailView, ListView, UpdateView, CreateView
 from dfirtrack_artifacts.models import Artifacttype
@@ -47,6 +48,36 @@ class ArtifacttypeCreateView(LoginRequiredMixin, CreateView):
         self.object.logger(str(self.request.user), ' ARTIFACTTYPE_ADD_EXECUTED')
         messages.success(self.request, 'Artifacttype added')
         return super().form_valid(form)
+
+class ArtifacttypeCreatePopup(LoginRequiredMixin, CreateView):
+    login_url = '/login'
+    model = Artifacttype
+    form_class = ArtifacttypeForm
+    template_name = 'dfirtrack_main/generic_form_popup.html'
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        debug_logger(str(request.user), " ARTIFACTTYPE_ADD_POPUP_ENTERED")
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+            'object_type': 'artifacttype',
+        })
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            artifacttype = form.save(commit=False)
+            artifacttype.save()
+            artifacttype.logger(str(request.user), " ARTIFACTTYPE_ADD_POPUP_EXECUTED")
+            messages.success(request, 'Artifacttype added')
+            return HttpResponse('<script type="text/javascript">window.close();</script>')
+        else:
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'artifacttype',
+            })
 
 class ArtifacttypeUpdateView(LoginRequiredMixin, UpdateView):
     login_url = '/login'
