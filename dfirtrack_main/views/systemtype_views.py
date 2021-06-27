@@ -65,12 +65,16 @@ class SystemtypeCreatePopup(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Systemtype
     form_class = SystemtypeForm
-    template_name = 'dfirtrack_main/systemtype/systemtype_add_popup.html'
+    template_name = 'dfirtrack_main/generic_form_popup.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " SYSTEMTYPE_ADD_POPUP_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+            'object_type': 'systemtype',
+        })
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -81,7 +85,11 @@ class SystemtypeCreatePopup(LoginRequiredMixin, CreateView):
             messages.success(request, 'Systemtype added')
             return HttpResponse('<script type="text/javascript">window.close();</script>')
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'systemtype',
+            })
 
 class SystemtypeUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'

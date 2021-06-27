@@ -65,12 +65,16 @@ class RecommendationCreatePopup(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Recommendation
     form_class = RecommendationForm
-    template_name = 'dfirtrack_main/recommendation/recommendation_add_popup.html'
+    template_name = 'dfirtrack_main/generic_form_popup.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " RECOMMENDATION_ADD_POPUP_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+            'object_type': 'recommendation',
+        })
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -81,7 +85,11 @@ class RecommendationCreatePopup(LoginRequiredMixin, CreateView):
             messages.success(request, 'Recommendation added')
             return HttpResponse('<script type="text/javascript">window.close();</script>')
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'recommendation',
+            })
 
 class RecommendationUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'

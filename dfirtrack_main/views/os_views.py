@@ -65,12 +65,16 @@ class OsCreatePopup(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Os
     form_class = OsForm
-    template_name = 'dfirtrack_main/os/os_add_popup.html'
+    template_name = 'dfirtrack_main/generic_form_popup.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " OS_ADD_POPUP_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+            'object_type': 'OS',
+        })
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -81,7 +85,11 @@ class OsCreatePopup(LoginRequiredMixin, CreateView):
             messages.success(request, 'OS added')
             return HttpResponse('<script type="text/javascript">window.close();</script>')
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'OS',
+            })
 
 class OsUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'

@@ -65,12 +65,16 @@ class DnsnameCreatePopup(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Dnsname
     form_class = DnsnameForm
-    template_name = 'dfirtrack_main/dnsname/dnsname_add_popup.html'
+    template_name = 'dfirtrack_main/generic_form_popup.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " DNSNAME_ADD_POPUP_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+            'object_type': 'DNS name',
+        })
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -81,7 +85,11 @@ class DnsnameCreatePopup(LoginRequiredMixin, CreateView):
             messages.success(request, 'DNS name added')
             return HttpResponse('<script type="text/javascript">window.close();</script>')
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'DNS name',
+            })
 
 class DnsnameUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
