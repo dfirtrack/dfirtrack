@@ -116,6 +116,7 @@ urlpatterns = [
     path(r'headline/', headline_views.HeadlineList.as_view(), name='headline_list'),
     path(r'headline/<int:pk>/', headline_views.HeadlineDetail.as_view(), name='headline_detail'),
     path(r'headline/add/', headline_views.HeadlineCreate.as_view(), name='headline_create'),
+    path(r'headline/add_popup/', headline_views.HeadlineCreatePopup.as_view(), name='headline_add_popup'),
     path(r'headline/<int:pk>/edit/', headline_views.HeadlineUpdate.as_view(), name='headline_update'),
 
     path(r'ip/', ip_views.IpList.as_view(), name='ip_list'),

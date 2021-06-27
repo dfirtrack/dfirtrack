@@ -83,6 +83,12 @@ function dnsname_add_popup() {
     dnsname_add_popup = window.open("/dnsname/add_popup/", "dnsname_add_popup", "height=600, width=1000");
 }
 
+// popup window for adding headline
+var headline_add_popup;
+function headline_add_popup() {
+    headline_add_popup = window.open("/headline/add_popup/", "headline_add_popup", "height=600, width=1000");
+}
+
 // popup window for adding location
 var location_add_popup;
 function location_add_popup() {

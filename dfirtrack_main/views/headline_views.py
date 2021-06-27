@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.generic import DetailView, ListView
@@ -53,6 +54,36 @@ class HeadlineCreate(LoginRequiredMixin, CreateView):
             headline.logger(str(request.user), " HEADLINE_ADD_EXECUTED")
             messages.success(request, 'Headline added')
             return redirect(reverse('headline_detail', args=(headline.headline_id,)))
+        else:
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'headline',
+            })
+
+class HeadlineCreatePopup(LoginRequiredMixin, CreateView):
+    login_url = '/login'
+    model = Headline
+    form_class = HeadlineForm
+    template_name = 'dfirtrack_main/generic_form_popup.html'
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        debug_logger(str(request.user), " HEADLINE_ADD_POPUP_ENTERED")
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+            'object_type': 'headline',
+        })
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            headline = form.save(commit=False)
+            headline.save()
+            headline.logger(str(request.user), " HEADLINE_ADD_POPUP_EXECUTED")
+            messages.success(request, 'Headline added')
+            return HttpResponse('<script type="text/javascript">window.close();</script>')
         else:
             return render(request, self.template_name, {
                 'form': form,
