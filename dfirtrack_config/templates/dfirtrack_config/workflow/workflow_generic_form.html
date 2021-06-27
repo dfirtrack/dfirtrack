@@ -82,7 +82,7 @@
        <div class="row justify-content-between">
 
             <!-- task headline -->
-            <div class="col-2">
+            <div class="col-auto">
                 <h5>
                     <img src="/static/dfirtrack_main/icons/task-light.svg" class="icon right-distance copy-false" alt="icon">
                     Tasks to create
@@ -90,15 +90,15 @@
             </div>
 
             <!-- tasknames_formset mandatory management form -->
-            <div class="col-2">
+            <div class="col-auto">
                 <div id="tasknames_formset_management" class="d-none">{{tasknames_formset.management_form}}</div>
             </div>
 
             <!-- button add taskname via javascript -->
-            <div class="col-2">
+            <div class="col-auto">
                 <button type="button" class="btn btn-light btn-sm copy-false addForm" id="add-taskname">
                     <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm copy-false right-distance" alt="icon">
-                    Add taskname
+                    Add task
                 </a>
             </div>
 
@@ -156,7 +156,7 @@
         <div class="row justify-content-between">
 
             <!-- artifact headline -->
-            <div class="col-2">
+            <div class="col-auto">
                 <h5>
                     <img src="/static/dfirtrack_main/icons/bug-light.svg" class="icon right-distance copy-false" alt="icon">
                     Artifacts to create
@@ -164,15 +164,15 @@
             </div>
 
             <!-- artifacttypes_formset mandatory management form -->
-            <div class="col-2">
+            <div class="col-auto">
                 <div id="artifacttypes_formset_management" class="d-none">{{artifacttypes_formset.management_form}}</div>
             </div>
 
             <!-- button add artifacttype via javascript -->
-            <div class="col-2">
+            <div class="col-auto">
                 <button type="button" class="btn btn-light btn-sm copy-false addForm" id="add-artifact">
                     <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm copy-false right-distance" alt="icon">
-                    Add artifacttype
+                    Add artifact
                 </a>
             </div>
 
