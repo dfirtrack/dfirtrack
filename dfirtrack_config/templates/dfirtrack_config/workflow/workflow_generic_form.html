@@ -94,12 +94,22 @@
                 <div id="tasknames_formset_management" class="d-none">{{tasknames_formset.management_form}}</div>
             </div>
 
-            <!-- button add taskname via javascript -->
+            <!-- buttons taskname / task -->
             <div class="col-auto">
+
+                <!-- add taskname button row -->
+                <button onclick="taskname_add_popup()" type="button" class="btn btn-light btn-sm copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    Add taskname
+                </button>
+
+                <!-- button add taskname via javascript -->
                 <button type="button" class="btn btn-light btn-sm copy-false addForm" id="add-taskname">
                     <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm copy-false right-distance" alt="icon">
                     Add task
                 </a>
+
+            <!-- buttons taskname / task -->
             </div>
 
         <!-- taskname div header -->
@@ -168,12 +178,22 @@
                 <div id="artifacttypes_formset_management" class="d-none">{{artifacttypes_formset.management_form}}</div>
             </div>
 
-            <!-- button add artifacttype via javascript -->
+            <!-- buttons artifacttype / artifact -->
             <div class="col-auto">
+
+                <!-- add artifacttype button row -->
+                <button onclick="artifacttype_add_popup()" type="button" class="btn btn-light btn-sm copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    Add artifacttype
+                </button>
+
+                <!-- button add artifacttype via javascript -->
                 <button type="button" class="btn btn-light btn-sm copy-false addForm" id="add-artifact">
                     <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm copy-false right-distance" alt="icon">
                     Add artifact
                 </a>
+
+            <!-- buttons artifacttype / artifact -->
             </div>
 
         <!-- artifacttype div header -->
