@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.generic import DetailView, ListView
@@ -55,6 +56,36 @@ class TasknameCreate(LoginRequiredMixin, CreateView):
             taskname.logger(str(request.user), " TASKNAME_ADD_EXECUTED")
             messages.success(request, 'Taskname added')
             return redirect(reverse('taskname_detail', args=(taskname.taskname_id,)))
+        else:
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'taskname',
+            })
+
+class TasknameCreatePopup(LoginRequiredMixin, CreateView):
+    login_url = '/login'
+    model = Taskname
+    form_class = TasknameForm
+    template_name = 'dfirtrack_main/generic_form_popup.html'
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        debug_logger(str(request.user), " TASKNAME_ADD_POPUP_ENTERED")
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+            'object_type': 'taskname',
+        })
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            taskname = form.save(commit=False)
+            taskname.save()
+            taskname.logger(str(request.user), " TASKNAME_ADD_POPUP_EXECUTED")
+            messages.success(request, 'Taskname added')
+            return HttpResponse('<script type="text/javascript">window.close();</script>')
         else:
             return render(request, self.template_name, {
                 'form': form,

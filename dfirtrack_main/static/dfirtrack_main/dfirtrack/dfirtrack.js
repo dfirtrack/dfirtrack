@@ -125,6 +125,12 @@ function systemtype_add_popup() {
     systemtype_add_popup = window.open("/systemtype/add_popup/", "systemtype_add_popup", "height=600, width=1000");
 }
 
+// popup window for adding taskname
+var taskname_add_popup;
+function taskname_add_popup() {
+    taskname_add_popup = window.open("/taskname/add_popup/", "taskname_add_popup", "height=600, width=1000");
+}
+
 // TODO: move to 'dfirtrack/dfirtrack_artifacts/static/dfirtrack_artifacts/dfirtrack_artifacts.js' (did not work so far)
 // popup window for artifact exporter spreadsheet xls config
 var artifact_exporter_spreadsheet_xls_config_popup;
