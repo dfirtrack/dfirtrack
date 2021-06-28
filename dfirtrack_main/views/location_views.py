@@ -65,12 +65,16 @@ class LocationCreatePopup(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Location
     form_class = LocationForm
-    template_name = 'dfirtrack_main/location/location_add_popup.html'
+    template_name = 'dfirtrack_main/generic_form_popup.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " LOCATION_ADD_POPUP_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+            'object_type': 'location',
+        })
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -81,7 +85,11 @@ class LocationCreatePopup(LoginRequiredMixin, CreateView):
             messages.success(request, 'Location added')
             return HttpResponse('<script type="text/javascript">window.close();</script>')
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'location',
+            })
 
 class LocationUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'

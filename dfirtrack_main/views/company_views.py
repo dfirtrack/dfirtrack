@@ -65,12 +65,16 @@ class CompanyCreatePopup(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Company
     form_class = CompanyForm
-    template_name = 'dfirtrack_main/company/company_add_popup.html'
+    template_name = 'dfirtrack_main/generic_form_popup.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " COMPANY_ADD_POPUP_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+            'object_type': 'company',
+        })
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -81,7 +85,11 @@ class CompanyCreatePopup(LoginRequiredMixin, CreateView):
             messages.success(request, 'Company added')
             return HttpResponse('<script type="text/javascript">window.close();</script>')
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'company',
+            })
 
 class CompanyUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'

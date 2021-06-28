@@ -6,7 +6,7 @@
 
 <!-- page title -->
 <title>
-    Add contact
+    {{ title }} {{ object_type }}
 </title>
 
 {% load static %}
@@ -18,11 +18,11 @@
 
 <!-- HTML body in mainpopup -->
 {% block content %}
-        
+
 <!-- headline -->
 <div class="bottom-distance top-distance">
     <h4>
-        Add contact
+        {{ title }} {{ object_type }}
     </h4>
 </div>
 
@@ -42,6 +42,6 @@
 
 <!-- form -->
 </form>
-    
+
 <!-- HTML body in mainpopup -->
 {% endblock %}

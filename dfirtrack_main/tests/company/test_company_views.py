@@ -251,7 +251,7 @@ class CompanyViewTestCase(TestCase):
         # get response
         response = self.client.get('/company/add_popup/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/company/company_add_popup.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form_popup.html')
 
     def test_company_add_popup_get_user_context(self):
         """ test add view """
@@ -311,7 +311,7 @@ class CompanyViewTestCase(TestCase):
         # get response
         response = self.client.post('/company/add_popup/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/company/company_add_popup.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form_popup.html')
 
     def test_company_edit_not_logged_in(self):
         """ test edit view """

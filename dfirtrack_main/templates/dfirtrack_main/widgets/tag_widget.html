@@ -6,14 +6,14 @@
 <!-- display for selected tags -->
 
 <!-- hidden tag checkboxed, will be selected via javascript -->
-<div id="hidden_tags" style="display:none;"> 
+<div id="hidden_tags" style="display:none;">
     {% for group_name, group_choices, group_index in widget.optgroups %}
-        {% for option in group_choices %}   
+        {% for option in group_choices %}
             <!-- tag input options.attr.items set django input attributes for exmaple checked items -->
             <input 
                 type="{{ option.type }}" name="{{ widget.name }}" value="{{ option.value }}"
                 {% for name, value in option.attrs.items %}
-                    {% if value is not False %} 
+                    {% if value is not False %}
                         {{ name }}{% if value is not True %}="{{ value|stringformat:'s' }}"{% endif %}
                     {% endif %}
                 {% endfor %}
@@ -33,9 +33,10 @@
             {% endfor %}
         {% endfor %}
         </select>
-    
+
         <button  id="add_tag" type="button" class="btn btn-light btn-sm copy-false">
-            Add Tag
+            <img src="{% static 'dfirtrack_main/icons/share.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+            Assign tag
         </button>
     </div>
 </div>
