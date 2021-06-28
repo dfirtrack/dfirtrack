@@ -19,9 +19,9 @@ RUN mkdir /etc/nginx/ssl
 
 # create certificate for tls and modify nginx config accordingly
 WORKDIR /dfirtrack-static
-ARG openssl_o
-ARG fqdn
-ARG openssl_ou
+ARG openssl_o=testo
+ARG fqdn=localhost
+ARG openssl_ou=testou
 RUN openssl req -newkey rsa:4096 -days 365 -nodes -x509 -subj "/O=$openssl_o/CN=$fqdn/OU=$openssl_ou" -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt
 RUN sed -i "s/server_name dfirtrack_app;/server_name $fqdn;/" /etc/nginx/sites-available/dfirtrack
 RUN sed -i "s/server_name dfirtrack_app;/server_name $fqdn;/" /etc/nginx/sites-available/dfirtrack_insecure
