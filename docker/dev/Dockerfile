@@ -28,6 +28,8 @@ RUN sed -i "s/server_name dfirtrack_app;/server_name $fqdn;/" /etc/nginx/sites-a
 
 # copy dfirtrack local settings
 COPY docker/shared_files/local_settings.py dfirtrack/local_settings.py
+# enable debug logging
+RUN sed -i "s/DEBUG = False/DEBUG = True/" dfirtrack/local_settings.py
 
 # copy entrypoint
 COPY docker/dev/entrypoint.sh docker/dev/entrypoint.sh
