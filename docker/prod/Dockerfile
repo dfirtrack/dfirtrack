@@ -19,29 +19,18 @@ RUN mkdir /etc/nginx/ssl
 
 # create certificate for tls and modify nginx config accordingly
 WORKDIR /dfirtrack
-ARG openssl_o
-ARG fqdn
-ARG openssl_ou
+ARG openssl_o=testo
+ARG fqdn=localhost
+ARG openssl_ou=testou
 RUN openssl req -newkey rsa:4096 -days 365 -nodes -x509 -subj "/O=$openssl_o/CN=$fqdn/OU=$openssl_ou" -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt
 RUN sed -i "s/server_name dfirtrack_app;/server_name $fqdn;/" /etc/nginx/sites-available/dfirtrack
 RUN sed -i "s/server_name dfirtrack_app;/server_name $fqdn;/" /etc/nginx/sites-available/dfirtrack_insecure
 
-# copy dfirtrack local settings and modify fqdn, postgres user and password
-ARG pgpass_pw
-ARG pgpass_user
+# copy dfirtrack local settings
 COPY docker/shared_files/local_settings.py dfirtrack/local_settings.py
-RUN sed -i "s/{{ fqdn }}/$fqdn/" dfirtrack/local_settings.py
-RUN sed -i "s/{{ postgresql_user }}/$pgpass_user/" dfirtrack/local_settings.py
-RUN sed -i "s/{{ postgresql_user_password }}/$pgpass_pw/" dfirtrack/local_settings.py
 
-# copy entrypoint and set disable_https flag according to .env
-ARG disable_https
+# copy entrypoint
 COPY docker/prod/entrypoint.sh docker/prod/entrypoint.sh
-RUN sed -i "s/{{ postgresql_user_password }}/$pgpass_pw/" docker/prod/entrypoint.sh
-RUN sed -i "s/{{ disable_https }}/$disable_https/" docker/prod/entrypoint.sh
-
-ARG django_secret_key
-RUN sed -i "s/SECRET_KEY = os.getenv('SECRET_KEY', 'CHANGEME')/SECRET_KEY = os.getenv('SECRET_KEY', '$django_secret_key')/" dfirtrack/settings.py
 
 RUN ./manage.py collectstatic
 EXPOSE 80

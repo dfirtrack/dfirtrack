@@ -7,26 +7,23 @@ services:
             POSTGRES_USER: ${pg_user}
             POSTGRES_PASSWORD: ${pg_password}
         volumes:
-          - db-data:/var/lib/postgresql/data
+            - db-data:/var/lib/postgresql/data
 
     dfirtrack:
-        build:
-          context: ../../
-          dockerfile: ./docker/prod/Dockerfile
-          args:
-            - pgpass_user=${pg_user}
-            - pgpass_pw=${pg_password}
-            - django_secret_key=${django_secret_key}
-            - openssl_o=${openssl_o}
-            - fqdn=${fqdn}
-            - openssl_ou=${openssl_ou}
-            - disable_https=${disable_https}
-        ports:
-          - 80:80
-          - 443:443
-        depends_on:
-          - db
+        image: dfirtrack/dfirtrack:latest
+        environment:
+            - DB_HOST=db
+            - DB_USER=${pg_user}
+            - DB_PASSWORD=${pg_password}
+            - FQDN=${fqdn}
+            - SECRET_KEY=${django_secret_key}
+            - DISABLE_HTTPS=false
 
+        ports:
+            - 80:80
+            - 443:443
+        depends_on:
+            - db
 
 volumes:
     db-data:
