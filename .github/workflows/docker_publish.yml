@@ -22,7 +22,7 @@ jobs:
           # Use Docker `latest` tag convention
           [ "$VERSION" == "master" ] && VERSION=latest
           # Set version tag
-          echo "::set-env name=VERSION::$VERSION"
+          echo "::set-output name=VERSION::$VERSION"
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx
@@ -37,6 +37,6 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: dfirtrack/dfirtrack:$VERSION
+          tags: dfirtrack/dfirtrack:${{ steps.prepare.outputs.VERSION }}
           platforms: 'linux/amd64,linux/arm64'
           file: docker/prod/Dockerfile
