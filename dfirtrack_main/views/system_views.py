@@ -2,10 +2,11 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from django.views.generic import DetailView, ListView
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic import DetailView
+from django.views.generic.edit import CreateView, FormView, UpdateView
 from dfirtrack_artifacts.models import Artifact
 from dfirtrack_config.models import MainConfigModel, Workflow
+from dfirtrack_main.filter_forms import BaseChoiceForm
 from dfirtrack_main.forms import SystemForm, SystemNameForm
 from dfirtrack_main.logger.default_logger import debug_logger, warning_logger
 from dfirtrack_main.models import Analysisstatus, Ip, System, Systemstatus
@@ -15,23 +16,21 @@ from django.templatetags.static import static
 from django.template.loader import render_to_string
 from django.core.exceptions import FieldError
 import ipaddress
+from urllib.parse import urlencode, urlunparse
 
 
-class SystemList(LoginRequiredMixin, ListView):
+class SystemList(LoginRequiredMixin, FormView):
     login_url = '/login'
-    model = System
+    form_class = BaseChoiceForm
     template_name = 'dfirtrack_main/system/system_list.html'
-    context_object_name = 'system_list'
-
-    def get_queryset(self):
-        # call logger
-        debug_logger(str(self.request.user), " SYSTEM_LIST_ENTERED")
-        return System.objects.order_by('system_name')
 
     def get_context_data(self, **kwargs):
+        """ enrich context data """
 
-        # returns context dictionary
+        # get context
         context = super(SystemList, self).get_context_data()
+
+        """ dfirtrack api settings """
 
         # set dfirtrack_api for template
         if 'dfirtrack_api' in installed_apps:
@@ -39,8 +38,55 @@ class SystemList(LoginRequiredMixin, ListView):
         else:
             context['dfirtrack_api'] = False
 
+        """ provide initial form values according to GET parameters """
+
+        # create dict to initialize form values set by filtering in previous view call
+        form_initial = {}
+
+        # filter for case
+        if 'case' in self.request.GET:
+            # get id
+            case_id = self.request.GET['case']
+            # remember initial value for form
+            form_initial['case'] = case_id
+
+        # filter for tag
+        if 'tag' in self.request.GET:
+            # get id
+            tag_id = self.request.GET['tag']
+            # remember initial value for form
+            form_initial['tag'] = tag_id
+
+        # pre-select form according to previous filter selection
+        context['form'] = self.form_class(initial = form_initial)
+
+        # call logger
+        debug_logger(str(self.request.user), " SYSTEM_LIST_ENTERED")
+
         # return dictionary with additional values for template
         return context
+
+    def form_valid(self, form):
+        """ evaluate form data and call view again with GET parameters """
+
+        # create parameter dict
+        params = {}
+
+        # case
+        if form.data['case']:
+            params['case'] = form.data['case']
+
+        # tag
+        if form.data['tag']:
+            params['tag'] = form.data['tag']
+
+        # build url
+        urlpath = reverse('system_list')
+        urlquery = urlencode(params)
+        documentation_list_query = urlunparse(('','',urlpath,'',urlquery,''))
+
+        # call view with queries
+        return redirect(documentation_list_query, form)
 
 class SystemDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
@@ -265,24 +311,34 @@ def get_systems_json(request):
         if not all((x.isalnum() or x.isspace() or x == '_' or x == '-' or x == ':') for x in search_value):
             search_value = ''
 
+# TODO: [code] find a way to pass the initial GET parameters (of 'system_list' request) to this function
+
+        # initial query
+        system_values = System.objects.all().order_by(order_dir+order_column_name)
+
+# TODO: [code] change referer string comparision (something like '/system/' in ...)
         # if no search value is given, get all objects and order them according to user setting, if the table is not generated on the general system overview page, only show the systems with the relevant id
         if search_value == '':
             if referer.endswith('/system/'):
-                system_values = System.objects.all().order_by(order_dir+order_column_name)
+                system_values = system_values
             elif '/analysisstatus/' in referer:
                 analysisstatus_id = referer.split("/")[-2]
-                system_values = System.objects.filter(analysisstatus__analysisstatus_id=analysisstatus_id).order_by(order_dir+order_column_name)
+                system_values = system_values.filter(analysisstatus__analysisstatus_id=analysisstatus_id).order_by(order_dir+order_column_name)
             elif '/systemstatus/' in referer:
                 systemstatus_id = referer.split("/")[-2]
-                system_values = System.objects.filter(systemstatus__systemstatus_id=systemstatus_id).order_by(order_dir+order_column_name)
+                system_values = system_values.filter(systemstatus__systemstatus_id=systemstatus_id).order_by(order_dir+order_column_name)
             elif '/case/' in referer:
                 case_id = referer.split("/")[-2]
-                system_values = System.objects.filter(case__case_id=case_id).order_by(order_dir+order_column_name)
+                system_values = system_values.filter(case__case_id=case_id).order_by(order_dir+order_column_name)
             elif '/tag/' in referer:
                 tag_id = referer.split("/")[-2]
-                system_values = System.objects.filter(tag__tag_id=tag_id).order_by(order_dir+order_column_name)
+                system_values = system_values.filter(tag__tag_id=tag_id).order_by(order_dir+order_column_name)
+# TODO: [debug] remove or change
+            else:
+                system_values = system_values
 
 
+# TODO: [code] change to new concept
         # if search value is given, go through all cloumn-raw-data and search for it
         else:
             system_values = System.objects.none()

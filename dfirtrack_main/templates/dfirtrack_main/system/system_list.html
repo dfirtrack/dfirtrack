@@ -25,11 +25,47 @@
 <!-- headline -->
 <div class="row bottom-distance">
     <div class="col">
-        <h5>
+        <h1>
+            <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon right-distance copy-false" alt="icon">
             Systems
-        </h5>
+        </h1>
     </div>
 </div>
+
+<!-- ############################################ -->
+
+<div class"row top-distance bottom-distance">
+
+    <div class="col top-distance bottom-distance">
+        <!-- form -->
+        <form method="POST" class="post-form">
+
+            {% csrf_token %}
+
+            <!-- show form related errors -->
+            {% include "dfirtrack_main/includes/form_errors.html" %}
+
+            <!-- form fields -->
+
+                {{ form.case }}
+                {{ form.tag }}
+
+                <button type="submit" class="save btn btn-sm btn-light copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/loop.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    Apply filters
+                </button>
+
+                <a href="{% url 'system_list' %}" class="btn btn-sm btn-light copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/x.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    Clear filters
+                </a>
+        <!-- form -->
+        </form>
+    </div>
+
+</div>
+
+<!-- ############################################ -->
 
 <!-- datatable system -->
 <table id="table_system" class="display" width="100%">
