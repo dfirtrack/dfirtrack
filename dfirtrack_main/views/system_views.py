@@ -335,9 +335,16 @@ def clear_system_list_filter(request):
 def get_systems_json(request):
     """ function to create system query used by datatable JSON """
 
+    # get referer
+    try:
+        referer = request.headers['Referer']
+    # if '/system/json/' was called directly
+    except KeyError:
+        # call 'system_list' properly to refresh this call
+        return redirect(reverse('system_list'))
+
     # get parameters from GET request and parse them accordingly
     get_params = request.GET
-    referer = request.headers['Referer']
     order_column_number = get_params['order[0][column]']
     order_column_name = get_params['columns['+order_column_number+'][data]']
     order_dir = '' if (get_params['order[0][dir]']=='asc') else '-'
