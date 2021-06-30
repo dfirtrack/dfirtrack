@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -313,6 +314,22 @@ def ips_save(request, system, lines):
 
         # save ip for system
         system.ip.add(ip)
+
+@login_required(login_url="/login")
+def clear_system_list_filter(request):
+    """ clear system list filter """
+
+    # get config
+    user_config, created = UserConfigModel.objects.get_or_create(user_config_username=request.user)
+
+    # clear values
+    user_config.filter_system_list_case = None
+    user_config.filter_system_list_tag = None
+
+    # save config
+    user_config.save()
+
+    return redirect(reverse('system_list'))
 
 def get_systems_json(request):
     """ function to create system query used by datatable JSON """
