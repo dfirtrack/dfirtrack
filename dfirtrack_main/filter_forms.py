@@ -1,4 +1,5 @@
 from django import forms
+from dfirtrack_config.models import UserConfigModel
 from dfirtrack_main.models import Case
 from dfirtrack_main.models import Notestatus
 from dfirtrack_main.models import Tag
@@ -33,3 +34,21 @@ class DocumentationFilterForm(BaseFilterForm):
         label = 'Filter for notestatus',
         required = False,
     )
+
+class SystemFilterForm(forms.ModelForm, BaseFilterForm):
+    """ system filter form """
+
+    class Meta:
+
+        # model
+        model = UserConfigModel
+
+        # this HTML forms are shown
+        fields = (
+            'filter_system_list_keep',
+        )
+
+        # non default form labeling
+        labels = {
+            'filter_system_list_keep': 'Remember filter settings',
+        }

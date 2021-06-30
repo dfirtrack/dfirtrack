@@ -7,7 +7,7 @@ from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, FormView, UpdateView
 from dfirtrack_artifacts.models import Artifact
 from dfirtrack_config.models import MainConfigModel, UserConfigModel, Workflow
-from dfirtrack_main.filter_forms import BaseFilterForm
+from dfirtrack_main.filter_forms import SystemFilterForm
 from dfirtrack_main.forms import SystemForm, SystemNameForm
 from dfirtrack_main.logger.default_logger import debug_logger, warning_logger
 from dfirtrack_main.models import Analysisstatus, Case, Ip, System, Systemstatus, Tag
@@ -21,7 +21,7 @@ import ipaddress
 
 class SystemList(LoginRequiredMixin, FormView):
     login_url = '/login'
-    form_class = BaseFilterForm
+    form_class = SystemFilterForm
     template_name = 'dfirtrack_main/system/system_list.html'
 
     def get_context_data(self, **kwargs):
