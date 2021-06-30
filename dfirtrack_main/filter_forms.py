@@ -4,8 +4,8 @@ from dfirtrack_main.models import Notestatus
 from dfirtrack_main.models import Tag
 
 
-class BaseChoiceForm(forms.Form):
-    """ base choice form """
+class BaseFilterForm(forms.Form):
+    """ base filter form """
 
     # show all existing case objects
     case = forms.ModelChoiceField(
@@ -23,8 +23,8 @@ class BaseChoiceForm(forms.Form):
         required = False,
     )
 
-class DocumentationChoiceForm(BaseChoiceForm):
-    """ documentation choice form """
+class DocumentationFilterForm(BaseFilterForm):
+    """ documentation filter form """
 
     # show all existing notestatus objects
     notestatus = forms.ModelChoiceField(

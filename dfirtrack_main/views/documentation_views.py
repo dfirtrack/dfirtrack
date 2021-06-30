@@ -2,7 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic.edit import FormView
-from dfirtrack_main.filter_forms import DocumentationChoiceForm
+from dfirtrack_main.filter_forms import DocumentationFilterForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Note
 from dfirtrack_main.models import Reportitem
@@ -11,7 +11,7 @@ from urllib.parse import urlencode, urlunparse
 
 class DocumentationList(LoginRequiredMixin, FormView):
     login_url = '/login'
-    form_class = DocumentationChoiceForm
+    form_class = DocumentationFilterForm
     template_name = 'dfirtrack_main/documentation/documentation_list.html'
 
     def get_context_data(self, **kwargs):
