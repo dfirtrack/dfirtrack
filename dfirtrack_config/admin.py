@@ -6,6 +6,7 @@ from dfirtrack_config.models import SystemExporterSpreadsheetCsvConfigModel
 from dfirtrack_config.models import SystemExporterSpreadsheetXlsConfigModel
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_config.models import Statushistory
+from dfirtrack_config.models import UserConfigModel
 from dfirtrack_config.models import Workflow
 from dfirtrack_config.models import WorkflowDefaultArtifactAttributes
 from dfirtrack_config.models import WorkflowDefaultTasknameAttributes
@@ -18,6 +19,7 @@ admin.site.register(SystemExporterSpreadsheetCsvConfigModel)
 admin.site.register(SystemExporterSpreadsheetXlsConfigModel)
 admin.site.register(SystemImporterFileCsvConfigModel)
 admin.site.register(Statushistory)
+admin.site.register(UserConfigModel)
 admin.site.register(Workflow)
 admin.site.register(WorkflowDefaultArtifactAttributes)
 admin.site.register(WorkflowDefaultTasknameAttributes)
