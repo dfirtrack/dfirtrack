@@ -5,18 +5,17 @@ from django.urls import reverse
 from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, FormView, UpdateView
 from dfirtrack_artifacts.models import Artifact
-from dfirtrack_config.models import MainConfigModel, Workflow
+from dfirtrack_config.models import MainConfigModel, UserConfigModel, Workflow
 from dfirtrack_main.filter_forms import BaseChoiceForm
 from dfirtrack_main.forms import SystemForm, SystemNameForm
 from dfirtrack_main.logger.default_logger import debug_logger, warning_logger
-from dfirtrack_main.models import Analysisstatus, Ip, System, Systemstatus
+from dfirtrack_main.models import Analysisstatus, Case, Ip, System, Systemstatus, Tag
 from dfirtrack.settings import INSTALLED_APPS as installed_apps
 from django.http import  JsonResponse, HttpResponseForbidden
 from django.templatetags.static import static
 from django.template.loader import render_to_string
 from django.core.exceptions import FieldError
 import ipaddress
-from urllib.parse import urlencode, urlunparse
 
 
 class SystemList(LoginRequiredMixin, FormView):
@@ -38,23 +37,26 @@ class SystemList(LoginRequiredMixin, FormView):
         else:
             context['dfirtrack_api'] = False
 
-        """ provide initial form values according to GET parameters """
+        """ provide initial form values according to config """
+
+        # get config
+        user_config, created = UserConfigModel.objects.get_or_create(user_config_username=self.request.user)
 
         # create dict to initialize form values set by filtering in previous view call
         form_initial = {}
 
-        # filter for case
-        if 'case' in self.request.GET:
+        # get case from config
+        if user_config.filter_system_list_case:
             # get id
-            case_id = self.request.GET['case']
-            # remember initial value for form
+            case_id = user_config.filter_system_list_case.case_id
+            # set initial value for form
             form_initial['case'] = case_id
 
-        # filter for tag
-        if 'tag' in self.request.GET:
+        # get tag from config
+        if user_config.filter_system_list_tag:
             # get id
-            tag_id = self.request.GET['tag']
-            # remember initial value for form
+            tag_id = user_config.filter_system_list_tag.tag_id
+            # set initial value for form
             form_initial['tag'] = tag_id
 
         # pre-select form according to previous filter selection
@@ -67,26 +69,40 @@ class SystemList(LoginRequiredMixin, FormView):
         return context
 
     def form_valid(self, form):
-        """ evaluate form data and call view again with GET parameters """
+        """ save form data to config and call view again """
 
-        # create parameter dict
-        params = {}
+        # get config
+        user_config, created = UserConfigModel.objects.get_or_create(user_config_username=self.request.user)
 
-        # case
+        # TODO: [test] form does not seem to be valid at all if object is not available (any more)
+
+        # get case from form and save to config
         if form.data['case']:
-            params['case'] = form.data['case']
+            try:
+                system_list_case = Case.objects.get(case_id=form.data['case'])
+                user_config.filter_system_list_case = system_list_case
+            except Case.DoesNotExist:
+                user_config.filter_system_list_case = None
+                messages.warning(self.request, 'Case used for filtering does not exist.')
+        else:
+            user_config.filter_system_list_case = None
 
-        # tag
+        # get tag from form and save to config
         if form.data['tag']:
-            params['tag'] = form.data['tag']
+            try:
+                system_list_tag = Tag.objects.get(tag_id=form.data['tag'])
+                user_config.filter_system_list_tag = system_list_tag
+            except Tag.DoesNotExist:
+                user_config.filter_system_list_tag = None
+                messages.warning(self.request, 'Tag used for filtering does not exist.')
+        else:
+            user_config.filter_system_list_tag = None
 
-        # build url
-        urlpath = reverse('system_list')
-        urlquery = urlencode(params)
-        documentation_list_query = urlunparse(('','',urlpath,'',urlquery,''))
+        # save config
+        user_config.save()
 
-        # call view with queries
-        return redirect(documentation_list_query, form)
+        # call view again
+        return redirect(reverse('system_list'))
 
 class SystemDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
@@ -299,7 +315,11 @@ def ips_save(request, system, lines):
         system.ip.add(ip)
 
 def get_systems_json(request):
+    """ function to create system query used by datatable JSON """
+
+    # TODO: [maintenance] remove condition and use decorator
     if request.user.is_authenticated:
+
         # get parameters from GET request and parse them accordingly
         get_params = request.GET
         referer = request.headers['Referer']
@@ -311,34 +331,65 @@ def get_systems_json(request):
         if not all((x.isalnum() or x.isspace() or x == '_' or x == '-' or x == ':') for x in search_value):
             search_value = ''
 
-# TODO: [code] find a way to pass the initial GET parameters (of 'system_list' request) to this function
+        # get config
+        user_config, created = UserConfigModel.objects.get_or_create(user_config_username=request.user)
+
+        # case filter
+        if user_config.filter_system_list_case:
+            try:
+                # get filter values from config
+                system_list_case = Case.objects.get(case_id=user_config.filter_system_list_case.case_id)
+            except Case.DoesNotExist:
+                system_list_case = None
+        else:
+            system_list_case = None
+
+        # tag filter
+        if user_config.filter_system_list_tag:
+            try:
+                # get filter values from config
+                system_list_tag = Tag.objects.get(tag_id=user_config.filter_system_list_tag.tag_id)
+            except Tag.DoesNotExist:
+                system_list_tag = None
+        else:
+            system_list_tag = None
 
         # initial query
         system_values = System.objects.all().order_by(order_dir+order_column_name)
 
-# TODO: [code] change referer string comparision (something like '/system/' in ...)
-        # if no search value is given, get all objects and order them according to user setting, if the table is not generated on the general system overview page, only show the systems with the relevant id
+        """ no search value in datatable search field """
+
+        # if no search value is given, get all objects and order them according to user setting
+        # if the table is not generated on the general system overview page, only show the systems with the relevant id
         if search_value == '':
-            if referer.endswith('/system/'):
-                system_values = system_values
+            # system detail
+            if '/system/' in referer:
+                if system_list_case:
+                    system_values = system_values.filter(case=system_list_case)
+                if system_list_tag:
+                    system_values = system_values.filter(tag=system_list_tag)
+            # analysisstatus detail
             elif '/analysisstatus/' in referer:
                 analysisstatus_id = referer.split("/")[-2]
                 system_values = system_values.filter(analysisstatus__analysisstatus_id=analysisstatus_id).order_by(order_dir+order_column_name)
+            # systemstatus detail
             elif '/systemstatus/' in referer:
                 systemstatus_id = referer.split("/")[-2]
                 system_values = system_values.filter(systemstatus__systemstatus_id=systemstatus_id).order_by(order_dir+order_column_name)
+            # case detail
             elif '/case/' in referer:
                 case_id = referer.split("/")[-2]
                 system_values = system_values.filter(case__case_id=case_id).order_by(order_dir+order_column_name)
+            # tag detail
             elif '/tag/' in referer:
                 tag_id = referer.split("/")[-2]
                 system_values = system_values.filter(tag__tag_id=tag_id).order_by(order_dir+order_column_name)
-# TODO: [debug] remove or change
+            # catch-all rule if the datatable is included in other views in the future
             else:
                 system_values = system_values
 
-
 # TODO: [code] change to new concept
+
         # if search value is given, go through all cloumn-raw-data and search for it
         else:
             system_values = System.objects.none()
@@ -435,7 +486,7 @@ def get_systems_json(request):
 
         # convert dict with data to jsonresponse
         response = JsonResponse(json_dict, safe=False)
-    # user is not logged in - possible TODO: should this be logged somewhere?
+    # user is not logged in
     else:
         response = HttpResponseForbidden()
     return response
