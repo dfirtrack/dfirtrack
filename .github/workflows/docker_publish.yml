@@ -12,6 +12,10 @@ jobs:
   docker:
     runs-on: ubuntu-20.04
     steps:
+      - name: Obtain latest git 
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y git
       - uses: actions/checkout@v2
       - name: Set version tag
         id: prepare

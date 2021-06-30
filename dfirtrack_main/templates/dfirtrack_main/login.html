@@ -6,7 +6,7 @@
 
 <!-- page title -->
 <title>
-    Login
+    DFIRTrack - Login
 </title>
 
 {% load static %}
@@ -19,45 +19,27 @@
 <!-- HTML body in mainloginlogout -->
 {% block content %}
 
-<!-- overall container -->
-<div class="container">
+<!-- form -->
+<form method="post">
 
-    <!-- row -->
-    <div class="row justify-content-center">
+    {% csrf_token %}
 
-        <!-- column -->
-        <div class="col-4">
-            
-            <!-- headline -->
-            <h3>
-                Welcome
-            </h3>
-
-            <!-- form -->
-            <form method="post">
-
-                {% csrf_token %}
-
-                <!-- include standard form -->
-                {{ form.as_p }}
-
-            <!-- login button -->
-            <button class="btn btn-light copy-false" type="submit">
-                <img src="{% static 'dfirtrack_main/icons/account-login.svg' %}" class="icon right-distance copy-false" alt="icon">
-                Login
-            </button>
-
-            <!-- form -->
-            </form>
-
-        <!-- column -->
-        </div>
-
-    <!-- row -->
+    <!-- include standard form -->
+    <div class="form-floating">
+        <input type="text" name="username" autofocus autocapitalize="none" autocomplete="username" maxlength="150" required id="id_username" placeholder="Username">
+    </div>
+    <div class="form-floating">
+        <input type="password" name="password" autocomplete="current-password" required id="id_password" placeholder="Password">
     </div>
 
-<!-- overall container -->
-</div>
+    <!-- login button -->
+    <button class="btn btn-light copy-false top-distance" type="submit">
+        <img src="{% static 'dfirtrack_main/icons/account-login.svg' %}" class="icon right-distance copy-false" alt="icon">
+        Login
+    </button>
+
+<!-- form -->
+</form>
 
 <!-- HTML body in mainloginlogout -->
 {% endblock %}
