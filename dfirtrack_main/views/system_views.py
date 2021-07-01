@@ -12,7 +12,7 @@ from dfirtrack_main.forms import SystemForm, SystemNameForm
 from dfirtrack_main.logger.default_logger import debug_logger, warning_logger
 from dfirtrack_main.models import Analysisstatus, Case, Ip, System, Systemstatus, Tag
 from dfirtrack.settings import INSTALLED_APPS as installed_apps
-from django.http import  JsonResponse, HttpResponseForbidden
+from django.http import  JsonResponse
 from django.templatetags.static import static
 from django.template.loader import render_to_string
 from django.core.exceptions import FieldError

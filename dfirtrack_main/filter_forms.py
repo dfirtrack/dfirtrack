@@ -6,7 +6,7 @@ from dfirtrack_main.models import Tag
 
 
 class BaseFilterForm(forms.Form):
-    """ base filter form """
+    """ base filter form with shared fields """
 
     # show all existing case objects
     case = forms.ModelChoiceField(
@@ -24,7 +24,7 @@ class BaseFilterForm(forms.Form):
         required = False,
     )
 
-class DocumentationFilterForm(BaseFilterForm):
+class DocumentationFilterForm(forms.ModelForm, BaseFilterForm):
     """ documentation filter form """
 
     # show all existing notestatus objects
@@ -34,6 +34,21 @@ class DocumentationFilterForm(BaseFilterForm):
         label = 'Filter for notestatus',
         required = False,
     )
+
+    class Meta:
+
+        # model
+        model = UserConfigModel
+
+        # this HTML forms are shown
+        fields = (
+            'filter_documentation_list_keep',
+        )
+
+        # non default form labeling
+        labels = {
+            'filter_documentation_list_keep': 'Remember filter settings (confirm by applying)',
+        }
 
 class SystemFilterForm(forms.ModelForm, BaseFilterForm):
     """ system filter form """

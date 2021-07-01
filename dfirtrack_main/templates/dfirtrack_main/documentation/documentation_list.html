@@ -65,37 +65,51 @@
 
 <!-- ############################################ -->
 
-<div class"row top-distance bottom-distance">
 
-    <div class="col top-distance bottom-distance">
-        <!-- form -->
-        <form method="POST" class="post-form">
+<!-- filter form -->
+<form method="POST" class="post-form">
 
-            {% csrf_token %}
+    {% csrf_token %}
 
-            <!-- show form related errors -->
-            {% include "dfirtrack_main/includes/form_errors.html" %}
+    <!-- show form related errors -->
+    {% include "dfirtrack_main/includes/form_errors.html" %}
 
-            <!-- form fields -->
+    <!-- filter row -->
+    <div class"row top-distance bottom-distance">
 
-                {{ form.case }}
-                {{ form.notestatus }}
-                {{ form.tag }}
+    <!-- form fields -->
 
-                <button type="submit" class="save btn btn-sm btn-light copy-false">
-                    <img src="{% static 'dfirtrack_main/icons/loop.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                    Apply filters
-                </button>
+        {{ form.case }}
+        {{ form.notestatus }}
+        {{ form.tag }}
 
-                <a href="{% url 'documentation_list' %}" class="btn btn-sm btn-light copy-false">
-                    <img src="{% static 'dfirtrack_main/icons/x.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                    Clear filters
-                </a>
-        <!-- form -->
-        </form>
+        <button type="submit" class="save btn btn-sm btn-light copy-false">
+            <img src="{% static 'dfirtrack_main/icons/loop.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+            Apply filters
+        </button>
+
+        <a href="{% url 'clear_documentation_list_filter' %}" class="btn btn-sm btn-light copy-false">
+            <img src="{% static 'dfirtrack_main/icons/x.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+            Clear filters
+        </a>
+
+    <!-- filter row -->
     </div>
 
-</div>
+    <!-- persistence settings row -->
+    <div class"row bottom-distance">
+
+        <!-- keep filter settings -->
+        {{ form.filter_documentation_list_keep }}
+        {{ form.filter_documentation_list_keep.label }}
+
+    <!-- persistence settings row -->
+    </div>
+
+<!-- filter form -->
+</form>
+
+<!-- ############################################ -->
 
 <!-- headline -->
 {% if note_list %}

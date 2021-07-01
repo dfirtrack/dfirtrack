@@ -97,6 +97,7 @@ urlpatterns = [
     path(r'dnsname/<int:pk>/edit/', dnsname_views.DnsnameUpdate.as_view(), name='dnsname_update'),
 
     path(r'documentation/', documentation_views.DocumentationList.as_view(), name='documentation_list'),
+    path(r'documentation/clear_filter/', documentation_views.clear_documentation_list_filter, name='clear_documentation_list_filter'),
 
     path(r'domain/', domain_views.DomainList.as_view(), name='domain_list'),
     path(r'domain/<int:pk>/', domain_views.DomainDetail.as_view(), name='domain_detail'),
