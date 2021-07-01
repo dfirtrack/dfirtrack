@@ -12,7 +12,6 @@ from dfirtrack_main.models import Note
 from dfirtrack_main.models import Notestatus
 from dfirtrack_main.models import Reportitem
 from dfirtrack_main.models import Tag
-from urllib.parse import urlencode, urlunparse
 
 
 class DocumentationList(LoginRequiredMixin, FormView):
