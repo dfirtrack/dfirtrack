@@ -396,14 +396,15 @@ def get_systems_json(request):
     else:
         system_list_tag = None
 
-    # initial query
-    system_values = System.objects.all().order_by(order_dir+order_column_name)
-
     """ no search value in datatable search field """
 
     # if no search value is given, get all objects and order them according to user setting
     # if the table is not generated on the general system overview page, only show the systems with the relevant id
     if search_value == '':
+
+        # start with full query
+        system_values = System.objects.all().order_by(order_dir+order_column_name)
+
         # system detail
         if '/system/' in referer:
             # filter: filtering for case and tag is only applied to 'system_list'
@@ -431,11 +432,14 @@ def get_systems_json(request):
         else:
             system_values = system_values
 
-    # TODO: [code] change to new concept
+    #""" search value in datatable search field """
 
     # if search value is given, go through all cloumn-raw-data and search for it
     else:
+
+        # start with empty query
         system_values = System.objects.none()
+
         # to keep the search dynamic and not hardcode the fields, we go through all columns as they are found in the request here
         for entry in get_params:
             # this matches on these lines: ''' columns[0][data]': ['system_id/system_name/...'] '''
@@ -445,35 +449,54 @@ def get_systems_json(request):
                 try:
                     # filter_kwargs is necessary for dynamic filter design
                     filter_kwargs = {tmp_column_name+'__icontains': search_value}
+                    # analysisstatus detail
                     if '/analysisstatus/' in referer:
                         analysisstatus_id = referer.split("/")[-2]
                         filter_kwargs["analysisstatus__analysisstatus_id"] = analysisstatus_id
+                    # systemstatus detail
                     elif '/systemstatus/' in referer:
                         systemstatus_id = referer.split("/")[-2]
                         filter_kwargs["systemstatus__systemstatus_id"] = systemstatus_id
+                    # case detail
                     elif '/case/' in referer:
                         case_id = referer.split("/")[-2]
                         filter_kwargs["case__case_id"] = case_id
+                    # tag detail
                     elif '/tag/' in referer:
                         tag_id = referer.split("/")[-2]
                         filter_kwargs["tag__tag_id"] = tag_id
+                    # apply search filter
                     system_values = system_values | System.objects.filter(**filter_kwargs)
                 # for foreign keys, an exception is thrown, need to modify filter_kwargs accordingly
                 except FieldError:
                     filter_kwargs = {tmp_column_name+'__'+tmp_column_name+'_name'+'__icontains': search_value}
+                    # analysisstatus detail
                     if '/analysisstatus/' in referer:
                         analysisstatus_id = referer.split("/")[-2]
                         filter_kwargs["analysisstatus__analysisstatus_id"] = analysisstatus_id
+                    # systemstatus detail
                     elif '/systemstatus/' in referer:
                         systemstatus_id = referer.split("/")[-2]
                         filter_kwargs["systemstatus__systemstatus_id"] = systemstatus_id
+                    # case detail
                     elif '/case/' in referer:
                         case_id = referer.split("/")[-2]
                         filter_kwargs["case__case_id"] = case_id
+                    # tag detail
                     elif '/tag/' in referer:
                         tag_id = referer.split("/")[-2]
                         filter_kwargs["tag__tag_id"] = tag_id
+                    # apply search filter
                     system_values = system_values | System.objects.filter(**filter_kwargs)
+
+        # system list
+        if '/system/' in referer:
+            # filter: filtering for case and tag is only applied to 'system_list'
+            if system_list_case:
+                system_values = system_values.filter(case=system_list_case)
+            if system_list_tag:
+                system_values = system_values.filter(tag=system_list_tag)
+
         # make the resulting queryset unique and sort it according to user settings
         system_values = system_values.distinct().order_by(order_dir+order_column_name)
 
@@ -527,7 +550,7 @@ def get_systems_json(request):
     json_dict['recordsFiltered'] = system_count
     json_dict['data'] = visible_system_list
 
-    # filter: clean filtering after providing filter result if persistence option was not selected
+    # filter: clean filtering after providing filter results if persistence option was not selected
     if not user_config.filter_system_list_keep:
         # unset filter case
         user_config.filter_system_list_case = None
