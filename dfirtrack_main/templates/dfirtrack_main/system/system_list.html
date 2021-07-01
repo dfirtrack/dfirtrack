@@ -49,15 +49,13 @@
         {{ form.case }}
         {{ form.tag }}
 
-        <button type="submit" class="save btn btn-sm btn-light copy-false">
-            <img src="{% static 'dfirtrack_main/icons/loop.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-            Apply filters
-        </button>
+        <!-- apply button -->
+        {% include "dfirtrack_main/includes/button_apply_filter.html" %}
 
-        <a href="{% url 'clear_system_list_filter' %}" class="btn btn-sm btn-light copy-false">
-            <img src="{% static 'dfirtrack_main/icons/x.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-            Clear filters
-        </a>
+        <!-- clear button -->
+        {% with clear_url='clear_system_list_filter' %}
+            {% include "dfirtrack_main/includes/button_clear_filter.html" %}
+        {% endwith %}
 
     <!-- filter row -->
     </div>
