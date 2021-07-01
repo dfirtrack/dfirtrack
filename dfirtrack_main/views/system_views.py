@@ -38,13 +38,25 @@ class SystemList(LoginRequiredMixin, FormView):
         else:
             context['dfirtrack_api'] = False
 
-        """ provide initial form values according to config """
+        """
+        filter: provide initial form values according to config
+        for a better understanding of filter related condition flow, every important comment starts with 'filter: '
+        """
 
         # get config
         user_config, created = UserConfigModel.objects.get_or_create(user_config_username=self.request.user)
 
+        # filter: even if the persistence option has been deselected, the initial values must correspond to the current filtering until 'system_list' is reloaded or left
+
         # create dict to initialize form values set by filtering in previous view call
         form_initial = {}
+
+        # check box if persistence option was provided
+        if user_config.filter_system_list_keep:
+            # set initial value for form
+            form_initial['filter_system_list_keep'] = True
+        else:
+            form_initial['filter_system_list_keep'] = False
 
         # get case from config
         if user_config.filter_system_list_case:
@@ -60,7 +72,7 @@ class SystemList(LoginRequiredMixin, FormView):
             # set initial value for form
             form_initial['tag'] = tag_id
 
-        # pre-select form according to previous filter selection
+        # filter: pre-select form according to previous filter selection
         context['form'] = self.form_class(initial = form_initial)
 
         # call logger
@@ -75,7 +87,9 @@ class SystemList(LoginRequiredMixin, FormView):
         # get config
         user_config, created = UserConfigModel.objects.get_or_create(user_config_username=self.request.user)
 
-        # TODO: [test] form does not seem to be valid at all if object is not available (any more)
+# TODO: [test] form does not seem to be valid at all if object is not available (any more)
+
+        # filter: save filter choices from form in 'system_list' to database and call 'system_list' again with the new filter options
 
         # get case from form and save to config
         if form.data['case']:
@@ -98,6 +112,12 @@ class SystemList(LoginRequiredMixin, FormView):
                 messages.warning(self.request, 'Tag used for filtering does not exist.')
         else:
             user_config.filter_system_list_tag = None
+
+        # avoid MultiValueDictKeyError by providing default False if checkbox was empty
+        if form.data.get('filter_system_list_keep', False):
+            user_config.filter_system_list_keep = True
+        else:
+            user_config.filter_system_list_keep = False
 
         # save config
         user_config.save()
@@ -338,7 +358,7 @@ def get_systems_json(request):
     # get referer
     try:
         referer = request.headers['Referer']
-    # if '/system/json/' was called directly
+    # if '/system/json/' was called directly for some reason
     except KeyError:
         # call 'system_list' properly to refresh this call
         return redirect(reverse('system_list'))
@@ -386,6 +406,7 @@ def get_systems_json(request):
     if search_value == '':
         # system detail
         if '/system/' in referer:
+            # filter: filtering for case and tag is only applied to 'system_list'
             if system_list_case:
                 system_values = system_values.filter(case=system_list_case)
             if system_list_tag:
@@ -406,7 +427,7 @@ def get_systems_json(request):
         elif '/tag/' in referer:
             tag_id = referer.split("/")[-2]
             system_values = system_values.filter(tag__tag_id=tag_id).order_by(order_dir+order_column_name)
-        # catch-all rule if the datatable is included in other views in the future
+        # catch-all rule to prevent empty 'system_values' if the datatable is included in other views in the future
         else:
             system_values = system_values
 
@@ -505,6 +526,15 @@ def get_systems_json(request):
     json_dict['recordsTotal'] = len(System.objects.all())
     json_dict['recordsFiltered'] = system_count
     json_dict['data'] = visible_system_list
+
+    # filter: clean filtering after providing filter result if persistence option was not selected
+    if not user_config.filter_system_list_keep:
+        # unset filter case
+        user_config.filter_system_list_case = None
+        # unset filter tag
+        user_config.filter_system_list_tag = None
+        # save config
+        user_config.save()
 
     # convert dict with data to jsonresponse
     response = JsonResponse(json_dict, safe=False)

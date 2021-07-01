@@ -50,5 +50,5 @@ class SystemFilterForm(forms.ModelForm, BaseFilterForm):
 
         # non default form labeling
         labels = {
-            'filter_system_list_keep': 'Remember filter settings',
+            'filter_system_list_keep': 'Remember filter settings (confirm by applying)',
         }
