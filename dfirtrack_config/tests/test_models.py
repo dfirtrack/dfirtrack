@@ -1,8 +1,17 @@
 from datetime import datetime
+from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
-from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel, MainConfigModel, SystemExporterMarkdownConfigModel, SystemExporterSpreadsheetCsvConfigModel, SystemExporterSpreadsheetXlsConfigModel, SystemImporterFileCsvConfigModel, Statushistory
+from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel
+from dfirtrack_config.models import MainConfigModel
+from dfirtrack_config.models import SystemExporterMarkdownConfigModel
+from dfirtrack_config.models import SystemExporterSpreadsheetCsvConfigModel
+from dfirtrack_config.models import SystemExporterSpreadsheetXlsConfigModel
+from dfirtrack_config.models import SystemImporterFileCsvConfigModel
+from dfirtrack_config.models import Statushistory
+from dfirtrack_config.models import UserConfigModel
 from mock import patch
+
 
 class ConfigModelTestCase(TestCase):
     """ model tests """
@@ -10,7 +19,8 @@ class ConfigModelTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
 
-        pass
+        # create user
+        User.objects.create_user(username='testuser_config_model', password='4APmzkPrXbUV3p3WV5HN')
 
     def test_artifact_exporter_spreadsheet_xls_config_model_string(self):
         """ test string representation """
@@ -71,3 +81,15 @@ class ConfigModelTestCase(TestCase):
             statushistory = Statushistory.objects.create()
             # compare
             self.assertEqual(str(statushistory), '2020-01-02 03:04')
+
+    def test_user_config_model_string(self):
+        """ test string representation """
+
+        # get user
+        test_user = User.objects.get(username='testuser_config_model')
+        # create config model object
+        user_config_model = UserConfigModel.objects.create(
+            user_config_username = test_user,
+        )
+        # compare
+        self.assertEqual(str(user_config_model), 'User config testuser_config_model')

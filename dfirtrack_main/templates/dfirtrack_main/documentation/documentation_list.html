@@ -65,37 +65,47 @@
 
 <!-- ############################################ -->
 
-<div class"row top-distance bottom-distance">
+<!-- filter form -->
+<form method="POST" class="post-form">
 
-    <div class="col top-distance bottom-distance">
-        <!-- form -->
-        <form method="POST" class="post-form">
+    {% csrf_token %}
 
-            {% csrf_token %}
+    <!-- show form related errors -->
+    {% include "dfirtrack_main/includes/form_errors.html" %}
 
-            <!-- show form related errors -->
-            {% include "dfirtrack_main/includes/form_errors.html" %}
+    <!-- filter row -->
+    <div class"row top-distance bottom-distance">
 
-            <!-- form fields -->
+        <!-- form fields -->
+        {{ form.case }}
+        {{ form.notestatus }}
+        {{ form.tag }}
 
-                {{ form.case }}
-                {{ form.notestatus }}
-                {{ form.tag }}
+        <!-- apply button -->
+        {% include "dfirtrack_main/includes/button_apply_filter.html" %}
 
-                <button type="submit" class="save btn btn-sm btn-light copy-false">
-                    <img src="{% static 'dfirtrack_main/icons/loop.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                    Apply filters
-                </button>
+        <!-- clear button -->
+        {% with clear_url='clear_documentation_list_filter' %}
+            {% include "dfirtrack_main/includes/button_clear_filter.html" %}
+        {% endwith %}
 
-                <a href="{% url 'documentation_list' %}" class="btn btn-sm btn-light copy-false">
-                    <img src="{% static 'dfirtrack_main/icons/x.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                    Clear filters
-                </a>
-        <!-- form -->
-        </form>
+    <!-- filter row -->
     </div>
 
-</div>
+    <!-- persistence settings row -->
+    <div class"row bottom-distance">
+
+        <!-- keep filter settings -->
+        {{ form.filter_documentation_list_keep }}
+        {{ form.filter_documentation_list_keep.label }}
+
+    <!-- persistence settings row -->
+    </div>
+
+<!-- filter form -->
+</form>
+
+<!-- ############################################ -->
 
 <!-- headline -->
 {% if note_list %}
