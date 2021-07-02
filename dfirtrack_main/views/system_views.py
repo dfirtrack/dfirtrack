@@ -368,21 +368,15 @@ def get_systems_json(request):
 
     # case filter
     if user_config.filter_system_list_case:
-        try:
-            # get filter values from config
-            system_list_case = Case.objects.get(case_id=user_config.filter_system_list_case.case_id)
-        except Case.DoesNotExist:
-            system_list_case = None
+        # get filter values from config
+        system_list_case = Case.objects.get(case_id=user_config.filter_system_list_case.case_id)
     else:
         system_list_case = None
 
     # tag filter
     if user_config.filter_system_list_tag:
-        try:
-            # get filter values from config
-            system_list_tag = Tag.objects.get(tag_id=user_config.filter_system_list_tag.tag_id)
-        except Tag.DoesNotExist:
-            system_list_tag = None
+        # get filter values from config
+        system_list_tag = Tag.objects.get(tag_id=user_config.filter_system_list_tag.tag_id)
     else:
         system_list_tag = None
 

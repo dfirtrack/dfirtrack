@@ -191,6 +191,44 @@ class SystemFilterViewTestCase(TestCase):
         self.assertNotContains(response, system_tag.system_name)
         self.assertContains(response, system_both.system_name)
 
+    def test_system_list_search_filter_context(self):
+        """ case and tag filter applied in conjunction with datatable search """
+
+        # login testuser
+        self.client.login(username='testuser_system_filter', password='9PUdBmEvJv5WCdFXEYf6')
+        # get user
+        test_user = User.objects.get(username='testuser_system_filter')
+        # get objects
+        system_plain = System.objects.get(system_name='system_plain')
+        system_case = System.objects.get(system_name='system_case')
+        system_tag = System.objects.get(system_name='system_tag')
+        system_both = System.objects.get(system_name='system_both')
+
+        # change config
+        case_1 = Case.objects.get(case_name='case_1')
+        tag_1 = Tag.objects.get(tag_name='tag_1')
+        set_user_config(test_user, case_1, tag_1)
+
+        # add additonal system
+        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+        system_very_unique_name = System.objects.create(
+            system_name = 'system_very_unique_name',
+            systemstatus = systemstatus_1,
+            system_created_by_user_id = test_user,
+            system_modified_by_user_id = test_user,
+        )
+        system_very_unique_name.case.set(Case.objects.filter(case_name='case_1'))
+        system_very_unique_name.tag.set(Tag.objects.filter(tag_name='tag_1'))
+
+        # get response with default JSON request
+        response = self.client.get('/system/json/', {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': 'system_very_unique_name', 'columns[1][data]': 'system_name', 'columns[2][data]': 'systemstatus',  'draw': '1'}, HTTP_REFERER='/system/')
+        # compare
+        self.assertNotContains(response, system_plain.system_name)
+        self.assertNotContains(response, system_case.system_name)
+        self.assertNotContains(response, system_tag.system_name)
+        self.assertNotContains(response, system_both.system_name)
+        self.assertContains(response, system_very_unique_name.system_name)
+
     def test_system_list_keep_filter(self):
         """ keep filter settings via config setting """
 
@@ -438,3 +476,13 @@ class SystemFilterViewTestCase(TestCase):
         response = self.client.get('/system/json/', follow=True)
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_system_random_referer(self):
+        """ test redirect for call with yet unknown referer """
+
+        # login testuser
+        self.client.login(username='testuser_system_filter', password='9PUdBmEvJv5WCdFXEYf6')
+        # get response
+        response = self.client.get('/system/json/', {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': '', 'columns[1][data]': 'system_name', 'columns[2][data]': 'systemstatus',  'draw': '1'}, HTTP_REFERER='/future_feature/')
+        # compare
+        self.assertEqual(response.status_code, 200)
