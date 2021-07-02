@@ -1,4 +1,3 @@
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
@@ -102,40 +101,26 @@ class DocumentationList(LoginRequiredMixin, FormView):
         # get config
         user_config, created = UserConfigModel.objects.get_or_create(user_config_username=self.request.user)
 
-# TODO: [test] form does not seem to be valid at all if object is not available (any more)
-
         # filter: save filter choices from form in 'documentation_list' to database and call 'documentation_list' again with the new filter options
 
         # get case from form and save to config
         if form.data['case']:
-            try:
-                documentation_list_case = Case.objects.get(case_id=form.data['case'])
-                user_config.filter_documentation_list_case = documentation_list_case
-            except Case.DoesNotExist:
-                user_config.filter_documentation_list_case = None
-                messages.warning(self.request, 'Case used for filtering does not exist.')
+            documentation_list_case = Case.objects.get(case_id=form.data['case'])
+            user_config.filter_documentation_list_case = documentation_list_case
         else:
             user_config.filter_documentation_list_case = None
 
         # get notestatus from form and save to config
         if form.data['notestatus']:
-            try:
-                documentation_list_notestatus = Notestatus.objects.get(notestatus_id=form.data['notestatus'])
-                user_config.filter_documentation_list_notestatus = documentation_list_notestatus
-            except Notestatus.DoesNotExist:
-                user_config.filter_documentation_list_notestatus = None
-                messages.warning(self.request, 'Notestatus used for filtering does not exist.')
+            documentation_list_notestatus = Notestatus.objects.get(notestatus_id=form.data['notestatus'])
+            user_config.filter_documentation_list_notestatus = documentation_list_notestatus
         else:
             user_config.filter_documentation_list_notestatus = None
 
         # get tag from form and save to config
         if form.data['tag']:
-            try:
-                documentation_list_tag = Tag.objects.get(tag_id=form.data['tag'])
-                user_config.filter_documentation_list_tag = documentation_list_tag
-            except Tag.DoesNotExist:
-                user_config.filter_documentation_list_tag = None
-                messages.warning(self.request, 'Tag used for filtering does not exist.')
+            documentation_list_tag = Tag.objects.get(tag_id=form.data['tag'])
+            user_config.filter_documentation_list_tag = documentation_list_tag
         else:
             user_config.filter_documentation_list_tag = None
 
