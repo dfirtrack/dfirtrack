@@ -87,29 +87,19 @@ class SystemList(LoginRequiredMixin, FormView):
         # get config
         user_config, created = UserConfigModel.objects.get_or_create(user_config_username=self.request.user)
 
-# TODO: [test] form does not seem to be valid at all if object is not available (any more)
-
         # filter: save filter choices from form in 'system_list' to database and call 'system_list' again with the new filter options
 
         # get case from form and save to config
         if form.data['case']:
-            try:
-                system_list_case = Case.objects.get(case_id=form.data['case'])
-                user_config.filter_system_list_case = system_list_case
-            except Case.DoesNotExist:
-                user_config.filter_system_list_case = None
-                messages.warning(self.request, 'Case used for filtering does not exist.')
+            system_list_case = Case.objects.get(case_id=form.data['case'])
+            user_config.filter_system_list_case = system_list_case
         else:
             user_config.filter_system_list_case = None
 
         # get tag from form and save to config
         if form.data['tag']:
-            try:
-                system_list_tag = Tag.objects.get(tag_id=form.data['tag'])
-                user_config.filter_system_list_tag = system_list_tag
-            except Tag.DoesNotExist:
-                user_config.filter_system_list_tag = None
-                messages.warning(self.request, 'Tag used for filtering does not exist.')
+            system_list_tag = Tag.objects.get(tag_id=form.data['tag'])
+            user_config.filter_system_list_tag = system_list_tag
         else:
             user_config.filter_system_list_tag = None
 

@@ -591,7 +591,7 @@ class DocumentationViewTestCase(TestCase):
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
 
-    def test_documentation_list_clear_filter_config(self):
+    def test_documentation_clear_filter_config(self):
         """ clear filter settings via URL """
 
         # login testuser
