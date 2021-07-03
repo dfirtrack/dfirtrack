@@ -1233,20 +1233,6 @@ class System(models.Model):
             "|system_export_spreadsheet:" + str(system.system_export_spreadsheet)
         )
 
-    def create_evidence_directory(self):
-        """
-        Check if the evidence directory for the system was already created
-        otherwise it will be created.
-        """
-        system_evidence_path = (EVIDENCE_PATH + '/' + str(self.uuid))
-        if os.path.exists(system_evidence_path):
-            self.logger(request_user, "System-Path: {} already exists.".format(system_evidence_path))
-            return False
-        else:
-            os.makedirs(system_evidence_path)
-            self.logger(request_user, "System-Path: {} created.".format(system_evidence_path))
-            return True
-
     def get_absolute_url(self):
         return reverse('system_detail', args=(self.pk,))
 
