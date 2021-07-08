@@ -502,6 +502,7 @@ class Entry(models.Model):
     # foreign key(s)
     system = models.ForeignKey('System', on_delete=models.CASCADE)
     case = models.ForeignKey('Case', on_delete=models.SET_NULL, blank=True, null=True)
+    tag = models.ManyToManyField('Tag', blank=True)
 
     # main entity information
     entry_time = models.DateTimeField()

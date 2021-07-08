@@ -1,3 +1,4 @@
+from django import forms
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.contrib.auth.models import User
 from django.test import TestCase
@@ -89,6 +90,14 @@ class EntryFormTestCase(TestCase):
         # compare
         self.assertEqual(form.fields['case'].label, 'Case')
         self.assertEqual(form.fields['case'].empty_label, 'Select case (optional)')
+
+    def test_tag_form_label(self):
+        """ test form label """
+
+        # get object
+        form = EntryForm()
+        # compare
+        self.assertEqual(form.fields['tag'].label, 'Tags')
 
     def test_entry_form_empty(self):
         """ test minimum form requirements / INVALID """
@@ -340,9 +349,9 @@ class EntryFormTestCase(TestCase):
         # get object
         form = EntryFileImportFields([])
 
-        self.assertEqual(form.fields['entry_time'].choices, [])
-        self.assertEqual(form.fields['entry_type'].choices, [])
-        self.assertEqual(form.fields['entry_content'].choices, [])
+        self.assertEqual(form.fields['entry_time'].choices, [(-1, '--')])
+        self.assertEqual(form.fields['entry_type'].choices, [(-1, '--')])
+        self.assertEqual(form.fields['entry_content'].choices, [(-1, '--')])
 
     def test_entry_file_import_fileds_mock_choices(self):
         """" test dynamic choices """
@@ -352,6 +361,7 @@ class EntryFormTestCase(TestCase):
 
         # expected choices
         result = [
+            (-1, '--'),
             (0, 'c_0'),
             (1, 'c_1'),
             (2, 'c_2'),
@@ -361,6 +371,7 @@ class EntryFormTestCase(TestCase):
         self.assertEqual(form.fields['entry_time'].choices, result)
         self.assertEqual(form.fields['entry_type'].choices, result)
         self.assertEqual(form.fields['entry_content'].choices, result)
+        self.assertEqual(form.fields['entry_tag'].choices, result)
 
     def test_entry_file_import_fileds_form_filled(self):
         """ test filled form """
@@ -377,7 +388,39 @@ class EntryFormTestCase(TestCase):
         # compare
         self.assertTrue(form.is_valid())
 
-    def test_entry_file_import_fileds_form_error(self):
+    def test_entry_file_import_fileds_form_error_entry_time(self):
+        """ test filled form """
+
+        # get object
+        form = EntryFileImportFields(
+            ['c_0', 'c_1'],
+            data = {
+                'entry_time': -1,
+                'entry_type': 0,
+                'entry_content': 1,
+            }
+        )
+        # compare
+        self.assertFalse(form.is_valid()) 
+        self.assertInHTML('Please select a datetime value.', form.errors['__all__'][0])
+
+    def test_entry_file_import_fileds_form_error_entry_type(self):
+        """ test filled form """
+
+        # get object
+        form = EntryFileImportFields(
+            ['c_0', 'c_1'],
+            data = {
+                'entry_time': 0,
+                'entry_type': -1,
+                'entry_content': 1,
+            }
+        )
+        # compare
+        self.assertFalse(form.is_valid())
+        self.assertInHTML('Please select an entry type value.', form.errors['__all__'][0])
+
+    def test_entry_file_import_fileds_form_error_entry_content(self):
         """ test filled form """
 
         # get object
@@ -386,8 +429,25 @@ class EntryFormTestCase(TestCase):
             data = {
                 'entry_time': 0,
                 'entry_type': 1,
-                'entry_content': 2,
+                'entry_content': -1,
             }
         )
         # compare
         self.assertFalse(form.is_valid())
+        self.assertInHTML('Please select an entry content value.', form.errors['__all__'][0])
+
+    def test_entry_file_import_fileds_form_filled_with_tag(self):
+        """ test filled form """
+
+        # get object
+        form = EntryFileImportFields(
+            ['c_0', 'c_1', 'c_2'],
+            data = {
+                'entry_time': 0,
+                'entry_type': 1,
+                'entry_content': 2,
+                'entry_tag': -1,
+            }
+        )
+        # compare
+        self.assertTrue(form.is_valid())

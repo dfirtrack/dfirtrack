@@ -97,39 +97,26 @@
         </h5>
     </div>
 
-    <!-- case headline -->
-    <div class="col-6">
-        <h5>
-            Entry associated to this case
-        </h5>
-    </div>
-
 <!-- headlines -->
 </div>
 
 <!-- ############################################ -->
 
 <!-- system / case -->
-<div class="row top-distance">
+<div class="row top-distance bottom-distance">
 
     <!-- system -->
-    <div class="col-6">
+    <div class="col-6 bottom-distance">
         <a href="{{ entry.system.get_absolute_url }}" type="button" class="btn btn-primary btn-sm copy-true">
             <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
             {{ entry.system.system_name }}
         </a>
     </div>
 
-    <!-- case -->
-    <div class="col-6">
-        {% if entry.case %}
-            <a href="{{ entry.case.get_absolute_url }}">
-                {{ entry.case.case_name }}
-            </a>
-        {% else %}
-            ---
-        {% endif %}
-    </div>
+    <!--tag / case -->
+    {% with model=entry %}
+        {% include "dfirtrack_main/includes/card_tag_case.html" %}
+    {% endwith %}
 
 <!-- system / case -->
 </div>

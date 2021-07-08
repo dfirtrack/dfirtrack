@@ -396,6 +396,14 @@ class EntryForm(forms.ModelForm):
         queryset = System.objects.order_by('system_name'),
     )
 
+    # reorder field choices
+    tag = forms.ModelMultipleChoiceField(
+        label = gettext_lazy('Tags'),
+        widget=TagWidget,
+        queryset=Tag.objects.order_by('tag_name'),
+        required=False,
+    )
+
     class Meta:
 
         # model
@@ -410,6 +418,7 @@ class EntryForm(forms.ModelForm):
             'entry_content',
             'entry_note',
             'case',
+            'tag'
         )
 
         # non default form labeling
@@ -510,16 +519,38 @@ class EntryFileImportFields(forms.Form):
         )
     )
 
+    # entry tag mapping
+    entry_tag = forms.ChoiceField(
+        choices=INITIAL_CHOICES,        
+        widget=forms.Select(
+            attrs={
+                'class': 'form-select'
+            }
+        ),
+        required=False
+    )
+
+    def clean(self):
+
+        if 'entry_time' in self.cleaned_data and self.cleaned_data['entry_time'] == '-1':
+            raise ValidationError('Please select a datetime value.')
+        if 'entry_type' in self.cleaned_data and self.cleaned_data['entry_type'] == '-1':
+            raise ValidationError('Please select an entry type value.')
+        if 'entry_content' in self.cleaned_data and self.cleaned_data['entry_content'] == '-1':
+            raise ValidationError('Please select an entry content value.')
+
     def __init__(self, choices, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        index = list(range(0, len(choices)))
+        choices.insert(0, '--')
+        index = list(range(-1, len(choices)))
         form_choices = sorted(set(zip(index, choices)))
 
         # set select choices dynamically, based on uploaded csv file
         self.fields['entry_time'].choices = form_choices
         self.fields['entry_type'].choices = form_choices
         self.fields['entry_content'].choices = form_choices
+        self.fields['entry_tag'].choices = form_choices
 
 class HeadlineForm(forms.ModelForm):
     """ default model form """

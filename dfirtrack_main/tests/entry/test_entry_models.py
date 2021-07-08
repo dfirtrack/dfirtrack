@@ -81,6 +81,16 @@ class EntryModelTestCase(TestCase):
         # compare
         self.assertEqual(field_label, 'case')
 
+    def test_tag_attribute_label(self):
+        """ test attribute label """
+
+        # get object
+        entry_1 = Entry.objects.get(entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709')
+        # get label
+        field_label = entry_1._meta.get_field('tag').verbose_name
+        # compare
+        self.assertEqual(field_label, 'tag')
+
     def test_entry_time_attribute_label(self):
         """ test attribute label """
 

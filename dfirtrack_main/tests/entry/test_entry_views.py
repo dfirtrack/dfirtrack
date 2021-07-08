@@ -191,7 +191,8 @@ class EntryViewTestCase(TestCase):
         # get response
         response = self.client.get('/entry/add/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/entry/entry_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/entry/entry_generic_form.html')
+        self.assertContains(response, "Add entry")
 
     def test_entry_add_get_user_context(self):
         """ test add view """
@@ -261,7 +262,7 @@ class EntryViewTestCase(TestCase):
         # get response
         response = self.client.post('/entry/add/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/entry/entry_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/entry/entry_generic_form.html')
 
 
     def test_entry_edit_not_logged_in(self):
@@ -298,7 +299,8 @@ class EntryViewTestCase(TestCase):
         # get response
         response = self.client.get('/entry/' + str(entry_1.entry_id) + '/edit/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/entry/entry_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/entry/entry_generic_form.html')
+        self.assertContains(response, "Edit entry")
 
     def test_entry_edit_get_user_context(self):
         """ test edit view """
@@ -383,7 +385,7 @@ class EntryViewTestCase(TestCase):
         # get response
         response = self.client.post('/entry/' + str(entry_id) + '/edit/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/entry/entry_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/entry/entry_generic_form.html')
 
     def test_entry_csv_import_step1_not_logged_in(self):
         """ test step1 view """
@@ -600,7 +602,8 @@ class EntryViewTestCase(TestCase):
         data_dict = {
             'entry_time': 0,
             'entry_type': 1,
-            'entry_content': 2
+            'entry_content': 2,
+            'entry_tag': -1
         }
         # destination
         destination = '/entry/'

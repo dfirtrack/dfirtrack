@@ -1,9 +1,10 @@
 import csv
 import hashlib
 import os
+import ast
 from dfirtrack_main.logger.default_logger import info_logger, debug_logger
 from dfirtrack_main.async_messages import message_user
-from dfirtrack_main.models import Case, Entry, System
+from dfirtrack_main.models import Case, Entry, System, Tag
 from django.contrib.messages import constants
 from django.core.exceptions import ValidationError
 
@@ -40,6 +41,12 @@ def csv_entry_import_async(system_id, file_name, field_mapping, request_user, ca
                     if not Entry.objects.filter(entry_sha1=m.hexdigest()).exists():
                         entry.full_clean()
                         entry.save()
+                        if field_mapping['entry_tag'] != -1:
+                            tags = ast.literal_eval(row[field_mapping['entry_tag']])
+                            for tag_name in tags:
+                                tag = Tag.objects.filter(tag_name=tag_name)
+                                if len(tag) == 1:
+                                    entry.tag.add(tag[0])
                     else:
                         dup_count += 1
                         continue
