@@ -187,6 +187,13 @@ class SystemExporterMarkdownViewTestCase(TestCase):
             entry_modified_by_user_id = test_user,
         )
 
+        Entry.objects.create(
+            system = system_1,           
+            entry_time = "2020-02-04T01:23:45+00:00",
+            entry_created_by_user_id = test_user,
+            entry_modified_by_user_id = test_user,
+        )
+
     @classmethod
     def setUp(cls):
         """ setup in advance of every test """

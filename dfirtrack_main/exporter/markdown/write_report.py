@@ -191,18 +191,11 @@ def write_entries_to_table(django_report, system):
         # iterate over entries
         for entry in entrys:
             # print entries line by line
-            if entry.entry_date:
-                django_report.write("| " + entry.entry_date + " ")
-            else:
-                django_report.write("| ")
-            if entry.entry_utc:
-                django_report.write("| " + entry.entry_utc + " ")
-            else:
-                django_report.write("| ")
-            if entry.entry_system:
-                django_report.write("| " + entry.entry_system + " ")
-            else:
-                django_report.write("| ")
+            # mandatory entry fields            
+            django_report.write("| " + entry.entry_date + " ") 
+            django_report.write("| " + entry.entry_utc + " ")
+            django_report.write("| " + entry.entry_system + " ")
+            # optional entry fields       
             if entry.entry_type:
                 django_report.write("| " + entry.entry_type + " ")
             else:

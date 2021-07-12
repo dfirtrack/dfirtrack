@@ -39,4 +39,5 @@ lorem ipsum
 | Date     | Time (UTC)  | System      | Type        | Content     |
 |:---------|:------------|:------------|:------------|:------------|
 | 2020-02-03 | 01:23:45 | system_1 | type_1 | lorem ipsum|
+| 2020-02-04 | 01:23:45 | system_1 | | |
 
