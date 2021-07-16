@@ -12,7 +12,7 @@ def clean_directory(username):
 
     # clean or create markdown directory
     if os.path.exists(model.markdown_path + "/docs/systems/"):
-        # remove markdown directory (recursivly)
+        # remove markdown directory (recursively)
         shutil.rmtree(model.markdown_path + "/docs/systems/")
         # recreate markdown directory
         os.mkdir(model.markdown_path + "/docs/systems/")

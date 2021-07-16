@@ -148,7 +148,7 @@ class Artifact(models.Model):
         #    self.artifact_storage_path = destination
         #else:
         #    self.artifact_storage_path = artifact_evidence_path
-        ##TODO: check if this works or if wee need
+        ##TODO: check if this works or if we need
         ## super().save(*args,**kwargs)
 
         """ set artifact time according to config """

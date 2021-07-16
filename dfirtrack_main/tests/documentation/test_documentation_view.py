@@ -17,7 +17,7 @@ class DocumentationViewTestCase(TestCase):
         # create user
         test_user = User.objects.create_user(username='testuser_documentation', password='dRekxM3R5frr')
 
-        #creat objects
+        #create objects
         Case.objects.create(
             case_name='case_1',
             case_is_incident=True,

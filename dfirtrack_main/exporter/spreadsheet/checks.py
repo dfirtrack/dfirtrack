@@ -23,7 +23,7 @@ def check_content_file_system(main_config_model, module_text, request=None):
     if not os.path.isdir(main_config_model.cron_export_path):
         # if function was called from 'artifact_create_cron' / 'system_create_cron'
         if request:
-            # call messsage
+            # call message
             messages.error(request, 'Export path does not exist. Check config or file system!')
         # if function was called from 'artifact_cron' / 'system_cron'
         else:
@@ -38,7 +38,7 @@ def check_content_file_system(main_config_model, module_text, request=None):
         if not os.access(main_config_model.cron_export_path, os.R_OK):
             # if function was called from 'artifact_create_cron' / 'system_create_cron'
             if request:
-                # call messsage
+                # call message
                 messages.error(request, 'No write permission for export path. Check config or file system!')
             # if function was called from 'artifact_cron' / 'system_cron'
             else:

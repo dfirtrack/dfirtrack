@@ -202,7 +202,7 @@ class MainConfigForm(forms.ModelForm):
         artifactstatus_requested = self.cleaned_data['artifactstatus_requested']
         artifactstatus_acquisition = self.cleaned_data['artifactstatus_acquisition']
 
-        # get artifactstatus that have been choosen for both time settings
+        # get artifactstatus that have been chosen for both time settings
         artifactstatus_shared = artifactstatus_requested.intersection(artifactstatus_acquisition)
 
         # check if there are any artifactstatus in this queryset
@@ -216,7 +216,7 @@ class MainConfigForm(forms.ModelForm):
         casestatus_start = self.cleaned_data['casestatus_start']
         casestatus_end = self.cleaned_data['casestatus_end']
 
-        # get casestatus that have been choosen for both time settings
+        # get casestatus that have been chosen for both time settings
         casestatus_shared = casestatus_start.intersection(casestatus_end)
 
         # check if there are any casestatus in this queryset
@@ -1140,7 +1140,7 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
     modelformset_factory for WorkflowDefaultArtifactnameFormSet
     to add multiple WorkflowDefaultArtifactname at once
 
-    to add more than one extra WorkflowDefaultArtifactname, refere to template javascript
+    to add more than one extra WorkflowDefaultArtifactname, refer to template javascript
 '''
 
 WorkflowDefaultArtifactAttributesFormSet = forms.modelformset_factory(

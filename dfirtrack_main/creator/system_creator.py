@@ -61,7 +61,7 @@ def system_creator_async(request_post, request_user):
     # call logger
     debug_logger(str(request_user), ' SYSTEM_CREATOR_START')
 
-    # exctract lines from systemlist (list results from request object via large text area)
+    # extract lines from systemlist (list results from request object via large text area)
     lines = request_post.get('systemlist').splitlines()
 
     #  count lines (needed for messages)
@@ -92,7 +92,7 @@ def system_creator_async(request_post, request_user):
     # iterate over lines
     for line in lines:
 
-        # skip emtpy lines
+        # skip empty lines
         if line == '':
             # autoincrement counter
             lines_faulty_counter += 1

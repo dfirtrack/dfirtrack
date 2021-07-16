@@ -185,7 +185,7 @@ MARTOR_ENABLE_LABEL = True
 """
 import local settings from local_settings
 use settings from this file in case of missing local settings
-try statements are splitted to avoid conflicts in case of missing values
+try statements are split to avoid conflicts in case of missing values
 """
 
 # ALLOWED_HOSTS

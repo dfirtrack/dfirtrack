@@ -12,7 +12,7 @@ class TagWidget(forms.CheckboxSelectMultiple):
          super(TagWidget, self).__init__(*args, **kwargs)
 
     def render(self, name, value, attrs=None, choices=(), renderer=None):
-        # get all context infromation parent function
+        # get all context information parent function
         context = self.get_context(name, value, attrs)
         # get all tags, import for tag colors
         context['tags'] = Tag.objects.all()

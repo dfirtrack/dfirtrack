@@ -57,7 +57,7 @@ def check_content_file_system(model, request=None):
     if not os.path.isdir(model.csv_import_path):
         # if function was called from 'system_instant'
         if request:
-            # call messsage
+            # call message
             messages.error(request, 'CSV import path does not exist. Check config or file system!')
         # if function was called from 'system_cron'
         else:
@@ -72,7 +72,7 @@ def check_content_file_system(model, request=None):
         if not os.access(model.csv_import_path, os.R_OK):
             # if function was called from 'system_instant'
             if request:
-                # call messsage
+                # call message
                 messages.error(request, 'No read permission for CSV import path. Check config or file system!')
             # if function was called from 'system_cron'
             else:
@@ -87,7 +87,7 @@ def check_content_file_system(model, request=None):
             if not os.path.isfile(csv_import_file):
                 # if function was called from 'system_instant'
                 if request:
-                    # call messsage
+                    # call message
                     messages.error(request, 'CSV import file does not exist. Check config or provide file!')
                 # if function was called from 'system_cron'
                 else:
@@ -102,7 +102,7 @@ def check_content_file_system(model, request=None):
                 if not os.access(csv_import_file, os.R_OK):
                     # if function was called from 'system_instant'
                     if request:
-                        # call messsage
+                        # call message
                         messages.error(request, 'No read permission for CSV import file. Check config or file system!')
                     # if function was called from 'system_cron'
                     else:
@@ -117,7 +117,7 @@ def check_content_file_system(model, request=None):
                     if os.path.getsize(csv_import_file) == 0:
                         # if function was called from 'system_instant'
                         if request:
-                            # call messsage
+                            # call message
                             messages.error(request, 'CSV import file is empty. Check config or file system!')
                         # if function was called from 'system_cron'
                         else:

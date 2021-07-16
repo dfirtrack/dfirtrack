@@ -30,10 +30,10 @@ def check_content_file_system(request=None):
     if not model.markdown_path:
         # if function was called from 'system'
         if request:
-            messages.error(request, 'Markdown path contains an emtpy string. Check config!')
+            messages.error(request, 'Markdown path contains an empty string. Check config!')
         # if function was called from 'system_cron'
         else:
-            error_message_cron('Markdown path contains an emtpy string. Check config!')
+            error_message_cron('Markdown path contains an empty string. Check config!')
         # call logger
         error_logger(logger_username, ' MARKDOWN_EXPORTER_MARKDOWN_PATH_EMPTY_STRING')
         # set stop condition

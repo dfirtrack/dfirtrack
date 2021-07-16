@@ -174,7 +174,7 @@ class SystemUpdate(LoginRequiredMixin, UpdateView):
             ipstring = ipstring + str(ip.ip_ip)
             # increment counter
             i += 1
-            # add newline but not for last occurence
+            # add newline but not for last occurrence
             if i < iplen:
                 ipstring = ipstring + '\n'
 

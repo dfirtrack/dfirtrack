@@ -186,10 +186,10 @@ def write_entries_to_table(django_report, system):
     """ write all entries to table """
 
     # TODO: change behavior, currently check for entry attributes is necessary because of 'null=True'
-    entrys = system.entry_set.all().order_by('entry_date', 'entry_utc')
-    if entrys.exists():
+    entries = system.entry_set.all().order_by('entry_date', 'entry_utc')
+    if entries.exists():
         # iterate over entries
-        for entry in entrys:
+        for entry in entries:
             # print entries line by line
             if entry.entry_date:
                 django_report.write("| " + entry.entry_date + " ")

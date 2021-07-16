@@ -1,7 +1,7 @@
 """
 Django settings for DFIRTrack project provided with Ansible.
 
-These settings extend the defaul dfirtrack.settings.
+These settings extend the default dfirtrack.settings.
 """
 
 import os

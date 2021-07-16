@@ -77,7 +77,7 @@ def system_modificator_async(request_post, request_user):
     # call logger
     debug_logger(str(request_user), ' SYSTEM_MODIFICATOR_START')
 
-    # exctract lines from systemlist (list results either from request object via multiline selector or via large text area)
+    # extract lines from systemlist (list results either from request object via multiline selector or via large text area)
     lines = request_post.getlist('systemlist')
     system_char_field_used = False
     # if large text area was used, the list contains only one entry with (one or more) line breaks
@@ -115,7 +115,7 @@ def system_modificator_async(request_post, request_user):
     # iterate over lines
     for line in lines:
 
-        # skip emtpy lines
+        # skip empty lines
         if line == '':
             # autoincrement counter
             lines_faulty_counter += 1

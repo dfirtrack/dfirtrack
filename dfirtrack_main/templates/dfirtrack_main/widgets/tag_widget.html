@@ -9,7 +9,7 @@
 <div id="hidden_tags" style="display:none;"> 
     {% for group_name, group_choices, group_index in widget.optgroups %}
         {% for option in group_choices %}   
-            <!-- tag input options.attr.items set django input attributes for exmaple checked items -->
+            <!-- tag input options.attr.items set django input attributes for example checked items -->
             <input 
                 type="{{ option.type }}" name="{{ widget.name }}" value="{{ option.value }}"
                 {% for name, value in option.attrs.items %}

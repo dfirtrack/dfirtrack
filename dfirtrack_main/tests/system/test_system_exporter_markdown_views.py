@@ -206,7 +206,7 @@ class SystemExporterMarkdownViewTestCase(TestCase):
 
         # remove existing and re-create empty markdown directory
         if os.path.exists(markdown_path_filesystem):
-            # remove existing markdown directory (recursivly)
+            # remove existing markdown directory (recursively)
             shutil.rmtree(markdown_path_filesystem)
             # re-create empty markdown directory
             os.makedirs(markdown_path_filesystem)
@@ -265,7 +265,7 @@ class SystemExporterMarkdownViewTestCase(TestCase):
         messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-        self.assertEqual(str(messages[0]), 'Markdown path contains an emtpy string. Check config!')
+        self.assertEqual(str(messages[0]), 'Markdown path contains an empty string. Check config!')
         self.assertEqual(messages[0].level_tag, 'error')
 
     def test_system_exporter_markdown_markdown_path_not_existent(self):
@@ -413,7 +413,7 @@ class SystemExporterMarkdownViewTestCase(TestCase):
         messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_system_exporter_markdown')
-        self.assertEqual(messages[0].message, '[Scheduled task markdown exporter] Markdown path contains an emtpy string. Check config!')
+        self.assertEqual(messages[0].message, '[Scheduled task markdown exporter] Markdown path contains an empty string. Check config!')
         self.assertEqual(messages[0].level_tag, 'error')
         # switch user context
         self.client.logout()
@@ -424,7 +424,7 @@ class SystemExporterMarkdownViewTestCase(TestCase):
         messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertEqual(str(response.context['user']), 'message_user')
-        self.assertEqual(messages[0].message, '[Scheduled task markdown exporter] Markdown path contains an emtpy string. Check config!')
+        self.assertEqual(messages[0].message, '[Scheduled task markdown exporter] Markdown path contains an empty string. Check config!')
         self.assertEqual(messages[0].level_tag, 'error')
 
     def test_system_exporter_markdown_cron_markdown_path_not_existent(self):
@@ -587,7 +587,7 @@ class SystemExporterMarkdownViewTestCase(TestCase):
         messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-        self.assertEqual(str(messages[0]), 'Markdown path contains an emtpy string. Check config!')
+        self.assertEqual(str(messages[0]), 'Markdown path contains an empty string. Check config!')
         self.assertEqual(messages[0].level_tag, 'error')
 
     def test_system_exporter_markdown_create_cron_markdown_path_not_existent(self):

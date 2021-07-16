@@ -13,7 +13,7 @@ import yaml
 
 
 def write_report_domainsorted(system, username):
-    """ function that prepares return values and pathes """
+    """ function that prepares return values and paths """
 
     """
     the return values (prefix 'r') are used for the `mkdocs.yml` file
@@ -102,7 +102,7 @@ def domainsorted(request=None):
     # call logger
     debug_logger(username, " SYSTEM_EXPORTER_MARKDOWN_DOMAINSORTED_START")
 
-    # show immediate message for user (but only if no errors have occured before)
+    # show immediate message for user (but only if no errors have occurred before)
     if request:
         start_message(request, 'domain')
 

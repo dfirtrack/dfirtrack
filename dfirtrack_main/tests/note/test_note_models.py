@@ -17,7 +17,7 @@ class NoteModelTestCase(TestCase):
         # create object
         notestatus_1 = Notestatus.objects.create(notestatus_name='notestatus_1')
 
-        #creat objects
+        #create objects
         Case.objects.create(
             case_name='case_1',
             case_is_incident=True,

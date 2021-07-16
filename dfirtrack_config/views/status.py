@@ -22,7 +22,7 @@ def get_status_objects(context):
 
     # get config model
     main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
-    # get number of entrys to show
+    # get number of entries to show
     statushistory_entry_numbers = main_config_model .statushistory_entry_numbers
 
     # get last statushistory objects for dropdown menu according to config
