@@ -7,7 +7,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
       - run: pip install bandit black codespell flake8 isort mypy pytest pyupgrade safety
-      - run: bandit --recursive --skip B101,B106,B108,B110 . || true
+      - run: bandit --recursive --skip B101,B106,B108,B110 .
       - run: black --check . || true
       - run: codespell --skip="*.js,*.map" || true  # --ignore-words-list=""
       - run: flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
