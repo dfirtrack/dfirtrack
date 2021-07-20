@@ -9,6 +9,7 @@ from dfirtrack_main.forms import LocationForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Location
 
+
 class LocationList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Location
@@ -34,12 +35,16 @@ class LocationCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Location
     form_class = LocationForm
-    template_name = 'dfirtrack_main/location/location_add.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " LOCATION_ADD_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+            'object_type': 'location',
+        })
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -50,18 +55,26 @@ class LocationCreate(LoginRequiredMixin, CreateView):
             messages.success(request, 'Location added')
             return redirect(reverse('location_detail', args=(location.location_id,)))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'location',
+            })
 
 class LocationCreatePopup(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Location
     form_class = LocationForm
-    template_name = 'dfirtrack_main/location/location_add_popup.html'
+    template_name = 'dfirtrack_main/generic_form_popup.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " LOCATION_ADD_POPUP_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+            'object_type': 'location',
+        })
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -72,19 +85,28 @@ class LocationCreatePopup(LoginRequiredMixin, CreateView):
             messages.success(request, 'Location added')
             return HttpResponse('<script type="text/javascript">window.close();</script>')
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'location',
+            })
 
 class LocationUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Location
     form_class = LocationForm
-    template_name = 'dfirtrack_main/location/location_edit.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         location = self.get_object()
         form = self.form_class(instance=location)
         location.logger(str(request.user), " LOCATION_EDIT_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Edit',
+            'object_type': 'location',
+            'object_name': location.location_name,
+        })
 
     def post(self, request, *args, **kwargs):
         location = self.get_object()
@@ -96,4 +118,9 @@ class LocationUpdate(LoginRequiredMixin, UpdateView):
             messages.success(request, 'Location edited')
             return redirect(reverse('location_detail', args=(location.location_id,)))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Edit',
+                'object_type': 'location',
+                'object_name': location.location_name,
+            })

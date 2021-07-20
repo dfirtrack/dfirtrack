@@ -24,5 +24,6 @@ Note: The build process of the container creates the SSL certificate with the FQ
 ## Prod vs Dev Container
 
 Both, the `prod` as well as the `dev` container, are built upon the same fundamentals. That means the the general form of deployment (codebase, gunicorn, nginx) is the same, no matter which container you choose. The main difference between them is that, with the `dev` container you are able to modify the files in the repo on your host system and the changes will reflect immediately in the container. This is achieved by mounting the repo dir from your host as a host volume to the docker container. Since this is not really "the docker way" some tricks have to be used. These entail, for example, that all static files are collected on every startup of the container and that files created by the container might show up in your hosts repo.
+Another change is, that in the `dev` container, the Django debug-flag is set to true, while it is set to false in the `prod` container.
 
 In summary, the `dev` container is intended for developing purposes and not needed, unless you want to actively change the DFIRTrack code. **If you just want to use DFIRTrack, you should always use the `prod` container.**

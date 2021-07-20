@@ -186,7 +186,7 @@ class AnalystmemoViewTestCase(TestCase):
         # get response
         response = self.client.get('/analystmemo/add/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/analystmemo/analystmemo_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/analystmemo/analystmemo_generic_form.html')
 
     def test_analystmemo_add_get_user_context(self):
         """ test add view """
@@ -251,7 +251,7 @@ class AnalystmemoViewTestCase(TestCase):
         # get response
         response = self.client.post('/analystmemo/add/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/analystmemo/analystmemo_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/analystmemo/analystmemo_generic_form.html')
 
     def test_analystmemo_edit_not_logged_in(self):
         """ test edit view """
@@ -287,7 +287,7 @@ class AnalystmemoViewTestCase(TestCase):
         # get response
         response = self.client.get('/analystmemo/' + str(analystmemo_1.analystmemo_id) + '/edit/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/analystmemo/analystmemo_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/analystmemo/analystmemo_generic_form.html')
 
     def test_analystmemo_edit_get_user_context(self):
         """ test edit view """
@@ -369,4 +369,4 @@ class AnalystmemoViewTestCase(TestCase):
         # get response
         response = self.client.post('/analystmemo/' + str(analystmemo_id) + '/edit/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/analystmemo/analystmemo_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/analystmemo/analystmemo_generic_form.html')

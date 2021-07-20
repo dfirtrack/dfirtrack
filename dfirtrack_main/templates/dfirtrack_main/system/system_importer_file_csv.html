@@ -32,22 +32,6 @@
 <!-- form -->
 <form method="POST" class="post-form" enctype="multipart/form-data">
 
-    <!-- button row -->
-    <div class="row">
-
-        <!-- save button -->
-        <div class="col-1">
-            {% include "dfirtrack_main/includes/button_save.html" %}
-        </div>
-
-        <!-- cancel button -->
-        <div class="col-1">
-            {% include "dfirtrack_main/includes/button_cancel.html" %}
-        </div>
-
-    <!-- button row -->
-    </div>
-
     {% csrf_token %}
 
     <!-- show form related errors -->
@@ -94,21 +78,8 @@
     <!-- file block -->
     </div>
 
-    <!-- button row -->
-    <div class="row top-distance">
-
-        <!-- save button -->
-        <div class="col-1">
-            {% include "dfirtrack_main/includes/button_save.html" %}
-        </div>
-
-        <!-- cancel button -->
-        <div class="col-1">
-            {% include "dfirtrack_main/includes/button_cancel.html" %}
-        </div>
-
-    <!-- button row -->
-    </div>
+    <!-- row save cancel -->
+    {% include "dfirtrack_main/includes/row_save_cancel.html" %}
 
 <!-- form -->
 </form>

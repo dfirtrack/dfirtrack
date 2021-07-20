@@ -3,6 +3,7 @@ from django.test import TestCase
 from dfirtrack_artifacts.models import Artifacttype
 import urllib.parse
 
+
 class ArtifacttypeViewTestCase(TestCase):
     """ artifacttype view tests """
 
@@ -156,7 +157,7 @@ class ArtifacttypeViewTestCase(TestCase):
         # get response
         response = self.client.get('/artifacts/artifacttype/create/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_artifacts/artifacttype/artifacttype_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
 
     def test_artifacttype_create_get_user_context(self):
         """ test create view """
@@ -220,7 +221,97 @@ class ArtifacttypeViewTestCase(TestCase):
         # get response
         response = self.client.post('/artifacts/artifacttype/create/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_artifacts/artifacttype/artifacttype_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
+
+    def test_artifacttype_add_popup_not_logged_in(self):
+        """ test add view """
+
+        # create url
+        destination = '/login/?next=' + urllib.parse.quote('/artifacts/artifacttype/add_popup/', safe='')
+        # get response
+        response = self.client.get('/artifacts/artifacttype/add_popup/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_artifacttype_add_popup_logged_in(self):
+        """ test add view """
+
+        # login testuser
+        self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
+        # get response
+        response = self.client.get('/artifacts/artifacttype/add_popup/')
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_artifacttype_add_popup_template(self):
+        """ test add view """
+
+        # login testuser
+        self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
+        # get response
+        response = self.client.get('/artifacts/artifacttype/add_popup/')
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form_popup.html')
+
+    def test_artifacttype_add_popup_get_user_context(self):
+        """ test add view """
+
+        # login testuser
+        self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
+        # get response
+        response = self.client.get('/artifacts/artifacttype/add_popup/')
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_artifacttype')
+
+    def test_artifacttype_add_popup_redirect(self):
+        """ test add view """
+
+        # login testuser
+        self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
+        # create url
+        destination = urllib.parse.quote('/artifacts/artifacttype/add_popup/', safe='/')
+        # get response
+        response = self.client.get('/artifacts/artifacttype/add_popup', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_artifacttype_add_popup_post_redirect(self):
+        """ test add view """
+
+        # login testuser
+        self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
+        # create post data
+        data_dict = {
+            'artifacttype_name': 'artifacttype_add_popup_post_test',
+        }
+        # get response
+        response = self.client.post('/artifacts/artifacttype/add_popup/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_artifacttype_add_popup_post_invalid_reload(self):
+        """ test add view """
+
+        # login testuser
+        self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/artifacts/artifacttype/add_popup/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_artifacttype_add_popup_post_invalid_template(self):
+        """ test add view """
+
+        # login testuser
+        self.client.login(username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/artifacts/artifacttype/add_popup/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form_popup.html')
 
     def test_artifacttype_update_not_logged_in(self):
         """ test update view """
@@ -256,7 +347,7 @@ class ArtifacttypeViewTestCase(TestCase):
         # get response
         response = self.client.get('/artifacts/artifacttype/update/' + str(artifacttype_1.artifacttype_id) + '/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_artifacts/artifacttype/artifacttype_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
 
     def test_artifacttype_update_get_user_context(self):
         """ test update view """
@@ -328,4 +419,4 @@ class ArtifacttypeViewTestCase(TestCase):
         # get response
         response = self.client.post('/artifacts/artifacttype/update/' + str(artifacttype_id) + '/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_artifacts/artifacttype/artifacttype_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')

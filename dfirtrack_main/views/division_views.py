@@ -8,6 +8,7 @@ from dfirtrack_main.forms import DivisionForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Division
 
+
 class DivisionList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Division
@@ -33,12 +34,16 @@ class DivisionCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Division
     form_class = DivisionForm
-    template_name = 'dfirtrack_main/division/division_add.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " DIVISION_ADD_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+            'object_type': 'division',
+        })
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -49,19 +54,28 @@ class DivisionCreate(LoginRequiredMixin, CreateView):
             messages.success(request, 'Division added')
             return redirect(reverse('division_detail', args=(division.division_id,)))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'division',
+            })
 
 class DivisionUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Division
     form_class = DivisionForm
-    template_name = 'dfirtrack_main/division/division_edit.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         division = self.get_object()
         form = self.form_class(instance=division)
         division.logger(str(request.user), " DIVISION_EDIT_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Edit',
+            'object_type': 'division',
+            'object_name': division.division_name,
+        })
 
     def post(self, request, *args, **kwargs):
         division = self.get_object()
@@ -73,4 +87,9 @@ class DivisionUpdate(LoginRequiredMixin, UpdateView):
             messages.success(request, 'Division edited')
             return redirect(reverse('division_detail', args=(division.division_id,)))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Edit',
+                'object_type': 'division',
+                'object_name': division.division_name,
+            })

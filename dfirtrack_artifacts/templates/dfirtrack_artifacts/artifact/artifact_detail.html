@@ -201,9 +201,13 @@
 
         <!-- copy button -->
         <div class="col-12">
+            {% if artifact.artifact_source_path %}
                 <button class="btn btn-outline-success btn-sm" data-clipboard-text="{{ artifact.artifact_source_path }}">
                     Copy path
                 </button>
+            {% else %}
+                {% include "dfirtrack_artifacts/includes/button_artifact_copy_disabled.html" %}
+            {% endif %}
         </div>
 
     <!-- copy button row-->
@@ -230,9 +234,13 @@
 
         <!-- copy button -->
         <div class="col-12">
+            {% if artifact.artifact_storage_path %}
                 <button class="btn btn-outline-success btn-sm" data-clipboard-text="{{ artifact.artifact_storage_path }}">
                     Copy path
                 </button>
+            {% else %}
+                {% include "dfirtrack_artifacts/includes/button_artifact_copy_disabled.html" %}
+            {% endif %}
         </div>
 
     <!-- copy button row-->
@@ -279,23 +287,35 @@
 
         <!-- copy button -->
         <div class="col-3">
+            {% if artifact.artifact_md5 %}
                 <button class="btn btn-outline-success btn-sm" data-clipboard-text="{{ artifact.artifact_md5 }}">
                     Copy hash
                 </button>
+            {% else %}
+                {% include "dfirtrack_artifacts/includes/button_artifact_copy_disabled.html" %}
+            {% endif %}
         </div>
 
         <!-- copy button -->
         <div class="col-3">
+            {% if artifact.artifact_sha1 %}
                 <button class="btn btn-outline-success btn-sm" data-clipboard-text="{{ artifact.artifact_sha1 }}">
                     Copy hash
                 </button>
+            {% else %}
+                {% include "dfirtrack_artifacts/includes/button_artifact_copy_disabled.html" %}
+            {% endif %}
         </div>
 
         <!-- copy button -->
         <div class="col-3">
+            {% if artifact.artifact_sha256 %}
                 <button class="btn btn-outline-success btn-sm" data-clipboard-text="{{ artifact.artifact_sha256 }}">
                     Copy hash
                 </button>
+            {% else %}
+                {% include "dfirtrack_artifacts/includes/button_artifact_copy_disabled.html" %}
+            {% endif %}
         </div>
 
     <!-- copy button row-->

@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.generic import DetailView, ListView
@@ -7,6 +8,7 @@ from django.views.generic.edit import CreateView, UpdateView
 from dfirtrack_main.forms import HeadlineForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Headline
+
 
 class HeadlineList(LoginRequiredMixin, ListView):
     login_url = '/login'
@@ -33,12 +35,16 @@ class HeadlineCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Headline
     form_class = HeadlineForm
-    template_name = 'dfirtrack_main/headline/headline_add.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " HEADLINE_ADD_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+            'object_type': 'headline',
+        })
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -49,19 +55,58 @@ class HeadlineCreate(LoginRequiredMixin, CreateView):
             messages.success(request, 'Headline added')
             return redirect(reverse('headline_detail', args=(headline.headline_id,)))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'headline',
+            })
+
+class HeadlineCreatePopup(LoginRequiredMixin, CreateView):
+    login_url = '/login'
+    model = Headline
+    form_class = HeadlineForm
+    template_name = 'dfirtrack_main/generic_form_popup.html'
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        debug_logger(str(request.user), " HEADLINE_ADD_POPUP_ENTERED")
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+            'object_type': 'headline',
+        })
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            headline = form.save(commit=False)
+            headline.save()
+            headline.logger(str(request.user), " HEADLINE_ADD_POPUP_EXECUTED")
+            messages.success(request, 'Headline added')
+            return HttpResponse('<script type="text/javascript">window.close();</script>')
+        else:
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'headline',
+            })
 
 class HeadlineUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Headline
     form_class = HeadlineForm
-    template_name = 'dfirtrack_main/headline/headline_edit.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         headline = self.get_object()
         form = self.form_class(instance=headline)
         headline.logger(str(request.user), " HEADLINE_EDIT_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Edit',
+            'object_type': 'headline',
+            'object_name': headline.headline_name,
+        })
 
     def post(self, request, *args, **kwargs):
         headline = self.get_object()
@@ -73,4 +118,9 @@ class HeadlineUpdate(LoginRequiredMixin, UpdateView):
             messages.success(request, 'Headline edited')
             return redirect(reverse('headline_detail', args=(headline.headline_id,)))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Edit',
+                'object_type': 'headline',
+                'object_name': headline.headline_name,
+            })

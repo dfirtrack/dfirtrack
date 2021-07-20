@@ -3,6 +3,7 @@ from django.test import TestCase
 from dfirtrack_main.models import Serviceprovider
 import urllib.parse
 
+
 class ServiceproviderViewTestCase(TestCase):
     """ serviceprovider view tests """
 
@@ -156,7 +157,7 @@ class ServiceproviderViewTestCase(TestCase):
         # get response
         response = self.client.get('/serviceprovider/add/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/serviceprovider/serviceprovider_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
 
     def test_serviceprovider_add_get_user_context(self):
         """ test add view """
@@ -220,7 +221,7 @@ class ServiceproviderViewTestCase(TestCase):
         # get response
         response = self.client.post('/serviceprovider/add/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/serviceprovider/serviceprovider_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
 
     def test_serviceprovider_add_popup_not_logged_in(self):
         """ test add view """
@@ -250,7 +251,7 @@ class ServiceproviderViewTestCase(TestCase):
         # get response
         response = self.client.get('/serviceprovider/add_popup/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/serviceprovider/serviceprovider_add_popup.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form_popup.html')
 
     def test_serviceprovider_add_popup_get_user_context(self):
         """ test add view """
@@ -310,7 +311,7 @@ class ServiceproviderViewTestCase(TestCase):
         # get response
         response = self.client.post('/serviceprovider/add_popup/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/serviceprovider/serviceprovider_add_popup.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form_popup.html')
 
     def test_serviceprovider_edit_not_logged_in(self):
         """ test edit view """
@@ -346,7 +347,7 @@ class ServiceproviderViewTestCase(TestCase):
         # get response
         response = self.client.get('/serviceprovider/' + str(serviceprovider_1.serviceprovider_id) + '/edit/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/serviceprovider/serviceprovider_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
 
     def test_serviceprovider_edit_get_user_context(self):
         """ test edit view """
@@ -420,4 +421,4 @@ class ServiceproviderViewTestCase(TestCase):
         # get response
         response = self.client.post('/serviceprovider/' + str(serviceprovider_id) + '/edit/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/serviceprovider/serviceprovider_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')

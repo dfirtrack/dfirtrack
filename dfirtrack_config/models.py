@@ -8,6 +8,7 @@ stdlogger = logging.getLogger(__name__)
 
 
 class ArtifactExporterSpreadsheetXlsConfigModel(models.Model):
+    """ config for artifact spreadsheet XLS exporter, single object for DFIRTrack """
 
     # primary key
     artifact_exporter_spreadsheet_xls_config_name = models.CharField(max_length=50, primary_key=True, editable=False)
@@ -38,6 +39,7 @@ class ArtifactExporterSpreadsheetXlsConfigModel(models.Model):
         return self.artifact_exporter_spreadsheet_xls_config_name
 
 class MainConfigModel(models.Model):
+    """ main config for DFIRTrack, single object for DFIRTrack """
 
     # primary key
     main_config_name = models.CharField(max_length=50, primary_key=True, editable=False)
@@ -79,6 +81,7 @@ class MainConfigModel(models.Model):
         return self.main_config_name
 
 class SystemExporterMarkdownConfigModel(models.Model):
+    """ config for system markdown exporter, single object for DFIRTrack """
 
     # primary key
     system_exporter_markdown_config_name = models.CharField(max_length=50, primary_key=True, editable=False)
@@ -104,6 +107,7 @@ class SystemExporterMarkdownConfigModel(models.Model):
         return self.system_exporter_markdown_config_name
 
 class SystemExporterSpreadsheetCsvConfigModel(models.Model):
+    """ config for system spreadsheet CSV exporter, single object for DFIRTrack """
 
     # primary key
     system_exporter_spreadsheet_csv_config_name = models.CharField(max_length=50, primary_key=True, editable=False)
@@ -132,6 +136,7 @@ class SystemExporterSpreadsheetCsvConfigModel(models.Model):
         return self.system_exporter_spreadsheet_csv_config_name
 
 class SystemExporterSpreadsheetXlsConfigModel(models.Model):
+    """ config for system spreadsheet XLS exporter, single object for DFIRTrack """
 
     # primary key
     system_exporter_spreadsheet_xls_config_name = models.CharField(max_length=50, primary_key=True, editable=False)
@@ -165,6 +170,7 @@ class SystemExporterSpreadsheetXlsConfigModel(models.Model):
         return self.system_exporter_spreadsheet_xls_config_name
 
 class SystemImporterFileCsvConfigModel(models.Model):
+    """ config for system file CSV importer, single object for DFIRTrack """
 
     # primary key
     system_importer_file_csv_config_name = models.CharField(max_length=50, primary_key=True, editable=False)
@@ -352,6 +358,7 @@ class SystemImporterFileCsvConfigModel(models.Model):
         return self.system_importer_file_csv_config_name
 
 class Statushistory(models.Model):
+    """ status history, multiple objects for DFIRTrack """
 
     # primary key
     statushistory_id = models.AutoField(primary_key=True)
@@ -367,6 +374,7 @@ class Statushistory(models.Model):
         return reverse('status_detail', args=(self.pk,))
 
 class StatushistoryEntry(models.Model):
+    """ status history entries, multiple objects for status history """
 
     # primary key
     statushistoryentry_id = models.AutoField(primary_key=True)
@@ -379,7 +387,29 @@ class StatushistoryEntry(models.Model):
     statushistoryentry_model_key = models.CharField(max_length=255, blank=True, editable=False)
     statushistoryentry_model_value = models.IntegerField(editable=False)
 
+class UserConfigModel(models.Model):
+    """ user config, single object per user """
+
+    # user / primary key
+    user_config_username = models.OneToOneField(User, on_delete=models.CASCADE, related_name='filter_username', primary_key=True)
+
+    # filter settings - documentation list
+    filter_documentation_list_keep = models.BooleanField(default=True)
+    filter_documentation_list_case = models.ForeignKey('dfirtrack_main.Case', related_name='filter_documentation_list_case', on_delete=models.SET_NULL, blank=True, null=True)
+    filter_documentation_list_notestatus = models.ForeignKey('dfirtrack_main.Notestatus', related_name='filter_documentation_list_notestatus', on_delete=models.SET_NULL, blank=True, null=True)
+    filter_documentation_list_tag = models.ForeignKey('dfirtrack_main.Tag', related_name='filter_documentation_list_tag', on_delete=models.SET_NULL, blank=True, null=True)
+
+    # filter settings - system list
+    filter_system_list_keep = models.BooleanField(default=True)
+    filter_system_list_case = models.ForeignKey('dfirtrack_main.Case', related_name='filter_system_list_case', on_delete=models.SET_NULL, blank=True, null=True)
+    filter_system_list_tag = models.ForeignKey('dfirtrack_main.Tag', related_name='filter_system_list_tag', on_delete=models.SET_NULL, blank=True, null=True)
+
+    # string representation
+    def __str__(self):
+        return f'User config {self.user_config_username}'
+
 class Workflow(models.Model):
+    """ workflow to create tasks and artifacts for systems, multiple objects for DFIRTrack """
 
     # primary key
     workflow_id = models.AutoField(primary_key=True)
@@ -463,6 +493,7 @@ class Workflow(models.Model):
         return errors
 
 class WorkflowDefaultArtifactAttributes(models.Model):
+    """ artifact assigned to workflow, multiple objects for workflows """
 
     # primary key
     workflow_default_artifactname_id = models.AutoField(primary_key=True)
@@ -480,6 +511,7 @@ class WorkflowDefaultArtifactAttributes(models.Model):
         return self.artifact_default_name
 
 class WorkflowDefaultTasknameAttributes(models.Model):
+    """ task assigned to workflow, multiple objects for workflows """
 
     # primary key
     workflow_default_taskname_id = models.AutoField(primary_key=True)

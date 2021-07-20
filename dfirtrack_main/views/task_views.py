@@ -75,7 +75,7 @@ class TaskCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Task
     form_class = TaskForm
-    template_name = 'dfirtrack_main/task/task_add.html'
+    template_name = 'dfirtrack_main/task/task_generic_form.html'
 
     def get(self, request, *args, **kwargs):
 
@@ -110,7 +110,10 @@ class TaskCreate(LoginRequiredMixin, CreateView):
                 'taskstatus': taskstatus,
             })
         debug_logger(str(request.user), " TASK_ADD_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+        })
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -132,19 +135,25 @@ class TaskCreate(LoginRequiredMixin, CreateView):
             # conditional redirect
             return get_redirect(request, task)
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Add',
+            })
 
 class TaskUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Task
     form_class = TaskForm
-    template_name = 'dfirtrack_main/task/task_edit.html'
+    template_name = 'dfirtrack_main/task/task_generic_form.html'
 
     def get(self, request, *args, **kwargs):
         task = self.get_object()
         form = self.form_class(instance=task)
         task.logger(str(request.user), " TASK_EDIT_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Edit',
+        })
 
     def post(self, request, *args, **kwargs):
         task = self.get_object()
@@ -171,7 +180,10 @@ class TaskUpdate(LoginRequiredMixin, UpdateView):
             # conditional redirect
             return get_redirect(request, task)
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Edit',
+            })
 
 class TaskStart(LoginRequiredMixin, UpdateView):
     login_url = '/login'

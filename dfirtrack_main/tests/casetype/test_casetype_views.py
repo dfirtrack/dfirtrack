@@ -3,6 +3,7 @@ from django.test import TestCase
 from dfirtrack_main.models import Casetype
 import urllib.parse
 
+
 class CasetypeViewTestCase(TestCase):
     """ casetype view tests """
 
@@ -156,7 +157,7 @@ class CasetypeViewTestCase(TestCase):
         # get response
         response = self.client.get('/casetype/create/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/casetype/casetype_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
 
     def test_casetype_create_get_user_context(self):
         """ test create view """
@@ -220,7 +221,97 @@ class CasetypeViewTestCase(TestCase):
         # get response
         response = self.client.post('/casetype/create/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/casetype/casetype_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
+
+    def test_casetype_add_popup_not_logged_in(self):
+        """ test add view """
+
+        # create url
+        destination = '/login/?next=' + urllib.parse.quote('/casetype/add_popup/', safe='')
+        # get response
+        response = self.client.get('/casetype/add_popup/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_casetype_add_popup_logged_in(self):
+        """ test add view """
+
+        # login testuser
+        self.client.login(username='testuser_casetype', password='zI9vhT7Z0HlzJeOPlO3F')
+        # get response
+        response = self.client.get('/casetype/add_popup/')
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_casetype_add_popup_template(self):
+        """ test add view """
+
+        # login testuser
+        self.client.login(username='testuser_casetype', password='zI9vhT7Z0HlzJeOPlO3F')
+        # get response
+        response = self.client.get('/casetype/add_popup/')
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form_popup.html')
+
+    def test_casetype_add_popup_get_user_context(self):
+        """ test add view """
+
+        # login testuser
+        self.client.login(username='testuser_casetype', password='zI9vhT7Z0HlzJeOPlO3F')
+        # get response
+        response = self.client.get('/casetype/add_popup/')
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_casetype')
+
+    def test_casetype_add_popup_redirect(self):
+        """ test add view """
+
+        # login testuser
+        self.client.login(username='testuser_casetype', password='zI9vhT7Z0HlzJeOPlO3F')
+        # create url
+        destination = urllib.parse.quote('/casetype/add_popup/', safe='/')
+        # get response
+        response = self.client.get('/casetype/add_popup', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_casetype_add_popup_post_redirect(self):
+        """ test add view """
+
+        # login testuser
+        self.client.login(username='testuser_casetype', password='zI9vhT7Z0HlzJeOPlO3F')
+        # create post data
+        data_dict = {
+            'casetype_name': 'casetype_add_popup_post_test',
+        }
+        # get response
+        response = self.client.post('/casetype/add_popup/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_casetype_add_popup_post_invalid_reload(self):
+        """ test add view """
+
+        # login testuser
+        self.client.login(username='testuser_casetype', password='zI9vhT7Z0HlzJeOPlO3F')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/casetype/add_popup/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_casetype_add_popup_post_invalid_template(self):
+        """ test add view """
+
+        # login testuser
+        self.client.login(username='testuser_casetype', password='zI9vhT7Z0HlzJeOPlO3F')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/casetype/add_popup/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form_popup.html')
 
     def test_casetype_update_not_logged_in(self):
         """ test update view """
@@ -256,7 +347,7 @@ class CasetypeViewTestCase(TestCase):
         # get response
         response = self.client.get('/casetype/update/' + str(casetype_1.casetype_id) + '/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/casetype/casetype_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
 
     def test_casetype_update_get_user_context(self):
         """ test update view """
@@ -328,4 +419,4 @@ class CasetypeViewTestCase(TestCase):
         # get response
         response = self.client.post('/casetype/update/' + str(casetype_id) + '/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/casetype/casetype_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')

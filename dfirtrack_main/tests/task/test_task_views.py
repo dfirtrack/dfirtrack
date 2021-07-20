@@ -373,7 +373,7 @@ class TaskViewTestCase(TestCase):
         # get response
         response = self.client.get('/task/add/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/task/task_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/task/task_generic_form.html')
 
     def test_task_add_get_user_context(self):
         """ test add view """
@@ -541,7 +541,7 @@ class TaskViewTestCase(TestCase):
         # get response
         response = self.client.post('/task/add/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/task/task_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/task/task_generic_form.html')
 
     def test_task_add_times_pending(self):
         """ test add view """
@@ -684,7 +684,7 @@ class TaskViewTestCase(TestCase):
         # get response
         response = self.client.get('/task/' + str(task_1.task_id) + '/edit/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/task/task_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/task/task_generic_form.html')
 
     def test_task_edit_get_user_context(self):
         """ test edit view """
@@ -902,7 +902,7 @@ class TaskViewTestCase(TestCase):
         # get response
         response = self.client.post('/task/' + str(task_id) + '/edit/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/task/task_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/task/task_generic_form.html')
 
     def test_task_edit_times_pending(self):
         """ test edit view """

@@ -182,6 +182,17 @@ class DomainuserSerializer(serializers.ModelSerializer):
             'domainuser_is_domainadmin',
         )
 
+class HeadlineSerializer(serializers.ModelSerializer):
+    """ create serializer for model instance """
+
+    class Meta:
+        model = dfirtrack_main_models.Headline
+        # attributes made available for api
+        fields = (
+            'headline_id',
+            'headline_name',
+        )
+
 class IpSerializer(serializers.ModelSerializer):
     """ create serializer for model instance """
 
@@ -202,6 +213,54 @@ class LocationSerializer(serializers.ModelSerializer):
         fields = (
             'location_id',
             'location_name',
+        )
+
+class NoteSerializer(serializers.ModelSerializer):
+    """ create serializer for model instance """
+
+    # redefine representation
+    def to_representation(self, instance):
+
+        # get serializers of foreignkey relationsships
+        self.fields['case'] =  dfirtrack_main_fk.CaseFkSerializer(many=False, read_only=True)
+        self.fields['notestatus'] =  dfirtrack_main_fk.NotestatusFkSerializer(many=False, read_only=True)
+        self.fields['tag'] =  dfirtrack_main_fk.TagFkSerializer(many=True, read_only=True)
+
+        # get existing to_representation
+        representation = super(NoteSerializer, self).to_representation(instance)
+
+        # change mandatory time strings
+        representation['note_create_time'] = instance.note_create_time.strftime('%Y-%m-%dT%H:%M')
+        representation['note_modify_time'] = instance.note_modify_time.strftime('%Y-%m-%dT%H:%M')
+
+        return representation
+
+    class Meta:
+        model = dfirtrack_main_models.Note
+        # attributes made available for api
+        fields = (
+            'note_id',
+            'note_title',
+            'note_content',
+            'note_version',
+            'case',
+            'notestatus',
+            'tag',
+            'note_create_time',
+            'note_created_by_user_id',
+            'note_modify_time',
+            'note_modified_by_user_id',
+        )
+
+class NotestatusSerializer(serializers.ModelSerializer):
+    """ create serializer for model instance """
+
+    class Meta:
+        model = dfirtrack_main_models.Notestatus
+        # attributes made available for api
+        fields = (
+            'notestatus_id',
+            'notestatus_name',
         )
 
 class OsSerializer(serializers.ModelSerializer):
@@ -246,6 +305,46 @@ class RecommendationSerializer(serializers.ModelSerializer):
         fields = (
             'recommendation_id',
             'recommendation_name',
+        )
+
+class ReportitemSerializer(serializers.ModelSerializer):
+    """ create serializer for model instance """
+
+    # redefine representation
+    def to_representation(self, instance):
+
+        # get serializers of foreignkey relationsships
+        self.fields['case'] =  dfirtrack_main_fk.CaseFkSerializer(many=False, read_only=True)
+        self.fields['headline'] =  dfirtrack_main_fk.HeadlineFkSerializer(many=False, read_only=True)
+        self.fields['notestatus'] =  dfirtrack_main_fk.NotestatusFkSerializer(many=False, read_only=True)
+        self.fields['system'] =  dfirtrack_main_fk.SystemFkSerializer(many=False, read_only=True)
+        self.fields['tag'] =  dfirtrack_main_fk.TagFkSerializer(many=True, read_only=True)
+
+        # get existing to_representation
+        representation = super(ReportitemSerializer, self).to_representation(instance)
+
+        # change mandatory time strings
+        representation['reportitem_create_time'] = instance.reportitem_create_time.strftime('%Y-%m-%dT%H:%M')
+        representation['reportitem_modify_time'] = instance.reportitem_modify_time.strftime('%Y-%m-%dT%H:%M')
+
+        return representation
+
+    class Meta:
+        model = dfirtrack_main_models.Reportitem
+        # attributes made available for api
+        fields = (
+            'reportitem_id',
+            'case',
+            'headline',
+            'notestatus',
+            'system',
+            'tag',
+            'reportitem_subheadline',
+            'reportitem_note',
+            'reportitem_create_time',
+            'reportitem_created_by_user_id',
+            'reportitem_modify_time',
+            'reportitem_modified_by_user_id',
         )
 
 class ServiceproviderSerializer(serializers.ModelSerializer):

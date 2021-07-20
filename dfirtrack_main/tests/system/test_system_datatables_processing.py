@@ -1,9 +1,15 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
-from dfirtrack_main.models import System, Systemstatus, Analysisstatus, Case, Tag, Tagcolor
-import json
+from dfirtrack_main.models import Analysisstatus
+from dfirtrack_main.models import Case
+from dfirtrack_main.models import System
+from dfirtrack_main.models import Systemstatus
+from dfirtrack_main.models import Tag
+from dfirtrack_main.models import Tagcolor
 import datetime
+import json
 import pytz
+import urllib.parse
 
 
 class SystemDatatablesProcessingTestCase(TestCase):
@@ -93,6 +99,16 @@ class SystemDatatablesProcessingTestCase(TestCase):
             system_modified_by_user_id = test_user,
         )
 
+    def test_dt_processing_not_logged_in(self):
+        """ test system datatables processing """
+
+        # create url
+        destination = '/login/?next=' + urllib.parse.quote('/system/json/', safe='')
+        # get response
+        response = self.client.get('/system/json/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
     def test_dt_processing_logged_in(self):
         """ test system datatables processing """
         # login testuser
@@ -100,13 +116,6 @@ class SystemDatatablesProcessingTestCase(TestCase):
         response = self.client.get('/system/json/', {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': '', 'columns[1][data]': 'system_name', 'columns[2][data]': 'systemstatus',  'draw': '1'}, HTTP_REFERER='/system/')
         # compare
         self.assertEqual(response.status_code, 200)
-
-    def test_dt_processing_not_logged_in(self):
-        """ test system datatables processing """
-        # get response
-        response = self.client.get('/system/json/', {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': '', 'columns[1][data]': 'system_name', 'columns[2][data]': 'systemstatus',  'draw': '1'}, HTTP_REFERER='/system/')
-        # compare
-        self.assertEqual(response.status_code, 403)
 
     def test_dt_search(self):
         """ test system datatables processing """

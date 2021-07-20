@@ -6,7 +6,7 @@
 
 <!-- page title -->
 <title>
-    DFIRTrack - {{title}} workflow
+    {{title}} workflow
 </title>
 
 <style type="text/css">
@@ -82,7 +82,7 @@
        <div class="row justify-content-between">
 
             <!-- task headline -->
-            <div class="col-2">
+            <div class="col-auto">
                 <h5>
                     <img src="/static/dfirtrack_main/icons/task-light.svg" class="icon right-distance copy-false" alt="icon">
                     Tasks to create
@@ -90,16 +90,26 @@
             </div>
 
             <!-- tasknames_formset mandatory management form -->
-            <div class="col-2">
+            <div class="col-auto">
                 <div id="tasknames_formset_management" class="d-none">{{tasknames_formset.management_form}}</div>
             </div>
 
-            <!-- button add taskname via javascript -->
-            <div class="col-2">
-                <button type="button" class="btn btn-light btn-sm copy-false addForm" id="add-taskname">
-                    <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm copy-false right-distance" alt="icon">
+            <!-- buttons taskname / task -->
+            <div class="col-auto">
+
+                <!-- add taskname button row -->
+                <button onclick="taskname_add_popup()" type="button" class="btn btn-light btn-sm copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                     Add taskname
+                </button>
+
+                <!-- button add taskname via javascript -->
+                <button type="button" class="btn btn-light btn-sm copy-false addForm" id="add-taskname">
+                    <img src="{% static 'dfirtrack_main/icons/share.svg' %}" class="icon-sm copy-false right-distance" alt="icon">
+                    Append task
                 </a>
+
+            <!-- buttons taskname / task -->
             </div>
 
         <!-- taskname div header -->
@@ -156,7 +166,7 @@
         <div class="row justify-content-between">
 
             <!-- artifact headline -->
-            <div class="col-2">
+            <div class="col-auto">
                 <h5>
                     <img src="/static/dfirtrack_main/icons/bug-light.svg" class="icon right-distance copy-false" alt="icon">
                     Artifacts to create
@@ -164,16 +174,26 @@
             </div>
 
             <!-- artifacttypes_formset mandatory management form -->
-            <div class="col-2">
+            <div class="col-auto">
                 <div id="artifacttypes_formset_management" class="d-none">{{artifacttypes_formset.management_form}}</div>
             </div>
 
-            <!-- button add artifacttype via javascript -->
-            <div class="col-2">
-                <button type="button" class="btn btn-light btn-sm copy-false addForm" id="add-artifact">
-                    <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm copy-false right-distance" alt="icon">
+            <!-- buttons artifacttype / artifact -->
+            <div class="col-auto">
+
+                <!-- add artifacttype button row -->
+                <button onclick="artifacttype_add_popup()" type="button" class="btn btn-light btn-sm copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                     Add artifacttype
+                </button>
+
+                <!-- button add artifacttype via javascript -->
+                <button type="button" class="btn btn-light btn-sm copy-false addForm" id="add-artifact">
+                    <img src="{% static 'dfirtrack_main/icons/share.svg' %}" class="icon-sm copy-false right-distance" alt="icon">
+                    Append artifact
                 </a>
+
+            <!-- buttons artifacttype / artifact -->
             </div>
 
         <!-- artifacttype div header -->
@@ -229,21 +249,8 @@
     <!-- artifacttype div -->
     </div>
 
-    <!-- button row -->
-    <div class="row top-distance">
-
-        <!-- save button -->
-        <div class="col-1">
-            {% include "dfirtrack_main/includes/button_save.html" %}
-        </div>
-
-        <!-- cancel button -->
-        <div class="col-1">
-            {% include "dfirtrack_main/includes/button_cancel.html" %}
-        </div>
-
-    <!-- button row -->
-    </div>
+    <!-- row save cancel -->
+    {% include "dfirtrack_main/includes/row_save_cancel.html" %}
 
 <!-- form -->
 </form>

@@ -36,23 +36,8 @@
         Delete workflow "{{ workflow.workflow_name }}"?
     </div>
 
-    <!-- button row -->
-    <div class="row top-distance">
-
-        <div class="col-1">
-            <button class="btn btn-light copy-false" type="submit">
-                <img src="{% static 'dfirtrack_main/icons/trash.svg' %}" class="icon right-distance copy-false" alt="icon">
-                Delete
-            </button>
-        </div>
-
-        <!-- cancel button -->
-        <div class="col-1">
-            {% include "dfirtrack_main/includes/button_cancel.html" %}
-        </div>
-
-    <!-- button row -->
-    </div>
+    <!-- row delete cancel -->
+    {% include "dfirtrack_main/includes/row_delete_cancel.html" %}
 
 <!-- form -->
 </form>

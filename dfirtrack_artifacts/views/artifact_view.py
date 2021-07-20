@@ -109,7 +109,7 @@ class ArtifactDetailView(LoginRequiredMixin, DetailView):
 class ArtifactCreateView(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Artifact
-    template_name = 'dfirtrack_artifacts/artifact/artifact_add.html'
+    template_name = 'dfirtrack_artifacts/artifact/artifact_generic_form.html'
     form_class = ArtifactForm
 
     def get(self, request, *args, **kwargs):
@@ -131,7 +131,10 @@ class ArtifactCreateView(LoginRequiredMixin, CreateView):
                 'artifactstatus': artifactstatus,
             })
         debug_logger(str(request.user), ' ARTIFACT_ADD_ENTERED')
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+        })
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
@@ -149,14 +152,17 @@ class ArtifactCreateView(LoginRequiredMixin, CreateView):
 class ArtifactUpdateView(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Artifact
-    template_name = 'dfirtrack_artifacts/artifact/artifact_edit.html'
+    template_name = 'dfirtrack_artifacts/artifact/artifact_generic_form.html'
     form_class = ArtifactForm
 
     def get(self, request, *args, **kwargs):
         artifact = self.get_object()
         form = self.form_class(instance = artifact)
         artifact.logger(str(request.user), ' ARTIFACT_EDIT_ENTERED')
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Edit',
+        })
 
     def form_valid(self, form):
         self.object = form.save(commit=False)

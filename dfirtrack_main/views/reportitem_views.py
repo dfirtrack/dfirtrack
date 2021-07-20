@@ -57,7 +57,7 @@ class ReportitemCreate(LoginRequiredMixin, CreateView):
         debug_logger(str(request.user), " REPORTITEM_ADD_ENTERED")
         return render(request, self.template_name, {
             'form': form,
-            'title': 'Add'
+            'title': 'Add',
         })
 
     def post(self, request, *args, **kwargs):
@@ -77,7 +77,7 @@ class ReportitemCreate(LoginRequiredMixin, CreateView):
         else:
             return render(request, self.template_name, {
                 'form': form,
-                'title': 'Add'
+                'title': 'Add',
             })
 
 class ReportitemUpdate(LoginRequiredMixin, UpdateView):
@@ -92,7 +92,7 @@ class ReportitemUpdate(LoginRequiredMixin, UpdateView):
         reportitem.logger(str(request.user), " REPORTITEM_EDIT_ENTERED")
         return render(request, self.template_name, {
             'form': form,
-            'title': 'Edit'
+            'title': 'Edit',
         })
 
     def post(self, request, *args, **kwargs):
@@ -112,5 +112,5 @@ class ReportitemUpdate(LoginRequiredMixin, UpdateView):
         else:
             return render(request, self.template_name, {
                 'form': form,
-                'title': 'Edit'
+                'title': 'Edit',
             })

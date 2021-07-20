@@ -13,6 +13,7 @@ import uuid
 import csv
 
 
+
 class EntryList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Entry
@@ -38,8 +39,7 @@ class EntryCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Entry
     form_class = EntryForm
-    template_name = 'dfirtrack_main/entry/entry_generic_form.html'
-    title = "Add"
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         if 'system' in request.GET:
@@ -50,7 +50,11 @@ class EntryCreate(LoginRequiredMixin, CreateView):
         else:
             form = self.form_class()
         debug_logger(str(request.user), " ENTRY_ADD_ENTERED")
-        return render(request, self.template_name, {'form': form, 'title': self.title})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+            'object_type': 'entry',
+        })
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -64,20 +68,27 @@ class EntryCreate(LoginRequiredMixin, CreateView):
             messages.success(request, 'Entry added')
             return redirect(reverse('system_detail', args=(entry.system.system_id,)))
         else:
-            return render(request, self.template_name, {'form': form, 'title': self.title})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'entry',
+            })
 
 class EntryUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Entry
     form_class = EntryForm
-    template_name = 'dfirtrack_main/entry/entry_generic_form.html'
-    title = "Edit"
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         entry = self.get_object()
         form = self.form_class(instance=entry)
         entry.logger(str(request.user), " ENTRY_EDIT_ENTERED")
-        return render(request, self.template_name, {'form': form, 'title': self.title})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Edit',
+            'object_type': 'entry',
+        })
 
     def post(self, request, *args, **kwargs):
         entry = self.get_object()
@@ -91,7 +102,11 @@ class EntryUpdate(LoginRequiredMixin, UpdateView):
             messages.success(request, 'Entry edited')
             return redirect(reverse('system_detail', args=(entry.system.system_id,)))
         else:
-            return render(request, self.template_name, {'form': form, 'title': self.title})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Edit',
+                'object_type': 'entry',
+            })
 
 @login_required(login_url="/login")
 def import_csv_step1(request):

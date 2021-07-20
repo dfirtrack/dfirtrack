@@ -1,37 +1,36 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from django.views.generic import DetailView, ListView
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic import DetailView
+from django.views.generic.edit import CreateView, FormView, UpdateView
 from dfirtrack_artifacts.models import Artifact
-from dfirtrack_config.models import MainConfigModel, Workflow
+from dfirtrack_config.models import MainConfigModel, UserConfigModel, Workflow
+from dfirtrack_main.filter_forms import SystemFilterForm
 from dfirtrack_main.forms import SystemForm, SystemNameForm
 from dfirtrack_main.logger.default_logger import debug_logger, warning_logger
-from dfirtrack_main.models import Analysisstatus, Ip, System, Systemstatus
+from dfirtrack_main.models import Analysisstatus, Case, Ip, System, Systemstatus, Tag
 from dfirtrack.settings import INSTALLED_APPS as installed_apps
-from django.http import  JsonResponse, HttpResponseForbidden
+from django.http import  JsonResponse
 from django.templatetags.static import static
 from django.template.loader import render_to_string
 from django.core.exceptions import FieldError
 import ipaddress
 
 
-class SystemList(LoginRequiredMixin, ListView):
+class SystemList(LoginRequiredMixin, FormView):
     login_url = '/login'
-    model = System
+    form_class = SystemFilterForm
     template_name = 'dfirtrack_main/system/system_list.html'
-    context_object_name = 'system_list'
-
-    def get_queryset(self):
-        # call logger
-        debug_logger(str(self.request.user), " SYSTEM_LIST_ENTERED")
-        return System.objects.order_by('system_name')
 
     def get_context_data(self, **kwargs):
+        """ enrich context data """
 
-        # returns context dictionary
+        # get context
         context = super(SystemList, self).get_context_data()
+
+        """ dfirtrack api settings """
 
         # set dfirtrack_api for template
         if 'dfirtrack_api' in installed_apps:
@@ -39,8 +38,82 @@ class SystemList(LoginRequiredMixin, ListView):
         else:
             context['dfirtrack_api'] = False
 
+        """
+        filter: provide initial form values according to config
+        for a better understanding of filter related condition flow, every important comment starts with 'filter: '
+        """
+
+        # get config
+        user_config, created = UserConfigModel.objects.get_or_create(user_config_username=self.request.user)
+
+        # filter: even if the persistence option has been deselected, the initial values must correspond to the current filtering until 'system_list' is reloaded or left
+
+        # create dict to initialize form values set by filtering in previous view call
+        form_initial = {}
+
+        # check box if persistence option was provided
+        if user_config.filter_system_list_keep:
+            # set initial value for form
+            form_initial['filter_system_list_keep'] = True
+        else:
+            form_initial['filter_system_list_keep'] = False
+
+        # get case from config
+        if user_config.filter_system_list_case:
+            # get id
+            case_id = user_config.filter_system_list_case.case_id
+            # set initial value for form
+            form_initial['case'] = case_id
+
+        # get tag from config
+        if user_config.filter_system_list_tag:
+            # get id
+            tag_id = user_config.filter_system_list_tag.tag_id
+            # set initial value for form
+            form_initial['tag'] = tag_id
+
+        # filter: pre-select form according to previous filter selection
+        context['form'] = self.form_class(initial = form_initial)
+
+        # call logger
+        debug_logger(str(self.request.user), " SYSTEM_LIST_ENTERED")
+
         # return dictionary with additional values for template
         return context
+
+    def form_valid(self, form):
+        """ save form data to config and call view again """
+
+        # get config
+        user_config, created = UserConfigModel.objects.get_or_create(user_config_username=self.request.user)
+
+        # filter: save filter choices from form in 'system_list' to database and call 'system_list' again with the new filter options
+
+        # get case from form and save to config
+        if form.data['case']:
+            system_list_case = Case.objects.get(case_id=form.data['case'])
+            user_config.filter_system_list_case = system_list_case
+        else:
+            user_config.filter_system_list_case = None
+
+        # get tag from form and save to config
+        if form.data['tag']:
+            system_list_tag = Tag.objects.get(tag_id=form.data['tag'])
+            user_config.filter_system_list_tag = system_list_tag
+        else:
+            user_config.filter_system_list_tag = None
+
+        # avoid MultiValueDictKeyError by providing default False if checkbox was empty
+        if form.data.get('filter_system_list_keep', False):
+            user_config.filter_system_list_keep = True
+        else:
+            user_config.filter_system_list_keep = False
+
+        # save config
+        user_config.save()
+
+        # call view again
+        return redirect(reverse('system_list'))
 
 class SystemDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
@@ -252,134 +325,225 @@ def ips_save(request, system, lines):
         # save ip for system
         system.ip.add(ip)
 
+@login_required(login_url="/login")
+def clear_system_list_filter(request):
+    """ clear system list filter """
+
+    # get config
+    user_config, created = UserConfigModel.objects.get_or_create(user_config_username=request.user)
+
+    # clear values
+    user_config.filter_system_list_case = None
+    user_config.filter_system_list_tag = None
+
+    # save config
+    user_config.save()
+
+    return redirect(reverse('system_list'))
+
+@login_required(login_url="/login")
 def get_systems_json(request):
-    if request.user.is_authenticated:
-        # get parameters from GET request and parse them accordingly
-        get_params = request.GET
+    """ function to create system query used by datatable JSON """
+
+    # get referer
+    try:
         referer = request.headers['Referer']
-        order_column_number = get_params['order[0][column]']
-        order_column_name = get_params['columns['+order_column_number+'][data]']
-        order_dir = '' if (get_params['order[0][dir]']=='asc') else '-'
-        search_value = get_params['search[value]']
-        # check that string contains only alphanumerical chars or spaces (or '_','-',':')
-        if not all((x.isalnum() or x.isspace() or x == '_' or x == '-' or x == ':') for x in search_value):
-            search_value = ''
+    # if '/system/json/' was called directly for some reason
+    except KeyError:
+        # call 'system_list' properly to refresh this call
+        return redirect(reverse('system_list'))
 
-        # if no search value is given, get all objects and order them according to user setting, if the table is not generated on the general system overview page, only show the systems with the relevant id
-        if search_value == '':
-            if referer.endswith('/system/'):
-                system_values = System.objects.all().order_by(order_dir+order_column_name)
-            elif '/analysisstatus/' in referer:
-                analysisstatus_id = referer.split("/")[-2]
-                system_values = System.objects.filter(analysisstatus__analysisstatus_id=analysisstatus_id).order_by(order_dir+order_column_name)
-            elif '/systemstatus/' in referer:
-                systemstatus_id = referer.split("/")[-2]
-                system_values = System.objects.filter(systemstatus__systemstatus_id=systemstatus_id).order_by(order_dir+order_column_name)
-            elif '/case/' in referer:
-                case_id = referer.split("/")[-2]
-                system_values = System.objects.filter(case__case_id=case_id).order_by(order_dir+order_column_name)
-            elif '/tag/' in referer:
-                tag_id = referer.split("/")[-2]
-                system_values = System.objects.filter(tag__tag_id=tag_id).order_by(order_dir+order_column_name)
+    # get parameters from GET request and parse them accordingly
+    get_params = request.GET
+    order_column_number = get_params['order[0][column]']
+    order_column_name = get_params['columns['+order_column_number+'][data]']
+    order_dir = '' if (get_params['order[0][dir]']=='asc') else '-'
+    search_value = get_params['search[value]']
+    # check that string contains only alphanumerical chars or spaces (or '_','-',':')
+    if not all((x.isalnum() or x.isspace() or x == '_' or x == '-' or x == ':') for x in search_value):
+        search_value = ''
 
+    # get config
+    user_config, created = UserConfigModel.objects.get_or_create(user_config_username=request.user)
 
-        # if search value is given, go through all cloumn-raw-data and search for it
-        else:
-            system_values = System.objects.none()
-            # to keep the search dynamic and not hardcode the fields, we go through all columns as they are found in the request here
-            for entry in get_params:
-                # this matches on these lines: ''' columns[0][data]': ['system_id/system_name/...'] '''
-                if '][data]' in entry:
-                    tmp_column_name = get_params[entry]
-                    # we start with an empty queryset and add all systems that have a match in one of their relevant fields
-                    try:
-                        # filter_kwargs is necessary for dynamic filter design
-                        filter_kwargs = {tmp_column_name+'__icontains': search_value}
-                        if '/analysisstatus/' in referer:
-                            analysisstatus_id = referer.split("/")[-2]
-                            filter_kwargs["analysisstatus__analysisstatus_id"] = analysisstatus_id
-                        elif '/systemstatus/' in referer:
-                            systemstatus_id = referer.split("/")[-2]
-                            filter_kwargs["systemstatus__systemstatus_id"] = systemstatus_id
-                        elif '/case/' in referer:
-                            case_id = referer.split("/")[-2]
-                            filter_kwargs["case__case_id"] = case_id
-                        elif '/tag/' in referer:
-                            tag_id = referer.split("/")[-2]
-                            filter_kwargs["tag__tag_id"] = tag_id
-                        system_values = system_values | System.objects.filter(**filter_kwargs)
-                    # for foreign keys, an exception is thrown, need to modify filter_kwargs accordingly
-                    except FieldError:
-                        filter_kwargs = {tmp_column_name+'__'+tmp_column_name+'_name'+'__icontains': search_value}
-                        if '/analysisstatus/' in referer:
-                            analysisstatus_id = referer.split("/")[-2]
-                            filter_kwargs["analysisstatus__analysisstatus_id"] = analysisstatus_id
-                        elif '/systemstatus/' in referer:
-                            systemstatus_id = referer.split("/")[-2]
-                            filter_kwargs["systemstatus__systemstatus_id"] = systemstatus_id
-                        elif '/case/' in referer:
-                            case_id = referer.split("/")[-2]
-                            filter_kwargs["case__case_id"] = case_id
-                        elif '/tag/' in referer:
-                            tag_id = referer.split("/")[-2]
-                            filter_kwargs["tag__tag_id"] = tag_id
-                        system_values = system_values | System.objects.filter(**filter_kwargs)
-            # make the resulting queryset unique and sort it according to user settings
-            system_values = system_values.distinct().order_by(order_dir+order_column_name)
-
-        # starting point for records in table
-        start = int(get_params['start'])
-        # how many records are to be shown? if all records are to be shown, length is set to -1
-        length = int(get_params['length']) if int(get_params['length'])!=-1 else len(system_values)
-
-        # if there is a search value check that the search value really occurs in one of the visible fields in the table (it is possible that the value only occurs e.g. only in the milliseconds of the data field)
-        if search_value != '':
-            for i in system_values:
-                # extract values from system object
-                system_id = i.system_id
-                system_name = i.system_name
-                systemstatus = i.systemstatus
-                analysisstatus = i.analysisstatus
-                system_create_time = i.system_create_time.strftime("%Y-%m-%d %H:%M")
-                system_modify_time = i.system_modify_time.strftime("%Y-%m-%d %H:%M")
-
-                search_relevant_strings = [str(system_id), str(system_name), str(systemstatus), str(analysisstatus), str(system_create_time), str(system_modify_time)]
-                really_contains_search_string = False
-                # go through visible fields and check if search string is contained
-                for field in search_relevant_strings:
-                    if search_value in field:
-                        really_contains_search_string = True
-                # if the searched string was not found, exclude system from queryset
-                if not really_contains_search_string:
-                    system_values = system_values.exclude(system_id=system_id)
-
-        # all matching systems
-        system_count = len(system_values)
-        # construct the final list with systems that are presented to user
-        visible_system_list = []
-        for i in system_values[start:(start+length)]:
-            # construct the data to be presented in the system table, important: if you add something here, make sure you also add it above in the cleaned_system_values generation to stay consistent
-            visible_system_list.append(
-                {
-                "system_id": i.system_id,
-                "system_name": "<a href='"+i.get_absolute_url()+"' type='button' class='btn btn-primary btn-sm copy-true'><img src='"+static("dfirtrack_main/icons/monitor-light.svg")+"' class='icon right-distance copy-false' alt='icon'>"+i.system_name+"</a>",
-                "systemstatus": render_to_string('dfirtrack_main/includes/button_systemstatus.html', {'systemstatus': i.systemstatus}),
-                "analysisstatus": "<span data-toggle='tooltip' data-placement='auto' title='"+str(i.analysisstatus.analysisstatus_note or "")+"'><a href='"+i.analysisstatus.get_absolute_url()+"'>"+str(i.analysisstatus)+"</a></span>" if i.analysisstatus is not None else "---",
-                "system_create_time": i.system_create_time.strftime("%Y-%m-%d %H:%M"),
-                "system_modify_time": i.system_modify_time.strftime("%Y-%m-%d %H:%M")
-                }
-                )
-
-        # prepare dictionary with relevant data to convert to json
-        json_dict = {}
-        json_dict['draw'] = int(get_params['draw'])
-        json_dict['recordsTotal'] = len(System.objects.all())
-        json_dict['recordsFiltered'] = system_count
-        json_dict['data'] = visible_system_list
-
-        # convert dict with data to jsonresponse
-        response = JsonResponse(json_dict, safe=False)
-    # user is not logged in - possible TODO: should this be logged somewhere?
+    # case filter
+    if user_config.filter_system_list_case:
+        # get filter values from config
+        system_list_case = Case.objects.get(case_id=user_config.filter_system_list_case.case_id)
     else:
-        response = HttpResponseForbidden()
+        system_list_case = None
+
+    # tag filter
+    if user_config.filter_system_list_tag:
+        # get filter values from config
+        system_list_tag = Tag.objects.get(tag_id=user_config.filter_system_list_tag.tag_id)
+    else:
+        system_list_tag = None
+
+    """ no search value in datatable search field """
+
+    # if no search value is given, get all objects and order them according to user setting
+    # if the table is not generated on the general system overview page, only show the systems with the relevant id
+    if search_value == '':
+
+        # start with full query
+        system_values = System.objects.all().order_by(order_dir+order_column_name)
+
+        # system detail
+        if '/system/' in referer:
+            # filter: filtering for case and tag is only applied to 'system_list'
+            if system_list_case:
+                system_values = system_values.filter(case=system_list_case)
+            if system_list_tag:
+                system_values = system_values.filter(tag=system_list_tag)
+        # analysisstatus detail
+        elif '/analysisstatus/' in referer:
+            analysisstatus_id = referer.split("/")[-2]
+            system_values = system_values.filter(analysisstatus__analysisstatus_id=analysisstatus_id).order_by(order_dir+order_column_name)
+        # systemstatus detail
+        elif '/systemstatus/' in referer:
+            systemstatus_id = referer.split("/")[-2]
+            system_values = system_values.filter(systemstatus__systemstatus_id=systemstatus_id).order_by(order_dir+order_column_name)
+        # case detail
+        elif '/case/' in referer:
+            case_id = referer.split("/")[-2]
+            system_values = system_values.filter(case__case_id=case_id).order_by(order_dir+order_column_name)
+        # tag detail
+        elif '/tag/' in referer:
+            tag_id = referer.split("/")[-2]
+            system_values = system_values.filter(tag__tag_id=tag_id).order_by(order_dir+order_column_name)
+        # catch-all rule to prevent empty 'system_values' if the datatable is included in other views in the future
+        else:
+            system_values = system_values
+
+    #""" search value in datatable search field """
+
+    # if search value is given, go through all cloumn-raw-data and search for it
+    else:
+
+        # start with empty query
+        system_values = System.objects.none()
+
+        # to keep the search dynamic and not hardcode the fields, we go through all columns as they are found in the request here
+        for entry in get_params:
+            # this matches on these lines: ''' columns[0][data]': ['system_id/system_name/...'] '''
+            if '][data]' in entry:
+                tmp_column_name = get_params[entry]
+                # we start with an empty queryset and add all systems that have a match in one of their relevant fields
+                try:
+                    # filter_kwargs is necessary for dynamic filter design
+                    filter_kwargs = {tmp_column_name+'__icontains': search_value}
+                    # analysisstatus detail
+                    if '/analysisstatus/' in referer:
+                        analysisstatus_id = referer.split("/")[-2]
+                        filter_kwargs["analysisstatus__analysisstatus_id"] = analysisstatus_id
+                    # systemstatus detail
+                    elif '/systemstatus/' in referer:
+                        systemstatus_id = referer.split("/")[-2]
+                        filter_kwargs["systemstatus__systemstatus_id"] = systemstatus_id
+                    # case detail
+                    elif '/case/' in referer:
+                        case_id = referer.split("/")[-2]
+                        filter_kwargs["case__case_id"] = case_id
+                    # tag detail
+                    elif '/tag/' in referer:
+                        tag_id = referer.split("/")[-2]
+                        filter_kwargs["tag__tag_id"] = tag_id
+                    # apply search filter
+                    system_values = system_values | System.objects.filter(**filter_kwargs)
+                # for foreign keys, an exception is thrown, need to modify filter_kwargs accordingly
+                except FieldError:
+                    filter_kwargs = {tmp_column_name+'__'+tmp_column_name+'_name'+'__icontains': search_value}
+                    # analysisstatus detail
+                    if '/analysisstatus/' in referer:
+                        analysisstatus_id = referer.split("/")[-2]
+                        filter_kwargs["analysisstatus__analysisstatus_id"] = analysisstatus_id
+                    # systemstatus detail
+                    elif '/systemstatus/' in referer:
+                        systemstatus_id = referer.split("/")[-2]
+                        filter_kwargs["systemstatus__systemstatus_id"] = systemstatus_id
+                    # case detail
+                    elif '/case/' in referer:
+                        case_id = referer.split("/")[-2]
+                        filter_kwargs["case__case_id"] = case_id
+                    # tag detail
+                    elif '/tag/' in referer:
+                        tag_id = referer.split("/")[-2]
+                        filter_kwargs["tag__tag_id"] = tag_id
+                    # apply search filter
+                    system_values = system_values | System.objects.filter(**filter_kwargs)
+
+        # system list
+        if '/system/' in referer:
+            # filter: filtering for case and tag is only applied to 'system_list'
+            if system_list_case:
+                system_values = system_values.filter(case=system_list_case)
+            if system_list_tag:
+                system_values = system_values.filter(tag=system_list_tag)
+
+        # make the resulting queryset unique and sort it according to user settings
+        system_values = system_values.distinct().order_by(order_dir+order_column_name)
+
+    # starting point for records in table
+    start = int(get_params['start'])
+    # how many records are to be shown? if all records are to be shown, length is set to -1
+    length = int(get_params['length']) if int(get_params['length'])!=-1 else len(system_values)
+
+    # if there is a search value check that the search value really occurs in one of the visible fields in the table (it is possible that the value only occurs e.g. only in the milliseconds of the data field)
+    if search_value != '':
+        for i in system_values:
+            # extract values from system object
+            system_id = i.system_id
+            system_name = i.system_name
+            systemstatus = i.systemstatus
+            analysisstatus = i.analysisstatus
+            system_create_time = i.system_create_time.strftime("%Y-%m-%d %H:%M")
+            system_modify_time = i.system_modify_time.strftime("%Y-%m-%d %H:%M")
+
+            search_relevant_strings = [str(system_id), str(system_name), str(systemstatus), str(analysisstatus), str(system_create_time), str(system_modify_time)]
+            really_contains_search_string = False
+            # go through visible fields and check if search string is contained
+            for field in search_relevant_strings:
+                if search_value in field:
+                    really_contains_search_string = True
+            # if the searched string was not found, exclude system from queryset
+            if not really_contains_search_string:
+                system_values = system_values.exclude(system_id=system_id)
+
+    # all matching systems
+    system_count = len(system_values)
+    # construct the final list with systems that are presented to user
+    visible_system_list = []
+    for i in system_values[start:(start+length)]:
+        # construct the data to be presented in the system table, important: if you add something here, make sure you also add it above in the cleaned_system_values generation to stay consistent
+        visible_system_list.append(
+            {
+            "system_id": i.system_id,
+            "system_name": "<a href='"+i.get_absolute_url()+"' type='button' class='btn btn-primary btn-sm copy-true'><img src='"+static("dfirtrack_main/icons/monitor-light.svg")+"' class='icon right-distance copy-false' alt='icon'>"+i.system_name+"</a>",
+            "systemstatus": render_to_string('dfirtrack_main/includes/button_systemstatus.html', {'systemstatus': i.systemstatus}),
+            "analysisstatus": "<span data-toggle='tooltip' data-placement='auto' title='"+str(i.analysisstatus.analysisstatus_note or "")+"'><a href='"+i.analysisstatus.get_absolute_url()+"'>"+str(i.analysisstatus)+"</a></span>" if i.analysisstatus is not None else "---",
+            "system_create_time": i.system_create_time.strftime("%Y-%m-%d %H:%M"),
+            "system_modify_time": i.system_modify_time.strftime("%Y-%m-%d %H:%M")
+            }
+            )
+
+    # prepare dictionary with relevant data to convert to json
+    json_dict = {}
+    json_dict['draw'] = int(get_params['draw'])
+    json_dict['recordsTotal'] = len(System.objects.all())
+    json_dict['recordsFiltered'] = system_count
+    json_dict['data'] = visible_system_list
+
+    # filter: clean filtering after providing filter results if persistence option was not selected
+    if not user_config.filter_system_list_keep:
+        # unset filter case
+        user_config.filter_system_list_case = None
+        # unset filter tag
+        user_config.filter_system_list_tag = None
+        # save config
+        user_config.save()
+
+    # convert dict with data to jsonresponse
+    response = JsonResponse(json_dict, safe=False)
+
     return response

@@ -304,7 +304,7 @@ class ArtifactViewTestCase(TestCase):
         # get response
         response = self.client.get('/artifacts/artifact/create/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_artifacts/artifact/artifact_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_artifacts/artifact/artifact_generic_form.html')
 
     def test_artifact_create_get_user_context(self):
         """ test create view """
@@ -448,7 +448,7 @@ class ArtifactViewTestCase(TestCase):
         # get response
         response = self.client.post('/artifacts/artifact/create/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_artifacts/artifact/artifact_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_artifacts/artifact/artifact_generic_form.html')
 
     def test_artifact_create_md5_message(self):
         """ test create view """
@@ -562,7 +562,7 @@ class ArtifactViewTestCase(TestCase):
         # get response
         response = self.client.get('/artifacts/artifact/create/?system=' + str(system_id))
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_artifacts/artifact/artifact_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_artifacts/artifact/artifact_generic_form.html')
 
     def test_artifact_create_with_system_get_user_context(self):
         """ test create view """
@@ -624,7 +624,7 @@ class ArtifactViewTestCase(TestCase):
         # get response
         response = self.client.get('/artifacts/artifact/update/' + str(artifact_1.artifact_id) + '/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_artifacts/artifact/artifact_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_artifacts/artifact/artifact_generic_form.html')
 
     def test_artifact_update_get_user_context(self):
         """ test update view """
@@ -715,7 +715,7 @@ class ArtifactViewTestCase(TestCase):
         # get response
         response = self.client.post('/artifacts/artifact/update/' + str(artifact_id) + '/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_artifacts/artifact/artifact_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_artifacts/artifact/artifact_generic_form.html')
 
     def test_artifact_create_post_set_requested_time(self):
         """ creation of artifact with proper artifactstatus should set artifact_requested_time """

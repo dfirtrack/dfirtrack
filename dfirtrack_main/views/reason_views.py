@@ -9,6 +9,7 @@ from dfirtrack_main.forms import ReasonForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Reason
 
+
 class ReasonList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Reason
@@ -34,12 +35,16 @@ class ReasonCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Reason
     form_class = ReasonForm
-    template_name = 'dfirtrack_main/reason/reason_add.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " REASON_ADD_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+            'object_type': 'reason',
+        })
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -50,18 +55,26 @@ class ReasonCreate(LoginRequiredMixin, CreateView):
             messages.success(request, 'Reason added')
             return redirect(reverse('reason_detail', args=(reason.reason_id,)))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'reason',
+            })
 
 class ReasonCreatePopup(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Reason
     form_class = ReasonForm
-    template_name = 'dfirtrack_main/reason/reason_add_popup.html'
+    template_name = 'dfirtrack_main/generic_form_popup.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " REASON_ADD_POPUP_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+            'object_type': 'reason',
+        })
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -72,19 +85,28 @@ class ReasonCreatePopup(LoginRequiredMixin, CreateView):
             messages.success(request, 'Reason added')
             return HttpResponse('<script type="text/javascript">window.close();</script>')
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'reason',
+            })
 
 class ReasonUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Reason
     form_class = ReasonForm
-    template_name = 'dfirtrack_main/reason/reason_edit.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         reason = self.get_object()
         form = self.form_class(instance=reason)
         reason.logger(str(request.user), " REASON_EDIT_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Edit',
+            'object_type': 'reason',
+            'object_name': reason.reason_name,
+        })
 
     def post(self, request, *args, **kwargs):
         reason = self.get_object()
@@ -96,4 +118,9 @@ class ReasonUpdate(LoginRequiredMixin, UpdateView):
             messages.success(request, 'Reason edited')
             return redirect(reverse('reason_detail', args=(reason.reason_id,)))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Edit',
+                'object_type': 'reason',
+                'object_name': reason.reason_name,
+            })
