@@ -5,8 +5,7 @@ from django.utils.text import slugify
 import logging
 from time import strftime
 import uuid
-import os
-from dfirtrack.config import EVIDENCE_PATH
+
 
 # initialize logger
 stdlogger = logging.getLogger(__name__)
