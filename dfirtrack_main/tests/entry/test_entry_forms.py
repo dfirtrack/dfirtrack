@@ -1,4 +1,3 @@
-from django import forms
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.contrib.auth.models import User
 from django.test import TestCase

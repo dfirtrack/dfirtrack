@@ -1,4 +1,3 @@
-from dfirtrack_api.tests.dfirtrack_main.tagcolor.test_tagcolor_api_views import TagcolorAPIViewTestCase
 import hashlib
 import os
 from datetime import datetime
