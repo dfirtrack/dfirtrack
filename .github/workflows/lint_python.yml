@@ -1,4 +1,4 @@
-name: lint_python
+name: Lint Python
 on: [pull_request, push]
 jobs:
   lint_python:
@@ -9,7 +9,7 @@ jobs:
       - run: pip install bandit black codespell flake8 isort mypy pytest pyupgrade safety
       - run: bandit --recursive --skip B101,B106,B108,B110,B303 .
       - run: black --check . || true
-      - run: codespell --skip="*.js,*.map" || true  # --ignore-words-list=""
+      - run: codespell --skip="*.js,*.map,*.css" --ignore-words-list="entrys"
       - run: flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
       - run: flake8 . --count --exit-zero --max-complexity=10 --max-line-length=88 --show-source --statistics
       - run: isort --check-only --profile black . || true
