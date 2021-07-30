@@ -209,7 +209,7 @@ class SystemFilterViewTestCase(TestCase):
         tag_1 = Tag.objects.get(tag_name='tag_1')
         set_user_config(test_user, case_1, tag_1)
 
-        # add additonal system
+        # add additional system
         systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
         system_very_unique_name = System.objects.create(
             system_name = 'system_very_unique_name',

@@ -159,7 +159,7 @@ def import_csv_step2(request):
 
     # POST request
     if request.method == "POST":
-        # get form with dynamic fileds
+        # get form with dynamic fields
         form = EntryFileImportFields(
             request.session['entry_csv_import']['fields'],
             request.POST

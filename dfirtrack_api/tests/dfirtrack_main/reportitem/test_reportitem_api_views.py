@@ -281,7 +281,7 @@ class ReportitemAPIViewTestCase(TestCase):
         reportitem_api_1 = Reportitem.objects.get(headline=headline_reportitem_api_1)
         system_api_1 = System.objects.get(system_name='system_api_1')
         tag_1 = Tag.objects.get(tag_name='tag_1')
-        # create objectss
+        # create objects
         new_headline_reportitem_api_2 = Headline.objects.create(headline_name='new_headline_reportitem_api_2')
         notestatus_3 = Notestatus.objects.create(notestatus_name='notestatus_3')
         # create url

@@ -203,4 +203,4 @@ class EntryCsvImporterTestCase(TestCase):
         response = self.client.get('/entry/')
         messages = list(response.context['messages'])
         self.assertEquals(len(messages), 1)
-        self.assertEquals(str(messages[0]), "Could not import the csv file. Maybe the upload wasn't successfull or the file was deleted.")
+        self.assertEquals(str(messages[0]), "Could not import the csv file. Maybe the upload wasn't successful or the file was deleted.")
