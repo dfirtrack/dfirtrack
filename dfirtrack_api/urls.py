@@ -1,4 +1,5 @@
 from django.urls import re_path
+from django.views.generic import TemplateView
 from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework.schemas import get_schema_view
 from rest_framework.authtoken.views import obtain_auth_token
@@ -40,10 +41,16 @@ urlpatterns = [
     re_path(r'^domain/(?P<pk>\d+)/$', dfirtrack_main.DomainDetailApi.as_view()),
     re_path(r'^domainuser/$', dfirtrack_main.DomainuserListApi.as_view()),
     re_path(r'^domainuser/(?P<pk>\d+)/$', dfirtrack_main.DomainuserDetailApi.as_view()),
+    re_path(r'^headline/$', dfirtrack_main.HeadlineListApi.as_view()),
+    re_path(r'^headline/(?P<pk>\d+)/$', dfirtrack_main.HeadlineDetailApi.as_view()),
     re_path(r'^ip/$', dfirtrack_main.IpListApi.as_view()),
     re_path(r'^ip/(?P<pk>\d+)/$', dfirtrack_main.IpDetailApi.as_view()),
     re_path(r'^location/$', dfirtrack_main.LocationListApi.as_view()),
     re_path(r'^location/(?P<pk>\d+)/$', dfirtrack_main.LocationDetailApi.as_view()),
+    re_path(r'^note/$', dfirtrack_main.NoteListApi.as_view()),
+    re_path(r'^note/(?P<pk>\d+)/$', dfirtrack_main.NoteDetailApi.as_view()),
+    re_path(r'^notestatus/$', dfirtrack_main.NotestatusListApi.as_view()),
+    re_path(r'^notestatus/(?P<pk>\d+)/$', dfirtrack_main.NotestatusDetailApi.as_view()),
     re_path(r'^os/$', dfirtrack_main.OsListApi.as_view()),
     re_path(r'^os/(?P<pk>\d+)/$', dfirtrack_main.OsDetailApi.as_view()),
     re_path(r'^osarch/$', dfirtrack_main.OsarchListApi.as_view()),
@@ -52,6 +59,8 @@ urlpatterns = [
     re_path(r'^reason/(?P<pk>\d+)/$', dfirtrack_main.ReasonDetailApi.as_view()),
     re_path(r'^recommendation/$', dfirtrack_main.RecommendationListApi.as_view()),
     re_path(r'^recommendation/(?P<pk>\d+)/$', dfirtrack_main.RecommendationDetailApi.as_view()),
+    re_path(r'^reportitem/$', dfirtrack_main.ReportitemListApi.as_view()),
+    re_path(r'^reportitem/(?P<pk>\d+)/$', dfirtrack_main.ReportitemDetailApi.as_view()),
     re_path(r'^serviceprovider/$', dfirtrack_main.ServiceproviderListApi.as_view()),
     re_path(r'^serviceprovider/(?P<pk>\d+)/$', dfirtrack_main.ServiceproviderDetailApi.as_view()),
     re_path(r'^system/$', dfirtrack_main.SystemListApi.as_view()),
@@ -80,5 +89,11 @@ urlpatterns = [
     re_path(r'^openapi/$', get_schema_view(generator_class=DFIRTrackSchemaGenerator,
             public=True,
         ), name='openapi-schema'),
+    # Route TemplateView to serve Swagger UI template.
+    #   * Provide `extra_context` with view name of `SchemaView`.
+    re_path('^docs/$', TemplateView.as_view(
+        template_name='dfirtrack_api/swagger-ui.html',
+        extra_context={'schema_url':'openapi-schema'}
+    ), name='swagger-ui'),
 ]
 urlpatterns = format_suffix_patterns(urlpatterns)

@@ -4,21 +4,25 @@
 <!-- HTML head -->
 <head>
 
-<!-- HTML head from templates -->
-{% block head %}
-{% endblock %}
+    <!-- HTML head from templates -->
+    {% block head %}
+    {% endblock %}
 
-<meta charset="utf-8" />
+    <meta charset="utf-8" />
 
-{% load static %}
+    <!-- load static files -->
+    {% load static %}
 
-<!-- bootstrap CSS -->
-<link rel="stylesheet" href="{% static 'dfirtrack_main/bootstrap-5.0.1/css/bootstrap.min.css' %}" type = "text/css"/>
+    <!-- favicon -->
+    <link rel="shortcut icon" href="{% static 'dfirtrack_main/img/favicon.ico' %}"/>
 
-<meta name="viewport" content = "width=device-width, initial-scale=1.0">
+    <!-- bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'dfirtrack_main/bootstrap-5.0.1/css/bootstrap.min.css' %}" type = "text/css"/>
 
-<!-- custom CSS -->
-<link rel="stylesheet" href="{% static 'dfirtrack_main/dfirtrack/dfirtrack.css' %}" type = "text/css"/>
+    <meta name="viewport" content = "width=device-width, initial-scale=1.0">
+
+    <!-- custom CSS -->
+    <link rel="stylesheet" href="{% static 'dfirtrack_main/dfirtrack/dfirtrack.css' %}" type = "text/css"/>
 
 <!-- HTML head -->
 </head>
@@ -26,45 +30,14 @@
 <!-- ############################################ -->
 
 <!-- HTML body -->
-<body class="body bg-dark text-light">
+<body class="bg-dark text-light text-center">
 
-<!-- overall container -->
-<div class="container-fluid" style="min-height:95%; margin-left:15px">
-
-    <!-- row -->
-    <div class="row">
-
-        <!-- placeholder -->
-        <div class="col-3"></div>
-
-        <!-- headline -->
-        <div class="col top-distance bottom-distance">
-            <center>
-                <h3>
-                    Track
-                    <small class="text-muted">
-                        T T A
-                    </small>
-                </h3>
-            </center>
-        </div>
-
-        <!-- placeholder -->
-        <div class="col-3"></div>
-
-    <!-- row -->
-    </div>
+    <!-- logo -->
+    <img src="{% static 'dfirtrack_main/img/dfirtrack_logo.png' %}" class="mb-4 copy-false top-distance" style='max-height:120px;' alt='DFIRTrack logo'>
 
     <!-- HTML body from templates -->
     {% block content %}
     {% endblock %}	
-
-<!-- overall container -->
-</div> 
-
-<!-- bootstrap relevant javascript -->
-<script src="{% static 'dfirtrack_main/jquery-3.5.1/jquery-3.5.1.slim.min.js' %}"></script>
-<script src="{% static 'dfirtrack_main/bootstrap-5.0.1/js/bootstrap.bundle.min.js' %}"></script>
 
 <!-- HTML body -->
 </body>

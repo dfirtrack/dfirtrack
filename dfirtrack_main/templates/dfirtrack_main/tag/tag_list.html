@@ -57,8 +57,18 @@
     </div>
 
     <!-- task headline -->
-    <div class="col-3">
+    <div class="col-1">
         Tasks
+    </div>
+
+    <!-- note headline -->
+    <div class="col-1">
+        Notes
+    </div>
+
+    <!-- reportitem headline -->
+    <div class="col-1">
+        Reportitems
     </div>
 
     <!-- tag modify user headline -->
@@ -110,8 +120,18 @@
         </div>
 
         <!-- task -->
-        <div class="col-3">
+        <div class="col-1">
             {{ i.task_set.all|length }}
+        </div>
+
+        <!-- note -->
+        <div class="col-1">
+            {{ i.note_set.all|length }}
+        </div>
+
+        <!-- reportitem -->
+        <div class="col-1">
+            {{ i.reportitem_set.all|length }}
         </div>
 
         <!-- tag modify user -->

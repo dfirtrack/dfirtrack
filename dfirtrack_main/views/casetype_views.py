@@ -1,10 +1,12 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import DetailView, ListView, UpdateView, CreateView
 from dfirtrack_main.models import Casetype
 from dfirtrack_main.forms import CasetypeForm
 from dfirtrack_main.logger.default_logger import debug_logger
+
 
 class CasetypeList(LoginRequiredMixin, ListView):
     login_url = '/login'
@@ -31,12 +33,16 @@ class CasetypeCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Casetype
     form_class = CasetypeForm
-    template_name = 'dfirtrack_main/casetype/casetype_add.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), ' CASETYPE_ADD_ENTERED')
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+            'object_type': 'casetype',
+        })
 
     def form_valid(self, form):
         self.object = form.save()
@@ -44,17 +50,52 @@ class CasetypeCreate(LoginRequiredMixin, CreateView):
         messages.success(self.request, 'Casetype added')
         return super().form_valid(form)
 
+class CasetypeCreatePopup(LoginRequiredMixin, CreateView):
+    login_url = '/login'
+    model = Casetype
+    form_class = CasetypeForm
+    template_name = 'dfirtrack_main/generic_form_popup.html'
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        debug_logger(str(request.user), " CASETYPE_ADD_POPUP_ENTERED")
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+            'object_type': 'casetype',
+        })
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            casetype = form.save(commit=False)
+            casetype.save()
+            casetype.logger(str(request.user), " CASETYPE_ADD_POPUP_EXECUTED")
+            messages.success(request, 'Casetype added')
+            return HttpResponse('<script type="text/javascript">window.close();</script>')
+        else:
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'casetype',
+            })
+
 class CasetypeUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Casetype
     form_class = CasetypeForm
-    template_name = 'dfirtrack_main/casetype/casetype_edit.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         casetype = self.get_object()
         form = self.form_class(instance = casetype)
         casetype.logger(str(request.user), ' CASETYPE_EDIT_ENTERED')
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Edit',
+            'object_type': 'casetype',
+            'object_name': casetype.casetype_name,
+        })
 
     def form_valid(self, form):
         self.object = form.save()

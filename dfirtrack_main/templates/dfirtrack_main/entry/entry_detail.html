@@ -97,40 +97,31 @@
         </h5>
     </div>
 
-    <!-- case headline -->
-    <div class="col-6">
-        <h5>
-            Entry associated to this case
-        </h5>
-    </div>
-
 <!-- headlines -->
 </div>
 
+<!-- ############################################ -->
+
 <!-- system / case -->
-<div class="row top-distance">
+<div class="row top-distance bottom-distance">
 
     <!-- system -->
-    <div class="col-6">
+    <div class="col-6 bottom-distance">
         <a href="{{ entry.system.get_absolute_url }}" type="button" class="btn btn-primary btn-sm copy-true">
             <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
             {{ entry.system.system_name }}
         </a>
     </div>
 
-    <!-- case -->
-    <div class="col-6">
-        {% if entry.case %}
-            <a href="{{ entry.case.get_absolute_url }}">
-                {{ entry.case.case_name }}
-            </a>
-        {% else %}
-            ---
-        {% endif %}
-    </div>
+    <!--tag / case -->
+    {% with model=entry %}
+        {% include "dfirtrack_main/includes/card_tag_case.html" %}
+    {% endwith %}
 
 <!-- system / case -->
 </div>
+
+<!-- ############################################ -->
 
 <!-- timeline entry block -->
 <div class="card bg-dark border-light card-body top-distance">
@@ -218,77 +209,14 @@
 <!-- timeline entry block -->
 </div>
 
-<!-- meta information block -->
-<div class="card bg-dark border-secondary card-body bottom-distance top-distance">
+<!-- ############################################ -->
 
-    <!-- meta information headline -->
-    <div class="row text-muted">
-        <div class="col">
-            <h5>Meta information</h5>
-        </div>
-    </div>
+<!-- meta information -->
+{% with create_time=entry.entry_create_time created_by_user_id=entry.entry_created_by_user_id modify_time=entry.entry_modify_time modified_by_user_id=entry.entry_modified_by_user_id %}
+    {% include "dfirtrack_main/includes/card_meta_information.html" %}
+{% endwith %}
 
-    <!-- meta information row -->
-    <div class="row text-muted">
-
-        <!-- entry created time -->
-        <div class="col-3">
-            <div class="font-weight-bold">
-                Created:
-            </div>
-            {{ entry.entry_create_time|date:"Y-m-d H:i" }}
-        </div>
-
-        <!-- entry created user -->
-        <div class="col-3">
-            <div class="font-weight-bold">
-                Created by:
-            </div>
-            {{ entry.entry_created_by_user_id }}
-        </div>
-
-        <!-- entry modified time -->
-        <div class="col-3">
-            <div class="font-weight-bold">
-                Last modified:
-            </div>
-            {{ entry.entry_modify_time|date:"Y-m-d H:i" }}
-        </div>
-
-        <!-- entry modified user -->
-        <div class="col-3">
-            <div class="font-weight-bold">
-                Modified by:
-            </div>
-            {{ entry.entry_modified_by_user_id }}
-        </div>
-
-    <!-- meta information row -->
-    </div>
-
-    <!-- meta information row -->
-    <div class="row text-muted">
-
-        <!-- placeholder -->
-        <div class="col-6"></div>
-
-        <!-- entry api time -->
-        <div class="col-3">
-            <div class="font-weight-bold">
-                Last API update:
-            </div>
-            {% if entry.entry_api_time %}
-                {{ entry.entry_api_time|date:"Y-m-d H:i" }}
-            {% else %}
-                ---
-            {% endif %}
-        </div>
-
-    <!-- meta information row -->
-    </div>
-
-<!-- meta information block -->
-</div>
+<!-- ############################################ -->
 
 <!-- edit button -->
 <a href="{{ entry.get_update_url }}" type="button" class="btn btn-light copy-false">

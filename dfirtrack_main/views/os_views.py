@@ -9,6 +9,7 @@ from dfirtrack_main.forms import OsForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Os
 
+
 class OsList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Os
@@ -34,12 +35,16 @@ class OsCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Os
     form_class = OsForm
-    template_name = 'dfirtrack_main/os/os_add.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " OS_ADD_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+            'object_type': 'os',
+        })
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -50,18 +55,26 @@ class OsCreate(LoginRequiredMixin, CreateView):
             messages.success(request, 'OS added')
             return redirect(reverse('os_detail', args=(os.os_id,)))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'os',
+            })
 
 class OsCreatePopup(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Os
     form_class = OsForm
-    template_name = 'dfirtrack_main/os/os_add_popup.html'
+    template_name = 'dfirtrack_main/generic_form_popup.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " OS_ADD_POPUP_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+            'object_type': 'OS',
+        })
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -72,19 +85,28 @@ class OsCreatePopup(LoginRequiredMixin, CreateView):
             messages.success(request, 'OS added')
             return HttpResponse('<script type="text/javascript">window.close();</script>')
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'OS',
+            })
 
 class OsUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Os
     form_class = OsForm
-    template_name = 'dfirtrack_main/os/os_edit.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         os = self.get_object()
         form = self.form_class(instance=os)
         os.logger(str(request.user), " OS_EDIT_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Edit',
+            'object_type': 'os',
+            'object_name': os.os_name,
+        })
 
     def post(self, request, *args, **kwargs):
         os = self.get_object()
@@ -96,4 +118,9 @@ class OsUpdate(LoginRequiredMixin, UpdateView):
             messages.success(request, 'OS edited')
             return redirect(reverse('os_detail', args=(os.os_id,)))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Edit',
+                'object_type': 'os',
+                'object_name': os.os_name,
+            })

@@ -135,14 +135,28 @@
 <script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
 
 <!-- button row -->
-<div class="row top-distance">
+<div class="row top-distance card card-body border-light bg-dark">
+
+    <div class="row">
+        <div class="col"><h5>Create entry</h5></div>
+        <div class="col"><h5>Import entry via CSV</h5></div>
+    </div>
 
     <!-- entry add button -->
-    <div class="col-1">
-        <a href="{% url 'entry_create' %}" type="button" class="btn btn-light copy-false">
-            <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon right-distance copy-false" alt="icon">
-            Add entry
-        </a>
+    <div class="row">
+        <div class="col">
+            <a href="{% url 'entry_create' %}" type="button" class="btn btn-light copy-false">
+                <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon right-distance copy-false" alt="icon">
+                Add entry
+            </a>
+        </div>
+
+        <div class="col">
+            <a href="{% url 'entry_import_step1' %}" type="button" class="btn btn-light copy-false">
+                <img src="/static/dfirtrack_main/icons/data-transfer-upload.svg" class="icon right-distance copy-false" alt="icon">
+                Import CSV
+            </a>
+        </div>
     </div>
 
 <!-- button row -->

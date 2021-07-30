@@ -9,6 +9,7 @@ from dfirtrack_main.forms import ServiceproviderForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Serviceprovider
 
+
 class ServiceproviderList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Serviceprovider
@@ -34,12 +35,16 @@ class ServiceproviderCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Serviceprovider
     form_class = ServiceproviderForm
-    template_name = 'dfirtrack_main/serviceprovider/serviceprovider_add.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " SERVICEPROVIDER_ADD_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+            'object_type': 'serviceprovider',
+        })
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -50,18 +55,26 @@ class ServiceproviderCreate(LoginRequiredMixin, CreateView):
             messages.success(request, 'Serviceprovider added')
             return redirect(reverse('serviceprovider_detail', args=(serviceprovider.serviceprovider_id,)))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'serviceprovider',
+            })
 
 class ServiceproviderCreatePopup(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Serviceprovider
     form_class = ServiceproviderForm
-    template_name = 'dfirtrack_main/serviceprovider/serviceprovider_add_popup.html'
+    template_name = 'dfirtrack_main/generic_form_popup.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " SERVICEPROVIDER_ADD_POPUP_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+            'object_type': 'serviceprovider',
+        })
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -72,19 +85,28 @@ class ServiceproviderCreatePopup(LoginRequiredMixin, CreateView):
             messages.success(request, 'Serviceprovider added')
             return HttpResponse('<script type="text/javascript">window.close();</script>')
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'serviceprovider',
+            })
 
 class ServiceproviderUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Serviceprovider
     form_class = ServiceproviderForm
-    template_name = 'dfirtrack_main/serviceprovider/serviceprovider_edit.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         serviceprovider = self.get_object()
         form = self.form_class(instance=serviceprovider)
         serviceprovider.logger(str(request.user), " SERVICEPROVIDER_EDIT_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Edit',
+            'object_type': 'serviceprovider',
+            'object_name': serviceprovider.serviceprovider_name,
+        })
 
     def post(self, request, *args, **kwargs):
         serviceprovider = self.get_object()
@@ -96,4 +118,9 @@ class ServiceproviderUpdate(LoginRequiredMixin, UpdateView):
             messages.success(request, 'Serviceprovider edited')
             return redirect(reverse('serviceprovider_detail', args=(serviceprovider.serviceprovider_id,)))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Edit',
+                'object_type': 'serviceprovider',
+                'object_name': serviceprovider.serviceprovider_name,
+            })

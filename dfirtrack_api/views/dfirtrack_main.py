@@ -135,6 +135,18 @@ class DomainuserDetailApi(generics.RetrieveUpdateAPIView):
     queryset = dfirtrack_main_models.Domainuser.objects.all()
     serializer_class = dfirtrack_main_serializers.DomainuserSerializer
 
+class HeadlineListApi(generics.ListCreateAPIView):
+    """ all objects, allowed: GET + POST """
+
+    queryset = dfirtrack_main_models.Headline.objects.all()
+    serializer_class = dfirtrack_main_serializers.HeadlineSerializer
+
+class HeadlineDetailApi(generics.RetrieveUpdateAPIView):
+    """ single object, allowed: GET + PUT """
+
+    queryset = dfirtrack_main_models.Headline.objects.all()
+    serializer_class = dfirtrack_main_serializers.HeadlineSerializer
+
 class IpListApi(generics.ListCreateAPIView):
     """ all objects, allowed: GET + POST """
 
@@ -158,6 +170,30 @@ class LocationDetailApi(generics.RetrieveUpdateAPIView):
 
     queryset = dfirtrack_main_models.Location.objects.all()
     serializer_class = dfirtrack_main_serializers.LocationSerializer
+
+class NoteListApi(generics.ListCreateAPIView):
+    """ all objects, allowed: GET + POST """
+
+    queryset = dfirtrack_main_models.Note.objects.all()
+    serializer_class = dfirtrack_main_serializers.NoteSerializer
+
+class NoteDetailApi(generics.RetrieveUpdateAPIView):
+    """ single object, allowed: GET + PUT """
+
+    queryset = dfirtrack_main_models.Note.objects.all()
+    serializer_class = dfirtrack_main_serializers.NoteSerializer
+
+class NotestatusListApi(generics.ListAPIView):
+    """ all objects, allowed: GET """
+
+    queryset = dfirtrack_main_models.Notestatus.objects.all()
+    serializer_class = dfirtrack_main_serializers.NotestatusSerializer
+
+class NotestatusDetailApi(generics.RetrieveAPIView):
+    """ single object, allowed: GET """
+
+    queryset = dfirtrack_main_models.Notestatus.objects.all()
+    serializer_class = dfirtrack_main_serializers.NotestatusSerializer
 
 class OsListApi(generics.ListCreateAPIView):
     """ all objects, allowed: GET + POST """
@@ -206,6 +242,18 @@ class RecommendationDetailApi(generics.RetrieveUpdateAPIView):
 
     queryset = dfirtrack_main_models.Recommendation.objects.all()
     serializer_class = dfirtrack_main_serializers.RecommendationSerializer
+
+class ReportitemListApi(generics.ListCreateAPIView):
+    """ all objects, allowed: GET + POST """
+
+    queryset = dfirtrack_main_models.Reportitem.objects.all()
+    serializer_class = dfirtrack_main_serializers.ReportitemSerializer
+
+class ReportitemDetailApi(generics.RetrieveUpdateAPIView):
+    """ single object, allowed: GET + PUT """
+
+    queryset = dfirtrack_main_models.Reportitem.objects.all()
+    serializer_class = dfirtrack_main_serializers.ReportitemSerializer
 
 class ServiceproviderListApi(generics.ListCreateAPIView):
     """ all objects, allowed: GET + POST """

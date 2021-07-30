@@ -2,7 +2,6 @@ from dateutil.parser import parse
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
-from django.utils import timezone
 from dfirtrack.settings import BASE_DIR
 from dfirtrack_config.models import SystemExporterMarkdownConfigModel
 from dfirtrack_main.exporter.markdown.markdown import system_cron
@@ -181,18 +180,16 @@ class SystemExporterMarkdownViewTestCase(TestCase):
         # create objects
         Entry.objects.create(
             system = system_1,
-            entry_time = timezone.now(),
+            entry_type = 'type_1',
+            entry_content = 'lorem ipsum',
+            entry_time = "2020-02-03T01:23:45+00:00",
             entry_created_by_user_id = test_user,
             entry_modified_by_user_id = test_user,
         )
+
         Entry.objects.create(
-            system = system_1,
-            entry_date = '2020-02-03',
-            entry_utc = '01:23:45',
-            entry_system = 'system_1',
-            entry_type = 'type_1',
-            entry_content = 'lorem ipsum',
-            entry_time = timezone.now(),
+            system = system_1,           
+            entry_time = "2020-02-04T01:23:45+00:00",
             entry_created_by_user_id = test_user,
             entry_modified_by_user_id = test_user,
         )

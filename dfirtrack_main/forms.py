@@ -396,6 +396,14 @@ class EntryForm(forms.ModelForm):
         queryset = System.objects.order_by('system_name'),
     )
 
+    # reorder field choices
+    tag = forms.ModelMultipleChoiceField(
+        label = gettext_lazy('Tags'),
+        widget=TagWidget,
+        queryset=Tag.objects.order_by('tag_name'),
+        required=False,
+    )
+
     class Meta:
 
         # model
@@ -406,30 +414,22 @@ class EntryForm(forms.ModelForm):
             'entry_time',
             'system',
             'entry_sha1',
-            'entry_date',
-            'entry_utc',
-            'entry_system',
             'entry_type',
             'entry_content',
             'entry_note',
             'case',
+            'tag'
         )
 
         # non default form labeling
         labels = {
             'entry_time': gettext_lazy('Entry time (for sorting) (YYYY-MM-DD HH:MM:SS) (*)'),
-            'entry_date': gettext_lazy('Entry date (YYYY-MM-DD)'),
-            'entry_utc': gettext_lazy('Entry time (for report) (HH:MM:SS)'),
-            'entry_system': gettext_lazy('Entry system (for report)'),
         }
 
         # special form type or option
         widgets = {
             'entry_time': forms.DateTimeInput(attrs={'autofocus': 'autofocus'}),
             'entry_sha1': forms.TextInput(),
-            'entry_date': forms.TextInput(),
-            'entry_utc': forms.TextInput(),
-            'entry_system': forms.TextInput(),
             'entry_type': forms.TextInput(),
             'entry_content': forms.Textarea(attrs={'rows': 3}),
             'entry_note': forms.Textarea(attrs={'rows': 10}),
@@ -439,10 +439,39 @@ class EntryFileImport(forms.ModelForm):
     """ file import form """
 
     # reorder field choices
-    system = forms.ModelChoiceField(queryset=System.objects.order_by('system_name'))
+    system = forms.ModelChoiceField(
+        label='System (*)',
+        empty_label = 'Select system',
+        queryset=System.objects.order_by('system_name'),
+        widget=forms.Select(
+            attrs={
+                'class': 'form-select'
+            }
+        )
+    )
+
+    # reorder field choice
+    case = forms.ModelChoiceField(
+        label='Case',
+        empty_label = 'Select case (optional)',
+        queryset=Case.objects.order_by('case_name'),
+        required=False,
+        widget=forms.Select(
+            attrs={
+                'class': 'form-select'
+            }
+        ),
+    )
 
     # file upload field (variable is used in request object)
-    entryfile = forms.FileField()
+    entryfile = forms.FileField(
+        label='CSV file (*)',
+        widget=forms.FileInput(
+            attrs={
+                'class': 'form-control'
+            }
+        )
+    )
 
     class Meta:
 
@@ -450,7 +479,78 @@ class EntryFileImport(forms.ModelForm):
         model = Entry
         fields = (
             'system',
+            'case'
         )
+
+class EntryFileImportFields(forms.Form):
+    """ entry csv import field assignment """
+
+    # placeholder, choices will be generated
+    INITIAL_CHOICES = []
+
+    # entry_time mapping
+    entry_time = forms.ChoiceField(
+        label='Datetime field',
+        choices=INITIAL_CHOICES,
+        widget=forms.Select(
+            attrs={
+                'class': 'form-select'
+            }
+        )
+    )
+
+    # entry type mapping
+    entry_type = forms.ChoiceField(
+        choices=INITIAL_CHOICES,
+        widget=forms.Select(
+            attrs={
+                'class': 'form-select'
+            }
+        )
+    )
+
+    # entry content mapping
+    entry_content = forms.ChoiceField(
+        choices=INITIAL_CHOICES,
+        widget=forms.Select(
+            attrs={
+                'class': 'form-select'
+            }
+        )
+    )
+
+    # entry tag mapping
+    entry_tag = forms.ChoiceField(
+        choices=INITIAL_CHOICES,        
+        widget=forms.Select(
+            attrs={
+                'class': 'form-select'
+            }
+        ),
+        required=False
+    )
+
+    def clean(self):
+
+        if 'entry_time' in self.cleaned_data and self.cleaned_data['entry_time'] == '-1':
+            raise ValidationError('Please select a datetime value.')
+        if 'entry_type' in self.cleaned_data and self.cleaned_data['entry_type'] == '-1':
+            raise ValidationError('Please select an entry type value.')
+        if 'entry_content' in self.cleaned_data and self.cleaned_data['entry_content'] == '-1':
+            raise ValidationError('Please select an entry content value.')
+
+    def __init__(self, choices, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        choices.insert(0, '--')
+        index = list(range(-1, len(choices)))
+        form_choices = sorted(set(zip(index, choices)))
+
+        # set select choices dynamically, based on uploaded csv file
+        self.fields['entry_time'].choices = form_choices
+        self.fields['entry_type'].choices = form_choices
+        self.fields['entry_content'].choices = form_choices
+        self.fields['entry_tag'].choices = form_choices
 
 class HeadlineForm(forms.ModelForm):
     """ default model form """

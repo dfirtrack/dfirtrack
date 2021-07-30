@@ -8,6 +8,7 @@ from dfirtrack_main.forms import SystemuserForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Systemuser
 
+
 class SystemuserList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Systemuser
@@ -33,12 +34,16 @@ class SystemuserCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Systemuser
     form_class = SystemuserForm
-    template_name = 'dfirtrack_main/systemuser/systemuser_add.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " SYSTEMUSER_ADD_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+            'object_type': 'systemuser',
+        })
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -49,19 +54,28 @@ class SystemuserCreate(LoginRequiredMixin, CreateView):
             messages.success(request, 'Systemuser added')
             return redirect(reverse('systemuser_detail', args=(systemuser.systemuser_id,)))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'systemuser',
+            })
 
 class SystemuserUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Systemuser
     form_class = SystemuserForm
-    template_name = 'dfirtrack_main/systemuser/systemuser_edit.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         systemuser = self.get_object()
         form = self.form_class(instance=systemuser)
         systemuser.logger(str(request.user), " SYSTEMUSER_EDIT_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Edit',
+            'object_type': 'systemuser',
+            'object_name': systemuser.systemuser_name,
+        })
 
     def post(self, request, *args, **kwargs):
         systemuser = self.get_object()
@@ -73,4 +87,9 @@ class SystemuserUpdate(LoginRequiredMixin, UpdateView):
             messages.success(request, 'Systemuser edited')
             return redirect(reverse('systemuser_detail', args=(systemuser.systemuser_id,)))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Edit',
+                'object_type': 'systemuser',
+                'object_name': systemuser.systemuser_name,
+            })

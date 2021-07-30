@@ -1,0 +1,87 @@
+<!-- extending maintemplate -->
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+<!-- HTML head in maintemplate -->
+{% block head %}
+
+<!-- page title -->
+<title>
+    DFIRTrack - Entry CSV import
+</title>
+
+{% load static %}
+
+<!-- HTML head in maintemplate -->
+{% endblock %}
+
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
+{% block content %}
+
+<!-- headline -->
+<div class="bottom-distance">
+    <h4>
+        Entry CSV import step (2/2)
+    </h4>
+</div>
+
+<!-- form -->
+<form method="POST" class="post-form" enctype="multipart/form-data">
+
+    {% csrf_token %}
+
+    <div class="row top-distance">
+        <!-- show form related errors -->
+        {% include "dfirtrack_main/includes/form_errors.html" %}
+
+        <div class="row">
+            <div class="form-group col-6">
+                <label for="id_entry_time" class="form-label">{{form.entry_time.label}}</label>
+                {{form.entry_time}}
+                <small id="system_help" class="form-text text-muted">
+                    Vaild datetime format required (e.g. YYYY-MM-DD HH:MM:SS).
+                </small>
+            </div>
+        </div>
+        <div class="row top-distance">
+            <div class="form-group col-6">
+                <label for="id_entry_type" class="form-label">{{form.entry_type.label}}</label>
+                {{form.entry_type}}
+            </div>
+        </div>
+        <div class="row top-distance">
+            <div class="form-group col-6">
+                <label for="id_entry_content" class="form-label">{{form.entry_content.label}}</label>
+                {{form.entry_content}}
+            </div>
+        </div>
+        <div class="row top-distance bottom-distance">
+            <div class="form-group col-6">
+                <label for="id_entry_tag" class="form-label">{{form.entry_tag.label}}</label>
+                {{form.entry_tag}}
+            </div>
+        </div>
+    </div>
+
+    <!-- button row -->
+    <div class="row top-distance">
+
+        <!-- save button -->
+        <div class="col-1">
+            {% include "dfirtrack_main/includes/button_save.html" %}
+        </div>
+
+        <!-- cancel button -->
+        <div class="col-1">
+            {% include "dfirtrack_main/includes/button_cancel.html" %}
+        </div>
+
+    <!-- button row -->
+    </div>
+
+<!-- form -->
+</form>
+
+<!-- HTML body in maintemplate -->
+{% endblock %}

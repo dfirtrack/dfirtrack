@@ -4,6 +4,7 @@ from django.test import TestCase
 from dfirtrack_main.models import Task, Taskname, Taskpriority, Taskstatus
 import urllib.parse
 
+
 class TasknameViewTestCase(TestCase):
     """ taskname view tests """
 
@@ -164,7 +165,7 @@ class TasknameViewTestCase(TestCase):
         # get response
         response = self.client.get('/taskname/add/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/taskname/taskname_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
 
     def test_taskname_add_get_user_context(self):
         """ test add view """
@@ -228,7 +229,97 @@ class TasknameViewTestCase(TestCase):
         # get response
         response = self.client.post('/taskname/add/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/taskname/taskname_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
+
+    def test_taskname_add_popup_not_logged_in(self):
+        """ test add view """
+
+        # create url
+        destination = '/login/?next=' + urllib.parse.quote('/taskname/add_popup/', safe='')
+        # get response
+        response = self.client.get('/taskname/add_popup/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_taskname_add_popup_logged_in(self):
+        """ test add view """
+
+        # login testuser
+        self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        # get response
+        response = self.client.get('/taskname/add_popup/')
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_taskname_add_popup_template(self):
+        """ test add view """
+
+        # login testuser
+        self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        # get response
+        response = self.client.get('/taskname/add_popup/')
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form_popup.html')
+
+    def test_taskname_add_popup_get_user_context(self):
+        """ test add view """
+
+        # login testuser
+        self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        # get response
+        response = self.client.get('/taskname/add_popup/')
+        # compare
+        self.assertEqual(str(response.context['user']), 'testuser_taskname')
+
+    def test_taskname_add_popup_redirect(self):
+        """ test add view """
+
+        # login testuser
+        self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        # create url
+        destination = urllib.parse.quote('/taskname/add_popup/', safe='/')
+        # get response
+        response = self.client.get('/taskname/add_popup', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+
+    def test_taskname_add_popup_post_redirect(self):
+        """ test add view """
+
+        # login testuser
+        self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        # create post data
+        data_dict = {
+            'taskname_name': 'taskname_add_popup_post_test',
+        }
+        # get response
+        response = self.client.post('/taskname/add_popup/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_taskname_add_popup_post_invalid_reload(self):
+        """ test add view """
+
+        # login testuser
+        self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/taskname/add_popup/', data_dict)
+        # compare
+        self.assertEqual(response.status_code, 200)
+
+    def test_taskname_add_popup_post_invalid_template(self):
+        """ test add view """
+
+        # login testuser
+        self.client.login(username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7')
+        # create post data
+        data_dict = {}
+        # get response
+        response = self.client.post('/taskname/add_popup/', data_dict)
+        # compare
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form_popup.html')
 
     def test_taskname_edit_not_logged_in(self):
         """ test edit view """
@@ -264,7 +355,7 @@ class TasknameViewTestCase(TestCase):
         # get response
         response = self.client.get('/taskname/' + str(taskname_1.taskname_id) + '/edit/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/taskname/taskname_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
 
     def test_taskname_edit_get_user_context(self):
         """ test edit view """
@@ -338,7 +429,7 @@ class TasknameViewTestCase(TestCase):
         # get response
         response = self.client.post('/taskname/' + str(taskname_id) + '/edit/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/taskname/taskname_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
 
     def test_taskname_close_not_logged_in(self):
         """ test close view """

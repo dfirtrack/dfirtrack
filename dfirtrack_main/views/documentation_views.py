@@ -1,17 +1,21 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic.edit import FormView
-from dfirtrack_main.filter_forms import DocumentationChoiceForm
+from dfirtrack_config.models import UserConfigModel
+from dfirtrack_main.filter_forms import DocumentationFilterForm
 from dfirtrack_main.logger.default_logger import debug_logger
+from dfirtrack_main.models import Case
 from dfirtrack_main.models import Note
+from dfirtrack_main.models import Notestatus
 from dfirtrack_main.models import Reportitem
-from urllib.parse import urlencode, urlunparse
+from dfirtrack_main.models import Tag
 
 
 class DocumentationList(LoginRequiredMixin, FormView):
     login_url = '/login'
-    form_class = DocumentationChoiceForm
+    form_class = DocumentationFilterForm
     template_name = 'dfirtrack_main/documentation/documentation_list.html'
 
     def get_context_data(self, **kwargs):
@@ -20,6 +24,9 @@ class DocumentationList(LoginRequiredMixin, FormView):
         # get context
         context = super().get_context_data(**kwargs)
 
+        # get config
+        user_config, created = UserConfigModel.objects.get_or_create(user_config_username=self.request.user)
+
         # initial query with desired ordering
         note_query = Note.objects.order_by('note_title')
         reportitem_query = Reportitem.objects.order_by('system__system_name', 'headline__headline_name')
@@ -27,34 +34,41 @@ class DocumentationList(LoginRequiredMixin, FormView):
         # create dict to initialize form values set by filtering in previous view
         form_initial = {}
 
-        # filter for case
-        if 'case' in self.request.GET:
+        # check box if persistence option was provided
+        if user_config.filter_documentation_list_keep:
+            # set initial value for form
+            form_initial['filter_documentation_list_keep'] = True
+        else:
+            form_initial['filter_documentation_list_keep'] = False
+
+        # get case from config
+        if user_config.filter_documentation_list_case:
             # get id
-            case_id = self.request.GET['case']
+            case_id = user_config.filter_documentation_list_case.case_id
             # filter objects
             note_query = note_query.filter(case=case_id)
             reportitem_query = reportitem_query.filter(case=case_id)
-            # remember initial value for form
+            # set initial value for form
             form_initial['case'] = case_id
 
-        # filter for notestatus
-        if 'notestatus' in self.request.GET:
+        # get notestatus from config
+        if user_config.filter_documentation_list_notestatus:
             # get id
-            notestatus_id = self.request.GET['notestatus']
+            notestatus_id = user_config.filter_documentation_list_notestatus.notestatus_id
             # filter objects
             note_query = note_query.filter(notestatus=notestatus_id)
             reportitem_query = reportitem_query.filter(notestatus=notestatus_id)
-            # remember initial value for form
+            # set initial value for form
             form_initial['notestatus'] = notestatus_id
 
-        # filter for tag
-        if 'tag' in self.request.GET:
+        # get tag from config
+        if user_config.filter_documentation_list_tag:
             # get id
-            tag_id = self.request.GET['tag']
+            tag_id = user_config.filter_documentation_list_tag.tag_id
             # filter objects
             note_query = note_query.filter(tag=tag_id)
             reportitem_query = reportitem_query.filter(tag=tag_id)
-            # remember initial value for form
+            # set initial value for form
             form_initial['tag'] = tag_id
 
         # add to context
@@ -64,6 +78,17 @@ class DocumentationList(LoginRequiredMixin, FormView):
         # add to context
         context['form'] = self.form_class(initial = form_initial)
 
+        # filter: clean filtering after providing filter results if persistence option was not selected
+        if not user_config.filter_documentation_list_keep:
+            # unset filter case
+            user_config.filter_documentation_list_case = None
+            # unset filter notestatus
+            user_config.filter_documentation_list_notestatus = None
+            # unset filter tag
+            user_config.filter_documentation_list_tag = None
+            # save config
+            user_config.save()
+
         # call logger
         debug_logger(str(self.request.user), " DOCUMENTATION_LIST_ENTERED")
 
@@ -71,27 +96,59 @@ class DocumentationList(LoginRequiredMixin, FormView):
         return context
 
     def form_valid(self, form):
-        """ evaluate form data and call view again with GET parameters """
+        """ save form data to config and call view again """
 
-        # create parameter dict
-        params = {}
+        # get config
+        user_config, created = UserConfigModel.objects.get_or_create(user_config_username=self.request.user)
 
-        # case
+        # filter: save filter choices from form in 'documentation_list' to database and call 'documentation_list' again with the new filter options
+
+        # get case from form and save to config
         if form.data['case']:
-            params['case'] = form.data['case']
+            documentation_list_case = Case.objects.get(case_id=form.data['case'])
+            user_config.filter_documentation_list_case = documentation_list_case
+        else:
+            user_config.filter_documentation_list_case = None
 
-        # notestatus
+        # get notestatus from form and save to config
         if form.data['notestatus']:
-            params['notestatus'] = form.data['notestatus']
+            documentation_list_notestatus = Notestatus.objects.get(notestatus_id=form.data['notestatus'])
+            user_config.filter_documentation_list_notestatus = documentation_list_notestatus
+        else:
+            user_config.filter_documentation_list_notestatus = None
 
-        # tag
+        # get tag from form and save to config
         if form.data['tag']:
-            params['tag'] = form.data['tag']
+            documentation_list_tag = Tag.objects.get(tag_id=form.data['tag'])
+            user_config.filter_documentation_list_tag = documentation_list_tag
+        else:
+            user_config.filter_documentation_list_tag = None
 
-        # build url
-        urlpath = reverse('documentation_list')
-        urlquery = urlencode(params)
-        documentation_list_query = urlunparse(('','',urlpath,'',urlquery,''))
+        # avoid MultiValueDictKeyError by providing default False if checkbox was empty
+        if form.data.get('filter_documentation_list_keep', False):
+            user_config.filter_documentation_list_keep = True
+        else:
+            user_config.filter_documentation_list_keep = False
 
-        # call view with queries
-        return redirect(documentation_list_query, form)
+        # save config
+        user_config.save()
+
+        # call view again
+        return redirect(reverse('documentation_list'))
+
+@login_required(login_url="/login")
+def clear_documentation_list_filter(request):
+    """ clear documentation list filter """
+
+    # get config
+    user_config, created = UserConfigModel.objects.get_or_create(user_config_username=request.user)
+
+    # clear values
+    user_config.filter_documentation_list_case = None
+    user_config.filter_documentation_list_notestatus = None
+    user_config.filter_documentation_list_tag = None
+
+    # save config
+    user_config.save()
+
+    return redirect(reverse('documentation_list'))

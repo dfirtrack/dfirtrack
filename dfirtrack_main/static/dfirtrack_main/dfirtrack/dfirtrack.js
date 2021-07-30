@@ -59,6 +59,19 @@ $(function () {
 // #
 // ####################################
 
+// TODO: move to 'dfirtrack/dfirtrack_artifacts/static/dfirtrack_artifacts/dfirtrack_artifacts.js'
+// popup window for adding artifacttype
+var artifacttype_add_popup;
+function artifacttype_add_popup() {
+    artifacttype_add_popup = window.open("/artifacts/artifacttype/add_popup/", "artifacttype_add_popup", "height=600, width=1000");
+}
+
+// popup window for adding casetype
+var casetype_add_popup;
+function casetype_add_popup() {
+    casetype_add_popup = window.open("/casetype/add_popup/", "casetype_add_popup", "height=600, width=1000");
+}
+
 // popup window for adding company
 var company_add_popup;
 function company_add_popup() {
@@ -81,6 +94,12 @@ function domain_add_popup() {
 var dnsname_add_popup;
 function dnsname_add_popup() {
     dnsname_add_popup = window.open("/dnsname/add_popup/", "dnsname_add_popup", "height=600, width=1000");
+}
+
+// popup window for adding headline
+var headline_add_popup;
+function headline_add_popup() {
+    headline_add_popup = window.open("/headline/add_popup/", "headline_add_popup", "height=600, width=1000");
 }
 
 // popup window for adding location
@@ -117,6 +136,12 @@ function serviceprovider_add_popup() {
 var systemtype_add_popup;
 function systemtype_add_popup() {
     systemtype_add_popup = window.open("/systemtype/add_popup/", "systemtype_add_popup", "height=600, width=1000");
+}
+
+// popup window for adding taskname
+var taskname_add_popup;
+function taskname_add_popup() {
+    taskname_add_popup = window.open("/taskname/add_popup/", "taskname_add_popup", "height=600, width=1000");
 }
 
 // TODO: move to 'dfirtrack/dfirtrack_artifacts/static/dfirtrack_artifacts/dfirtrack_artifacts.js' (did not work so far)

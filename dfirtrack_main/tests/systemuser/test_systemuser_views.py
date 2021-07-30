@@ -169,7 +169,7 @@ class SystemuserViewTestCase(TestCase):
         # get response
         response = self.client.get('/systemuser/add/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/systemuser/systemuser_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
 
     def test_systemuser_add_get_user_context(self):
         """ test add view """
@@ -236,7 +236,7 @@ class SystemuserViewTestCase(TestCase):
         # get response
         response = self.client.post('/systemuser/add/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/systemuser/systemuser_add.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
 
     def test_systemuser_edit_not_logged_in(self):
         """ test edit view """
@@ -272,7 +272,7 @@ class SystemuserViewTestCase(TestCase):
         # get response
         response = self.client.get('/systemuser/' + str(systemuser_1.systemuser_id) + '/edit/')
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/systemuser/systemuser_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
 
     def test_systemuser_edit_get_user_context(self):
         """ test edit view """
@@ -352,4 +352,4 @@ class SystemuserViewTestCase(TestCase):
         # get response
         response = self.client.post('/systemuser/' + str(systemuser_id) + '/edit/', data_dict)
         # compare
-        self.assertTemplateUsed(response, 'dfirtrack_main/systemuser/systemuser_edit.html')
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')

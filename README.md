@@ -73,6 +73,7 @@ The application was created by implementing the following libraries and code:
 * [jQuery](https://github.com/jquery/jquery)
 * [Open Iconic](https://github.com/iconic/open-iconic)
 * [django-async-messages](https://github.com/codeinthehole/django-async-messages)
+* [swagger-ui](https://github.com/swagger-api/swagger-ui)
 
 ## Development
 

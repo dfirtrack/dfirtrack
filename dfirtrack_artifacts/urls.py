@@ -30,6 +30,7 @@ urlpatterns += (
     # urls for Artifacttype
     path(r'artifacttype/', artifacttype_view.ArtifacttypeListView.as_view(), name='artifacts_artifacttype_list'),
     path(r'artifacttype/create/', artifacttype_view.ArtifacttypeCreateView.as_view(), name='artifacts_artifacttype_create'),
+    path(r'artifacttype/add_popup/', artifacttype_view.ArtifacttypeCreatePopup.as_view(), name='artifacttype_add_popup'),
     path(r'artifacttype/detail/<int:pk>/', artifacttype_view.ArtifacttypeDetailView.as_view(), name='artifacts_artifacttype_detail'),
     path(r'artifacttype/update/<int:pk>/', artifacttype_view.ArtifacttypeUpdateView.as_view(), name='artifacts_artifacttype_update'),
 )

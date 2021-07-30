@@ -9,6 +9,7 @@ from dfirtrack_main.forms import RecommendationForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Recommendation
 
+
 class RecommendationList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Recommendation
@@ -34,12 +35,16 @@ class RecommendationCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Recommendation
     form_class = RecommendationForm
-    template_name = 'dfirtrack_main/recommendation/recommendation_add.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " RECOMMENDATION_ADD_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+            'object_type': 'recommendation',
+        })
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -50,18 +55,26 @@ class RecommendationCreate(LoginRequiredMixin, CreateView):
             messages.success(request, 'Recommendation added')
             return redirect(reverse('recommendation_detail', args=(recommendation.recommendation_id,)))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'recommendation',
+            })
 
 class RecommendationCreatePopup(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Recommendation
     form_class = RecommendationForm
-    template_name = 'dfirtrack_main/recommendation/recommendation_add_popup.html'
+    template_name = 'dfirtrack_main/generic_form_popup.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " RECOMMENDATION_ADD_POPUP_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+            'object_type': 'recommendation',
+        })
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -72,19 +85,28 @@ class RecommendationCreatePopup(LoginRequiredMixin, CreateView):
             messages.success(request, 'Recommendation added')
             return HttpResponse('<script type="text/javascript">window.close();</script>')
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'recommendation',
+            })
 
 class RecommendationUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Recommendation
     form_class = RecommendationForm
-    template_name = 'dfirtrack_main/recommendation/recommendation_edit.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         recommendation = self.get_object()
         form = self.form_class(instance=recommendation)
         recommendation.logger(str(request.user), " RECOMMENDATION_EDIT_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Edit',
+            'object_type': 'recommendation',
+            'object_name': recommendation.recommendation_name,
+        })
 
     def post(self, request, *args, **kwargs):
         recommendation = self.get_object()
@@ -96,4 +118,9 @@ class RecommendationUpdate(LoginRequiredMixin, UpdateView):
             messages.success(request, 'Recommendation edited')
             return redirect(reverse('recommendation_detail', args=(recommendation.recommendation_id,)))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Edit',
+                'object_type': 'recommendation',
+                'object_name': recommendation.recommendation_name,
+            })

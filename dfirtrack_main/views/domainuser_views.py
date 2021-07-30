@@ -8,6 +8,7 @@ from dfirtrack_main.forms import DomainuserForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Domainuser
 
+
 class DomainuserList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Domainuser
@@ -33,12 +34,16 @@ class DomainuserCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Domainuser
     form_class = DomainuserForm
-    template_name = 'dfirtrack_main/domainuser/domainuser_add.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " DOMAINUSER_ADD_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Add',
+            'object_type': 'domainuser',
+        })
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -50,19 +55,28 @@ class DomainuserCreate(LoginRequiredMixin, CreateView):
             messages.success(request, 'Domainuser added')
             return redirect(reverse('domainuser_detail', args=(domainuser.domainuser_id,)))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'domainuser',
+            })
 
 class DomainuserUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Domainuser
     form_class = DomainuserForm
-    template_name = 'dfirtrack_main/domainuser/domainuser_edit.html'
+    template_name = 'dfirtrack_main/generic_form.html'
 
     def get(self, request, *args, **kwargs):
         domainuser = self.get_object()
         form = self.form_class(instance=domainuser)
         domainuser.logger(str(request.user), " DOMAINUSER_EDIT_ENTERED")
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'form': form,
+            'title': 'Edit',
+            'object_type': 'domainuser',
+            'object_name': domainuser.domainuser_name ,
+        })
 
     def post(self, request, *args, **kwargs):
         domainuser = self.get_object()
@@ -75,4 +89,9 @@ class DomainuserUpdate(LoginRequiredMixin, UpdateView):
             messages.success(request, 'Domainuser edited')
             return redirect(reverse('domainuser_detail', args=(domainuser.domainuser_id,)))
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Edit',
+                'object_type': 'domainuser',
+                'object_name': domainuser.domainuser_name ,
+            })

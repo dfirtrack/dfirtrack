@@ -5,8 +5,7 @@ from django.utils.text import slugify
 import logging
 from time import strftime
 import uuid
-import os
-from dfirtrack.config import EVIDENCE_PATH
+
 
 # initialize logger
 stdlogger = logging.getLogger(__name__)
@@ -502,13 +501,11 @@ class Entry(models.Model):
     # foreign key(s)
     system = models.ForeignKey('System', on_delete=models.CASCADE)
     case = models.ForeignKey('Case', on_delete=models.SET_NULL, blank=True, null=True)
+    tag = models.ManyToManyField('Tag', blank=True)
 
     # main entity information
     entry_time = models.DateTimeField()
     entry_sha1 = models.CharField(max_length=40, blank=True, null=True)
-    entry_date = models.CharField(max_length=10, blank=True, null=True)
-    entry_utc = models.CharField(max_length=8, blank=True, null=True)
-    entry_system = models.CharField(max_length=30, blank=True, null=True)
     entry_type = models.CharField(max_length=30, blank=True, null=True)
     entry_content = models.TextField(blank=True, null=True)
     entry_note = models.TextField(blank=True, null=True)
@@ -516,9 +513,22 @@ class Entry(models.Model):
     # meta information
     entry_create_time = models.DateTimeField(auto_now_add=True)
     entry_modify_time = models.DateTimeField(auto_now=True)
-    entry_api_time = models.DateTimeField(null=True)
     entry_created_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='entry_created_by')
     entry_modified_by_user_id = models.ForeignKey(User, on_delete=models.PROTECT, related_name='entry_modified_by')
+
+    # property fields
+
+    @property
+    def entry_date(self):
+        return self.entry_time.strftime('%Y-%m-%d')
+
+    @property
+    def entry_utc(self):
+        return self.entry_time.strftime('%H:%M:%S')
+
+    @property
+    def entry_system(self):
+        return self.system.system_name
 
     class Meta:
         unique_together = ('system', 'entry_sha1')
@@ -1232,20 +1242,6 @@ class System(models.Model):
             "|system_export_markdown:" + str(system.system_export_markdown) +
             "|system_export_spreadsheet:" + str(system.system_export_spreadsheet)
         )
-
-    def create_evidence_directory(self):
-        """
-        Check if the evidence directory for the system was already created
-        otherwise it will be created.
-        """
-        system_evidence_path = (EVIDENCE_PATH + '/' + str(self.uuid))
-        if os.path.exists(system_evidence_path):
-            self.logger(request_user, "System-Path: {} already exists.".format(system_evidence_path))
-            return False
-        else:
-            os.makedirs(system_evidence_path)
-            self.logger(request_user, "System-Path: {} created.".format(system_evidence_path))
-            return True
 
     def get_absolute_url(self):
         return reverse('system_detail', args=(self.pk,))

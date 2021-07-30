@@ -69,6 +69,7 @@ urlpatterns = [
 
     path(r'casetype/', casetype_views.CasetypeList.as_view(), name='casetype_list'),
     path(r'casetype/create/', casetype_views.CasetypeCreate.as_view(), name='casetype_create'),
+    path(r'casetype/add_popup/', casetype_views.CasetypeCreatePopup.as_view(), name='casetype_add_popup'),
     path(r'casetype/detail/<int:pk>/', casetype_views.CasetypeDetail.as_view(), name='casetype_detail'),
     path(r'casetype/update/<int:pk>/', casetype_views.CasetypeUpdate.as_view(), name='casetype_update'),
 
@@ -96,6 +97,7 @@ urlpatterns = [
     path(r'dnsname/<int:pk>/edit/', dnsname_views.DnsnameUpdate.as_view(), name='dnsname_update'),
 
     path(r'documentation/', documentation_views.DocumentationList.as_view(), name='documentation_list'),
+    path(r'documentation/clear_filter/', documentation_views.clear_documentation_list_filter, name='clear_documentation_list_filter'),
 
     path(r'domain/', domain_views.DomainList.as_view(), name='domain_list'),
     path(r'domain/<int:pk>/', domain_views.DomainDetail.as_view(), name='domain_detail'),
@@ -112,10 +114,13 @@ urlpatterns = [
     path(r'entry/<int:pk>/', entry_views.EntryDetail.as_view(), name='entry_detail'),
     path(r'entry/add/', entry_views.EntryCreate.as_view(), name='entry_create'),
     path(r'entry/<int:pk>/edit/', entry_views.EntryUpdate.as_view(), name='entry_update'),
+    path(r'entry/import/step1/', entry_views.import_csv_step1, name='entry_import_step1'),
+    path(r'entry/import/step2/', entry_views.import_csv_step2, name='entry_import_step2'),
 
     path(r'headline/', headline_views.HeadlineList.as_view(), name='headline_list'),
     path(r'headline/<int:pk>/', headline_views.HeadlineDetail.as_view(), name='headline_detail'),
     path(r'headline/add/', headline_views.HeadlineCreate.as_view(), name='headline_create'),
+    path(r'headline/add_popup/', headline_views.HeadlineCreatePopup.as_view(), name='headline_add_popup'),
     path(r'headline/<int:pk>/edit/', headline_views.HeadlineUpdate.as_view(), name='headline_update'),
 
     path(r'ip/', ip_views.IpList.as_view(), name='ip_list'),
@@ -173,6 +178,7 @@ urlpatterns = [
     path(r'system/add/', system_views.SystemCreate.as_view(), name='system_create'),
     path(r'system/<int:pk>/edit/', system_views.SystemUpdate.as_view(), name='system_update'),
     path(r'system/json/', system_views.get_systems_json, name='system_json'),
+    path(r'system/clear_filter/', system_views.clear_system_list_filter, name='clear_system_list_filter'),
 
     path(r'system/creator/', system_creator.system_creator, name='system_creator'),
     path(r'system/exporter/markdown/system/', markdown.system, name='system_exporter_markdown'),
@@ -226,6 +232,7 @@ urlpatterns = [
     path(r'taskname/', taskname_views.TasknameList.as_view(), name='taskname_list'),
     path(r'taskname/<int:pk>/', taskname_views.TasknameDetail.as_view(), name='taskname_detail'),
     path(r'taskname/add/', taskname_views.TasknameCreate.as_view(), name='taskname_create'),
+    path(r'taskname/add_popup/', taskname_views.TasknameCreatePopup.as_view(), name='taskname_add_popup'),
     path(r'taskname/<int:pk>/edit/', taskname_views.TasknameUpdate.as_view(), name='taskname_update'),
     path(r'taskname/<int:pk>/close/', taskname_views.TasknameClose.as_view(), name='taskname_close'),
 
