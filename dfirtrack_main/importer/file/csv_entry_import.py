@@ -69,7 +69,7 @@ def csv_entry_import_async(system_id, file_name, field_mapping, request_user, ca
         )
         message_user(
             request_user,
-            "Could not import the csv file. Maybe the upload wasn't successfull or the file was deleted.",
+            "Could not import the CSV file. Maybe the upload wasn't successful or the file was deleted.",
             constants.ERROR
         )
         return
