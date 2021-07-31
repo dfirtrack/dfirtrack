@@ -27,6 +27,8 @@ It would be nice if the code meets the following requirements and you already co
 
 ## Pull requests
 
+Please check the status in the "develop" branch. This may have already developed considerably from the main branch.
+
 Before submitting a pull request, please ask yourself the following questions:
 
 * The code works and does not break other functionality?
