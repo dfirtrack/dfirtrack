@@ -9,11 +9,15 @@ jobs:
       - run: pip install bandit black codespell flake8 isort mypy pytest pyupgrade safety
       - run: bandit --recursive --skip B101,B106,B108,B110,B303 .
       - run: black --check . || true
-      - run: codespell --skip="*.js,*.map,*.css" --ignore-words-list="entrys"
-      - run: flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-      - run: flake8 . --count --exit-zero --max-complexity=10 --max-line-length=88 --show-source --statistics
+      - run: codespell --ignore-words-list="entrys" --skip="*.css,*.js,*.map"
+      - run: flake8 . --count --select=E5,E9,F63,F7,F82
+                      --max-complexity=132 --max-line-length=321
+                      --show-source --statistics
+      - run: flake8 . --count --exit-zero --ignore=E251
+                      --max-line-length=321
+                      --show-source --statistics
       - run: isort --check-only --profile black . || true
-      - run: pip install -r requirements.txt || true
+      - run: pip install -r requirements.txt
       - run: mypy --install-types --non-interactive . || true
       - run: pytest . || true
       - run: pytest --doctest-modules . || true
