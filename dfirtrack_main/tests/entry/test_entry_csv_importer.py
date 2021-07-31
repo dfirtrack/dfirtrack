@@ -1,7 +1,7 @@
 import hashlib
 import os
 from datetime import datetime
-from unittest.mock import patch, mock_open
+from mock import patch, mock_open
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils.timezone import get_current_timezone
