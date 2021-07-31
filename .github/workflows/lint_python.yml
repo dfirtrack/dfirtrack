@@ -1,8 +1,12 @@
 name: Lint Python
+
 on: [pull_request, push]
+
 jobs:
   lint_python:
+
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
@@ -10,7 +14,7 @@ jobs:
       - run: bandit --recursive --skip B101,B106,B108,B110,B303 .
       - run: black --check . || true
       - run: codespell --ignore-words-list="entrys" --skip="*.css,*.js,*.map"
-      - run: flake8 . --count --select=E5,E9,F63,F7,F82
+      - run: flake8 . --count --select=E5,E9,F7,F63,F82
                       --max-complexity=132 --max-line-length=321
                       --show-source --statistics
       - run: flake8 . --count --exit-zero --ignore=E251
