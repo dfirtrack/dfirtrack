@@ -9,7 +9,7 @@ class TagWidget(forms.CheckboxSelectMultiple):
     template_name = 'dfirtrack_main/widgets/tag_widget.html'
 
     def __init__(self, *args, **kwargs):
-         super(TagWidget, self).__init__(*args, **kwargs)
+         super().__init__(*args, **kwargs)
 
     def render(self, name, value, attrs=None, choices=(), renderer=None):
         # get all context information parent function

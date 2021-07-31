@@ -1,7 +1,7 @@
 import hashlib
 import os
 from datetime import datetime
-from mock import patch, mock_open
+from unittest.mock import patch, mock_open
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils.timezone import get_current_timezone
@@ -101,8 +101,8 @@ class EntryCsvImporterTestCase(TestCase):
         # calculate hash
         m = hashlib.sha1()
         m.update(str(now).encode())
-        m.update('sha1_test'.encode())
-        m.update('Lorem ipsum'.encode())
+        m.update(b'sha1_test')
+        m.update(b'Lorem ipsum')
 
         # start task
         self.execute_csv_entry_import_async(csv_string)
@@ -122,8 +122,8 @@ class EntryCsvImporterTestCase(TestCase):
         # calculate hash
         m = hashlib.sha1()
         m.update(str(now).encode())
-        m.update('sha1_test'.encode())
-        m.update('Lorem ipsum'.encode())
+        m.update(b'sha1_test')
+        m.update(b'Lorem ipsum')
 
         # start task
         self.execute_csv_entry_import_async(csv_string, )

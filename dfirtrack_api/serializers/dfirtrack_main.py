@@ -28,7 +28,7 @@ class CaseSerializer(serializers.ModelSerializer):
         self.fields['tag'] =  dfirtrack_main_fk.TagFkSerializer(many=True, read_only=True)
 
         # get existing to_representation
-        representation = super(CaseSerializer, self).to_representation(instance)
+        representation = super().to_representation(instance)
 
         # change mandatory time strings
         representation['case_create_time'] = instance.case_create_time.strftime('%Y-%m-%dT%H:%M')
@@ -101,7 +101,7 @@ class CompanySerializer(serializers.ModelSerializer):
     # get serializers of foreignkey relationsships
     def to_representation(self, instance):
         self.fields['division'] =  dfirtrack_main_fk.DivisionFkSerializer(read_only=True)
-        return super(CompanySerializer, self).to_representation(instance)
+        return super().to_representation(instance)
 
     class Meta:
         model = dfirtrack_main_models.Company
@@ -142,7 +142,7 @@ class DnsnameSerializer(serializers.ModelSerializer):
     # get serializers of foreignkey relationsships
     def to_representation(self, instance):
         self.fields['domain'] =  dfirtrack_main_fk.DomainFkSerializer(read_only=True)
-        return super(DnsnameSerializer, self).to_representation(instance)
+        return super().to_representation(instance)
 
     class Meta:
         model = dfirtrack_main_models.Dnsname
@@ -170,7 +170,7 @@ class DomainuserSerializer(serializers.ModelSerializer):
     # get serializers of foreignkey relationsships
     def to_representation(self, instance):
         self.fields['domain'] =  dfirtrack_main_fk.DomainFkSerializer(read_only=True)
-        return super(DomainuserSerializer, self).to_representation(instance)
+        return super().to_representation(instance)
 
     class Meta:
         model = dfirtrack_main_models.Domainuser
@@ -227,7 +227,7 @@ class NoteSerializer(serializers.ModelSerializer):
         self.fields['tag'] =  dfirtrack_main_fk.TagFkSerializer(many=True, read_only=True)
 
         # get existing to_representation
-        representation = super(NoteSerializer, self).to_representation(instance)
+        representation = super().to_representation(instance)
 
         # change mandatory time strings
         representation['note_create_time'] = instance.note_create_time.strftime('%Y-%m-%dT%H:%M')
@@ -321,7 +321,7 @@ class ReportitemSerializer(serializers.ModelSerializer):
         self.fields['tag'] =  dfirtrack_main_fk.TagFkSerializer(many=True, read_only=True)
 
         # get existing to_representation
-        representation = super(ReportitemSerializer, self).to_representation(instance)
+        representation = super().to_representation(instance)
 
         # change mandatory time strings
         representation['reportitem_create_time'] = instance.reportitem_create_time.strftime('%Y-%m-%dT%H:%M')
@@ -384,7 +384,7 @@ class SystemSerializer(serializers.ModelSerializer):
         self.fields['tag'] =  dfirtrack_main_fk.TagFkSerializer(many=True, read_only=True)
 
         # get existing to_representation
-        representation = super(SystemSerializer, self).to_representation(instance)
+        representation = super().to_representation(instance)
 
         # change mandatory time strings
         representation['system_create_time'] = instance.system_create_time.strftime('%Y-%m-%dT%H:%M')
@@ -470,7 +470,7 @@ class SystemuserSerializer(serializers.ModelSerializer):
         self.fields['system'] =  dfirtrack_main_fk.SystemFkSerializer(read_only=True)
 
         # get existing to_representation
-        representation = super(SystemuserSerializer, self).to_representation(instance)
+        representation = super().to_representation(instance)
 
         # change optional time strings
         if instance.systemuser_lastlogon_time:
@@ -495,7 +495,7 @@ class TagSerializer(serializers.ModelSerializer):
     # get serializers of foreignkey relationsships
     def to_representation(self, instance):
         self.fields['tagcolor'] =  dfirtrack_main_fk.TagcolorFkSerializer(read_only=True)
-        return super(TagSerializer, self).to_representation(instance)
+        return super().to_representation(instance)
 
     class Meta:
         model = dfirtrack_main_models.Tag
@@ -534,7 +534,7 @@ class TaskSerializer(serializers.ModelSerializer):
         self.fields['taskstatus'] =  dfirtrack_main_fk.TaskstatusFkSerializer(many=False, read_only=True)
 
         # get existing to_representation
-        representation = super(TaskSerializer, self).to_representation(instance)
+        representation = super().to_representation(instance)
 
         # change mandatory time strings
         representation['task_create_time'] = instance.task_create_time.strftime('%Y-%m-%dT%H:%M')

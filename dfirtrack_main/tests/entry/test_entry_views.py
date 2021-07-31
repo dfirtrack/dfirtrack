@@ -5,7 +5,7 @@ from django.utils import timezone
 from dfirtrack_main.models import Entry, System, Systemstatus, Case
 import urllib.parse
 import uuid
-from mock import patch
+from unittest.mock import patch
 
 
 class EntryViewTestCase(TestCase):

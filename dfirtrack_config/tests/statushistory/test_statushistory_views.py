@@ -18,7 +18,7 @@ from dfirtrack_main.models import Task
 from dfirtrack_main.models import Taskname
 from dfirtrack_main.models import Taskpriority
 from dfirtrack_main.models import Taskstatus
-from mock import patch
+from unittest.mock import patch
 import urllib.parse
 
 

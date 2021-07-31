@@ -22,7 +22,7 @@ from dfirtrack_main.tests.system_importer.config_functions import set_config_tag
 from dfirtrack_main.tests.system_importer.config_functions import set_config_tag_prefix_delimiter_underscore
 from dfirtrack_main.tests.system_importer.config_functions import set_csv_import_filename
 from dfirtrack_main.tests.system_importer.config_functions import set_csv_import_path
-from mock import patch
+from unittest.mock import patch
 import os
 import urllib.parse
 
@@ -226,7 +226,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_minimal', password='H6mM7kq9sEZLvm6CyOaW')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_01_minimal_double_quotation.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_01_minimal_double_quotation.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -319,7 +319,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_minimal', password='H6mM7kq9sEZLvm6CyOaW')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_02_minimal_single_quotation.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_02_minimal_single_quotation.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -412,7 +412,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_minimal', password='H6mM7kq9sEZLvm6CyOaW')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_03_minimal_headline.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_03_minimal_headline.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -509,7 +509,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_minimal', password='H6mM7kq9sEZLvm6CyOaW')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_21_minimal_comma.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_21_minimal_comma.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -608,7 +608,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_minimal', password='H6mM7kq9sEZLvm6CyOaW')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_22_minimal_semicolon.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_22_minimal_semicolon.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -707,7 +707,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_minimal', password='H6mM7kq9sEZLvm6CyOaW')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_51_ip_delimiter_comma.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_51_ip_delimiter_comma.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -806,7 +806,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_minimal', password='H6mM7kq9sEZLvm6CyOaW')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_52_ip_delimiter_semicolon.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_52_ip_delimiter_semicolon.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -905,7 +905,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_minimal', password='H6mM7kq9sEZLvm6CyOaW')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_53_ip_delimiter_space.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_53_ip_delimiter_space.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -1004,7 +1004,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_minimal', password='H6mM7kq9sEZLvm6CyOaW')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_54_tag_delimiter_comma.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_54_tag_delimiter_comma.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -1103,7 +1103,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_minimal', password='H6mM7kq9sEZLvm6CyOaW')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_55_tag_delimiter_semicolon.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_55_tag_delimiter_semicolon.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -1202,7 +1202,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_minimal', password='H6mM7kq9sEZLvm6CyOaW')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_56_tag_delimiter_space.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_56_tag_delimiter_space.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -1301,7 +1301,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_minimal', password='H6mM7kq9sEZLvm6CyOaW')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_56_tag_delimiter_space.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_56_tag_delimiter_space.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -1400,7 +1400,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_minimal', password='H6mM7kq9sEZLvm6CyOaW')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_56_tag_delimiter_space.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_56_tag_delimiter_space.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -1499,7 +1499,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_minimal', password='H6mM7kq9sEZLvm6CyOaW')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_56_tag_delimiter_space.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_56_tag_delimiter_space.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,

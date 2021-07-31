@@ -59,7 +59,7 @@ class ArtifactSerializer(serializers.ModelSerializer):
         self.fields['tag'] = TagFkSerializer(many=True, read_only=True)
 
         # get existing to_representation
-        representation = super(ArtifactSerializer, self).to_representation(instance)
+        representation = super().to_representation(instance)
 
         # change mandatory time strings
         representation['artifact_create_time'] = instance.artifact_create_time.strftime('%Y-%m-%dT%H:%M')

@@ -23,7 +23,7 @@ from dfirtrack_main.models import Systemstatus
 from dfirtrack_main.models import Systemtype
 from dfirtrack_main.models import Tag
 from dfirtrack_main.models import Tagcolor
-from mock import patch
+from unittest.mock import patch
 import urllib.parse
 
 
@@ -499,7 +499,7 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         # prepare output file path
         output_file_path = main_config_model.cron_export_path + '/' + filetime + '_systems.csv'
         # open file from temp folder
-        csv_disk = open(output_file_path, 'r')
+        csv_disk = open(output_file_path)
         # open file as csv object
         csv_reader = csv.reader(csv_disk, delimiter=',')
 

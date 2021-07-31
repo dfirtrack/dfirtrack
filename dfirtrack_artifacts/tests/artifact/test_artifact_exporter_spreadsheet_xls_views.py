@@ -7,7 +7,7 @@ from dfirtrack_artifacts.exporter.spreadsheet.xls import artifact_cron
 from dfirtrack_artifacts.models import Artifact, Artifactstatus, Artifacttype
 from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel, MainConfigModel
 from dfirtrack_main.models import System, Systemstatus
-from mock import patch
+from unittest.mock import patch
 import urllib.parse
 import xlrd
 
@@ -66,7 +66,7 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
                 artifactstatus = artifactstatus_3,
                 artifacttype = artifacttype_1,
                 system = system_1,
-                artifact_source_path = 'C:\Temp\malicious.exe',
+                artifact_source_path = r'C:\Temp\malicious.exe',
                 artifact_note_internal = 'artifact note for internal usage',
                 artifact_note_external = 'artifact note for external usage',
                 artifact_note_analysisresult = 'artifact note for analysis result',

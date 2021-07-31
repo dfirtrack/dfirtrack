@@ -118,7 +118,7 @@ class ArtifactForm(forms.ModelForm):
     def clean(self):
         """ check provided hashes for their length """
 
-        super(ArtifactForm, self).clean()
+        super().clean()
 
         # build regular expression that excludes valid hexadecimal characters
         hex_re = re.compile(r'[^a-fA-F0-9.]')
