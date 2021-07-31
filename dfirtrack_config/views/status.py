@@ -88,7 +88,7 @@ class StatusDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, *args, **kwargs):
 
         # get context
-        context = super(StatusDetailView, self).get_context_data(*args, **kwargs)
+        context = super().get_context_data(*args, **kwargs)
 
         # get object for detail view
         statushistory = self.object
@@ -111,7 +111,7 @@ class StatusView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, *args, **kwargs):
 
         # get context
-        context = super(StatusView, self).get_context_data(*args, **kwargs)
+        context = super().get_context_data(*args, **kwargs)
 
         # add status objects to context dictionary
         context = get_status_objects(context)

@@ -10,7 +10,7 @@ from dfirtrack_config.models import SystemExporterSpreadsheetXlsConfigModel
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_config.models import Statushistory
 from dfirtrack_config.models import UserConfigModel
-from mock import patch
+from unittest.mock import patch
 
 
 class ConfigModelTestCase(TestCase):

@@ -11,7 +11,7 @@ from dfirtrack_main.tests.system_importer.config_functions import set_config_che
 from dfirtrack_main.tests.system_importer.config_functions import set_config_check_attributes_domain_name
 from dfirtrack_main.tests.system_importer.config_functions import set_config_column_system
 from dfirtrack_main.tests.system_importer.config_functions import set_csv_import_filename
-from mock import patch
+from unittest.mock import patch
 import os
 import urllib.parse
 
@@ -320,7 +320,7 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_attributes', password='vlQnN2tg9HVGyyyIvezt')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_31_faulty_system.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_31_faulty_system.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -413,7 +413,7 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_attributes', password='vlQnN2tg9HVGyyyIvezt')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_32_faulty_attributes.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_32_faulty_attributes.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -506,7 +506,7 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_attributes', password='vlQnN2tg9HVGyyyIvezt')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_33_domain_name.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_33_domain_name.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,

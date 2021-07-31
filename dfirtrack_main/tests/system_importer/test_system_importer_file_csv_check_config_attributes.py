@@ -295,7 +295,7 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_01_minimal_double_quotation.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_01_minimal_double_quotation.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -411,7 +411,7 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_01_minimal_double_quotation.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_01_minimal_double_quotation.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -527,7 +527,7 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_01_minimal_double_quotation.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_01_minimal_double_quotation.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -643,7 +643,7 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_01_minimal_double_quotation.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_01_minimal_double_quotation.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -1248,7 +1248,7 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_01_minimal_double_quotation.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_01_minimal_double_quotation.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -1476,7 +1476,7 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_01_minimal_double_quotation.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_01_minimal_double_quotation.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -1594,7 +1594,7 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_01_minimal_double_quotation.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_01_minimal_double_quotation.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -1710,7 +1710,7 @@ class SystemImporterFileCsvCheckConfigAttributesViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_config_attributes', password='VgnTh4qkYZH61F5YArC7')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_01_minimal_double_quotation.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_01_minimal_double_quotation.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,

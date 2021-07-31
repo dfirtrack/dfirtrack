@@ -12,7 +12,7 @@ from dfirtrack_main.tests.system_importer.config_functions import set_config_tag
 from dfirtrack_main.tests.system_importer.config_functions import set_config_tag_remove_prefix
 from dfirtrack_main.tests.system_importer.config_functions import set_csv_import_filename
 from dfirtrack_main.tests.system_importer.config_functions import set_csv_import_path
-from mock import patch
+from unittest.mock import patch
 import os
 import urllib.parse
 
@@ -260,7 +260,7 @@ class SystemImporterFileCsvTagRemovalViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_tag_removal', password='XAavYL75MrC5eVVSuzoL')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_56_tag_delimiter_space.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_56_tag_delimiter_space.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -349,7 +349,7 @@ class SystemImporterFileCsvTagRemovalViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_tag_removal', password='XAavYL75MrC5eVVSuzoL')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_56_tag_delimiter_space.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_56_tag_delimiter_space.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -438,7 +438,7 @@ class SystemImporterFileCsvTagRemovalViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_tag_removal', password='XAavYL75MrC5eVVSuzoL')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_56_tag_delimiter_space.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_56_tag_delimiter_space.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,

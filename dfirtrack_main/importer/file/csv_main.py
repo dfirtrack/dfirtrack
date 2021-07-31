@@ -52,7 +52,7 @@ def system_handler(request=None, uploadfile=False):
         # build csv file path
         csv_import_file = model.csv_import_path + '/' + model.csv_import_filename
         # open file
-        systemcsv = open(csv_import_file, 'r')
+        systemcsv = open(csv_import_file)
 
     # get field delimiter from config
     if model.csv_field_delimiter == 'field_comma':

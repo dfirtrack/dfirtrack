@@ -28,7 +28,7 @@ class SystemList(LoginRequiredMixin, FormView):
         """ enrich context data """
 
         # get context
-        context = super(SystemList, self).get_context_data()
+        context = super().get_context_data()
 
         """ dfirtrack api settings """
 

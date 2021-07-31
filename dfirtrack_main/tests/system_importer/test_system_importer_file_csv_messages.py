@@ -8,7 +8,7 @@ from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv import system_cron
 from dfirtrack_main.models import Analysisstatus, System, Systemstatus
 from dfirtrack_main.tests.system_importer.config_functions import set_csv_import_filename, set_csv_skip_existing_system
-from mock import patch
+from unittest.mock import patch
 import os
 
 
@@ -323,7 +323,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_messages', password='a9aZU5mlnXbVv4TTgcMW')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_11_messages_single_system.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_11_messages_single_system.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -350,7 +350,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_messages', password='a9aZU5mlnXbVv4TTgcMW')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_11_messages_single_system.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_11_messages_single_system.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -377,7 +377,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_messages', password='a9aZU5mlnXbVv4TTgcMW')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_11_messages_single_system.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_11_messages_single_system.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -405,7 +405,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_messages', password='a9aZU5mlnXbVv4TTgcMW')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_11_messages_single_system.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_11_messages_single_system.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -689,7 +689,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_messages', password='a9aZU5mlnXbVv4TTgcMW')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_12_messages_many_systems.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_12_messages_many_systems.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -718,7 +718,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_messages', password='a9aZU5mlnXbVv4TTgcMW')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_12_messages_many_systems.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_12_messages_many_systems.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -747,7 +747,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_messages', password='a9aZU5mlnXbVv4TTgcMW')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_12_messages_many_systems.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_12_messages_many_systems.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -779,7 +779,7 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_messages', password='a9aZU5mlnXbVv4TTgcMW')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_12_messages_many_systems.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_12_messages_many_systems.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,

@@ -8,7 +8,7 @@ from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv import system_cron
 from dfirtrack_main.models import Analysisstatus, Case, Company, Dnsname, Domain, Location, Ip, Os, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Tag, Tagcolor
 from dfirtrack_main.tests.system_importer.config_functions import set_config_complete_attributes_csv, set_config_complete_overwrite_csv, set_csv_import_filename, set_csv_import_path
-from mock import patch
+from unittest.mock import patch
 import os
 import urllib.parse
 
@@ -466,7 +466,7 @@ class SystemImporterFileCsvCompleteOverwriteViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_complete_overwrite', password='EeD9m7nMmWTVeUeAAPUC')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_41_complete_overwrite.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_41_complete_overwrite.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,

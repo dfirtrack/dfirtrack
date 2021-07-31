@@ -170,7 +170,7 @@ class SystemImporterFileCsvCheckContentFileTypeViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_check_content_file_type', password='3oKsgNPVdlmNPneLhdr9')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_05_corrupted.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_05_corrupted.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,

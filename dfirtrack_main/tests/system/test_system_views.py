@@ -202,7 +202,7 @@ class SystemViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get response
-        response = self.client.get('/system/{}/'.format(system_1.system_id))
+        response = self.client.get(f'/system/{system_1.system_id}/')
         # compare
         self.assertEquals(str(response.context['workflows'][0]), 'workflow_1')
 

@@ -58,7 +58,7 @@ class Analystmemo(models.Model):
 
     # string representation
     def __str__(self):
-        return 'Analystmemo %s (%s)' % (str(self.analystmemo_id), self.system)
+        return f'Analystmemo {str(self.analystmemo_id)} ({self.system})'
 
     # define logger
     def logger(analystmemo, request_user, log_text):
@@ -453,7 +453,7 @@ class Domainuser(models.Model):
 
     # string representation
     def __str__(self):
-        return '%s (%s)' % (self.domainuser_name, self.domain)
+        return f'{self.domainuser_name} ({self.domain})'
 
     # define logger
     def logger(domainuser, request_user, log_text):     # coverage: ignore branch
@@ -536,7 +536,7 @@ class Entry(models.Model):
 
     # string representation
     def __str__(self):
-        return '%s | %s | %s' % (str(self.entry_id), self.system, self.entry_sha1)
+        return f'{str(self.entry_id)} | {self.system} | {self.entry_sha1}'
 
     # define logger
     def logger(entry, request_user, log_text):
@@ -818,7 +818,7 @@ class Osimportname(models.Model):
 
     # string representation
     def __str__(self):
-        return '%s (%s)' % (self.osimportname_name, self.os)
+        return f'{self.osimportname_name} ({self.os})'
 
     # define logger
     def logger(osimportname, request_user, log_text):
@@ -920,7 +920,7 @@ class Reportitem(models.Model):
 
     # string representation
     def __str__(self):
-        return '%s | %s | %s' % (self.system, self.headline.headline_name, self.reportitem_subheadline)
+        return f'{self.system} | {self.headline.headline_name} | {self.reportitem_subheadline}'
 
     # define logger
     def logger(reportitem, request_user, log_text):
@@ -1037,10 +1037,10 @@ class System(models.Model):
     # string representation
     def __str__(self):
         if self.system_install_time == None:
-            return '[%s] %s' % (str(self.system_id), self.system_name)
+            return f'[{str(self.system_id)}] {self.system_name}'
         else:
             installtime = self.system_install_time.strftime('%Y-%m-%d')
-            return '[%s] %s (%s)' % (str(self.system_id), self.system_name, installtime)
+            return f'[{str(self.system_id)}] {self.system_name} ({installtime})'
 
     # extend save method
     def save(self, *args, **kwargs):
@@ -1345,7 +1345,7 @@ class Systemuser(models.Model):
 
     # string representation
     def __str__(self):
-        return '%s (%s)' % (self.systemuser_name, self.system)
+        return f'{self.systemuser_name} ({self.system})'
 
     # define logger
     def logger(systemuser, request_user, log_text):
@@ -1457,7 +1457,7 @@ class Task(models.Model):
 
     # string representation
     def __str__(self):
-        return '[%s] %s (%s)' % (self.task_id, self.taskname, self.system)
+        return f'[{self.task_id}] {self.taskname} ({self.system})'
 
     def save(self, *args, **kwargs):
         """ extend save method """

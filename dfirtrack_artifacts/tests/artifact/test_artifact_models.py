@@ -10,7 +10,7 @@ from dfirtrack_config.models import MainConfigModel
 from dfirtrack_main.models import System
 from dfirtrack_main.models import Systemstatus
 
-from mock import patch
+from unittest.mock import patch
 import os
 
 

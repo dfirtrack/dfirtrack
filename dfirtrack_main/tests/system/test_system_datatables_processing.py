@@ -156,7 +156,7 @@ class SystemDatatablesProcessingTestCase(TestCase):
         # get data
         systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
         # get response
-        response = self.client.get('/system/json/', {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': '', 'columns[1][data]': 'system_name', 'columns[2][data]': 'systemstatus',  'draw': '1'}, HTTP_REFERER='/systemstatus/{}/'.format(systemstatus_id))
+        response = self.client.get('/system/json/', {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': '', 'columns[1][data]': 'system_name', 'columns[2][data]': 'systemstatus',  'draw': '1'}, HTTP_REFERER=f'/systemstatus/{systemstatus_id}/')
         data = json.loads(response.content)
         # compare
         self.assertEqual(int(data['recordsFiltered']), 2)
@@ -169,7 +169,7 @@ class SystemDatatablesProcessingTestCase(TestCase):
         # get data
         systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
         # get response
-        response = self.client.get('/system/json/', {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': 'system_1', 'columns[1][data]': 'system_name', 'columns[2][data]': 'systemstatus',  'draw': '1'}, HTTP_REFERER='/systemstatus/{}/'.format(systemstatus_id))
+        response = self.client.get('/system/json/', {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': 'system_1', 'columns[1][data]': 'system_name', 'columns[2][data]': 'systemstatus',  'draw': '1'}, HTTP_REFERER=f'/systemstatus/{systemstatus_id}/')
         data = json.loads(response.content)
         # compare
         self.assertEqual(int(data['recordsFiltered']), 1)
@@ -182,7 +182,7 @@ class SystemDatatablesProcessingTestCase(TestCase):
         # get data
         case_id = Case.objects.get(case_name='case_1').case_id
         # get response
-        response = self.client.get('/system/json/', {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': '', 'columns[1][data]': 'system_name', 'columns[2][data]': 'systemstatus',  'draw': '1'}, HTTP_REFERER='/case/{}/'.format(case_id))
+        response = self.client.get('/system/json/', {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': '', 'columns[1][data]': 'system_name', 'columns[2][data]': 'systemstatus',  'draw': '1'}, HTTP_REFERER=f'/case/{case_id}/')
         data = json.loads(response.content)
         # compare
         self.assertEqual(int(data['recordsFiltered']), 2)
@@ -195,7 +195,7 @@ class SystemDatatablesProcessingTestCase(TestCase):
         # get data
         case_id = Case.objects.get(case_name='case_1').case_id
         # get response
-        response = self.client.get('/system/json/', {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': 'system_1', 'columns[1][data]': 'system_name', 'columns[2][data]': 'systemstatus',  'draw': '1'}, HTTP_REFERER='/case/{}/'.format(case_id))
+        response = self.client.get('/system/json/', {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': 'system_1', 'columns[1][data]': 'system_name', 'columns[2][data]': 'systemstatus',  'draw': '1'}, HTTP_REFERER=f'/case/{case_id}/')
         data = json.loads(response.content)
         # compare
         self.assertEqual(int(data['recordsFiltered']), 1)
@@ -208,7 +208,7 @@ class SystemDatatablesProcessingTestCase(TestCase):
         # get data
         analysisstatus_id = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1').analysisstatus_id
         # get response
-        response = self.client.get('/system/json/', {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': '', 'columns[1][data]': 'system_name', 'columns[2][data]': 'systemstatus',  'draw': '1'}, HTTP_REFERER='/analysisstatus/{}/'.format(analysisstatus_id))
+        response = self.client.get('/system/json/', {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': '', 'columns[1][data]': 'system_name', 'columns[2][data]': 'systemstatus',  'draw': '1'}, HTTP_REFERER=f'/analysisstatus/{analysisstatus_id}/')
         data = json.loads(response.content)
         # compare
         self.assertEqual(int(data['recordsFiltered']), 2)
@@ -221,7 +221,7 @@ class SystemDatatablesProcessingTestCase(TestCase):
         # get data
         analysisstatus_id = Analysisstatus.objects.get(analysisstatus_name='analysisstatus_1').analysisstatus_id
         # get response
-        response = self.client.get('/system/json/', {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': 'system_1', 'columns[1][data]': 'system_name', 'columns[2][data]': 'systemstatus',  'draw': '1'}, HTTP_REFERER='/analysisstatus/{}/'.format(analysisstatus_id))
+        response = self.client.get('/system/json/', {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': 'system_1', 'columns[1][data]': 'system_name', 'columns[2][data]': 'systemstatus',  'draw': '1'}, HTTP_REFERER=f'/analysisstatus/{analysisstatus_id}/')
         data = json.loads(response.content)
         # compare
         self.assertEqual(int(data['recordsFiltered']), 1)
@@ -234,7 +234,7 @@ class SystemDatatablesProcessingTestCase(TestCase):
         # get data
         tag_id = Tag.objects.get(tag_name='tag_1').tag_id
         # get response
-        response = self.client.get('/system/json/', {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': '', 'columns[1][data]': 'system_name', 'columns[2][data]': 'systemstatus', 'draw': '1'}, HTTP_REFERER='/tag/{}/'.format(tag_id))
+        response = self.client.get('/system/json/', {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': '', 'columns[1][data]': 'system_name', 'columns[2][data]': 'systemstatus', 'draw': '1'}, HTTP_REFERER=f'/tag/{tag_id}/')
         data = json.loads(response.content)
         # compare
         self.assertEqual(int(data['recordsFiltered']), 2)
@@ -247,7 +247,7 @@ class SystemDatatablesProcessingTestCase(TestCase):
         # get data
         tag_id = Tag.objects.get(tag_name='tag_1').tag_id
         # get response
-        response = self.client.get('/system/json/', {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': 'system_1', 'columns[1][data]': 'system_name', 'columns[2][data]': 'systemstatus', 'draw': '1'}, HTTP_REFERER='/tag/{}/'.format(tag_id))
+        response = self.client.get('/system/json/', {'order[0][column]': '1', 'order[0][dir]': 'asc', 'start': '0', 'length': '25', 'search[value]': 'system_1', 'columns[1][data]': 'system_name', 'columns[2][data]': 'systemstatus', 'draw': '1'}, HTTP_REFERER=f'/tag/{tag_id}/')
         data = json.loads(response.content)
         # compare
         self.assertEqual(int(data['recordsFiltered']), 1)
