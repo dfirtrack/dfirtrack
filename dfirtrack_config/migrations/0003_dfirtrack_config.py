@@ -11,7 +11,12 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='MainConfigModel',
             fields=[
-                ('main_config_name', models.CharField(editable=False, max_length=50, primary_key=True, serialize=False)),
+                (
+                    'main_config_name',
+                    models.CharField(
+                        editable=False, max_length=50, primary_key=True, serialize=False
+                    ),
+                ),
                 ('system_name_editable', models.BooleanField(blank=True)),
             ],
         ),

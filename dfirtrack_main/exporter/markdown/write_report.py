@@ -2,19 +2,19 @@ from time import strftime
 
 
 def emptyline(django_report):
-    """ easy to read function for an empty line """
+    """easy to read function for an empty line"""
     django_report.write("\n")
 
 
 def write_headline(django_report, system):
-    """ write headline """
+    """write headline"""
 
     django_report.write("# " + system.system_name + "\n")
     emptyline(django_report)
 
 
 def write_systemstatus(django_report, system):
-    """ write systemstatus in admonation style """
+    """write systemstatus in admonation style"""
 
     if system.systemstatus.systemstatus_name == "30_compromised":
         django_report.write('!!! danger "Systemstatus"\n')
@@ -40,7 +40,7 @@ def write_systemstatus(django_report, system):
 
 
 def write_systemoverview_to_table(django_report, system):
-    """ write system overview headline and markdown table head """
+    """write system overview headline and markdown table head"""
 
     django_report.write("# System overview\n")
     emptyline(django_report)
@@ -50,11 +50,17 @@ def write_systemoverview_to_table(django_report, system):
 
 
 def write_systemidentification_to_table(django_report, system):
-    """ dnsname (for fqdn) and domain (add to table) """
+    """dnsname (for fqdn) and domain (add to table)"""
 
     # systemname and dnsname
     if system.dnsname != None:
-        django_report.write("| Hostname / FQDN (Domain) | " + system.system_name + "." + system.dnsname.dnsname_name + " ")
+        django_report.write(
+            "| Hostname / FQDN (Domain) | "
+            + system.system_name
+            + "."
+            + system.dnsname.dnsname_name
+            + " "
+        )
     else:
         django_report.write("| Hostname / FQDN (Domain) | " + system.system_name + " ")
     # domain
@@ -65,7 +71,7 @@ def write_systemidentification_to_table(django_report, system):
 
 
 def write_ip_to_table(django_report, system):
-    """ ip(s) to a markdown table """
+    """ip(s) to a markdown table"""
 
     ips = system.ip.all()
     if ips.exists():
@@ -77,7 +83,7 @@ def write_ip_to_table(django_report, system):
 
 
 def write_os_to_table(django_report, system):
-    """ os (add to table) """
+    """os (add to table)"""
 
     if system.os != None:
         django_report.write("| OS | " + system.os.os_name + " |\n")
@@ -87,7 +93,7 @@ def write_os_to_table(django_report, system):
 
 
 def write_systemtype_to_table(django_report, system):
-    """ systemtype (add to table) """
+    """systemtype (add to table)"""
 
     if system.systemtype != None:
         django_report.write("| Type | " + system.systemtype.systemtype_name + " |\n")
@@ -97,10 +103,14 @@ def write_systemtype_to_table(django_report, system):
 
 
 def write_system_install_time_to_table(django_report, system):
-    """ system_install_time (add to table) """
+    """system_install_time (add to table)"""
 
     if system.system_install_time != None:
-        django_report.write("| Install | " + system.system_install_time.strftime('%Y-%m-%d %H:%M:%S') + " |\n")
+        django_report.write(
+            "| Install | "
+            + system.system_install_time.strftime('%Y-%m-%d %H:%M:%S')
+            + " |\n"
+        )
     else:
         # place holder
         django_report.write("| Install | \\--- |\n")
@@ -108,7 +118,7 @@ def write_system_install_time_to_table(django_report, system):
 
 
 def write_reason(django_report, system):
-    """ reason """
+    """reason"""
 
     django_report.write("## Identification / Reason for investigation\n")
     emptyline(django_report)
@@ -124,7 +134,7 @@ def write_reason(django_report, system):
 
 
 def write_recommendation(django_report, system):
-    """ recommendation """
+    """recommendation"""
 
     django_report.write("## Recommendation\n")
     emptyline(django_report)
@@ -139,7 +149,7 @@ def write_recommendation(django_report, system):
 
 
 def write_reportitem(django_report, system):
-    """ reportitem """
+    """reportitem"""
 
     reportitems = system.reportitem_set.all().order_by('headline')
     if reportitems.exists():
@@ -157,7 +167,7 @@ def write_reportitem(django_report, system):
 
 
 def write_systemusers(django_report, system):
-    """ write systemuser """
+    """write systemuser"""
 
     django_report.write("## Potentially compromised accounts\n")
     emptyline(django_report)
@@ -172,18 +182,22 @@ def write_systemusers(django_report, system):
 
 
 def write_timeline_table(django_report, system):
-    """ write timeline table headline and head of table """
+    """write timeline table headline and head of table"""
 
     # timeline (table)
     django_report.write("# Timeline\n")
     emptyline(django_report)
     # start table
-    django_report.write("| Date     | Time (UTC)  | System      | Type        | Content     |\n")
-    django_report.write("|:---------|:------------|:------------|:------------|:------------|\n")
+    django_report.write(
+        "| Date     | Time (UTC)  | System      | Type        | Content     |\n"
+    )
+    django_report.write(
+        "|:---------|:------------|:------------|:------------|:------------|\n"
+    )
 
 
 def write_entries_to_table(django_report, system):
-    """ write all entries to table """
+    """write all entries to table"""
 
     # TODO: change behavior, currently check for entry attributes is necessary because of 'null=True'
     entrys = system.entry_set.all().order_by('entry_time')
@@ -206,7 +220,9 @@ def write_entries_to_table(django_report, system):
                 django_report.write("| |\n")
     else:
         # place holder
-        django_report.write("| \\---      | \\---         | \\---         | \\---         | \\---         |\n")
+        django_report.write(
+            "| \\---      | \\---         | \\---         | \\---         | \\---         |\n"
+        )
     emptyline(django_report)
 
 

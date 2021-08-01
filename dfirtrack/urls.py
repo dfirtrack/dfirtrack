@@ -13,7 +13,9 @@ urlpatterns = [
     re_path(r'^artifacts/', include('dfirtrack_artifacts.urls')),
     re_path(r'^config/', include('dfirtrack_config.urls')),
     re_path(r'^login/', LoginView.as_view(template_name='dfirtrack_main/login.html')),
-    re_path(r'^logout/', LogoutView.as_view(template_name='dfirtrack_main/logout.html')),
+    re_path(
+        r'^logout/', LogoutView.as_view(template_name='dfirtrack_main/logout.html')
+    ),
     re_path(r'^martor/', include('martor.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

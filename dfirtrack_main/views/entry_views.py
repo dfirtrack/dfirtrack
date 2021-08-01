@@ -25,6 +25,7 @@ class EntryList(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " ENTRY_LIST_ENTERED")
         return Entry.objects.order_by('entry_id')
 
+
 class EntryDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Entry
@@ -36,6 +37,7 @@ class EntryDetail(LoginRequiredMixin, DetailView):
         entry.logger(str(self.request.user), " ENTRY_DETAIL_ENTERED")
         return context
 
+
 class EntryCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Entry
@@ -46,16 +48,22 @@ class EntryCreate(LoginRequiredMixin, CreateView):
         if 'system' in request.GET:
             system = request.GET['system']
             form = self.form_class(
-                initial={'system': system,}
+                initial={
+                    'system': system,
+                }
             )
         else:
             form = self.form_class()
         debug_logger(str(request.user), " ENTRY_ADD_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-            'object_type': 'entry',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'entry',
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -69,11 +77,16 @@ class EntryCreate(LoginRequiredMixin, CreateView):
             messages.success(request, 'Entry added')
             return redirect(reverse('system_detail', args=(entry.system.system_id,)))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-                'object_type': 'entry',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Add',
+                    'object_type': 'entry',
+                },
+            )
+
 
 class EntryUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
@@ -85,11 +98,15 @@ class EntryUpdate(LoginRequiredMixin, UpdateView):
         entry = self.get_object()
         form = self.form_class(instance=entry)
         entry.logger(str(request.user), " ENTRY_EDIT_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Edit',
-            'object_type': 'entry',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Edit',
+                'object_type': 'entry',
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         entry = self.get_object()
@@ -103,11 +120,16 @@ class EntryUpdate(LoginRequiredMixin, UpdateView):
             messages.success(request, 'Entry edited')
             return redirect(reverse('system_detail', args=(entry.system.system_id,)))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Edit',
-                'object_type': 'entry',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Edit',
+                    'object_type': 'entry',
+                },
+            )
+
 
 @login_required(login_url="/login")
 def import_csv_step1(request):
@@ -137,7 +159,7 @@ def import_csv_step1(request):
                 'fields': fields,
                 'system': entry.system.system_id,
                 'case': entry.case.case_id if entry.case else None,
-                'file_name': file_name
+                'file_name': file_name,
             }
 
             messages.success(request, 'Uploaded csv to DFIRTrack.')
@@ -145,25 +167,29 @@ def import_csv_step1(request):
             # goto step 2
             return redirect(reverse('entry_import_step2'))
         else:
-            return render(request, 'dfirtrack_main/entry/entry_import_step1.html', {'form': form})
+            return render(
+                request, 'dfirtrack_main/entry/entry_import_step1.html', {'form': form}
+            )
     else:
         # GET request
         debug_logger(str(request.user), ' ENTRY_CSV_IMPORTER_STEP1_ENTERED')
         form = EntryFileImport()
-        return render(request, 'dfirtrack_main/entry/entry_import_step1.html', {'form': form})
+        return render(
+            request, 'dfirtrack_main/entry/entry_import_step1.html', {'form': form}
+        )
+
 
 @login_required(login_url="/login")
 def import_csv_step2(request):
     # check if step1 was successful
     if 'entry_csv_import' not in request.session:
-            return redirect(reverse('entry_import_step1'))
+        return redirect(reverse('entry_import_step1'))
 
     # POST request
     if request.method == "POST":
         # get form with dynamic fields
         form = EntryFileImportFields(
-            request.session['entry_csv_import']['fields'],
-            request.POST
+            request.session['entry_csv_import']['fields'], request.POST
         )
         if form.is_valid():
             # get field mappings
@@ -184,16 +210,20 @@ def import_csv_step2(request):
                 request.session['entry_csv_import']['case'],
             )
             # delete session information
-            del(request.session['entry_csv_import'])
+            del request.session['entry_csv_import']
 
             messages.success(request, 'Entry csv importer started')
 
             return redirect(reverse('entry_list'))
         else:
-            return render(request, 'dfirtrack_main/entry/entry_import_step2.html', {'form': form})
+            return render(
+                request, 'dfirtrack_main/entry/entry_import_step2.html', {'form': form}
+            )
     else:
         # GET request
         debug_logger(str(request.user), ' ENTRY_CSV_IMPORTER_STEP2_ENTERED')
         # prepare dynamic form with csv field information
         form = EntryFileImportFields(request.session['entry_csv_import']['fields'])
-        return render(request, 'dfirtrack_main/entry/entry_import_step2.html', {'form': form})
+        return render(
+            request, 'dfirtrack_main/entry/entry_import_step2.html', {'form': form}
+        )

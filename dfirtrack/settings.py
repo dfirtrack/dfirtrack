@@ -117,7 +117,7 @@ LOGGING = {
     'formatters': {
         'std_formatter': {
             'format': '[%(asctime)s] %(levelname)s %(message)s',
-            'datefmt': '%Y-%m-%d %H:%M:%S'
+            'datefmt': '%Y-%m-%d %H:%M:%S',
         },
     },
     'handlers': {
@@ -125,7 +125,7 @@ LOGGING = {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'filename': LOGGING_PATH + '/' + 'dfirtrack.log',
-	    'formatter': 'std_formatter',
+            'formatter': 'std_formatter',
         },
     },
     'loggers': {
@@ -144,41 +144,50 @@ LOGGING = {
 
 Q_CLUSTER = {
     'name': 'dfirtrack',
-    'orm': 'default',                   # use database backend as message broker
-    'label': 'DFIRTrack Q Cluster',     # label for admin page
-    'catch_up': False,                  # do not catch up postponed tasks after downtime
-    'max_attempts': 1,                  # do not retry failed task
-    'timeout': 1800,                    # timeout tasks after half an hour
-    'retry': 1801,                      # retry tasks only after timeout time (skip retry is not possible afaik)
-    'save_limit': 0,                    # save unlimited successful tasks in the database
-    'sync': False,                      # switch for synchronous execution (also done for testing via 'dfirtrack.test_settings')
+    'orm': 'default',  # use database backend as message broker
+    'label': 'DFIRTrack Q Cluster',  # label for admin page
+    'catch_up': False,  # do not catch up postponed tasks after downtime
+    'max_attempts': 1,  # do not retry failed task
+    'timeout': 1800,  # timeout tasks after half an hour
+    'retry': 1801,  # retry tasks only after timeout time (skip retry is not possible afaik)
+    'save_limit': 0,  # save unlimited successful tasks in the database
+    'sync': False,  # switch for synchronous execution (also done for testing via 'dfirtrack.test_settings')
 }
 
 REST_FRAMEWORK = {
-'DEFAULT_AUTHENTICATION_CLASSES' : [
-    'rest_framework.authentication.BasicAuthentication',
-    'rest_framework.authentication.SessionAuthentication',
-    'dfirtrack_api.authentication.TokenAuthentication',
-],
-'DEFAULT_PERMISSION_CLASSES': [
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'dfirtrack_api.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
-   ],
+    ],
 }
 
 MARTOR_ENABLE_CONFIGS = {
-    'emoji': 'true',        # to enable/disable emoji icons.
-    'imgur': 'false',        # to enable/disable imgur/custom uploader.
-    'mention': 'false',     # to enable/disable mention
-    'jquery': 'true',       # to include/revoke jquery (require for admin default django)
-    'living': 'false',      # to enable/disable live updates in preview
+    'emoji': 'true',  # to enable/disable emoji icons.
+    'imgur': 'false',  # to enable/disable imgur/custom uploader.
+    'mention': 'false',  # to enable/disable mention
+    'jquery': 'true',  # to include/revoke jquery (require for admin default django)
+    'living': 'false',  # to enable/disable live updates in preview
     'spellcheck': 'false',  # to enable/disable spellcheck in form textareas
-    'hljs': 'true',         # to enable/disable hljs highlighting in preview
+    'hljs': 'true',  # to enable/disable hljs highlighting in preview
 }
 
 MARTOR_TOOLBAR_BUTTONS = [
-    'bold', 'italic', 'horizontal', 'heading', 'pre-code',
-    'blockquote', 'unordered-list', 'ordered-list',
-    'link', 'direct-mention', 'toggle-maximize', 'help'
+    'bold',
+    'italic',
+    'horizontal',
+    'heading',
+    'pre-code',
+    'blockquote',
+    'unordered-list',
+    'ordered-list',
+    'link',
+    'direct-mention',
+    'toggle-maximize',
+    'help',
 ]
 
 MARTOR_ENABLE_LABEL = True
@@ -193,7 +202,7 @@ try statements are split to avoid conflicts in case of missing values
 try:
     from .local_settings import ALLOWED_HOSTS
 
-except ImportError:     # coverage: ignore branch
+except ImportError:  # coverage: ignore branch
 
     # add IP or FQDN if relevant
     ALLOWED_HOSTS = ['localhost']
@@ -202,7 +211,7 @@ except ImportError:     # coverage: ignore branch
 try:
     from .local_settings import DATABASES
 
-except ImportError:     # coverage: ignore branch
+except ImportError:  # coverage: ignore branch
 
     # Database - check environment variables for context
     if "CI" in os.environ:
@@ -230,7 +239,7 @@ except ImportError:     # coverage: ignore branch
 try:
     from .local_settings import DATA_UPLOAD_MAX_NUMBER_FIELDS
 
-except ImportError:     # coverage: ignore branch
+except ImportError:  # coverage: ignore branch
 
     DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000
 
@@ -238,7 +247,7 @@ except ImportError:     # coverage: ignore branch
 try:
     from .local_settings import DEBUG
 
-except ImportError:     # coverage: ignore branch
+except ImportError:  # coverage: ignore branch
 
     # change to True for debugging
     DEBUG = False
@@ -247,6 +256,6 @@ except ImportError:     # coverage: ignore branch
 try:
     from .local_settings import STATIC_ROOT
 
-except ImportError:     # coverage: ignore branch
+except ImportError:  # coverage: ignore branch
 
     STATIC_ROOT = '/var/www/html/static/'

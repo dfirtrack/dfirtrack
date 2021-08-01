@@ -28,14 +28,16 @@ from dfirtrack_main.models import (
 
 
 class TaskAPIViewTestCase(TestCase):
-    """ task API view tests """
+    """task API view tests"""
 
     @classmethod
     def setUpTestData(cls):
-        """ one time setup """
+        """one time setup"""
 
         # create user
-        test_user = User.objects.create_user(username='testuser_task_api', password='jmvsz1Z551zZ4E3Cnp8D')
+        test_user = User.objects.create_user(
+            username='testuser_task_api', password='jmvsz1Z551zZ4E3Cnp8D'
+        )
 
         """ case """
 
@@ -46,13 +48,13 @@ class TaskAPIViewTestCase(TestCase):
 
         # create object
         Case.objects.create(
-            case_name = 'case_1',
-            casepriority = casepriority_1,
-            casestatus = casestatus_1,
-            casetype = casetype_1,
-            case_is_incident = True,
-            case_created_by_user_id = test_user,
-            case_modified_by_user_id = test_user,
+            case_name='case_1',
+            casepriority=casepriority_1,
+            casestatus=casestatus_1,
+            casetype=casetype_1,
+            case_is_incident=True,
+            case_created_by_user_id=test_user,
+            case_modified_by_user_id=test_user,
         )
 
         """ tag """
@@ -62,8 +64,8 @@ class TaskAPIViewTestCase(TestCase):
 
         # create object
         Tag.objects.create(
-            tagcolor = tagcolor_1,
-            tag_name = 'tag_1',
+            tagcolor=tagcolor_1,
+            tag_name='tag_1',
         )
 
         """ system """
@@ -73,28 +75,32 @@ class TaskAPIViewTestCase(TestCase):
 
         # create object
         system_1 = System.objects.create(
-            system_name = 'system_1',
-            systemstatus = systemstatus_1,
-            system_created_by_user_id = test_user,
-            system_modified_by_user_id = test_user,
+            system_name='system_1',
+            systemstatus=systemstatus_1,
+            system_created_by_user_id=test_user,
+            system_modified_by_user_id=test_user,
         )
 
         """ artifact """
 
         # create objects
-        artifactpriority_1 = Artifactpriority.objects.create(artifactpriority_name='artifactpriority_1')
-        artifactstatus_1 = Artifactstatus.objects.create(artifactstatus_name='artifactstatus_1')
+        artifactpriority_1 = Artifactpriority.objects.create(
+            artifactpriority_name='artifactpriority_1'
+        )
+        artifactstatus_1 = Artifactstatus.objects.create(
+            artifactstatus_name='artifactstatus_1'
+        )
         artifacttype_1 = Artifacttype.objects.create(artifacttype_name='artifacttype_1')
 
         # create object
         Artifact.objects.create(
             artifact_name='artifact_1',
-            artifactpriority = artifactpriority_1,
-            artifactstatus = artifactstatus_1,
-            artifacttype = artifacttype_1,
-            system = system_1,
-            artifact_created_by_user_id = test_user,
-            artifact_modified_by_user_id = test_user,
+            artifactpriority=artifactpriority_1,
+            artifactstatus=artifactstatus_1,
+            artifacttype=artifacttype_1,
+            system=system_1,
+            artifact_created_by_user_id=test_user,
+            artifact_modified_by_user_id=test_user,
         )
 
         """ task """
@@ -113,24 +119,24 @@ class TaskAPIViewTestCase(TestCase):
 
         # create object - main testing task
         Task.objects.create(
-            taskname = taskname_1,
-            taskpriority = taskpriority_1,
-            taskstatus = taskstatus_1,
-            task_created_by_user_id = test_user,
-            task_modified_by_user_id = test_user,
+            taskname=taskname_1,
+            taskpriority=taskpriority_1,
+            taskstatus=taskstatus_1,
+            task_created_by_user_id=test_user,
+            task_modified_by_user_id=test_user,
         )
 
         # create object - parent task
         Task.objects.create(
-            taskname = taskname_parent,
-            taskpriority = taskpriority_1,
-            taskstatus = taskstatus_1,
-            task_created_by_user_id = test_user,
-            task_modified_by_user_id = test_user,
+            taskname=taskname_parent,
+            taskpriority=taskpriority_1,
+            taskstatus=taskstatus_1,
+            task_created_by_user_id=test_user,
+            task_modified_by_user_id=test_user,
         )
 
     def test_task_list_api_unauthorized(self):
-        """ unauthorized access is forbidden"""
+        """unauthorized access is forbidden"""
 
         # get response
         response = self.client.get('/api/task/')
@@ -138,7 +144,7 @@ class TaskAPIViewTestCase(TestCase):
         self.assertEqual(response.status_code, 401)
 
     def test_task_list_api_method_get(self):
-        """ GET is allowed """
+        """GET is allowed"""
 
         # login testuser
         self.client.login(username='testuser_task_api', password='jmvsz1Z551zZ4E3Cnp8D')
@@ -148,7 +154,7 @@ class TaskAPIViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_task_list_api_method_post(self):
-        """ POST is allowed """
+        """POST is allowed"""
 
         # login testuser
         self.client.login(username='testuser_task_api', password='jmvsz1Z551zZ4E3Cnp8D')
@@ -171,7 +177,9 @@ class TaskAPIViewTestCase(TestCase):
         # compare
         self.assertEqual(len(task_2_none), 0)
         # get response
-        response = self.client.post('/api/task/', data=poststring, content_type='application/json')
+        response = self.client.post(
+            '/api/task/', data=poststring, content_type='application/json'
+        )
         # compare
         self.assertEqual(response.status_code, 201)
         # get object
@@ -182,7 +190,7 @@ class TaskAPIViewTestCase(TestCase):
         self.assertTrue(task_2.task_is_abandoned)
 
     def test_task_list_api_method_post_all_id(self):
-        """ POST is allowed """
+        """POST is allowed"""
 
         # login testuser
         self.client.login(username='testuser_task_api', password='jmvsz1Z551zZ4E3Cnp8D')
@@ -193,7 +201,9 @@ class TaskAPIViewTestCase(TestCase):
         taskpriority_1 = Taskpriority.objects.get(taskpriority_name='prio_1')
         taskstatus_1 = Taskstatus.objects.get(taskstatus_name='taskstatus_1')
         # get objects
-        taskname_parent_id = Taskname.objects.get(taskname_name='taskname_parent').taskname_id
+        taskname_parent_id = Taskname.objects.get(
+            taskname_name='taskname_parent'
+        ).taskname_id
         parent_task_1 = Task.objects.get(taskname=taskname_parent_id)
         # get object
         artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
@@ -225,7 +235,9 @@ class TaskAPIViewTestCase(TestCase):
         # compare
         self.assertEqual(len(task_3_none), 0)
         # get response
-        response = self.client.post('/api/task/', data=poststring, content_type='application/json')
+        response = self.client.post(
+            '/api/task/', data=poststring, content_type='application/json'
+        )
         # compare
         self.assertEqual(response.status_code, 201)
         # get object
@@ -234,10 +246,19 @@ class TaskAPIViewTestCase(TestCase):
         self.assertEqual(task_3.parent_task, parent_task_1)
         self.assertEqual(task_3.taskpriority, taskpriority_1)
         self.assertEqual(task_3.taskstatus, taskstatus_1)
-        self.assertEqual(task_3.task_scheduled_time, datetime(2021, 5, 9, 12, 15, tzinfo=timezone.utc))
-        self.assertEqual(task_3.task_started_time, datetime(2021, 5, 9, 12, 25, tzinfo=timezone.utc))
-        self.assertEqual(task_3.task_finished_time, datetime(2021, 5, 9, 12, 35, tzinfo=timezone.utc))
-        self.assertEqual(task_3.task_due_time, datetime(2021, 5, 9, 12, 45, tzinfo=timezone.utc))
+        self.assertEqual(
+            task_3.task_scheduled_time,
+            datetime(2021, 5, 9, 12, 15, tzinfo=timezone.utc),
+        )
+        self.assertEqual(
+            task_3.task_started_time, datetime(2021, 5, 9, 12, 25, tzinfo=timezone.utc)
+        )
+        self.assertEqual(
+            task_3.task_finished_time, datetime(2021, 5, 9, 12, 35, tzinfo=timezone.utc)
+        )
+        self.assertEqual(
+            task_3.task_due_time, datetime(2021, 5, 9, 12, 45, tzinfo=timezone.utc)
+        )
         self.assertEqual(task_3.artifact, artifact_1)
         self.assertEqual(task_3.case, case_1)
         self.assertEqual(task_3.system, system_1)
@@ -245,7 +266,7 @@ class TaskAPIViewTestCase(TestCase):
         self.assertFalse(task_3.task_is_abandoned)
 
     def test_task_list_api_redirect(self):
-        """ test redirect with appending slash """
+        """test redirect with appending slash"""
 
         # login testuser
         self.client.login(username='testuser_task_api', password='jmvsz1Z551zZ4E3Cnp8D')
@@ -254,16 +275,18 @@ class TaskAPIViewTestCase(TestCase):
         # get response
         response = self.client.get('/api/task', follow=True)
         # compare
-        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=301, target_status_code=200
+        )
 
-    def test_task_detail_api_unauthorized (self):
-        """ unauthorized access is forbidden"""
+    def test_task_detail_api_unauthorized(self):
+        """unauthorized access is forbidden"""
 
         # get object
         taskname_id = Taskname.objects.get(taskname_name='taskname_1').taskname_id
         # get object
         task_api_1 = Task.objects.get(
-            taskname = taskname_id,
+            taskname=taskname_id,
         )
         # get response
         response = self.client.get('/api/task/' + str(task_api_1.task_id) + '/')
@@ -271,7 +294,7 @@ class TaskAPIViewTestCase(TestCase):
         self.assertEqual(response.status_code, 401)
 
     def test_task_detail_api_method_get(self):
-        """ GET is allowed """
+        """GET is allowed"""
 
         # login testuser
         self.client.login(username='testuser_task_api', password='jmvsz1Z551zZ4E3Cnp8D')
@@ -279,7 +302,7 @@ class TaskAPIViewTestCase(TestCase):
         taskname_id = Taskname.objects.get(taskname_name='taskname_1').taskname_id
         # get object
         task_api_1 = Task.objects.get(
-            taskname = taskname_id,
+            taskname=taskname_id,
         )
         # get response
         response = self.client.get('/api/task/' + str(task_api_1.task_id) + '/')
@@ -287,7 +310,7 @@ class TaskAPIViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_task_detail_api_method_delete(self):
-        """ DELETE is forbidden """
+        """DELETE is forbidden"""
 
         # login testuser
         self.client.login(username='testuser_task_api', password='jmvsz1Z551zZ4E3Cnp8D')
@@ -295,7 +318,7 @@ class TaskAPIViewTestCase(TestCase):
         taskname_id = Taskname.objects.get(taskname_name='taskname_1').taskname_id
         # get object
         task_api_1 = Task.objects.get(
-            taskname = taskname_id,
+            taskname=taskname_id,
         )
         # get response
         response = self.client.delete('/api/task/' + str(task_api_1.task_id) + '/')
@@ -303,7 +326,7 @@ class TaskAPIViewTestCase(TestCase):
         self.assertEqual(response.status_code, 405)
 
     def test_task_detail_api_method_put(self):
-        """ PUT is allowed """
+        """PUT is allowed"""
 
         # get objects
         taskname_id = Taskname.objects.get(taskname_name='taskname_1').taskname_id
@@ -316,7 +339,9 @@ class TaskAPIViewTestCase(TestCase):
         taskpriority_2 = Taskpriority.objects.create(taskpriority_name='prio_2')
         taskstatus_2 = Taskstatus.objects.create(taskstatus_name='taskstatus_2')
         # create url
-        destination = urllib.parse.quote('/api/task/' + str(task_api_1.task_id) + '/', safe='/')
+        destination = urllib.parse.quote(
+            '/api/task/' + str(task_api_1.task_id) + '/', safe='/'
+        )
         # create PUT string
         putstring = {
             "taskname": taskname_id,
@@ -326,7 +351,9 @@ class TaskAPIViewTestCase(TestCase):
             "task_modified_by_user_id": test_user_id,
         }
         # get response
-        response = self.client.put(destination, data=putstring, content_type='application/json')
+        response = self.client.put(
+            destination, data=putstring, content_type='application/json'
+        )
         # compare
         self.assertEqual(response.status_code, 200)
         # get object
@@ -337,11 +364,11 @@ class TaskAPIViewTestCase(TestCase):
         self.assertTrue(task_api_1.task_is_abandoned)
 
     def test_task_detail_api_method_put_all_id(self):
-        """ PUT is allowed """
+        """PUT is allowed"""
 
         # get objects
         taskname_id = Taskname.objects.get(taskname_name='taskname_1').taskname_id
-        task_api_1 = Task.objects.get(taskname = taskname_id)
+        task_api_1 = Task.objects.get(taskname=taskname_id)
         # login testuser
         self.client.login(username='testuser_task_api', password='jmvsz1Z551zZ4E3Cnp8D')
         # get user
@@ -350,7 +377,9 @@ class TaskAPIViewTestCase(TestCase):
         taskpriority_3 = Taskpriority.objects.create(taskpriority_name='prio_3')
         taskstatus_3 = Taskstatus.objects.create(taskstatus_name='taskstatus_3')
         # get objects
-        taskname_parent_id = Taskname.objects.get(taskname_name='taskname_parent').taskname_id
+        taskname_parent_id = Taskname.objects.get(
+            taskname_name='taskname_parent'
+        ).taskname_id
         parent_task_1 = Task.objects.get(taskname=taskname_parent_id)
         # get objects
         artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
@@ -358,7 +387,9 @@ class TaskAPIViewTestCase(TestCase):
         system_1 = System.objects.get(system_name='system_1')
         tag_1 = Tag.objects.get(tag_name='tag_1')
         # create url
-        destination = urllib.parse.quote('/api/task/' + str(task_api_1.task_id) + '/', safe='/')
+        destination = urllib.parse.quote(
+            '/api/task/' + str(task_api_1.task_id) + '/', safe='/'
+        )
         # create PUT string
         putstring = {
             "parent_task": parent_task_1.task_id,
@@ -380,7 +411,9 @@ class TaskAPIViewTestCase(TestCase):
             "task_modified_by_user_id": test_user_id,
         }
         # get response
-        response = self.client.put(destination, data=putstring, content_type='application/json')
+        response = self.client.put(
+            destination, data=putstring, content_type='application/json'
+        )
         # compare
         self.assertEqual(response.status_code, 200)
         # get object
@@ -389,10 +422,21 @@ class TaskAPIViewTestCase(TestCase):
         self.assertEqual(task_api_1.parent_task, parent_task_1)
         self.assertEqual(task_api_1.taskpriority, taskpriority_3)
         self.assertEqual(task_api_1.taskstatus, taskstatus_3)
-        self.assertEqual(task_api_1.task_scheduled_time, datetime(2021, 5, 9, 13, 15, tzinfo=timezone.utc))
-        self.assertEqual(task_api_1.task_started_time, datetime(2021, 5, 9, 13, 25, tzinfo=timezone.utc))
-        self.assertEqual(task_api_1.task_finished_time, datetime(2021, 5, 9, 13, 35, tzinfo=timezone.utc))
-        self.assertEqual(task_api_1.task_due_time, datetime(2021, 5, 9, 13, 45, tzinfo=timezone.utc))
+        self.assertEqual(
+            task_api_1.task_scheduled_time,
+            datetime(2021, 5, 9, 13, 15, tzinfo=timezone.utc),
+        )
+        self.assertEqual(
+            task_api_1.task_started_time,
+            datetime(2021, 5, 9, 13, 25, tzinfo=timezone.utc),
+        )
+        self.assertEqual(
+            task_api_1.task_finished_time,
+            datetime(2021, 5, 9, 13, 35, tzinfo=timezone.utc),
+        )
+        self.assertEqual(
+            task_api_1.task_due_time, datetime(2021, 5, 9, 13, 45, tzinfo=timezone.utc)
+        )
         self.assertEqual(task_api_1.artifact, artifact_1)
         self.assertEqual(task_api_1.case, case_1)
         self.assertEqual(task_api_1.system, system_1)
@@ -400,7 +444,7 @@ class TaskAPIViewTestCase(TestCase):
         self.assertFalse(task_api_1.task_is_abandoned)
 
     def test_task_detail_api_redirect(self):
-        """ test redirect with appending slash """
+        """test redirect with appending slash"""
 
         # login testuser
         self.client.login(username='testuser_task_api', password='jmvsz1Z551zZ4E3Cnp8D')
@@ -408,11 +452,15 @@ class TaskAPIViewTestCase(TestCase):
         taskname_id = Taskname.objects.get(taskname_name='taskname_1').taskname_id
         # get object
         task_api_1 = Task.objects.get(
-            taskname = taskname_id,
+            taskname=taskname_id,
         )
         # create url
-        destination = urllib.parse.quote('/api/task/' + str(task_api_1.task_id) + '/', safe='/')
+        destination = urllib.parse.quote(
+            '/api/task/' + str(task_api_1.task_id) + '/', safe='/'
+        )
         # get response
         response = self.client.get('/api/task/' + str(task_api_1.task_id), follow=True)
         # compare
-        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=301, target_status_code=200
+        )

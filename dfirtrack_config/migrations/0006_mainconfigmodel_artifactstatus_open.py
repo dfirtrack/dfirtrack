@@ -12,6 +12,10 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='mainconfigmodel',
             name='artifactstatus_open',
-            field=models.ManyToManyField(blank=True, related_name='main_config_artifactstatus_open', to='dfirtrack_artifacts.Artifactstatus'),
+            field=models.ManyToManyField(
+                blank=True,
+                related_name='main_config_artifactstatus_open',
+                to='dfirtrack_artifacts.Artifactstatus',
+            ),
         ),
     ]

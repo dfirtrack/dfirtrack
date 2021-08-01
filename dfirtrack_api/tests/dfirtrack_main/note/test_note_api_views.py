@@ -7,13 +7,15 @@ from dfirtrack_main.models import Case, Note, Notestatus, Tag, Tagcolor
 
 
 class NoteAPIViewTestCase(TestCase):
-    """ note API view tests """
+    """note API view tests"""
 
     @classmethod
     def setUpTestData(cls):
 
         # create user
-        test_user = User.objects.create_user(username='testuser_note_api', password='2to8VdHRHNUcNS7CXmDd')
+        test_user = User.objects.create_user(
+            username='testuser_note_api', password='2to8VdHRHNUcNS7CXmDd'
+        )
 
         # create object
         notestatus_1 = Notestatus.objects.create(notestatus_name='notestatus_1')
@@ -22,9 +24,9 @@ class NoteAPIViewTestCase(TestCase):
 
         # create object
         Case.objects.create(
-            case_name = 'case_1',
-            case_is_incident = True,
-            case_created_by_user_id = test_user,
+            case_name='case_1',
+            case_is_incident=True,
+            case_created_by_user_id=test_user,
         )
 
         """ tag """
@@ -34,22 +36,22 @@ class NoteAPIViewTestCase(TestCase):
 
         # create object
         Tag.objects.create(
-            tagcolor = tagcolor_1,
-            tag_name = 'tag_1',
+            tagcolor=tagcolor_1,
+            tag_name='tag_1',
         )
 
         """ note """
 
         # create object - main testing note
         Note.objects.create(
-            note_title = 'note_api_1',
-            notestatus = notestatus_1,
-            note_created_by_user_id = test_user,
-            note_modified_by_user_id = test_user,
+            note_title='note_api_1',
+            notestatus=notestatus_1,
+            note_created_by_user_id=test_user,
+            note_modified_by_user_id=test_user,
         )
 
     def test_note_list_api_unauthorized(self):
-        """ unauthorized access is forbidden"""
+        """unauthorized access is forbidden"""
 
         # get response
         response = self.client.get('/api/note/')
@@ -57,7 +59,7 @@ class NoteAPIViewTestCase(TestCase):
         self.assertEqual(response.status_code, 401)
 
     def test_note_list_api_method_get(self):
-        """ GET is allowed """
+        """GET is allowed"""
 
         # login testuser
         self.client.login(username='testuser_note_api', password='2to8VdHRHNUcNS7CXmDd')
@@ -67,7 +69,7 @@ class NoteAPIViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_note_list_api_method_post(self):
-        """ POST is allowed """
+        """POST is allowed"""
 
         # login testuser
         self.client.login(username='testuser_note_api', password='2to8VdHRHNUcNS7CXmDd')
@@ -89,7 +91,9 @@ class NoteAPIViewTestCase(TestCase):
         # compare
         self.assertEqual(len(note_api_2_none), 0)
         # get response
-        response = self.client.post('/api/note/', data=poststring, content_type='application/json')
+        response = self.client.post(
+            '/api/note/', data=poststring, content_type='application/json'
+        )
         # compare
         self.assertEqual(response.status_code, 201)
         # get object
@@ -101,7 +105,7 @@ class NoteAPIViewTestCase(TestCase):
         self.assertEqual(note_api_2.notestatus, notestatus_1)
 
     def test_note_list_api_method_post_all_id(self):
-        """ POST is allowed """
+        """POST is allowed"""
 
         # login testuser
         self.client.login(username='testuser_note_api', password='2to8VdHRHNUcNS7CXmDd')
@@ -129,7 +133,9 @@ class NoteAPIViewTestCase(TestCase):
         # compare
         self.assertEqual(len(note_api_3_none), 0)
         # get response
-        response = self.client.post('/api/note/', data=poststring, content_type='application/json')
+        response = self.client.post(
+            '/api/note/', data=poststring, content_type='application/json'
+        )
         # compare
         self.assertEqual(response.status_code, 201)
         # get object
@@ -143,7 +149,7 @@ class NoteAPIViewTestCase(TestCase):
         self.assertTrue(note_api_3.tag.filter(tag_name='tag_1').exists())
 
     def test_note_list_api_redirect(self):
-        """ test redirect with appending slash """
+        """test redirect with appending slash"""
 
         # login testuser
         self.client.login(username='testuser_note_api', password='2to8VdHRHNUcNS7CXmDd')
@@ -152,10 +158,12 @@ class NoteAPIViewTestCase(TestCase):
         # get response
         response = self.client.get('/api/note', follow=True)
         # compare
-        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=301, target_status_code=200
+        )
 
-    def test_note_detail_api_unauthorized (self):
-        """ unauthorized access is forbidden"""
+    def test_note_detail_api_unauthorized(self):
+        """unauthorized access is forbidden"""
 
         # get object
         note_api_1 = Note.objects.get(note_title='note_api_1')
@@ -165,7 +173,7 @@ class NoteAPIViewTestCase(TestCase):
         self.assertEqual(response.status_code, 401)
 
     def test_note_detail_api_method_get(self):
-        """ GET is allowed """
+        """GET is allowed"""
 
         # get object
         note_api_1 = Note.objects.get(note_title='note_api_1')
@@ -177,7 +185,7 @@ class NoteAPIViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_note_detail_api_method_delete(self):
-        """ DELETE is forbidden """
+        """DELETE is forbidden"""
 
         # get object
         note_api_1 = Note.objects.get(note_title='note_api_1')
@@ -189,7 +197,7 @@ class NoteAPIViewTestCase(TestCase):
         self.assertEqual(response.status_code, 405)
 
     def test_note_detail_api_method_put(self):
-        """ PUT is allowed """
+        """PUT is allowed"""
 
         # login testuser
         self.client.login(username='testuser_note_api', password='2to8VdHRHNUcNS7CXmDd')
@@ -200,7 +208,9 @@ class NoteAPIViewTestCase(TestCase):
         # create objects
         notestatus_2 = Notestatus.objects.create(notestatus_name='notestatus_2')
         # create url
-        destination = urllib.parse.quote('/api/note/' + str(note_api_1.note_id) + '/', safe='/')
+        destination = urllib.parse.quote(
+            '/api/note/' + str(note_api_1.note_id) + '/', safe='/'
+        )
         # create PUT string
         putstring = {
             "note_title": "new_note_api_1",
@@ -211,7 +221,9 @@ class NoteAPIViewTestCase(TestCase):
             "note_modified_by_user_id": test_user_id,
         }
         # get response
-        response = self.client.put(destination, data=putstring, content_type='application/json')
+        response = self.client.put(
+            destination, data=putstring, content_type='application/json'
+        )
         # compare
         self.assertEqual(response.status_code, 200)
         # get object
@@ -223,7 +235,7 @@ class NoteAPIViewTestCase(TestCase):
         self.assertEqual(new_note_api_1.notestatus, notestatus_2)
 
     def test_note_detail_api_method_put_all_id(self):
-        """ PUT is allowed """
+        """PUT is allowed"""
 
         # login testuser
         self.client.login(username='testuser_note_api', password='2to8VdHRHNUcNS7CXmDd')
@@ -237,7 +249,9 @@ class NoteAPIViewTestCase(TestCase):
         # create objects
         notestatus_3 = Notestatus.objects.create(notestatus_name='notestatus_3')
         # create url
-        destination = urllib.parse.quote('/api/note/' + str(note_api_1.note_id) + '/', safe='/')
+        destination = urllib.parse.quote(
+            '/api/note/' + str(note_api_1.note_id) + '/', safe='/'
+        )
         # create PUT string
         putstring = {
             "note_title": "new_note_api_2",
@@ -252,7 +266,9 @@ class NoteAPIViewTestCase(TestCase):
             "note_modified_by_user_id": test_user_id,
         }
         # get response
-        response = self.client.put(destination, data=putstring, content_type='application/json')
+        response = self.client.put(
+            destination, data=putstring, content_type='application/json'
+        )
         # compare
         self.assertEqual(response.status_code, 200)
         # get object
@@ -266,15 +282,19 @@ class NoteAPIViewTestCase(TestCase):
         self.assertTrue(new_note_api_2.tag.filter(tag_name='tag_1').exists())
 
     def test_note_detail_api_redirect(self):
-        """ test redirect with appending slash """
+        """test redirect with appending slash"""
 
         # get object
         note_api_1 = Note.objects.get(note_title='note_api_1')
         # login testuser
         self.client.login(username='testuser_note_api', password='2to8VdHRHNUcNS7CXmDd')
         # create url
-        destination = urllib.parse.quote('/api/note/' + str(note_api_1.note_id) + '/', safe='/')
+        destination = urllib.parse.quote(
+            '/api/note/' + str(note_api_1.note_id) + '/', safe='/'
+        )
         # get response
         response = self.client.get('/api/note/' + str(note_api_1.note_id), follow=True)
         # compare
-        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=301, target_status_code=200
+        )

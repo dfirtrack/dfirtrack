@@ -20,6 +20,7 @@ class DomainuserList(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " DOMAINUSER_LIST_ENTERED")
         return Domainuser.objects.order_by('domainuser_name')
 
+
 class DomainuserDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Domainuser
@@ -31,6 +32,7 @@ class DomainuserDetail(LoginRequiredMixin, DetailView):
         domainuser.logger(str(self.request.user), " DOMAINUSER_DETAIL_ENTERED")
         return context
 
+
 class DomainuserCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Domainuser
@@ -40,11 +42,15 @@ class DomainuserCreate(LoginRequiredMixin, CreateView):
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " DOMAINUSER_ADD_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-            'object_type': 'domainuser',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'domainuser',
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -54,13 +60,20 @@ class DomainuserCreate(LoginRequiredMixin, CreateView):
             form.save_m2m()
             domainuser.logger(str(request.user), " DOMAINUSER_ADD_EXECUTED")
             messages.success(request, 'Domainuser added')
-            return redirect(reverse('domainuser_detail', args=(domainuser.domainuser_id,)))
+            return redirect(
+                reverse('domainuser_detail', args=(domainuser.domainuser_id,))
+            )
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-                'object_type': 'domainuser',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Add',
+                    'object_type': 'domainuser',
+                },
+            )
+
 
 class DomainuserUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
@@ -72,12 +85,16 @@ class DomainuserUpdate(LoginRequiredMixin, UpdateView):
         domainuser = self.get_object()
         form = self.form_class(instance=domainuser)
         domainuser.logger(str(request.user), " DOMAINUSER_EDIT_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Edit',
-            'object_type': 'domainuser',
-            'object_name': domainuser.domainuser_name ,
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Edit',
+                'object_type': 'domainuser',
+                'object_name': domainuser.domainuser_name,
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         domainuser = self.get_object()
@@ -88,11 +105,17 @@ class DomainuserUpdate(LoginRequiredMixin, UpdateView):
             form.save_m2m()
             domainuser.logger(str(request.user), " DOMAINUSER_EDIT_EXECUTED")
             messages.success(request, 'Domainuser edited')
-            return redirect(reverse('domainuser_detail', args=(domainuser.domainuser_id,)))
+            return redirect(
+                reverse('domainuser_detail', args=(domainuser.domainuser_id,))
+            )
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Edit',
-                'object_type': 'domainuser',
-                'object_name': domainuser.domainuser_name ,
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Edit',
+                    'object_type': 'domainuser',
+                    'object_name': domainuser.domainuser_name,
+                },
+            )

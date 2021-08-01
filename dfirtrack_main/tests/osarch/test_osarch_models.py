@@ -4,7 +4,7 @@ from dfirtrack_main.models import Osarch
 
 
 class OsarchModelTestCase(TestCase):
-    """ osarch model tests """
+    """osarch model tests"""
 
     @classmethod
     def setUpTestData(cls):
@@ -13,7 +13,7 @@ class OsarchModelTestCase(TestCase):
         Osarch.objects.create(osarch_name='osarch_1')
 
     def test_osarch_string(self):
-        """ test string representation """
+        """test string representation"""
 
         # get object
         osarch_1 = Osarch.objects.get(osarch_name='osarch_1')
@@ -21,7 +21,7 @@ class OsarchModelTestCase(TestCase):
         self.assertEqual(str(osarch_1), 'osarch_1')
 
     def test_osarch_id_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         osarch_1 = Osarch.objects.get(osarch_name='osarch_1')
@@ -31,7 +31,7 @@ class OsarchModelTestCase(TestCase):
         self.assertEqual(field_label, 'osarch id')
 
     def test_osarch_name_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         osarch_1 = Osarch.objects.get(osarch_name='osarch_1')
@@ -41,7 +41,7 @@ class OsarchModelTestCase(TestCase):
         self.assertEqual(field_label, 'osarch name')
 
     def test_osarch_name_length(self):
-        """ test for max length """
+        """test for max length"""
 
         # get object
         osarch_1 = Osarch.objects.get(osarch_name='osarch_1')

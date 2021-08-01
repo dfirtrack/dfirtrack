@@ -21,6 +21,7 @@ class ServiceproviderList(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " SERVICEPROVIDER_LIST_ENTERED")
         return Serviceprovider.objects.order_by('serviceprovider_name')
 
+
 class ServiceproviderDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Serviceprovider
@@ -29,8 +30,11 @@ class ServiceproviderDetail(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         serviceprovider = self.object
-        serviceprovider.logger(str(self.request.user), " SERVICEPROVIDER_DETAIL_ENTERED")
+        serviceprovider.logger(
+            str(self.request.user), " SERVICEPROVIDER_DETAIL_ENTERED"
+        )
         return context
+
 
 class ServiceproviderCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
@@ -41,11 +45,15 @@ class ServiceproviderCreate(LoginRequiredMixin, CreateView):
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " SERVICEPROVIDER_ADD_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-            'object_type': 'serviceprovider',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'serviceprovider',
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -54,13 +62,22 @@ class ServiceproviderCreate(LoginRequiredMixin, CreateView):
             serviceprovider.save()
             serviceprovider.logger(str(request.user), " SERVICEPROVIDER_ADD_EXECUTED")
             messages.success(request, 'Serviceprovider added')
-            return redirect(reverse('serviceprovider_detail', args=(serviceprovider.serviceprovider_id,)))
+            return redirect(
+                reverse(
+                    'serviceprovider_detail', args=(serviceprovider.serviceprovider_id,)
+                )
+            )
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-                'object_type': 'serviceprovider',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Add',
+                    'object_type': 'serviceprovider',
+                },
+            )
+
 
 class ServiceproviderCreatePopup(LoginRequiredMixin, CreateView):
     login_url = '/login'
@@ -71,26 +88,39 @@ class ServiceproviderCreatePopup(LoginRequiredMixin, CreateView):
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " SERVICEPROVIDER_ADD_POPUP_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-            'object_type': 'serviceprovider',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'serviceprovider',
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
             serviceprovider = form.save(commit=False)
             serviceprovider.save()
-            serviceprovider.logger(str(request.user), " SERVICEPROVIDER_ADD_POPUP_EXECUTED")
+            serviceprovider.logger(
+                str(request.user), " SERVICEPROVIDER_ADD_POPUP_EXECUTED"
+            )
             messages.success(request, 'Serviceprovider added')
-            return HttpResponse('<script type="text/javascript">window.close();</script>')
+            return HttpResponse(
+                '<script type="text/javascript">window.close();</script>'
+            )
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-                'object_type': 'serviceprovider',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Add',
+                    'object_type': 'serviceprovider',
+                },
+            )
+
 
 class ServiceproviderUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
@@ -102,12 +132,16 @@ class ServiceproviderUpdate(LoginRequiredMixin, UpdateView):
         serviceprovider = self.get_object()
         form = self.form_class(instance=serviceprovider)
         serviceprovider.logger(str(request.user), " SERVICEPROVIDER_EDIT_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Edit',
-            'object_type': 'serviceprovider',
-            'object_name': serviceprovider.serviceprovider_name,
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Edit',
+                'object_type': 'serviceprovider',
+                'object_name': serviceprovider.serviceprovider_name,
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         serviceprovider = self.get_object()
@@ -117,11 +151,19 @@ class ServiceproviderUpdate(LoginRequiredMixin, UpdateView):
             serviceprovider.save()
             serviceprovider.logger(str(request.user), " SERVICEPROVIDER_EDIT_EXECUTED")
             messages.success(request, 'Serviceprovider edited')
-            return redirect(reverse('serviceprovider_detail', args=(serviceprovider.serviceprovider_id,)))
+            return redirect(
+                reverse(
+                    'serviceprovider_detail', args=(serviceprovider.serviceprovider_id,)
+                )
+            )
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Edit',
-                'object_type': 'serviceprovider',
-                'object_name': serviceprovider.serviceprovider_name,
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Edit',
+                    'object_type': 'serviceprovider',
+                    'object_name': serviceprovider.serviceprovider_name,
+                },
+            )

@@ -7,7 +7,7 @@ from dfirtrack_main.models import Ip
 
 
 class IpViewTestCase(TestCase):
-    """ ip view tests """
+    """ip view tests"""
 
     @classmethod
     def setUpTestData(cls):
@@ -15,20 +15,24 @@ class IpViewTestCase(TestCase):
         # create object
         Ip.objects.create(ip_ip='127.0.0.1')
         # create user
-        User.objects.create_user(username='testuser_ip', password='pRs9Ap7oc9W0yjLfnP2Y')
+        User.objects.create_user(
+            username='testuser_ip', password='pRs9Ap7oc9W0yjLfnP2Y'
+        )
 
     def test_ip_list_not_logged_in(self):
-        """ test list view """
+        """test list view"""
 
         # create url
         destination = '/login/?next=' + urllib.parse.quote('/ip/', safe='')
         # get response
         response = self.client.get('/ip/', follow=True)
         # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
 
     def test_ip_list_logged_in(self):
-        """ test list view """
+        """test list view"""
 
         # login testuser
         self.client.login(username='testuser_ip', password='pRs9Ap7oc9W0yjLfnP2Y')
@@ -38,7 +42,7 @@ class IpViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_ip_list_template(self):
-        """ test list view """
+        """test list view"""
 
         # login testuser
         self.client.login(username='testuser_ip', password='pRs9Ap7oc9W0yjLfnP2Y')
@@ -48,7 +52,7 @@ class IpViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_main/ip/ip_list.html')
 
     def test_ip_list_get_user_context(self):
-        """ test list view """
+        """test list view"""
 
         # login testuser
         self.client.login(username='testuser_ip', password='pRs9Ap7oc9W0yjLfnP2Y')
@@ -58,7 +62,7 @@ class IpViewTestCase(TestCase):
         self.assertEqual(str(response.context['user']), 'testuser_ip')
 
     def test_ip_list_redirect(self):
-        """ test list view """
+        """test list view"""
 
         # login testuser
         self.client.login(username='testuser_ip', password='pRs9Ap7oc9W0yjLfnP2Y')
@@ -67,22 +71,28 @@ class IpViewTestCase(TestCase):
         # get response
         response = self.client.get('/ip', follow=True)
         # compare
-        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=301, target_status_code=200
+        )
 
     def test_ip_detail_not_logged_in(self):
-        """ test detail view """
+        """test detail view"""
 
         # get object
         ip_1 = Ip.objects.get(ip_ip='127.0.0.1')
         # create url
-        destination = '/login/?next=' + urllib.parse.quote('/ip/' + str(ip_1.ip_id) + '/', safe='')
+        destination = '/login/?next=' + urllib.parse.quote(
+            '/ip/' + str(ip_1.ip_id) + '/', safe=''
+        )
         # get response
         response = self.client.get('/ip/' + str(ip_1.ip_id) + '/', follow=True)
         # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
 
     def test_ip_detail_logged_in(self):
-        """ test detail view """
+        """test detail view"""
 
         # get object
         ip_1 = Ip.objects.get(ip_ip='127.0.0.1')
@@ -94,7 +104,7 @@ class IpViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_ip_detail_template(self):
-        """ test detail view """
+        """test detail view"""
 
         # get object
         ip_1 = Ip.objects.get(ip_ip='127.0.0.1')
@@ -106,7 +116,7 @@ class IpViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_main/ip/ip_detail.html')
 
     def test_ip_detail_get_user_context(self):
-        """ test detail view """
+        """test detail view"""
 
         # get object
         ip_1 = Ip.objects.get(ip_ip='127.0.0.1')
@@ -118,7 +128,7 @@ class IpViewTestCase(TestCase):
         self.assertEqual(str(response.context['user']), 'testuser_ip')
 
     def test_ip_detail_redirect(self):
-        """ test detail view """
+        """test detail view"""
 
         # get object
         ip_1 = Ip.objects.get(ip_ip='127.0.0.1')
@@ -129,4 +139,6 @@ class IpViewTestCase(TestCase):
         # get response
         response = self.client.get('/ip/' + str(ip_1.ip_id), follow=True)
         # compare
-        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=301, target_status_code=200
+        )

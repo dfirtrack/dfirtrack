@@ -5,7 +5,7 @@ from dfirtrack_main.models import Taskname
 
 
 class WorkflowFormTestCase(TestCase):
-    """ workflow form tests """
+    """workflow form tests"""
 
     @classmethod
     def setUpTestData(cls):
@@ -14,7 +14,7 @@ class WorkflowFormTestCase(TestCase):
         Taskname.objects.create(taskname_name='taskname_1')
 
     def test_workflow_name_form_label(self):
-        """ workflow form label test """
+        """workflow form label test"""
 
         # get object
         form = WorkflowForm()
@@ -22,35 +22,45 @@ class WorkflowFormTestCase(TestCase):
         self.assertEqual(form.fields['workflow_name'].label, 'Workflow name (*)')
 
     def test_workflow_form_empty(self):
-        """ INVALID """
+        """INVALID"""
 
         # get object
-        form = WorkflowForm(data = {})
+        form = WorkflowForm(data={})
         # compare
         self.assertFalse(form.is_valid())
 
     def test_workflow__form_name_filled(self):
-        """ VALID """
+        """VALID"""
 
         # get object
-        form = WorkflowForm(data = {
-            'workflow_name': 'workflow_1',
-        })
+        form = WorkflowForm(
+            data={
+                'workflow_name': 'workflow_1',
+            }
+        )
         # compare
         self.assertTrue(form.is_valid())
 
     def test_workflow_name_proper_chars(self):
-        """ test chars - VALID """
+        """test chars - VALID"""
 
         # get object
-        form = WorkflowForm(data = {'workflow_name': 'workflow',})
+        form = WorkflowForm(
+            data={
+                'workflow_name': 'workflow',
+            }
+        )
         # compare
         self.assertTrue(form.is_valid())
 
     def test_workflow_name_too_many_chars(self):
-        """ test chars - INVALID """
+        """test chars - INVALID"""
 
         # get object
-        form = WorkflowForm(data = {'a'*51: 'workflow',})
+        form = WorkflowForm(
+            data={
+                'a' * 51: 'workflow',
+            }
+        )
         # compare
         self.assertFalse(form.is_valid())

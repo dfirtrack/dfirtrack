@@ -10,6 +10,7 @@ def insert_status(apps, schema_editor):
     Analysisstatus = apps.get_model('dfirtrack_main', 'Analysisstatus')
     Analysisstatus.objects.create(analysisstatus_name='50_main_analysis_finished')
 
+
 class Migration(migrations.Migration):
 
     dependencies = [

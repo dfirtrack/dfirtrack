@@ -12,6 +12,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='artifact',
             name='tag',
-            field=models.ManyToManyField(blank=True, related_name='artifact_tag', to='dfirtrack_main.Tag'),
+            field=models.ManyToManyField(
+                blank=True, related_name='artifact_tag', to='dfirtrack_main.Tag'
+            ),
         ),
     ]

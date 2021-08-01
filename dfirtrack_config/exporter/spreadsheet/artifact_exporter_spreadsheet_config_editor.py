@@ -15,9 +15,11 @@ def artifact_exporter_spreadsheet_xls_config_view(request):
     if request.method == "POST":
 
         # get config model
-        model = ArtifactExporterSpreadsheetXlsConfigModel.objects.get(artifact_exporter_spreadsheet_xls_config_name = 'ArtifactExporterSpreadsheetXlsConfig')
+        model = ArtifactExporterSpreadsheetXlsConfigModel.objects.get(
+            artifact_exporter_spreadsheet_xls_config_name='ArtifactExporterSpreadsheetXlsConfig'
+        )
         # get form
-        form = ArtifactExporterSpreadsheetXlsConfigForm(request.POST, instance = model)
+        form = ArtifactExporterSpreadsheetXlsConfigForm(request.POST, instance=model)
 
         if form.is_valid():
 
@@ -27,13 +29,19 @@ def artifact_exporter_spreadsheet_xls_config_view(request):
             form.save_m2m()
 
             # create message
-            messages.success(request, 'Artifact exporter spreadsheet XLS config changed')
+            messages.success(
+                request, 'Artifact exporter spreadsheet XLS config changed'
+            )
 
             # call logger
-            info_logger(str(request.user), " ARTIFACT_EXPORTER_SPREADSHEET_XLS_CONFIG_CHANGED")
+            info_logger(
+                str(request.user), " ARTIFACT_EXPORTER_SPREADSHEET_XLS_CONFIG_CHANGED"
+            )
 
             # close popup
-            return HttpResponse('<script type="text/javascript">window.close();</script>')
+            return HttpResponse(
+                '<script type="text/javascript">window.close();</script>'
+            )
 
         else:
             # show form page
@@ -42,15 +50,17 @@ def artifact_exporter_spreadsheet_xls_config_view(request):
                 'dfirtrack_config/artifact/artifact_exporter_spreadsheet_xls_config_popup.html',
                 {
                     'form': form,
-                }
+                },
             )
 
     else:
 
         # get config model
-        model = ArtifactExporterSpreadsheetXlsConfigModel.objects.get(artifact_exporter_spreadsheet_xls_config_name = 'ArtifactExporterSpreadsheetXlsConfig')
+        model = ArtifactExporterSpreadsheetXlsConfigModel.objects.get(
+            artifact_exporter_spreadsheet_xls_config_name='ArtifactExporterSpreadsheetXlsConfig'
+        )
         # get form
-        form = ArtifactExporterSpreadsheetXlsConfigForm(instance = model)
+        form = ArtifactExporterSpreadsheetXlsConfigForm(instance=model)
 
     # show form page
     return render(
@@ -58,5 +68,5 @@ def artifact_exporter_spreadsheet_xls_config_view(request):
         'dfirtrack_config/artifact/artifact_exporter_spreadsheet_xls_config_popup.html',
         {
             'form': form,
-        }
+        },
     )

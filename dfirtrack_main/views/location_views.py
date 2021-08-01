@@ -21,6 +21,7 @@ class LocationList(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " LOCATION_LIST_ENTERED")
         return Location.objects.order_by('location_name')
 
+
 class LocationDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Location
@@ -32,6 +33,7 @@ class LocationDetail(LoginRequiredMixin, DetailView):
         location.logger(str(self.request.user), " LOCATION_DETAIL_ENTERED")
         return context
 
+
 class LocationCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Location
@@ -41,11 +43,15 @@ class LocationCreate(LoginRequiredMixin, CreateView):
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " LOCATION_ADD_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-            'object_type': 'location',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'location',
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -56,11 +62,16 @@ class LocationCreate(LoginRequiredMixin, CreateView):
             messages.success(request, 'Location added')
             return redirect(reverse('location_detail', args=(location.location_id,)))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-                'object_type': 'location',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Add',
+                    'object_type': 'location',
+                },
+            )
+
 
 class LocationCreatePopup(LoginRequiredMixin, CreateView):
     login_url = '/login'
@@ -71,11 +82,15 @@ class LocationCreatePopup(LoginRequiredMixin, CreateView):
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " LOCATION_ADD_POPUP_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-            'object_type': 'location',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'location',
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -84,13 +99,20 @@ class LocationCreatePopup(LoginRequiredMixin, CreateView):
             location.save()
             location.logger(str(request.user), " LOCATION_ADD_POPUP_EXECUTED")
             messages.success(request, 'Location added')
-            return HttpResponse('<script type="text/javascript">window.close();</script>')
+            return HttpResponse(
+                '<script type="text/javascript">window.close();</script>'
+            )
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-                'object_type': 'location',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Add',
+                    'object_type': 'location',
+                },
+            )
+
 
 class LocationUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
@@ -102,12 +124,16 @@ class LocationUpdate(LoginRequiredMixin, UpdateView):
         location = self.get_object()
         form = self.form_class(instance=location)
         location.logger(str(request.user), " LOCATION_EDIT_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Edit',
-            'object_type': 'location',
-            'object_name': location.location_name,
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Edit',
+                'object_type': 'location',
+                'object_name': location.location_name,
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         location = self.get_object()
@@ -119,9 +145,13 @@ class LocationUpdate(LoginRequiredMixin, UpdateView):
             messages.success(request, 'Location edited')
             return redirect(reverse('location_detail', args=(location.location_id,)))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Edit',
-                'object_type': 'location',
-                'object_name': location.location_name,
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Edit',
+                    'object_type': 'location',
+                    'object_name': location.location_name,
+                },
+            )

@@ -13,7 +13,7 @@ from dfirtrack_main.models import Case, System
 
 @login_required(login_url="/login")
 def case_creator(request):
-    """ function to assign many cases to systems and vice versa (helper function to call the real function) """
+    """function to assign many cases to systems and vice versa (helper function to call the real function)"""
 
     # form was valid to post
     if request.method == 'POST':
@@ -50,8 +50,9 @@ def case_creator(request):
 
     return render(request, 'dfirtrack_main/case/case_creator.html', {'form': form})
 
+
 def case_creator_async(request_post, request_user):
-    """ function to assign many cases to systems and vice versa """
+    """function to assign many cases to systems and vice versa"""
 
     # call logger
     debug_logger(str(request_user), ' CASE_CREATOR_START')
@@ -72,7 +73,7 @@ def case_creator_async(request_post, request_user):
     for system_id in systems:
 
         # autoincrement counter
-        systems_affected_counter  += 1
+        systems_affected_counter += 1
 
         # iterate over cases
         for case_id in cases:
@@ -83,7 +84,7 @@ def case_creator_async(request_post, request_user):
             # create relation
             if form.is_valid():
 
-                """ object creation """
+                """object creation"""
 
                 # get objects
                 system = System.objects.get(system_id=system_id)
@@ -95,21 +96,21 @@ def case_creator_async(request_post, request_user):
                 """ object counter / log """
 
                 # autoincrement counter
-                cases_affected_counter  += 1
+                cases_affected_counter += 1
 
                 # call logger
-                system.logger( str(request_user), ' CASE_CREATOR_EXECUTED')
+                system.logger(str(request_user), ' CASE_CREATOR_EXECUTED')
 
     """ finish case importer """
 
     # fix case number (other meaning than with tag creator
-    cases_affected_counter  = int(cases_affected_counter / systems_affected_counter)
+    cases_affected_counter = int(cases_affected_counter / systems_affected_counter)
 
     # call final message
     message_user(
         request_user,
         f'{cases_affected_counter} cases assigned to {systems_affected_counter} systems.',
-        constants.SUCCESS
+        constants.SUCCESS,
     )
 
     # call logger
@@ -117,7 +118,7 @@ def case_creator_async(request_post, request_user):
         str(request_user),
         f' CASE_CREATOR_STATUS'
         f' cases_affected:{cases_affected_counter}'
-        f'|systems_affected:{systems_affected_counter}'
+        f'|systems_affected:{systems_affected_counter}',
     )
 
     # call logger

@@ -17,7 +17,10 @@ def insert_artifactpriorities(apps, schema_editor):
     # We also do not make use of .objects.bulk_create() due to its known caveats, see:
     # https://docs.djangoproject.com/en/3.2/ref/models/querysets/#bulk-create
     for name in initial_values:
-        Artifactpriority.objects.create(artifactpriority_name=name, artifactpriority_slug=slugify(name))
+        Artifactpriority.objects.create(
+            artifactpriority_name=name, artifactpriority_slug=slugify(name)
+        )
+
 
 class Migration(migrations.Migration):
 

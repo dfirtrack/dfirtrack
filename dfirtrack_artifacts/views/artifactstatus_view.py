@@ -15,6 +15,7 @@ class ArtifactstatusListView(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), ' ARTIFACTSTATUS_LIST_ENTERED')
         return Artifactstatus.objects.order_by('artifactstatus_name')
 
+
 class ArtifactstatusDetailView(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Artifactstatus

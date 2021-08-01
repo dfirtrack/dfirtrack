@@ -4,7 +4,7 @@ from dfirtrack_main.models import Systemtype
 
 
 class SystemtypeModelTestCase(TestCase):
-    """ systemtype model tests """
+    """systemtype model tests"""
 
     @classmethod
     def setUpTestData(cls):
@@ -13,7 +13,7 @@ class SystemtypeModelTestCase(TestCase):
         Systemtype.objects.create(systemtype_name='systemtype_1')
 
     def test_systemtype_string(self):
-        """ test string representation """
+        """test string representation"""
 
         # get object
         systemtype_1 = Systemtype.objects.get(systemtype_name='systemtype_1')
@@ -21,7 +21,7 @@ class SystemtypeModelTestCase(TestCase):
         self.assertEqual(str(systemtype_1), 'systemtype_1')
 
     def test_systemtype_id_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         systemtype_1 = Systemtype.objects.get(systemtype_name='systemtype_1')
@@ -31,7 +31,7 @@ class SystemtypeModelTestCase(TestCase):
         self.assertEqual(field_label, 'systemtype id')
 
     def test_systemtype_name_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         systemtype_1 = Systemtype.objects.get(systemtype_name='systemtype_1')
@@ -41,7 +41,7 @@ class SystemtypeModelTestCase(TestCase):
         self.assertEqual(field_label, 'systemtype name')
 
     def test_systemtype_name_length(self):
-        """ test for max length """
+        """test for max length"""
 
         # get object
         systemtype_1 = Systemtype.objects.get(systemtype_name='systemtype_1')

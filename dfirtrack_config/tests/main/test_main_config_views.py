@@ -8,71 +8,87 @@ from dfirtrack_config.models import MainConfigModel
 
 
 class MainConfigViewTestCase(TestCase):
-    """ main config view tests """
+    """main config view tests"""
 
     @classmethod
     def setUpTestData(cls):
 
         # create user
-        User.objects.create_user(username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN')
+        User.objects.create_user(
+            username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN'
+        )
 
     def test_main_config_not_logged_in(self):
-        """ test view """
+        """test view"""
 
         # create url
         destination = '/login/?next=' + urllib.parse.quote('/config/main/', safe='')
         # get response
         response = self.client.get('/config/main/', follow=True)
         # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
 
     def test_main_config_logged_in(self):
-        """ test view """
+        """test view"""
 
         # login testuser
-        self.client.login(username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN')
+        self.client.login(
+            username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN'
+        )
         # get response
         response = self.client.get('/config/main/')
         # compare
         self.assertEqual(response.status_code, 200)
 
     def test_main_config_template(self):
-        """ test view """
+        """test view"""
 
         # login testuser
-        self.client.login(username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN')
+        self.client.login(
+            username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN'
+        )
         # get response
         response = self.client.get('/config/main/')
         # compare
         self.assertTemplateUsed(response, 'dfirtrack_config/main_config_popup.html')
 
     def test_main_config_get_user_context(self):
-        """ test view """
+        """test view"""
 
         # login testuser
-        self.client.login(username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN')
+        self.client.login(
+            username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN'
+        )
         # get response
         response = self.client.get('/config/main/')
         # compare
         self.assertEqual(str(response.context['user']), 'testuser_main_config')
 
     def test_main_config_redirect(self):
-        """ test view """
+        """test view"""
 
         # login testuser
-        self.client.login(username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN')
+        self.client.login(
+            username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN'
+        )
         # create url
         destination = urllib.parse.quote('/config/main/', safe='/')
         # get response
         response = self.client.get('/config/main', follow=True)
         # compare
-        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=301, target_status_code=200
+        )
 
     def test_main_config_post_message(self):
-        """ test view """
+        """test view"""
 
         # login testuser
-        self.client.login(username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN')
+        self.client.login(
+            username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN'
+        )
         # create post data
         data_dict = {
             'system_name_editable': 'on',
@@ -89,10 +105,12 @@ class MainConfigViewTestCase(TestCase):
         self.assertEqual(str(messages[-1]), 'Main config changed')
 
     def test_main_config_post_redirect(self):
-        """ test view """
+        """test view"""
 
         # login testuser
-        self.client.login(username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN')
+        self.client.login(
+            username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN'
+        )
         # create post data
         data_dict = {
             'system_name_editable': 'on',
@@ -106,12 +124,14 @@ class MainConfigViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_main_config_post_system_name_editable_true(self):
-        """ test view """
+        """test view"""
 
         # login testuser
-        self.client.login(username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN')
+        self.client.login(
+            username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN'
+        )
         # get object
-        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
         # set opposite value
         main_config_model.system_name_editable = False
         # save config
@@ -134,12 +154,14 @@ class MainConfigViewTestCase(TestCase):
         self.assertTrue(main_config_model.system_name_editable)
 
     def test_main_config_post_system_name_editable_false(self):
-        """ test view """
+        """test view"""
 
         # login testuser
-        self.client.login(username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN')
+        self.client.login(
+            username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN'
+        )
         # get object
-        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
         # set opposite value
         main_config_model.system_name_editable = True
         # save config
@@ -156,15 +178,17 @@ class MainConfigViewTestCase(TestCase):
         # get response
         self.client.post('/config/main/', data_dict)
         # get object
-        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
         # compare
         self.assertFalse(main_config_model.system_name_editable)
 
     def test_main_config_post_invalid_reload(self):
-        """ test view """
+        """test view"""
 
         # login testuser
-        self.client.login(username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN')
+        self.client.login(
+            username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN'
+        )
         # create post data
         data_dict = {
             'cron_export_path': '/tmp',
@@ -175,10 +199,12 @@ class MainConfigViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_main_config_post_invalid_template(self):
-        """ test view """
+        """test view"""
 
         # login testuser
-        self.client.login(username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN')
+        self.client.login(
+            username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN'
+        )
         # create post data
         data_dict = {
             'cron_export_path': '/tmp',

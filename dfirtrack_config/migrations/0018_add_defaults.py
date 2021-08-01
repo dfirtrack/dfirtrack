@@ -380,22 +380,42 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='systemimporterfilecsvconfigmodel',
             name='csv_default_analysisstatus',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.PROTECT, related_name='system_importer_file_csv_config_analysisstatus', to='dfirtrack_main.analysisstatus'),
+            field=models.ForeignKey(
+                default=1,
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name='system_importer_file_csv_config_analysisstatus',
+                to='dfirtrack_main.analysisstatus',
+            ),
         ),
         migrations.AlterField(
             model_name='systemimporterfilecsvconfigmodel',
             name='csv_default_systemstatus',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.PROTECT, related_name='system_importer_file_csv_config_systemstatus', to='dfirtrack_main.systemstatus'),
+            field=models.ForeignKey(
+                default=1,
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name='system_importer_file_csv_config_systemstatus',
+                to='dfirtrack_main.systemstatus',
+            ),
         ),
         migrations.AlterField(
             model_name='systemimporterfilecsvconfigmodel',
             name='csv_default_tagfree_analysisstatus',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.PROTECT, related_name='system_importer_file_csv_config_tagfree_analysisstatus', to='dfirtrack_main.analysisstatus'),
+            field=models.ForeignKey(
+                default=1,
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name='system_importer_file_csv_config_tagfree_analysisstatus',
+                to='dfirtrack_main.analysisstatus',
+            ),
         ),
         migrations.AlterField(
             model_name='systemimporterfilecsvconfigmodel',
             name='csv_default_tagfree_systemstatus',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.PROTECT, related_name='system_importer_file_csv_config_tagfree_systemstatus', to='dfirtrack_main.systemstatus'),
+            field=models.ForeignKey(
+                default=1,
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name='system_importer_file_csv_config_tagfree_systemstatus',
+                to='dfirtrack_main.systemstatus',
+            ),
         ),
         migrations.AlterField(
             model_name='systemimporterfilecsvconfigmodel',

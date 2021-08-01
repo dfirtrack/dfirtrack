@@ -4,7 +4,7 @@ from dfirtrack_main.models import Tag, Tagcolor
 
 
 class TagModelTestCase(TestCase):
-    """ tag model tests """
+    """tag model tests"""
 
     @classmethod
     def setUpTestData(cls):
@@ -13,10 +13,10 @@ class TagModelTestCase(TestCase):
         tagcolor_1 = Tagcolor.objects.create(tagcolor_name='tagcolor_1')
 
         # create object
-        Tag.objects.create(tag_name='tag_1', tagcolor = tagcolor_1)
+        Tag.objects.create(tag_name='tag_1', tagcolor=tagcolor_1)
 
     def test_tag_string(self):
-        """ test string representation """
+        """test string representation"""
 
         # get object
         tag_1 = Tag.objects.get(tag_name='tag_1')
@@ -24,7 +24,7 @@ class TagModelTestCase(TestCase):
         self.assertEqual(str(tag_1), 'tag_1')
 
     def test_tag_id_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         tag_1 = Tag.objects.get(tag_name='tag_1')
@@ -34,7 +34,7 @@ class TagModelTestCase(TestCase):
         self.assertEqual(field_label, 'tag id')
 
     def test_tag_tagcolor_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         tag_1 = Tag.objects.get(tag_name='tag_1')
@@ -44,7 +44,7 @@ class TagModelTestCase(TestCase):
         self.assertEqual(field_label, 'tagcolor')
 
     def test_tag_name_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         tag_1 = Tag.objects.get(tag_name='tag_1')
@@ -54,7 +54,7 @@ class TagModelTestCase(TestCase):
         self.assertEqual(field_label, 'tag name')
 
     def test_tag_note_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         tag_1 = Tag.objects.get(tag_name='tag_1')
@@ -64,7 +64,7 @@ class TagModelTestCase(TestCase):
         self.assertEqual(field_label, 'tag note')
 
     def test_tag_name_length(self):
-        """ test for max length """
+        """test for max length"""
 
         # get object
         tag_1 = Tag.objects.get(tag_name='tag_1')

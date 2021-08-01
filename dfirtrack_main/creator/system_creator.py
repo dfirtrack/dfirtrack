@@ -17,7 +17,7 @@ from dfirtrack_main.models import Analysisstatus, System, Systemstatus
 
 @login_required(login_url="/login")
 def system_creator(request):
-    """ function to create many systems at once (helper function to call the real function) """
+    """function to create many systems at once (helper function to call the real function)"""
 
     # form was valid to post
     if request.method == "POST":
@@ -43,25 +43,36 @@ def system_creator(request):
     else:
 
         # get id of first status objects sorted by name
-        systemstatus = Systemstatus.objects.order_by('systemstatus_name')[0].systemstatus_id
-        analysisstatus = Analysisstatus.objects.order_by('analysisstatus_name')[0].analysisstatus_id
+        systemstatus = Systemstatus.objects.order_by('systemstatus_name')[
+            0
+        ].systemstatus_id
+        analysisstatus = Analysisstatus.objects.order_by('analysisstatus_name')[
+            0
+        ].analysisstatus_id
 
         # get all workflows
         workflows = Workflow.objects.all()
 
         # show empty form with default values for convenience and speed reasons
-        form = SystemCreatorForm(initial={
-            'systemstatus': systemstatus,
-            'analysisstatus': analysisstatus,
-        })
+        form = SystemCreatorForm(
+            initial={
+                'systemstatus': systemstatus,
+                'analysisstatus': analysisstatus,
+            }
+        )
 
         # call logger
         debug_logger(str(request.user), ' SYSTEM_CREATOR_ENTERED')
 
-    return render(request, 'dfirtrack_main/system/system_creator.html', {'form': form, 'workflows': workflows})
+    return render(
+        request,
+        'dfirtrack_main/system/system_creator.html',
+        {'form': form, 'workflows': workflows},
+    )
+
 
 def system_creator_async(request_post, request_user):
-    """ function to create many systems at once """
+    """function to create many systems at once"""
 
     # call logger
     debug_logger(str(request_user), ' SYSTEM_CREATOR_START')
@@ -114,7 +125,7 @@ def system_creator_async(request_post, request_user):
             continue
 
         # check for existence of system
-        system = System.objects.filter(system_name = line)
+        system = System.objects.filter(system_name=line)
 
         """ already existing system """
 
@@ -125,7 +136,9 @@ def system_creator_async(request_post, request_user):
             # add system name to list of skipped systems
             skipped_systems.append(line)
             # call logger
-            warning_logger(str(request_user), f' SYSTEM_CREATOR_SYSTEM_EXISTS system_name:{line}')
+            warning_logger(
+                str(request_user), f' SYSTEM_CREATOR_SYSTEM_EXISTS system_name:{line}'
+            )
             # leave this loop because system with this systemname already exists
             continue
 
@@ -137,7 +150,7 @@ def system_creator_async(request_post, request_user):
         # create system
         if form.is_valid():
 
-            """ object creation """
+            """object creation"""
 
             # don't save form yet
             system = form.save(commit=False)
@@ -158,7 +171,7 @@ def system_creator_async(request_post, request_user):
             """ object counter / log """
 
             # autoincrement counter
-            systems_created_counter  += 1
+            systems_created_counter += 1
 
             # call logger
             system.logger(str(request_user), ' SYSTEM_CREATOR_EXECUTED')
@@ -174,7 +187,16 @@ def system_creator_async(request_post, request_user):
     """ finish system importer """
 
     # call final messages
-    final_messages(systems_created_counter, systems_skipped_counter, lines_faulty_counter, skipped_systems, number_of_lines, request_user, workflow_count, workflows_applied)
+    final_messages(
+        systems_created_counter,
+        systems_skipped_counter,
+        lines_faulty_counter,
+        skipped_systems,
+        number_of_lines,
+        request_user,
+        workflow_count,
+        workflows_applied,
+    )
 
     # call logger
     info_logger(
@@ -183,7 +205,7 @@ def system_creator_async(request_post, request_user):
         f' created:{systems_created_counter}'
         f'|skipped:{systems_skipped_counter}'
         f'|faulty_lines:{lines_faulty_counter}'
-        f'|workflows_applied:{workflows_applied}'
+        f'|workflows_applied:{workflows_applied}',
     )
 
     # call logger

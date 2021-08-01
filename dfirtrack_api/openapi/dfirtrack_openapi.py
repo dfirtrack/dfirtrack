@@ -9,6 +9,7 @@ class DFIRTrackSchemaGenerator(SchemaGenerator):
     copied from https://columbia-it-django-jsonapi-training.readthedocs.io/en/latest/documenting-api/.
 
     """
+
     def get_schema(self, request, public):
         schema = super().get_schema(request, public)
         schema['info'] = {
@@ -28,7 +29,7 @@ class DFIRTrackSchemaGenerator(SchemaGenerator):
                     'type': 'http',
                     'scheme': 'bearer',
                     'name': 'Token',
-                    'description': 'API Token authentication'
+                    'description': 'API Token authentication',
                 },
             }
 

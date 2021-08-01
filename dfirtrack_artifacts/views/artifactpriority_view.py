@@ -15,6 +15,7 @@ class ArtifactpriorityListView(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), ' ARTIFACTPRIORITY_LIST_ENTERED')
         return Artifactpriority.objects.order_by('artifactpriority_name')
 
+
 class ArtifactpriorityDetailView(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Artifactpriority
@@ -23,5 +24,7 @@ class ArtifactpriorityDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         artifactpriority = self.object
-        artifactpriority.logger(str(self.request.user), " ARTIFACTPRIORITY_DETAIL_ENTERED")
+        artifactpriority.logger(
+            str(self.request.user), " ARTIFACTPRIORITY_DETAIL_ENTERED"
+        )
         return context

@@ -18,10 +18,12 @@ from dfirtrack_main.logger.default_logger import debug_logger
 
 @login_required(login_url="/login")
 def system_create_cron(request):
-    """ helper function to check config before creating scheduled task """
+    """helper function to check config before creating scheduled task"""
 
     # get config model
-    model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name = 'SystemImporterFileCsvConfig')
+    model = SystemImporterFileCsvConfigModel.objects.get(
+        system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+    )
 
     """ check config user """
 
@@ -64,16 +66,19 @@ def system_create_cron(request):
         # build url
         urlpath = '/admin/django_q/schedule/add/'
         urlquery = urlencode(params)
-        admin_url_create_cron = urlunparse(('','',urlpath,'',urlquery,''))
+        admin_url_create_cron = urlunparse(('', '', urlpath, '', urlquery, ''))
 
         # open django admin with pre-filled form for scheduled task
         return redirect(admin_url_create_cron)
 
+
 def system_cron():
-    """  CSV import via scheduled task, file is on server file system """
+    """CSV import via scheduled task, file is on server file system"""
 
     # get config model
-    model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name = 'SystemImporterFileCsvConfig')
+    model = SystemImporterFileCsvConfigModel.objects.get(
+        system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+    )
 
     """ check config user """
 
@@ -113,12 +118,15 @@ def system_cron():
     # return to scheduled task
     return
 
+
 @login_required(login_url="/login")
 def system_instant(request):
-    """  CSV import via button, file is on server file system """
+    """CSV import via button, file is on server file system"""
 
     # get config model
-    model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name = 'SystemImporterFileCsvConfig')
+    model = SystemImporterFileCsvConfigModel.objects.get(
+        system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+    )
 
     """ check file system """
 
@@ -148,9 +156,10 @@ def system_instant(request):
     # return to 'system_list'
     return redirect(reverse('system_list'))
 
+
 @login_required(login_url="/login")
 def system_upload(request):
-    """  CSV import via upload form, file is on user system  """
+    """CSV import via upload form, file is on user system"""
 
     # POST request
     if request.method == "POST":
@@ -162,7 +171,9 @@ def system_upload(request):
         if check_systemcsv:
 
             # get config model
-            model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name = 'SystemImporterFileCsvConfig')
+            model = SystemImporterFileCsvConfigModel.objects.get(
+                system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+            )
 
             """ check config attributes """
 
@@ -191,7 +202,7 @@ def system_upload(request):
                 'dfirtrack_main/system/system_importer_file_csv.html',
                 {
                     'form': form,
-                }
+                },
             )
 
         # return to 'system_list'
@@ -201,7 +212,9 @@ def system_upload(request):
     else:
 
         # get config model
-        model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name = 'SystemImporterFileCsvConfig')
+        model = SystemImporterFileCsvConfigModel.objects.get(
+            system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+        )
 
         """ check config attributes """
 
@@ -230,5 +243,5 @@ def system_upload(request):
         'dfirtrack_main/system/system_importer_file_csv.html',
         {
             'form': form,
-        }
+        },
     )

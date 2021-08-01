@@ -10,10 +10,16 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name='artifactpriority',
-            options={'ordering': ('artifactpriority_id',), 'verbose_name_plural': 'artifactpriorities'},
+            options={
+                'ordering': ('artifactpriority_id',),
+                'verbose_name_plural': 'artifactpriorities',
+            },
         ),
         migrations.AlterModelOptions(
             name='artifactstatus',
-            options={'ordering': ('artifactstatus_id',), 'verbose_name_plural': 'artifactstatus'},
+            options={
+                'ordering': ('artifactstatus_id',),
+                'verbose_name_plural': 'artifactstatus',
+            },
         ),
     ]

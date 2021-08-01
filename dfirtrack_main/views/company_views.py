@@ -21,6 +21,7 @@ class CompanyList(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " COMPANY_LIST_ENTERED")
         return Company.objects.order_by('company_name')
 
+
 class CompanyDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Company
@@ -32,6 +33,7 @@ class CompanyDetail(LoginRequiredMixin, DetailView):
         company.logger(str(self.request.user), " COMPANY_DETAIL_ENTERED")
         return context
 
+
 class CompanyCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Company
@@ -41,11 +43,15 @@ class CompanyCreate(LoginRequiredMixin, CreateView):
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " COMPANY_ADD_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-            'object_type': 'company',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'company',
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -56,11 +62,16 @@ class CompanyCreate(LoginRequiredMixin, CreateView):
             messages.success(request, 'Company added')
             return redirect(reverse('company_detail', args=(company.company_id,)))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-                'object_type': 'company',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Add',
+                    'object_type': 'company',
+                },
+            )
+
 
 class CompanyCreatePopup(LoginRequiredMixin, CreateView):
     login_url = '/login'
@@ -71,11 +82,15 @@ class CompanyCreatePopup(LoginRequiredMixin, CreateView):
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " COMPANY_ADD_POPUP_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-            'object_type': 'company',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'company',
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -84,13 +99,20 @@ class CompanyCreatePopup(LoginRequiredMixin, CreateView):
             company.save()
             company.logger(str(request.user), " COMPANY_ADD_POPUP_EXECUTED")
             messages.success(request, 'Company added')
-            return HttpResponse('<script type="text/javascript">window.close();</script>')
+            return HttpResponse(
+                '<script type="text/javascript">window.close();</script>'
+            )
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-                'object_type': 'company',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Add',
+                    'object_type': 'company',
+                },
+            )
+
 
 class CompanyUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
@@ -102,12 +124,16 @@ class CompanyUpdate(LoginRequiredMixin, UpdateView):
         company = self.get_object()
         form = self.form_class(instance=company)
         company.logger(str(request.user), " COMPANY_EDIT_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Edit',
-            'object_type': 'company',
-            'object_name': company.company_name,
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Edit',
+                'object_type': 'company',
+                'object_name': company.company_name,
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         company = self.get_object()
@@ -119,9 +145,13 @@ class CompanyUpdate(LoginRequiredMixin, UpdateView):
             messages.success(request, 'Company edited')
             return redirect(reverse('company_detail', args=(company.company_id,)))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Edit',
-                'object_type': 'company',
-                'object_name': company.company_name,
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Edit',
+                    'object_type': 'company',
+                    'object_name': company.company_name,
+                },
+            )

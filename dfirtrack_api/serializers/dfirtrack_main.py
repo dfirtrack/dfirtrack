@@ -6,7 +6,7 @@ from dfirtrack_main import models as dfirtrack_main_models
 
 
 class AnalysisstatusSerializer(serializers.ModelSerializer):
-    """ create serializer for model instance """
+    """create serializer for model instance"""
 
     class Meta:
         model = dfirtrack_main_models.Analysisstatus
@@ -16,30 +16,47 @@ class AnalysisstatusSerializer(serializers.ModelSerializer):
             'analysisstatus_name',
         )
 
+
 class CaseSerializer(serializers.ModelSerializer):
-    """ create serializer for model instance """
+    """create serializer for model instance"""
 
     # redefine representation
     def to_representation(self, instance):
 
         # get serializers of foreignkey relationsships
-        self.fields['casepriority'] = dfirtrack_main_fk.CasepriorityFkSerializer(many=False, read_only=True)
-        self.fields['casestatus'] = dfirtrack_main_fk.CasestatusFkSerializer(many=False, read_only=True)
-        self.fields['casetype'] = dfirtrack_main_fk.CasetypeFkSerializer(many=False, read_only=True)
-        self.fields['tag'] =  dfirtrack_main_fk.TagFkSerializer(many=True, read_only=True)
+        self.fields['casepriority'] = dfirtrack_main_fk.CasepriorityFkSerializer(
+            many=False, read_only=True
+        )
+        self.fields['casestatus'] = dfirtrack_main_fk.CasestatusFkSerializer(
+            many=False, read_only=True
+        )
+        self.fields['casetype'] = dfirtrack_main_fk.CasetypeFkSerializer(
+            many=False, read_only=True
+        )
+        self.fields['tag'] = dfirtrack_main_fk.TagFkSerializer(
+            many=True, read_only=True
+        )
 
         # get existing to_representation
         representation = super().to_representation(instance)
 
         # change mandatory time strings
-        representation['case_create_time'] = instance.case_create_time.strftime('%Y-%m-%dT%H:%M')
-        representation['case_modify_time'] = instance.case_modify_time.strftime('%Y-%m-%dT%H:%M')
+        representation['case_create_time'] = instance.case_create_time.strftime(
+            '%Y-%m-%dT%H:%M'
+        )
+        representation['case_modify_time'] = instance.case_modify_time.strftime(
+            '%Y-%m-%dT%H:%M'
+        )
 
         # change optional time strings
         if instance.case_start_time:
-            representation['case_start_time'] = instance.case_start_time.strftime('%Y-%m-%dT%H:%M')
+            representation['case_start_time'] = instance.case_start_time.strftime(
+                '%Y-%m-%dT%H:%M'
+            )
         if instance.case_end_time:
-            representation['case_end_time'] = instance.case_end_time.strftime('%Y-%m-%dT%H:%M')
+            representation['case_end_time'] = instance.case_end_time.strftime(
+                '%Y-%m-%dT%H:%M'
+            )
 
         return representation
 
@@ -63,8 +80,9 @@ class CaseSerializer(serializers.ModelSerializer):
             'case_modify_time',
         )
 
+
 class CaseprioritySerializer(serializers.ModelSerializer):
-    """ create serializer for model instance """
+    """create serializer for model instance"""
 
     class Meta:
         model = dfirtrack_main_models.Casepriority
@@ -74,8 +92,9 @@ class CaseprioritySerializer(serializers.ModelSerializer):
             'casepriority_name',
         )
 
+
 class CasestatusSerializer(serializers.ModelSerializer):
-    """ create serializer for model instance """
+    """create serializer for model instance"""
 
     class Meta:
         model = dfirtrack_main_models.Casestatus
@@ -85,8 +104,9 @@ class CasestatusSerializer(serializers.ModelSerializer):
             'casestatus_name',
         )
 
+
 class CasetypeSerializer(serializers.ModelSerializer):
-    """ create serializer for model instance """
+    """create serializer for model instance"""
 
     class Meta:
         model = dfirtrack_main_models.Casetype
@@ -96,12 +116,13 @@ class CasetypeSerializer(serializers.ModelSerializer):
             'casetype_name',
         )
 
+
 class CompanySerializer(serializers.ModelSerializer):
-    """ create serializer for model instance """
+    """create serializer for model instance"""
 
     # get serializers of foreignkey relationsships
     def to_representation(self, instance):
-        self.fields['division'] =  dfirtrack_main_fk.DivisionFkSerializer(read_only=True)
+        self.fields['division'] = dfirtrack_main_fk.DivisionFkSerializer(read_only=True)
         return super().to_representation(instance)
 
     class Meta:
@@ -113,8 +134,9 @@ class CompanySerializer(serializers.ModelSerializer):
             'division',
         )
 
+
 class ContactSerializer(serializers.ModelSerializer):
-    """ create serializer for model instance """
+    """create serializer for model instance"""
 
     class Meta:
         model = dfirtrack_main_models.Contact
@@ -126,8 +148,9 @@ class ContactSerializer(serializers.ModelSerializer):
             'contact_phone',
         )
 
+
 class DivisionSerializer(serializers.ModelSerializer):
-    """ create serializer for model instance """
+    """create serializer for model instance"""
 
     class Meta:
         model = dfirtrack_main_models.Division
@@ -137,12 +160,13 @@ class DivisionSerializer(serializers.ModelSerializer):
             'division_name',
         )
 
+
 class DnsnameSerializer(serializers.ModelSerializer):
-    """ create serializer for model instance """
+    """create serializer for model instance"""
 
     # get serializers of foreignkey relationsships
     def to_representation(self, instance):
-        self.fields['domain'] =  dfirtrack_main_fk.DomainFkSerializer(read_only=True)
+        self.fields['domain'] = dfirtrack_main_fk.DomainFkSerializer(read_only=True)
         return super().to_representation(instance)
 
     class Meta:
@@ -154,8 +178,9 @@ class DnsnameSerializer(serializers.ModelSerializer):
             'domain',
         )
 
+
 class DomainSerializer(serializers.ModelSerializer):
-    """ create serializer for model instance """
+    """create serializer for model instance"""
 
     class Meta:
         model = dfirtrack_main_models.Domain
@@ -165,12 +190,13 @@ class DomainSerializer(serializers.ModelSerializer):
             'domain_name',
         )
 
+
 class DomainuserSerializer(serializers.ModelSerializer):
-    """ create serializer for model instance """
+    """create serializer for model instance"""
 
     # get serializers of foreignkey relationsships
     def to_representation(self, instance):
-        self.fields['domain'] =  dfirtrack_main_fk.DomainFkSerializer(read_only=True)
+        self.fields['domain'] = dfirtrack_main_fk.DomainFkSerializer(read_only=True)
         return super().to_representation(instance)
 
     class Meta:
@@ -183,8 +209,9 @@ class DomainuserSerializer(serializers.ModelSerializer):
             'domainuser_is_domainadmin',
         )
 
+
 class HeadlineSerializer(serializers.ModelSerializer):
-    """ create serializer for model instance """
+    """create serializer for model instance"""
 
     class Meta:
         model = dfirtrack_main_models.Headline
@@ -194,8 +221,9 @@ class HeadlineSerializer(serializers.ModelSerializer):
             'headline_name',
         )
 
+
 class IpSerializer(serializers.ModelSerializer):
-    """ create serializer for model instance """
+    """create serializer for model instance"""
 
     class Meta:
         model = dfirtrack_main_models.Ip
@@ -205,8 +233,9 @@ class IpSerializer(serializers.ModelSerializer):
             'ip_ip',
         )
 
+
 class LocationSerializer(serializers.ModelSerializer):
-    """ create serializer for model instance """
+    """create serializer for model instance"""
 
     class Meta:
         model = dfirtrack_main_models.Location
@@ -216,23 +245,34 @@ class LocationSerializer(serializers.ModelSerializer):
             'location_name',
         )
 
+
 class NoteSerializer(serializers.ModelSerializer):
-    """ create serializer for model instance """
+    """create serializer for model instance"""
 
     # redefine representation
     def to_representation(self, instance):
 
         # get serializers of foreignkey relationsships
-        self.fields['case'] =  dfirtrack_main_fk.CaseFkSerializer(many=False, read_only=True)
-        self.fields['notestatus'] =  dfirtrack_main_fk.NotestatusFkSerializer(many=False, read_only=True)
-        self.fields['tag'] =  dfirtrack_main_fk.TagFkSerializer(many=True, read_only=True)
+        self.fields['case'] = dfirtrack_main_fk.CaseFkSerializer(
+            many=False, read_only=True
+        )
+        self.fields['notestatus'] = dfirtrack_main_fk.NotestatusFkSerializer(
+            many=False, read_only=True
+        )
+        self.fields['tag'] = dfirtrack_main_fk.TagFkSerializer(
+            many=True, read_only=True
+        )
 
         # get existing to_representation
         representation = super().to_representation(instance)
 
         # change mandatory time strings
-        representation['note_create_time'] = instance.note_create_time.strftime('%Y-%m-%dT%H:%M')
-        representation['note_modify_time'] = instance.note_modify_time.strftime('%Y-%m-%dT%H:%M')
+        representation['note_create_time'] = instance.note_create_time.strftime(
+            '%Y-%m-%dT%H:%M'
+        )
+        representation['note_modify_time'] = instance.note_modify_time.strftime(
+            '%Y-%m-%dT%H:%M'
+        )
 
         return representation
 
@@ -253,8 +293,9 @@ class NoteSerializer(serializers.ModelSerializer):
             'note_modified_by_user_id',
         )
 
+
 class NotestatusSerializer(serializers.ModelSerializer):
-    """ create serializer for model instance """
+    """create serializer for model instance"""
 
     class Meta:
         model = dfirtrack_main_models.Notestatus
@@ -264,8 +305,9 @@ class NotestatusSerializer(serializers.ModelSerializer):
             'notestatus_name',
         )
 
+
 class OsSerializer(serializers.ModelSerializer):
-    """ create serializer for model instance """
+    """create serializer for model instance"""
 
     class Meta:
         model = dfirtrack_main_models.Os
@@ -275,8 +317,9 @@ class OsSerializer(serializers.ModelSerializer):
             'os_name',
         )
 
+
 class OsarchSerializer(serializers.ModelSerializer):
-    """ create serializer for model instance """
+    """create serializer for model instance"""
 
     class Meta:
         model = dfirtrack_main_models.Osarch
@@ -286,8 +329,9 @@ class OsarchSerializer(serializers.ModelSerializer):
             'osarch_name',
         )
 
+
 class ReasonSerializer(serializers.ModelSerializer):
-    """ create serializer for model instance """
+    """create serializer for model instance"""
 
     class Meta:
         model = dfirtrack_main_models.Reason
@@ -297,8 +341,9 @@ class ReasonSerializer(serializers.ModelSerializer):
             'reason_name',
         )
 
+
 class RecommendationSerializer(serializers.ModelSerializer):
-    """ create serializer for model instance """
+    """create serializer for model instance"""
 
     class Meta:
         model = dfirtrack_main_models.Recommendation
@@ -308,25 +353,40 @@ class RecommendationSerializer(serializers.ModelSerializer):
             'recommendation_name',
         )
 
+
 class ReportitemSerializer(serializers.ModelSerializer):
-    """ create serializer for model instance """
+    """create serializer for model instance"""
 
     # redefine representation
     def to_representation(self, instance):
 
         # get serializers of foreignkey relationsships
-        self.fields['case'] =  dfirtrack_main_fk.CaseFkSerializer(many=False, read_only=True)
-        self.fields['headline'] =  dfirtrack_main_fk.HeadlineFkSerializer(many=False, read_only=True)
-        self.fields['notestatus'] =  dfirtrack_main_fk.NotestatusFkSerializer(many=False, read_only=True)
-        self.fields['system'] =  dfirtrack_main_fk.SystemFkSerializer(many=False, read_only=True)
-        self.fields['tag'] =  dfirtrack_main_fk.TagFkSerializer(many=True, read_only=True)
+        self.fields['case'] = dfirtrack_main_fk.CaseFkSerializer(
+            many=False, read_only=True
+        )
+        self.fields['headline'] = dfirtrack_main_fk.HeadlineFkSerializer(
+            many=False, read_only=True
+        )
+        self.fields['notestatus'] = dfirtrack_main_fk.NotestatusFkSerializer(
+            many=False, read_only=True
+        )
+        self.fields['system'] = dfirtrack_main_fk.SystemFkSerializer(
+            many=False, read_only=True
+        )
+        self.fields['tag'] = dfirtrack_main_fk.TagFkSerializer(
+            many=True, read_only=True
+        )
 
         # get existing to_representation
         representation = super().to_representation(instance)
 
         # change mandatory time strings
-        representation['reportitem_create_time'] = instance.reportitem_create_time.strftime('%Y-%m-%dT%H:%M')
-        representation['reportitem_modify_time'] = instance.reportitem_modify_time.strftime('%Y-%m-%dT%H:%M')
+        representation[
+            'reportitem_create_time'
+        ] = instance.reportitem_create_time.strftime('%Y-%m-%dT%H:%M')
+        representation[
+            'reportitem_modify_time'
+        ] = instance.reportitem_modify_time.strftime('%Y-%m-%dT%H:%M')
 
         return representation
 
@@ -348,8 +408,9 @@ class ReportitemSerializer(serializers.ModelSerializer):
             'reportitem_modified_by_user_id',
         )
 
+
 class ServiceproviderSerializer(serializers.ModelSerializer):
-    """ create serializer for model instance """
+    """create serializer for model instance"""
 
     class Meta:
         model = dfirtrack_main_models.Serviceprovider
@@ -359,46 +420,85 @@ class ServiceproviderSerializer(serializers.ModelSerializer):
             'serviceprovider_name',
         )
 
+
 class SystemSerializer(serializers.ModelSerializer):
-    """ create serializer for model instance """
+    """create serializer for model instance"""
 
     # redefine representation
     def to_representation(self, instance):
 
         # get serializers of foreignkey relationsships
-        self.fields['analysisstatus'] =  dfirtrack_main_fk.AnalysisstatusFkSerializer(many=False, read_only=True)
-        self.fields['case'] =  dfirtrack_main_fk.CaseFkSerializer(many=True, read_only=True)
-        self.fields['company'] =  dfirtrack_main_fk.CompanyFkSerializer(many=True, read_only=True)
-        self.fields['contact'] =  dfirtrack_main_fk.ContactFkSerializer(many=False, read_only=True)
-        self.fields['dnsname'] =  dfirtrack_main_fk.DnsnameFkSerializer(many=False, read_only=True)
-        self.fields['domain'] =  dfirtrack_main_fk.DomainFkSerializer(many=False, read_only=True)
-        self.fields['host_system'] =  dfirtrack_main_fk.HostSystemFkSerializer(many=False, read_only=True)
-        self.fields['ip'] =  dfirtrack_main_fk.IpFkSerializer(many=True, read_only=True)
-        self.fields['location'] =  dfirtrack_main_fk.LocationFkSerializer(many=False, read_only=True)
-        self.fields['os'] =  dfirtrack_main_fk.OsFkSerializer(many=False, read_only=True)
-        self.fields['osarch'] =  dfirtrack_main_fk.OsarchFkSerializer(many=False, read_only=True)
-        self.fields['reason'] =  dfirtrack_main_fk.ReasonFkSerializer(many=False, read_only=True)
-        self.fields['recommendation'] =  dfirtrack_main_fk.RecommendationFkSerializer(many=False, read_only=True)
-        self.fields['serviceprovider'] =  dfirtrack_main_fk.ServiceproviderFkSerializer(many=False, read_only=True)
-        self.fields['systemstatus'] =  dfirtrack_main_fk.SystemstatusFkSerializer(many=False, read_only=True)
-        self.fields['systemtype'] =  dfirtrack_main_fk.SystemtypeFkSerializer(many=False, read_only=True)
-        self.fields['tag'] =  dfirtrack_main_fk.TagFkSerializer(many=True, read_only=True)
+        self.fields['analysisstatus'] = dfirtrack_main_fk.AnalysisstatusFkSerializer(
+            many=False, read_only=True
+        )
+        self.fields['case'] = dfirtrack_main_fk.CaseFkSerializer(
+            many=True, read_only=True
+        )
+        self.fields['company'] = dfirtrack_main_fk.CompanyFkSerializer(
+            many=True, read_only=True
+        )
+        self.fields['contact'] = dfirtrack_main_fk.ContactFkSerializer(
+            many=False, read_only=True
+        )
+        self.fields['dnsname'] = dfirtrack_main_fk.DnsnameFkSerializer(
+            many=False, read_only=True
+        )
+        self.fields['domain'] = dfirtrack_main_fk.DomainFkSerializer(
+            many=False, read_only=True
+        )
+        self.fields['host_system'] = dfirtrack_main_fk.HostSystemFkSerializer(
+            many=False, read_only=True
+        )
+        self.fields['ip'] = dfirtrack_main_fk.IpFkSerializer(many=True, read_only=True)
+        self.fields['location'] = dfirtrack_main_fk.LocationFkSerializer(
+            many=False, read_only=True
+        )
+        self.fields['os'] = dfirtrack_main_fk.OsFkSerializer(many=False, read_only=True)
+        self.fields['osarch'] = dfirtrack_main_fk.OsarchFkSerializer(
+            many=False, read_only=True
+        )
+        self.fields['reason'] = dfirtrack_main_fk.ReasonFkSerializer(
+            many=False, read_only=True
+        )
+        self.fields['recommendation'] = dfirtrack_main_fk.RecommendationFkSerializer(
+            many=False, read_only=True
+        )
+        self.fields['serviceprovider'] = dfirtrack_main_fk.ServiceproviderFkSerializer(
+            many=False, read_only=True
+        )
+        self.fields['systemstatus'] = dfirtrack_main_fk.SystemstatusFkSerializer(
+            many=False, read_only=True
+        )
+        self.fields['systemtype'] = dfirtrack_main_fk.SystemtypeFkSerializer(
+            many=False, read_only=True
+        )
+        self.fields['tag'] = dfirtrack_main_fk.TagFkSerializer(
+            many=True, read_only=True
+        )
 
         # get existing to_representation
         representation = super().to_representation(instance)
 
         # change mandatory time strings
-        representation['system_create_time'] = instance.system_create_time.strftime('%Y-%m-%dT%H:%M')
-        representation['system_modify_time'] = instance.system_modify_time.strftime('%Y-%m-%dT%H:%M')
+        representation['system_create_time'] = instance.system_create_time.strftime(
+            '%Y-%m-%dT%H:%M'
+        )
+        representation['system_modify_time'] = instance.system_modify_time.strftime(
+            '%Y-%m-%dT%H:%M'
+        )
 
         # change optional time strings
         # TODO: change after model rebuild
-        #if instance.system_install_time:
+        # if instance.system_install_time:
         #    representation['system_install_time'] = instance.system_install_time.strftime('%Y-%m-%dT%H:%M')
         if instance.system_lastbooted_time:
-            representation['system_lastbooted_time'] = instance.system_lastbooted_time.strftime('%Y-%m-%dT%H:%M')
+            representation[
+                'system_lastbooted_time'
+            ] = instance.system_lastbooted_time.strftime('%Y-%m-%dT%H:%M')
         if instance.system_deprecated_time:
-            representation['system_deprecated_time'] = instance.system_deprecated_time.strftime('%Y-%m-%dT%H:%M')
+            representation[
+                'system_deprecated_time'
+            ] = instance.system_deprecated_time.strftime('%Y-%m-%dT%H:%M')
 
         return representation
 
@@ -439,8 +539,9 @@ class SystemSerializer(serializers.ModelSerializer):
             'system_export_spreadsheet',
         )
 
+
 class SystemstatusSerializer(serializers.ModelSerializer):
-    """ create serializer for model instance """
+    """create serializer for model instance"""
 
     class Meta:
         model = dfirtrack_main_models.Systemstatus
@@ -450,8 +551,9 @@ class SystemstatusSerializer(serializers.ModelSerializer):
             'systemstatus_name',
         )
 
+
 class SystemtypeSerializer(serializers.ModelSerializer):
-    """ create serializer for model instance """
+    """create serializer for model instance"""
 
     class Meta:
         model = dfirtrack_main_models.Systemtype
@@ -461,21 +563,24 @@ class SystemtypeSerializer(serializers.ModelSerializer):
             'systemtype_name',
         )
 
+
 class SystemuserSerializer(serializers.ModelSerializer):
-    """ create serializer for model instance """
+    """create serializer for model instance"""
 
     # redefine representation
     def to_representation(self, instance):
 
         # get serializers of foreignkey relationsships
-        self.fields['system'] =  dfirtrack_main_fk.SystemFkSerializer(read_only=True)
+        self.fields['system'] = dfirtrack_main_fk.SystemFkSerializer(read_only=True)
 
         # get existing to_representation
         representation = super().to_representation(instance)
 
         # change optional time strings
         if instance.systemuser_lastlogon_time:
-            representation['systemuser_lastlogon_time'] = instance.systemuser_lastlogon_time.strftime('%Y-%m-%dT%H:%M')
+            representation[
+                'systemuser_lastlogon_time'
+            ] = instance.systemuser_lastlogon_time.strftime('%Y-%m-%dT%H:%M')
 
         return representation
 
@@ -490,12 +595,13 @@ class SystemuserSerializer(serializers.ModelSerializer):
             'systemuser_is_systemadmin',
         )
 
+
 class TagSerializer(serializers.ModelSerializer):
-    """ create serializer for model instance """
+    """create serializer for model instance"""
 
     # get serializers of foreignkey relationsships
     def to_representation(self, instance):
-        self.fields['tagcolor'] =  dfirtrack_main_fk.TagcolorFkSerializer(read_only=True)
+        self.fields['tagcolor'] = dfirtrack_main_fk.TagcolorFkSerializer(read_only=True)
         return super().to_representation(instance)
 
     class Meta:
@@ -507,8 +613,9 @@ class TagSerializer(serializers.ModelSerializer):
             'tagcolor',
         )
 
+
 class TagcolorSerializer(serializers.ModelSerializer):
-    """ create serializer for model instance """
+    """create serializer for model instance"""
 
     class Meta:
         model = dfirtrack_main_models.Tagcolor
@@ -518,38 +625,65 @@ class TagcolorSerializer(serializers.ModelSerializer):
             'tagcolor_name',
         )
 
+
 class TaskSerializer(serializers.ModelSerializer):
-    """ create serializer for model instance """
+    """create serializer for model instance"""
 
     # redefine representation
     def to_representation(self, instance):
 
         # get serializers of foreignkey relationsships
-        self.fields['artifact'] =  ArtifactFkSerializer(many=False, read_only=True)
-        self.fields['case'] =  dfirtrack_main_fk.CaseFkSerializer(many=False, read_only=True)
-        self.fields['parent_task'] =  dfirtrack_main_fk.ParentTaskFkSerializer(many=False, read_only=True)
-        self.fields['system'] =  dfirtrack_main_fk.SystemFkSerializer(many=False, read_only=True)
-        self.fields['tag'] =  dfirtrack_main_fk.TagFkSerializer(many=True, read_only=True)
-        self.fields['taskname'] =  dfirtrack_main_fk.TasknameFkSerializer(many=False, read_only=True)
-        self.fields['taskpriority'] =  dfirtrack_main_fk.TaskpriorityFkSerializer(many=False, read_only=True)
-        self.fields['taskstatus'] =  dfirtrack_main_fk.TaskstatusFkSerializer(many=False, read_only=True)
+        self.fields['artifact'] = ArtifactFkSerializer(many=False, read_only=True)
+        self.fields['case'] = dfirtrack_main_fk.CaseFkSerializer(
+            many=False, read_only=True
+        )
+        self.fields['parent_task'] = dfirtrack_main_fk.ParentTaskFkSerializer(
+            many=False, read_only=True
+        )
+        self.fields['system'] = dfirtrack_main_fk.SystemFkSerializer(
+            many=False, read_only=True
+        )
+        self.fields['tag'] = dfirtrack_main_fk.TagFkSerializer(
+            many=True, read_only=True
+        )
+        self.fields['taskname'] = dfirtrack_main_fk.TasknameFkSerializer(
+            many=False, read_only=True
+        )
+        self.fields['taskpriority'] = dfirtrack_main_fk.TaskpriorityFkSerializer(
+            many=False, read_only=True
+        )
+        self.fields['taskstatus'] = dfirtrack_main_fk.TaskstatusFkSerializer(
+            many=False, read_only=True
+        )
 
         # get existing to_representation
         representation = super().to_representation(instance)
 
         # change mandatory time strings
-        representation['task_create_time'] = instance.task_create_time.strftime('%Y-%m-%dT%H:%M')
-        representation['task_modify_time'] = instance.task_modify_time.strftime('%Y-%m-%dT%H:%M')
+        representation['task_create_time'] = instance.task_create_time.strftime(
+            '%Y-%m-%dT%H:%M'
+        )
+        representation['task_modify_time'] = instance.task_modify_time.strftime(
+            '%Y-%m-%dT%H:%M'
+        )
 
         # change optional time strings
         if instance.task_scheduled_time:
-            representation['task_scheduled_time'] = instance.task_scheduled_time.strftime('%Y-%m-%dT%H:%M')
+            representation[
+                'task_scheduled_time'
+            ] = instance.task_scheduled_time.strftime('%Y-%m-%dT%H:%M')
         if instance.task_started_time:
-            representation['task_started_time'] = instance.task_started_time.strftime('%Y-%m-%dT%H:%M')
+            representation['task_started_time'] = instance.task_started_time.strftime(
+                '%Y-%m-%dT%H:%M'
+            )
         if instance.task_finished_time:
-            representation['task_finished_time'] = instance.task_finished_time.strftime('%Y-%m-%dT%H:%M')
+            representation['task_finished_time'] = instance.task_finished_time.strftime(
+                '%Y-%m-%dT%H:%M'
+            )
         if instance.task_due_time:
-            representation['task_due_time'] = instance.task_due_time.strftime('%Y-%m-%dT%H:%M')
+            representation['task_due_time'] = instance.task_due_time.strftime(
+                '%Y-%m-%dT%H:%M'
+            )
 
         return representation
 
@@ -577,8 +711,9 @@ class TaskSerializer(serializers.ModelSerializer):
             'task_modified_by_user_id',
         )
 
+
 class TasknameSerializer(serializers.ModelSerializer):
-    """ create serializer for model instance """
+    """create serializer for model instance"""
 
     class Meta:
         model = dfirtrack_main_models.Taskname
@@ -588,8 +723,9 @@ class TasknameSerializer(serializers.ModelSerializer):
             'taskname_name',
         )
 
+
 class TaskprioritySerializer(serializers.ModelSerializer):
-    """ create serializer for model instance """
+    """create serializer for model instance"""
 
     class Meta:
         model = dfirtrack_main_models.Taskpriority
@@ -599,8 +735,9 @@ class TaskprioritySerializer(serializers.ModelSerializer):
             'taskpriority_name',
         )
 
+
 class TaskstatusSerializer(serializers.ModelSerializer):
-    """ create serializer for model instance """
+    """create serializer for model instance"""
 
     class Meta:
         model = dfirtrack_main_models.Taskstatus

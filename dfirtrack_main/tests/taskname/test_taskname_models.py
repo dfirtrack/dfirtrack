@@ -4,7 +4,7 @@ from dfirtrack_main.models import Taskname
 
 
 class TasknameModelTestCase(TestCase):
-    """ taskname model tests """
+    """taskname model tests"""
 
     @classmethod
     def setUpTestData(cls):
@@ -13,7 +13,7 @@ class TasknameModelTestCase(TestCase):
         Taskname.objects.create(taskname_name='taskname_1')
 
     def test_taskname_string(self):
-        """ test string representation """
+        """test string representation"""
 
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
@@ -21,7 +21,7 @@ class TasknameModelTestCase(TestCase):
         self.assertEqual(str(taskname_1), 'taskname_1')
 
     def test_taskname_id_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
@@ -31,7 +31,7 @@ class TasknameModelTestCase(TestCase):
         self.assertEqual(field_label, 'taskname id')
 
     def test_taskname_name_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
@@ -41,7 +41,7 @@ class TasknameModelTestCase(TestCase):
         self.assertEqual(field_label, 'taskname name')
 
     def test_taskname_name_length(self):
-        """ test for max length """
+        """test for max length"""
 
         # get object
         taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
