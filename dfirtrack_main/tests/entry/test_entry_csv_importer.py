@@ -46,7 +46,7 @@ class EntryCsvImporterTestCase(TestCase):
         # get objects
         system_id = System.objects.get(system_name='system_1').system_id
         test_user = User.objects.get(username='testuser_entry')
-        # prepare import argument filed_mapping        
+        # prepare import argument field_mapping
         field_mapping = {
                 'entry_time': 0,
                 'entry_type': 1,

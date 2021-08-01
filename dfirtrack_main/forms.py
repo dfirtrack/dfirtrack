@@ -522,7 +522,7 @@ class EntryFileImportFields(forms.Form):
 
     # entry tag mapping
     entry_tag = forms.ChoiceField(
-        choices=INITIAL_CHOICES,        
+        choices=INITIAL_CHOICES,
         widget=forms.Select(
             attrs={
                 'class': 'form-select'
