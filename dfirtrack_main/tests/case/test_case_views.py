@@ -6,7 +6,7 @@ from dfirtrack_config.models import MainConfigModel
 from dfirtrack_main.models import Case
 from dfirtrack_main.models import Casepriority
 from dfirtrack_main.models import Casestatus
-from mock import patch
+from unittest.mock import patch
 import urllib.parse
 
 

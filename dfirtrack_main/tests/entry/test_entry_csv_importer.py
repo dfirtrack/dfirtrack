@@ -101,8 +101,8 @@ class EntryCsvImporterTestCase(TestCase):
         # calculate hash
         m = hashlib.sha1()
         m.update(str(now).encode())
-        m.update('sha1_test'.encode())
-        m.update('Lorem ipsum'.encode())
+        m.update(b'sha1_test')
+        m.update(b'Lorem ipsum')
 
         # start task
         self.execute_csv_entry_import_async(csv_string)
@@ -122,8 +122,8 @@ class EntryCsvImporterTestCase(TestCase):
         # calculate hash
         m = hashlib.sha1()
         m.update(str(now).encode())
-        m.update('sha1_test'.encode())
-        m.update('Lorem ipsum'.encode())
+        m.update(b'sha1_test')
+        m.update(b'Lorem ipsum')
 
         # start task
         self.execute_csv_entry_import_async(csv_string, )

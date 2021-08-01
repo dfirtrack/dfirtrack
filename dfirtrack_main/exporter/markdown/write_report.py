@@ -73,7 +73,7 @@ def write_ip_to_table(django_report, system):
             django_report.write("| IP | " + ip.ip_ip + " |\n")
     else:
         # place holder
-        django_report.write("| IP | \--- |\n")
+        django_report.write("| IP | \\--- |\n")
 
 
 def write_os_to_table(django_report, system):
@@ -83,7 +83,7 @@ def write_os_to_table(django_report, system):
         django_report.write("| OS | " + system.os.os_name + " |\n")
     else:
         # place holder
-        django_report.write("| OS | \--- |\n")
+        django_report.write("| OS | \\--- |\n")
 
 
 def write_systemtype_to_table(django_report, system):
@@ -93,7 +93,7 @@ def write_systemtype_to_table(django_report, system):
         django_report.write("| Type | " + system.systemtype.systemtype_name + " |\n")
     else:
         # place holder
-        django_report.write("| Type | \--- |\n")
+        django_report.write("| Type | \\--- |\n")
 
 
 def write_system_install_time_to_table(django_report, system):
@@ -103,7 +103,7 @@ def write_system_install_time_to_table(django_report, system):
         django_report.write("| Install | " + system.system_install_time.strftime('%Y-%m-%d %H:%M:%S') + " |\n")
     else:
         # place holder
-        django_report.write("| Install | \--- |\n")
+        django_report.write("| Install | \\--- |\n")
     emptyline(django_report)
 
 
@@ -119,7 +119,7 @@ def write_reason(django_report, system):
             django_report.write(system.reason.reason_note + "\n")
     else:
         # place holder
-        django_report.write("\---\n")
+        django_report.write("\\---\n")
     emptyline(django_report)
 
 
@@ -134,7 +134,7 @@ def write_recommendation(django_report, system):
             emptyline(django_report)
             django_report.write(system.recommendation.recommendation_note + "\n")
     else:
-        django_report.write("\---\n")
+        django_report.write("\\---\n")
     emptyline(django_report)
 
 
@@ -167,7 +167,7 @@ def write_systemusers(django_report, system):
             django_report.write("* " + user.systemuser_name + "\n")
     else:
         # place holder
-        django_report.write("\---\n")
+        django_report.write("\\---\n")
     emptyline(django_report)
 
 
@@ -206,7 +206,7 @@ def write_entries_to_table(django_report, system):
                 django_report.write("| |\n")
     else:
         # place holder
-        django_report.write("| \---      | \---         | \---         | \---         | \---         |\n")
+        django_report.write("| \\---      | \\---         | \\---         | \\---         | \\---         |\n")
     emptyline(django_report)
 
 

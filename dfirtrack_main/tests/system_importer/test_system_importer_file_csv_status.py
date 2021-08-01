@@ -8,7 +8,7 @@ from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv import system_cron
 from dfirtrack_main.models import Analysisstatus, System, Systemstatus, Tag, Tagcolor
 from dfirtrack_main.tests.system_importer.config_functions import set_config_tagfree_status, set_csv_import_filename
-from mock import patch
+from unittest.mock import patch
 import os
 import urllib.parse
 
@@ -320,7 +320,7 @@ class SystemImporterFileCsvStatusViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_status', password='Tsu0Q6SDhuxMH2APXMBT')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_34_lock_status.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_34_lock_status.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,
@@ -413,7 +413,7 @@ class SystemImporterFileCsvStatusViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_status', password='Tsu0Q6SDhuxMH2APXMBT')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_35_tagfree_status.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_35_tagfree_status.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,

@@ -6,7 +6,7 @@ def read_or_create_mkdocs_yml(username, mkdconfpath):
 
     # open mkdocs.yml for reading
     try:
-        mkdconffile = open(mkdconfpath, "r")
+        mkdconffile = open(mkdconfpath)
 
         # read YAML to dict
         mkdconfdict = yaml.safe_load(mkdconffile)

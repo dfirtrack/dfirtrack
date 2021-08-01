@@ -8,7 +8,7 @@ from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv import system_cron
 from dfirtrack_main.models import Analysisstatus, Case, Company, Dnsname, Domain, Location, Os, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Tag, Tagcolor
 from dfirtrack_main.tests.system_importer.config_functions import set_config_complete_attributes_database, set_csv_import_filename
-from mock import patch
+from unittest.mock import patch
 import os
 import urllib.parse
 
@@ -214,7 +214,7 @@ class SystemImporterFileCsvCompleteAttributesDatabaseViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system_importer_file_csv_complete_attributes_database', password='ZrPzqC6wBVzHfNvPiSX4')
         # open upload file
-        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_08_complete_database.csv'), 'r')
+        systemcsv = open(os.path.join(BASE_DIR, 'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_08_complete_database.csv'))
         # create post data
         data_dict = {
             'systemcsv': systemcsv,

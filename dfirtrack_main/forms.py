@@ -1215,7 +1215,7 @@ class SystemModificatorForm(AdminStyleSelectorForm, SystemBaseForm):
 
     def __init__(self, *args, **kwargs):
         self.use_system_charfield = kwargs.pop('use_system_charfield', False)
-        super(SystemModificatorForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         # if use_system_charfield is set, we replace the ModelMultipleChoiceField with the (old) CharField for system selection
         if self.use_system_charfield:
             self.fields['systemlist'] = forms.CharField(

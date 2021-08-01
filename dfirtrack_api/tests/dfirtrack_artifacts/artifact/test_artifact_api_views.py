@@ -151,7 +151,7 @@ class ArtifactAPIViewTestCase(TestCase):
             "artifact_md5": "d41d8cd98f00b204e9800998ecf8427e",
             "artifact_sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
             "artifact_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-            "artifact_source_path": "C:\Windows",
+            "artifact_source_path": r"C:\Windows",
             "artifact_acquisition_time": '2021-05-09T10:25',
             "artifact_requested_time": '2021-05-09T10:15',
             "artifact_created_by_user_id": test_user_id,
@@ -179,7 +179,7 @@ class ArtifactAPIViewTestCase(TestCase):
         self.assertEqual(artifact_api_3.artifact_sha256, 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855')
         self.assertEqual(artifact_api_3.artifact_requested_time, datetime(2021, 5, 9, 10, 15, tzinfo=timezone.utc))
         self.assertEqual(artifact_api_3.artifact_acquisition_time, datetime(2021, 5, 9, 10, 25, tzinfo=timezone.utc))
-        self.assertEqual(artifact_api_3.artifact_source_path, 'C:\Windows')
+        self.assertEqual(artifact_api_3.artifact_source_path, r'C:\Windows')
 
     def test_artifact_list_api_redirect(self):
         """ test redirect with appending slash """
@@ -299,7 +299,7 @@ class ArtifactAPIViewTestCase(TestCase):
             "artifact_md5": "93b885adfe0da089cdf634904fd59f71",
             "artifact_sha1": "5ba93c9db0cff93f52b521d7420e43f6eda2784f",
             "artifact_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
-            "artifact_source_path": "C:\Windows",
+            "artifact_source_path": r"C:\Windows",
             "artifact_acquisition_time": '2021-05-09T10:45',
             "artifact_requested_time": '2021-05-09T10:35',
             "artifact_created_by_user_id": test_user_id,
@@ -323,7 +323,7 @@ class ArtifactAPIViewTestCase(TestCase):
         self.assertEqual(new_artifact_api_2.artifact_sha256, '6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d')
         self.assertEqual(new_artifact_api_2.artifact_requested_time, datetime(2021, 5, 9, 10, 35, tzinfo=timezone.utc))
         self.assertEqual(new_artifact_api_2.artifact_acquisition_time, datetime(2021, 5, 9, 10, 45, tzinfo=timezone.utc))
-        self.assertEqual(new_artifact_api_2.artifact_source_path, 'C:\Windows')
+        self.assertEqual(new_artifact_api_2.artifact_source_path, r'C:\Windows')
 
     def test_artifact_detail_api_redirect(self):
         """ test redirect with appending slash """

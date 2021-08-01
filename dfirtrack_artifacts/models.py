@@ -56,7 +56,7 @@ class Artifact(models.Model):
 
     # string representation
     def __str__(self):
-        return 'Artifact {0} ({1})'.format(str(self.artifact_id), self.system)
+        return f'Artifact {str(self.artifact_id)} ({self.system})'
 
     # define logger
     def logger(artifact, request_user, log_text):   # coverage: ignore branch

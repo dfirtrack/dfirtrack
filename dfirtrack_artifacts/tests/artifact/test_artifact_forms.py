@@ -267,7 +267,7 @@ class ArtifactFormTestCase(TestCase):
             'artifactstatus': artifactstatus_id,
             'artifacttype': artifacttype_id,
             'system': system_id,
-            'artifact_source_path': 'C:\Windows\foo\bar',
+            'artifact_source_path': 'C:\\Windows\foo\bar',
         })
         # compare
         self.assertTrue(form.is_valid())

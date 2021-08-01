@@ -22,7 +22,7 @@ from dfirtrack_main.models import Systemstatus
 from dfirtrack_main.models import Systemtype
 from dfirtrack_main.models import Tag
 from dfirtrack_main.models import Tagcolor
-from mock import patch
+from unittest.mock import patch
 import urllib.parse
 import xlrd
 
