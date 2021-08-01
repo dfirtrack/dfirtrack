@@ -1,6 +1,6 @@
-from dfirtrack_config.models import UserConfigModel
 from django import forms
 
+from dfirtrack_config.models import UserConfigModel
 from dfirtrack_main.models import Case, Notestatus, Tag
 
 

@@ -1,5 +1,8 @@
 import urllib.parse
 
+from django.contrib.auth.models import User
+from django.test import TestCase
+
 from dfirtrack_main.models import (
     Case,
     Headline,
@@ -10,8 +13,6 @@ from dfirtrack_main.models import (
     Tag,
     Tagcolor,
 )
-from django.contrib.auth.models import User
-from django.test import TestCase
 
 
 class ReportitemAPIViewTestCase(TestCase):

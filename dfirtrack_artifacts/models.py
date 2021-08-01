@@ -2,14 +2,15 @@ import logging
 import os
 import uuid
 
-from dfirtrack.config import EVIDENCE_PATH
-from dfirtrack_config.models import MainConfigModel
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
+
+from dfirtrack.config import EVIDENCE_PATH
+from dfirtrack_config.models import MainConfigModel
 
 # initialize logger
 stdlogger = logging.getLogger(__name__)

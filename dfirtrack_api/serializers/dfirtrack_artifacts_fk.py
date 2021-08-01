@@ -1,10 +1,11 @@
+from rest_framework import serializers
+
 from dfirtrack_artifacts.models import (
     Artifact,
     Artifactpriority,
     Artifactstatus,
     Artifacttype,
 )
-from rest_framework import serializers
 
 
 class ArtifactpriorityFkSerializer(serializers.ModelSerializer):

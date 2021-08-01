@@ -1,9 +1,3 @@
-from dfirtrack_artifacts.models import (
-    Artifact,
-    Artifactpriority,
-    Artifactstatus,
-    Artifacttype,
-)
 from rest_framework import generics
 
 from dfirtrack_api.serializers.dfirtrack_artifacts import (
@@ -11,6 +5,12 @@ from dfirtrack_api.serializers.dfirtrack_artifacts import (
     ArtifactSerializer,
     ArtifactstatusSerializer,
     ArtifacttypeSerializer,
+)
+from dfirtrack_artifacts.models import (
+    Artifact,
+    Artifactpriority,
+    Artifactstatus,
+    Artifacttype,
 )
 
 

@@ -4,12 +4,12 @@ import shutil
 import urllib.parse
 
 from dateutil.parser import parse
-from dfirtrack.settings import BASE_DIR
-from dfirtrack_config.models import SystemExporterMarkdownConfigModel
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
 
+from dfirtrack.settings import BASE_DIR
+from dfirtrack_config.models import SystemExporterMarkdownConfigModel
 from dfirtrack_main.exporter.markdown.markdown import system_cron
 from dfirtrack_main.models import (
     Dnsname,

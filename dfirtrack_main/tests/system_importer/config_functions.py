@@ -1,5 +1,4 @@
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
-
 from dfirtrack_main.models import (
     Case,
     Company,

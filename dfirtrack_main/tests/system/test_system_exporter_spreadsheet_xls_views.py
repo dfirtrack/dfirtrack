@@ -3,15 +3,15 @@ from datetime import datetime
 from unittest.mock import patch
 
 import xlrd
-from dfirtrack_config.models import (
-    MainConfigModel,
-    SystemExporterSpreadsheetXlsConfigModel,
-)
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
 from django.utils import timezone
 
+from dfirtrack_config.models import (
+    MainConfigModel,
+    SystemExporterSpreadsheetXlsConfigModel,
+)
 from dfirtrack_main.exporter.spreadsheet.xls import system_cron
 from dfirtrack_main.models import (
     Analysisstatus,

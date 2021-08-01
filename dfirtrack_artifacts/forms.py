@@ -1,7 +1,5 @@
 import re
 
-from dfirtrack_main.models import Case, System, Tag
-from dfirtrack_main.widgets import TagWidget
 from django import forms
 from django.utils.translation import gettext_lazy
 
@@ -11,6 +9,8 @@ from dfirtrack_artifacts.models import (
     Artifactstatus,
     Artifacttype,
 )
+from dfirtrack_main.models import Case, System, Tag
+from dfirtrack_main.widgets import TagWidget
 
 
 class ArtifactForm(forms.ModelForm):

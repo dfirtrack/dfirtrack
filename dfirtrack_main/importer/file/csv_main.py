@@ -1,9 +1,9 @@
 import csv
 from io import TextIOWrapper
 
-from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from django.utils import timezone
 
+from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv_attributes_add import (
     add_fk_attributes,
     add_many2many_attributes,

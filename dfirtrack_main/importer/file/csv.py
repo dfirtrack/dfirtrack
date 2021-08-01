@@ -1,11 +1,11 @@
 from urllib.parse import urlencode, urlunparse
 
-from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
+from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.importer.file.csv_checks import (
     check_config_attributes,
     check_config_cron_user,

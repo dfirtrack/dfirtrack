@@ -1,8 +1,9 @@
 import urllib.parse
 
-from dfirtrack_artifacts.models import Artifacttype
 from django.contrib.auth.models import User
 from django.test import TestCase
+
+from dfirtrack_artifacts.models import Artifacttype
 
 
 class ArtifacttypeAPIViewTestCase(TestCase):

@@ -1,5 +1,3 @@
-from dfirtrack_config.models import MainConfigModel
-from dfirtrack_main.logger.default_logger import debug_logger
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
@@ -7,6 +5,8 @@ from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
 from dfirtrack_artifacts.forms import ArtifactForm
 from dfirtrack_artifacts.models import Artifact, Artifactpriority, Artifactstatus
+from dfirtrack_config.models import MainConfigModel
+from dfirtrack_main.logger.default_logger import debug_logger
 
 
 def query_artifact(artifactstatus_list):

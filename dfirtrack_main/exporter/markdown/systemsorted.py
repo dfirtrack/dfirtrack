@@ -1,10 +1,10 @@
 from time import strftime
 
 import yaml
-from dfirtrack_config.models import MainConfigModel, SystemExporterMarkdownConfigModel
 from django.core.files import File
 from django_q.tasks import async_task
 
+from dfirtrack_config.models import MainConfigModel, SystemExporterMarkdownConfigModel
 from dfirtrack_main.exporter.markdown import (
     clean_directory,
     read_or_create_mkdocs_yml,

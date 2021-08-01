@@ -1,11 +1,11 @@
 import os
 import urllib.parse
 
-from dfirtrack.settings import BASE_DIR
-from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from django.contrib.auth.models import User
 from django.test import TestCase
 
+from dfirtrack.settings import BASE_DIR
+from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from dfirtrack_main.tests.system_importer.config_functions import (
     set_csv_import_filename,
     set_csv_import_path,

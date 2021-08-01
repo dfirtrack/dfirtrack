@@ -1,5 +1,3 @@
-from dfirtrack_main.logger.default_logger import debug_logger
-from dfirtrack_main.models import System
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -18,6 +16,8 @@ from dfirtrack_config.models import (
     WorkflowDefaultArtifactAttributes,
     WorkflowDefaultTasknameAttributes,
 )
+from dfirtrack_main.logger.default_logger import debug_logger
+from dfirtrack_main.models import System
 
 
 class WorkflowList(LoginRequiredMixin, ListView):

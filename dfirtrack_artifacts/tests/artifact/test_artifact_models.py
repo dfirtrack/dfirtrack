@@ -1,19 +1,19 @@
 import os
 from unittest.mock import patch
 
-from dfirtrack.config import EVIDENCE_PATH
-from dfirtrack_config.models import MainConfigModel
-from dfirtrack_main.models import System, Systemstatus
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
 
+from dfirtrack.config import EVIDENCE_PATH
 from dfirtrack_artifacts.models import (
     Artifact,
     Artifactpriority,
     Artifactstatus,
     Artifacttype,
 )
+from dfirtrack_config.models import MainConfigModel
+from dfirtrack_main.models import System, Systemstatus
 
 
 class ArtifactModelTestCase(TestCase):

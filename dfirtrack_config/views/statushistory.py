@@ -1,4 +1,10 @@
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
+from django.urls import reverse
+
 from dfirtrack_artifacts.models import Artifact, Artifactpriority, Artifactstatus
+from dfirtrack_config.models import MainConfigModel, Statushistory, StatushistoryEntry
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import (
     Analysisstatus,
@@ -11,12 +17,6 @@ from dfirtrack_main.models import (
     Taskpriority,
     Taskstatus,
 )
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect
-from django.urls import reverse
-
-from dfirtrack_config.models import MainConfigModel, Statushistory, StatushistoryEntry
 
 
 def statushistory_save_objects(username):

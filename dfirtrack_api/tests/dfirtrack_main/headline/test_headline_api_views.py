@@ -1,8 +1,9 @@
 import urllib.parse
 
-from dfirtrack_main.models import Headline
 from django.contrib.auth.models import User
 from django.test import TestCase
+
+from dfirtrack_main.models import Headline
 
 
 class HeadlineAPIViewTestCase(TestCase):

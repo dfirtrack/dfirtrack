@@ -1,6 +1,10 @@
 import urllib.parse
 from datetime import datetime
 
+from django.contrib.auth.models import User
+from django.test import TestCase
+from django.utils import timezone
+
 from dfirtrack_main.models import (
     Case,
     Casepriority,
@@ -9,9 +13,6 @@ from dfirtrack_main.models import (
     Tag,
     Tagcolor,
 )
-from django.contrib.auth.models import User
-from django.test import TestCase
-from django.utils import timezone
 
 
 class CaseAPIViewTestCase(TestCase):

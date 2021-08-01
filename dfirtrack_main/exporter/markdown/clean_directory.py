@@ -2,7 +2,6 @@ import os
 import shutil
 
 from dfirtrack_config.models import SystemExporterMarkdownConfigModel
-
 from dfirtrack_main.logger.default_logger import debug_logger, info_logger
 
 

@@ -1,4 +1,3 @@
-from dfirtrack_artifacts.models import Artifact
 from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.contrib.auth.models import User
@@ -6,6 +5,7 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy
 from martor.fields import MartorFormField
 
+from dfirtrack_artifacts.models import Artifact
 from dfirtrack_main.models import (
     Analysisstatus,
     Analystmemo,

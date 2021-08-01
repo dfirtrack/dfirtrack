@@ -1,8 +1,5 @@
 import ipaddress
 
-from dfirtrack.settings import INSTALLED_APPS as installed_apps
-from dfirtrack_artifacts.models import Artifact
-from dfirtrack_config.models import MainConfigModel, UserConfigModel, Workflow
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -15,6 +12,9 @@ from django.urls import reverse
 from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, FormView, UpdateView
 
+from dfirtrack.settings import INSTALLED_APPS as installed_apps
+from dfirtrack_artifacts.models import Artifact
+from dfirtrack_config.models import MainConfigModel, UserConfigModel, Workflow
 from dfirtrack_main.filter_forms import SystemFilterForm
 from dfirtrack_main.forms import SystemForm, SystemNameForm
 from dfirtrack_main.logger.default_logger import debug_logger, warning_logger

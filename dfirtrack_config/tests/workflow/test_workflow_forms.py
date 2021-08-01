@@ -1,7 +1,7 @@
-from dfirtrack_main.models import Taskname
 from django.test import TestCase
 
 from dfirtrack_config.forms import WorkflowForm
+from dfirtrack_main.models import Taskname
 
 
 class WorkflowFormTestCase(TestCase):

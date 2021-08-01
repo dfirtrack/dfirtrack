@@ -1,9 +1,10 @@
 import urllib.parse
 
-from dfirtrack_main.models import System, Systemstatus, Systemuser
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
+
+from dfirtrack_main.models import System, Systemstatus, Systemuser
 
 
 class SystemuserAPIViewTestCase(TestCase):

@@ -1,12 +1,12 @@
 import os
 import urllib.parse
 
-from dfirtrack.settings import BASE_DIR
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
 from django.utils import timezone
 
+from dfirtrack.settings import BASE_DIR
 from dfirtrack_main.importer.file.csv import system_cron
 from dfirtrack_main.tests.system_importer.config_functions import (
     set_csv_import_filename,

@@ -1,8 +1,8 @@
-from dfirtrack_main.logger.default_logger import debug_logger
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import DetailView, ListView
 
 from dfirtrack_artifacts.models import Artifactpriority
+from dfirtrack_main.logger.default_logger import debug_logger
 
 
 class ArtifactpriorityListView(LoginRequiredMixin, ListView):

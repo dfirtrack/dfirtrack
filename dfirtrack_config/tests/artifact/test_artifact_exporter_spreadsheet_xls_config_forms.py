@@ -1,6 +1,6 @@
-from dfirtrack_artifacts.models import Artifactstatus
 from django.test import TestCase
 
+from dfirtrack_artifacts.models import Artifactstatus
 from dfirtrack_config.forms import ArtifactExporterSpreadsheetXlsConfigForm
 
 

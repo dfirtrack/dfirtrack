@@ -1,10 +1,10 @@
-from dfirtrack_config.models import UserConfigModel
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic.edit import FormView
 
+from dfirtrack_config.models import UserConfigModel
 from dfirtrack_main.filter_forms import DocumentationFilterForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Case, Note, Notestatus, Reportitem, Tag

@@ -1,6 +1,11 @@
 from datetime import datetime, time, timedelta
 
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.utils import timezone
+from django.views.generic import DetailView, TemplateView
+
 from dfirtrack_artifacts.models import Artifact, Artifactpriority, Artifactstatus
+from dfirtrack_config.models import MainConfigModel, Statushistory
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import (
     Analysisstatus,
@@ -13,11 +18,6 @@ from dfirtrack_main.models import (
     Taskpriority,
     Taskstatus,
 )
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.utils import timezone
-from django.views.generic import DetailView, TemplateView
-
-from dfirtrack_config.models import MainConfigModel, Statushistory
 
 
 def get_status_objects(context):

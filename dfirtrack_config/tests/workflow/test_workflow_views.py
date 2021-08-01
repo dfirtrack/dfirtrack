@@ -1,6 +1,10 @@
 import urllib.parse
 
+from django.contrib.auth.models import User
+from django.test import TestCase
+
 from dfirtrack_artifacts.models import Artifactpriority, Artifactstatus, Artifacttype
+from dfirtrack_config.models import Workflow
 from dfirtrack_main.models import (
     System,
     Systemstatus,
@@ -8,10 +12,6 @@ from dfirtrack_main.models import (
     Taskpriority,
     Taskstatus,
 )
-from django.contrib.auth.models import User
-from django.test import TestCase
-
-from dfirtrack_config.models import Workflow
 
 
 class WorkflowViewTestCase(TestCase):

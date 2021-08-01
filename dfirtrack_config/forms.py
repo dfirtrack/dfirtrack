@@ -1,6 +1,21 @@
 import os
 
+from django import forms
+from django.contrib.auth.models import User
+from django.utils.translation import gettext_lazy
+
 from dfirtrack_artifacts.models import Artifactstatus
+from dfirtrack_config.models import (
+    ArtifactExporterSpreadsheetXlsConfigModel,
+    MainConfigModel,
+    SystemExporterMarkdownConfigModel,
+    SystemExporterSpreadsheetCsvConfigModel,
+    SystemExporterSpreadsheetXlsConfigModel,
+    SystemImporterFileCsvConfigModel,
+    Workflow,
+    WorkflowDefaultArtifactAttributes,
+    WorkflowDefaultTasknameAttributes,
+)
 from dfirtrack_main.models import (
     Analysisstatus,
     Case,
@@ -16,21 +31,6 @@ from dfirtrack_main.models import (
     Systemstatus,
     Systemtype,
     Tag,
-)
-from django import forms
-from django.contrib.auth.models import User
-from django.utils.translation import gettext_lazy
-
-from dfirtrack_config.models import (
-    ArtifactExporterSpreadsheetXlsConfigModel,
-    MainConfigModel,
-    SystemExporterMarkdownConfigModel,
-    SystemExporterSpreadsheetCsvConfigModel,
-    SystemExporterSpreadsheetXlsConfigModel,
-    SystemImporterFileCsvConfigModel,
-    Workflow,
-    WorkflowDefaultArtifactAttributes,
-    WorkflowDefaultTasknameAttributes,
 )
 
 

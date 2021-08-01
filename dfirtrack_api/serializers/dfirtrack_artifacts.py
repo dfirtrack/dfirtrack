@@ -1,9 +1,3 @@
-from dfirtrack_artifacts.models import (
-    Artifact,
-    Artifactpriority,
-    Artifactstatus,
-    Artifacttype,
-)
 from rest_framework import serializers
 
 from dfirtrack_api.serializers.dfirtrack_artifacts_fk import (
@@ -15,6 +9,12 @@ from dfirtrack_api.serializers.dfirtrack_main_fk import (
     CaseFkSerializer,
     SystemFkSerializer,
     TagFkSerializer,
+)
+from dfirtrack_artifacts.models import (
+    Artifact,
+    Artifactpriority,
+    Artifactstatus,
+    Artifacttype,
 )
 
 

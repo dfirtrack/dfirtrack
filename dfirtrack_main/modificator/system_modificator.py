@@ -1,10 +1,10 @@
-from dfirtrack_config.models import Workflow
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django_q.tasks import async_task
 
+from dfirtrack_config.models import Workflow
 from dfirtrack_main.async_messages.system_messages import final_messages
 from dfirtrack_main.forms import SystemModificatorForm
 from dfirtrack_main.logger.default_logger import (

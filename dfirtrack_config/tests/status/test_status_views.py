@@ -2,12 +2,17 @@ import urllib.parse
 from datetime import datetime
 from unittest.mock import patch
 
+from django.contrib.auth.models import User
+from django.test import TestCase
+from django.utils import timezone
+
 from dfirtrack_artifacts.models import (
     Artifact,
     Artifactpriority,
     Artifactstatus,
     Artifacttype,
 )
+from dfirtrack_config.models import Statushistory
 from dfirtrack_main.models import (
     Analysisstatus,
     Case,
@@ -20,11 +25,6 @@ from dfirtrack_main.models import (
     Taskpriority,
     Taskstatus,
 )
-from django.contrib.auth.models import User
-from django.test import TestCase
-from django.utils import timezone
-
-from dfirtrack_config.models import Statushistory
 
 
 class StatusViewTestCase(TestCase):
