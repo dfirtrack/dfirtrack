@@ -1,13 +1,13 @@
 {% if formset.errors %}
 <div class="row">
     <div class="col">
-        <div class="text-danger">           
+        <div class="text-danger">
             {% for form in formset %}
                 {% if form.errors %}
                     {{formset.prefix|title}} Field error(s) form {{forloop.counter}}:<br>
                         {{ form.errors }}
                 {% endif %}
-            {%endfor%}               
+            {%endfor%}
         </div>
     </div>
 </div>

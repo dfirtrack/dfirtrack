@@ -18,14 +18,13 @@
 
 <!-- HTML body in maintemplate -->
 {% block content %}
-        
+
 <!-- headline -->
 <div class="bottom-distance">
     <h4>
         Close taskname '{{ taskname }}'
     </h4>
 </div>
-
 
 {% csrf_token %}
 
@@ -46,6 +45,5 @@ Please click the button below only if you are certain that you want to perform t
 <!-- button row -->
 </div>
 
-    
 <!-- HTML body in maintemplate -->
 {% endblock %}
