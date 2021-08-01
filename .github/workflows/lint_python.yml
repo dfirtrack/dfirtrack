@@ -20,7 +20,7 @@ jobs:
       - run: flake8 . --count --exit-zero --ignore=E251
                       --max-line-length=321
                       --show-source --statistics
-      - run: isort --check-only --profile black . || true
+      - run: isort --check-only --profile black .
       - run: pip install -r requirements.txt
       - run: mypy --install-types --non-interactive . || true
       - run: pytest . || true
