@@ -192,7 +192,7 @@ class SystemExporterMarkdownViewTestCase(TestCase):
         )
 
         Entry.objects.create(
-            system = system_1,           
+            system = system_1,
             entry_time = "2020-02-04T01:23:45+00:00",
             entry_created_by_user_id = test_user,
             entry_modified_by_user_id = test_user,

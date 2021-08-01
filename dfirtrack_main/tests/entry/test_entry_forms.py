@@ -401,7 +401,7 @@ class EntryFormTestCase(TestCase):
             }
         )
         # compare
-        self.assertFalse(form.is_valid()) 
+        self.assertFalse(form.is_valid())
         self.assertInHTML('Please select a datetime value.', form.errors['__all__'][0])
 
     def test_entry_file_import_fileds_form_error_entry_type(self):

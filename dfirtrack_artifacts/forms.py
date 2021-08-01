@@ -54,8 +54,8 @@ class ArtifactForm(forms.ModelForm):
     # reorder field choices
     tag = forms.ModelMultipleChoiceField(
         label = gettext_lazy('Tags'),
-        widget=TagWidget, 
-        queryset=Tag.objects.order_by('tag_name'), 
+        widget=TagWidget,
+        queryset=Tag.objects.order_by('tag_name'),
         required=False
     )
 
