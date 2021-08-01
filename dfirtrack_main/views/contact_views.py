@@ -12,19 +12,20 @@ from dfirtrack_main.models import Contact
 
 
 class ContactList(LoginRequiredMixin, ListView):
-    login_url = '/login'
+    login_url = "/login"
     model = Contact
-    template_name = 'dfirtrack_main/contact/contact_list.html'
-    context_object_name = 'contact_list'
+    template_name = "dfirtrack_main/contact/contact_list.html"
+    context_object_name = "contact_list"
 
     def get_queryset(self):
         debug_logger(str(self.request.user), " CONTACT_LIST_ENTERED")
-        return Contact.objects.order_by('contact_name')
+        return Contact.objects.order_by("contact_name")
+
 
 class ContactDetail(LoginRequiredMixin, DetailView):
-    login_url = '/login'
+    login_url = "/login"
     model = Contact
-    template_name = 'dfirtrack_main/contact/contact_detail.html'
+    template_name = "dfirtrack_main/contact/contact_detail.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -32,20 +33,25 @@ class ContactDetail(LoginRequiredMixin, DetailView):
         contact.logger(str(self.request.user), " CONTACT_DETAIL_ENTERED")
         return context
 
+
 class ContactCreate(LoginRequiredMixin, CreateView):
-    login_url = '/login'
+    login_url = "/login"
     model = Contact
     form_class = ContactForm
-    template_name = 'dfirtrack_main/generic_form.html'
+    template_name = "dfirtrack_main/generic_form.html"
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " CONTACT_ADD_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-            'object_type': 'contact',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                "form": form,
+                "title": "Add",
+                "object_type": "contact",
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -53,29 +59,38 @@ class ContactCreate(LoginRequiredMixin, CreateView):
             contact = form.save(commit=False)
             contact.save()
             contact.logger(str(request.user), " CONTACT_ADD_EXECUTED")
-            messages.success(request, 'Contact added')
-            return redirect(reverse('contact_detail', args=(contact.contact_id,)))
+            messages.success(request, "Contact added")
+            return redirect(reverse("contact_detail", args=(contact.contact_id,)))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-                'object_type': 'contact',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    "form": form,
+                    "title": "Add",
+                    "object_type": "contact",
+                },
+            )
+
 
 class ContactCreatePopup(LoginRequiredMixin, CreateView):
-    login_url = '/login'
+    login_url = "/login"
     model = Contact
     form_class = ContactForm
-    template_name = 'dfirtrack_main/generic_form_popup.html'
+    template_name = "dfirtrack_main/generic_form_popup.html"
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " CONTACT_ADD_POPUP_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-            'object_type': 'contact',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                "form": form,
+                "title": "Add",
+                "object_type": "contact",
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -83,31 +98,42 @@ class ContactCreatePopup(LoginRequiredMixin, CreateView):
             contact = form.save(commit=False)
             contact.save()
             contact.logger(str(request.user), " CONTACT_ADD_POPUP_EXECUTED")
-            messages.success(request, 'Contact added')
-            return HttpResponse('<script type="text/javascript">window.close();</script>')
+            messages.success(request, "Contact added")
+            return HttpResponse(
+                '<script type="text/javascript">window.close();</script>'
+            )
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-                'object_type': 'contact',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    "form": form,
+                    "title": "Add",
+                    "object_type": "contact",
+                },
+            )
+
 
 class ContactUpdate(LoginRequiredMixin, UpdateView):
-    login_url = '/login'
+    login_url = "/login"
     model = Contact
     form_class = ContactForm
-    template_name = 'dfirtrack_main/generic_form.html'
+    template_name = "dfirtrack_main/generic_form.html"
 
     def get(self, request, *args, **kwargs):
         contact = self.get_object()
         form = self.form_class(instance=contact)
         contact.logger(str(request.user), " CONTACT_EDIT_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Edit',
-            'object_type': 'contact',
-            'object_name': contact.contact_name,
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                "form": form,
+                "title": "Edit",
+                "object_type": "contact",
+                "object_name": contact.contact_name,
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         contact = self.get_object()
@@ -116,12 +142,16 @@ class ContactUpdate(LoginRequiredMixin, UpdateView):
             contact = form.save(commit=False)
             contact.save()
             contact.logger(str(request.user), " CONTACT_EDIT_EXECUTED")
-            messages.success(request, 'Contact edited')
-            return redirect(reverse('contact_detail', args=(contact.contact_id,)))
+            messages.success(request, "Contact edited")
+            return redirect(reverse("contact_detail", args=(contact.contact_id,)))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Edit',
-                'object_type': 'contact',
-                'object_name': contact.contact_name,
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    "form": form,
+                    "title": "Edit",
+                    "object_type": "contact",
+                    "object_name": contact.contact_name,
+                },
+            )

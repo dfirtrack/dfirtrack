@@ -13,10 +13,10 @@ from dfirtrack_main.models import System, Tag
 
 @login_required(login_url="/login")
 def tag_creator(request):
-    """ function to create many tags for many systems at once (helper function to call the real function) """
+    """function to create many tags for many systems at once (helper function to call the real function)"""
 
     # form was valid to post
-    if request.method == 'POST':
+    if request.method == "POST":
 
         # get form
         form = TagCreatorForm(request.POST)
@@ -29,7 +29,7 @@ def tag_creator(request):
             request_user = request.user
 
             # show immediate message for user
-            messages.success(request, 'Tag creator started')
+            messages.success(request, "Tag creator started")
 
             # call async function
             async_task(
@@ -39,28 +39,29 @@ def tag_creator(request):
             )
 
             # return directly to tag list
-            return redirect(reverse('tag_list'))
+            return redirect(reverse("tag_list"))
 
     # show empty form
     else:
         form = TagCreatorForm()
 
         # call logger
-        debug_logger(str(request.user), ' TAG_CREATOR_ENTERED')
+        debug_logger(str(request.user), " TAG_CREATOR_ENTERED")
 
-    return render(request, 'dfirtrack_main/tag/tag_creator.html', {'form': form})
+    return render(request, "dfirtrack_main/tag/tag_creator.html", {"form": form})
+
 
 def tag_creator_async(request_post, request_user):
-    """ function to create many tags for many systems at once """
+    """function to create many tags for many systems at once"""
 
     # call logger
-    debug_logger(str(request_user), ' TAG_CREATOR_START')
+    debug_logger(str(request_user), " TAG_CREATOR_START")
 
     # extract tags (list results from request object via multiple choice field)
-    tags = request_post.getlist('tag')
+    tags = request_post.getlist("tag")
 
     # extract systems (list results from request object via multiple choice field)
-    systems = request_post.getlist('system')
+    systems = request_post.getlist("system")
 
     # set tags_created_counter (needed for messages)
     tags_created_counter = 0
@@ -72,7 +73,7 @@ def tag_creator_async(request_post, request_user):
     for system_id in systems:
 
         # autoincrement counter
-        system_tags_created_counter  += 1
+        system_tags_created_counter += 1
 
         # iterate over tags
         for tag_id in tags:
@@ -83,7 +84,7 @@ def tag_creator_async(request_post, request_user):
             # create relation
             if form.is_valid():
 
-                """ object creation """
+                """object creation"""
 
                 # get objects
                 system = System.objects.get(system_id=system_id)
@@ -95,27 +96,27 @@ def tag_creator_async(request_post, request_user):
                 """ object counter / log """
 
                 # autoincrement counter
-                tags_created_counter  += 1
+                tags_created_counter += 1
 
                 # call logger
-                system.logger( str(request_user), ' TAG_CREATOR_EXECUTED')
+                system.logger(str(request_user), " TAG_CREATOR_EXECUTED")
 
     """ finish tag importer """
 
     # call final message
     message_user(
         request_user,
-        f'{tags_created_counter} tags created for {system_tags_created_counter} systems.',
-        constants.SUCCESS
+        f"{tags_created_counter} tags created for {system_tags_created_counter} systems.",
+        constants.SUCCESS,
     )
 
     # call logger
     info_logger(
         str(request_user),
-        f' TAG_CREATOR_STATUS'
-        f' tags_created:{tags_created_counter}'
-        f'|systems_affected:{system_tags_created_counter}'
+        f" TAG_CREATOR_STATUS"
+        f" tags_created:{tags_created_counter}"
+        f"|systems_affected:{system_tags_created_counter}",
     )
 
     # call logger
-    debug_logger(str(request_user), ' TAG_CREATOR_END')
+    debug_logger(str(request_user), " TAG_CREATOR_END")

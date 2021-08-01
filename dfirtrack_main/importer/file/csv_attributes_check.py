@@ -7,7 +7,7 @@ from dfirtrack_main.models import Ip
 
 
 def check_and_create_ip(ip_ip, model, row_counter, request=None):
-    """ check IPs for valid values """
+    """check IPs for valid values"""
 
     """ set username for logger """
 
@@ -31,7 +31,7 @@ def check_and_create_ip(ip_ip, model, row_counter, request=None):
         # IP was created
         if created:
             # call logger
-            ip.logger(logger_username, ' SYSTEM_IMPORTER_FILE_CSV_IP_CREATED')
+            ip.logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_IP_CREATED")
 
         # return IP to 'csv_attributes_add.add_many2many_attributes'
         return ip
@@ -42,16 +42,23 @@ def check_and_create_ip(ip_ip, model, row_counter, request=None):
         # if function was called from 'system_instant' and 'system_upload'
         if request:
             # call message
-            messages.warning(request, f'Value for IP address in row {row_counter} was not a valid IP address.')
+            messages.warning(
+                request,
+                f"Value for IP address in row {row_counter} was not a valid IP address.",
+            )
 
         # call logger
-        warning_logger(logger_username, f' SYSTEM_IMPORTER_FILE_CSV_IP_COLUMN row_{row_counter}:invalid_ip')
+        warning_logger(
+            logger_username,
+            f" SYSTEM_IMPORTER_FILE_CSV_IP_COLUMN row_{row_counter}:invalid_ip",
+        )
 
         # return nothing to 'csv_attributes_add.add_many2many_attributes'
         return None
 
+
 def check_system_name(model, row, row_counter, request=None):
-    """ check system name for valid value """
+    """check system name for valid value"""
 
     # reset continue condition
     stop_system_importer_file_csv = False
@@ -74,9 +81,15 @@ def check_system_name(model, row, row_counter, request=None):
         # if function was called from 'system_instant' and 'system_upload'
         if request:
             # call message
-            messages.warning(request, f'Index for system in row {row_counter} was out of range. System not created.')
+            messages.warning(
+                request,
+                f"Index for system in row {row_counter} was out of range. System not created.",
+            )
         # call logger
-        warning_logger(logger_username, f' SYSTEM_IMPORTER_FILE_CSV_SYSTEM_COLUMN row_{row_counter}:out_of_range')
+        warning_logger(
+            logger_username,
+            f" SYSTEM_IMPORTER_FILE_CSV_SYSTEM_COLUMN row_{row_counter}:out_of_range",
+        )
         # set stop condition
         stop_system_importer_file_csv = True
         # return stop condition to 'csv_main.system_handler'
@@ -89,9 +102,15 @@ def check_system_name(model, row, row_counter, request=None):
         # if function was called from 'system_instant' and 'system_upload'
         if request:
             # call message
-            messages.warning(request, f'Value for system in row {row_counter} was an empty string. System not created.')
+            messages.warning(
+                request,
+                f"Value for system in row {row_counter} was an empty string. System not created.",
+            )
         # call logger
-        warning_logger(logger_username, f' SYSTEM_IMPORTER_FILE_CSV_SYSTEM_COLUMN row_{row_counter}:empty_column')
+        warning_logger(
+            logger_username,
+            f" SYSTEM_IMPORTER_FILE_CSV_SYSTEM_COLUMN row_{row_counter}:empty_column",
+        )
         # set stop condition
         stop_system_importer_file_csv = True
 
@@ -100,9 +119,15 @@ def check_system_name(model, row, row_counter, request=None):
         # if function was called from 'system_instant' and 'system_upload'
         if request:
             # call message
-            messages.warning(request, f'Value for system in row {row_counter} was too long. System not created.')
+            messages.warning(
+                request,
+                f"Value for system in row {row_counter} was too long. System not created.",
+            )
         # call logger
-        warning_logger(logger_username, f' SYSTEM_IMPORTER_FILE_CSV_SYSTEM_COLUMN row_{row_counter}:long_string')
+        warning_logger(
+            logger_username,
+            f" SYSTEM_IMPORTER_FILE_CSV_SYSTEM_COLUMN row_{row_counter}:long_string",
+        )
         # set stop condition
         stop_system_importer_file_csv = True
 

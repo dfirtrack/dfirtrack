@@ -6,10 +6,12 @@ from dfirtrack_main.logger.default_logger import debug_logger, info_logger
 
 
 def clean_directory(username):
-    """ function to clean the system path within the markdown directory """
+    """function to clean the system path within the markdown directory"""
 
     # get config model
-    model = SystemExporterMarkdownConfigModel.objects.get(system_exporter_markdown_config_name = 'SystemExporterMarkdownConfig')
+    model = SystemExporterMarkdownConfigModel.objects.get(
+        system_exporter_markdown_config_name="SystemExporterMarkdownConfig"
+    )
 
     # clean or create markdown directory
     if os.path.exists(model.markdown_path + "/docs/systems/"):

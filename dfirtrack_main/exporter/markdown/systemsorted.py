@@ -16,7 +16,7 @@ from dfirtrack_main.models import System
 
 
 def write_report_systemsorted(system, username):
-    """ function that prepares return values and paths """
+    """function that prepares return values and paths"""
 
     """
     the return values (prefix 'r') are used for the `mkdocs.yml` file
@@ -47,14 +47,16 @@ def write_report_systemsorted(system, username):
 
     # check for system_install_time and add to path
     if system.system_install_time != None:
-        install_time = system.system_install_time.strftime('%Y%m%d_%H%M%S')
+        install_time = system.system_install_time.strftime("%Y%m%d_%H%M%S")
         path = path + "_" + install_time
 
     # return shortened path for mkdocs.yml ('value')
     rpath = "systems/" + path + ".md"
 
     # get config model
-    model = SystemExporterMarkdownConfigModel.objects.get(system_exporter_markdown_config_name = 'SystemExporterMarkdownConfig')
+    model = SystemExporterMarkdownConfigModel.objects.get(
+        system_exporter_markdown_config_name="SystemExporterMarkdownConfig"
+    )
 
     # finish path for markdown file
     path = model.markdown_path + "/docs/systems/" + path + ".md"
@@ -71,13 +73,20 @@ def write_report_systemsorted(system, username):
     report.close()
 
     # call logger
-    info_logger(username, " SYSTEM_MARKDOWN_CREATED system_id:" + str(system.system_id) + "|system_name:" + str(system.system_name))
+    info_logger(
+        username,
+        " SYSTEM_MARKDOWN_CREATED system_id:"
+        + str(system.system_id)
+        + "|system_name:"
+        + str(system.system_name),
+    )
 
     # return strings for mkdocs.yml (only used in systemsorted_async)
-    return(rid, rfqdn, rpath)
+    return (rid, rfqdn, rpath)
+
 
 def systemsorted(request=None):
-    """ exports markdown report for all systems (helper function to call the real function) """
+    """exports markdown report for all systems (helper function to call the real function)"""
 
     # get username
     if request:
@@ -85,7 +94,7 @@ def systemsorted(request=None):
         username = str(request.user)
     else:
         # get config
-        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        main_config_model = MainConfigModel.objects.get(main_config_name="MainConfig")
         # get username from config
         username = main_config_model.cron_username
 
@@ -94,7 +103,7 @@ def systemsorted(request=None):
 
     # show immediate message for user (but only if no errors have occurred before)
     if request:
-        start_message(request, 'system')
+        start_message(request, "system")
 
     # call async function
     if request:
@@ -111,14 +120,15 @@ def systemsorted(request=None):
 
     return
 
+
 def systemsorted_async(username, request_user=None):
-    """ exports markdown report for all systems """
+    """exports markdown report for all systems"""
 
     # call directory cleaning function
     clean_directory.clean_directory(username)
 
     # get all systems
-    systems = System.objects.all().order_by('system_name')
+    systems = System.objects.all().order_by("system_name")
 
     # create empty list and dict (needed for mkdocs.yml)
     systemlist = []
@@ -146,16 +156,20 @@ def systemsorted_async(username, request_user=None):
         systemdict = {}
 
     # get config model
-    model = SystemExporterMarkdownConfigModel.objects.get(system_exporter_markdown_config_name = 'SystemExporterMarkdownConfig')
+    model = SystemExporterMarkdownConfigModel.objects.get(
+        system_exporter_markdown_config_name="SystemExporterMarkdownConfig"
+    )
 
     # get path for mkdocs.yml
     mkdconfpath = model.markdown_path + "/mkdocs.yml"
 
     # read content (dictionary) of mkdocs.yml if existent, else create dummy content
-    mkdconfdict = read_or_create_mkdocs_yml.read_or_create_mkdocs_yml(username, mkdconfpath)
+    mkdconfdict = read_or_create_mkdocs_yml.read_or_create_mkdocs_yml(
+        username, mkdconfpath
+    )
 
     # get pages list
-    mkdconflist = mkdconfdict['pages']
+    mkdconflist = mkdconfdict["pages"]
 
     # set counter
     i = 0
@@ -166,10 +180,10 @@ def systemsorted_async(username, request_user=None):
 
         # find subsection 'Systems' in list
         try:
-            dummy = item['Systems']
+            dummy = item["Systems"]
             # set index
             j = i
-        except:     # coverage: ignore branch
+        except:  # coverage: ignore branch
             # do nothing
             pass
 
@@ -177,10 +191,10 @@ def systemsorted_async(username, request_user=None):
         i += 1
 
     # set at dict 'Systems' in list mkdconflist at index j (replace section 'Systems')
-    mkdconflist[j]['Systems'] = systemlist
+    mkdconflist[j]["Systems"] = systemlist
 
     # set pages with old entries and new 'Systems' section
-    mkdconfdict['pages'] = mkdconflist
+    mkdconfdict["pages"] = mkdconflist
 
     # open mkdocs.yml for writing (new file)
     mkdconffile = open(mkdconfpath, "w")
@@ -191,7 +205,7 @@ def systemsorted_async(username, request_user=None):
 
     # finish message
     if request_user:
-        end_message(request_user, 'system')
+        end_message(request_user, "system")
 
     # call logger
     debug_logger(username, " SYSTEM_EXPORTER_MARKDOWN_SYSTEMSORTED_END")

@@ -14,10 +14,10 @@ from dfirtrack_main.models import System, Taskname, Taskpriority, Taskstatus
 
 @login_required(login_url="/login")
 def task_creator(request):
-    """ function to create many tasks for many systems at once (helper function to call the real function) """
+    """function to create many tasks for many systems at once (helper function to call the real function)"""
 
     # form was valid to post
-    if request.method == 'POST':
+    if request.method == "POST":
 
         # get form
         form = TaskCreatorForm(request.POST)
@@ -30,7 +30,7 @@ def task_creator(request):
             request_user = request.user
 
             # show immediate message for user
-            messages.success(request, 'Task creator started')
+            messages.success(request, "Task creator started")
 
             # call async function
             async_task(
@@ -40,36 +40,41 @@ def task_creator(request):
             )
 
             # return directly to task list
-            return redirect(reverse('task_list'))
+            return redirect(reverse("task_list"))
 
     # show empty form
     else:
 
         # get id of first status objects sorted by name
-        taskpriority = Taskpriority.objects.order_by('taskpriority_name')[0].taskpriority_id
-        taskstatus = Taskstatus.objects.order_by('taskstatus_name')[0].taskstatus_id
+        taskpriority = Taskpriority.objects.order_by("taskpriority_name")[
+            0
+        ].taskpriority_id
+        taskstatus = Taskstatus.objects.order_by("taskstatus_name")[0].taskstatus_id
 
-        form = TaskCreatorForm(initial={
-            'taskpriority': taskpriority,
-            'taskstatus': taskstatus,
-        })
+        form = TaskCreatorForm(
+            initial={
+                "taskpriority": taskpriority,
+                "taskstatus": taskstatus,
+            }
+        )
 
         # call logger
-        debug_logger(str(request.user), ' TASK_CREATOR_ENTERED')
+        debug_logger(str(request.user), " TASK_CREATOR_ENTERED")
 
-    return render(request, 'dfirtrack_main/task/task_creator.html', {'form': form})
+    return render(request, "dfirtrack_main/task/task_creator.html", {"form": form})
+
 
 def task_creator_async(request_post, request_user):
-    """ function to create many tasks for many systems at once """
+    """function to create many tasks for many systems at once"""
 
     # call logger
-    debug_logger(str(request_user), ' TASK_CREATOR_START')
+    debug_logger(str(request_user), " TASK_CREATOR_START")
 
     # extract tasknames (list results from request object via multiple choice field)
-    tasknames = request_post.getlist('taskname')
+    tasknames = request_post.getlist("taskname")
 
     # extract systems (list results from request object via multiple choice field)
-    systems = request_post.getlist('system')
+    systems = request_post.getlist("system")
 
     # set tasks_created_counter (needed for messages)
     tasks_created_counter = 0
@@ -81,7 +86,7 @@ def task_creator_async(request_post, request_user):
     for system in systems:
 
         # autoincrement counter
-        system_tasks_created_counter  += 1
+        system_tasks_created_counter += 1
 
         # iterate over tasknames
         for taskname in tasknames:
@@ -92,7 +97,7 @@ def task_creator_async(request_post, request_user):
             # create task
             if form.is_valid():
 
-                """ object creation """
+                """object creation"""
 
                 # don't save form yet
                 task = form.save(commit=False)
@@ -106,8 +111,10 @@ def task_creator_async(request_post, request_user):
                 task.task_modified_by_user_id = request_user
 
                 # get taskstatus objects for comparing
-                taskstatus_working = Taskstatus.objects.get(taskstatus_name='20_working')
-                taskstatus_done = Taskstatus.objects.get(taskstatus_name='30_done')
+                taskstatus_working = Taskstatus.objects.get(
+                    taskstatus_name="20_working"
+                )
+                taskstatus_done = Taskstatus.objects.get(taskstatus_name="30_done")
 
                 # set times depending on submitted taskstatus
                 if task.taskstatus == taskstatus_working:
@@ -125,27 +132,27 @@ def task_creator_async(request_post, request_user):
                 """ object counter / log """
 
                 # autoincrement counter
-                tasks_created_counter  += 1
+                tasks_created_counter += 1
 
                 # call logger
-                task.logger( str(request_user), ' TASK_CREATOR_EXECUTED')
+                task.logger(str(request_user), " TASK_CREATOR_EXECUTED")
 
     """ finish system importer """
 
     # call final message
     message_user(
         request_user,
-        f'{tasks_created_counter} tasks created for {system_tasks_created_counter} systems.',
-        constants.SUCCESS
+        f"{tasks_created_counter} tasks created for {system_tasks_created_counter} systems.",
+        constants.SUCCESS,
     )
 
     # call logger
     info_logger(
         str(request_user),
-        f' TASK_CREATOR_STATUS'
-        f' tasks_created:{tasks_created_counter}'
-        f'|systems_affected:{system_tasks_created_counter}'
+        f" TASK_CREATOR_STATUS"
+        f" tasks_created:{tasks_created_counter}"
+        f"|systems_affected:{system_tasks_created_counter}",
     )
 
     # call logger
-    debug_logger(str(request_user), ' TASK_CREATOR_END')
+    debug_logger(str(request_user), " TASK_CREATOR_END")

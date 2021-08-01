@@ -12,19 +12,20 @@ from dfirtrack_main.models import Domain
 
 
 class DomainList(LoginRequiredMixin, ListView):
-    login_url = '/login'
+    login_url = "/login"
     model = Domain
-    template_name = 'dfirtrack_main/domain/domain_list.html'
-    context_object_name = 'domain_list'
+    template_name = "dfirtrack_main/domain/domain_list.html"
+    context_object_name = "domain_list"
 
     def get_queryset(self):
         debug_logger(str(self.request.user), " DOMAIN_LIST_ENTERED")
-        return Domain.objects.order_by('domain_name')
+        return Domain.objects.order_by("domain_name")
+
 
 class DomainDetail(LoginRequiredMixin, DetailView):
-    login_url = '/login'
+    login_url = "/login"
     model = Domain
-    template_name = 'dfirtrack_main/domain/domain_detail.html'
+    template_name = "dfirtrack_main/domain/domain_detail.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -32,20 +33,25 @@ class DomainDetail(LoginRequiredMixin, DetailView):
         domain.logger(str(self.request.user), " DOMAIN_DETAIL_ENTERED")
         return context
 
+
 class DomainCreate(LoginRequiredMixin, CreateView):
-    login_url = '/login'
+    login_url = "/login"
     model = Domain
     form_class = DomainForm
-    template_name = 'dfirtrack_main/generic_form.html'
+    template_name = "dfirtrack_main/generic_form.html"
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " DOMAIN_ADD_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-            'object_type': 'domain',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                "form": form,
+                "title": "Add",
+                "object_type": "domain",
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -53,29 +59,38 @@ class DomainCreate(LoginRequiredMixin, CreateView):
             domain = form.save(commit=False)
             domain.save()
             domain.logger(str(request.user), " DOMAIN_ADD_EXECUTED")
-            messages.success(request, 'Domain added')
-            return redirect(reverse('domain_detail', args=(domain.domain_id,)))
+            messages.success(request, "Domain added")
+            return redirect(reverse("domain_detail", args=(domain.domain_id,)))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-                'object_type': 'domain',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    "form": form,
+                    "title": "Add",
+                    "object_type": "domain",
+                },
+            )
+
 
 class DomainCreatePopup(LoginRequiredMixin, CreateView):
-    login_url = '/login'
+    login_url = "/login"
     model = Domain
     form_class = DomainForm
-    template_name = 'dfirtrack_main/generic_form_popup.html'
+    template_name = "dfirtrack_main/generic_form_popup.html"
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " DOMAIN_ADD_POPUP_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-            'object_type': 'domain',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                "form": form,
+                "title": "Add",
+                "object_type": "domain",
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -83,31 +98,42 @@ class DomainCreatePopup(LoginRequiredMixin, CreateView):
             domain = form.save(commit=False)
             domain.save()
             domain.logger(str(request.user), " DOMAIN_ADD_POPUP_EXECUTED")
-            messages.success(request, 'Domain added')
-            return HttpResponse('<script type="text/javascript">window.close();</script>')
+            messages.success(request, "Domain added")
+            return HttpResponse(
+                '<script type="text/javascript">window.close();</script>'
+            )
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-                'object_type': 'domain',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    "form": form,
+                    "title": "Add",
+                    "object_type": "domain",
+                },
+            )
+
 
 class DomainUpdate(LoginRequiredMixin, UpdateView):
-    login_url = '/login'
+    login_url = "/login"
     model = Domain
     form_class = DomainForm
-    template_name = 'dfirtrack_main/generic_form.html'
+    template_name = "dfirtrack_main/generic_form.html"
 
     def get(self, request, *args, **kwargs):
         domain = self.get_object()
         form = self.form_class(instance=domain)
         domain.logger(str(request.user), " DOMAIN_EDIT_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Edit',
-            'object_type': 'domain',
-            'object_name': domain.domain_name,
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                "form": form,
+                "title": "Edit",
+                "object_type": "domain",
+                "object_name": domain.domain_name,
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         domain = self.get_object()
@@ -116,12 +142,16 @@ class DomainUpdate(LoginRequiredMixin, UpdateView):
             domain = form.save(commit=False)
             domain.save()
             domain.logger(str(request.user), " DOMAIN_EDIT_EXECUTED")
-            messages.success(request, 'Domain edited')
-            return redirect(reverse('domain_detail', args=(domain.domain_id,)))
+            messages.success(request, "Domain edited")
+            return redirect(reverse("domain_detail", args=(domain.domain_id,)))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Edit',
-                'object_type': 'domain',
-                'object_name': domain.domain_name,
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    "form": form,
+                    "title": "Edit",
+                    "object_type": "domain",
+                    "object_name": domain.domain_name,
+                },
+            )

@@ -25,7 +25,7 @@ from dfirtrack_main.models import (
 
 
 def write_row(worksheet, content, row_num, style):
-    """ write single row to worksheet """
+    """write single row to worksheet"""
 
     # write row depending on column number
     for col_num in range(len(content)):
@@ -34,44 +34,45 @@ def write_row(worksheet, content, row_num, style):
     # return worksheet object
     return worksheet
 
+
 def style_headline():
-    """ change style to headline """
+    """change style to headline"""
 
     # define styling for headline
     style = xlwt.XFStyle()
-    style = xlwt.easyxf(
-        'font: bold on; alignment: horizontal center'
-    )
+    style = xlwt.easyxf("font: bold on; alignment: horizontal center")
 
     # return style object
     return style
 
+
 def style_default():
-    """ change style to default """
+    """change style to default"""
 
     # clear styling to default
     style = xlwt.XFStyle()
-    style = xlwt.easyxf(
-        'alignment: vertical top, horizontal left'
-    )
+    style = xlwt.easyxf("alignment: vertical top, horizontal left")
 
     # return style object
     return style
 
+
 def write_xls(username):
-    """ write spreadsheet """
+    """write spreadsheet"""
 
     # create workbook object with UTF-8 encoding
-    workbook = xlwt.Workbook(encoding='utf-8')
+    workbook = xlwt.Workbook(encoding="utf-8")
 
     # define name of worksheet within file
-    worksheet_system = workbook.add_sheet('systems')
+    worksheet_system = workbook.add_sheet("systems")
 
     # define styling for headline
     style = style_headline()
 
     # get config model
-    model = SystemExporterSpreadsheetXlsConfigModel.objects.get(system_exporter_spreadsheet_xls_config_name = 'SystemExporterSpreadsheetXlsConfig')
+    model = SystemExporterSpreadsheetXlsConfigModel.objects.get(
+        system_exporter_spreadsheet_xls_config_name="SystemExporterSpreadsheetXlsConfig"
+    )
 
     """ start with headline """
 
@@ -83,44 +84,44 @@ def write_xls(username):
 
     # check for attribute id
     if model.spread_xls_system_id:
-        headline.append('ID')
+        headline.append("ID")
 
     # append mandatory attribute
-    headline.append('System')
+    headline.append("System")
 
     # check for remaining attributes
     if model.spread_xls_dnsname:
-        headline.append('DNS name')
+        headline.append("DNS name")
     if model.spread_xls_domain:
-        headline.append('Domain')
+        headline.append("Domain")
     if model.spread_xls_systemstatus:
-        headline.append('Systemstatus')
+        headline.append("Systemstatus")
     if model.spread_xls_analysisstatus:
-        headline.append('Analysisstatus')
+        headline.append("Analysisstatus")
     if model.spread_xls_reason:
-        headline.append('Reason')
+        headline.append("Reason")
     if model.spread_xls_recommendation:
-        headline.append('Recommendation')
+        headline.append("Recommendation")
     if model.spread_xls_systemtype:
-        headline.append('Systemtype')
+        headline.append("Systemtype")
     if model.spread_xls_ip:
-        headline.append('IP')
+        headline.append("IP")
     if model.spread_xls_os:
-        headline.append('OS')
+        headline.append("OS")
     if model.spread_xls_company:
-        headline.append('Company')
+        headline.append("Company")
     if model.spread_xls_location:
-        headline.append('Location')
+        headline.append("Location")
     if model.spread_xls_serviceprovider:
-        headline.append('Serviceprovider')
+        headline.append("Serviceprovider")
     if model.spread_xls_tag:
-        headline.append('Tag')
+        headline.append("Tag")
     if model.spread_xls_case:
-        headline.append('Case')
+        headline.append("Case")
     if model.spread_xls_system_create_time:
-        headline.append('Created')
+        headline.append("Created")
     if model.spread_xls_system_modify_time:
-        headline.append('Modified')
+        headline.append("Modified")
 
     # write headline
     worksheet_system = write_row(worksheet_system, headline, row_num, style)
@@ -165,14 +166,14 @@ def write_xls(username):
         # dnsname
         if model.spread_xls_dnsname:
             if system.dnsname == None:
-                dnsname = ''
+                dnsname = ""
             else:
                 dnsname = system.dnsname.dnsname_name
             entryline.append(dnsname)
         # domain
         if model.spread_xls_domain:
             if system.domain == None:
-                domain = ''
+                domain = ""
             else:
                 domain = system.domain.domain_name
             entryline.append(domain)
@@ -182,39 +183,39 @@ def write_xls(username):
         # analysisstatus
         if model.spread_xls_analysisstatus:
             if system.analysisstatus == None:
-                analysisstatus = ''
+                analysisstatus = ""
             else:
                 analysisstatus = system.analysisstatus.analysisstatus_name
             entryline.append(analysisstatus)
         # reason
         if model.spread_xls_reason:
             if system.reason == None:
-                reason = ''
+                reason = ""
             else:
                 reason = system.reason.reason_name
             entryline.append(reason)
         # recommendation
         if model.spread_xls_recommendation:
-            if system.recommendation== None:
-                recommendation = ''
+            if system.recommendation == None:
+                recommendation = ""
             else:
                 recommendation = system.recommendation.recommendation_name
             entryline.append(recommendation)
         # systemtype
         if model.spread_xls_systemtype:
             if system.systemtype == None:
-                systemtype = ''
+                systemtype = ""
             else:
                 systemtype = system.systemtype.systemtype_name
             entryline.append(systemtype)
         # ip
         if model.spread_xls_ip:
             # get all ips of system
-            ips_all = system.ip.all().order_by('ip_ip')
+            ips_all = system.ip.all().order_by("ip_ip")
             # count ips
             n = system.ip.count()
             # create empty ip string
-            ip = ''
+            ip = ""
             # set counter
             i = 1
             # iterate over ip objects in ip list
@@ -223,23 +224,23 @@ def write_xls(username):
                 ip = ip + ip_obj.ip_ip
                 # add newline except for last ip
                 if i < n:
-                    ip = ip + '\n'
+                    ip = ip + "\n"
                     i = i + 1
             entryline.append(ip)
         # os
         if model.spread_xls_os:
             if system.os == None:
-                os = ''
+                os = ""
             else:
                 os = system.os.os_name
             entryline.append(os)
         # company
         if model.spread_xls_company:
-            companys_all = system.company.all().order_by('company_name')
+            companys_all = system.company.all().order_by("company_name")
             # count companies
             n = system.company.count()
             # create empty company string
-            company = ''
+            company = ""
             # set counter
             i = 1
             # iterate over company objects in company list
@@ -248,30 +249,30 @@ def write_xls(username):
                 company = company + company_obj.company_name
                 # add newline except for last company
                 if i < n:
-                    company = company + '\n'
+                    company = company + "\n"
                     i = i + 1
             entryline.append(company)
         # location
         if model.spread_xls_location:
             if system.location == None:
-                location = ''
+                location = ""
             else:
                 location = system.location.location_name
             entryline.append(location)
         # serviceprovider
         if model.spread_xls_serviceprovider:
             if system.serviceprovider == None:
-                serviceprovider = ''
+                serviceprovider = ""
             else:
                 serviceprovider = system.serviceprovider.serviceprovider_name
             entryline.append(serviceprovider)
         # tag
         if model.spread_xls_tag:
-            tags_all = system.tag.all().order_by('tag_name')
+            tags_all = system.tag.all().order_by("tag_name")
             # count tags
             n = system.tag.count()
             # create empty tag string
-            tag = ''
+            tag = ""
             # set counter
             i = 1
             # iterate over tag objects in tag list
@@ -280,16 +281,16 @@ def write_xls(username):
                 tag = tag + tag_obj.tag_name
                 # add newline except for last tag
                 if i < n:
-                    tag = tag + '\n'
+                    tag = tag + "\n"
                     i = i + 1
             entryline.append(tag)
         # case
         if model.spread_xls_case:
-            cases_all = system.case.all().order_by('case_name')
+            cases_all = system.case.all().order_by("case_name")
             # count cases
             n = system.case.count()
             # create empty case string
-            case = ''
+            case = ""
             # set counter
             i = 1
             # iterate over case objects in case list
@@ -298,51 +299,62 @@ def write_xls(username):
                 case = case + case_obj.case_name
                 # add newline except for last case
                 if i < n:
-                    case = case + '\n'
+                    case = case + "\n"
                     i = i + 1
             entryline.append(case)
         # system create time
         if model.spread_xls_system_create_time:
-            system_create_time = system.system_create_time.strftime('%Y-%m-%d %H:%M')
+            system_create_time = system.system_create_time.strftime("%Y-%m-%d %H:%M")
             entryline.append(system_create_time)
         # system modify time
         if model.spread_xls_system_modify_time:
-            system_modify_time = system.system_modify_time.strftime('%Y-%m-%d %H:%M')
+            system_modify_time = system.system_modify_time.strftime("%Y-%m-%d %H:%M")
             entryline.append(system_modify_time)
 
         # write line for system
         worksheet_system = write_row(worksheet_system, entryline, row_num, style)
 
         # call logger
-        debug_logger(username, ' SYSTEM_XLS_SYSTEM_EXPORTED ' + 'system_id:' + str(system.system_id) + '|system_name:' + system.system_name)
+        debug_logger(
+            username,
+            " SYSTEM_XLS_SYSTEM_EXPORTED "
+            + "system_id:"
+            + str(system.system_id)
+            + "|system_name:"
+            + system.system_name,
+        )
 
     # write an empty row
     row_num += 2
 
     # write meta information for file creation
-    actualtime = timezone.now().strftime('%Y-%m-%d %H:%M')
-    worksheet_system.write(row_num, 0, 'Created:', style)
+    actualtime = timezone.now().strftime("%Y-%m-%d %H:%M")
+    worksheet_system.write(row_num, 0, "Created:", style)
     worksheet_system.write(row_num, 1, actualtime, style)
     row_num += 1
     creator = username
-    worksheet_system.write(row_num, 0, 'Created by:', style)
+    worksheet_system.write(row_num, 0, "Created by:", style)
     worksheet_system.write(row_num, 1, creator, style)
 
     """ add worksheet for systemstatus """
 
     # check all conditions
-    if model.spread_xls_worksheet_systemstatus and model.spread_xls_systemstatus and Systemstatus.objects.count() != 0:
+    if (
+        model.spread_xls_worksheet_systemstatus
+        and model.spread_xls_systemstatus
+        and Systemstatus.objects.count() != 0
+    ):
 
         # define name of worksheet within file
-        worksheet_systemstatus = workbook.add_sheet('systemstatus')
+        worksheet_systemstatus = workbook.add_sheet("systemstatus")
 
         # create empty list
         headline_systemstatus = []
 
         # append attributes
-        headline_systemstatus.append('ID')
-        headline_systemstatus.append('Systemstatus')
-        headline_systemstatus.append('Note')
+        headline_systemstatus.append("ID")
+        headline_systemstatus.append("Systemstatus")
+        headline_systemstatus.append("Note")
 
         # define styling for headline
         style = style_headline()
@@ -351,7 +363,9 @@ def write_xls(username):
         row_num = 0
 
         # write headline
-        worksheet_systemstatus = write_row(worksheet_systemstatus, headline_systemstatus, row_num, style)
+        worksheet_systemstatus = write_row(
+            worksheet_systemstatus, headline_systemstatus, row_num, style
+        )
 
         # clear styling to default
         style = style_default()
@@ -378,23 +392,29 @@ def write_xls(username):
             entryline_systemstatus.append(systemstatus.systemstatus_note)
 
             # write line for systemstatus
-            worksheet_systemstatus = write_row(worksheet_systemstatus, entryline_systemstatus, row_num, style)
+            worksheet_systemstatus = write_row(
+                worksheet_systemstatus, entryline_systemstatus, row_num, style
+            )
 
     """ add worksheet for analysisstatus """
 
     # check all conditions
-    if model.spread_xls_worksheet_analysisstatus and model.spread_xls_analysisstatus and Analysisstatus.objects.count() != 0:
+    if (
+        model.spread_xls_worksheet_analysisstatus
+        and model.spread_xls_analysisstatus
+        and Analysisstatus.objects.count() != 0
+    ):
 
         # define name of worksheet within file
-        worksheet_analysisstatus = workbook.add_sheet('analysisstatus')
+        worksheet_analysisstatus = workbook.add_sheet("analysisstatus")
 
         # create empty list
         headline_analysisstatus = []
 
         # append attributes
-        headline_analysisstatus.append('ID')
-        headline_analysisstatus.append('Analysisstatus')
-        headline_analysisstatus.append('Note')
+        headline_analysisstatus.append("ID")
+        headline_analysisstatus.append("Analysisstatus")
+        headline_analysisstatus.append("Note")
 
         # define styling for headline
         style = style_headline()
@@ -403,7 +423,9 @@ def write_xls(username):
         row_num = 0
 
         # write headline
-        worksheet_analysisstatus = write_row(worksheet_analysisstatus, headline_analysisstatus, row_num, style)
+        worksheet_analysisstatus = write_row(
+            worksheet_analysisstatus, headline_analysisstatus, row_num, style
+        )
 
         # clear styling to default
         style = style_default()
@@ -430,23 +452,29 @@ def write_xls(username):
             entryline_analysisstatus.append(analysisstatus.analysisstatus_note)
 
             # write line for analysisstatus
-            worksheet_analysisstatus = write_row(worksheet_analysisstatus, entryline_analysisstatus, row_num, style)
+            worksheet_analysisstatus = write_row(
+                worksheet_analysisstatus, entryline_analysisstatus, row_num, style
+            )
 
     """ add worksheet for reason """
 
     # check all conditions
-    if model.spread_xls_worksheet_reason and model.spread_xls_reason and Reason.objects.count() != 0:
+    if (
+        model.spread_xls_worksheet_reason
+        and model.spread_xls_reason
+        and Reason.objects.count() != 0
+    ):
 
         # define name of worksheet within file
-        worksheet_reason = workbook.add_sheet('reasons')
+        worksheet_reason = workbook.add_sheet("reasons")
 
         # create empty list
         headline_reason = []
 
         # append attributes
-        headline_reason.append('ID')
-        headline_reason.append('Reason')
-        headline_reason.append('Note')
+        headline_reason.append("ID")
+        headline_reason.append("Reason")
+        headline_reason.append("Note")
 
         # define styling for headline
         style = style_headline()
@@ -482,23 +510,29 @@ def write_xls(username):
             entryline_reason.append(reason.reason_note)
 
             # write line for reason
-            worksheet_reason = write_row(worksheet_reason, entryline_reason, row_num, style)
+            worksheet_reason = write_row(
+                worksheet_reason, entryline_reason, row_num, style
+            )
 
     """ add worksheet for recommendation """
 
     # check all conditions
-    if model.spread_xls_worksheet_recommendation and model.spread_xls_recommendation and Recommendation.objects.count() != 0:
+    if (
+        model.spread_xls_worksheet_recommendation
+        and model.spread_xls_recommendation
+        and Recommendation.objects.count() != 0
+    ):
 
         # define name of worksheet within file
-        worksheet_recommendation = workbook.add_sheet('recommendations')
+        worksheet_recommendation = workbook.add_sheet("recommendations")
 
         # create empty list
         headline_recommendation = []
 
         # append attributes
-        headline_recommendation.append('ID')
-        headline_recommendation.append('Recommendation')
-        headline_recommendation.append('Note')
+        headline_recommendation.append("ID")
+        headline_recommendation.append("Recommendation")
+        headline_recommendation.append("Note")
 
         # define styling for headline
         style = style_headline()
@@ -507,7 +541,9 @@ def write_xls(username):
         row_num = 0
 
         # write headline
-        worksheet_recommendation = write_row(worksheet_recommendation, headline_recommendation, row_num, style)
+        worksheet_recommendation = write_row(
+            worksheet_recommendation, headline_recommendation, row_num, style
+        )
 
         # clear styling to default
         style = style_default()
@@ -534,23 +570,29 @@ def write_xls(username):
             entryline_recommendation.append(recommendation.recommendation_note)
 
             # write line for recommendation
-            worksheet_recommendation = write_row(worksheet_recommendation, entryline_recommendation, row_num, style)
+            worksheet_recommendation = write_row(
+                worksheet_recommendation, entryline_recommendation, row_num, style
+            )
 
     """ add worksheet for tag """
 
     # check all conditions
-    if model.spread_xls_worksheet_tag and model.spread_xls_tag and Tag.objects.count() != 0:
+    if (
+        model.spread_xls_worksheet_tag
+        and model.spread_xls_tag
+        and Tag.objects.count() != 0
+    ):
 
         # define name of worksheet within file
-        worksheet_tag = workbook.add_sheet('tags')
+        worksheet_tag = workbook.add_sheet("tags")
 
         # create empty list
         headline_tag = []
 
         # append attributes
-        headline_tag.append('ID')
-        headline_tag.append('Tag')
-        headline_tag.append('Note')
+        headline_tag.append("ID")
+        headline_tag.append("Tag")
+        headline_tag.append("Note")
 
         # define styling for headline
         style = style_headline()
@@ -594,46 +636,50 @@ def write_xls(username):
     # return xls object
     return workbook
 
+
 @login_required(login_url="/login")
 def system_create_cron(request):
-    """ helper function to check config before creating scheduled task """
+    """helper function to check config before creating scheduled task"""
 
     # get config
-    main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+    main_config_model = MainConfigModel.objects.get(main_config_name="MainConfig")
 
     # check file system
-    stop_cron_exporter = check_content_file_system(main_config_model, 'SYSTEM_XLS', request)
+    stop_cron_exporter = check_content_file_system(
+        main_config_model, "SYSTEM_XLS", request
+    )
 
     # check stop condition
     if stop_cron_exporter:
         # return to 'system_list'
-        return redirect(reverse('system_list'))
+        return redirect(reverse("system_list"))
     else:
 
         # create parameter dict
         params = {}
 
         # prepare parameter dict
-        params['name'] = 'system_spreadsheet_exporter_xls'
-        params['func'] = 'dfirtrack_main.exporter.spreadsheet.xls.system_cron'
+        params["name"] = "system_spreadsheet_exporter_xls"
+        params["func"] = "dfirtrack_main.exporter.spreadsheet.xls.system_cron"
 
         # build url
-        urlpath = '/admin/django_q/schedule/add/'
+        urlpath = "/admin/django_q/schedule/add/"
         urlquery = urlencode(params)
-        admin_url_create_cron = urlunparse(('','',urlpath,'',urlquery,''))
+        admin_url_create_cron = urlunparse(("", "", urlpath, "", urlquery, ""))
 
         # open django admin with pre-filled form for scheduled task
         return redirect(admin_url_create_cron)
 
+
 @login_required(login_url="/login")
 def system(request):
-    """ instant spreadsheet export via button for direct download via browser """
+    """instant spreadsheet export via button for direct download via browser"""
 
     # create xls MIME type object
-    xls_browser = HttpResponse(content_type='application/ms-excel')
+    xls_browser = HttpResponse(content_type="application/ms-excel")
 
     # prepare interactive file including filename
-    xls_browser['Content-Disposition'] = 'attachment; filename="systems.xls"'
+    xls_browser["Content-Disposition"] = 'attachment; filename="systems.xls"'
 
     # get username from request object
     username = str(request.user)
@@ -647,17 +693,18 @@ def system(request):
     # return spreadsheet object to browser
     return xls_browser
 
+
 def system_cron():
-    """ spreadsheet export via scheduled task to server file system """
+    """spreadsheet export via scheduled task to server file system"""
 
     # prepare time for output file
-    filetime = timezone.now().strftime('%Y%m%d_%H%M')
+    filetime = timezone.now().strftime("%Y%m%d_%H%M")
 
     # get config
-    main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+    main_config_model = MainConfigModel.objects.get(main_config_name="MainConfig")
 
     # check file system
-    stop_cron_exporter = check_content_file_system(main_config_model, 'SYSTEM_XLS')
+    stop_cron_exporter = check_content_file_system(main_config_model, "SYSTEM_XLS")
 
     # leave if config caused errors
     if stop_cron_exporter:
@@ -665,7 +712,9 @@ def system_cron():
         return
 
     # prepare output file path
-    output_file_path = main_config_model.cron_export_path + '/' + filetime + '_systems.xls'
+    output_file_path = (
+        main_config_model.cron_export_path + "/" + filetime + "_systems.xls"
+    )
 
     # get username from config
     username = main_config_model.cron_username
@@ -677,4 +726,4 @@ def system_cron():
     xls_disk.save(output_file_path)
 
     # call logger
-    info_logger(username, ' SYSTEM_XLS_FILE_WRITTEN ' + output_file_path)
+    info_logger(username, " SYSTEM_XLS_FILE_WRITTEN " + output_file_path)

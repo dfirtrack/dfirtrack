@@ -19,6 +19,6 @@ def read_or_create_mkdocs_yml(username, mkdconfpath):
         # call logger
         warning_logger(username, " SYSTEM_EXPORTER_MARKDOWN no mkdocs.yml found")
         # set empty dummydict for non-existing file to make code work as usual (just for the first execution because afterwards 'mkdocs.yml' will be there)
-        mkdconfdict = {'pages': [{'Systems': []}]}
+        mkdconfdict = {"pages": [{"Systems": []}]}
 
     return mkdconfdict

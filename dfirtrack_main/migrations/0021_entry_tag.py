@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('dfirtrack_main', '0020_removed_entry_api_time'),
+        ("dfirtrack_main", "0020_removed_entry_api_time"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='entry',
-            name='tag',
-            field=models.ManyToManyField(blank=True, to='dfirtrack_main.Tag'),
+            model_name="entry",
+            name="tag",
+            field=models.ManyToManyField(blank=True, to="dfirtrack_main.Tag"),
         ),
     ]

@@ -5,41 +5,42 @@ from dfirtrack_main.widgets import TagWidget
 
 
 class TagWidgetTestCase(TestCase):
-
     @classmethod
     def setUpTestData(self):
 
         # create object
-        tag_color_1 =  Tagcolor.objects.create(tagcolor_name="tag_color_1")
-        Tag.objects.create(tag_name='tag_1', tagcolor=tag_color_1)
+        tag_color_1 = Tagcolor.objects.create(tagcolor_name="tag_color_1")
+        Tag.objects.create(tag_name="tag_1", tagcolor=tag_color_1)
 
     def test_tag_widget_template_name(self):
-        """ test tag widget template name """
+        """test tag widget template name"""
         # create widget
         tagWidget = TagWidget()
 
         # check
-        self.assertEquals(tagWidget.template_name, 'dfirtrack_main/widgets/tag_widget.html')
+        self.assertEquals(
+            tagWidget.template_name, "dfirtrack_main/widgets/tag_widget.html"
+        )
 
     def test_tag_widget_context(self):
-        """ test tag wideget context """
+        """test tag wideget context"""
         # create widget
         tagWidget = TagWidget()
-        value = ['1']
-        context = tagWidget.get_context('tag', value, None)
+        value = ["1"]
+        context = tagWidget.get_context("tag", value, None)
 
         # check
-        self.assertEquals(context['widget']['name'], 'tag')
-        self.assertEquals(context['widget']['value'], value)
+        self.assertEquals(context["widget"]["name"], "tag")
+        self.assertEquals(context["widget"]["value"], value)
 
     def test_tag_widget_render_output(self):
-        """ test tag widget render """
+        """test tag widget render"""
         # create widget
         tagWidget = TagWidget()
 
         # get render output
-        output_string = tagWidget.render('tag', list(), {'id': 'id_tag'})
+        output_string = tagWidget.render("tag", list(), {"id": "id_tag"})
 
         # check
-        self.assertTrue('tag_1' in output_string)
-        self.assertTrue('tag_color_1' in output_string)
+        self.assertTrue("tag_1" in output_string)
+        self.assertTrue("tag_color_1" in output_string)

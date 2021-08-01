@@ -6,18 +6,21 @@ from dfirtrack_main.models import Notestatus
 
 
 class NotestatusList(LoginRequiredMixin, ListView):
-    login_url = '/login'
+    login_url = "/login"
     model = Notestatus
-    template_name = 'dfirtrack_main/notestatus/notestatus_list.html'
-    context_object_name = 'notestatus_list'
+    template_name = "dfirtrack_main/notestatus/notestatus_list.html"
+    context_object_name = "notestatus_list"
+
     def get_queryset(self):
         debug_logger(str(self.request.user), " NOTESTATUS_ENTERED")
-        return Notestatus.objects.order_by('notestatus_name')
+        return Notestatus.objects.order_by("notestatus_name")
+
 
 class NotestatusDetail(LoginRequiredMixin, DetailView):
-    login_url = '/login'
+    login_url = "/login"
     model = Notestatus
-    template_name = 'dfirtrack_main/notestatus/notestatus_detail.html'
+    template_name = "dfirtrack_main/notestatus/notestatus_detail.html"
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         notestatus = self.object

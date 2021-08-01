@@ -6,13 +6,13 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('dfirtrack_main', '0003_default_tags'),
+        ("dfirtrack_main", "0003_default_tags"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='system',
-            old_name='system_fqdn',
-            new_name='system_dnssuffix',
+            model_name="system",
+            old_name="system_fqdn",
+            new_name="system_dnssuffix",
         ),
     ]

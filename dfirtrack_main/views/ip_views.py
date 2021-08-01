@@ -6,18 +6,21 @@ from dfirtrack_main.models import Ip
 
 
 class IpList(LoginRequiredMixin, ListView):
-    login_url = '/login'
+    login_url = "/login"
     model = Ip
-    template_name = 'dfirtrack_main/ip/ip_list.html'
-    context_object_name = 'ip_list'
+    template_name = "dfirtrack_main/ip/ip_list.html"
+    context_object_name = "ip_list"
+
     def get_queryset(self):
         debug_logger(str(self.request.user), " IP_ENTERED")
-        return Ip.objects.order_by('ip_ip')
+        return Ip.objects.order_by("ip_ip")
+
 
 class IpDetail(LoginRequiredMixin, DetailView):
-    login_url = '/login'
+    login_url = "/login"
     model = Ip
-    template_name = 'dfirtrack_main/ip/ip_detail.html'
+    template_name = "dfirtrack_main/ip/ip_detail.html"
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         ip = self.object

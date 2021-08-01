@@ -15,7 +15,7 @@ from dfirtrack_main.models import Case, Casepriority, Casestatus
 
 
 def query_case(casestatus_list):
-    """ query cases with a list of specific casestatus """
+    """query cases with a list of specific casestatus"""
 
     # create empty case queryset
     cases_merged = Case.objects.none()
@@ -30,23 +30,24 @@ def query_case(casestatus_list):
         cases_merged = cases | cases_merged
 
     # sort cases by id
-    cases_sorted = cases_merged.order_by('case_id')
+    cases_sorted = cases_merged.order_by("case_id")
 
     # return sorted cases with specific casestatus
     return cases_sorted
 
+
 class CaseList(LoginRequiredMixin, ListView):
-    login_url = '/login'
+    login_url = "/login"
     model = Case
-    template_name = 'dfirtrack_main/case/case_list.html'
-    context_object_name = 'case_list'
+    template_name = "dfirtrack_main/case/case_list.html"
+    context_object_name = "case_list"
 
     def get_queryset(self):
 
         # call logger
-        debug_logger(str(self.request.user), ' CASE_LIST_ENTERED')
+        debug_logger(str(self.request.user), " CASE_LIST_ENTERED")
         # get config
-        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        main_config_model = MainConfigModel.objects.get(main_config_name="MainConfig")
 
         """ get all cases with casestatus to be considered open """
 
@@ -58,18 +59,19 @@ class CaseList(LoginRequiredMixin, ListView):
         # return cases according to query
         return cases
 
+
 class CaseClosed(LoginRequiredMixin, ListView):
-    login_url = '/login'
+    login_url = "/login"
     model = Case
-    template_name = 'dfirtrack_main/case/case_closed.html'
-    context_object_name = 'case_list'
+    template_name = "dfirtrack_main/case/case_closed.html"
+    context_object_name = "case_list"
 
     def get_queryset(self):
 
         # call logger
-        debug_logger(str(self.request.user), ' CASE_CLOSED_ENTERED')
+        debug_logger(str(self.request.user), " CASE_CLOSED_ENTERED")
         # get config
-        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        main_config_model = MainConfigModel.objects.get(main_config_name="MainConfig")
 
         """ get all cases with casestatus to be considered closed """
 
@@ -85,42 +87,45 @@ class CaseClosed(LoginRequiredMixin, ListView):
         # return cases according to query
         return cases
 
+
 class CaseAll(LoginRequiredMixin, ListView):
-    login_url = '/login'
+    login_url = "/login"
     model = Case
-    template_name = 'dfirtrack_main/case/case_all.html'
-    context_object_name = 'case_list'
+    template_name = "dfirtrack_main/case/case_all.html"
+    context_object_name = "case_list"
 
     def get_queryset(self):
         # call logger
-        debug_logger(str(self.request.user), ' CASE_ALL_ENTERED')
-        return Case.objects.order_by('case_id')
+        debug_logger(str(self.request.user), " CASE_ALL_ENTERED")
+        return Case.objects.order_by("case_id")
+
 
 class CaseDetail(LoginRequiredMixin, DetailView):
-    login_url = '/login'
+    login_url = "/login"
     model = Case
-    template_name = 'dfirtrack_main/case/case_detail.html'
+    template_name = "dfirtrack_main/case/case_detail.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         case = self.object
 
         # set dfirtrack_artifacts for template
-        if 'dfirtrack_artifacts' in installed_apps:
-            context['dfirtrack_artifacts'] = True
-            context['artifacts'] = Artifact.objects.filter(case=case)
+        if "dfirtrack_artifacts" in installed_apps:
+            context["dfirtrack_artifacts"] = True
+            context["artifacts"] = Artifact.objects.filter(case=case)
         else:
-            context['dfirtrack_artifacts'] = False
+            context["dfirtrack_artifacts"] = False
 
         # call logger
         case.logger(str(self.request.user), " CASE_DETAIL_ENTERED")
         return context
 
+
 def set_case_times(case):
-    """ set case times according to config """
+    """set case times according to config"""
 
     # get config
-    main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+    main_config_model = MainConfigModel.objects.get(main_config_name="MainConfig")
 
     # get relevant casestatus out of config
     casestatus_start = main_config_model.casestatus_start.all()
@@ -139,27 +144,36 @@ def set_case_times(case):
 
     return case
 
+
 class CaseCreate(LoginRequiredMixin, CreateView):
-    login_url = '/login'
+    login_url = "/login"
     model = Case
     form_class = CaseForm
-    template_name = 'dfirtrack_main/case/case_generic_form.html'
+    template_name = "dfirtrack_main/case/case_generic_form.html"
 
     def get(self, request, *args, **kwargs):
 
         # get id of first status objects sorted by name
-        casepriority = Casepriority.objects.order_by('casepriority_name')[0].casepriority_id
-        casestatus = Casestatus.objects.order_by('casestatus_name')[0].casestatus_id
+        casepriority = Casepriority.objects.order_by("casepriority_name")[
+            0
+        ].casepriority_id
+        casestatus = Casestatus.objects.order_by("casestatus_name")[0].casestatus_id
 
-        form = self.form_class(initial={
-            'casepriority': casepriority,
-            'casestatus': casestatus,
-        })
+        form = self.form_class(
+            initial={
+                "casepriority": casepriority,
+                "casestatus": casestatus,
+            }
+        )
         debug_logger(str(request.user), " CASE_ADD_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                "form": form,
+                "title": "Add",
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -172,28 +186,37 @@ class CaseCreate(LoginRequiredMixin, CreateView):
             case.save()
             form.save_m2m()
             case.logger(str(request.user), " CASE_ADD_EXECUTED")
-            messages.success(request, 'Case added')
-            return redirect(reverse('case_detail', args=(case.case_id,)))
+            messages.success(request, "Case added")
+            return redirect(reverse("case_detail", args=(case.case_id,)))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    "form": form,
+                    "title": "Add",
+                },
+            )
+
 
 class CaseUpdate(LoginRequiredMixin, UpdateView):
-    login_url = '/login'
+    login_url = "/login"
     model = Case
     form_class = CaseForm
-    template_name = 'dfirtrack_main/case/case_generic_form.html'
+    template_name = "dfirtrack_main/case/case_generic_form.html"
 
     def get(self, request, *args, **kwargs):
         case = self.get_object()
         form = self.form_class(instance=case)
         case.logger(str(request.user), " CASE_EDIT_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Edit',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                "form": form,
+                "title": "Edit",
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         case = self.get_object()
@@ -206,10 +229,14 @@ class CaseUpdate(LoginRequiredMixin, UpdateView):
             case.save()
             form.save_m2m()
             case.logger(str(request.user), " CASE_EDIT_EXECUTED")
-            messages.success(request, 'Case edited')
-            return redirect(reverse('case_detail', args=(case.case_id,)))
+            messages.success(request, "Case edited")
+            return redirect(reverse("case_detail", args=(case.case_id,)))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Edit',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    "form": form,
+                    "title": "Edit",
+                },
+            )

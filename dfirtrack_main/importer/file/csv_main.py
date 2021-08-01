@@ -26,7 +26,9 @@ from dfirtrack_main.models import System
 def system_handler(request=None, uploadfile=False):
 
     # get config model
-    model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name = 'SystemImporterFileCsvConfig')
+    model = SystemImporterFileCsvConfigModel.objects.get(
+        system_importer_file_csv_config_name="SystemImporterFileCsvConfig"
+    )
 
     """ set username for logger and object """
 
@@ -46,10 +48,10 @@ def system_handler(request=None, uploadfile=False):
     """ start system importer """
 
     # get starttime
-    starttime = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
+    starttime = timezone.now().strftime("%Y-%m-%d %H:%M:%S")
 
     # call logger
-    debug_logger(logger_username, ' SYSTEM_IMPORTER_FILE_CSV_START')
+    debug_logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_START")
 
     # create lock tags
     create_lock_tags(model)
@@ -59,24 +61,26 @@ def system_handler(request=None, uploadfile=False):
     # file was uploaded via form (called via 'system_upload')
     if uploadfile:
         # text object can not be passed as argument from 'system_upload'
-        systemcsv = TextIOWrapper(request.FILES['systemcsv'].file, encoding=request.encoding)
+        systemcsv = TextIOWrapper(
+            request.FILES["systemcsv"].file, encoding=request.encoding
+        )
     # file was fetched from file system (called via 'system_instant' or 'system_cron')
     else:
         # build csv file path
-        csv_import_file = model.csv_import_path + '/' + model.csv_import_filename
+        csv_import_file = model.csv_import_path + "/" + model.csv_import_filename
         # open file
         systemcsv = open(csv_import_file)
 
     # get field delimiter from config
-    if model.csv_field_delimiter == 'field_comma':
-        delimiter = ','
-    elif model.csv_field_delimiter == 'field_semicolon':
-        delimiter = ';'
+    if model.csv_field_delimiter == "field_comma":
+        delimiter = ","
+    elif model.csv_field_delimiter == "field_semicolon":
+        delimiter = ";"
 
     # get text quotechar from config
-    if model.csv_text_quote == 'text_double_quotation_marks':
+    if model.csv_text_quote == "text_double_quotation_marks":
         quotechar = '"'
-    elif model.csv_text_quote == 'text_single_quotation_marks':
+    elif model.csv_text_quote == "text_single_quotation_marks":
         quotechar = "'"
 
     # read rows out of csv
@@ -128,7 +132,7 @@ def system_handler(request=None, uploadfile=False):
     # iterate over rows
     for row in rows:
 
-        """ skip headline if necessary """
+        """skip headline if necessary"""
 
         # check for first row and headline condition
         if row_counter == 1 and model.csv_headline:
@@ -142,7 +146,9 @@ def system_handler(request=None, uploadfile=False):
         # if function was called from 'system_instant' and 'system_upload'
         if request:
             # check system_name for valid value
-            stop_system_importer_file_csv = check_system_name(model, row, row_counter, request)
+            stop_system_importer_file_csv = check_system_name(
+                model, row, row_counter, request
+            )
         # if function was called from 'system_cron'
         else:
             # check system_name for valid value
@@ -166,7 +172,7 @@ def system_handler(request=None, uploadfile=False):
 
         # get all systems
         systemquery = System.objects.filter(
-            system_name = system_name,
+            system_name=system_name,
         )
 
         """ check how many systems were returned """
@@ -202,11 +208,15 @@ def system_handler(request=None, uploadfile=False):
             # if function was called from 'system_instant' and 'system_upload'
             if request:
                 # add foreign key relationships to system
-                system = add_fk_attributes(system, system_created, model, row, row_counter, request)
+                system = add_fk_attributes(
+                    system, system_created, model, row, row_counter, request
+                )
             # if function was called from 'system_cron'
             else:
                 # add foreign key relationships to system
-                system = add_fk_attributes(system, system_created, model, row, row_counter)
+                system = add_fk_attributes(
+                    system, system_created, model, row, row_counter
+                )
 
             # save object
             system.save()
@@ -214,17 +224,21 @@ def system_handler(request=None, uploadfile=False):
             # if function was called from 'system_instant' and 'system_upload'
             if request:
                 # add many2many relationships to system
-                system = add_many2many_attributes(system, system_created, model, row, row_counter, request)
+                system = add_many2many_attributes(
+                    system, system_created, model, row, row_counter, request
+                )
             # if function was called from 'system_cron'
             else:
                 # add many2many relationships to system
-                system = add_many2many_attributes(system, system_created, model, row, row_counter)
+                system = add_many2many_attributes(
+                    system, system_created, model, row, row_counter
+                )
 
             # autoincrement systems_updated_counter
             systems_updated_counter += 1
 
             # call logger
-            system.logger(logger_username, ' SYSTEM_IMPORTER_FILE_CSV_SYSTEM_MODIFIED')
+            system.logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_SYSTEM_MODIFIED")
 
         # if there is more than one system
         elif len(systemquery) > 1:
@@ -236,7 +250,10 @@ def system_handler(request=None, uploadfile=False):
             systems_multiple_counter += 1
 
             # call logger
-            warning_logger(logger_username, f' SYSTEM_IMPORTER_FILE_CSV_MULTIPLE_SYSTEMS System:{system_name}')
+            warning_logger(
+                logger_username,
+                f" SYSTEM_IMPORTER_FILE_CSV_MULTIPLE_SYSTEMS System:{system_name}",
+            )
 
         # if there is no system -> create system
         else:
@@ -257,11 +274,15 @@ def system_handler(request=None, uploadfile=False):
             # if function was called from 'system_instant' and 'system_upload'
             if request:
                 # add foreign key relationships to system
-                system = add_fk_attributes(system, system_created, model, row, row_counter, request)
+                system = add_fk_attributes(
+                    system, system_created, model, row, row_counter, request
+                )
             # if function was called from 'system_cron'
             else:
                 # add foreign key relationships to system
-                system = add_fk_attributes(system, system_created, model, row, row_counter)
+                system = add_fk_attributes(
+                    system, system_created, model, row, row_counter
+                )
 
             # save object
             system.save()
@@ -269,17 +290,21 @@ def system_handler(request=None, uploadfile=False):
             # if function was called from 'system_instant' and 'system_upload'
             if request:
                 # add many2many relationships to system
-                system = add_many2many_attributes(system, system_created, model, row, row_counter, request)
+                system = add_many2many_attributes(
+                    system, system_created, model, row, row_counter, request
+                )
             # if function was called from 'system_cron'
             else:
                 # add many2many relationships to system
-                system = add_many2many_attributes(system, system_created, model, row, row_counter)
+                system = add_many2many_attributes(
+                    system, system_created, model, row, row_counter
+                )
 
             # autoincrement systems_created_counter
             systems_created_counter += 1
 
             # call logger
-            system.logger(logger_username, ' SYSTEM_IMPORTER_FILE_CSV_SYSTEM_CREATED')
+            system.logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_SYSTEM_CREATED")
 
         # autoincrement row counter
         row_counter += 1
@@ -290,7 +315,7 @@ def system_handler(request=None, uploadfile=False):
     """ finish system importer """
 
     # get endtime
-    endtime = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
+    endtime = timezone.now().strftime("%Y-%m-%d %H:%M:%S")
 
     # if function was called from 'system_instant' and 'system_upload'
     if request:
@@ -319,14 +344,14 @@ def system_handler(request=None, uploadfile=False):
     # call logger
     info_logger(
         logger_username,
-        f' SYSTEM_IMPORTER_FILE_CSV_STATUS'
-        f' created:{systems_created_counter}'
-        f'|updated:{systems_updated_counter}'
-        f'|skipped:{systems_skipped_counter}'
-        f'|multiple:{systems_multiple_counter}'
+        f" SYSTEM_IMPORTER_FILE_CSV_STATUS"
+        f" created:{systems_created_counter}"
+        f"|updated:{systems_updated_counter}"
+        f"|skipped:{systems_skipped_counter}"
+        f"|multiple:{systems_multiple_counter}",
     )
     # call logger
-    debug_logger(logger_username, ' SYSTEM_IMPORTER_FILE_CSV_END')
+    debug_logger(logger_username, " SYSTEM_IMPORTER_FILE_CSV_END")
 
     # return to calling function 'csv.system_cron' or 'csv.system_instant' or 'csv.system_upload'
     return

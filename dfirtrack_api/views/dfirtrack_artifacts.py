@@ -15,49 +15,56 @@ from dfirtrack_artifacts.models import (
 
 
 class ArtifactListApi(generics.ListCreateAPIView):
-    """ all objects, allowed: GET + POST """
+    """all objects, allowed: GET + POST"""
 
     queryset = Artifact.objects.all()
     serializer_class = ArtifactSerializer
+
 
 class ArtifactDetailApi(generics.RetrieveUpdateAPIView):
-    """ single object, allowed: GET + PUT """
+    """single object, allowed: GET + PUT"""
 
     queryset = Artifact.objects.all()
     serializer_class = ArtifactSerializer
 
+
 class ArtifactpriorityListApi(generics.ListAPIView):
-    """ all objects, allowed: GET """
+    """all objects, allowed: GET"""
 
     queryset = Artifactpriority.objects.all()
     serializer_class = ArtifactprioritySerializer
+
 
 class ArtifactpriorityDetailApi(generics.RetrieveAPIView):
-    """ single object, allowed: GET """
+    """single object, allowed: GET"""
 
     queryset = Artifactpriority.objects.all()
     serializer_class = ArtifactprioritySerializer
 
+
 class ArtifactstatusListApi(generics.ListAPIView):
-    """ all objects, allowed: GET """
+    """all objects, allowed: GET"""
 
     queryset = Artifactstatus.objects.all()
     serializer_class = ArtifactstatusSerializer
+
 
 class ArtifactstatusDetailApi(generics.RetrieveAPIView):
-    """ single object, allowed: GET """
+    """single object, allowed: GET"""
 
     queryset = Artifactstatus.objects.all()
     serializer_class = ArtifactstatusSerializer
 
+
 class ArtifacttypeListApi(generics.ListCreateAPIView):
-    """ all objects, allowed: GET + POST """
+    """all objects, allowed: GET + POST"""
 
     queryset = Artifacttype.objects.all()
     serializer_class = ArtifacttypeSerializer
 
+
 class ArtifacttypeDetailApi(generics.RetrieveUpdateAPIView):
-    """ single object, allowed: GET + PUT """
+    """single object, allowed: GET + PUT"""
 
     queryset = Artifacttype.objects.all()
     serializer_class = ArtifacttypeSerializer

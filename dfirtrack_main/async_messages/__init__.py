@@ -45,4 +45,4 @@ def get_messages(user):
 
 
 def _user_key(user):
-    return '_async_message_%d' % user.pk
+    return "_async_message_%d" % user.pk

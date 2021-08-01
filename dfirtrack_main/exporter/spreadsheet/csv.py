@@ -18,13 +18,15 @@ from dfirtrack_main.models import System
 
 
 def write_csv(username, csv_file):
-    """ write spreadsheet """
+    """write spreadsheet"""
 
     # create file object for writing lines
     csv_writer = csv.writer(csv_file)
 
     # get config model
-    model = SystemExporterSpreadsheetCsvConfigModel.objects.get(system_exporter_spreadsheet_csv_config_name = 'SystemExporterSpreadsheetCsvConfig')
+    model = SystemExporterSpreadsheetCsvConfigModel.objects.get(
+        system_exporter_spreadsheet_csv_config_name="SystemExporterSpreadsheetCsvConfig"
+    )
 
     """ start with headline """
 
@@ -33,44 +35,44 @@ def write_csv(username, csv_file):
 
     # check for attribute id
     if model.spread_csv_system_id:
-        headline.append('ID')
+        headline.append("ID")
 
     # append mandatory attribute
-    headline.append('System')
+    headline.append("System")
 
     # check for remaining attributes
     if model.spread_csv_dnsname:
-        headline.append('DNS name')
+        headline.append("DNS name")
     if model.spread_csv_domain:
-        headline.append('Domain')
+        headline.append("Domain")
     if model.spread_csv_systemstatus:
-        headline.append('Systemstatus')
+        headline.append("Systemstatus")
     if model.spread_csv_analysisstatus:
-        headline.append('Analysisstatus')
+        headline.append("Analysisstatus")
     if model.spread_csv_reason:
-        headline.append('Reason')
+        headline.append("Reason")
     if model.spread_csv_recommendation:
-        headline.append('Recommendation')
+        headline.append("Recommendation")
     if model.spread_csv_systemtype:
-        headline.append('Systemtype')
+        headline.append("Systemtype")
     if model.spread_csv_ip:
-        headline.append('IP')
+        headline.append("IP")
     if model.spread_csv_os:
-        headline.append('OS')
+        headline.append("OS")
     if model.spread_csv_company:
-        headline.append('Company')
+        headline.append("Company")
     if model.spread_csv_location:
-        headline.append('Location')
+        headline.append("Location")
     if model.spread_csv_serviceprovider:
-        headline.append('Serviceprovider')
+        headline.append("Serviceprovider")
     if model.spread_csv_tag:
-        headline.append('Tag')
+        headline.append("Tag")
     if model.spread_csv_case:
-        headline.append('Case')
+        headline.append("Case")
     if model.spread_csv_system_create_time:
-        headline.append('Created')
+        headline.append("Created")
     if model.spread_csv_system_modify_time:
-        headline.append('Modified')
+        headline.append("Modified")
 
     # write headline
     csv_writer.writerow(headline)
@@ -106,14 +108,14 @@ def write_csv(username, csv_file):
         # dnsname
         if model.spread_csv_dnsname:
             if system.dnsname == None:
-                dnsname = ''
+                dnsname = ""
             else:
                 dnsname = system.dnsname.dnsname_name
             entryline.append(dnsname)
         # domain
         if model.spread_csv_domain:
             if system.domain == None:
-                domain = ''
+                domain = ""
             else:
                 domain = system.domain.domain_name
             entryline.append(domain)
@@ -123,39 +125,39 @@ def write_csv(username, csv_file):
         # analysisstatus
         if model.spread_csv_analysisstatus:
             if system.analysisstatus == None:
-                analysisstatus = ''
+                analysisstatus = ""
             else:
                 analysisstatus = system.analysisstatus.analysisstatus_name
             entryline.append(analysisstatus)
         # reason
         if model.spread_csv_reason:
             if system.reason == None:
-                reason = ''
+                reason = ""
             else:
                 reason = system.reason.reason_name
             entryline.append(reason)
         # recommendation
         if model.spread_csv_recommendation:
-            if system.recommendation== None:
-                recommendation = ''
+            if system.recommendation == None:
+                recommendation = ""
             else:
                 recommendation = system.recommendation.recommendation_name
             entryline.append(recommendation)
         # systemtype
         if model.spread_csv_systemtype:
             if system.systemtype == None:
-                systemtype = ''
+                systemtype = ""
             else:
                 systemtype = system.systemtype.systemtype_name
             entryline.append(systemtype)
         # ip
         if model.spread_csv_ip:
             # get all ips of system
-            ips_all = system.ip.all().order_by('ip_ip')
+            ips_all = system.ip.all().order_by("ip_ip")
             # count ips
             n = system.ip.count()
             # create empty ip string
-            ip = ''
+            ip = ""
             # set counter
             i = 1
             # iterate over ip objects in ip list
@@ -164,24 +166,24 @@ def write_csv(username, csv_file):
                 ip = ip + ip_obj.ip_ip
                 # add newline except for last ip
                 if i < n:
-                    ip = ip + ','
+                    ip = ip + ","
                     i = i + 1
             entryline.append(ip)
         # os
         if model.spread_csv_os:
             if system.os == None:
-                os = ''
+                os = ""
             else:
                 os = system.os.os_name
             entryline.append(os)
         # company
         if model.spread_csv_company:
             # get all companies of system
-            companys_all = system.company.all().order_by('company_name')
+            companys_all = system.company.all().order_by("company_name")
             # count companies
             n = system.company.count()
             # create empty company string
-            company = ''
+            company = ""
             # set counter
             i = 1
             # iterate over company objects in company list
@@ -190,31 +192,31 @@ def write_csv(username, csv_file):
                 company = company + company_obj.company_name
                 # add newline except for last company
                 if i < n:
-                    company = company + ','
+                    company = company + ","
                     i = i + 1
             entryline.append(company)
         # location
         if model.spread_csv_location:
             if system.location == None:
-                location = ''
+                location = ""
             else:
                 location = system.location.location_name
             entryline.append(location)
         # serviceprovider
         if model.spread_csv_serviceprovider:
             if system.serviceprovider == None:
-                serviceprovider = ''
+                serviceprovider = ""
             else:
                 serviceprovider = system.serviceprovider.serviceprovider_name
             entryline.append(serviceprovider)
         # tag
         if model.spread_csv_tag:
             # get all tags of system
-            tags_all = system.tag.all().order_by('tag_name')
+            tags_all = system.tag.all().order_by("tag_name")
             # count tags
             n = system.tag.count()
             # create empty tag string
-            tag = ''
+            tag = ""
             # set counter
             i = 1
             # iterate over tag objects in tag list
@@ -223,17 +225,17 @@ def write_csv(username, csv_file):
                 tag = tag + tag_obj.tag_name
                 # add newline except for last tag
                 if i < n:
-                    tag = tag + ','
+                    tag = tag + ","
                     i = i + 1
             entryline.append(tag)
         # case
         if model.spread_csv_case:
             # get all cases of system
-            cases_all = system.case.all().order_by('case_name')
+            cases_all = system.case.all().order_by("case_name")
             # count cases
             n = system.case.count()
             # create empty case string
-            case = ''
+            case = ""
             # set counter
             i = 1
             # iterate over case objects in case list
@@ -242,34 +244,41 @@ def write_csv(username, csv_file):
                 case = case + case_obj.case_name
                 # add newline except for last case
                 if i < n:
-                    case = case + ','
+                    case = case + ","
                     i = i + 1
             entryline.append(case)
         # system create time
         if model.spread_csv_system_create_time:
-            system_create_time = system.system_create_time.strftime('%Y-%m-%d %H:%M')
+            system_create_time = system.system_create_time.strftime("%Y-%m-%d %H:%M")
             entryline.append(system_create_time)
         # system modify time
         if model.spread_csv_system_modify_time:
-            system_modify_time = system.system_modify_time.strftime('%Y-%m-%d %H:%M')
+            system_modify_time = system.system_modify_time.strftime("%Y-%m-%d %H:%M")
             entryline.append(system_modify_time)
 
         # write entryline
         csv_writer.writerow(entryline)
 
         # call logger
-        debug_logger(username, ' SYSTEM_CSV_SYSTEM_EXPORTED ' + 'system_id:' + str(system.system_id) + '|system_name:' + system.system_name)
+        debug_logger(
+            username,
+            " SYSTEM_CSV_SYSTEM_EXPORTED "
+            + "system_id:"
+            + str(system.system_id)
+            + "|system_name:"
+            + system.system_name,
+        )
 
     # write an empty row
     csv_writer.writerow([])
 
     # prepare string value for actual datetimes
-    actualtime = timezone.now().strftime('%Y-%m-%d %H:%M')
+    actualtime = timezone.now().strftime("%Y-%m-%d %H:%M")
 
     # write meta information
-    csv_writer.writerow(['Created:', actualtime])
+    csv_writer.writerow(["Created:", actualtime])
     creator = username
-    csv_writer.writerow(['Created by:', creator])
+    csv_writer.writerow(["Created by:", creator])
 
     # call logger
     info_logger(username, " SYSTEM_CSV_CREATED")
@@ -277,46 +286,50 @@ def write_csv(username, csv_file):
     # return csv object
     return csv_file
 
+
 @login_required(login_url="/login")
 def system_create_cron(request):
-    """ helper function to check config before creating scheduled task """
+    """helper function to check config before creating scheduled task"""
 
     # get config
-    main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+    main_config_model = MainConfigModel.objects.get(main_config_name="MainConfig")
 
     # check file system
-    stop_cron_exporter = check_content_file_system(main_config_model, 'SYSTEM_CSV', request)
+    stop_cron_exporter = check_content_file_system(
+        main_config_model, "SYSTEM_CSV", request
+    )
 
     # check stop condition
     if stop_cron_exporter:
         # return to 'system_list'
-        return redirect(reverse('system_list'))
+        return redirect(reverse("system_list"))
     else:
 
         # create parameter dict
         params = {}
 
         # prepare parameter dict
-        params['name'] = 'system_spreadsheet_exporter_csv'
-        params['func'] = 'dfirtrack_main.exporter.spreadsheet.csv.system_cron'
+        params["name"] = "system_spreadsheet_exporter_csv"
+        params["func"] = "dfirtrack_main.exporter.spreadsheet.csv.system_cron"
 
         # build url
-        urlpath = '/admin/django_q/schedule/add/'
+        urlpath = "/admin/django_q/schedule/add/"
         urlquery = urlencode(params)
-        admin_url_create_cron = urlunparse(('','',urlpath,'',urlquery,''))
+        admin_url_create_cron = urlunparse(("", "", urlpath, "", urlquery, ""))
 
         # open django admin with pre-filled form for scheduled task
         return redirect(admin_url_create_cron)
 
+
 @login_required(login_url="/login")
 def system(request):
-    """ instant spreadsheet export via button for direct download via browser """
+    """instant spreadsheet export via button for direct download via browser"""
 
     # create csv MIME type object
-    csv_browser = HttpResponse(content_type='text/csv')
+    csv_browser = HttpResponse(content_type="text/csv")
 
     # prepare interactive file including filename
-    csv_browser['Content-Disposition'] = 'attachment; filename="systems.csv"'
+    csv_browser["Content-Disposition"] = 'attachment; filename="systems.csv"'
 
     # get username from request object
     username = str(request.user)
@@ -327,17 +340,18 @@ def system(request):
     # return spreadsheet object to browser
     return csv_browser
 
+
 def system_cron():
-    """ spreadsheet export via scheduled task to server file system """
+    """spreadsheet export via scheduled task to server file system"""
 
     # prepare time for output file
-    filetime = timezone.now().strftime('%Y%m%d_%H%M')
+    filetime = timezone.now().strftime("%Y%m%d_%H%M")
 
     # get config
-    main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+    main_config_model = MainConfigModel.objects.get(main_config_name="MainConfig")
 
     # check file system
-    stop_cron_exporter = check_content_file_system(main_config_model, 'SYSTEM_CSV')
+    stop_cron_exporter = check_content_file_system(main_config_model, "SYSTEM_CSV")
 
     # leave if config caused errors
     if stop_cron_exporter:
@@ -345,10 +359,12 @@ def system_cron():
         return
 
     # prepare output file path
-    output_file_path = main_config_model.cron_export_path + '/' + filetime + '_systems.csv'
+    output_file_path = (
+        main_config_model.cron_export_path + "/" + filetime + "_systems.csv"
+    )
 
     # open output file
-    csv_disk = open(output_file_path, 'w')
+    csv_disk = open(output_file_path, "w")
 
     # get username from config
     username = main_config_model.cron_username
@@ -360,4 +376,4 @@ def system_cron():
     csv_disk.close()
 
     # call logger
-    info_logger(username, ' SYSTEM_CSV_FILE_WRITTEN ' + output_file_path)
+    info_logger(username, " SYSTEM_CSV_FILE_WRITTEN " + output_file_path)

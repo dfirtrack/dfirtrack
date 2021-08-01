@@ -12,19 +12,20 @@ from dfirtrack_main.models import Os
 
 
 class OsList(LoginRequiredMixin, ListView):
-    login_url = '/login'
+    login_url = "/login"
     model = Os
-    template_name = 'dfirtrack_main/os/os_list.html'
-    context_object_name = 'os_list'
+    template_name = "dfirtrack_main/os/os_list.html"
+    context_object_name = "os_list"
 
     def get_queryset(self):
         debug_logger(str(self.request.user), " OS_LIST_ENTERED")
-        return Os.objects.order_by('os_name')
+        return Os.objects.order_by("os_name")
+
 
 class OsDetail(LoginRequiredMixin, DetailView):
-    login_url = '/login'
+    login_url = "/login"
     model = Os
-    template_name = 'dfirtrack_main/os/os_detail.html'
+    template_name = "dfirtrack_main/os/os_detail.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -32,20 +33,25 @@ class OsDetail(LoginRequiredMixin, DetailView):
         os.logger(str(self.request.user), " OS_DETAIL_ENTERED")
         return context
 
+
 class OsCreate(LoginRequiredMixin, CreateView):
-    login_url = '/login'
+    login_url = "/login"
     model = Os
     form_class = OsForm
-    template_name = 'dfirtrack_main/generic_form.html'
+    template_name = "dfirtrack_main/generic_form.html"
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " OS_ADD_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-            'object_type': 'os',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                "form": form,
+                "title": "Add",
+                "object_type": "os",
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -53,29 +59,38 @@ class OsCreate(LoginRequiredMixin, CreateView):
             os = form.save(commit=False)
             os.save()
             os.logger(str(request.user), " OS_ADD_EXECUTED")
-            messages.success(request, 'OS added')
-            return redirect(reverse('os_detail', args=(os.os_id,)))
+            messages.success(request, "OS added")
+            return redirect(reverse("os_detail", args=(os.os_id,)))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-                'object_type': 'os',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    "form": form,
+                    "title": "Add",
+                    "object_type": "os",
+                },
+            )
+
 
 class OsCreatePopup(LoginRequiredMixin, CreateView):
-    login_url = '/login'
+    login_url = "/login"
     model = Os
     form_class = OsForm
-    template_name = 'dfirtrack_main/generic_form_popup.html'
+    template_name = "dfirtrack_main/generic_form_popup.html"
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " OS_ADD_POPUP_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-            'object_type': 'OS',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                "form": form,
+                "title": "Add",
+                "object_type": "OS",
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -83,31 +98,42 @@ class OsCreatePopup(LoginRequiredMixin, CreateView):
             os = form.save(commit=False)
             os.save()
             os.logger(str(request.user), " OS_ADD_POPUP_EXECUTED")
-            messages.success(request, 'OS added')
-            return HttpResponse('<script type="text/javascript">window.close();</script>')
+            messages.success(request, "OS added")
+            return HttpResponse(
+                '<script type="text/javascript">window.close();</script>'
+            )
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-                'object_type': 'OS',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    "form": form,
+                    "title": "Add",
+                    "object_type": "OS",
+                },
+            )
+
 
 class OsUpdate(LoginRequiredMixin, UpdateView):
-    login_url = '/login'
+    login_url = "/login"
     model = Os
     form_class = OsForm
-    template_name = 'dfirtrack_main/generic_form.html'
+    template_name = "dfirtrack_main/generic_form.html"
 
     def get(self, request, *args, **kwargs):
         os = self.get_object()
         form = self.form_class(instance=os)
         os.logger(str(request.user), " OS_EDIT_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Edit',
-            'object_type': 'os',
-            'object_name': os.os_name,
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                "form": form,
+                "title": "Edit",
+                "object_type": "os",
+                "object_name": os.os_name,
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         os = self.get_object()
@@ -116,12 +142,16 @@ class OsUpdate(LoginRequiredMixin, UpdateView):
             os = form.save(commit=False)
             os.save()
             os.logger(str(request.user), " OS_EDIT_EXECUTED")
-            messages.success(request, 'OS edited')
-            return redirect(reverse('os_detail', args=(os.os_id,)))
+            messages.success(request, "OS edited")
+            return redirect(reverse("os_detail", args=(os.os_id,)))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Edit',
-                'object_type': 'os',
-                'object_name': os.os_name,
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    "form": form,
+                    "title": "Edit",
+                    "object_type": "os",
+                    "object_name": os.os_name,
+                },
+            )

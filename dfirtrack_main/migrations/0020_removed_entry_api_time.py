@@ -4,24 +4,24 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('dfirtrack_main', '0019_notestatus_values'),
+        ("dfirtrack_main", "0019_notestatus_values"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='entry',
-            name='entry_api_time',
+            model_name="entry",
+            name="entry_api_time",
         ),
         migrations.RemoveField(
-            model_name='entry',
-            name='entry_date',
+            model_name="entry",
+            name="entry_date",
         ),
         migrations.RemoveField(
-            model_name='entry',
-            name='entry_system',
+            model_name="entry",
+            name="entry_system",
         ),
         migrations.RemoveField(
-            model_name='entry',
-            name='entry_utc',
+            model_name="entry",
+            name="entry_utc",
         ),
     ]

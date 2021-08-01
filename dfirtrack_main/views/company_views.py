@@ -12,19 +12,20 @@ from dfirtrack_main.models import Company
 
 
 class CompanyList(LoginRequiredMixin, ListView):
-    login_url = '/login'
+    login_url = "/login"
     model = Company
-    template_name = 'dfirtrack_main/company/company_list.html'
-    context_object_name = 'company_list'
+    template_name = "dfirtrack_main/company/company_list.html"
+    context_object_name = "company_list"
 
     def get_queryset(self):
         debug_logger(str(self.request.user), " COMPANY_LIST_ENTERED")
-        return Company.objects.order_by('company_name')
+        return Company.objects.order_by("company_name")
+
 
 class CompanyDetail(LoginRequiredMixin, DetailView):
-    login_url = '/login'
+    login_url = "/login"
     model = Company
-    template_name = 'dfirtrack_main/company/company_detail.html'
+    template_name = "dfirtrack_main/company/company_detail.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -32,20 +33,25 @@ class CompanyDetail(LoginRequiredMixin, DetailView):
         company.logger(str(self.request.user), " COMPANY_DETAIL_ENTERED")
         return context
 
+
 class CompanyCreate(LoginRequiredMixin, CreateView):
-    login_url = '/login'
+    login_url = "/login"
     model = Company
     form_class = CompanyForm
-    template_name = 'dfirtrack_main/generic_form.html'
+    template_name = "dfirtrack_main/generic_form.html"
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " COMPANY_ADD_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-            'object_type': 'company',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                "form": form,
+                "title": "Add",
+                "object_type": "company",
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -53,29 +59,38 @@ class CompanyCreate(LoginRequiredMixin, CreateView):
             company = form.save(commit=False)
             company.save()
             company.logger(str(request.user), " COMPANY_ADD_EXECUTED")
-            messages.success(request, 'Company added')
-            return redirect(reverse('company_detail', args=(company.company_id,)))
+            messages.success(request, "Company added")
+            return redirect(reverse("company_detail", args=(company.company_id,)))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-                'object_type': 'company',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    "form": form,
+                    "title": "Add",
+                    "object_type": "company",
+                },
+            )
+
 
 class CompanyCreatePopup(LoginRequiredMixin, CreateView):
-    login_url = '/login'
+    login_url = "/login"
     model = Company
     form_class = CompanyForm
-    template_name = 'dfirtrack_main/generic_form_popup.html'
+    template_name = "dfirtrack_main/generic_form_popup.html"
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " COMPANY_ADD_POPUP_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-            'object_type': 'company',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                "form": form,
+                "title": "Add",
+                "object_type": "company",
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -83,31 +98,42 @@ class CompanyCreatePopup(LoginRequiredMixin, CreateView):
             company = form.save(commit=False)
             company.save()
             company.logger(str(request.user), " COMPANY_ADD_POPUP_EXECUTED")
-            messages.success(request, 'Company added')
-            return HttpResponse('<script type="text/javascript">window.close();</script>')
+            messages.success(request, "Company added")
+            return HttpResponse(
+                '<script type="text/javascript">window.close();</script>'
+            )
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-                'object_type': 'company',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    "form": form,
+                    "title": "Add",
+                    "object_type": "company",
+                },
+            )
+
 
 class CompanyUpdate(LoginRequiredMixin, UpdateView):
-    login_url = '/login'
+    login_url = "/login"
     model = Company
     form_class = CompanyForm
-    template_name = 'dfirtrack_main/generic_form.html'
+    template_name = "dfirtrack_main/generic_form.html"
 
     def get(self, request, *args, **kwargs):
         company = self.get_object()
         form = self.form_class(instance=company)
         company.logger(str(request.user), " COMPANY_EDIT_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Edit',
-            'object_type': 'company',
-            'object_name': company.company_name,
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                "form": form,
+                "title": "Edit",
+                "object_type": "company",
+                "object_name": company.company_name,
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         company = self.get_object()
@@ -116,12 +142,16 @@ class CompanyUpdate(LoginRequiredMixin, UpdateView):
             company = form.save(commit=False)
             company.save()
             company.logger(str(request.user), " COMPANY_EDIT_EXECUTED")
-            messages.success(request, 'Company edited')
-            return redirect(reverse('company_detail', args=(company.company_id,)))
+            messages.success(request, "Company edited")
+            return redirect(reverse("company_detail", args=(company.company_id,)))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Edit',
-                'object_type': 'company',
-                'object_name': company.company_name,
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    "form": form,
+                    "title": "Edit",
+                    "object_type": "company",
+                    "object_name": company.company_name,
+                },
+            )

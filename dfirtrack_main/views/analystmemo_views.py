@@ -11,19 +11,20 @@ from dfirtrack_main.models import Analystmemo
 
 
 class AnalystmemoList(LoginRequiredMixin, ListView):
-    login_url = '/login'
+    login_url = "/login"
     model = Analystmemo
-    template_name = 'dfirtrack_main/analystmemo/analystmemo_list.html'
-    context_object_name = 'analystmemo_list'
+    template_name = "dfirtrack_main/analystmemo/analystmemo_list.html"
+    context_object_name = "analystmemo_list"
 
     def get_queryset(self):
         debug_logger(str(self.request.user), " ANALYSTMEMO_LIST_ENTERED")
-        return Analystmemo.objects.order_by('analystmemo_id')
+        return Analystmemo.objects.order_by("analystmemo_id")
+
 
 class AnalystmemoDetail(LoginRequiredMixin, DetailView):
-    login_url = '/login'
+    login_url = "/login"
     model = Analystmemo
-    template_name = 'dfirtrack_main/analystmemo/analystmemo_detail.html'
+    template_name = "dfirtrack_main/analystmemo/analystmemo_detail.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -31,25 +32,32 @@ class AnalystmemoDetail(LoginRequiredMixin, DetailView):
         analystmemo.logger(str(self.request.user), " ANALYSTMEMO_DETAIL_ENTERED")
         return context
 
+
 class AnalystmemoCreate(LoginRequiredMixin, CreateView):
-    login_url = '/login'
+    login_url = "/login"
     model = Analystmemo
     form_class = AnalystmemoForm
-    template_name = 'dfirtrack_main/analystmemo/analystmemo_generic_form.html'
+    template_name = "dfirtrack_main/analystmemo/analystmemo_generic_form.html"
 
     def get(self, request, *args, **kwargs):
-        if 'system' in request.GET:
-            system = request.GET['system']
+        if "system" in request.GET:
+            system = request.GET["system"]
             form = self.form_class(
-                initial= {'system': system,}
+                initial={
+                    "system": system,
+                }
             )
         else:
             form = self.form_class()
         debug_logger(str(request.user), " ANALYSTMEMO_ADD_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                "form": form,
+                "title": "Add",
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -59,28 +67,39 @@ class AnalystmemoCreate(LoginRequiredMixin, CreateView):
             analystmemo.analystmemo_modified_by_user_id = request.user
             analystmemo.save()
             analystmemo.logger(str(request.user), " ANALYSTMEMO_ADD_EXECUTED")
-            messages.success(request, 'Analystmemo added')
-            return redirect(reverse('system_detail', args=(analystmemo.system.system_id,)))
+            messages.success(request, "Analystmemo added")
+            return redirect(
+                reverse("system_detail", args=(analystmemo.system.system_id,))
+            )
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    "form": form,
+                    "title": "Add",
+                },
+            )
+
 
 class AnalystmemoUpdate(LoginRequiredMixin, UpdateView):
-    login_url = '/login'
+    login_url = "/login"
     model = Analystmemo
     form_class = AnalystmemoForm
-    template_name = 'dfirtrack_main/analystmemo/analystmemo_generic_form.html'
+    template_name = "dfirtrack_main/analystmemo/analystmemo_generic_form.html"
 
     def get(self, request, *args, **kwargs):
         analystmemo = self.get_object()
         form = self.form_class(instance=analystmemo)
         analystmemo.logger(str(request.user), " ANALYSTMEMO_EDIT_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Edit',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                "form": form,
+                "title": "Edit",
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         analystmemo = self.get_object()
@@ -90,10 +109,16 @@ class AnalystmemoUpdate(LoginRequiredMixin, UpdateView):
             analystmemo.analystmemo_modified_by_user_id = request.user
             analystmemo.save()
             analystmemo.logger(str(request.user), " ANALYSTMEMO_EDIT_EXECUTED")
-            messages.success(request, 'Analystmemo edited')
-            return redirect(reverse('system_detail', args=(analystmemo.system.system_id,)))
+            messages.success(request, "Analystmemo edited")
+            return redirect(
+                reverse("system_detail", args=(analystmemo.system.system_id,))
+            )
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Edit',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    "form": form,
+                    "title": "Edit",
+                },
+            )

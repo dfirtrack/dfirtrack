@@ -9,18 +9,24 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('dfirtrack_main', '0004_changed_fqdn_to_dnssuffix'),
+        ("dfirtrack_main", "0004_changed_fqdn_to_dnssuffix"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='tag',
-            name='tag_modified_by_user_id',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='tag_modified_by', to=settings.AUTH_USER_MODEL),
+            model_name="tag",
+            name="tag_modified_by_user_id",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="tag_modified_by",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.AddField(
-            model_name='tag',
-            name='tag_note',
+            model_name="tag",
+            name="tag_note",
             field=models.TextField(blank=True, null=True),
         ),
     ]

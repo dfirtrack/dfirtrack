@@ -18,10 +18,12 @@ from dfirtrack_main.logger.default_logger import debug_logger
 
 @login_required(login_url="/login")
 def system_create_cron(request):
-    """ helper function to check config before creating scheduled task """
+    """helper function to check config before creating scheduled task"""
 
     # get config model
-    model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name = 'SystemImporterFileCsvConfig')
+    model = SystemImporterFileCsvConfigModel.objects.get(
+        system_importer_file_csv_config_name="SystemImporterFileCsvConfig"
+    )
 
     """ check config user """
 
@@ -31,7 +33,7 @@ def system_create_cron(request):
     # check stop condition
     if stop_system_importer_file_csv:
         # return to 'system_list'
-        return redirect(reverse('system_list'))
+        return redirect(reverse("system_list"))
 
     """ check file system """
 
@@ -41,7 +43,7 @@ def system_create_cron(request):
     # check stop condition
     if stop_system_importer_file_csv:
         # return to 'system_list'
-        return redirect(reverse('system_list'))
+        return redirect(reverse("system_list"))
 
     """ check config attributes """
 
@@ -51,29 +53,32 @@ def system_create_cron(request):
     # check stop condition
     if stop_system_importer_file_csv:
         # return to 'system_list'
-        return redirect(reverse('system_list'))
+        return redirect(reverse("system_list"))
     else:
 
         # create parameter dict
         params = {}
 
         # prepare parameter dict
-        params['name'] = 'system_importer_file_csv'
-        params['func'] = 'dfirtrack_main.importer.file.csv.system_cron'
+        params["name"] = "system_importer_file_csv"
+        params["func"] = "dfirtrack_main.importer.file.csv.system_cron"
 
         # build url
-        urlpath = '/admin/django_q/schedule/add/'
+        urlpath = "/admin/django_q/schedule/add/"
         urlquery = urlencode(params)
-        admin_url_create_cron = urlunparse(('','',urlpath,'',urlquery,''))
+        admin_url_create_cron = urlunparse(("", "", urlpath, "", urlquery, ""))
 
         # open django admin with pre-filled form for scheduled task
         return redirect(admin_url_create_cron)
 
+
 def system_cron():
-    """  CSV import via scheduled task, file is on server file system """
+    """CSV import via scheduled task, file is on server file system"""
 
     # get config model
-    model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name = 'SystemImporterFileCsvConfig')
+    model = SystemImporterFileCsvConfigModel.objects.get(
+        system_importer_file_csv_config_name="SystemImporterFileCsvConfig"
+    )
 
     """ check config user """
 
@@ -113,12 +118,15 @@ def system_cron():
     # return to scheduled task
     return
 
+
 @login_required(login_url="/login")
 def system_instant(request):
-    """  CSV import via button, file is on server file system """
+    """CSV import via button, file is on server file system"""
 
     # get config model
-    model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name = 'SystemImporterFileCsvConfig')
+    model = SystemImporterFileCsvConfigModel.objects.get(
+        system_importer_file_csv_config_name="SystemImporterFileCsvConfig"
+    )
 
     """ check file system """
 
@@ -128,7 +136,7 @@ def system_instant(request):
     # leave system_importer_file_csv if config caused errors
     if stop_system_importer_file_csv:
         # return to 'system_list'
-        return redirect(reverse('system_list'))
+        return redirect(reverse("system_list"))
 
     """ check config attributes """
 
@@ -138,7 +146,7 @@ def system_instant(request):
     # leave system_importer_file_csv if config caused errors
     if stop_system_importer_file_csv:
         # return to 'system_list'
-        return redirect(reverse('system_list'))
+        return redirect(reverse("system_list"))
 
     """ main function """
 
@@ -146,23 +154,26 @@ def system_instant(request):
     system_handler(request)
 
     # return to 'system_list'
-    return redirect(reverse('system_list'))
+    return redirect(reverse("system_list"))
+
 
 @login_required(login_url="/login")
 def system_upload(request):
-    """  CSV import via upload form, file is on user system  """
+    """CSV import via upload form, file is on user system"""
 
     # POST request
     if request.method == "POST":
 
         # get systemcsv from request (no submitted file only relevant for tests, normally form enforces file submitting)
-        check_systemcsv = request.FILES.get('systemcsv', False)
+        check_systemcsv = request.FILES.get("systemcsv", False)
 
         # check request for systemcsv (file submitted - no submitted file only relevant for tests, normally form enforces file submitting)
         if check_systemcsv:
 
             # get config model
-            model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name = 'SystemImporterFileCsvConfig')
+            model = SystemImporterFileCsvConfigModel.objects.get(
+                system_importer_file_csv_config_name="SystemImporterFileCsvConfig"
+            )
 
             """ check config attributes """
 
@@ -172,7 +183,7 @@ def system_upload(request):
             # leave system_importer_file_csv if config caused errors
             if stop_system_importer_file_csv:
                 # return to 'system_list'
-                return redirect(reverse('system_list'))
+                return redirect(reverse("system_list"))
 
             """ main function """
 
@@ -188,20 +199,22 @@ def system_upload(request):
             # show form again
             return render(
                 request,
-                'dfirtrack_main/system/system_importer_file_csv.html',
+                "dfirtrack_main/system/system_importer_file_csv.html",
                 {
-                    'form': form,
-                }
+                    "form": form,
+                },
             )
 
         # return to 'system_list'
-        return redirect(reverse('system_list'))
+        return redirect(reverse("system_list"))
 
     # GET request
     else:
 
         # get config model
-        model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name = 'SystemImporterFileCsvConfig')
+        model = SystemImporterFileCsvConfigModel.objects.get(
+            system_importer_file_csv_config_name="SystemImporterFileCsvConfig"
+        )
 
         """ check config attributes """
 
@@ -211,24 +224,24 @@ def system_upload(request):
         # leave system_importer_file_csv if config caused errors
         if stop_system_importer_file_csv:
             # return to 'system_list'
-            return redirect(reverse('system_list'))
+            return redirect(reverse("system_list"))
 
         # show warning if existing systems will be updated
         if not model.csv_skip_existing_system:
             # call message
-            messages.warning(request, 'WARNING: Existing systems will be updated!')
+            messages.warning(request, "WARNING: Existing systems will be updated!")
 
         # get empty form
         form = SystemImporterFileCsvForm()
 
         # call logger
-        debug_logger(str(request.user), ' SYSTEM_IMPORTER_FILE_CSV_ENTERED')
+        debug_logger(str(request.user), " SYSTEM_IMPORTER_FILE_CSV_ENTERED")
 
     # show form
     return render(
         request,
-        'dfirtrack_main/system/system_importer_file_csv.html',
+        "dfirtrack_main/system/system_importer_file_csv.html",
         {
-            'form': form,
-        }
+            "form": form,
+        },
     )

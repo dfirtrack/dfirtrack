@@ -8,163 +8,196 @@ from dfirtrack_config.models import MainConfigModel
 
 
 def set_main_overview(main_overview):
-    """ change config """
+    """change config"""
 
-    model = MainConfigModel.objects.get(main_config_name='MainConfig')
-    model.main_overview = f'main_overview_{main_overview}'
+    model = MainConfigModel.objects.get(main_config_name="MainConfig")
+    model.main_overview = f"main_overview_{main_overview}"
     model.save()
 
     # return to test function
     return
 
+
 class MainOverviewViewTestCase(TestCase):
-    """ main overview view tests """
+    """main overview view tests"""
 
     @classmethod
     def setUpTestData(cls):
 
         # create user
-        User.objects.create_user(username='testuser_main_overview', password='RYgxCfV2NRcfXlJvsSHP')
+        User.objects.create_user(
+            username="testuser_main_overview", password="RYgxCfV2NRcfXlJvsSHP"
+        )
 
     def test_main_overview_not_logged_in(self):
-        """ test main overview """
+        """test main overview"""
 
         # create url
-        destination = '/login/?next=' + urllib.parse.quote('/main_overview/', safe='')
+        destination = "/login/?next=" + urllib.parse.quote("/main_overview/", safe="")
         # get response
-        response = self.client.get('/main_overview/', follow=True)
+        response = self.client.get("/main_overview/", follow=True)
         # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
 
     def test_main_overview_system_url(self):
-        """ test main overview url and redirect """
+        """test main overview url and redirect"""
 
         # change config
-        set_main_overview('system')
+        set_main_overview("system")
 
         # login testuser
-        self.client.login(username='testuser_main_overview', password='RYgxCfV2NRcfXlJvsSHP')
+        self.client.login(
+            username="testuser_main_overview", password="RYgxCfV2NRcfXlJvsSHP"
+        )
         # get reverse url
-        url = reverse('main_overview')
+        url = reverse("main_overview")
         # compare url
-        self.assertEqual(url, '/main_overview/')
+        self.assertEqual(url, "/main_overview/")
         # create url
-        destination = urllib.parse.quote('/system/')
+        destination = urllib.parse.quote("/system/")
         # get response
-        response = self.client.get('/main_overview/')
+        response = self.client.get("/main_overview/")
         # compare redirect
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
 
     def test_main_overview_artifact_url(self):
-        """ test main overview url and redirect """
+        """test main overview url and redirect"""
 
         # change config
-        set_main_overview('artifact')
+        set_main_overview("artifact")
 
         # login testuser
-        self.client.login(username='testuser_main_overview', password='RYgxCfV2NRcfXlJvsSHP')
+        self.client.login(
+            username="testuser_main_overview", password="RYgxCfV2NRcfXlJvsSHP"
+        )
         # get reverse url
-        url = reverse('main_overview')
+        url = reverse("main_overview")
         # compare url
-        self.assertEqual(url, '/main_overview/')
+        self.assertEqual(url, "/main_overview/")
         # create url
-        destination = urllib.parse.quote('/artifacts/artifact/')
+        destination = urllib.parse.quote("/artifacts/artifact/")
         # get response
-        response = self.client.get('/main_overview/')
+        response = self.client.get("/main_overview/")
         # compare redirect
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
 
     def test_main_overview_case_url(self):
-        """ test main overview url and redirect """
+        """test main overview url and redirect"""
 
         # change config
-        set_main_overview('case')
+        set_main_overview("case")
 
         # login testuser
-        self.client.login(username='testuser_main_overview', password='RYgxCfV2NRcfXlJvsSHP')
+        self.client.login(
+            username="testuser_main_overview", password="RYgxCfV2NRcfXlJvsSHP"
+        )
         # get reverse url
-        url = reverse('main_overview')
+        url = reverse("main_overview")
         # compare url
-        self.assertEqual(url, '/main_overview/')
+        self.assertEqual(url, "/main_overview/")
         # create url
-        destination = urllib.parse.quote('/case/')
+        destination = urllib.parse.quote("/case/")
         # get response
-        response = self.client.get('/main_overview/')
+        response = self.client.get("/main_overview/")
         # compare redirect
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
 
     def test_main_overview_status_url(self):
-        """ test main overview url and redirect """
+        """test main overview url and redirect"""
 
         # change config
-        set_main_overview('status')
+        set_main_overview("status")
 
         # login testuser
-        self.client.login(username='testuser_main_overview', password='RYgxCfV2NRcfXlJvsSHP')
+        self.client.login(
+            username="testuser_main_overview", password="RYgxCfV2NRcfXlJvsSHP"
+        )
         # get reverse url
-        url = reverse('main_overview')
+        url = reverse("main_overview")
         # compare url
-        self.assertEqual(url, '/main_overview/')
+        self.assertEqual(url, "/main_overview/")
         # create url
-        destination = urllib.parse.quote('/config/status/')
+        destination = urllib.parse.quote("/config/status/")
         # get response
-        response = self.client.get('/main_overview/')
+        response = self.client.get("/main_overview/")
         # compare redirect
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
 
     def test_main_overview_tag_url(self):
-        """ test main overview url and redirect """
+        """test main overview url and redirect"""
 
         # change config
-        set_main_overview('tag')
+        set_main_overview("tag")
 
         # login testuser
-        self.client.login(username='testuser_main_overview', password='RYgxCfV2NRcfXlJvsSHP')
+        self.client.login(
+            username="testuser_main_overview", password="RYgxCfV2NRcfXlJvsSHP"
+        )
         # get reverse url
-        url = reverse('main_overview')
+        url = reverse("main_overview")
         # compare url
-        self.assertEqual(url, '/main_overview/')
+        self.assertEqual(url, "/main_overview/")
         # create url
-        destination = urllib.parse.quote('/tag/')
+        destination = urllib.parse.quote("/tag/")
         # get response
-        response = self.client.get('/main_overview/')
+        response = self.client.get("/main_overview/")
         # compare redirect
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
 
     def test_main_overview_task_url(self):
-        """ test main overview url and redirect """
+        """test main overview url and redirect"""
 
         # change config
-        set_main_overview('task')
+        set_main_overview("task")
 
         # login testuser
-        self.client.login(username='testuser_main_overview', password='RYgxCfV2NRcfXlJvsSHP')
+        self.client.login(
+            username="testuser_main_overview", password="RYgxCfV2NRcfXlJvsSHP"
+        )
         # get reverse url
-        url = reverse('main_overview')
+        url = reverse("main_overview")
         # compare url
-        self.assertEqual(url, '/main_overview/')
+        self.assertEqual(url, "/main_overview/")
         # create url
-        destination = urllib.parse.quote('/task/')
+        destination = urllib.parse.quote("/task/")
         # get response
-        response = self.client.get('/main_overview/')
+        response = self.client.get("/main_overview/")
         # compare redirect
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
 
     def test_main_overview_default_url(self):
-        """ test main overview url and redirect """
+        """test main overview url and redirect"""
 
         # change config
-        set_main_overview('foobar')
+        set_main_overview("foobar")
 
         # login testuser
-        self.client.login(username='testuser_main_overview', password='RYgxCfV2NRcfXlJvsSHP')
+        self.client.login(
+            username="testuser_main_overview", password="RYgxCfV2NRcfXlJvsSHP"
+        )
         # get reverse url
-        url = reverse('main_overview')
+        url = reverse("main_overview")
         # compare url
-        self.assertEqual(url, '/main_overview/')
+        self.assertEqual(url, "/main_overview/")
         # create url
-        destination = urllib.parse.quote('/system/')
+        destination = urllib.parse.quote("/system/")
         # get response
-        response = self.client.get('/main_overview/')
+        response = self.client.get("/main_overview/")
         # compare redirect
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
