@@ -2,8 +2,9 @@
 Django settings for DFIRTrack project.
 """
 
-from dfirtrack.config import LOGGING_PATH
 import os
+
+from dfirtrack.config import LOGGING_PATH
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
