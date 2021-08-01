@@ -1,9 +1,12 @@
-from dfirtrack_artifacts.models import Artifactstatus
-from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel
+import urllib.parse
+
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
-import urllib.parse
+
+from dfirtrack_artifacts.models import Artifactstatus
+from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel
+
 
 class ArtifactExporterSpreadsheetXlsConfigViewTestCase(TestCase):
     """ artifact exporter spreadsheet XLS config view tests """

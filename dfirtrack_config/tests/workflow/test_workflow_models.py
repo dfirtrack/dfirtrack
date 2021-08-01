@@ -1,18 +1,25 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
-from dfirtrack_artifacts.models import Artifact
-from dfirtrack_artifacts.models import Artifacttype
-from dfirtrack_artifacts.models import Artifactpriority
-from dfirtrack_artifacts.models import Artifactstatus
-from dfirtrack_config.models import Workflow
-from dfirtrack_config.models import WorkflowDefaultArtifactAttributes
-from dfirtrack_config.models import WorkflowDefaultTasknameAttributes
-from dfirtrack_main.models import System
-from dfirtrack_main.models import Systemstatus
-from dfirtrack_main.models import Task
-from dfirtrack_main.models import Taskname
-from dfirtrack_main.models import Taskpriority
-from dfirtrack_main.models import Taskstatus
+
+from dfirtrack_artifacts.models import (
+    Artifact,
+    Artifactpriority,
+    Artifactstatus,
+    Artifacttype,
+)
+from dfirtrack_config.models import (
+    Workflow,
+    WorkflowDefaultArtifactAttributes,
+    WorkflowDefaultTasknameAttributes,
+)
+from dfirtrack_main.models import (
+    System,
+    Systemstatus,
+    Task,
+    Taskname,
+    Taskpriority,
+    Taskstatus,
+)
 
 
 class WorkflowModelTestCase(TestCase):

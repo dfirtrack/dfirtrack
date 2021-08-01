@@ -1,22 +1,24 @@
+import ipaddress
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import FieldError
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
+from django.template.loader import render_to_string
+from django.templatetags.static import static
 from django.urls import reverse
 from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, FormView, UpdateView
+
+from dfirtrack.settings import INSTALLED_APPS as installed_apps
 from dfirtrack_artifacts.models import Artifact
 from dfirtrack_config.models import MainConfigModel, UserConfigModel, Workflow
 from dfirtrack_main.filter_forms import SystemFilterForm
 from dfirtrack_main.forms import SystemForm, SystemNameForm
 from dfirtrack_main.logger.default_logger import debug_logger, warning_logger
 from dfirtrack_main.models import Analysisstatus, Case, Ip, System, Systemstatus, Tag
-from dfirtrack.settings import INSTALLED_APPS as installed_apps
-from django.http import  JsonResponse
-from django.templatetags.static import static
-from django.template.loader import render_to_string
-from django.core.exceptions import FieldError
-import ipaddress
 
 
 class SystemList(LoginRequiredMixin, FormView):

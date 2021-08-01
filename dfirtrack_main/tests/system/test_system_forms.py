@@ -1,25 +1,27 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
-from dfirtrack_main.forms import SystemForm
-from dfirtrack_main.forms import SystemNameForm
-from dfirtrack_main.models import Analysisstatus
-from dfirtrack_main.models import Case
-from dfirtrack_main.models import Company
-from dfirtrack_main.models import Contact
-from dfirtrack_main.models import Dnsname
-from dfirtrack_main.models import Domain
-from dfirtrack_main.models import Location
-from dfirtrack_main.models import Os
-from dfirtrack_main.models import Osarch
-from dfirtrack_main.models import Reason
-from dfirtrack_main.models import Recommendation
-from dfirtrack_main.models import Serviceprovider
-from dfirtrack_main.models import System
-from dfirtrack_main.models import Systemstatus
-from dfirtrack_main.models import Systemtype
-from dfirtrack_main.models import Tag
-from dfirtrack_main.models import Tagcolor
+
+from dfirtrack_main.forms import SystemForm, SystemNameForm
+from dfirtrack_main.models import (
+    Analysisstatus,
+    Case,
+    Company,
+    Contact,
+    Dnsname,
+    Domain,
+    Location,
+    Os,
+    Osarch,
+    Reason,
+    Recommendation,
+    Serviceprovider,
+    System,
+    Systemstatus,
+    Systemtype,
+    Tag,
+    Tagcolor,
+)
 
 
 class SystemFormTestCase(TestCase):

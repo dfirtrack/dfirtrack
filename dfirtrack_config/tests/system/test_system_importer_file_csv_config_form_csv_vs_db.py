@@ -1,7 +1,21 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
+
 from dfirtrack_config.forms import SystemImporterFileCsvConfigForm
-from dfirtrack_main.models import Analysisstatus, Case, Company, Dnsname, Domain, Location, Os, Reason, Recommendation, Serviceprovider, Systemstatus, Systemtype
+from dfirtrack_main.models import (
+    Analysisstatus,
+    Case,
+    Company,
+    Dnsname,
+    Domain,
+    Location,
+    Os,
+    Reason,
+    Recommendation,
+    Serviceprovider,
+    Systemstatus,
+    Systemtype,
+)
 
 
 class SystemImporterFileCsvConfigFormCsvVsDbTestCase(TestCase):

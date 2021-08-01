@@ -1,7 +1,7 @@
 from django.test import TestCase
+
 from dfirtrack_main.forms import CaseForm
-from dfirtrack_main.models import Casepriority
-from dfirtrack_main.models import Casestatus
+from dfirtrack_main.models import Casepriority, Casestatus
 
 
 class CaseFormTestCase(TestCase):

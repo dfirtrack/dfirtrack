@@ -5,14 +5,13 @@ from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
+
+from dfirtrack.settings import INSTALLED_APPS as installed_apps
 from dfirtrack_artifacts.models import Artifact
 from dfirtrack_config.models import MainConfigModel
 from dfirtrack_main.forms import CaseForm
 from dfirtrack_main.logger.default_logger import debug_logger
-from dfirtrack_main.models import Case
-from dfirtrack_main.models import Casepriority
-from dfirtrack_main.models import Casestatus
-from dfirtrack.settings import INSTALLED_APPS as installed_apps
+from dfirtrack_main.models import Case, Casepriority, Casestatus
 
 
 def query_case(casestatus_list):

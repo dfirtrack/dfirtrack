@@ -6,9 +6,10 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
+
 from dfirtrack_main.forms import TasknameForm
 from dfirtrack_main.logger.default_logger import debug_logger
-from dfirtrack_main.models import Taskname, Task, Taskstatus
+from dfirtrack_main.models import Task, Taskname, Taskstatus
 from dfirtrack_main.views.task_views import TaskFinish
 
 

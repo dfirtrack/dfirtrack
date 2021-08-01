@@ -1,9 +1,12 @@
+import urllib.parse
+
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
 from django.utils import timezone
+
 from dfirtrack_main.models import Analysisstatus, Systemstatus
-import urllib.parse
+
 
 class SystemImporterFileCsvConfigViewTestCase(TestCase):
     """ system importer file CSV config view tests """

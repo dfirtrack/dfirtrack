@@ -1,12 +1,18 @@
+from time import strftime
+
+import yaml
 from django.core.files import File
 from django_q.tasks import async_task
+
 from dfirtrack_config.models import MainConfigModel, SystemExporterMarkdownConfigModel
+from dfirtrack_main.exporter.markdown import (
+    clean_directory,
+    read_or_create_mkdocs_yml,
+    write_report,
+)
 from dfirtrack_main.exporter.markdown.messages import end_message, start_message
-from dfirtrack_main.exporter.markdown import clean_directory, read_or_create_mkdocs_yml, write_report
 from dfirtrack_main.logger.default_logger import debug_logger, info_logger
 from dfirtrack_main.models import System
-from time import strftime
-import yaml
 
 
 def write_report_systemsorted(system, username):

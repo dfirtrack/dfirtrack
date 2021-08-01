@@ -1,7 +1,9 @@
+import ipaddress
+
 from django.contrib import messages
+
 from dfirtrack_main.logger.default_logger import warning_logger
 from dfirtrack_main.models import Ip
-import ipaddress
 
 
 def check_and_create_ip(ip_ip, model, row_counter, request=None):

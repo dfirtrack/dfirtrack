@@ -1,14 +1,21 @@
-from dfirtrack_api.serializers.dfirtrack_artifacts_fk import ArtifactpriorityFkSerializer
-from dfirtrack_api.serializers.dfirtrack_artifacts_fk import ArtifactstatusFkSerializer
-from dfirtrack_api.serializers.dfirtrack_artifacts_fk import ArtifacttypeFkSerializer
-from dfirtrack_api.serializers.dfirtrack_main_fk import CaseFkSerializer
-from dfirtrack_api.serializers.dfirtrack_main_fk import SystemFkSerializer
-from dfirtrack_api.serializers.dfirtrack_main_fk import TagFkSerializer
-from dfirtrack_artifacts.models import Artifact
-from dfirtrack_artifacts.models import Artifactpriority
-from dfirtrack_artifacts.models import Artifactstatus
-from dfirtrack_artifacts.models import Artifacttype
 from rest_framework import serializers
+
+from dfirtrack_api.serializers.dfirtrack_artifacts_fk import (
+    ArtifactpriorityFkSerializer,
+    ArtifactstatusFkSerializer,
+    ArtifacttypeFkSerializer,
+)
+from dfirtrack_api.serializers.dfirtrack_main_fk import (
+    CaseFkSerializer,
+    SystemFkSerializer,
+    TagFkSerializer,
+)
+from dfirtrack_artifacts.models import (
+    Artifact,
+    Artifactpriority,
+    Artifactstatus,
+    Artifacttype,
+)
 
 
 class ArtifactprioritySerializer(serializers.ModelSerializer):

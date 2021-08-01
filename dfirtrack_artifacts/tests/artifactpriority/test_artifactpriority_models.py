@@ -1,5 +1,7 @@
 from django.test import TestCase
+
 from dfirtrack_artifacts.models import Artifactpriority
+
 
 class ArtifactpriorityModelTestCase(TestCase):
     """ artifactpriority model tests """

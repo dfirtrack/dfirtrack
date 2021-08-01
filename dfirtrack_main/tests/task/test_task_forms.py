@@ -1,15 +1,18 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
+
 from dfirtrack_main.forms import TaskForm
-from dfirtrack_main.models import System
-from dfirtrack_main.models import Systemstatus
-from dfirtrack_main.models import Tag
-from dfirtrack_main.models import Tagcolor
-from dfirtrack_main.models import Task
-from dfirtrack_main.models import Taskname
-from dfirtrack_main.models import Taskpriority
-from dfirtrack_main.models import Taskstatus
+from dfirtrack_main.models import (
+    System,
+    Systemstatus,
+    Tag,
+    Tagcolor,
+    Task,
+    Taskname,
+    Taskpriority,
+    Taskstatus,
+)
 
 
 class TaskFormTestCase(TestCase):

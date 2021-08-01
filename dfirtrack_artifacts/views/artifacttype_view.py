@@ -2,10 +2,12 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.views.generic import DetailView, ListView, UpdateView, CreateView
-from dfirtrack_artifacts.models import Artifacttype
+from django.views.generic import CreateView, DetailView, ListView, UpdateView
+
 from dfirtrack_artifacts.forms import ArtifacttypeForm
+from dfirtrack_artifacts.models import Artifacttype
 from dfirtrack_main.logger.default_logger import debug_logger
+
 
 class ArtifacttypeListView(LoginRequiredMixin, ListView):
     login_url = '/login'

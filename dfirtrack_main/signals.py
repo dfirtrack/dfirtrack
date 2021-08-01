@@ -2,12 +2,11 @@ from django.contrib.auth.models import User
 from django.contrib.messages import constants
 from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
+
 from dfirtrack_artifacts.models import Artifact
 from dfirtrack_main.async_messages import message_users
 from dfirtrack_main.logger.default_logger import info_logger
-from dfirtrack_main.models import Case
-from dfirtrack_main.models import Reportitem
-from dfirtrack_main.models import System
+from dfirtrack_main.models import Case, Reportitem, System
 
 
 @receiver(pre_delete, sender=Artifact)

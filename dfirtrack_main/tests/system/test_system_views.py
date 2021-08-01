@@ -1,12 +1,15 @@
+import urllib.parse
+
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
+
 from dfirtrack.settings import INSTALLED_APPS as installed_apps
 from dfirtrack_artifacts.models import Artifact
+
 #from dfirtrack_config.models import MainConfigModel
 from dfirtrack_config.models import Workflow
 from dfirtrack_main.models import Ip, System, Systemstatus
-import urllib.parse
 
 
 class SystemViewTestCase(TestCase):

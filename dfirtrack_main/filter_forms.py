@@ -1,8 +1,7 @@
 from django import forms
+
 from dfirtrack_config.models import UserConfigModel
-from dfirtrack_main.models import Case
-from dfirtrack_main.models import Notestatus
-from dfirtrack_main.models import Tag
+from dfirtrack_main.models import Case, Notestatus, Tag
 
 
 class BaseFilterForm(forms.Form):

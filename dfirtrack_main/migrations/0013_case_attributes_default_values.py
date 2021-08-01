@@ -1,6 +1,7 @@
 from django.db import migrations
 from django.utils.text import slugify
 
+
 def insert_casepriorities(apps, schema_editor):
     # We can't import the migrated model directly as it may be a newer
     # version than this migration expects. We use the historical version.

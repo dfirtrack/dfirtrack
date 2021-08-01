@@ -1,8 +1,22 @@
 from django.contrib import messages
 from django.db import DataError
+
 from dfirtrack_main.importer.file.csv_attributes_check import check_and_create_ip
 from dfirtrack_main.logger.default_logger import warning_logger
-from dfirtrack_main.models import Case, Company, Dnsname, Domain, Location, Os, Reason, Recommendation, Serviceprovider, Systemtype, Tag, Tagcolor
+from dfirtrack_main.models import (
+    Case,
+    Company,
+    Dnsname,
+    Domain,
+    Location,
+    Os,
+    Reason,
+    Recommendation,
+    Serviceprovider,
+    Systemtype,
+    Tag,
+    Tagcolor,
+)
 
 
 def create_lock_tags(model):

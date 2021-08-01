@@ -1,14 +1,16 @@
+import re
+
 from django import forms
 from django.utils.translation import gettext_lazy
-from dfirtrack_main.models import Case
-from dfirtrack_main.models import System
-from dfirtrack_main.models import Tag
+
+from dfirtrack_artifacts.models import (
+    Artifact,
+    Artifactpriority,
+    Artifactstatus,
+    Artifacttype,
+)
+from dfirtrack_main.models import Case, System, Tag
 from dfirtrack_main.widgets import TagWidget
-from dfirtrack_artifacts.models import Artifact
-from dfirtrack_artifacts.models import Artifactpriority
-from dfirtrack_artifacts.models import Artifactstatus
-from dfirtrack_artifacts.models import Artifacttype
-import re
 
 
 class ArtifactForm(forms.ModelForm):

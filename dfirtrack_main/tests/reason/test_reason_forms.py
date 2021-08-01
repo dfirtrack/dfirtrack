@@ -1,5 +1,7 @@
 from django.test import TestCase
+
 from dfirtrack_main.forms import ReasonForm
+
 
 class ReasonFormTestCase(TestCase):
     """ reason form tests """

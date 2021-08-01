@@ -1,15 +1,14 @@
 from django.contrib import messages
-from django.contrib.messages import constants
 from django.contrib.auth.decorators import login_required
+from django.contrib.messages import constants
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django_q.tasks import async_task
+
 from dfirtrack_main.async_messages import message_user
 from dfirtrack_main.forms import TagCreatorForm
-from dfirtrack_main.logger.default_logger import debug_logger
-from dfirtrack_main.logger.default_logger import info_logger
-from dfirtrack_main.models import System
-from dfirtrack_main.models import Tag
+from dfirtrack_main.logger.default_logger import debug_logger, info_logger
+from dfirtrack_main.models import System, Tag
 
 
 @login_required(login_url="/login")

@@ -1,8 +1,11 @@
-from dfirtrack_config.models import MainConfigModel
+import urllib.parse
+
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
-import urllib.parse
+
+from dfirtrack_config.models import MainConfigModel
+
 
 class MainConfigViewTestCase(TestCase):
     """ main config view tests """

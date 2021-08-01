@@ -1,7 +1,9 @@
+import urllib.parse
+
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
-import urllib.parse
+
 
 class SystemExporterSpreadsheetXlsConfigViewTestCase(TestCase):
     """ system exporter spreadsheet XLS config view tests """

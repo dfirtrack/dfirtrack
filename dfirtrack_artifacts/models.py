@@ -1,16 +1,16 @@
+import logging
+import os
+import uuid
+
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
-from django.utils.text import slugify
 from django.utils import timezone
+from django.utils.text import slugify
+
 from dfirtrack.config import EVIDENCE_PATH
-
 from dfirtrack_config.models import MainConfigModel
-
-import logging
-import uuid
-import os
 
 # initialize logger
 stdlogger = logging.getLogger(__name__)

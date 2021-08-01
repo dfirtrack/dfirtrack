@@ -1,11 +1,13 @@
+import urllib.parse
+import uuid
+from unittest.mock import patch
+
 from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 from django.utils import timezone
-from dfirtrack_main.models import Entry, System, Systemstatus, Case
-import urllib.parse
-import uuid
-from unittest.mock import patch
+
+from dfirtrack_main.models import Case, Entry, System, Systemstatus
 
 
 class EntryViewTestCase(TestCase):

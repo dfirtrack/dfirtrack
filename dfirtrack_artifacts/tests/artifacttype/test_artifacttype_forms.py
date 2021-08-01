@@ -1,5 +1,7 @@
 from django.test import TestCase
+
 from dfirtrack_artifacts.forms import ArtifacttypeForm
+
 
 class ArtifacttypeFormTestCase(TestCase):
     """ artifacttype form tests """

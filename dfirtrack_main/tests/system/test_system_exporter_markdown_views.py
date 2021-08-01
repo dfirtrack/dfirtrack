@@ -1,27 +1,31 @@
-from dateutil.parser import parse
-from django.contrib.auth.models import User
-from django.contrib.messages import get_messages
-from django.test import TestCase
-from dfirtrack.settings import BASE_DIR
-from dfirtrack_config.models import SystemExporterMarkdownConfigModel
-from dfirtrack_main.exporter.markdown.markdown import system_cron
-from dfirtrack_main.models import Dnsname
-from dfirtrack_main.models import Domain
-from dfirtrack_main.models import Entry
-from dfirtrack_main.models import Headline
-from dfirtrack_main.models import Ip
-from dfirtrack_main.models import Os
-from dfirtrack_main.models import Reason
-from dfirtrack_main.models import Recommendation
-from dfirtrack_main.models import Reportitem
-from dfirtrack_main.models import System
-from dfirtrack_main.models import Systemstatus
-from dfirtrack_main.models import Systemtype
-from dfirtrack_main.models import Systemuser
 import filecmp
 import os
 import shutil
 import urllib.parse
+
+from dateutil.parser import parse
+from django.contrib.auth.models import User
+from django.contrib.messages import get_messages
+from django.test import TestCase
+
+from dfirtrack.settings import BASE_DIR
+from dfirtrack_config.models import SystemExporterMarkdownConfigModel
+from dfirtrack_main.exporter.markdown.markdown import system_cron
+from dfirtrack_main.models import (
+    Dnsname,
+    Domain,
+    Entry,
+    Headline,
+    Ip,
+    Os,
+    Reason,
+    Recommendation,
+    Reportitem,
+    System,
+    Systemstatus,
+    Systemtype,
+    Systemuser,
+)
 
 
 def set_markdown_path(markdown_path):

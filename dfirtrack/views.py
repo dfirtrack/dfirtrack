@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.urls import reverse
+
 from dfirtrack import settings
 from dfirtrack_config.models import MainConfigModel
 

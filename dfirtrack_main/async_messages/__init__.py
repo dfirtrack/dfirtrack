@@ -1,5 +1,5 @@
-from django.core.cache import cache
 from django.contrib.messages import constants
+from django.core.cache import cache
 
 
 def message_user(user, message, level=constants.INFO):

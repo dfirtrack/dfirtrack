@@ -1,17 +1,17 @@
+import urllib.parse
 from datetime import datetime
+
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
-from dfirtrack_artifacts.models import Artifact
-from dfirtrack_artifacts.models import Artifactpriority
-from dfirtrack_artifacts.models import Artifactstatus
-from dfirtrack_artifacts.models import Artifacttype
-from dfirtrack_main.models import Case
-from dfirtrack_main.models import System
-from dfirtrack_main.models import Systemstatus
-from dfirtrack_main.models import Tag
-from dfirtrack_main.models import Tagcolor
-import urllib.parse
+
+from dfirtrack_artifacts.models import (
+    Artifact,
+    Artifactpriority,
+    Artifactstatus,
+    Artifacttype,
+)
+from dfirtrack_main.models import Case, System, Systemstatus, Tag, Tagcolor
 
 
 class ArtifactAPIViewTestCase(TestCase):

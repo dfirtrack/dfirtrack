@@ -1,5 +1,7 @@
 from django.test import TestCase
+
 from dfirtrack_main.forms import LocationForm
+
 
 class LocationFormTestCase(TestCase):
     """ location form tests """

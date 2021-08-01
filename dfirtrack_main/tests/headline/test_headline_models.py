@@ -1,5 +1,7 @@
 from django.test import TestCase
+
 from dfirtrack_main.models import Headline
+
 
 class HeadlineModelTestCase(TestCase):
     """ headline model tests """

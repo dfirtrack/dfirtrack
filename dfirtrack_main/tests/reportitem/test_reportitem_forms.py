@@ -1,10 +1,8 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
+
 from dfirtrack_main.forms import ReportitemForm
-from dfirtrack_main.models import Headline
-from dfirtrack_main.models import Notestatus
-from dfirtrack_main.models import System
-from dfirtrack_main.models import Systemstatus
+from dfirtrack_main.models import Headline, Notestatus, System, Systemstatus
 
 
 class ReportitemFormTestCase(TestCase):

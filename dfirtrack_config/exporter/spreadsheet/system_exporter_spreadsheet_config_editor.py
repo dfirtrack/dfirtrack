@@ -2,9 +2,17 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
-from dfirtrack_config.forms import SystemExporterSpreadsheetCsvConfigForm, SystemExporterSpreadsheetXlsConfigForm
-from dfirtrack_config.models import SystemExporterSpreadsheetCsvConfigModel, SystemExporterSpreadsheetXlsConfigModel
+
+from dfirtrack_config.forms import (
+    SystemExporterSpreadsheetCsvConfigForm,
+    SystemExporterSpreadsheetXlsConfigForm,
+)
+from dfirtrack_config.models import (
+    SystemExporterSpreadsheetCsvConfigModel,
+    SystemExporterSpreadsheetXlsConfigModel,
+)
 from dfirtrack_main.logger.default_logger import info_logger
+
 
 @login_required(login_url="/login")
 def system_exporter_spreadsheet_csv_config_view(request):

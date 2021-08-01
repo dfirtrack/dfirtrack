@@ -1,8 +1,10 @@
+import urllib.parse
+
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
+
 from dfirtrack_config.models import MainConfigModel
-import urllib.parse
 
 
 def set_main_overview(main_overview):

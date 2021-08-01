@@ -1,5 +1,7 @@
 from django.test import TestCase
+
 from dfirtrack_main.forms import OsForm
+
 
 class OsFormTestCase(TestCase):
     """ os form tests """

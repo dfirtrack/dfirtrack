@@ -1,5 +1,6 @@
-from dfirtrack_main.logger.default_logger import warning_logger
 import yaml
+
+from dfirtrack_main.logger.default_logger import warning_logger
 
 
 def read_or_create_mkdocs_yml(username, mkdconfpath):

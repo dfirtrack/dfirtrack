@@ -1,5 +1,18 @@
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
-from dfirtrack_main.models import Case, Company, Dnsname, Domain, Location, Os, Reason, Recommendation, Serviceprovider, Systemtype, Tag
+from dfirtrack_main.models import (
+    Case,
+    Company,
+    Dnsname,
+    Domain,
+    Location,
+    Os,
+    Reason,
+    Recommendation,
+    Serviceprovider,
+    Systemtype,
+    Tag,
+)
+
 
 def set_config_column_system(csv_column_system):
     """ set config """

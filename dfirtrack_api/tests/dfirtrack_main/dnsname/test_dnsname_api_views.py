@@ -1,7 +1,10 @@
+import urllib.parse
+
 from django.contrib.auth.models import User
 from django.test import TestCase
-from dfirtrack_main.models import Domain, Dnsname
-import urllib.parse
+
+from dfirtrack_main.models import Dnsname, Domain
+
 
 class DnsnameAPIViewTestCase(TestCase):
     """ dnsname API view tests """

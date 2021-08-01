@@ -1,30 +1,36 @@
+import urllib.parse
 from datetime import datetime
+from unittest.mock import patch
+
+import xlrd
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
 from django.utils import timezone
-from dfirtrack_config.models import MainConfigModel
-from dfirtrack_config.models import SystemExporterSpreadsheetXlsConfigModel
+
+from dfirtrack_config.models import (
+    MainConfigModel,
+    SystemExporterSpreadsheetXlsConfigModel,
+)
 from dfirtrack_main.exporter.spreadsheet.xls import system_cron
-from dfirtrack_main.models import Analysisstatus
-from dfirtrack_main.models import Case
-from dfirtrack_main.models import Company
-from dfirtrack_main.models import Dnsname
-from dfirtrack_main.models import Domain
-from dfirtrack_main.models import Ip
-from dfirtrack_main.models import Location
-from dfirtrack_main.models import Os
-from dfirtrack_main.models import Reason
-from dfirtrack_main.models import Recommendation
-from dfirtrack_main.models import Serviceprovider
-from dfirtrack_main.models import System
-from dfirtrack_main.models import Systemstatus
-from dfirtrack_main.models import Systemtype
-from dfirtrack_main.models import Tag
-from dfirtrack_main.models import Tagcolor
-from unittest.mock import patch
-import urllib.parse
-import xlrd
+from dfirtrack_main.models import (
+    Analysisstatus,
+    Case,
+    Company,
+    Dnsname,
+    Domain,
+    Ip,
+    Location,
+    Os,
+    Reason,
+    Recommendation,
+    Serviceprovider,
+    System,
+    Systemstatus,
+    Systemtype,
+    Tag,
+    Tagcolor,
+)
 
 
 class SystemExporterSpreadsheetXlsViewTestCase(TestCase):

@@ -3,14 +3,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic.edit import FormView
+
 from dfirtrack_config.models import UserConfigModel
 from dfirtrack_main.filter_forms import DocumentationFilterForm
 from dfirtrack_main.logger.default_logger import debug_logger
-from dfirtrack_main.models import Case
-from dfirtrack_main.models import Note
-from dfirtrack_main.models import Notestatus
-from dfirtrack_main.models import Reportitem
-from dfirtrack_main.models import Tag
+from dfirtrack_main.models import Case, Note, Notestatus, Reportitem, Tag
 
 
 class DocumentationList(LoginRequiredMixin, FormView):

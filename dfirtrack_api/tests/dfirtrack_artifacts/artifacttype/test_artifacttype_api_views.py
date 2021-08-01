@@ -1,7 +1,10 @@
+import urllib.parse
+
 from django.contrib.auth.models import User
 from django.test import TestCase
+
 from dfirtrack_artifacts.models import Artifacttype
-import urllib.parse
+
 
 class ArtifacttypeAPIViewTestCase(TestCase):
     """ artifacttype API view tests """

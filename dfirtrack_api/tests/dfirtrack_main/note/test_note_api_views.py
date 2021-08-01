@@ -1,11 +1,9 @@
+import urllib.parse
+
 from django.contrib.auth.models import User
 from django.test import TestCase
-from dfirtrack_main.models import Case
-from dfirtrack_main.models import Note
-from dfirtrack_main.models import Notestatus
-from dfirtrack_main.models import Tag
-from dfirtrack_main.models import Tagcolor
-import urllib.parse
+
+from dfirtrack_main.models import Case, Note, Notestatus, Tag, Tagcolor
 
 
 class NoteAPIViewTestCase(TestCase):

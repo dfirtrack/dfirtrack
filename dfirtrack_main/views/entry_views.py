@@ -1,17 +1,18 @@
+import csv
+import uuid
+
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
-from dfirtrack_main.forms import EntryForm, EntryFileImport, EntryFileImportFields
+from django_q.tasks import async_task
+
+from dfirtrack_main.forms import EntryFileImport, EntryFileImportFields, EntryForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Entry
-from django.contrib.auth.decorators import login_required
-from django_q.tasks import async_task
-import uuid
-import csv
-
 
 
 class EntryList(LoginRequiredMixin, ListView):

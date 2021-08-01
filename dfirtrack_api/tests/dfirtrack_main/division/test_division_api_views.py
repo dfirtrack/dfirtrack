@@ -1,7 +1,10 @@
+import urllib.parse
+
 from django.contrib.auth.models import User
 from django.test import TestCase
+
 from dfirtrack_main.models import Division
-import urllib.parse
+
 
 class DivisionAPIViewTestCase(TestCase):
     """ division API view tests """

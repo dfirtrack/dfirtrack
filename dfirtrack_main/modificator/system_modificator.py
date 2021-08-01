@@ -3,20 +3,25 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django_q.tasks import async_task
+
+from dfirtrack_config.models import Workflow
 from dfirtrack_main.async_messages.system_messages import final_messages
 from dfirtrack_main.forms import SystemModificatorForm
-from dfirtrack_main.logger.default_logger import debug_logger
-from dfirtrack_main.logger.default_logger import info_logger
-from dfirtrack_main.logger.default_logger import warning_logger
-from dfirtrack_main.models import Analysisstatus
-from dfirtrack_main.models import Company
-from dfirtrack_main.models import Contact
-from dfirtrack_main.models import Location
-from dfirtrack_main.models import Serviceprovider
-from dfirtrack_main.models import System
-from dfirtrack_main.models import Systemstatus
-from dfirtrack_main.models import Tag
-from dfirtrack_config.models import Workflow
+from dfirtrack_main.logger.default_logger import (
+    debug_logger,
+    info_logger,
+    warning_logger,
+)
+from dfirtrack_main.models import (
+    Analysisstatus,
+    Company,
+    Contact,
+    Location,
+    Serviceprovider,
+    System,
+    Systemstatus,
+    Tag,
+)
 
 
 @login_required(login_url="/login")

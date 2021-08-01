@@ -1,31 +1,37 @@
-from django import forms
-from django.utils.translation import gettext_lazy
-from django.contrib.auth.models import User
-from dfirtrack_artifacts.models import Artifactstatus
-from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel
-from dfirtrack_config.models import MainConfigModel
-from dfirtrack_config.models import SystemExporterMarkdownConfigModel
-from dfirtrack_config.models import SystemExporterSpreadsheetCsvConfigModel
-from dfirtrack_config.models import SystemExporterSpreadsheetXlsConfigModel
-from dfirtrack_config.models import SystemImporterFileCsvConfigModel
-from dfirtrack_config.models import Workflow
-from dfirtrack_config.models import WorkflowDefaultArtifactAttributes
-from dfirtrack_config.models import WorkflowDefaultTasknameAttributes
-from dfirtrack_main.models import Analysisstatus
-from dfirtrack_main.models import Case
-from dfirtrack_main.models import Casestatus
-from dfirtrack_main.models import Company
-from dfirtrack_main.models import Dnsname
-from dfirtrack_main.models import Domain
-from dfirtrack_main.models import Location
-from dfirtrack_main.models import Os
-from dfirtrack_main.models import Reason
-from dfirtrack_main.models import Recommendation
-from dfirtrack_main.models import Serviceprovider
-from dfirtrack_main.models import Systemstatus
-from dfirtrack_main.models import Systemtype
-from dfirtrack_main.models import Tag
 import os
+
+from django import forms
+from django.contrib.auth.models import User
+from django.utils.translation import gettext_lazy
+
+from dfirtrack_artifacts.models import Artifactstatus
+from dfirtrack_config.models import (
+    ArtifactExporterSpreadsheetXlsConfigModel,
+    MainConfigModel,
+    SystemExporterMarkdownConfigModel,
+    SystemExporterSpreadsheetCsvConfigModel,
+    SystemExporterSpreadsheetXlsConfigModel,
+    SystemImporterFileCsvConfigModel,
+    Workflow,
+    WorkflowDefaultArtifactAttributes,
+    WorkflowDefaultTasknameAttributes,
+)
+from dfirtrack_main.models import (
+    Analysisstatus,
+    Case,
+    Casestatus,
+    Company,
+    Dnsname,
+    Domain,
+    Location,
+    Os,
+    Reason,
+    Recommendation,
+    Serviceprovider,
+    Systemstatus,
+    Systemtype,
+    Tag,
+)
 
 
 class ArtifactExporterSpreadsheetXlsConfigForm(forms.ModelForm):

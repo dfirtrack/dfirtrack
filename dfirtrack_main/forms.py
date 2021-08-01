@@ -1,47 +1,48 @@
 from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.contrib.auth.models import User
-from django.utils.translation import gettext_lazy
 from django.core.exceptions import ValidationError
-from dfirtrack_artifacts.models import Artifact
-from dfirtrack_main.models import Analysisstatus
-from dfirtrack_main.models import Analystmemo
-from dfirtrack_main.models import Case
-from dfirtrack_main.models import Casepriority
-from dfirtrack_main.models import Casestatus
-from dfirtrack_main.models import Casetype
-from dfirtrack_main.models import Company
-from dfirtrack_main.models import Contact
-from dfirtrack_main.models import Division
-from dfirtrack_main.models import Dnsname
-from dfirtrack_main.models import Domain
-from dfirtrack_main.models import Domainuser
-from dfirtrack_main.models import Entry
-from dfirtrack_main.models import Headline
-from dfirtrack_main.models import Location
-from dfirtrack_main.models import Note
-from dfirtrack_main.models import Notestatus
-from dfirtrack_main.models import Os
-from dfirtrack_main.models import Osarch
-from dfirtrack_main.models import Osimportname
-from dfirtrack_main.models import Reason
-from dfirtrack_main.models import Recommendation
-from dfirtrack_main.models import Reportitem
-from dfirtrack_main.models import Serviceprovider
-from dfirtrack_main.models import System
-from dfirtrack_main.models import Systemstatus
-from dfirtrack_main.models import Systemtype
-from dfirtrack_main.models import Systemuser
-from dfirtrack_main.models import Tag
-from dfirtrack_main.models import Tagcolor
-from dfirtrack_main.models import Task
-from dfirtrack_main.models import Taskname
-from dfirtrack_main.models import Taskpriority
-from dfirtrack_main.models import Taskstatus
-
-from dfirtrack_main.widgets import TagWidget
-
+from django.utils.translation import gettext_lazy
 from martor.fields import MartorFormField
+
+from dfirtrack_artifacts.models import Artifact
+from dfirtrack_main.models import (
+    Analysisstatus,
+    Analystmemo,
+    Case,
+    Casepriority,
+    Casestatus,
+    Casetype,
+    Company,
+    Contact,
+    Division,
+    Dnsname,
+    Domain,
+    Domainuser,
+    Entry,
+    Headline,
+    Location,
+    Note,
+    Notestatus,
+    Os,
+    Osarch,
+    Osimportname,
+    Reason,
+    Recommendation,
+    Reportitem,
+    Serviceprovider,
+    System,
+    Systemstatus,
+    Systemtype,
+    Systemuser,
+    Tag,
+    Tagcolor,
+    Task,
+    Taskname,
+    Taskpriority,
+    Taskstatus,
+)
+from dfirtrack_main.widgets import TagWidget
 
 
 class AdminStyleSelectorForm(forms.ModelForm):

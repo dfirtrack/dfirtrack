@@ -1,4 +1,5 @@
 from django.test import TestCase
+
 from dfirtrack_main.forms import DnsnameForm
 from dfirtrack_main.models import Domain
 

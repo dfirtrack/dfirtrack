@@ -1,8 +1,10 @@
+import os
+
 from django.contrib import messages
+
 from dfirtrack_config.models import MainConfigModel
 from dfirtrack_main.importer.file.csv_messages import error_message_cron
 from dfirtrack_main.logger.default_logger import error_logger
-import os
 
 
 def check_config_cron_user(model, request=None):

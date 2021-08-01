@@ -1,18 +1,21 @@
+import urllib.parse
+from unittest.mock import patch
+
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
 from django.utils import timezone
+
 #from django.utils.dateparse import parse_datetime
 from dfirtrack.config import EVIDENCE_PATH
-from dfirtrack_artifacts.models import Artifact
-from dfirtrack_artifacts.models import Artifactpriority
-from dfirtrack_artifacts.models import Artifactstatus
-from dfirtrack_artifacts.models import Artifacttype
+from dfirtrack_artifacts.models import (
+    Artifact,
+    Artifactpriority,
+    Artifactstatus,
+    Artifacttype,
+)
 from dfirtrack_config.models import MainConfigModel
-from dfirtrack_main.models import System
-from dfirtrack_main.models import Systemstatus
-from unittest.mock import patch
-import urllib.parse
+from dfirtrack_main.models import System, Systemstatus
 
 
 class ArtifactViewTestCase(TestCase):
