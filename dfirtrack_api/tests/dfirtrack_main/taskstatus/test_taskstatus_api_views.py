@@ -1,7 +1,9 @@
+import urllib.parse
+
+from dfirtrack_main.models import Taskstatus
 from django.contrib.auth.models import User
 from django.test import TestCase
-from dfirtrack_main.models import Taskstatus
-import urllib.parse
+
 
 class TaskstatusAPIViewTestCase(TestCase):
     """ taskstatus API view tests """

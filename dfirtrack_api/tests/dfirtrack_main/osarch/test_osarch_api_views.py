@@ -1,7 +1,9 @@
+import urllib.parse
+
+from dfirtrack_main.models import Osarch
 from django.contrib.auth.models import User
 from django.test import TestCase
-from dfirtrack_main.models import Osarch
-import urllib.parse
+
 
 class OsarchAPIViewTestCase(TestCase):
     """ osarch API view tests """

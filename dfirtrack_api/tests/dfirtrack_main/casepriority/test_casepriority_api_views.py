@@ -1,7 +1,8 @@
+import urllib.parse
+
+from dfirtrack_main.models import Casepriority
 from django.contrib.auth.models import User
 from django.test import TestCase
-from dfirtrack_main.models import Casepriority
-import urllib.parse
 
 
 class CasepriorityAPIViewTestCase(TestCase):

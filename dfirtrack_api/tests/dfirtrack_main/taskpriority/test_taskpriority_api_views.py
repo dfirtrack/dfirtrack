@@ -1,7 +1,9 @@
+import urllib.parse
+
+from dfirtrack_main.models import Taskpriority
 from django.contrib.auth.models import User
 from django.test import TestCase
-from dfirtrack_main.models import Taskpriority
-import urllib.parse
+
 
 class TaskpriorityAPIViewTestCase(TestCase):
     """ taskpriority API view tests """

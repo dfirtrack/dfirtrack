@@ -1,12 +1,17 @@
-from dfirtrack_api.serializers.dfirtrack_artifacts import ArtifactSerializer
-from dfirtrack_api.serializers.dfirtrack_artifacts import ArtifactprioritySerializer
-from dfirtrack_api.serializers.dfirtrack_artifacts import ArtifactstatusSerializer
-from dfirtrack_api.serializers.dfirtrack_artifacts import ArtifacttypeSerializer
-from dfirtrack_artifacts.models import Artifact
-from dfirtrack_artifacts.models import Artifactpriority
-from dfirtrack_artifacts.models import Artifactstatus
-from dfirtrack_artifacts.models import Artifacttype
+from dfirtrack_artifacts.models import (
+    Artifact,
+    Artifactpriority,
+    Artifactstatus,
+    Artifacttype,
+)
 from rest_framework import generics
+
+from dfirtrack_api.serializers.dfirtrack_artifacts import (
+    ArtifactprioritySerializer,
+    ArtifactSerializer,
+    ArtifactstatusSerializer,
+    ArtifacttypeSerializer,
+)
 
 
 class ArtifactListApi(generics.ListCreateAPIView):

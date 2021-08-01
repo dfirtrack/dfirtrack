@@ -1,6 +1,7 @@
+import urllib.parse
+
 from django.contrib.auth.models import User
 from django.test import TestCase
-import urllib.parse
 
 
 class DFIRTrackOpenAPIViewTestCase(TestCase):

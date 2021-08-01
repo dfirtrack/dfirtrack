@@ -1,7 +1,9 @@
+import urllib.parse
+
+from dfirtrack_main.models import Reason
 from django.contrib.auth.models import User
 from django.test import TestCase
-from dfirtrack_main.models import Reason
-import urllib.parse
+
 
 class ReasonAPIViewTestCase(TestCase):
     """ reason API view tests """

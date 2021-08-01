@@ -1,7 +1,9 @@
+import urllib.parse
+
+from dfirtrack_main.models import Contact
 from django.contrib.auth.models import User
 from django.test import TestCase
-from dfirtrack_main.models import Contact
-import urllib.parse
+
 
 class ContactAPIViewTestCase(TestCase):
     """ contact API view tests """

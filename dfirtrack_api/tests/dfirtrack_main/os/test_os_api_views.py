@@ -1,7 +1,9 @@
+import urllib.parse
+
+from dfirtrack_main.models import Os
 from django.contrib.auth.models import User
 from django.test import TestCase
-from dfirtrack_main.models import Os
-import urllib.parse
+
 
 class IpAPIViewTestCase(TestCase):
     """ os API view tests """

@@ -1,7 +1,9 @@
+import urllib.parse
+
+from dfirtrack_main.models import Domain
 from django.contrib.auth.models import User
 from django.test import TestCase
-from dfirtrack_main.models import Domain
-import urllib.parse
+
 
 class DomainAPIViewTestCase(TestCase):
     """ domain API view tests """

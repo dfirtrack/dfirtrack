@@ -1,7 +1,9 @@
+import urllib.parse
+
+from dfirtrack_main.models import Systemtype
 from django.contrib.auth.models import User
 from django.test import TestCase
-from dfirtrack_main.models import Systemtype
-import urllib.parse
+
 
 class SystemtypeAPIViewTestCase(TestCase):
     """ systemtype API view tests """

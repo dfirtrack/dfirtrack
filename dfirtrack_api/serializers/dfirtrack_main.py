@@ -1,7 +1,8 @@
 from dfirtrack_main import models as dfirtrack_main_models
+from rest_framework import serializers
+
 from dfirtrack_api.serializers import dfirtrack_main_fk
 from dfirtrack_api.serializers.dfirtrack_artifacts_fk import ArtifactFkSerializer
-from rest_framework import serializers
 
 
 class AnalysisstatusSerializer(serializers.ModelSerializer):

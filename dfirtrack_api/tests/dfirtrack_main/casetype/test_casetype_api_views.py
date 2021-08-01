@@ -1,7 +1,8 @@
+import urllib.parse
+
+from dfirtrack_main.models import Casetype
 from django.contrib.auth.models import User
 from django.test import TestCase
-from dfirtrack_main.models import Casetype
-import urllib.parse
 
 
 class CasetypeAPIViewTestCase(TestCase):

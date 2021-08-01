@@ -1,7 +1,9 @@
+import urllib.parse
+
 from dfirtrack_main.models import Tag, Tagcolor
 from django.contrib.auth.models import User
 from django.test import TestCase
-import urllib.parse
+
 
 class TagAPIViewTestCase(TestCase):
     """ tag API view tests """

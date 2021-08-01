@@ -1,6 +1,7 @@
-from dfirtrack_api.serializers import dfirtrack_main as dfirtrack_main_serializers
 from dfirtrack_main import models as dfirtrack_main_models
 from rest_framework import generics
+
+from dfirtrack_api.serializers import dfirtrack_main as dfirtrack_main_serializers
 
 
 class AnalysisstatusListApi(generics.ListAPIView):

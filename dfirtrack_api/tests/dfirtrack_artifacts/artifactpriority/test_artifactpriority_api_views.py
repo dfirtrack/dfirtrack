@@ -1,7 +1,8 @@
+import urllib.parse
+
+from dfirtrack_artifacts.models import Artifactpriority
 from django.contrib.auth.models import User
 from django.test import TestCase
-from dfirtrack_artifacts.models import Artifactpriority
-import urllib.parse
 
 
 class ArtifactpriorityAPIViewTestCase(TestCase):

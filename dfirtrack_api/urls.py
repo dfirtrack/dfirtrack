@@ -1,10 +1,11 @@
 from django.urls import re_path
 from django.views.generic import TemplateView
-from rest_framework.urlpatterns import format_suffix_patterns
-from rest_framework.schemas import get_schema_view
 from rest_framework.authtoken.views import obtain_auth_token
-from dfirtrack_api.views import dfirtrack_artifacts, dfirtrack_main
+from rest_framework.schemas import get_schema_view
+from rest_framework.urlpatterns import format_suffix_patterns
+
 from dfirtrack_api.openapi.dfirtrack_openapi import DFIRTrackSchemaGenerator
+from dfirtrack_api.views import dfirtrack_artifacts, dfirtrack_main
 
 urlpatterns = [
 

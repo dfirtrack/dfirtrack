@@ -1,24 +1,29 @@
+import urllib.parse
 from datetime import datetime
+
+from dfirtrack_artifacts.models import (
+    Artifact,
+    Artifactpriority,
+    Artifactstatus,
+    Artifacttype,
+)
+from dfirtrack_main.models import (
+    Case,
+    Casepriority,
+    Casestatus,
+    Casetype,
+    System,
+    Systemstatus,
+    Tag,
+    Tagcolor,
+    Task,
+    Taskname,
+    Taskpriority,
+    Taskstatus,
+)
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
-from dfirtrack_artifacts.models import Artifact
-from dfirtrack_artifacts.models import Artifactpriority
-from dfirtrack_artifacts.models import Artifactstatus
-from dfirtrack_artifacts.models import Artifacttype
-from dfirtrack_main.models import Case
-from dfirtrack_main.models import Casepriority
-from dfirtrack_main.models import Casestatus
-from dfirtrack_main.models import Casetype
-from dfirtrack_main.models import System
-from dfirtrack_main.models import Systemstatus
-from dfirtrack_main.models import Tag
-from dfirtrack_main.models import Tagcolor
-from dfirtrack_main.models import Task
-from dfirtrack_main.models import Taskname
-from dfirtrack_main.models import Taskpriority
-from dfirtrack_main.models import Taskstatus
-import urllib.parse
 
 
 class TaskAPIViewTestCase(TestCase):
