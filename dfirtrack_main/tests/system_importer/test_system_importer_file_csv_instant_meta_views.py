@@ -1,7 +1,11 @@
+import urllib.parse
+
 from django.contrib.auth.models import User
 from django.test import TestCase
-from dfirtrack_main.tests.system_importer.config_functions import set_csv_import_username
-import urllib.parse
+
+from dfirtrack_main.tests.system_importer.config_functions import (
+    set_csv_import_username,
+)
 
 
 class SystemImporterFileCsvInstantMetaViewTestCase(TestCase):

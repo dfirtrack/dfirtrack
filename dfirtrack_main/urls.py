@@ -1,46 +1,54 @@
 from django import views as django_views
 from django.conf.urls import url
 from django.urls import path
-from dfirtrack_main.views import analysisstatus_views
-from dfirtrack_main.views import analystmemo_views
-from dfirtrack_main.views import case_views
-from dfirtrack_main.views import casepriority_views
-from dfirtrack_main.views import casestatus_views
-from dfirtrack_main.views import casetype_views
-from dfirtrack_main.views import company_views
-from dfirtrack_main.views import contact_views
-from dfirtrack_main.views import division_views
-from dfirtrack_main.views import dnsname_views
-from dfirtrack_main.views import documentation_views
-from dfirtrack_main.views import domain_views
-from dfirtrack_main.views import domainuser_views
-from dfirtrack_main.views import entry_views
-from dfirtrack_main.views import headline_views
-from dfirtrack_main.views import ip_views
-from dfirtrack_main.views import location_views
-from dfirtrack_main.views import note_views
-from dfirtrack_main.views import notestatus_views
-from dfirtrack_main.views import os_views
-from dfirtrack_main.views import osimportname_views
-from dfirtrack_main.views import reason_views
-from dfirtrack_main.views import recommendation_views
-from dfirtrack_main.views import reportitem_views
-from dfirtrack_main.views import serviceprovider_views
-from dfirtrack_main.views import system_views
-from dfirtrack_main.views import systemstatus_views
-from dfirtrack_main.views import systemtype_views
-from dfirtrack_main.views import systemuser_views
-from dfirtrack_main.views import tag_views
-from dfirtrack_main.views import task_views
-from dfirtrack_main.views import taskname_views
-from dfirtrack_main.views import taskpriority_views
-from dfirtrack_main.views import taskstatus_views
-from dfirtrack_main.creator import case_creator, system_creator, tag_creator, task_creator
+
+from dfirtrack_main.creator import (
+    case_creator,
+    system_creator,
+    tag_creator,
+    task_creator,
+)
+from dfirtrack_main.exporter.markdown import markdown
 from dfirtrack_main.exporter.spreadsheet import csv as spreadsheet_csv
 from dfirtrack_main.exporter.spreadsheet import xls
-from dfirtrack_main.exporter.markdown import markdown
 from dfirtrack_main.importer.file import csv as csv_importer
 from dfirtrack_main.modificator import system_modificator
+from dfirtrack_main.views import (
+    analysisstatus_views,
+    analystmemo_views,
+    case_views,
+    casepriority_views,
+    casestatus_views,
+    casetype_views,
+    company_views,
+    contact_views,
+    division_views,
+    dnsname_views,
+    documentation_views,
+    domain_views,
+    domainuser_views,
+    entry_views,
+    headline_views,
+    ip_views,
+    location_views,
+    note_views,
+    notestatus_views,
+    os_views,
+    osimportname_views,
+    reason_views,
+    recommendation_views,
+    reportitem_views,
+    serviceprovider_views,
+    system_views,
+    systemstatus_views,
+    systemtype_views,
+    systemuser_views,
+    tag_views,
+    task_views,
+    taskname_views,
+    taskpriority_views,
+    taskstatus_views,
+)
 
 urlpatterns = [
 

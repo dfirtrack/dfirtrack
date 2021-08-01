@@ -1,13 +1,15 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
-from dfirtrack_main.models import Case
-from dfirtrack_main.models import Casepriority
-from dfirtrack_main.models import Casestatus
-from dfirtrack_main.models import Headline
-from dfirtrack_main.models import Reportitem
-from dfirtrack_main.models import System
-from dfirtrack_main.models import Systemstatus
 
+from dfirtrack_main.models import (
+    Case,
+    Casepriority,
+    Casestatus,
+    Headline,
+    Reportitem,
+    System,
+    Systemstatus,
+)
 
 
 class ReportitemModelTestCase(TestCase):

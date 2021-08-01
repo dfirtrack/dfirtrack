@@ -1,5 +1,7 @@
 from django.test import TestCase
+
 from dfirtrack_main.models import Contact
+
 
 class ContactModelTestCase(TestCase):
     """ contact model tests """

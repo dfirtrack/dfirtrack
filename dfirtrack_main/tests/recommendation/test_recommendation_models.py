@@ -1,5 +1,7 @@
 from django.test import TestCase
+
 from dfirtrack_main.models import Recommendation
+
 
 class RecommendationModelTestCase(TestCase):
     """ recommendation model tests """

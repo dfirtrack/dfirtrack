@@ -1,8 +1,10 @@
+import urllib.parse
+
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
+
 from dfirtrack_main.models import Task, Taskname, Taskpriority, Taskstatus
-import urllib.parse
 
 
 class TasknameViewTestCase(TestCase):

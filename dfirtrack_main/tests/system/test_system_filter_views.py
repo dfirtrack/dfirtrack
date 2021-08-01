@@ -1,12 +1,10 @@
+import urllib.parse
+
+from dfirtrack_config.models import UserConfigModel
 from django.contrib.auth.models import User
 from django.test import TestCase
-from dfirtrack_config.models import UserConfigModel
-from dfirtrack_main.models import Case
-from dfirtrack_main.models import System
-from dfirtrack_main.models import Systemstatus
-from dfirtrack_main.models import Tag
-from dfirtrack_main.models import Tagcolor
-import urllib.parse
+
+from dfirtrack_main.models import Case, System, Systemstatus, Tag, Tagcolor
 
 
 def set_user_config(test_user, filter_system_list_case, filter_system_list_tag, filter_system_list_keep=True):

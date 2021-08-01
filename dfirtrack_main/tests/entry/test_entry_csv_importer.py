@@ -1,13 +1,14 @@
 import hashlib
 import os
 from datetime import datetime
-from mock import patch, mock_open
+
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils.timezone import get_current_timezone
+from mock import mock_open, patch
 
-from dfirtrack_main.models import Entry, System, Systemstatus, Tag, Tagcolor
 from dfirtrack_main.importer.file.csv_entry_import import csv_entry_import_async
+from dfirtrack_main.models import Entry, System, Systemstatus, Tag, Tagcolor
 
 
 class EntryCsvImporterTestCase(TestCase):

@@ -1,4 +1,5 @@
 from django.test import TestCase
+
 from dfirtrack_main.forms import DomainuserForm
 from dfirtrack_main.models import Domain
 

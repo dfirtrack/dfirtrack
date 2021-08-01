@@ -1,12 +1,10 @@
+import urllib.parse
+
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
-from dfirtrack_main.models import Case
-from dfirtrack_main.models import Casepriority
-from dfirtrack_main.models import Casestatus
-from dfirtrack_main.models import System
-from dfirtrack_main.models import Systemstatus
-import urllib.parse
+
+from dfirtrack_main.models import Case, Casepriority, Casestatus, System, Systemstatus
 
 
 class CaseCreatorViewTestCase(TestCase):

@@ -1,16 +1,38 @@
+import os
+import urllib.parse
 from datetime import datetime
+from unittest.mock import patch
+
+from dfirtrack.settings import BASE_DIR
+from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
 from django.utils import timezone
-from dfirtrack.settings import BASE_DIR
-from dfirtrack_config.models import SystemImporterFileCsvConfigModel
+
 from dfirtrack_main.importer.file.csv import system_cron
-from dfirtrack_main.models import Analysisstatus, Case, Company, Dnsname, Domain, Location, Ip, Os, Reason, Recommendation, Serviceprovider, System, Systemstatus, Systemtype, Tag
-from dfirtrack_main.tests.system_importer.config_functions import set_config_complete_attributes_csv, set_csv_import_filename, set_csv_import_path
-from unittest.mock import patch
-import os
-import urllib.parse
+from dfirtrack_main.models import (
+    Analysisstatus,
+    Case,
+    Company,
+    Dnsname,
+    Domain,
+    Ip,
+    Location,
+    Os,
+    Reason,
+    Recommendation,
+    Serviceprovider,
+    System,
+    Systemstatus,
+    Systemtype,
+    Tag,
+)
+from dfirtrack_main.tests.system_importer.config_functions import (
+    set_config_complete_attributes_csv,
+    set_csv_import_filename,
+    set_csv_import_path,
+)
 
 
 def compare_messages_csv(self, messages):

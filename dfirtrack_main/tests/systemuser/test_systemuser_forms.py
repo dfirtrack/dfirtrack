@@ -1,9 +1,9 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
+
 from dfirtrack_main.forms import SystemuserForm
-from dfirtrack_main.models import System
-from dfirtrack_main.models import Systemstatus
+from dfirtrack_main.models import System, Systemstatus
 
 
 class SystemuserFormTestCase(TestCase):

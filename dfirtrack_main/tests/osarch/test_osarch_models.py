@@ -1,5 +1,7 @@
 from django.test import TestCase
+
 from dfirtrack_main.models import Osarch
+
 
 class OsarchModelTestCase(TestCase):
     """ osarch model tests """

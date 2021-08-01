@@ -1,16 +1,20 @@
+import urllib.parse
 from datetime import datetime
+from unittest.mock import patch
+
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
 from django.utils import timezone
-from dfirtrack_main.models import System
-from dfirtrack_main.models import Systemstatus
-from dfirtrack_main.models import Task
-from dfirtrack_main.models import Taskname
-from dfirtrack_main.models import Taskpriority
-from dfirtrack_main.models import Taskstatus
-from unittest.mock import patch
-import urllib.parse
+
+from dfirtrack_main.models import (
+    System,
+    Systemstatus,
+    Task,
+    Taskname,
+    Taskpriority,
+    Taskstatus,
+)
 
 
 class TaskCreatorViewTestCase(TestCase):

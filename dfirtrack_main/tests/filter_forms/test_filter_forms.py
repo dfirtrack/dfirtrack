@@ -1,4 +1,5 @@
 from django.test import TestCase
+
 from dfirtrack_main.filter_forms import DocumentationFilterForm, SystemFilterForm
 
 

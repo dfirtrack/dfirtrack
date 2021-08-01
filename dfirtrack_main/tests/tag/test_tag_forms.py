@@ -1,6 +1,8 @@
 from django.test import TestCase
+
 from dfirtrack_main.forms import TagForm
 from dfirtrack_main.models import Tagcolor
+
 
 class TagFormTestCase(TestCase):
     """ tag form tests """

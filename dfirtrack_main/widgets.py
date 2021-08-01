@@ -1,6 +1,8 @@
 from django import forms
 from django.template.loader import render_to_string
+
 from dfirtrack_main.models import Tag
+
 
 class TagWidget(forms.CheckboxSelectMultiple):
     ''' Custom tag widget '''

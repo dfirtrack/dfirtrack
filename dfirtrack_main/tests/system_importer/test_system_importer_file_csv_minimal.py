@@ -1,30 +1,34 @@
+import os
+import urllib.parse
 from datetime import datetime
+from unittest.mock import patch
+
+from dfirtrack.settings import BASE_DIR
+from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
 from django.utils import timezone
-from dfirtrack.settings import BASE_DIR
-from dfirtrack_config.models import SystemImporterFileCsvConfigModel
+
 from dfirtrack_main.importer.file.csv import system_cron
 from dfirtrack_main.models import Analysisstatus, Domain, Ip, System, Systemstatus, Tag
-from dfirtrack_main.tests.system_importer.config_functions import set_config_field_delimiter_comma
-from dfirtrack_main.tests.system_importer.config_functions import set_config_field_delimiter_semicolon
-from dfirtrack_main.tests.system_importer.config_functions import set_config_headline
-from dfirtrack_main.tests.system_importer.config_functions import set_config_ip_delimiter_comma
-from dfirtrack_main.tests.system_importer.config_functions import set_config_ip_delimiter_semicolon
-from dfirtrack_main.tests.system_importer.config_functions import set_config_ip_delimiter_space
-from dfirtrack_main.tests.system_importer.config_functions import set_config_single_quotation
-from dfirtrack_main.tests.system_importer.config_functions import set_config_tag_delimiter_comma
-from dfirtrack_main.tests.system_importer.config_functions import set_config_tag_delimiter_semicolon
-from dfirtrack_main.tests.system_importer.config_functions import set_config_tag_delimiter_space
-from dfirtrack_main.tests.system_importer.config_functions import set_config_tag_prefix_delimiter_hyphen
-from dfirtrack_main.tests.system_importer.config_functions import set_config_tag_prefix_delimiter_period
-from dfirtrack_main.tests.system_importer.config_functions import set_config_tag_prefix_delimiter_underscore
-from dfirtrack_main.tests.system_importer.config_functions import set_csv_import_filename
-from dfirtrack_main.tests.system_importer.config_functions import set_csv_import_path
-from unittest.mock import patch
-import os
-import urllib.parse
+from dfirtrack_main.tests.system_importer.config_functions import (
+    set_config_field_delimiter_comma,
+    set_config_field_delimiter_semicolon,
+    set_config_headline,
+    set_config_ip_delimiter_comma,
+    set_config_ip_delimiter_semicolon,
+    set_config_ip_delimiter_space,
+    set_config_single_quotation,
+    set_config_tag_delimiter_comma,
+    set_config_tag_delimiter_semicolon,
+    set_config_tag_delimiter_space,
+    set_config_tag_prefix_delimiter_hyphen,
+    set_config_tag_prefix_delimiter_period,
+    set_config_tag_prefix_delimiter_underscore,
+    set_csv_import_filename,
+    set_csv_import_path,
+)
 
 
 def compare_messages_csv(self, messages):

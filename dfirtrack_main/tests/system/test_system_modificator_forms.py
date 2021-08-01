@@ -1,15 +1,18 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
+
 from dfirtrack_main.forms import SystemModificatorForm
-from dfirtrack_main.models import Analysisstatus
-from dfirtrack_main.models import Company
-from dfirtrack_main.models import Contact
-from dfirtrack_main.models import Location
-from dfirtrack_main.models import Serviceprovider
-from dfirtrack_main.models import System
-from dfirtrack_main.models import Systemstatus
-from dfirtrack_main.models import Tag
-from dfirtrack_main.models import Tagcolor
+from dfirtrack_main.models import (
+    Analysisstatus,
+    Company,
+    Contact,
+    Location,
+    Serviceprovider,
+    System,
+    Systemstatus,
+    Tag,
+    Tagcolor,
+)
 
 
 class SystemModificatorFormTestCase(TestCase):

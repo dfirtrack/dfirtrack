@@ -1,16 +1,21 @@
+import os
+import urllib.parse
 from datetime import datetime
+from unittest.mock import patch
+
+from dfirtrack.settings import BASE_DIR
+from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
 from django.utils import timezone
-from dfirtrack.settings import BASE_DIR
-from dfirtrack_config.models import SystemImporterFileCsvConfigModel
+
 from dfirtrack_main.importer.file.csv import system_cron
 from dfirtrack_main.models import Analysisstatus, System, Systemstatus, Tag, Tagcolor
-from dfirtrack_main.tests.system_importer.config_functions import set_config_tagfree_status, set_csv_import_filename
-from unittest.mock import patch
-import os
-import urllib.parse
+from dfirtrack_main.tests.system_importer.config_functions import (
+    set_config_tagfree_status,
+    set_csv_import_filename,
+)
 
 
 def compare_messages_lock_status(self, messages):

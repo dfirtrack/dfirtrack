@@ -1,19 +1,38 @@
+import os
+import urllib.parse
+
+from dfirtrack.settings import BASE_DIR
+from dfirtrack_config.models import SystemImporterFileCsvConfigModel
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
-from dfirtrack.settings import BASE_DIR
-from dfirtrack_config.models import SystemImporterFileCsvConfigModel
+
 from dfirtrack_main.importer.file.csv import system_cron
-from dfirtrack_main.models import Analysisstatus, Case, Company, Dnsname, Domain, Location, Os, Reason, Recommendation, Serviceprovider, Systemstatus, Systemtype, Tag, Tagcolor
-from dfirtrack_main.tests.system_importer.config_functions import set_config_check_config_attributes_column_fields_numeric_values
-from dfirtrack_main.tests.system_importer.config_functions import set_config_check_config_attributes_column_choice_vs_default_single_error
-from dfirtrack_main.tests.system_importer.config_functions import set_config_check_config_attributes_column_choice_vs_default_multiple_errors_1
-from dfirtrack_main.tests.system_importer.config_functions import set_config_check_config_attributes_column_choice_vs_default_multiple_errors_2
-from dfirtrack_main.tests.system_importer.config_functions import set_config_check_config_attributes_tagfree_choices
-from dfirtrack_main.tests.system_importer.config_functions import set_config_check_config_attributes_column_fields_equal_values
-from dfirtrack_main.tests.system_importer.config_functions import set_config_check_config_attributes_remove_choices
-import os
-import urllib.parse
+from dfirtrack_main.models import (
+    Analysisstatus,
+    Case,
+    Company,
+    Dnsname,
+    Domain,
+    Location,
+    Os,
+    Reason,
+    Recommendation,
+    Serviceprovider,
+    Systemstatus,
+    Systemtype,
+    Tag,
+    Tagcolor,
+)
+from dfirtrack_main.tests.system_importer.config_functions import (
+    set_config_check_config_attributes_column_choice_vs_default_multiple_errors_1,
+    set_config_check_config_attributes_column_choice_vs_default_multiple_errors_2,
+    set_config_check_config_attributes_column_choice_vs_default_single_error,
+    set_config_check_config_attributes_column_fields_equal_values,
+    set_config_check_config_attributes_column_fields_numeric_values,
+    set_config_check_config_attributes_remove_choices,
+    set_config_check_config_attributes_tagfree_choices,
+)
 
 
 def compare_messages_column_fields_numeric_values(self, messages):

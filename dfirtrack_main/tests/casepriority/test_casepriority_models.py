@@ -1,5 +1,7 @@
 from django.test import TestCase
+
 from dfirtrack_main.models import Casepriority
+
 
 class CasepriorityModelTestCase(TestCase):
     """ casepriority model tests """

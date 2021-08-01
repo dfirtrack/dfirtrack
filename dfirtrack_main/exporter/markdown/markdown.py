@@ -1,11 +1,13 @@
+from urllib.parse import urlencode, urlunparse
+
+from dfirtrack_config.models import SystemExporterMarkdownConfigModel
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.urls import reverse
-from dfirtrack_config.models import SystemExporterMarkdownConfigModel
+
 from dfirtrack_main.exporter.markdown.checks import check_content_file_system
 from dfirtrack_main.exporter.markdown.domainsorted import domainsorted
 from dfirtrack_main.exporter.markdown.systemsorted import systemsorted
-from urllib.parse import urlencode, urlunparse
 
 
 @login_required(login_url="/login")

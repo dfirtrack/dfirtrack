@@ -1,5 +1,7 @@
 from django.test import TestCase
+
 from dfirtrack_main.forms import HeadlineForm
+
 
 class HeadlineFormTestCase(TestCase):
     """ headline form tests """

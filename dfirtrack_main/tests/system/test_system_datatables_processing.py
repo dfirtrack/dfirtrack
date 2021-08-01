@@ -1,15 +1,19 @@
-from django.contrib.auth.models import User
-from django.test import TestCase
-from dfirtrack_main.models import Analysisstatus
-from dfirtrack_main.models import Case
-from dfirtrack_main.models import System
-from dfirtrack_main.models import Systemstatus
-from dfirtrack_main.models import Tag
-from dfirtrack_main.models import Tagcolor
 import datetime
 import json
-import pytz
 import urllib.parse
+
+import pytz
+from django.contrib.auth.models import User
+from django.test import TestCase
+
+from dfirtrack_main.models import (
+    Analysisstatus,
+    Case,
+    System,
+    Systemstatus,
+    Tag,
+    Tagcolor,
+)
 
 
 class SystemDatatablesProcessingTestCase(TestCase):

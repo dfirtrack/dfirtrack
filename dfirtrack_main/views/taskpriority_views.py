@@ -1,7 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import DetailView, ListView
+
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Taskpriority
+
 
 class TaskpriorityList(LoginRequiredMixin, ListView):
     login_url = '/login'

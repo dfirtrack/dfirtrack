@@ -1,7 +1,8 @@
-from django.core.files.uploadedfile import SimpleUploadedFile
 from django.contrib.auth.models import User
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
-from dfirtrack_main.forms import EntryForm, EntryFileImport, EntryFileImportFields
+
+from dfirtrack_main.forms import EntryFileImport, EntryFileImportFields, EntryForm
 from dfirtrack_main.models import Case, System, Systemstatus
 
 

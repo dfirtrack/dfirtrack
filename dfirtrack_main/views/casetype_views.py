@@ -2,10 +2,11 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.views.generic import DetailView, ListView, UpdateView, CreateView
-from dfirtrack_main.models import Casetype
+from django.views.generic import CreateView, DetailView, ListView, UpdateView
+
 from dfirtrack_main.forms import CasetypeForm
 from dfirtrack_main.logger.default_logger import debug_logger
+from dfirtrack_main.models import Casetype
 
 
 class CasetypeList(LoginRequiredMixin, ListView):

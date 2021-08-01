@@ -1,13 +1,13 @@
+import urllib.parse
+from unittest.mock import patch
+
+from dfirtrack.settings import INSTALLED_APPS as installed_apps
+from dfirtrack_config.models import MainConfigModel
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
-from dfirtrack.settings import INSTALLED_APPS as installed_apps
-from dfirtrack_config.models import MainConfigModel
-from dfirtrack_main.models import Case
-from dfirtrack_main.models import Casepriority
-from dfirtrack_main.models import Casestatus
-from unittest.mock import patch
-import urllib.parse
+
+from dfirtrack_main.models import Case, Casepriority, Casestatus
 
 
 class CaseViewTestCase(TestCase):

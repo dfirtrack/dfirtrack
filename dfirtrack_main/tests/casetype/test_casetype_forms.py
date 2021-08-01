@@ -1,5 +1,7 @@
 from django.test import TestCase
+
 from dfirtrack_main.forms import CasetypeForm
+
 
 class CasetypeFormTestCase(TestCase):
     """ casetype form tests """

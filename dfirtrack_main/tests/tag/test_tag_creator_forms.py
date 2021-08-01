@@ -1,10 +1,8 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
+
 from dfirtrack_main.forms import TagCreatorForm
-from dfirtrack_main.models import System
-from dfirtrack_main.models import Systemstatus
-from dfirtrack_main.models import Tag
-from dfirtrack_main.models import Tagcolor
+from dfirtrack_main.models import System, Systemstatus, Tag, Tagcolor
 
 
 class TagCreatorFormTestCase(TestCase):

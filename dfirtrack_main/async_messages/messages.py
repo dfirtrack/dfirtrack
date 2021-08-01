@@ -1,4 +1,5 @@
 from django.contrib.messages import constants
+
 from . import message_user
 
 """

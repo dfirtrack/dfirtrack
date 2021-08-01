@@ -1,5 +1,7 @@
 from django.test import TestCase
+
 from dfirtrack_main.models import Taskstatus
+
 
 class TaskstatusModelTestCase(TestCase):
     """ taskstatus model tests """

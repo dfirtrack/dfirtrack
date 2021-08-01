@@ -1,13 +1,26 @@
 import csv
-from django.utils import timezone
+from io import TextIOWrapper
+
 from dfirtrack_config.models import SystemImporterFileCsvConfigModel
-from dfirtrack_main.importer.file.csv_attributes_add import add_fk_attributes, add_many2many_attributes, create_lock_tags
+from django.utils import timezone
+
+from dfirtrack_main.importer.file.csv_attributes_add import (
+    add_fk_attributes,
+    add_many2many_attributes,
+    create_lock_tags,
+)
 from dfirtrack_main.importer.file.csv_attributes_check import check_system_name
 from dfirtrack_main.importer.file.csv_checks import check_content_file_type
-from dfirtrack_main.importer.file.csv_messages import final_messages, final_messages_cron
-from dfirtrack_main.logger.default_logger import debug_logger, info_logger, warning_logger
+from dfirtrack_main.importer.file.csv_messages import (
+    final_messages,
+    final_messages_cron,
+)
+from dfirtrack_main.logger.default_logger import (
+    debug_logger,
+    info_logger,
+    warning_logger,
+)
 from dfirtrack_main.models import System
-from io import TextIOWrapper
 
 
 def system_handler(request=None, uploadfile=False):

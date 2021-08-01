@@ -1,5 +1,7 @@
 from django.test import TestCase
+
 from dfirtrack_main.models import Systemtype
+
 
 class SystemtypeModelTestCase(TestCase):
     """ systemtype model tests """
