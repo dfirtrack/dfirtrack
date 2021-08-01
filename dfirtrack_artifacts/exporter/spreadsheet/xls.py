@@ -1,15 +1,24 @@
+from time import strftime
+
+import xlwt
+from dfirtrack_config.models import (
+    ArtifactExporterSpreadsheetXlsConfigModel,
+    MainConfigModel,
+)
+from dfirtrack_main.exporter.spreadsheet.checks import check_content_file_system
+from dfirtrack_main.exporter.spreadsheet.xls import (
+    style_default,
+    style_headline,
+    write_row,
+)
+from dfirtrack_main.logger.default_logger import debug_logger, info_logger
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils import timezone
+
 from dfirtrack_artifacts.models import Artifact, Artifactstatus, Artifacttype
-from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel, MainConfigModel
-from dfirtrack_main.exporter.spreadsheet.checks import check_content_file_system
-from dfirtrack_main.exporter.spreadsheet.xls import style_default, style_headline, write_row
-from dfirtrack_main.logger.default_logger import debug_logger, info_logger
-from time import strftime
-import xlwt
 
 
 def write_xls(username):

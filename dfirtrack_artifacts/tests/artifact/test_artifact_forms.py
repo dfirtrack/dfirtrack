@@ -1,13 +1,10 @@
+from dfirtrack_main.models import Case, System, Systemstatus
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
+
 from dfirtrack_artifacts.forms import ArtifactForm
-from dfirtrack_artifacts.models import Artifactpriority
-from dfirtrack_artifacts.models import Artifactstatus
-from dfirtrack_artifacts.models import Artifacttype
-from dfirtrack_main.models import Case
-from dfirtrack_main.models import System
-from dfirtrack_main.models import Systemstatus
+from dfirtrack_artifacts.models import Artifactpriority, Artifactstatus, Artifacttype
 
 
 class ArtifactFormTestCase(TestCase):

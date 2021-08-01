@@ -1,15 +1,20 @@
+import urllib.parse
 from datetime import datetime
+from unittest.mock import patch
+
+import xlrd
+from dfirtrack_config.models import (
+    ArtifactExporterSpreadsheetXlsConfigModel,
+    MainConfigModel,
+)
+from dfirtrack_main.models import System, Systemstatus
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
 from django.utils import timezone
+
 from dfirtrack_artifacts.exporter.spreadsheet.xls import artifact_cron
 from dfirtrack_artifacts.models import Artifact, Artifactstatus, Artifacttype
-from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel, MainConfigModel
-from dfirtrack_main.models import System, Systemstatus
-from unittest.mock import patch
-import urllib.parse
-import xlrd
 
 
 class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
