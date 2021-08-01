@@ -1,7 +1,9 @@
-from django.test import TestCase
 from dfirtrack_artifacts.models import Artifactstatus
 from dfirtrack_main.models import Casestatus
+from django.test import TestCase
+
 from dfirtrack_config.forms import MainConfigForm
+
 
 class MainConfigFormTestCase(TestCase):
     """ main config form tests """

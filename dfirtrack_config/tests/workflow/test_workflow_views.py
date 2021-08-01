@@ -1,15 +1,17 @@
+import urllib.parse
+
+from dfirtrack_artifacts.models import Artifactpriority, Artifactstatus, Artifacttype
+from dfirtrack_main.models import (
+    System,
+    Systemstatus,
+    Taskname,
+    Taskpriority,
+    Taskstatus,
+)
 from django.contrib.auth.models import User
 from django.test import TestCase
+
 from dfirtrack_config.models import Workflow
-from dfirtrack_main.models import System
-from dfirtrack_main.models import Systemstatus
-from dfirtrack_main.models import Taskname
-from dfirtrack_main.models import Taskpriority
-from dfirtrack_main.models import Taskstatus
-from dfirtrack_artifacts.models import Artifacttype
-from dfirtrack_artifacts.models import Artifactstatus
-from dfirtrack_artifacts.models import Artifactpriority
-import urllib.parse
 
 
 class WorkflowViewTestCase(TestCase):

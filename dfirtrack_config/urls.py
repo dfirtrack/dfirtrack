@@ -1,6 +1,10 @@
 from django.urls import path
+
 from dfirtrack_config.exporter.markdown import system_exporter_markdown_config_editor
-from dfirtrack_config.exporter.spreadsheet import artifact_exporter_spreadsheet_config_editor, system_exporter_spreadsheet_config_editor
+from dfirtrack_config.exporter.spreadsheet import (
+    artifact_exporter_spreadsheet_config_editor,
+    system_exporter_spreadsheet_config_editor,
+)
 from dfirtrack_config.importer.file import system_importer_file_config_editor
 from dfirtrack_config.views import main_config_editor, status, statushistory, workflow
 

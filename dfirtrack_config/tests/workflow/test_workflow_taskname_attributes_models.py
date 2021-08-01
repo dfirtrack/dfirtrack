@@ -1,10 +1,8 @@
-from django.test import TestCase
-from dfirtrack_config.models import Workflow
-from dfirtrack_config.models import WorkflowDefaultTasknameAttributes
-from dfirtrack_main.models import Taskname
-from dfirtrack_main.models import Taskpriority
-from dfirtrack_main.models import Taskstatus
+from dfirtrack_main.models import Taskname, Taskpriority, Taskstatus
 from django.contrib.auth.models import User
+from django.test import TestCase
+
+from dfirtrack_config.models import Workflow, WorkflowDefaultTasknameAttributes
 
 
 class WorkflowDefaultTasknameAttributesModelTestCase(TestCase):

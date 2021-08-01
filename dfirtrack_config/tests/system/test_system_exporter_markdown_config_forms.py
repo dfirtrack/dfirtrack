@@ -1,4 +1,5 @@
 from django.test import TestCase
+
 from dfirtrack_config.forms import SystemExporterMarkdownConfigForm
 
 

@@ -1,5 +1,6 @@
 from django.db import migrations
 
+
 def insert_default_config(apps, schema_editor):
     # We can't import the migrated model directly as it may be a newer
     # version than this migration expects. We use the historical version.

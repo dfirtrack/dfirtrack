@@ -1,8 +1,9 @@
+import logging
+
+from dfirtrack_main.models import Task
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
-from dfirtrack_main.models import Task
-import logging
 
 stdlogger = logging.getLogger(__name__)
 

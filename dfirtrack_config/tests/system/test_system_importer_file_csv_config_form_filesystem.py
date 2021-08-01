@@ -1,9 +1,11 @@
+import os
+
+from dfirtrack_main.models import Analysisstatus, Systemstatus
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
+
 from dfirtrack_config.forms import SystemImporterFileCsvConfigForm
-from dfirtrack_main.models import Analysisstatus, Systemstatus
-import os
 
 
 class SystemImporterFileCsvConfigFormFilesystemTestCase(TestCase):

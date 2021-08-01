@@ -1,8 +1,10 @@
-from dfirtrack_config.models import SystemExporterMarkdownConfigModel
+import urllib.parse
+
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
-import urllib.parse
+
+from dfirtrack_config.models import SystemExporterMarkdownConfigModel
 
 
 class SystemExporterMarkdownConfigViewTestCase(TestCase):

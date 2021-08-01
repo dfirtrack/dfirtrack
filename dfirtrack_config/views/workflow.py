@@ -1,22 +1,23 @@
+from dfirtrack_main.logger.default_logger import debug_logger
+from dfirtrack_main.models import System
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.urls import reverse
-from django.views.generic import DetailView
-from django.views.generic import  ListView
-from django.views.generic.edit import CreateView
-from django.views.generic.edit import DeleteView
-from django.views.generic.edit import UpdateView
-from dfirtrack_config.models import Workflow
-from dfirtrack_config.models import  WorkflowDefaultArtifactAttributes
-from dfirtrack_config.models import WorkflowDefaultTasknameAttributes
-from dfirtrack_config.forms import WorkflowForm
-from dfirtrack_config.forms import WorkflowDefaultArtifactAttributesFormSet
-from dfirtrack_config.forms import WorkflowDefaultTasknameAttributesFormSet
-from dfirtrack_main.models import System
-from dfirtrack_main.logger.default_logger import debug_logger
+from django.views.generic import DetailView, ListView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
+
+from dfirtrack_config.forms import (
+    WorkflowDefaultArtifactAttributesFormSet,
+    WorkflowDefaultTasknameAttributesFormSet,
+    WorkflowForm,
+)
+from dfirtrack_config.models import (
+    Workflow,
+    WorkflowDefaultArtifactAttributes,
+    WorkflowDefaultTasknameAttributes,
+)
 
 
 class WorkflowList(LoginRequiredMixin, ListView):

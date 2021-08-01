@@ -1,16 +1,20 @@
 from datetime import datetime
+from unittest.mock import patch
+
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
-from dfirtrack_config.models import ArtifactExporterSpreadsheetXlsConfigModel
-from dfirtrack_config.models import MainConfigModel
-from dfirtrack_config.models import SystemExporterMarkdownConfigModel
-from dfirtrack_config.models import SystemExporterSpreadsheetCsvConfigModel
-from dfirtrack_config.models import SystemExporterSpreadsheetXlsConfigModel
-from dfirtrack_config.models import SystemImporterFileCsvConfigModel
-from dfirtrack_config.models import Statushistory
-from dfirtrack_config.models import UserConfigModel
-from unittest.mock import patch
+
+from dfirtrack_config.models import (
+    ArtifactExporterSpreadsheetXlsConfigModel,
+    MainConfigModel,
+    Statushistory,
+    SystemExporterMarkdownConfigModel,
+    SystemExporterSpreadsheetCsvConfigModel,
+    SystemExporterSpreadsheetXlsConfigModel,
+    SystemImporterFileCsvConfigModel,
+    UserConfigModel,
+)
 
 
 class ConfigModelTestCase(TestCase):

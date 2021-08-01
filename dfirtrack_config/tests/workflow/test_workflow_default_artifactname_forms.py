@@ -1,10 +1,9 @@
-from django.test import TestCase
-from dfirtrack_config.models import Workflow
-from dfirtrack_config.forms import WorkflowDefaultArtifactAttributesFormSet
-from dfirtrack_artifacts.models import Artifacttype
-from dfirtrack_artifacts.models import Artifactstatus
-from dfirtrack_artifacts.models import Artifactpriority
+from dfirtrack_artifacts.models import Artifactpriority, Artifactstatus, Artifacttype
 from django.contrib.auth.models import User
+from django.test import TestCase
+
+from dfirtrack_config.forms import WorkflowDefaultArtifactAttributesFormSet
+from dfirtrack_config.models import Workflow
 
 
 class WWorkflowDefaultArtifactAttributesFormSetTestCase(TestCase):
