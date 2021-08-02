@@ -10,7 +10,7 @@ from dfirtrack_main.logger.default_logger import debug_logger
 
 
 def query_artifact(artifactstatus_list):
-    """ query artifacts with a list of specific artifactstatus """
+    """query artifacts with a list of specific artifactstatus"""
 
     # create empty artifact queryset
     artifacts_merged = Artifact.objects.none()
@@ -25,23 +25,24 @@ def query_artifact(artifactstatus_list):
         artifacts_merged = artifacts | artifacts_merged
 
     # sort artifacts by id
-    artifacts_sorted = artifacts_merged.order_by('artifact_id')
+    artifacts_sorted = artifacts_merged.order_by("artifact_id")
 
     # return sorted artifacts with specific artifactstatus
     return artifacts_sorted
 
+
 class ArtifactListView(LoginRequiredMixin, ListView):
-    login_url = '/login'
+    login_url = "/login"
     model = Artifact
-    template_name = 'dfirtrack_artifacts/artifact/artifact_list.html'
-    context_object_name = 'artifact_list'
+    template_name = "dfirtrack_artifacts/artifact/artifact_list.html"
+    context_object_name = "artifact_list"
 
     def get_queryset(self):
 
         # call logger
-        debug_logger(str(self.request.user), ' ARTIFACT_LIST_ENTERED')
+        debug_logger(str(self.request.user), " ARTIFACT_LIST_ENTERED")
         # get config
-        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        main_config_model = MainConfigModel.objects.get(main_config_name="MainConfig")
 
         """ get all artifacts with artifactstatus to be considered open """
 
@@ -53,18 +54,19 @@ class ArtifactListView(LoginRequiredMixin, ListView):
         # return artifacts according to query
         return artifacts
 
+
 class ArtifactClosedView(LoginRequiredMixin, ListView):
-    login_url = '/login'
+    login_url = "/login"
     model = Artifact
-    template_name = 'dfirtrack_artifacts/artifact/artifact_closed.html'
-    context_object_name = 'artifact_list'
+    template_name = "dfirtrack_artifacts/artifact/artifact_closed.html"
+    context_object_name = "artifact_list"
 
     def get_queryset(self):
 
         # call logger
-        debug_logger(str(self.request.user), ' ARTIFACT_CLOSED_ENTERED')
+        debug_logger(str(self.request.user), " ARTIFACT_CLOSED_ENTERED")
         # get config
-        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        main_config_model = MainConfigModel.objects.get(main_config_name="MainConfig")
 
         """ get all artifacts with artifactstatus to be considered closed """
 
@@ -80,92 +82,112 @@ class ArtifactClosedView(LoginRequiredMixin, ListView):
         # return artifacts according to query
         return artifacts
 
+
 class ArtifactAllView(LoginRequiredMixin, ListView):
-    login_url = '/login'
+    login_url = "/login"
     model = Artifact
-    template_name = 'dfirtrack_artifacts/artifact/artifact_all.html'
-    context_object_name = 'artifact_list'
+    template_name = "dfirtrack_artifacts/artifact/artifact_all.html"
+    context_object_name = "artifact_list"
 
     def get_queryset(self):
         # call logger
-        debug_logger(str(self.request.user), ' ARTIFACT_ALL_ENTERED')
-        return Artifact.objects.order_by('artifact_id')
+        debug_logger(str(self.request.user), " ARTIFACT_ALL_ENTERED")
+        return Artifact.objects.order_by("artifact_id")
+
 
 class ArtifactDetailView(LoginRequiredMixin, DetailView):
-    login_url = '/login'
+    login_url = "/login"
     model = Artifact
-    template_name = 'dfirtrack_artifacts/artifact/artifact_detail.html'
+    template_name = "dfirtrack_artifacts/artifact/artifact_detail.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         systemtype = self.object
-        systemtype.logger(str(self.request.user), ' ARTIFACT_DETAIL_ENTERED')
+        systemtype.logger(str(self.request.user), " ARTIFACT_DETAIL_ENTERED")
         return context
 
+
 class ArtifactCreateView(LoginRequiredMixin, CreateView):
-    login_url = '/login'
+    login_url = "/login"
     model = Artifact
-    template_name = 'dfirtrack_artifacts/artifact/artifact_generic_form.html'
+    template_name = "dfirtrack_artifacts/artifact/artifact_generic_form.html"
     form_class = ArtifactForm
 
     def get(self, request, *args, **kwargs):
 
         # get id of first status objects sorted by name
-        artifactpriority = Artifactpriority.objects.order_by('artifactpriority_name')[0].artifactpriority_id
-        artifactstatus = Artifactstatus.objects.order_by('artifactstatus_name')[0].artifactstatus_id
+        artifactpriority = Artifactpriority.objects.order_by("artifactpriority_name")[
+            0
+        ].artifactpriority_id
+        artifactstatus = Artifactstatus.objects.order_by("artifactstatus_name")[
+            0
+        ].artifactstatus_id
 
-        if 'system' in request.GET:
-            system = request.GET['system']
-            form = self.form_class(initial={
-                'system': system,
-                'artifactpriority': artifactpriority,
-                'artifactstatus': artifactstatus,
-            })
+        if "system" in request.GET:
+            system = request.GET["system"]
+            form = self.form_class(
+                initial={
+                    "system": system,
+                    "artifactpriority": artifactpriority,
+                    "artifactstatus": artifactstatus,
+                }
+            )
         else:
-            form = self.form_class(initial={
-                'artifactpriority': artifactpriority,
-                'artifactstatus': artifactstatus,
-            })
-        debug_logger(str(request.user), ' ARTIFACT_ADD_ENTERED')
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-        })
+            form = self.form_class(
+                initial={
+                    "artifactpriority": artifactpriority,
+                    "artifactstatus": artifactstatus,
+                }
+            )
+        debug_logger(str(request.user), " ARTIFACT_ADD_ENTERED")
+        return render(
+            request,
+            self.template_name,
+            {
+                "form": form,
+                "title": "Add",
+            },
+        )
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.artifact_created_by_user_id = self.request.user
         self.object.artifact_modified_by_user_id = self.request.user
         self.object.save()
-        self.object.logger(str(self.request.user), ' ARTIFACT_ADD_EXECUTED')
-        messages.success(self.request, 'Artifact added')
+        self.object.logger(str(self.request.user), " ARTIFACT_ADD_EXECUTED")
+        messages.success(self.request, "Artifact added")
 
         # check for existing hashes
         self.object.check_existing_hashes(self.request)
 
         return super().form_valid(form)
 
+
 class ArtifactUpdateView(LoginRequiredMixin, UpdateView):
-    login_url = '/login'
+    login_url = "/login"
     model = Artifact
-    template_name = 'dfirtrack_artifacts/artifact/artifact_generic_form.html'
+    template_name = "dfirtrack_artifacts/artifact/artifact_generic_form.html"
     form_class = ArtifactForm
 
     def get(self, request, *args, **kwargs):
         artifact = self.get_object()
-        form = self.form_class(instance = artifact)
-        artifact.logger(str(request.user), ' ARTIFACT_EDIT_ENTERED')
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Edit',
-        })
+        form = self.form_class(instance=artifact)
+        artifact.logger(str(request.user), " ARTIFACT_EDIT_ENTERED")
+        return render(
+            request,
+            self.template_name,
+            {
+                "form": form,
+                "title": "Edit",
+            },
+        )
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.artifact_modified_by_user_id = self.request.user
         self.object.save()
-        self.object.logger(str(self.request.user), ' ARTIFACT_EDIT_EXECUTED')
-        messages.success(self.request, 'Artifact edited')
+        self.object.logger(str(self.request.user), " ARTIFACT_EDIT_EXECUTED")
+        messages.success(self.request, "Artifact edited")
 
         # check for existing hashes
         self.object.check_existing_hashes(self.request)

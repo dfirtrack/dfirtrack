@@ -15,9 +15,11 @@ def system_exporter_markdown_config_view(request):
     if request.method == "POST":
 
         # get config model
-        model = SystemExporterMarkdownConfigModel.objects.get(system_exporter_markdown_config_name = 'SystemExporterMarkdownConfig')
+        model = SystemExporterMarkdownConfigModel.objects.get(
+            system_exporter_markdown_config_name="SystemExporterMarkdownConfig"
+        )
         # get form
-        form = SystemExporterMarkdownConfigForm(request.POST, instance = model)
+        form = SystemExporterMarkdownConfigForm(request.POST, instance=model)
 
         if form.is_valid():
 
@@ -26,36 +28,40 @@ def system_exporter_markdown_config_view(request):
             model.save()
 
             # create message
-            messages.success(request, 'System exporter markdown config changed')
+            messages.success(request, "System exporter markdown config changed")
 
             # call logger
             info_logger(str(request.user), " SYSTEM_EXPORTER_MARKDOWN_CONFIG_CHANGED")
 
             # close popup
-            return HttpResponse('<script type="text/javascript">window.close();</script>')
+            return HttpResponse(
+                '<script type="text/javascript">window.close();</script>'
+            )
 
         else:
             # show form page again
             return render(
                 request,
-                'dfirtrack_config/system/system_exporter_markdown_config_popup.html',
+                "dfirtrack_config/system/system_exporter_markdown_config_popup.html",
                 {
-                    'form': form,
-                }
+                    "form": form,
+                },
             )
 
     else:
 
         # get config model
-        model = SystemExporterMarkdownConfigModel.objects.get(system_exporter_markdown_config_name = 'SystemExporterMarkdownConfig')
+        model = SystemExporterMarkdownConfigModel.objects.get(
+            system_exporter_markdown_config_name="SystemExporterMarkdownConfig"
+        )
         # get form
-        form = SystemExporterMarkdownConfigForm(instance = model)
+        form = SystemExporterMarkdownConfigForm(instance=model)
 
     # show form page
     return render(
         request,
-        'dfirtrack_config/system/system_exporter_markdown_config_popup.html',
+        "dfirtrack_config/system/system_exporter_markdown_config_popup.html",
         {
-            'form': form,
-        }
+            "form": form,
+        },
     )

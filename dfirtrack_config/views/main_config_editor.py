@@ -15,9 +15,9 @@ def main_config_view(request):
     if request.method == "POST":
 
         # get config model
-        model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        model = MainConfigModel.objects.get(main_config_name="MainConfig")
         # get form
-        form = MainConfigForm(request.POST, instance = model)
+        form = MainConfigForm(request.POST, instance=model)
 
         if form.is_valid():
 
@@ -27,36 +27,38 @@ def main_config_view(request):
             form.save_m2m()
 
             # create message
-            messages.success(request, 'Main config changed')
+            messages.success(request, "Main config changed")
 
             # call logger
             info_logger(str(request.user), " MAIN_CONFIG_CHANGED")
 
             # close popup
-            return HttpResponse('<script type="text/javascript">window.close();</script>')
+            return HttpResponse(
+                '<script type="text/javascript">window.close();</script>'
+            )
 
         else:
             # show form page again
             return render(
                 request,
-                'dfirtrack_config/main_config_popup.html',
+                "dfirtrack_config/main_config_popup.html",
                 {
-                    'form': form,
-                }
+                    "form": form,
+                },
             )
 
     else:
 
         # get config model
-        model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        model = MainConfigModel.objects.get(main_config_name="MainConfig")
         # get form
-        form = MainConfigForm(instance = model)
+        form = MainConfigForm(instance=model)
 
     # show form page
     return render(
         request,
-        'dfirtrack_config/main_config_popup.html',
+        "dfirtrack_config/main_config_popup.html",
         {
-            'form': form,
-        }
+            "form": form,
+        },
     )
