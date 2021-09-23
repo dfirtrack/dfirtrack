@@ -17,33 +17,33 @@ stdlogger = logging.getLogger(__name__)
 
 
 class Artifact(models.Model):
-    """Model used for storing a forensic artifact"""
+    '''Model used for storing a forensic artifact'''
 
     # primary key
     artifact_id = models.AutoField(primary_key=True)
 
     # foreign key(s)
     artifactpriority = models.ForeignKey(
-        "Artifactpriority", on_delete=models.PROTECT, default=2
+        'Artifactpriority', on_delete=models.PROTECT, default=2
     )
     artifactstatus = models.ForeignKey(
-        "Artifactstatus", on_delete=models.PROTECT, default=1
+        'Artifactstatus', on_delete=models.PROTECT, default=1
     )
-    artifacttype = models.ForeignKey("Artifacttype", on_delete=models.PROTECT)
+    artifacttype = models.ForeignKey('Artifacttype', on_delete=models.PROTECT)
     case = models.ForeignKey(
-        "dfirtrack_main.Case",
-        related_name="artifact_case",
+        'dfirtrack_main.Case',
+        related_name='artifact_case',
         on_delete=models.PROTECT,
         blank=True,
         null=True,
     )
     system = models.ForeignKey(
-        "dfirtrack_main.System",
-        related_name="artifact_system",
+        'dfirtrack_main.System',
+        related_name='artifact_system',
         on_delete=models.PROTECT,
     )
     tag = models.ManyToManyField(
-        "dfirtrack_main.Tag", related_name="artifact_tag", blank=True
+        'dfirtrack_main.Tag', related_name='artifact_tag', blank=True
     )
 
     # main entity information
@@ -65,19 +65,19 @@ class Artifact(models.Model):
     artifact_create_time = models.DateTimeField(auto_now_add=True)
     artifact_modify_time = models.DateTimeField(auto_now=True)
     artifact_created_by_user_id = models.ForeignKey(
-        User, on_delete=models.PROTECT, related_name="artifact_created_by"
+        User, on_delete=models.PROTECT, related_name='artifact_created_by'
     )
     artifact_modified_by_user_id = models.ForeignKey(
-        User, on_delete=models.PROTECT, related_name="artifact_modified_by"
+        User, on_delete=models.PROTECT, related_name='artifact_modified_by'
     )
 
     # set the ordering criteria
     class Meta:
-        ordering = ("artifact_name",)
+        ordering = ('artifact_name',)
 
     # string representation
     def __str__(self):
-        return f"Artifact {str(self.artifact_id)} ({self.system})"
+        return f'Artifact {str(self.artifact_id)} ({self.system})'
 
     # define logger
     def logger(artifact, request_user, log_text):  # coverage: ignore branch
@@ -85,33 +85,33 @@ class Artifact(models.Model):
         if artifact.artifact_requested_time != None:
             # cast datetime object to string
             requestedtime = artifact.artifact_requested_time.strftime(
-                "%Y-%m-%d %H:%M:%S"
+                '%Y-%m-%d %H:%M:%S'
             )
         else:
             # else set default string
-            requestedtime = "None"
+            requestedtime = 'None'
 
         if artifact.artifact_acquisition_time != None:
             # cast datetime object to string
             acquisitiontime = artifact.artifact_acquisition_time.strftime(
-                "%Y-%m-%d %H:%M:%S"
+                '%Y-%m-%d %H:%M:%S'
             )
         else:
             # else set default string
-            acquisitiontime = "None"
+            acquisitiontime = 'None'
 
         # get objects
         tags = artifact.tag.all()
         # create empty list
         taglist = []
         # set default string if there is no object at all
-        tagstring = "None"
+        tagstring = 'None'
         # iterate over objects
         for tag in tags:
             # append object to list
             taglist.append(tag.tag_name)
             # join list to comma separated string if there are any objects, else default string will remain
-            tagstring = ",".join(taglist)
+            tagstring = ','.join(taglist)
 
         stdlogger.info(
             request_user
@@ -203,7 +203,7 @@ class Artifact(models.Model):
         """ set artifact time according to config """
 
         # get config
-        main_config_model = MainConfigModel.objects.get(main_config_name="MainConfig")
+        main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
 
         # get relevant artifactstatus out of config
         artifactstatus_requested = main_config_model.artifactstatus_requested.all()
@@ -229,10 +229,10 @@ class Artifact(models.Model):
         return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse("artifacts_artifact_detail", args=(self.pk,))
+        return reverse('artifacts_artifact_detail', args=(self.pk,))
 
     def get_update_url(self):
-        return reverse("artifacts_artifact_update", args=(self.pk,))
+        return reverse('artifacts_artifact_update', args=(self.pk,))
 
     def create_artifact_storage_path(self, system_uuid, artifacttype, artifact_uuid):
         """generates the directory in which the artifact will be stored"""
@@ -240,11 +240,11 @@ class Artifact(models.Model):
         # generate the path for the artifact to store it in EVIDENCE_PATH
         artifact_storage_path = (
             EVIDENCE_PATH
-            + "/"
+            + '/'
             + str(system_uuid)
-            + "/"
+            + '/'
             + artifacttype
-            + "/"
+            + '/'
             + str(artifact_uuid)
         )
         # create directory if it does not exist
@@ -267,7 +267,7 @@ class Artifact(models.Model):
             )
             # throw warning if there are any matches
             if artifacts:
-                messages.warning(request, "MD5 already exists for other artifact(s)")
+                messages.warning(request, 'MD5 already exists for other artifact(s)')
 
         # check for sha1 for this artifact
         if self.artifact_sha1:
@@ -277,7 +277,7 @@ class Artifact(models.Model):
             ).exclude(artifact_id=self.artifact_id)
             # throw warning if there are any matches
             if artifacts:
-                messages.warning(request, "SHA1 already exists for other artifact(s)")
+                messages.warning(request, 'SHA1 already exists for other artifact(s)')
 
         # check for sha256 for this artifact
         if self.artifact_sha256:
@@ -287,11 +287,11 @@ class Artifact(models.Model):
             ).exclude(artifact_id=self.artifact_id)
             # throw warning if there are any matches
             if artifacts:
-                messages.warning(request, "SHA256 already exists for other artifact(s)")
+                messages.warning(request, 'SHA256 already exists for other artifact(s)')
 
 
 class Artifactpriority(models.Model):
-    """priority for analyzing artifact"""
+    '''priority for analyzing artifact'''
 
     # primary key
     artifactpriority_id = models.AutoField(primary_key=True)
@@ -302,8 +302,8 @@ class Artifactpriority(models.Model):
     artifactpriority_slug = models.CharField(max_length=255, unique=True)
 
     class Meta:
-        ordering = ("artifactpriority_id",)
-        verbose_name_plural = "artifactpriorities"
+        ordering = ('artifactpriority_id',)
+        verbose_name_plural = 'artifactpriorities'
 
     # string representation
     def __str__(self):
@@ -330,11 +330,11 @@ class Artifactpriority(models.Model):
         return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse("artifacts_artifactpriority_detail", args=(self.pk,))
+        return reverse('artifacts_artifactpriority_detail', args=(self.pk,))
 
 
 class Artifactstatus(models.Model):
-    """Artifactstatus that shows the current status of the artifact like: New, Requested, Processed, Imported, ..."""
+    '''Artifactstatus that shows the current status of the artifact like: New, Requested, Processed, Imported, ...'''
 
     # primary key
     artifactstatus_id = models.AutoField(primary_key=True)
@@ -345,8 +345,8 @@ class Artifactstatus(models.Model):
     artifactstatus_slug = models.CharField(max_length=255, unique=True)
 
     class Meta:
-        ordering = ("artifactstatus_id",)
-        verbose_name_plural = "artifactstatus"
+        ordering = ('artifactstatus_id',)
+        verbose_name_plural = 'artifactstatus'
 
     # string representation
     def __str__(self):
@@ -373,11 +373,11 @@ class Artifactstatus(models.Model):
         return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse("artifacts_artifactstatus_detail", args=(self.pk,))
+        return reverse('artifacts_artifactstatus_detail', args=(self.pk,))
 
 
 class Artifacttype(models.Model):
-    """Artifacttype like File, Registry-Key, Registry-Hive, etc."""
+    '''Artifacttype like File, Registry-Key, Registry-Hive, etc.'''
 
     # primary key
     artifacttype_id = models.AutoField(primary_key=True)
@@ -388,7 +388,7 @@ class Artifacttype(models.Model):
     artifacttype_slug = models.CharField(max_length=255, unique=True)
 
     class Meta:
-        ordering = ("artifacttype_id",)
+        ordering = ('artifacttype_id',)
 
     # string representation
     def __str__(self):
@@ -410,10 +410,10 @@ class Artifacttype(models.Model):
         )
 
     def get_absolute_url(self):
-        return reverse("artifacts_artifacttype_detail", args=(self.pk,))
+        return reverse('artifacts_artifacttype_detail', args=(self.pk,))
 
     def get_update_url(self):
-        return reverse("artifacts_artifacttype_update", args=(self.pk,))
+        return reverse('artifacts_artifacttype_update', args=(self.pk,))
 
     def save(self, *args, **kwargs):
         # generate slug

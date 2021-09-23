@@ -13,7 +13,7 @@ class ArtifacttypeFormTestCase(TestCase):
         form = ArtifacttypeForm()
         # compare
         self.assertEqual(
-            form.fields["artifacttype_name"].label, "Artifacttype name (*)"
+            form.fields['artifacttype_name'].label, 'Artifacttype name (*)'
         )
 
     def test_artifacttype_note_form_label(self):
@@ -22,7 +22,7 @@ class ArtifacttypeFormTestCase(TestCase):
         # get object
         form = ArtifacttypeForm()
         # compare
-        self.assertEqual(form.fields["artifacttype_note"].label, "Artifacttype note")
+        self.assertEqual(form.fields['artifacttype_note'].label, 'Artifacttype note')
 
     def test_artifacttype_form_empty(self):
         """test minimum form requirements / INVALID"""
@@ -36,7 +36,7 @@ class ArtifacttypeFormTestCase(TestCase):
         """test minimum form requirements / VALID"""
 
         # get object
-        form = ArtifacttypeForm(data={"artifacttype_name": "artifacttype_1"})
+        form = ArtifacttypeForm(data={'artifacttype_name': 'artifacttype_1'})
         # compare
         self.assertTrue(form.is_valid())
 
@@ -46,8 +46,8 @@ class ArtifacttypeFormTestCase(TestCase):
         # get object
         form = ArtifacttypeForm(
             data={
-                "artifacttype_name": "artifacttype_1",
-                "artifacttype_note": "lorem ipsum",
+                'artifacttype_name': 'artifacttype_1',
+                'artifacttype_note': 'lorem ipsum',
             }
         )
         # compare
@@ -59,7 +59,7 @@ class ArtifacttypeFormTestCase(TestCase):
         # get object
         form = ArtifacttypeForm(
             data={
-                "artifacttype_name": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                'artifacttype_name': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
             }
         )
         # compare
@@ -71,7 +71,7 @@ class ArtifacttypeFormTestCase(TestCase):
         # get object
         form = ArtifacttypeForm(
             data={
-                "artifacttype_name": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                'artifacttype_name': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
             }
         )
         # compare

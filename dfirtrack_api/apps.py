@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class DfirtrackApiConfig(AppConfig):
-    name = "dfirtrack_api"
+    name = 'dfirtrack_api'

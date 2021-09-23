@@ -12,32 +12,32 @@ class DFIRTrackSchemaGenerator(SchemaGenerator):
 
     def get_schema(self, request, public):
         schema = super().get_schema(request, public)
-        schema["info"] = {
-            "title": "DFIRTrack",
-            "description": "OpenAPI 3 - Documentation of DFIRTrack API",
-            "version": dfirtrack_version(),
+        schema['info'] = {
+            'title': 'DFIRTrack',
+            'description': 'OpenAPI 3 - Documentation of DFIRTrack API',
+            'version': dfirtrack_version(),
         }
         # temporarily add securitySchemes until implemented upstream
-        if "securitySchemes" not in schema["components"]:
-            schema["components"]["securitySchemes"] = {
-                "basicAuth": {
-                    "type": "http",
-                    "scheme": "basic",
-                    "description": "basic authentication",
+        if 'securitySchemes' not in schema['components']:
+            schema['components']['securitySchemes'] = {
+                'basicAuth': {
+                    'type': 'http',
+                    'scheme': 'basic',
+                    'description': 'basic authentication',
                 },
-                "bearerAuth": {
-                    "type": "http",
-                    "scheme": "bearer",
-                    "name": "Token",
-                    "description": "API Token authentication",
+                'bearerAuth': {
+                    'type': 'http',
+                    'scheme': 'bearer',
+                    'name': 'Token',
+                    'description': 'API Token authentication',
                 },
             }
 
         # temporarily add default security object at top-level
-        if "security" not in schema:
-            schema["security"] = [
-                {"basicAuth": []},
-                {"bearerAuth": []},
+        if 'security' not in schema:
+            schema['security'] = [
+                {'basicAuth': []},
+                {'bearerAuth': []},
             ]
 
         return schema

@@ -26,28 +26,28 @@ class ArtifactViewTestCase(TestCase):
 
         # create user
         test_user = User.objects.create_user(
-            username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF"
+            username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF'
         )
 
         # create object
         artifactpriority_1 = Artifactpriority.objects.create(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         )
 
         # create object
         artifactstatus_1 = Artifactstatus.objects.create(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         )
 
         # create object
-        artifacttype_1 = Artifacttype.objects.create(artifacttype_name="artifacttype_1")
+        artifacttype_1 = Artifacttype.objects.create(artifacttype_name='artifacttype_1')
 
         # create object
-        systemstatus_1 = Systemstatus.objects.create(systemstatus_name="systemstatus_1")
+        systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
 
         # create object
         system_1 = System.objects.create(
-            system_name="system_1",
+            system_name='system_1',
             systemstatus=systemstatus_1,
             system_created_by_user_id=test_user,
             system_modified_by_user_id=test_user,
@@ -55,14 +55,14 @@ class ArtifactViewTestCase(TestCase):
 
         # create object
         Artifact.objects.create(
-            artifact_name="artifact_1",
+            artifact_name='artifact_1',
             artifactpriority=artifactpriority_1,
             artifactstatus=artifactstatus_1,
             artifacttype=artifacttype_1,
             system=system_1,
-            artifact_md5="d41d8cd98f00b204e9800998ecf8427e",
-            artifact_sha1="da39a3ee5e6b4b0d3255bfef95601890afd80709",
-            artifact_sha256="e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            artifact_md5='d41d8cd98f00b204e9800998ecf8427e',
+            artifact_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709',
+            artifact_sha256='e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
             artifact_created_by_user_id=test_user,
             artifact_modified_by_user_id=test_user,
         )
@@ -71,11 +71,11 @@ class ArtifactViewTestCase(TestCase):
         """test list view"""
 
         # create url
-        destination = "/login/?next=" + urllib.parse.quote(
-            "/artifacts/artifact/", safe=""
+        destination = '/login/?next=' + urllib.parse.quote(
+            '/artifacts/artifact/', safe=''
         )
         # get response
-        response = self.client.get("/artifacts/artifact/", follow=True)
+        response = self.client.get('/artifacts/artifact/', follow=True)
         # compare
         self.assertRedirects(
             response, destination, status_code=302, target_status_code=200
@@ -85,9 +85,9 @@ class ArtifactViewTestCase(TestCase):
         """test list view"""
 
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get response
-        response = self.client.get("/artifacts/artifact/")
+        response = self.client.get('/artifacts/artifact/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -95,33 +95,33 @@ class ArtifactViewTestCase(TestCase):
         """test list view"""
 
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get response
-        response = self.client.get("/artifacts/artifact/")
+        response = self.client.get('/artifacts/artifact/')
         # compare
         self.assertTemplateUsed(
-            response, "dfirtrack_artifacts/artifact/artifact_list.html"
+            response, 'dfirtrack_artifacts/artifact/artifact_list.html'
         )
 
     def test_artifact_list_get_user_context(self):
         """test list view"""
 
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get response
-        response = self.client.get("/artifacts/artifact/")
+        response = self.client.get('/artifacts/artifact/')
         # compare
-        self.assertEqual(str(response.context["user"]), "testuser_artifact")
+        self.assertEqual(str(response.context['user']), 'testuser_artifact')
 
     def test_artifact_list_redirect(self):
         """test list view"""
 
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # create url
-        destination = urllib.parse.quote("/artifacts/artifact/", safe="/")
+        destination = urllib.parse.quote('/artifacts/artifact/', safe='/')
         # get response
-        response = self.client.get("/artifacts/artifact", follow=True)
+        response = self.client.get('/artifacts/artifact', follow=True)
         # compare
         self.assertRedirects(
             response, destination, status_code=301, target_status_code=200
@@ -131,11 +131,11 @@ class ArtifactViewTestCase(TestCase):
         """test closed view"""
 
         # create url
-        destination = "/login/?next=" + urllib.parse.quote(
-            "/artifacts/artifact/closed/", safe=""
+        destination = '/login/?next=' + urllib.parse.quote(
+            '/artifacts/artifact/closed/', safe=''
         )
         # get response
-        response = self.client.get("/artifacts/artifact/closed/", follow=True)
+        response = self.client.get('/artifacts/artifact/closed/', follow=True)
         # compare
         self.assertRedirects(
             response, destination, status_code=302, target_status_code=200
@@ -145,9 +145,9 @@ class ArtifactViewTestCase(TestCase):
         """test closed view"""
 
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get response
-        response = self.client.get("/artifacts/artifact/closed/")
+        response = self.client.get('/artifacts/artifact/closed/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -155,33 +155,33 @@ class ArtifactViewTestCase(TestCase):
         """test closed view"""
 
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get response
-        response = self.client.get("/artifacts/artifact/closed/")
+        response = self.client.get('/artifacts/artifact/closed/')
         # compare
         self.assertTemplateUsed(
-            response, "dfirtrack_artifacts/artifact/artifact_closed.html"
+            response, 'dfirtrack_artifacts/artifact/artifact_closed.html'
         )
 
     def test_artifact_closed_get_user_context(self):
         """test closed view"""
 
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get response
-        response = self.client.get("/artifacts/artifact/closed/")
+        response = self.client.get('/artifacts/artifact/closed/')
         # compare
-        self.assertEqual(str(response.context["user"]), "testuser_artifact")
+        self.assertEqual(str(response.context['user']), 'testuser_artifact')
 
     def test_artifact_closed_redirect(self):
         """test closed view"""
 
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # create url
-        destination = urllib.parse.quote("/artifacts/artifact/closed/", safe="/")
+        destination = urllib.parse.quote('/artifacts/artifact/closed/', safe='/')
         # get response
-        response = self.client.get("/artifacts/artifact/closed", follow=True)
+        response = self.client.get('/artifacts/artifact/closed', follow=True)
         # compare
         self.assertRedirects(
             response, destination, status_code=301, target_status_code=200
@@ -191,11 +191,11 @@ class ArtifactViewTestCase(TestCase):
         """test all view"""
 
         # create url
-        destination = "/login/?next=" + urllib.parse.quote(
-            "/artifacts/artifact/all/", safe=""
+        destination = '/login/?next=' + urllib.parse.quote(
+            '/artifacts/artifact/all/', safe=''
         )
         # get response
-        response = self.client.get("/artifacts/artifact/all/", follow=True)
+        response = self.client.get('/artifacts/artifact/all/', follow=True)
         # compare
         self.assertRedirects(
             response, destination, status_code=302, target_status_code=200
@@ -205,9 +205,9 @@ class ArtifactViewTestCase(TestCase):
         """test all view"""
 
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get response
-        response = self.client.get("/artifacts/artifact/all/")
+        response = self.client.get('/artifacts/artifact/all/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -215,33 +215,33 @@ class ArtifactViewTestCase(TestCase):
         """test all view"""
 
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get response
-        response = self.client.get("/artifacts/artifact/all/")
+        response = self.client.get('/artifacts/artifact/all/')
         # compare
         self.assertTemplateUsed(
-            response, "dfirtrack_artifacts/artifact/artifact_all.html"
+            response, 'dfirtrack_artifacts/artifact/artifact_all.html'
         )
 
     def test_artifact_all_get_user_context(self):
         """test all view"""
 
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get response
-        response = self.client.get("/artifacts/artifact/all/")
+        response = self.client.get('/artifacts/artifact/all/')
         # compare
-        self.assertEqual(str(response.context["user"]), "testuser_artifact")
+        self.assertEqual(str(response.context['user']), 'testuser_artifact')
 
     def test_artifact_all_redirect(self):
         """test all view"""
 
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # create url
-        destination = urllib.parse.quote("/artifacts/artifact/all/", safe="/")
+        destination = urllib.parse.quote('/artifacts/artifact/all/', safe='/')
         # get response
-        response = self.client.get("/artifacts/artifact/all", follow=True)
+        response = self.client.get('/artifacts/artifact/all', follow=True)
         # compare
         self.assertRedirects(
             response, destination, status_code=301, target_status_code=200
@@ -251,14 +251,14 @@ class ArtifactViewTestCase(TestCase):
         """test detail view"""
 
         # get object
-        artifact_1 = Artifact.objects.get(artifact_name="artifact_1")
+        artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
         # create url
-        destination = "/login/?next=" + urllib.parse.quote(
-            "/artifacts/artifact/detail/" + str(artifact_1.artifact_id) + "/", safe=""
+        destination = '/login/?next=' + urllib.parse.quote(
+            '/artifacts/artifact/detail/' + str(artifact_1.artifact_id) + '/', safe=''
         )
         # get response
         response = self.client.get(
-            "/artifacts/artifact/detail/" + str(artifact_1.artifact_id) + "/",
+            '/artifacts/artifact/detail/' + str(artifact_1.artifact_id) + '/',
             follow=True,
         )
         # compare
@@ -270,12 +270,12 @@ class ArtifactViewTestCase(TestCase):
         """test detail view"""
 
         # get object
-        artifact_1 = Artifact.objects.get(artifact_name="artifact_1")
+        artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get response
         response = self.client.get(
-            "/artifacts/artifact/detail/" + str(artifact_1.artifact_id) + "/"
+            '/artifacts/artifact/detail/' + str(artifact_1.artifact_id) + '/'
         )
         # compare
         self.assertEqual(response.status_code, 200)
@@ -284,46 +284,46 @@ class ArtifactViewTestCase(TestCase):
         """test detail view"""
 
         # get object
-        artifact_1 = Artifact.objects.get(artifact_name="artifact_1")
+        artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get response
         response = self.client.get(
-            "/artifacts/artifact/detail/" + str(artifact_1.artifact_id) + "/"
+            '/artifacts/artifact/detail/' + str(artifact_1.artifact_id) + '/'
         )
         # compare
         self.assertTemplateUsed(
-            response, "dfirtrack_artifacts/artifact/artifact_detail.html"
+            response, 'dfirtrack_artifacts/artifact/artifact_detail.html'
         )
 
     def test_artifact_detail_get_user_context(self):
         """test detail view"""
 
         # get object
-        artifact_1 = Artifact.objects.get(artifact_name="artifact_1")
+        artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get response
         response = self.client.get(
-            "/artifacts/artifact/detail/" + str(artifact_1.artifact_id) + "/"
+            '/artifacts/artifact/detail/' + str(artifact_1.artifact_id) + '/'
         )
         # compare
-        self.assertEqual(str(response.context["user"]), "testuser_artifact")
+        self.assertEqual(str(response.context['user']), 'testuser_artifact')
 
     def test_artifact_detail_redirect(self):
         """test detail view"""
 
         # get object
-        artifact_1 = Artifact.objects.get(artifact_name="artifact_1")
+        artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # create url
         destination = urllib.parse.quote(
-            "/artifacts/artifact/detail/" + str(artifact_1.artifact_id) + "/", safe="/"
+            '/artifacts/artifact/detail/' + str(artifact_1.artifact_id) + '/', safe='/'
         )
         # get response
         response = self.client.get(
-            "/artifacts/artifact/detail/" + str(artifact_1.artifact_id), follow=True
+            '/artifacts/artifact/detail/' + str(artifact_1.artifact_id), follow=True
         )
         # compare
         self.assertRedirects(
@@ -334,11 +334,11 @@ class ArtifactViewTestCase(TestCase):
         """test create view"""
 
         # create url
-        destination = "/login/?next=" + urllib.parse.quote(
-            "/artifacts/artifact/create/", safe=""
+        destination = '/login/?next=' + urllib.parse.quote(
+            '/artifacts/artifact/create/', safe=''
         )
         # get response
-        response = self.client.get("/artifacts/artifact/create/", follow=True)
+        response = self.client.get('/artifacts/artifact/create/', follow=True)
         # compare
         self.assertRedirects(
             response, destination, status_code=302, target_status_code=200
@@ -348,9 +348,9 @@ class ArtifactViewTestCase(TestCase):
         """test create view"""
 
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get response
-        response = self.client.get("/artifacts/artifact/create/")
+        response = self.client.get('/artifacts/artifact/create/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -358,33 +358,33 @@ class ArtifactViewTestCase(TestCase):
         """test create view"""
 
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get response
-        response = self.client.get("/artifacts/artifact/create/")
+        response = self.client.get('/artifacts/artifact/create/')
         # compare
         self.assertTemplateUsed(
-            response, "dfirtrack_artifacts/artifact/artifact_generic_form.html"
+            response, 'dfirtrack_artifacts/artifact/artifact_generic_form.html'
         )
 
     def test_artifact_create_get_user_context(self):
         """test create view"""
 
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get response
-        response = self.client.get("/artifacts/artifact/create/")
+        response = self.client.get('/artifacts/artifact/create/')
         # compare
-        self.assertEqual(str(response.context["user"]), "testuser_artifact")
+        self.assertEqual(str(response.context['user']), 'testuser_artifact')
 
     def test_artifact_create_redirect(self):
         """test create view"""
 
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # create url
-        destination = urllib.parse.quote("/artifacts/artifact/create/", safe="/")
+        destination = urllib.parse.quote('/artifacts/artifact/create/', safe='/')
         # get response
-        response = self.client.get("/artifacts/artifact/create", follow=True)
+        response = self.client.get('/artifacts/artifact/create', follow=True)
         # compare
         self.assertRedirects(
             response, destination, status_code=301, target_status_code=200
@@ -394,35 +394,35 @@ class ArtifactViewTestCase(TestCase):
         """test create view"""
 
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get objects
         artifactpriority_id = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         ).artifactpriority_id
         artifactstatus_id = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         ).artifactstatus_id
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_1"
+            artifacttype_name='artifacttype_1'
         ).artifacttype_id
-        system_id = System.objects.get(system_name="system_1").system_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # create post data
         data_dict = {
-            "artifact_name": "artifact_create_post_test",
-            "artifactpriority": artifactpriority_id,
-            "artifactstatus": artifactstatus_id,
-            "artifacttype": artifacttype_id,
-            "system": system_id,
+            'artifact_name': 'artifact_create_post_test',
+            'artifactpriority': artifactpriority_id,
+            'artifactstatus': artifactstatus_id,
+            'artifacttype': artifacttype_id,
+            'system': system_id,
         }
         # get response
-        response = self.client.post("/artifacts/artifact/create/", data_dict)
+        response = self.client.post('/artifacts/artifact/create/', data_dict)
         # get artifact
         artifact_id = Artifact.objects.get(
-            artifact_name="artifact_create_post_test"
+            artifact_name='artifact_create_post_test'
         ).artifact_id
         # create url
         destination = urllib.parse.quote(
-            "/artifacts/artifact/detail/" + str(artifact_id) + "/", safe="/"
+            '/artifacts/artifact/detail/' + str(artifact_id) + '/', safe='/'
         )
         # compare
         self.assertRedirects(
@@ -434,60 +434,60 @@ class ArtifactViewTestCase(TestCase):
 
         # mock timezone.now()
         t1_now = timezone.now()
-        with patch.object(timezone, "now", return_value=t1_now):
+        with patch.object(timezone, 'now', return_value=t1_now):
 
             # TODO: fix times
 
             # login testuser
             self.client.login(
-                username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF"
+                username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF'
             )
             # get user
-            test_user = User.objects.get(username="testuser_artifact")
+            test_user = User.objects.get(username='testuser_artifact')
             # get objects
             artifactpriority_id = Artifactpriority.objects.get(
-                artifactpriority_name="artifactpriority_1"
+                artifactpriority_name='artifactpriority_1'
             ).artifactpriority_id
             artifactstatus_id = Artifactstatus.objects.get(
-                artifactstatus_name="artifactstatus_1"
+                artifactstatus_name='artifactstatus_1'
             ).artifactstatus_id
             artifacttype_id = Artifacttype.objects.get(
-                artifacttype_name="artifacttype_1"
+                artifacttype_name='artifacttype_1'
             ).artifacttype_id
-            system_id = System.objects.get(system_name="system_1").system_id
+            system_id = System.objects.get(system_name='system_1').system_id
             # create post data
             data_dict = {
-                "artifactpriority": artifactpriority_id,
-                "artifactstatus": artifactstatus_id,
-                "artifacttype": artifacttype_id,
+                'artifactpriority': artifactpriority_id,
+                'artifactstatus': artifactstatus_id,
+                'artifacttype': artifacttype_id,
                 # 'case': TODO
-                "system": system_id,
+                'system': system_id,
                 # 'tag': TODO
                 #'artifact_aqcquisition_time': '2020-02-01 12:34:56',
-                "artifact_md5": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                "artifact_name": "Artifact Create_post_complete_test",
-                "artifact_note_analysisresult": "this is a note for analysis results - export considered",
-                "artifact_note_external": "this is a note for external usage - export considered",
-                "artifact_note_internal": "this is a note for internal usage - no export intended",
+                'artifact_md5': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                'artifact_name': 'Artifact Create_post_complete_test',
+                'artifact_note_analysisresult': 'this is a note for analysis results - export considered',
+                'artifact_note_external': 'this is a note for external usage - export considered',
+                'artifact_note_internal': 'this is a note for internal usage - no export intended',
                 # 'artifact_requested_time': '2020-02-02 23:45:16',
-                "artifact_sha1": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                "artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                "artifact_source_path": "/bin/evil",
+                'artifact_sha1': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                'artifact_sha256': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                'artifact_source_path': '/bin/evil',
             }
             # get response
-            self.client.post("/artifacts/artifact/create/", data_dict)
+            self.client.post('/artifacts/artifact/create/', data_dict)
             # get artifact
             artifact = Artifact.objects.get(
-                artifact_name="Artifact Create_post_complete_test"
+                artifact_name='Artifact Create_post_complete_test'
             )
             # build expected storage path
             expected_storage_path = (
                 EVIDENCE_PATH
-                + "/"
+                + '/'
                 + str(artifact.system.system_uuid)
-                + "/"
+                + '/'
                 + artifact.artifacttype.artifacttype_slug
-                + "/"
+                + '/'
                 + str(artifact.artifact_uuid)
             )
             # build expected acquisition time
@@ -496,43 +496,43 @@ class ArtifactViewTestCase(TestCase):
             # expected_requested_time = parse_datetime('2020-02-02T23:45:16')
             # compare
             self.assertEqual(
-                artifact.artifactpriority.artifactpriority_name, "artifactpriority_1"
+                artifact.artifactpriority.artifactpriority_name, 'artifactpriority_1'
             )
             self.assertEqual(
-                artifact.artifactstatus.artifactstatus_name, "artifactstatus_1"
+                artifact.artifactstatus.artifactstatus_name, 'artifactstatus_1'
             )
-            self.assertEqual(artifact.artifacttype.artifacttype_name, "artifacttype_1")
+            self.assertEqual(artifact.artifacttype.artifacttype_name, 'artifacttype_1')
             # self.assertEqual(artifact.case, '')
-            self.assertEqual(artifact.system.system_name, "system_1")
+            self.assertEqual(artifact.system.system_name, 'system_1')
             # self.assertEqual(artifact.artifact_acquisition_time, expected_acquisition_time)
-            self.assertEqual(artifact.artifact_md5, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+            self.assertEqual(artifact.artifact_md5, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
             self.assertEqual(
-                artifact.artifact_name, "Artifact Create_post_complete_test"
+                artifact.artifact_name, 'Artifact Create_post_complete_test'
             )
             self.assertEqual(
                 artifact.artifact_note_analysisresult,
-                "this is a note for analysis results - export considered",
+                'this is a note for analysis results - export considered',
             )
             self.assertEqual(
                 artifact.artifact_note_external,
-                "this is a note for external usage - export considered",
+                'this is a note for external usage - export considered',
             )
             self.assertEqual(
                 artifact.artifact_note_internal,
-                "this is a note for internal usage - no export intended",
+                'this is a note for internal usage - no export intended',
             )
             # self.assertEqual(artifact.artifact_requested_time, expected_requested_time)
             self.assertEqual(
-                artifact.artifact_sha1, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                artifact.artifact_sha1, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
             )
             self.assertEqual(
                 artifact.artifact_sha256,
-                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
             )
             self.assertEqual(
-                artifact.artifact_slug, "artifact-create_post_complete_test"
+                artifact.artifact_slug, 'artifact-create_post_complete_test'
             )
-            self.assertEqual(artifact.artifact_source_path, "/bin/evil")
+            self.assertEqual(artifact.artifact_source_path, '/bin/evil')
             self.assertEqual(artifact.artifact_storage_path, expected_storage_path)
             self.assertTrue(artifact.artifact_uuid)
             self.assertEqual(artifact.artifact_create_time, t1_now)
@@ -544,11 +544,11 @@ class ArtifactViewTestCase(TestCase):
         """test create view"""
 
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # create post data
         data_dict = {}
         # get response
-        response = self.client.post("/artifacts/artifact/create/", data_dict)
+        response = self.client.post('/artifacts/artifact/create/', data_dict)
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -556,126 +556,126 @@ class ArtifactViewTestCase(TestCase):
         """test create view"""
 
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # create post data
         data_dict = {}
         # get response
-        response = self.client.post("/artifacts/artifact/create/", data_dict)
+        response = self.client.post('/artifacts/artifact/create/', data_dict)
         # compare
         self.assertTemplateUsed(
-            response, "dfirtrack_artifacts/artifact/artifact_generic_form.html"
+            response, 'dfirtrack_artifacts/artifact/artifact_generic_form.html'
         )
 
     def test_artifact_create_md5_message(self):
         """test create view"""
 
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get objects
         artifactpriority_id = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         ).artifactpriority_id
         artifactstatus_id = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         ).artifactstatus_id
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_1"
+            artifacttype_name='artifacttype_1'
         ).artifacttype_id
-        system_id = System.objects.get(system_name="system_1").system_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # create post data
         data_dict = {
-            "artifact_name": "artifact_md5_test",
-            "artifactpriority": artifactpriority_id,
-            "artifactstatus": artifactstatus_id,
-            "artifacttype": artifacttype_id,
-            "system": system_id,
-            "artifact_md5": "d41d8cd98f00b204e9800998ecf8427e",
+            'artifact_name': 'artifact_md5_test',
+            'artifactpriority': artifactpriority_id,
+            'artifactstatus': artifactstatus_id,
+            'artifacttype': artifacttype_id,
+            'system': system_id,
+            'artifact_md5': 'd41d8cd98f00b204e9800998ecf8427e',
         }
         # get response
-        response = self.client.post("/artifacts/artifact/create/", data_dict)
+        response = self.client.post('/artifacts/artifact/create/', data_dict)
         # get messages
         messages = list(get_messages(response.wsgi_request))
         # compare
-        self.assertEqual(str(messages[-1]), "MD5 already exists for other artifact(s)")
+        self.assertEqual(str(messages[-1]), 'MD5 already exists for other artifact(s)')
 
     def test_artifact_create_sha1_message(self):
         """test create view"""
 
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get objects
         artifactpriority_id = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         ).artifactpriority_id
         artifactstatus_id = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         ).artifactstatus_id
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_1"
+            artifacttype_name='artifacttype_1'
         ).artifacttype_id
-        system_id = System.objects.get(system_name="system_1").system_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # create post data
         data_dict = {
-            "artifact_name": "artifact_sha1_test",
-            "artifactpriority": artifactpriority_id,
-            "artifactstatus": artifactstatus_id,
-            "artifacttype": artifacttype_id,
-            "system": system_id,
-            "artifact_sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+            'artifact_name': 'artifact_sha1_test',
+            'artifactpriority': artifactpriority_id,
+            'artifactstatus': artifactstatus_id,
+            'artifacttype': artifacttype_id,
+            'system': system_id,
+            'artifact_sha1': 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
         }
         # get response
-        response = self.client.post("/artifacts/artifact/create/", data_dict)
+        response = self.client.post('/artifacts/artifact/create/', data_dict)
         # get messages
         messages = list(get_messages(response.wsgi_request))
         # compare
-        self.assertEqual(str(messages[-1]), "SHA1 already exists for other artifact(s)")
+        self.assertEqual(str(messages[-1]), 'SHA1 already exists for other artifact(s)')
 
     def test_artifact_create_sha256_message(self):
         """test create view"""
 
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get objects
         artifactpriority_id = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         ).artifactpriority_id
         artifactstatus_id = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         ).artifactstatus_id
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_1"
+            artifacttype_name='artifacttype_1'
         ).artifacttype_id
-        system_id = System.objects.get(system_name="system_1").system_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # create post data
         data_dict = {
-            "artifact_name": "artifact_sha256_test",
-            "artifactpriority": artifactpriority_id,
-            "artifactstatus": artifactstatus_id,
-            "artifacttype": artifacttype_id,
-            "system": system_id,
-            "artifact_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            'artifact_name': 'artifact_sha256_test',
+            'artifactpriority': artifactpriority_id,
+            'artifactstatus': artifactstatus_id,
+            'artifacttype': artifacttype_id,
+            'system': system_id,
+            'artifact_sha256': 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
         }
         # get response
-        response = self.client.post("/artifacts/artifact/create/", data_dict)
+        response = self.client.post('/artifacts/artifact/create/', data_dict)
         # get messages
         messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertEqual(
-            str(messages[-1]), "SHA256 already exists for other artifact(s)"
+            str(messages[-1]), 'SHA256 already exists for other artifact(s)'
         )
 
     def test_artifact_create_with_system_not_logged_in(self):
         """test create view"""
 
         # get object
-        system_id = System.objects.get(system_name="system_1").system_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # create url
-        destination = "/login/?next=" + urllib.parse.quote(
-            "/artifacts/artifact/create/%3Fsystem%3D" + str(system_id), safe="%"
+        destination = '/login/?next=' + urllib.parse.quote(
+            '/artifacts/artifact/create/%3Fsystem%3D' + str(system_id), safe='%'
         )
         # get response
         response = self.client.get(
-            "/artifacts/artifact/create/?system=" + str(system_id), follow=True
+            '/artifacts/artifact/create/?system=' + str(system_id), follow=True
         )
         # compare
         self.assertRedirects(
@@ -686,12 +686,12 @@ class ArtifactViewTestCase(TestCase):
         """test create view"""
 
         # get object
-        system_id = System.objects.get(system_name="system_1").system_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get response
         response = self.client.get(
-            "/artifacts/artifact/create/?system=" + str(system_id)
+            '/artifacts/artifact/create/?system=' + str(system_id)
         )
         # compare
         self.assertEqual(response.status_code, 200)
@@ -700,46 +700,46 @@ class ArtifactViewTestCase(TestCase):
         """test create view"""
 
         # get object
-        system_id = System.objects.get(system_name="system_1").system_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get response
         response = self.client.get(
-            "/artifacts/artifact/create/?system=" + str(system_id)
+            '/artifacts/artifact/create/?system=' + str(system_id)
         )
         # compare
         self.assertTemplateUsed(
-            response, "dfirtrack_artifacts/artifact/artifact_generic_form.html"
+            response, 'dfirtrack_artifacts/artifact/artifact_generic_form.html'
         )
 
     def test_artifact_create_with_system_get_user_context(self):
         """test create view"""
 
         # get object
-        system_id = System.objects.get(system_name="system_1").system_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get response
         response = self.client.get(
-            "/artifacts/artifact/create/?system=" + str(system_id)
+            '/artifacts/artifact/create/?system=' + str(system_id)
         )
         # compare
-        self.assertEqual(str(response.context["user"]), "testuser_artifact")
+        self.assertEqual(str(response.context['user']), 'testuser_artifact')
 
     def test_artifact_create_with_system_redirect(self):
         """test create view"""
 
         # get object
-        system_id = System.objects.get(system_name="system_1").system_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # create url
         destination = urllib.parse.quote(
-            "/artifacts/artifact/create/?system=" + str(system_id), safe="/=?"
+            '/artifacts/artifact/create/?system=' + str(system_id), safe='/=?'
         )
         # get response
         response = self.client.get(
-            "/artifacts/artifact/create?system=" + str(system_id), follow=True
+            '/artifacts/artifact/create?system=' + str(system_id), follow=True
         )
         # compare
         self.assertRedirects(
@@ -750,14 +750,14 @@ class ArtifactViewTestCase(TestCase):
         """test update view"""
 
         # get object
-        artifact_1 = Artifact.objects.get(artifact_name="artifact_1")
+        artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
         # create url
-        destination = "/login/?next=" + urllib.parse.quote(
-            "/artifacts/artifact/update/" + str(artifact_1.artifact_id) + "/", safe=""
+        destination = '/login/?next=' + urllib.parse.quote(
+            '/artifacts/artifact/update/' + str(artifact_1.artifact_id) + '/', safe=''
         )
         # get response
         response = self.client.get(
-            "/artifacts/artifact/update/" + str(artifact_1.artifact_id) + "/",
+            '/artifacts/artifact/update/' + str(artifact_1.artifact_id) + '/',
             follow=True,
         )
         # compare
@@ -769,12 +769,12 @@ class ArtifactViewTestCase(TestCase):
         """test update view"""
 
         # get object
-        artifact_1 = Artifact.objects.get(artifact_name="artifact_1")
+        artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get response
         response = self.client.get(
-            "/artifacts/artifact/update/" + str(artifact_1.artifact_id) + "/"
+            '/artifacts/artifact/update/' + str(artifact_1.artifact_id) + '/'
         )
         # compare
         self.assertEqual(response.status_code, 200)
@@ -783,46 +783,46 @@ class ArtifactViewTestCase(TestCase):
         """test update view"""
 
         # get object
-        artifact_1 = Artifact.objects.get(artifact_name="artifact_1")
+        artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get response
         response = self.client.get(
-            "/artifacts/artifact/update/" + str(artifact_1.artifact_id) + "/"
+            '/artifacts/artifact/update/' + str(artifact_1.artifact_id) + '/'
         )
         # compare
         self.assertTemplateUsed(
-            response, "dfirtrack_artifacts/artifact/artifact_generic_form.html"
+            response, 'dfirtrack_artifacts/artifact/artifact_generic_form.html'
         )
 
     def test_artifact_update_get_user_context(self):
         """test update view"""
 
         # get object
-        artifact_1 = Artifact.objects.get(artifact_name="artifact_1")
+        artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get response
         response = self.client.get(
-            "/artifacts/artifact/update/" + str(artifact_1.artifact_id) + "/"
+            '/artifacts/artifact/update/' + str(artifact_1.artifact_id) + '/'
         )
         # compare
-        self.assertEqual(str(response.context["user"]), "testuser_artifact")
+        self.assertEqual(str(response.context['user']), 'testuser_artifact')
 
     def test_artifact_update_redirect(self):
         """test update view"""
 
         # get object
-        artifact_1 = Artifact.objects.get(artifact_name="artifact_1")
+        artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # create url
         destination = urllib.parse.quote(
-            "/artifacts/artifact/update/" + str(artifact_1.artifact_id) + "/", safe="/"
+            '/artifacts/artifact/update/' + str(artifact_1.artifact_id) + '/', safe='/'
         )
         # get response
         response = self.client.get(
-            "/artifacts/artifact/update/" + str(artifact_1.artifact_id), follow=True
+            '/artifacts/artifact/update/' + str(artifact_1.artifact_id), follow=True
         )
         # compare
         self.assertRedirects(
@@ -833,21 +833,21 @@ class ArtifactViewTestCase(TestCase):
         """test update view"""
 
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get user
-        test_user = User.objects.get(username="testuser_artifact")
+        test_user = User.objects.get(username='testuser_artifact')
         # get objects
         artifactpriority = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         )
         artifactstatus = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         )
-        artifacttype = Artifacttype.objects.get(artifacttype_name="artifacttype_1")
-        system = System.objects.get(system_name="system_1")
+        artifacttype = Artifacttype.objects.get(artifacttype_name='artifacttype_1')
+        system = System.objects.get(system_name='system_1')
         # create object
         artifact = Artifact.objects.create(
-            artifact_name="artifact_update_post_test_1",
+            artifact_name='artifact_update_post_test_1',
             artifactpriority=artifactpriority,
             artifactstatus=artifactstatus,
             artifacttype=artifacttype,
@@ -857,19 +857,19 @@ class ArtifactViewTestCase(TestCase):
         )
         # create post data
         data_dict = {
-            "artifact_name": "artifact_update_post_test_2",
-            "artifactpriority": artifactpriority.artifactpriority_id,
-            "artifactstatus": artifactstatus.artifactstatus_id,
-            "artifacttype": artifacttype.artifacttype_id,
-            "system": system.system_id,
+            'artifact_name': 'artifact_update_post_test_2',
+            'artifactpriority': artifactpriority.artifactpriority_id,
+            'artifactstatus': artifactstatus.artifactstatus_id,
+            'artifacttype': artifacttype.artifacttype_id,
+            'system': system.system_id,
         }
         # get response
         response = self.client.post(
-            "/artifacts/artifact/update/" + str(artifact.artifact_id) + "/", data_dict
+            '/artifacts/artifact/update/' + str(artifact.artifact_id) + '/', data_dict
         )
         # create url
         destination = urllib.parse.quote(
-            "/artifacts/artifact/detail/" + str(artifact.artifact_id) + "/", safe="/"
+            '/artifacts/artifact/detail/' + str(artifact.artifact_id) + '/', safe='/'
         )
         # compare
         self.assertRedirects(
@@ -880,14 +880,14 @@ class ArtifactViewTestCase(TestCase):
         """test update view"""
 
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get object
-        artifact_id = Artifact.objects.get(artifact_name="artifact_1").artifact_id
+        artifact_id = Artifact.objects.get(artifact_name='artifact_1').artifact_id
         # create post data
         data_dict = {}
         # get response
         response = self.client.post(
-            "/artifacts/artifact/update/" + str(artifact_id) + "/", data_dict
+            '/artifacts/artifact/update/' + str(artifact_id) + '/', data_dict
         )
         # compare
         self.assertEqual(response.status_code, 200)
@@ -896,18 +896,18 @@ class ArtifactViewTestCase(TestCase):
         """test update view"""
 
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get object
-        artifact_id = Artifact.objects.get(artifact_name="artifact_1").artifact_id
+        artifact_id = Artifact.objects.get(artifact_name='artifact_1').artifact_id
         # create post data
         data_dict = {}
         # get response
         response = self.client.post(
-            "/artifacts/artifact/update/" + str(artifact_id) + "/", data_dict
+            '/artifacts/artifact/update/' + str(artifact_id) + '/', data_dict
         )
         # compare
         self.assertTemplateUsed(
-            response, "dfirtrack_artifacts/artifact/artifact_generic_form.html"
+            response, 'dfirtrack_artifacts/artifact/artifact_generic_form.html'
         )
 
     def test_artifact_create_post_set_requested_time(self):
@@ -915,47 +915,47 @@ class ArtifactViewTestCase(TestCase):
 
         # get object
         artifactstatus_1 = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         )
         # get config
-        main_config_model = MainConfigModel.objects.get(main_config_name="MainConfig")
+        main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
         # clean config
         main_config_model.artifactstatus_requested.clear()
         main_config_model.artifactstatus_acquisition.clear()
         # set config
         main_config_model.artifactstatus_requested.add(artifactstatus_1)
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get objects
         artifactpriority_id = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         ).artifactpriority_id
         artifactstatus_id = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         ).artifactstatus_id
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_1"
+            artifacttype_name='artifacttype_1'
         ).artifacttype_id
-        system_id = System.objects.get(system_name="system_1").system_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # create post data
         data_dict = {
-            "artifact_name": "artifact_create_post_set_requested_time",
-            "artifactpriority": artifactpriority_id,
-            "artifactstatus": artifactstatus_id,
-            "artifacttype": artifacttype_id,
-            "system": system_id,
+            'artifact_name': 'artifact_create_post_set_requested_time',
+            'artifactpriority': artifactpriority_id,
+            'artifactstatus': artifactstatus_id,
+            'artifacttype': artifacttype_id,
+            'system': system_id,
         }
 
         # mock timezone.now()
         t2_now = timezone.now()
-        with patch.object(timezone, "now", return_value=t2_now):
+        with patch.object(timezone, 'now', return_value=t2_now):
 
             # get response
-            self.client.post("/artifacts/artifact/create/", data_dict)
+            self.client.post('/artifacts/artifact/create/', data_dict)
 
         # get object
         artifact_create_post_set_requested_time = Artifact.objects.get(
-            artifact_name="artifact_create_post_set_requested_time"
+            artifact_name='artifact_create_post_set_requested_time'
         )
         # compare
         self.assertEqual(
@@ -970,47 +970,47 @@ class ArtifactViewTestCase(TestCase):
 
         # get object
         artifactstatus_1 = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         )
         # get config
-        main_config_model = MainConfigModel.objects.get(main_config_name="MainConfig")
+        main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
         # clean config
         main_config_model.artifactstatus_requested.clear()
         main_config_model.artifactstatus_acquisition.clear()
         # set config
         main_config_model.artifactstatus_acquisition.add(artifactstatus_1)
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get objects
         artifactpriority_id = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         ).artifactpriority_id
         artifactstatus_id = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         ).artifactstatus_id
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_1"
+            artifacttype_name='artifacttype_1'
         ).artifacttype_id
-        system_id = System.objects.get(system_name="system_1").system_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # create post data
         data_dict = {
-            "artifact_name": "artifact_create_post_set_acquisition_time",
-            "artifactpriority": artifactpriority_id,
-            "artifactstatus": artifactstatus_id,
-            "artifacttype": artifacttype_id,
-            "system": system_id,
+            'artifact_name': 'artifact_create_post_set_acquisition_time',
+            'artifactpriority': artifactpriority_id,
+            'artifactstatus': artifactstatus_id,
+            'artifacttype': artifacttype_id,
+            'system': system_id,
         }
 
         # mock timezone.now()
         t3_now = timezone.now()
-        with patch.object(timezone, "now", return_value=t3_now):
+        with patch.object(timezone, 'now', return_value=t3_now):
 
             # get response
-            self.client.post("/artifacts/artifact/create/", data_dict)
+            self.client.post('/artifacts/artifact/create/', data_dict)
 
         # get object
         artifact_create_post_set_acquisition_time = Artifact.objects.get(
-            artifact_name="artifact_create_post_set_acquisition_time"
+            artifact_name='artifact_create_post_set_acquisition_time'
         )
         # compare
         self.assertEqual(
@@ -1025,31 +1025,31 @@ class ArtifactViewTestCase(TestCase):
 
         # get object
         artifactstatus_1 = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         )
         # get config
-        main_config_model = MainConfigModel.objects.get(main_config_name="MainConfig")
+        main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
         # clean config
         main_config_model.artifactstatus_requested.clear()
         main_config_model.artifactstatus_acquisition.clear()
         # set config
         main_config_model.artifactstatus_requested.add(artifactstatus_1)
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get user
-        test_user = User.objects.get(username="testuser_artifact")
+        test_user = User.objects.get(username='testuser_artifact')
         # get objects
         artifactpriority = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         )
         artifactstatus = Artifactstatus.objects.create(
-            artifactstatus_name="artifactstatus_2"
+            artifactstatus_name='artifactstatus_2'
         )
-        artifacttype = Artifacttype.objects.get(artifacttype_name="artifacttype_1")
-        system = System.objects.get(system_name="system_1")
+        artifacttype = Artifacttype.objects.get(artifacttype_name='artifacttype_1')
+        system = System.objects.get(system_name='system_1')
         # create object
         artifact_update_post_set_requested_time = Artifact.objects.create(
-            artifact_name="artifact_update_post_set_requested_time",
+            artifact_name='artifact_update_post_set_requested_time',
             artifactpriority=artifactpriority,
             artifactstatus=artifactstatus,
             artifacttype=artifacttype,
@@ -1066,33 +1066,33 @@ class ArtifactViewTestCase(TestCase):
         )
         # get objects
         artifactpriority_id = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         ).artifactpriority_id
         artifactstatus_id = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         ).artifactstatus_id
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_1"
+            artifacttype_name='artifacttype_1'
         ).artifacttype_id
-        system_id = System.objects.get(system_name="system_1").system_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # update post data
         data_dict = {
-            "artifact_name": "artifact_update_post_set_requested_time",
-            "artifactpriority": artifactpriority_id,
-            "artifactstatus": artifactstatus_id,
-            "artifacttype": artifacttype_id,
-            "system": system_id,
+            'artifact_name': 'artifact_update_post_set_requested_time',
+            'artifactpriority': artifactpriority_id,
+            'artifactstatus': artifactstatus_id,
+            'artifacttype': artifacttype_id,
+            'system': system_id,
         }
 
         # mock timezone.now()
         t4_now = timezone.now()
-        with patch.object(timezone, "now", return_value=t4_now):
+        with patch.object(timezone, 'now', return_value=t4_now):
 
             # get response
             self.client.post(
-                "/artifacts/artifact/update/"
+                '/artifacts/artifact/update/'
                 + str(artifact_update_post_set_requested_time.artifact_id)
-                + "/",
+                + '/',
                 data_dict,
             )
 
@@ -1111,31 +1111,31 @@ class ArtifactViewTestCase(TestCase):
 
         # get object
         artifactstatus_1 = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         )
         # get config
-        main_config_model = MainConfigModel.objects.get(main_config_name="MainConfig")
+        main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
         # clean config
         main_config_model.artifactstatus_requested.clear()
         main_config_model.artifactstatus_acquisition.clear()
         # set config
         main_config_model.artifactstatus_acquisition.add(artifactstatus_1)
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get user
-        test_user = User.objects.get(username="testuser_artifact")
+        test_user = User.objects.get(username='testuser_artifact')
         # get objects
         artifactpriority = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         )
         artifactstatus = Artifactstatus.objects.create(
-            artifactstatus_name="artifactstatus_2"
+            artifactstatus_name='artifactstatus_2'
         )
-        artifacttype = Artifacttype.objects.get(artifacttype_name="artifacttype_1")
-        system = System.objects.get(system_name="system_1")
+        artifacttype = Artifacttype.objects.get(artifacttype_name='artifacttype_1')
+        system = System.objects.get(system_name='system_1')
         # create object
         artifact_update_post_set_acquisition_time = Artifact.objects.create(
-            artifact_name="artifact_update_post_set_acquisition_time",
+            artifact_name='artifact_update_post_set_acquisition_time',
             artifactpriority=artifactpriority,
             artifactstatus=artifactstatus,
             artifacttype=artifacttype,
@@ -1152,33 +1152,33 @@ class ArtifactViewTestCase(TestCase):
         )
         # get objects
         artifactpriority_id = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         ).artifactpriority_id
         artifactstatus_id = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         ).artifactstatus_id
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_1"
+            artifacttype_name='artifacttype_1'
         ).artifacttype_id
-        system_id = System.objects.get(system_name="system_1").system_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # create post data
         data_dict = {
-            "artifact_name": "artifact_update_post_set_acquisition_time",
-            "artifactpriority": artifactpriority_id,
-            "artifactstatus": artifactstatus_id,
-            "artifacttype": artifacttype_id,
-            "system": system_id,
+            'artifact_name': 'artifact_update_post_set_acquisition_time',
+            'artifactpriority': artifactpriority_id,
+            'artifactstatus': artifactstatus_id,
+            'artifacttype': artifacttype_id,
+            'system': system_id,
         }
 
         # mock timezone.now()
         t5_now = timezone.now()
-        with patch.object(timezone, "now", return_value=t5_now):
+        with patch.object(timezone, 'now', return_value=t5_now):
 
             # get response
             self.client.post(
-                "/artifacts/artifact/update/"
+                '/artifacts/artifact/update/'
                 + str(artifact_update_post_set_acquisition_time.artifact_id)
-                + "/",
+                + '/',
                 data_dict,
             )
 
@@ -1197,47 +1197,47 @@ class ArtifactViewTestCase(TestCase):
 
         # get object
         artifactstatus_1 = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         )
         # get config
-        main_config_model = MainConfigModel.objects.get(main_config_name="MainConfig")
+        main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
         # clean config
         main_config_model.artifactstatus_requested.clear()
         main_config_model.artifactstatus_acquisition.clear()
         # set config
         main_config_model.artifactstatus_requested.add(artifactstatus_1)
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get objects
         artifactpriority_id = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         ).artifactpriority_id
         artifactstatus_id = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         ).artifactstatus_id
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_1"
+            artifacttype_name='artifacttype_1'
         ).artifacttype_id
-        system_id = System.objects.get(system_name="system_1").system_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # create post data
         data_dict = {
-            "artifact_name": "artifact_update_post_retain_requested_time",
-            "artifactpriority": artifactpriority_id,
-            "artifactstatus": artifactstatus_id,
-            "artifacttype": artifacttype_id,
-            "system": system_id,
+            'artifact_name': 'artifact_update_post_retain_requested_time',
+            'artifactpriority': artifactpriority_id,
+            'artifactstatus': artifactstatus_id,
+            'artifacttype': artifacttype_id,
+            'system': system_id,
         }
 
         # mock timezone.now()
         t6_now = timezone.now()
-        with patch.object(timezone, "now", return_value=t6_now):
+        with patch.object(timezone, 'now', return_value=t6_now):
 
             # get response
-            self.client.post("/artifacts/artifact/create/", data_dict)
+            self.client.post('/artifacts/artifact/create/', data_dict)
 
         # get object
         artifact_update_post_retain_requested_time = Artifact.objects.get(
-            artifact_name="artifact_update_post_retain_requested_time"
+            artifact_name='artifact_update_post_retain_requested_time'
         )
         # compare (after create)
         self.assertEqual(
@@ -1249,10 +1249,10 @@ class ArtifactViewTestCase(TestCase):
 
         # create object
         artifactstatus_2 = Artifactstatus.objects.create(
-            artifactstatus_name="artifactstatus_2"
+            artifactstatus_name='artifactstatus_2'
         )
         # get config
-        main_config_model = MainConfigModel.objects.get(main_config_name="MainConfig")
+        main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
         # clean config
         main_config_model.artifactstatus_requested.clear()
         main_config_model.artifactstatus_acquisition.clear()
@@ -1260,22 +1260,22 @@ class ArtifactViewTestCase(TestCase):
         main_config_model.artifactstatus_requested.add(artifactstatus_2)
         # create post data
         data_dict = {
-            "artifact_name": "artifact_update_post_retain_requested_time",
-            "artifactpriority": artifactpriority_id,
-            "artifactstatus": artifactstatus_2.artifactstatus_id,
-            "artifacttype": artifacttype_id,
-            "system": system_id,
+            'artifact_name': 'artifact_update_post_retain_requested_time',
+            'artifactpriority': artifactpriority_id,
+            'artifactstatus': artifactstatus_2.artifactstatus_id,
+            'artifacttype': artifacttype_id,
+            'system': system_id,
         }
 
         # mock timezone.now()
         t7_now = timezone.now()
-        with patch.object(timezone, "now", return_value=t7_now):
+        with patch.object(timezone, 'now', return_value=t7_now):
 
             # get response
             self.client.post(
-                "/artifacts/artifact/update/"
+                '/artifacts/artifact/update/'
                 + str(artifact_update_post_retain_requested_time.artifact_id)
-                + "/",
+                + '/',
                 data_dict,
             )
 
@@ -1294,47 +1294,47 @@ class ArtifactViewTestCase(TestCase):
 
         # get object
         artifactstatus_1 = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         )
         # get config
-        main_config_model = MainConfigModel.objects.get(main_config_name="MainConfig")
+        main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
         # clean config
         main_config_model.artifactstatus_requested.clear()
         main_config_model.artifactstatus_acquisition.clear()
         # set config
         main_config_model.artifactstatus_acquisition.add(artifactstatus_1)
         # login testuser
-        self.client.login(username="testuser_artifact", password="frUsVT2ukTjWNDjVMBlF")
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
         # get objects
         artifactpriority_id = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         ).artifactpriority_id
         artifactstatus_id = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         ).artifactstatus_id
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_1"
+            artifacttype_name='artifacttype_1'
         ).artifacttype_id
-        system_id = System.objects.get(system_name="system_1").system_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # create post data
         data_dict = {
-            "artifact_name": "artifact_update_post_retain_acquisition_time",
-            "artifactpriority": artifactpriority_id,
-            "artifactstatus": artifactstatus_id,
-            "artifacttype": artifacttype_id,
-            "system": system_id,
+            'artifact_name': 'artifact_update_post_retain_acquisition_time',
+            'artifactpriority': artifactpriority_id,
+            'artifactstatus': artifactstatus_id,
+            'artifacttype': artifacttype_id,
+            'system': system_id,
         }
 
         # mock timezone.now()
         t8_now = timezone.now()
-        with patch.object(timezone, "now", return_value=t8_now):
+        with patch.object(timezone, 'now', return_value=t8_now):
 
             # get response
-            self.client.post("/artifacts/artifact/create/", data_dict)
+            self.client.post('/artifacts/artifact/create/', data_dict)
 
         # get object
         artifact_update_post_retain_acquisition_time = Artifact.objects.get(
-            artifact_name="artifact_update_post_retain_acquisition_time"
+            artifact_name='artifact_update_post_retain_acquisition_time'
         )
         # compare (after create)
         self.assertEqual(
@@ -1347,10 +1347,10 @@ class ArtifactViewTestCase(TestCase):
 
         # create object
         artifactstatus_2 = Artifactstatus.objects.create(
-            artifactstatus_name="artifactstatus_2"
+            artifactstatus_name='artifactstatus_2'
         )
         # get config
-        main_config_model = MainConfigModel.objects.get(main_config_name="MainConfig")
+        main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
         # clean config
         main_config_model.artifactstatus_requested.clear()
         main_config_model.artifactstatus_acquisition.clear()
@@ -1358,22 +1358,22 @@ class ArtifactViewTestCase(TestCase):
         main_config_model.artifactstatus_acquisition.add(artifactstatus_2)
         # create post data
         data_dict = {
-            "artifact_name": "artifact_update_post_retain_acquisition_time",
-            "artifactpriority": artifactpriority_id,
-            "artifactstatus": artifactstatus_2.artifactstatus_id,
-            "artifacttype": artifacttype_id,
-            "system": system_id,
+            'artifact_name': 'artifact_update_post_retain_acquisition_time',
+            'artifactpriority': artifactpriority_id,
+            'artifactstatus': artifactstatus_2.artifactstatus_id,
+            'artifacttype': artifacttype_id,
+            'system': system_id,
         }
 
         # mock timezone.now()
         t9_now = timezone.now()
-        with patch.object(timezone, "now", return_value=t9_now):
+        with patch.object(timezone, 'now', return_value=t9_now):
 
             # get response
             self.client.post(
-                "/artifacts/artifact/update/"
+                '/artifacts/artifact/update/'
                 + str(artifact_update_post_retain_acquisition_time.artifact_id)
-                + "/",
+                + '/',
                 data_dict,
             )
 

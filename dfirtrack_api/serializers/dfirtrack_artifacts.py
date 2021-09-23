@@ -25,8 +25,8 @@ class ArtifactprioritySerializer(serializers.ModelSerializer):
         model = Artifactpriority
         # attributes made available for api
         fields = (
-            "artifactpriority_id",
-            "artifactpriority_name",
+            'artifactpriority_id',
+            'artifactpriority_name',
         )
 
 
@@ -37,8 +37,8 @@ class ArtifactstatusSerializer(serializers.ModelSerializer):
         model = Artifactstatus
         # attributes made available for api
         fields = (
-            "artifactstatus_id",
-            "artifactstatus_name",
+            'artifactstatus_id',
+            'artifactstatus_name',
         )
 
 
@@ -49,8 +49,8 @@ class ArtifacttypeSerializer(serializers.ModelSerializer):
         model = Artifacttype
         # attributes made available for api
         fields = (
-            "artifacttype_id",
-            "artifacttype_name",
+            'artifacttype_id',
+            'artifacttype_name',
         )
 
 
@@ -61,39 +61,39 @@ class ArtifactSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
 
         # get serializers of foreignkey relationsships
-        self.fields["artifactpriority"] = ArtifactpriorityFkSerializer(
+        self.fields['artifactpriority'] = ArtifactpriorityFkSerializer(
             many=False, read_only=True
         )
-        self.fields["artifactstatus"] = ArtifactstatusFkSerializer(
+        self.fields['artifactstatus'] = ArtifactstatusFkSerializer(
             many=False, read_only=True
         )
-        self.fields["artifacttype"] = ArtifacttypeFkSerializer(
+        self.fields['artifacttype'] = ArtifacttypeFkSerializer(
             many=False, read_only=True
         )
-        self.fields["case"] = CaseFkSerializer(many=False, read_only=True)
-        self.fields["system"] = SystemFkSerializer(many=False, read_only=True)
-        self.fields["tag"] = TagFkSerializer(many=True, read_only=True)
+        self.fields['case'] = CaseFkSerializer(many=False, read_only=True)
+        self.fields['system'] = SystemFkSerializer(many=False, read_only=True)
+        self.fields['tag'] = TagFkSerializer(many=True, read_only=True)
 
         # get existing to_representation
         representation = super().to_representation(instance)
 
         # change mandatory time strings
-        representation["artifact_create_time"] = instance.artifact_create_time.strftime(
-            "%Y-%m-%dT%H:%M"
+        representation['artifact_create_time'] = instance.artifact_create_time.strftime(
+            '%Y-%m-%dT%H:%M'
         )
-        representation["artifact_modify_time"] = instance.artifact_modify_time.strftime(
-            "%Y-%m-%dT%H:%M"
+        representation['artifact_modify_time'] = instance.artifact_modify_time.strftime(
+            '%Y-%m-%dT%H:%M'
         )
 
         # change optional time strings
         if instance.artifact_acquisition_time:
             representation[
-                "artifact_acquisition_time"
-            ] = instance.artifact_acquisition_time.strftime("%Y-%m-%dT%H:%M")
+                'artifact_acquisition_time'
+            ] = instance.artifact_acquisition_time.strftime('%Y-%m-%dT%H:%M')
         if instance.artifact_requested_time:
             representation[
-                "artifact_requested_time"
-            ] = instance.artifact_requested_time.strftime("%Y-%m-%dT%H:%M")
+                'artifact_requested_time'
+            ] = instance.artifact_requested_time.strftime('%Y-%m-%dT%H:%M')
 
         return representation
 
@@ -101,28 +101,28 @@ class ArtifactSerializer(serializers.ModelSerializer):
         model = Artifact
         # attributes made available for api
         fields = (
-            "artifact_id",
-            "artifact_uuid",
-            "artifact_name",
-            "artifactpriority",
-            "artifactstatus",
-            "artifacttype",
-            "case",
-            "system",
-            "tag",
-            "artifact_md5",
-            "artifact_sha1",
-            "artifact_sha256",
-            "artifact_source_path",
-            "artifact_storage_path",
-            "artifact_acquisition_time",
-            "artifact_requested_time",
-            "artifact_create_time",
-            "artifact_created_by_user_id",
-            "artifact_modify_time",
-            "artifact_modified_by_user_id",
+            'artifact_id',
+            'artifact_uuid',
+            'artifact_name',
+            'artifactpriority',
+            'artifactstatus',
+            'artifacttype',
+            'case',
+            'system',
+            'tag',
+            'artifact_md5',
+            'artifact_sha1',
+            'artifact_sha256',
+            'artifact_source_path',
+            'artifact_storage_path',
+            'artifact_acquisition_time',
+            'artifact_requested_time',
+            'artifact_create_time',
+            'artifact_created_by_user_id',
+            'artifact_modify_time',
+            'artifact_modified_by_user_id',
         )
         read_only_fields = (
-            "artifact_uuid",
-            "artifact_storage_path",
+            'artifact_uuid',
+            'artifact_storage_path',
         )

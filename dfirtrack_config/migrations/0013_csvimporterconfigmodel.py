@@ -4,7 +4,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("dfirtrack_config", "0012_csvimporterconfig"),
+        ('dfirtrack_config', '0012_csvimporterconfig'),
     ]
 
     operations = [

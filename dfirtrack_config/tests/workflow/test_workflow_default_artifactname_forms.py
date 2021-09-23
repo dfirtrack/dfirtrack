@@ -13,16 +13,16 @@ class WWorkflowDefaultArtifactAttributesFormSetTestCase(TestCase):
     def setUpTestData(cls):
 
         # create objects
-        Artifacttype.objects.create(artifacttype_name="artifacttype_1")
-        Artifactstatus.objects.get(artifactstatus_name="10_needs_analysis")
-        Artifactpriority.objects.get(artifactpriority_name="10_low")
+        Artifacttype.objects.create(artifacttype_name='artifacttype_1')
+        Artifactstatus.objects.get(artifactstatus_name='10_needs_analysis')
+        Artifactpriority.objects.get(artifactpriority_name='10_low')
         test_user = User.objects.create_user(
-            username="testuser_WorkflowDefaultArtifactAttributes",
-            password="QVe1EH1Z5MshOW2GHS4b",
+            username='testuser_WorkflowDefaultArtifactAttributes',
+            password='QVe1EH1Z5MshOW2GHS4b',
         )
 
         Workflow.objects.create(
-            workflow_name="workflow_1",
+            workflow_name='workflow_1',
             workflow_created_by_user_id=test_user,
             workflow_modified_by_user_id=test_user,
         )
@@ -40,24 +40,24 @@ class WWorkflowDefaultArtifactAttributesFormSetTestCase(TestCase):
 
         # get object
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_1"
+            artifacttype_name='artifacttype_1'
         ).artifacttype_id
         artfactstatus_id = Artifactstatus.objects.get(
-            artifactstatus_name="10_needs_analysis"
+            artifactstatus_name='10_needs_analysis'
         ).artifactstatus_id
         artfactpriority_id = Artifactpriority.objects.get(
-            artifactpriority_name="10_low"
+            artifactpriority_name='10_low'
         ).artifactpriority_id
 
         # create form
         form = WorkflowDefaultArtifactAttributesFormSet(
             data={
-                "form-TOTAL_FORMS": "1",
-                "form-INITIAL_FORMS": "0",
-                "form-0-artifacttype": artifacttype_id,
-                "form-0-artifact_default_name": "default_name_1",
-                "form-0-artifact_default_status": artfactstatus_id,
-                "form-0-artifact_default_priority": artfactpriority_id,
+                'form-TOTAL_FORMS': '1',
+                'form-INITIAL_FORMS': '0',
+                'form-0-artifacttype': artifacttype_id,
+                'form-0-artifact_default_name': 'default_name_1',
+                'form-0-artifact_default_status': artfactstatus_id,
+                'form-0-artifact_default_priority': artfactpriority_id,
             }
         )
         # compare
@@ -68,28 +68,28 @@ class WWorkflowDefaultArtifactAttributesFormSetTestCase(TestCase):
 
         # get object
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_1"
+            artifacttype_name='artifacttype_1'
         ).artifacttype_id
         artfactstatus_id = Artifactstatus.objects.get(
-            artifactstatus_name="10_needs_analysis"
+            artifactstatus_name='10_needs_analysis'
         ).artifactstatus_id
         artfactpriority_id = Artifactpriority.objects.get(
-            artifactpriority_name="10_low"
+            artifactpriority_name='10_low'
         ).artifactpriority_id
 
         # create form
         form = WorkflowDefaultArtifactAttributesFormSet(
             data={
-                "form-TOTAL_FORMS": "2",
-                "form-INITIAL_FORMS": "0",
-                "form-0-artifacttype": artifacttype_id,
-                "form-0-artifact_default_name": "default_name_1",
-                "form-0-artifact_default_status": artfactstatus_id,
-                "form-0-artifact_default_priority": artfactpriority_id,
-                "form-1-artifacttype": -1,
-                "form-1-artifact_default_name": "default_name_2",
-                "form-1-artifact_default_status": artfactstatus_id,
-                "form-1-artifact_default_priority": artfactpriority_id,
+                'form-TOTAL_FORMS': '2',
+                'form-INITIAL_FORMS': '0',
+                'form-0-artifacttype': artifacttype_id,
+                'form-0-artifact_default_name': 'default_name_1',
+                'form-0-artifact_default_status': artfactstatus_id,
+                'form-0-artifact_default_priority': artfactpriority_id,
+                'form-1-artifacttype': -1,
+                'form-1-artifact_default_name': 'default_name_2',
+                'form-1-artifact_default_status': artfactstatus_id,
+                'form-1-artifact_default_priority': artfactpriority_id,
             }
         )
         # compare

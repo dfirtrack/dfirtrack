@@ -13,21 +13,21 @@ class ArtifacttypeViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create object
-        Artifacttype.objects.create(artifacttype_name="artifacttype_1")
+        Artifacttype.objects.create(artifacttype_name='artifacttype_1')
         # create user
         User.objects.create_user(
-            username="testuser_artifacttype", password="5HxLPaA1wWbphTcd2C3S"
+            username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S'
         )
 
     def test_artifacttype_list_not_logged_in(self):
         """test list view"""
 
         # create url
-        destination = "/login/?next=" + urllib.parse.quote(
-            "/artifacts/artifacttype/", safe=""
+        destination = '/login/?next=' + urllib.parse.quote(
+            '/artifacts/artifacttype/', safe=''
         )
         # get response
-        response = self.client.get("/artifacts/artifacttype/", follow=True)
+        response = self.client.get('/artifacts/artifacttype/', follow=True)
         # compare
         self.assertRedirects(
             response, destination, status_code=302, target_status_code=200
@@ -38,10 +38,10 @@ class ArtifacttypeViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_artifacttype", password="5HxLPaA1wWbphTcd2C3S"
+            username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S'
         )
         # get response
-        response = self.client.get("/artifacts/artifacttype/")
+        response = self.client.get('/artifacts/artifacttype/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -50,13 +50,13 @@ class ArtifacttypeViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_artifacttype", password="5HxLPaA1wWbphTcd2C3S"
+            username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S'
         )
         # get response
-        response = self.client.get("/artifacts/artifacttype/")
+        response = self.client.get('/artifacts/artifacttype/')
         # compare
         self.assertTemplateUsed(
-            response, "dfirtrack_artifacts/artifacttype/artifacttype_list.html"
+            response, 'dfirtrack_artifacts/artifacttype/artifacttype_list.html'
         )
 
     def test_artifacttype_list_get_user_context(self):
@@ -64,24 +64,24 @@ class ArtifacttypeViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_artifacttype", password="5HxLPaA1wWbphTcd2C3S"
+            username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S'
         )
         # get response
-        response = self.client.get("/artifacts/artifacttype/")
+        response = self.client.get('/artifacts/artifacttype/')
         # compare
-        self.assertEqual(str(response.context["user"]), "testuser_artifacttype")
+        self.assertEqual(str(response.context['user']), 'testuser_artifacttype')
 
     def test_artifacttype_list_redirect(self):
         """test list view"""
 
         # login testuser
         self.client.login(
-            username="testuser_artifacttype", password="5HxLPaA1wWbphTcd2C3S"
+            username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S'
         )
         # create url
-        destination = urllib.parse.quote("/artifacts/artifacttype/", safe="/")
+        destination = urllib.parse.quote('/artifacts/artifacttype/', safe='/')
         # get response
-        response = self.client.get("/artifacts/artifacttype", follow=True)
+        response = self.client.get('/artifacts/artifacttype', follow=True)
         # compare
         self.assertRedirects(
             response, destination, status_code=301, target_status_code=200
@@ -91,19 +91,19 @@ class ArtifacttypeViewTestCase(TestCase):
         """test detail view"""
 
         # get object
-        artifacttype_1 = Artifacttype.objects.get(artifacttype_name="artifacttype_1")
+        artifacttype_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_1')
         # create url
-        destination = "/login/?next=" + urllib.parse.quote(
-            "/artifacts/artifacttype/detail/"
+        destination = '/login/?next=' + urllib.parse.quote(
+            '/artifacts/artifacttype/detail/'
             + str(artifacttype_1.artifacttype_id)
-            + "/",
-            safe="",
+            + '/',
+            safe='',
         )
         # get response
         response = self.client.get(
-            "/artifacts/artifacttype/detail/"
+            '/artifacts/artifacttype/detail/'
             + str(artifacttype_1.artifacttype_id)
-            + "/",
+            + '/',
             follow=True,
         )
         # compare
@@ -115,16 +115,16 @@ class ArtifacttypeViewTestCase(TestCase):
         """test detail view"""
 
         # get object
-        artifacttype_1 = Artifacttype.objects.get(artifacttype_name="artifacttype_1")
+        artifacttype_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_1')
         # login testuser
         self.client.login(
-            username="testuser_artifacttype", password="5HxLPaA1wWbphTcd2C3S"
+            username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S'
         )
         # get response
         response = self.client.get(
-            "/artifacts/artifacttype/detail/"
+            '/artifacts/artifacttype/detail/'
             + str(artifacttype_1.artifacttype_id)
-            + "/"
+            + '/'
         )
         # compare
         self.assertEqual(response.status_code, 200)
@@ -133,59 +133,59 @@ class ArtifacttypeViewTestCase(TestCase):
         """test detail view"""
 
         # get object
-        artifacttype_1 = Artifacttype.objects.get(artifacttype_name="artifacttype_1")
+        artifacttype_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_1')
         # login testuser
         self.client.login(
-            username="testuser_artifacttype", password="5HxLPaA1wWbphTcd2C3S"
+            username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S'
         )
         # get response
         response = self.client.get(
-            "/artifacts/artifacttype/detail/"
+            '/artifacts/artifacttype/detail/'
             + str(artifacttype_1.artifacttype_id)
-            + "/"
+            + '/'
         )
         # compare
         self.assertTemplateUsed(
-            response, "dfirtrack_artifacts/artifacttype/artifacttype_detail.html"
+            response, 'dfirtrack_artifacts/artifacttype/artifacttype_detail.html'
         )
 
     def test_artifacttype_detail_get_user_context(self):
         """test detail view"""
 
         # get object
-        artifacttype_1 = Artifacttype.objects.get(artifacttype_name="artifacttype_1")
+        artifacttype_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_1')
         # login testuser
         self.client.login(
-            username="testuser_artifacttype", password="5HxLPaA1wWbphTcd2C3S"
+            username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S'
         )
         # get response
         response = self.client.get(
-            "/artifacts/artifacttype/detail/"
+            '/artifacts/artifacttype/detail/'
             + str(artifacttype_1.artifacttype_id)
-            + "/"
+            + '/'
         )
         # compare
-        self.assertEqual(str(response.context["user"]), "testuser_artifacttype")
+        self.assertEqual(str(response.context['user']), 'testuser_artifacttype')
 
     def test_artifacttype_detail_redirect(self):
         """test detail view"""
 
         # get object
-        artifacttype_1 = Artifacttype.objects.get(artifacttype_name="artifacttype_1")
+        artifacttype_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_1')
         # login testuser
         self.client.login(
-            username="testuser_artifacttype", password="5HxLPaA1wWbphTcd2C3S"
+            username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S'
         )
         # create url
         destination = urllib.parse.quote(
-            "/artifacts/artifacttype/detail/"
+            '/artifacts/artifacttype/detail/'
             + str(artifacttype_1.artifacttype_id)
-            + "/",
-            safe="/",
+            + '/',
+            safe='/',
         )
         # get response
         response = self.client.get(
-            "/artifacts/artifacttype/detail/" + str(artifacttype_1.artifacttype_id),
+            '/artifacts/artifacttype/detail/' + str(artifacttype_1.artifacttype_id),
             follow=True,
         )
         # compare
@@ -197,11 +197,11 @@ class ArtifacttypeViewTestCase(TestCase):
         """test create view"""
 
         # create url
-        destination = "/login/?next=" + urllib.parse.quote(
-            "/artifacts/artifacttype/create/", safe=""
+        destination = '/login/?next=' + urllib.parse.quote(
+            '/artifacts/artifacttype/create/', safe=''
         )
         # get response
-        response = self.client.get("/artifacts/artifacttype/create/", follow=True)
+        response = self.client.get('/artifacts/artifacttype/create/', follow=True)
         # compare
         self.assertRedirects(
             response, destination, status_code=302, target_status_code=200
@@ -212,10 +212,10 @@ class ArtifacttypeViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_artifacttype", password="5HxLPaA1wWbphTcd2C3S"
+            username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S'
         )
         # get response
-        response = self.client.get("/artifacts/artifacttype/create/")
+        response = self.client.get('/artifacts/artifacttype/create/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -224,36 +224,36 @@ class ArtifacttypeViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_artifacttype", password="5HxLPaA1wWbphTcd2C3S"
+            username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S'
         )
         # get response
-        response = self.client.get("/artifacts/artifacttype/create/")
+        response = self.client.get('/artifacts/artifacttype/create/')
         # compare
-        self.assertTemplateUsed(response, "dfirtrack_main/generic_form.html")
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
 
     def test_artifacttype_create_get_user_context(self):
         """test create view"""
 
         # login testuser
         self.client.login(
-            username="testuser_artifacttype", password="5HxLPaA1wWbphTcd2C3S"
+            username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S'
         )
         # get response
-        response = self.client.get("/artifacts/artifacttype/create/")
+        response = self.client.get('/artifacts/artifacttype/create/')
         # compare
-        self.assertEqual(str(response.context["user"]), "testuser_artifacttype")
+        self.assertEqual(str(response.context['user']), 'testuser_artifacttype')
 
     def test_artifacttype_create_redirect(self):
         """test create view"""
 
         # login testuser
         self.client.login(
-            username="testuser_artifacttype", password="5HxLPaA1wWbphTcd2C3S"
+            username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S'
         )
         # create url
-        destination = urllib.parse.quote("/artifacts/artifacttype/create/", safe="/")
+        destination = urllib.parse.quote('/artifacts/artifacttype/create/', safe='/')
         # get response
-        response = self.client.get("/artifacts/artifacttype/create", follow=True)
+        response = self.client.get('/artifacts/artifacttype/create', follow=True)
         # compare
         self.assertRedirects(
             response, destination, status_code=301, target_status_code=200
@@ -264,21 +264,21 @@ class ArtifacttypeViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_artifacttype", password="5HxLPaA1wWbphTcd2C3S"
+            username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S'
         )
         # create post data
         data_dict = {
-            "artifacttype_name": "artifacttype_create_post_test",
+            'artifacttype_name': 'artifacttype_create_post_test',
         }
         # get response
-        response = self.client.post("/artifacts/artifacttype/create/", data_dict)
+        response = self.client.post('/artifacts/artifacttype/create/', data_dict)
         # get artifacttype
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_create_post_test"
+            artifacttype_name='artifacttype_create_post_test'
         ).artifacttype_id
         # create url
         destination = urllib.parse.quote(
-            "/artifacts/artifacttype/detail/" + str(artifacttype_id) + "/", safe="/"
+            '/artifacts/artifacttype/detail/' + str(artifacttype_id) + '/', safe='/'
         )
         # compare
         self.assertRedirects(
@@ -290,12 +290,12 @@ class ArtifacttypeViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_artifacttype", password="5HxLPaA1wWbphTcd2C3S"
+            username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S'
         )
         # create post data
         data_dict = {}
         # get response
-        response = self.client.post("/artifacts/artifacttype/create/", data_dict)
+        response = self.client.post('/artifacts/artifacttype/create/', data_dict)
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -304,24 +304,24 @@ class ArtifacttypeViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_artifacttype", password="5HxLPaA1wWbphTcd2C3S"
+            username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S'
         )
         # create post data
         data_dict = {}
         # get response
-        response = self.client.post("/artifacts/artifacttype/create/", data_dict)
+        response = self.client.post('/artifacts/artifacttype/create/', data_dict)
         # compare
-        self.assertTemplateUsed(response, "dfirtrack_main/generic_form.html")
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
 
     def test_artifacttype_add_popup_not_logged_in(self):
         """test add view"""
 
         # create url
-        destination = "/login/?next=" + urllib.parse.quote(
-            "/artifacts/artifacttype/add_popup/", safe=""
+        destination = '/login/?next=' + urllib.parse.quote(
+            '/artifacts/artifacttype/add_popup/', safe=''
         )
         # get response
-        response = self.client.get("/artifacts/artifacttype/add_popup/", follow=True)
+        response = self.client.get('/artifacts/artifacttype/add_popup/', follow=True)
         # compare
         self.assertRedirects(
             response, destination, status_code=302, target_status_code=200
@@ -332,10 +332,10 @@ class ArtifacttypeViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_artifacttype", password="5HxLPaA1wWbphTcd2C3S"
+            username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S'
         )
         # get response
-        response = self.client.get("/artifacts/artifacttype/add_popup/")
+        response = self.client.get('/artifacts/artifacttype/add_popup/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -344,36 +344,36 @@ class ArtifacttypeViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_artifacttype", password="5HxLPaA1wWbphTcd2C3S"
+            username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S'
         )
         # get response
-        response = self.client.get("/artifacts/artifacttype/add_popup/")
+        response = self.client.get('/artifacts/artifacttype/add_popup/')
         # compare
-        self.assertTemplateUsed(response, "dfirtrack_main/generic_form_popup.html")
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form_popup.html')
 
     def test_artifacttype_add_popup_get_user_context(self):
         """test add view"""
 
         # login testuser
         self.client.login(
-            username="testuser_artifacttype", password="5HxLPaA1wWbphTcd2C3S"
+            username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S'
         )
         # get response
-        response = self.client.get("/artifacts/artifacttype/add_popup/")
+        response = self.client.get('/artifacts/artifacttype/add_popup/')
         # compare
-        self.assertEqual(str(response.context["user"]), "testuser_artifacttype")
+        self.assertEqual(str(response.context['user']), 'testuser_artifacttype')
 
     def test_artifacttype_add_popup_redirect(self):
         """test add view"""
 
         # login testuser
         self.client.login(
-            username="testuser_artifacttype", password="5HxLPaA1wWbphTcd2C3S"
+            username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S'
         )
         # create url
-        destination = urllib.parse.quote("/artifacts/artifacttype/add_popup/", safe="/")
+        destination = urllib.parse.quote('/artifacts/artifacttype/add_popup/', safe='/')
         # get response
-        response = self.client.get("/artifacts/artifacttype/add_popup", follow=True)
+        response = self.client.get('/artifacts/artifacttype/add_popup', follow=True)
         # compare
         self.assertRedirects(
             response, destination, status_code=301, target_status_code=200
@@ -384,14 +384,14 @@ class ArtifacttypeViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_artifacttype", password="5HxLPaA1wWbphTcd2C3S"
+            username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S'
         )
         # create post data
         data_dict = {
-            "artifacttype_name": "artifacttype_add_popup_post_test",
+            'artifacttype_name': 'artifacttype_add_popup_post_test',
         }
         # get response
-        response = self.client.post("/artifacts/artifacttype/add_popup/", data_dict)
+        response = self.client.post('/artifacts/artifacttype/add_popup/', data_dict)
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -400,12 +400,12 @@ class ArtifacttypeViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_artifacttype", password="5HxLPaA1wWbphTcd2C3S"
+            username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S'
         )
         # create post data
         data_dict = {}
         # get response
-        response = self.client.post("/artifacts/artifacttype/add_popup/", data_dict)
+        response = self.client.post('/artifacts/artifacttype/add_popup/', data_dict)
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -414,32 +414,32 @@ class ArtifacttypeViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_artifacttype", password="5HxLPaA1wWbphTcd2C3S"
+            username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S'
         )
         # create post data
         data_dict = {}
         # get response
-        response = self.client.post("/artifacts/artifacttype/add_popup/", data_dict)
+        response = self.client.post('/artifacts/artifacttype/add_popup/', data_dict)
         # compare
-        self.assertTemplateUsed(response, "dfirtrack_main/generic_form_popup.html")
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form_popup.html')
 
     def test_artifacttype_update_not_logged_in(self):
         """test update view"""
 
         # get object
-        artifacttype_1 = Artifacttype.objects.get(artifacttype_name="artifacttype_1")
+        artifacttype_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_1')
         # create url
-        destination = "/login/?next=" + urllib.parse.quote(
-            "/artifacts/artifacttype/update/"
+        destination = '/login/?next=' + urllib.parse.quote(
+            '/artifacts/artifacttype/update/'
             + str(artifacttype_1.artifacttype_id)
-            + "/",
-            safe="",
+            + '/',
+            safe='',
         )
         # get response
         response = self.client.get(
-            "/artifacts/artifacttype/update/"
+            '/artifacts/artifacttype/update/'
             + str(artifacttype_1.artifacttype_id)
-            + "/",
+            + '/',
             follow=True,
         )
         # compare
@@ -451,16 +451,16 @@ class ArtifacttypeViewTestCase(TestCase):
         """test update view"""
 
         # get object
-        artifacttype_1 = Artifacttype.objects.get(artifacttype_name="artifacttype_1")
+        artifacttype_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_1')
         # login testuser
         self.client.login(
-            username="testuser_artifacttype", password="5HxLPaA1wWbphTcd2C3S"
+            username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S'
         )
         # get response
         response = self.client.get(
-            "/artifacts/artifacttype/update/"
+            '/artifacts/artifacttype/update/'
             + str(artifacttype_1.artifacttype_id)
-            + "/"
+            + '/'
         )
         # compare
         self.assertEqual(response.status_code, 200)
@@ -469,57 +469,57 @@ class ArtifacttypeViewTestCase(TestCase):
         """test update view"""
 
         # get object
-        artifacttype_1 = Artifacttype.objects.get(artifacttype_name="artifacttype_1")
+        artifacttype_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_1')
         # login testuser
         self.client.login(
-            username="testuser_artifacttype", password="5HxLPaA1wWbphTcd2C3S"
+            username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S'
         )
         # get response
         response = self.client.get(
-            "/artifacts/artifacttype/update/"
+            '/artifacts/artifacttype/update/'
             + str(artifacttype_1.artifacttype_id)
-            + "/"
+            + '/'
         )
         # compare
-        self.assertTemplateUsed(response, "dfirtrack_main/generic_form.html")
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
 
     def test_artifacttype_update_get_user_context(self):
         """test update view"""
 
         # get object
-        artifacttype_1 = Artifacttype.objects.get(artifacttype_name="artifacttype_1")
+        artifacttype_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_1')
         # login testuser
         self.client.login(
-            username="testuser_artifacttype", password="5HxLPaA1wWbphTcd2C3S"
+            username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S'
         )
         # get response
         response = self.client.get(
-            "/artifacts/artifacttype/update/"
+            '/artifacts/artifacttype/update/'
             + str(artifacttype_1.artifacttype_id)
-            + "/"
+            + '/'
         )
         # compare
-        self.assertEqual(str(response.context["user"]), "testuser_artifacttype")
+        self.assertEqual(str(response.context['user']), 'testuser_artifacttype')
 
     def test_artifacttype_update_redirect(self):
         """test update view"""
 
         # get object
-        artifacttype_1 = Artifacttype.objects.get(artifacttype_name="artifacttype_1")
+        artifacttype_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_1')
         # login testuser
         self.client.login(
-            username="testuser_artifacttype", password="5HxLPaA1wWbphTcd2C3S"
+            username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S'
         )
         # create url
         destination = urllib.parse.quote(
-            "/artifacts/artifacttype/update/"
+            '/artifacts/artifacttype/update/'
             + str(artifacttype_1.artifacttype_id)
-            + "/",
-            safe="/",
+            + '/',
+            safe='/',
         )
         # get response
         response = self.client.get(
-            "/artifacts/artifacttype/update/" + str(artifacttype_1.artifacttype_id),
+            '/artifacts/artifacttype/update/' + str(artifacttype_1.artifacttype_id),
             follow=True,
         )
         # compare
@@ -532,23 +532,23 @@ class ArtifacttypeViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_artifacttype", password="5HxLPaA1wWbphTcd2C3S"
+            username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S'
         )
         # create object
         artifacttype_id = Artifacttype.objects.create(
-            artifacttype_name="artifacttype_update_post_test_1"
+            artifacttype_name='artifacttype_update_post_test_1'
         ).artifacttype_id
         # create post data
         data_dict = {
-            "artifacttype_name": "artifacttype_update_post_test_2",
+            'artifacttype_name': 'artifacttype_update_post_test_2',
         }
         # get response
         response = self.client.post(
-            "/artifacts/artifacttype/update/" + str(artifacttype_id) + "/", data_dict
+            '/artifacts/artifacttype/update/' + str(artifacttype_id) + '/', data_dict
         )
         # create url
         destination = urllib.parse.quote(
-            "/artifacts/artifacttype/detail/" + str(artifacttype_id) + "/", safe="/"
+            '/artifacts/artifacttype/detail/' + str(artifacttype_id) + '/', safe='/'
         )
         # compare
         self.assertRedirects(
@@ -560,17 +560,17 @@ class ArtifacttypeViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_artifacttype", password="5HxLPaA1wWbphTcd2C3S"
+            username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S'
         )
         # get object
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_1"
+            artifacttype_name='artifacttype_1'
         ).artifacttype_id
         # create post data
         data_dict = {}
         # get response
         response = self.client.post(
-            "/artifacts/artifacttype/update/" + str(artifacttype_id) + "/", data_dict
+            '/artifacts/artifacttype/update/' + str(artifacttype_id) + '/', data_dict
         )
         # compare
         self.assertEqual(response.status_code, 200)
@@ -580,17 +580,17 @@ class ArtifacttypeViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_artifacttype", password="5HxLPaA1wWbphTcd2C3S"
+            username='testuser_artifacttype', password='5HxLPaA1wWbphTcd2C3S'
         )
         # get object
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_1"
+            artifacttype_name='artifacttype_1'
         ).artifacttype_id
         # create post data
         data_dict = {}
         # get response
         response = self.client.post(
-            "/artifacts/artifacttype/update/" + str(artifacttype_id) + "/", data_dict
+            '/artifacts/artifacttype/update/' + str(artifacttype_id) + '/', data_dict
         )
         # compare
-        self.assertTemplateUsed(response, "dfirtrack_main/generic_form.html")
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')

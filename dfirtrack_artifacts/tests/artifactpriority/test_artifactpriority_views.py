@@ -13,21 +13,21 @@ class ArtifactpriorityViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create object
-        Artifactpriority.objects.create(artifactpriority_name="artifactpriority_1")
+        Artifactpriority.objects.create(artifactpriority_name='artifactpriority_1')
         # create user
         User.objects.create_user(
-            username="testuser_artifactpriority", password="mkE62cflomdYPRAdyvcR"
+            username='testuser_artifactpriority', password='mkE62cflomdYPRAdyvcR'
         )
 
     def test_artifactpriority_list_not_logged_in(self):
         """test list view"""
 
         # create url
-        destination = "/login/?next=" + urllib.parse.quote(
-            "/artifacts/artifactpriority/", safe=""
+        destination = '/login/?next=' + urllib.parse.quote(
+            '/artifacts/artifactpriority/', safe=''
         )
         # get response
-        response = self.client.get("/artifacts/artifactpriority/", follow=True)
+        response = self.client.get('/artifacts/artifactpriority/', follow=True)
         # compare
         self.assertRedirects(
             response, destination, status_code=302, target_status_code=200
@@ -38,10 +38,10 @@ class ArtifactpriorityViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_artifactpriority", password="mkE62cflomdYPRAdyvcR"
+            username='testuser_artifactpriority', password='mkE62cflomdYPRAdyvcR'
         )
         # get response
-        response = self.client.get("/artifacts/artifactpriority/")
+        response = self.client.get('/artifacts/artifactpriority/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -50,13 +50,13 @@ class ArtifactpriorityViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_artifactpriority", password="mkE62cflomdYPRAdyvcR"
+            username='testuser_artifactpriority', password='mkE62cflomdYPRAdyvcR'
         )
         # get response
-        response = self.client.get("/artifacts/artifactpriority/")
+        response = self.client.get('/artifacts/artifactpriority/')
         # compare
         self.assertTemplateUsed(
-            response, "dfirtrack_artifacts/artifactpriority/artifactpriority_list.html"
+            response, 'dfirtrack_artifacts/artifactpriority/artifactpriority_list.html'
         )
 
     def test_artifactpriority_list_get_user_context(self):
@@ -64,24 +64,24 @@ class ArtifactpriorityViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_artifactpriority", password="mkE62cflomdYPRAdyvcR"
+            username='testuser_artifactpriority', password='mkE62cflomdYPRAdyvcR'
         )
         # get response
-        response = self.client.get("/artifacts/artifactpriority/")
+        response = self.client.get('/artifacts/artifactpriority/')
         # compare
-        self.assertEqual(str(response.context["user"]), "testuser_artifactpriority")
+        self.assertEqual(str(response.context['user']), 'testuser_artifactpriority')
 
     def test_artifactpriority_list_redirect(self):
         """test list view"""
 
         # login testuser
         self.client.login(
-            username="testuser_artifactpriority", password="mkE62cflomdYPRAdyvcR"
+            username='testuser_artifactpriority', password='mkE62cflomdYPRAdyvcR'
         )
         # create url
-        destination = urllib.parse.quote("/artifacts/artifactpriority/", safe="/")
+        destination = urllib.parse.quote('/artifacts/artifactpriority/', safe='/')
         # get response
-        response = self.client.get("/artifacts/artifactpriority", follow=True)
+        response = self.client.get('/artifacts/artifactpriority', follow=True)
         # compare
         self.assertRedirects(
             response, destination, status_code=301, target_status_code=200
@@ -92,20 +92,20 @@ class ArtifactpriorityViewTestCase(TestCase):
 
         # get object
         artifactpriority_1 = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         )
         # create url
-        destination = "/login/?next=" + urllib.parse.quote(
-            "/artifacts/artifactpriority/detail/"
+        destination = '/login/?next=' + urllib.parse.quote(
+            '/artifacts/artifactpriority/detail/'
             + str(artifactpriority_1.artifactpriority_id)
-            + "/",
-            safe="",
+            + '/',
+            safe='',
         )
         # get response
         response = self.client.get(
-            "/artifacts/artifactpriority/detail/"
+            '/artifacts/artifactpriority/detail/'
             + str(artifactpriority_1.artifactpriority_id)
-            + "/",
+            + '/',
             follow=True,
         )
         # compare
@@ -118,17 +118,17 @@ class ArtifactpriorityViewTestCase(TestCase):
 
         # get object
         artifactpriority_1 = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         )
         # login testuser
         self.client.login(
-            username="testuser_artifactpriority", password="mkE62cflomdYPRAdyvcR"
+            username='testuser_artifactpriority', password='mkE62cflomdYPRAdyvcR'
         )
         # get response
         response = self.client.get(
-            "/artifacts/artifactpriority/detail/"
+            '/artifacts/artifactpriority/detail/'
             + str(artifactpriority_1.artifactpriority_id)
-            + "/"
+            + '/'
         )
         # compare
         self.assertEqual(response.status_code, 200)
@@ -138,22 +138,22 @@ class ArtifactpriorityViewTestCase(TestCase):
 
         # get object
         artifactpriority_1 = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         )
         # login testuser
         self.client.login(
-            username="testuser_artifactpriority", password="mkE62cflomdYPRAdyvcR"
+            username='testuser_artifactpriority', password='mkE62cflomdYPRAdyvcR'
         )
         # get response
         response = self.client.get(
-            "/artifacts/artifactpriority/detail/"
+            '/artifacts/artifactpriority/detail/'
             + str(artifactpriority_1.artifactpriority_id)
-            + "/"
+            + '/'
         )
         # compare
         self.assertTemplateUsed(
             response,
-            "dfirtrack_artifacts/artifactpriority/artifactpriority_detail.html",
+            'dfirtrack_artifacts/artifactpriority/artifactpriority_detail.html',
         )
 
     def test_artifactpriority_detail_get_user_context(self):
@@ -161,42 +161,42 @@ class ArtifactpriorityViewTestCase(TestCase):
 
         # get object
         artifactpriority_1 = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         )
         # login testuser
         self.client.login(
-            username="testuser_artifactpriority", password="mkE62cflomdYPRAdyvcR"
+            username='testuser_artifactpriority', password='mkE62cflomdYPRAdyvcR'
         )
         # get response
         response = self.client.get(
-            "/artifacts/artifactpriority/detail/"
+            '/artifacts/artifactpriority/detail/'
             + str(artifactpriority_1.artifactpriority_id)
-            + "/"
+            + '/'
         )
         # compare
-        self.assertEqual(str(response.context["user"]), "testuser_artifactpriority")
+        self.assertEqual(str(response.context['user']), 'testuser_artifactpriority')
 
     def test_artifactpriority_detail_redirect(self):
         """test list view"""
 
         # get object
         artifactpriority_1 = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         )
         # login testuser
         self.client.login(
-            username="testuser_artifactpriority", password="mkE62cflomdYPRAdyvcR"
+            username='testuser_artifactpriority', password='mkE62cflomdYPRAdyvcR'
         )
         # create url
         destination = urllib.parse.quote(
-            "/artifacts/artifactpriority/detail/"
+            '/artifacts/artifactpriority/detail/'
             + str(artifactpriority_1.artifactpriority_id)
-            + "/",
-            safe="/",
+            + '/',
+            safe='/',
         )
         # get response
         response = self.client.get(
-            "/artifacts/artifactpriority/detail/"
+            '/artifacts/artifactpriority/detail/'
             + str(artifactpriority_1.artifactpriority_id),
             follow=True,
         )

@@ -11,7 +11,7 @@ class WorkflowFormTestCase(TestCase):
     def setUpTestData(cls):
 
         # create object
-        Taskname.objects.create(taskname_name="taskname_1")
+        Taskname.objects.create(taskname_name='taskname_1')
 
     def test_workflow_name_form_label(self):
         """workflow form label test"""
@@ -19,7 +19,7 @@ class WorkflowFormTestCase(TestCase):
         # get object
         form = WorkflowForm()
         # compare
-        self.assertEqual(form.fields["workflow_name"].label, "Workflow name (*)")
+        self.assertEqual(form.fields['workflow_name'].label, 'Workflow name (*)')
 
     def test_workflow_form_empty(self):
         """INVALID"""
@@ -35,7 +35,7 @@ class WorkflowFormTestCase(TestCase):
         # get object
         form = WorkflowForm(
             data={
-                "workflow_name": "workflow_1",
+                'workflow_name': 'workflow_1',
             }
         )
         # compare
@@ -47,7 +47,7 @@ class WorkflowFormTestCase(TestCase):
         # get object
         form = WorkflowForm(
             data={
-                "workflow_name": "workflow",
+                'workflow_name': 'workflow',
             }
         )
         # compare
@@ -59,7 +59,7 @@ class WorkflowFormTestCase(TestCase):
         # get object
         form = WorkflowForm(
             data={
-                "a" * 51: "workflow",
+                'a' * 51: 'workflow',
             }
         )
         # compare

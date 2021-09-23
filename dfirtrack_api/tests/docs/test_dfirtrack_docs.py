@@ -12,7 +12,7 @@ class DFIRTrackDocsViewTestCase(TestCase):
 
         # create user
         User.objects.create_user(
-            username="testuser_docs_api_1", password="HjN6UbLPpdhIrMXXknd9"
+            username='testuser_docs_api_1', password='HjN6UbLPpdhIrMXXknd9'
         )
 
     # TODO: unauthorized access for some reason returns 200 followed by 401
@@ -30,10 +30,10 @@ class DFIRTrackDocsViewTestCase(TestCase):
 
         # login test user
         response = self.client.login(
-            username="testuser_docs_api_1", password="HjN6UbLPpdhIrMXXknd9"
+            username='testuser_docs_api_1', password='HjN6UbLPpdhIrMXXknd9'
         )
         # get response
-        response = self.client.get("/api/docs/")
+        response = self.client.get('/api/docs/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -42,12 +42,12 @@ class DFIRTrackDocsViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_docs_api_1", password="HjN6UbLPpdhIrMXXknd9"
+            username='testuser_docs_api_1', password='HjN6UbLPpdhIrMXXknd9'
         )
         # create POST string
         poststring = {"docs_var": "docs_value"}
         # get response
-        response = self.client.post("/api/docs/", data=poststring)
+        response = self.client.post('/api/docs/', data=poststring)
         # compare
         self.assertEqual(response.status_code, 405)
 
@@ -56,12 +56,12 @@ class DFIRTrackDocsViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_docs_api_1", password="HjN6UbLPpdhIrMXXknd9"
+            username='testuser_docs_api_1', password='HjN6UbLPpdhIrMXXknd9'
         )
         # create url
-        destination = urllib.parse.quote("/api/docs/", safe="/")
+        destination = urllib.parse.quote('/api/docs/', safe='/')
         # get response
-        response = self.client.get("/api/docs", follow=True)
+        response = self.client.get('/api/docs', follow=True)
         # compare
         self.assertRedirects(
             response, destination, status_code=301, target_status_code=200

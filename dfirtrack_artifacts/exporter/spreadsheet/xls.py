@@ -25,17 +25,17 @@ def write_xls(username):
     """write spreadsheet"""
 
     # create workbook object with UTF-8 encoding
-    workbook = xlwt.Workbook(encoding="utf-8")
+    workbook = xlwt.Workbook(encoding='utf-8')
 
     # define name of worksheet within file
-    worksheet_artifact = workbook.add_sheet("artifacts")
+    worksheet_artifact = workbook.add_sheet('artifacts')
 
     # define styling for headline
     style = style_headline()
 
     # get config model
     model = ArtifactExporterSpreadsheetXlsConfigModel.objects.get(
-        artifact_exporter_spreadsheet_xls_config_name="ArtifactExporterSpreadsheetXlsConfig"
+        artifact_exporter_spreadsheet_xls_config_name='ArtifactExporterSpreadsheetXlsConfig'
     )
 
     """ start with headline """
@@ -48,42 +48,42 @@ def write_xls(username):
 
     # check for attribute id
     if model.artifactlist_xls_artifact_id:
-        headline.append("Artifact ID")
+        headline.append('Artifact ID')
 
     # append mandatory attribute
-    headline.append("Artifact")
+    headline.append('Artifact')
 
     # check for remaining attributes
     if model.artifactlist_xls_system_id:
-        headline.append("System ID")
+        headline.append('System ID')
     if model.artifactlist_xls_system_name:
-        headline.append("System")
+        headline.append('System')
     if model.artifactlist_xls_artifactstatus:
-        headline.append("Artifactstatus")
+        headline.append('Artifactstatus')
     if model.artifactlist_xls_artifactpriority:
-        headline.append("Artifactpriority")
+        headline.append('Artifactpriority')
     if model.artifactlist_xls_artifacttype:
-        headline.append("Artifacttype")
+        headline.append('Artifacttype')
     if model.artifactlist_xls_artifact_source_path:
-        headline.append("Source path")
+        headline.append('Source path')
     if model.artifactlist_xls_artifact_storage_path:
-        headline.append("Storage path")
+        headline.append('Storage path')
     if model.artifactlist_xls_artifact_note_internal:
-        headline.append("Internal note")
+        headline.append('Internal note')
     if model.artifactlist_xls_artifact_note_external:
-        headline.append("External note")
+        headline.append('External note')
     if model.artifactlist_xls_artifact_note_analysisresult:
-        headline.append("Analysis result")
+        headline.append('Analysis result')
     if model.artifactlist_xls_artifact_md5:
-        headline.append("MD5")
+        headline.append('MD5')
     if model.artifactlist_xls_artifact_sha1:
-        headline.append("SHA1")
+        headline.append('SHA1')
     if model.artifactlist_xls_artifact_sha256:
-        headline.append("SHA256")
+        headline.append('SHA256')
     if model.artifactlist_xls_artifact_create_time:
-        headline.append("Created")
+        headline.append('Created')
     if model.artifactlist_xls_artifact_modify_time:
-        headline.append("Modified")
+        headline.append('Modified')
 
     # write headline
     worksheet_artifact = write_row(worksheet_artifact, headline, row_num, style)
@@ -146,7 +146,7 @@ def write_xls(username):
         # artifact source path
         if model.artifactlist_xls_artifact_source_path:
             if artifact.artifact_source_path == None:
-                artifact_source_path = ""
+                artifact_source_path = ''
             else:
                 artifact_source_path = artifact.artifact_source_path
             entryline.append(artifact_source_path)
@@ -157,55 +157,55 @@ def write_xls(username):
         # artifact note internal
         if model.artifactlist_xls_artifact_note_internal:
             if artifact.artifact_note_internal == None:
-                artifact_note_internal = ""
+                artifact_note_internal = ''
             else:
                 artifact_note_internal = artifact.artifact_note_internal
             entryline.append(artifact_note_internal)
         # artifact note external
         if model.artifactlist_xls_artifact_note_external:
             if artifact.artifact_note_external == None:
-                artifact_note_external = ""
+                artifact_note_external = ''
             else:
                 artifact_note_external = artifact.artifact_note_external
             entryline.append(artifact_note_external)
         # artifact note analysisresult
         if model.artifactlist_xls_artifact_note_analysisresult:
             if artifact.artifact_note_analysisresult == None:
-                artifact_note_analysisresult = ""
+                artifact_note_analysisresult = ''
             else:
                 artifact_note_analysisresult = artifact.artifact_note_analysisresult
             entryline.append(artifact_note_analysisresult)
         # artifact md5
         if model.artifactlist_xls_artifact_md5:
             if artifact.artifact_md5 == None:
-                artifact_md5 = ""
+                artifact_md5 = ''
             else:
                 artifact_md5 = artifact.artifact_md5
             entryline.append(artifact_md5)
         # artifact sha1
         if model.artifactlist_xls_artifact_sha1:
             if artifact.artifact_sha1 == None:
-                artifact_sha1 = ""
+                artifact_sha1 = ''
             else:
                 artifact_sha1 = artifact.artifact_sha1
             entryline.append(artifact_sha1)
         # artifact sha256
         if model.artifactlist_xls_artifact_sha256:
             if artifact.artifact_sha256 == None:
-                artifact_sha256 = ""
+                artifact_sha256 = ''
             else:
                 artifact_sha256 = artifact.artifact_sha256
             entryline.append(artifact_sha256)
         # artifact create time
         if model.artifactlist_xls_artifact_create_time:
             artifact_create_time = artifact.artifact_create_time.strftime(
-                "%Y-%m-%d %H:%M"
+                '%Y-%m-%d %H:%M'
             )
             entryline.append(artifact_create_time)
         # artifact modify time
         if model.artifactlist_xls_artifact_modify_time:
             artifact_modify_time = artifact.artifact_modify_time.strftime(
-                "%Y-%m-%d %H:%M"
+                '%Y-%m-%d %H:%M'
             )
             entryline.append(artifact_modify_time)
 
@@ -215,14 +215,14 @@ def write_xls(username):
         # call logger
         debug_logger(
             username,
-            " ARTIFACT_XLS_ARTIFACT_EXPORTED "
-            + "artifact_id:"
+            ' ARTIFACT_XLS_ARTIFACT_EXPORTED '
+            + 'artifact_id:'
             + str(artifact.artifact_id)
-            + "|artifact_name:"
+            + '|artifact_name:'
             + artifact.artifact_name
-            + "|system_id:"
+            + '|system_id:'
             + str(artifact.system.system_id)
-            + "|system_name:"
+            + '|system_name:'
             + artifact.system.system_name,
         )
 
@@ -230,12 +230,12 @@ def write_xls(username):
     row_num += 2
 
     # write meta information for file creation
-    actualtime = timezone.now().strftime("%Y-%m-%d %H:%M")
-    worksheet_artifact.write(row_num, 0, "Created:", style)
+    actualtime = timezone.now().strftime('%Y-%m-%d %H:%M')
+    worksheet_artifact.write(row_num, 0, 'Created:', style)
     worksheet_artifact.write(row_num, 1, actualtime, style)
     row_num += 1
     creator = username
-    worksheet_artifact.write(row_num, 0, "Created by:", style)
+    worksheet_artifact.write(row_num, 0, 'Created by:', style)
     worksheet_artifact.write(row_num, 1, creator, style)
 
     """ add worksheet for artifactstatus """
@@ -248,15 +248,15 @@ def write_xls(username):
     ):
 
         # define name of worksheet within file
-        worksheet_artifactstatus = workbook.add_sheet("artifactstatus")
+        worksheet_artifactstatus = workbook.add_sheet('artifactstatus')
 
         # create empty list
         headline_artifactstatus = []
 
         # append attributes
-        headline_artifactstatus.append("ID")
-        headline_artifactstatus.append("Artifactstatus")
-        headline_artifactstatus.append("Note")
+        headline_artifactstatus.append('ID')
+        headline_artifactstatus.append('Artifactstatus')
+        headline_artifactstatus.append('Note')
 
         # define styling for headline
         style = style_headline()
@@ -295,7 +295,7 @@ def write_xls(username):
             if artifactstatus.artifactstatus_note:
                 entryline_artifactstatus.append(artifactstatus.artifactstatus_note)
             else:
-                entryline_artifactstatus.append("---")
+                entryline_artifactstatus.append('---')
 
             # write line for artifactstatus
             worksheet_artifactstatus = write_row(
@@ -312,15 +312,15 @@ def write_xls(username):
     ):
 
         # define name of worksheet within file
-        worksheet_artifacttype = workbook.add_sheet("artifacttype")
+        worksheet_artifacttype = workbook.add_sheet('artifacttype')
 
         # create empty list
         headline_artifacttype = []
 
         # append attributes
-        headline_artifacttype.append("ID")
-        headline_artifacttype.append("Artifacttype")
-        headline_artifacttype.append("Note")
+        headline_artifacttype.append('ID')
+        headline_artifacttype.append('Artifacttype')
+        headline_artifacttype.append('Note')
 
         # define styling for headline
         style = style_headline()
@@ -359,7 +359,7 @@ def write_xls(username):
             if artifacttype.artifacttype_note:
                 entryline_artifacttype.append(artifacttype.artifacttype_note)
             else:
-                entryline_artifacttype.append("---")
+                entryline_artifacttype.append('---')
 
             # write line for artifacttype
             worksheet_artifacttype = write_row(
@@ -378,22 +378,22 @@ def artifact_create_cron(request):
     """helper function to check config before creating scheduled task"""
 
     # get config
-    main_config_model = MainConfigModel.objects.get(main_config_name="MainConfig")
+    main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
 
     # check file system
     stop_cron_exporter = check_content_file_system(
-        main_config_model, "ARTIFACT_XLS", request
+        main_config_model, 'ARTIFACT_XLS', request
     )
 
     # check stop condition
     if stop_cron_exporter:
         # return to 'artifact_list'
-        return redirect(reverse("artifacts_artifact_list"))
+        return redirect(reverse('artifacts_artifact_list'))
     else:
         # TODO: [logic] build url with python
         # open django admin with pre-filled form for scheduled task
         return redirect(
-            "/admin/django_q/schedule/add/?name=artifact_spreadsheet_exporter_xls&func=dfirtrack_artifacts.exporter.spreadsheet.xls.artifact_cron"
+            '/admin/django_q/schedule/add/?name=artifact_spreadsheet_exporter_xls&func=dfirtrack_artifacts.exporter.spreadsheet.xls.artifact_cron'
         )
 
 
@@ -402,10 +402,10 @@ def artifact(request):
     """instant spreadsheet export via button for direct download via browser"""
 
     # create xls MIME type object
-    xls_browser = HttpResponse(content_type="application/ms-excel")
+    xls_browser = HttpResponse(content_type='application/ms-excel')
 
     # define filename
-    xls_browser["Content-Disposition"] = 'attachment; filename="artifacts.xls"'
+    xls_browser['Content-Disposition'] = 'attachment; filename="artifacts.xls"'
 
     # get username from request object
     username = str(request.user)
@@ -424,13 +424,13 @@ def artifact_cron():
     """spreadsheet export via scheduled task to server file system"""
 
     # prepare time for output file
-    filetime = timezone.now().strftime("%Y%m%d_%H%M")
+    filetime = timezone.now().strftime('%Y%m%d_%H%M')
 
     # get config
-    main_config_model = MainConfigModel.objects.get(main_config_name="MainConfig")
+    main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
 
     # check file system
-    stop_cron_exporter = check_content_file_system(main_config_model, "ARTIFACT_XLS")
+    stop_cron_exporter = check_content_file_system(main_config_model, 'ARTIFACT_XLS')
 
     # leave if config caused errors
     if stop_cron_exporter:
@@ -439,7 +439,7 @@ def artifact_cron():
 
     # prepare output file path
     output_file_path = (
-        main_config_model.cron_export_path + "/" + filetime + "_artifacts.xls"
+        main_config_model.cron_export_path + '/' + filetime + '_artifacts.xls'
     )
 
     # get username from config
@@ -452,4 +452,4 @@ def artifact_cron():
     xls_disk.save(output_file_path)
 
     # call logger
-    info_logger(username, " ARTIFACT_XLS_FILE_WRITTEN " + output_file_path)
+    info_logger(username, ' ARTIFACT_XLS_FILE_WRITTEN ' + output_file_path)

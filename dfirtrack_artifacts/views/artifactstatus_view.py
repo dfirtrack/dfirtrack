@@ -6,20 +6,20 @@ from dfirtrack_main.logger.default_logger import debug_logger
 
 
 class ArtifactstatusListView(LoginRequiredMixin, ListView):
-    login_url = "/login"
+    login_url = '/login'
     model = Artifactstatus
-    template_name = "dfirtrack_artifacts/artifactstatus/artifactstatus_list.html"
-    context_object_name = "artifactstatus_list"
+    template_name = 'dfirtrack_artifacts/artifactstatus/artifactstatus_list.html'
+    context_object_name = 'artifactstatus_list'
 
     def get_queryset(self):
-        debug_logger(str(self.request.user), " ARTIFACTSTATUS_LIST_ENTERED")
-        return Artifactstatus.objects.order_by("artifactstatus_name")
+        debug_logger(str(self.request.user), ' ARTIFACTSTATUS_LIST_ENTERED')
+        return Artifactstatus.objects.order_by('artifactstatus_name')
 
 
 class ArtifactstatusDetailView(LoginRequiredMixin, DetailView):
-    login_url = "/login"
+    login_url = '/login'
     model = Artifactstatus
-    template_name = "dfirtrack_artifacts/artifactstatus/artifactstatus_detail.html"
+    template_name = 'dfirtrack_artifacts/artifactstatus/artifactstatus_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

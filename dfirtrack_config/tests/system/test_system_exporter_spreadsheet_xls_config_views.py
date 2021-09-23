@@ -13,20 +13,20 @@ class SystemExporterSpreadsheetXlsConfigViewTestCase(TestCase):
 
         # create user
         User.objects.create_user(
-            username="testuser_system_exporter_spreadsheet_xls_config",
-            password="dNpRr2hEnnj147CgNhWM",
+            username='testuser_system_exporter_spreadsheet_xls_config',
+            password='dNpRr2hEnnj147CgNhWM',
         )
 
     def test_system_exporter_spreadsheet_xls_config_not_logged_in(self):
         """test exporter view"""
 
         # create url
-        destination = "/login/?next=" + urllib.parse.quote(
-            "/config/system/exporter/spreadsheet/xls/", safe=""
+        destination = '/login/?next=' + urllib.parse.quote(
+            '/config/system/exporter/spreadsheet/xls/', safe=''
         )
         # get response
         response = self.client.get(
-            "/config/system/exporter/spreadsheet/xls/", follow=True
+            '/config/system/exporter/spreadsheet/xls/', follow=True
         )
         # compare
         self.assertRedirects(
@@ -38,11 +38,11 @@ class SystemExporterSpreadsheetXlsConfigViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_system_exporter_spreadsheet_xls_config",
-            password="dNpRr2hEnnj147CgNhWM",
+            username='testuser_system_exporter_spreadsheet_xls_config',
+            password='dNpRr2hEnnj147CgNhWM',
         )
         # get response
-        response = self.client.get("/config/system/exporter/spreadsheet/xls/")
+        response = self.client.get('/config/system/exporter/spreadsheet/xls/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -51,15 +51,15 @@ class SystemExporterSpreadsheetXlsConfigViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_system_exporter_spreadsheet_xls_config",
-            password="dNpRr2hEnnj147CgNhWM",
+            username='testuser_system_exporter_spreadsheet_xls_config',
+            password='dNpRr2hEnnj147CgNhWM',
         )
         # get response
-        response = self.client.get("/config/system/exporter/spreadsheet/xls/")
+        response = self.client.get('/config/system/exporter/spreadsheet/xls/')
         # compare
         self.assertTemplateUsed(
             response,
-            "dfirtrack_config/system/system_exporter_spreadsheet_xls_config_popup.html",
+            'dfirtrack_config/system/system_exporter_spreadsheet_xls_config_popup.html',
         )
 
     def test_system_exporter_spreadsheet_xls_config_get_user_context(self):
@@ -67,15 +67,15 @@ class SystemExporterSpreadsheetXlsConfigViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_system_exporter_spreadsheet_xls_config",
-            password="dNpRr2hEnnj147CgNhWM",
+            username='testuser_system_exporter_spreadsheet_xls_config',
+            password='dNpRr2hEnnj147CgNhWM',
         )
         # get response
-        response = self.client.get("/config/system/exporter/spreadsheet/xls/")
+        response = self.client.get('/config/system/exporter/spreadsheet/xls/')
         # compare
         self.assertEqual(
-            str(response.context["user"]),
-            "testuser_system_exporter_spreadsheet_xls_config",
+            str(response.context['user']),
+            'testuser_system_exporter_spreadsheet_xls_config',
         )
 
     def test_system_exporter_spreadsheet_xls_config_redirect(self):
@@ -83,16 +83,16 @@ class SystemExporterSpreadsheetXlsConfigViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_system_exporter_spreadsheet_xls_config",
-            password="dNpRr2hEnnj147CgNhWM",
+            username='testuser_system_exporter_spreadsheet_xls_config',
+            password='dNpRr2hEnnj147CgNhWM',
         )
         # create url
         destination = urllib.parse.quote(
-            "/config/system/exporter/spreadsheet/xls/", safe="/"
+            '/config/system/exporter/spreadsheet/xls/', safe='/'
         )
         # get response
         response = self.client.get(
-            "/config/system/exporter/spreadsheet/xls", follow=True
+            '/config/system/exporter/spreadsheet/xls', follow=True
         )
         # compare
         self.assertRedirects(
@@ -104,22 +104,22 @@ class SystemExporterSpreadsheetXlsConfigViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_system_exporter_spreadsheet_xls_config",
-            password="dNpRr2hEnnj147CgNhWM",
+            username='testuser_system_exporter_spreadsheet_xls_config',
+            password='dNpRr2hEnnj147CgNhWM',
         )
         # create post data
         data_dict = {
-            "spread_xls_system_id": "on",
+            'spread_xls_system_id': 'on',
         }
         # get response
         response = self.client.post(
-            "/config/system/exporter/spreadsheet/xls/", data_dict
+            '/config/system/exporter/spreadsheet/xls/', data_dict
         )
         # get messages
         messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertEqual(
-            str(messages[-1]), "System exporter spreadsheet XLS config changed"
+            str(messages[-1]), 'System exporter spreadsheet XLS config changed'
         )
 
     def test_system_exporter_spreadsheet_xls_config_post_redirect(self):
@@ -127,16 +127,16 @@ class SystemExporterSpreadsheetXlsConfigViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_system_exporter_spreadsheet_xls_config",
-            password="dNpRr2hEnnj147CgNhWM",
+            username='testuser_system_exporter_spreadsheet_xls_config',
+            password='dNpRr2hEnnj147CgNhWM',
         )
         # create post data
         data_dict = {
-            "spread_xls_system_id": "on",
+            'spread_xls_system_id': 'on',
         }
         # get response
         response = self.client.post(
-            "/config/system/exporter/spreadsheet/xls/", data_dict
+            '/config/system/exporter/spreadsheet/xls/', data_dict
         )
         # compare
         self.assertEqual(response.status_code, 200)

@@ -13,20 +13,20 @@ class SystemExporterSpreadsheetCsvConfigViewTestCase(TestCase):
 
         # create user
         User.objects.create_user(
-            username="testuser_system_exporter_spreadsheet_csv_config",
-            password="ocTJgNdjZMafypl2FR43",
+            username='testuser_system_exporter_spreadsheet_csv_config',
+            password='ocTJgNdjZMafypl2FR43',
         )
 
     def test_system_exporter_spreadsheet_csv_config_not_logged_in(self):
         """test exporter view"""
 
         # create url
-        destination = "/login/?next=" + urllib.parse.quote(
-            "/config/system/exporter/spreadsheet/csv/", safe=""
+        destination = '/login/?next=' + urllib.parse.quote(
+            '/config/system/exporter/spreadsheet/csv/', safe=''
         )
         # get response
         response = self.client.get(
-            "/config/system/exporter/spreadsheet/csv/", follow=True
+            '/config/system/exporter/spreadsheet/csv/', follow=True
         )
         # compare
         self.assertRedirects(
@@ -38,11 +38,11 @@ class SystemExporterSpreadsheetCsvConfigViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_system_exporter_spreadsheet_csv_config",
-            password="ocTJgNdjZMafypl2FR43",
+            username='testuser_system_exporter_spreadsheet_csv_config',
+            password='ocTJgNdjZMafypl2FR43',
         )
         # get response
-        response = self.client.get("/config/system/exporter/spreadsheet/csv/")
+        response = self.client.get('/config/system/exporter/spreadsheet/csv/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -51,15 +51,15 @@ class SystemExporterSpreadsheetCsvConfigViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_system_exporter_spreadsheet_csv_config",
-            password="ocTJgNdjZMafypl2FR43",
+            username='testuser_system_exporter_spreadsheet_csv_config',
+            password='ocTJgNdjZMafypl2FR43',
         )
         # get response
-        response = self.client.get("/config/system/exporter/spreadsheet/csv/")
+        response = self.client.get('/config/system/exporter/spreadsheet/csv/')
         # compare
         self.assertTemplateUsed(
             response,
-            "dfirtrack_config/system/system_exporter_spreadsheet_csv_config_popup.html",
+            'dfirtrack_config/system/system_exporter_spreadsheet_csv_config_popup.html',
         )
 
     def test_system_exporter_spreadsheet_csv_config_get_user_context(self):
@@ -67,15 +67,15 @@ class SystemExporterSpreadsheetCsvConfigViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_system_exporter_spreadsheet_csv_config",
-            password="ocTJgNdjZMafypl2FR43",
+            username='testuser_system_exporter_spreadsheet_csv_config',
+            password='ocTJgNdjZMafypl2FR43',
         )
         # get response
-        response = self.client.get("/config/system/exporter/spreadsheet/csv/")
+        response = self.client.get('/config/system/exporter/spreadsheet/csv/')
         # compare
         self.assertEqual(
-            str(response.context["user"]),
-            "testuser_system_exporter_spreadsheet_csv_config",
+            str(response.context['user']),
+            'testuser_system_exporter_spreadsheet_csv_config',
         )
 
     def test_system_exporter_spreadsheet_csv_config_redirect(self):
@@ -83,16 +83,16 @@ class SystemExporterSpreadsheetCsvConfigViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_system_exporter_spreadsheet_csv_config",
-            password="ocTJgNdjZMafypl2FR43",
+            username='testuser_system_exporter_spreadsheet_csv_config',
+            password='ocTJgNdjZMafypl2FR43',
         )
         # create url
         destination = urllib.parse.quote(
-            "/config/system/exporter/spreadsheet/csv/", safe="/"
+            '/config/system/exporter/spreadsheet/csv/', safe='/'
         )
         # get response
         response = self.client.get(
-            "/config/system/exporter/spreadsheet/csv", follow=True
+            '/config/system/exporter/spreadsheet/csv', follow=True
         )
         # compare
         self.assertRedirects(
@@ -104,22 +104,22 @@ class SystemExporterSpreadsheetCsvConfigViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_system_exporter_spreadsheet_csv_config",
-            password="ocTJgNdjZMafypl2FR43",
+            username='testuser_system_exporter_spreadsheet_csv_config',
+            password='ocTJgNdjZMafypl2FR43',
         )
         # create post data
         data_dict = {
-            "spread_csv_system_id": "on",
+            'spread_csv_system_id': 'on',
         }
         # get response
         response = self.client.post(
-            "/config/system/exporter/spreadsheet/csv/", data_dict
+            '/config/system/exporter/spreadsheet/csv/', data_dict
         )
         # get messages
         messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertEqual(
-            str(messages[-1]), "System exporter spreadsheet CSV config changed"
+            str(messages[-1]), 'System exporter spreadsheet CSV config changed'
         )
 
     def test_system_exporter_spreadsheet_csv_config_post_redirect(self):
@@ -127,16 +127,16 @@ class SystemExporterSpreadsheetCsvConfigViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_system_exporter_spreadsheet_csv_config",
-            password="ocTJgNdjZMafypl2FR43",
+            username='testuser_system_exporter_spreadsheet_csv_config',
+            password='ocTJgNdjZMafypl2FR43',
         )
         # create post data
         data_dict = {
-            "spread_csv_system_id": "on",
+            'spread_csv_system_id': 'on',
         }
         # get response
         response = self.client.post(
-            "/config/system/exporter/spreadsheet/csv/", data_dict
+            '/config/system/exporter/spreadsheet/csv/', data_dict
         )
         # compare
         self.assertEqual(response.status_code, 200)

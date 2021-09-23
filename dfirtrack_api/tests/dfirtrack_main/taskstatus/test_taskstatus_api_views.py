@@ -13,17 +13,17 @@ class TaskstatusAPIViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create object
-        Taskstatus.objects.create(taskstatus_name="taskstatus_api_1")
+        Taskstatus.objects.create(taskstatus_name='taskstatus_api_1')
         # create user
         User.objects.create_user(
-            username="testuser_taskstatus_api", password="aCTVRIdJ4cyVSkYiJKrM"
+            username='testuser_taskstatus_api', password='aCTVRIdJ4cyVSkYiJKrM'
         )
 
     def test_taskstatus_list_api_unauthorized(self):
         """unauthorized access is forbidden"""
 
         # get response
-        response = self.client.get("/api/taskstatus/")
+        response = self.client.get('/api/taskstatus/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -32,10 +32,10 @@ class TaskstatusAPIViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_taskstatus_api", password="aCTVRIdJ4cyVSkYiJKrM"
+            username='testuser_taskstatus_api', password='aCTVRIdJ4cyVSkYiJKrM'
         )
         # get response
-        response = self.client.get("/api/taskstatus/")
+        response = self.client.get('/api/taskstatus/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -44,12 +44,12 @@ class TaskstatusAPIViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_taskstatus_api", password="aCTVRIdJ4cyVSkYiJKrM"
+            username='testuser_taskstatus_api', password='aCTVRIdJ4cyVSkYiJKrM'
         )
         # create POST string
         poststring = {"taskstatus_name": "taskstatus_api_2"}
         # get response
-        response = self.client.post("/api/taskstatus/", data=poststring)
+        response = self.client.post('/api/taskstatus/', data=poststring)
         # compare
         self.assertEqual(response.status_code, 405)
 
@@ -58,12 +58,12 @@ class TaskstatusAPIViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_taskstatus_api", password="aCTVRIdJ4cyVSkYiJKrM"
+            username='testuser_taskstatus_api', password='aCTVRIdJ4cyVSkYiJKrM'
         )
         # create url
-        destination = urllib.parse.quote("/api/taskstatus/", safe="/")
+        destination = urllib.parse.quote('/api/taskstatus/', safe='/')
         # get response
-        response = self.client.get("/api/taskstatus", follow=True)
+        response = self.client.get('/api/taskstatus', follow=True)
         # compare
         self.assertRedirects(
             response, destination, status_code=301, target_status_code=200
@@ -73,10 +73,10 @@ class TaskstatusAPIViewTestCase(TestCase):
         """unauthorized access is forbidden"""
 
         # get object
-        taskstatus_api_1 = Taskstatus.objects.get(taskstatus_name="taskstatus_api_1")
+        taskstatus_api_1 = Taskstatus.objects.get(taskstatus_name='taskstatus_api_1')
         # get response
         response = self.client.get(
-            "/api/taskstatus/" + str(taskstatus_api_1.taskstatus_id) + "/"
+            '/api/taskstatus/' + str(taskstatus_api_1.taskstatus_id) + '/'
         )
         # compare
         self.assertEqual(response.status_code, 401)
@@ -85,14 +85,14 @@ class TaskstatusAPIViewTestCase(TestCase):
         """GET is allowed"""
 
         # get object
-        taskstatus_api_1 = Taskstatus.objects.get(taskstatus_name="taskstatus_api_1")
+        taskstatus_api_1 = Taskstatus.objects.get(taskstatus_name='taskstatus_api_1')
         # login testuser
         self.client.login(
-            username="testuser_taskstatus_api", password="aCTVRIdJ4cyVSkYiJKrM"
+            username='testuser_taskstatus_api', password='aCTVRIdJ4cyVSkYiJKrM'
         )
         # get response
         response = self.client.get(
-            "/api/taskstatus/" + str(taskstatus_api_1.taskstatus_id) + "/"
+            '/api/taskstatus/' + str(taskstatus_api_1.taskstatus_id) + '/'
         )
         # compare
         self.assertEqual(response.status_code, 200)
@@ -101,14 +101,14 @@ class TaskstatusAPIViewTestCase(TestCase):
         """DELETE is forbidden"""
 
         # get object
-        taskstatus_api_1 = Taskstatus.objects.get(taskstatus_name="taskstatus_api_1")
+        taskstatus_api_1 = Taskstatus.objects.get(taskstatus_name='taskstatus_api_1')
         # login testuser
         self.client.login(
-            username="testuser_taskstatus_api", password="aCTVRIdJ4cyVSkYiJKrM"
+            username='testuser_taskstatus_api', password='aCTVRIdJ4cyVSkYiJKrM'
         )
         # get response
         response = self.client.delete(
-            "/api/taskstatus/" + str(taskstatus_api_1.taskstatus_id) + "/"
+            '/api/taskstatus/' + str(taskstatus_api_1.taskstatus_id) + '/'
         )
         # compare
         self.assertEqual(response.status_code, 405)
@@ -117,20 +117,20 @@ class TaskstatusAPIViewTestCase(TestCase):
         """PUT is forbidden"""
 
         # get object
-        taskstatus_api_1 = Taskstatus.objects.get(taskstatus_name="taskstatus_api_1")
+        taskstatus_api_1 = Taskstatus.objects.get(taskstatus_name='taskstatus_api_1')
         # login testuser
         self.client.login(
-            username="testuser_taskstatus_api", password="aCTVRIdJ4cyVSkYiJKrM"
+            username='testuser_taskstatus_api', password='aCTVRIdJ4cyVSkYiJKrM'
         )
         # create url
         destination = urllib.parse.quote(
-            "/api/taskstatus/" + str(taskstatus_api_1.taskstatus_id) + "/", safe="/"
+            '/api/taskstatus/' + str(taskstatus_api_1.taskstatus_id) + '/', safe='/'
         )
         # create PUT string
         putstring = {"taskstatus_name": "new_taskstatus_api_1"}
         # get response
         response = self.client.put(
-            destination, data=putstring, content_type="application/json"
+            destination, data=putstring, content_type='application/json'
         )
         # compare
         self.assertEqual(response.status_code, 405)
@@ -139,18 +139,18 @@ class TaskstatusAPIViewTestCase(TestCase):
         """test redirect with appending slash"""
 
         # get object
-        taskstatus_api_1 = Taskstatus.objects.get(taskstatus_name="taskstatus_api_1")
+        taskstatus_api_1 = Taskstatus.objects.get(taskstatus_name='taskstatus_api_1')
         # login testuser
         self.client.login(
-            username="testuser_taskstatus_api", password="aCTVRIdJ4cyVSkYiJKrM"
+            username='testuser_taskstatus_api', password='aCTVRIdJ4cyVSkYiJKrM'
         )
         # create url
         destination = urllib.parse.quote(
-            "/api/taskstatus/" + str(taskstatus_api_1.taskstatus_id) + "/", safe="/"
+            '/api/taskstatus/' + str(taskstatus_api_1.taskstatus_id) + '/', safe='/'
         )
         # get response
         response = self.client.get(
-            "/api/taskstatus/" + str(taskstatus_api_1.taskstatus_id), follow=True
+            '/api/taskstatus/' + str(taskstatus_api_1.taskstatus_id), follow=True
         )
         # compare
         self.assertRedirects(

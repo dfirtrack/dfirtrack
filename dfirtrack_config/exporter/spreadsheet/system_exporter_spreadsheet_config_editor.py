@@ -22,7 +22,7 @@ def system_exporter_spreadsheet_csv_config_view(request):
 
         # get config model
         model = SystemExporterSpreadsheetCsvConfigModel.objects.get(
-            system_exporter_spreadsheet_csv_config_name="SystemExporterSpreadsheetCsvConfig"
+            system_exporter_spreadsheet_csv_config_name='SystemExporterSpreadsheetCsvConfig'
         )
         # get form
         form = SystemExporterSpreadsheetCsvConfigForm(request.POST, instance=model)
@@ -34,7 +34,7 @@ def system_exporter_spreadsheet_csv_config_view(request):
             model.save()
 
             # create message
-            messages.success(request, "System exporter spreadsheet CSV config changed")
+            messages.success(request, 'System exporter spreadsheet CSV config changed')
 
             # call logger
             info_logger(
@@ -53,9 +53,9 @@ def system_exporter_spreadsheet_csv_config_view(request):
             # show form page again
             return render(
                 request,
-                "dfirtrack_config/system/system_exporter_spreadsheet_csv_config_popup.html",
+                'dfirtrack_config/system/system_exporter_spreadsheet_csv_config_popup.html',
                 {
-                    "form": form,
+                    'form': form,
                 },
             )
 
@@ -63,7 +63,7 @@ def system_exporter_spreadsheet_csv_config_view(request):
 
         # get config model
         model = SystemExporterSpreadsheetCsvConfigModel.objects.get(
-            system_exporter_spreadsheet_csv_config_name="SystemExporterSpreadsheetCsvConfig"
+            system_exporter_spreadsheet_csv_config_name='SystemExporterSpreadsheetCsvConfig'
         )
         # get form
         form = SystemExporterSpreadsheetCsvConfigForm(instance=model)
@@ -71,9 +71,9 @@ def system_exporter_spreadsheet_csv_config_view(request):
     # show form page
     return render(
         request,
-        "dfirtrack_config/system/system_exporter_spreadsheet_csv_config_popup.html",
+        'dfirtrack_config/system/system_exporter_spreadsheet_csv_config_popup.html',
         {
-            "form": form,
+            'form': form,
         },
     )
 
@@ -86,7 +86,7 @@ def system_exporter_spreadsheet_xls_config_view(request):
 
         # get config model
         model = SystemExporterSpreadsheetXlsConfigModel.objects.get(
-            system_exporter_spreadsheet_xls_config_name="SystemExporterSpreadsheetXlsConfig"
+            system_exporter_spreadsheet_xls_config_name='SystemExporterSpreadsheetXlsConfig'
         )
         # get form
         form = SystemExporterSpreadsheetXlsConfigForm(request.POST, instance=model)
@@ -98,7 +98,7 @@ def system_exporter_spreadsheet_xls_config_view(request):
             model.save()
 
             # create message
-            messages.success(request, "System exporter spreadsheet XLS config changed")
+            messages.success(request, 'System exporter spreadsheet XLS config changed')
 
             # call logger
             info_logger(
@@ -117,9 +117,9 @@ def system_exporter_spreadsheet_xls_config_view(request):
             # show form page again
             return render(
                 request,
-                "dfirtrack_config/system/system_exporter_spreadsheet_xls_config_popup.html",
+                'dfirtrack_config/system/system_exporter_spreadsheet_xls_config_popup.html',
                 {
-                    "form": form,
+                    'form': form,
                 },
             )
 
@@ -127,7 +127,7 @@ def system_exporter_spreadsheet_xls_config_view(request):
 
         # get config model
         model = SystemExporterSpreadsheetXlsConfigModel.objects.get(
-            system_exporter_spreadsheet_xls_config_name="SystemExporterSpreadsheetXlsConfig"
+            system_exporter_spreadsheet_xls_config_name='SystemExporterSpreadsheetXlsConfig'
         )
         # get form
         form = SystemExporterSpreadsheetXlsConfigForm(instance=model)
@@ -135,8 +135,8 @@ def system_exporter_spreadsheet_xls_config_view(request):
     # show form page
     return render(
         request,
-        "dfirtrack_config/system/system_exporter_spreadsheet_xls_config_popup.html",
+        'dfirtrack_config/system/system_exporter_spreadsheet_xls_config_popup.html',
         {
-            "form": form,
+            'form': form,
         },
     )

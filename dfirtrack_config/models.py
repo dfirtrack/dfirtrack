@@ -19,8 +19,8 @@ class ArtifactExporterSpreadsheetXlsConfigModel(models.Model):
 
     # config fields
     artifactlist_xls_choice_artifactstatus = models.ManyToManyField(
-        "dfirtrack_artifacts.Artifactstatus",
-        related_name="artifact_exporter_spreadsheet_xls_config_artifactstatus",
+        'dfirtrack_artifacts.Artifactstatus',
+        related_name='artifact_exporter_spreadsheet_xls_config_artifactstatus',
     )
     artifactlist_xls_artifact_id = models.BooleanField(default=True)
     artifactlist_xls_system_id = models.BooleanField(default=True)
@@ -55,52 +55,52 @@ class MainConfigModel(models.Model):
     # config fields
     system_name_editable = models.BooleanField(default=False)
     artifactstatus_open = models.ManyToManyField(
-        "dfirtrack_artifacts.Artifactstatus",
-        related_name="main_config_artifactstatus_open",
+        'dfirtrack_artifacts.Artifactstatus',
+        related_name='main_config_artifactstatus_open',
         blank=True,
     )
     artifactstatus_requested = models.ManyToManyField(
-        "dfirtrack_artifacts.Artifactstatus",
-        related_name="main_config_artifactstatus_requested",
+        'dfirtrack_artifacts.Artifactstatus',
+        related_name='main_config_artifactstatus_requested',
         blank=True,
     )
     artifactstatus_acquisition = models.ManyToManyField(
-        "dfirtrack_artifacts.Artifactstatus",
-        related_name="main_config_artifactstatus_acquisition",
+        'dfirtrack_artifacts.Artifactstatus',
+        related_name='main_config_artifactstatus_acquisition',
         blank=True,
     )
     casestatus_open = models.ManyToManyField(
-        "dfirtrack_main.Casestatus",
-        related_name="main_config_casestatus_open",
+        'dfirtrack_main.Casestatus',
+        related_name='main_config_casestatus_open',
         blank=True,
     )
     casestatus_start = models.ManyToManyField(
-        "dfirtrack_main.Casestatus",
-        related_name="main_config_casestatus_start",
+        'dfirtrack_main.Casestatus',
+        related_name='main_config_casestatus_start',
         blank=True,
     )
     casestatus_end = models.ManyToManyField(
-        "dfirtrack_main.Casestatus",
-        related_name="main_config_casestatus_end",
+        'dfirtrack_main.Casestatus',
+        related_name='main_config_casestatus_end',
         blank=True,
     )
     statushistory_entry_numbers = models.IntegerField(default=10)
-    cron_export_path = models.CharField(max_length=4096, default="/tmp")
-    cron_username = models.CharField(max_length=255, default="cron")
+    cron_export_path = models.CharField(max_length=4096, default='/tmp')
+    cron_username = models.CharField(max_length=255, default='cron')
 
-    MAIN_OVERVIEW_ARTIFACT = "main_overview_artifact"
-    MAIN_OVERVIEW_CASE = "main_overview_case"
-    MAIN_OVERVIEW_STATUS = "main_overview_status"
-    MAIN_OVERVIEW_SYSTEM = "main_overview_system"
-    MAIN_OVERVIEW_TAG = "main_overview_tag"
-    MAIN_OVERVIEW_TASK = "main_overview_task"
+    MAIN_OVERVIEW_ARTIFACT = 'main_overview_artifact'
+    MAIN_OVERVIEW_CASE = 'main_overview_case'
+    MAIN_OVERVIEW_STATUS = 'main_overview_status'
+    MAIN_OVERVIEW_SYSTEM = 'main_overview_system'
+    MAIN_OVERVIEW_TAG = 'main_overview_tag'
+    MAIN_OVERVIEW_TASK = 'main_overview_task'
     MAIN_OVERVIEW_CHOICES = [
-        (MAIN_OVERVIEW_ARTIFACT, "Artifact"),
-        (MAIN_OVERVIEW_CASE, "Case"),
-        (MAIN_OVERVIEW_STATUS, "Status"),
-        (MAIN_OVERVIEW_SYSTEM, "System"),
-        (MAIN_OVERVIEW_TAG, "Tag"),
-        (MAIN_OVERVIEW_TASK, "Task"),
+        (MAIN_OVERVIEW_ARTIFACT, 'Artifact'),
+        (MAIN_OVERVIEW_CASE, 'Case'),
+        (MAIN_OVERVIEW_STATUS, 'Status'),
+        (MAIN_OVERVIEW_SYSTEM, 'System'),
+        (MAIN_OVERVIEW_TAG, 'Tag'),
+        (MAIN_OVERVIEW_TASK, 'Task'),
     ]
     main_overview = models.CharField(
         max_length=50,
@@ -122,11 +122,11 @@ class SystemExporterMarkdownConfigModel(models.Model):
     )
 
     # prepare choices
-    DOMAINSORTED = "dom"
-    SYSTEMSORTED = "sys"
+    DOMAINSORTED = 'dom'
+    SYSTEMSORTED = 'sys'
     MARKDOWN_SORTING_CHOICES = [
-        (DOMAINSORTED, "Sorted by domain"),
-        (SYSTEMSORTED, "Sorted by system"),
+        (DOMAINSORTED, 'Sorted by domain'),
+        (SYSTEMSORTED, 'Sorted by system'),
     ]
 
     # config fields
@@ -225,30 +225,30 @@ class SystemImporterFileCsvConfigModel(models.Model):
     csv_column_system = models.IntegerField(default=1)
     csv_skip_existing_system = models.BooleanField(default=False)
     csv_headline = models.BooleanField(default=True)
-    csv_import_path = models.CharField(max_length=4096, default="/tmp")
-    csv_import_filename = models.CharField(max_length=255, default="systems.csv")
+    csv_import_path = models.CharField(max_length=4096, default='/tmp')
+    csv_import_filename = models.CharField(max_length=255, default='systems.csv')
 
     # user context for imports, null is allowed for initial creation of config model via migration, blank is not allowed in form
     csv_import_username = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
-        related_name="csv_import_username",
+        related_name='csv_import_username',
         blank=False,
         null=True,
     )
 
     # mandatory foreignkey relations
     csv_default_systemstatus = models.ForeignKey(
-        "dfirtrack_main.Systemstatus",
+        'dfirtrack_main.Systemstatus',
         on_delete=models.PROTECT,
-        related_name="system_importer_file_csv_config_systemstatus",
+        related_name='system_importer_file_csv_config_systemstatus',
         default=1,
     )
     csv_remove_systemstatus = models.BooleanField(default=False)
     csv_default_analysisstatus = models.ForeignKey(
-        "dfirtrack_main.Analysisstatus",
+        'dfirtrack_main.Analysisstatus',
         on_delete=models.PROTECT,
-        related_name="system_importer_file_csv_config_analysisstatus",
+        related_name='system_importer_file_csv_config_analysisstatus',
         default=1,
     )
     csv_remove_analysisstatus = models.BooleanField(default=False)
@@ -256,25 +256,25 @@ class SystemImporterFileCsvConfigModel(models.Model):
     # in case of 'csv_choice_tag' a different status can be assigned if the system has no tags
     csv_choice_tagfree_systemstatus = models.BooleanField(default=False)
     csv_default_tagfree_systemstatus = models.ForeignKey(
-        "dfirtrack_main.Systemstatus",
+        'dfirtrack_main.Systemstatus',
         on_delete=models.PROTECT,
-        related_name="system_importer_file_csv_config_tagfree_systemstatus",
+        related_name='system_importer_file_csv_config_tagfree_systemstatus',
         default=1,
     )
     csv_choice_tagfree_analysisstatus = models.BooleanField(default=False)
     csv_default_tagfree_analysisstatus = models.ForeignKey(
-        "dfirtrack_main.Analysisstatus",
+        'dfirtrack_main.Analysisstatus',
         on_delete=models.PROTECT,
-        related_name="system_importer_file_csv_config_tagfree_analysisstatus",
+        related_name='system_importer_file_csv_config_tagfree_analysisstatus',
         default=1,
     )
 
     # character fields to define names for tags to pin analysisstatus and systemstatus
     csv_tag_lock_systemstatus = models.CharField(
-        max_length=50, default="LOCK_SYSTEMSTATUS"
+        max_length=50, default='LOCK_SYSTEMSTATUS'
     )
     csv_tag_lock_analysisstatus = models.CharField(
-        max_length=50, default="LOCK_ANALYSISSTATUS"
+        max_length=50, default='LOCK_ANALYSISSTATUS'
     )
 
     # config fields: either dynamically provided by CSV (...choice... 'True' and ...column...) or nothing provided (fixed value for all systems makes no sense)
@@ -286,9 +286,9 @@ class SystemImporterFileCsvConfigModel(models.Model):
     csv_choice_dnsname = models.BooleanField(default=False)
     csv_column_dnsname = models.IntegerField(blank=True, null=True)
     csv_default_dnsname = models.ForeignKey(
-        "dfirtrack_main.Dnsname",
+        'dfirtrack_main.Dnsname',
         on_delete=models.SET_NULL,
-        related_name="system_importer_file_csv_config_dnsname",
+        related_name='system_importer_file_csv_config_dnsname',
         blank=True,
         null=True,
     )
@@ -297,9 +297,9 @@ class SystemImporterFileCsvConfigModel(models.Model):
     csv_choice_domain = models.BooleanField(default=False)
     csv_column_domain = models.IntegerField(blank=True, null=True)
     csv_default_domain = models.ForeignKey(
-        "dfirtrack_main.Domain",
+        'dfirtrack_main.Domain',
         on_delete=models.SET_NULL,
-        related_name="system_importer_file_csv_config_domain",
+        related_name='system_importer_file_csv_config_domain',
         blank=True,
         null=True,
     )
@@ -308,9 +308,9 @@ class SystemImporterFileCsvConfigModel(models.Model):
     csv_choice_location = models.BooleanField(default=False)
     csv_column_location = models.IntegerField(blank=True, null=True)
     csv_default_location = models.ForeignKey(
-        "dfirtrack_main.Location",
+        'dfirtrack_main.Location',
         on_delete=models.SET_NULL,
-        related_name="system_importer_file_csv_config_location",
+        related_name='system_importer_file_csv_config_location',
         blank=True,
         null=True,
     )
@@ -319,9 +319,9 @@ class SystemImporterFileCsvConfigModel(models.Model):
     csv_choice_os = models.BooleanField(default=False)
     csv_column_os = models.IntegerField(blank=True, null=True)
     csv_default_os = models.ForeignKey(
-        "dfirtrack_main.Os",
+        'dfirtrack_main.Os',
         on_delete=models.SET_NULL,
-        related_name="system_importer_file_csv_config_os",
+        related_name='system_importer_file_csv_config_os',
         blank=True,
         null=True,
     )
@@ -330,9 +330,9 @@ class SystemImporterFileCsvConfigModel(models.Model):
     csv_choice_reason = models.BooleanField(default=False)
     csv_column_reason = models.IntegerField(blank=True, null=True)
     csv_default_reason = models.ForeignKey(
-        "dfirtrack_main.Reason",
+        'dfirtrack_main.Reason',
         on_delete=models.SET_NULL,
-        related_name="system_importer_file_csv_config_reason",
+        related_name='system_importer_file_csv_config_reason',
         blank=True,
         null=True,
     )
@@ -341,9 +341,9 @@ class SystemImporterFileCsvConfigModel(models.Model):
     csv_choice_recommendation = models.BooleanField(default=False)
     csv_column_recommendation = models.IntegerField(blank=True, null=True)
     csv_default_recommendation = models.ForeignKey(
-        "dfirtrack_main.Recommendation",
+        'dfirtrack_main.Recommendation',
         on_delete=models.SET_NULL,
-        related_name="system_importer_file_csv_config_recommendation",
+        related_name='system_importer_file_csv_config_recommendation',
         blank=True,
         null=True,
     )
@@ -352,9 +352,9 @@ class SystemImporterFileCsvConfigModel(models.Model):
     csv_choice_serviceprovider = models.BooleanField(default=False)
     csv_column_serviceprovider = models.IntegerField(blank=True, null=True)
     csv_default_serviceprovider = models.ForeignKey(
-        "dfirtrack_main.Serviceprovider",
+        'dfirtrack_main.Serviceprovider',
         on_delete=models.SET_NULL,
-        related_name="system_importer_file_csv_config_serviceprovider",
+        related_name='system_importer_file_csv_config_serviceprovider',
         blank=True,
         null=True,
     )
@@ -363,9 +363,9 @@ class SystemImporterFileCsvConfigModel(models.Model):
     csv_choice_systemtype = models.BooleanField(default=False)
     csv_column_systemtype = models.IntegerField(blank=True, null=True)
     csv_default_systemtype = models.ForeignKey(
-        "dfirtrack_main.Systemtype",
+        'dfirtrack_main.Systemtype',
         on_delete=models.SET_NULL,
-        related_name="system_importer_file_csv_config_systemtype",
+        related_name='system_importer_file_csv_config_systemtype',
         blank=True,
         null=True,
     )
@@ -375,8 +375,8 @@ class SystemImporterFileCsvConfigModel(models.Model):
     csv_choice_case = models.BooleanField(default=False)
     csv_column_case = models.IntegerField(blank=True, null=True)
     csv_default_case = models.ManyToManyField(
-        "dfirtrack_main.Case",
-        related_name="system_importer_file_csv_config_case",
+        'dfirtrack_main.Case',
+        related_name='system_importer_file_csv_config_case',
         blank=True,
     )
     csv_remove_case = models.BooleanField(default=False)
@@ -384,8 +384,8 @@ class SystemImporterFileCsvConfigModel(models.Model):
     csv_choice_company = models.BooleanField(default=False)
     csv_column_company = models.IntegerField(blank=True, null=True)
     csv_default_company = models.ManyToManyField(
-        "dfirtrack_main.Company",
-        related_name="system_importer_file_csv_config_company",
+        'dfirtrack_main.Company',
+        related_name='system_importer_file_csv_config_company',
         blank=True,
     )
     csv_remove_company = models.BooleanField(default=False)
@@ -393,19 +393,19 @@ class SystemImporterFileCsvConfigModel(models.Model):
     csv_choice_tag = models.BooleanField(default=False)
     csv_column_tag = models.IntegerField(blank=True, null=True)
     csv_default_tag = models.ManyToManyField(
-        "dfirtrack_main.Tag",
-        related_name="system_importer_file_csv_config_tag",
+        'dfirtrack_main.Tag',
+        related_name='system_importer_file_csv_config_tag',
         blank=True,
     )
 
     # how to deal with manual and automatic tags (first remove all tags, only those with a prefix or none)
-    TAG_REMOVE_ALL = "tag_remove_all"
-    TAG_REMOVE_PREFIX = "tag_remove_prefix"
-    TAG_REMOVE_NONE = "tag_remove_none"
+    TAG_REMOVE_ALL = 'tag_remove_all'
+    TAG_REMOVE_PREFIX = 'tag_remove_prefix'
+    TAG_REMOVE_NONE = 'tag_remove_none'
     CSV_REMOVE_TAG_CHOICES = [
-        (TAG_REMOVE_ALL, "Remove all tags"),
-        (TAG_REMOVE_PREFIX, "Remove tags with prefix"),
-        (TAG_REMOVE_NONE, "Keep all tags"),
+        (TAG_REMOVE_ALL, 'Remove all tags'),
+        (TAG_REMOVE_PREFIX, 'Remove tags with prefix'),
+        (TAG_REMOVE_NONE, 'Keep all tags'),
     ]
     csv_remove_tag = models.CharField(
         max_length=50,
@@ -415,15 +415,15 @@ class SystemImporterFileCsvConfigModel(models.Model):
 
     # (optional) marking for tags added via CSV file
     csv_tag_prefix = models.CharField(
-        max_length=50, default="AUTO", blank=True, null=True
+        max_length=50, default='AUTO', blank=True, null=True
     )
-    TAG_PREFIX_UNDERSCORE = "tag_prefix_underscore"
-    TAG_PREFIX_HYPHEN = "tag_prefix_hyphen"
-    TAG_PREFIX_PERIOD = "tag_prefix_period"
+    TAG_PREFIX_UNDERSCORE = 'tag_prefix_underscore'
+    TAG_PREFIX_HYPHEN = 'tag_prefix_hyphen'
+    TAG_PREFIX_PERIOD = 'tag_prefix_period'
     CSV_TAG_PREFIX_DELIMITER_CHOICES = [
-        (TAG_PREFIX_UNDERSCORE, "Underscore"),
-        (TAG_PREFIX_HYPHEN, "Hyphen"),
-        (TAG_PREFIX_PERIOD, "Period"),
+        (TAG_PREFIX_UNDERSCORE, 'Underscore'),
+        (TAG_PREFIX_HYPHEN, 'Hyphen'),
+        (TAG_PREFIX_PERIOD, 'Period'),
     ]
     csv_tag_prefix_delimiter = models.CharField(
         max_length=50,
@@ -436,11 +436,11 @@ class SystemImporterFileCsvConfigModel(models.Model):
     """ CSV format fields """
 
     # CSV field delimiter
-    FIELD_COMMA = "field_comma"
-    FIELD_SEMICOLON = "field_semicolon"
+    FIELD_COMMA = 'field_comma'
+    FIELD_SEMICOLON = 'field_semicolon'
     CSV_FIELD_DELIMITER_CHOICES = [
-        (FIELD_COMMA, "Comma"),
-        (FIELD_SEMICOLON, "Semicolon"),
+        (FIELD_COMMA, 'Comma'),
+        (FIELD_SEMICOLON, 'Semicolon'),
     ]
     csv_field_delimiter = models.CharField(
         max_length=50,
@@ -449,11 +449,11 @@ class SystemImporterFileCsvConfigModel(models.Model):
     )
 
     # CSV quote character
-    TEXT_DOUBLE_QUOTATION_MARKS = "text_double_quotation_marks"
-    TEXT_SINGLE_QUOTATION_MARKS = "text_single_quotation_marks"
+    TEXT_DOUBLE_QUOTATION_MARKS = 'text_double_quotation_marks'
+    TEXT_SINGLE_QUOTATION_MARKS = 'text_single_quotation_marks'
     CSV_TEXT_QUOTE_CHOICES = [
-        (TEXT_DOUBLE_QUOTATION_MARKS, "Double quotation marks"),
-        (TEXT_SINGLE_QUOTATION_MARKS, "Single quotation marks"),
+        (TEXT_DOUBLE_QUOTATION_MARKS, 'Double quotation marks'),
+        (TEXT_SINGLE_QUOTATION_MARKS, 'Single quotation marks'),
     ]
     csv_text_quote = models.CharField(
         max_length=50,
@@ -462,13 +462,13 @@ class SystemImporterFileCsvConfigModel(models.Model):
     )
 
     # IP field format
-    IP_COMMA = "ip_comma"
-    IP_SEMICOLON = "ip_semicolon"
-    IP_SPACE = "ip_space"
+    IP_COMMA = 'ip_comma'
+    IP_SEMICOLON = 'ip_semicolon'
+    IP_SPACE = 'ip_space'
     CSV_IP_DELIMITER_CHOICES = [
-        (IP_COMMA, "Comma"),
-        (IP_SEMICOLON, "Semicolon"),
-        (IP_SPACE, "Space"),
+        (IP_COMMA, 'Comma'),
+        (IP_SEMICOLON, 'Semicolon'),
+        (IP_SPACE, 'Space'),
     ]
     csv_ip_delimiter = models.CharField(
         max_length=50,
@@ -477,13 +477,13 @@ class SystemImporterFileCsvConfigModel(models.Model):
     )
 
     # tag field format
-    TAG_COMMA = "tag_comma"
-    TAG_SEMICOLON = "tag_semicolon"
-    TAG_SPACE = "tag_space"
+    TAG_COMMA = 'tag_comma'
+    TAG_SEMICOLON = 'tag_semicolon'
+    TAG_SPACE = 'tag_space'
     CSV_TAG_DELIMITER_CHOICES = [
-        (TAG_COMMA, "Comma"),
-        (TAG_SEMICOLON, "Semicolon"),
-        (TAG_SPACE, "Space"),
+        (TAG_COMMA, 'Comma'),
+        (TAG_SEMICOLON, 'Semicolon'),
+        (TAG_SPACE, 'Space'),
     ]
     csv_tag_delimiter = models.CharField(
         max_length=50,
@@ -507,10 +507,10 @@ class Statushistory(models.Model):
 
     # string representation
     def __str__(self):
-        return self.statushistory_time.strftime("%Y-%m-%d %H:%M")
+        return self.statushistory_time.strftime('%Y-%m-%d %H:%M')
 
     def get_absolute_url(self):
-        return reverse("status_detail", args=(self.pk,))
+        return reverse('status_detail', args=(self.pk,))
 
 
 class StatushistoryEntry(models.Model):
@@ -521,7 +521,7 @@ class StatushistoryEntry(models.Model):
 
     # foreign key(s)
     statushistory = models.ForeignKey(
-        "Statushistory", on_delete=models.CASCADE, editable=False
+        'Statushistory', on_delete=models.CASCADE, editable=False
     )
 
     # config fields
@@ -537,28 +537,28 @@ class UserConfigModel(models.Model):
 
     # user / primary key
     user_config_username = models.OneToOneField(
-        User, on_delete=models.CASCADE, related_name="filter_username", primary_key=True
+        User, on_delete=models.CASCADE, related_name='filter_username', primary_key=True
     )
 
     # filter settings - documentation list
     filter_documentation_list_keep = models.BooleanField(default=True)
     filter_documentation_list_case = models.ForeignKey(
-        "dfirtrack_main.Case",
-        related_name="filter_documentation_list_case",
+        'dfirtrack_main.Case',
+        related_name='filter_documentation_list_case',
         on_delete=models.SET_NULL,
         blank=True,
         null=True,
     )
     filter_documentation_list_notestatus = models.ForeignKey(
-        "dfirtrack_main.Notestatus",
-        related_name="filter_documentation_list_notestatus",
+        'dfirtrack_main.Notestatus',
+        related_name='filter_documentation_list_notestatus',
         on_delete=models.SET_NULL,
         blank=True,
         null=True,
     )
     filter_documentation_list_tag = models.ForeignKey(
-        "dfirtrack_main.Tag",
-        related_name="filter_documentation_list_tag",
+        'dfirtrack_main.Tag',
+        related_name='filter_documentation_list_tag',
         on_delete=models.SET_NULL,
         blank=True,
         null=True,
@@ -567,15 +567,15 @@ class UserConfigModel(models.Model):
     # filter settings - system list
     filter_system_list_keep = models.BooleanField(default=True)
     filter_system_list_case = models.ForeignKey(
-        "dfirtrack_main.Case",
-        related_name="filter_system_list_case",
+        'dfirtrack_main.Case',
+        related_name='filter_system_list_case',
         on_delete=models.SET_NULL,
         blank=True,
         null=True,
     )
     filter_system_list_tag = models.ForeignKey(
-        "dfirtrack_main.Tag",
-        related_name="filter_system_list_tag",
+        'dfirtrack_main.Tag',
+        related_name='filter_system_list_tag',
         on_delete=models.SET_NULL,
         blank=True,
         null=True,
@@ -583,7 +583,7 @@ class UserConfigModel(models.Model):
 
     # string representation
     def __str__(self):
-        return f"User config {self.user_config_username}"
+        return f'User config {self.user_config_username}'
 
 
 class Workflow(models.Model):
@@ -594,15 +594,15 @@ class Workflow(models.Model):
 
     # foreign key
     tasknames = models.ManyToManyField(
-        "dfirtrack_main.Taskname",
-        related_name="main_config_workflow_taskname",
-        through="WorkflowDefaultTasknameAttributes",
+        'dfirtrack_main.Taskname',
+        related_name='main_config_workflow_taskname',
+        through='WorkflowDefaultTasknameAttributes',
         blank=True,
     )
     artifacttypes = models.ManyToManyField(
-        "dfirtrack_artifacts.Artifacttype",
-        related_name="main_config_workflow_artifacttype",
-        through="WorkflowDefaultArtifactAttributes",
+        'dfirtrack_artifacts.Artifacttype',
+        related_name='main_config_workflow_artifacttype',
+        through='WorkflowDefaultArtifactAttributes',
         blank=True,
     )
 
@@ -613,23 +613,23 @@ class Workflow(models.Model):
     workflow_create_time = models.DateTimeField(auto_now_add=True)
     workflow_modify_time = models.DateTimeField(auto_now=True)
     workflow_created_by_user_id = models.ForeignKey(
-        User, on_delete=models.PROTECT, related_name="workflow_created_by"
+        User, on_delete=models.PROTECT, related_name='workflow_created_by'
     )
     workflow_modified_by_user_id = models.ForeignKey(
-        User, on_delete=models.PROTECT, related_name="worklfow_modified_by"
+        User, on_delete=models.PROTECT, related_name='worklfow_modified_by'
     )
 
     def __str__(self):
         return self.workflow_name
 
     def get_absolute_url(self):
-        return reverse("workflow_detail", args=[self.pk])
+        return reverse('workflow_detail', args=[self.pk])
 
     def get_update_url(self):
-        return reverse("workflow_update", args=[self.pk])
+        return reverse('workflow_update', args=[self.pk])
 
     def get_delete_url(self):
-        return reverse("workflow_delete", args=[self.pk])
+        return reverse('workflow_delete', args=[self.pk])
 
     # define logger
     def logger(workflow, request_user, log_text):
@@ -655,7 +655,7 @@ class Workflow(models.Model):
                     new_task.taskpriority = mapping.task_default_priority
                     new_task.system = system
                     new_task.save()
-                    new_task.logger(str(user), f" CREATED_BY_WORKFLOW_{workflow_id}")
+                    new_task.logger(str(user), f' CREATED_BY_WORKFLOW_{workflow_id}')
                 # create artifact based on artifacttype and artifact default name
                 for mapping in WorkflowDefaultArtifactAttributes.objects.filter(
                     workflow=workflow
@@ -675,7 +675,7 @@ class Workflow(models.Model):
                     new_artifact.system = system
                     new_artifact.save()
                     new_artifact.logger(
-                        str(user), f" CREATED_BY_WORKFLOW_{workflow_id}"
+                        str(user), f' CREATED_BY_WORKFLOW_{workflow_id}'
                     )
             except Workflow.DoesNotExist:
                 errors += 1
@@ -692,22 +692,22 @@ class WorkflowDefaultArtifactAttributes(models.Model):
 
     # foreign key
     artifacttype = models.ForeignKey(
-        "dfirtrack_artifacts.Artifacttype",
+        'dfirtrack_artifacts.Artifacttype',
         on_delete=models.CASCADE,
-        related_name="workflow_artifacttype_mapping",
+        related_name='workflow_artifacttype_mapping',
     )
     workflow = models.ForeignKey(
-        Workflow, on_delete=models.CASCADE, related_name="workflow_artifactname_mapping"
+        Workflow, on_delete=models.CASCADE, related_name='workflow_artifactname_mapping'
     )
     artifact_default_priority = models.ForeignKey(
-        "dfirtrack_artifacts.Artifactpriority",
+        'dfirtrack_artifacts.Artifactpriority',
         on_delete=models.PROTECT,
-        related_name="workflow_default_artifact_priority",
+        related_name='workflow_default_artifact_priority',
     )
     artifact_default_status = models.ForeignKey(
-        "dfirtrack_artifacts.Artifactstatus",
+        'dfirtrack_artifacts.Artifactstatus',
         on_delete=models.PROTECT,
-        related_name="workflow_default_artifact_status",
+        related_name='workflow_default_artifact_status',
     )
 
     # main entity
@@ -725,24 +725,24 @@ class WorkflowDefaultTasknameAttributes(models.Model):
 
     # foreign key
     taskname = models.ForeignKey(
-        "dfirtrack_main.Taskname",
+        'dfirtrack_main.Taskname',
         on_delete=models.CASCADE,
-        related_name="workflow_taskname_mapping",
+        related_name='workflow_taskname_mapping',
     )
     workflow = models.ForeignKey(
         Workflow,
         on_delete=models.CASCADE,
-        related_name="workflow_taskattribute_mapping",
+        related_name='workflow_taskattribute_mapping',
     )
     task_default_priority = models.ForeignKey(
-        "dfirtrack_main.Taskpriority",
+        'dfirtrack_main.Taskpriority',
         on_delete=models.PROTECT,
-        related_name="workflow_default_task_priority",
+        related_name='workflow_default_task_priority',
     )
     task_default_status = models.ForeignKey(
-        "dfirtrack_main.Taskstatus",
+        'dfirtrack_main.Taskstatus',
         on_delete=models.PROTECT,
-        related_name="workflow_default_task_status",
+        related_name='workflow_default_task_status',
     )
 
     def __str__(self):

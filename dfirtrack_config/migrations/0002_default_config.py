@@ -4,7 +4,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("dfirtrack_config", "0001_initial"),
+        ('dfirtrack_config', '0001_initial'),
     ]
 
     operations = [

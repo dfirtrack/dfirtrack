@@ -13,17 +13,17 @@ class TagcolorAPIViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create object
-        Tagcolor.objects.create(tagcolor_name="tagcolor_api_1")
+        Tagcolor.objects.create(tagcolor_name='tagcolor_api_1')
         # create user
         User.objects.create_user(
-            username="testuser_tagcolor_api", password="twvVpQ4LBNN9swnJcy2f"
+            username='testuser_tagcolor_api', password='twvVpQ4LBNN9swnJcy2f'
         )
 
     def test_tagcolor_list_api_unauthorized(self):
         """unauthorized access is forbidden"""
 
         # get response
-        response = self.client.get("/api/tagcolor/")
+        response = self.client.get('/api/tagcolor/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -32,10 +32,10 @@ class TagcolorAPIViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_tagcolor_api", password="twvVpQ4LBNN9swnJcy2f"
+            username='testuser_tagcolor_api', password='twvVpQ4LBNN9swnJcy2f'
         )
         # get response
-        response = self.client.get("/api/tagcolor/")
+        response = self.client.get('/api/tagcolor/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -44,12 +44,12 @@ class TagcolorAPIViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_tagcolor_api", password="twvVpQ4LBNN9swnJcy2f"
+            username='testuser_tagcolor_api', password='twvVpQ4LBNN9swnJcy2f'
         )
         # create POST string
         poststring = {"tagcolor_name": "tagcolor_api_2"}
         # get response
-        response = self.client.post("/api/tagcolor/", data=poststring)
+        response = self.client.post('/api/tagcolor/', data=poststring)
         # compare
         self.assertEqual(response.status_code, 405)
 
@@ -58,12 +58,12 @@ class TagcolorAPIViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_tagcolor_api", password="twvVpQ4LBNN9swnJcy2f"
+            username='testuser_tagcolor_api', password='twvVpQ4LBNN9swnJcy2f'
         )
         # create url
-        destination = urllib.parse.quote("/api/tagcolor/", safe="/")
+        destination = urllib.parse.quote('/api/tagcolor/', safe='/')
         # get response
-        response = self.client.get("/api/tagcolor", follow=True)
+        response = self.client.get('/api/tagcolor', follow=True)
         # compare
         self.assertRedirects(
             response, destination, status_code=301, target_status_code=200
@@ -73,10 +73,10 @@ class TagcolorAPIViewTestCase(TestCase):
         """unauthorized access is forbidden"""
 
         # get object
-        tagcolor_api_1 = Tagcolor.objects.get(tagcolor_name="tagcolor_api_1")
+        tagcolor_api_1 = Tagcolor.objects.get(tagcolor_name='tagcolor_api_1')
         # get response
         response = self.client.get(
-            "/api/tagcolor/" + str(tagcolor_api_1.tagcolor_id) + "/"
+            '/api/tagcolor/' + str(tagcolor_api_1.tagcolor_id) + '/'
         )
         # compare
         self.assertEqual(response.status_code, 401)
@@ -85,14 +85,14 @@ class TagcolorAPIViewTestCase(TestCase):
         """GET is allowed"""
 
         # get object
-        tagcolor_api_1 = Tagcolor.objects.get(tagcolor_name="tagcolor_api_1")
+        tagcolor_api_1 = Tagcolor.objects.get(tagcolor_name='tagcolor_api_1')
         # login testuser
         self.client.login(
-            username="testuser_tagcolor_api", password="twvVpQ4LBNN9swnJcy2f"
+            username='testuser_tagcolor_api', password='twvVpQ4LBNN9swnJcy2f'
         )
         # get response
         response = self.client.get(
-            "/api/tagcolor/" + str(tagcolor_api_1.tagcolor_id) + "/"
+            '/api/tagcolor/' + str(tagcolor_api_1.tagcolor_id) + '/'
         )
         # compare
         self.assertEqual(response.status_code, 200)
@@ -101,14 +101,14 @@ class TagcolorAPIViewTestCase(TestCase):
         """DELETE is forbidden"""
 
         # get object
-        tagcolor_api_1 = Tagcolor.objects.get(tagcolor_name="tagcolor_api_1")
+        tagcolor_api_1 = Tagcolor.objects.get(tagcolor_name='tagcolor_api_1')
         # login testuser
         self.client.login(
-            username="testuser_tagcolor_api", password="twvVpQ4LBNN9swnJcy2f"
+            username='testuser_tagcolor_api', password='twvVpQ4LBNN9swnJcy2f'
         )
         # get response
         response = self.client.delete(
-            "/api/tagcolor/" + str(tagcolor_api_1.tagcolor_id) + "/"
+            '/api/tagcolor/' + str(tagcolor_api_1.tagcolor_id) + '/'
         )
         # compare
         self.assertEqual(response.status_code, 405)
@@ -117,20 +117,20 @@ class TagcolorAPIViewTestCase(TestCase):
         """PUT is forbidden"""
 
         # get object
-        tagcolor_api_1 = Tagcolor.objects.get(tagcolor_name="tagcolor_api_1")
+        tagcolor_api_1 = Tagcolor.objects.get(tagcolor_name='tagcolor_api_1')
         # login testuser
         self.client.login(
-            username="testuser_tagcolor_api", password="twvVpQ4LBNN9swnJcy2f"
+            username='testuser_tagcolor_api', password='twvVpQ4LBNN9swnJcy2f'
         )
         # create url
         destination = urllib.parse.quote(
-            "/api/tagcolor/" + str(tagcolor_api_1.tagcolor_id) + "/", safe="/"
+            '/api/tagcolor/' + str(tagcolor_api_1.tagcolor_id) + '/', safe='/'
         )
         # create PUT string
         putstring = {"tagcolor_name": "new_tagcolor_api_1"}
         # get response
         response = self.client.put(
-            destination, data=putstring, content_type="application/json"
+            destination, data=putstring, content_type='application/json'
         )
         # compare
         self.assertEqual(response.status_code, 405)
@@ -139,18 +139,18 @@ class TagcolorAPIViewTestCase(TestCase):
         """test redirect with appending slash"""
 
         # get object
-        tagcolor_api_1 = Tagcolor.objects.get(tagcolor_name="tagcolor_api_1")
+        tagcolor_api_1 = Tagcolor.objects.get(tagcolor_name='tagcolor_api_1')
         # login testuser
         self.client.login(
-            username="testuser_tagcolor_api", password="twvVpQ4LBNN9swnJcy2f"
+            username='testuser_tagcolor_api', password='twvVpQ4LBNN9swnJcy2f'
         )
         # create url
         destination = urllib.parse.quote(
-            "/api/tagcolor/" + str(tagcolor_api_1.tagcolor_id) + "/", safe="/"
+            '/api/tagcolor/' + str(tagcolor_api_1.tagcolor_id) + '/', safe='/'
         )
         # get response
         response = self.client.get(
-            "/api/tagcolor/" + str(tagcolor_api_1.tagcolor_id), follow=True
+            '/api/tagcolor/' + str(tagcolor_api_1.tagcolor_id), follow=True
         )
         # compare
         self.assertRedirects(

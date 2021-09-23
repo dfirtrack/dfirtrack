@@ -12,14 +12,14 @@ class DFIRTrackOpenAPIViewTestCase(TestCase):
 
         # create user
         User.objects.create_user(
-            username="testuser_openapi_api_1", password="ZxMzUqYU6mrDzO9q"
+            username='testuser_openapi_api_1', password='ZxMzUqYU6mrDzO9q'
         )
 
     def test_openapi_api_view_unauthorized(self):
         """unauthorized access is forbidden"""
 
         # get response
-        response = self.client.get("/api/openapi/")
+        response = self.client.get('/api/openapi/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -28,10 +28,10 @@ class DFIRTrackOpenAPIViewTestCase(TestCase):
 
         # login test user
         response = self.client.login(
-            username="testuser_openapi_api_1", password="ZxMzUqYU6mrDzO9q"
+            username='testuser_openapi_api_1', password='ZxMzUqYU6mrDzO9q'
         )
         # get response
-        response = self.client.get("/api/openapi/")
+        response = self.client.get('/api/openapi/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -40,12 +40,12 @@ class DFIRTrackOpenAPIViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_openapi_api_1", password="ZxMzUqYU6mrDzO9q"
+            username='testuser_openapi_api_1', password='ZxMzUqYU6mrDzO9q'
         )
         # create POST string
         poststring = {"openapi_var": "openapi_value"}
         # get response
-        response = self.client.post("/api/openapi/", data=poststring)
+        response = self.client.post('/api/openapi/', data=poststring)
         # compare
         self.assertEqual(response.status_code, 405)
 
@@ -54,12 +54,12 @@ class DFIRTrackOpenAPIViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_openapi_api_1", password="ZxMzUqYU6mrDzO9q"
+            username='testuser_openapi_api_1', password='ZxMzUqYU6mrDzO9q'
         )
         # create url
-        destination = urllib.parse.quote("/api/openapi/", safe="/")
+        destination = urllib.parse.quote('/api/openapi/', safe='/')
         # get response
-        response = self.client.get("/api/openapi", follow=True)
+        response = self.client.get('/api/openapi', follow=True)
         # compare
         self.assertRedirects(
             response, destination, status_code=301, target_status_code=200

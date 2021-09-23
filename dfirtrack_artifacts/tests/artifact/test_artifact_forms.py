@@ -15,31 +15,31 @@ class ArtifactFormTestCase(TestCase):
 
         # create user
         test_user = User.objects.create_user(
-            username="testuser_artifact", password="zpdfNMmo3vYrkHrrL6EU"
+            username='testuser_artifact', password='zpdfNMmo3vYrkHrrL6EU'
         )
 
         # create object
-        Artifactpriority.objects.create(artifactpriority_name="artifactpriority_1")
+        Artifactpriority.objects.create(artifactpriority_name='artifactpriority_1')
 
         # create object
-        Artifactstatus.objects.create(artifactstatus_name="artifactstatus_1")
+        Artifactstatus.objects.create(artifactstatus_name='artifactstatus_1')
 
         # create object
-        Artifacttype.objects.create(artifacttype_name="artifacttype_1")
+        Artifacttype.objects.create(artifacttype_name='artifacttype_1')
 
         # create object
         Case.objects.create(
-            case_name="case_1",
+            case_name='case_1',
             case_is_incident=True,
             case_created_by_user_id=test_user,
         )
 
         # create object
-        systemstatus_1 = Systemstatus.objects.create(systemstatus_name="systemstatus_1")
+        systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
 
         # create object
         System.objects.create(
-            system_name="system_1",
+            system_name='system_1',
             systemstatus=systemstatus_1,
             system_created_by_user_id=test_user,
             system_modified_by_user_id=test_user,
@@ -51,7 +51,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm()
         # compare
-        self.assertEqual(form.fields["artifact_name"].label, "Artifact name (*)")
+        self.assertEqual(form.fields['artifact_name'].label, 'Artifact name (*)')
 
     def test_artifact_artifactpriority_form_label(self):
         """test form label"""
@@ -59,7 +59,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm()
         # compare
-        self.assertEqual(form.fields["artifactpriority"].label, "Artifactpriority (*)")
+        self.assertEqual(form.fields['artifactpriority'].label, 'Artifactpriority (*)')
 
     def test_artifact_artifactstatus_form_label(self):
         """test form label"""
@@ -67,7 +67,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm()
         # compare
-        self.assertEqual(form.fields["artifactstatus"].label, "Artifactstatus (*)")
+        self.assertEqual(form.fields['artifactstatus'].label, 'Artifactstatus (*)')
 
     def test_artifact_artifacttype_form_label(self):
         """test form label"""
@@ -75,8 +75,8 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm()
         # compare
-        self.assertEqual(form.fields["artifacttype"].label, "Artifacttype (*)")
-        self.assertEqual(form.fields["artifacttype"].empty_label, "Select artifacttype")
+        self.assertEqual(form.fields['artifacttype'].label, 'Artifacttype (*)')
+        self.assertEqual(form.fields['artifacttype'].empty_label, 'Select artifacttype')
 
     def test_artifact_source_path_form_label(self):
         """test form label"""
@@ -85,7 +85,7 @@ class ArtifactFormTestCase(TestCase):
         form = ArtifactForm()
         # compare
         self.assertEqual(
-            form.fields["artifact_source_path"].label, "Artifact source path"
+            form.fields['artifact_source_path'].label, 'Artifact source path'
         )
 
     def test_artifact_system_form_label(self):
@@ -94,8 +94,8 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm()
         # compare
-        self.assertEqual(form.fields["system"].label, "System (*)")
-        self.assertEqual(form.fields["system"].empty_label, "Select system")
+        self.assertEqual(form.fields['system'].label, 'System (*)')
+        self.assertEqual(form.fields['system'].empty_label, 'Select system')
 
     def test_artifact_tag_form_label(self):
         """test form label"""
@@ -103,7 +103,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm()
         # compare
-        self.assertEqual(form.fields["tag"].label, "Tags")
+        self.assertEqual(form.fields['tag'].label, 'Tags')
 
     def test_artifact_case_form_label(self):
         """test form label"""
@@ -111,8 +111,8 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm()
         # compare
-        self.assertEqual(form.fields["case"].label, "Case")
-        self.assertEqual(form.fields["case"].empty_label, "Select case (optional)")
+        self.assertEqual(form.fields['case'].label, 'Case')
+        self.assertEqual(form.fields['case'].empty_label, 'Select case (optional)')
 
     def test_artifact_md5_form_label(self):
         """test form label"""
@@ -120,7 +120,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm()
         # compare
-        self.assertEqual(form.fields["artifact_md5"].label, "MD5")
+        self.assertEqual(form.fields['artifact_md5'].label, 'MD5')
 
     def test_artifact_sha1_form_label(self):
         """test form label"""
@@ -128,7 +128,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm()
         # compare
-        self.assertEqual(form.fields["artifact_sha1"].label, "SHA1")
+        self.assertEqual(form.fields['artifact_sha1'].label, 'SHA1')
 
     def test_artifact_sha256_form_label(self):
         """test form label"""
@@ -136,7 +136,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm()
         # compare
-        self.assertEqual(form.fields["artifact_sha256"].label, "SHA256")
+        self.assertEqual(form.fields['artifact_sha256'].label, 'SHA256')
 
     def test_artifact_note_analysisresult_form_label(self):
         """test form label"""
@@ -145,7 +145,7 @@ class ArtifactFormTestCase(TestCase):
         form = ArtifactForm()
         # compare
         self.assertEqual(
-            form.fields["artifact_note_analysisresult"].label, "Analysis result"
+            form.fields['artifact_note_analysisresult'].label, 'Analysis result'
         )
 
     def test_artifact_note_external_form_label(self):
@@ -154,7 +154,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm()
         # compare
-        self.assertEqual(form.fields["artifact_note_external"].label, "External note")
+        self.assertEqual(form.fields['artifact_note_external'].label, 'External note')
 
     def test_artifact_note_internal_form_label(self):
         """test form label"""
@@ -162,7 +162,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm()
         # compare
-        self.assertEqual(form.fields["artifact_note_internal"].label, "Internal note")
+        self.assertEqual(form.fields['artifact_note_internal'].label, 'Internal note')
 
     def test_artifact_form_empty(self):
         """test minimum form requirements / INVALID"""
@@ -178,7 +178,7 @@ class ArtifactFormTestCase(TestCase):
         # get object
         form = ArtifactForm(
             data={
-                "artifact_name": "artifact_1",
+                'artifact_name': 'artifact_1',
             }
         )
         # compare
@@ -189,13 +189,13 @@ class ArtifactFormTestCase(TestCase):
 
         # get object
         artifactpriority_id = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         ).artifactpriority_id
         # get object
         form = ArtifactForm(
             data={
-                "artifact_name": "artifact_1",
-                "artifactpriority": artifactpriority_id,
+                'artifact_name': 'artifact_1',
+                'artifactpriority': artifactpriority_id,
             }
         )
         # compare
@@ -206,18 +206,18 @@ class ArtifactFormTestCase(TestCase):
 
         # get object
         artifactpriority_id = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         ).artifactpriority_id
         # get object
         artifactstatus_id = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         ).artifactstatus_id
         # get object
         form = ArtifactForm(
             data={
-                "artifact_name": "artifact_1",
-                "artifactpriority": artifactpriority_id,
-                "artifactstatus": artifactstatus_id,
+                'artifact_name': 'artifact_1',
+                'artifactpriority': artifactpriority_id,
+                'artifactstatus': artifactstatus_id,
             }
         )
         # compare
@@ -228,23 +228,23 @@ class ArtifactFormTestCase(TestCase):
 
         # get object
         artifactpriority_id = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         ).artifactpriority_id
         # get object
         artifactstatus_id = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         ).artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_1"
+            artifacttype_name='artifacttype_1'
         ).artifacttype_id
         # get object
         form = ArtifactForm(
             data={
-                "artifact_name": "artifact_1",
-                "artifactpriority": artifactpriority_id,
-                "artifactstatus": artifactstatus_id,
-                "artifacttype": artifacttype_id,
+                'artifact_name': 'artifact_1',
+                'artifactpriority': artifactpriority_id,
+                'artifactstatus': artifactstatus_id,
+                'artifacttype': artifacttype_id,
             }
         )
         # compare
@@ -255,26 +255,26 @@ class ArtifactFormTestCase(TestCase):
 
         # get object
         artifactpriority_id = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         ).artifactpriority_id
         # get object
         artifactstatus_id = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         ).artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_1"
+            artifacttype_name='artifacttype_1'
         ).artifacttype_id
         # get object
-        system_id = System.objects.get(system_name="system_1").system_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # get object
         form = ArtifactForm(
             data={
-                "artifact_name": "artifact_1",
-                "artifactpriority": artifactpriority_id,
-                "artifactstatus": artifactstatus_id,
-                "artifacttype": artifacttype_id,
-                "system": system_id,
+                'artifact_name': 'artifact_1',
+                'artifactpriority': artifactpriority_id,
+                'artifactstatus': artifactstatus_id,
+                'artifacttype': artifacttype_id,
+                'system': system_id,
             }
         )
         # compare
@@ -285,27 +285,27 @@ class ArtifactFormTestCase(TestCase):
 
         # get object
         artifactpriority_id = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         ).artifactpriority_id
         # get object
         artifactstatus_id = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         ).artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_1"
+            artifacttype_name='artifacttype_1'
         ).artifacttype_id
         # get object
-        system_id = System.objects.get(system_name="system_1").system_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # get object
         form = ArtifactForm(
             data={
-                "artifact_name": "artifact_1",
-                "artifactpriority": artifactpriority_id,
-                "artifactstatus": artifactstatus_id,
-                "artifacttype": artifacttype_id,
-                "system": system_id,
-                "artifact_source_path": "C:\\Windows\foo\bar",
+                'artifact_name': 'artifact_1',
+                'artifactpriority': artifactpriority_id,
+                'artifactstatus': artifactstatus_id,
+                'artifacttype': artifacttype_id,
+                'system': system_id,
+                'artifact_source_path': 'C:\\Windows\foo\bar',
             }
         )
         # compare
@@ -316,29 +316,29 @@ class ArtifactFormTestCase(TestCase):
 
         # get object
         artifactpriority_id = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         ).artifactpriority_id
         # get object
         artifactstatus_id = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         ).artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_1"
+            artifacttype_name='artifacttype_1'
         ).artifacttype_id
         # get object
-        case_id = Case.objects.get(case_name="case_1").case_id
+        case_id = Case.objects.get(case_name='case_1').case_id
         # get object
-        system_id = System.objects.get(system_name="system_1").system_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # get object
         form = ArtifactForm(
             data={
-                "artifact_name": "artifact_1",
-                "artifactpriority": artifactpriority_id,
-                "artifactstatus": artifactstatus_id,
-                "artifacttype": artifacttype_id,
-                "system": system_id,
-                "case": case_id,
+                'artifact_name': 'artifact_1',
+                'artifactpriority': artifactpriority_id,
+                'artifactstatus': artifactstatus_id,
+                'artifacttype': artifacttype_id,
+                'system': system_id,
+                'case': case_id,
             }
         )
         # compare
@@ -349,27 +349,27 @@ class ArtifactFormTestCase(TestCase):
 
         # get object
         artifactpriority_id = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         ).artifactpriority_id
         # get object
         artifactstatus_id = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         ).artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_1"
+            artifacttype_name='artifacttype_1'
         ).artifacttype_id
         # get object
-        system_id = System.objects.get(system_name="system_1").system_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # get object
         form = ArtifactForm(
             data={
-                "artifact_name": "artifact_1",
-                "artifactpriority": artifactpriority_id,
-                "artifactstatus": artifactstatus_id,
-                "artifacttype": artifacttype_id,
-                "system": system_id,
-                "artifact_requested_time": timezone.now(),
+                'artifact_name': 'artifact_1',
+                'artifactpriority': artifactpriority_id,
+                'artifactstatus': artifactstatus_id,
+                'artifacttype': artifacttype_id,
+                'system': system_id,
+                'artifact_requested_time': timezone.now(),
             }
         )
         # compare
@@ -380,27 +380,27 @@ class ArtifactFormTestCase(TestCase):
 
         # get object
         artifactpriority_id = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         ).artifactpriority_id
         # get object
         artifactstatus_id = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         ).artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_1"
+            artifacttype_name='artifacttype_1'
         ).artifacttype_id
         # get object
-        system_id = System.objects.get(system_name="system_1").system_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # get object
         form = ArtifactForm(
             data={
-                "artifact_name": "artifact_1",
-                "artifactpriority": artifactpriority_id,
-                "artifactstatus": artifactstatus_id,
-                "artifacttype": artifacttype_id,
-                "system": system_id,
-                "artifact_acquisiton_time": timezone.now(),
+                'artifact_name': 'artifact_1',
+                'artifactpriority': artifactpriority_id,
+                'artifactstatus': artifactstatus_id,
+                'artifacttype': artifacttype_id,
+                'system': system_id,
+                'artifact_acquisiton_time': timezone.now(),
             }
         )
         # compare
@@ -411,27 +411,27 @@ class ArtifactFormTestCase(TestCase):
 
         # get object
         artifactpriority_id = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         ).artifactpriority_id
         # get object
         artifactstatus_id = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         ).artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_1"
+            artifacttype_name='artifacttype_1'
         ).artifacttype_id
         # get object
-        system_id = System.objects.get(system_name="system_1").system_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # get object
         form = ArtifactForm(
             data={
-                "artifact_name": "artifact_1",
-                "artifactpriority": artifactpriority_id,
-                "artifactstatus": artifactstatus_id,
-                "artifacttype": artifacttype_id,
-                "system": system_id,
-                "artifact_md5": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                'artifact_name': 'artifact_1',
+                'artifactpriority': artifactpriority_id,
+                'artifactstatus': artifactstatus_id,
+                'artifacttype': artifacttype_id,
+                'system': system_id,
+                'artifact_md5': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
             }
         )
         # compare
@@ -442,27 +442,27 @@ class ArtifactFormTestCase(TestCase):
 
         # get object
         artifactpriority_id = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         ).artifactpriority_id
         # get object
         artifactstatus_id = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         ).artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_1"
+            artifacttype_name='artifacttype_1'
         ).artifacttype_id
         # get object
-        system_id = System.objects.get(system_name="system_1").system_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # get object
         form = ArtifactForm(
             data={
-                "artifact_name": "artifact_1",
-                "artifactpriority": artifactpriority_id,
-                "artifactstatus": artifactstatus_id,
-                "artifacttype": artifacttype_id,
-                "system": system_id,
-                "artifact_sha1": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                'artifact_name': 'artifact_1',
+                'artifactpriority': artifactpriority_id,
+                'artifactstatus': artifactstatus_id,
+                'artifacttype': artifacttype_id,
+                'system': system_id,
+                'artifact_sha1': 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
             }
         )
         # compare
@@ -473,27 +473,27 @@ class ArtifactFormTestCase(TestCase):
 
         # get object
         artifactpriority_id = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         ).artifactpriority_id
         # get object
         artifactstatus_id = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         ).artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_1"
+            artifacttype_name='artifacttype_1'
         ).artifacttype_id
         # get object
-        system_id = System.objects.get(system_name="system_1").system_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # get object
         form = ArtifactForm(
             data={
-                "artifact_name": "artifact_1",
-                "artifactpriority": artifactpriority_id,
-                "artifactstatus": artifactstatus_id,
-                "artifacttype": artifacttype_id,
-                "system": system_id,
-                "artifact_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+                'artifact_name': 'artifact_1',
+                'artifactpriority': artifactpriority_id,
+                'artifactstatus': artifactstatus_id,
+                'artifacttype': artifacttype_id,
+                'system': system_id,
+                'artifact_sha256': 'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
             }
         )
         # compare
@@ -504,27 +504,27 @@ class ArtifactFormTestCase(TestCase):
 
         # get object
         artifactpriority_id = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         ).artifactpriority_id
         # get object
         artifactstatus_id = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         ).artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_1"
+            artifacttype_name='artifacttype_1'
         ).artifacttype_id
         # get object
-        system_id = System.objects.get(system_name="system_1").system_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # get object
         form = ArtifactForm(
             data={
-                "artifact_name": "artifact_1",
-                "artifactpriority": artifactpriority_id,
-                "artifactstatus": artifactstatus_id,
-                "artifacttype": artifacttype_id,
-                "system": system_id,
-                "artifact_note_analysisresult": "this is a note for analysis results - export considered",
+                'artifact_name': 'artifact_1',
+                'artifactpriority': artifactpriority_id,
+                'artifactstatus': artifactstatus_id,
+                'artifacttype': artifacttype_id,
+                'system': system_id,
+                'artifact_note_analysisresult': 'this is a note for analysis results - export considered',
             }
         )
         # compare
@@ -535,27 +535,27 @@ class ArtifactFormTestCase(TestCase):
 
         # get object
         artifactpriority_id = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         ).artifactpriority_id
         # get object
         artifactstatus_id = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         ).artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_1"
+            artifacttype_name='artifacttype_1'
         ).artifacttype_id
         # get object
-        system_id = System.objects.get(system_name="system_1").system_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # get object
         form = ArtifactForm(
             data={
-                "artifact_name": "artifact_1",
-                "artifactpriority": artifactpriority_id,
-                "artifactstatus": artifactstatus_id,
-                "artifacttype": artifacttype_id,
-                "system": system_id,
-                "artifact_note_external": "this is a note for external usage - export considered",
+                'artifact_name': 'artifact_1',
+                'artifactpriority': artifactpriority_id,
+                'artifactstatus': artifactstatus_id,
+                'artifacttype': artifacttype_id,
+                'system': system_id,
+                'artifact_note_external': 'this is a note for external usage - export considered',
             }
         )
         # compare
@@ -566,27 +566,27 @@ class ArtifactFormTestCase(TestCase):
 
         # get object
         artifactpriority_id = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         ).artifactpriority_id
         # get object
         artifactstatus_id = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         ).artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_1"
+            artifacttype_name='artifacttype_1'
         ).artifacttype_id
         # get object
-        system_id = System.objects.get(system_name="system_1").system_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # get object
         form = ArtifactForm(
             data={
-                "artifact_name": "artifact_1",
-                "artifactpriority": artifactpriority_id,
-                "artifactstatus": artifactstatus_id,
-                "artifacttype": artifacttype_id,
-                "system": system_id,
-                "artifact_note_internal": "this is a note for internal usage - no export intended",
+                'artifact_name': 'artifact_1',
+                'artifactpriority': artifactpriority_id,
+                'artifactstatus': artifactstatus_id,
+                'artifacttype': artifacttype_id,
+                'system': system_id,
+                'artifact_note_internal': 'this is a note for internal usage - no export intended',
             }
         )
         # compare
@@ -604,27 +604,27 @@ class ArtifactFormTestCase(TestCase):
 
         # get object
         artifactpriority_id = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         ).artifactpriority_id
         # get object
         artifactstatus_id = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         ).artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_1"
+            artifacttype_name='artifacttype_1'
         ).artifacttype_id
         # get object
-        system_id = System.objects.get(system_name="system_1").system_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # get object
         form = ArtifactForm(
             data={
-                "artifact_name": "artifact_1",
-                "artifactpriority": artifactpriority_id,
-                "artifactstatus": artifactstatus_id,
-                "artifacttype": artifacttype_id,
-                "system": system_id,
-                "artifact_md5": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                'artifact_name': 'artifact_1',
+                'artifactpriority': artifactpriority_id,
+                'artifactstatus': artifactstatus_id,
+                'artifacttype': artifacttype_id,
+                'system': system_id,
+                'artifact_md5': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
             }
         )
         # compare
@@ -635,27 +635,27 @@ class ArtifactFormTestCase(TestCase):
 
         # get object
         artifactpriority_id = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         ).artifactpriority_id
         # get object
         artifactstatus_id = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         ).artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_1"
+            artifacttype_name='artifacttype_1'
         ).artifacttype_id
         # get object
-        system_id = System.objects.get(system_name="system_1").system_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # get object
         form = ArtifactForm(
             data={
-                "artifact_name": "artifact_1",
-                "artifactpriority": artifactpriority_id,
-                "artifactstatus": artifactstatus_id,
-                "artifacttype": artifacttype_id,
-                "system": system_id,
-                "artifact_md5": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                'artifact_name': 'artifact_1',
+                'artifactpriority': artifactpriority_id,
+                'artifactstatus': artifactstatus_id,
+                'artifacttype': artifacttype_id,
+                'system': system_id,
+                'artifact_md5': 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
             }
         )
         # compare
@@ -666,27 +666,27 @@ class ArtifactFormTestCase(TestCase):
 
         # get object
         artifactpriority_id = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         ).artifactpriority_id
         # get object
         artifactstatus_id = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         ).artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_1"
+            artifacttype_name='artifacttype_1'
         ).artifacttype_id
         # get object
-        system_id = System.objects.get(system_name="system_1").system_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # get object
         form = ArtifactForm(
             data={
-                "artifact_name": "artifact_1",
-                "artifactpriority": artifactpriority_id,
-                "artifactstatus": artifactstatus_id,
-                "artifacttype": artifacttype_id,
-                "system": system_id,
-                "artifact_md5": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                'artifact_name': 'artifact_1',
+                'artifactpriority': artifactpriority_id,
+                'artifactstatus': artifactstatus_id,
+                'artifacttype': artifacttype_id,
+                'system': system_id,
+                'artifact_md5': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
             }
         )
         # compare
@@ -697,27 +697,27 @@ class ArtifactFormTestCase(TestCase):
 
         # get object
         artifactpriority_id = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         ).artifactpriority_id
         # get object
         artifactstatus_id = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         ).artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_1"
+            artifacttype_name='artifacttype_1'
         ).artifacttype_id
         # get object
-        system_id = System.objects.get(system_name="system_1").system_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # get object
         form = ArtifactForm(
             data={
-                "artifact_name": "artifact_1",
-                "artifactpriority": artifactpriority_id,
-                "artifactstatus": artifactstatus_id,
-                "artifacttype": artifacttype_id,
-                "system": system_id,
-                "artifact_md5": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                'artifact_name': 'artifact_1',
+                'artifactpriority': artifactpriority_id,
+                'artifactstatus': artifactstatus_id,
+                'artifacttype': artifacttype_id,
+                'system': system_id,
+                'artifact_md5': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
             }
         )
         # compare
@@ -728,27 +728,27 @@ class ArtifactFormTestCase(TestCase):
 
         # get object
         artifactpriority_id = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         ).artifactpriority_id
         # get object
         artifactstatus_id = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         ).artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_1"
+            artifacttype_name='artifacttype_1'
         ).artifacttype_id
         # get object
-        system_id = System.objects.get(system_name="system_1").system_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # get object
         form = ArtifactForm(
             data={
-                "artifact_name": "artifact_1",
-                "artifactpriority": artifactpriority_id,
-                "artifactstatus": artifactstatus_id,
-                "artifacttype": artifacttype_id,
-                "system": system_id,
-                "artifact_sha1": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                'artifact_name': 'artifact_1',
+                'artifactpriority': artifactpriority_id,
+                'artifactstatus': artifactstatus_id,
+                'artifacttype': artifacttype_id,
+                'system': system_id,
+                'artifact_sha1': 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
             }
         )
         # compare
@@ -759,27 +759,27 @@ class ArtifactFormTestCase(TestCase):
 
         # get object
         artifactpriority_id = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         ).artifactpriority_id
         # get object
         artifactstatus_id = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         ).artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_1"
+            artifacttype_name='artifacttype_1'
         ).artifacttype_id
         # get object
-        system_id = System.objects.get(system_name="system_1").system_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # get object
         form = ArtifactForm(
             data={
-                "artifact_name": "artifact_1",
-                "artifactpriority": artifactpriority_id,
-                "artifactstatus": artifactstatus_id,
-                "artifacttype": artifacttype_id,
-                "system": system_id,
-                "artifact_sha1": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                'artifact_name': 'artifact_1',
+                'artifactpriority': artifactpriority_id,
+                'artifactstatus': artifactstatus_id,
+                'artifacttype': artifacttype_id,
+                'system': system_id,
+                'artifact_sha1': 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
             }
         )
         # compare
@@ -790,27 +790,27 @@ class ArtifactFormTestCase(TestCase):
 
         # get object
         artifactpriority_id = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         ).artifactpriority_id
         # get object
         artifactstatus_id = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         ).artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_1"
+            artifacttype_name='artifacttype_1'
         ).artifacttype_id
         # get object
-        system_id = System.objects.get(system_name="system_1").system_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # get object
         form = ArtifactForm(
             data={
-                "artifact_name": "artifact_1",
-                "artifactpriority": artifactpriority_id,
-                "artifactstatus": artifactstatus_id,
-                "artifacttype": artifacttype_id,
-                "system": system_id,
-                "artifact_sha1": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                'artifact_name': 'artifact_1',
+                'artifactpriority': artifactpriority_id,
+                'artifactstatus': artifactstatus_id,
+                'artifacttype': artifacttype_id,
+                'system': system_id,
+                'artifact_sha1': 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
             }
         )
         # compare
@@ -821,27 +821,27 @@ class ArtifactFormTestCase(TestCase):
 
         # get object
         artifactpriority_id = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         ).artifactpriority_id
         # get object
         artifactstatus_id = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         ).artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_1"
+            artifacttype_name='artifacttype_1'
         ).artifacttype_id
         # get object
-        system_id = System.objects.get(system_name="system_1").system_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # get object
         form = ArtifactForm(
             data={
-                "artifact_name": "artifact_1",
-                "artifactpriority": artifactpriority_id,
-                "artifactstatus": artifactstatus_id,
-                "artifacttype": artifacttype_id,
-                "system": system_id,
-                "artifact_sha1": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                'artifact_name': 'artifact_1',
+                'artifactpriority': artifactpriority_id,
+                'artifactstatus': artifactstatus_id,
+                'artifacttype': artifacttype_id,
+                'system': system_id,
+                'artifact_sha1': 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
             }
         )
         # compare
@@ -852,27 +852,27 @@ class ArtifactFormTestCase(TestCase):
 
         # get object
         artifactpriority_id = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         ).artifactpriority_id
         # get object
         artifactstatus_id = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         ).artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_1"
+            artifacttype_name='artifacttype_1'
         ).artifacttype_id
         # get object
-        system_id = System.objects.get(system_name="system_1").system_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # get object
         form = ArtifactForm(
             data={
-                "artifact_name": "artifact_1",
-                "artifactpriority": artifactpriority_id,
-                "artifactstatus": artifactstatus_id,
-                "artifacttype": artifacttype_id,
-                "system": system_id,
-                "artifact_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+                'artifact_name': 'artifact_1',
+                'artifactpriority': artifactpriority_id,
+                'artifactstatus': artifactstatus_id,
+                'artifacttype': artifacttype_id,
+                'system': system_id,
+                'artifact_sha256': 'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
             }
         )
         # compare
@@ -883,27 +883,27 @@ class ArtifactFormTestCase(TestCase):
 
         # get object
         artifactpriority_id = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         ).artifactpriority_id
         # get object
         artifactstatus_id = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         ).artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_1"
+            artifacttype_name='artifacttype_1'
         ).artifacttype_id
         # get object
-        system_id = System.objects.get(system_name="system_1").system_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # get object
         form = ArtifactForm(
             data={
-                "artifact_name": "artifact_1",
-                "artifactpriority": artifactpriority_id,
-                "artifactstatus": artifactstatus_id,
-                "artifacttype": artifacttype_id,
-                "system": system_id,
-                "artifact_sha256": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                'artifact_name': 'artifact_1',
+                'artifactpriority': artifactpriority_id,
+                'artifactstatus': artifactstatus_id,
+                'artifacttype': artifacttype_id,
+                'system': system_id,
+                'artifact_sha256': 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
             }
         )
         # compare
@@ -914,27 +914,27 @@ class ArtifactFormTestCase(TestCase):
 
         # get object
         artifactpriority_id = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         ).artifactpriority_id
         # get object
         artifactstatus_id = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         ).artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_1"
+            artifacttype_name='artifacttype_1'
         ).artifacttype_id
         # get object
-        system_id = System.objects.get(system_name="system_1").system_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # get object
         form = ArtifactForm(
             data={
-                "artifact_name": "artifact_1",
-                "artifactpriority": artifactpriority_id,
-                "artifactstatus": artifactstatus_id,
-                "artifacttype": artifacttype_id,
-                "system": system_id,
-                "artifact_sha256": "ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+                'artifact_name': 'artifact_1',
+                'artifactpriority': artifactpriority_id,
+                'artifactstatus': artifactstatus_id,
+                'artifacttype': artifacttype_id,
+                'system': system_id,
+                'artifact_sha256': 'ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
             }
         )
         # compare
@@ -945,27 +945,27 @@ class ArtifactFormTestCase(TestCase):
 
         # get object
         artifactpriority_id = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_1"
+            artifactpriority_name='artifactpriority_1'
         ).artifactpriority_id
         # get object
         artifactstatus_id = Artifactstatus.objects.get(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         ).artifactstatus_id
         # get object
         artifacttype_id = Artifacttype.objects.get(
-            artifacttype_name="artifacttype_1"
+            artifacttype_name='artifacttype_1'
         ).artifacttype_id
         # get object
-        system_id = System.objects.get(system_name="system_1").system_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # get object
         form = ArtifactForm(
             data={
-                "artifact_name": "artifact_1",
-                "artifactpriority": artifactpriority_id,
-                "artifactstatus": artifactstatus_id,
-                "artifacttype": artifacttype_id,
-                "system": system_id,
-                "artifact_sha256": "ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+                'artifact_name': 'artifact_1',
+                'artifactpriority': artifactpriority_id,
+                'artifactstatus': artifactstatus_id,
+                'artifacttype': artifacttype_id,
+                'system': system_id,
+                'artifact_sha256': 'ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
             }
         )
         # compare

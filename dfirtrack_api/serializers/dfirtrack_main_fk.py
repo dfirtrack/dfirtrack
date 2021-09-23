@@ -9,7 +9,7 @@ class AnalysisstatusFkSerializer(serializers.ModelSerializer):
     class Meta:
         model = dfirtrack_main_models.Analysisstatus
         # attributes made available for api
-        fields = ("analysisstatus_name",)
+        fields = ('analysisstatus_name',)
 
 
 class CaseFkSerializer(serializers.ModelSerializer):
@@ -19,8 +19,8 @@ class CaseFkSerializer(serializers.ModelSerializer):
         model = dfirtrack_main_models.Case
         # attributes made available for api
         fields = (
-            "case_id",
-            "case_name",
+            'case_id',
+            'case_name',
         )
 
 
@@ -30,7 +30,7 @@ class CasepriorityFkSerializer(serializers.ModelSerializer):
     class Meta:
         model = dfirtrack_main_models.Casepriority
         # attributes made available for api
-        fields = ("casepriority_name",)
+        fields = ('casepriority_name',)
 
 
 class CasestatusFkSerializer(serializers.ModelSerializer):
@@ -39,7 +39,7 @@ class CasestatusFkSerializer(serializers.ModelSerializer):
     class Meta:
         model = dfirtrack_main_models.Casestatus
         # attributes made available for api
-        fields = ("casestatus_name",)
+        fields = ('casestatus_name',)
 
 
 class CasetypeFkSerializer(serializers.ModelSerializer):
@@ -48,7 +48,7 @@ class CasetypeFkSerializer(serializers.ModelSerializer):
     class Meta:
         model = dfirtrack_main_models.Casetype
         # attributes made available for api
-        fields = ("casetype_name",)
+        fields = ('casetype_name',)
 
 
 class CompanyFkSerializer(serializers.ModelSerializer):
@@ -57,7 +57,7 @@ class CompanyFkSerializer(serializers.ModelSerializer):
     class Meta:
         model = dfirtrack_main_models.Company
         # attributes made available for api
-        fields = ("company_name",)
+        fields = ('company_name',)
 
 
 class ContactFkSerializer(serializers.ModelSerializer):
@@ -66,7 +66,7 @@ class ContactFkSerializer(serializers.ModelSerializer):
     class Meta:
         model = dfirtrack_main_models.Contact
         # attributes made available for api
-        fields = ("contact_email",)
+        fields = ('contact_email',)
 
 
 class DivisionFkSerializer(serializers.ModelSerializer):
@@ -75,7 +75,7 @@ class DivisionFkSerializer(serializers.ModelSerializer):
     class Meta:
         model = dfirtrack_main_models.Division
         # attributes made available for api
-        fields = ("division_name",)
+        fields = ('division_name',)
 
 
 class DnsnameFkSerializer(serializers.ModelSerializer):
@@ -84,7 +84,7 @@ class DnsnameFkSerializer(serializers.ModelSerializer):
     class Meta:
         model = dfirtrack_main_models.Dnsname
         # attributes made available for api
-        fields = ("dnsname_name",)
+        fields = ('dnsname_name',)
 
 
 class DomainFkSerializer(serializers.ModelSerializer):
@@ -93,7 +93,7 @@ class DomainFkSerializer(serializers.ModelSerializer):
     class Meta:
         model = dfirtrack_main_models.Domain
         # attributes made available for api
-        fields = ("domain_name",)
+        fields = ('domain_name',)
 
 
 class HeadlineFkSerializer(serializers.ModelSerializer):
@@ -102,7 +102,7 @@ class HeadlineFkSerializer(serializers.ModelSerializer):
     class Meta:
         model = dfirtrack_main_models.Headline
         # attributes made available for api
-        fields = ("headline_name",)
+        fields = ('headline_name',)
 
 
 class HostSystemFkSerializer(serializers.ModelSerializer):
@@ -112,8 +112,8 @@ class HostSystemFkSerializer(serializers.ModelSerializer):
         model = dfirtrack_main_models.System
         # attributes made available for api
         fields = (
-            "system_id",
-            "system_name",
+            'system_id',
+            'system_name',
         )
 
 
@@ -123,7 +123,7 @@ class IpFkSerializer(serializers.ModelSerializer):
     class Meta:
         model = dfirtrack_main_models.Ip
         # attributes made available for api
-        fields = ("ip_ip",)
+        fields = ('ip_ip',)
 
 
 class LocationFkSerializer(serializers.ModelSerializer):
@@ -132,7 +132,7 @@ class LocationFkSerializer(serializers.ModelSerializer):
     class Meta:
         model = dfirtrack_main_models.Location
         # attributes made available for api
-        fields = ("location_name",)
+        fields = ('location_name',)
 
 
 class NotestatusFkSerializer(serializers.ModelSerializer):
@@ -141,7 +141,7 @@ class NotestatusFkSerializer(serializers.ModelSerializer):
     class Meta:
         model = dfirtrack_main_models.Notestatus
         # attributes made available for api
-        fields = ("notestatus_name",)
+        fields = ('notestatus_name',)
 
 
 class OsFkSerializer(serializers.ModelSerializer):
@@ -150,7 +150,7 @@ class OsFkSerializer(serializers.ModelSerializer):
     class Meta:
         model = dfirtrack_main_models.Os
         # attributes made available for api
-        fields = ("os_name",)
+        fields = ('os_name',)
 
 
 class OsarchFkSerializer(serializers.ModelSerializer):
@@ -159,7 +159,7 @@ class OsarchFkSerializer(serializers.ModelSerializer):
     class Meta:
         model = dfirtrack_main_models.Osarch
         # attributes made available for api
-        fields = ("osarch_name",)
+        fields = ('osarch_name',)
 
 
 class ParentTaskFkSerializer(serializers.ModelSerializer):
@@ -168,7 +168,7 @@ class ParentTaskFkSerializer(serializers.ModelSerializer):
     class Meta:
         model = dfirtrack_main_models.Task
         # attributes made available for api
-        fields = ("task_id",)
+        fields = ('task_id',)
 
 
 class ReasonFkSerializer(serializers.ModelSerializer):
@@ -177,7 +177,7 @@ class ReasonFkSerializer(serializers.ModelSerializer):
     class Meta:
         model = dfirtrack_main_models.Reason
         # attributes made available for api
-        fields = ("reason_name",)
+        fields = ('reason_name',)
 
 
 class RecommendationFkSerializer(serializers.ModelSerializer):
@@ -186,7 +186,7 @@ class RecommendationFkSerializer(serializers.ModelSerializer):
     class Meta:
         model = dfirtrack_main_models.Recommendation
         # attributes made available for api
-        fields = ("recommendation_name",)
+        fields = ('recommendation_name',)
 
 
 class ServiceproviderFkSerializer(serializers.ModelSerializer):
@@ -195,7 +195,7 @@ class ServiceproviderFkSerializer(serializers.ModelSerializer):
     class Meta:
         model = dfirtrack_main_models.Serviceprovider
         # attributes made available for api
-        fields = ("serviceprovider_name",)
+        fields = ('serviceprovider_name',)
 
 
 class SystemFkSerializer(serializers.ModelSerializer):
@@ -205,8 +205,8 @@ class SystemFkSerializer(serializers.ModelSerializer):
         model = dfirtrack_main_models.System
         # attributes made available for api
         fields = (
-            "system_id",
-            "system_name",
+            'system_id',
+            'system_name',
         )
 
 
@@ -216,7 +216,7 @@ class SystemstatusFkSerializer(serializers.ModelSerializer):
     class Meta:
         model = dfirtrack_main_models.Systemstatus
         # attributes made available for api
-        fields = ("systemstatus_name",)
+        fields = ('systemstatus_name',)
 
 
 class SystemtypeFkSerializer(serializers.ModelSerializer):
@@ -225,7 +225,7 @@ class SystemtypeFkSerializer(serializers.ModelSerializer):
     class Meta:
         model = dfirtrack_main_models.Systemtype
         # attributes made available for api
-        fields = ("systemtype_name",)
+        fields = ('systemtype_name',)
 
 
 class TagFkSerializer(serializers.ModelSerializer):
@@ -235,8 +235,8 @@ class TagFkSerializer(serializers.ModelSerializer):
         model = dfirtrack_main_models.Tag
         # attributes made available for api
         fields = (
-            "tag_id",
-            "tag_name",
+            'tag_id',
+            'tag_name',
         )
 
 
@@ -246,7 +246,7 @@ class TagcolorFkSerializer(serializers.ModelSerializer):
     class Meta:
         model = dfirtrack_main_models.Tagcolor
         # attributes made available for api
-        fields = ("tagcolor_name",)
+        fields = ('tagcolor_name',)
 
 
 class TaskFkSerializer(serializers.ModelSerializer):
@@ -255,7 +255,7 @@ class TaskFkSerializer(serializers.ModelSerializer):
     class Meta:
         model = dfirtrack_main_models.Task
         # attributes made available for api
-        fields = ("task_id",)
+        fields = ('task_id',)
 
 
 class TasknameFkSerializer(serializers.ModelSerializer):
@@ -264,7 +264,7 @@ class TasknameFkSerializer(serializers.ModelSerializer):
     class Meta:
         model = dfirtrack_main_models.Taskname
         # attributes made available for api
-        fields = ("taskname_name",)
+        fields = ('taskname_name',)
 
 
 class TaskpriorityFkSerializer(serializers.ModelSerializer):
@@ -273,7 +273,7 @@ class TaskpriorityFkSerializer(serializers.ModelSerializer):
     class Meta:
         model = dfirtrack_main_models.Taskpriority
         # attributes made available for api
-        fields = ("taskpriority_name",)
+        fields = ('taskpriority_name',)
 
 
 class TaskstatusFkSerializer(serializers.ModelSerializer):
@@ -282,4 +282,4 @@ class TaskstatusFkSerializer(serializers.ModelSerializer):
     class Meta:
         model = dfirtrack_main_models.Taskstatus
         # attributes made available for api
-        fields = ("taskstatus_name",)
+        fields = ('taskstatus_name',)

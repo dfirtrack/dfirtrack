@@ -16,7 +16,7 @@ def artifact_exporter_spreadsheet_xls_config_view(request):
 
         # get config model
         model = ArtifactExporterSpreadsheetXlsConfigModel.objects.get(
-            artifact_exporter_spreadsheet_xls_config_name="ArtifactExporterSpreadsheetXlsConfig"
+            artifact_exporter_spreadsheet_xls_config_name='ArtifactExporterSpreadsheetXlsConfig'
         )
         # get form
         form = ArtifactExporterSpreadsheetXlsConfigForm(request.POST, instance=model)
@@ -30,7 +30,7 @@ def artifact_exporter_spreadsheet_xls_config_view(request):
 
             # create message
             messages.success(
-                request, "Artifact exporter spreadsheet XLS config changed"
+                request, 'Artifact exporter spreadsheet XLS config changed'
             )
 
             # call logger
@@ -47,9 +47,9 @@ def artifact_exporter_spreadsheet_xls_config_view(request):
             # show form page
             return render(
                 request,
-                "dfirtrack_config/artifact/artifact_exporter_spreadsheet_xls_config_popup.html",
+                'dfirtrack_config/artifact/artifact_exporter_spreadsheet_xls_config_popup.html',
                 {
-                    "form": form,
+                    'form': form,
                 },
             )
 
@@ -57,7 +57,7 @@ def artifact_exporter_spreadsheet_xls_config_view(request):
 
         # get config model
         model = ArtifactExporterSpreadsheetXlsConfigModel.objects.get(
-            artifact_exporter_spreadsheet_xls_config_name="ArtifactExporterSpreadsheetXlsConfig"
+            artifact_exporter_spreadsheet_xls_config_name='ArtifactExporterSpreadsheetXlsConfig'
         )
         # get form
         form = ArtifactExporterSpreadsheetXlsConfigForm(instance=model)
@@ -65,8 +65,8 @@ def artifact_exporter_spreadsheet_xls_config_view(request):
     # show form page
     return render(
         request,
-        "dfirtrack_config/artifact/artifact_exporter_spreadsheet_xls_config_popup.html",
+        'dfirtrack_config/artifact/artifact_exporter_spreadsheet_xls_config_popup.html',
         {
-            "form": form,
+            'form': form,
         },
     )

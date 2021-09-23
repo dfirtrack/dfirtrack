@@ -13,17 +13,17 @@ class ReasonAPIViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create object
-        Reason.objects.create(reason_name="reason_api_1")
+        Reason.objects.create(reason_name='reason_api_1')
         # create user
         User.objects.create_user(
-            username="testuser_reason_api", password="tvjnIPBlhP9P3ixDHVE7"
+            username='testuser_reason_api', password='tvjnIPBlhP9P3ixDHVE7'
         )
 
     def test_reason_list_api_unauthorized(self):
         """unauthorized access is forbidden"""
 
         # get response
-        response = self.client.get("/api/reason/")
+        response = self.client.get('/api/reason/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -32,10 +32,10 @@ class ReasonAPIViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_reason_api", password="tvjnIPBlhP9P3ixDHVE7"
+            username='testuser_reason_api', password='tvjnIPBlhP9P3ixDHVE7'
         )
         # get response
-        response = self.client.get("/api/reason/")
+        response = self.client.get('/api/reason/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -44,12 +44,12 @@ class ReasonAPIViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_reason_api", password="tvjnIPBlhP9P3ixDHVE7"
+            username='testuser_reason_api', password='tvjnIPBlhP9P3ixDHVE7'
         )
         # create POST string
         poststring = {"reason_name": "reason_api_2"}
         # get response
-        response = self.client.post("/api/reason/", data=poststring)
+        response = self.client.post('/api/reason/', data=poststring)
         # compare
         self.assertEqual(response.status_code, 201)
 
@@ -58,12 +58,12 @@ class ReasonAPIViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_reason_api", password="tvjnIPBlhP9P3ixDHVE7"
+            username='testuser_reason_api', password='tvjnIPBlhP9P3ixDHVE7'
         )
         # create url
-        destination = urllib.parse.quote("/api/reason/", safe="/")
+        destination = urllib.parse.quote('/api/reason/', safe='/')
         # get response
-        response = self.client.get("/api/reason", follow=True)
+        response = self.client.get('/api/reason', follow=True)
         # compare
         self.assertRedirects(
             response, destination, status_code=301, target_status_code=200
@@ -73,9 +73,9 @@ class ReasonAPIViewTestCase(TestCase):
         """unauthorized access is forbidden"""
 
         # get object
-        reason_api_1 = Reason.objects.get(reason_name="reason_api_1")
+        reason_api_1 = Reason.objects.get(reason_name='reason_api_1')
         # get response
-        response = self.client.get("/api/reason/" + str(reason_api_1.reason_id) + "/")
+        response = self.client.get('/api/reason/' + str(reason_api_1.reason_id) + '/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -83,13 +83,13 @@ class ReasonAPIViewTestCase(TestCase):
         """GET is allowed"""
 
         # get object
-        reason_api_1 = Reason.objects.get(reason_name="reason_api_1")
+        reason_api_1 = Reason.objects.get(reason_name='reason_api_1')
         # login testuser
         self.client.login(
-            username="testuser_reason_api", password="tvjnIPBlhP9P3ixDHVE7"
+            username='testuser_reason_api', password='tvjnIPBlhP9P3ixDHVE7'
         )
         # get response
-        response = self.client.get("/api/reason/" + str(reason_api_1.reason_id) + "/")
+        response = self.client.get('/api/reason/' + str(reason_api_1.reason_id) + '/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -97,14 +97,14 @@ class ReasonAPIViewTestCase(TestCase):
         """DELETE is forbidden"""
 
         # get object
-        reason_api_1 = Reason.objects.get(reason_name="reason_api_1")
+        reason_api_1 = Reason.objects.get(reason_name='reason_api_1')
         # login testuser
         self.client.login(
-            username="testuser_reason_api", password="tvjnIPBlhP9P3ixDHVE7"
+            username='testuser_reason_api', password='tvjnIPBlhP9P3ixDHVE7'
         )
         # get response
         response = self.client.delete(
-            "/api/reason/" + str(reason_api_1.reason_id) + "/"
+            '/api/reason/' + str(reason_api_1.reason_id) + '/'
         )
         # compare
         self.assertEqual(response.status_code, 405)
@@ -113,20 +113,20 @@ class ReasonAPIViewTestCase(TestCase):
         """PUT is allowed"""
 
         # get object
-        reason_api_1 = Reason.objects.get(reason_name="reason_api_1")
+        reason_api_1 = Reason.objects.get(reason_name='reason_api_1')
         # login testuser
         self.client.login(
-            username="testuser_reason_api", password="tvjnIPBlhP9P3ixDHVE7"
+            username='testuser_reason_api', password='tvjnIPBlhP9P3ixDHVE7'
         )
         # create url
         destination = urllib.parse.quote(
-            "/api/reason/" + str(reason_api_1.reason_id) + "/", safe="/"
+            '/api/reason/' + str(reason_api_1.reason_id) + '/', safe='/'
         )
         # create PUT string
         putstring = {"reason_name": "new_reason_api_1"}
         # get response
         response = self.client.put(
-            destination, data=putstring, content_type="application/json"
+            destination, data=putstring, content_type='application/json'
         )
         # compare
         self.assertEqual(response.status_code, 200)
@@ -135,18 +135,18 @@ class ReasonAPIViewTestCase(TestCase):
         """test redirect with appending slash"""
 
         # get object
-        reason_api_1 = Reason.objects.get(reason_name="reason_api_1")
+        reason_api_1 = Reason.objects.get(reason_name='reason_api_1')
         # login testuser
         self.client.login(
-            username="testuser_reason_api", password="tvjnIPBlhP9P3ixDHVE7"
+            username='testuser_reason_api', password='tvjnIPBlhP9P3ixDHVE7'
         )
         # create url
         destination = urllib.parse.quote(
-            "/api/reason/" + str(reason_api_1.reason_id) + "/", safe="/"
+            '/api/reason/' + str(reason_api_1.reason_id) + '/', safe='/'
         )
         # get response
         response = self.client.get(
-            "/api/reason/" + str(reason_api_1.reason_id), follow=True
+            '/api/reason/' + str(reason_api_1.reason_id), follow=True
         )
         # compare
         self.assertRedirects(

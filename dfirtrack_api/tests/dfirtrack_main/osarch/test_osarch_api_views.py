@@ -13,17 +13,17 @@ class OsarchAPIViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create object
-        Osarch.objects.create(osarch_name="osarch_1")
+        Osarch.objects.create(osarch_name='osarch_1')
         # create user
         User.objects.create_user(
-            username="testuser_osarch_api", password="baxmijIgjTfCzy9w8lrF"
+            username='testuser_osarch_api', password='baxmijIgjTfCzy9w8lrF'
         )
 
     def test_osarch_list_api_unauthorized(self):
         """unauthorized access is forbidden"""
 
         # get response
-        response = self.client.get("/api/osarch/")
+        response = self.client.get('/api/osarch/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -32,10 +32,10 @@ class OsarchAPIViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_osarch_api", password="baxmijIgjTfCzy9w8lrF"
+            username='testuser_osarch_api', password='baxmijIgjTfCzy9w8lrF'
         )
         # get response
-        response = self.client.get("/api/osarch/")
+        response = self.client.get('/api/osarch/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -44,12 +44,12 @@ class OsarchAPIViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_osarch_api", password="baxmijIgjTfCzy9w8lrF"
+            username='testuser_osarch_api', password='baxmijIgjTfCzy9w8lrF'
         )
         # create POST string
         poststring = {"osarch_name": "osarch_2"}
         # get response
-        response = self.client.post("/api/osarch/", data=poststring)
+        response = self.client.post('/api/osarch/', data=poststring)
         # compare
         self.assertEqual(response.status_code, 201)
 
@@ -58,12 +58,12 @@ class OsarchAPIViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_osarch_api", password="baxmijIgjTfCzy9w8lrF"
+            username='testuser_osarch_api', password='baxmijIgjTfCzy9w8lrF'
         )
         # create url
-        destination = urllib.parse.quote("/api/osarch/", safe="/")
+        destination = urllib.parse.quote('/api/osarch/', safe='/')
         # get response
-        response = self.client.get("/api/osarch", follow=True)
+        response = self.client.get('/api/osarch', follow=True)
         # compare
         self.assertRedirects(
             response, destination, status_code=301, target_status_code=200
@@ -73,9 +73,9 @@ class OsarchAPIViewTestCase(TestCase):
         """unauthorized access is forbidden"""
 
         # get object
-        osarch_api_1 = Osarch.objects.get(osarch_name="osarch_1")
+        osarch_api_1 = Osarch.objects.get(osarch_name='osarch_1')
         # get response
-        response = self.client.get("/api/osarch/" + str(osarch_api_1.osarch_id) + "/")
+        response = self.client.get('/api/osarch/' + str(osarch_api_1.osarch_id) + '/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -83,13 +83,13 @@ class OsarchAPIViewTestCase(TestCase):
         """GET is allowed"""
 
         # get object
-        osarch_api_1 = Osarch.objects.get(osarch_name="osarch_1")
+        osarch_api_1 = Osarch.objects.get(osarch_name='osarch_1')
         # login testuser
         self.client.login(
-            username="testuser_osarch_api", password="baxmijIgjTfCzy9w8lrF"
+            username='testuser_osarch_api', password='baxmijIgjTfCzy9w8lrF'
         )
         # get response
-        response = self.client.get("/api/osarch/" + str(osarch_api_1.osarch_id) + "/")
+        response = self.client.get('/api/osarch/' + str(osarch_api_1.osarch_id) + '/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -97,14 +97,14 @@ class OsarchAPIViewTestCase(TestCase):
         """DELETE is forbidden"""
 
         # get object
-        osarch_api_1 = Osarch.objects.get(osarch_name="osarch_1")
+        osarch_api_1 = Osarch.objects.get(osarch_name='osarch_1')
         # login testuser
         self.client.login(
-            username="testuser_osarch_api", password="baxmijIgjTfCzy9w8lrF"
+            username='testuser_osarch_api', password='baxmijIgjTfCzy9w8lrF'
         )
         # get response
         response = self.client.delete(
-            "/api/osarch/" + str(osarch_api_1.osarch_id) + "/"
+            '/api/osarch/' + str(osarch_api_1.osarch_id) + '/'
         )
         # compare
         self.assertEqual(response.status_code, 405)
@@ -113,20 +113,20 @@ class OsarchAPIViewTestCase(TestCase):
         """PUT is allowed"""
 
         # get object
-        osarch_api_1 = Osarch.objects.get(osarch_name="osarch_1")
+        osarch_api_1 = Osarch.objects.get(osarch_name='osarch_1')
         # login testuser
         self.client.login(
-            username="testuser_osarch_api", password="baxmijIgjTfCzy9w8lrF"
+            username='testuser_osarch_api', password='baxmijIgjTfCzy9w8lrF'
         )
         # create url
         destination = urllib.parse.quote(
-            "/api/osarch/" + str(osarch_api_1.osarch_id) + "/", safe="/"
+            '/api/osarch/' + str(osarch_api_1.osarch_id) + '/', safe='/'
         )
         # create PUT string
         putstring = {"osarch_name": "osarch_3"}
         # get response
         response = self.client.put(
-            destination, data=putstring, content_type="application/json"
+            destination, data=putstring, content_type='application/json'
         )
         # compare
         self.assertEqual(response.status_code, 200)
@@ -135,18 +135,18 @@ class OsarchAPIViewTestCase(TestCase):
         """test redirect with appending slash"""
 
         # get object
-        osarch_api_1 = Osarch.objects.get(osarch_name="osarch_1")
+        osarch_api_1 = Osarch.objects.get(osarch_name='osarch_1')
         # login testuser
         self.client.login(
-            username="testuser_osarch_api", password="baxmijIgjTfCzy9w8lrF"
+            username='testuser_osarch_api', password='baxmijIgjTfCzy9w8lrF'
         )
         # create url
         destination = urllib.parse.quote(
-            "/api/osarch/" + str(osarch_api_1.osarch_id) + "/", safe="/"
+            '/api/osarch/' + str(osarch_api_1.osarch_id) + '/', safe='/'
         )
         # get response
         response = self.client.get(
-            "/api/osarch/" + str(osarch_api_1.osarch_id), follow=True
+            '/api/osarch/' + str(osarch_api_1.osarch_id), follow=True
         )
         # compare
         self.assertRedirects(

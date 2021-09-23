@@ -14,7 +14,7 @@ class ArtifactpriorityFkSerializer(serializers.ModelSerializer):
     class Meta:
         model = Artifactpriority
         # attributes made available for api
-        fields = ("artifactpriority_name",)
+        fields = ('artifactpriority_name',)
 
 
 class ArtifactstatusFkSerializer(serializers.ModelSerializer):
@@ -23,7 +23,7 @@ class ArtifactstatusFkSerializer(serializers.ModelSerializer):
     class Meta:
         model = Artifactstatus
         # attributes made available for api
-        fields = ("artifactstatus_name",)
+        fields = ('artifactstatus_name',)
 
 
 class ArtifacttypeFkSerializer(serializers.ModelSerializer):
@@ -32,7 +32,7 @@ class ArtifacttypeFkSerializer(serializers.ModelSerializer):
     class Meta:
         model = Artifacttype
         # attributes made available for api
-        fields = ("artifacttype_name",)
+        fields = ('artifacttype_name',)
 
 
 class ArtifactFkSerializer(serializers.ModelSerializer):
@@ -42,6 +42,6 @@ class ArtifactFkSerializer(serializers.ModelSerializer):
         model = Artifact
         # attributes made available for api
         fields = (
-            "artifact_id",
-            "artifact_name",
+            'artifact_id',
+            'artifact_name',
         )

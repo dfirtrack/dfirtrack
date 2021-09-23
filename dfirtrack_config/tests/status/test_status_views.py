@@ -35,50 +35,50 @@ class StatusViewTestCase(TestCase):
 
         # create user
         test_user = User.objects.create_user(
-            username="testuser_status", password="D9lPsoHFXeCNKEzM3IgE"
+            username='testuser_status', password='D9lPsoHFXeCNKEzM3IgE'
         )
 
         # create object
         artifactstatus_1 = Artifactstatus.objects.create(
-            artifactstatus_name="artifactstatus_1"
+            artifactstatus_name='artifactstatus_1'
         )
 
         # create object
-        artifacttype_1 = Artifacttype.objects.create(artifacttype_name="artifacttype_1")
+        artifacttype_1 = Artifacttype.objects.create(artifacttype_name='artifacttype_1')
 
         # create object
-        casepriority_1 = Casepriority.objects.create(casepriority_name="casepriority_1")
+        casepriority_1 = Casepriority.objects.create(casepriority_name='casepriority_1')
 
         # create object
-        casestatus_1 = Casestatus.objects.create(casestatus_name="casestatus_1")
+        casestatus_1 = Casestatus.objects.create(casestatus_name='casestatus_1')
 
         # create object
-        systemstatus_1 = Systemstatus.objects.create(systemstatus_name="systemstatus_1")
+        systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
 
         # create object
-        taskname_1 = Taskname.objects.create(taskname_name="taskname_1")
+        taskname_1 = Taskname.objects.create(taskname_name='taskname_1')
 
         # create object
-        taskpriority_1 = Taskpriority.objects.create(taskpriority_name="prio_1")
+        taskpriority_1 = Taskpriority.objects.create(taskpriority_name='prio_1')
 
         # create object
-        taskstatus_1 = Taskstatus.objects.create(taskstatus_name="taskstatus_1")
+        taskstatus_1 = Taskstatus.objects.create(taskstatus_name='taskstatus_1')
 
         # create object
         system_1 = System.objects.create(
-            system_name="system_1",
+            system_name='system_1',
             systemstatus=systemstatus_1,
             system_created_by_user_id=test_user,
             system_modified_by_user_id=test_user,
         )
         System.objects.create(
-            system_name="system_2",
+            system_name='system_2',
             systemstatus=systemstatus_1,
             system_created_by_user_id=test_user,
             system_modified_by_user_id=test_user,
         )
         System.objects.create(
-            system_name="system_3",
+            system_name='system_3',
             systemstatus=systemstatus_1,
             system_created_by_user_id=test_user,
             system_modified_by_user_id=test_user,
@@ -96,7 +96,7 @@ class StatusViewTestCase(TestCase):
 
         # create object
         Artifact.objects.create(
-            artifact_name="artifact_1",
+            artifact_name='artifact_1',
             artifactstatus=artifactstatus_1,
             artifacttype=artifacttype_1,
             system=system_1,
@@ -104,7 +104,7 @@ class StatusViewTestCase(TestCase):
             artifact_modified_by_user_id=test_user,
         )
         Artifact.objects.create(
-            artifact_name="artifact_2",
+            artifact_name='artifact_2',
             artifactstatus=artifactstatus_1,
             artifacttype=artifacttype_1,
             system=system_1,
@@ -114,28 +114,28 @@ class StatusViewTestCase(TestCase):
 
         # create object
         Case.objects.create(
-            case_name="case_1",
+            case_name='case_1',
             casepriority=casepriority_1,
             casestatus=casestatus_1,
             case_is_incident=True,
             case_created_by_user_id=test_user,
         )
         Case.objects.create(
-            case_name="case_2",
+            case_name='case_2',
             casepriority=casepriority_1,
             casestatus=casestatus_1,
             case_is_incident=True,
             case_created_by_user_id=test_user,
         )
         Case.objects.create(
-            case_name="case_3",
+            case_name='case_3',
             casepriority=casepriority_1,
             casestatus=casestatus_1,
             case_is_incident=True,
             case_created_by_user_id=test_user,
         )
         Case.objects.create(
-            case_name="case_4",
+            case_name='case_4',
             casepriority=casepriority_1,
             casestatus=casestatus_1,
             case_is_incident=True,
@@ -144,7 +144,7 @@ class StatusViewTestCase(TestCase):
 
         # mock timezone.now()
         t_1 = datetime(2020, 11, 22, 11, 22, 33, tzinfo=timezone.utc)
-        with patch.object(timezone, "now", return_value=t_1):
+        with patch.object(timezone, 'now', return_value=t_1):
 
             # create empty object (for simple testing get request for empty detail view this should be sufficient)
             Statushistory.objects.create()
@@ -153,9 +153,9 @@ class StatusViewTestCase(TestCase):
         """test status view"""
 
         # create url
-        destination = "/login/?next=" + urllib.parse.quote("/config/status/", safe="")
+        destination = '/login/?next=' + urllib.parse.quote('/config/status/', safe='')
         # get response
-        response = self.client.get("/config/status/", follow=True)
+        response = self.client.get('/config/status/', follow=True)
         # compare
         self.assertRedirects(
             response, destination, status_code=302, target_status_code=200
@@ -165,9 +165,9 @@ class StatusViewTestCase(TestCase):
         """test status view"""
 
         # login testuser
-        self.client.login(username="testuser_status", password="D9lPsoHFXeCNKEzM3IgE")
+        self.client.login(username='testuser_status', password='D9lPsoHFXeCNKEzM3IgE')
         # get response
-        response = self.client.get("/config/status/")
+        response = self.client.get('/config/status/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -175,31 +175,31 @@ class StatusViewTestCase(TestCase):
         """test status view"""
 
         # login testuser
-        self.client.login(username="testuser_status", password="D9lPsoHFXeCNKEzM3IgE")
+        self.client.login(username='testuser_status', password='D9lPsoHFXeCNKEzM3IgE')
         # get response
-        response = self.client.get("/config/status/")
+        response = self.client.get('/config/status/')
         # compare
-        self.assertTemplateUsed(response, "dfirtrack_config/status/status.html")
+        self.assertTemplateUsed(response, 'dfirtrack_config/status/status.html')
 
     def test_status_view_get_user_context(self):
         """test status view"""
 
         # login testuser
-        self.client.login(username="testuser_status", password="D9lPsoHFXeCNKEzM3IgE")
+        self.client.login(username='testuser_status', password='D9lPsoHFXeCNKEzM3IgE')
         # get response
-        response = self.client.get("/config/status/")
+        response = self.client.get('/config/status/')
         # compare
-        self.assertEqual(str(response.context["user"]), "testuser_status")
+        self.assertEqual(str(response.context['user']), 'testuser_status')
 
     def test_status_view_redirect(self):
         """test status view"""
 
         # login testuser
-        self.client.login(username="testuser_status", password="D9lPsoHFXeCNKEzM3IgE")
+        self.client.login(username='testuser_status', password='D9lPsoHFXeCNKEzM3IgE')
         # create url
-        destination = urllib.parse.quote("/config/status/", safe="/")
+        destination = urllib.parse.quote('/config/status/', safe='/')
         # get response
-        response = self.client.get("/config/status", follow=True)
+        response = self.client.get('/config/status', follow=True)
         # compare
         self.assertRedirects(
             response, destination, status_code=301, target_status_code=200
@@ -209,60 +209,60 @@ class StatusViewTestCase(TestCase):
         """test status view"""
 
         # login testuser
-        self.client.login(username="testuser_status", password="D9lPsoHFXeCNKEzM3IgE")
+        self.client.login(username='testuser_status', password='D9lPsoHFXeCNKEzM3IgE')
         # get response
-        response = self.client.get("/config/status/")
+        response = self.client.get('/config/status/')
         # get querysets
         analysisstatus_all = Analysisstatus.objects.all().order_by(
-            "analysisstatus_name"
+            'analysisstatus_name'
         )
         artifactpriority_all = Artifactpriority.objects.all().order_by(
-            "artifactpriority_name"
+            'artifactpriority_name'
         )
         artifactstatus_all = Artifactstatus.objects.all().order_by(
-            "artifactstatus_name"
+            'artifactstatus_name'
         )
-        casepriority_all = Casepriority.objects.all().order_by("casepriority_name")
-        casestatus_all = Casestatus.objects.all().order_by("casestatus_name")
-        systemstatus_all = Systemstatus.objects.all().order_by("systemstatus_name")
-        taskstatus_all = Taskstatus.objects.all().order_by("taskstatus_name")
-        taskpriority_all = Taskpriority.objects.all().order_by("taskpriority_name")
+        casepriority_all = Casepriority.objects.all().order_by('casepriority_name')
+        casestatus_all = Casestatus.objects.all().order_by('casestatus_name')
+        systemstatus_all = Systemstatus.objects.all().order_by('systemstatus_name')
+        taskstatus_all = Taskstatus.objects.all().order_by('taskstatus_name')
+        taskpriority_all = Taskpriority.objects.all().order_by('taskpriority_name')
         # compare
-        self.assertEqual(response.context["artifacts_number"], 2)
-        self.assertEqual(response.context["cases_number"], 4)
-        self.assertEqual(response.context["systems_number"], 3)
-        self.assertEqual(response.context["tasks_number"], 1)
+        self.assertEqual(response.context['artifacts_number'], 2)
+        self.assertEqual(response.context['cases_number'], 4)
+        self.assertEqual(response.context['systems_number'], 3)
+        self.assertEqual(response.context['tasks_number'], 1)
         self.assertEqual(
-            type(response.context["analysisstatus_all"]), type(analysisstatus_all)
+            type(response.context['analysisstatus_all']), type(analysisstatus_all)
         )
         self.assertEqual(
-            type(response.context["artifactpriority_all"]), type(artifactpriority_all)
+            type(response.context['artifactpriority_all']), type(artifactpriority_all)
         )
         self.assertEqual(
-            type(response.context["artifactstatus_all"]), type(artifactstatus_all)
+            type(response.context['artifactstatus_all']), type(artifactstatus_all)
         )
         self.assertEqual(
-            type(response.context["casepriority_all"]), type(casepriority_all)
+            type(response.context['casepriority_all']), type(casepriority_all)
         )
-        self.assertEqual(type(response.context["casestatus_all"]), type(casestatus_all))
+        self.assertEqual(type(response.context['casestatus_all']), type(casestatus_all))
         self.assertEqual(
-            type(response.context["systemstatus_all"]), type(systemstatus_all)
+            type(response.context['systemstatus_all']), type(systemstatus_all)
         )
         self.assertEqual(
-            type(response.context["taskpriority_all"]), type(taskpriority_all)
+            type(response.context['taskpriority_all']), type(taskpriority_all)
         )
-        self.assertEqual(type(response.context["taskstatus_all"]), type(taskstatus_all))
+        self.assertEqual(type(response.context['taskstatus_all']), type(taskstatus_all))
 
     def test_status_view_get_statushistory_entry_numbers_context(self):
         """test status view"""
 
         # login testuser
-        self.client.login(username="testuser_status", password="D9lPsoHFXeCNKEzM3IgE")
+        self.client.login(username='testuser_status', password='D9lPsoHFXeCNKEzM3IgE')
         # get response
-        response = self.client.get("/config/status/")
+        response = self.client.get('/config/status/')
         # compare
         self.assertEqual(
-            type(response.context["statushistory_all"]),
+            type(response.context['statushistory_all']),
             type(reversed(Statushistory.objects.all())),
         )
         # TODO: test number of queryset elements in context element 'statushistory_all' according to 'statushistory_last_entrys' in MainConfigModel
@@ -280,12 +280,12 @@ class StatusViewTestCase(TestCase):
             statushistory_time=t_1
         ).statushistory_id
         # create url
-        destination = "/login/?next=" + urllib.parse.quote(
-            "/config/status/" + str(statushistory_id) + "/", safe=""
+        destination = '/login/?next=' + urllib.parse.quote(
+            '/config/status/' + str(statushistory_id) + '/', safe=''
         )
         # get response
         response = self.client.get(
-            "/config/status/" + str(statushistory_id) + "/", follow=True
+            '/config/status/' + str(statushistory_id) + '/', follow=True
         )
         # compare
         self.assertRedirects(
@@ -296,7 +296,7 @@ class StatusViewTestCase(TestCase):
         """test status view"""
 
         # login testuser
-        self.client.login(username="testuser_status", password="D9lPsoHFXeCNKEzM3IgE")
+        self.client.login(username='testuser_status', password='D9lPsoHFXeCNKEzM3IgE')
         # get time
         t_1 = datetime(2020, 11, 22, 11, 22, 33, tzinfo=timezone.utc)
         # get object
@@ -304,7 +304,7 @@ class StatusViewTestCase(TestCase):
             statushistory_time=t_1
         ).statushistory_id
         # get response
-        response = self.client.get("/config/status/" + str(statushistory_id) + "/")
+        response = self.client.get('/config/status/' + str(statushistory_id) + '/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -312,7 +312,7 @@ class StatusViewTestCase(TestCase):
         """test status view"""
 
         # login testuser
-        self.client.login(username="testuser_status", password="D9lPsoHFXeCNKEzM3IgE")
+        self.client.login(username='testuser_status', password='D9lPsoHFXeCNKEzM3IgE')
         # get time
         t_1 = datetime(2020, 11, 22, 11, 22, 33, tzinfo=timezone.utc)
         # get object
@@ -320,15 +320,15 @@ class StatusViewTestCase(TestCase):
             statushistory_time=t_1
         ).statushistory_id
         # get response
-        response = self.client.get("/config/status/" + str(statushistory_id) + "/")
+        response = self.client.get('/config/status/' + str(statushistory_id) + '/')
         # compare
-        self.assertTemplateUsed(response, "dfirtrack_config/status/status_detail.html")
+        self.assertTemplateUsed(response, 'dfirtrack_config/status/status_detail.html')
 
     def test_status_detail_view_get_user_context(self):
         """test status view"""
 
         # login testuser
-        self.client.login(username="testuser_status", password="D9lPsoHFXeCNKEzM3IgE")
+        self.client.login(username='testuser_status', password='D9lPsoHFXeCNKEzM3IgE')
         # get time
         t_1 = datetime(2020, 11, 22, 11, 22, 33, tzinfo=timezone.utc)
         # get object
@@ -336,15 +336,15 @@ class StatusViewTestCase(TestCase):
             statushistory_time=t_1
         ).statushistory_id
         # get response
-        response = self.client.get("/config/status/" + str(statushistory_id) + "/")
+        response = self.client.get('/config/status/' + str(statushistory_id) + '/')
         # compare
-        self.assertEqual(str(response.context["user"]), "testuser_status")
+        self.assertEqual(str(response.context['user']), 'testuser_status')
 
     def test_status_detail_view_redirect(self):
         """test status view"""
 
         # login testuser
-        self.client.login(username="testuser_status", password="D9lPsoHFXeCNKEzM3IgE")
+        self.client.login(username='testuser_status', password='D9lPsoHFXeCNKEzM3IgE')
         # get time
         t_1 = datetime(2020, 11, 22, 11, 22, 33, tzinfo=timezone.utc)
         # get object
@@ -353,11 +353,11 @@ class StatusViewTestCase(TestCase):
         ).statushistory_id
         # create url
         destination = urllib.parse.quote(
-            "/config/status/" + str(statushistory_id) + "/", safe="/"
+            '/config/status/' + str(statushistory_id) + '/', safe='/'
         )
         # get response
         response = self.client.get(
-            "/config/status/" + str(statushistory_id), follow=True
+            '/config/status/' + str(statushistory_id), follow=True
         )
         # compare
         self.assertRedirects(

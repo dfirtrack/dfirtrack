@@ -13,17 +13,17 @@ class IpAPIViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create object
-        Os.objects.create(os_name="os_api_1")
+        Os.objects.create(os_name='os_api_1')
         # create user
         User.objects.create_user(
-            username="testuser_os_api", password="Ty8sCsWifIJmxx4KaJd6"
+            username='testuser_os_api', password='Ty8sCsWifIJmxx4KaJd6'
         )
 
     def test_os_list_api_unauthorized(self):
         """unauthorized access is forbidden"""
 
         # get response
-        response = self.client.get("/api/os/")
+        response = self.client.get('/api/os/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -31,9 +31,9 @@ class IpAPIViewTestCase(TestCase):
         """GET is allowed"""
 
         # login testuser
-        self.client.login(username="testuser_os_api", password="Ty8sCsWifIJmxx4KaJd6")
+        self.client.login(username='testuser_os_api', password='Ty8sCsWifIJmxx4KaJd6')
         # get response
-        response = self.client.get("/api/os/")
+        response = self.client.get('/api/os/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -41,11 +41,11 @@ class IpAPIViewTestCase(TestCase):
         """POST is allowed"""
 
         # login testuser
-        self.client.login(username="testuser_os_api", password="Ty8sCsWifIJmxx4KaJd6")
+        self.client.login(username='testuser_os_api', password='Ty8sCsWifIJmxx4KaJd6')
         # create POST string
         poststring = {"os_name": "os_api_2"}
         # get response
-        response = self.client.post("/api/os/", data=poststring)
+        response = self.client.post('/api/os/', data=poststring)
         # compare
         self.assertEqual(response.status_code, 201)
 
@@ -53,11 +53,11 @@ class IpAPIViewTestCase(TestCase):
         """test redirect with appending slash"""
 
         # login testuser
-        self.client.login(username="testuser_os_api", password="Ty8sCsWifIJmxx4KaJd6")
+        self.client.login(username='testuser_os_api', password='Ty8sCsWifIJmxx4KaJd6')
         # create url
-        destination = urllib.parse.quote("/api/os/", safe="/")
+        destination = urllib.parse.quote('/api/os/', safe='/')
         # get response
-        response = self.client.get("/api/os", follow=True)
+        response = self.client.get('/api/os', follow=True)
         # compare
         self.assertRedirects(
             response, destination, status_code=301, target_status_code=200
@@ -67,9 +67,9 @@ class IpAPIViewTestCase(TestCase):
         """unauthorized access is forbidden"""
 
         # get object
-        os_api_1 = Os.objects.get(os_name="os_api_1")
+        os_api_1 = Os.objects.get(os_name='os_api_1')
         # get response
-        response = self.client.get("/api/os/" + str(os_api_1.os_id) + "/")
+        response = self.client.get('/api/os/' + str(os_api_1.os_id) + '/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -77,11 +77,11 @@ class IpAPIViewTestCase(TestCase):
         """GET is allowed"""
 
         # get object
-        os_api_1 = Os.objects.get(os_name="os_api_1")
+        os_api_1 = Os.objects.get(os_name='os_api_1')
         # login testuser
-        self.client.login(username="testuser_os_api", password="Ty8sCsWifIJmxx4KaJd6")
+        self.client.login(username='testuser_os_api', password='Ty8sCsWifIJmxx4KaJd6')
         # get response
-        response = self.client.get("/api/os/" + str(os_api_1.os_id) + "/")
+        response = self.client.get('/api/os/' + str(os_api_1.os_id) + '/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -89,11 +89,11 @@ class IpAPIViewTestCase(TestCase):
         """DELETE is forbidden"""
 
         # get object
-        os_api_1 = Os.objects.get(os_name="os_api_1")
+        os_api_1 = Os.objects.get(os_name='os_api_1')
         # login testuser
-        self.client.login(username="testuser_os_api", password="Ty8sCsWifIJmxx4KaJd6")
+        self.client.login(username='testuser_os_api', password='Ty8sCsWifIJmxx4KaJd6')
         # get response
-        response = self.client.delete("/api/os/" + str(os_api_1.os_id) + "/")
+        response = self.client.delete('/api/os/' + str(os_api_1.os_id) + '/')
         # compare
         self.assertEqual(response.status_code, 405)
 
@@ -101,18 +101,18 @@ class IpAPIViewTestCase(TestCase):
         """PUT is allowed"""
 
         # get object
-        os_api_1 = Os.objects.get(os_name="os_api_1")
+        os_api_1 = Os.objects.get(os_name='os_api_1')
         # login testuser
-        self.client.login(username="testuser_os_api", password="Ty8sCsWifIJmxx4KaJd6")
+        self.client.login(username='testuser_os_api', password='Ty8sCsWifIJmxx4KaJd6')
         # create url
         destination = urllib.parse.quote(
-            "/api/os/" + str(os_api_1.os_id) + "/", safe="/"
+            '/api/os/' + str(os_api_1.os_id) + '/', safe='/'
         )
         # create PUT string
         putstring = {"os_name": "new_os_api_1"}
         # get response
         response = self.client.put(
-            destination, data=putstring, content_type="application/json"
+            destination, data=putstring, content_type='application/json'
         )
         # compare
         self.assertEqual(response.status_code, 200)
@@ -121,15 +121,15 @@ class IpAPIViewTestCase(TestCase):
         """test redirect with appending slash"""
 
         # get object
-        os_api_1 = Os.objects.get(os_name="os_api_1")
+        os_api_1 = Os.objects.get(os_name='os_api_1')
         # login testuser
-        self.client.login(username="testuser_os_api", password="Ty8sCsWifIJmxx4KaJd6")
+        self.client.login(username='testuser_os_api', password='Ty8sCsWifIJmxx4KaJd6')
         # create url
         destination = urllib.parse.quote(
-            "/api/os/" + str(os_api_1.os_id) + "/", safe="/"
+            '/api/os/' + str(os_api_1.os_id) + '/', safe='/'
         )
         # get response
-        response = self.client.get("/api/os/" + str(os_api_1.os_id), follow=True)
+        response = self.client.get('/api/os/' + str(os_api_1.os_id), follow=True)
         # compare
         self.assertRedirects(
             response, destination, status_code=301, target_status_code=200

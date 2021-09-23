@@ -13,17 +13,17 @@ class ArtifactpriorityAPIViewTestCase(TestCase):
     def setUpTestData(cls):
 
         # create object
-        Artifactpriority.objects.create(artifactpriority_name="artifactpriority_api_1")
+        Artifactpriority.objects.create(artifactpriority_name='artifactpriority_api_1')
         # create user
         User.objects.create_user(
-            username="testuser_artifactpriority_api", password="IktrZIZLncwTbOBD9Bhw"
+            username='testuser_artifactpriority_api', password='IktrZIZLncwTbOBD9Bhw'
         )
 
     def test_artifactpriority_list_api_unauthorized(self):
         """unauthorized access is forbidden"""
 
         # get response
-        response = self.client.get("/api/artifactpriority/")
+        response = self.client.get('/api/artifactpriority/')
         # compare
         self.assertEqual(response.status_code, 401)
 
@@ -32,10 +32,10 @@ class ArtifactpriorityAPIViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_artifactpriority_api", password="IktrZIZLncwTbOBD9Bhw"
+            username='testuser_artifactpriority_api', password='IktrZIZLncwTbOBD9Bhw'
         )
         # get response
-        response = self.client.get("/api/artifactpriority/")
+        response = self.client.get('/api/artifactpriority/')
         # compare
         self.assertEqual(response.status_code, 200)
 
@@ -44,12 +44,12 @@ class ArtifactpriorityAPIViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_artifactpriority_api", password="IktrZIZLncwTbOBD9Bhw"
+            username='testuser_artifactpriority_api', password='IktrZIZLncwTbOBD9Bhw'
         )
         # create POST string
         poststring = {"artifactpriority_name": "artifactpriority_api_2"}
         # get response
-        response = self.client.post("/api/artifactpriority/", data=poststring)
+        response = self.client.post('/api/artifactpriority/', data=poststring)
         # compare
         self.assertEqual(response.status_code, 405)
 
@@ -58,12 +58,12 @@ class ArtifactpriorityAPIViewTestCase(TestCase):
 
         # login testuser
         self.client.login(
-            username="testuser_artifactpriority_api", password="IktrZIZLncwTbOBD9Bhw"
+            username='testuser_artifactpriority_api', password='IktrZIZLncwTbOBD9Bhw'
         )
         # create url
-        destination = urllib.parse.quote("/api/artifactpriority/", safe="/")
+        destination = urllib.parse.quote('/api/artifactpriority/', safe='/')
         # get response
-        response = self.client.get("/api/artifactpriority", follow=True)
+        response = self.client.get('/api/artifactpriority', follow=True)
         # compare
         self.assertRedirects(
             response, destination, status_code=301, target_status_code=200
@@ -74,13 +74,13 @@ class ArtifactpriorityAPIViewTestCase(TestCase):
 
         # get object
         artifactpriority_api_1 = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_api_1"
+            artifactpriority_name='artifactpriority_api_1'
         )
         # get response
         response = self.client.get(
-            "/api/artifactpriority/"
+            '/api/artifactpriority/'
             + str(artifactpriority_api_1.artifactpriority_id)
-            + "/"
+            + '/'
         )
         # compare
         self.assertEqual(response.status_code, 401)
@@ -90,17 +90,17 @@ class ArtifactpriorityAPIViewTestCase(TestCase):
 
         # get object
         artifactpriority_api_1 = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_api_1"
+            artifactpriority_name='artifactpriority_api_1'
         )
         # login testuser
         self.client.login(
-            username="testuser_artifactpriority_api", password="IktrZIZLncwTbOBD9Bhw"
+            username='testuser_artifactpriority_api', password='IktrZIZLncwTbOBD9Bhw'
         )
         # get response
         response = self.client.get(
-            "/api/artifactpriority/"
+            '/api/artifactpriority/'
             + str(artifactpriority_api_1.artifactpriority_id)
-            + "/"
+            + '/'
         )
         # compare
         self.assertEqual(response.status_code, 200)
@@ -110,17 +110,17 @@ class ArtifactpriorityAPIViewTestCase(TestCase):
 
         # get object
         artifactpriority_api_1 = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_api_1"
+            artifactpriority_name='artifactpriority_api_1'
         )
         # login testuser
         self.client.login(
-            username="testuser_artifactpriority_api", password="IktrZIZLncwTbOBD9Bhw"
+            username='testuser_artifactpriority_api', password='IktrZIZLncwTbOBD9Bhw'
         )
         # get response
         response = self.client.delete(
-            "/api/artifactpriority/"
+            '/api/artifactpriority/'
             + str(artifactpriority_api_1.artifactpriority_id)
-            + "/"
+            + '/'
         )
         # compare
         self.assertEqual(response.status_code, 405)
@@ -130,24 +130,24 @@ class ArtifactpriorityAPIViewTestCase(TestCase):
 
         # get object
         artifactpriority_api_1 = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_api_1"
+            artifactpriority_name='artifactpriority_api_1'
         )
         # login testuser
         self.client.login(
-            username="testuser_artifactpriority_api", password="IktrZIZLncwTbOBD9Bhw"
+            username='testuser_artifactpriority_api', password='IktrZIZLncwTbOBD9Bhw'
         )
         # create url
         destination = urllib.parse.quote(
-            "/api/artifactpriority/"
+            '/api/artifactpriority/'
             + str(artifactpriority_api_1.artifactpriority_id)
-            + "/",
-            safe="/",
+            + '/',
+            safe='/',
         )
         # create PUT string
         putstring = {"artifactpriority_name": "new_artifactpriority_api_1"}
         # get response
         response = self.client.put(
-            destination, data=putstring, content_type="application/json"
+            destination, data=putstring, content_type='application/json'
         )
         # compare
         self.assertEqual(response.status_code, 405)
@@ -157,22 +157,22 @@ class ArtifactpriorityAPIViewTestCase(TestCase):
 
         # get object
         artifactpriority_api_1 = Artifactpriority.objects.get(
-            artifactpriority_name="artifactpriority_api_1"
+            artifactpriority_name='artifactpriority_api_1'
         )
         # login testuser
         self.client.login(
-            username="testuser_artifactpriority_api", password="IktrZIZLncwTbOBD9Bhw"
+            username='testuser_artifactpriority_api', password='IktrZIZLncwTbOBD9Bhw'
         )
         # create url
         destination = urllib.parse.quote(
-            "/api/artifactpriority/"
+            '/api/artifactpriority/'
             + str(artifactpriority_api_1.artifactpriority_id)
-            + "/",
-            safe="/",
+            + '/',
+            safe='/',
         )
         # get response
         response = self.client.get(
-            "/api/artifactpriority/" + str(artifactpriority_api_1.artifactpriority_id),
+            '/api/artifactpriority/' + str(artifactpriority_api_1.artifactpriority_id),
             follow=True,
         )
         # compare
