@@ -211,5 +211,5 @@ class ReportitemModelTestCase(TestCase):
         reportitem_1.save()
 
         # check reportitem and system should be part of the case
-        self.assertEquals(reportitem_1.case.case_name, case_1.case_name)
+        self.assertEqual(reportitem_1.case.case_name, case_1.case_name)
         self.assertQuerysetEqual(system_1.case.all(), [case_1, ])

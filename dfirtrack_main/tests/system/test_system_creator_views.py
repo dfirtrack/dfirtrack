@@ -88,7 +88,7 @@ class SystemCreatorViewTestCase(TestCase):
         # get response
         response = self.client.get('/system/creator/')
         # compare
-        self.assertEquals(str(response.context['workflows'][0]), 'workflow_1')
+        self.assertEqual(str(response.context['workflows'][0]), 'workflow_1')
 
     def test_system_creator_redirect(self):
         """ test creator view """

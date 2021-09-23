@@ -19,7 +19,7 @@ class TagWidgetTestCase(TestCase):
         tagWidget = TagWidget()
 
         # check
-        self.assertEquals(tagWidget.template_name, 'dfirtrack_main/widgets/tag_widget.html')
+        self.assertEqual(tagWidget.template_name, 'dfirtrack_main/widgets/tag_widget.html')
 
     def test_tag_widget_context(self):
         """ test tag wideget context """
@@ -29,8 +29,8 @@ class TagWidgetTestCase(TestCase):
         context = tagWidget.get_context('tag', value, None)
 
         # check
-        self.assertEquals(context['widget']['name'], 'tag')
-        self.assertEquals(context['widget']['value'], value)
+        self.assertEqual(context['widget']['name'], 'tag')
+        self.assertEqual(context['widget']['value'], value)
 
     def test_tag_widget_render_output(self):
         """ test tag widget render """

@@ -211,7 +211,7 @@ class WorkflowViewTestCase(TestCase):
         response = self.help_client_logedin_request('/config/workflow/add/')
         # compare
         qs = response.context['tasknames_formset'].forms[0].fields['taskname'].queryset
-        self.assertEquals(list(qs), list(tasknames))
+        self.assertEqual(list(qs), list(tasknames))
 
     def test_workflow_add_artifacctypes(self):
         """test view"""
@@ -227,7 +227,7 @@ class WorkflowViewTestCase(TestCase):
             .fields['artifacttype']
             .queryset
         )
-        self.assertEquals(list(qs), list(artifacttypes))
+        self.assertEqual(list(qs), list(artifacttypes))
 
     def test_workflow_add_get_user_context(self):
         """test view"""

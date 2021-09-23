@@ -156,7 +156,7 @@ class SystemModificatorViewTestCase(TestCase):
         # get response
         response = self.client.get('/system/modificator/')
         # compare
-        self.assertEquals(str(response.context['workflows'][0]), 'workflow_1')
+        self.assertEqual(str(response.context['workflows'][0]), 'workflow_1')
 
     def test_system_modificator_redirect(self):
         """ test modificator view """
