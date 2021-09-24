@@ -207,7 +207,7 @@ class SystemViewTestCase(TestCase):
         # get response
         response = self.client.get(f'/system/{system_1.system_id}/')
         # compare
-        self.assertEquals(str(response.context['workflows'][0]), 'workflow_1')
+        self.assertEqual(str(response.context['workflows'][0]), 'workflow_1')
 
     def test_system_detail_context_without_artifacts(self):
         """ test detail view """
@@ -469,7 +469,7 @@ class SystemViewTestCase(TestCase):
         # get response
         response = self.client.get('/system/add/')
         # compare
-        self.assertEquals(str(response.context['workflows'][0]), 'workflow_1')
+        self.assertEqual(str(response.context['workflows'][0]), 'workflow_1')
 
     def test_system_add_post_workflows(self):
         """ test add view """

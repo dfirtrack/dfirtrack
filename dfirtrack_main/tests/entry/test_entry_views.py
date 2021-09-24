@@ -461,10 +461,10 @@ class EntryViewTestCase(TestCase):
             # get response
             self.client.post('/entry/import/step1/', data_dict)
             # compare
-            self.assertEquals(self.client.session['entry_csv_import']['file_name'], f'/tmp/{test_uuid}')
-            self.assertEquals(self.client.session['entry_csv_import']['system'], system_1.system_id)
-            self.assertEquals(self.client.session['entry_csv_import']['case'], None)
-            self.assertEquals(self.client.session['entry_csv_import']['fields'], ['datetime','timestamp_desc','message'])
+            self.assertEqual(self.client.session['entry_csv_import']['file_name'], f'/tmp/{test_uuid}')
+            self.assertEqual(self.client.session['entry_csv_import']['system'], system_1.system_id)
+            self.assertEqual(self.client.session['entry_csv_import']['case'], None)
+            self.assertEqual(self.client.session['entry_csv_import']['fields'], ['datetime','timestamp_desc','message'])
 
     def test_entry_csv_import_post_step1_with_case(self):
         """ test step1 view """
@@ -492,10 +492,10 @@ class EntryViewTestCase(TestCase):
         with patch.object(uuid, 'uuid4', return_value=test_uuid):
             self.client.post('/entry/import/step1/', data_dict)
             # compare
-            self.assertEquals(self.client.session['entry_csv_import']['file_name'], f'/tmp/{test_uuid}')
-            self.assertEquals(self.client.session['entry_csv_import']['system'], system_1.system_id)
-            self.assertEquals(self.client.session['entry_csv_import']['case'], case_1.case_id)
-            self.assertEquals(self.client.session['entry_csv_import']['fields'], ['datetime','timestamp_desc','message'])
+            self.assertEqual(self.client.session['entry_csv_import']['file_name'], f'/tmp/{test_uuid}')
+            self.assertEqual(self.client.session['entry_csv_import']['system'], system_1.system_id)
+            self.assertEqual(self.client.session['entry_csv_import']['case'], case_1.case_id)
+            self.assertEqual(self.client.session['entry_csv_import']['fields'], ['datetime','timestamp_desc','message'])
 
     def test_entry_csv_import_step1_post_invalid_data(self):
         """ test step1 view """

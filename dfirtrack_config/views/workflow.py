@@ -30,6 +30,7 @@ class WorkflowList(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " WORKFLOW_LIST_ENTERED")
         return Workflow.objects.order_by('workflow_name')
 
+
 class WorkflowDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Workflow
@@ -40,11 +41,16 @@ class WorkflowDetail(LoginRequiredMixin, DetailView):
         workflow = self.object
 
         # get workflow artifacttype names mapping to include default_names
-        context['artifacttypes'] = WorkflowDefaultArtifactAttributes.objects.filter(workflow=workflow)
-        context['tasknames'] = WorkflowDefaultTasknameAttributes.objects.filter(workflow=workflow)
+        context['artifacttypes'] = WorkflowDefaultArtifactAttributes.objects.filter(
+            workflow=workflow
+        )
+        context['tasknames'] = WorkflowDefaultTasknameAttributes.objects.filter(
+            workflow=workflow
+        )
 
         workflow.logger(str(self.request.user), " WORKFLOW_DETAIL_ENTERED")
         return context
+
 
 class WorkflowCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
@@ -57,8 +63,7 @@ class WorkflowCreate(LoginRequiredMixin, CreateView):
 
         # create custom WorkflowDefaultArtifactAttributesFormSet to add multiple artifacttypes to workflow
         artifacttypes_formset = WorkflowDefaultArtifactAttributesFormSet(
-            queryset=WorkflowDefaultArtifactAttributes.objects.none(),
-            prefix='artifact'
+            queryset=WorkflowDefaultArtifactAttributes.objects.none(), prefix='artifact'
         )
 
         tasknames_formset = WorkflowDefaultTasknameAttributesFormSet(
@@ -67,30 +72,41 @@ class WorkflowCreate(LoginRequiredMixin, CreateView):
         )
 
         debug_logger(str(request.user), " WORKFLOW_ADD_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-            'artifacttypes_formset': artifacttypes_formset,
-            'tasknames_formset': tasknames_formset
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Add',
+                'artifacttypes_formset': artifacttypes_formset,
+                'tasknames_formset': tasknames_formset,
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         # parse forms
         form = self.form_class(request.POST)
         artifacttypes_formset = WorkflowDefaultArtifactAttributesFormSet(
-            request.POST,
-            prefix='artifact'
+            request.POST, prefix='artifact'
         )
         tasknames_formset = WorkflowDefaultTasknameAttributesFormSet(
-            request.POST,
-            prefix='taskname'
+            request.POST, prefix='taskname'
         )
 
-        if not tasknames_formset.has_changed() and not artifacttypes_formset.has_changed():
-            form.errors['General'] = ': You need to configure a taskname or artifacttype.'
+        if (
+            not tasknames_formset.has_changed()
+            and not artifacttypes_formset.has_changed()
+        ):
+            form.errors[
+                'General'
+            ] = ': You need to configure a taskname or artifacttype.'
 
         # check default form and custom artifacttypes_formset
-        if form.is_valid() and artifacttypes_formset.is_valid() and tasknames_formset.is_valid():
+        if (
+            form.is_valid()
+            and artifacttypes_formset.is_valid()
+            and tasknames_formset.is_valid()
+        ):
             workflow = form.save(commit=False)
             workflow.workflow_created_by_user_id = request.user
             workflow.workflow_modified_by_user_id = request.user
@@ -115,12 +131,17 @@ class WorkflowCreate(LoginRequiredMixin, CreateView):
             messages.success(request, 'Workflow added')
             return redirect(reverse('workflow_detail', args=(workflow.workflow_id,)))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-                'artifacttypes_formset': artifacttypes_formset,
-                'tasknames_formset': tasknames_formset
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Add',
+                    'artifacttypes_formset': artifacttypes_formset,
+                    'tasknames_formset': tasknames_formset,
+                },
+            )
+
 
 class WorkflowUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
@@ -133,21 +154,29 @@ class WorkflowUpdate(LoginRequiredMixin, UpdateView):
         form = self.form_class(instance=workflow)
 
         artifacttypes_formset = WorkflowDefaultArtifactAttributesFormSet(
-            queryset=WorkflowDefaultArtifactAttributes.objects.filter(workflow=workflow),
-            prefix='artifact'
+            queryset=WorkflowDefaultArtifactAttributes.objects.filter(
+                workflow=workflow
+            ),
+            prefix='artifact',
         )
         tasknames_formset = WorkflowDefaultTasknameAttributesFormSet(
-            queryset=WorkflowDefaultTasknameAttributes.objects.filter(workflow=workflow),
-            prefix='taskname'
+            queryset=WorkflowDefaultTasknameAttributes.objects.filter(
+                workflow=workflow
+            ),
+            prefix='taskname',
         )
 
         workflow.logger(str(request.user), " TAG_EDIT_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Edit',
-            'artifacttypes_formset': artifacttypes_formset,
-            'tasknames_formset': tasknames_formset
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Edit',
+                'artifacttypes_formset': artifacttypes_formset,
+                'tasknames_formset': tasknames_formset,
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         workflow = self.get_object()
@@ -156,16 +185,18 @@ class WorkflowUpdate(LoginRequiredMixin, UpdateView):
         form = self.form_class(request.POST, instance=workflow)
         # filter artifacttypes based on workflow
         artifacttypes_formset = WorkflowDefaultArtifactAttributesFormSet(
-            request.POST,
-            prefix='artifact'
+            request.POST, prefix='artifact'
         )
         tasknames_formset = WorkflowDefaultTasknameAttributesFormSet(
-            request.POST,
-            prefix='taskname'
+            request.POST, prefix='taskname'
         )
 
         # check default form and custom artifacttypes_formset
-        if form.is_valid() and artifacttypes_formset.is_valid() and tasknames_formset.is_valid():
+        if (
+            form.is_valid()
+            and artifacttypes_formset.is_valid()
+            and tasknames_formset.is_valid()
+        ):
             workflow = form.save(commit=False)
             workflow.workflow_modified_by_user_id = request.user
             workflow.save()
@@ -189,12 +220,17 @@ class WorkflowUpdate(LoginRequiredMixin, UpdateView):
             messages.success(request, 'Workflow edited')
             return redirect(reverse('workflow_detail', args=(workflow.workflow_id,)))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Edit',
-                'artifacttypes_formset': artifacttypes_formset,
-                'tasknames_formset': tasknames_formset
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Edit',
+                    'artifacttypes_formset': artifacttypes_formset,
+                    'tasknames_formset': tasknames_formset,
+                },
+            )
+
 
 class WorkflowDelete(LoginRequiredMixin, DeleteView):
     login_url = '/login'
@@ -212,6 +248,7 @@ class WorkflowDelete(LoginRequiredMixin, DeleteView):
         workflow.delete()
         messages.success(request, 'Workflow deleted')
         return redirect(reverse('workflow_list'))
+
 
 @login_required(login_url='/login')
 def apply_workflows(request, system_id=None):

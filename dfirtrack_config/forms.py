@@ -35,7 +35,7 @@ from dfirtrack_main.models import (
 
 
 class ArtifactExporterSpreadsheetXlsConfigForm(forms.ModelForm):
-    """ artifact exporter spreadsheet xls config form """
+    """artifact exporter spreadsheet xls config form"""
 
     class Meta:
 
@@ -91,57 +91,58 @@ class ArtifactExporterSpreadsheetXlsConfigForm(forms.ModelForm):
             'artifactlist_xls_choice_artifactstatus': forms.CheckboxSelectMultiple(),
         }
 
-class MainConfigForm(forms.ModelForm):
-    """ main config form """
 
-# TODO: add logic to prevent messing up the same be editing it via admin menu
+class MainConfigForm(forms.ModelForm):
+    """main config form"""
+
+    # TODO: add logic to prevent messing up the same be editing it via admin menu
 
     # reorder field choices
     artifactstatus_open = forms.ModelMultipleChoiceField(
-        queryset = Artifactstatus.objects.order_by('artifactstatus_name'),
-        label = 'Artifactstatus to be considered open',
-        required = False,
-        widget = forms.CheckboxSelectMultiple(),
+        queryset=Artifactstatus.objects.order_by('artifactstatus_name'),
+        label='Artifactstatus to be considered open',
+        required=False,
+        widget=forms.CheckboxSelectMultiple(),
     )
 
     # reorder field choices
     artifactstatus_requested = forms.ModelMultipleChoiceField(
-        queryset = Artifactstatus.objects.order_by('artifactstatus_name'),
-        label = 'Artifactstatus setting the artifact requested time',
-        required = False,
-        widget = forms.CheckboxSelectMultiple(),
+        queryset=Artifactstatus.objects.order_by('artifactstatus_name'),
+        label='Artifactstatus setting the artifact requested time',
+        required=False,
+        widget=forms.CheckboxSelectMultiple(),
     )
 
     # reorder field choices
     artifactstatus_acquisition = forms.ModelMultipleChoiceField(
-        queryset = Artifactstatus.objects.order_by('artifactstatus_name'),
-        label = 'Artifactstatus setting the artifact acquisition time',
-        required = False,
-        widget = forms.CheckboxSelectMultiple(),
+        queryset=Artifactstatus.objects.order_by('artifactstatus_name'),
+        label='Artifactstatus setting the artifact acquisition time',
+        required=False,
+        widget=forms.CheckboxSelectMultiple(),
     )
 
     # reorder field choices
     casestatus_open = forms.ModelMultipleChoiceField(
-        queryset = Casestatus.objects.order_by('casestatus_name'),
-        label = 'Casestatus to be considered open',
-        required = False,
-        widget = forms.CheckboxSelectMultiple(),
+        queryset=Casestatus.objects.order_by('casestatus_name'),
+        label='Casestatus to be considered open',
+        required=False,
+        widget=forms.CheckboxSelectMultiple(),
     )
 
     # reorder field choices
     casestatus_start = forms.ModelMultipleChoiceField(
-        queryset = Casestatus.objects.order_by('casestatus_name'),
-        label = 'Casestatus setting the case start time',
-        required = False,
-        widget = forms.CheckboxSelectMultiple(),
+        queryset=Casestatus.objects.order_by('casestatus_name'),
+        label='Casestatus setting the case start time',
+        required=False,
+        widget=forms.CheckboxSelectMultiple(),
     )
 
     # reorder field choices
     casestatus_end = forms.ModelMultipleChoiceField(
-        queryset = Casestatus.objects.order_by('casestatus_name'),
-        label = 'Casestatus setting the case end time',
-        required = False,
-        widget = forms.CheckboxSelectMultiple(),
+        queryset=Casestatus.objects.order_by('casestatus_name'),
+        label='Casestatus setting the case end time',
+        required=False,
+        widget=forms.CheckboxSelectMultiple(),
     )
 
     class Meta:
@@ -194,7 +195,7 @@ class MainConfigForm(forms.ModelForm):
         }
 
     def clean(self):
-        """ custom field validation """
+        """custom field validation"""
 
         # get form data
         cleaned_data = super().clean()
@@ -209,12 +210,18 @@ class MainConfigForm(forms.ModelForm):
         artifactstatus_acquisition = self.cleaned_data['artifactstatus_acquisition']
 
         # get artifactstatus that have been chosen for both time settings
-        artifactstatus_shared = artifactstatus_requested.intersection(artifactstatus_acquisition)
+        artifactstatus_shared = artifactstatus_requested.intersection(
+            artifactstatus_acquisition
+        )
 
         # check if there are any artifactstatus in this queryset
-        if artifactstatus_shared.count() !=0:
-            validation_errors['artifactstatus_requested'] = 'Same artifactstatus were chosen for requested and acquisition time.'
-            validation_errors['artifactstatus_acquisition'] = 'Same artifactstatus were chosen for requested and acquisition time.'
+        if artifactstatus_shared.count() != 0:
+            validation_errors[
+                'artifactstatus_requested'
+            ] = 'Same artifactstatus were chosen for requested and acquisition time.'
+            validation_errors[
+                'artifactstatus_acquisition'
+            ] = 'Same artifactstatus were chosen for requested and acquisition time.'
 
         """ casestatus multiple selection """
 
@@ -226,9 +233,13 @@ class MainConfigForm(forms.ModelForm):
         casestatus_shared = casestatus_start.intersection(casestatus_end)
 
         # check if there are any casestatus in this queryset
-        if casestatus_shared.count() !=0:
-            validation_errors['casestatus_start'] = 'Same casestatus were chosen for start and end time.'
-            validation_errors['casestatus_end'] = 'Same casestatus were chosen for start and end time.'
+        if casestatus_shared.count() != 0:
+            validation_errors[
+                'casestatus_start'
+            ] = 'Same casestatus were chosen for start and end time.'
+            validation_errors[
+                'casestatus_end'
+            ] = 'Same casestatus were chosen for start and end time.'
 
         """ check file system """
 
@@ -241,7 +252,9 @@ class MainConfigForm(forms.ModelForm):
         else:
             # cron export path is not writeable - stop immediately
             if not os.access(self.cleaned_data['cron_export_path'], os.R_OK):
-                validation_errors['cron_export_path'] = 'No write permission for export path.'
+                validation_errors[
+                    'cron_export_path'
+                ] = 'No write permission for export path.'
 
         """ raise error """
 
@@ -251,8 +264,9 @@ class MainConfigForm(forms.ModelForm):
 
         return cleaned_data
 
+
 class SystemExporterMarkdownConfigForm(forms.ModelForm):
-    """ system exporter markdown config form """
+    """system exporter markdown config form"""
 
     class Meta:
 
@@ -271,15 +285,17 @@ class SystemExporterMarkdownConfigForm(forms.ModelForm):
         }
 
         widgets = {
-            'markdown_path': forms.TextInput(attrs={
-                'size': '55',
-                'style': 'font-family: monospace',
-            }),
+            'markdown_path': forms.TextInput(
+                attrs={
+                    'size': '55',
+                    'style': 'font-family: monospace',
+                }
+            ),
             'markdown_sorting': forms.RadioSelect(),
         }
 
     def clean(self):
-        """ custom field validation """
+        """custom field validation"""
 
         """ prepare validation errors """
 
@@ -297,7 +313,9 @@ class SystemExporterMarkdownConfigForm(forms.ModelForm):
         else:
             # markdown path is not readable - stop immediately
             if not os.access(self.cleaned_data['markdown_path'], os.W_OK):
-                validation_errors['markdown_path'] = 'No write permission for markdown path.'
+                validation_errors[
+                    'markdown_path'
+                ] = 'No write permission for markdown path.'
 
         """ raise error """
 
@@ -307,8 +325,9 @@ class SystemExporterMarkdownConfigForm(forms.ModelForm):
 
         return cleaned_data
 
+
 class SystemExporterSpreadsheetCsvConfigForm(forms.ModelForm):
-    """ system exporter spreadsheet CSV config form """
+    """system exporter spreadsheet CSV config form"""
 
     class Meta:
 
@@ -356,8 +375,9 @@ class SystemExporterSpreadsheetCsvConfigForm(forms.ModelForm):
             'spread_csv_system_modify_time': 'Export system modify time',
         }
 
+
 class SystemExporterSpreadsheetXlsConfigForm(forms.ModelForm):
-    """ system exporter spreadsheet XLS config form """
+    """system exporter spreadsheet XLS config form"""
 
     class Meta:
 
@@ -415,122 +435,123 @@ class SystemExporterSpreadsheetXlsConfigForm(forms.ModelForm):
             'spread_xls_worksheet_tag': 'Export worksheet to explain tag',
         }
 
+
 class SystemImporterFileCsvConfigForm(forms.ModelForm):
-    """ system importer CSV config form """
+    """system importer CSV config form"""
 
     # reorder field choices
     csv_import_username = forms.ModelChoiceField(
-        queryset = User.objects.order_by('username'),
-        label = 'Use this user for the import (*)',
-        required = True,
-        widget = forms.RadioSelect(),
+        queryset=User.objects.order_by('username'),
+        label='Use this user for the import (*)',
+        required=True,
+        widget=forms.RadioSelect(),
     )
 
     # reorder field choices
     csv_default_systemstatus = forms.ModelChoiceField(
-        queryset = Systemstatus.objects.order_by('systemstatus_name'),
-        label = 'Set from database (*)',
-        required = True,
+        queryset=Systemstatus.objects.order_by('systemstatus_name'),
+        label='Set from database (*)',
+        required=True,
     )
 
     # reorder field choices
     csv_default_analysisstatus = forms.ModelChoiceField(
-        queryset = Analysisstatus.objects.order_by('analysisstatus_name'),
-        label = 'Set from database (*)',
-        required = True,
+        queryset=Analysisstatus.objects.order_by('analysisstatus_name'),
+        label='Set from database (*)',
+        required=True,
     )
 
     # reorder field choices
     csv_default_tagfree_systemstatus = forms.ModelChoiceField(
-        queryset = Systemstatus.objects.order_by('systemstatus_name'),
-        label = 'Set from database (no tags assigned)',
-        required = True,
+        queryset=Systemstatus.objects.order_by('systemstatus_name'),
+        label='Set from database (no tags assigned)',
+        required=True,
     )
 
     # reorder field choices
     csv_default_tagfree_analysisstatus = forms.ModelChoiceField(
-        queryset = Analysisstatus.objects.order_by('analysisstatus_name'),
-        label = 'Set from database (no tags assigned)',
-        required = True,
+        queryset=Analysisstatus.objects.order_by('analysisstatus_name'),
+        label='Set from database (no tags assigned)',
+        required=True,
     )
 
     # reorder field choices
     csv_default_dnsname = forms.ModelChoiceField(
-        label = 'Set from database',
-        queryset = Dnsname.objects.order_by('dnsname_name'),
-        required = False,
+        label='Set from database',
+        queryset=Dnsname.objects.order_by('dnsname_name'),
+        required=False,
     )
 
     # reorder field choices
     csv_default_domain = forms.ModelChoiceField(
-        label = 'Set from database',
-        queryset = Domain.objects.order_by('domain_name'),
-        required = False,
+        label='Set from database',
+        queryset=Domain.objects.order_by('domain_name'),
+        required=False,
     )
 
     # reorder field choices
     csv_default_location = forms.ModelChoiceField(
-        label = 'Set from database',
-        queryset = Location.objects.order_by('location_name'),
-        required = False,
+        label='Set from database',
+        queryset=Location.objects.order_by('location_name'),
+        required=False,
     )
 
     # reorder field choices
     csv_default_os = forms.ModelChoiceField(
-        label = 'Set from database',
-        queryset = Os.objects.order_by('os_name'),
-        required = False,
+        label='Set from database',
+        queryset=Os.objects.order_by('os_name'),
+        required=False,
     )
 
     # reorder field choices
     csv_default_reason = forms.ModelChoiceField(
-        label = 'Set from database',
-        queryset = Reason.objects.order_by('reason_name'),
-        required = False,
+        label='Set from database',
+        queryset=Reason.objects.order_by('reason_name'),
+        required=False,
     )
 
     # reorder field choices
     csv_default_recommendation = forms.ModelChoiceField(
-        label = 'Set from database',
-        queryset = Recommendation.objects.order_by('recommendation_name'),
-        required = False,
+        label='Set from database',
+        queryset=Recommendation.objects.order_by('recommendation_name'),
+        required=False,
     )
 
     # reorder field choices
     csv_default_serviceprovider = forms.ModelChoiceField(
-        label = 'Set from database',
-        queryset = Serviceprovider.objects.order_by('serviceprovider_name'),
-        required = False,
+        label='Set from database',
+        queryset=Serviceprovider.objects.order_by('serviceprovider_name'),
+        required=False,
     )
 
     # reorder field choices
     csv_default_systemtype = forms.ModelChoiceField(
-        label = 'Set from database',
-        queryset = Systemtype.objects.order_by('systemtype_name'),
-        required = False,
+        label='Set from database',
+        queryset=Systemtype.objects.order_by('systemtype_name'),
+        required=False,
     )
 
     # reorder field choices
     csv_default_case = forms.ModelMultipleChoiceField(
-        label = 'Set from database',
-        queryset = Case.objects.order_by('case_name'),
-        required = False,
+        label='Set from database',
+        queryset=Case.objects.order_by('case_name'),
+        required=False,
         widget=forms.CheckboxSelectMultiple(),
     )
 
     # reorder field choices
     csv_default_company = forms.ModelMultipleChoiceField(
-        label = 'Set from database',
-        queryset = Company.objects.order_by('company_name'),
-        required = False,
+        label='Set from database',
+        queryset=Company.objects.order_by('company_name'),
+        required=False,
         widget=forms.CheckboxSelectMultiple(),
     )
 
     # reorder field choices
     csv_default_tag = forms.ModelMultipleChoiceField(
-        label = 'Set from database',
-        queryset = Tag.objects.order_by('tag_name'),
-        required = False,
+        label='Set from database',
+        queryset=Tag.objects.order_by('tag_name'),
+        required=False,
         widget=forms.CheckboxSelectMultiple(),
     )
 
@@ -798,7 +819,7 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
         }
 
     def clean(self):
-        """ custom field validation """
+        """custom field validation"""
 
         """ prepare validation errors """
 
@@ -819,56 +840,104 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
         """ check for EITHER 'choice' and 'column' OR 'default' """
 
         # ip - CSV chosen and no CSV column filled out
-        if self.cleaned_data['csv_choice_ip'] and not self.cleaned_data['csv_column_ip']:
+        if (
+            self.cleaned_data['csv_choice_ip']
+            and not self.cleaned_data['csv_column_ip']
+        ):
             validation_errors['csv_choice_ip'] = MISSING_CSV_COLUMN_STRING
         # ip - CSV not chosen and CSV column filled out
-        if not self.cleaned_data['csv_choice_ip'] and self.cleaned_data['csv_column_ip']:
+        if (
+            not self.cleaned_data['csv_choice_ip']
+            and self.cleaned_data['csv_column_ip']
+        ):
             validation_errors['csv_choice_ip'] = MISSING_CSV_CHOICE_STRING
 
         # dnsname - CSV chosen and no CSV column filled out
-        if self.cleaned_data['csv_choice_dnsname'] and not self.cleaned_data['csv_column_dnsname']:
+        if (
+            self.cleaned_data['csv_choice_dnsname']
+            and not self.cleaned_data['csv_column_dnsname']
+        ):
             validation_errors['csv_choice_dnsname'] = MISSING_CSV_COLUMN_STRING
         # dnsname - CSV not chosen and CSV column filled out
-        if not self.cleaned_data['csv_choice_dnsname'] and self.cleaned_data['csv_column_dnsname']:
+        if (
+            not self.cleaned_data['csv_choice_dnsname']
+            and self.cleaned_data['csv_column_dnsname']
+        ):
             validation_errors['csv_choice_dnsname'] = MISSING_CSV_CHOICE_STRING
         # dnsname - CSV chosen and DB chosen
-        if self.cleaned_data['csv_choice_dnsname'] and self.cleaned_data['csv_default_dnsname']:
+        if (
+            self.cleaned_data['csv_choice_dnsname']
+            and self.cleaned_data['csv_default_dnsname']
+        ):
             validation_errors['csv_choice_dnsname'] = EITHER_CSV_OR_DATABASE_STRING
         # dnsname - CSV column filled out and DB chosen
-        if self.cleaned_data['csv_column_dnsname'] and self.cleaned_data['csv_default_dnsname']:
+        if (
+            self.cleaned_data['csv_column_dnsname']
+            and self.cleaned_data['csv_default_dnsname']
+        ):
             validation_errors['csv_choice_dnsname'] = EITHER_CSV_OR_DATABASE_STRING
 
         # domain - CSV chosen and no CSV column filled out
-        if self.cleaned_data['csv_choice_domain'] and not self.cleaned_data['csv_column_domain']:
+        if (
+            self.cleaned_data['csv_choice_domain']
+            and not self.cleaned_data['csv_column_domain']
+        ):
             validation_errors['csv_choice_domain'] = MISSING_CSV_COLUMN_STRING
         # domain - CSV not chosen and CSV column filled out
-        if not self.cleaned_data['csv_choice_domain'] and self.cleaned_data['csv_column_domain']:
+        if (
+            not self.cleaned_data['csv_choice_domain']
+            and self.cleaned_data['csv_column_domain']
+        ):
             validation_errors['csv_choice_domain'] = MISSING_CSV_CHOICE_STRING
         # domain - CSV chosen and DB chosen
-        if self.cleaned_data['csv_choice_domain'] and self.cleaned_data['csv_default_domain']:
+        if (
+            self.cleaned_data['csv_choice_domain']
+            and self.cleaned_data['csv_default_domain']
+        ):
             validation_errors['csv_choice_domain'] = EITHER_CSV_OR_DATABASE_STRING
         # domain - CSV column filled out and DB chosen
-        if self.cleaned_data['csv_column_domain'] and self.cleaned_data['csv_default_domain']:
+        if (
+            self.cleaned_data['csv_column_domain']
+            and self.cleaned_data['csv_default_domain']
+        ):
             validation_errors['csv_choice_domain'] = EITHER_CSV_OR_DATABASE_STRING
 
         # location - CSV chosen and no CSV column filled out
-        if self.cleaned_data['csv_choice_location'] and not self.cleaned_data['csv_column_location']:
+        if (
+            self.cleaned_data['csv_choice_location']
+            and not self.cleaned_data['csv_column_location']
+        ):
             validation_errors['csv_choice_location'] = MISSING_CSV_COLUMN_STRING
         # location - CSV not chosen and CSV column filled out
-        if not self.cleaned_data['csv_choice_location'] and self.cleaned_data['csv_column_location']:
+        if (
+            not self.cleaned_data['csv_choice_location']
+            and self.cleaned_data['csv_column_location']
+        ):
             validation_errors['csv_choice_location'] = MISSING_CSV_CHOICE_STRING
         # location - CSV chosen and DB chosen
-        if self.cleaned_data['csv_choice_location'] and self.cleaned_data['csv_default_location']:
+        if (
+            self.cleaned_data['csv_choice_location']
+            and self.cleaned_data['csv_default_location']
+        ):
             validation_errors['csv_choice_location'] = EITHER_CSV_OR_DATABASE_STRING
         # location - CSV column filled out and DB chosen
-        if self.cleaned_data['csv_column_location'] and self.cleaned_data['csv_default_location']:
+        if (
+            self.cleaned_data['csv_column_location']
+            and self.cleaned_data['csv_default_location']
+        ):
             validation_errors['csv_choice_location'] = EITHER_CSV_OR_DATABASE_STRING
 
         # os - CSV chosen and no CSV column filled out
-        if self.cleaned_data['csv_choice_os'] and not self.cleaned_data['csv_column_os']:
+        if (
+            self.cleaned_data['csv_choice_os']
+            and not self.cleaned_data['csv_column_os']
+        ):
             validation_errors['csv_choice_os'] = MISSING_CSV_COLUMN_STRING
         # os - CSV not chosen and CSV column filled out
-        if not self.cleaned_data['csv_choice_os'] and self.cleaned_data['csv_column_os']:
+        if (
+            not self.cleaned_data['csv_choice_os']
+            and self.cleaned_data['csv_column_os']
+        ):
             validation_errors['csv_choice_os'] = MISSING_CSV_CHOICE_STRING
         # os - CSV chosen and DB chosen
         if self.cleaned_data['csv_choice_os'] and self.cleaned_data['csv_default_os']:
@@ -878,88 +947,174 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
             validation_errors['csv_choice_os'] = EITHER_CSV_OR_DATABASE_STRING
 
         # reason - CSV chosen and no CSV column filled out
-        if self.cleaned_data['csv_choice_reason'] and not self.cleaned_data['csv_column_reason']:
+        if (
+            self.cleaned_data['csv_choice_reason']
+            and not self.cleaned_data['csv_column_reason']
+        ):
             validation_errors['csv_choice_reason'] = MISSING_CSV_COLUMN_STRING
         # reason - CSV not chosen and CSV column filled out
-        if not self.cleaned_data['csv_choice_reason'] and self.cleaned_data['csv_column_reason']:
+        if (
+            not self.cleaned_data['csv_choice_reason']
+            and self.cleaned_data['csv_column_reason']
+        ):
             validation_errors['csv_choice_reason'] = MISSING_CSV_CHOICE_STRING
         # reason - CSV chosen and DB chosen
-        if self.cleaned_data['csv_choice_reason'] and self.cleaned_data['csv_default_reason']:
+        if (
+            self.cleaned_data['csv_choice_reason']
+            and self.cleaned_data['csv_default_reason']
+        ):
             validation_errors['csv_choice_reason'] = EITHER_CSV_OR_DATABASE_STRING
         # reason - CSV column filled out and DB chosen
-        if self.cleaned_data['csv_column_reason'] and self.cleaned_data['csv_default_reason']:
+        if (
+            self.cleaned_data['csv_column_reason']
+            and self.cleaned_data['csv_default_reason']
+        ):
             validation_errors['csv_choice_reason'] = EITHER_CSV_OR_DATABASE_STRING
 
         # recommendation - CSV chosen and no CSV column filled out
-        if self.cleaned_data['csv_choice_recommendation'] and not self.cleaned_data['csv_column_recommendation']:
+        if (
+            self.cleaned_data['csv_choice_recommendation']
+            and not self.cleaned_data['csv_column_recommendation']
+        ):
             validation_errors['csv_choice_recommendation'] = MISSING_CSV_COLUMN_STRING
         # recommendation - CSV not chosen and CSV column filled out
-        if not self.cleaned_data['csv_choice_recommendation'] and self.cleaned_data['csv_column_recommendation']:
+        if (
+            not self.cleaned_data['csv_choice_recommendation']
+            and self.cleaned_data['csv_column_recommendation']
+        ):
             validation_errors['csv_choice_recommendation'] = MISSING_CSV_CHOICE_STRING
         # recommendation - CSV chosen and DB chosen
-        if self.cleaned_data['csv_choice_recommendation'] and self.cleaned_data['csv_default_recommendation']:
-            validation_errors['csv_choice_recommendation'] = EITHER_CSV_OR_DATABASE_STRING
+        if (
+            self.cleaned_data['csv_choice_recommendation']
+            and self.cleaned_data['csv_default_recommendation']
+        ):
+            validation_errors[
+                'csv_choice_recommendation'
+            ] = EITHER_CSV_OR_DATABASE_STRING
         # recommendation - CSV column filled out and DB chosen
-        if self.cleaned_data['csv_column_recommendation'] and self.cleaned_data['csv_default_recommendation']:
-            validation_errors['csv_choice_recommendation'] = EITHER_CSV_OR_DATABASE_STRING
+        if (
+            self.cleaned_data['csv_column_recommendation']
+            and self.cleaned_data['csv_default_recommendation']
+        ):
+            validation_errors[
+                'csv_choice_recommendation'
+            ] = EITHER_CSV_OR_DATABASE_STRING
 
         # serviceprovider - CSV chosen and no CSV column filled out
-        if self.cleaned_data['csv_choice_serviceprovider'] and not self.cleaned_data['csv_column_serviceprovider']:
+        if (
+            self.cleaned_data['csv_choice_serviceprovider']
+            and not self.cleaned_data['csv_column_serviceprovider']
+        ):
             validation_errors['csv_choice_serviceprovider'] = MISSING_CSV_COLUMN_STRING
         # serviceprovider - CSV not chosen and CSV column filled out
-        if not self.cleaned_data['csv_choice_serviceprovider'] and self.cleaned_data['csv_column_serviceprovider']:
+        if (
+            not self.cleaned_data['csv_choice_serviceprovider']
+            and self.cleaned_data['csv_column_serviceprovider']
+        ):
             validation_errors['csv_choice_serviceprovider'] = MISSING_CSV_CHOICE_STRING
         # serviceprovider - CSV chosen and DB chosen
-        if self.cleaned_data['csv_choice_serviceprovider'] and self.cleaned_data['csv_default_serviceprovider']:
-            validation_errors['csv_choice_serviceprovider'] = EITHER_CSV_OR_DATABASE_STRING
+        if (
+            self.cleaned_data['csv_choice_serviceprovider']
+            and self.cleaned_data['csv_default_serviceprovider']
+        ):
+            validation_errors[
+                'csv_choice_serviceprovider'
+            ] = EITHER_CSV_OR_DATABASE_STRING
         # serviceprovider - CSV column filled out and DB chosen
-        if self.cleaned_data['csv_column_serviceprovider'] and self.cleaned_data['csv_default_serviceprovider']:
-            validation_errors['csv_choice_serviceprovider'] = EITHER_CSV_OR_DATABASE_STRING
+        if (
+            self.cleaned_data['csv_column_serviceprovider']
+            and self.cleaned_data['csv_default_serviceprovider']
+        ):
+            validation_errors[
+                'csv_choice_serviceprovider'
+            ] = EITHER_CSV_OR_DATABASE_STRING
 
         # systemtype - CSV chosen and no CSV column filled out
-        if self.cleaned_data['csv_choice_systemtype'] and not self.cleaned_data['csv_column_systemtype']:
+        if (
+            self.cleaned_data['csv_choice_systemtype']
+            and not self.cleaned_data['csv_column_systemtype']
+        ):
             validation_errors['csv_choice_systemtype'] = MISSING_CSV_COLUMN_STRING
         # systemtype - CSV not chosen and CSV column filled out
-        if not self.cleaned_data['csv_choice_systemtype'] and self.cleaned_data['csv_column_systemtype']:
+        if (
+            not self.cleaned_data['csv_choice_systemtype']
+            and self.cleaned_data['csv_column_systemtype']
+        ):
             validation_errors['csv_choice_systemtype'] = MISSING_CSV_CHOICE_STRING
         # systemtype - CSV chosen and DB chosen
-        if self.cleaned_data['csv_choice_systemtype'] and self.cleaned_data['csv_default_systemtype']:
+        if (
+            self.cleaned_data['csv_choice_systemtype']
+            and self.cleaned_data['csv_default_systemtype']
+        ):
             validation_errors['csv_choice_systemtype'] = EITHER_CSV_OR_DATABASE_STRING
         # systemtype - CSV column filled out and DB chosen
-        if self.cleaned_data['csv_column_systemtype'] and self.cleaned_data['csv_default_systemtype']:
+        if (
+            self.cleaned_data['csv_column_systemtype']
+            and self.cleaned_data['csv_default_systemtype']
+        ):
             validation_errors['csv_choice_systemtype'] = EITHER_CSV_OR_DATABASE_STRING
 
         # case - CSV chosen and no CSV column filled out
-        if self.cleaned_data['csv_choice_case'] and not self.cleaned_data['csv_column_case']:
+        if (
+            self.cleaned_data['csv_choice_case']
+            and not self.cleaned_data['csv_column_case']
+        ):
             validation_errors['csv_choice_case'] = MISSING_CSV_COLUMN_STRING
         # case - CSV not chosen and CSV column filled out
-        if not self.cleaned_data['csv_choice_case'] and self.cleaned_data['csv_column_case']:
+        if (
+            not self.cleaned_data['csv_choice_case']
+            and self.cleaned_data['csv_column_case']
+        ):
             validation_errors['csv_choice_case'] = MISSING_CSV_CHOICE_STRING
         # case - CSV chosen and DB chosen
-        if self.cleaned_data['csv_choice_case'] and self.cleaned_data['csv_default_case']:
+        if (
+            self.cleaned_data['csv_choice_case']
+            and self.cleaned_data['csv_default_case']
+        ):
             validation_errors['csv_choice_case'] = EITHER_CSV_OR_DATABASE_STRING
         # case - CSV column filled out and DB chosen
-        if self.cleaned_data['csv_column_case'] and self.cleaned_data['csv_default_case']:
+        if (
+            self.cleaned_data['csv_column_case']
+            and self.cleaned_data['csv_default_case']
+        ):
             validation_errors['csv_choice_case'] = EITHER_CSV_OR_DATABASE_STRING
 
         # company - CSV chosen and no CSV column filled out
-        if self.cleaned_data['csv_choice_company'] and not self.cleaned_data['csv_column_company']:
+        if (
+            self.cleaned_data['csv_choice_company']
+            and not self.cleaned_data['csv_column_company']
+        ):
             validation_errors['csv_choice_company'] = MISSING_CSV_COLUMN_STRING
         # company - CSV not chosen and CSV column filled out
-        if not self.cleaned_data['csv_choice_company'] and self.cleaned_data['csv_column_company']:
+        if (
+            not self.cleaned_data['csv_choice_company']
+            and self.cleaned_data['csv_column_company']
+        ):
             validation_errors['csv_choice_company'] = MISSING_CSV_CHOICE_STRING
         # company - CSV chosen and DB chosen
-        if self.cleaned_data['csv_choice_company'] and self.cleaned_data['csv_default_company']:
+        if (
+            self.cleaned_data['csv_choice_company']
+            and self.cleaned_data['csv_default_company']
+        ):
             validation_errors['csv_choice_company'] = EITHER_CSV_OR_DATABASE_STRING
         # company - CSV column filled out and DB chosen
-        if self.cleaned_data['csv_column_company'] and self.cleaned_data['csv_default_company']:
+        if (
+            self.cleaned_data['csv_column_company']
+            and self.cleaned_data['csv_default_company']
+        ):
             validation_errors['csv_choice_company'] = EITHER_CSV_OR_DATABASE_STRING
 
         # tag - CSV chosen and no CSV column filled out
-        if self.cleaned_data['csv_choice_tag'] and not self.cleaned_data['csv_column_tag']:
+        if (
+            self.cleaned_data['csv_choice_tag']
+            and not self.cleaned_data['csv_column_tag']
+        ):
             validation_errors['csv_choice_tag'] = MISSING_CSV_COLUMN_STRING
         # tag - CSV not chosen and CSV column filled out
-        if not self.cleaned_data['csv_choice_tag'] and self.cleaned_data['csv_column_tag']:
+        if (
+            not self.cleaned_data['csv_choice_tag']
+            and self.cleaned_data['csv_column_tag']
+        ):
             validation_errors['csv_choice_tag'] = MISSING_CSV_CHOICE_STRING
         # tag - CSV chosen and DB chosen
         if self.cleaned_data['csv_choice_tag'] and self.cleaned_data['csv_default_tag']:
@@ -971,23 +1126,48 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
         """ check tag pefix and delimiter in combination with CSV and DB """
 
         # tag - CSV chosen and prefix and / or prefix delimiter not set
-        if self.cleaned_data['csv_choice_tag'] and (not self.cleaned_data['csv_tag_prefix'] or not self.cleaned_data['csv_tag_prefix_delimiter']):
-            validation_errors['csv_tag_prefix'] = 'Choose prefix and delimiter for tag import from CSV to distinguish between manual set tags.'
+        if self.cleaned_data['csv_choice_tag'] and (
+            not self.cleaned_data['csv_tag_prefix']
+            or not self.cleaned_data['csv_tag_prefix_delimiter']
+        ):
+            validation_errors[
+                'csv_tag_prefix'
+            ] = 'Choose prefix and delimiter for tag import from CSV to distinguish between manual set tags.'
         # tag - DB chosen and prefix and / or prefix delimiter chosen (overwrites error above)
-        if self.cleaned_data['csv_default_tag'] and (self.cleaned_data['csv_tag_prefix'] or self.cleaned_data['csv_tag_prefix_delimiter']):
-                validation_errors['csv_tag_prefix'] = 'Prefix and delimiter are not available when setting tags from database.'
+        if self.cleaned_data['csv_default_tag'] and (
+            self.cleaned_data['csv_tag_prefix']
+            or self.cleaned_data['csv_tag_prefix_delimiter']
+        ):
+            validation_errors[
+                'csv_tag_prefix'
+            ] = 'Prefix and delimiter are not available when setting tags from database.'
         # tag - DB chosen but special option 'tag_remove_prefix' set
-        if self.cleaned_data['csv_remove_tag'] == 'tag_remove_prefix' and self.cleaned_data['csv_default_tag']:
-            validation_errors['csv_remove_tag'] = 'Removing tags with prefix is only available when setting tags from CSV.'
+        if (
+            self.cleaned_data['csv_remove_tag'] == 'tag_remove_prefix'
+            and self.cleaned_data['csv_default_tag']
+        ):
+            validation_errors[
+                'csv_remove_tag'
+            ] = 'Removing tags with prefix is only available when setting tags from CSV.'
 
         """ check tagfree choices (systemstatus / analysisstatus) in combination with tag from CSV """
 
         # tag - alternative choice systemstatus (tagfree) chosen without tag choice from CSV
-        if self.cleaned_data['csv_choice_tagfree_systemstatus'] and not self.cleaned_data['csv_choice_tag']:
-            validation_errors['csv_choice_tagfree_systemstatus'] = 'Alternative systemstatus only available with tags from CSV.'
+        if (
+            self.cleaned_data['csv_choice_tagfree_systemstatus']
+            and not self.cleaned_data['csv_choice_tag']
+        ):
+            validation_errors[
+                'csv_choice_tagfree_systemstatus'
+            ] = 'Alternative systemstatus only available with tags from CSV.'
         # tag - alternative choice analysisstatus (tagfree) chosen without tag choice from CSV
-        if self.cleaned_data['csv_choice_tagfree_analysisstatus'] and not self.cleaned_data['csv_choice_tag']:
-            validation_errors['csv_choice_tagfree_analysisstatus'] = 'Alternative analysisstatus only available with tags from CSV.'
+        if (
+            self.cleaned_data['csv_choice_tagfree_analysisstatus']
+            and not self.cleaned_data['csv_choice_tag']
+        ):
+            validation_errors[
+                'csv_choice_tagfree_analysisstatus'
+            ] = 'Alternative analysisstatus only available with tags from CSV.'
 
         """ check if the column fields are different """
 
@@ -999,25 +1179,41 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
         if self.cleaned_data['csv_column_ip']:
             all_columns_dict['csv_column_ip'] = self.cleaned_data['csv_column_ip']
         if self.cleaned_data['csv_column_dnsname']:
-            all_columns_dict['csv_column_dnsname'] = self.cleaned_data['csv_column_dnsname']
+            all_columns_dict['csv_column_dnsname'] = self.cleaned_data[
+                'csv_column_dnsname'
+            ]
         if self.cleaned_data['csv_column_domain']:
-            all_columns_dict['csv_column_domain'] = self.cleaned_data['csv_column_domain']
+            all_columns_dict['csv_column_domain'] = self.cleaned_data[
+                'csv_column_domain'
+            ]
         if self.cleaned_data['csv_column_location']:
-            all_columns_dict['csv_column_location'] = self.cleaned_data['csv_column_location']
+            all_columns_dict['csv_column_location'] = self.cleaned_data[
+                'csv_column_location'
+            ]
         if self.cleaned_data['csv_column_os']:
             all_columns_dict['csv_column_os'] = self.cleaned_data['csv_column_os']
         if self.cleaned_data['csv_column_reason']:
-            all_columns_dict['csv_column_reason'] = self.cleaned_data['csv_column_reason']
+            all_columns_dict['csv_column_reason'] = self.cleaned_data[
+                'csv_column_reason'
+            ]
         if self.cleaned_data['csv_column_recommendation']:
-            all_columns_dict['csv_column_recommendation'] = self.cleaned_data['csv_column_recommendation']
+            all_columns_dict['csv_column_recommendation'] = self.cleaned_data[
+                'csv_column_recommendation'
+            ]
         if self.cleaned_data['csv_column_serviceprovider']:
-            all_columns_dict['csv_column_serviceprovider'] = self.cleaned_data['csv_column_serviceprovider']
+            all_columns_dict['csv_column_serviceprovider'] = self.cleaned_data[
+                'csv_column_serviceprovider'
+            ]
         if self.cleaned_data['csv_column_systemtype']:
-            all_columns_dict['csv_column_systemtype'] = self.cleaned_data['csv_column_systemtype']
+            all_columns_dict['csv_column_systemtype'] = self.cleaned_data[
+                'csv_column_systemtype'
+            ]
         if self.cleaned_data['csv_column_case']:
             all_columns_dict['csv_column_case'] = self.cleaned_data['csv_column_case']
         if self.cleaned_data['csv_column_company']:
-            all_columns_dict['csv_column_company'] = self.cleaned_data['csv_column_company']
+            all_columns_dict['csv_column_company'] = self.cleaned_data[
+                'csv_column_company'
+            ]
         if self.cleaned_data['csv_column_tag']:
             all_columns_dict['csv_column_tag'] = self.cleaned_data['csv_column_tag']
 
@@ -1036,85 +1232,197 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
         """ check remove conditions in combination with skip condition """
 
         # remove systemstatus
-        if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_systemstatus']:
+        if (
+            self.cleaned_data['csv_skip_existing_system']
+            and self.cleaned_data['csv_remove_systemstatus']
+        ):
             validation_errors['csv_remove_systemstatus'] = EITHER_SKIP_OR_REMOVE_STRING
         # remove analysisstatus
-        if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_analysisstatus']:
-            validation_errors['csv_remove_analysisstatus'] = EITHER_SKIP_OR_REMOVE_STRING
+        if (
+            self.cleaned_data['csv_skip_existing_system']
+            and self.cleaned_data['csv_remove_analysisstatus']
+        ):
+            validation_errors[
+                'csv_remove_analysisstatus'
+            ] = EITHER_SKIP_OR_REMOVE_STRING
         # remove ip
-        if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_ip']:
+        if (
+            self.cleaned_data['csv_skip_existing_system']
+            and self.cleaned_data['csv_remove_ip']
+        ):
             validation_errors['csv_remove_ip'] = EITHER_SKIP_OR_REMOVE_STRING
         # remove dnsname
-        if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_dnsname']:
+        if (
+            self.cleaned_data['csv_skip_existing_system']
+            and self.cleaned_data['csv_remove_dnsname']
+        ):
             validation_errors['csv_remove_dnsname'] = EITHER_SKIP_OR_REMOVE_STRING
         # remove domain
-        if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_domain']:
+        if (
+            self.cleaned_data['csv_skip_existing_system']
+            and self.cleaned_data['csv_remove_domain']
+        ):
             validation_errors['csv_remove_domain'] = EITHER_SKIP_OR_REMOVE_STRING
         # remove location
-        if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_location']:
+        if (
+            self.cleaned_data['csv_skip_existing_system']
+            and self.cleaned_data['csv_remove_location']
+        ):
             validation_errors['csv_remove_location'] = EITHER_SKIP_OR_REMOVE_STRING
         # remove os
-        if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_os']:
+        if (
+            self.cleaned_data['csv_skip_existing_system']
+            and self.cleaned_data['csv_remove_os']
+        ):
             validation_errors['csv_remove_os'] = EITHER_SKIP_OR_REMOVE_STRING
         # remove reason
-        if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_reason']:
+        if (
+            self.cleaned_data['csv_skip_existing_system']
+            and self.cleaned_data['csv_remove_reason']
+        ):
             validation_errors['csv_remove_reason'] = EITHER_SKIP_OR_REMOVE_STRING
         # remove recommendation
-        if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_recommendation']:
-            validation_errors['csv_remove_recommendation'] = EITHER_SKIP_OR_REMOVE_STRING
+        if (
+            self.cleaned_data['csv_skip_existing_system']
+            and self.cleaned_data['csv_remove_recommendation']
+        ):
+            validation_errors[
+                'csv_remove_recommendation'
+            ] = EITHER_SKIP_OR_REMOVE_STRING
         # remove serviceprovider
-        if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_serviceprovider']:
-            validation_errors['csv_remove_serviceprovider'] = EITHER_SKIP_OR_REMOVE_STRING
+        if (
+            self.cleaned_data['csv_skip_existing_system']
+            and self.cleaned_data['csv_remove_serviceprovider']
+        ):
+            validation_errors[
+                'csv_remove_serviceprovider'
+            ] = EITHER_SKIP_OR_REMOVE_STRING
         # remove systemtype
-        if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_systemtype']:
+        if (
+            self.cleaned_data['csv_skip_existing_system']
+            and self.cleaned_data['csv_remove_systemtype']
+        ):
             validation_errors['csv_remove_systemtype'] = EITHER_SKIP_OR_REMOVE_STRING
         # remove case
-        if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_case']:
+        if (
+            self.cleaned_data['csv_skip_existing_system']
+            and self.cleaned_data['csv_remove_case']
+        ):
             validation_errors['csv_remove_case'] = EITHER_SKIP_OR_REMOVE_STRING
         # remove company
-        if self.cleaned_data['csv_skip_existing_system'] and self.cleaned_data['csv_remove_company']:
+        if (
+            self.cleaned_data['csv_skip_existing_system']
+            and self.cleaned_data['csv_remove_company']
+        ):
             validation_errors['csv_remove_company'] = EITHER_SKIP_OR_REMOVE_STRING
 
         """ check remove conditions without CSV or DB """
 
         # remove ip
-        if not self.cleaned_data['csv_choice_ip'] and self.cleaned_data['csv_remove_ip']:
+        if (
+            not self.cleaned_data['csv_choice_ip']
+            and self.cleaned_data['csv_remove_ip']
+        ):
             validation_errors['csv_remove_ip'] = REMOVE_STRING
         # remove dnsname
-        if not (self.cleaned_data['csv_choice_dnsname'] or self.cleaned_data['csv_default_dnsname']) and self.cleaned_data['csv_remove_dnsname']:
+        if (
+            not (
+                self.cleaned_data['csv_choice_dnsname']
+                or self.cleaned_data['csv_default_dnsname']
+            )
+            and self.cleaned_data['csv_remove_dnsname']
+        ):
             validation_errors['csv_remove_dnsname'] = REMOVE_STRING
         # remove domain
-        if not (self.cleaned_data['csv_choice_domain'] or self.cleaned_data['csv_default_domain']) and self.cleaned_data['csv_remove_domain']:
+        if (
+            not (
+                self.cleaned_data['csv_choice_domain']
+                or self.cleaned_data['csv_default_domain']
+            )
+            and self.cleaned_data['csv_remove_domain']
+        ):
             validation_errors['csv_remove_domain'] = REMOVE_STRING
         # remove location
-        if not (self.cleaned_data['csv_choice_location'] or self.cleaned_data['csv_default_location']) and self.cleaned_data['csv_remove_location']:
+        if (
+            not (
+                self.cleaned_data['csv_choice_location']
+                or self.cleaned_data['csv_default_location']
+            )
+            and self.cleaned_data['csv_remove_location']
+        ):
             validation_errors['csv_remove_location'] = REMOVE_STRING
         # remove os
-        if not (self.cleaned_data['csv_choice_os'] or self.cleaned_data['csv_default_os']) and self.cleaned_data['csv_remove_os']:
+        if (
+            not (
+                self.cleaned_data['csv_choice_os']
+                or self.cleaned_data['csv_default_os']
+            )
+            and self.cleaned_data['csv_remove_os']
+        ):
             validation_errors['csv_remove_os'] = REMOVE_STRING
         # remove reason
-        if not (self.cleaned_data['csv_choice_reason'] or self.cleaned_data['csv_default_reason']) and self.cleaned_data['csv_remove_reason']:
+        if (
+            not (
+                self.cleaned_data['csv_choice_reason']
+                or self.cleaned_data['csv_default_reason']
+            )
+            and self.cleaned_data['csv_remove_reason']
+        ):
             validation_errors['csv_remove_reason'] = REMOVE_STRING
         # remove recommendation
-        if not (self.cleaned_data['csv_choice_recommendation'] or self.cleaned_data['csv_default_recommendation']) and self.cleaned_data['csv_remove_recommendation']:
+        if (
+            not (
+                self.cleaned_data['csv_choice_recommendation']
+                or self.cleaned_data['csv_default_recommendation']
+            )
+            and self.cleaned_data['csv_remove_recommendation']
+        ):
             validation_errors['csv_remove_recommendation'] = REMOVE_STRING
         # remove serviceprovider
-        if not (self.cleaned_data['csv_choice_serviceprovider'] or self.cleaned_data['csv_default_serviceprovider']) and self.cleaned_data['csv_remove_serviceprovider']:
+        if (
+            not (
+                self.cleaned_data['csv_choice_serviceprovider']
+                or self.cleaned_data['csv_default_serviceprovider']
+            )
+            and self.cleaned_data['csv_remove_serviceprovider']
+        ):
             validation_errors['csv_remove_serviceprovider'] = REMOVE_STRING
         # remove systemtype
-        if not (self.cleaned_data['csv_choice_systemtype'] or self.cleaned_data['csv_default_systemtype']) and self.cleaned_data['csv_remove_systemtype']:
+        if (
+            not (
+                self.cleaned_data['csv_choice_systemtype']
+                or self.cleaned_data['csv_default_systemtype']
+            )
+            and self.cleaned_data['csv_remove_systemtype']
+        ):
             validation_errors['csv_remove_systemtype'] = REMOVE_STRING
         # remove case
-        if not (self.cleaned_data['csv_choice_case'] or self.cleaned_data['csv_default_case']) and self.cleaned_data['csv_remove_case']:
+        if (
+            not (
+                self.cleaned_data['csv_choice_case']
+                or self.cleaned_data['csv_default_case']
+            )
+            and self.cleaned_data['csv_remove_case']
+        ):
             validation_errors['csv_remove_case'] = REMOVE_STRING
         # remove company
-        if not (self.cleaned_data['csv_choice_company'] or self.cleaned_data['csv_default_company']) and self.cleaned_data['csv_remove_company']:
+        if (
+            not (
+                self.cleaned_data['csv_choice_company']
+                or self.cleaned_data['csv_default_company']
+            )
+            and self.cleaned_data['csv_remove_company']
+        ):
             validation_errors['csv_remove_company'] = REMOVE_STRING
 
         """ check file system """
 
         # build csv file path
-        csv_path = self.cleaned_data['csv_import_path'] + '/' + self.cleaned_data['csv_import_filename']
+        csv_path = (
+            self.cleaned_data['csv_import_path']
+            + '/'
+            + self.cleaned_data['csv_import_filename']
+        )
 
         """
         CSV import file does not exist -> only warning is shown via message to giv to opportunity to prepare the file
@@ -1128,11 +1436,15 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
         else:
             # CSV import path is not readable - stop immediately
             if not os.access(self.cleaned_data['csv_import_path'], os.R_OK):
-                validation_errors['csv_import_path'] = 'No read permission for CSV import path.'
+                validation_errors[
+                    'csv_import_path'
+                ] = 'No read permission for CSV import path.'
             else:
                 # CSV import file does exist but is not readable - stop immediately
                 if os.path.isfile(csv_path) and not os.access(csv_path, os.R_OK):
-                    validation_errors['csv_import_filename'] = 'No read permission for CSV import file.'
+                    validation_errors[
+                        'csv_import_filename'
+                    ] = 'No read permission for CSV import file.'
 
         """ raise error """
 
@@ -1141,6 +1453,7 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
             raise forms.ValidationError(validation_errors)
 
         return cleaned_data
+
 
 '''
     modelformset_factory for WorkflowDefaultArtifactnameFormSet
@@ -1151,43 +1464,42 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
 
 WorkflowDefaultArtifactAttributesFormSet = forms.modelformset_factory(
     WorkflowDefaultArtifactAttributes,
-    fields = [
-            'artifacttype',
-            'artifact_default_name',
-            'artifact_default_status',
-            'artifact_default_priority'
+    fields=[
+        'artifacttype',
+        'artifact_default_name',
+        'artifact_default_status',
+        'artifact_default_priority',
     ],
-    labels = {
+    labels={
         'artifact_default_status': 'Default artifactstatus',
         'artifact_default_priority': 'Default artifactpriority',
     },
-    widgets= {
-        'artifact_default_name': forms.TextInput(attrs={'placeholder': 'Enter default artifact name'})
+    widgets={
+        'artifact_default_name': forms.TextInput(
+            attrs={'placeholder': 'Enter default artifact name'}
+        )
     },
-    extra=1
+    extra=1,
 )
 
 WorkflowDefaultTasknameAttributesFormSet = forms.modelformset_factory(
     WorkflowDefaultTasknameAttributes,
-    fields = [
-            'taskname',
-            'task_default_status',
-            'task_default_priority'
-    ],
-    labels = {
+    fields=['taskname', 'task_default_status', 'task_default_priority'],
+    labels={
         'task_default_status': 'Default taskstatus',
         'task_default_priority': 'Default taskpriority',
     },
     extra=1,
 )
 
+
 class WorkflowForm(forms.ModelForm):
 
     # reorder field choices
     workflow_name = forms.CharField(
         max_length=50,
-        label= gettext_lazy('Workflow name (*)'),
-        widget=forms.TextInput(attrs={'placeholder': 'Enter workflow name'})
+        label=gettext_lazy('Workflow name (*)'),
+        widget=forms.TextInput(attrs={'placeholder': 'Enter workflow name'}),
     )
 
     class Meta:

@@ -29,33 +29,33 @@ def statushistory_save_objects(username):
     # save number of artifacts (statushistoryentry_model_key not necessary)
     artifacts_number = Artifact.objects.all().count()
     StatushistoryEntry.objects.create(
-        statushistory = statushistory,
-        statushistoryentry_model_name = 'artifacts_number',
-        statushistoryentry_model_value = artifacts_number,
+        statushistory=statushistory,
+        statushistoryentry_model_name='artifacts_number',
+        statushistoryentry_model_value=artifacts_number,
     )
 
     # save number of cases (statushistoryentry_model_key not necessary)
     cases_number = Case.objects.all().count()
     StatushistoryEntry.objects.create(
-        statushistory = statushistory,
-        statushistoryentry_model_name = 'cases_number',
-        statushistoryentry_model_value = cases_number,
+        statushistory=statushistory,
+        statushistoryentry_model_name='cases_number',
+        statushistoryentry_model_value=cases_number,
     )
 
     # save number of systems (statushistoryentry_model_key not necessary)
     systems_number = System.objects.all().count()
     StatushistoryEntry.objects.create(
-        statushistory = statushistory,
-        statushistoryentry_model_name = 'systems_number',
-        statushistoryentry_model_value = systems_number,
+        statushistory=statushistory,
+        statushistoryentry_model_name='systems_number',
+        statushistoryentry_model_value=systems_number,
     )
 
     # save number of tasks (statushistoryentry_model_key not necessary)
     tasks_number = Task.objects.all().count()
     StatushistoryEntry.objects.create(
-        statushistory = statushistory,
-        statushistoryentry_model_name = 'tasks_number',
-        statushistoryentry_model_value = tasks_number,
+        statushistory=statushistory,
+        statushistoryentry_model_name='tasks_number',
+        statushistoryentry_model_value=tasks_number,
     )
 
     """ save analysisstatus """
@@ -65,29 +65,35 @@ def statushistory_save_objects(username):
     # loop over objects
     for analysisstatus in analysisstatus_all:
         # count number of associated objects
-        systems_number_analysisstatus = System.objects.filter(analysisstatus=analysisstatus).count()
+        systems_number_analysisstatus = System.objects.filter(
+            analysisstatus=analysisstatus
+        ).count()
         # save single object in history including its name and number of associated objects
         StatushistoryEntry.objects.create(
-            statushistory = statushistory,
-            statushistoryentry_model_name = 'analysisstatus',
-            statushistoryentry_model_key = analysisstatus.analysisstatus_name,
-            statushistoryentry_model_value = systems_number_analysisstatus,
+            statushistory=statushistory,
+            statushistoryentry_model_name='analysisstatus',
+            statushistoryentry_model_key=analysisstatus.analysisstatus_name,
+            statushistoryentry_model_value=systems_number_analysisstatus,
         )
 
     """ save artifactpriority """
 
     # get all objects
-    artifactpriority_all = Artifactpriority.objects.all().order_by('artifactpriority_name')
+    artifactpriority_all = Artifactpriority.objects.all().order_by(
+        'artifactpriority_name'
+    )
     # loop over objects
     for artifactpriority in artifactpriority_all:
         # count number of associated objects
-        artifacts_number_artifactpriority = Artifact.objects.filter(artifactpriority=artifactpriority).count()
+        artifacts_number_artifactpriority = Artifact.objects.filter(
+            artifactpriority=artifactpriority
+        ).count()
         # save single object in history including its name and number of associated objects
         StatushistoryEntry.objects.create(
-            statushistory = statushistory,
-            statushistoryentry_model_name = 'artifactpriority',
-            statushistoryentry_model_key = artifactpriority.artifactpriority_name,
-            statushistoryentry_model_value = artifacts_number_artifactpriority,
+            statushistory=statushistory,
+            statushistoryentry_model_name='artifactpriority',
+            statushistoryentry_model_key=artifactpriority.artifactpriority_name,
+            statushistoryentry_model_value=artifacts_number_artifactpriority,
         )
 
     """ save artifactstatus """
@@ -97,13 +103,15 @@ def statushistory_save_objects(username):
     # loop over objects
     for artifactstatus in artifactstatus_all:
         # count number of associated objects
-        artifacts_number_artifactstatus = Artifact.objects.filter(artifactstatus=artifactstatus).count()
+        artifacts_number_artifactstatus = Artifact.objects.filter(
+            artifactstatus=artifactstatus
+        ).count()
         # save single object in history including its name and number of associated objects
         StatushistoryEntry.objects.create(
-            statushistory = statushistory,
-            statushistoryentry_model_name = 'artifactstatus',
-            statushistoryentry_model_key = artifactstatus.artifactstatus_name,
-            statushistoryentry_model_value = artifacts_number_artifactstatus,
+            statushistory=statushistory,
+            statushistoryentry_model_name='artifactstatus',
+            statushistoryentry_model_key=artifactstatus.artifactstatus_name,
+            statushistoryentry_model_value=artifacts_number_artifactstatus,
         )
 
     """ save casepriority """
@@ -113,13 +121,15 @@ def statushistory_save_objects(username):
     # loop over objects
     for casepriority in casepriority_all:
         # count number of associated objects
-        cases_number_casepriority = Case.objects.filter(casepriority=casepriority).count()
+        cases_number_casepriority = Case.objects.filter(
+            casepriority=casepriority
+        ).count()
         # save single object in history including its name and number of associated objects
         StatushistoryEntry.objects.create(
-            statushistory = statushistory,
-            statushistoryentry_model_name = 'casepriority',
-            statushistoryentry_model_key = casepriority.casepriority_name,
-            statushistoryentry_model_value = cases_number_casepriority,
+            statushistory=statushistory,
+            statushistoryentry_model_name='casepriority',
+            statushistoryentry_model_key=casepriority.casepriority_name,
+            statushistoryentry_model_value=cases_number_casepriority,
         )
 
     """ save casestatus """
@@ -132,10 +142,10 @@ def statushistory_save_objects(username):
         cases_number_casestatus = Case.objects.filter(casestatus=casestatus).count()
         # save single object in history including its name and number of associated objects
         StatushistoryEntry.objects.create(
-            statushistory = statushistory,
-            statushistoryentry_model_name = 'casestatus',
-            statushistoryentry_model_key = casestatus.casestatus_name,
-            statushistoryentry_model_value = cases_number_casestatus,
+            statushistory=statushistory,
+            statushistoryentry_model_name='casestatus',
+            statushistoryentry_model_key=casestatus.casestatus_name,
+            statushistoryentry_model_value=cases_number_casestatus,
         )
 
     """ save systemstatus """
@@ -145,13 +155,15 @@ def statushistory_save_objects(username):
     # loop over objects
     for systemstatus in systemstatus_all:
         # count number of associated objects
-        systems_number_systemstatus = System.objects.filter(systemstatus=systemstatus).count()
+        systems_number_systemstatus = System.objects.filter(
+            systemstatus=systemstatus
+        ).count()
         # save single object in history including its name and number of associated objects
         StatushistoryEntry.objects.create(
-            statushistory = statushistory,
-            statushistoryentry_model_name = 'systemstatus',
-            statushistoryentry_model_key = systemstatus.systemstatus_name,
-            statushistoryentry_model_value = systems_number_systemstatus,
+            statushistory=statushistory,
+            statushistoryentry_model_name='systemstatus',
+            statushistoryentry_model_key=systemstatus.systemstatus_name,
+            statushistoryentry_model_value=systems_number_systemstatus,
         )
 
     """ save taskstatus """
@@ -164,10 +176,10 @@ def statushistory_save_objects(username):
         systems_number_taskstatus = Task.objects.filter(taskstatus=taskstatus).count()
         # save single object in history including its name and number of associated objects
         StatushistoryEntry.objects.create(
-            statushistory = statushistory,
-            statushistoryentry_model_name = 'taskstatus',
-            statushistoryentry_model_key = taskstatus.taskstatus_name,
-            statushistoryentry_model_value = systems_number_taskstatus,
+            statushistory=statushistory,
+            statushistoryentry_model_name='taskstatus',
+            statushistoryentry_model_key=taskstatus.taskstatus_name,
+            statushistoryentry_model_value=systems_number_taskstatus,
         )
 
     """ save taskpriority """
@@ -177,19 +189,28 @@ def statushistory_save_objects(username):
     # loop over objects
     for taskpriority in taskpriority_all:
         # count number of associated objects
-        systems_number_taskpriority = Task.objects.filter(taskpriority=taskpriority).count()
+        systems_number_taskpriority = Task.objects.filter(
+            taskpriority=taskpriority
+        ).count()
         # save single object in history including its name and number of associated objects
         StatushistoryEntry.objects.create(
-            statushistory = statushistory,
-            statushistoryentry_model_name = 'taskpriority',
-            statushistoryentry_model_key = taskpriority.taskpriority_name,
-            statushistoryentry_model_value = systems_number_taskpriority,
+            statushistory=statushistory,
+            statushistoryentry_model_name='taskpriority',
+            statushistoryentry_model_key=taskpriority.taskpriority_name,
+            statushistoryentry_model_value=systems_number_taskpriority,
         )
 
     # call logger
-    debug_logger(username, ' STATUS_SAVE_EXECUTED statushistory_id:' + str(statushistory.statushistory_id) + '|statushistory_time:' + str(statushistory))
+    debug_logger(
+        username,
+        ' STATUS_SAVE_EXECUTED statushistory_id:'
+        + str(statushistory.statushistory_id)
+        + '|statushistory_time:'
+        + str(statushistory),
+    )
 
     return statushistory
+
 
 @login_required(login_url="/login")
 def statushistory_save(request):
@@ -206,10 +227,11 @@ def statushistory_save(request):
     # reload page to show message
     return redirect(reverse('status'))
 
+
 def statushistory_save_cron():
 
     # get config
-    main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+    main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
 
     # get username from config
     username = main_config_model.cron_username

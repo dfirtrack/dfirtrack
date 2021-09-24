@@ -15,10 +15,10 @@ jobs:
       - run: black --check . || true
       - run: codespell --ignore-words-list="entrys" --skip="*.css,*.js,*.map"
       - run: flake8 . --count --select=E5,E9,F63,F7,F82,W291
-                      --max-complexity=132 --max-line-length=321
+                      --max-complexity=132 --max-line-length=313
                       --show-source --statistics
       - run: flake8 . --count --exit-zero --ignore=E251
-                      --max-line-length=321
+                      --max-line-length=313
                       --show-source --statistics
       - run: isort --check-only --profile black .
       - run: pip install -r requirements.txt

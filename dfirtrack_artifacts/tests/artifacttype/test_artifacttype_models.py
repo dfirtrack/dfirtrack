@@ -4,16 +4,16 @@ from dfirtrack_artifacts.models import Artifacttype
 
 
 class ArtifacttypeModelTestCase(TestCase):
-    """ artifacttype model tests """
+    """artifacttype model tests"""
 
     @classmethod
     def setUpTestData(cls):
 
         # create object
-        Artifacttype.objects.create(artifacttype_name = 'artifacttype_1')
+        Artifacttype.objects.create(artifacttype_name='artifacttype_1')
 
     def test_artifacttype_string(self):
-        """ test string representation """
+        """test string representation"""
 
         # get object
         artifacttype_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_1')
@@ -21,7 +21,7 @@ class ArtifacttypeModelTestCase(TestCase):
         self.assertEqual(str(artifacttype_1), 'artifacttype_1')
 
     def test_artifacttype_id_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         artifacttype_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_1')
@@ -31,7 +31,7 @@ class ArtifacttypeModelTestCase(TestCase):
         self.assertEqual(field_label, 'artifacttype id')
 
     def test_artifacttype_name_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         artifacttype_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_1')
@@ -41,7 +41,7 @@ class ArtifacttypeModelTestCase(TestCase):
         self.assertEqual(field_label, 'artifacttype name')
 
     def test_artifacttype_note_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         artifacttype_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_1')
@@ -51,7 +51,7 @@ class ArtifacttypeModelTestCase(TestCase):
         self.assertEqual(field_label, 'artifacttype note')
 
     def test_artifacttype_slug_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         artifacttype_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_1')
@@ -61,7 +61,7 @@ class ArtifacttypeModelTestCase(TestCase):
         self.assertEqual(field_label, 'artifacttype slug')
 
     def test_artifacttype_name_length(self):
-        """ test for max length """
+        """test for max length"""
 
         # get object
         artifacttype_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_1')
@@ -71,7 +71,7 @@ class ArtifacttypeModelTestCase(TestCase):
         self.assertEqual(max_length, 255)
 
     def test_artifacttype_slug_length(self):
-        """ test for max length """
+        """test for max length"""
 
         # get object
         artifacttype_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_1')

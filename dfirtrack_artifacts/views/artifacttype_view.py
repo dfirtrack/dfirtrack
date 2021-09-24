@@ -19,6 +19,7 @@ class ArtifacttypeListView(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " ARTIFACTTYPE_LIST_ENTERED")
         return Artifacttype.objects.order_by('artifacttype_name')
 
+
 class ArtifacttypeDetailView(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Artifacttype
@@ -30,6 +31,7 @@ class ArtifacttypeDetailView(LoginRequiredMixin, DetailView):
         artifacttype.logger(str(self.request.user), ' ARTIFACTTYPE_DETAIL_ENTERED')
         return context
 
+
 class ArtifacttypeCreateView(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Artifacttype
@@ -39,17 +41,22 @@ class ArtifacttypeCreateView(LoginRequiredMixin, CreateView):
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), ' ARTIFACTTYPE_ADD_ENTERED')
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-            'object_type': 'artifacttype',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'artifacttype',
+            },
+        )
 
     def form_valid(self, form):
         self.object = form.save()
         self.object.logger(str(self.request.user), ' ARTIFACTTYPE_ADD_EXECUTED')
         messages.success(self.request, 'Artifacttype added')
         return super().form_valid(form)
+
 
 class ArtifacttypeCreatePopup(LoginRequiredMixin, CreateView):
     login_url = '/login'
@@ -60,11 +67,15 @@ class ArtifacttypeCreatePopup(LoginRequiredMixin, CreateView):
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " ARTIFACTTYPE_ADD_POPUP_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-            'object_type': 'artifacttype',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'artifacttype',
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -73,13 +84,20 @@ class ArtifacttypeCreatePopup(LoginRequiredMixin, CreateView):
             artifacttype.save()
             artifacttype.logger(str(request.user), " ARTIFACTTYPE_ADD_POPUP_EXECUTED")
             messages.success(request, 'Artifacttype added')
-            return HttpResponse('<script type="text/javascript">window.close();</script>')
+            return HttpResponse(
+                '<script type="text/javascript">window.close();</script>'
+            )
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-                'object_type': 'artifacttype',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Add',
+                    'object_type': 'artifacttype',
+                },
+            )
+
 
 class ArtifacttypeUpdateView(LoginRequiredMixin, UpdateView):
     login_url = '/login'
@@ -89,14 +107,18 @@ class ArtifacttypeUpdateView(LoginRequiredMixin, UpdateView):
 
     def get(self, request, *args, **kwargs):
         artifacttype = self.get_object()
-        form = self.form_class(instance = artifacttype)
+        form = self.form_class(instance=artifacttype)
         artifacttype.logger(str(request.user), ' ARTIFACTTYPE_EDIT_ENTERED')
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Edit',
-            'object_type': 'artifacttype',
-            'object_name': artifacttype.artifacttype_name,
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Edit',
+                'object_type': 'artifacttype',
+                'object_name': artifacttype.artifacttype_name,
+            },
+        )
 
     def form_valid(self, form):
         self.object = form.save()

@@ -10,7 +10,7 @@ from dfirtrack_main.logger.default_logger import debug_logger
 
 
 def query_artifact(artifactstatus_list):
-    """ query artifacts with a list of specific artifactstatus """
+    """query artifacts with a list of specific artifactstatus"""
 
     # create empty artifact queryset
     artifacts_merged = Artifact.objects.none()
@@ -30,6 +30,7 @@ def query_artifact(artifactstatus_list):
     # return sorted artifacts with specific artifactstatus
     return artifacts_sorted
 
+
 class ArtifactListView(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Artifact
@@ -41,7 +42,7 @@ class ArtifactListView(LoginRequiredMixin, ListView):
         # call logger
         debug_logger(str(self.request.user), ' ARTIFACT_LIST_ENTERED')
         # get config
-        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
 
         """ get all artifacts with artifactstatus to be considered open """
 
@@ -52,6 +53,7 @@ class ArtifactListView(LoginRequiredMixin, ListView):
 
         # return artifacts according to query
         return artifacts
+
 
 class ArtifactClosedView(LoginRequiredMixin, ListView):
     login_url = '/login'
@@ -64,7 +66,7 @@ class ArtifactClosedView(LoginRequiredMixin, ListView):
         # call logger
         debug_logger(str(self.request.user), ' ARTIFACT_CLOSED_ENTERED')
         # get config
-        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
 
         """ get all artifacts with artifactstatus to be considered closed """
 
@@ -80,6 +82,7 @@ class ArtifactClosedView(LoginRequiredMixin, ListView):
         # return artifacts according to query
         return artifacts
 
+
 class ArtifactAllView(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Artifact
@@ -90,6 +93,7 @@ class ArtifactAllView(LoginRequiredMixin, ListView):
         # call logger
         debug_logger(str(self.request.user), ' ARTIFACT_ALL_ENTERED')
         return Artifact.objects.order_by('artifact_id')
+
 
 class ArtifactDetailView(LoginRequiredMixin, DetailView):
     login_url = '/login'
@@ -102,6 +106,7 @@ class ArtifactDetailView(LoginRequiredMixin, DetailView):
         systemtype.logger(str(self.request.user), ' ARTIFACT_DETAIL_ENTERED')
         return context
 
+
 class ArtifactCreateView(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Artifact
@@ -111,26 +116,38 @@ class ArtifactCreateView(LoginRequiredMixin, CreateView):
     def get(self, request, *args, **kwargs):
 
         # get id of first status objects sorted by name
-        artifactpriority = Artifactpriority.objects.order_by('artifactpriority_name')[0].artifactpriority_id
-        artifactstatus = Artifactstatus.objects.order_by('artifactstatus_name')[0].artifactstatus_id
+        artifactpriority = Artifactpriority.objects.order_by('artifactpriority_name')[
+            0
+        ].artifactpriority_id
+        artifactstatus = Artifactstatus.objects.order_by('artifactstatus_name')[
+            0
+        ].artifactstatus_id
 
         if 'system' in request.GET:
             system = request.GET['system']
-            form = self.form_class(initial={
-                'system': system,
-                'artifactpriority': artifactpriority,
-                'artifactstatus': artifactstatus,
-            })
+            form = self.form_class(
+                initial={
+                    'system': system,
+                    'artifactpriority': artifactpriority,
+                    'artifactstatus': artifactstatus,
+                }
+            )
         else:
-            form = self.form_class(initial={
-                'artifactpriority': artifactpriority,
-                'artifactstatus': artifactstatus,
-            })
+            form = self.form_class(
+                initial={
+                    'artifactpriority': artifactpriority,
+                    'artifactstatus': artifactstatus,
+                }
+            )
         debug_logger(str(request.user), ' ARTIFACT_ADD_ENTERED')
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Add',
+            },
+        )
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
@@ -145,6 +162,7 @@ class ArtifactCreateView(LoginRequiredMixin, CreateView):
 
         return super().form_valid(form)
 
+
 class ArtifactUpdateView(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Artifact
@@ -153,12 +171,16 @@ class ArtifactUpdateView(LoginRequiredMixin, UpdateView):
 
     def get(self, request, *args, **kwargs):
         artifact = self.get_object()
-        form = self.form_class(instance = artifact)
+        form = self.form_class(instance=artifact)
         artifact.logger(str(request.user), ' ARTIFACT_EDIT_ENTERED')
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Edit',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Edit',
+            },
+        )
 
     def form_valid(self, form):
         self.object = form.save(commit=False)

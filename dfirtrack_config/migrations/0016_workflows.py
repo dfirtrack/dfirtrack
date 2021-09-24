@@ -27,42 +27,122 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='WorkflowDefaultTasknameAttributes',
             fields=[
-                ('workflow_default_taskname_id', models.AutoField(primary_key=True, serialize=False)),
-                ('task_default_priority', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='workflow_default_task_priority', to='dfirtrack_main.taskpriority')),
-                ('task_default_status', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='workflow_default_task_status', to='dfirtrack_main.taskstatus')),
-                ('taskname', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='workflow_taskname_mapping', to='dfirtrack_main.taskname')),
-                ('workflow', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='workflow_taskattribute_mapping', to='dfirtrack_config.workflow')),
+                (
+                    'workflow_default_taskname_id',
+                    models.AutoField(primary_key=True, serialize=False),
+                ),
+                (
+                    'task_default_priority',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name='workflow_default_task_priority',
+                        to='dfirtrack_main.taskpriority',
+                    ),
+                ),
+                (
+                    'task_default_status',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name='workflow_default_task_status',
+                        to='dfirtrack_main.taskstatus',
+                    ),
+                ),
+                (
+                    'taskname',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name='workflow_taskname_mapping',
+                        to='dfirtrack_main.taskname',
+                    ),
+                ),
+                (
+                    'workflow',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name='workflow_taskattribute_mapping',
+                        to='dfirtrack_config.workflow',
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
             name='WorkflowDefaultArtifactAttributes',
             fields=[
-                ('workflow_default_artifactname_id', models.AutoField(primary_key=True, serialize=False)),
+                (
+                    'workflow_default_artifactname_id',
+                    models.AutoField(primary_key=True, serialize=False),
+                ),
                 ('artifact_default_name', models.CharField(max_length=50)),
-                ('artifact_default_priority', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='workflow_default_artifact_priority', to='dfirtrack_artifacts.artifactpriority')),
-                ('artifact_default_status', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='workflow_default_artifact_status', to='dfirtrack_artifacts.artifactstatus')),
-                ('artifacttype', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='workflow_artifacttype_mapping', to='dfirtrack_artifacts.artifacttype')),
-                ('workflow', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='workflow_artifactname_mapping', to='dfirtrack_config.workflow')),
+                (
+                    'artifact_default_priority',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name='workflow_default_artifact_priority',
+                        to='dfirtrack_artifacts.artifactpriority',
+                    ),
+                ),
+                (
+                    'artifact_default_status',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name='workflow_default_artifact_status',
+                        to='dfirtrack_artifacts.artifactstatus',
+                    ),
+                ),
+                (
+                    'artifacttype',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name='workflow_artifacttype_mapping',
+                        to='dfirtrack_artifacts.artifacttype',
+                    ),
+                ),
+                (
+                    'workflow',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name='workflow_artifactname_mapping',
+                        to='dfirtrack_config.workflow',
+                    ),
+                ),
             ],
         ),
         migrations.AddField(
             model_name='workflow',
             name='artifacttypes',
-            field=models.ManyToManyField(blank=True, related_name='main_config_workflow_artifacttype', through='dfirtrack_config.WorkflowDefaultArtifactAttributes', to='dfirtrack_artifacts.Artifacttype'),
+            field=models.ManyToManyField(
+                blank=True,
+                related_name='main_config_workflow_artifacttype',
+                through='dfirtrack_config.WorkflowDefaultArtifactAttributes',
+                to='dfirtrack_artifacts.Artifacttype',
+            ),
         ),
         migrations.AddField(
             model_name='workflow',
             name='tasknames',
-            field=models.ManyToManyField(blank=True, related_name='main_config_workflow_taskname', through='dfirtrack_config.WorkflowDefaultTasknameAttributes', to='dfirtrack_main.Taskname'),
+            field=models.ManyToManyField(
+                blank=True,
+                related_name='main_config_workflow_taskname',
+                through='dfirtrack_config.WorkflowDefaultTasknameAttributes',
+                to='dfirtrack_main.Taskname',
+            ),
         ),
         migrations.AddField(
             model_name='workflow',
             name='workflow_created_by_user_id',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='workflow_created_by', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name='workflow_created_by',
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.AddField(
             model_name='workflow',
             name='workflow_modified_by_user_id',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='worklfow_modified_by', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name='worklfow_modified_by',
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
     ]

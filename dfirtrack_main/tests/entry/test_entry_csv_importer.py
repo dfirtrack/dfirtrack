@@ -87,11 +87,11 @@ class EntryCsvImporterTestCase(TestCase):
         # get created entry
         entries = Entry.objects.filter(entry_time=str(now))
         #check
-        self.assertEquals(len(entries), 1)
-        self.assertEquals(len(messages), 1)
-        self.assertEquals(entries[0].entry_type, 'single_test')
-        self.assertEquals(entries[0].entry_content, 'Lorem ipsum')
-        self.assertEquals(str(messages[0]), 'Imported 1 entries for system "system_1".')
+        self.assertEqual(len(entries), 1)
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(entries[0].entry_type, 'single_test')
+        self.assertEqual(entries[0].entry_content, 'Lorem ipsum')
+        self.assertEqual(str(messages[0]), 'Imported 1 entries for system "system_1".')
 
     def test_upload_csv_entry_sha1_calculation(self):
         """ test upload one entry sha1 calculation """
@@ -112,7 +112,7 @@ class EntryCsvImporterTestCase(TestCase):
         entry = Entry.objects.get(entry_sha1=m.hexdigest())
         #check
         self.assertIsNotNone(entry)
-        self.assertEquals(entry.entry_type, 'sha1_test')
+        self.assertEqual(entry.entry_type, 'sha1_test')
 
     def test_upload_csv_entry_tag(self):
         """ test upload one entry sha1 calculation """
@@ -132,8 +132,8 @@ class EntryCsvImporterTestCase(TestCase):
         # get created entry
         entry = Entry.objects.get(entry_sha1=m.hexdigest())
         #check
-        self.assertEquals(len(entry.tag.all()), 1)
-        self.assertEquals(entry.tag.all()[0].tag_name, 'tag_1')
+        self.assertEqual(len(entry.tag.all()), 1)
+        self.assertEqual(entry.tag.all()[0].tag_name, 'tag_1')
 
     def test_upload_csv_duplicated_entries(self):
         """ test upload duplicated entries """
@@ -153,9 +153,9 @@ class EntryCsvImporterTestCase(TestCase):
         # get created entry
         entries = Entry.objects.filter(entry_time=str(now))
         #check
-        self.assertEquals(len(entries), 1)
-        self.assertEquals(len(messages), 1)
-        self.assertEquals(str(messages[0]), 'Imported 1 entries for system "system_1". Removed 1 duplicates.')
+        self.assertEqual(len(entries), 1)
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]), 'Imported 1 entries for system "system_1". Removed 1 duplicates.')
 
     def test_upload_csv_faulty_entry(self):
         """ test upload duplicated entries """
@@ -172,8 +172,8 @@ class EntryCsvImporterTestCase(TestCase):
         response = self.client.get('/entry/')
         messages = list(response.context['messages'])
         #check
-        self.assertEquals(len(messages), 1)
-        self.assertEquals(str(messages[0]), 'Could not import 1 of 1 entries for system "system_1".')
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]), 'Could not import 1 of 1 entries for system "system_1".')
 
     def test_upload_csv_file_not_found(self):
 
@@ -203,5 +203,5 @@ class EntryCsvImporterTestCase(TestCase):
 
         response = self.client.get('/entry/')
         messages = list(response.context['messages'])
-        self.assertEquals(len(messages), 1)
-        self.assertEquals(str(messages[0]), "Could not import the CSV file. Maybe the upload wasn't successful or the file was deleted.")
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]), "Could not import the CSV file. Maybe the upload wasn't successful or the file was deleted.")

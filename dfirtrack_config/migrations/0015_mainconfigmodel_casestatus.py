@@ -12,16 +12,28 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='mainconfigmodel',
             name='casestatus_end',
-            field=models.ManyToManyField(blank=True, related_name='main_config_casestatus_end', to='dfirtrack_main.Casestatus'),
+            field=models.ManyToManyField(
+                blank=True,
+                related_name='main_config_casestatus_end',
+                to='dfirtrack_main.Casestatus',
+            ),
         ),
         migrations.AddField(
             model_name='mainconfigmodel',
             name='casestatus_open',
-            field=models.ManyToManyField(blank=True, related_name='main_config_casestatus_open', to='dfirtrack_main.Casestatus'),
+            field=models.ManyToManyField(
+                blank=True,
+                related_name='main_config_casestatus_open',
+                to='dfirtrack_main.Casestatus',
+            ),
         ),
         migrations.AddField(
             model_name='mainconfigmodel',
             name='casestatus_start',
-            field=models.ManyToManyField(blank=True, related_name='main_config_casestatus_start', to='dfirtrack_main.Casestatus'),
+            field=models.ManyToManyField(
+                blank=True,
+                related_name='main_config_casestatus_start',
+                to='dfirtrack_main.Casestatus',
+            ),
         ),
     ]

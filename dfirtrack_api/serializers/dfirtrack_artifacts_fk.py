@@ -9,37 +9,34 @@ from dfirtrack_artifacts.models import (
 
 
 class ArtifactpriorityFkSerializer(serializers.ModelSerializer):
-    """ create serializer for foreignkey relationsship """
+    """create serializer for foreignkey relationsship"""
 
     class Meta:
         model = Artifactpriority
         # attributes made available for api
-        fields = (
-            'artifactpriority_name',
-        )
+        fields = ('artifactpriority_name',)
+
 
 class ArtifactstatusFkSerializer(serializers.ModelSerializer):
-    """ create serializer for foreignkey relationsship """
+    """create serializer for foreignkey relationsship"""
 
     class Meta:
         model = Artifactstatus
         # attributes made available for api
-        fields = (
-            'artifactstatus_name',
-        )
+        fields = ('artifactstatus_name',)
+
 
 class ArtifacttypeFkSerializer(serializers.ModelSerializer):
-    """ create serializer for foreignkey relationsship """
+    """create serializer for foreignkey relationsship"""
 
     class Meta:
         model = Artifacttype
         # attributes made available for api
-        fields = (
-            'artifacttype_name',
-        )
+        fields = ('artifacttype_name',)
+
 
 class ArtifactFkSerializer(serializers.ModelSerializer):
-    """ create serializer for foreignkey relationsship """
+    """create serializer for foreignkey relationsship"""
 
     class Meta:
         model = Artifact

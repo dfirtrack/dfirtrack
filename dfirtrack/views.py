@@ -7,13 +7,14 @@ from dfirtrack_config.models import MainConfigModel
 
 
 def login_redirect(request):
-    """ redirect to login """
+    """redirect to login"""
 
     return redirect('/login')
 
+
 @login_required(login_url="/login")
 def main_overview_redirect(request):
-    """ redirect main overview according to config """
+    """redirect main overview according to config"""
 
     # get config
     model = MainConfigModel.objects.get(main_config_name='MainConfig')

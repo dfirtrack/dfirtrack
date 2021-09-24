@@ -8,24 +8,40 @@ from dfirtrack_api.openapi.dfirtrack_openapi import DFIRTrackSchemaGenerator
 from dfirtrack_api.views import dfirtrack_artifacts, dfirtrack_main
 
 urlpatterns = [
-
     # dfirtrack_artifacts
     re_path(r'^artifact/$', dfirtrack_artifacts.ArtifactListApi.as_view()),
-    re_path(r'^artifact/(?P<pk>\d+)/$', dfirtrack_artifacts.ArtifactDetailApi.as_view()),
-    re_path(r'^artifactpriority/$', dfirtrack_artifacts.ArtifactpriorityListApi.as_view()),
-    re_path(r'^artifactpriority/(?P<pk>\d+)/$', dfirtrack_artifacts.ArtifactpriorityDetailApi.as_view()),
+    re_path(
+        r'^artifact/(?P<pk>\d+)/$', dfirtrack_artifacts.ArtifactDetailApi.as_view()
+    ),
+    re_path(
+        r'^artifactpriority/$', dfirtrack_artifacts.ArtifactpriorityListApi.as_view()
+    ),
+    re_path(
+        r'^artifactpriority/(?P<pk>\d+)/$',
+        dfirtrack_artifacts.ArtifactpriorityDetailApi.as_view(),
+    ),
     re_path(r'^artifactstatus/$', dfirtrack_artifacts.ArtifactstatusListApi.as_view()),
-    re_path(r'^artifactstatus/(?P<pk>\d+)/$', dfirtrack_artifacts.ArtifactstatusDetailApi.as_view()),
+    re_path(
+        r'^artifactstatus/(?P<pk>\d+)/$',
+        dfirtrack_artifacts.ArtifactstatusDetailApi.as_view(),
+    ),
     re_path(r'^artifacttype/$', dfirtrack_artifacts.ArtifacttypeListApi.as_view()),
-    re_path(r'^artifacttype/(?P<pk>\d+)/$', dfirtrack_artifacts.ArtifacttypeDetailApi.as_view()),
-
+    re_path(
+        r'^artifacttype/(?P<pk>\d+)/$',
+        dfirtrack_artifacts.ArtifacttypeDetailApi.as_view(),
+    ),
     # dfirtrack_main
     re_path(r'^analysisstatus/$', dfirtrack_main.AnalysisstatusListApi.as_view()),
-    re_path(r'^analysisstatus/(?P<pk>\d+)/$', dfirtrack_main.AnalysisstatusDetailApi.as_view()),
+    re_path(
+        r'^analysisstatus/(?P<pk>\d+)/$',
+        dfirtrack_main.AnalysisstatusDetailApi.as_view(),
+    ),
     re_path(r'^case/$', dfirtrack_main.CaseListApi.as_view()),
     re_path(r'^case/(?P<pk>\d+)/$', dfirtrack_main.CaseDetailApi.as_view()),
     re_path(r'^casepriority/$', dfirtrack_main.CasepriorityListApi.as_view()),
-    re_path(r'^casepriority/(?P<pk>\d+)/$', dfirtrack_main.CasepriorityDetailApi.as_view()),
+    re_path(
+        r'^casepriority/(?P<pk>\d+)/$', dfirtrack_main.CasepriorityDetailApi.as_view()
+    ),
     re_path(r'^casestatus/$', dfirtrack_main.CasestatusListApi.as_view()),
     re_path(r'^casestatus/(?P<pk>\d+)/$', dfirtrack_main.CasestatusDetailApi.as_view()),
     re_path(r'^casetype/$', dfirtrack_main.CasetypeListApi.as_view()),
@@ -59,15 +75,23 @@ urlpatterns = [
     re_path(r'^reason/$', dfirtrack_main.ReasonListApi.as_view()),
     re_path(r'^reason/(?P<pk>\d+)/$', dfirtrack_main.ReasonDetailApi.as_view()),
     re_path(r'^recommendation/$', dfirtrack_main.RecommendationListApi.as_view()),
-    re_path(r'^recommendation/(?P<pk>\d+)/$', dfirtrack_main.RecommendationDetailApi.as_view()),
+    re_path(
+        r'^recommendation/(?P<pk>\d+)/$',
+        dfirtrack_main.RecommendationDetailApi.as_view(),
+    ),
     re_path(r'^reportitem/$', dfirtrack_main.ReportitemListApi.as_view()),
     re_path(r'^reportitem/(?P<pk>\d+)/$', dfirtrack_main.ReportitemDetailApi.as_view()),
     re_path(r'^serviceprovider/$', dfirtrack_main.ServiceproviderListApi.as_view()),
-    re_path(r'^serviceprovider/(?P<pk>\d+)/$', dfirtrack_main.ServiceproviderDetailApi.as_view()),
+    re_path(
+        r'^serviceprovider/(?P<pk>\d+)/$',
+        dfirtrack_main.ServiceproviderDetailApi.as_view(),
+    ),
     re_path(r'^system/$', dfirtrack_main.SystemListApi.as_view()),
     re_path(r'^system/(?P<pk>\d+)/$', dfirtrack_main.SystemDetailApi.as_view()),
     re_path(r'^systemstatus/$', dfirtrack_main.SystemstatusListApi.as_view()),
-    re_path(r'^systemstatus/(?P<pk>\d+)/$', dfirtrack_main.SystemstatusDetailApi.as_view()),
+    re_path(
+        r'^systemstatus/(?P<pk>\d+)/$', dfirtrack_main.SystemstatusDetailApi.as_view()
+    ),
     re_path(r'^systemtype/$', dfirtrack_main.SystemtypeListApi.as_view()),
     re_path(r'^systemtype/(?P<pk>\d+)/$', dfirtrack_main.SystemtypeDetailApi.as_view()),
     re_path(r'^systemuser/$', dfirtrack_main.SystemuserListApi.as_view()),
@@ -81,20 +105,31 @@ urlpatterns = [
     re_path(r'^taskname/$', dfirtrack_main.TasknameListApi.as_view()),
     re_path(r'^taskname/(?P<pk>\d+)/$', dfirtrack_main.TasknameDetailApi.as_view()),
     re_path(r'^taskpriority/$', dfirtrack_main.TaskpriorityListApi.as_view()),
-    re_path(r'^taskpriority/(?P<pk>\d+)/$', dfirtrack_main.TaskpriorityDetailApi.as_view()),
+    re_path(
+        r'^taskpriority/(?P<pk>\d+)/$', dfirtrack_main.TaskpriorityDetailApi.as_view()
+    ),
     re_path(r'^taskstatus/$', dfirtrack_main.TaskstatusListApi.as_view()),
     re_path(r'^taskstatus/(?P<pk>\d+)/$', dfirtrack_main.TaskstatusDetailApi.as_view()),
     # Token Authentication
     re_path(r'^token-auth/$', obtain_auth_token),
     # openapi
-    re_path(r'^openapi/$', get_schema_view(generator_class=DFIRTrackSchemaGenerator,
+    re_path(
+        r'^openapi/$',
+        get_schema_view(
+            generator_class=DFIRTrackSchemaGenerator,
             public=True,
-        ), name='openapi-schema'),
+        ),
+        name='openapi-schema',
+    ),
     # Route TemplateView to serve Swagger UI template.
     #   * Provide `extra_context` with view name of `SchemaView`.
-    re_path('^docs/$', TemplateView.as_view(
-        template_name='dfirtrack_api/swagger-ui.html',
-        extra_context={'schema_url':'openapi-schema'}
-    ), name='swagger-ui'),
+    re_path(
+        '^docs/$',
+        TemplateView.as_view(
+            template_name='dfirtrack_api/swagger-ui.html',
+            extra_context={'schema_url': 'openapi-schema'},
+        ),
+        name='swagger-ui',
+    ),
 ]
 urlpatterns = format_suffix_patterns(urlpatterns)

@@ -16,14 +16,16 @@ from dfirtrack_main.models import (
 
 
 class CaseAPIViewTestCase(TestCase):
-    """ case API view tests """
+    """case API view tests"""
 
     @classmethod
     def setUpTestData(cls):
-        """ one time setup """
+        """one time setup"""
 
         # create user
-        test_user = User.objects.create_user(username='testuser_case_api', password='nkeZDU2qGKXWR49sAVf5')
+        test_user = User.objects.create_user(
+            username='testuser_case_api', password='nkeZDU2qGKXWR49sAVf5'
+        )
 
         # create objects
         casepriority_1 = Casepriority.objects.create(casepriority_name='casepriority_1')
@@ -32,24 +34,24 @@ class CaseAPIViewTestCase(TestCase):
 
         # create object
         Case.objects.create(
-            case_name = 'case_api_1',
-            casepriority = casepriority_1,
-            casestatus = casestatus_1,
-            casetype = casetype_1,
-            case_is_incident = True,
-            case_created_by_user_id = test_user,
+            case_name='case_api_1',
+            casepriority=casepriority_1,
+            casestatus=casestatus_1,
+            casetype=casetype_1,
+            case_is_incident=True,
+            case_created_by_user_id=test_user,
         )
 
         # create object
         tagcolor_1 = Tagcolor.objects.create(tagcolor_name='tagcolor_1')
         # create object
         Tag.objects.create(
-            tagcolor = tagcolor_1,
-            tag_name = 'tag_1',
+            tagcolor=tagcolor_1,
+            tag_name='tag_1',
         )
 
     def test_case_list_api_unauthorized(self):
-        """ unauthorized access is forbidden"""
+        """unauthorized access is forbidden"""
 
         # get response
         response = self.client.get('/api/case/')
@@ -57,7 +59,7 @@ class CaseAPIViewTestCase(TestCase):
         self.assertEqual(response.status_code, 401)
 
     def test_case_list_api_method_get(self):
-        """ GET is allowed """
+        """GET is allowed"""
 
         # login testuser
         self.client.login(username='testuser_case_api', password='nkeZDU2qGKXWR49sAVf5')
@@ -67,7 +69,7 @@ class CaseAPIViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_case_list_api_method_post(self):
-        """ POST is allowed """
+        """POST is allowed"""
 
         # login testuser
         self.client.login(username='testuser_case_api', password='nkeZDU2qGKXWR49sAVf5')
@@ -103,7 +105,7 @@ class CaseAPIViewTestCase(TestCase):
         self.assertEqual(case_api_2.case_is_incident, False)
 
     def test_case_list_api_method_post_all_id(self):
-        """ POST is allowed """
+        """POST is allowed"""
 
         # login testuser
         self.client.login(username='testuser_case_api', password='nkeZDU2qGKXWR49sAVf5')
@@ -146,11 +148,16 @@ class CaseAPIViewTestCase(TestCase):
         self.assertEqual(case_api_3.casestatus, casestatus_1)
         self.assertEqual(case_api_3.casetype, casetype_1)
         self.assertTrue(case_api_3.tag.filter(tag_name='tag_1').exists())
-        self.assertEqual(case_api_3.case_start_time, datetime(2021, 5, 9, 11, 15, tzinfo=timezone.utc))
-        self.assertEqual(case_api_3.case_end_time, datetime(2021, 5, 9, 11, 25, tzinfo=timezone.utc))
+        self.assertEqual(
+            case_api_3.case_start_time,
+            datetime(2021, 5, 9, 11, 15, tzinfo=timezone.utc),
+        )
+        self.assertEqual(
+            case_api_3.case_end_time, datetime(2021, 5, 9, 11, 25, tzinfo=timezone.utc)
+        )
 
     def test_case_list_api_redirect(self):
-        """ test redirect with appending slash """
+        """test redirect with appending slash"""
 
         # login testuser
         self.client.login(username='testuser_case_api', password='nkeZDU2qGKXWR49sAVf5')
@@ -159,10 +166,12 @@ class CaseAPIViewTestCase(TestCase):
         # get response
         response = self.client.get('/api/case', follow=True)
         # compare
-        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=301, target_status_code=200
+        )
 
-    def test_case_detail_api_unauthorized (self):
-        """ unauthorized access is forbidden"""
+    def test_case_detail_api_unauthorized(self):
+        """unauthorized access is forbidden"""
 
         # get object
         case_api_1 = Case.objects.get(case_name='case_api_1')
@@ -172,7 +181,7 @@ class CaseAPIViewTestCase(TestCase):
         self.assertEqual(response.status_code, 401)
 
     def test_case_detail_api_method_get(self):
-        """ GET is allowed """
+        """GET is allowed"""
 
         # get object
         case_api_1 = Case.objects.get(case_name='case_api_1')
@@ -184,7 +193,7 @@ class CaseAPIViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_case_detail_api_method_delete(self):
-        """ DELETE is forbidden """
+        """DELETE is forbidden"""
 
         # get object
         case_api_1 = Case.objects.get(case_name='case_api_1')
@@ -196,7 +205,7 @@ class CaseAPIViewTestCase(TestCase):
         self.assertEqual(response.status_code, 405)
 
     def test_case_detail_api_method_put(self):
-        """ PUT is allowed """
+        """PUT is allowed"""
 
         # get object
         case_api_1 = Case.objects.get(case_name='case_api_1')
@@ -209,7 +218,9 @@ class CaseAPIViewTestCase(TestCase):
         casestatus_2 = Casestatus.objects.create(casestatus_name='casestatus_2')
         casetype_2 = Casetype.objects.create(casetype_name='casetype_2')
         # create url
-        destination = urllib.parse.quote('/api/case/' + str(case_api_1.case_id) + '/', safe='/')
+        destination = urllib.parse.quote(
+            '/api/case/' + str(case_api_1.case_id) + '/', safe='/'
+        )
         # create PUT string
         putstring = {
             "case_name": "new_case_api_1",
@@ -220,7 +231,9 @@ class CaseAPIViewTestCase(TestCase):
             "case_created_by_user_id": test_user_id,
         }
         # get response
-        response = self.client.put(destination, data=putstring, content_type='application/json')
+        response = self.client.put(
+            destination, data=putstring, content_type='application/json'
+        )
         # compare
         self.assertEqual(response.status_code, 200)
         # get new object
@@ -232,7 +245,7 @@ class CaseAPIViewTestCase(TestCase):
         self.assertEqual(new_case_api_1.case_is_incident, False)
 
     def test_case_detail_api_method_put_all_id(self):
-        """ PUT is allowed """
+        """PUT is allowed"""
 
         # get object
         case_api_1 = Case.objects.get(case_name='case_api_1')
@@ -247,7 +260,9 @@ class CaseAPIViewTestCase(TestCase):
         # get object
         tag_1 = Tag.objects.get(tag_name='tag_1')
         # create url
-        destination = urllib.parse.quote('/api/case/' + str(case_api_1.case_id) + '/', safe='/')
+        destination = urllib.parse.quote(
+            '/api/case/' + str(case_api_1.case_id) + '/', safe='/'
+        )
         # create PUT string
         putstring = {
             "case_name": "new_case_api_2",
@@ -265,7 +280,9 @@ class CaseAPIViewTestCase(TestCase):
             "case_modified_by_user_id": test_user_id,
         }
         # get response
-        response = self.client.put(destination, data=putstring, content_type='application/json')
+        response = self.client.put(
+            destination, data=putstring, content_type='application/json'
+        )
         # compare
         self.assertEqual(response.status_code, 200)
         # get new object
@@ -276,19 +293,29 @@ class CaseAPIViewTestCase(TestCase):
         self.assertEqual(new_case_api_2.casestatus, casestatus_3)
         self.assertEqual(new_case_api_2.casetype, casetype_3)
         self.assertTrue(new_case_api_2.tag.filter(tag_name='tag_1').exists())
-        self.assertEqual(new_case_api_2.case_start_time, datetime(2021, 5, 9, 11, 35, tzinfo=timezone.utc))
-        self.assertEqual(new_case_api_2.case_end_time, datetime(2021, 5, 9, 11, 45, tzinfo=timezone.utc))
+        self.assertEqual(
+            new_case_api_2.case_start_time,
+            datetime(2021, 5, 9, 11, 35, tzinfo=timezone.utc),
+        )
+        self.assertEqual(
+            new_case_api_2.case_end_time,
+            datetime(2021, 5, 9, 11, 45, tzinfo=timezone.utc),
+        )
 
     def test_case_detail_api_redirect(self):
-        """ test redirect with appending slash """
+        """test redirect with appending slash"""
 
         # get object
         case_api_1 = Case.objects.get(case_name='case_api_1')
         # login testuser
         self.client.login(username='testuser_case_api', password='nkeZDU2qGKXWR49sAVf5')
         # create url
-        destination = urllib.parse.quote('/api/case/' + str(case_api_1.case_id) + '/', safe='/')
+        destination = urllib.parse.quote(
+            '/api/case/' + str(case_api_1.case_id) + '/', safe='/'
+        )
         # get response
         response = self.client.get('/api/case/' + str(case_api_1.case_id), follow=True)
         # compare
-        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=301, target_status_code=200
+        )
