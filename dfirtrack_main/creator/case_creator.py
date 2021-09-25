@@ -100,7 +100,7 @@ def case_creator_async(request_post, request_user):
                 # call logger
                 system.logger( str(request_user), ' CASE_CREATOR_EXECUTED')
 
-    """ finish case importer """
+    """ finish case creator """
 
     # fix case number (other meaning than with tag creator
     cases_affected_counter  = int(cases_affected_counter / systems_affected_counter)

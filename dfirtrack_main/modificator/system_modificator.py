@@ -297,7 +297,7 @@ def system_modificator_async(request_post, request_user):
                 else:
                     workflows_applied += workflow_count
 
-    """ finish system importer """
+    """ finish system modificator """
 
     # call final messages
     final_messages(systems_modified_counter, systems_skipped_counter, lines_faulty_counter, skipped_systems, number_of_lines, request_user, workflow_count, workflows_applied)
