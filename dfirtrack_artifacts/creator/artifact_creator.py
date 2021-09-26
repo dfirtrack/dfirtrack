@@ -102,6 +102,9 @@ def artifact_creator_async(request_post, request_user):
                 artifact.artifacttype = Artifacttype.objects.get(artifacttype_id=artifacttype)
                 artifact.system = System.objects.get(system_id=system)
 
+                # set artifact name
+                artifact.artifact_name = Artifacttype.objects.get(artifacttype_id=artifacttype).artifacttype_name
+
                 # set auto values
                 artifact.artifact_created_by_user_id = request_user
                 artifact.artifact_modified_by_user_id = request_user
