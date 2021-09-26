@@ -523,98 +523,89 @@
     <!-- artifacts  headline -->
     <div class="row bottom-distance">
         <div class="col">
-            <a href="#artifacts" data-bs-toggle="collapse">
-                <h5>
-                    <img src="{% static 'dfirtrack_main/icons/bug-light.svg' %}" class="icon right-distance copy-false" alt="icon">
-                    Artifacts
-                    <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
-                </h5>
-            </a>
+            <h5>
+                <img src="{% static 'dfirtrack_main/icons/bug-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                Artifacts
+            </h5>
         </div>
     </div>
 
-    <!-- artifacts collapse -->
-    <div id="artifacts" class="collapse">
+    <!-- datatable artifacts -->
+    <table id="table_system_artifact" class="display" width="100%">
 
-        <!-- datatable artifacts -->
-        <table id="table_system_artifact" class="display" width="100%">
+        <!-- table head -->
+        <thead>
+            {% include "dfirtrack_artifacts/includes/datatable_thead_table_artifact_reduced.html" %}
+        </thead>
 
-            <!-- table head -->
-            <thead>
-                {% include "dfirtrack_artifacts/includes/datatable_thead_table_artifact_reduced.html" %}
-            </thead>
+        <!-- table body -->
+        <tbody>
+            {% if artifacts %}
+                {% for i in artifacts %}
+                    {% include "dfirtrack_artifacts/includes/datatable_tbody_table_artifact_reduced.html" %}
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td>---</td>
+                    <td>---</td>
+                    <td>---</td>
+                    <td>---</td>
+                    <td>---</td>
+                    <td>---</td>
+                </tr>
+            {% endif %}
+        </tbody>
 
-            <!-- table body -->
-            <tbody>
-                {% if artifacts %}
-                    {% for i in artifacts %}
-                        {% include "dfirtrack_artifacts/includes/datatable_tbody_table_artifact_reduced.html" %}
-                    {% endfor %}
-                {% else %}
-                    <tr>
-                        <td>---</td>
-                        <td>---</td>
-                        <td>---</td>
-                        <td>---</td>
-                        <td>---</td>
-                        <td>---</td>
-                    </tr>
-                {% endif %}
-            </tbody>
+    <!-- datatable artifacts -->
+    </table>
 
-        <!-- datatable artifacts -->
-        </table>
+    <!-- javascript for datatables -->
+    <script src="{% static 'dfirtrack_artifacts/datatables_artifacts.js' %}"></script>
 
-        <!-- javascript for datatables -->
-        <script src="{% static 'dfirtrack_artifacts/datatables_artifacts.js' %}"></script>
+    <!-- add artifact / workflow button row -->
+    <div class="row bottom-distance top-distance">
+        <div class="col btn-group">
+
+            <!-- add artifact button -->
+            <div>
+                <a href="{% url 'artifacts_artifact_create' %}?system={{ system.system_id }}" type="button" class="btn btn-light btn-sm copy-false right-distance">
+                    <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm copy-false right-distance" alt="icon">
+                    Add artifact
+                </a>
+            </div>
+
+            <!-- add workflow button -->
+            <div>
+                <form method="post" action="{% url 'workflow_apply' system.system_id %}">
+
+                    {% csrf_token %}
+
+                    {% if workflows %}
+                        <!-- workflow apply button -->
+                        <button class="btn btn-light btn-sm copy-false" type="submit">
+                            <img src="{% static 'dfirtrack_main/icons/share.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                            Apply workflow
+                        </button>
+                    {% else %}
+                        <!-- disabled button -->
+                        <button class="btn btn-light btn-sm copy-false" disabled>
+                            <img src="{% static 'dfirtrack_main/icons/share.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                            Apply workflow
+                        </button>
+                    {% endif %}
+
+                    <!-- workflow dropdown -->
+                    <select name="workflow">
+                        {% for workflow in workflows %}
+                            <option value="{{workflow.workflow_id}}">{{workflow}}</option>
+                        {% endfor %}
+                    </select>
+
+                </form>
+            </div>
 
         <!-- add artifact / workflow button row -->
-        <div class="row bottom-distance top-distance">
-            <div class="col btn-group">
-
-                <!-- add artifact button -->
-                <div>
-                    <a href="{% url 'artifacts_artifact_create' %}?system={{ system.system_id }}" type="button" class="btn btn-light btn-sm copy-false right-distance">
-                        <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm copy-false right-distance" alt="icon">
-                        Add artifact
-                    </a>
-                </div>
-
-                <!-- add workflow button -->
-                <div>
-                    <form method="post" action="{% url 'workflow_apply' system.system_id %}">
-
-                        {% csrf_token %}
-
-                        {% if workflows %}
-                            <!-- workflow apply button -->
-                            <button class="btn btn-light btn-sm copy-false" type="submit">
-                                <img src="{% static 'dfirtrack_main/icons/share.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                                Apply workflow
-                            </button>
-                        {% else %}
-                            <!-- disabled button -->
-                            <button class="btn btn-light btn-sm copy-false" disabled>
-                                <img src="{% static 'dfirtrack_main/icons/share.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                                Apply workflow
-                            </button>
-                        {% endif %}
-
-                        <!-- workflow dropdown -->
-                        <select name="workflow">
-                            {% for workflow in workflows %}
-                                <option value="{{workflow.workflow_id}}">{{workflow}}</option>
-                            {% endfor %}
-                        </select>
-
-                    </form>
-                </div>
-
-            <!-- add artifact / workflow button row -->
-            </div>
         </div>
-
-    <!-- artifacts collapse -->
     </div>
 
 <!-- artifacts -->
