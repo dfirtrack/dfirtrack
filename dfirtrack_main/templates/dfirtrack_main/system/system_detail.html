@@ -419,11 +419,20 @@
                     {% csrf_token %}
 
                     {% if workflows %}
+
                         <!-- workflow apply button -->
                         <button class="btn btn-light btn-sm copy-false" type="submit">
                             <img src="{% static 'dfirtrack_main/icons/share.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                             Apply workflow
                         </button>
+
+                        <!-- workflow dropdown -->
+                        <select name="workflow">
+                            {% for workflow in workflows %}
+                                <option value="{{workflow.workflow_id}}">{{workflow}}</option>
+                            {% endfor %}
+                        </select>
+
                     {% else %}
                         <!-- disabled button -->
                         <button class="btn btn-light btn-sm copy-false" disabled>
@@ -431,13 +440,6 @@
                             Apply workflow
                         </button>
                     {% endif %}
-
-                    <!-- workflow dropdown -->
-                    <select name="workflow">
-                        {% for workflow in workflows %}
-                            <option value="{{workflow.workflow_id}}">{{workflow}}</option>
-                        {% endfor %}
-                    </select>
 
                 </form>
             </div>
@@ -581,11 +583,20 @@
                     {% csrf_token %}
 
                     {% if workflows %}
+
                         <!-- workflow apply button -->
                         <button class="btn btn-light btn-sm copy-false" type="submit">
                             <img src="{% static 'dfirtrack_main/icons/share.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                             Apply workflow
                         </button>
+
+                        <!-- workflow dropdown -->
+                        <select name="workflow">
+                            {% for workflow in workflows %}
+                                <option value="{{workflow.workflow_id}}">{{workflow}}</option>
+                            {% endfor %}
+                        </select>
+
                     {% else %}
                         <!-- disabled button -->
                         <button class="btn btn-light btn-sm copy-false" disabled>
@@ -593,13 +604,6 @@
                             Apply workflow
                         </button>
                     {% endif %}
-
-                    <!-- workflow dropdown -->
-                    <select name="workflow">
-                        {% for workflow in workflows %}
-                            <option value="{{workflow.workflow_id}}">{{workflow}}</option>
-                        {% endfor %}
-                    </select>
 
                 </form>
             </div>

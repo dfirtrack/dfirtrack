@@ -186,13 +186,19 @@
         <div class="row">
             <div class="col-6">
                 <div class="card card-body bg-dark border-light top-distance">
-                    {% for workflow in workflows %}
-                        <label for="id_form_workflow_{{ workflow.workflow_id }}">
-                            <input type="checkbox" name="workflow" value="{{ workflow.workflow_id }}" id="id_form_workflow_{{ workflow.workflow_id }}">
-                            {{workflow}}
-                        </label>
-                        <br />
-                    {% endfor %}
+                    {% if workflows %}
+                        {% for workflow in workflows %}
+                            <label for="id_form_workflow_{{ workflow.workflow_id }}">
+                                <input type="checkbox" name="workflow" value="{{ workflow.workflow_id }}" id="id_form_workflow_{{ workflow.workflow_id }}">
+                                {{workflow}}
+                            </label>
+                            <br />
+                        {% endfor %}
+                    {% else %}
+                        <div class="text-muted">
+                            No workflows defined.
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
