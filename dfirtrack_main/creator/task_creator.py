@@ -130,7 +130,7 @@ def task_creator_async(request_post, request_user):
                 # call logger
                 task.logger( str(request_user), ' TASK_CREATOR_EXECUTED')
 
-    """ finish system importer """
+    """ finish task creator """
 
     # call final message
     message_user(

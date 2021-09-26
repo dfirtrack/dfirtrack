@@ -113,20 +113,20 @@
             </div>
         </div>
 
-        <!-- taskpriority / taskstatus / user headline -->
+        <!-- taskstatus / taskpriority / user headline -->
         <div class="row">
-
-            <!-- taskpriority headline -->
-            <div class="col-3">
-                <div class="font-weight-bold">
-                    {{ form.taskpriority.label }}
-                </div>
-            </div>
 
             <!-- taskstatus headline -->
             <div class="col-3">
                 <div class="font-weight-bold">
                     {{ form.taskstatus.label }}
+                </div>
+            </div>
+
+            <!-- taskpriority headline -->
+            <div class="col-3">
+                <div class="font-weight-bold">
+                    {{ form.taskpriority.label }}
                 </div>
             </div>
 
@@ -138,24 +138,11 @@
                 </div>
             </div>
 
-        <!-- taskpriority / taskstatus / user headline -->
+        <!-- taskstatus / taskpriority / user headline -->
         </div>
 
-        <!-- taskpriority / taskstatus / user -->
+        <!-- taskstatus / taskpriority / user -->
         <div class="row">
-
-            <!-- taskpriority -->
-            <div class="col-3">
-                <div class="card card-body bg-dark border-light top-distance">
-                    <!-- taskpriority errors -->
-                    <div class="text-danger">
-                        {{ form.taskpriority.errors }}
-                    </div>
-                    {% for i in form.taskpriority %}
-                        {{ i }}
-                    {% endfor %}
-                </div>
-            </div>
 
             <!-- taskstatus -->
             <div class="col-3">
@@ -165,6 +152,19 @@
                         {{ form.taskstatus.errors }}
                     </div>
                     {% for i in form.taskstatus %}
+                        {{ i }}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- taskpriority -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- taskpriority errors -->
+                    <div class="text-danger">
+                        {{ form.taskpriority.errors }}
+                    </div>
+                    {% for i in form.taskpriority %}
                         {{ i }}
                     {% endfor %}
                 </div>
@@ -180,7 +180,7 @@
                 </div>
             </div>
 
-        <!-- taskpriority / taskstatus / user -->
+        <!-- taskstatus / taskpriority / user -->
         </div>
 
         <!-- system headline -->

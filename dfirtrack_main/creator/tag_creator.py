@@ -100,7 +100,7 @@ def tag_creator_async(request_post, request_user):
                 # call logger
                 system.logger( str(request_user), ' TAG_CREATOR_EXECUTED')
 
-    """ finish tag importer """
+    """ finish tag creator """
 
     # call final message
     message_user(

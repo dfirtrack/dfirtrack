@@ -13,12 +13,20 @@
     <!-- button row -->
     <div class="row copy-false">
 
-        <!-- artifact add button -->
-        <div class="col-1">
+        <div class="col btn-group">
+            <!-- add button -->
             <div data-toggle="tooltip" data-placement="auto" title="Create single artifact.">
-                <a href="{% url 'artifacts_artifact_create' %}" type="button" class="btn btn-light copy-false">
+                <a href="{% url 'artifacts_artifact_create' %}" type="button" class="btn btn-light copy-false right-s-distance">
                     <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon right-distance copy-false" alt="icon">
                     Add artifact
+                </a>
+            </div>
+
+            <!-- creator button -->
+            <div data-toggle="tooltip" data-placement="auto" title="Create many artifacts with same properties.">
+                <a href="{% url 'artifact_creator' %}" type="button" class="btn btn-light copy-false right-s-distance">
+                    <img src="{% static 'dfirtrack_main/icons/box.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    Creator
                 </a>
             </div>
         </div>

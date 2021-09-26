@@ -4,9 +4,8 @@
 <!-- HTML head in maintemplate -->
 {% block head %}
 
-<title>
-    {{ title }} artifact {% if form.artifact_name.value %}'{{ form.artifact_name.value }}'{% endif %}
-</title>
+<!-- page title -->
+<title>Artifacts creator</title>
 
 {% load static %}
 
@@ -21,7 +20,7 @@
 <!-- headline -->
 <div class="bottom-distance">
     <h4>
-        {{ title }} artifact
+        Create artifacts
     </h4>
 </div>
 
@@ -36,19 +35,17 @@
     <!-- show form related errors -->
     {% include "dfirtrack_main/includes/form_errors.html" %}
 
-    <!-- ############################################ -->
-
-    <!-- artifact_name block -->
+    <!-- artifacttype block -->
     <div class="card card-body bg-dark border-light top-distance">
 
-        <!-- artifact_name / system headline row -->
+        <!-- artifacttype / system headline -->
         <div class="row">
 
-            <!-- artifact_name headline -->
+            <!-- artifacttype headline -->
             <div class="col-3">
                 <h5>
                     <img src="{% static 'dfirtrack_main/icons/bug-light.svg' %}" class="icon right-distance copy-false" alt="icon">
-                    {{ form.artifact_name.label }}
+                    {{ form.artifacttype.label }} - Will be set as artifact names
                 </h5>
             </div>
 
@@ -60,20 +57,20 @@
                 </h5>
             </div>
 
-        <!-- artifact_name / system headline row -->
         </div>
 
-        <!-- artifact_name / system row -->
+        <!-- artifacttypes / systems -->
         <div class="row">
 
-            <!-- artifact_name  -->
             <div class="col-3">
                 <div class="card card-body bg-dark border-light top-distance">
-                    <!-- artifact_name errors -->
-                    <div class="text-danger">
-                        {{ form.artifact_name.errors }}
-                    </div>
-                    {{ form.artifact_name }}
+                <!-- artifacttype errors -->
+                <div class="text-danger">
+                    {{ form.artifacttype.errors }}
+                </div>
+                {% for i in form.artifacttype %}
+                    {{ i }}
+                {% endfor %}
                 </div>
             </div>
 
@@ -84,47 +81,34 @@
                     <div class="text-danger">
                         {{ form.system.errors }}
                     </div>
-                    {{ form.system }}
+                    {% for i in form.system %}
+                        {{ i }}
+                    {% endfor %}
                 </div>
             </div>
 
-        <!-- artifact_name / system row -->
         </div>
 
-    <!-- artifact_name block -->
+    <!-- artifacttype block -->
     </div>
 
     <!-- ############################################ -->
 
-    <!-- tag / case block -->
+    <!-- tag block -->
     <div class="card card-body bg-dark border-light top-distance">
 
-        <!-- tag / case  headline -->
+        <!-- tag headline -->
         <div class="row">
-
-            <!-- tags headline -->
-            <div class="col-6">
+            <div class="col">
                 <h5>
                     <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                     {{ form.tag.label }}
                 </h5>
             </div>
-
-            <!-- case headline -->
-            <div class="col-3">
-                <h5>
-                    <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon right-distance copy-false" alt="icon">
-                    {{ form.case.label }}
-                </h5>
-            </div>
-
-        <!-- tag / case  headline -->
         </div>
 
-        <!-- tag / case -->
+        <!-- tags -->
         <div class="row">
-
-            <!-- tags -->
             <div class="col-6">
                 <div class="card card-body bg-dark border-light top-distance">
                     <!-- tag errors -->
@@ -134,39 +118,26 @@
                     {{ form.tag }}
                 </div>
             </div>
-
-            <!-- case -->
-            <div class="col-3">
-                <div class="card card-body bg-dark border-light top-distance">
-                    <!-- case errors -->
-                    <div class="text-danger">
-                        {{ form.case.errors }}
-                    </div>
-                    {{ form.case }}
-                </div>
-            </div>
-
-        <!-- tag / case -->
         </div>
 
-    <!-- tag / case block -->
+    <!-- tag block -->
     </div>
 
     <!-- ############################################ -->
 
-    <!-- artifact information block -->
+    <!-- status information block -->
     <div class="card card-body bg-dark border-light top-distance">
 
-        <!-- artifact information headline -->
+        <!-- status information headline -->
         <div class="row">
             <div class="col">
                 <h5>
-                    Artifact information
+                    Status information
                 </h5>
             </div>
         </div>
 
-        <!-- artifactstatus / artifactpriority headlines row -->
+        <!-- artifactpriority / artifactstatus headline -->
         <div class="row">
 
             <!-- artifactstatus headline -->
@@ -183,10 +154,10 @@
                 </div>
             </div>
 
-        <!-- artifactstatus / artifactpriority headlines row -->
+        <!-- artifactpriority / artifactstatus headline -->
         </div>
 
-        <!-- artifactstatus / artifactpriority row -->
+        <!-- artifactpriority / artifactstatus -->
         <div class="row">
 
             <!-- artifactstatus -->
@@ -197,7 +168,7 @@
                         {{ form.artifactstatus.errors }}
                     </div>
                     {% for i in form.artifactstatus %}
-                        {{ i }}<br>
+                        {{ i }}
                     {% endfor %}
                 </div>
             </div>
@@ -210,151 +181,15 @@
                         {{ form.artifactpriority.errors }}
                     </div>
                     {% for i in form.artifactpriority %}
-                        {{ i }}<br>
+                        {{ i }}
                     {% endfor %}
                 </div>
             </div>
 
-        <!-- artifactstatus / artifactpriority row -->
+        <!-- artifactpriority / artifactstatus -->
         </div>
 
-        <!-- artifacttype headlines row -->
-        <div class="row top-distance">
-
-            <!-- artifacttype headline -->
-            <div class="col-3">
-                <div class="font-weight-bold">
-                    {{ form.artifacttype.label }}
-                </div>
-            </div>
-
-        <!-- artifacttype headlines row -->
-        </div>
-
-        <!-- artifacttype row -->
-        <div class="row">
-
-            <!-- artifacttype -->
-            <div class="col-3">
-                <div class="card card-body bg-dark border-light top-distance">
-                    <!-- artifacttype errors -->
-                    <div class="text-danger">
-                        {{ form.artifacttype.errors }}
-                    </div>
-                    {{ form.artifacttype }}
-                </div>
-            </div>
-
-        <!-- artifacttype row -->
-        </div>
-
-        <!-- add artifacttype button row -->
-        <div class="row">
-            <div class="col-3">
-                <button onclick="artifacttype_add_popup()" type="button" class="btn btn-light btn-sm top-distance copy-false">
-                    <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                    Add artifacttype
-                </button>
-            </div>
-        </div>
-
-        <!-- artifact_source_path headlines row -->
-        <div class="row top-distance">
-
-            <!-- artifact_source_path headline -->
-            <div class="col-12">
-                <div class="font-weight-bold">
-                    {{ form.artifact_source_path.label }}
-                </div>
-            </div>
-
-        <!-- artifact_source_path headlines row -->
-        </div>
-
-        <!-- artifact_source_path row -->
-        <div class="row">
-
-            <!-- artifact_source_path -->
-            <div class="col-12">
-                <div class="card card-body bg-dark border-light top-distance">
-                    <!-- artifact_source_path errors -->
-                    <div class="text-danger">
-                        {{ form.artifact_source_path.errors }}
-                    </div>
-                    {{ form.artifact_source_path }}
-                </div>
-            </div>
-
-        <!-- artifact_source_path row -->
-        </div>
-
-        <!-- artifact hash headline row -->
-        <div class="row top-distance">
-
-            <!-- artifact_md5 headline -->
-            <div class="col-4">
-                <div class="font-weight-bold">
-                    {{ form.artifact_md5.label }}
-                </div>
-            </div>
-
-            <!-- artifact_sha1 headline -->
-            <div class="col-4">
-                <div class="font-weight-bold">
-                    {{ form.artifact_sha1.label }}
-                </div>
-            </div>
-
-            <!-- artifact_sha256 headline -->
-            <div class="col-4">
-                <div class="font-weight-bold">
-                    {{ form.artifact_sha256.label }}
-                </div>
-            </div>
-
-        <!-- artifact hash headline row -->
-        </div>
-
-        <!-- artifact hash row -->
-        <div class="row">
-
-            <!-- artifact_md5 -->
-            <div class="col-4">
-                <div class="card card-body bg-dark border-light top-distance">
-                    <!-- artifact note errors -->
-                    <div class="text-danger">
-                        {{ form.artifact_md5.errors }}
-                    </div>
-                    {{ form.artifact_md5 }}
-                </div>
-            </div>
-
-            <!-- artifact_sha1 -->
-            <div class="col-4">
-                <div class="card card-body bg-dark border-light top-distance">
-                    <!-- artifact note errors -->
-                    <div class="text-danger">
-                        {{ form.artifact_sha1.errors }}
-                    </div>
-                    {{ form.artifact_sha1 }}
-                </div>
-            </div>
-
-            <!-- artifact_sha256 -->
-            <div class="col-4">
-                <div class="card card-body bg-dark border-light top-distance">
-                    <!-- artifact note errors -->
-                    <div class="text-danger">
-                        {{ form.artifact_sha256.errors }}
-                    </div>
-                    {{ form.artifact_sha256 }}
-                </div>
-            </div>
-
-        <!-- artifact hash row -->
-        </div>
-
-    <!-- artifact information block -->
+    <!-- status information block -->
     </div>
 
     <!-- ############################################ -->
