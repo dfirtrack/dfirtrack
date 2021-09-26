@@ -235,6 +235,14 @@ class ArtifactCreatorForm(forms.ModelForm):
         required = True,
     )
 
+    # reorder field choices
+    tag = forms.ModelMultipleChoiceField(
+        label = gettext_lazy('Tags'),
+        widget=TagWidget,
+        queryset=Tag.objects.order_by('tag_name'),
+        required=False,
+    )
+
     class Meta:
 
         # model
