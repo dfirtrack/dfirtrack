@@ -200,6 +200,73 @@ class ArtifactForm(forms.ModelForm):
 
         return self.cleaned_data
 
+class ArtifactCreatorForm(forms.Form):
+    """ artifact creator form """
+
+    # show all existing artifactpriority objects
+    artifactpriority = forms.ModelChoiceField(
+        label = gettext_lazy('Artifactpriority (*)'),
+        widget = forms.RadioSelect(),
+        queryset=Artifactpriority.objects.order_by('artifactpriority_name'),
+        required=True,
+    )
+
+    # show all existing artifactstatus objects
+    artifactstatus = forms.ModelChoiceField(
+        label = gettext_lazy('Artifactstatus (*)'),
+        widget = forms.RadioSelect(),
+        queryset=Artifactstatus.objects.order_by('artifactstatus_name'),
+        required=True,
+    )
+
+    # show all existing artifacttype objects as multiple choice field
+    artifacttype = forms.ModelMultipleChoiceField(
+        label = gettext_lazy('Artifacttypes (*)'),
+        widget = forms.CheckboxSelectMultiple(),
+        queryset=Artifacttype.objects.order_by('artifacttype_name'),
+        required=True,
+    )
+
+    # show all existing system objects as multiple choice field
+    system = forms.ModelMultipleChoiceField(
+        queryset = System.objects.order_by('system_name'),
+        widget = forms.CheckboxSelectMultiple(),
+        label = 'Systems (*)',
+        required = True,
+    )
+
+    # show note analysisresult
+    artifact_note_analysisresult = forms.CharField(
+        label = gettext_lazy('Analysis result'),
+        widget=forms.Textarea(
+            attrs={
+                'rows': 10,
+            },
+        ),
+        required=False,
+    )
+
+    # show note external
+    artifact_note_external = forms.CharField(
+        label = gettext_lazy('External note'),
+        widget=forms.Textarea(
+            attrs={
+                'rows': 10,
+            },
+        ),
+        required=False,
+    )
+
+    # show note internal
+    artifact_note_internal = forms.CharField(
+        label = gettext_lazy('Internal note'),
+        widget=forms.Textarea(
+            attrs={
+                'rows': 10,
+            },
+        ),
+        required=False,
+    )
 
 class ArtifacttypeForm(forms.ModelForm):
     class Meta:

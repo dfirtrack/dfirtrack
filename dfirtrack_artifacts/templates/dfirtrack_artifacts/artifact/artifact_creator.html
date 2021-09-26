@@ -1,0 +1,280 @@
+<!-- extending maintemplate -->
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+<!-- HTML head in maintemplate -->
+{% block head %}
+
+<!-- page title -->
+<title>Artifacts creator</title>
+
+{% load static %}
+
+<!-- HTML head in maintemplate -->
+{% endblock %}
+
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
+{% block content %}
+
+<!-- headline -->
+<div class="bottom-distance">
+    <h4>
+        Create artifacts
+    </h4>
+</div>
+
+<!-- form -->
+<form method="POST" class="post-form">
+
+    <!-- row save cancel -->
+    {% include "dfirtrack_main/includes/row_save_cancel.html" %}
+
+    {% csrf_token %}
+
+    <!-- show form related errors -->
+    {% include "dfirtrack_main/includes/form_errors.html" %}
+
+    <!-- artifacttype block -->
+    <div class="card card-body bg-dark border-light top-distance">
+
+        <!-- artifacttype / system headline -->
+        <div class="row">
+
+            <!-- artifacttype headline -->
+            <div class="col-3">
+                <h5>
+                    <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    {{ form.artifacttype.label }}
+                </h5>
+            </div>
+
+            <!-- system headline -->
+            <div class="col-3">
+                <h5>
+                    <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    {{ form.system.label }}
+                </h5>
+            </div>
+
+        </div>
+
+        <!-- artifacttypes / systems -->
+        <div class="row">
+
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                <!-- artifacttype errors -->
+                <div class="text-danger">
+                    {{ form.artifacttype.errors }}
+                </div>
+                {% for i in form.artifacttype %}
+                    {{ i }}
+                {% endfor %}
+                </div>
+            </div>
+
+            <!-- system -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- system errors -->
+                    <div class="text-danger">
+                        {{ form.system.errors }}
+                    </div>
+                    {% for i in form.system %}
+                        {{ i }}
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+
+    <!-- artifacttype block -->
+    </div>
+
+    <!-- ############################################ -->
+
+    <!-- tag block -->
+    <div class="card card-body bg-dark border-light top-distance">
+
+        <!-- tag headline -->
+        <div class="row">
+            <div class="col">
+                <h5>
+                    <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    {{ form.tag.label }}
+                </h5>
+            </div>
+        </div>
+
+        <!-- tags -->
+        <div class="row">
+            <div class="col-6">
+                <div class="card card-body bg-dark border-light top-distance">
+                <!-- tag errors -->
+                <div class="text-danger">
+                    {{ form.tag.errors }}
+                </div>
+                {% for i in form.tag %}
+                    {{ i }}
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+
+    <!-- tag block -->
+    </div>
+
+    <!-- ############################################ -->
+
+    <!-- status information block -->
+    <div class="card card-body bg-dark border-light top-distance">
+
+        <!-- status information headline -->
+        <div class="row">
+            <div class="col">
+                <h5>
+                    Status information
+                </h5>
+            </div>
+        </div>
+
+        <!-- artifactpriority / artifactstatus headline -->
+        <div class="row">
+
+            <!-- artifactstatus headline -->
+            <div class="col-3">
+                <div class="font-weight-bold">
+                    {{ form.artifactstatus.label }}
+                </div>
+            </div>
+
+            <!-- artifactpriority headline -->
+            <div class="col-3">
+                <div class="font-weight-bold">
+                    {{ form.artifactpriority.label }}
+                </div>
+            </div>
+
+        <!-- artifactpriority / artifactstatus headline -->
+        </div>
+
+        <!-- artifactpriority / artifactstatus -->
+        <div class="row">
+
+            <!-- artifactstatus -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- artifactstatus errors -->
+                    <div class="text-danger">
+                        {{ form.artifactstatus.errors }}
+                    </div>
+                    {% for i in form.artifactstatus %}
+                        {{ i }}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- artifactpriority -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- artifactpriority errors -->
+                    <div class="text-danger">
+                        {{ form.artifactpriority.errors }}
+                    </div>
+                    {% for i in form.artifactpriority %}
+                        {{ i }}
+                    {% endfor %}
+                </div>
+            </div>
+
+        <!-- artifactpriority / artifactstatus -->
+        </div>
+
+    <!-- status information block -->
+    </div>
+
+    <!-- ############################################ -->
+
+    <!-- artifact note block -->
+    <div class="card card-body bg-dark border-light top-distance bottom-distance">
+
+        <!-- artifact note headline row -->
+        <div class="row">
+
+            <!-- artifact_note_internal headline -->
+            <div class="col-4">
+                <h5>
+                    {{ form.artifact_note_internal.label }}
+                </h5>
+            </div>
+
+            <!-- artifact_note_external headline -->
+            <div class="col-4">
+                <h5>
+                    {{ form.artifact_note_external.label }}
+                </h5>
+            </div>
+
+            <!-- artifact_note_analysisresult headline -->
+            <div class="col-4">
+                <h5>
+                    {{ form.artifact_note_analysisresult.label }}
+                </h5>
+            </div>
+
+        <!-- artifact note headline row -->
+        </div>
+
+        <!-- artifact note row -->
+        <div class="row">
+
+            <!-- artifact_note_internal -->
+            <div class="col-4">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- artifact note errors -->
+                    <div class="text-danger">
+                        {{ form.artifact_note_internal.errors }}
+                    </div>
+                    {{ form.artifact_note_internal }}
+                </div>
+            </div>
+
+            <!-- artifact_note_external -->
+            <div class="col-4">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- artifact note errors -->
+                    <div class="text-danger">
+                        {{ form.artifact_note_external.errors }}
+                    </div>
+                    {{ form.artifact_note_external }}
+                </div>
+            </div>
+
+            <!-- artifact_note_analysisresult -->
+            <div class="col-4">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- artifact note errors -->
+                    <div class="text-danger">
+                        {{ form.artifact_note_analysisresult.errors }}
+                    </div>
+                    {{ form.artifact_note_analysisresult }}
+                </div>
+            </div>
+
+        <!-- artifact note row -->
+        </div>
+
+    <!-- artifact note block -->
+    </div>
+
+    <!-- ############################################ -->
+
+    <!-- row save cancel -->
+    {% include "dfirtrack_main/includes/row_save_cancel.html" %}
+
+<!-- form -->
+</form>
+
+<!-- HTML body in maintemplate -->
+{% endblock %}
