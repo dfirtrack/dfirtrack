@@ -250,10 +250,12 @@ class ArtifactCreatorForm(forms.ModelForm):
 
         # this HTML forms are shown
         fields = (
-            'tag',
+            'artifactpriority',
+            'artifactstatus',
             'artifact_note_analysisresult',
             'artifact_note_external',
             'artifact_note_internal',
+            'tag',
         )
 
         # non default form labeling
