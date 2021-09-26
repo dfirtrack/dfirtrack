@@ -1,10 +1,11 @@
 import urllib.parse
 
-from dfirtrack_artifacts.models import Artifactpriority, Artifactstatus, Artifacttype
-from dfirtrack_main.models import System, Systemstatus
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
+
+from dfirtrack_artifacts.models import Artifactpriority, Artifactstatus, Artifacttype
+from dfirtrack_main.models import System, Systemstatus
 
 
 class ArtifactCreatorViewTestCase(TestCase):
