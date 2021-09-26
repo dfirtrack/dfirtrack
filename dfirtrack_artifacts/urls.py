@@ -41,7 +41,9 @@ urlpatterns = (
         artifact_view.ArtifactUpdateView.as_view(),
         name='artifacts_artifact_update',
     ),
-    path(r'artifact/creator/', artifact_creator.artifact_creator, name='artifact_creator'),
+    path(
+        r'artifact/creator/', artifact_creator.artifact_creator, name='artifact_creator'
+    ),
     path(
         r'artifact/exporter/spreadsheet/xls/artifact/',
         xls.artifact,

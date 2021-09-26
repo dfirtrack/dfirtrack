@@ -200,44 +200,45 @@ class ArtifactForm(forms.ModelForm):
 
         return self.cleaned_data
 
+
 class ArtifactCreatorForm(forms.ModelForm):
-    """ artifact creator form """
+    """artifact creator form"""
 
     # reorder field choices
     artifactpriority = forms.ModelChoiceField(
-        label = gettext_lazy('Artifactpriority (*)'),
-        widget = forms.RadioSelect(),
+        label=gettext_lazy('Artifactpriority (*)'),
+        widget=forms.RadioSelect(),
         queryset=Artifactpriority.objects.order_by('artifactpriority_name'),
         required=True,
     )
 
     # reorder field choices
     artifactstatus = forms.ModelChoiceField(
-        label = gettext_lazy('Artifactstatus (*)'),
-        widget = forms.RadioSelect(),
+        label=gettext_lazy('Artifactstatus (*)'),
+        widget=forms.RadioSelect(),
         queryset=Artifactstatus.objects.order_by('artifactstatus_name'),
         required=True,
     )
 
     # show all existing artifacttype objects as multiple choice field
     artifacttype = forms.ModelMultipleChoiceField(
-        label = gettext_lazy('Artifacttypes (*)'),
-        widget = forms.CheckboxSelectMultiple(),
+        label=gettext_lazy('Artifacttypes (*)'),
+        widget=forms.CheckboxSelectMultiple(),
         queryset=Artifacttype.objects.order_by('artifacttype_name'),
         required=True,
     )
 
     # show all existing system objects as multiple choice field
     system = forms.ModelMultipleChoiceField(
-        queryset = System.objects.order_by('system_name'),
-        widget = forms.CheckboxSelectMultiple(),
-        label = 'Systems (*)',
-        required = True,
+        queryset=System.objects.order_by('system_name'),
+        widget=forms.CheckboxSelectMultiple(),
+        label='Systems (*)',
+        required=True,
     )
 
     # reorder field choices
     tag = forms.ModelMultipleChoiceField(
-        label = gettext_lazy('Tags'),
+        label=gettext_lazy('Tags'),
         widget=TagWidget,
         queryset=Tag.objects.order_by('tag_name'),
         required=False,
@@ -271,6 +272,7 @@ class ArtifactCreatorForm(forms.ModelForm):
             'artifact_note_external': forms.Textarea(attrs={'rows': 10}),
             'artifact_note_internal': forms.Textarea(attrs={'rows': 10}),
         }
+
 
 class ArtifacttypeForm(forms.ModelForm):
     class Meta:
