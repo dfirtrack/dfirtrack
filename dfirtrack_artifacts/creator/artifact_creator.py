@@ -106,17 +106,6 @@ def artifact_creator_async(request_post, request_user):
                 artifact.artifact_created_by_user_id = request_user
                 artifact.artifact_modified_by_user_id = request_user
 
-#                # get taskstatus objects for comparing
-#                taskstatus_working = Taskstatus.objects.get(taskstatus_name='20_working')
-#                taskstatus_done = Taskstatus.objects.get(taskstatus_name='30_done')
-#
-#                # set times depending on submitted taskstatus
-#                if task.taskstatus == taskstatus_working:
-#                    task.task_started_time = timezone.now()
-#                if task.taskstatus == taskstatus_done:
-#                    task.task_started_time = timezone.now()
-#                    task.task_finished_time = timezone.now()
-
                 # save object
                 artifact.save()
 

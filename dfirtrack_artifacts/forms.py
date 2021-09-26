@@ -200,10 +200,10 @@ class ArtifactForm(forms.ModelForm):
 
         return self.cleaned_data
 
-class ArtifactCreatorForm(forms.Form):
+class ArtifactCreatorForm(forms.ModelForm):
     """ artifact creator form """
 
-    # show all existing artifactpriority objects
+    # reorder field choices
     artifactpriority = forms.ModelChoiceField(
         label = gettext_lazy('Artifactpriority (*)'),
         widget = forms.RadioSelect(),
@@ -211,7 +211,7 @@ class ArtifactCreatorForm(forms.Form):
         required=True,
     )
 
-    # show all existing artifactstatus objects
+    # reorder field choices
     artifactstatus = forms.ModelChoiceField(
         label = gettext_lazy('Artifactstatus (*)'),
         widget = forms.RadioSelect(),
@@ -235,38 +235,32 @@ class ArtifactCreatorForm(forms.Form):
         required = True,
     )
 
-    # show note analysisresult
-    artifact_note_analysisresult = forms.CharField(
-        label = gettext_lazy('Analysis result'),
-        widget=forms.Textarea(
-            attrs={
-                'rows': 10,
-            },
-        ),
-        required=False,
-    )
+    class Meta:
 
-    # show note external
-    artifact_note_external = forms.CharField(
-        label = gettext_lazy('External note'),
-        widget=forms.Textarea(
-            attrs={
-                'rows': 10,
-            },
-        ),
-        required=False,
-    )
+        # model
+        model = Artifact
 
-    # show note internal
-    artifact_note_internal = forms.CharField(
-        label = gettext_lazy('Internal note'),
-        widget=forms.Textarea(
-            attrs={
-                'rows': 10,
-            },
-        ),
-        required=False,
-    )
+        # this HTML forms are shown
+        fields = (
+            'tag',
+            'artifact_note_analysisresult',
+            'artifact_note_external',
+            'artifact_note_internal',
+        )
+
+        # non default form labeling
+        labels = {
+            'artifact_note_analysisresult': gettext_lazy('Analysis result'),
+            'artifact_note_external': gettext_lazy('External note'),
+            'artifact_note_internal': gettext_lazy('Internal note'),
+        }
+
+        # special form type or option
+        widgets = {
+            'artifact_note_analysisresult': forms.Textarea(attrs={'rows': 10}),
+            'artifact_note_external': forms.Textarea(attrs={'rows': 10}),
+            'artifact_note_internal': forms.Textarea(attrs={'rows': 10}),
+        }
 
 class ArtifacttypeForm(forms.ModelForm):
     class Meta:
