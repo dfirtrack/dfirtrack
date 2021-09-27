@@ -222,7 +222,7 @@ class ArtifactCreatorForm(forms.ModelForm):
 
     # show all existing artifacttype objects as multiple choice field
     artifacttype = forms.ModelMultipleChoiceField(
-        label=gettext_lazy('Artifacttypes (*) - Will be set as artifact names'),
+        label=gettext_lazy('Artifacttypes (*) - Will also be set as artifact names'),
         widget=forms.CheckboxSelectMultiple(),
         queryset=Artifacttype.objects.order_by('artifacttype_name'),
         required=True,
@@ -241,6 +241,18 @@ class ArtifactCreatorForm(forms.ModelForm):
         label=gettext_lazy('Tags'),
         widget=TagWidget,
         queryset=Tag.objects.order_by('tag_name'),
+        required=False,
+    )
+
+    # choice for alternative artifact name
+    alternative_artifact_name_choice = forms.BooleanField(
+        label=gettext_lazy('Use alternative artifact name'),
+        required=False,
+    )
+
+    # alternative artifact name
+    alternative_artifact_name = forms.CharField(
+        label=gettext_lazy('Alternative artifact name'),
         required=False,
     )
 
@@ -265,7 +277,9 @@ class ArtifactCreatorForm(forms.ModelForm):
             'artifact_note_analysisresult': gettext_lazy('Analysis result'),
             'artifact_note_external': gettext_lazy('External note'),
             'artifact_note_internal': gettext_lazy('Internal note'),
-            'artifact_source_path': gettext_lazy('Artifact source path (attention: will be set for all artifacts regardless of type)'),
+            'artifact_source_path': gettext_lazy(
+                'Artifact source path (attention: will be set for all artifacts regardless of type)'
+            ),
         }
 
         # special form type or option
@@ -280,6 +294,39 @@ class ArtifactCreatorForm(forms.ModelForm):
                 }
             ),
         }
+
+    def clean(self):
+        """custom field validation"""
+
+        # get form data
+        cleaned_data = super().clean()
+
+        # create dict for validation errors
+        validation_errors = {}
+
+        """ check for both fields filled """
+
+        # get relevant values
+        alternative_artifact_name_choice = self.cleaned_data[
+            'alternative_artifact_name_choice'
+        ]
+        alternative_artifact_name = self.cleaned_data['alternative_artifact_name']
+
+        # alternative_artifact_name and alternative_artifact_name_choice required (or none)
+        if (alternative_artifact_name and not alternative_artifact_name_choice) or (
+            alternative_artifact_name_choice and not alternative_artifact_name
+        ):
+            validation_errors[
+                'alternative_artifact_name'
+            ] = 'Either both or neither of the fields is required.'
+
+        """ raise error """
+
+        # finally raise validation error
+        if validation_errors:
+            raise forms.ValidationError(validation_errors)
+
+        return cleaned_data
 
 
 class ArtifacttypeForm(forms.ModelForm):

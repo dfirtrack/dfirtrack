@@ -57,20 +57,22 @@
                 </h5>
             </div>
 
+        <!-- artifacttype / system headline -->
         </div>
 
         <!-- artifacttypes / systems -->
         <div class="row">
 
+            <!-- artifacttype -->
             <div class="col-3">
                 <div class="card card-body bg-dark border-light top-distance">
-                <!-- artifacttype errors -->
-                <div class="text-danger">
-                    {{ form.artifacttype.errors }}
-                </div>
-                {% for i in form.artifacttype %}
-                    {{ i }}
-                {% endfor %}
+                    <!-- artifacttype errors -->
+                    <div class="text-danger">
+                        {{ form.artifacttype.errors }}
+                    </div>
+                    {% for i in form.artifacttype %}
+                        {{ i }}
+                    {% endfor %}
                 </div>
             </div>
 
@@ -87,6 +89,44 @@
                 </div>
             </div>
 
+        <!-- artifacttypes / systems -->
+        </div>
+
+        <!-- artifact name headline -->
+        <div class="row">
+
+            <!-- artifact name headline -->
+            <div class="col-3">
+                <h5>
+                    <img src="{% static 'dfirtrack_main/icons/bug-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    Artifact name (artifactypes used otherwise)
+                </h5>
+            </div>
+
+        <!-- artifact name headline -->
+        </div>
+
+        <!-- artifact name -->
+        <div class="row">
+
+            <!-- alternative_artifact_name_choice -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+
+                    <!-- alternative_artifact_name errors -->
+                    <div class="text-danger">
+                        {{ form.alternative_artifact_name.errors }}
+                    </div>
+
+                    <table>
+                        <tr><td>{{ form.alternative_artifact_name_choice }}</td> <td>{{ form.alternative_artifact_name_choice.label }}</td></tr>
+                        <tr><td>{{ form.alternative_artifact_name }}</td> <td>{{ form.alternative_artifact_name.label }}</td></tr>
+                    </table>
+
+                 </div>
+            </div>
+
+        <!-- artifact name -->
         </div>
 
     <!-- artifacttype block -->

@@ -4,7 +4,12 @@ from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.test import TestCase
 
-from dfirtrack_artifacts.models import Artifactpriority, Artifactstatus, Artifacttype
+from dfirtrack_artifacts.models import (
+    Artifact,
+    Artifactpriority,
+    Artifactstatus,
+    Artifacttype,
+)
 from dfirtrack_main.models import System, Systemstatus
 
 
@@ -190,7 +195,10 @@ class ArtifactCreatorViewTestCase(TestCase):
                 artifacttype_1.artifacttype_id,
                 artifacttype_2.artifacttype_id,
             ],
-            'system': [system_1.system_id, system_2.system_id],
+            'system': [
+                system_1.system_id,
+                system_2.system_id,
+            ],
         }
         # get response
         self.client.post('/artifacts/artifact/creator/', data_dict)
@@ -288,7 +296,11 @@ class ArtifactCreatorViewTestCase(TestCase):
                 artifacttype_2.artifacttype_id,
                 artifacttype_3.artifacttype_id,
             ],
-            'system': [system_1.system_id, system_2.system_id, system_3.system_id],
+            'system': [
+                system_1.system_id,
+                system_2.system_id,
+                system_3.system_id,
+            ],
         }
         # get response
         response = self.client.post('/artifacts/artifact/creator/', data_dict)
@@ -297,3 +309,93 @@ class ArtifactCreatorViewTestCase(TestCase):
         # compare
         self.assertEqual(str(messages[0]), 'Artifact creator started')
         self.assertEqual(str(messages[1]), '9 artifacts created for 3 systems.')
+
+    def test_artifact_creator_post_artifacttype_name(self):
+        """test creator view"""
+
+        # login testuser
+        self.client.login(
+            username='testuser_artifact_creator', password='bHLMxCuEAUOv6WSwu26X'
+        )
+        # get objects
+        artifactpriority_1 = Artifactpriority.objects.get(
+            artifactpriority_name='artifactpriority_1'
+        )
+        artifactstatus_1 = Artifactstatus.objects.get(
+            artifactstatus_name='artifactstatus_1'
+        )
+        system_1 = System.objects.get(system_name='artifact_creator_system_1')
+        # create objects
+        artifacttype_1 = Artifacttype.objects.create(
+            artifacttype_name='artifact_name_1'
+        )
+        artifacttype_2 = Artifacttype.objects.create(
+            artifacttype_name='artifact_name_2'
+        )
+        # create post data
+        data_dict = {
+            'artifactpriority': artifactpriority_1.artifactpriority_id,
+            'artifactstatus': artifactstatus_1.artifactstatus_id,
+            'artifacttype': [
+                artifacttype_1.artifacttype_id,
+                artifacttype_2.artifacttype_id,
+            ],
+            'system': [
+                system_1.system_id,
+            ],
+        }
+        # get response
+        self.client.post('/artifacts/artifact/creator/', data_dict)
+        # compare
+        self.assertTrue(
+            Artifact.objects.filter(artifact_name='artifact_name_1').exists()
+        )
+        self.assertTrue(
+            Artifact.objects.filter(artifact_name='artifact_name_2').exists()
+        )
+
+    def test_artifact_creator_post_alternative_name(self):
+        """test creator view"""
+
+        # login testuser
+        self.client.login(
+            username='testuser_artifact_creator', password='bHLMxCuEAUOv6WSwu26X'
+        )
+        # get objects
+        artifactpriority_1 = Artifactpriority.objects.get(
+            artifactpriority_name='artifactpriority_1'
+        )
+        artifactstatus_1 = Artifactstatus.objects.get(
+            artifactstatus_name='artifactstatus_1'
+        )
+        system_1 = System.objects.get(system_name='artifact_creator_system_1')
+        # create objects
+        artifacttype_1 = Artifacttype.objects.create(
+            artifacttype_name='artifact_name_3'
+        )
+        artifacttype_2 = Artifacttype.objects.create(
+            artifacttype_name='artifact_name_4'
+        )
+        # create post data
+        data_dict = {
+            'artifactpriority': artifactpriority_1.artifactpriority_id,
+            'artifactstatus': artifactstatus_1.artifactstatus_id,
+            'artifacttype': [
+                artifacttype_1.artifacttype_id,
+                artifacttype_2.artifacttype_id,
+            ],
+            'system': [
+                system_1.system_id,
+            ],
+            'alternative_artifact_name_choice': True,
+            'alternative_artifact_name': 'artifact_name_5',
+        }
+        # get response
+        self.client.post('/artifacts/artifact/creator/', data_dict)
+        # compare
+        self.assertTrue(
+            Artifact.objects.filter(artifact_name='artifact_name_5').exists()
+        )
+        self.assertEqual(
+            Artifact.objects.filter(artifact_name='artifact_name_5').count(), 2
+        )

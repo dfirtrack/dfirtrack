@@ -112,10 +112,25 @@ def artifact_creator_async(request_post, request_user):
                 )
                 artifact.system = System.objects.get(system_id=system)
 
+                """set artifact name """
+
+                # get values from form
+                alternative_artifact_name_choice = form.cleaned_data.get(
+                    'alternative_artifact_name_choice'
+                )
+                alternative_artifact_name = form.cleaned_data.get(
+                    'alternative_artifact_name'
+                )
+
                 # set artifact name
-                artifact.artifact_name = Artifacttype.objects.get(
-                    artifacttype_id=artifacttype
-                ).artifacttype_name
+                if alternative_artifact_name_choice:
+                    # set artifact name according to text field
+                    artifact.artifact_name = alternative_artifact_name
+                else:
+                    # set artifact name according to artifacttype
+                    artifact.artifact_name = Artifacttype.objects.get(
+                        artifacttype_id=artifacttype
+                    ).artifacttype_name
 
                 # set auto values
                 artifact.artifact_created_by_user_id = request_user
