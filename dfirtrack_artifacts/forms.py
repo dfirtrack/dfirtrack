@@ -256,6 +256,7 @@ class ArtifactCreatorForm(forms.ModelForm):
             'artifact_note_analysisresult',
             'artifact_note_external',
             'artifact_note_internal',
+            'artifact_source_path',
             'tag',
         )
 
@@ -264,6 +265,7 @@ class ArtifactCreatorForm(forms.ModelForm):
             'artifact_note_analysisresult': gettext_lazy('Analysis result'),
             'artifact_note_external': gettext_lazy('External note'),
             'artifact_note_internal': gettext_lazy('Internal note'),
+            'artifact_source_path': gettext_lazy('Artifact source path (attention: will be set for all artifacts regardless of type)'),
         }
 
         # special form type or option
@@ -271,6 +273,12 @@ class ArtifactCreatorForm(forms.ModelForm):
             'artifact_note_analysisresult': forms.Textarea(attrs={'rows': 10}),
             'artifact_note_external': forms.Textarea(attrs={'rows': 10}),
             'artifact_note_internal': forms.Textarea(attrs={'rows': 10}),
+            'artifact_source_path': forms.TextInput(
+                attrs={
+                    'size': '100',
+                    'style': 'font-family: monospace',
+                }
+            ),
         }
 
 

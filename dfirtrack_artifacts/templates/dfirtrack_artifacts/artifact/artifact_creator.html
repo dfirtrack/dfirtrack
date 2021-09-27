@@ -189,6 +189,36 @@
         <!-- artifactpriority / artifactstatus -->
         </div>
 
+        <!-- artifact_source_path headlines row -->
+        <div class="row top-distance">
+
+            <!-- artifact_source_path headline -->
+            <div class="col-12">
+                <div class="font-weight-bold">
+                    {{ form.artifact_source_path.label }}
+                </div>
+            </div>
+
+        <!-- artifact_source_path headlines row -->
+        </div>
+
+        <!-- artifact_source_path row -->
+        <div class="row">
+
+            <!-- artifact_source_path -->
+            <div class="col-12">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- artifact_source_path errors -->
+                    <div class="text-danger">
+                        {{ form.artifact_source_path.errors }}
+                    </div>
+                    {{ form.artifact_source_path }}
+                </div>
+            </div>
+
+        <!-- artifact_source_path row -->
+        </div>
+
     <!-- status information block -->
     </div>
 

@@ -123,6 +123,14 @@ class ArtifactCreatorFormTestCase(TestCase):
         # compare
         self.assertEqual(form.fields['artifact_note_internal'].label, 'Internal note')
 
+    def test_artifact_creator_source_path_form_label(self):
+        """test form label"""
+
+        # get object
+        form = ArtifactCreatorForm()
+        # compare
+        self.assertEqual(form.fields['artifact_source_path'].label, 'Artifact source path (attention: will be set for all artifacts regardless of type)')
+
     def test_artifact_creator_form_empty(self):
         """test minimum form requirements / INVALID"""
 
@@ -271,6 +279,7 @@ class ArtifactCreatorFormTestCase(TestCase):
                 'artifact_note_analysisresult': 'lorem ipsum',
                 'artifact_note_external': 'lorem ipsum',
                 'artifact_note_internal': 'lorem ipsum',
+                'artifact_source_path': 'evil.exe',
             }
         )
         # compare
