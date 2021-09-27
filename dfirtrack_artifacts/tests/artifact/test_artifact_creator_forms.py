@@ -79,7 +79,10 @@ class ArtifactCreatorFormTestCase(TestCase):
         # get object
         form = ArtifactCreatorForm()
         # compare
-        self.assertEqual(form.fields['artifacttype'].label, 'Artifacttypes (*)')
+        self.assertEqual(
+            form.fields['artifacttype'].label,
+            'Artifacttypes (*) - Will also be set as artifact names',
+        )
 
     def test_artifact_creator_system_form_label(self):
         """test form label"""
@@ -123,6 +126,38 @@ class ArtifactCreatorFormTestCase(TestCase):
         # compare
         self.assertEqual(form.fields['artifact_note_internal'].label, 'Internal note')
 
+    def test_artifact_creator_name_choice_form_label(self):
+        """test form label"""
+
+        # get object
+        form = ArtifactCreatorForm()
+        # compare
+        self.assertEqual(
+            form.fields['alternative_artifact_name_choice'].label,
+            'Use alternative artifact name',
+        )
+
+    def test_artifact_creator_name_form_label(self):
+        """test form label"""
+
+        # get object
+        form = ArtifactCreatorForm()
+        # compare
+        self.assertEqual(
+            form.fields['alternative_artifact_name'].label, 'Alternative artifact name'
+        )
+
+    def test_artifact_creator_source_path_form_label(self):
+        """test form label"""
+
+        # get object
+        form = ArtifactCreatorForm()
+        # compare
+        self.assertEqual(
+            form.fields['artifact_source_path'].label,
+            'Artifact source path (attention: will be set for all artifacts regardless of type)',
+        )
+
     def test_artifact_creator_form_empty(self):
         """test minimum form requirements / INVALID"""
 
@@ -144,7 +179,10 @@ class ArtifactCreatorFormTestCase(TestCase):
         # get object
         form = ArtifactCreatorForm(
             data={
-                'artifacttype': [artifacttype_1_id, artifacttype_2_id],
+                'artifacttype': [
+                    artifacttype_1_id,
+                    artifacttype_2_id,
+                ],
             }
         )
         # compare
@@ -168,7 +206,10 @@ class ArtifactCreatorFormTestCase(TestCase):
         form = ArtifactCreatorForm(
             data={
                 'artifactpriority': artifactpriority_id,
-                'artifacttype': [artifacttype_1_id, artifacttype_2_id],
+                'artifacttype': [
+                    artifacttype_1_id,
+                    artifacttype_2_id,
+                ],
             }
         )
         # compare
@@ -197,7 +238,10 @@ class ArtifactCreatorFormTestCase(TestCase):
             data={
                 'artifactpriority': artifactpriority_id,
                 'artifactstatus': artifactstatus_id,
-                'artifacttype': [artifacttype_1_id, artifacttype_2_id],
+                'artifacttype': [
+                    artifacttype_1_id,
+                    artifacttype_2_id,
+                ],
             }
         )
         # compare
@@ -229,8 +273,14 @@ class ArtifactCreatorFormTestCase(TestCase):
             data={
                 'artifactpriority': artifactpriority_id,
                 'artifactstatus': artifactstatus_id,
-                'artifacttype': [artifacttype_1_id, artifacttype_2_id],
-                'system': [system_1_id, system_2_id],
+                'artifacttype': [
+                    artifacttype_1_id,
+                    artifacttype_2_id,
+                ],
+                'system': [
+                    system_1_id,
+                    system_2_id,
+                ],
             }
         )
         # compare
@@ -265,12 +315,133 @@ class ArtifactCreatorFormTestCase(TestCase):
             data={
                 'artifactpriority': artifactpriority_id,
                 'artifactstatus': artifactstatus_id,
-                'artifacttype': [artifacttype_1_id, artifacttype_2_id],
-                'system': [system_1_id, system_2_id],
-                'tag': [tag_1_id, tag_2_id],
+                'artifacttype': [
+                    artifacttype_1_id,
+                    artifacttype_2_id,
+                ],
+                'system': [
+                    system_1_id,
+                    system_2_id,
+                ],
+                'tag': [
+                    tag_1_id,
+                    tag_2_id,
+                ],
                 'artifact_note_analysisresult': 'lorem ipsum',
                 'artifact_note_external': 'lorem ipsum',
                 'artifact_note_internal': 'lorem ipsum',
+                'artifact_source_path': 'evil.exe',
+            }
+        )
+        # compare
+        self.assertTrue(form.is_valid())
+
+    def test_artifact_creator_alternative_name_form_filled(self):
+        """test custom field validation"""
+
+        # get object
+        artifactpriority_id = Artifactpriority.objects.get(
+            artifactpriority_name='prio_1'
+        ).artifactpriority_id
+        # get object
+        artifactstatus_id = Artifactstatus.objects.get(
+            artifactstatus_name='artifactstatus_1'
+        ).artifactstatus_id
+        # create object
+        artifacttype_1_id = Artifacttype.objects.get(
+            artifacttype_name='artifacttype_1'
+        ).artifacttype_id
+        # get object
+        system_1_id = System.objects.get(system_name='system_1').system_id
+        # get object
+        form = ArtifactCreatorForm(
+            data={
+                'artifactpriority': artifactpriority_id,
+                'artifactstatus': artifactstatus_id,
+                'artifacttype': [
+                    artifacttype_1_id,
+                ],
+                'system': [
+                    system_1_id,
+                ],
+                'alternative_artifact_name': 'alternative name',
+            }
+        )
+        # compare
+        self.assertFalse(form.is_valid())
+        self.assertEqual(
+            form.errors['alternative_artifact_name'],
+            ['Either both or neither of the fields is required.'],
+        )
+
+    def test_artifact_creator_alternative_choice_form_filled(self):
+        """test custom field validation"""
+
+        # get object
+        artifactpriority_id = Artifactpriority.objects.get(
+            artifactpriority_name='prio_1'
+        ).artifactpriority_id
+        # get object
+        artifactstatus_id = Artifactstatus.objects.get(
+            artifactstatus_name='artifactstatus_1'
+        ).artifactstatus_id
+        # create object
+        artifacttype_1_id = Artifacttype.objects.get(
+            artifacttype_name='artifacttype_1'
+        ).artifacttype_id
+        # get object
+        system_1_id = System.objects.get(system_name='system_1').system_id
+        # get object
+        form = ArtifactCreatorForm(
+            data={
+                'artifactpriority': artifactpriority_id,
+                'artifactstatus': artifactstatus_id,
+                'artifacttype': [
+                    artifacttype_1_id,
+                ],
+                'system': [
+                    system_1_id,
+                ],
+                'alternative_artifact_name_choice': True,
+            }
+        )
+        # compare
+        self.assertFalse(form.is_valid())
+        self.assertEqual(
+            form.errors['alternative_artifact_name'],
+            ['Either both or neither of the fields is required.'],
+        )
+
+    def test_artifact_creator_alternative_both_form_filled(self):
+        """test custom field validation"""
+
+        # get object
+        artifactpriority_id = Artifactpriority.objects.get(
+            artifactpriority_name='prio_1'
+        ).artifactpriority_id
+        # get object
+        artifactstatus_id = Artifactstatus.objects.get(
+            artifactstatus_name='artifactstatus_1'
+        ).artifactstatus_id
+        # create object
+        artifacttype_1_id = Artifacttype.objects.get(
+            artifacttype_name='artifacttype_1'
+        ).artifacttype_id
+        # get object
+        system_1_id = System.objects.get(system_name='system_1').system_id
+        # get object
+        form = ArtifactCreatorForm(
+            data={
+                'artifactpriority': artifactpriority_id,
+                'artifactstatus': artifactstatus_id,
+                'artifacttype': [
+                    artifacttype_1_id,
+                ],
+                'system': [
+                    system_1_id,
+                ],
+                'alternative_artifact_name_choice': True,
+                'alternative_artifact_name': 'alternative name',
             }
         )
         # compare
