@@ -26,7 +26,7 @@ from dfirtrack_main.models import (
 
 @login_required(login_url="/login")
 def system_modificator(request):
-    """ function to modify many systems at once (helper function to call the real function) """
+    """function to modify many systems at once (helper function to call the real function)"""
 
     # form was valid to post
     if request.method == "POST":
@@ -52,8 +52,12 @@ def system_modificator(request):
     else:
 
         # get id of first status objects sorted by name
-        systemstatus = Systemstatus.objects.order_by('systemstatus_name')[0].systemstatus_id
-        analysisstatus = Analysisstatus.objects.order_by('analysisstatus_name')[0].analysisstatus_id
+        systemstatus = Systemstatus.objects.order_by('systemstatus_name')[
+            0
+        ].systemstatus_id
+        analysisstatus = Analysisstatus.objects.order_by('analysisstatus_name')[
+            0
+        ].analysisstatus_id
 
         show_systemlist = bool(int(request.GET.get('systemlist', 0)))
 
@@ -61,23 +65,31 @@ def system_modificator(request):
         workflows = Workflow.objects.all()
 
         # show empty form with default values for convenience and speed reasons
-        form = SystemModificatorForm(initial={
-            'systemstatus': systemstatus,
-            'analysisstatus': analysisstatus,
-            'company_delete': 'keep_not_add',
-            'tag_delete': 'keep_not_add',
-            'contact_delete': 'keep_existing',
-            'location_delete': 'keep_existing',
-            'serviceprovider_delete': 'keep_existing',
-        }, use_system_charfield = show_systemlist)
+        form = SystemModificatorForm(
+            initial={
+                'systemstatus': systemstatus,
+                'analysisstatus': analysisstatus,
+                'company_delete': 'keep_not_add',
+                'tag_delete': 'keep_not_add',
+                'contact_delete': 'keep_existing',
+                'location_delete': 'keep_existing',
+                'serviceprovider_delete': 'keep_existing',
+            },
+            use_system_charfield=show_systemlist,
+        )
 
         # call logger
         debug_logger(str(request.user), ' SYSTEM_MODIFICATOR_ENTERED')
 
-    return render(request, 'dfirtrack_main/system/system_modificator.html', {'form': form, 'workflows': workflows})
+    return render(
+        request,
+        'dfirtrack_main/system/system_modificator.html',
+        {'form': form, 'workflows': workflows},
+    )
+
 
 def system_modificator_async(request_post, request_user):
-    """ function to modify many systems at once """
+    """function to modify many systems at once"""
 
     # call logger
     debug_logger(str(request_user), ' SYSTEM_MODIFICATOR_START')
@@ -88,7 +100,7 @@ def system_modificator_async(request_post, request_user):
     # if large text area was used, the list contains only one entry with (one or more) line breaks
     if len(lines) == 1 and ("\r\n" in lines[0] or not lines[0].isdigit()):
         system_char_field_used = True
-        lines=lines[0].splitlines()
+        lines = lines[0].splitlines()
 
     """ prepare and start loop """
 
@@ -129,7 +141,7 @@ def system_modificator_async(request_post, request_user):
             continue
 
         # check line for string
-        if not isinstance(line, str):   # coverage: ignore branch
+        if not isinstance(line, str):  # coverage: ignore branch
             # autoincrement counter
             lines_faulty_counter += 1
             # call logger
@@ -146,9 +158,9 @@ def system_modificator_async(request_post, request_user):
 
         # check for existence of system
         if system_char_field_used:
-            system = System.objects.filter(system_name = line)
+            system = System.objects.filter(system_name=line)
         else:
-            system = System.objects.filter(system_id = line)
+            system = System.objects.filter(system_id=line)
 
         """ handling non-existing (== 0) or non-unique (> 1) systems """
 
@@ -160,7 +172,10 @@ def system_modificator_async(request_post, request_user):
             # add system name to list of skipped systems
             skipped_systems.append(line)
             # call logger
-            warning_logger(str(request_user), f' SYSTEM_MODIFICATOR_SYSTEM_DOES_NOT_EXISTS system_id/system_name:{line}')
+            warning_logger(
+                str(request_user),
+                f' SYSTEM_MODIFICATOR_SYSTEM_DOES_NOT_EXISTS system_id/system_name:{line}',
+            )
             # leave this loop because system with this systemname does not exist
             continue
 
@@ -172,7 +187,10 @@ def system_modificator_async(request_post, request_user):
             # add system name to list of skipped systems
             skipped_systems.append(line)
             # call logger
-            warning_logger(str(request_user), f' SYSTEM_MODIFICATOR_SYSTEM_NOT_DISTINCT system_id/system_name:{line}')
+            warning_logger(
+                str(request_user),
+                f' SYSTEM_MODIFICATOR_SYSTEM_NOT_DISTINCT system_id/system_name:{line}',
+            )
             # leave this loop because system with this systemname is not distinct
             continue
 
@@ -180,12 +198,14 @@ def system_modificator_async(request_post, request_user):
 
         # get existing system
         if system_char_field_used:
-            system = System.objects.get(system_name = line)
+            system = System.objects.get(system_name=line)
         else:
-            system = System.objects.get(system_id = line)
+            system = System.objects.get(system_id=line)
 
         # create form with request data
-        form = SystemModificatorForm(request_post, instance = system, use_system_charfield = system_char_field_used)
+        form = SystemModificatorForm(
+            request_post, instance=system, use_system_charfield=system_char_field_used
+        )
 
         # extract tags (list results from request object via multiple choice field)
         tags = request_post.getlist('tag')
@@ -198,7 +218,7 @@ def system_modificator_async(request_post, request_user):
         # modify system
         if form.is_valid():
 
-            """ object modification """
+            """object modification"""
 
             # don't save form yet
             system = form.save(commit=False)
@@ -214,7 +234,7 @@ def system_modificator_async(request_post, request_user):
                 # replace, if value was submitted via form
                 if form['contact'].value():
                     contact_id = form['contact'].value()
-                    contact = Contact.objects.get(contact_id = contact_id)
+                    contact = Contact.objects.get(contact_id=contact_id)
                     system.contact = contact
                 # delete, if form field was empty
                 else:
@@ -226,7 +246,7 @@ def system_modificator_async(request_post, request_user):
                 # replace, if value was submitted via form
                 if form['location'].value():
                     location_id = form['location'].value()
-                    location = Location.objects.get(location_id = location_id)
+                    location = Location.objects.get(location_id=location_id)
                     system.location = location
                 # delete, if form field was empty
                 else:
@@ -238,7 +258,9 @@ def system_modificator_async(request_post, request_user):
                 # replace, if value was submitted via form
                 if form['serviceprovider'].value():
                     serviceprovider_id = form['serviceprovider'].value()
-                    serviceprovider = Serviceprovider.objects.get(serviceprovider_id = serviceprovider_id)
+                    serviceprovider = Serviceprovider.objects.get(
+                        serviceprovider_id=serviceprovider_id
+                    )
                     system.serviceprovider = serviceprovider
                 # delete, if form field was empty
                 else:
@@ -250,7 +272,7 @@ def system_modificator_async(request_post, request_user):
             """ object counter / log """
 
             # autoincrement counter
-            systems_modified_counter  += 1
+            systems_modified_counter += 1
 
             # call logger
             system.logger(str(request_user), ' SYSTEM_MODIFICATOR_EXECUTED')
@@ -300,7 +322,16 @@ def system_modificator_async(request_post, request_user):
     """ finish system modificator """
 
     # call final messages
-    final_messages(systems_modified_counter, systems_skipped_counter, lines_faulty_counter, skipped_systems, number_of_lines, request_user, workflow_count, workflows_applied)
+    final_messages(
+        systems_modified_counter,
+        systems_skipped_counter,
+        lines_faulty_counter,
+        skipped_systems,
+        number_of_lines,
+        request_user,
+        workflow_count,
+        workflows_applied,
+    )
 
     # call logger
     info_logger(
@@ -308,7 +339,7 @@ def system_modificator_async(request_post, request_user):
         f' SYSTEM_MODIFICATOR_STATUS'
         f' modified:{systems_modified_counter}'
         f'|skipped:{systems_skipped_counter}'
-        f'|faulty_lines:{lines_faulty_counter}'
+        f'|faulty_lines:{lines_faulty_counter}',
     )
 
     # call logger

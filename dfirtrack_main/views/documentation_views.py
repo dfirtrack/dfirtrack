@@ -16,17 +16,21 @@ class DocumentationList(LoginRequiredMixin, FormView):
     template_name = 'dfirtrack_main/documentation/documentation_list.html'
 
     def get_context_data(self, **kwargs):
-        """ filter objects according to GET parameters """
+        """filter objects according to GET parameters"""
 
         # get context
         context = super().get_context_data(**kwargs)
 
         # get config
-        user_config, created = UserConfigModel.objects.get_or_create(user_config_username=self.request.user)
+        user_config, created = UserConfigModel.objects.get_or_create(
+            user_config_username=self.request.user
+        )
 
         # initial query with desired ordering
         note_query = Note.objects.order_by('note_title')
-        reportitem_query = Reportitem.objects.order_by('system__system_name', 'headline__headline_name')
+        reportitem_query = Reportitem.objects.order_by(
+            'system__system_name', 'headline__headline_name'
+        )
 
         # create dict to initialize form values set by filtering in previous view
         form_initial = {}
@@ -51,7 +55,9 @@ class DocumentationList(LoginRequiredMixin, FormView):
         # get notestatus from config
         if user_config.filter_documentation_list_notestatus:
             # get id
-            notestatus_id = user_config.filter_documentation_list_notestatus.notestatus_id
+            notestatus_id = (
+                user_config.filter_documentation_list_notestatus.notestatus_id
+            )
             # filter objects
             note_query = note_query.filter(notestatus=notestatus_id)
             reportitem_query = reportitem_query.filter(notestatus=notestatus_id)
@@ -73,7 +79,7 @@ class DocumentationList(LoginRequiredMixin, FormView):
         context['reportitem_list'] = reportitem_query
 
         # add to context
-        context['form'] = self.form_class(initial = form_initial)
+        context['form'] = self.form_class(initial=form_initial)
 
         # filter: clean filtering after providing filter results if persistence option was not selected
         if not user_config.filter_documentation_list_keep:
@@ -93,10 +99,12 @@ class DocumentationList(LoginRequiredMixin, FormView):
         return context
 
     def form_valid(self, form):
-        """ save form data to config and call view again """
+        """save form data to config and call view again"""
 
         # get config
-        user_config, created = UserConfigModel.objects.get_or_create(user_config_username=self.request.user)
+        user_config, created = UserConfigModel.objects.get_or_create(
+            user_config_username=self.request.user
+        )
 
         # filter: save filter choices from form in 'documentation_list' to database and call 'documentation_list' again with the new filter options
 
@@ -109,8 +117,12 @@ class DocumentationList(LoginRequiredMixin, FormView):
 
         # get notestatus from form and save to config
         if form.data['notestatus']:
-            documentation_list_notestatus = Notestatus.objects.get(notestatus_id=form.data['notestatus'])
-            user_config.filter_documentation_list_notestatus = documentation_list_notestatus
+            documentation_list_notestatus = Notestatus.objects.get(
+                notestatus_id=form.data['notestatus']
+            )
+            user_config.filter_documentation_list_notestatus = (
+                documentation_list_notestatus
+            )
         else:
             user_config.filter_documentation_list_notestatus = None
 
@@ -133,12 +145,15 @@ class DocumentationList(LoginRequiredMixin, FormView):
         # call view again
         return redirect(reverse('documentation_list'))
 
+
 @login_required(login_url="/login")
 def clear_documentation_list_filter(request):
-    """ clear documentation list filter """
+    """clear documentation list filter"""
 
     # get config
-    user_config, created = UserConfigModel.objects.get_or_create(user_config_username=request.user)
+    user_config, created = UserConfigModel.objects.get_or_create(
+        user_config_username=request.user
+    )
 
     # clear values
     user_config.filter_documentation_list_case = None

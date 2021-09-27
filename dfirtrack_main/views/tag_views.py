@@ -20,6 +20,7 @@ class TagList(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " TAG_LIST_ENTERED")
         return Tag.objects.order_by('tag_name')
 
+
 class TagDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Tag
@@ -31,6 +32,7 @@ class TagDetail(LoginRequiredMixin, DetailView):
         tag.logger(str(self.request.user), " TAG_DETAIL_ENTERED")
         return context
 
+
 class TagCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Tag
@@ -40,11 +42,15 @@ class TagCreate(LoginRequiredMixin, CreateView):
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " TAG_ADD_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-            'object_type': 'tag',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'tag',
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -56,11 +62,16 @@ class TagCreate(LoginRequiredMixin, CreateView):
             messages.success(request, 'Tag added')
             return redirect(reverse('tag_detail', args=(tag.tag_id,)))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-                'object_type': 'tag',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Add',
+                    'object_type': 'tag',
+                },
+            )
+
 
 class TagDelete(LoginRequiredMixin, DeleteView):
     login_url = '/login'
@@ -79,6 +90,7 @@ class TagDelete(LoginRequiredMixin, DeleteView):
         messages.success(request, 'Tag deleted')
         return redirect(reverse('tag_list'))
 
+
 class TagUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Tag
@@ -89,12 +101,16 @@ class TagUpdate(LoginRequiredMixin, UpdateView):
         tag = self.get_object()
         form = self.form_class(instance=tag)
         tag.logger(str(request.user), " TAG_EDIT_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Edit',
-            'object_type': 'tag',
-            'object_name': tag.tag_name,
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Edit',
+                'object_type': 'tag',
+                'object_name': tag.tag_name,
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         tag = self.get_object()
@@ -107,9 +123,13 @@ class TagUpdate(LoginRequiredMixin, UpdateView):
             messages.success(request, 'Tag edited')
             return redirect(reverse('tag_detail', args=(tag.tag_id,)))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Edit',
-                'object_type': 'tag',
-                'object_name': tag.tag_name,
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Edit',
+                    'object_type': 'tag',
+                    'object_name': tag.tag_name,
+                },
+            )

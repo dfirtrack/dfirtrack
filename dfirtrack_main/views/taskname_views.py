@@ -23,6 +23,7 @@ class TasknameList(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " TASKNAME_LIST_ENTERED")
         return Taskname.objects.order_by('taskname_name')
 
+
 class TasknameDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Taskname
@@ -34,6 +35,7 @@ class TasknameDetail(LoginRequiredMixin, DetailView):
         taskname.logger(str(self.request.user), " TASKNAME_DETAIL_ENTERED")
         return context
 
+
 class TasknameCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Taskname
@@ -43,11 +45,15 @@ class TasknameCreate(LoginRequiredMixin, CreateView):
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " TASKNAME_ADD_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-            'object_type': 'taskname',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'taskname',
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -58,11 +64,16 @@ class TasknameCreate(LoginRequiredMixin, CreateView):
             messages.success(request, 'Taskname added')
             return redirect(reverse('taskname_detail', args=(taskname.taskname_id,)))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-                'object_type': 'taskname',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Add',
+                    'object_type': 'taskname',
+                },
+            )
+
 
 class TasknameCreatePopup(LoginRequiredMixin, CreateView):
     login_url = '/login'
@@ -73,11 +84,15 @@ class TasknameCreatePopup(LoginRequiredMixin, CreateView):
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " TASKNAME_ADD_POPUP_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-            'object_type': 'taskname',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'taskname',
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -86,13 +101,20 @@ class TasknameCreatePopup(LoginRequiredMixin, CreateView):
             taskname.save()
             taskname.logger(str(request.user), " TASKNAME_ADD_POPUP_EXECUTED")
             messages.success(request, 'Taskname added')
-            return HttpResponse('<script type="text/javascript">window.close();</script>')
+            return HttpResponse(
+                '<script type="text/javascript">window.close();</script>'
+            )
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-                'object_type': 'taskname',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Add',
+                    'object_type': 'taskname',
+                },
+            )
+
 
 class TasknameUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
@@ -104,12 +126,16 @@ class TasknameUpdate(LoginRequiredMixin, UpdateView):
         taskname = self.get_object()
         form = self.form_class(instance=taskname)
         taskname.logger(str(request.user), " TASKNAME_EDIT_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Edit',
-            'object_type': 'taskname',
-            'object_name': taskname.taskname_name,
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Edit',
+                'object_type': 'taskname',
+                'object_name': taskname.taskname_name,
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         taskname = self.get_object()
@@ -121,12 +147,17 @@ class TasknameUpdate(LoginRequiredMixin, UpdateView):
             messages.success(request, 'Taskname edited')
             return redirect(reverse('taskname_detail', args=(taskname.taskname_id,)))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Edit',
-                'object_type': 'taskname',
-                'object_name': taskname.taskname_name,
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Edit',
+                    'object_type': 'taskname',
+                    'object_name': taskname.taskname_name,
+                },
+            )
+
 
 class TasknameClose(LoginRequiredMixin, UpdateView):
     login_url = '/login'
@@ -136,12 +167,16 @@ class TasknameClose(LoginRequiredMixin, UpdateView):
     def get(self, request, *args, **kwargs):
         taskname = self.get_object()
         taskname.logger(str(request.user), " TASKNAME_CLOSE_ENTERED")
-        return render(request, self.template_name, {'taskname': taskname, 'show_button': True})
+        return render(
+            request, self.template_name, {'taskname': taskname, 'show_button': True}
+        )
 
     def post(self, request, *args, **kwargs):
         taskname = self.get_object()
         taskstatus_done = Taskstatus.objects.get(taskstatus_name="30_done")
-        tasks = Task.objects.filter(Q(taskname=taskname) & ~Q(taskstatus=taskstatus_done.taskstatus_id)).order_by('task_id')
+        tasks = Task.objects.filter(
+            Q(taskname=taskname) & ~Q(taskstatus=taskstatus_done.taskstatus_id)
+        ).order_by('task_id')
         task_ids = []
         for task in tasks:
             TaskFinish.setDone(task, request)
@@ -149,7 +184,9 @@ class TasknameClose(LoginRequiredMixin, UpdateView):
             task_ids.append(task.task_id)
         taskname.logger(str(request.user), " TASKNAME_CLOSE_EXECUTED")
         if tasks:
-            messages.success(request, f'Closed task IDs: {task_ids}' )
+            messages.success(request, f'Closed task IDs: {task_ids}')
         else:
             messages.warning(request, 'No tasks to close.')
-        return render(request, self.template_name, {'taskname': taskname, 'show_button': False})
+        return render(
+            request, self.template_name, {'taskname': taskname, 'show_button': False}
+        )

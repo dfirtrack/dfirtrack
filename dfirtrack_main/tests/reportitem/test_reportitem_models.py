@@ -13,13 +13,15 @@ from dfirtrack_main.models import (
 
 
 class ReportitemModelTestCase(TestCase):
-    """ reportitem model tests """
+    """reportitem model tests"""
 
     @classmethod
     def setUpTestData(cls):
 
         # create user
-        test_user = User.objects.create_user(username='testuser_reportitem', password='n26RCEzVtmtmpAHa5g1M')
+        test_user = User.objects.create_user(
+            username='testuser_reportitem', password='n26RCEzVtmtmpAHa5g1M'
+        )
 
         # create object
         systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
@@ -27,9 +29,9 @@ class ReportitemModelTestCase(TestCase):
         # create object
         system_1 = System.objects.create(
             system_name='system_1',
-            systemstatus = systemstatus_1,
-            system_created_by_user_id = test_user,
-            system_modified_by_user_id = test_user,
+            systemstatus=systemstatus_1,
+            system_created_by_user_id=test_user,
+            system_modified_by_user_id=test_user,
         )
 
         # create object
@@ -38,10 +40,10 @@ class ReportitemModelTestCase(TestCase):
         # create object
         Reportitem.objects.create(
             reportitem_note='lorem ipsum',
-            system = system_1,
-            headline = headline_1,
-            reportitem_created_by_user_id = test_user,
-            reportitem_modified_by_user_id = test_user,
+            system=system_1,
+            headline=headline_1,
+            reportitem_created_by_user_id=test_user,
+            reportitem_modified_by_user_id=test_user,
         )
 
         # create objects
@@ -53,20 +55,27 @@ class ReportitemModelTestCase(TestCase):
             case_name='case_1',
             case_is_incident=True,
             case_created_by_user_id=test_user,
-            casepriority = casepriority_1,
-            casestatus = casestatus_1,
+            casepriority=casepriority_1,
+            casestatus=casestatus_1,
         )
 
     def test_reportitem_string(self):
-        """ test string representation """
+        """test string representation"""
 
         # get object
         reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
         # compare
-        self.assertEqual(str(reportitem_1), str(reportitem_1.system) + ' | ' + str(reportitem_1.headline.headline_name) + ' | ' + str(reportitem_1.reportitem_subheadline))
+        self.assertEqual(
+            str(reportitem_1),
+            str(reportitem_1.system)
+            + ' | '
+            + str(reportitem_1.headline.headline_name)
+            + ' | '
+            + str(reportitem_1.reportitem_subheadline),
+        )
 
     def test_reportitem_id_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
@@ -76,7 +85,7 @@ class ReportitemModelTestCase(TestCase):
         self.assertEqual(field_label, 'reportitem id')
 
     def test_reportitem_case_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
@@ -86,7 +95,7 @@ class ReportitemModelTestCase(TestCase):
         self.assertEqual(field_label, 'case')
 
     def test_reportitem_headline_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
@@ -96,7 +105,7 @@ class ReportitemModelTestCase(TestCase):
         self.assertEqual(field_label, 'headline')
 
     def test_reportitem_notestatus_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
@@ -106,7 +115,7 @@ class ReportitemModelTestCase(TestCase):
         self.assertEqual(field_label, 'notestatus')
 
     def test_reportitem_system_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
@@ -116,7 +125,7 @@ class ReportitemModelTestCase(TestCase):
         self.assertEqual(field_label, 'system')
 
     def test_reportitem_tag_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
@@ -126,17 +135,19 @@ class ReportitemModelTestCase(TestCase):
         self.assertEqual(field_label, 'tag')
 
     def test_reportitem_subheadline_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
         # get label
-        field_label = reportitem_1._meta.get_field('reportitem_subheadline').verbose_name
+        field_label = reportitem_1._meta.get_field(
+            'reportitem_subheadline'
+        ).verbose_name
         # compare
         self.assertEqual(field_label, 'reportitem subheadline')
 
     def test_reportitem_note_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
@@ -146,47 +157,55 @@ class ReportitemModelTestCase(TestCase):
         self.assertEqual(field_label, 'reportitem note')
 
     def test_reportitem_create_time_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
         # get label
-        field_label = reportitem_1._meta.get_field('reportitem_create_time').verbose_name
+        field_label = reportitem_1._meta.get_field(
+            'reportitem_create_time'
+        ).verbose_name
         # compare
         self.assertEqual(field_label, 'reportitem create time')
 
     def test_reportitem_modify_time_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
         # get label
-        field_label = reportitem_1._meta.get_field('reportitem_modify_time').verbose_name
+        field_label = reportitem_1._meta.get_field(
+            'reportitem_modify_time'
+        ).verbose_name
         # compare
         self.assertEqual(field_label, 'reportitem modify time')
 
     def test_reportitem_created_by_user_id_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
         # get label
-        field_label = reportitem_1._meta.get_field('reportitem_created_by_user_id').verbose_name
+        field_label = reportitem_1._meta.get_field(
+            'reportitem_created_by_user_id'
+        ).verbose_name
         # compare
         self.assertEqual(field_label, 'reportitem created by user id')
 
     def test_reportitem_modified_by_user_id_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
         # get label
-        field_label = reportitem_1._meta.get_field('reportitem_modified_by_user_id').verbose_name
+        field_label = reportitem_1._meta.get_field(
+            'reportitem_modified_by_user_id'
+        ).verbose_name
         # compare
         self.assertEqual(field_label, 'reportitem modified by user id')
 
     def test_reportitem_subheadline_length(self):
-        """ test for max length """
+        """test for max length"""
 
         # get object
         reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
@@ -196,7 +215,7 @@ class ReportitemModelTestCase(TestCase):
         self.assertEqual(max_length, 100)
 
     def test_reportitem_post_save_signal(self):
-        """ test report item post save signal """
+        """test report item post save signal"""
 
         # get object
         reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
@@ -212,4 +231,9 @@ class ReportitemModelTestCase(TestCase):
 
         # check reportitem and system should be part of the case
         self.assertEqual(reportitem_1.case.case_name, case_1.case_name)
-        self.assertQuerysetEqual(system_1.case.all(), [case_1, ])
+        self.assertQuerysetEqual(
+            system_1.case.all(),
+            [
+                case_1,
+            ],
+        )

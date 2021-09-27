@@ -4,7 +4,7 @@ from dfirtrack_main.models import Ip
 
 
 class IpModelTestCase(TestCase):
-    """ ip model tests """
+    """ip model tests"""
 
     @classmethod
     def setUpTestData(cls):
@@ -13,7 +13,7 @@ class IpModelTestCase(TestCase):
         Ip.objects.create(ip_ip='127.0.0.1')
 
     def test_ip_string(self):
-        """ test string representation """
+        """test string representation"""
 
         # get object
         ip_1 = Ip.objects.get(ip_ip='127.0.0.1')
@@ -21,7 +21,7 @@ class IpModelTestCase(TestCase):
         self.assertEqual(str(ip_1), '127.0.0.1')
 
     def test_ip_id_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         ip_1 = Ip.objects.get(ip_ip='127.0.0.1')
@@ -31,7 +31,7 @@ class IpModelTestCase(TestCase):
         self.assertEqual(field_label, 'ip id')
 
     def test_ip_ip_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         ip_1 = Ip.objects.get(ip_ip='127.0.0.1')

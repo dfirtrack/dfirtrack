@@ -4,7 +4,7 @@ from dfirtrack_main.models import Os
 
 
 class OsModelTestCase(TestCase):
-    """ os model tests """
+    """os model tests"""
 
     @classmethod
     def setUpTestData(cls):
@@ -13,7 +13,7 @@ class OsModelTestCase(TestCase):
         Os.objects.create(os_name='os_1')
 
     def test_os_string(self):
-        """ test string representation """
+        """test string representation"""
 
         # get object
         os_1 = Os.objects.get(os_name='os_1')
@@ -21,7 +21,7 @@ class OsModelTestCase(TestCase):
         self.assertEqual(str(os_1), 'os_1')
 
     def test_os_verbose_name_plural(self):
-        """ test string representation """
+        """test string representation"""
 
         # get object
         os_1 = Os.objects.get(os_name='os_1')
@@ -29,7 +29,7 @@ class OsModelTestCase(TestCase):
         self.assertEqual(os_1._meta.verbose_name_plural, 'os')
 
     def test_os_id_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         os_1 = Os.objects.get(os_name='os_1')
@@ -39,7 +39,7 @@ class OsModelTestCase(TestCase):
         self.assertEqual(field_label, 'os id')
 
     def test_os_name_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         os_1 = Os.objects.get(os_name='os_1')
@@ -49,7 +49,7 @@ class OsModelTestCase(TestCase):
         self.assertEqual(field_label, 'os name')
 
     def test_os_name_length(self):
-        """ test for max length """
+        """test for max length"""
 
         # get object
         os_1 = Os.objects.get(os_name='os_1')

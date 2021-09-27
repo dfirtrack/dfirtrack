@@ -3,23 +3,28 @@ from django.test import TestCase
 
 
 class GenericViewTestCase(TestCase):
-    """ generic view tests """
+    """generic view tests"""
 
     @classmethod
     def setUpTestData(cls):
 
         # create user
-        User.objects.create_user(username='testuser_generic_views', password='D9lPsoHFXeCNKEzM3IgE')
+        User.objects.create_user(
+            username='testuser_generic_views', password='D9lPsoHFXeCNKEzM3IgE'
+        )
 
     def test_login_view(self):
-        """ test generic view """
+        """test generic view"""
 
         # create url
         destination = '/login'
         # get response
         response = self.client.get('')
         # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=301)
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=301
+        )
+
 
 # TODO: does not work so far, no template used
 #    def test_login_view_template(self):

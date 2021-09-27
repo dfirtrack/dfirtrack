@@ -13,7 +13,7 @@ from dfirtrack_main.models import Task, Taskpriority, Taskstatus
 
 
 def get_redirect(request, task):
-    """ redirect according to GET parameter """
+    """redirect according to GET parameter"""
 
     # system
     if 'system' in request.GET:
@@ -31,6 +31,7 @@ def get_redirect(request, task):
     else:
         return redirect(reverse('task_detail', args=(task.task_id,)))
 
+
 class TaskList(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Task
@@ -40,6 +41,7 @@ class TaskList(LoginRequiredMixin, ListView):
     def get_queryset(self):
         debug_logger(str(self.request.user), " TASK_LIST_ENTERED")
         return Task.objects.filter(Q(taskstatus_id=1) | Q(taskstatus_id=2))
+
 
 class TaskClosed(LoginRequiredMixin, ListView):
     login_url = '/login'
@@ -51,6 +53,7 @@ class TaskClosed(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " TASK_CLOSED_ENTERED")
         return Task.objects.filter(taskstatus_id=3)
 
+
 class TaskAll(LoginRequiredMixin, ListView):
     login_url = '/login'
     model = Task
@@ -60,6 +63,7 @@ class TaskAll(LoginRequiredMixin, ListView):
     def get_queryset(self):
         debug_logger(str(self.request.user), " TASK_ALL_ENTERED")
         return Task.objects.all()
+
 
 class TaskDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
@@ -72,6 +76,7 @@ class TaskDetail(LoginRequiredMixin, DetailView):
         task.logger(str(self.request.user), " TASK_DETAIL_ENTERED")
         return context
 
+
 class TaskCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Task
@@ -81,40 +86,54 @@ class TaskCreate(LoginRequiredMixin, CreateView):
     def get(self, request, *args, **kwargs):
 
         # get id of first status objects sorted by name
-        taskpriority = Taskpriority.objects.order_by('taskpriority_name')[0].taskpriority_id
+        taskpriority = Taskpriority.objects.order_by('taskpriority_name')[
+            0
+        ].taskpriority_id
         taskstatus = Taskstatus.objects.order_by('taskstatus_name')[0].taskstatus_id
 
         if 'system' in request.GET:
             system = request.GET['system']
-            form = self.form_class(initial={
-                'system': system,
-                'taskpriority': taskpriority,
-                'taskstatus': taskstatus,
-            })
+            form = self.form_class(
+                initial={
+                    'system': system,
+                    'taskpriority': taskpriority,
+                    'taskstatus': taskstatus,
+                }
+            )
         elif 'artifact' in request.GET:
             artifact = request.GET['artifact']
-            form = self.form_class(initial={
-                'artifact': artifact,
-                'taskpriority': taskpriority,
-                'taskstatus': taskstatus,
-            })
+            form = self.form_class(
+                initial={
+                    'artifact': artifact,
+                    'taskpriority': taskpriority,
+                    'taskstatus': taskstatus,
+                }
+            )
         elif 'case' in request.GET:
             case = request.GET['case']
-            form = self.form_class(initial={
-                'case': case,
-                'taskpriority': taskpriority,
-                'taskstatus': taskstatus,
-            })
+            form = self.form_class(
+                initial={
+                    'case': case,
+                    'taskpriority': taskpriority,
+                    'taskstatus': taskstatus,
+                }
+            )
         else:
-            form = self.form_class(initial={
-                'taskpriority': taskpriority,
-                'taskstatus': taskstatus,
-            })
+            form = self.form_class(
+                initial={
+                    'taskpriority': taskpriority,
+                    'taskstatus': taskstatus,
+                }
+            )
         debug_logger(str(request.user), " TASK_ADD_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Add',
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -136,10 +155,15 @@ class TaskCreate(LoginRequiredMixin, CreateView):
             # conditional redirect
             return get_redirect(request, task)
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Add',
+                },
+            )
+
 
 class TaskUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
@@ -151,10 +175,14 @@ class TaskUpdate(LoginRequiredMixin, UpdateView):
         task = self.get_object()
         form = self.form_class(instance=task)
         task.logger(str(request.user), " TASK_EDIT_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Edit',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Edit',
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         task = self.get_object()
@@ -166,7 +194,9 @@ class TaskUpdate(LoginRequiredMixin, UpdateView):
             if task.taskstatus == Taskstatus.objects.get(taskstatus_name="10_pending"):
                 task.task_started_time = None
                 task.task_finished_time = None
-            elif task.taskstatus == Taskstatus.objects.get(taskstatus_name="20_working"):
+            elif task.taskstatus == Taskstatus.objects.get(
+                taskstatus_name="20_working"
+            ):
                 task.task_started_time = timezone.now()
                 task.task_finished_time = None
             elif task.taskstatus == Taskstatus.objects.get(taskstatus_name="30_done"):
@@ -181,10 +211,15 @@ class TaskUpdate(LoginRequiredMixin, UpdateView):
             # conditional redirect
             return get_redirect(request, task)
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Edit',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Edit',
+                },
+            )
+
 
 class TaskStart(LoginRequiredMixin, UpdateView):
     login_url = '/login'
@@ -200,6 +235,7 @@ class TaskStart(LoginRequiredMixin, UpdateView):
 
         # conditional redirect
         return get_redirect(request, task)
+
 
 class TaskFinish(LoginRequiredMixin, UpdateView):
     login_url = '/login'
@@ -223,6 +259,7 @@ class TaskFinish(LoginRequiredMixin, UpdateView):
         task.save()
         task.logger(str(request.user), " TASK_FINISH_EXECUTED")
 
+
 class TaskRenew(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Task
@@ -240,6 +277,7 @@ class TaskRenew(LoginRequiredMixin, UpdateView):
         # conditional redirect
         return get_redirect(request, task)
 
+
 class TaskSetUser(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = Task
@@ -253,6 +291,7 @@ class TaskSetUser(LoginRequiredMixin, UpdateView):
 
         # conditional redirect
         return get_redirect(request, task)
+
 
 class TaskUnsetUser(LoginRequiredMixin, UpdateView):
     login_url = '/login'

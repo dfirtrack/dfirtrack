@@ -4,10 +4,10 @@ from dfirtrack_main.forms import DomainForm
 
 
 class DomainFormTestCase(TestCase):
-    """ domain form tests """
+    """domain form tests"""
 
     def test_domain_name_form_label(self):
-        """ test form label """
+        """test form label"""
 
         # get object
         form = DomainForm()
@@ -15,7 +15,7 @@ class DomainFormTestCase(TestCase):
         self.assertEqual(form.fields['domain_name'].label, 'Domain name (*)')
 
     def test_domain_note_form_label(self):
-        """ test form label """
+        """test form label"""
 
         # get object
         form = DomainForm()
@@ -23,44 +23,54 @@ class DomainFormTestCase(TestCase):
         self.assertEqual(form.fields['domain_note'].label, 'Domain note')
 
     def test_domain_form_empty(self):
-        """ test minimum form requirements / INVALID """
+        """test minimum form requirements / INVALID"""
 
         # get object
-        form = DomainForm(data = {})
+        form = DomainForm(data={})
         # compare
         self.assertFalse(form.is_valid())
 
     def test_domain_name_form_filled(self):
-        """ test minimum form requirements / VALID """
+        """test minimum form requirements / VALID"""
 
         # get object
-        form = DomainForm(data = {'domain_name': 'domain_1'})
+        form = DomainForm(data={'domain_name': 'domain_1'})
         # compare
         self.assertTrue(form.is_valid())
 
     def test_domain_note_form_filled(self):
-        """ test additional form content """
+        """test additional form content"""
 
         # get object
-        form = DomainForm(data = {
-            'domain_name': 'domain_1',
-            'domain_note': 'lorem ipsum',
-        })
+        form = DomainForm(
+            data={
+                'domain_name': 'domain_1',
+                'domain_note': 'lorem ipsum',
+            }
+        )
         # compare
         self.assertTrue(form.is_valid())
 
     def test_domain_name_proper_chars(self):
-        """ test for max length """
+        """test for max length"""
 
         # get object
-        form = DomainForm(data = {'domain_name': 'dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd'})
+        form = DomainForm(
+            data={
+                'domain_name': 'dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd'
+            }
+        )
         # compare
         self.assertTrue(form.is_valid())
 
     def test_domain_name_too_many_chars(self):
-        """ test for max length """
+        """test for max length"""
 
         # get object
-        form = DomainForm(data = {'domain_name': 'ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd'})
+        form = DomainForm(
+            data={
+                'domain_name': 'ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd'
+            }
+        )
         # compare
         self.assertFalse(form.is_valid())

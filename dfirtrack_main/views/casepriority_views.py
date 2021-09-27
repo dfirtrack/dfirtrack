@@ -15,6 +15,7 @@ class CasepriorityList(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), ' CASEPRIORITY_LIST_ENTERED')
         return Casepriority.objects.order_by('casepriority_name')
 
+
 class CasepriorityDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Casepriority

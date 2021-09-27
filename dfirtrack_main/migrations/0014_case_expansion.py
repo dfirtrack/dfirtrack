@@ -24,7 +24,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='case',
             name='case_modified_by_user_id',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, related_name='case_modified_by', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name='case_modified_by',
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.AddField(
             model_name='case',
@@ -54,16 +59,29 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='case',
             name='casepriority',
-            field=models.ForeignKey(default=2, on_delete=django.db.models.deletion.PROTECT, to='dfirtrack_main.casepriority'),
+            field=models.ForeignKey(
+                default=2,
+                on_delete=django.db.models.deletion.PROTECT,
+                to='dfirtrack_main.casepriority',
+            ),
         ),
         migrations.AddField(
             model_name='case',
             name='casestatus',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.PROTECT, to='dfirtrack_main.casestatus'),
+            field=models.ForeignKey(
+                default=1,
+                on_delete=django.db.models.deletion.PROTECT,
+                to='dfirtrack_main.casestatus',
+            ),
         ),
         migrations.AddField(
             model_name='case',
             name='casetype',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='dfirtrack_main.casetype'),
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                to='dfirtrack_main.casetype',
+            ),
         ),
     ]

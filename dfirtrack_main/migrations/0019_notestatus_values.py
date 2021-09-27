@@ -14,6 +14,7 @@ def insert_notestatus(apps, schema_editor):
     for name in initial_values:
         Notestatus.objects.create(notestatus_name=name)
 
+
 class Migration(migrations.Migration):
 
     dependencies = [

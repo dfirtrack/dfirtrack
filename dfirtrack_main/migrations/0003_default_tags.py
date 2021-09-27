@@ -9,7 +9,6 @@ def insert_tags(apps, schema_editor):
 
     initial_values = [
         ('Suspicious', 'orange'),
-
         ('Backdoor installed', 'red'),
         ('Credential harvesting', 'red'),
         ('Data theft', 'red'),
@@ -19,7 +18,10 @@ def insert_tags(apps, schema_editor):
     # We also do not make use of .objects.bulk_create() due to its known caveats, see:
     # https://docs.djangoproject.com/en/3.2/ref/models/querysets/#bulk-create
     for name, color in initial_values:
-        Tag.objects.create(tag_name=name, tagcolor=Tagcolor.objects.get(tagcolor_name=color))
+        Tag.objects.create(
+            tag_name=name, tagcolor=Tagcolor.objects.get(tagcolor_name=color)
+        )
+
 
 class Migration(migrations.Migration):
 

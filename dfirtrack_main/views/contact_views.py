@@ -21,6 +21,7 @@ class ContactList(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " CONTACT_LIST_ENTERED")
         return Contact.objects.order_by('contact_name')
 
+
 class ContactDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Contact
@@ -32,6 +33,7 @@ class ContactDetail(LoginRequiredMixin, DetailView):
         contact.logger(str(self.request.user), " CONTACT_DETAIL_ENTERED")
         return context
 
+
 class ContactCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Contact
@@ -41,11 +43,15 @@ class ContactCreate(LoginRequiredMixin, CreateView):
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " CONTACT_ADD_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-            'object_type': 'contact',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'contact',
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -56,11 +62,16 @@ class ContactCreate(LoginRequiredMixin, CreateView):
             messages.success(request, 'Contact added')
             return redirect(reverse('contact_detail', args=(contact.contact_id,)))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-                'object_type': 'contact',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Add',
+                    'object_type': 'contact',
+                },
+            )
+
 
 class ContactCreatePopup(LoginRequiredMixin, CreateView):
     login_url = '/login'
@@ -71,11 +82,15 @@ class ContactCreatePopup(LoginRequiredMixin, CreateView):
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " CONTACT_ADD_POPUP_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-            'object_type': 'contact',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'contact',
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -84,13 +99,20 @@ class ContactCreatePopup(LoginRequiredMixin, CreateView):
             contact.save()
             contact.logger(str(request.user), " CONTACT_ADD_POPUP_EXECUTED")
             messages.success(request, 'Contact added')
-            return HttpResponse('<script type="text/javascript">window.close();</script>')
+            return HttpResponse(
+                '<script type="text/javascript">window.close();</script>'
+            )
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-                'object_type': 'contact',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Add',
+                    'object_type': 'contact',
+                },
+            )
+
 
 class ContactUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
@@ -102,12 +124,16 @@ class ContactUpdate(LoginRequiredMixin, UpdateView):
         contact = self.get_object()
         form = self.form_class(instance=contact)
         contact.logger(str(request.user), " CONTACT_EDIT_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Edit',
-            'object_type': 'contact',
-            'object_name': contact.contact_name,
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Edit',
+                'object_type': 'contact',
+                'object_name': contact.contact_name,
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         contact = self.get_object()
@@ -119,9 +145,13 @@ class ContactUpdate(LoginRequiredMixin, UpdateView):
             messages.success(request, 'Contact edited')
             return redirect(reverse('contact_detail', args=(contact.contact_id,)))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Edit',
-                'object_type': 'contact',
-                'object_name': contact.contact_name,
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Edit',
+                    'object_type': 'contact',
+                    'object_name': contact.contact_name,
+                },
+            )

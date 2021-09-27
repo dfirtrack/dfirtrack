@@ -16,6 +16,7 @@ def insert_tagcolors(apps, schema_editor):
     for name in initial_values:
         Tagcolor.objects.create(tagcolor_name=name)
 
+
 class Migration(migrations.Migration):
 
     dependencies = [

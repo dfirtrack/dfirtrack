@@ -22,46 +22,53 @@ from dfirtrack_main.models import (
 def create_lock_tags(model):
 
     # get tagcolor
-    tagcolor_white = Tagcolor.objects.get(tagcolor_name = 'white')
+    tagcolor_white = Tagcolor.objects.get(tagcolor_name='white')
 
     """ lock systemstatus """
 
     # get existing lock systemstatus tag
     try:
         tag_lock_systemstatus = Tag.objects.get(
-            tag_name = model.csv_tag_lock_systemstatus,
+            tag_name=model.csv_tag_lock_systemstatus,
         )
 
     # get or create lock systemstatus tag
     except Tag.DoesNotExist:
         tag_lock_systemstatus, created = Tag.objects.get_or_create(
-            tag_name = model.csv_tag_lock_systemstatus,
-            tagcolor = tagcolor_white,
+            tag_name=model.csv_tag_lock_systemstatus,
+            tagcolor=tagcolor_white,
         )
         # call logger
         if created:
-            tag_lock_systemstatus.logger(model.csv_import_username.username, ' SYSTEM_IMPORTER_FILE_CSV_TAG_CREATED')
+            tag_lock_systemstatus.logger(
+                model.csv_import_username.username,
+                ' SYSTEM_IMPORTER_FILE_CSV_TAG_CREATED',
+            )
 
     """ lock analysisstatus """
 
     # get existing lock analysisstatus tag
     try:
         tag_lock_analysisstatus = Tag.objects.get(
-            tag_name = model.csv_tag_lock_analysisstatus,
+            tag_name=model.csv_tag_lock_analysisstatus,
         )
 
     # get or create lock analysisstatus tag
     except Tag.DoesNotExist:
         tag_lock_analysisstatus, created = Tag.objects.get_or_create(
-            tag_name = model.csv_tag_lock_analysisstatus,
-            tagcolor = tagcolor_white,
+            tag_name=model.csv_tag_lock_analysisstatus,
+            tagcolor=tagcolor_white,
         )
         # call logger
         if created:
-            tag_lock_analysisstatus.logger(model.csv_import_username.username, ' SYSTEM_IMPORTER_FILE_CSV_TAG_CREATED')
+            tag_lock_analysisstatus.logger(
+                model.csv_import_username.username,
+                ' SYSTEM_IMPORTER_FILE_CSV_TAG_CREATED',
+            )
+
 
 def add_fk_attributes(system, system_created, model, row, row_counter, request=None):
-    """ add foreign key relationships to system """
+    """add foreign key relationships to system"""
 
     """ set username for logger """
 
@@ -84,7 +91,9 @@ def add_fk_attributes(system, system_created, model, row, row_counter, request=N
         # change systemstatus for existing system if not locked
         else:
             # get lockstatus
-            tag_lock_systemstatus = Tag.objects.get(tag_name = model.csv_tag_lock_systemstatus)
+            tag_lock_systemstatus = Tag.objects.get(
+                tag_name=model.csv_tag_lock_systemstatus
+            )
             # check for lockstatus in all tags of system
             if tag_lock_systemstatus not in system.tag.all():
                 # change to default systemstatus for existing system
@@ -102,7 +111,9 @@ def add_fk_attributes(system, system_created, model, row, row_counter, request=N
         # change analysisstatus for existing system if not locked
         else:
             # get lockstatus
-            tag_lock_analysisstatus = Tag.objects.get(tag_name = model.csv_tag_lock_analysisstatus)
+            tag_lock_analysisstatus = Tag.objects.get(
+                tag_name=model.csv_tag_lock_analysisstatus
+            )
             # check for lockstatus in all tags of system
             if tag_lock_analysisstatus not in system.tag.all():
                 # change to default analysisstatus for existing system
@@ -123,18 +134,29 @@ def add_fk_attributes(system, system_created, model, row, row_counter, request=N
                     # value is valid
                     try:
                         # get or create dnsname
-                        dnsname, created = Dnsname.objects.get_or_create(dnsname_name = dnsname_name)
+                        dnsname, created = Dnsname.objects.get_or_create(
+                            dnsname_name=dnsname_name
+                        )
                         # call logger if created
                         if created:
-                            dnsname.logger(logger_username, ' SYSTEM_IMPORTER_FILE_CSV_DNSNAME_CREATED')
+                            dnsname.logger(
+                                logger_username,
+                                ' SYSTEM_IMPORTER_FILE_CSV_DNSNAME_CREATED',
+                            )
                     # value is not valid
                     except DataError:
                         # if function was called from 'system_instant' and 'system_upload'
                         if request:
                             # call message
-                            messages.warning(request, f'Value for DNS name in row {row_counter} was not a valid value.')
+                            messages.warning(
+                                request,
+                                f'Value for DNS name in row {row_counter} was not a valid value.',
+                            )
                         # call logger
-                        warning_logger(logger_username, f' SYSTEM_IMPORTER_FILE_CSV_DNSNAME_COLUMN row_{row_counter}:invalid_dnsname')
+                        warning_logger(
+                            logger_username,
+                            f' SYSTEM_IMPORTER_FILE_CSV_DNSNAME_COLUMN row_{row_counter}:invalid_dnsname',
+                        )
                         # set empty value
                         dnsname = None
                 # string was empty
@@ -146,9 +168,15 @@ def add_fk_attributes(system, system_created, model, row, row_counter, request=N
                 # if function was called from 'system_instant' and 'system_upload'
                 if request:
                     # call message
-                    messages.warning(request, f'Index for DNS name in row {row_counter} was out of range.')
+                    messages.warning(
+                        request,
+                        f'Index for DNS name in row {row_counter} was out of range.',
+                    )
                 # call logger
-                warning_logger(logger_username, f' SYSTEM_IMPORTER_FILE_CSV_DNSNAME_COLUMN row_{row_counter}:out_of_range')
+                warning_logger(
+                    logger_username,
+                    f' SYSTEM_IMPORTER_FILE_CSV_DNSNAME_COLUMN row_{row_counter}:out_of_range',
+                )
                 # set empty value
                 dnsname = None
         # get dnsname from DB
@@ -175,18 +203,29 @@ def add_fk_attributes(system, system_created, model, row, row_counter, request=N
                     # value is valid
                     try:
                         # get or create domain
-                        domain, created = Domain.objects.get_or_create(domain_name = domain_name)
+                        domain, created = Domain.objects.get_or_create(
+                            domain_name=domain_name
+                        )
                         # call logger if created
                         if created:
-                            domain.logger(logger_username, ' SYSTEM_IMPORTER_FILE_CSV_DOMAIN_CREATED')
+                            domain.logger(
+                                logger_username,
+                                ' SYSTEM_IMPORTER_FILE_CSV_DOMAIN_CREATED',
+                            )
                     # value is not valid
                     except DataError:
                         # if function was called from 'system_instant' and 'system_upload'
                         if request:
                             # call message
-                            messages.warning(request, f'Value for domain in row {row_counter} was not a valid value.')
+                            messages.warning(
+                                request,
+                                f'Value for domain in row {row_counter} was not a valid value.',
+                            )
                         # call logger
-                        warning_logger(logger_username, f' SYSTEM_IMPORTER_FILE_CSV_DOMAIN_COLUMN row_{row_counter}:invalid_domain')
+                        warning_logger(
+                            logger_username,
+                            f' SYSTEM_IMPORTER_FILE_CSV_DOMAIN_COLUMN row_{row_counter}:invalid_domain',
+                        )
                         # set empty value
                         domain = None
                 # string was empty or same as system_name
@@ -198,9 +237,15 @@ def add_fk_attributes(system, system_created, model, row, row_counter, request=N
                 # if function was called from 'system_instant' and 'system_upload'
                 if request:
                     # call message
-                    messages.warning(request, f'Index for domain in row {row_counter} was out of range.')
+                    messages.warning(
+                        request,
+                        f'Index for domain in row {row_counter} was out of range.',
+                    )
                 # call logger
-                warning_logger(logger_username, f' SYSTEM_IMPORTER_FILE_CSV_DOMAIN_COLUMN row_{row_counter}:out_of_range')
+                warning_logger(
+                    logger_username,
+                    f' SYSTEM_IMPORTER_FILE_CSV_DOMAIN_COLUMN row_{row_counter}:out_of_range',
+                )
                 # set empty value
                 domain = None
         # get domain from DB
@@ -227,18 +272,29 @@ def add_fk_attributes(system, system_created, model, row, row_counter, request=N
                     # value is valid
                     try:
                         # get or create location
-                        location, created = Location.objects.get_or_create(location_name = location_name)
+                        location, created = Location.objects.get_or_create(
+                            location_name=location_name
+                        )
                         # call logger if created
                         if created:
-                            location.logger(logger_username, ' SYSTEM_IMPORTER_FILE_CSV_LOCATION_CREATED')
+                            location.logger(
+                                logger_username,
+                                ' SYSTEM_IMPORTER_FILE_CSV_LOCATION_CREATED',
+                            )
                     # value is not valid
                     except DataError:
                         # if function was called from 'system_instant' and 'system_upload'
                         if request:
                             # call message
-                            messages.warning(request, f'Value for location in row {row_counter} was not a valid value.')
+                            messages.warning(
+                                request,
+                                f'Value for location in row {row_counter} was not a valid value.',
+                            )
                         # call logger
-                        warning_logger(logger_username, f' SYSTEM_IMPORTER_FILE_CSV_LOCATION_COLUMN row_{row_counter}:invalid_location')
+                        warning_logger(
+                            logger_username,
+                            f' SYSTEM_IMPORTER_FILE_CSV_LOCATION_COLUMN row_{row_counter}:invalid_location',
+                        )
                         # set empty value
                         location = None
                 # string was empty
@@ -250,9 +306,15 @@ def add_fk_attributes(system, system_created, model, row, row_counter, request=N
                 # if function was called from 'system_instant' and 'system_upload'
                 if request:
                     # call message
-                    messages.warning(request, f'Index for location in row {row_counter} was out of range.')
+                    messages.warning(
+                        request,
+                        f'Index for location in row {row_counter} was out of range.',
+                    )
                 # call logger
-                warning_logger(logger_username, f' SYSTEM_IMPORTER_FILE_CSV_LOCATION_COLUMN row_{row_counter}:out_of_range')
+                warning_logger(
+                    logger_username,
+                    f' SYSTEM_IMPORTER_FILE_CSV_LOCATION_COLUMN row_{row_counter}:out_of_range',
+                )
                 # set empty value
                 location = None
         # get location from DB
@@ -279,18 +341,26 @@ def add_fk_attributes(system, system_created, model, row, row_counter, request=N
                     # value is valid
                     try:
                         # get or create os
-                        os, created = Os.objects.get_or_create(os_name = os_name)
+                        os, created = Os.objects.get_or_create(os_name=os_name)
                         # call logger if created
                         if created:
-                            os.logger(logger_username, ' SYSTEM_IMPORTER_FILE_CSV_OS_CREATED')
+                            os.logger(
+                                logger_username, ' SYSTEM_IMPORTER_FILE_CSV_OS_CREATED'
+                            )
                     # value is not valid
                     except DataError:
                         # if function was called from 'system_instant' and 'system_upload'
                         if request:
                             # call message
-                            messages.warning(request, f'Value for OS in row {row_counter} was not a valid value.')
+                            messages.warning(
+                                request,
+                                f'Value for OS in row {row_counter} was not a valid value.',
+                            )
                         # call logger
-                        warning_logger(logger_username, f' SYSTEM_IMPORTER_FILE_CSV_OS_COLUMN row_{row_counter}:invalid_os')
+                        warning_logger(
+                            logger_username,
+                            f' SYSTEM_IMPORTER_FILE_CSV_OS_COLUMN row_{row_counter}:invalid_os',
+                        )
                         # set empty value
                         os = None
                 # string was empty
@@ -302,9 +372,14 @@ def add_fk_attributes(system, system_created, model, row, row_counter, request=N
                 # if function was called from 'system_instant' and 'system_upload'
                 if request:
                     # call message
-                    messages.warning(request, f'Index for OS in row {row_counter} was out of range.')
+                    messages.warning(
+                        request, f'Index for OS in row {row_counter} was out of range.'
+                    )
                 # call logger
-                warning_logger(logger_username, f' SYSTEM_IMPORTER_FILE_CSV_OS_COLUMN row_{row_counter}:out_of_range')
+                warning_logger(
+                    logger_username,
+                    f' SYSTEM_IMPORTER_FILE_CSV_OS_COLUMN row_{row_counter}:out_of_range',
+                )
                 # set empty value
                 os = None
         # get os from DB
@@ -331,18 +406,29 @@ def add_fk_attributes(system, system_created, model, row, row_counter, request=N
                     # value is valid
                     try:
                         # get or create reason
-                        reason, created = Reason.objects.get_or_create(reason_name = reason_name)
+                        reason, created = Reason.objects.get_or_create(
+                            reason_name=reason_name
+                        )
                         # call logger if created
                         if created:
-                            reason.logger(logger_username, ' SYSTEM_IMPORTER_FILE_CSV_REASON_CREATED')
+                            reason.logger(
+                                logger_username,
+                                ' SYSTEM_IMPORTER_FILE_CSV_REASON_CREATED',
+                            )
                     # value is not valid
                     except DataError:
                         # if function was called from 'system_instant' and 'system_upload'
                         if request:
                             # call message
-                            messages.warning(request, f'Value for reason in row {row_counter} was not a valid value.')
+                            messages.warning(
+                                request,
+                                f'Value for reason in row {row_counter} was not a valid value.',
+                            )
                         # call logger
-                        warning_logger(logger_username, f' SYSTEM_IMPORTER_FILE_CSV_REASON_COLUMN row_{row_counter}:invalid_reason')
+                        warning_logger(
+                            logger_username,
+                            f' SYSTEM_IMPORTER_FILE_CSV_REASON_COLUMN row_{row_counter}:invalid_reason',
+                        )
                         # set empty value
                         reason = None
                 # string was empty
@@ -354,9 +440,15 @@ def add_fk_attributes(system, system_created, model, row, row_counter, request=N
                 # if function was called from 'system_instant' and 'system_upload'
                 if request:
                     # call message
-                    messages.warning(request, f'Index for reason in row {row_counter} was out of range.')
+                    messages.warning(
+                        request,
+                        f'Index for reason in row {row_counter} was out of range.',
+                    )
                 # call logger
-                warning_logger(logger_username, f' SYSTEM_IMPORTER_FILE_CSV_REASON_COLUMN row_{row_counter}:out_of_range')
+                warning_logger(
+                    logger_username,
+                    f' SYSTEM_IMPORTER_FILE_CSV_REASON_COLUMN row_{row_counter}:out_of_range',
+                )
                 # set empty value
                 reason = None
         # get reason from DB
@@ -383,18 +475,29 @@ def add_fk_attributes(system, system_created, model, row, row_counter, request=N
                     # value is valid
                     try:
                         # get or create recommendation
-                        recommendation, created = Recommendation.objects.get_or_create(recommendation_name = recommendation_name)
+                        recommendation, created = Recommendation.objects.get_or_create(
+                            recommendation_name=recommendation_name
+                        )
                         # call logger if created
                         if created:
-                            recommendation.logger(logger_username, ' SYSTEM_IMPORTER_FILE_CSV_RECOMMENDATION_CREATED')
+                            recommendation.logger(
+                                logger_username,
+                                ' SYSTEM_IMPORTER_FILE_CSV_RECOMMENDATION_CREATED',
+                            )
                     # value is not valid
                     except DataError:
                         # if function was called from 'system_instant' and 'system_upload'
                         if request:
                             # call message
-                            messages.warning(request, f'Value for recommendation in row {row_counter} was not a valid value.')
+                            messages.warning(
+                                request,
+                                f'Value for recommendation in row {row_counter} was not a valid value.',
+                            )
                         # call logger
-                        warning_logger(logger_username, f' SYSTEM_IMPORTER_FILE_CSV_RECOMMENDATION_COLUMN row_{row_counter}:invalid_recommendation')
+                        warning_logger(
+                            logger_username,
+                            f' SYSTEM_IMPORTER_FILE_CSV_RECOMMENDATION_COLUMN row_{row_counter}:invalid_recommendation',
+                        )
                         # set empty value
                         recommendation = None
                 # string was empty
@@ -406,9 +509,15 @@ def add_fk_attributes(system, system_created, model, row, row_counter, request=N
                 # if function was called from 'system_instant' and 'system_upload'
                 if request:
                     # call message
-                    messages.warning(request, f'Index for recommendation in row {row_counter} was out of range.')
+                    messages.warning(
+                        request,
+                        f'Index for recommendation in row {row_counter} was out of range.',
+                    )
                 # call logger
-                warning_logger(logger_username, f' SYSTEM_IMPORTER_FILE_CSV_RECOMMENDATION_COLUMN row_{row_counter}:out_of_range')
+                warning_logger(
+                    logger_username,
+                    f' SYSTEM_IMPORTER_FILE_CSV_RECOMMENDATION_COLUMN row_{row_counter}:out_of_range',
+                )
                 # set empty value
                 recommendation = None
         # get recommendation from DB
@@ -435,18 +544,32 @@ def add_fk_attributes(system, system_created, model, row, row_counter, request=N
                     # value is valid
                     try:
                         # get or create serviceprovider
-                        serviceprovider, created = Serviceprovider.objects.get_or_create(serviceprovider_name = serviceprovider_name)
+                        (
+                            serviceprovider,
+                            created,
+                        ) = Serviceprovider.objects.get_or_create(
+                            serviceprovider_name=serviceprovider_name
+                        )
                         # call logger if created
                         if created:
-                            serviceprovider.logger(logger_username, ' SYSTEM_IMPORTER_FILE_CSV_SERVICEPROVIDER_CREATED')
+                            serviceprovider.logger(
+                                logger_username,
+                                ' SYSTEM_IMPORTER_FILE_CSV_SERVICEPROVIDER_CREATED',
+                            )
                     # value is not valid
                     except DataError:
                         # if function was called from 'system_instant' and 'system_upload'
                         if request:
                             # call message
-                            messages.warning(request, f'Value for serviceprovider in row {row_counter} was not a valid value.')
+                            messages.warning(
+                                request,
+                                f'Value for serviceprovider in row {row_counter} was not a valid value.',
+                            )
                         # call logger
-                        warning_logger(logger_username, f' SYSTEM_IMPORTER_FILE_CSV_SERVICEPROVIDER_COLUMN row_{row_counter}:invalid_serviceprovider')
+                        warning_logger(
+                            logger_username,
+                            f' SYSTEM_IMPORTER_FILE_CSV_SERVICEPROVIDER_COLUMN row_{row_counter}:invalid_serviceprovider',
+                        )
                         # set empty value
                         serviceprovider = None
                 # string was empty
@@ -458,9 +581,15 @@ def add_fk_attributes(system, system_created, model, row, row_counter, request=N
                 # if function was called from 'system_instant' and 'system_upload'
                 if request:
                     # call message
-                    messages.warning(request, f'Index for serviceprovider in row {row_counter} was out of range.')
+                    messages.warning(
+                        request,
+                        f'Index for serviceprovider in row {row_counter} was out of range.',
+                    )
                 # call logger
-                warning_logger(logger_username, f' SYSTEM_IMPORTER_FILE_CSV_SERVICEPROVIDER_COLUMN row_{row_counter}:out_of_range')
+                warning_logger(
+                    logger_username,
+                    f' SYSTEM_IMPORTER_FILE_CSV_SERVICEPROVIDER_COLUMN row_{row_counter}:out_of_range',
+                )
                 # set empty value
                 serviceprovider = None
         # get serviceprovider from DB
@@ -487,18 +616,29 @@ def add_fk_attributes(system, system_created, model, row, row_counter, request=N
                     # value is valid
                     try:
                         # get or create systemtype
-                        systemtype, created = Systemtype.objects.get_or_create(systemtype_name = systemtype_name)
+                        systemtype, created = Systemtype.objects.get_or_create(
+                            systemtype_name=systemtype_name
+                        )
                         # call logger if created
                         if created:
-                            systemtype.logger(logger_username, ' SYSTEM_IMPORTER_FILE_CSV_SYSTEMTYPE_CREATED')
+                            systemtype.logger(
+                                logger_username,
+                                ' SYSTEM_IMPORTER_FILE_CSV_SYSTEMTYPE_CREATED',
+                            )
                     # value is not valid
                     except DataError:
                         # if function was called from 'system_instant' and 'system_upload'
                         if request:
                             # call message
-                            messages.warning(request, f'Value for systemtype in row {row_counter} was not a valid value.')
+                            messages.warning(
+                                request,
+                                f'Value for systemtype in row {row_counter} was not a valid value.',
+                            )
                         # call logger
-                        warning_logger(logger_username, f' SYSTEM_IMPORTER_FILE_CSV_SYSTEMTYPE_COLUMN row_{row_counter}:invalid_systemtype')
+                        warning_logger(
+                            logger_username,
+                            f' SYSTEM_IMPORTER_FILE_CSV_SYSTEMTYPE_COLUMN row_{row_counter}:invalid_systemtype',
+                        )
                         # set empty value
                         systemtype = None
                 # string was empty
@@ -510,9 +650,15 @@ def add_fk_attributes(system, system_created, model, row, row_counter, request=N
                 # if function was called from 'system_instant' and 'system_upload'
                 if request:
                     # call message
-                    messages.warning(request, f'Index for systemtype in row {row_counter} was out of range.')
+                    messages.warning(
+                        request,
+                        f'Index for systemtype in row {row_counter} was out of range.',
+                    )
                 # call logger
-                warning_logger(logger_username, f' SYSTEM_IMPORTER_FILE_CSV_SYSTEMTYPE_COLUMN row_{row_counter}:out_of_range')
+                warning_logger(
+                    logger_username,
+                    f' SYSTEM_IMPORTER_FILE_CSV_SYSTEMTYPE_COLUMN row_{row_counter}:out_of_range',
+                )
                 # set empty value
                 systemtype = None
         # get systemtype from DB
@@ -527,8 +673,11 @@ def add_fk_attributes(system, system_created, model, row, row_counter, request=N
     # return system with foreign key relations to 'csv_main.system_handler'
     return system
 
-def add_many2many_attributes(system, system_created, model, row, row_counter, request=None):
-    """ add many2many relationships to system """
+
+def add_many2many_attributes(
+    system, system_created, model, row, row_counter, request=None
+):
+    """add many2many relationships to system"""
 
     """ set username for logger and object """
 
@@ -591,9 +740,14 @@ def add_many2many_attributes(system, system_created, model, row, row_counter, re
                 # if function was called from 'system_instant' and 'system_upload'
                 if request:
                     # call message
-                    messages.warning(request, f'Index for IP in row {row_counter} was out of range.')
+                    messages.warning(
+                        request, f'Index for IP in row {row_counter} was out of range.'
+                    )
                 # call logger
-                warning_logger(logger_username, f' SYSTEM_IMPORTER_FILE_CSV_IP_COLUMN row_{row_counter}:out_of_range')
+                warning_logger(
+                    logger_username,
+                    f' SYSTEM_IMPORTER_FILE_CSV_IP_COLUMN row_{row_counter}:out_of_range',
+                )
 
     """ case """
 
@@ -616,28 +770,37 @@ def add_many2many_attributes(system, system_created, model, row, row_counter, re
                     # get existing case
                     try:
                         case = Case.objects.get(
-                            case_name = case_name,
+                            case_name=case_name,
                         )
                     # create new case
                     except Case.DoesNotExist:
                         # value is valid
                         try:
                             case, created = Case.objects.get_or_create(
-                                case_name = case_name,
-                                case_is_incident = False,
-                                case_created_by_user_id = csv_import_user,
+                                case_name=case_name,
+                                case_is_incident=False,
+                                case_created_by_user_id=csv_import_user,
                             )
                             # call logger if created
                             if created:
-                                case.logger(logger_username, ' SYSTEM_IMPORTER_FILE_CSV_CASE_CREATED')
+                                case.logger(
+                                    logger_username,
+                                    ' SYSTEM_IMPORTER_FILE_CSV_CASE_CREATED',
+                                )
                         # value is not valid
                         except DataError:
                             # if function was called from 'system_instant' and 'system_upload'
                             if request:
                                 # call message
-                                messages.warning(request, f'Value for case in row {row_counter} was not a valid value.')
+                                messages.warning(
+                                    request,
+                                    f'Value for case in row {row_counter} was not a valid value.',
+                                )
                             # call logger
-                            warning_logger(logger_username, f' SYSTEM_IMPORTER_FILE_CSV_CASE_COLUMN row_{row_counter}:invalid_case')
+                            warning_logger(
+                                logger_username,
+                                f' SYSTEM_IMPORTER_FILE_CSV_CASE_COLUMN row_{row_counter}:invalid_case',
+                            )
                             # set empty value
                             case = None
                     # only add case to system if one of the previous checks was successful
@@ -649,9 +812,15 @@ def add_many2many_attributes(system, system_created, model, row, row_counter, re
                 # if function was called from 'system_instant' and 'system_upload'
                 if request:
                     # call message
-                    messages.warning(request, f'Index for case in row {row_counter} was out of range.')
+                    messages.warning(
+                        request,
+                        f'Index for case in row {row_counter} was out of range.',
+                    )
                 # call logger
-                warning_logger(logger_username, f' SYSTEM_IMPORTER_FILE_CSV_CASE_COLUMN row_{row_counter}:out_of_range')
+                warning_logger(
+                    logger_username,
+                    f' SYSTEM_IMPORTER_FILE_CSV_CASE_COLUMN row_{row_counter}:out_of_range',
+                )
 
         # get case from DB
         elif model.csv_default_case:
@@ -681,18 +850,29 @@ def add_many2many_attributes(system, system_created, model, row, row_counter, re
                     # value is valid
                     try:
                         # get or create company
-                        company, created = Company.objects.get_or_create(company_name = company_name)
+                        company, created = Company.objects.get_or_create(
+                            company_name=company_name
+                        )
                         # call logger if created
                         if created:
-                            company.logger(logger_username, ' SYSTEM_IMPORTER_FILE_CSV_COMPANY_CREATED')
+                            company.logger(
+                                logger_username,
+                                ' SYSTEM_IMPORTER_FILE_CSV_COMPANY_CREATED',
+                            )
                     # value is not valid
                     except DataError:
                         # if function was called from 'system_instant' and 'system_upload'
                         if request:
                             # call message
-                            messages.warning(request, f'Value for company in row {row_counter} was not a valid value.')
+                            messages.warning(
+                                request,
+                                f'Value for company in row {row_counter} was not a valid value.',
+                            )
                         # call logger
-                        warning_logger(logger_username, f' SYSTEM_IMPORTER_FILE_CSV_COMPANY_COLUMN row_{row_counter}:invalid_company')
+                        warning_logger(
+                            logger_username,
+                            f' SYSTEM_IMPORTER_FILE_CSV_COMPANY_COLUMN row_{row_counter}:invalid_company',
+                        )
                         # set empty value
                         company = None
                     # only add company to system if one of the previous checks was successful
@@ -704,9 +884,15 @@ def add_many2many_attributes(system, system_created, model, row, row_counter, re
                 # if function was called from 'system_instant' and 'system_upload'
                 if request:
                     # call message
-                    messages.warning(request, f'Index for company in row {row_counter} was out of range.')
+                    messages.warning(
+                        request,
+                        f'Index for company in row {row_counter} was out of range.',
+                    )
                 # call logger
-                warning_logger(logger_username, f' SYSTEM_IMPORTER_FILE_CSV_COMPANY_COLUMN row_{row_counter}:out_of_range')
+                warning_logger(
+                    logger_username,
+                    f' SYSTEM_IMPORTER_FILE_CSV_COMPANY_COLUMN row_{row_counter}:out_of_range',
+                )
 
         # get company from DB
         elif model.csv_default_company:
@@ -718,9 +904,11 @@ def add_many2many_attributes(system, system_created, model, row, row_counter, re
     """ tag """
 
     # set tag for new system or change if remove old is set
-    if system_created or (not system_created and model.csv_remove_tag != 'tag_remove_none'):
+    if system_created or (
+        not system_created and model.csv_remove_tag != 'tag_remove_none'
+    ):
 
-        """ prepare tag prefix """
+        """prepare tag prefix"""
 
         # get tag delimiter from config
         if model.csv_tag_prefix_delimiter == 'tag_prefix_underscore':
@@ -785,27 +973,36 @@ def add_many2many_attributes(system, system_created, model, row, row_counter, re
                         # get existing tag
                         try:
                             tag = Tag.objects.get(
-                                tag_name = tagname,
+                                tag_name=tagname,
                             )
                         # create new tag
                         except Tag.DoesNotExist:
                             # value is valid
                             try:
                                 tag, created = Tag.objects.get_or_create(
-                                    tag_name = tagname,
-                                    tagcolor = tagcolor_primary,
+                                    tag_name=tagname,
+                                    tagcolor=tagcolor_primary,
                                 )
                                 # call logger if created
                                 if created:
-                                    tag.logger(logger_username, ' SYSTEM_IMPORTER_FILE_CSV_TAG_CREATED')
+                                    tag.logger(
+                                        logger_username,
+                                        ' SYSTEM_IMPORTER_FILE_CSV_TAG_CREATED',
+                                    )
                             # value is not valid
                             except DataError:
                                 # if function was called from 'system_instant' and 'system_upload'
                                 if request:
                                     # call message
-                                    messages.warning(request, f'Value for tag in row {row_counter} was not a valid value.')
+                                    messages.warning(
+                                        request,
+                                        f'Value for tag in row {row_counter} was not a valid value.',
+                                    )
                                 # call logger
-                                warning_logger(logger_username, f' SYSTEM_IMPORTER_FILE_CSV_TAG_COLUMN row_{row_counter}:invalid_tag')
+                                warning_logger(
+                                    logger_username,
+                                    f' SYSTEM_IMPORTER_FILE_CSV_TAG_COLUMN row_{row_counter}:invalid_tag',
+                                )
                                 # set empty value
                                 tag = None
                         # only add tag to system if one of the previous checks was successful
@@ -818,9 +1015,14 @@ def add_many2many_attributes(system, system_created, model, row, row_counter, re
                 # if function was called from 'system_instant' and 'system_upload'
                 if request:
                     # call message
-                    messages.warning(request, f'Index for tag in row {row_counter} was out of range.')
+                    messages.warning(
+                        request, f'Index for tag in row {row_counter} was out of range.'
+                    )
                 # call logger
-                warning_logger(logger_username, f' SYSTEM_IMPORTER_FILE_CSV_TAG_COLUMN row_{row_counter}:out_of_range')
+                warning_logger(
+                    logger_username,
+                    f' SYSTEM_IMPORTER_FILE_CSV_TAG_COLUMN row_{row_counter}:out_of_range',
+                )
 
         # get tags from DB
         elif model.csv_default_tag:
@@ -843,26 +1045,34 @@ def add_many2many_attributes(system, system_created, model, row, row_counter, re
                 # no tags for this system
                 if not tag_string:
 
-                    """ systemstatus """
+                    """systemstatus"""
 
                     # tagfree systemstatus is set
                     if model.csv_choice_tagfree_systemstatus:
 
                         # set tagfree systemstatus for new system or change tagfree systemsstatus if remove old is set
-                        if system_created or (not system_created and model.csv_remove_systemstatus):
+                        if system_created or (
+                            not system_created and model.csv_remove_systemstatus
+                        ):
 
                             # set tagfree systemstatus for new system
                             if system_created:
                                 # set systemstatus for new system
-                                system.systemstatus = model.csv_default_tagfree_systemstatus
+                                system.systemstatus = (
+                                    model.csv_default_tagfree_systemstatus
+                                )
                             # change systemstatus for existing system if not locked
                             else:
                                 # get lockstatus
-                                tag_lock_systemstatus = Tag.objects.get(tag_name = model.csv_tag_lock_systemstatus)
+                                tag_lock_systemstatus = Tag.objects.get(
+                                    tag_name=model.csv_tag_lock_systemstatus
+                                )
                                 # check for lockstatus in all tags of system
                                 if tag_lock_systemstatus not in system.tag.all():
                                     # change to tagfree systemstatus for existing system
-                                    system.systemstatus = model.csv_default_tagfree_systemstatus
+                                    system.systemstatus = (
+                                        model.csv_default_tagfree_systemstatus
+                                    )
 
                             # save object
                             system.save()
@@ -873,20 +1083,28 @@ def add_many2many_attributes(system, system_created, model, row, row_counter, re
                     if model.csv_choice_tagfree_analysisstatus:
 
                         # set tagfree status for new system or change to tagfree status if remove old is set
-                        if system_created or (not system_created and model.csv_remove_analysisstatus):
+                        if system_created or (
+                            not system_created and model.csv_remove_analysisstatus
+                        ):
 
                             # set tagfree analysisstatus for new system
                             if system_created:
                                 # set analysisstatus for new system
-                                system.analysisstatus = model.csv_default_tagfree_analysisstatus
+                                system.analysisstatus = (
+                                    model.csv_default_tagfree_analysisstatus
+                                )
                             # change analysisstatus for existing system if not locked
                             else:
                                 # get lockstatus
-                                tag_lock_analysisstatus = Tag.objects.get(tag_name = model.csv_tag_lock_analysisstatus)
+                                tag_lock_analysisstatus = Tag.objects.get(
+                                    tag_name=model.csv_tag_lock_analysisstatus
+                                )
                                 # check for lockstatus in all tags of system
                                 if tag_lock_analysisstatus not in system.tag.all():
                                     # change to tagfree analysisstatus for existing system
-                                    system.analysisstatus = model.csv_default_tagfree_analysisstatus
+                                    system.analysisstatus = (
+                                        model.csv_default_tagfree_analysisstatus
+                                    )
 
                             # save object
                             system.save()
