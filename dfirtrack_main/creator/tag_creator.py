@@ -13,7 +13,7 @@ from dfirtrack_main.models import System, Tag
 
 @login_required(login_url="/login")
 def tag_creator(request):
-    """ function to create many tags for many systems at once (helper function to call the real function) """
+    """function to create many tags for many systems at once (helper function to call the real function)"""
 
     # form was valid to post
     if request.method == 'POST':
@@ -50,8 +50,9 @@ def tag_creator(request):
 
     return render(request, 'dfirtrack_main/tag/tag_creator.html', {'form': form})
 
+
 def tag_creator_async(request_post, request_user):
-    """ function to create many tags for many systems at once """
+    """function to create many tags for many systems at once"""
 
     # call logger
     debug_logger(str(request_user), ' TAG_CREATOR_START')
@@ -72,7 +73,7 @@ def tag_creator_async(request_post, request_user):
     for system_id in systems:
 
         # autoincrement counter
-        system_tags_created_counter  += 1
+        system_tags_created_counter += 1
 
         # iterate over tags
         for tag_id in tags:
@@ -83,7 +84,7 @@ def tag_creator_async(request_post, request_user):
             # create relation
             if form.is_valid():
 
-                """ object creation """
+                """object creation"""
 
                 # get objects
                 system = System.objects.get(system_id=system_id)
@@ -95,10 +96,10 @@ def tag_creator_async(request_post, request_user):
                 """ object counter / log """
 
                 # autoincrement counter
-                tags_created_counter  += 1
+                tags_created_counter += 1
 
                 # call logger
-                system.logger( str(request_user), ' TAG_CREATOR_EXECUTED')
+                system.logger(str(request_user), ' TAG_CREATOR_EXECUTED')
 
     """ finish tag creator """
 
@@ -106,7 +107,7 @@ def tag_creator_async(request_post, request_user):
     message_user(
         request_user,
         f'{tags_created_counter} tags created for {system_tags_created_counter} systems.',
-        constants.SUCCESS
+        constants.SUCCESS,
     )
 
     # call logger
@@ -114,7 +115,7 @@ def tag_creator_async(request_post, request_user):
         str(request_user),
         f' TAG_CREATOR_STATUS'
         f' tags_created:{tags_created_counter}'
-        f'|systems_affected:{system_tags_created_counter}'
+        f'|systems_affected:{system_tags_created_counter}',
     )
 
     # call logger
