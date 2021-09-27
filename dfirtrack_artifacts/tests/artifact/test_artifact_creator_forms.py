@@ -79,7 +79,7 @@ class ArtifactCreatorFormTestCase(TestCase):
         # get object
         form = ArtifactCreatorForm()
         # compare
-        self.assertEqual(form.fields['artifacttype'].label, 'Artifacttypes (*)')
+        self.assertEqual(form.fields['artifacttype'].label, 'Artifacttypes (*) - Will be set as artifact names')
 
     def test_artifact_creator_system_form_label(self):
         """test form label"""

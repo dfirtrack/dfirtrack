@@ -222,7 +222,7 @@ class ArtifactCreatorForm(forms.ModelForm):
 
     # show all existing artifacttype objects as multiple choice field
     artifacttype = forms.ModelMultipleChoiceField(
-        label=gettext_lazy('Artifacttypes (*)'),
+        label=gettext_lazy('Artifacttypes (*) - Will be set as artifact names'),
         widget=forms.CheckboxSelectMultiple(),
         queryset=Artifacttype.objects.order_by('artifacttype_name'),
         required=True,
