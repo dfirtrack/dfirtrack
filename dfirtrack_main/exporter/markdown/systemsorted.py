@@ -183,7 +183,7 @@ def systemsorted_async(username, request_user=None):
             dummy = item['Systems']
             # set index
             j = i
-        except:  # coverage: ignore branch
+        except:  # coverage: ignore branch  # nosec
             # do nothing
             pass
 

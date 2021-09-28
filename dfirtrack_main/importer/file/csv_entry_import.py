@@ -33,7 +33,7 @@ def csv_entry_import_async(
                     entry.system = system
                     entry.entry_created_by_user_id = request_user
                     entry.entry_modified_by_user_id = request_user
-                    m = hashlib.sha1()
+                    m = hashlib.sha1()  # nosec
                     entry.entry_time = row[field_mapping['entry_time']]
                     m.update(entry.entry_time.encode())
                     entry.entry_type = row[field_mapping['entry_type']]

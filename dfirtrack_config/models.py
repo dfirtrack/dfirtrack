@@ -85,7 +85,7 @@ class MainConfigModel(models.Model):
         blank=True,
     )
     statushistory_entry_numbers = models.IntegerField(default=10)
-    cron_export_path = models.CharField(max_length=4096, default='/tmp')
+    cron_export_path = models.CharField(max_length=4096, default='/tmp')  # nosec
     cron_username = models.CharField(max_length=255, default='cron')
 
     MAIN_OVERVIEW_ARTIFACT = 'main_overview_artifact'
@@ -225,7 +225,7 @@ class SystemImporterFileCsvConfigModel(models.Model):
     csv_column_system = models.IntegerField(default=1)
     csv_skip_existing_system = models.BooleanField(default=False)
     csv_headline = models.BooleanField(default=True)
-    csv_import_path = models.CharField(max_length=4096, default='/tmp')
+    csv_import_path = models.CharField(max_length=4096, default='/tmp')  # nosec
     csv_import_filename = models.CharField(max_length=255, default='systems.csv')
 
     # user context for imports, null is allowed for initial creation of config model via migration, blank is not allowed in form

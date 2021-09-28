@@ -96,7 +96,7 @@ class EntryCsvImporterTestCase(TestCase):
         now = datetime.now(tz=get_current_timezone())
         csv_string = f'datetime,type,message\n"{now}",sha1_test,"Lorem ipsum","[]"'
         # calculate hash
-        m = hashlib.sha1()
+        m = hashlib.sha1()  # nosec
         m.update(str(now).encode())
         m.update(b'sha1_test')
         m.update(b'Lorem ipsum')
@@ -119,7 +119,7 @@ class EntryCsvImporterTestCase(TestCase):
             f'datetime,type,message,tag\n"{now}",sha1_test,"Lorem ipsum","[\'tag_1\']"'
         )
         # calculate hash
-        m = hashlib.sha1()
+        m = hashlib.sha1()  # nosec
         m.update(str(now).encode())
         m.update(b'sha1_test')
         m.update(b'Lorem ipsum')
