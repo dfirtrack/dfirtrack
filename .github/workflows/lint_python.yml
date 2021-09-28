@@ -12,7 +12,7 @@ jobs:
       - uses: actions/setup-python@v2
       - run: pip install bandit black codespell flake8 isort mypy pytest pyupgrade safety
       - run: bandit --recursive --skip B101,B106,B108,B110,B303 .
-      - run: black --check --skip-string-normalization dfirtrack dfirtrack_api dfirtrack_artifacts dfirtrack_config manage.py
+      - run: black --check --skip-string-normalization .
       - run: codespell --ignore-words-list="entrys" --skip="*.css,*.js,*.map"
       - run: flake8 . --count --select=E5,E9,F63,F7,F82,W291
                       --max-complexity=132 --max-line-length=313
