@@ -94,7 +94,7 @@ class ContactFormTestCase(TestCase):
 
         # get object
         form = ContactForm(data = {
-            'contact_name': 'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
+            'contact_name': 'c' * 100,
             'contact_email': 'contact_1@example.org'
         })
         # compare
@@ -105,7 +105,7 @@ class ContactFormTestCase(TestCase):
 
         # get object
         form = ContactForm(data = {
-            'contact_name': 'ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
+            'contact_name': 'c' * 101,
             'contact_email': 'contact_1@example.org'
         })
         # compare
@@ -117,7 +117,7 @@ class ContactFormTestCase(TestCase):
         # get object
         form = ContactForm(data = {
             'contact_name': 'contact_1',
-            'contact_phone': 'cccccccccccccccccccccccccccccccccccccccccccccccccc',
+            'contact_phone': 'c' * 50,
             'contact_email': 'contact_1@example.org'
         })
         # compare
@@ -129,7 +129,7 @@ class ContactFormTestCase(TestCase):
         # get object
         form = ContactForm(data = {
             'contact_name': 'contact_1',
-            'contact_phone': 'ccccccccccccccccccccccccccccccccccccccccccccccccccc',
+            'contact_phone': 'c' * 51,
             'contact_email': 'contact_1@example.org'
         })
         # compare
@@ -141,7 +141,7 @@ class ContactFormTestCase(TestCase):
         # get object
         form = ContactForm(data = {
             'contact_name': 'contact_1',
-            'contact_email': 'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc'
+            'contact_email': 'c' * 100
         })
         # compare
         self.assertTrue(form.is_valid())
@@ -152,7 +152,7 @@ class ContactFormTestCase(TestCase):
         # get object
         form = ContactForm(data = {
             'contact_name': 'contact_1',
-            'contact_email': 'ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc'
+            'contact_email': 'c' * 101
         })
         # compare
         self.assertFalse(form.is_valid())

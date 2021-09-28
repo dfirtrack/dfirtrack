@@ -53,7 +53,7 @@ class LocationFormTestCase(TestCase):
         """ test for max length """
 
         # get object
-        form = LocationForm(data = {'location_name': 'llllllllllllllllllllllllllllllllllllllllllllllllll'})
+        form = LocationForm(data = {'location_name': 'l' * 50})
         # compare
         self.assertTrue(form.is_valid())
 
@@ -61,6 +61,6 @@ class LocationFormTestCase(TestCase):
         """ test for max length """
 
         # get object
-        form = LocationForm(data = {'location_name': 'lllllllllllllllllllllllllllllllllllllllllllllllllll'})
+        form = LocationForm(data = {'location_name': 'l' * 51})
         # compare
         self.assertFalse(form.is_valid())

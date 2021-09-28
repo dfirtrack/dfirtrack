@@ -55,7 +55,7 @@ class ServiceproviderFormTestCase(TestCase):
         """ test for max length """
 
         # get object
-        form = ServiceproviderForm(data = {'serviceprovider_name': 'ssssssssssssssssssssssssssssssssssssssssssssssssss'})
+        form = ServiceproviderForm(data = {'serviceprovider_name': 's' * 50})
         # compare
         self.assertTrue(form.is_valid())
 
@@ -63,6 +63,6 @@ class ServiceproviderFormTestCase(TestCase):
         """ test for max length """
 
         # get object
-        form = ServiceproviderForm(data = {'serviceprovider_name': 'sssssssssssssssssssssssssssssssssssssssssssssssssss'})
+        form = ServiceproviderForm(data = {'serviceprovider_name': 's' * 51})
         # compare
         self.assertFalse(form.is_valid())

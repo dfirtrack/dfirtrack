@@ -624,7 +624,7 @@ class ArtifactFormTestCase(TestCase):
                 'artifactstatus': artifactstatus_id,
                 'artifacttype': artifacttype_id,
                 'system': system_id,
-                'artifact_md5': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                'artifact_md5': 'a' * 32,
             }
         )
         # compare
@@ -655,7 +655,7 @@ class ArtifactFormTestCase(TestCase):
                 'artifactstatus': artifactstatus_id,
                 'artifacttype': artifacttype_id,
                 'system': system_id,
-                'artifact_md5': 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+                'artifact_md5': 'x' * 32,
             }
         )
         # compare
@@ -686,7 +686,7 @@ class ArtifactFormTestCase(TestCase):
                 'artifactstatus': artifactstatus_id,
                 'artifacttype': artifacttype_id,
                 'system': system_id,
-                'artifact_md5': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                'artifact_md5': 'a' * 33,
             }
         )
         # compare
@@ -717,7 +717,7 @@ class ArtifactFormTestCase(TestCase):
                 'artifactstatus': artifactstatus_id,
                 'artifacttype': artifacttype_id,
                 'system': system_id,
-                'artifact_md5': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                'artifact_md5': 'a' * 31,
             }
         )
         # compare
@@ -748,7 +748,7 @@ class ArtifactFormTestCase(TestCase):
                 'artifactstatus': artifactstatus_id,
                 'artifacttype': artifacttype_id,
                 'system': system_id,
-                'artifact_sha1': 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+                'artifact_sha1': 'b' * 40,
             }
         )
         # compare
@@ -779,7 +779,7 @@ class ArtifactFormTestCase(TestCase):
                 'artifactstatus': artifactstatus_id,
                 'artifacttype': artifacttype_id,
                 'system': system_id,
-                'artifact_sha1': 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+                'artifact_sha1': 'y' * 40,
             }
         )
         # compare
@@ -810,7 +810,7 @@ class ArtifactFormTestCase(TestCase):
                 'artifactstatus': artifactstatus_id,
                 'artifacttype': artifacttype_id,
                 'system': system_id,
-                'artifact_sha1': 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+                'artifact_sha1': 'b' * 41,
             }
         )
         # compare
@@ -841,7 +841,7 @@ class ArtifactFormTestCase(TestCase):
                 'artifactstatus': artifactstatus_id,
                 'artifacttype': artifacttype_id,
                 'system': system_id,
-                'artifact_sha1': 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+                'artifact_sha1': 'b' * 39,
             }
         )
         # compare
@@ -872,7 +872,7 @@ class ArtifactFormTestCase(TestCase):
                 'artifactstatus': artifactstatus_id,
                 'artifacttype': artifacttype_id,
                 'system': system_id,
-                'artifact_sha256': 'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
+                'artifact_sha256': 'c' * 64,
             }
         )
         # compare
@@ -903,7 +903,7 @@ class ArtifactFormTestCase(TestCase):
                 'artifactstatus': artifactstatus_id,
                 'artifacttype': artifacttype_id,
                 'system': system_id,
-                'artifact_sha256': 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+                'artifact_sha256': 'z' * 64,
             }
         )
         # compare
@@ -934,7 +934,7 @@ class ArtifactFormTestCase(TestCase):
                 'artifactstatus': artifactstatus_id,
                 'artifacttype': artifacttype_id,
                 'system': system_id,
-                'artifact_sha256': 'ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
+                'artifact_sha256': 'c' * 65,
             }
         )
         # compare
@@ -965,7 +965,7 @@ class ArtifactFormTestCase(TestCase):
                 'artifactstatus': artifactstatus_id,
                 'artifacttype': artifacttype_id,
                 'system': system_id,
-                'artifact_sha256': 'ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
+                'artifact_sha256': 'c' * 63,
             }
         )
         # compare

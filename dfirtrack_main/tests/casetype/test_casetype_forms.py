@@ -53,7 +53,7 @@ class CasetypeFormTestCase(TestCase):
         """ test for max length """
 
         # get object
-        form = CasetypeForm(data = {'casetype_name': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'})
+        form = CasetypeForm(data = {'casetype_name': 'a' * 255})
         # compare
         self.assertTrue(form.is_valid())
 
@@ -61,6 +61,6 @@ class CasetypeFormTestCase(TestCase):
         """ test for max length """
 
         # get object
-        form = CasetypeForm(data = {'casetype_name': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'})
+        form = CasetypeForm(data = {'casetype_name': 'a' * 256})
         # compare
         self.assertFalse(form.is_valid())

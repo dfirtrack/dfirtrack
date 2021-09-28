@@ -150,7 +150,7 @@ class CaseFormTestCase(TestCase):
 
         # get object
         form = CaseForm(data = {
-            'case_name': 'dddddddddddddddddddddddddddddddddddddddddddddddddd',
+            'case_name': 'd' * 50,
             'casepriority': casepriority_1,
             'casestatus': casestatus_1,
         })
@@ -166,7 +166,7 @@ class CaseFormTestCase(TestCase):
 
         # get object
         form = CaseForm(data = {
-            'case_name': 'ddddddddddddddddddddddddddddddddddddddddddddddddddd',
+            'case_name': 'd' * 51,
             'casepriority': casepriority_1,
             'casestatus': casestatus_1,
         })

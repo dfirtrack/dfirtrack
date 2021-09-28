@@ -34,7 +34,7 @@ class OsFormTestCase(TestCase):
         """ test for max length """
 
         # get object
-        form = OsForm(data = {'os_name': 'oooooooooooooooooooooooooooooo'})
+        form = OsForm(data = {'os_name': 'o' * 30})
         # compare
         self.assertTrue(form.is_valid())
 
@@ -42,6 +42,6 @@ class OsFormTestCase(TestCase):
         """ test for max length """
 
         # get object
-        form = OsForm(data = {'os_name': 'ooooooooooooooooooooooooooooooo'})
+        form = OsForm(data = {'os_name': 'o' * 31})
         # compare
         self.assertFalse(form.is_valid())

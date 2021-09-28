@@ -86,7 +86,7 @@ class OsimportnameFormTestCase(TestCase):
         os_id = Os.objects.get(os_name='os_1').os_id
         # get object
         form = OsimportnameForm(data = {
-            'osimportname_name': 'oooooooooooooooooooooooooooooo',
+            'osimportname_name': 'o' * 30,
             'osimportname_importer': 'osimportname_importer_1',
             'os': os_id,
         })
@@ -100,7 +100,7 @@ class OsimportnameFormTestCase(TestCase):
         os_id = Os.objects.get(os_name='os_1').os_id
         # get object
         form = OsimportnameForm(data = {
-            'osimportname_name': 'ooooooooooooooooooooooooooooooo',
+            'osimportname_name': 'o' * 31,
             'osimportname_importer': 'osimportname_importer_1',
             'os': os_id
         })
@@ -115,7 +115,7 @@ class OsimportnameFormTestCase(TestCase):
         # get object
         form = OsimportnameForm(data = {
             'osimportname_name': 'osimportname_1',
-            'osimportname_importer': 'oooooooooooooooooooooooooooooo',
+            'osimportname_importer': 'o' *30,
             'os': os_id,
         })
         # compare
@@ -129,7 +129,7 @@ class OsimportnameFormTestCase(TestCase):
         # get object
         form = OsimportnameForm(data = {
             'osimportname_name': 'osimportname_1',
-            'osimportname_importer': 'ooooooooooooooooooooooooooooooo',
+            'osimportname_importer': 'o' * 31,
             'os': os_id,
         })
         # compare

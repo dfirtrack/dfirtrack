@@ -85,7 +85,7 @@ class CompanyFormTestCase(TestCase):
         """ test for max length """
 
         # get object
-        form = CompanyForm(data = {'company_name': 'cccccccccccccccccccccccccccccccccccccccccccccccccc'})
+        form = CompanyForm(data = {'company_name': 'c' * 50})
         # compare
         self.assertTrue(form.is_valid())
 
@@ -93,6 +93,6 @@ class CompanyFormTestCase(TestCase):
         """ test for max length """
 
         # get object
-        form = CompanyForm(data = {'company_name': 'ccccccccccccccccccccccccccccccccccccccccccccccccccc'})
+        form = CompanyForm(data = {'company_name': 'c' * 51})
         # compare
         self.assertFalse(form.is_valid())

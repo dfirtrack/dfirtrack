@@ -53,7 +53,7 @@ class RecommendationFormTestCase(TestCase):
         """ test for max length """
 
         # get object
-        form = RecommendationForm(data = {'recommendation_name': 'rrrrrrrrrrrrrrrrrrrrrrrrrrrrrr'})
+        form = RecommendationForm(data = {'recommendation_name': 'r' * 30})
         # compare
         self.assertTrue(form.is_valid())
 
@@ -61,6 +61,6 @@ class RecommendationFormTestCase(TestCase):
         """ test for max length """
 
         # get object
-        form = RecommendationForm(data = {'recommendation_name': 'rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr'})
+        form = RecommendationForm(data = {'recommendation_name': 'r' * 31})
         # compare
         self.assertFalse(form.is_valid())

@@ -53,7 +53,7 @@ class ReasonFormTestCase(TestCase):
         """ test for max length """
 
         # get object
-        form = ReasonForm(data = {'reason_name': 'rrrrrrrrrrrrrrrrrrrrrrrrrrrrrr'})
+        form = ReasonForm(data = {'reason_name': 'r' * 30})
         # compare
         self.assertTrue(form.is_valid())
 
@@ -61,6 +61,6 @@ class ReasonFormTestCase(TestCase):
         """ test for max length """
 
         # get object
-        form = ReasonForm(data = {'reason_name': 'rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr'})
+        form = ReasonForm(data = {'reason_name': 'r' * 31})
         # compare
         self.assertFalse(form.is_valid())

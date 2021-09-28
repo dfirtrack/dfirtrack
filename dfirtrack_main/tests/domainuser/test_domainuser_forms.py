@@ -84,7 +84,7 @@ class DomainuserFormTestCase(TestCase):
         domain_id = Domain.objects.get(domain_name='domain_1').domain_id
         # get object
         form = DomainuserForm(data = {
-            'domainuser_name': 'dddddddddddddddddddddddddddddddddddddddddddddddddd',
+            'domainuser_name': 'd' * 50,
             'domain': domain_id,
         })
         # compare
@@ -97,7 +97,7 @@ class DomainuserFormTestCase(TestCase):
         domain_id = Domain.objects.get(domain_name='domain_1').domain_id
         # get object
         form = DomainuserForm(data = {
-            'domainuser_name': 'ddddddddddddddddddddddddddddddddddddddddddddddddddd',
+            'domainuser_name': 'd' * 51,
             'domain': domain_id,
         })
         # compare

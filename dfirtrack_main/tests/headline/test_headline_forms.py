@@ -34,7 +34,7 @@ class HeadlineFormTestCase(TestCase):
         """ test for max length """
 
         # get object
-        form = HeadlineForm(data = {'headline_name': 'hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh'})
+        form = HeadlineForm(data = {'headline_name': 'h' * 100})
         # compare
         self.assertTrue(form.is_valid())
 
@@ -42,6 +42,6 @@ class HeadlineFormTestCase(TestCase):
         """ test for max length """
 
         # get object
-        form = HeadlineForm(data = {'headline_name': 'hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh'})
+        form = HeadlineForm(data = {'headline_name': 'h' * 101})
         # compare
         self.assertFalse(form.is_valid())

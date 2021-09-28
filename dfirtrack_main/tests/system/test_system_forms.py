@@ -641,7 +641,7 @@ class SystemFormTestCase(TestCase):
         systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
         # get object
         form = SystemForm(data = {
-            'system_name': 'nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn',
+            'system_name': 'n' * 50,
             'systemstatus': systemstatus_id,
         })
         # compare
@@ -654,7 +654,7 @@ class SystemFormTestCase(TestCase):
         systemstatus_id = Systemstatus.objects.get(systemstatus_name='systemstatus_1').systemstatus_id
         # get object
         form = SystemNameForm(data = {
-            'system_name': 'nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn',
+            'system_name': 'n' * 51,
             'systemstatus': systemstatus_id,
         })
         # compare

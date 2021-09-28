@@ -109,7 +109,7 @@ class SystemuserFormTestCase(TestCase):
         system_id = System.objects.get(system_name='system_1').system_id
         # get object
         form = SystemuserForm(data = {
-            'systemuser_name': 'ssssssssssssssssssssssssssssssssssssssssssssssssss',
+            'systemuser_name': 's' * 50,
             'system': system_id,
         })
         # compare
@@ -122,7 +122,7 @@ class SystemuserFormTestCase(TestCase):
         system_id = System.objects.get(system_name='system_1').system_id
         # get object
         form = SystemuserForm(data = {
-            'systemuser_name': 'sssssssssssssssssssssssssssssssssssssssssssssssssss',
+            'systemuser_name': 's' * 51,
             'system': system_id,
         })
         # compare

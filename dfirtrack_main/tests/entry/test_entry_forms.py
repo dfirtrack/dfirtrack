@@ -213,7 +213,7 @@ class EntryFormTestCase(TestCase):
         form = EntryForm(data = {
             'entry_time': entry_time_string,
             'system': system_id,
-            'entry_sha1': 'ssssssssssssssssssssssssssssssssssssssss',
+            'entry_sha1': 's' * 40,
         })
         # compare
         self.assertTrue(form.is_valid())
@@ -229,7 +229,7 @@ class EntryFormTestCase(TestCase):
         form = EntryForm(data = {
             'entry_time': entry_time_string,
             'system': system_id,
-            'entry_sha1': 'sssssssssssssssssssssssssssssssssssssssss',
+            'entry_sha1': 's' * 41,
         })
         # compare
         self.assertFalse(form.is_valid())
@@ -245,7 +245,7 @@ class EntryFormTestCase(TestCase):
         form = EntryForm(data = {
             'entry_time': entry_time_string,
             'system': system_id,
-            'entry_type': 'tttttttttttttttttttttttttttttt',
+            'entry_type': 't' * 30,
         })
         # compare
         self.assertTrue(form.is_valid())
@@ -261,7 +261,7 @@ class EntryFormTestCase(TestCase):
         form = EntryForm(data = {
             'entry_time': entry_time_string,
             'system': system_id,
-            'entry_type': 'ttttttttttttttttttttttttttttttt',
+            'entry_type': 't' * 31,
         })
         # compare
         self.assertFalse(form.is_valid())
