@@ -336,7 +336,10 @@ class EntryFormTestCase(TestCase):
             "test.csv", b"datetime,timestamp_desc,message", content_type="text/csv"
         )
         # get object
-        form = EntryFileImport({'system': system_id}, {'entryfile': csv_file})
+        form = EntryFileImport(
+            {'system': system_id},
+            {'entryfile': csv_file},
+        )
         # compare
         self.assertTrue(form.is_valid())
 

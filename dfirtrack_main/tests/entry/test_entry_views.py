@@ -496,7 +496,10 @@ class EntryViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # create post data
-        data_dict = {'system': system_1.system_id, 'entryfile': csv_file}
+        data_dict = {
+            'system': system_1.system_id,
+            'entryfile': csv_file,
+        }
         destination = '/entry/import/step2/'
 
         # get response
@@ -521,7 +524,10 @@ class EntryViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # create post data
-        data_dict = {'system': system_1.system_id, 'entryfile': csv_file}
+        data_dict = {
+            'system': system_1.system_id,
+            'entryfile': csv_file,
+        }
         # static uuid
         test_uuid = uuid.uuid4()
         with patch.object(uuid, 'uuid4', return_value=test_uuid):

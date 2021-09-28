@@ -100,7 +100,10 @@ class ContactFormTestCase(TestCase):
 
         # get object
         form = ContactForm(
-            data={'contact_name': 'c' * 100, 'contact_email': 'contact_1@example.org'}
+            data={
+                'contact_name': 'c' * 100,
+                'contact_email': 'contact_1@example.org',
+            }
         )
         # compare
         self.assertTrue(form.is_valid())
@@ -110,7 +113,10 @@ class ContactFormTestCase(TestCase):
 
         # get object
         form = ContactForm(
-            data={'contact_name': 'c' * 101, 'contact_email': 'contact_1@example.org'}
+            data={
+                'contact_name': 'c' * 101,
+                'contact_email': 'contact_1@example.org',
+            }
         )
         # compare
         self.assertFalse(form.is_valid())
@@ -148,7 +154,10 @@ class ContactFormTestCase(TestCase):
 
         # get object
         form = ContactForm(
-            data={'contact_name': 'contact_1', 'contact_email': 'c' * 100}
+            data={
+                'contact_name': 'contact_1',
+                'contact_email': 'c' * 100,
+            }
         )
         # compare
         self.assertTrue(form.is_valid())
@@ -158,7 +167,10 @@ class ContactFormTestCase(TestCase):
 
         # get object
         form = ContactForm(
-            data={'contact_name': 'contact_1', 'contact_email': 'c' * 101}
+            data={
+                'contact_name': 'contact_1',
+                'contact_email': 'c' * 101,
+            }
         )
         # compare
         self.assertFalse(form.is_valid())

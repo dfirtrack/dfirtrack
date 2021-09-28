@@ -57,11 +57,7 @@ class ArtifacttypeFormTestCase(TestCase):
         """test for max length"""
 
         # get object
-        form = ArtifacttypeForm(
-            data={
-                'artifacttype_name': 'a' * 255
-            }
-        )
+        form = ArtifacttypeForm(data={'artifacttype_name': 'a' * 255})
         # compare
         self.assertTrue(form.is_valid())
 
@@ -69,10 +65,6 @@ class ArtifacttypeFormTestCase(TestCase):
         """test for max length"""
 
         # get object
-        form = ArtifacttypeForm(
-            data={
-                'artifacttype_name': 'a' * 256
-            }
-        )
+        form = ArtifacttypeForm(data={'artifacttype_name': 'a' * 256})
         # compare
         self.assertFalse(form.is_valid())

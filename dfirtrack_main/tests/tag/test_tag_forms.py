@@ -95,7 +95,12 @@ class TagFormTestCase(TestCase):
         # get foreign key object id
         tagcolor_id = Tagcolor.objects.get(tagcolor_name='tagcolor_1').tagcolor_id
         # get object
-        form = TagForm(data={'tag_name': 't' * 50, 'tagcolor': tagcolor_id})
+        form = TagForm(
+            data={
+                'tag_name': 't' * 50,
+                'tagcolor': tagcolor_id,
+            }
+        )
         # compare
         self.assertTrue(form.is_valid())
 
@@ -105,6 +110,11 @@ class TagFormTestCase(TestCase):
         # get foreign key object id
         tagcolor_id = Tagcolor.objects.get(tagcolor_name='tagcolor_1').tagcolor_id
         # get object
-        form = TagForm(data={'tag_name': 't' * 51, 'tagcolor': tagcolor_id})
+        form = TagForm(
+            data={
+                'tag_name': 't' * 51,
+                'tagcolor': tagcolor_id,
+            }
+        )
         # compare
         self.assertFalse(form.is_valid())
