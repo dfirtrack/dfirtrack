@@ -200,10 +200,10 @@ def write_entries_to_table(django_report, system):
     """write all entries to table"""
 
     # TODO: change behavior, currently check for entry attributes is necessary because of 'null=True'
-    entrys = system.entry_set.all().order_by('entry_time')
-    if entrys.exists():
+    entries = system.entry_set.all().order_by('entry_time')
+    if entries.exists():
         # iterate over entries
-        for entry in entrys:
+        for entry in entries:
             # print entries line by line
             # mandatory entry fields
             django_report.write("| " + entry.entry_date + " ")
