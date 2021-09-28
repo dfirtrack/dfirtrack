@@ -21,6 +21,7 @@ class DnsnameList(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " DNSNAME_LIST_ENTERED")
         return Dnsname.objects.order_by('dnsname_name')
 
+
 class DnsnameDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Dnsname
@@ -32,6 +33,7 @@ class DnsnameDetail(LoginRequiredMixin, DetailView):
         dnsname.logger(str(self.request.user), " DNSNAME_DETAIL_ENTERED")
         return context
 
+
 class DnsnameCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Dnsname
@@ -41,11 +43,15 @@ class DnsnameCreate(LoginRequiredMixin, CreateView):
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " DNSNAME_ADD_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-            'object_type': 'dnsname',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'dnsname',
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -56,11 +62,16 @@ class DnsnameCreate(LoginRequiredMixin, CreateView):
             messages.success(request, 'DNS name added')
             return redirect(reverse('dnsname_detail', args=(dnsname.dnsname_id,)))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-                'object_type': 'dnsname',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Add',
+                    'object_type': 'dnsname',
+                },
+            )
+
 
 class DnsnameCreatePopup(LoginRequiredMixin, CreateView):
     login_url = '/login'
@@ -71,11 +82,15 @@ class DnsnameCreatePopup(LoginRequiredMixin, CreateView):
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " DNSNAME_ADD_POPUP_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-            'object_type': 'DNS name',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'DNS name',
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -84,13 +99,20 @@ class DnsnameCreatePopup(LoginRequiredMixin, CreateView):
             dnsname.save()
             dnsname.logger(str(request.user), " DNSNAME_ADD_POPUP_EXECUTED")
             messages.success(request, 'DNS name added')
-            return HttpResponse('<script type="text/javascript">window.close();</script>')
+            return HttpResponse(
+                '<script type="text/javascript">window.close();</script>'
+            )
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-                'object_type': 'DNS name',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Add',
+                    'object_type': 'DNS name',
+                },
+            )
+
 
 class DnsnameUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
@@ -102,12 +124,16 @@ class DnsnameUpdate(LoginRequiredMixin, UpdateView):
         dnsname = self.get_object()
         form = self.form_class(instance=dnsname)
         dnsname.logger(str(request.user), " DNSNAME_EDIT_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Edit',
-            'object_type': 'dnsname',
-            'object_name': dnsname.dnsname_name,
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Edit',
+                'object_type': 'dnsname',
+                'object_name': dnsname.dnsname_name,
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         dnsname = self.get_object()
@@ -119,9 +145,13 @@ class DnsnameUpdate(LoginRequiredMixin, UpdateView):
             messages.success(request, 'DNS name edited')
             return redirect(reverse('dnsname_detail', args=(dnsname.dnsname_id,)))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Edit',
-                'object_type': 'dnsname',
-                'object_name': dnsname.dnsname_name,
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Edit',
+                    'object_type': 'dnsname',
+                    'object_name': dnsname.dnsname_name,
+                },
+            )

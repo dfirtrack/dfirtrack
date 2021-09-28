@@ -14,11 +14,17 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterModelOptions(
             name='casepriority',
-            options={'ordering': ('casepriority_id',), 'verbose_name_plural': 'casepriorities'},
+            options={
+                'ordering': ('casepriority_id',),
+                'verbose_name_plural': 'casepriorities',
+            },
         ),
         migrations.AlterModelOptions(
             name='casestatus',
-            options={'ordering': ('casestatus_id',), 'verbose_name_plural': 'casestatus'},
+            options={
+                'ordering': ('casestatus_id',),
+                'verbose_name_plural': 'casestatus',
+            },
         ),
         migrations.AlterModelOptions(
             name='company',

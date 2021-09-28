@@ -18,6 +18,7 @@ def insert_analysisstatus(apps, schema_editor):
     for name in initial_values:
         Analysisstatus.objects.create(analysisstatus_name=name)
 
+
 def insert_headlines(apps, schema_editor):
     Headline = apps.get_model('dfirtrack_main', 'Headline')
 
@@ -27,6 +28,7 @@ def insert_headlines(apps, schema_editor):
 
     for name in initial_values:
         Headline.objects.create(headline_name=name)
+
 
 def insert_os(apps, schema_editor):
     Os = apps.get_model('dfirtrack_main', 'Os')
@@ -51,6 +53,7 @@ def insert_os(apps, schema_editor):
     for name in initial_values:
         Os.objects.create(os_name=name)
 
+
 def insert_osarch(apps, schema_editor):
     Osarch = apps.get_model('dfirtrack_main', 'Osarch')
 
@@ -61,6 +64,7 @@ def insert_osarch(apps, schema_editor):
 
     for name in initial_values:
         Osarch.objects.create(osarch_name=name)
+
 
 def insert_systemstatus(apps, schema_editor):
     Systemstatus = apps.get_model('dfirtrack_main', 'Systemstatus')
@@ -78,6 +82,7 @@ def insert_systemstatus(apps, schema_editor):
     for name in initial_values:
         Systemstatus.objects.create(systemstatus_name=name)
 
+
 def insert_systemtypes(apps, schema_editor):
     Systemtype = apps.get_model('dfirtrack_main', 'Systemtype')
 
@@ -92,6 +97,7 @@ def insert_systemtypes(apps, schema_editor):
     for name in initial_values:
         Systemtype.objects.create(systemtype_name=name)
 
+
 def insert_tagcolors(apps, schema_editor):
     Tagcolor = apps.get_model('dfirtrack_main', 'Tagcolor')
 
@@ -105,6 +111,7 @@ def insert_tagcolors(apps, schema_editor):
     for name in initial_values:
         Tagcolor.objects.create(tagcolor_name=name)
 
+
 def insert_taskpriorities(apps, schema_editor):
     Taskpriority = apps.get_model('dfirtrack_main', 'Taskpriority')
 
@@ -116,6 +123,7 @@ def insert_taskpriorities(apps, schema_editor):
 
     for name in initial_values:
         Taskpriority.objects.create(taskpriority_name=name)
+
 
 def insert_taskstatus(apps, schema_editor):
     Taskstatus = apps.get_model('dfirtrack_main', 'Taskstatus')
@@ -129,6 +137,7 @@ def insert_taskstatus(apps, schema_editor):
     for name in initial_values:
         Taskstatus.objects.create(taskstatus_name=name)
 
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -137,17 +146,12 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RunPython(insert_analysisstatus),
-
         migrations.RunPython(insert_headlines),
-
         migrations.RunPython(insert_os),
         migrations.RunPython(insert_osarch),
-
         migrations.RunPython(insert_systemstatus),
         migrations.RunPython(insert_systemtypes),
-
         migrations.RunPython(insert_tagcolors),
-
         migrations.RunPython(insert_taskpriorities),
         migrations.RunPython(insert_taskstatus),
     ]

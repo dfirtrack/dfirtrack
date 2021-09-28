@@ -20,6 +20,7 @@ class DivisionList(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " DIVISION_LIST_ENTERED")
         return Division.objects.order_by('division_name')
 
+
 class DivisionDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Division
@@ -31,6 +32,7 @@ class DivisionDetail(LoginRequiredMixin, DetailView):
         division.logger(str(self.request.user), " DIVISION_DETAIL_ENTERED")
         return context
 
+
 class DivisionCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Division
@@ -40,11 +42,15 @@ class DivisionCreate(LoginRequiredMixin, CreateView):
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " DIVISION_ADD_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-            'object_type': 'division',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'division',
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -55,11 +61,16 @@ class DivisionCreate(LoginRequiredMixin, CreateView):
             messages.success(request, 'Division added')
             return redirect(reverse('division_detail', args=(division.division_id,)))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-                'object_type': 'division',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Add',
+                    'object_type': 'division',
+                },
+            )
+
 
 class DivisionUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
@@ -71,12 +82,16 @@ class DivisionUpdate(LoginRequiredMixin, UpdateView):
         division = self.get_object()
         form = self.form_class(instance=division)
         division.logger(str(request.user), " DIVISION_EDIT_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Edit',
-            'object_type': 'division',
-            'object_name': division.division_name,
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Edit',
+                'object_type': 'division',
+                'object_name': division.division_name,
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         division = self.get_object()
@@ -88,9 +103,13 @@ class DivisionUpdate(LoginRequiredMixin, UpdateView):
             messages.success(request, 'Division edited')
             return redirect(reverse('division_detail', args=(division.division_id,)))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Edit',
-                'object_type': 'division',
-                'object_name': division.division_name,
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Edit',
+                    'object_type': 'division',
+                    'object_name': division.division_name,
+                },
+            )

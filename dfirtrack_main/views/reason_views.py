@@ -21,6 +21,7 @@ class ReasonList(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " REASON_LIST_ENTERED")
         return Reason.objects.order_by('reason_name')
 
+
 class ReasonDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Reason
@@ -32,6 +33,7 @@ class ReasonDetail(LoginRequiredMixin, DetailView):
         reason.logger(str(self.request.user), " REASON_DETAIL_ENTERED")
         return context
 
+
 class ReasonCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Reason
@@ -41,11 +43,15 @@ class ReasonCreate(LoginRequiredMixin, CreateView):
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " REASON_ADD_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-            'object_type': 'reason',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'reason',
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -56,11 +62,16 @@ class ReasonCreate(LoginRequiredMixin, CreateView):
             messages.success(request, 'Reason added')
             return redirect(reverse('reason_detail', args=(reason.reason_id,)))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-                'object_type': 'reason',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Add',
+                    'object_type': 'reason',
+                },
+            )
+
 
 class ReasonCreatePopup(LoginRequiredMixin, CreateView):
     login_url = '/login'
@@ -71,11 +82,15 @@ class ReasonCreatePopup(LoginRequiredMixin, CreateView):
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " REASON_ADD_POPUP_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-            'object_type': 'reason',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'reason',
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -84,13 +99,20 @@ class ReasonCreatePopup(LoginRequiredMixin, CreateView):
             reason.save()
             reason.logger(str(request.user), " REASON_ADD_POPUP_EXECUTED")
             messages.success(request, 'Reason added')
-            return HttpResponse('<script type="text/javascript">window.close();</script>')
+            return HttpResponse(
+                '<script type="text/javascript">window.close();</script>'
+            )
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-                'object_type': 'reason',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Add',
+                    'object_type': 'reason',
+                },
+            )
+
 
 class ReasonUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
@@ -102,12 +124,16 @@ class ReasonUpdate(LoginRequiredMixin, UpdateView):
         reason = self.get_object()
         form = self.form_class(instance=reason)
         reason.logger(str(request.user), " REASON_EDIT_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Edit',
-            'object_type': 'reason',
-            'object_name': reason.reason_name,
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Edit',
+                'object_type': 'reason',
+                'object_name': reason.reason_name,
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         reason = self.get_object()
@@ -119,9 +145,13 @@ class ReasonUpdate(LoginRequiredMixin, UpdateView):
             messages.success(request, 'Reason edited')
             return redirect(reverse('reason_detail', args=(reason.reason_id,)))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Edit',
-                'object_type': 'reason',
-                'object_name': reason.reason_name,
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Edit',
+                    'object_type': 'reason',
+                    'object_name': reason.reason_name,
+                },
+            )

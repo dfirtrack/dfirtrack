@@ -25,7 +25,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='reportitem',
             name='case',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='dfirtrack_main.case'),
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                to='dfirtrack_main.case',
+            ),
         ),
         migrations.AddField(
             model_name='reportitem',
@@ -42,16 +47,49 @@ class Migration(migrations.Migration):
                 ('note_is_abandoned', models.BooleanField(blank=True, default=True)),
                 ('note_create_time', models.DateTimeField(auto_now_add=True)),
                 ('note_modify_time', models.DateTimeField(auto_now=True)),
-                ('case', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='dfirtrack_main.case')),
-                ('note_created_by_user_id', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='note_created_by', to=settings.AUTH_USER_MODEL)),
-                ('note_modified_by_user_id', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='note_modified_by', to=settings.AUTH_USER_MODEL)),
-                ('notestatus', models.ForeignKey(default=1, on_delete=django.db.models.deletion.PROTECT, to='dfirtrack_main.notestatus')),
+                (
+                    'case',
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to='dfirtrack_main.case',
+                    ),
+                ),
+                (
+                    'note_created_by_user_id',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name='note_created_by',
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    'note_modified_by_user_id',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name='note_modified_by',
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    'notestatus',
+                    models.ForeignKey(
+                        default=1,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to='dfirtrack_main.notestatus',
+                    ),
+                ),
                 ('tag', models.ManyToManyField(blank=True, to='dfirtrack_main.Tag')),
             ],
         ),
         migrations.AddField(
             model_name='reportitem',
             name='notestatus',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.PROTECT, to='dfirtrack_main.notestatus'),
+            field=models.ForeignKey(
+                default=1,
+                on_delete=django.db.models.deletion.PROTECT,
+                to='dfirtrack_main.notestatus',
+            ),
         ),
     ]

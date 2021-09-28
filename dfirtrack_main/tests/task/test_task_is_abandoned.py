@@ -19,13 +19,15 @@ from dfirtrack_main.models import (
 
 
 class TaskIsAbandonedTestCase(TestCase):
-    """ task view tests """
+    """task view tests"""
 
     @classmethod
     def setUpTestData(cls):
 
         # create user
-        test_user = User.objects.create_user(username='testuser_task_is_abandoned', password='kOlEaeHosQ2H3svhYkzv')
+        test_user = User.objects.create_user(
+            username='testuser_task_is_abandoned', password='kOlEaeHosQ2H3svhYkzv'
+        )
 
         case_1 = Case.objects.create(
             case_name='case_1',
@@ -39,35 +41,39 @@ class TaskIsAbandonedTestCase(TestCase):
         # create object
         system_1 = System.objects.create(
             system_name='system_1',
-            systemstatus = systemstatus_1,
-            system_created_by_user_id = test_user,
-            system_modified_by_user_id = test_user,
+            systemstatus=systemstatus_1,
+            system_created_by_user_id=test_user,
+            system_modified_by_user_id=test_user,
         )
         system_artifact = System.objects.create(
             system_name='system_artifact',
-            systemstatus = systemstatus_1,
-            system_created_by_user_id = test_user,
-            system_modified_by_user_id = test_user,
+            systemstatus=systemstatus_1,
+            system_created_by_user_id=test_user,
+            system_modified_by_user_id=test_user,
         )
 
         # create object
-        artifactpriority_1 = Artifactpriority.objects.create(artifactpriority_name='artifactpriority_1')
+        artifactpriority_1 = Artifactpriority.objects.create(
+            artifactpriority_name='artifactpriority_1'
+        )
 
         # create object
-        artifactstatus_1 = Artifactstatus.objects.create(artifactstatus_name='artifactstatus_1')
+        artifactstatus_1 = Artifactstatus.objects.create(
+            artifactstatus_name='artifactstatus_1'
+        )
 
         # create object
         artifacttype_1 = Artifacttype.objects.create(artifacttype_name='artifacttype_1')
 
         # create object
         artifact_1 = Artifact.objects.create(
-            artifact_name = 'artifact_1',
-            artifactpriority = artifactpriority_1,
-            artifactstatus = artifactstatus_1,
-            artifacttype = artifacttype_1,
-            artifact_created_by_user_id = test_user,
-            artifact_modified_by_user_id = test_user,
-            system = system_artifact,
+            artifact_name='artifact_1',
+            artifactpriority=artifactpriority_1,
+            artifactstatus=artifactstatus_1,
+            artifacttype=artifacttype_1,
+            artifact_created_by_user_id=test_user,
+            artifact_modified_by_user_id=test_user,
+            system=system_artifact,
         )
 
         # create objects
@@ -84,49 +90,55 @@ class TaskIsAbandonedTestCase(TestCase):
 
         # create object
         Task.objects.create(
-            taskname = taskname_none,
-            taskpriority = taskpriority_1,
-            taskstatus = taskstatus_1,
-            task_created_by_user_id = test_user,
-            task_modified_by_user_id = test_user,
+            taskname=taskname_none,
+            taskpriority=taskpriority_1,
+            taskstatus=taskstatus_1,
+            task_created_by_user_id=test_user,
+            task_modified_by_user_id=test_user,
         )
         Task.objects.create(
-            taskname = taskname_artifact,
-            taskpriority = taskpriority_1,
-            taskstatus = taskstatus_1,
-            task_created_by_user_id = test_user,
-            task_modified_by_user_id = test_user,
-            artifact = artifact_1,
+            taskname=taskname_artifact,
+            taskpriority=taskpriority_1,
+            taskstatus=taskstatus_1,
+            task_created_by_user_id=test_user,
+            task_modified_by_user_id=test_user,
+            artifact=artifact_1,
         )
         Task.objects.create(
-            taskname = taskname_case,
-            taskpriority = taskpriority_1,
-            taskstatus = taskstatus_1,
-            task_created_by_user_id = test_user,
-            task_modified_by_user_id = test_user,
-            case = case_1,
+            taskname=taskname_case,
+            taskpriority=taskpriority_1,
+            taskstatus=taskstatus_1,
+            task_created_by_user_id=test_user,
+            task_modified_by_user_id=test_user,
+            case=case_1,
         )
         Task.objects.create(
-            taskname = taskname_system,
-            taskpriority = taskpriority_1,
-            taskstatus = taskstatus_1,
-            task_created_by_user_id = test_user,
-            task_modified_by_user_id = test_user,
-            system = system_1,
+            taskname=taskname_system,
+            taskpriority=taskpriority_1,
+            taskstatus=taskstatus_1,
+            task_created_by_user_id=test_user,
+            task_modified_by_user_id=test_user,
+            system=system_1,
         )
 
     def test_task_add_post_fk_none(self):
-        """ test abandoned setting """
+        """test abandoned setting"""
 
         # login testuser
-        self.client.login(username='testuser_task_is_abandoned', password='kOlEaeHosQ2H3svhYkzv')
+        self.client.login(
+            username='testuser_task_is_abandoned', password='kOlEaeHosQ2H3svhYkzv'
+        )
         # get user
-        test_user_id = User.objects.get(username = 'testuser_task_is_abandoned').id
+        test_user_id = User.objects.get(username='testuser_task_is_abandoned').id
         # create object
-        taskname = Taskname.objects.create(taskname_name = 'task_add_post_fk_none')
+        taskname = Taskname.objects.create(taskname_name='task_add_post_fk_none')
         # get objects
-        taskpriority_id = Taskpriority.objects.get(taskpriority_name = 'prio_1').taskpriority_id
-        taskstatus_id = Taskstatus.objects.get(taskstatus_name = 'taskstatus_1').taskstatus_id
+        taskpriority_id = Taskpriority.objects.get(
+            taskpriority_name='prio_1'
+        ).taskpriority_id
+        taskstatus_id = Taskstatus.objects.get(
+            taskstatus_name='taskstatus_1'
+        ).taskstatus_id
         # get post data
         data_dict = {
             'taskname': taskname.taskname_id,
@@ -138,21 +150,27 @@ class TaskIsAbandonedTestCase(TestCase):
         # get response
         self.client.post('/task/add/', data_dict)
         # compare
-        self.assertTrue(Task.objects.get(taskname = taskname).task_is_abandoned)
+        self.assertTrue(Task.objects.get(taskname=taskname).task_is_abandoned)
 
     def test_task_add_post_fk_artifact(self):
-        """ test abandoned setting """
+        """test abandoned setting"""
 
         # login testuser
-        self.client.login(username='testuser_task_is_abandoned', password='kOlEaeHosQ2H3svhYkzv')
+        self.client.login(
+            username='testuser_task_is_abandoned', password='kOlEaeHosQ2H3svhYkzv'
+        )
         # get user
-        test_user_id = User.objects.get(username = 'testuser_task_is_abandoned').id
+        test_user_id = User.objects.get(username='testuser_task_is_abandoned').id
         # create object
-        taskname = Taskname.objects.create(taskname_name = 'task_add_post_fk_artifact')
+        taskname = Taskname.objects.create(taskname_name='task_add_post_fk_artifact')
         # get objects
-        artifact_id = Artifact.objects.get(artifact_name = 'artifact_1').artifact_id
-        taskpriority_id = Taskpriority.objects.get(taskpriority_name = 'prio_1').taskpriority_id
-        taskstatus_id = Taskstatus.objects.get(taskstatus_name = 'taskstatus_1').taskstatus_id
+        artifact_id = Artifact.objects.get(artifact_name='artifact_1').artifact_id
+        taskpriority_id = Taskpriority.objects.get(
+            taskpriority_name='prio_1'
+        ).taskpriority_id
+        taskstatus_id = Taskstatus.objects.get(
+            taskstatus_name='taskstatus_1'
+        ).taskstatus_id
         # get post data
         data_dict = {
             'taskname': taskname.taskname_id,
@@ -165,21 +183,27 @@ class TaskIsAbandonedTestCase(TestCase):
         # get response
         self.client.post('/task/add/', data_dict)
         # compare
-        self.assertFalse(Task.objects.get(taskname = taskname).task_is_abandoned)
+        self.assertFalse(Task.objects.get(taskname=taskname).task_is_abandoned)
 
     def test_task_add_post_fk_case(self):
-        """ test abandoned setting """
+        """test abandoned setting"""
 
         # login testuser
-        self.client.login(username='testuser_task_is_abandoned', password='kOlEaeHosQ2H3svhYkzv')
+        self.client.login(
+            username='testuser_task_is_abandoned', password='kOlEaeHosQ2H3svhYkzv'
+        )
         # get user
-        test_user_id = User.objects.get(username = 'testuser_task_is_abandoned').id
+        test_user_id = User.objects.get(username='testuser_task_is_abandoned').id
         # create object
-        taskname = Taskname.objects.create(taskname_name = 'task_add_post_fk_case')
+        taskname = Taskname.objects.create(taskname_name='task_add_post_fk_case')
         # get objects
-        case_id = Case.objects.get(case_name = 'case_1').case_id
-        taskpriority_id = Taskpriority.objects.get(taskpriority_name = 'prio_1').taskpriority_id
-        taskstatus_id = Taskstatus.objects.get(taskstatus_name = 'taskstatus_1').taskstatus_id
+        case_id = Case.objects.get(case_name='case_1').case_id
+        taskpriority_id = Taskpriority.objects.get(
+            taskpriority_name='prio_1'
+        ).taskpriority_id
+        taskstatus_id = Taskstatus.objects.get(
+            taskstatus_name='taskstatus_1'
+        ).taskstatus_id
         # get post data
         data_dict = {
             'taskname': taskname.taskname_id,
@@ -192,21 +216,27 @@ class TaskIsAbandonedTestCase(TestCase):
         # get response
         self.client.post('/task/add/', data_dict)
         # compare
-        self.assertFalse(Task.objects.get(taskname = taskname).task_is_abandoned)
+        self.assertFalse(Task.objects.get(taskname=taskname).task_is_abandoned)
 
     def test_task_add_post_fk_system(self):
-        """ test abandoned setting """
+        """test abandoned setting"""
 
         # login testuser
-        self.client.login(username='testuser_task_is_abandoned', password='kOlEaeHosQ2H3svhYkzv')
+        self.client.login(
+            username='testuser_task_is_abandoned', password='kOlEaeHosQ2H3svhYkzv'
+        )
         # get user
-        test_user_id = User.objects.get(username = 'testuser_task_is_abandoned').id
+        test_user_id = User.objects.get(username='testuser_task_is_abandoned').id
         # create object
-        taskname = Taskname.objects.create(taskname_name = 'task_add_post_fk_system')
+        taskname = Taskname.objects.create(taskname_name='task_add_post_fk_system')
         # get objects
-        system_id = System.objects.get(system_name = 'system_1').system_id
-        taskpriority_id = Taskpriority.objects.get(taskpriority_name = 'prio_1').taskpriority_id
-        taskstatus_id = Taskstatus.objects.get(taskstatus_name = 'taskstatus_1').taskstatus_id
+        system_id = System.objects.get(system_name='system_1').system_id
+        taskpriority_id = Taskpriority.objects.get(
+            taskpriority_name='prio_1'
+        ).taskpriority_id
+        taskstatus_id = Taskstatus.objects.get(
+            taskstatus_name='taskstatus_1'
+        ).taskstatus_id
         # get post data
         data_dict = {
             'taskname': taskname.taskname_id,
@@ -219,23 +249,29 @@ class TaskIsAbandonedTestCase(TestCase):
         # get response
         self.client.post('/task/add/', data_dict)
         # compare
-        self.assertFalse(Task.objects.get(taskname = taskname).task_is_abandoned)
+        self.assertFalse(Task.objects.get(taskname=taskname).task_is_abandoned)
 
     def test_task_edit_post_fk_none(self):
-        """ test abandoned setting """
+        """test abandoned setting"""
 
         # login testuser
-        self.client.login(username='testuser_task_is_abandoned', password='kOlEaeHosQ2H3svhYkzv')
+        self.client.login(
+            username='testuser_task_is_abandoned', password='kOlEaeHosQ2H3svhYkzv'
+        )
         # get user
-        test_user_id = User.objects.get(username = 'testuser_task_is_abandoned').id
+        test_user_id = User.objects.get(username='testuser_task_is_abandoned').id
         # get objects
-        taskname = Taskname.objects.get(taskname_name = 'taskname_none')
-        taskpriority_id = Taskpriority.objects.get(taskpriority_name = 'prio_1').taskpriority_id
-        taskstatus_id = Taskstatus.objects.get(taskstatus_name = 'taskstatus_1').taskstatus_id
-        task_none = Task.objects.get(taskname = taskname)
-        artifact_id = Artifact.objects.get(artifact_name = 'artifact_1').artifact_id
-        case_id = Case.objects.get(case_name = 'case_1').case_id
-        system_id = System.objects.get(system_name = 'system_1').system_id
+        taskname = Taskname.objects.get(taskname_name='taskname_none')
+        taskpriority_id = Taskpriority.objects.get(
+            taskpriority_name='prio_1'
+        ).taskpriority_id
+        taskstatus_id = Taskstatus.objects.get(
+            taskstatus_name='taskstatus_1'
+        ).taskstatus_id
+        task_none = Task.objects.get(taskname=taskname)
+        artifact_id = Artifact.objects.get(artifact_name='artifact_1').artifact_id
+        case_id = Case.objects.get(case_name='case_1').case_id
+        system_id = System.objects.get(system_name='system_1').system_id
         # compare
         self.assertTrue(task_none.task_is_abandoned)
         # get post data
@@ -257,17 +293,23 @@ class TaskIsAbandonedTestCase(TestCase):
         self.assertFalse(task_none.task_is_abandoned)
 
     def test_task_edit_post_fk_artifact(self):
-        """ test abandoned setting """
+        """test abandoned setting"""
 
         # login testuser
-        self.client.login(username='testuser_task_is_abandoned', password='kOlEaeHosQ2H3svhYkzv')
+        self.client.login(
+            username='testuser_task_is_abandoned', password='kOlEaeHosQ2H3svhYkzv'
+        )
         # get user
-        test_user_id = User.objects.get(username = 'testuser_task_is_abandoned').id
+        test_user_id = User.objects.get(username='testuser_task_is_abandoned').id
         # get objects
-        taskname = Taskname.objects.get(taskname_name = 'taskname_artifact')
-        taskpriority_id = Taskpriority.objects.get(taskpriority_name = 'prio_1').taskpriority_id
-        taskstatus_id = Taskstatus.objects.get(taskstatus_name = 'taskstatus_1').taskstatus_id
-        task_artifact = Task.objects.get(taskname = taskname)
+        taskname = Taskname.objects.get(taskname_name='taskname_artifact')
+        taskpriority_id = Taskpriority.objects.get(
+            taskpriority_name='prio_1'
+        ).taskpriority_id
+        taskstatus_id = Taskstatus.objects.get(
+            taskstatus_name='taskstatus_1'
+        ).taskstatus_id
+        task_artifact = Task.objects.get(taskname=taskname)
         # compare
         self.assertFalse(task_artifact.task_is_abandoned)
         # get post data
@@ -286,17 +328,23 @@ class TaskIsAbandonedTestCase(TestCase):
         self.assertTrue(task_artifact.task_is_abandoned)
 
     def test_task_edit_post_fk_case(self):
-        """ test abandoned setting """
+        """test abandoned setting"""
 
         # login testuser
-        self.client.login(username='testuser_task_is_abandoned', password='kOlEaeHosQ2H3svhYkzv')
+        self.client.login(
+            username='testuser_task_is_abandoned', password='kOlEaeHosQ2H3svhYkzv'
+        )
         # get user
-        test_user_id = User.objects.get(username = 'testuser_task_is_abandoned').id
+        test_user_id = User.objects.get(username='testuser_task_is_abandoned').id
         # get objects
-        taskname = Taskname.objects.get(taskname_name = 'taskname_case')
-        taskpriority_id = Taskpriority.objects.get(taskpriority_name = 'prio_1').taskpriority_id
-        taskstatus_id = Taskstatus.objects.get(taskstatus_name = 'taskstatus_1').taskstatus_id
-        task_case = Task.objects.get(taskname = taskname)
+        taskname = Taskname.objects.get(taskname_name='taskname_case')
+        taskpriority_id = Taskpriority.objects.get(
+            taskpriority_name='prio_1'
+        ).taskpriority_id
+        taskstatus_id = Taskstatus.objects.get(
+            taskstatus_name='taskstatus_1'
+        ).taskstatus_id
+        task_case = Task.objects.get(taskname=taskname)
         # compare
         self.assertFalse(task_case.task_is_abandoned)
         # get post data
@@ -315,17 +363,23 @@ class TaskIsAbandonedTestCase(TestCase):
         self.assertTrue(task_case.task_is_abandoned)
 
     def test_task_edit_post_fk_system(self):
-        """ test abandoned setting """
+        """test abandoned setting"""
 
         # login testuser
-        self.client.login(username='testuser_task_is_abandoned', password='kOlEaeHosQ2H3svhYkzv')
+        self.client.login(
+            username='testuser_task_is_abandoned', password='kOlEaeHosQ2H3svhYkzv'
+        )
         # get user
-        test_user_id = User.objects.get(username = 'testuser_task_is_abandoned').id
+        test_user_id = User.objects.get(username='testuser_task_is_abandoned').id
         # get objects
-        taskname = Taskname.objects.get(taskname_name = 'taskname_system')
-        taskpriority_id = Taskpriority.objects.get(taskpriority_name = 'prio_1').taskpriority_id
-        taskstatus_id = Taskstatus.objects.get(taskstatus_name = 'taskstatus_1').taskstatus_id
-        task_system = Task.objects.get(taskname = taskname)
+        taskname = Taskname.objects.get(taskname_name='taskname_system')
+        taskpriority_id = Taskpriority.objects.get(
+            taskpriority_name='prio_1'
+        ).taskpriority_id
+        taskstatus_id = Taskstatus.objects.get(
+            taskstatus_name='taskstatus_1'
+        ).taskstatus_id
+        task_system = Task.objects.get(taskname=taskname)
         # compare
         self.assertFalse(task_system.task_is_abandoned)
         # get post data
@@ -344,14 +398,16 @@ class TaskIsAbandonedTestCase(TestCase):
         self.assertTrue(task_system.task_is_abandoned)
 
     def test_task_edit_post_delete_artifact(self):
-        """ test abandoned setting """
+        """test abandoned setting"""
 
         # login testuser
-        self.client.login(username='testuser_task_is_abandoned', password='kOlEaeHosQ2H3svhYkzv')
+        self.client.login(
+            username='testuser_task_is_abandoned', password='kOlEaeHosQ2H3svhYkzv'
+        )
         # get objects
-        taskname = Taskname.objects.get(taskname_name = 'taskname_artifact')
-        task_artifact = Task.objects.get(taskname = taskname)
-        artifact_1 = Artifact.objects.get(artifact_name = 'artifact_1')
+        taskname = Taskname.objects.get(taskname_name='taskname_artifact')
+        task_artifact = Task.objects.get(taskname=taskname)
+        artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
         # compare
         self.assertFalse(task_artifact.task_is_abandoned)
         # delete object
@@ -362,14 +418,16 @@ class TaskIsAbandonedTestCase(TestCase):
         self.assertTrue(task_artifact.task_is_abandoned)
 
     def test_task_edit_post_delete_case(self):
-        """ test abandoned setting """
+        """test abandoned setting"""
 
         # login testuser
-        self.client.login(username='testuser_task_is_abandoned', password='kOlEaeHosQ2H3svhYkzv')
+        self.client.login(
+            username='testuser_task_is_abandoned', password='kOlEaeHosQ2H3svhYkzv'
+        )
         # get objects
-        taskname = Taskname.objects.get(taskname_name = 'taskname_case')
-        task_case = Task.objects.get(taskname = taskname)
-        case_1 = Case.objects.get(case_name = 'case_1')
+        taskname = Taskname.objects.get(taskname_name='taskname_case')
+        task_case = Task.objects.get(taskname=taskname)
+        case_1 = Case.objects.get(case_name='case_1')
         # compare
         self.assertFalse(task_case.task_is_abandoned)
         # delete object
@@ -380,14 +438,16 @@ class TaskIsAbandonedTestCase(TestCase):
         self.assertTrue(task_case.task_is_abandoned)
 
     def test_task_edit_post_delete_system(self):
-        """ test abandoned setting """
+        """test abandoned setting"""
 
         # login testuser
-        self.client.login(username='testuser_task_is_abandoned', password='kOlEaeHosQ2H3svhYkzv')
+        self.client.login(
+            username='testuser_task_is_abandoned', password='kOlEaeHosQ2H3svhYkzv'
+        )
         # get objects
-        taskname = Taskname.objects.get(taskname_name = 'taskname_system')
-        task_system = Task.objects.get(taskname = taskname)
-        system_1 = System.objects.get(system_name = 'system_1')
+        taskname = Taskname.objects.get(taskname_name='taskname_system')
+        task_system = Task.objects.get(taskname=taskname)
+        system_1 = System.objects.get(system_name='system_1')
         # compare
         self.assertFalse(task_system.task_is_abandoned)
         # delete object

@@ -17,7 +17,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Analysisstatus',
             fields=[
-                ('analysisstatus_id', models.AutoField(primary_key=True, serialize=False)),
+                (
+                    'analysisstatus_id',
+                    models.AutoField(primary_key=True, serialize=False),
+                ),
                 ('analysisstatus_name', models.CharField(max_length=30, unique=True)),
                 ('analysisstatus_note', models.TextField(blank=True, null=True)),
             ],
@@ -29,8 +32,22 @@ class Migration(migrations.Migration):
                 ('analystmemo_note', models.TextField()),
                 ('analystmemo_create_time', models.DateTimeField(auto_now_add=True)),
                 ('analystmemo_modify_time', models.DateTimeField(auto_now=True)),
-                ('analystmemo_created_by_user_id', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='analystmemo_created_by', to=settings.AUTH_USER_MODEL)),
-                ('analystmemo_modified_by_user_id', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='analystmemo_modified_by', to=settings.AUTH_USER_MODEL)),
+                (
+                    'analystmemo_created_by_user_id',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name='analystmemo_created_by',
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    'analystmemo_modified_by_user_id',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name='analystmemo_modified_by',
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
@@ -40,7 +57,14 @@ class Migration(migrations.Migration):
                 ('case_name', models.CharField(max_length=50, unique=True)),
                 ('case_is_incident', models.BooleanField()),
                 ('case_create_time', models.DateTimeField(auto_now_add=True)),
-                ('case_created_by_user_id', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='case_created_by', to=settings.AUTH_USER_MODEL)),
+                (
+                    'case_created_by_user_id',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name='case_created_by',
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
@@ -56,7 +80,10 @@ class Migration(migrations.Migration):
             fields=[
                 ('contact_id', models.AutoField(primary_key=True, serialize=False)),
                 ('contact_name', models.CharField(max_length=100)),
-                ('contact_phone', models.CharField(blank=True, max_length=50, null=True)),
+                (
+                    'contact_phone',
+                    models.CharField(blank=True, max_length=50, null=True),
+                ),
                 ('contact_email', models.CharField(max_length=100, unique=True)),
                 ('contact_note', models.TextField(blank=True, null=True)),
             ],
@@ -85,16 +112,41 @@ class Migration(migrations.Migration):
                 ('entry_sha1', models.CharField(blank=True, max_length=40, null=True)),
                 ('entry_date', models.CharField(blank=True, max_length=10, null=True)),
                 ('entry_utc', models.CharField(blank=True, max_length=8, null=True)),
-                ('entry_system', models.CharField(blank=True, max_length=30, null=True)),
+                (
+                    'entry_system',
+                    models.CharField(blank=True, max_length=30, null=True),
+                ),
                 ('entry_type', models.CharField(blank=True, max_length=30, null=True)),
                 ('entry_content', models.TextField(blank=True, null=True)),
                 ('entry_note', models.TextField(blank=True, null=True)),
                 ('entry_create_time', models.DateTimeField(auto_now_add=True)),
                 ('entry_modify_time', models.DateTimeField(auto_now=True)),
                 ('entry_api_time', models.DateTimeField(null=True)),
-                ('case', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='dfirtrack_main.Case')),
-                ('entry_created_by_user_id', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='entry_created_by', to=settings.AUTH_USER_MODEL)),
-                ('entry_modified_by_user_id', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='entry_modified_by', to=settings.AUTH_USER_MODEL)),
+                (
+                    'case',
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to='dfirtrack_main.Case',
+                    ),
+                ),
+                (
+                    'entry_created_by_user_id',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name='entry_created_by',
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    'entry_modified_by_user_id',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name='entry_modified_by',
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
@@ -136,10 +188,19 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Osimportname',
             fields=[
-                ('osimportname_id', models.AutoField(primary_key=True, serialize=False)),
+                (
+                    'osimportname_id',
+                    models.AutoField(primary_key=True, serialize=False),
+                ),
                 ('osimportname_name', models.CharField(max_length=30, unique=True)),
                 ('osimportname_importer', models.CharField(max_length=30)),
-                ('os', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='dfirtrack_main.Os')),
+                (
+                    'os',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to='dfirtrack_main.Os',
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
@@ -153,7 +214,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Recommendation',
             fields=[
-                ('recommendation_id', models.AutoField(primary_key=True, serialize=False)),
+                (
+                    'recommendation_id',
+                    models.AutoField(primary_key=True, serialize=False),
+                ),
                 ('recommendation_name', models.CharField(max_length=30, unique=True)),
                 ('recommendation_note', models.TextField(blank=True, null=True)),
             ],
@@ -162,19 +226,45 @@ class Migration(migrations.Migration):
             name='Reportitem',
             fields=[
                 ('reportitem_id', models.AutoField(primary_key=True, serialize=False)),
-                ('reportitem_subheadline', models.CharField(blank=True, max_length=100, null=True)),
+                (
+                    'reportitem_subheadline',
+                    models.CharField(blank=True, max_length=100, null=True),
+                ),
                 ('reportitem_note', models.TextField()),
                 ('reportitem_create_time', models.DateTimeField(auto_now_add=True)),
                 ('reportitem_modify_time', models.DateTimeField(auto_now=True)),
-                ('headline', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='dfirtrack_main.Headline')),
-                ('reportitem_created_by_user_id', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='reportitem_created_by', to=settings.AUTH_USER_MODEL)),
-                ('reportitem_modified_by_user_id', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='reportitem_modified_by', to=settings.AUTH_USER_MODEL)),
+                (
+                    'headline',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to='dfirtrack_main.Headline',
+                    ),
+                ),
+                (
+                    'reportitem_created_by_user_id',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name='reportitem_created_by',
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    'reportitem_modified_by_user_id',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name='reportitem_modified_by',
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
             name='Serviceprovider',
             fields=[
-                ('serviceprovider_id', models.AutoField(primary_key=True, serialize=False)),
+                (
+                    'serviceprovider_id',
+                    models.AutoField(primary_key=True, serialize=False),
+                ),
                 ('serviceprovider_name', models.CharField(max_length=50, unique=True)),
                 ('serviceprovider_note', models.TextField(blank=True, null=True)),
             ],
@@ -183,7 +273,10 @@ class Migration(migrations.Migration):
             name='System',
             fields=[
                 ('system_id', models.AutoField(primary_key=True, serialize=False)),
-                ('system_uuid', models.UUIDField(editable=False, null=True, unique=True)),
+                (
+                    'system_uuid',
+                    models.UUIDField(editable=False, null=True, unique=True),
+                ),
                 ('system_name', models.CharField(max_length=50)),
                 ('system_fqdn', models.CharField(blank=True, max_length=50, null=True)),
                 ('system_install_time', models.DateTimeField(blank=True, null=True)),
@@ -193,27 +286,127 @@ class Migration(migrations.Migration):
                 ('system_create_time', models.DateTimeField(auto_now_add=True)),
                 ('system_modify_time', models.DateTimeField()),
                 ('system_api_time', models.DateTimeField(null=True)),
-                ('analysisstatus', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='dfirtrack_main.Analysisstatus')),
+                (
+                    'analysisstatus',
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to='dfirtrack_main.Analysisstatus',
+                    ),
+                ),
                 ('case', models.ManyToManyField(blank=True, to='dfirtrack_main.Case')),
-                ('company', models.ManyToManyField(blank=True, to='dfirtrack_main.Company')),
-                ('contact', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='dfirtrack_main.Contact')),
-                ('domain', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='dfirtrack_main.Domain')),
-                ('host_system', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='dfirtrack_main.System')),
+                (
+                    'company',
+                    models.ManyToManyField(blank=True, to='dfirtrack_main.Company'),
+                ),
+                (
+                    'contact',
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to='dfirtrack_main.Contact',
+                    ),
+                ),
+                (
+                    'domain',
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to='dfirtrack_main.Domain',
+                    ),
+                ),
+                (
+                    'host_system',
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to='dfirtrack_main.System',
+                    ),
+                ),
                 ('ip', models.ManyToManyField(blank=True, to='dfirtrack_main.Ip')),
-                ('location', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='dfirtrack_main.Location')),
-                ('os', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='dfirtrack_main.Os')),
-                ('osarch', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='dfirtrack_main.Osarch')),
-                ('reason', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='dfirtrack_main.Reason')),
-                ('recommendation', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='dfirtrack_main.Recommendation')),
-                ('serviceprovider', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='dfirtrack_main.Serviceprovider')),
-                ('system_created_by_user_id', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='system_created_by', to=settings.AUTH_USER_MODEL)),
-                ('system_modified_by_user_id', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='system_modified_by', to=settings.AUTH_USER_MODEL)),
+                (
+                    'location',
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to='dfirtrack_main.Location',
+                    ),
+                ),
+                (
+                    'os',
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to='dfirtrack_main.Os',
+                    ),
+                ),
+                (
+                    'osarch',
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to='dfirtrack_main.Osarch',
+                    ),
+                ),
+                (
+                    'reason',
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to='dfirtrack_main.Reason',
+                    ),
+                ),
+                (
+                    'recommendation',
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to='dfirtrack_main.Recommendation',
+                    ),
+                ),
+                (
+                    'serviceprovider',
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to='dfirtrack_main.Serviceprovider',
+                    ),
+                ),
+                (
+                    'system_created_by_user_id',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name='system_created_by',
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    'system_modified_by_user_id',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name='system_modified_by',
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
             name='Systemstatus',
             fields=[
-                ('systemstatus_id', models.AutoField(primary_key=True, serialize=False)),
+                (
+                    'systemstatus_id',
+                    models.AutoField(primary_key=True, serialize=False),
+                ),
                 ('systemstatus_name', models.CharField(max_length=30, unique=True)),
                 ('systemstatus_note', models.TextField(blank=True, null=True)),
             ],
@@ -230,8 +423,17 @@ class Migration(migrations.Migration):
             fields=[
                 ('systemuser_id', models.AutoField(primary_key=True, serialize=False)),
                 ('systemuser_name', models.CharField(max_length=50)),
-                ('systemuser_lastlogon_time', models.DateTimeField(blank=True, null=True)),
-                ('system', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='dfirtrack_main.System')),
+                (
+                    'systemuser_lastlogon_time',
+                    models.DateTimeField(blank=True, null=True),
+                ),
+                (
+                    'system',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to='dfirtrack_main.System',
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
@@ -259,12 +461,51 @@ class Migration(migrations.Migration):
                 ('task_due_time', models.DateTimeField(blank=True, null=True)),
                 ('task_create_time', models.DateTimeField(auto_now_add=True)),
                 ('task_modify_time', models.DateTimeField(auto_now=True)),
-                ('parent_task', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='dfirtrack_main.Task')),
-                ('system', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='dfirtrack_main.System')),
+                (
+                    'parent_task',
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to='dfirtrack_main.Task',
+                    ),
+                ),
+                (
+                    'system',
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to='dfirtrack_main.System',
+                    ),
+                ),
                 ('tag', models.ManyToManyField(blank=True, to='dfirtrack_main.Tag')),
-                ('task_assigned_to_user_id', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='task_assigned_to', to=settings.AUTH_USER_MODEL)),
-                ('task_created_by_user_id', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='task_created_by', to=settings.AUTH_USER_MODEL)),
-                ('task_modified_by_user_id', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='task_modified_by', to=settings.AUTH_USER_MODEL)),
+                (
+                    'task_assigned_to_user_id',
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name='task_assigned_to',
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    'task_created_by_user_id',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name='task_created_by',
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    'task_modified_by_user_id',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name='task_modified_by',
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
@@ -277,7 +518,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Taskpriority',
             fields=[
-                ('taskpriority_id', models.AutoField(primary_key=True, serialize=False)),
+                (
+                    'taskpriority_id',
+                    models.AutoField(primary_key=True, serialize=False),
+                ),
                 ('taskpriority_name', models.CharField(max_length=50, unique=True)),
             ],
         ),
@@ -291,32 +535,52 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='task',
             name='taskname',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='dfirtrack_main.Taskname'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                to='dfirtrack_main.Taskname',
+            ),
         ),
         migrations.AddField(
             model_name='task',
             name='taskpriority',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='dfirtrack_main.Taskpriority'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                to='dfirtrack_main.Taskpriority',
+            ),
         ),
         migrations.AddField(
             model_name='task',
             name='taskstatus',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='dfirtrack_main.Taskstatus'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                to='dfirtrack_main.Taskstatus',
+            ),
         ),
         migrations.AddField(
             model_name='tag',
             name='tagcolor',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='dfirtrack_main.Tagcolor'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                to='dfirtrack_main.Tagcolor',
+            ),
         ),
         migrations.AddField(
             model_name='system',
             name='systemstatus',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='dfirtrack_main.Systemstatus'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                to='dfirtrack_main.Systemstatus',
+            ),
         ),
         migrations.AddField(
             model_name='system',
             name='systemtype',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='dfirtrack_main.Systemtype'),
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                to='dfirtrack_main.Systemtype',
+            ),
         ),
         migrations.AddField(
             model_name='system',
@@ -326,22 +590,33 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='reportitem',
             name='system',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='dfirtrack_main.System'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to='dfirtrack_main.System'
+            ),
         ),
         migrations.AddField(
             model_name='entry',
             name='system',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='dfirtrack_main.System'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to='dfirtrack_main.System'
+            ),
         ),
         migrations.AddField(
             model_name='company',
             name='division',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='dfirtrack_main.Division'),
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to='dfirtrack_main.Division',
+            ),
         ),
         migrations.AddField(
             model_name='analystmemo',
             name='system',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='dfirtrack_main.System'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to='dfirtrack_main.System'
+            ),
         ),
         migrations.AlterUniqueTogether(
             name='systemuser',

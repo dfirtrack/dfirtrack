@@ -5,10 +5,10 @@ from dfirtrack_main.importer.file.csv_importer_forms import SystemImporterFileCs
 
 
 class SystemImporterFileCsvFormTestCase(TestCase):
-    """ system importer file CSV form tests """
+    """system importer file CSV form tests"""
 
     def test_system_importer_file_csv_systemcsv_form_label(self):
-        """ test form label """
+        """test form label"""
 
         # get object
         form = SystemImporterFileCsvForm()
@@ -16,18 +16,21 @@ class SystemImporterFileCsvFormTestCase(TestCase):
         self.assertEqual(form.fields['systemcsv'].label, 'CSV with systems (*)')
 
     def test_system_importer_file_csv_form_empty(self):
-        """ test minimum form requirements / INVALID """
+        """test minimum form requirements / INVALID"""
 
         # get object
-        form = SystemImporterFileCsvForm(data = {})
+        form = SystemImporterFileCsvForm(data={})
         # compare
         self.assertFalse(form.is_valid())
 
     def test_system_importer_file_csv_systemcsv_form_filled(self):
-        """ test minimum form requirements / VALID """
+        """test minimum form requirements / VALID"""
 
         # get file
-        upload_csv = open('dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_01_minimal_double_quotation.csv', 'rb')
+        upload_csv = open(
+            'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_01_minimal_double_quotation.csv',
+            'rb',
+        )
         # create dictionaries
         data_dict = {}
         file_dict = {
@@ -35,8 +38,8 @@ class SystemImporterFileCsvFormTestCase(TestCase):
         }
         # get object
         form = SystemImporterFileCsvForm(
-            data = data_dict,
-            files = file_dict,
+            data=data_dict,
+            files=file_dict,
         )
         # close file
         upload_csv.close()

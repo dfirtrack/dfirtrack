@@ -34,7 +34,7 @@ from dfirtrack_main.models import (
 
 
 class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
-    """ system exporter spreadsheet CSV view tests """
+    """system exporter spreadsheet CSV view tests"""
 
     @classmethod
     def setUpTestData(cls):
@@ -42,19 +42,25 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         # create user
         test_user = User.objects.create_user(
             username='testuser_system_exporter_spreadsheet_csv',
-            is_staff = True,
-            is_superuser = True,
+            is_staff=True,
+            is_superuser=True,
             password='XJzSzgX2q39OUWluwxoj',
         )
-        User.objects.create_user(username='message_user', password='3qXjYKBj1CVCakjbCd7A')
+        User.objects.create_user(
+            username='message_user', password='3qXjYKBj1CVCakjbCd7A'
+        )
 
         # create objects
         dnsname_1 = Dnsname.objects.create(dnsname_name='dnsname_1')
         domain_1 = Domain.objects.create(domain_name='domain_1')
         systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
-        analysisstatus_1 = Analysisstatus.objects.create(analysisstatus_name='analysisstatus_1')
+        analysisstatus_1 = Analysisstatus.objects.create(
+            analysisstatus_name='analysisstatus_1'
+        )
         reason_1 = Reason.objects.create(reason_name='reason_1')
-        recommendation_1 = Recommendation.objects.create(recommendation_name='recommendation_1')
+        recommendation_1 = Recommendation.objects.create(
+            recommendation_name='recommendation_1'
+        )
         systemtype_1 = Systemtype.objects.create(systemtype_name='systemtype_1')
         ip_1 = Ip.objects.create(ip_ip='127.0.0.1')
         ip_2 = Ip.objects.create(ip_ip='127.0.0.2')
@@ -64,7 +70,9 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         company_2 = Company.objects.create(company_name='company_2')
         company_3 = Company.objects.create(company_name='company_3')
         location_1 = Location.objects.create(location_name='location_1')
-        serviceprovider_1 = Serviceprovider.objects.create(serviceprovider_name='serviceprovider_1')
+        serviceprovider_1 = Serviceprovider.objects.create(
+            serviceprovider_name='serviceprovider_1'
+        )
         tagcolor_1 = Tagcolor.objects.create(tagcolor_name='tagcolor_1')
         tag_1 = Tag.objects.create(
             tag_name='tag_1',
@@ -102,19 +110,19 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
 
             # create object with maximum attributes
             system_1 = System.objects.create(
-                system_name = 'system_1_all_attributes',
-                dnsname = dnsname_1,
-                domain = domain_1,
-                systemstatus = systemstatus_1,
-                analysisstatus = analysisstatus_1,
-                reason = reason_1,
-                recommendation = recommendation_1,
-                systemtype = systemtype_1,
-                os = os_1,
-                location = location_1,
-                serviceprovider = serviceprovider_1,
-                system_created_by_user_id = test_user,
-                system_modified_by_user_id = test_user,
+                system_name='system_1_all_attributes',
+                dnsname=dnsname_1,
+                domain=domain_1,
+                systemstatus=systemstatus_1,
+                analysisstatus=analysisstatus_1,
+                reason=reason_1,
+                recommendation=recommendation_1,
+                systemtype=systemtype_1,
+                os=os_1,
+                location=location_1,
+                serviceprovider=serviceprovider_1,
+                system_created_by_user_id=test_user,
+                system_modified_by_user_id=test_user,
             )
 
             # add many to many attributes
@@ -137,60 +145,80 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
 
             # create object with minimum attributes
             System.objects.create(
-                system_name = 'system_2_no_attributes',
-                systemstatus = systemstatus_1,
-                system_created_by_user_id = test_user,
-                system_modified_by_user_id = test_user,
+                system_name='system_2_no_attributes',
+                systemstatus=systemstatus_1,
+                system_created_by_user_id=test_user,
+                system_modified_by_user_id=test_user,
             )
 
         # create object that will not be exported
         System.objects.create(
-            system_name = 'system_3_not_exported',
-            systemstatus = systemstatus_1,
-            system_export_spreadsheet = False,
-            system_created_by_user_id = test_user,
-            system_modified_by_user_id = test_user,
+            system_name='system_3_not_exported',
+            systemstatus=systemstatus_1,
+            system_export_spreadsheet=False,
+            system_created_by_user_id=test_user,
+            system_modified_by_user_id=test_user,
         )
 
     def test_system_exporter_spreadsheet_csv_not_logged_in(self):
-        """ test instant spreadsheet export via button for direct download via browser """
+        """test instant spreadsheet export via button for direct download via browser"""
 
         # create url
-        destination = '/login/?next=' + urllib.parse.quote('/system/exporter/spreadsheet/csv/system/', safe='')
+        destination = '/login/?next=' + urllib.parse.quote(
+            '/system/exporter/spreadsheet/csv/system/', safe=''
+        )
         # get response
-        response = self.client.get('/system/exporter/spreadsheet/csv/system/', follow=True)
+        response = self.client.get(
+            '/system/exporter/spreadsheet/csv/system/', follow=True
+        )
         # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
 
     def test_system_exporter_spreadsheet_csv_logged_in(self):
-        """ test instant spreadsheet export via button for direct download via browser """
+        """test instant spreadsheet export via button for direct download via browser"""
 
         # login testuser
-        self.client.login(username='testuser_system_exporter_spreadsheet_csv', password='XJzSzgX2q39OUWluwxoj')
+        self.client.login(
+            username='testuser_system_exporter_spreadsheet_csv',
+            password='XJzSzgX2q39OUWluwxoj',
+        )
         # get response
         response = self.client.get('/system/exporter/spreadsheet/csv/system/')
         # compare
         self.assertEqual(response.status_code, 200)
 
     def test_system_exporter_spreadsheet_csv_redirect(self):
-        """ test instant spreadsheet export via button for direct download via browser """
+        """test instant spreadsheet export via button for direct download via browser"""
 
         # login testuser
-        self.client.login(username='testuser_system_exporter_spreadsheet_csv', password='XJzSzgX2q39OUWluwxoj')
+        self.client.login(
+            username='testuser_system_exporter_spreadsheet_csv',
+            password='XJzSzgX2q39OUWluwxoj',
+        )
         # create url
-        destination = urllib.parse.quote('/system/exporter/spreadsheet/csv/system/', safe='/')
+        destination = urllib.parse.quote(
+            '/system/exporter/spreadsheet/csv/system/', safe='/'
+        )
         # get response
-        response = self.client.get('/system/exporter/spreadsheet/csv/system', follow=True)
+        response = self.client.get(
+            '/system/exporter/spreadsheet/csv/system', follow=True
+        )
         # compare
-        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=301, target_status_code=200
+        )
 
     def test_system_exporter_spreadsheet_csv_minimal_spreadsheet(self):
-        """ test instant spreadsheet export via button for direct download via browser """
+        """test instant spreadsheet export via button for direct download via browser"""
 
         """ modify config section """
 
         # get and modify config to show only mandatory columns
-        system_exporter_spreadsheet_csv_config_model = SystemExporterSpreadsheetCsvConfigModel(system_exporter_spreadsheet_csv_config_name = 'SystemExporterSpreadsheetCsvConfig')
+        system_exporter_spreadsheet_csv_config_model = SystemExporterSpreadsheetCsvConfigModel(
+            system_exporter_spreadsheet_csv_config_name='SystemExporterSpreadsheetCsvConfig'
+        )
         system_exporter_spreadsheet_csv_config_model.spread_csv_system_id = False
         system_exporter_spreadsheet_csv_config_model.spread_csv_dnsname = False
         system_exporter_spreadsheet_csv_config_model.spread_csv_domain = False
@@ -206,14 +234,21 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         system_exporter_spreadsheet_csv_config_model.spread_csv_serviceprovider = False
         system_exporter_spreadsheet_csv_config_model.spread_csv_tag = False
         system_exporter_spreadsheet_csv_config_model.spread_csv_case = False
-        system_exporter_spreadsheet_csv_config_model.spread_csv_system_create_time = False
-        system_exporter_spreadsheet_csv_config_model.spread_csv_system_modify_time = False
+        system_exporter_spreadsheet_csv_config_model.spread_csv_system_create_time = (
+            False
+        )
+        system_exporter_spreadsheet_csv_config_model.spread_csv_system_modify_time = (
+            False
+        )
         system_exporter_spreadsheet_csv_config_model.save()
 
         """ call view section """
 
         # login testuser
-        self.client.login(username='testuser_system_exporter_spreadsheet_csv', password='XJzSzgX2q39OUWluwxoj')
+        self.client.login(
+            username='testuser_system_exporter_spreadsheet_csv',
+            password='XJzSzgX2q39OUWluwxoj',
+        )
 
         # mock timezone.now()
         t1_now = timezone.now()
@@ -234,7 +269,9 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         """ compare values section """
 
         # compare number of rows
-        self.assertEqual(len(csv_browser_decoded), 7)     # last linebreak leads to additional line because of split
+        self.assertEqual(
+            len(csv_browser_decoded), 7
+        )  # last linebreak leads to additional line because of split
         # TODO: there must be a more convenient way to random access csv cells directly than iterating over lines and switch for line numbers
         # TODO: like with 'xlrd' for xls files for example
         # set counter
@@ -253,17 +290,21 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
                     self.assertEqual(csv_line[1], t1_now.strftime('%Y-%m-%d %H:%M'))
                 elif i == 6:
                     self.assertEqual(csv_line[0], 'Created by:')
-                    self.assertEqual(csv_line[1], 'testuser_system_exporter_spreadsheet_csv')
+                    self.assertEqual(
+                        csv_line[1], 'testuser_system_exporter_spreadsheet_csv'
+                    )
             # increase counter
             i += 1
 
     def test_system_exporter_spreadsheet_csv_complete_spreadsheet(self):
-        """ test instant spreadsheet export via button for direct download via browser """
+        """test instant spreadsheet export via button for direct download via browser"""
 
         """ modify config section """
 
         # get and modify config to show all columns
-        system_exporter_spreadsheet_csv_config_model = SystemExporterSpreadsheetCsvConfigModel(system_exporter_spreadsheet_csv_config_name = 'SystemExporterSpreadsheetCsvConfig')
+        system_exporter_spreadsheet_csv_config_model = SystemExporterSpreadsheetCsvConfigModel(
+            system_exporter_spreadsheet_csv_config_name='SystemExporterSpreadsheetCsvConfig'
+        )
         system_exporter_spreadsheet_csv_config_model.spread_csv_system_id = True
         system_exporter_spreadsheet_csv_config_model.spread_csv_dnsname = True
         system_exporter_spreadsheet_csv_config_model.spread_csv_domain = True
@@ -279,14 +320,21 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         system_exporter_spreadsheet_csv_config_model.spread_csv_serviceprovider = True
         system_exporter_spreadsheet_csv_config_model.spread_csv_tag = True
         system_exporter_spreadsheet_csv_config_model.spread_csv_case = True
-        system_exporter_spreadsheet_csv_config_model.spread_csv_system_create_time = True
-        system_exporter_spreadsheet_csv_config_model.spread_csv_system_modify_time = True
+        system_exporter_spreadsheet_csv_config_model.spread_csv_system_create_time = (
+            True
+        )
+        system_exporter_spreadsheet_csv_config_model.spread_csv_system_modify_time = (
+            True
+        )
         system_exporter_spreadsheet_csv_config_model.save()
 
         """ call view section """
 
         # login testuser
-        self.client.login(username='testuser_system_exporter_spreadsheet_csv', password='XJzSzgX2q39OUWluwxoj')
+        self.client.login(
+            username='testuser_system_exporter_spreadsheet_csv',
+            password='XJzSzgX2q39OUWluwxoj',
+        )
 
         # mock timezone.now()
         t2_now = timezone.now()
@@ -313,7 +361,9 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         """ compare values section """
 
         # compare number of rows
-        self.assertEqual(len(csv_browser_decoded), 7)     # last linebreak leads to additional line because of split
+        self.assertEqual(
+            len(csv_browser_decoded), 7
+        )  # last linebreak leads to additional line because of split
         # TODO: there must be a more convenient way to random access csv cells directly than iterating over lines and switch for line numbers
         # TODO: like with 'xlrd' for xls files for example
         # set counter
@@ -383,15 +433,17 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
                     self.assertEqual(csv_line[1], t2_now.strftime('%Y-%m-%d %H:%M'))
                 elif i == 6:
                     self.assertEqual(csv_line[0], 'Created by:')
-                    self.assertEqual(csv_line[1], 'testuser_system_exporter_spreadsheet_csv')
+                    self.assertEqual(
+                        csv_line[1], 'testuser_system_exporter_spreadsheet_csv'
+                    )
             # increase counter
             i += 1
 
     def test_system_exporter_spreadsheet_csv_cron_path_not_existent(self):
-        """ test spreadsheet export via scheduled task to server file system """
+        """test spreadsheet export via scheduled task to server file system"""
 
         # get and modify main config
-        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
         main_config_model.cron_export_path = '/this_path_does_not_exist'
         main_config_model.cron_username = 'cron'
         main_config_model.save()
@@ -400,14 +452,22 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         system_cron()
 
         # login testuser
-        self.client.login(username='testuser_system_exporter_spreadsheet_csv', password='XJzSzgX2q39OUWluwxoj')
+        self.client.login(
+            username='testuser_system_exporter_spreadsheet_csv',
+            password='XJzSzgX2q39OUWluwxoj',
+        )
         # get response
         response = self.client.get('/system/')
         # get messages
         messages = list(get_messages(response.wsgi_request))
         # compare
-        self.assertEqual(str(response.context['user']), 'testuser_system_exporter_spreadsheet_csv')
-        self.assertEqual(messages[0].message, '[Scheduled task spreadsheet exporter] SYSTEM_CSV: Export path does not exist. Check config or file system!')
+        self.assertEqual(
+            str(response.context['user']), 'testuser_system_exporter_spreadsheet_csv'
+        )
+        self.assertEqual(
+            messages[0].message,
+            '[Scheduled task spreadsheet exporter] SYSTEM_CSV: Export path does not exist. Check config or file system!',
+        )
         self.assertEqual(messages[0].level_tag, 'error')
         # switch user context
         self.client.logout()
@@ -418,14 +478,17 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertEqual(str(response.context['user']), 'message_user')
-        self.assertEqual(messages[0].message, '[Scheduled task spreadsheet exporter] SYSTEM_CSV: Export path does not exist. Check config or file system!')
+        self.assertEqual(
+            messages[0].message,
+            '[Scheduled task spreadsheet exporter] SYSTEM_CSV: Export path does not exist. Check config or file system!',
+        )
         self.assertEqual(messages[0].level_tag, 'error')
 
     def test_system_exporter_spreadsheet_csv_cron_path_no_write_permission(self):
-        """ test spreadsheet export via scheduled task to server file system """
+        """test spreadsheet export via scheduled task to server file system"""
 
         # get and modify main config
-        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
         main_config_model.cron_export_path = '/root'
         main_config_model.cron_username = 'cron'
         main_config_model.save()
@@ -434,14 +497,22 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         system_cron()
 
         # login testuser
-        self.client.login(username='testuser_system_exporter_spreadsheet_csv', password='XJzSzgX2q39OUWluwxoj')
+        self.client.login(
+            username='testuser_system_exporter_spreadsheet_csv',
+            password='XJzSzgX2q39OUWluwxoj',
+        )
         # get response
         response = self.client.get('/system/')
         # get messages
         messages = list(get_messages(response.wsgi_request))
         # compare
-        self.assertEqual(str(response.context['user']), 'testuser_system_exporter_spreadsheet_csv')
-        self.assertEqual(messages[0].message, '[Scheduled task spreadsheet exporter] SYSTEM_CSV: No write permission for export path. Check config or file system!')
+        self.assertEqual(
+            str(response.context['user']), 'testuser_system_exporter_spreadsheet_csv'
+        )
+        self.assertEqual(
+            messages[0].message,
+            '[Scheduled task spreadsheet exporter] SYSTEM_CSV: No write permission for export path. Check config or file system!',
+        )
         self.assertEqual(messages[0].level_tag, 'error')
         # switch user context
         self.client.logout()
@@ -452,22 +523,27 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         messages = list(get_messages(response.wsgi_request))
         # compare
         self.assertEqual(str(response.context['user']), 'message_user')
-        self.assertEqual(messages[0].message, '[Scheduled task spreadsheet exporter] SYSTEM_CSV: No write permission for export path. Check config or file system!')
+        self.assertEqual(
+            messages[0].message,
+            '[Scheduled task spreadsheet exporter] SYSTEM_CSV: No write permission for export path. Check config or file system!',
+        )
         self.assertEqual(messages[0].level_tag, 'error')
 
     def test_system_exporter_spreadsheet_csv_cron_complete_spreadsheet(self):
-        """ test spreadsheet export via scheduled task to server file system """
+        """test spreadsheet export via scheduled task to server file system"""
 
         """ modify config section """
 
         # get and modify main config
-        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
         main_config_model.cron_export_path = '/tmp'
         main_config_model.cron_username = 'cron'
         main_config_model.save()
 
         # get and modify config to show all columns
-        system_exporter_spreadsheet_csv_config_model = SystemExporterSpreadsheetCsvConfigModel(system_exporter_spreadsheet_csv_config_name = 'SystemExporterSpreadsheetCsvConfig')
+        system_exporter_spreadsheet_csv_config_model = SystemExporterSpreadsheetCsvConfigModel(
+            system_exporter_spreadsheet_csv_config_name='SystemExporterSpreadsheetCsvConfig'
+        )
         system_exporter_spreadsheet_csv_config_model.spread_csv_system_id = True
         system_exporter_spreadsheet_csv_config_model.spread_csv_dnsname = True
         system_exporter_spreadsheet_csv_config_model.spread_csv_domain = True
@@ -483,8 +559,12 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         system_exporter_spreadsheet_csv_config_model.spread_csv_serviceprovider = True
         system_exporter_spreadsheet_csv_config_model.spread_csv_tag = True
         system_exporter_spreadsheet_csv_config_model.spread_csv_case = True
-        system_exporter_spreadsheet_csv_config_model.spread_csv_system_create_time = True
-        system_exporter_spreadsheet_csv_config_model.spread_csv_system_modify_time = True
+        system_exporter_spreadsheet_csv_config_model.spread_csv_system_create_time = (
+            True
+        )
+        system_exporter_spreadsheet_csv_config_model.spread_csv_system_modify_time = (
+            True
+        )
         system_exporter_spreadsheet_csv_config_model.save()
 
         """ call view section """
@@ -503,7 +583,9 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         # get time for output file
         filetime = t3_now.strftime('%Y%m%d_%H%M')
         # prepare output file path
-        output_file_path = main_config_model.cron_export_path + '/' + filetime + '_systems.csv'
+        output_file_path = (
+            main_config_model.cron_export_path + '/' + filetime + '_systems.csv'
+        )
         # open file from temp folder
         csv_disk = open(output_file_path)
         # open file as csv object
@@ -596,50 +678,79 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         csv_disk.close()
 
     def test_system_exporter_spreadsheet_csv_create_cron_not_logged_in(self):
-        """ test helper function to check config before creating scheduled task """
+        """test helper function to check config before creating scheduled task"""
 
         # create url
-        destination = '/login/?next=' + urllib.parse.quote('/system/exporter/spreadsheet/csv/system/cron/', safe='')
+        destination = '/login/?next=' + urllib.parse.quote(
+            '/system/exporter/spreadsheet/csv/system/cron/', safe=''
+        )
         # get response
-        response = self.client.get('/system/exporter/spreadsheet/csv/system/cron/', follow=True)
+        response = self.client.get(
+            '/system/exporter/spreadsheet/csv/system/cron/', follow=True
+        )
         # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
 
     def test_system_exporter_spreadsheet_csv_create_cron_logged_in(self):
-        """ test helper function to check config before creating scheduled task """
+        """test helper function to check config before creating scheduled task"""
 
         # login testuser
-        self.client.login(username='testuser_system_exporter_spreadsheet_csv', password='XJzSzgX2q39OUWluwxoj')
+        self.client.login(
+            username='testuser_system_exporter_spreadsheet_csv',
+            password='XJzSzgX2q39OUWluwxoj',
+        )
         # create url
-        destination = urllib.parse.quote('/admin/django_q/schedule/add/?name=system_spreadsheet_exporter_csv&func=dfirtrack_main.exporter.spreadsheet.csv.system_cron', safe='/?=&')
+        destination = urllib.parse.quote(
+            '/admin/django_q/schedule/add/?name=system_spreadsheet_exporter_csv&func=dfirtrack_main.exporter.spreadsheet.csv.system_cron',
+            safe='/?=&',
+        )
         # get response
-        response = self.client.get('/system/exporter/spreadsheet/csv/system/cron/', follow=True)
+        response = self.client.get(
+            '/system/exporter/spreadsheet/csv/system/cron/', follow=True
+        )
         # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
 
     def test_system_exporter_spreadsheet_csv_create_cron_redirect(self):
-        """ test helper function to check config before creating scheduled task """
+        """test helper function to check config before creating scheduled task"""
 
         # login testuser
-        self.client.login(username='testuser_system_exporter_spreadsheet_csv', password='XJzSzgX2q39OUWluwxoj')
+        self.client.login(
+            username='testuser_system_exporter_spreadsheet_csv',
+            password='XJzSzgX2q39OUWluwxoj',
+        )
         # create url
-        destination = urllib.parse.quote('/admin/django_q/schedule/add/?name=system_spreadsheet_exporter_csv&func=dfirtrack_main.exporter.spreadsheet.csv.system_cron', safe='/?=&')
+        destination = urllib.parse.quote(
+            '/admin/django_q/schedule/add/?name=system_spreadsheet_exporter_csv&func=dfirtrack_main.exporter.spreadsheet.csv.system_cron',
+            safe='/?=&',
+        )
         # get response
-        response = self.client.get('/system/exporter/spreadsheet/csv/system/cron', follow=True)
+        response = self.client.get(
+            '/system/exporter/spreadsheet/csv/system/cron', follow=True
+        )
         # compare
-        self.assertRedirects(response, destination, status_code=301, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=301, target_status_code=200
+        )
 
     def test_system_exporter_spreadsheet_csv_create_cron_path_not_existent(self):
-        """ test helper function to check config before creating scheduled task """
+        """test helper function to check config before creating scheduled task"""
 
         # get and modify main config
-        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
         main_config_model.cron_export_path = '/this_path_does_not_exist'
         main_config_model.cron_username = 'cron'
         main_config_model.save()
 
         # login testuser
-        self.client.login(username='testuser_system_exporter_spreadsheet_csv', password='XJzSzgX2q39OUWluwxoj')
+        self.client.login(
+            username='testuser_system_exporter_spreadsheet_csv',
+            password='XJzSzgX2q39OUWluwxoj',
+        )
 
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
@@ -648,21 +759,29 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         # get messages
         messages = list(get_messages(response.wsgi_request))
         # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-        self.assertEqual(messages[0].message, 'Export path does not exist. Check config or file system!')
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
+        self.assertEqual(
+            messages[0].message,
+            'Export path does not exist. Check config or file system!',
+        )
         self.assertEqual(messages[0].level_tag, 'error')
 
     def test_system_exporter_spreadsheet_csv_create_cron_path_no_write_permission(self):
-        """ test helper function to check config before creating scheduled task """
+        """test helper function to check config before creating scheduled task"""
 
         # get and modify main config
-        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
         main_config_model.cron_export_path = '/root'
         main_config_model.cron_username = 'cron'
         main_config_model.save()
 
         # login testuser
-        self.client.login(username='testuser_system_exporter_spreadsheet_csv', password='XJzSzgX2q39OUWluwxoj')
+        self.client.login(
+            username='testuser_system_exporter_spreadsheet_csv',
+            password='XJzSzgX2q39OUWluwxoj',
+        )
 
         # create url
         destination = urllib.parse.quote('/system/', safe='/')
@@ -671,6 +790,11 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         # get messages
         messages = list(get_messages(response.wsgi_request))
         # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
-        self.assertEqual(messages[0].message, 'No write permission for export path. Check config or file system!')
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
+        self.assertEqual(
+            messages[0].message,
+            'No write permission for export path. Check config or file system!',
+        )
         self.assertEqual(messages[0].level_tag, 'error')

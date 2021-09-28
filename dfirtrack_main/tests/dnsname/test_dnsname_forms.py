@@ -5,7 +5,7 @@ from dfirtrack_main.models import Domain
 
 
 class DnsnameFormTestCase(TestCase):
-    """ dnsname form tests """
+    """dnsname form tests"""
 
     @classmethod
     def setUpTestData(cls):
@@ -14,7 +14,7 @@ class DnsnameFormTestCase(TestCase):
         Domain.objects.create(domain_name='domain_1')
 
     def test_dnsname_domain_form_label(self):
-        """ test form label """
+        """test form label"""
 
         # get object
         form = DnsnameForm()
@@ -23,7 +23,7 @@ class DnsnameFormTestCase(TestCase):
         self.assertEqual(form.fields['domain'].empty_label, 'Select domain (optional)')
 
     def test_dnsname_name_form_label(self):
-        """ test form label """
+        """test form label"""
 
         # get object
         form = DnsnameForm()
@@ -31,7 +31,7 @@ class DnsnameFormTestCase(TestCase):
         self.assertEqual(form.fields['dnsname_name'].label, 'DNS name (*)')
 
     def test_dnsname_note_form_label(self):
-        """ test form label """
+        """test form label"""
 
         # get object
         form = DnsnameForm()
@@ -39,57 +39,61 @@ class DnsnameFormTestCase(TestCase):
         self.assertEqual(form.fields['dnsname_note'].label, 'Note')
 
     def test_dnsname_form_empty(self):
-        """ test minimum form requirements / INVALID """
+        """test minimum form requirements / INVALID"""
 
         # get object
-        form = DnsnameForm(data = {})
+        form = DnsnameForm(data={})
         # compare
         self.assertFalse(form.is_valid())
 
     def test_dnsname_name_form_filled(self):
-        """ test minimum form requirements / VALID """
+        """test minimum form requirements / VALID"""
 
         # get object
-        form = DnsnameForm(data = {'dnsname_name': 'dnsname_1'})
+        form = DnsnameForm(data={'dnsname_name': 'dnsname_1'})
         # compare
         self.assertTrue(form.is_valid())
 
     def test_dnsname_domain_form_filled(self):
-        """ test additional form content """
+        """test additional form content"""
 
         # get foreign key object id
         domain_id = Domain.objects.get(domain_name='domain_1').domain_id
         # get object
-        form = DnsnameForm(data = {
-            'dnsname_name': 'dnsname_1',
-            'domain': domain_id,
-        })
+        form = DnsnameForm(
+            data={
+                'dnsname_name': 'dnsname_1',
+                'domain': domain_id,
+            }
+        )
         # compare
         self.assertTrue(form.is_valid())
 
     def test_dnsname_note_form_filled(self):
-        """ test additional form content """
+        """test additional form content"""
 
         # get object
-        form = DnsnameForm(data = {
-            'dnsname_name': 'dnsname_1',
-            'dnsname_note': 'lorem ipsum',
-        })
+        form = DnsnameForm(
+            data={
+                'dnsname_name': 'dnsname_1',
+                'dnsname_note': 'lorem ipsum',
+            }
+        )
         # compare
         self.assertTrue(form.is_valid())
 
     def test_dnsname_name_proper_chars(self):
-        """ test for max length """
+        """test for max length"""
 
         # get object
-        form = DnsnameForm(data = {'dnsname_name': 'd' * 100})
+        form = DnsnameForm(data={'dnsname_name': 'd' * 100})
         # compare
         self.assertTrue(form.is_valid())
 
     def test_dnsname_name_too_many_chars(self):
-        """ test for max length """
+        """test for max length"""
 
         # get object
-        form = DnsnameForm(data = {'dnsname_name': 'd' * 101})
+        form = DnsnameForm(data={'dnsname_name': 'd' * 101})
         # compare
         self.assertFalse(form.is_valid())
