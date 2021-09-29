@@ -246,7 +246,9 @@ class SystemModificatorViewTestCase(TestCase):
         data_dict = {
             'systemlist': 'system_modificator_system_1\nsystem_modificator_system_2',
             'analysisstatus': analysisstatus_2.analysisstatus_id,
+            'analysisstatus_choice': 'change_status',
             'systemstatus': systemstatus_2.systemstatus_id,
+            'systemstatus_choice': 'change_status',
             'company_delete': 'keep_not_add',
             'tag_delete': 'keep_not_add',
             'contact_delete': 'keep_existing',
@@ -657,7 +659,9 @@ class SystemModificatorViewTestCase(TestCase):
         data_dict = {
             'systemlist': 'system_modificator_system_1\nsystem_modificator_system_2',
             'analysisstatus': analysisstatus_2.analysisstatus_id,
+            'analysisstatus_choice': 'keep_status',
             'systemstatus': systemstatus_2.systemstatus_id,
+            'systemstatus_choice': 'keep_status',
             'company': [str(company_2.company_id), str(company_3.company_id)],
             'tag': [str(tag_2.tag_id), str(tag_3.tag_id)],
             'company_delete': 'keep_and_add',
@@ -782,7 +786,9 @@ class SystemModificatorViewTestCase(TestCase):
         data_dict = {
             'systemlist': 'system_modificator_system_1\nsystem_modificator_system_2',
             'analysisstatus': analysisstatus_2.analysisstatus_id,
+            'analysisstatus_choice': 'keep_status',
             'systemstatus': systemstatus_2.systemstatus_id,
+            'systemstatus_choice': 'keep_status',
             'company_delete': 'remove_and_add',
             'contact_delete': 'switch_new',
             'location_delete': 'switch_new',
@@ -955,7 +961,9 @@ class SystemModificatorViewTestCase(TestCase):
         data_dict = {
             'systemlist': 'system_modificator_system_1\nsystem_modificator_system_2',
             'analysisstatus': analysisstatus_2.analysisstatus_id,
+            'analysisstatus_choice': 'keep_status',
             'systemstatus': systemstatus_2.systemstatus_id,
+            'systemstatus_choice': 'keep_status',
             'company': [str(company_2.company_id), str(company_3.company_id)],
             'contact': contact_2.contact_id,
             'location': location_2.location_id,
@@ -1133,7 +1141,9 @@ class SystemModificatorViewTestCase(TestCase):
         data_dict = {
             'systemlist': systemlist,
             'analysisstatus': analysisstatus_2.analysisstatus_id,
+            'analysisstatus_choice': 'change_status',
             'systemstatus': systemstatus_2.systemstatus_id,
+            'systemstatus_choice': 'change_status',
             'company_delete': 'keep_not_add',
             'contact_delete': 'keep_existing',
             'location_delete': 'keep_existing',
@@ -1184,7 +1194,9 @@ class SystemModificatorViewTestCase(TestCase):
         data_dict = {
             'systemlist': 'system_modificator_messages_1\n\nsystem_modificator_double',
             'analysisstatus': analysisstatus_2.analysisstatus_id,
+            'analysisstatus_choice': 'keep_status',
             'systemstatus': systemstatus_2.systemstatus_id,
+            'systemstatus_choice': 'keep_status',
             'company_delete': 'keep_not_add',
             'contact_delete': 'keep_existing',
             'location_delete': 'keep_existing',
@@ -1222,7 +1234,9 @@ class SystemModificatorViewTestCase(TestCase):
         data_dict = {
             'systemlist': 'system_modificator_messages_1\n\nsystem_modificator_not_existent\nsystem_modificator_double\naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\nsystem_modificator_messages_2',
             'analysisstatus': analysisstatus_2.analysisstatus_id,
+            'analysisstatus_choice': 'keep_status',
             'systemstatus': systemstatus_2.systemstatus_id,
+            'systemstatus_choice': 'keep_status',
             'company_delete': 'keep_not_add',
             'contact_delete': 'keep_existing',
             'location_delete': 'keep_existing',
@@ -1244,7 +1258,6 @@ class SystemModificatorViewTestCase(TestCase):
             '2 lines out of 6 lines were faulty (see log file for details).',
         )
 
-    # TODO
     def test_system_modificator_post_workflow_messages(self):
         """test modificator view"""
 
@@ -1262,7 +1275,9 @@ class SystemModificatorViewTestCase(TestCase):
         data_dict = {
             'systemlist': 'system_modificator_system_1',
             'analysisstatus': analysisstatus_1.analysisstatus_id,
+            'analysisstatus_choice': 'keep_status',
             'systemstatus': systemstatus_2.systemstatus_id,
+            'systemstatus_choice': 'keep_status',
             'workflow': workflow_1.workflow_id,
             'company_delete': 'keep_not_add',
             'contact_delete': 'keep_existing',
@@ -1292,7 +1307,9 @@ class SystemModificatorViewTestCase(TestCase):
         data_dict = {
             'systemlist': 'system_modificator_system_1',
             'analysisstatus': analysisstatus_1.analysisstatus_id,
+            'analysisstatus_choice': 'keep_status',
             'systemstatus': systemstatus_2.systemstatus_id,
+            'systemstatus_choice': 'keep_status',
             'workflow': [workflow_1.workflow_id, 99],
             'company_delete': 'keep_not_add',
             'contact_delete': 'keep_existing',
