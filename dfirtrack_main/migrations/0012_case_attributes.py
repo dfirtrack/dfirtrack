@@ -11,7 +11,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Casepriority',
             fields=[
-                ('casepriority_id', models.AutoField(primary_key=True, serialize=False)),
+                (
+                    'casepriority_id',
+                    models.AutoField(primary_key=True, serialize=False),
+                ),
                 ('casepriority_name', models.CharField(max_length=255, unique=True)),
                 ('casepriority_note', models.TextField(blank=True, null=True)),
                 ('casepriority_slug', models.CharField(max_length=255, unique=True)),

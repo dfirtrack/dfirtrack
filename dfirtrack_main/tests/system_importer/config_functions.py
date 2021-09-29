@@ -15,39 +15,58 @@ from dfirtrack_main.models import (
 
 
 def set_config_column_system(csv_column_system):
-    """ set config """
+    """set config"""
 
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model = (
+        SystemImporterFileCsvConfigModel.objects.get(
+            system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+        )
+    )
     system_importer_file_csv_config_model.csv_column_system = csv_column_system
     system_importer_file_csv_config_model.save()
 
     # return to test function
     return
 
-def set_config_single_quotation():
-    """ set config """
 
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+def set_config_single_quotation():
+    """set config"""
+
+    system_importer_file_csv_config_model = (
+        SystemImporterFileCsvConfigModel.objects.get(
+            system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+        )
+    )
     system_importer_file_csv_config_model.csv_text_quote = 'text_single_quotation_marks'
     system_importer_file_csv_config_model.save()
 
     # return to test function
     return
 
-def set_config_headline():
-    """ set config """
 
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+def set_config_headline():
+    """set config"""
+
+    system_importer_file_csv_config_model = (
+        SystemImporterFileCsvConfigModel.objects.get(
+            system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+        )
+    )
     system_importer_file_csv_config_model.csv_headline = True
     system_importer_file_csv_config_model.save()
 
     # return to test function
     return
 
-def set_config_field_delimiter_comma():
-    """ set config """
 
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+def set_config_field_delimiter_comma():
+    """set config"""
+
+    system_importer_file_csv_config_model = (
+        SystemImporterFileCsvConfigModel.objects.get(
+            system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+        )
+    )
     system_importer_file_csv_config_model.csv_field_delimiter = 'field_comma'
     system_importer_file_csv_config_model.csv_choice_domain = True
     system_importer_file_csv_config_model.csv_column_domain = 2
@@ -56,10 +75,15 @@ def set_config_field_delimiter_comma():
     # return to test function
     return
 
-def set_config_field_delimiter_semicolon():
-    """ set config """
 
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+def set_config_field_delimiter_semicolon():
+    """set config"""
+
+    system_importer_file_csv_config_model = (
+        SystemImporterFileCsvConfigModel.objects.get(
+            system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+        )
+    )
     system_importer_file_csv_config_model.csv_field_delimiter = 'field_semicolon'
     system_importer_file_csv_config_model.csv_choice_domain = True
     system_importer_file_csv_config_model.csv_column_domain = 2
@@ -68,11 +92,16 @@ def set_config_field_delimiter_semicolon():
     # return to test function
     return
 
+
 def set_config_check_attributes_csv():
-    """ set config """
+    """set config"""
 
     # change config
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model = (
+        SystemImporterFileCsvConfigModel.objects.get(
+            system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+        )
+    )
     system_importer_file_csv_config_model.csv_column_system = 1
     system_importer_file_csv_config_model.csv_choice_ip = True
     system_importer_file_csv_config_model.csv_column_ip = 2
@@ -103,11 +132,16 @@ def set_config_check_attributes_csv():
     # return to test function
     return
 
+
 def set_config_check_attributes_domain_name():
-    """ set config """
+    """set config"""
 
     # change config
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model = (
+        SystemImporterFileCsvConfigModel.objects.get(
+            system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+        )
+    )
     system_importer_file_csv_config_model.csv_column_system = 1
     system_importer_file_csv_config_model.csv_choice_domain = True
     system_importer_file_csv_config_model.csv_column_domain = 2
@@ -116,8 +150,11 @@ def set_config_check_attributes_domain_name():
     # return to test function
     return
 
-def set_config_check_config_attributes_choices_true(system_importer_file_csv_config_model):
-    """ set choices to true for all columns """
+
+def set_config_check_config_attributes_choices_true(
+    system_importer_file_csv_config_model,
+):
+    """set choices to true for all columns"""
 
     # set config values
     system_importer_file_csv_config_model.csv_choice_system = True
@@ -137,14 +174,23 @@ def set_config_check_config_attributes_choices_true(system_importer_file_csv_con
     # return config to config function
     return system_importer_file_csv_config_model
 
+
 def set_config_check_config_attributes_column_fields_numeric_values():
-    """ set numeric values for columns out of range """
+    """set numeric values for columns out of range"""
 
     # get config
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model = (
+        SystemImporterFileCsvConfigModel.objects.get(
+            system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+        )
+    )
 
     # set choices to true for all columns
-    system_importer_file_csv_config_model = set_config_check_config_attributes_choices_true(system_importer_file_csv_config_model)
+    system_importer_file_csv_config_model = (
+        set_config_check_config_attributes_choices_true(
+            system_importer_file_csv_config_model
+        )
+    )
 
     # set config values
     system_importer_file_csv_config_model.csv_column_system = 100
@@ -167,11 +213,16 @@ def set_config_check_config_attributes_column_fields_numeric_values():
     # return to column fields numeric values test function
     return
 
+
 def set_config_check_config_attributes_column_choice_vs_default_single_error():
-    """ set column, choice and default single error """
+    """set column, choice and default single error"""
 
     # get config
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model = (
+        SystemImporterFileCsvConfigModel.objects.get(
+            system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+        )
+    )
 
     # set config values
     system_importer_file_csv_config_model.csv_column_system = 1
@@ -184,8 +235,9 @@ def set_config_check_config_attributes_column_choice_vs_default_single_error():
     # return to column choice vs default test function
     return
 
+
 def set_config_check_config_attributes_column_choice_vs_default_multiple_errors_1():
-    """ set column, choice and default randomly faulty """
+    """set column, choice and default randomly faulty"""
 
     # get objects
     case_1 = Case.objects.get(case_name='case_1')
@@ -194,14 +246,22 @@ def set_config_check_config_attributes_column_choice_vs_default_multiple_errors_
     domain_1 = Domain.objects.get(domain_name='domain_1')
     location_1 = Location.objects.get(location_name='location_1')
     reason_1 = Reason.objects.get(reason_name='reason_1')
-    recommendation_1 = Recommendation.objects.get(recommendation_name='recommendation_1')
-    serviceprovider_1 = Serviceprovider.objects.get(serviceprovider_name='serviceprovider_1')
+    recommendation_1 = Recommendation.objects.get(
+        recommendation_name='recommendation_1'
+    )
+    serviceprovider_1 = Serviceprovider.objects.get(
+        serviceprovider_name='serviceprovider_1'
+    )
     systemtype_1 = Systemtype.objects.get(systemtype_name='systemtype_1')
     os_1 = Os.objects.get(os_name='os_1')
     tag_1 = Tag.objects.get(tag_name='tag_1')
 
     # get config
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model = (
+        SystemImporterFileCsvConfigModel.objects.get(
+            system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+        )
+    )
 
     # set config values
     system_importer_file_csv_config_model.csv_column_system = 1
@@ -235,7 +295,9 @@ def set_config_check_config_attributes_column_choice_vs_default_multiple_errors_
     # CSV not chosen and CSV column filled out / CSV column filled out and DB chosen / +2
     system_importer_file_csv_config_model.csv_choice_serviceprovider = False
     system_importer_file_csv_config_model.csv_column_serviceprovider = 9
-    system_importer_file_csv_config_model.csv_default_serviceprovider = serviceprovider_1
+    system_importer_file_csv_config_model.csv_default_serviceprovider = (
+        serviceprovider_1
+    )
     # CSV not chosen and CSV column filled out / CSV column filled out and DB chosen / +2
     system_importer_file_csv_config_model.csv_choice_systemtype = False
     system_importer_file_csv_config_model.csv_column_systemtype = 10
@@ -259,8 +321,9 @@ def set_config_check_config_attributes_column_choice_vs_default_multiple_errors_
     # return to column choice vs default test function
     return
 
+
 def set_config_check_config_attributes_column_choice_vs_default_multiple_errors_2():
-    """ set column, choice and default randomly faulty """
+    """set column, choice and default randomly faulty"""
 
     # get objects
     case_1 = Case.objects.get(case_name='case_1')
@@ -269,14 +332,22 @@ def set_config_check_config_attributes_column_choice_vs_default_multiple_errors_
     domain_1 = Domain.objects.get(domain_name='domain_1')
     location_1 = Location.objects.get(location_name='location_1')
     reason_1 = Reason.objects.get(reason_name='reason_1')
-    recommendation_1 = Recommendation.objects.get(recommendation_name='recommendation_1')
-    serviceprovider_1 = Serviceprovider.objects.get(serviceprovider_name='serviceprovider_1')
+    recommendation_1 = Recommendation.objects.get(
+        recommendation_name='recommendation_1'
+    )
+    serviceprovider_1 = Serviceprovider.objects.get(
+        serviceprovider_name='serviceprovider_1'
+    )
     systemtype_1 = Systemtype.objects.get(systemtype_name='systemtype_1')
     os_1 = Os.objects.get(os_name='os_1')
     tag_1 = Tag.objects.get(tag_name='tag_1')
 
     # get config
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model = (
+        SystemImporterFileCsvConfigModel.objects.get(
+            system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+        )
+    )
 
     # set config values
     system_importer_file_csv_config_model.csv_column_system = 1
@@ -310,7 +381,9 @@ def set_config_check_config_attributes_column_choice_vs_default_multiple_errors_
     # CSV chosen and no CSV column filled out / CSV chosen and DB chosen / +2
     system_importer_file_csv_config_model.csv_choice_serviceprovider = True
     system_importer_file_csv_config_model.csv_column_serviceprovider = None
-    system_importer_file_csv_config_model.csv_default_serviceprovider = serviceprovider_1
+    system_importer_file_csv_config_model.csv_default_serviceprovider = (
+        serviceprovider_1
+    )
     # CSV chosen and no CSV column filled out / CSV chosen and DB chosen / +2
     system_importer_file_csv_config_model.csv_choice_systemtype = True
     system_importer_file_csv_config_model.csv_column_systemtype = None
@@ -334,11 +407,16 @@ def set_config_check_config_attributes_column_choice_vs_default_multiple_errors_
     # return to column choice vs default test function
     return
 
+
 def set_config_check_config_attributes_tagfree_choices():
-    """ set tagfree statuses without tag choice """
+    """set tagfree statuses without tag choice"""
 
     # get config
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model = (
+        SystemImporterFileCsvConfigModel.objects.get(
+            system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+        )
+    )
 
     # set config values
     system_importer_file_csv_config_model.csv_choice_tag = False
@@ -351,14 +429,23 @@ def set_config_check_config_attributes_tagfree_choices():
     # return to tagfree choices test function
     return
 
+
 def set_config_check_config_attributes_column_fields_equal_values():
-    """ set numeric values for column fields equal """
+    """set numeric values for column fields equal"""
 
     # get config
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model = (
+        SystemImporterFileCsvConfigModel.objects.get(
+            system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+        )
+    )
 
     # set choices to true for all columns
-    system_importer_file_csv_config_model = set_config_check_config_attributes_choices_true(system_importer_file_csv_config_model)
+    system_importer_file_csv_config_model = (
+        set_config_check_config_attributes_choices_true(
+            system_importer_file_csv_config_model
+        )
+    )
 
     # set config values
     system_importer_file_csv_config_model.csv_column_system = 1
@@ -381,11 +468,16 @@ def set_config_check_config_attributes_column_fields_equal_values():
     # return to column fields different values test function
     return
 
+
 def set_config_check_config_attributes_remove_choices():
-    """ set remove choices in combination with skipping systems """
+    """set remove choices in combination with skipping systems"""
 
     # get config
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model = (
+        SystemImporterFileCsvConfigModel.objects.get(
+            system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+        )
+    )
 
     # set config values
     system_importer_file_csv_config_model.csv_skip_existing_system = True
@@ -409,11 +501,16 @@ def set_config_check_config_attributes_remove_choices():
     # return to remove choices test function
     return
 
+
 def set_config_tagfree_status():
-    """ set config to set status depending on tag in CSV """
+    """set config to set status depending on tag in CSV"""
 
     # get config
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model = (
+        SystemImporterFileCsvConfigModel.objects.get(
+            system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+        )
+    )
 
     # set config values
     system_importer_file_csv_config_model.csv_choice_tag = True
@@ -427,11 +524,16 @@ def set_config_tagfree_status():
     # return to tagfree status test function
     return
 
+
 def set_config_complete_attributes_csv():
-    """ set config """
+    """set config"""
 
     # change config
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model = (
+        SystemImporterFileCsvConfigModel.objects.get(
+            system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+        )
+    )
     system_importer_file_csv_config_model.csv_choice_tagfree_systemstatus = True
     system_importer_file_csv_config_model.csv_choice_tagfree_analysisstatus = True
     system_importer_file_csv_config_model.csv_choice_ip = True
@@ -439,7 +541,9 @@ def set_config_complete_attributes_csv():
     system_importer_file_csv_config_model.csv_choice_tag = True
     system_importer_file_csv_config_model.csv_column_tag = 3
     system_importer_file_csv_config_model.csv_tag_prefix = 'AUTO'
-    system_importer_file_csv_config_model.csv_tag_prefix_delimiter = 'tag_prefix_underscore'
+    system_importer_file_csv_config_model.csv_tag_prefix_delimiter = (
+        'tag_prefix_underscore'
+    )
     system_importer_file_csv_config_model.csv_choice_dnsname = True
     system_importer_file_csv_config_model.csv_column_dnsname = 4
     system_importer_file_csv_config_model.csv_choice_domain = True
@@ -465,8 +569,9 @@ def set_config_complete_attributes_csv():
     # return to test function
     return
 
+
 def set_config_complete_attributes_database():
-    """ set config """
+    """set config"""
 
     # get objects
     case_db_1 = Case.objects.get(case_name='case_db_1')
@@ -476,21 +581,33 @@ def set_config_complete_attributes_database():
     location_db_1 = Location.objects.get(location_name='location_db_1')
     os_db_1 = Os.objects.get(os_name='os_db_1')
     reason_db_1 = Reason.objects.get(reason_name='reason_db_1')
-    recommendation_db_1 = Recommendation.objects.get(recommendation_name='recommendation_db_1')
-    serviceprovider_db_1 = Serviceprovider.objects.get(serviceprovider_name='serviceprovider_db_1')
+    recommendation_db_1 = Recommendation.objects.get(
+        recommendation_name='recommendation_db_1'
+    )
+    serviceprovider_db_1 = Serviceprovider.objects.get(
+        serviceprovider_name='serviceprovider_db_1'
+    )
     systemtype_db_1 = Systemtype.objects.get(systemtype_name='systemtype_db_1')
     tag_db_1 = Tag.objects.get(tag_name='tag_db_1')
 
     # change config
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model = (
+        SystemImporterFileCsvConfigModel.objects.get(
+            system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+        )
+    )
     system_importer_file_csv_config_model.csv_column_system = 1
     system_importer_file_csv_config_model.csv_default_dnsname = dnsname_db_1
     system_importer_file_csv_config_model.csv_default_domain = domain_db_1
     system_importer_file_csv_config_model.csv_default_location = location_db_1
     system_importer_file_csv_config_model.csv_default_os = os_db_1
     system_importer_file_csv_config_model.csv_default_reason = reason_db_1
-    system_importer_file_csv_config_model.csv_default_recommendation = recommendation_db_1
-    system_importer_file_csv_config_model.csv_default_serviceprovider = serviceprovider_db_1
+    system_importer_file_csv_config_model.csv_default_recommendation = (
+        recommendation_db_1
+    )
+    system_importer_file_csv_config_model.csv_default_serviceprovider = (
+        serviceprovider_db_1
+    )
     system_importer_file_csv_config_model.csv_default_systemtype = systemtype_db_1
     system_importer_file_csv_config_model.csv_tag_prefix = None
     system_importer_file_csv_config_model.csv_tag_prefix_delimiter = None
@@ -504,11 +621,16 @@ def set_config_complete_attributes_database():
     # return to test function
     return
 
+
 def set_config_complete_overwrite_csv():
-    """ set config """
+    """set config"""
 
     # change config
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model = (
+        SystemImporterFileCsvConfigModel.objects.get(
+            system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+        )
+    )
     system_importer_file_csv_config_model.csv_remove_systemstatus = True
     system_importer_file_csv_config_model.csv_remove_analysisstatus = True
     system_importer_file_csv_config_model.csv_remove_ip = True
@@ -528,11 +650,16 @@ def set_config_complete_overwrite_csv():
     # return to test function
     return
 
+
 def set_config_complete_preserve_csv():
-    """ set config """
+    """set config"""
 
     # change config
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model = (
+        SystemImporterFileCsvConfigModel.objects.get(
+            system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+        )
+    )
     system_importer_file_csv_config_model.csv_remove_systemstatus = False
     system_importer_file_csv_config_model.csv_remove_analysisstatus = False
     system_importer_file_csv_config_model.csv_remove_ip = False
@@ -552,11 +679,16 @@ def set_config_complete_preserve_csv():
     # return to test function
     return
 
+
 def set_config_ip_delimiter_comma():
-    """ set config """
+    """set config"""
 
     # change config
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model = (
+        SystemImporterFileCsvConfigModel.objects.get(
+            system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+        )
+    )
     system_importer_file_csv_config_model.csv_choice_ip = True
     system_importer_file_csv_config_model.csv_column_ip = 2
     system_importer_file_csv_config_model.csv_ip_delimiter = 'ip_comma'
@@ -565,11 +697,16 @@ def set_config_ip_delimiter_comma():
     # return to test function
     return
 
+
 def set_config_ip_delimiter_semicolon():
-    """ set config """
+    """set config"""
 
     # change config
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model = (
+        SystemImporterFileCsvConfigModel.objects.get(
+            system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+        )
+    )
     system_importer_file_csv_config_model.csv_choice_ip = True
     system_importer_file_csv_config_model.csv_column_ip = 2
     system_importer_file_csv_config_model.csv_ip_delimiter = 'ip_semicolon'
@@ -578,11 +715,16 @@ def set_config_ip_delimiter_semicolon():
     # return to test function
     return
 
+
 def set_config_ip_delimiter_space():
-    """ set config """
+    """set config"""
 
     # change config
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model = (
+        SystemImporterFileCsvConfigModel.objects.get(
+            system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+        )
+    )
     system_importer_file_csv_config_model.csv_choice_ip = True
     system_importer_file_csv_config_model.csv_column_ip = 2
     system_importer_file_csv_config_model.csv_ip_delimiter = 'ip_space'
@@ -591,71 +733,104 @@ def set_config_ip_delimiter_space():
     # return to test function
     return
 
+
 def set_config_tag_delimiter_comma():
-    """ set config """
+    """set config"""
 
     # change config
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model = (
+        SystemImporterFileCsvConfigModel.objects.get(
+            system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+        )
+    )
     system_importer_file_csv_config_model.csv_choice_tag = True
     system_importer_file_csv_config_model.csv_column_tag = 2
     system_importer_file_csv_config_model.csv_tag_delimiter = 'tag_comma'
     system_importer_file_csv_config_model.csv_tag_prefix = 'AUTO'
-    system_importer_file_csv_config_model.csv_tag_prefix_delimiter = 'tag_prefix_underscore'
+    system_importer_file_csv_config_model.csv_tag_prefix_delimiter = (
+        'tag_prefix_underscore'
+    )
     system_importer_file_csv_config_model.save()
 
     # return to test function
     return
 
+
 def set_config_tag_delimiter_semicolon():
-    """ set config """
+    """set config"""
 
     # change config
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model = (
+        SystemImporterFileCsvConfigModel.objects.get(
+            system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+        )
+    )
     system_importer_file_csv_config_model.csv_choice_tag = True
     system_importer_file_csv_config_model.csv_column_tag = 2
     system_importer_file_csv_config_model.csv_tag_delimiter = 'tag_semicolon'
     system_importer_file_csv_config_model.csv_tag_prefix = 'AUTO'
-    system_importer_file_csv_config_model.csv_tag_prefix_delimiter = 'tag_prefix_underscore'
+    system_importer_file_csv_config_model.csv_tag_prefix_delimiter = (
+        'tag_prefix_underscore'
+    )
     system_importer_file_csv_config_model.save()
 
     # return to test function
     return
+
 
 def set_config_tag_delimiter_space():
-    """ set config """
+    """set config"""
 
     # change config
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model = (
+        SystemImporterFileCsvConfigModel.objects.get(
+            system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+        )
+    )
     system_importer_file_csv_config_model.csv_choice_tag = True
     system_importer_file_csv_config_model.csv_column_tag = 2
     system_importer_file_csv_config_model.csv_tag_delimiter = 'tag_space'
     system_importer_file_csv_config_model.csv_tag_prefix = 'AUTO'
-    system_importer_file_csv_config_model.csv_tag_prefix_delimiter = 'tag_prefix_underscore'
+    system_importer_file_csv_config_model.csv_tag_prefix_delimiter = (
+        'tag_prefix_underscore'
+    )
     system_importer_file_csv_config_model.save()
 
     # return to test function
     return
+
 
 def set_config_tag_prefix_delimiter_underscore():
-    """ set config """
+    """set config"""
 
     # change config
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model = (
+        SystemImporterFileCsvConfigModel.objects.get(
+            system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+        )
+    )
     system_importer_file_csv_config_model.csv_choice_tag = True
     system_importer_file_csv_config_model.csv_column_tag = 2
     system_importer_file_csv_config_model.csv_tag_delimiter = 'tag_space'
     system_importer_file_csv_config_model.csv_tag_prefix = 'AUTO'
-    system_importer_file_csv_config_model.csv_tag_prefix_delimiter = 'tag_prefix_underscore'
+    system_importer_file_csv_config_model.csv_tag_prefix_delimiter = (
+        'tag_prefix_underscore'
+    )
     system_importer_file_csv_config_model.save()
 
     # return to test function
     return
 
+
 def set_config_tag_prefix_delimiter_hyphen():
-    """ set config """
+    """set config"""
 
     # change config
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model = (
+        SystemImporterFileCsvConfigModel.objects.get(
+            system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+        )
+    )
     system_importer_file_csv_config_model.csv_choice_tag = True
     system_importer_file_csv_config_model.csv_column_tag = 2
     system_importer_file_csv_config_model.csv_tag_delimiter = 'tag_space'
@@ -666,11 +841,16 @@ def set_config_tag_prefix_delimiter_hyphen():
     # return to test function
     return
 
+
 def set_config_tag_prefix_delimiter_period():
-    """ set config """
+    """set config"""
 
     # change config
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model = (
+        SystemImporterFileCsvConfigModel.objects.get(
+            system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+        )
+    )
     system_importer_file_csv_config_model.csv_choice_tag = True
     system_importer_file_csv_config_model.csv_column_tag = 2
     system_importer_file_csv_config_model.csv_tag_delimiter = 'tag_space'
@@ -681,78 +861,115 @@ def set_config_tag_prefix_delimiter_period():
     # return to test function
     return
 
+
 def set_config_tag_remove_all():
-    """ set config """
+    """set config"""
 
     # change config
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model = (
+        SystemImporterFileCsvConfigModel.objects.get(
+            system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+        )
+    )
     system_importer_file_csv_config_model.csv_remove_tag = 'tag_remove_all'
     system_importer_file_csv_config_model.save()
 
     # return to test function
     return
 
+
 def set_config_tag_remove_prefix():
-    """ set config """
+    """set config"""
 
     # change config
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model = (
+        SystemImporterFileCsvConfigModel.objects.get(
+            system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+        )
+    )
     system_importer_file_csv_config_model.csv_remove_tag = 'tag_remove_prefix'
     system_importer_file_csv_config_model.save()
 
     # return to test function
     return
 
+
 def set_config_tag_remove_none():
-    """ set config """
+    """set config"""
 
     # change config
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model = (
+        SystemImporterFileCsvConfigModel.objects.get(
+            system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+        )
+    )
     system_importer_file_csv_config_model.csv_remove_tag = 'tag_remove_none'
     system_importer_file_csv_config_model.save()
 
     # return to test function
     return
 
+
 def set_csv_import_username(test_user):
-    """ set csv_import_username """
+    """set csv_import_username"""
 
     # change config
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model = (
+        SystemImporterFileCsvConfigModel.objects.get(
+            system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+        )
+    )
     system_importer_file_csv_config_model.csv_import_username = test_user
     system_importer_file_csv_config_model.save()
 
     # return to test function
     return
 
+
 def set_csv_import_filename(csv_import_filename):
-    """ set csv_import_filename """
+    """set csv_import_filename"""
 
     # change config
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model = (
+        SystemImporterFileCsvConfigModel.objects.get(
+            system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+        )
+    )
     system_importer_file_csv_config_model.csv_import_filename = csv_import_filename
     system_importer_file_csv_config_model.save()
 
     # return to test function
     return
 
+
 def set_csv_import_path(csv_import_path):
-    """ set csv_import_path """
+    """set csv_import_path"""
 
     # change config
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
+    system_importer_file_csv_config_model = (
+        SystemImporterFileCsvConfigModel.objects.get(
+            system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+        )
+    )
     system_importer_file_csv_config_model.csv_import_path = csv_import_path
     system_importer_file_csv_config_model.save()
 
     # return to test function
     return
 
+
 def set_csv_skip_existing_system(csv_skip_existing_system):
-    """ set csv_skip_existing_system """
+    """set csv_skip_existing_system"""
 
     # change config
-    system_importer_file_csv_config_model = SystemImporterFileCsvConfigModel.objects.get(system_importer_file_csv_config_name='SystemImporterFileCsvConfig')
-    system_importer_file_csv_config_model.csv_skip_existing_system = csv_skip_existing_system
+    system_importer_file_csv_config_model = (
+        SystemImporterFileCsvConfigModel.objects.get(
+            system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
+        )
+    )
+    system_importer_file_csv_config_model.csv_skip_existing_system = (
+        csv_skip_existing_system
+    )
     system_importer_file_csv_config_model.save()
 
     # return to test function

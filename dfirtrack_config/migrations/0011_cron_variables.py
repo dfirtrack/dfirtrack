@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='mainconfigmodel',
             name='cron_export_path',
-            field=models.CharField(default='/tmp', max_length=4096),
+            field=models.CharField(default='/tmp', max_length=4096),  # nosec
         ),
         migrations.AddField(
             model_name='mainconfigmodel',

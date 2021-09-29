@@ -21,6 +21,7 @@ class DomainList(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " DOMAIN_LIST_ENTERED")
         return Domain.objects.order_by('domain_name')
 
+
 class DomainDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Domain
@@ -32,6 +33,7 @@ class DomainDetail(LoginRequiredMixin, DetailView):
         domain.logger(str(self.request.user), " DOMAIN_DETAIL_ENTERED")
         return context
 
+
 class DomainCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Domain
@@ -41,11 +43,15 @@ class DomainCreate(LoginRequiredMixin, CreateView):
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " DOMAIN_ADD_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-            'object_type': 'domain',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'domain',
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -56,11 +62,16 @@ class DomainCreate(LoginRequiredMixin, CreateView):
             messages.success(request, 'Domain added')
             return redirect(reverse('domain_detail', args=(domain.domain_id,)))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-                'object_type': 'domain',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Add',
+                    'object_type': 'domain',
+                },
+            )
+
 
 class DomainCreatePopup(LoginRequiredMixin, CreateView):
     login_url = '/login'
@@ -71,11 +82,15 @@ class DomainCreatePopup(LoginRequiredMixin, CreateView):
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " DOMAIN_ADD_POPUP_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-            'object_type': 'domain',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'domain',
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -84,13 +99,20 @@ class DomainCreatePopup(LoginRequiredMixin, CreateView):
             domain.save()
             domain.logger(str(request.user), " DOMAIN_ADD_POPUP_EXECUTED")
             messages.success(request, 'Domain added')
-            return HttpResponse('<script type="text/javascript">window.close();</script>')
+            return HttpResponse(
+                '<script type="text/javascript">window.close();</script>'
+            )
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-                'object_type': 'domain',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Add',
+                    'object_type': 'domain',
+                },
+            )
+
 
 class DomainUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
@@ -102,12 +124,16 @@ class DomainUpdate(LoginRequiredMixin, UpdateView):
         domain = self.get_object()
         form = self.form_class(instance=domain)
         domain.logger(str(request.user), " DOMAIN_EDIT_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Edit',
-            'object_type': 'domain',
-            'object_name': domain.domain_name,
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Edit',
+                'object_type': 'domain',
+                'object_name': domain.domain_name,
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         domain = self.get_object()
@@ -119,9 +145,13 @@ class DomainUpdate(LoginRequiredMixin, UpdateView):
             messages.success(request, 'Domain edited')
             return redirect(reverse('domain_detail', args=(domain.domain_id,)))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Edit',
-                'object_type': 'domain',
-                'object_name': domain.domain_name,
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Edit',
+                    'object_type': 'domain',
+                    'object_name': domain.domain_name,
+                },
+            )

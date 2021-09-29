@@ -20,6 +20,7 @@ class NoteList(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " NOTE_LIST_ENTERED")
         return Note.objects.order_by('note_title')
 
+
 class NoteDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Note
@@ -30,6 +31,7 @@ class NoteDetail(LoginRequiredMixin, DetailView):
         Note = self.object
         Note.logger(str(self.request.user), " NOTE_DETAIL_ENTERED")
         return context
+
 
 class NoteCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
@@ -43,14 +45,20 @@ class NoteCreate(LoginRequiredMixin, CreateView):
         notestatus = Notestatus.objects.order_by('notestatus_name')[0].notestatus_id
 
         # show empty form with default values for convenience and speed reasons
-        form = self.form_class(initial={
-            'notestatus': notestatus,
-        })
+        form = self.form_class(
+            initial={
+                'notestatus': notestatus,
+            }
+        )
         debug_logger(str(request.user), " NOTE_ADD_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Add',
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -63,14 +71,21 @@ class NoteCreate(LoginRequiredMixin, CreateView):
             note.logger(str(request.user), " NOTE_ADD_EXECUTED")
             messages.success(request, 'Note added')
             if 'documentation' in request.GET:
-                return redirect(reverse('documentation_list') + f'#note_id_{note.note_id}')
+                return redirect(
+                    reverse('documentation_list') + f'#note_id_{note.note_id}'
+                )
             else:
                 return redirect(reverse('note_detail', args=(note.note_id,)))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Add',
+                },
+            )
+
 
 class NoteUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
@@ -89,7 +104,7 @@ class NoteUpdate(LoginRequiredMixin, UpdateView):
                 'form': form,
                 'title': 'Edit',
                 'note': note,
-            }
+            },
         )
 
     def post(self, request, *args, **kwargs):
@@ -103,12 +118,18 @@ class NoteUpdate(LoginRequiredMixin, UpdateView):
             note.logger(str(request.user), " NOTE_EDIT_EXECUTED")
             messages.success(request, 'Note edited')
             if 'documentation' in request.GET:
-                return redirect(reverse('documentation_list') + f'#note_id_{note.note_id}')
+                return redirect(
+                    reverse('documentation_list') + f'#note_id_{note.note_id}'
+                )
             else:
                 return redirect(reverse('note_detail', args=(note.note_id,)))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Edit',
-                'note': note,
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Edit',
+                    'note': note,
+                },
+            )

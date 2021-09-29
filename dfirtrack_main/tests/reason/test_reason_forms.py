@@ -4,10 +4,10 @@ from dfirtrack_main.forms import ReasonForm
 
 
 class ReasonFormTestCase(TestCase):
-    """ reason form tests """
+    """reason form tests"""
 
     def test_reason_name_form_label(self):
-        """ test form label """
+        """test form label"""
 
         # get object
         form = ReasonForm()
@@ -15,7 +15,7 @@ class ReasonFormTestCase(TestCase):
         self.assertEqual(form.fields['reason_name'].label, 'Reason name (*)')
 
     def test_reason_note_form_label(self):
-        """ test form label """
+        """test form label"""
 
         # get object
         form = ReasonForm()
@@ -23,44 +23,46 @@ class ReasonFormTestCase(TestCase):
         self.assertEqual(form.fields['reason_note'].label, 'Reason note')
 
     def test_reason_form_empty(self):
-        """ test minimum form requirements / INVALID """
+        """test minimum form requirements / INVALID"""
 
         # get object
-        form = ReasonForm(data = {})
+        form = ReasonForm(data={})
         # compare
         self.assertFalse(form.is_valid())
 
     def test_reason_name_form_filled(self):
-        """ test minimum form requirements / VALID """
+        """test minimum form requirements / VALID"""
 
         # get object
-        form = ReasonForm(data = {'reason_name': 'reason_1'})
+        form = ReasonForm(data={'reason_name': 'reason_1'})
         # compare
         self.assertTrue(form.is_valid())
 
     def test_reason_note_form_filled(self):
-        """ test additional form content """
+        """test additional form content"""
 
         # get object
-        form = ReasonForm(data = {
-            'reason_name': 'reason_1',
-            'reason_note': 'lorem ipsum',
-        })
+        form = ReasonForm(
+            data={
+                'reason_name': 'reason_1',
+                'reason_note': 'lorem ipsum',
+            }
+        )
         # compare
         self.assertTrue(form.is_valid())
 
     def test_reason_name_proper_chars(self):
-        """ test for max length """
+        """test for max length"""
 
         # get object
-        form = ReasonForm(data = {'reason_name': 'rrrrrrrrrrrrrrrrrrrrrrrrrrrrrr'})
+        form = ReasonForm(data={'reason_name': 'r' * 30})
         # compare
         self.assertTrue(form.is_valid())
 
     def test_reason_name_too_many_chars(self):
-        """ test for max length """
+        """test for max length"""
 
         # get object
-        form = ReasonForm(data = {'reason_name': 'rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr'})
+        form = ReasonForm(data={'reason_name': 'r' * 31})
         # compare
         self.assertFalse(form.is_valid())

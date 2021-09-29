@@ -4,7 +4,7 @@ from dfirtrack_main.models import Division
 
 
 class DivisionModelTestCase(TestCase):
-    """ division model tests """
+    """division model tests"""
 
     @classmethod
     def setUpTestData(cls):
@@ -13,7 +13,7 @@ class DivisionModelTestCase(TestCase):
         Division.objects.create(division_name='division_1')
 
     def test_division_string(self):
-        """ test string representation """
+        """test string representation"""
 
         # get object
         division_1 = Division.objects.get(division_name='division_1')
@@ -21,7 +21,7 @@ class DivisionModelTestCase(TestCase):
         self.assertEqual(str(division_1), 'division_1')
 
     def test_division_id_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         division_1 = Division.objects.get(division_name='division_1')
@@ -31,7 +31,7 @@ class DivisionModelTestCase(TestCase):
         self.assertEqual(field_label, 'division id')
 
     def test_division_name_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         division_1 = Division.objects.get(division_name='division_1')
@@ -41,7 +41,7 @@ class DivisionModelTestCase(TestCase):
         self.assertEqual(field_label, 'division name')
 
     def test_division_note_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         division_1 = Division.objects.get(division_name='division_1')
@@ -51,7 +51,7 @@ class DivisionModelTestCase(TestCase):
         self.assertEqual(field_label, 'division note')
 
     def test_division_name_length(self):
-        """ test for max length """
+        """test for max length"""
 
         # get object
         division_1 = Division.objects.get(division_name='division_1')

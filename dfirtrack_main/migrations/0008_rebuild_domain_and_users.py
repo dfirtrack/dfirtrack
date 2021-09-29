@@ -15,7 +15,15 @@ class Migration(migrations.Migration):
                 ('dnsname_id', models.AutoField(primary_key=True, serialize=False)),
                 ('dnsname_name', models.CharField(max_length=100, unique=True)),
                 ('dnsname_note', models.TextField(blank=True, null=True)),
-                ('domain', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='dfirtrack_main.Domain')),
+                (
+                    'domain',
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to='dfirtrack_main.Domain',
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
@@ -24,7 +32,13 @@ class Migration(migrations.Migration):
                 ('domainuser_id', models.AutoField(primary_key=True, serialize=False)),
                 ('domainuser_name', models.CharField(max_length=50)),
                 ('domainuser_is_domainadmin', models.NullBooleanField()),
-                ('domain', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='dfirtrack_main.Domain')),
+                (
+                    'domain',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to='dfirtrack_main.Domain',
+                    ),
+                ),
             ],
         ),
         migrations.RemoveField(
@@ -44,7 +58,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='system',
             name='dnsname',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='dfirtrack_main.Dnsname'),
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                to='dfirtrack_main.Dnsname',
+            ),
         ),
         migrations.AlterUniqueTogether(
             name='domainuser',

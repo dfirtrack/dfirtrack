@@ -24,7 +24,10 @@ class Migration(migrations.Migration):
                 ('csv_column_system', models.IntegerField()),
                 ('csv_skip_existing_system', models.BooleanField(blank=True)),
                 ('csv_headline', models.BooleanField(blank=True)),
-                ('csv_import_path', models.CharField(default='/tmp', max_length=4096)),
+                (
+                    'csv_import_path',
+                    models.CharField(default='/tmp', max_length=4096),  # nosec
+                ),
                 (
                     'csv_import_filename',
                     models.CharField(default='systems.csv', max_length=255),

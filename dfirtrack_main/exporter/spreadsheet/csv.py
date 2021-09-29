@@ -18,13 +18,15 @@ from dfirtrack_main.models import System
 
 
 def write_csv(username, csv_file):
-    """ write spreadsheet """
+    """write spreadsheet"""
 
     # create file object for writing lines
     csv_writer = csv.writer(csv_file)
 
     # get config model
-    model = SystemExporterSpreadsheetCsvConfigModel.objects.get(system_exporter_spreadsheet_csv_config_name = 'SystemExporterSpreadsheetCsvConfig')
+    model = SystemExporterSpreadsheetCsvConfigModel.objects.get(
+        system_exporter_spreadsheet_csv_config_name='SystemExporterSpreadsheetCsvConfig'
+    )
 
     """ start with headline """
 
@@ -136,7 +138,7 @@ def write_csv(username, csv_file):
             entryline.append(reason)
         # recommendation
         if model.spread_csv_recommendation:
-            if system.recommendation== None:
+            if system.recommendation == None:
                 recommendation = ''
             else:
                 recommendation = system.recommendation.recommendation_name
@@ -258,7 +260,14 @@ def write_csv(username, csv_file):
         csv_writer.writerow(entryline)
 
         # call logger
-        debug_logger(username, ' SYSTEM_CSV_SYSTEM_EXPORTED ' + 'system_id:' + str(system.system_id) + '|system_name:' + system.system_name)
+        debug_logger(
+            username,
+            ' SYSTEM_CSV_SYSTEM_EXPORTED '
+            + 'system_id:'
+            + str(system.system_id)
+            + '|system_name:'
+            + system.system_name,
+        )
 
     # write an empty row
     csv_writer.writerow([])
@@ -277,15 +286,18 @@ def write_csv(username, csv_file):
     # return csv object
     return csv_file
 
+
 @login_required(login_url="/login")
 def system_create_cron(request):
-    """ helper function to check config before creating scheduled task """
+    """helper function to check config before creating scheduled task"""
 
     # get config
-    main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+    main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
 
     # check file system
-    stop_cron_exporter = check_content_file_system(main_config_model, 'SYSTEM_CSV', request)
+    stop_cron_exporter = check_content_file_system(
+        main_config_model, 'SYSTEM_CSV', request
+    )
 
     # check stop condition
     if stop_cron_exporter:
@@ -303,14 +315,15 @@ def system_create_cron(request):
         # build url
         urlpath = '/admin/django_q/schedule/add/'
         urlquery = urlencode(params)
-        admin_url_create_cron = urlunparse(('','',urlpath,'',urlquery,''))
+        admin_url_create_cron = urlunparse(('', '', urlpath, '', urlquery, ''))
 
         # open django admin with pre-filled form for scheduled task
         return redirect(admin_url_create_cron)
 
+
 @login_required(login_url="/login")
 def system(request):
-    """ instant spreadsheet export via button for direct download via browser """
+    """instant spreadsheet export via button for direct download via browser"""
 
     # create csv MIME type object
     csv_browser = HttpResponse(content_type='text/csv')
@@ -327,14 +340,15 @@ def system(request):
     # return spreadsheet object to browser
     return csv_browser
 
+
 def system_cron():
-    """ spreadsheet export via scheduled task to server file system """
+    """spreadsheet export via scheduled task to server file system"""
 
     # prepare time for output file
     filetime = timezone.now().strftime('%Y%m%d_%H%M')
 
     # get config
-    main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+    main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
 
     # check file system
     stop_cron_exporter = check_content_file_system(main_config_model, 'SYSTEM_CSV')
@@ -345,7 +359,9 @@ def system_cron():
         return
 
     # prepare output file path
-    output_file_path = main_config_model.cron_export_path + '/' + filetime + '_systems.csv'
+    output_file_path = (
+        main_config_model.cron_export_path + '/' + filetime + '_systems.csv'
+    )
 
     # open output file
     csv_disk = open(output_file_path, 'w')

@@ -17,7 +17,10 @@ def insert_casepriorities(apps, schema_editor):
     # We also do not make use of .objects.bulk_create() due to its known caveats, see:
     # https://docs.djangoproject.com/en/3.2/ref/models/querysets/#bulk-create
     for name in initial_values:
-        Casepriority.objects.create(casepriority_name=name, casepriority_slug=slugify(name))
+        Casepriority.objects.create(
+            casepriority_name=name, casepriority_slug=slugify(name)
+        )
+
 
 def insert_casestatus(apps, schema_editor):
     # We can't import the migrated model directly as it may be a newer
@@ -35,6 +38,7 @@ def insert_casestatus(apps, schema_editor):
     # https://docs.djangoproject.com/en/3.2/ref/models/querysets/#bulk-create
     for name in initial_values:
         Casestatus.objects.create(casestatus_name=name, casestatus_slug=slugify(name))
+
 
 class Migration(migrations.Migration):
 

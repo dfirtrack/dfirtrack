@@ -21,6 +21,7 @@ class OsList(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " OS_LIST_ENTERED")
         return Os.objects.order_by('os_name')
 
+
 class OsDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Os
@@ -32,6 +33,7 @@ class OsDetail(LoginRequiredMixin, DetailView):
         os.logger(str(self.request.user), " OS_DETAIL_ENTERED")
         return context
 
+
 class OsCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Os
@@ -41,11 +43,15 @@ class OsCreate(LoginRequiredMixin, CreateView):
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " OS_ADD_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-            'object_type': 'os',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'os',
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -56,11 +62,16 @@ class OsCreate(LoginRequiredMixin, CreateView):
             messages.success(request, 'OS added')
             return redirect(reverse('os_detail', args=(os.os_id,)))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-                'object_type': 'os',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Add',
+                    'object_type': 'os',
+                },
+            )
+
 
 class OsCreatePopup(LoginRequiredMixin, CreateView):
     login_url = '/login'
@@ -71,11 +82,15 @@ class OsCreatePopup(LoginRequiredMixin, CreateView):
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " OS_ADD_POPUP_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-            'object_type': 'OS',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'OS',
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -84,13 +99,20 @@ class OsCreatePopup(LoginRequiredMixin, CreateView):
             os.save()
             os.logger(str(request.user), " OS_ADD_POPUP_EXECUTED")
             messages.success(request, 'OS added')
-            return HttpResponse('<script type="text/javascript">window.close();</script>')
+            return HttpResponse(
+                '<script type="text/javascript">window.close();</script>'
+            )
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-                'object_type': 'OS',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Add',
+                    'object_type': 'OS',
+                },
+            )
+
 
 class OsUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
@@ -102,12 +124,16 @@ class OsUpdate(LoginRequiredMixin, UpdateView):
         os = self.get_object()
         form = self.form_class(instance=os)
         os.logger(str(request.user), " OS_EDIT_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Edit',
-            'object_type': 'os',
-            'object_name': os.os_name,
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Edit',
+                'object_type': 'os',
+                'object_name': os.os_name,
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         os = self.get_object()
@@ -119,9 +145,13 @@ class OsUpdate(LoginRequiredMixin, UpdateView):
             messages.success(request, 'OS edited')
             return redirect(reverse('os_detail', args=(os.os_id,)))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Edit',
-                'object_type': 'os',
-                'object_name': os.os_name,
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Edit',
+                    'object_type': 'os',
+                    'object_name': os.os_name,
+                },
+            )

@@ -11,7 +11,7 @@ from dfirtrack_main.models import Case, Reportitem, System
 
 @receiver(pre_delete, sender=Artifact)
 def artifact_pre_delete_task_set_abandoned(sender, instance, *args, **kwargs):
-    """ check artifact related task for abandonment """
+    """check artifact related task for abandonment"""
 
     # improve readability
     artifact = instance
@@ -34,9 +34,10 @@ def artifact_pre_delete_task_set_abandoned(sender, instance, *args, **kwargs):
             # trigger abandonment check
             task.save()
 
+
 @receiver(pre_delete, sender=Case)
 def case_pre_delete_task_set_abandoned(sender, instance, *args, **kwargs):
-    """ check case related task for abandonment """
+    """check case related task for abandonment"""
 
     # improve readability
     case = instance
@@ -59,9 +60,10 @@ def case_pre_delete_task_set_abandoned(sender, instance, *args, **kwargs):
             # trigger abandonment check
             task.save()
 
+
 @receiver(pre_delete, sender=System)
 def system_pre_delete_task_set_abandoned(sender, instance, *args, **kwargs):
-    """ check system related task for abandonment """
+    """check system related task for abandonment"""
 
     # improve readability
     system = instance
@@ -84,9 +86,10 @@ def system_pre_delete_task_set_abandoned(sender, instance, *args, **kwargs):
             # trigger abandonment check
             task.save()
 
+
 @receiver(post_save, sender=Reportitem)
 def reportitem_post_save_system_case(sender, instance, *args, **kwargs):
-    """ link system to case if system's reportitem was set to case """
+    """link system to case if system's reportitem was set to case"""
 
     # improve readability
     reportitem = instance
@@ -111,8 +114,11 @@ def reportitem_post_save_system_case(sender, instance, *args, **kwargs):
             message_users(
                 all_users,
                 f"System '{reportitem_system.system_name}' was assigned to case '{reportitem_case.case_name}' due to reportitem assignment.",
-                constants.SUCCESS
+                constants.SUCCESS,
             )
 
             # call logger
-            info_logger('signal', f' SYSTEM_CASE_ASSIGNMENT system_id:{reportitem_system.system_id}|system_name:{reportitem_system.system_name}|case_id:{reportitem_case.case_id}|case_name:{reportitem_case.case_name}|reason:reportitem_assignment')
+            info_logger(
+                'signal',
+                f' SYSTEM_CASE_ASSIGNMENT system_id:{reportitem_system.system_id}|system_name:{reportitem_system.system_name}|case_id:{reportitem_case.case_id}|case_name:{reportitem_case.case_name}|reason:reportitem_assignment',
+            )
