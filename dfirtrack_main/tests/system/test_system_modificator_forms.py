@@ -103,7 +103,15 @@ class SystemModificatorFormTestCase(TestCase):
         # get object
         form = SystemModificatorForm()
         # compare
-        self.assertEqual(form.fields['systemstatus'].label, 'Systemstatus (*)')
+        self.assertEqual(form.fields['systemstatus'].label, 'Systemstatus')
+
+    def test_system_modificator_systemstatus_choice_form_label(self):
+        """test form label"""
+
+        # get object
+        form = SystemModificatorForm()
+        # compare
+        self.assertEqual(form.fields['systemstatus_choice'].label, 'Keep systemstatus')
 
     def test_system_modificator_analysisstatus_form_label(self):
         """test form label"""
@@ -112,6 +120,14 @@ class SystemModificatorFormTestCase(TestCase):
         form = SystemModificatorForm()
         # compare
         self.assertEqual(form.fields['analysisstatus'].label, 'Analysisstatus')
+
+    def test_system_modificator_analysisstatus_choice_form_label(self):
+        """test form label"""
+
+        # get object
+        form = SystemModificatorForm()
+        # compare
+        self.assertEqual(form.fields['analysisstatus_choice'].label, 'Keep analysisstatus')
 
     def test_system_modificator_company_form_label(self):
         """test form label"""
@@ -217,7 +233,7 @@ class SystemModificatorFormTestCase(TestCase):
         self.assertFalse(form.is_valid())
 
     def test_system_modificator_delete_options_form_filled(self):
-        """test minimum form requirements / INVALID"""
+        """test minimum form requirements / VALID"""
 
         # get object
         system = System.objects.get(system_name='system_1')
@@ -227,6 +243,8 @@ class SystemModificatorFormTestCase(TestCase):
                 'systemlist': [
                     str(system.system_id),
                 ],
+                'systemstatus_choice': 'keep_status',
+                'analysisstatus_choice': 'keep_status',
                 'company_delete': 'keep_not_add',
                 'tag_delete': 'keep_not_add',
                 'contact_delete': 'keep_existing',
@@ -235,10 +253,10 @@ class SystemModificatorFormTestCase(TestCase):
             }
         )
         # compare
-        self.assertFalse(form.is_valid())
+        self.assertTrue(form.is_valid())
 
     def test_system_modificator_systemstatus_form_filled(self):
-        """test minimum form requirements / VALID"""
+        """test additional form content"""
 
         # get object
         systemstatus_id = Systemstatus.objects.get(
@@ -253,6 +271,8 @@ class SystemModificatorFormTestCase(TestCase):
                     str(system.system_id),
                 ],
                 'systemstatus': systemstatus_id,
+                'systemstatus_choice': 'keep_status',
+                'analysisstatus_choice': 'keep_status',
                 'company_delete': 'keep_not_add',
                 'tag_delete': 'keep_not_add',
                 'contact_delete': 'keep_existing',
@@ -283,7 +303,9 @@ class SystemModificatorFormTestCase(TestCase):
                     str(system.system_id),
                 ],
                 'systemstatus': systemstatus_id,
+                'systemstatus_choice': 'keep_status',
                 'analysisstatus': analysisstatus_id,
+                'analysisstatus_choice': 'keep_status',
                 'company_delete': 'keep_not_add',
                 'tag_delete': 'keep_not_add',
                 'contact_delete': 'keep_existing',
@@ -313,6 +335,8 @@ class SystemModificatorFormTestCase(TestCase):
                     str(system.system_id),
                 ],
                 'systemstatus': systemstatus_id,
+                'systemstatus_choice': 'keep_status',
+                'analysisstatus_choice': 'keep_status',
                 'tag': [tag_1_id, tag_2_id],
                 'company_delete': 'keep_not_add',
                 'tag_delete': 'keep_not_add',
@@ -342,6 +366,8 @@ class SystemModificatorFormTestCase(TestCase):
                     str(system.system_id),
                 ],
                 'systemstatus': systemstatus_id,
+                'systemstatus_choice': 'keep_status',
+                'analysisstatus_choice': 'keep_status',
                 'company': [company_id],
                 'company_delete': 'keep_not_add',
                 'tag_delete': 'keep_not_add',
@@ -371,6 +397,8 @@ class SystemModificatorFormTestCase(TestCase):
                     str(system.system_id),
                 ],
                 'systemstatus': systemstatus_id,
+                'systemstatus_choice': 'keep_status',
+                'analysisstatus_choice': 'keep_status',
                 'location': location_id,
                 'company_delete': 'keep_not_add',
                 'tag_delete': 'keep_not_add',
@@ -402,6 +430,8 @@ class SystemModificatorFormTestCase(TestCase):
                     str(system.system_id),
                 ],
                 'systemstatus': systemstatus_id,
+                'systemstatus_choice': 'keep_status',
+                'analysisstatus_choice': 'keep_status',
                 'serviceprovider': serviceprovider_id,
                 'company_delete': 'keep_not_add',
                 'tag_delete': 'keep_not_add',
@@ -431,6 +461,8 @@ class SystemModificatorFormTestCase(TestCase):
                     str(system.system_id),
                 ],
                 'systemstatus': systemstatus_id,
+                'systemstatus_choice': 'keep_status',
+                'analysisstatus_choice': 'keep_status',
                 'contact': contact_id,
                 'company_delete': 'keep_not_add',
                 'tag_delete': 'keep_not_add',
@@ -460,6 +492,8 @@ class SystemModificatorFormTestCase(TestCase):
                     str(system2.system_id),
                 ],
                 'systemstatus': systemstatus_id,
+                'systemstatus_choice': 'keep_status',
+                'analysisstatus_choice': 'keep_status',
                 'company_delete': 'keep_not_add',
                 'tag_delete': 'keep_not_add',
                 'contact_delete': 'keep_existing',
