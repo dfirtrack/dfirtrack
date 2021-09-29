@@ -1195,6 +1195,7 @@ class SystemModificatorForm(AdminStyleSelectorForm, SystemBaseForm):
     analysisstatus_choice = forms.ChoiceField(
         choices=STATUS_CHOICES,
         label=gettext_lazy('Keep analysisstatus'),
+        required=True,
         widget=forms.RadioSelect(),
     )
 
@@ -1202,6 +1203,7 @@ class SystemModificatorForm(AdminStyleSelectorForm, SystemBaseForm):
     systemstatus_choice = forms.ChoiceField(
         choices=STATUS_CHOICES,
         label=gettext_lazy('Keep systemstatus'),
+        required=True,
         widget=forms.RadioSelect(),
     )
 
@@ -1218,6 +1220,7 @@ class SystemModificatorForm(AdminStyleSelectorForm, SystemBaseForm):
     company_delete = forms.ChoiceField(
         choices=M2M_CHOICES,
         label=gettext_lazy('How to deal with existing companies'),
+        required=True,
         widget=forms.RadioSelect(),
     )
 
@@ -1225,6 +1228,7 @@ class SystemModificatorForm(AdminStyleSelectorForm, SystemBaseForm):
     tag_delete = forms.ChoiceField(
         choices=M2M_CHOICES,
         label=gettext_lazy('How to deal with existing tags'),
+        required=True,
         widget=forms.RadioSelect(),
     )
 
@@ -1240,6 +1244,7 @@ class SystemModificatorForm(AdminStyleSelectorForm, SystemBaseForm):
     contact_delete = forms.ChoiceField(
         choices=FK_CHOICES,
         label=gettext_lazy('How to deal with contacts'),
+        required=True,
         widget=forms.RadioSelect(),
     )
 
@@ -1247,6 +1252,7 @@ class SystemModificatorForm(AdminStyleSelectorForm, SystemBaseForm):
     location_delete = forms.ChoiceField(
         choices=FK_CHOICES,
         label=gettext_lazy('How to deal with locations'),
+        required=True,
         widget=forms.RadioSelect(),
     )
 
@@ -1254,6 +1260,7 @@ class SystemModificatorForm(AdminStyleSelectorForm, SystemBaseForm):
     serviceprovider_delete = forms.ChoiceField(
         choices=FK_CHOICES,
         label=gettext_lazy('How to deal with serviceproviders'),
+        required=True,
         widget=forms.RadioSelect(),
     )
 
