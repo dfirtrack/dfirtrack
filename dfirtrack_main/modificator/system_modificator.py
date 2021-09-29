@@ -51,14 +51,6 @@ def system_modificator(request):
     # show empty form
     else:
 
-        # get id of first status objects sorted by name
-        systemstatus = Systemstatus.objects.order_by('systemstatus_name')[
-            0
-        ].systemstatus_id
-        analysisstatus = Analysisstatus.objects.order_by('analysisstatus_name')[
-            0
-        ].analysisstatus_id
-
         show_systemlist = bool(int(request.GET.get('systemlist', 0)))
 
         # workflows
@@ -67,9 +59,7 @@ def system_modificator(request):
         # show empty form with default values for convenience and speed reasons
         form = SystemModificatorForm(
             initial={
-                'systemstatus': systemstatus,
                 'systemstatus_choice': 'keep_status',
-                'analysisstatus': analysisstatus,
                 'analysisstatus_choice': 'keep_status',
                 'company_delete': 'keep_not_add',
                 'tag_delete': 'keep_not_add',

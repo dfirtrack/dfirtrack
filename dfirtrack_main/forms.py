@@ -1179,7 +1179,7 @@ class SystemModificatorForm(AdminStyleSelectorForm, SystemBaseForm):
     systemstatus = forms.ModelChoiceField(
         label='Systemstatus',
         queryset=Systemstatus.objects.order_by('systemstatus_name'),
-        required=True,
+        required=False,
         widget=forms.RadioSelect(),
     )
 
