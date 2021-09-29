@@ -31,6 +31,17 @@ def system_modificator(request):
     # form was valid to post
     if request.method == "POST":
 
+        try:
+            request.POST['systemlist']
+        except:
+            # call logger
+            warning_logger(str(request.user), ' SYSTEM_MODIFICATOR_NO_SYSTEMS_PROVIDED')
+            # show immediate message for user
+            messages.warning(request, 'No systems were provided.')
+
+            # return directly to system list
+            return redirect(reverse('system_list'))
+
         # get objects from request object
         request_post = request.POST
         request_user = request.user
@@ -205,7 +216,7 @@ def system_modificator_async(request_post, request_user):
         # extract companies (list results from request object via multiple choice field)
         companies = request_post.getlist('company')
 
-        # TODO: [code] add condition for invalid form
+        # TODO: [code] add condition for invalid form, not implemented yet because of multiple constraints
 
         # modify system
         if form.is_valid():
