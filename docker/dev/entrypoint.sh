@@ -41,7 +41,7 @@ fi
 # need to cd to /dfirtrack since it's dynamic and cannot be the container's workdir
 cd $APPDIR
 # the --reload flag allows for automatic gunicorn reloads on file changes
-gunicorn --reload --log-file=/var/log/gunicorn.log --workers 4 --bind localhost:5000 dfirtrack.wsgi &
+gunicorn --reload --log-file=/var/log/gunicorn.log --workers 4 --timeout 720 --bind localhost:5000 dfirtrack.wsgi &
 sleep 10
 echo "Container started"
 echo "!!!! You may run docker/dev/setup_admin.sh from the host system to create a new superuser !!!!"
