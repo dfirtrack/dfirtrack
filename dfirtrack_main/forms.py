@@ -1153,26 +1153,26 @@ class SystemModificatorForm(AdminStyleSelectorForm, SystemBaseForm):
 
     # no model field comes into question, because optional choice in combination with delete checkbox
     contact = forms.ModelChoiceField(
+        empty_label='Select contact (optional)',
         label=gettext_lazy('Contact'),
         queryset=Contact.objects.order_by('contact_name'),
         required=False,
-        empty_label='Select contact (optional)',
     )
 
     # no model field comes into question, because optional choice in combination with delete checkbox
     location = forms.ModelChoiceField(
+        empty_label='Select location (optional)',
         label=gettext_lazy('Location'),
         queryset=Location.objects.order_by('location_name'),
         required=False,
-        empty_label='Select location (optional)',
     )
 
     # no model field comes into question, because optional choice in combination with delete checkbox
     serviceprovider = forms.ModelChoiceField(
+        empty_label='Select serviceprovider (optional)',
         label=gettext_lazy('Serviceprovider'),
         queryset=Serviceprovider.objects.order_by('serviceprovider_name'),
         required=False,
-        empty_label='Select serviceprovider (optional)',
     )
 
     # no model field comes into question, because optional choice in combination with delete checkbox
@@ -1193,16 +1193,16 @@ class SystemModificatorForm(AdminStyleSelectorForm, SystemBaseForm):
 
     # add checkbox
     analysisstatus_choice = forms.ChoiceField(
+        choices=STATUS_CHOICES,
         label=gettext_lazy('Keep analysisstatus'),
         widget=forms.RadioSelect(),
-        choices=STATUS_CHOICES,
     )
 
     # add checkbox
     systemstatus_choice = forms.ChoiceField(
+        choices=STATUS_CHOICES,
         label=gettext_lazy('Keep systemstatus'),
         widget=forms.RadioSelect(),
-        choices=STATUS_CHOICES,
     )
 
     """ m2m related choices """
@@ -1216,16 +1216,16 @@ class SystemModificatorForm(AdminStyleSelectorForm, SystemBaseForm):
 
     # add checkbox
     company_delete = forms.ChoiceField(
+        choices=M2M_CHOICES,
         label=gettext_lazy('How to deal with existing companies'),
         widget=forms.RadioSelect(),
-        choices=M2M_CHOICES,
     )
 
     # add checkbox
     tag_delete = forms.ChoiceField(
+        choices=M2M_CHOICES,
         label=gettext_lazy('How to deal with existing tags'),
         widget=forms.RadioSelect(),
-        choices=M2M_CHOICES,
     )
 
     """ fk related choices """
@@ -1238,23 +1238,23 @@ class SystemModificatorForm(AdminStyleSelectorForm, SystemBaseForm):
 
     # add checkbox
     contact_delete = forms.ChoiceField(
+        choices=FK_CHOICES,
         label=gettext_lazy('How to deal with contacts'),
         widget=forms.RadioSelect(),
-        choices=FK_CHOICES,
     )
 
     # add checkbox
     location_delete = forms.ChoiceField(
+        choices=FK_CHOICES,
         label=gettext_lazy('How to deal with locations'),
         widget=forms.RadioSelect(),
-        choices=FK_CHOICES,
     )
 
     # add checkbox
     serviceprovider_delete = forms.ChoiceField(
+        choices=FK_CHOICES,
         label=gettext_lazy('How to deal with serviceproviders'),
         widget=forms.RadioSelect(),
-        choices=FK_CHOICES,
     )
 
     """ admin UI style related functions """
@@ -1278,10 +1278,10 @@ class SystemModificatorForm(AdminStyleSelectorForm, SystemBaseForm):
     # TODO: [code] required flag for ModelMultipleChoiceField does not seem to work
     # admin UI style system chooser
     systemlist = forms.ModelMultipleChoiceField(
-        queryset=System.objects.order_by('system_name'),
-        widget=FilteredSelectMultiple('Systems', is_stacked=False),
-        required=True,
         label='System list (*)',
+        queryset=System.objects.order_by('system_name'),
+        required=True,
+        widget=FilteredSelectMultiple('Systems', is_stacked=False),
     )
 
 
