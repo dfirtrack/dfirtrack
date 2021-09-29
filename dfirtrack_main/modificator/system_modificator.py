@@ -68,7 +68,9 @@ def system_modificator(request):
         form = SystemModificatorForm(
             initial={
                 'systemstatus': systemstatus,
+                'systemstatus_choice': 'keep_status',
                 'analysisstatus': analysisstatus,
+                'analysisstatus_choice': 'keep_status',
                 'company_delete': 'keep_not_add',
                 'tag_delete': 'keep_not_add',
                 'contact_delete': 'keep_existing',
