@@ -888,27 +888,11 @@ class SystemBaseForm(forms.ModelForm):
     """form base class with shared form fields for system"""
 
     # reorder field choices
-    analysisstatus = forms.ModelChoiceField(
-        queryset=Analysisstatus.objects.order_by('analysisstatus_name'),
-        label='Analysisstatus',
-        required=False,
-        widget=forms.RadioSelect(),
-    )
-
-    # reorder field choices
     company = forms.ModelMultipleChoiceField(
         label=gettext_lazy('Companies'),
         queryset=Company.objects.order_by('company_name'),
         required=False,
         widget=forms.CheckboxSelectMultiple(),
-    )
-
-    # reorder field choices
-    systemstatus = forms.ModelChoiceField(
-        queryset=Systemstatus.objects.order_by('systemstatus_name'),
-        label='Systemstatus (*)',
-        required=True,
-        widget=forms.RadioSelect(),
     )
 
     # reorder field choices
@@ -926,15 +910,21 @@ class SystemBaseForm(forms.ModelForm):
 
         # this HTML forms are shown
         fields = (
-            'analysisstatus',
             'company',
-            'systemstatus',
             'tag',
         )
 
 
 class SystemExtendedBaseForm(SystemBaseForm):
     """extended form base class with shared form fields for system, inherits from system base form"""
+
+    # reorder field choices
+    analysisstatus = forms.ModelChoiceField(
+        label='Analysisstatus',
+        queryset=Analysisstatus.objects.order_by('analysisstatus_name'),
+        required=False,
+        widget=forms.RadioSelect(),
+    )
 
     # reorder field choices
     case = forms.ModelMultipleChoiceField(
@@ -1009,6 +999,14 @@ class SystemExtendedBaseForm(SystemBaseForm):
     )
 
     # reorder field choices
+    systemstatus = forms.ModelChoiceField(
+        label='Systemstatus (*)',
+        queryset=Systemstatus.objects.order_by('systemstatus_name'),
+        required=True,
+        widget=forms.RadioSelect(),
+    )
+
+    # reorder field choices
     systemtype = forms.ModelChoiceField(
         label=gettext_lazy('Systemtype'),
         queryset=Systemtype.objects.order_by('systemtype_name'),
@@ -1020,6 +1018,7 @@ class SystemExtendedBaseForm(SystemBaseForm):
 
         # this HTML forms are shown
         fields = SystemBaseForm.Meta.fields + (
+            'analysisstatus',
             'case',
             'contact',
             'dnsname',
@@ -1029,6 +1028,7 @@ class SystemExtendedBaseForm(SystemBaseForm):
             'osarch',
             'reason',
             'serviceprovider',
+            'systemstatus',
             'systemtype',
         )
 
@@ -1144,6 +1144,14 @@ class SystemModificatorForm(AdminStyleSelectorForm, SystemBaseForm):
     """ non-model fields referencing models """
 
     # no model field comes into question, because optional choice in combination with delete checkbox
+    analysisstatus = forms.ModelChoiceField(
+        label='Analysisstatus',
+        queryset=Analysisstatus.objects.order_by('analysisstatus_name'),
+        required=False,
+        widget=forms.RadioSelect(),
+    )
+
+    # no model field comes into question, because optional choice in combination with delete checkbox
     contact = forms.ModelChoiceField(
         label=gettext_lazy('Contact'),
         queryset=Contact.objects.order_by('contact_name'),
@@ -1165,6 +1173,36 @@ class SystemModificatorForm(AdminStyleSelectorForm, SystemBaseForm):
         queryset=Serviceprovider.objects.order_by('serviceprovider_name'),
         required=False,
         empty_label='Select serviceprovider (optional)',
+    )
+
+    # no model field comes into question, because optional choice in combination with delete checkbox
+    systemstatus = forms.ModelChoiceField(
+        label='Systemstatus',
+        queryset=Systemstatus.objects.order_by('systemstatus_name'),
+        required=True,
+        widget=forms.RadioSelect(),
+    )
+
+    """ status related choices """
+
+    # prepare status choices
+    STATUS_CHOICES = (
+        ('keep_status', 'Keep status'),
+        ('change_status', 'Change status'),
+    )
+
+    # add checkbox
+    analysisstatus_choice = forms.ChoiceField(
+        label=gettext_lazy('Keep analysisstatus'),
+        widget=forms.RadioSelect(),
+        choices=STATUS_CHOICES,
+    )
+
+    # add checkbox
+    systemstatus_choice = forms.ChoiceField(
+        label=gettext_lazy('Keep systemstatus'),
+        widget=forms.RadioSelect(),
+        choices=STATUS_CHOICES,
     )
 
     """ m2m related choices """
