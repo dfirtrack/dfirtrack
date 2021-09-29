@@ -228,6 +228,24 @@ def system_modificator_async(request_post, request_user):
             # set auto values
             system.system_modified_by_user_id = request_user
 
+            """ status fields """
+
+            # replace / delete, if 'switch_new / Switch to selected item or none' was selected
+            if form['analysisstatus_choice'].value() == 'change_status':
+
+                # replace status
+                analysisstatus_id = form['analysisstatus'].value()
+                analysisstatus = Analysisstatus.objects.get(analysisstatus_id=analysisstatus_id)
+                system.analysisstatus = analysisstatus
+
+            # replace / delete, if 'switch_new / Switch to selected item or none' was selected
+            if form['systemstatus_choice'].value() == 'change_status':
+
+                # replace status
+                systemstatus_id = form['systemstatus'].value()
+                systemstatus = Systemstatus.objects.get(systemstatus_id=systemstatus_id)
+                system.systemstatus = systemstatus
+
             """ fk non-model fields """
 
             # replace / delete, if 'switch_new / Switch to selected item or none' was selected
