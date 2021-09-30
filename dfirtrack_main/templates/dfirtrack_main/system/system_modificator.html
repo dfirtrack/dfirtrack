@@ -238,6 +238,44 @@
         <!-- status information row  -->
         </div>
 
+        <!-- delete checkbox row -->
+        <div class="row">
+
+            <!-- systemstatus_choice -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- systemstatus_choice errors -->
+                    <div class="text-danger">
+                        {{ form.systemstatus_choice.errors }}
+                    </div>
+                    <div class="bottom-distance">
+                        {{ form.systemstatus_choice.label }}
+                    </div>
+                    {% for i in form.systemstatus_choice %}
+                        {{ i }}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- analysisstatus_choice -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- analysisstatus_choice errors -->
+                    <div class="text-danger">
+                        {{ form.analysisstatus_choice.errors }}
+                    </div>
+                    <div class="bottom-distance">
+                        {{ form.analysisstatus_choice.label }}
+                    </div>
+                    {% for i in form.analysisstatus_choice %}
+                        {{ i }}
+                    {% endfor %}
+                </div>
+            </div>
+
+        <!-- delete checkbox row -->
+        </div>
+
     <!-- status information -->
     </div>
 

@@ -888,27 +888,11 @@ class SystemBaseForm(forms.ModelForm):
     """form base class with shared form fields for system"""
 
     # reorder field choices
-    analysisstatus = forms.ModelChoiceField(
-        queryset=Analysisstatus.objects.order_by('analysisstatus_name'),
-        label='Analysisstatus',
-        required=False,
-        widget=forms.RadioSelect(),
-    )
-
-    # reorder field choices
     company = forms.ModelMultipleChoiceField(
         label=gettext_lazy('Companies'),
         queryset=Company.objects.order_by('company_name'),
         required=False,
         widget=forms.CheckboxSelectMultiple(),
-    )
-
-    # reorder field choices
-    systemstatus = forms.ModelChoiceField(
-        queryset=Systemstatus.objects.order_by('systemstatus_name'),
-        label='Systemstatus (*)',
-        required=True,
-        widget=forms.RadioSelect(),
     )
 
     # reorder field choices
@@ -926,15 +910,21 @@ class SystemBaseForm(forms.ModelForm):
 
         # this HTML forms are shown
         fields = (
-            'analysisstatus',
             'company',
-            'systemstatus',
             'tag',
         )
 
 
 class SystemExtendedBaseForm(SystemBaseForm):
     """extended form base class with shared form fields for system, inherits from system base form"""
+
+    # reorder field choices
+    analysisstatus = forms.ModelChoiceField(
+        label='Analysisstatus',
+        queryset=Analysisstatus.objects.order_by('analysisstatus_name'),
+        required=False,
+        widget=forms.RadioSelect(),
+    )
 
     # reorder field choices
     case = forms.ModelMultipleChoiceField(
@@ -1009,6 +999,14 @@ class SystemExtendedBaseForm(SystemBaseForm):
     )
 
     # reorder field choices
+    systemstatus = forms.ModelChoiceField(
+        label='Systemstatus (*)',
+        queryset=Systemstatus.objects.order_by('systemstatus_name'),
+        required=True,
+        widget=forms.RadioSelect(),
+    )
+
+    # reorder field choices
     systemtype = forms.ModelChoiceField(
         label=gettext_lazy('Systemtype'),
         queryset=Systemtype.objects.order_by('systemtype_name'),
@@ -1020,6 +1018,7 @@ class SystemExtendedBaseForm(SystemBaseForm):
 
         # this HTML forms are shown
         fields = SystemBaseForm.Meta.fields + (
+            'analysisstatus',
             'case',
             'contact',
             'dnsname',
@@ -1029,6 +1028,7 @@ class SystemExtendedBaseForm(SystemBaseForm):
             'osarch',
             'reason',
             'serviceprovider',
+            'systemstatus',
             'systemtype',
         )
 
@@ -1144,27 +1144,67 @@ class SystemModificatorForm(AdminStyleSelectorForm, SystemBaseForm):
     """ non-model fields referencing models """
 
     # no model field comes into question, because optional choice in combination with delete checkbox
+    analysisstatus = forms.ModelChoiceField(
+        label='Analysisstatus',
+        queryset=Analysisstatus.objects.order_by('analysisstatus_name'),
+        required=False,
+        widget=forms.RadioSelect(),
+    )
+
+    # no model field comes into question, because optional choice in combination with delete checkbox
     contact = forms.ModelChoiceField(
+        empty_label='Select contact (optional)',
         label=gettext_lazy('Contact'),
         queryset=Contact.objects.order_by('contact_name'),
         required=False,
-        empty_label='Select contact (optional)',
     )
 
     # no model field comes into question, because optional choice in combination with delete checkbox
     location = forms.ModelChoiceField(
+        empty_label='Select location (optional)',
         label=gettext_lazy('Location'),
         queryset=Location.objects.order_by('location_name'),
         required=False,
-        empty_label='Select location (optional)',
     )
 
     # no model field comes into question, because optional choice in combination with delete checkbox
     serviceprovider = forms.ModelChoiceField(
+        empty_label='Select serviceprovider (optional)',
         label=gettext_lazy('Serviceprovider'),
         queryset=Serviceprovider.objects.order_by('serviceprovider_name'),
         required=False,
-        empty_label='Select serviceprovider (optional)',
+    )
+
+    # no model field comes into question, because optional choice in combination with delete checkbox
+    systemstatus = forms.ModelChoiceField(
+        label='Systemstatus',
+        queryset=Systemstatus.objects.order_by('systemstatus_name'),
+        required=False,
+        widget=forms.RadioSelect(),
+    )
+
+    """ status related choices """
+
+    # prepare status choices
+    STATUS_CHOICES = (
+        ('keep_status', 'Keep status'),
+        ('change_status', 'Change status'),
+    )
+
+    # add checkbox
+    analysisstatus_choice = forms.ChoiceField(
+        choices=STATUS_CHOICES,
+        label=gettext_lazy('Keep analysisstatus'),
+        required=True,
+        widget=forms.RadioSelect(),
+    )
+
+    # add checkbox
+    systemstatus_choice = forms.ChoiceField(
+        choices=STATUS_CHOICES,
+        label=gettext_lazy('Keep systemstatus'),
+        required=True,
+        widget=forms.RadioSelect(),
     )
 
     """ m2m related choices """
@@ -1178,16 +1218,18 @@ class SystemModificatorForm(AdminStyleSelectorForm, SystemBaseForm):
 
     # add checkbox
     company_delete = forms.ChoiceField(
-        label=gettext_lazy('How to deal with existing companies'),
-        widget=forms.RadioSelect(),
         choices=M2M_CHOICES,
+        label=gettext_lazy('How to deal with existing companies'),
+        required=True,
+        widget=forms.RadioSelect(),
     )
 
     # add checkbox
     tag_delete = forms.ChoiceField(
-        label=gettext_lazy('How to deal with existing tags'),
-        widget=forms.RadioSelect(),
         choices=M2M_CHOICES,
+        label=gettext_lazy('How to deal with existing tags'),
+        required=True,
+        widget=forms.RadioSelect(),
     )
 
     """ fk related choices """
@@ -1200,23 +1242,26 @@ class SystemModificatorForm(AdminStyleSelectorForm, SystemBaseForm):
 
     # add checkbox
     contact_delete = forms.ChoiceField(
-        label=gettext_lazy('How to deal with contacts'),
-        widget=forms.RadioSelect(),
         choices=FK_CHOICES,
+        label=gettext_lazy('How to deal with contacts'),
+        required=True,
+        widget=forms.RadioSelect(),
     )
 
     # add checkbox
     location_delete = forms.ChoiceField(
-        label=gettext_lazy('How to deal with locations'),
-        widget=forms.RadioSelect(),
         choices=FK_CHOICES,
+        label=gettext_lazy('How to deal with locations'),
+        required=True,
+        widget=forms.RadioSelect(),
     )
 
     # add checkbox
     serviceprovider_delete = forms.ChoiceField(
-        label=gettext_lazy('How to deal with serviceproviders'),
-        widget=forms.RadioSelect(),
         choices=FK_CHOICES,
+        label=gettext_lazy('How to deal with serviceproviders'),
+        required=True,
+        widget=forms.RadioSelect(),
     )
 
     """ admin UI style related functions """
@@ -1240,10 +1285,10 @@ class SystemModificatorForm(AdminStyleSelectorForm, SystemBaseForm):
     # TODO: [code] required flag for ModelMultipleChoiceField does not seem to work
     # admin UI style system chooser
     systemlist = forms.ModelMultipleChoiceField(
-        queryset=System.objects.order_by('system_name'),
-        widget=FilteredSelectMultiple('Systems', is_stacked=False),
-        required=True,
         label='System list (*)',
+        queryset=System.objects.order_by('system_name'),
+        required=True,
+        widget=FilteredSelectMultiple('Systems', is_stacked=False),
     )
 
 

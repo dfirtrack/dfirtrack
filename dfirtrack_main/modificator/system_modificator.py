@@ -31,6 +31,17 @@ def system_modificator(request):
     # form was valid to post
     if request.method == "POST":
 
+        try:
+            request.POST['systemlist']
+        except:
+            # call logger
+            warning_logger(str(request.user), ' SYSTEM_MODIFICATOR_NO_SYSTEMS_PROVIDED')
+            # show immediate message for user
+            messages.warning(request, 'No systems were provided.')
+
+            # return directly to system list
+            return redirect(reverse('system_list'))
+
         # get objects from request object
         request_post = request.POST
         request_user = request.user
@@ -51,14 +62,6 @@ def system_modificator(request):
     # show empty form
     else:
 
-        # get id of first status objects sorted by name
-        systemstatus = Systemstatus.objects.order_by('systemstatus_name')[
-            0
-        ].systemstatus_id
-        analysisstatus = Analysisstatus.objects.order_by('analysisstatus_name')[
-            0
-        ].analysisstatus_id
-
         show_systemlist = bool(int(request.GET.get('systemlist', 0)))
 
         # workflows
@@ -67,8 +70,8 @@ def system_modificator(request):
         # show empty form with default values for convenience and speed reasons
         form = SystemModificatorForm(
             initial={
-                'systemstatus': systemstatus,
-                'analysisstatus': analysisstatus,
+                'systemstatus_choice': 'keep_status',
+                'analysisstatus_choice': 'keep_status',
                 'company_delete': 'keep_not_add',
                 'tag_delete': 'keep_not_add',
                 'contact_delete': 'keep_existing',
@@ -213,7 +216,7 @@ def system_modificator_async(request_post, request_user):
         # extract companies (list results from request object via multiple choice field)
         companies = request_post.getlist('company')
 
-        # TODO: [code] add condition for invalid form
+        # TODO: [code] add condition for invalid form, not implemented yet because of multiple constraints
 
         # modify system
         if form.is_valid():
@@ -225,6 +228,32 @@ def system_modificator_async(request_post, request_user):
 
             # set auto values
             system.system_modified_by_user_id = request_user
+
+            """ status fields """
+
+            # replace, if 'change status' was selected (checking for status value independent of form field validation)
+            if (
+                form['analysisstatus_choice'].value() == 'change_status'
+                and form['analysisstatus'].value()
+            ):
+
+                # replace status
+                analysisstatus_id = form['analysisstatus'].value()
+                analysisstatus = Analysisstatus.objects.get(
+                    analysisstatus_id=analysisstatus_id
+                )
+                system.analysisstatus = analysisstatus
+
+            # replace, if 'change status' was selected (checking for status value independent of form field validation)
+            if (
+                form['systemstatus_choice'].value() == 'change_status'
+                and form['systemstatus'].value()
+            ):
+
+                # replace status
+                systemstatus_id = form['systemstatus'].value()
+                systemstatus = Systemstatus.objects.get(systemstatus_id=systemstatus_id)
+                system.systemstatus = systemstatus
 
             """ fk non-model fields """
 
