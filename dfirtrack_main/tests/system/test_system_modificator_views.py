@@ -206,16 +206,9 @@ class SystemModificatorViewTestCase(TestCase):
         self.client.login(
             username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G'
         )
-        # get objects
-        analysisstatus_2 = Analysisstatus.objects.get(
-            analysisstatus_name='analysisstatus_2'
-        )
-        systemstatus_2 = Systemstatus.objects.get(systemstatus_name='systemstatus_2')
         # create post data
         data_dict = {
             'systemlist': 'system_modificator_redirect',
-            'analysisstatus': analysisstatus_2.analysisstatus_id,
-            'systemstatus': systemstatus_2.systemstatus_id,
         }
         # create url
         destination = '/system/'
@@ -226,7 +219,7 @@ class SystemModificatorViewTestCase(TestCase):
             response, destination, status_code=302, target_status_code=200
         )
 
-    def test_system_modificator_post_systems_status(self):
+    def test_system_modificator_post_systems_change_status(self):
         """test modificator view"""
 
         # login testuser
@@ -289,6 +282,126 @@ class SystemModificatorViewTestCase(TestCase):
             systemstatus_1,
         )
 
+    def test_system_modificator_post_systems_keep_status(self):
+        """test modificator view"""
+
+        # login testuser
+        self.client.login(
+            username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G'
+        )
+        # get objects
+        analysisstatus_1 = Analysisstatus.objects.get(
+            analysisstatus_name='analysisstatus_1'
+        )
+        analysisstatus_2 = Analysisstatus.objects.get(
+            analysisstatus_name='analysisstatus_2'
+        )
+        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+        systemstatus_2 = Systemstatus.objects.get(systemstatus_name='systemstatus_2')
+        # create post data
+        data_dict = {
+            'systemlist': 'system_modificator_system_1\nsystem_modificator_system_2',
+            'analysisstatus': analysisstatus_2.analysisstatus_id,
+            'analysisstatus_choice': 'keep_status',
+            'systemstatus': systemstatus_2.systemstatus_id,
+            'systemstatus_choice': 'keep_status',
+            'company_delete': 'keep_not_add',
+            'tag_delete': 'keep_not_add',
+            'contact_delete': 'keep_existing',
+            'location_delete': 'keep_existing',
+            'serviceprovider_delete': 'keep_existing',
+        }
+        # get response
+        self.client.post('/system/modificator/', data_dict)
+        # compare
+        self.assertEqual(
+            System.objects.get(
+                system_name='system_modificator_system_1'
+            ).analysisstatus,
+            analysisstatus_1,
+        )
+        self.assertEqual(
+            System.objects.get(
+                system_name='system_modificator_system_2'
+            ).analysisstatus,
+            analysisstatus_1,
+        )
+        self.assertEqual(
+            System.objects.get(
+                system_name='system_modificator_system_3'
+            ).analysisstatus,
+            analysisstatus_1,
+        )
+        self.assertEqual(
+            System.objects.get(system_name='system_modificator_system_1').systemstatus,
+            systemstatus_1,
+        )
+        self.assertEqual(
+            System.objects.get(system_name='system_modificator_system_2').systemstatus,
+            systemstatus_1,
+        )
+        self.assertEqual(
+            System.objects.get(system_name='system_modificator_system_3').systemstatus,
+            systemstatus_1,
+        )
+
+    def test_system_modificator_post_systems_wrong_status(self):
+        """test modificator view"""
+
+        # login testuser
+        self.client.login(
+            username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G'
+        )
+        # get objects
+        analysisstatus_1 = Analysisstatus.objects.get(
+            analysisstatus_name='analysisstatus_1'
+        )
+        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+        # create post data
+        data_dict = {
+            'systemlist': 'system_modificator_system_1\nsystem_modificator_system_2',
+            'analysisstatus_choice': 'change_status',
+            'systemstatus_choice': 'change_status',
+            'company_delete': 'keep_not_add',
+            'tag_delete': 'keep_not_add',
+            'contact_delete': 'keep_existing',
+            'location_delete': 'keep_existing',
+            'serviceprovider_delete': 'keep_existing',
+        }
+        # get response
+        self.client.post('/system/modificator/', data_dict)
+        # compare
+        self.assertEqual(
+            System.objects.get(
+                system_name='system_modificator_system_1'
+            ).analysisstatus,
+            analysisstatus_1,
+        )
+        self.assertEqual(
+            System.objects.get(
+                system_name='system_modificator_system_2'
+            ).analysisstatus,
+            analysisstatus_1,
+        )
+        self.assertEqual(
+            System.objects.get(
+                system_name='system_modificator_system_3'
+            ).analysisstatus,
+            analysisstatus_1,
+        )
+        self.assertEqual(
+            System.objects.get(system_name='system_modificator_system_1').systemstatus,
+            systemstatus_1,
+        )
+        self.assertEqual(
+            System.objects.get(system_name='system_modificator_system_2').systemstatus,
+            systemstatus_1,
+        )
+        self.assertEqual(
+            System.objects.get(system_name='system_modificator_system_3').systemstatus,
+            systemstatus_1,
+        )
+
     def test_system_modificator_post_systems_keep_all_no_attributes_provided(self):
         """test modificator view"""
 
@@ -297,10 +410,6 @@ class SystemModificatorViewTestCase(TestCase):
             username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G'
         )
         # get objects
-        analysisstatus_2 = Analysisstatus.objects.get(
-            analysisstatus_name='analysisstatus_2'
-        )
-        systemstatus_2 = Systemstatus.objects.get(systemstatus_name='systemstatus_2')
         contact_1 = Contact.objects.get(contact_name='contact_1')
         location_1 = Location.objects.get(location_name='location_1')
         serviceprovider_1 = Serviceprovider.objects.get(
@@ -309,8 +418,8 @@ class SystemModificatorViewTestCase(TestCase):
         # create post data
         data_dict = {
             'systemlist': 'system_modificator_system_1\nsystem_modificator_system_2',
-            'analysisstatus': analysisstatus_2.analysisstatus_id,
-            'systemstatus': systemstatus_2.systemstatus_id,
+            'analysisstatus_choice': 'keep_status',
+            'systemstatus_choice': 'keep_status',
             'company_delete': 'keep_not_add',
             'contact_delete': 'keep_existing',
             'location_delete': 'keep_existing',
@@ -465,10 +574,6 @@ class SystemModificatorViewTestCase(TestCase):
             username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G'
         )
         # get objects
-        analysisstatus_2 = Analysisstatus.objects.get(
-            analysisstatus_name='analysisstatus_2'
-        )
-        systemstatus_2 = Systemstatus.objects.get(systemstatus_name='systemstatus_2')
         company_2 = Company.objects.get(company_name='company_2')
         company_3 = Company.objects.get(company_name='company_3')
         contact_1 = Contact.objects.get(contact_name='contact_1')
@@ -486,8 +591,8 @@ class SystemModificatorViewTestCase(TestCase):
         # create post data
         data_dict = {
             'systemlist': 'system_modificator_system_1\nsystem_modificator_system_2',
-            'analysisstatus': analysisstatus_2.analysisstatus_id,
-            'systemstatus': systemstatus_2.systemstatus_id,
+            'analysisstatus_choice': 'keep_status',
+            'systemstatus_choice': 'keep_status',
             'company': [str(company_2.company_id), str(company_3.company_id)],
             'contact': contact_2.contact_id,
             'location': location_2.location_id,
@@ -647,10 +752,6 @@ class SystemModificatorViewTestCase(TestCase):
             username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G'
         )
         # get objects
-        analysisstatus_2 = Analysisstatus.objects.get(
-            analysisstatus_name='analysisstatus_2'
-        )
-        systemstatus_2 = Systemstatus.objects.get(systemstatus_name='systemstatus_2')
         company_2 = Company.objects.get(company_name='company_2')
         company_3 = Company.objects.get(company_name='company_3')
         tag_2 = Tag.objects.get(tag_name='tag_2')
@@ -658,9 +759,7 @@ class SystemModificatorViewTestCase(TestCase):
         # create post data
         data_dict = {
             'systemlist': 'system_modificator_system_1\nsystem_modificator_system_2',
-            'analysisstatus': analysisstatus_2.analysisstatus_id,
             'analysisstatus_choice': 'keep_status',
-            'systemstatus': systemstatus_2.systemstatus_id,
             'systemstatus_choice': 'keep_status',
             'company': [str(company_2.company_id), str(company_3.company_id)],
             'tag': [str(tag_2.tag_id), str(tag_3.tag_id)],
@@ -773,10 +872,6 @@ class SystemModificatorViewTestCase(TestCase):
             username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G'
         )
         # get objects
-        analysisstatus_2 = Analysisstatus.objects.get(
-            analysisstatus_name='analysisstatus_2'
-        )
-        systemstatus_2 = Systemstatus.objects.get(systemstatus_name='systemstatus_2')
         contact_1 = Contact.objects.get(contact_name='contact_1')
         location_1 = Location.objects.get(location_name='location_1')
         serviceprovider_1 = Serviceprovider.objects.get(
@@ -785,9 +880,7 @@ class SystemModificatorViewTestCase(TestCase):
         # create post data
         data_dict = {
             'systemlist': 'system_modificator_system_1\nsystem_modificator_system_2',
-            'analysisstatus': analysisstatus_2.analysisstatus_id,
             'analysisstatus_choice': 'keep_status',
-            'systemstatus': systemstatus_2.systemstatus_id,
             'systemstatus_choice': 'keep_status',
             'company_delete': 'remove_and_add',
             'contact_delete': 'switch_new',
@@ -939,10 +1032,6 @@ class SystemModificatorViewTestCase(TestCase):
             username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G'
         )
         # get objects
-        analysisstatus_2 = Analysisstatus.objects.get(
-            analysisstatus_name='analysisstatus_2'
-        )
-        systemstatus_2 = Systemstatus.objects.get(systemstatus_name='systemstatus_2')
         company_2 = Company.objects.get(company_name='company_2')
         company_3 = Company.objects.get(company_name='company_3')
         contact_1 = Contact.objects.get(contact_name='contact_1')
@@ -960,9 +1049,7 @@ class SystemModificatorViewTestCase(TestCase):
         # create post data
         data_dict = {
             'systemlist': 'system_modificator_system_1\nsystem_modificator_system_2',
-            'analysisstatus': analysisstatus_2.analysisstatus_id,
             'analysisstatus_choice': 'keep_status',
-            'systemstatus': systemstatus_2.systemstatus_id,
             'systemstatus_choice': 'keep_status',
             'company': [str(company_2.company_id), str(company_3.company_id)],
             'contact': contact_2.contact_id,
@@ -1115,7 +1202,7 @@ class SystemModificatorViewTestCase(TestCase):
             .exists()
         )
 
-    def test_system_modificator_post_char_field(self):
+    def test_system_modificator_post_char_field_change_status(self):
         """test modificator view"""
 
         # login testuser
@@ -1156,26 +1243,154 @@ class SystemModificatorViewTestCase(TestCase):
         self.assertEqual(
             System.objects.get(
                 system_name='system_modificator_char_field_1'
-            ).analysisstatus.analysisstatus_name,
-            'analysisstatus_2',
+            ).analysisstatus,
+            analysisstatus_2,
         )
         self.assertEqual(
             System.objects.get(
                 system_name='system_modificator_char_field_2'
-            ).analysisstatus.analysisstatus_name,
-            'analysisstatus_2',
+            ).analysisstatus,
+            analysisstatus_2,
         )
         self.assertEqual(
             System.objects.get(
                 system_name='system_modificator_char_field_1'
-            ).systemstatus.systemstatus_name,
-            'systemstatus_2',
+            ).systemstatus,
+            systemstatus_2,
         )
         self.assertEqual(
             System.objects.get(
                 system_name='system_modificator_char_field_2'
-            ).systemstatus.systemstatus_name,
-            'systemstatus_2',
+            ).systemstatus,
+            systemstatus_2,
+        )
+
+    def test_system_modificator_post_char_field_keep_status(self):
+        """test modificator view"""
+
+        # login testuser
+        self.client.login(
+            username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G'
+        )
+        # get objects
+        analysisstatus_1 = Analysisstatus.objects.get(
+            analysisstatus_name='analysisstatus_1'
+        )
+        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+        analysisstatus_2 = Analysisstatus.objects.get(
+            analysisstatus_name='analysisstatus_2'
+        )
+        systemstatus_2 = Systemstatus.objects.get(systemstatus_name='systemstatus_2')
+        system_modificator_char_field_1 = System.objects.get(
+            system_name='system_modificator_char_field_1'
+        )
+        system_modificator_char_field_2 = System.objects.get(
+            system_name='system_modificator_char_field_2'
+        )
+        # create system list and append system IDs
+        systemlist = []
+        systemlist.append(str(system_modificator_char_field_1.system_id))
+        systemlist.append(str(system_modificator_char_field_2.system_id))
+        # create post data
+        data_dict = {
+            'systemlist': systemlist,
+            'analysisstatus': analysisstatus_2.analysisstatus_id,
+            'analysisstatus_choice': 'keep_status',
+            'systemstatus': systemstatus_2.systemstatus_id,
+            'systemstatus_choice': 'keep_status',
+            'company_delete': 'keep_not_add',
+            'contact_delete': 'keep_existing',
+            'location_delete': 'keep_existing',
+            'serviceprovider_delete': 'keep_existing',
+            'tag_delete': 'keep_not_add',
+        }
+        # get response
+        self.client.post('/system/modificator/', data_dict)
+        # compare
+        self.assertEqual(
+            System.objects.get(
+                system_name='system_modificator_char_field_1'
+            ).analysisstatus,
+            analysisstatus_1,
+        )
+        self.assertEqual(
+            System.objects.get(
+                system_name='system_modificator_char_field_2'
+            ).analysisstatus,
+            analysisstatus_1,
+        )
+        self.assertEqual(
+            System.objects.get(
+                system_name='system_modificator_char_field_1'
+            ).systemstatus,
+            systemstatus_1,
+        )
+        self.assertEqual(
+            System.objects.get(
+                system_name='system_modificator_char_field_2'
+            ).systemstatus,
+            systemstatus_1,
+        )
+
+    def test_system_modificator_post_char_field_wrong_status(self):
+        """test modificator view"""
+
+        # login testuser
+        self.client.login(
+            username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G'
+        )
+        # get objects
+        analysisstatus_1 = Analysisstatus.objects.get(
+            analysisstatus_name='analysisstatus_1'
+        )
+        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+        system_modificator_char_field_1 = System.objects.get(
+            system_name='system_modificator_char_field_1'
+        )
+        system_modificator_char_field_2 = System.objects.get(
+            system_name='system_modificator_char_field_2'
+        )
+        # create system list and append system IDs
+        systemlist = []
+        systemlist.append(str(system_modificator_char_field_1.system_id))
+        systemlist.append(str(system_modificator_char_field_2.system_id))
+        # create post data
+        data_dict = {
+            'systemlist': systemlist,
+            'analysisstatus_choice': 'change_status',
+            'systemstatus_choice': 'change_status',
+            'company_delete': 'keep_not_add',
+            'contact_delete': 'keep_existing',
+            'location_delete': 'keep_existing',
+            'serviceprovider_delete': 'keep_existing',
+            'tag_delete': 'keep_not_add',
+        }
+        # get response
+        self.client.post('/system/modificator/', data_dict)
+        # compare
+        self.assertEqual(
+            System.objects.get(
+                system_name='system_modificator_char_field_1'
+            ).analysisstatus,
+            analysisstatus_1,
+        )
+        self.assertEqual(
+            System.objects.get(
+                system_name='system_modificator_char_field_2'
+            ).analysisstatus,
+            analysisstatus_1,
+        )
+        self.assertEqual(
+            System.objects.get(
+                system_name='system_modificator_char_field_1'
+            ).systemstatus,
+            systemstatus_1,
+        )
+        self.assertEqual(
+            System.objects.get(
+                system_name='system_modificator_char_field_2'
+            ).systemstatus,
+            systemstatus_1,
         )
 
     def test_system_modificator_post_messages(self):
@@ -1185,17 +1400,10 @@ class SystemModificatorViewTestCase(TestCase):
         self.client.login(
             username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G'
         )
-        # get objects
-        analysisstatus_2 = Analysisstatus.objects.get(
-            analysisstatus_name='analysisstatus_2'
-        )
-        systemstatus_2 = Systemstatus.objects.get(systemstatus_name='systemstatus_2')
         # create post data
         data_dict = {
             'systemlist': 'system_modificator_messages_1\n\nsystem_modificator_double',
-            'analysisstatus': analysisstatus_2.analysisstatus_id,
             'analysisstatus_choice': 'keep_status',
-            'systemstatus': systemstatus_2.systemstatus_id,
             'systemstatus_choice': 'keep_status',
             'company_delete': 'keep_not_add',
             'contact_delete': 'keep_existing',
@@ -1225,17 +1433,10 @@ class SystemModificatorViewTestCase(TestCase):
         self.client.login(
             username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G'
         )
-        # get objects
-        analysisstatus_2 = Analysisstatus.objects.get(
-            analysisstatus_name='analysisstatus_2'
-        )
-        systemstatus_2 = Systemstatus.objects.get(systemstatus_name='systemstatus_2')
         # create post data
         data_dict = {
             'systemlist': 'system_modificator_messages_1\n\nsystem_modificator_not_existent\nsystem_modificator_double\naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\nsystem_modificator_messages_2',
-            'analysisstatus': analysisstatus_2.analysisstatus_id,
             'analysisstatus_choice': 'keep_status',
-            'systemstatus': systemstatus_2.systemstatus_id,
             'systemstatus_choice': 'keep_status',
             'company_delete': 'keep_not_add',
             'contact_delete': 'keep_existing',
@@ -1266,17 +1467,11 @@ class SystemModificatorViewTestCase(TestCase):
             username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G'
         )
         # create objects
-        analysisstatus_1 = Analysisstatus.objects.get(
-            analysisstatus_name='analysisstatus_1'
-        )
-        systemstatus_2 = Systemstatus.objects.get(systemstatus_name='systemstatus_2')
         workflow_1 = Workflow.objects.get(workflow_name='workflow_1')
         # create post data
         data_dict = {
             'systemlist': 'system_modificator_system_1',
-            'analysisstatus': analysisstatus_1.analysisstatus_id,
             'analysisstatus_choice': 'keep_status',
-            'systemstatus': systemstatus_2.systemstatus_id,
             'systemstatus_choice': 'keep_status',
             'workflow': workflow_1.workflow_id,
             'company_delete': 'keep_not_add',
@@ -1298,17 +1493,11 @@ class SystemModificatorViewTestCase(TestCase):
             username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G'
         )
         # create objects
-        analysisstatus_1 = Analysisstatus.objects.get(
-            analysisstatus_name='analysisstatus_1'
-        )
-        systemstatus_2 = Systemstatus.objects.get(systemstatus_name='systemstatus_2')
         workflow_1 = Workflow.objects.get(workflow_name='workflow_1')
         # create post data
         data_dict = {
             'systemlist': 'system_modificator_system_1',
-            'analysisstatus': analysisstatus_1.analysisstatus_id,
             'analysisstatus_choice': 'keep_status',
-            'systemstatus': systemstatus_2.systemstatus_id,
             'systemstatus_choice': 'keep_status',
             'workflow': [workflow_1.workflow_id, 99],
             'company_delete': 'keep_not_add',
@@ -1321,3 +1510,24 @@ class SystemModificatorViewTestCase(TestCase):
         response = self.client.post('/system/modificator/', data_dict, follow=True)
         # compare
         self.assertContains(response, 'Could not apply all workflows.')
+
+    def test_system_modificator_post_empty_messages_redirect(self):
+        """test modificator view"""
+
+        # login testuser
+        self.client.login(
+            username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G'
+        )
+        # create post data
+        data_dict = {}
+        # create url
+        destination = '/system/'
+        # get response
+        response = self.client.post('/system/modificator/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
+        self.assertEqual(str(messages[0]), 'No systems were provided.')
