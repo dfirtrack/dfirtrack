@@ -127,7 +127,9 @@ class SystemModificatorFormTestCase(TestCase):
         # get object
         form = SystemModificatorForm()
         # compare
-        self.assertEqual(form.fields['analysisstatus_choice'].label, 'Keep analysisstatus')
+        self.assertEqual(
+            form.fields['analysisstatus_choice'].label, 'Keep analysisstatus'
+        )
 
     def test_system_modificator_company_form_label(self):
         """test form label"""

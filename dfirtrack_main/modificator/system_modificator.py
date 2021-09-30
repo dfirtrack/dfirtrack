@@ -232,15 +232,23 @@ def system_modificator_async(request_post, request_user):
             """ status fields """
 
             # replace, if 'change status' was selected (checking for status value independent of form field validation)
-            if form['analysisstatus_choice'].value() == 'change_status' and form['analysisstatus'].value():
+            if (
+                form['analysisstatus_choice'].value() == 'change_status'
+                and form['analysisstatus'].value()
+            ):
 
                 # replace status
                 analysisstatus_id = form['analysisstatus'].value()
-                analysisstatus = Analysisstatus.objects.get(analysisstatus_id=analysisstatus_id)
+                analysisstatus = Analysisstatus.objects.get(
+                    analysisstatus_id=analysisstatus_id
+                )
                 system.analysisstatus = analysisstatus
 
             # replace, if 'change status' was selected (checking for status value independent of form field validation)
-            if form['systemstatus_choice'].value() == 'change_status' and form['systemstatus'].value():
+            if (
+                form['systemstatus_choice'].value() == 'change_status'
+                and form['systemstatus'].value()
+            ):
 
                 # replace status
                 systemstatus_id = form['systemstatus'].value()
