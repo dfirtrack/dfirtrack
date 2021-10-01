@@ -17,7 +17,7 @@ class Analysisstatus(models.Model):
     analysisstatus_id = models.AutoField(primary_key=True)
 
     # main entity information
-    analysisstatus_name = models.CharField(max_length=30, unique=True)
+    analysisstatus_name = models.CharField(max_length=255, unique=True)
     analysisstatus_note = models.TextField(blank=True, null=True)
 
     class Meta:
@@ -106,9 +106,9 @@ class Case(models.Model):
 
     # main entity information
     case_id_external = models.CharField(
-        max_length=50, blank=True, null=True, unique=True
+        max_length=255, blank=True, null=True, unique=True
     )
-    case_name = models.CharField(max_length=50, unique=True)
+    case_name = models.CharField(max_length=255, unique=True)
     case_is_incident = models.BooleanField()
     case_note_analysisresult = models.TextField(blank=True, null=True)
     case_note_external = models.TextField(blank=True, null=True)
@@ -337,7 +337,7 @@ class Company(models.Model):
     )
 
     # main entity information
-    company_name = models.CharField(max_length=50, unique=True)
+    company_name = models.CharField(max_length=255, unique=True)
     company_note = models.TextField(blank=True, null=True)
 
     class Meta:
@@ -375,9 +375,9 @@ class Contact(models.Model):
     contact_id = models.AutoField(primary_key=True)
 
     # main entity information
-    contact_name = models.CharField(max_length=100)
-    contact_phone = models.CharField(max_length=50, blank=True, null=True)
-    contact_email = models.CharField(max_length=100, unique=True)
+    contact_name = models.CharField(max_length=255)
+    contact_phone = models.CharField(max_length=255, blank=True, null=True)
+    contact_email = models.CharField(max_length=255, unique=True)
     contact_note = models.TextField(blank=True, null=True)
 
     # string representation
@@ -414,7 +414,7 @@ class Division(models.Model):
     division_id = models.AutoField(primary_key=True)
 
     # main entity information
-    division_name = models.CharField(max_length=50, unique=True)
+    division_name = models.CharField(max_length=255, unique=True)
     division_note = models.TextField(blank=True, null=True)
 
     # string representation
@@ -452,7 +452,7 @@ class Dnsname(models.Model):
     )
 
     # main entity information
-    dnsname_name = models.CharField(max_length=100, unique=True)
+    dnsname_name = models.CharField(max_length=255, unique=True)
     dnsname_note = models.TextField(blank=True, null=True)
 
     # string representation
@@ -487,7 +487,7 @@ class Domain(models.Model):
     domain_id = models.AutoField(primary_key=True)
 
     # main entity information
-    domain_name = models.CharField(max_length=100, unique=True)
+    domain_name = models.CharField(max_length=255, unique=True)
     domain_note = models.TextField(blank=True, null=True)
 
     # string representation
@@ -524,7 +524,7 @@ class Domainuser(models.Model):
     system_was_logged_on = models.ManyToManyField('System', blank=True)
 
     # main entity information
-    domainuser_name = models.CharField(max_length=50)
+    domainuser_name = models.CharField(max_length=255)
     domainuser_is_domainadmin = models.BooleanField(blank=True, null=True)
 
     # define unique together
@@ -592,7 +592,7 @@ class Entry(models.Model):
     # main entity information
     entry_time = models.DateTimeField()
     entry_sha1 = models.CharField(max_length=40, blank=True, null=True)
-    entry_type = models.CharField(max_length=30, blank=True, null=True)
+    entry_type = models.CharField(max_length=255, blank=True, null=True)
     entry_content = models.TextField(blank=True, null=True)
     entry_note = models.TextField(blank=True, null=True)
 
@@ -658,7 +658,7 @@ class Headline(models.Model):
     headline_id = models.AutoField(primary_key=True)
 
     # main entity information
-    headline_name = models.CharField(max_length=100, unique=True)
+    headline_name = models.CharField(max_length=255, unique=True)
 
     # string representation
     def __str__(self):
@@ -715,7 +715,7 @@ class Location(models.Model):
     location_id = models.AutoField(primary_key=True)
 
     # main entity information
-    location_name = models.CharField(max_length=50, unique=True)
+    location_name = models.CharField(max_length=255, unique=True)
     location_note = models.TextField(blank=True, null=True)
 
     # string representation
@@ -748,7 +748,7 @@ class Note(models.Model):
     note_id = models.AutoField(primary_key=True)
 
     # main entity information
-    note_title = models.CharField(max_length=250, unique=True)
+    note_title = models.CharField(max_length=255, unique=True)
     note_content = models.TextField()
     note_version = models.IntegerField()
     note_is_abandoned = models.BooleanField(blank=True, default=True)
@@ -841,7 +841,7 @@ class Notestatus(models.Model):
     notestatus_id = models.AutoField(primary_key=True)
 
     # main entity information
-    notestatus_name = models.CharField(max_length=30, unique=True)
+    notestatus_name = models.CharField(max_length=255, unique=True)
     notestatus_note = models.TextField(blank=True, null=True)
 
     class Meta:
@@ -874,7 +874,7 @@ class Os(models.Model):
     os_id = models.AutoField(primary_key=True)
 
     # main entity information
-    os_name = models.CharField(max_length=30, unique=True)
+    os_name = models.CharField(max_length=255, unique=True)
 
     class Meta:
         verbose_name_plural = 'os'
@@ -907,7 +907,7 @@ class Osarch(models.Model):
     osarch_id = models.AutoField(primary_key=True)
 
     # main entity information
-    osarch_name = models.CharField(max_length=10, unique=True)
+    osarch_name = models.CharField(max_length=255, unique=True)
 
     # string representation
     def __str__(self):
@@ -940,8 +940,8 @@ class Osimportname(models.Model):
     os = models.ForeignKey('Os', on_delete=models.CASCADE)
 
     # main entity information
-    osimportname_name = models.CharField(max_length=30, unique=True)
-    osimportname_importer = models.CharField(max_length=30)
+    osimportname_name = models.CharField(max_length=255, unique=True)
+    osimportname_importer = models.CharField(max_length=255)
 
     # string representation
     def __str__(self):
@@ -972,7 +972,7 @@ class Reason(models.Model):
     reason_id = models.AutoField(primary_key=True)
 
     # main entity information
-    reason_name = models.CharField(max_length=30, unique=True)
+    reason_name = models.CharField(max_length=255, unique=True)
     reason_note = models.TextField(blank=True, null=True)
 
     # string representation
@@ -1005,7 +1005,7 @@ class Recommendation(models.Model):
     recommendation_id = models.AutoField(primary_key=True)
 
     # main entity information
-    recommendation_name = models.CharField(max_length=30, unique=True)
+    recommendation_name = models.CharField(max_length=255, unique=True)
     recommendation_note = models.TextField(blank=True, null=True)
 
     # string representation
@@ -1045,7 +1045,7 @@ class Reportitem(models.Model):
     tag = models.ManyToManyField('Tag', blank=True)
 
     # main entity information
-    reportitem_subheadline = models.CharField(max_length=100, blank=True, null=True)
+    reportitem_subheadline = models.CharField(max_length=255, blank=True, null=True)
     reportitem_note = models.TextField()
 
     # meta information
@@ -1115,7 +1115,7 @@ class Serviceprovider(models.Model):
     serviceprovider_id = models.AutoField(primary_key=True)
 
     # main entity information
-    serviceprovider_name = models.CharField(max_length=50, unique=True)
+    serviceprovider_name = models.CharField(max_length=255, unique=True)
     serviceprovider_note = models.TextField(blank=True, null=True)
 
     # string representation
@@ -1196,7 +1196,7 @@ class System(models.Model):
 
     # main entity information
     system_uuid = models.UUIDField(editable=False, null=True, unique=True)
-    system_name = models.CharField(max_length=50)
+    system_name = models.CharField(max_length=255)
     system_install_time = models.DateTimeField(blank=True, null=True)
     system_lastbooted_time = models.DateTimeField(blank=True, null=True)
     system_deprecated_time = models.DateTimeField(blank=True, null=True)
@@ -1484,9 +1484,9 @@ class Systemhistory(models.Model):
     system = models.ForeignKey('System', on_delete=models.CASCADE)
 
     # main entity information
-    systemhistory_type = models.CharField(max_length=30)
-    systemhistory_old_value = models.CharField(max_length=30)
-    systemhistory_new_value = models.CharField(max_length=30)
+    systemhistory_type = models.CharField(max_length=255)
+    systemhistory_old_value = models.CharField(max_length=255)
+    systemhistory_new_value = models.CharField(max_length=255)
 
     # meta information
     systemhistory_time = models.DateTimeField(auto_now_add=True)
@@ -1503,7 +1503,7 @@ class Systemstatus(models.Model):
     systemstatus_id = models.AutoField(primary_key=True)
 
     # main entity information
-    systemstatus_name = models.CharField(max_length=30, unique=True)
+    systemstatus_name = models.CharField(max_length=255, unique=True)
     systemstatus_note = models.TextField(blank=True, null=True)
 
     class Meta:
@@ -1536,7 +1536,7 @@ class Systemtype(models.Model):
     systemtype_id = models.AutoField(primary_key=True)
 
     # main entity information
-    systemtype_name = models.CharField(max_length=50, unique=True)
+    systemtype_name = models.CharField(max_length=255, unique=True)
 
     # string representation
     def __str__(self):
@@ -1569,7 +1569,7 @@ class Systemuser(models.Model):
     system = models.ForeignKey('System', on_delete=models.CASCADE)
 
     # main entity information
-    systemuser_name = models.CharField(max_length=50)
+    systemuser_name = models.CharField(max_length=255)
     systemuser_lastlogon_time = models.DateTimeField(blank=True, null=True)
     systemuser_is_systemadmin = models.BooleanField(blank=True, null=True)
 
@@ -1614,7 +1614,7 @@ class Tag(models.Model):
     tagcolor = models.ForeignKey('Tagcolor', on_delete=models.PROTECT)
 
     # main entity information
-    tag_name = models.CharField(max_length=50, unique=True)
+    tag_name = models.CharField(max_length=255, unique=True)
     tag_note = models.TextField(blank=True, null=True)
 
     # meta information
@@ -1848,7 +1848,7 @@ class Taskname(models.Model):
     taskname_id = models.AutoField(primary_key=True)
 
     # main entity information
-    taskname_name = models.CharField(max_length=50, unique=True)
+    taskname_name = models.CharField(max_length=255, unique=True)
 
     # string representation
     def __str__(self):
@@ -1881,7 +1881,7 @@ class Taskpriority(models.Model):
     taskpriority_id = models.AutoField(primary_key=True)
 
     # main entity information
-    taskpriority_name = models.CharField(max_length=50, unique=True)
+    taskpriority_name = models.CharField(max_length=255, unique=True)
 
     # string representation
     def __str__(self):
@@ -1908,7 +1908,7 @@ class Taskstatus(models.Model):
     taskstatus_id = models.AutoField(primary_key=True)
 
     # main entity information
-    taskstatus_name = models.CharField(max_length=50, unique=True)
+    taskstatus_name = models.CharField(max_length=255, unique=True)
 
     # string representation
     def __str__(self):
