@@ -212,7 +212,7 @@ class ReportitemModelTestCase(TestCase):
         # get max length
         max_length = reportitem_1._meta.get_field('reportitem_subheadline').max_length
         # compare
-        self.assertEqual(max_length, 100)
+        self.assertEqual(max_length, 255)
 
     def test_reportitem_post_save_signal(self):
         """test report item post save signal"""

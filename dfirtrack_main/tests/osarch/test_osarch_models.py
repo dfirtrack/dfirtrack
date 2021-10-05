@@ -48,4 +48,4 @@ class OsarchModelTestCase(TestCase):
         # get max length
         max_length = osarch_1._meta.get_field('osarch_name').max_length
         # compare
-        self.assertEqual(max_length, 10)
+        self.assertEqual(max_length, 255)

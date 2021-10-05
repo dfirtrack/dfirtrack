@@ -243,7 +243,7 @@ class EntryModelTestCase(TestCase):
         # get max length
         max_length = entry_1._meta.get_field('entry_type').max_length
         # compare
-        self.assertEqual(max_length, 30)
+        self.assertEqual(max_length, 255)
 
     def test_entry_date_property(self):
         """test entry date property"""

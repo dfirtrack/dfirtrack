@@ -58,4 +58,4 @@ class LocationModelTestCase(TestCase):
         # get max length
         max_length = location_1._meta.get_field('location_name').max_length
         # compare
-        self.assertEqual(max_length, 50)
+        self.assertEqual(max_length, 255)

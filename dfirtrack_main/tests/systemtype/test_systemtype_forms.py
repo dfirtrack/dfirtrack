@@ -34,7 +34,7 @@ class SystemtypeFormTestCase(TestCase):
         """test for max length"""
 
         # get object
-        form = SystemtypeForm(data={'systemtype_name': 's' * 50})
+        form = SystemtypeForm(data={'systemtype_name': 's' * 255})
         # compare
         self.assertTrue(form.is_valid())
 
@@ -42,6 +42,6 @@ class SystemtypeFormTestCase(TestCase):
         """test for max length"""
 
         # get object
-        form = SystemtypeForm(data={'systemtype_name': 's' * 51})
+        form = SystemtypeForm(data={'systemtype_name': 's' * 256})
         # compare
         self.assertFalse(form.is_valid())

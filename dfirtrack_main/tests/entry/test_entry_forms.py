@@ -269,7 +269,7 @@ class EntryFormTestCase(TestCase):
             data={
                 'entry_time': entry_time_string,
                 'system': system_id,
-                'entry_type': 't' * 30,
+                'entry_type': 't' * 255,
             }
         )
         # compare
@@ -287,7 +287,7 @@ class EntryFormTestCase(TestCase):
             data={
                 'entry_time': entry_time_string,
                 'system': system_id,
-                'entry_type': 't' * 31,
+                'entry_type': 't' * 256,
             }
         )
         # compare

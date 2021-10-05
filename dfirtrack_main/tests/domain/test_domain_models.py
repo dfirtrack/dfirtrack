@@ -58,4 +58,4 @@ class DomainModelTestCase(TestCase):
         # get max length
         max_length = domain_1._meta.get_field('domain_name').max_length
         # compare
-        self.assertEqual(max_length, 100)
+        self.assertEqual(max_length, 255)

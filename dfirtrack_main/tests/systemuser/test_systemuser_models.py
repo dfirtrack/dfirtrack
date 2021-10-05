@@ -102,4 +102,4 @@ class SystemuserModelTestCase(TestCase):
         # get max length
         max_length = systemuser_1._meta.get_field('systemuser_name').max_length
         # compare
-        self.assertEqual(max_length, 50)
+        self.assertEqual(max_length, 255)

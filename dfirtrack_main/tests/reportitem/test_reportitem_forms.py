@@ -203,7 +203,7 @@ class ReportitemFormTestCase(TestCase):
                 'headline': headline_id,
                 'notestatus': notestatus_id,
                 'system': system_id,
-                'reportitem_subheadline': 's' * 100,
+                'reportitem_subheadline': 's' * 255,
             }
         )
         # compare
@@ -225,7 +225,7 @@ class ReportitemFormTestCase(TestCase):
                 'headline': headline_id,
                 'notestatus': notestatus_id,
                 'system': system_id,
-                'reportitem_subheadline': 's' * 101,
+                'reportitem_subheadline': 's' * 256,
             }
         )
         # compare

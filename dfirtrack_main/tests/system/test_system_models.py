@@ -355,4 +355,4 @@ class SystemModelTestCase(TestCase):
         # get max length
         max_length = system_1._meta.get_field('system_name').max_length
         # compare
-        self.assertEqual(max_length, 50)
+        self.assertEqual(max_length, 255)

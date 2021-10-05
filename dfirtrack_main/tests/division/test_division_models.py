@@ -58,4 +58,4 @@ class DivisionModelTestCase(TestCase):
         # get max length
         max_length = division_1._meta.get_field('division_name').max_length
         # compare
-        self.assertEqual(max_length, 50)
+        self.assertEqual(max_length, 255)

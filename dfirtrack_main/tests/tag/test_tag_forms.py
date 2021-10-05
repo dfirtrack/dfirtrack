@@ -97,7 +97,7 @@ class TagFormTestCase(TestCase):
         # get object
         form = TagForm(
             data={
-                'tag_name': 't' * 50,
+                'tag_name': 't' * 255,
                 'tagcolor': tagcolor_id,
             }
         )
@@ -112,7 +112,7 @@ class TagFormTestCase(TestCase):
         # get object
         form = TagForm(
             data={
-                'tag_name': 't' * 51,
+                'tag_name': 't' * 256,
                 'tagcolor': tagcolor_id,
             }
         )

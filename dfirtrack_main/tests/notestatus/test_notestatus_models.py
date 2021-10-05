@@ -66,4 +66,4 @@ class NotestatusModelTestCase(TestCase):
         # get max length
         max_length = notestatus_1._meta.get_field('notestatus_name').max_length
         # compare
-        self.assertEqual(max_length, 30)
+        self.assertEqual(max_length, 255)

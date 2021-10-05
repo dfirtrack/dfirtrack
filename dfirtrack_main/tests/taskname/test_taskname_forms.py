@@ -34,7 +34,7 @@ class TasknameFormTestCase(TestCase):
         """test for max length"""
 
         # get object
-        form = TasknameForm(data={'taskname_name': 't' * 50})
+        form = TasknameForm(data={'taskname_name': 't' * 255})
         # compare
         self.assertTrue(form.is_valid())
 
@@ -42,6 +42,6 @@ class TasknameFormTestCase(TestCase):
         """test for max length"""
 
         # get object
-        form = TasknameForm(data={'taskname_name': 't' * 51})
+        form = TasknameForm(data={'taskname_name': 't' * 256})
         # compare
         self.assertFalse(form.is_valid())
