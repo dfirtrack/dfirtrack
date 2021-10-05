@@ -55,7 +55,7 @@ class DivisionFormTestCase(TestCase):
         """test for max length"""
 
         # get object
-        form = DivisionForm(data={'division_name': 'd' * 50})
+        form = DivisionForm(data={'division_name': 'd' * 255})
         # compare
         self.assertTrue(form.is_valid())
 
@@ -63,6 +63,6 @@ class DivisionFormTestCase(TestCase):
         """test for max length"""
 
         # get object
-        form = DivisionForm(data={'division_name': 'd' * 51})
+        form = DivisionForm(data={'division_name': 'd' * 256})
         # compare
         self.assertFalse(form.is_valid())

@@ -76,4 +76,4 @@ class CompanyModelTestCase(TestCase):
         # get max length
         max_length = company_1._meta.get_field('company_name').max_length
         # compare
-        self.assertEqual(max_length, 50)
+        self.assertEqual(max_length, 255)

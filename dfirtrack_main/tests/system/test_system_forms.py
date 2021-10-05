@@ -768,7 +768,7 @@ class SystemFormTestCase(TestCase):
         # get object
         form = SystemForm(
             data={
-                'system_name': 'n' * 50,
+                'system_name': 'n' * 255,
                 'systemstatus': systemstatus_id,
             }
         )
@@ -785,7 +785,7 @@ class SystemFormTestCase(TestCase):
         # get object
         form = SystemNameForm(
             data={
-                'system_name': 'n' * 51,
+                'system_name': 'n' * 256,
                 'systemstatus': systemstatus_id,
             }
         )

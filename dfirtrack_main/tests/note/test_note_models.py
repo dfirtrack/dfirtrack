@@ -170,7 +170,7 @@ class NoteModelTestCase(TestCase):
         # get max length
         max_length = note_1._meta.get_field('note_title').max_length
         # compare
-        self.assertEqual(max_length, 250)
+        self.assertEqual(max_length, 255)
 
     def test_note_save_version(self):
         """test version inc of save"""

@@ -208,7 +208,7 @@ class CaseModelTestCase(TestCase):
         # get max length
         max_length = case_1._meta.get_field('case_name').max_length
         # compare
-        self.assertEqual(max_length, 50)
+        self.assertEqual(max_length, 255)
 
     def test_case_id_external_length(self):
         """test for max length"""
@@ -218,4 +218,4 @@ class CaseModelTestCase(TestCase):
         # get max length
         max_length = case_1._meta.get_field('case_id_external').max_length
         # compare
-        self.assertEqual(max_length, 50)
+        self.assertEqual(max_length, 255)

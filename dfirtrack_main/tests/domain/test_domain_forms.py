@@ -55,7 +55,7 @@ class DomainFormTestCase(TestCase):
         """test for max length"""
 
         # get object
-        form = DomainForm(data={'domain_name': 'd' * 100})
+        form = DomainForm(data={'domain_name': 'd' * 255})
         # compare
         self.assertTrue(form.is_valid())
 
@@ -63,6 +63,6 @@ class DomainFormTestCase(TestCase):
         """test for max length"""
 
         # get object
-        form = DomainForm(data={'domain_name': 'd' * 101})
+        form = DomainForm(data={'domain_name': 'd' * 256})
         # compare
         self.assertFalse(form.is_valid())

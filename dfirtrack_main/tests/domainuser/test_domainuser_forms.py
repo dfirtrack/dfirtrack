@@ -92,7 +92,7 @@ class DomainuserFormTestCase(TestCase):
         # get object
         form = DomainuserForm(
             data={
-                'domainuser_name': 'd' * 50,
+                'domainuser_name': 'd' * 255,
                 'domain': domain_id,
             }
         )
@@ -107,7 +107,7 @@ class DomainuserFormTestCase(TestCase):
         # get object
         form = DomainuserForm(
             data={
-                'domainuser_name': 'd' * 51,
+                'domainuser_name': 'd' * 256,
                 'domain': domain_id,
             }
         )

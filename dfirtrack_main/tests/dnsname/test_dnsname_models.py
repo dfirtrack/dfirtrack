@@ -68,4 +68,4 @@ class DnsnameModelTestCase(TestCase):
         # get max length
         max_length = dnsname_1._meta.get_field('dnsname_name').max_length
         # compare
-        self.assertEqual(max_length, 100)
+        self.assertEqual(max_length, 255)

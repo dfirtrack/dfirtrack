@@ -161,7 +161,7 @@ class CaseFormTestCase(TestCase):
         # get object
         form = CaseForm(
             data={
-                'case_name': 'd' * 50,
+                'case_name': 'd' * 255,
                 'casepriority': casepriority_1,
                 'casestatus': casestatus_1,
             }
@@ -179,7 +179,7 @@ class CaseFormTestCase(TestCase):
         # get object
         form = CaseForm(
             data={
-                'case_name': 'd' * 51,
+                'case_name': 'd' * 256,
                 'casepriority': casepriority_1,
                 'casestatus': casestatus_1,
             }

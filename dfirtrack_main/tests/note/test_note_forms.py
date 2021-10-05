@@ -180,7 +180,7 @@ class NoteFormTestCase(TestCase):
         # get object
         form = NoteForm(
             data={
-                'note_title': 'n' * 250,
+                'note_title': 'n' * 255,
                 'note_content': 'lorem impsum',
                 'notestatus': notestatus_1.notestatus_id,
             }
@@ -196,7 +196,7 @@ class NoteFormTestCase(TestCase):
         # get object
         form = NoteForm(
             data={
-                'note_title': 'n' * 251,
+                'note_title': 'n' * 256,
                 'note_content': 'lorem impsum',
                 'notestatus': notestatus_1.notestatus_id,
             }

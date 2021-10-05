@@ -121,7 +121,7 @@ class SystemuserFormTestCase(TestCase):
         # get object
         form = SystemuserForm(
             data={
-                'systemuser_name': 's' * 50,
+                'systemuser_name': 's' * 255,
                 'system': system_id,
             }
         )
@@ -136,7 +136,7 @@ class SystemuserFormTestCase(TestCase):
         # get object
         form = SystemuserForm(
             data={
-                'systemuser_name': 's' * 51,
+                'systemuser_name': 's' * 256,
                 'system': system_id,
             }
         )

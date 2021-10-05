@@ -86,7 +86,7 @@ class DnsnameFormTestCase(TestCase):
         """test for max length"""
 
         # get object
-        form = DnsnameForm(data={'dnsname_name': 'd' * 100})
+        form = DnsnameForm(data={'dnsname_name': 'd' * 255})
         # compare
         self.assertTrue(form.is_valid())
 
@@ -94,6 +94,6 @@ class DnsnameFormTestCase(TestCase):
         """test for max length"""
 
         # get object
-        form = DnsnameForm(data={'dnsname_name': 'd' * 101})
+        form = DnsnameForm(data={'dnsname_name': 'd' * 256})
         # compare
         self.assertFalse(form.is_valid())
