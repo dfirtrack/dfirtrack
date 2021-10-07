@@ -1735,12 +1735,12 @@ class Task(models.Model):
 
         # adapt starting and finishing time corresponding to taskstatus
         if self.taskstatus == Taskstatus.objects.get(taskstatus_name="10_pending"):
-                self.task_started_time = None
-                self.task_finished_time = None
-        elif (self.taskstatus == Taskstatus.objects.get(taskstatus_name="20_working")
-            and self.task_started_time == None
-        ):
-            self.task_started_time = timezone.now()
+            self.task_started_time = None
+            self.task_finished_time = None
+        elif self.taskstatus == Taskstatus.objects.get(taskstatus_name="20_working"):
+            if self.task_started_time == None:
+                self.task_started_time = timezone.now()
+            self.task_finished_time = None
         elif self.taskstatus == Taskstatus.objects.get(taskstatus_name="30_done"):
             if self.task_started_time == None:
                 self.task_started_time = timezone.now()
