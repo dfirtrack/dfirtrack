@@ -1,5 +1,9 @@
+from datetime import datetime
+from unittest.mock import patch
+
 from django.contrib.auth.models import User
 from django.test import TestCase
+from django.utils import timezone
 
 from dfirtrack_main.models import (
     System,
@@ -310,3 +314,112 @@ class TaskModelTestCase(TestCase):
         field_label = task_1._meta.get_field('task_modified_by_user_id').verbose_name
         # compare
         self.assertEqual(field_label, 'task modified by user id')
+
+    def test_task_times(self):
+        """test task times depending on status"""
+
+        # get user
+        test_user = User.objects.get(username='testuser_task')
+        # get object
+        taskname = Taskname.objects.create(taskname_name='task_times')
+        # get object
+        taskpriority = Taskpriority.objects.get(taskpriority_name='prio_1')
+        # get object
+        taskstatus_pending = Taskstatus.objects.get(taskstatus_name='10_pending')
+        taskstatus_working = Taskstatus.objects.get(taskstatus_name='20_working')
+        taskstatus_done = Taskstatus.objects.get(taskstatus_name='30_done')
+
+        # create object
+        task_times = Task.objects.create(
+            taskname=taskname,
+            taskpriority=taskpriority,
+            taskstatus=taskstatus_pending,
+            task_created_by_user_id=test_user,
+            task_modified_by_user_id=test_user,
+        )
+
+        # compare
+        self.assertEqual(task_times.task_started_time, None)
+        self.assertEqual(task_times.task_finished_time, None)
+
+        # mock timezone.now()
+        dt_1 = datetime(2021, 10, 8, 13, 1, tzinfo=timezone.utc)
+        with patch.object(timezone, 'now', return_value=dt_1):
+
+            # update object
+            task_times.taskstatus = taskstatus_working
+            task_times.save()
+
+        # compare
+        self.assertEqual(task_times.task_started_time, dt_1)
+        self.assertEqual(task_times.task_finished_time, None)
+
+        # mock timezone.now()
+        dt_2 = datetime(2021, 10, 8, 13, 2, tzinfo=timezone.utc)
+        with patch.object(timezone, 'now', return_value=dt_2):
+
+            # update object
+            task_times.save()
+
+        # compare
+        self.assertEqual(task_times.task_started_time, dt_1)
+        self.assertEqual(task_times.task_finished_time, None)
+
+        # mock timezone.now()
+        dt_3 = datetime(2021, 10, 8, 13, 3, tzinfo=timezone.utc)
+        with patch.object(timezone, 'now', return_value=dt_3):
+
+            # update object
+            task_times.taskstatus = taskstatus_done
+            task_times.save()
+
+        # compare
+        self.assertEqual(task_times.task_started_time, dt_1)
+        self.assertEqual(task_times.task_finished_time, dt_3)
+
+        # mock timezone.now()
+        dt_4 = datetime(2021, 10, 8, 13, 4, tzinfo=timezone.utc)
+        with patch.object(timezone, 'now', return_value=dt_4):
+
+            # update object
+            task_times.save()
+
+        # compare
+        self.assertEqual(task_times.task_started_time, dt_1)
+        self.assertEqual(task_times.task_finished_time, dt_3)
+
+        # mock timezone.now()
+        dt_5 = datetime(2021, 10, 8, 13, 5, tzinfo=timezone.utc)
+        with patch.object(timezone, 'now', return_value=dt_5):
+
+            # update object
+            task_times.taskstatus = taskstatus_working
+            task_times.save()
+
+        # compare
+        self.assertEqual(task_times.task_started_time, dt_1)
+        self.assertEqual(task_times.task_finished_time, None)
+
+        # mock timezone.now()
+        dt_6 = datetime(2021, 10, 8, 13, 6, tzinfo=timezone.utc)
+        with patch.object(timezone, 'now', return_value=dt_6):
+
+            # update object
+            task_times.taskstatus = taskstatus_pending
+            task_times.save()
+
+        # compare
+        self.assertEqual(task_times.task_started_time, None)
+        self.assertEqual(task_times.task_finished_time, None)
+
+        # mock timezone.now()
+        dt_7 = datetime(2021, 10, 8, 13, 7, tzinfo=timezone.utc)
+        with patch.object(timezone, 'now', return_value=dt_7):
+
+            # update object
+            task_times.taskstatus = taskstatus_done
+            task_times.save()
+
+        # compare
+        self.assertEqual(task_times.task_started_time, dt_7)
+        self.assertEqual(task_times.task_finished_time, dt_7)
