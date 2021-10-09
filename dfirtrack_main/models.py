@@ -5,6 +5,7 @@ from time import strftime
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.text import slugify
 
 # initialize logger
@@ -1731,6 +1732,20 @@ class Task(models.Model):
 
     def save(self, *args, **kwargs):
         """extend save method"""
+
+        # adapt starting and finishing time corresponding to taskstatus
+        if self.taskstatus == Taskstatus.objects.get(taskstatus_name="10_pending"):
+            self.task_started_time = None
+            self.task_finished_time = None
+        elif self.taskstatus == Taskstatus.objects.get(taskstatus_name="20_working"):
+            if self.task_started_time == None:
+                self.task_started_time = timezone.now()
+            self.task_finished_time = None
+        elif self.taskstatus == Taskstatus.objects.get(taskstatus_name="30_done"):
+            if self.task_started_time == None:
+                self.task_started_time = timezone.now()
+            if self.task_finished_time == None:
+                self.task_finished_time = timezone.now()
 
         # set abandoned if task has no artifact, case or system
         if not self.artifact and not self.case and not self.system:

@@ -3,7 +3,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.messages import constants
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from django.utils import timezone
 from django_q.tasks import async_task
 
 from dfirtrack_main.async_messages import message_user
@@ -109,19 +108,6 @@ def task_creator_async(request_post, request_user):
                 # set auto values
                 task.task_created_by_user_id = request_user
                 task.task_modified_by_user_id = request_user
-
-                # get taskstatus objects for comparing
-                taskstatus_working = Taskstatus.objects.get(
-                    taskstatus_name='20_working'
-                )
-                taskstatus_done = Taskstatus.objects.get(taskstatus_name='30_done')
-
-                # set times depending on submitted taskstatus
-                if task.taskstatus == taskstatus_working:
-                    task.task_started_time = timezone.now()
-                if task.taskstatus == taskstatus_done:
-                    task.task_started_time = timezone.now()
-                    task.task_finished_time = timezone.now()
 
                 # save object
                 task.save()
