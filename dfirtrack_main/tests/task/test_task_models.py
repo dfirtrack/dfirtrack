@@ -325,9 +325,11 @@ class TaskModelTestCase(TestCase):
         # get object
         taskpriority = Taskpriority.objects.get(taskpriority_name='prio_1')
         # get object
+        taskstatus_blocked = Taskstatus.objects.get(taskstatus_name='00_blocked')
         taskstatus_pending = Taskstatus.objects.get(taskstatus_name='10_pending')
         taskstatus_working = Taskstatus.objects.get(taskstatus_name='20_working')
         taskstatus_done = Taskstatus.objects.get(taskstatus_name='30_done')
+        taskstatus_skipped = Taskstatus.objects.get(taskstatus_name='40_skipped')
 
         # create object
         task_times = Task.objects.create(
@@ -423,3 +425,39 @@ class TaskModelTestCase(TestCase):
         # compare
         self.assertEqual(task_times.task_started_time, dt_7)
         self.assertEqual(task_times.task_finished_time, dt_7)
+
+        # mock timezone.now()
+        dt_8 = datetime(2021, 10, 8, 13, 8, tzinfo=timezone.utc)
+        with patch.object(timezone, 'now', return_value=dt_8):
+
+            # update object
+            task_times.taskstatus = taskstatus_blocked
+            task_times.save()
+
+        # compare
+        self.assertEqual(task_times.task_started_time, None)
+        self.assertEqual(task_times.task_finished_time, None)
+
+        # mock timezone.now()
+        dt_9 = datetime(2021, 10, 8, 13, 9, tzinfo=timezone.utc)
+        with patch.object(timezone, 'now', return_value=dt_9):
+
+            # update object
+            task_times.taskstatus = taskstatus_done
+            task_times.save()
+
+        # compare
+        self.assertEqual(task_times.task_started_time, dt_9)
+        self.assertEqual(task_times.task_finished_time, dt_9)
+
+        # mock timezone.now()
+        dt_10 = datetime(2021, 10, 8, 13, 10, tzinfo=timezone.utc)
+        with patch.object(timezone, 'now', return_value=dt_10):
+
+            # update object
+            task_times.taskstatus = taskstatus_skipped
+            task_times.save()
+
+        # compare
+        self.assertEqual(task_times.task_started_time, None)
+        self.assertEqual(task_times.task_finished_time, None)

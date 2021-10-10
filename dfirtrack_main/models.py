@@ -1734,7 +1734,10 @@ class Task(models.Model):
         """extend save method"""
 
         # adapt starting and finishing time corresponding to taskstatus
-        if self.taskstatus == Taskstatus.objects.get(taskstatus_name="10_pending"):
+        if self.taskstatus == Taskstatus.objects.get(taskstatus_name="00_blocked"):
+            self.task_started_time = None
+            self.task_finished_time = None
+        elif self.taskstatus == Taskstatus.objects.get(taskstatus_name="10_pending"):
             self.task_started_time = None
             self.task_finished_time = None
         elif self.taskstatus == Taskstatus.objects.get(taskstatus_name="20_working"):
@@ -1746,6 +1749,9 @@ class Task(models.Model):
                 self.task_started_time = timezone.now()
             if self.task_finished_time == None:
                 self.task_finished_time = timezone.now()
+        elif self.taskstatus == Taskstatus.objects.get(taskstatus_name="40_skipped"):
+            self.task_started_time = None
+            self.task_finished_time = None
 
         # set abandoned if task has no artifact, case or system
         if not self.artifact and not self.case and not self.system:

@@ -39,7 +39,7 @@ class TaskList(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         debug_logger(str(self.request.user), " TASK_LIST_ENTERED")
-        return Task.objects.filter(Q(taskstatus_id=1) | Q(taskstatus_id=2))
+        return Task.objects.filter(Q(taskstatus_id=4) | Q(taskstatus_id=1) | Q(taskstatus_id=2))
 
 
 class TaskClosed(LoginRequiredMixin, ListView):
@@ -50,7 +50,7 @@ class TaskClosed(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         debug_logger(str(self.request.user), " TASK_CLOSED_ENTERED")
-        return Task.objects.filter(taskstatus_id=3)
+        return Task.objects.filter(Q(taskstatus_id=3) | Q(taskstatus_id=5))
 
 
 class TaskAll(LoginRequiredMixin, ListView):
@@ -88,7 +88,7 @@ class TaskCreate(LoginRequiredMixin, CreateView):
         taskpriority = Taskpriority.objects.order_by('taskpriority_name')[
             0
         ].taskpriority_id
-        taskstatus = Taskstatus.objects.order_by('taskstatus_name')[0].taskstatus_id
+        taskstatus = Taskstatus.objects.order_by('taskstatus_name')[1].taskstatus_id
 
         if 'system' in request.GET:
             system = request.GET['system']
