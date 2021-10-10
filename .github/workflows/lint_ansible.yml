@@ -3,7 +3,7 @@ name: Lint Ansible
 on: [pull_request, push]
 
 jobs:
-  lint_python:
+  lint_ansible:
 
     runs-on: ubuntu-latest
 
