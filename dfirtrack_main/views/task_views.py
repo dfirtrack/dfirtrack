@@ -39,7 +39,9 @@ class TaskList(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         debug_logger(str(self.request.user), " TASK_LIST_ENTERED")
-        return Task.objects.filter(Q(taskstatus_id=4) | Q(taskstatus_id=1) | Q(taskstatus_id=2))
+        return Task.objects.filter(
+            Q(taskstatus_id=4) | Q(taskstatus_id=1) | Q(taskstatus_id=2)
+        )
 
 
 class TaskClosed(LoginRequiredMixin, ListView):
