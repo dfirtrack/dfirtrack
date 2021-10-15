@@ -8,6 +8,8 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
 
+from dfirtrack_config.models import MainConfigModel
+
 # initialize logger
 stdlogger = logging.getLogger(__name__)
 
@@ -1245,6 +1247,19 @@ class System(models.Model):
     # extend save method
     def save(self, *args, **kwargs):
 
+        '''for all systems'''
+
+        capitalization = MainConfigModel.objects.get(
+            main_config_name='MainConfig'
+        ).capitalization
+
+        if capitalization == 'capitalization_lower':
+            self.system_name = self.system_name.lower()
+        elif capitalization == 'capitalization_upper':
+            self.system_name = self.system_name.upper()
+
+        '''for old systems'''
+
         # check for existing system
         if self.pk:
 
@@ -1309,6 +1324,8 @@ class System(models.Model):
                 systemhistory.save()
                 # set previous status to new value
                 self.previous_analysisstatus = self.analysisstatus
+
+        '''for new systems'''
 
         # check for new system
         if not self.pk:
