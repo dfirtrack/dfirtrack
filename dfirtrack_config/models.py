@@ -4,8 +4,6 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 
-from dfirtrack_main.models import Task
-
 stdlogger = logging.getLogger(__name__)
 
 
@@ -662,7 +660,10 @@ class Workflow(models.Model):
                 for mapping in WorkflowDefaultTasknameAttributes.objects.filter(
                     workflow=workflow
                 ):
-                    new_task = Task(taskname=mapping.taskname)
+                    # avoid circular imports
+                    task = models.ForeignKey('dfirtrack_main.Task')
+
+                    new_task = task(taskname=mapping.taskname)
                     new_task.task_created_by_user_id = user
                     new_task.task_modified_by_user_id = user
                     new_task.taskstatus = mapping.task_default_status
@@ -674,10 +675,10 @@ class Workflow(models.Model):
                 for mapping in WorkflowDefaultArtifactAttributes.objects.filter(
                     workflow=workflow
                 ):
-                    # hotfix circular imports, could be avoided by refactoring models
-                    from dfirtrack_artifacts.models import Artifact
+                    # avoid circular imports
+                    artifact = models.ForeignKey('dfirtrack_artifacts.Artifact')
 
-                    new_artifact = Artifact(
+                    new_artifact = artifact(
                         artifacttype=mapping.artifacttype,
                         artifact_name=mapping.artifact_default_name,
                     )
