@@ -8,9 +8,9 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
+        migrations.AddField(
             model_name='mainconfigmodel',
-            name='main_overview',
+            name='capitalization',
             field=models.CharField(
                 choices=[
                     ('capitalization_keep', 'Keep notation'),

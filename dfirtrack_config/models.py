@@ -116,7 +116,7 @@ class MainConfigModel(models.Model):
         (CAPITALIZATION_LOWER, 'Convert to lower case'),
         (CAPITALIZATION_UPPER, 'Convert to upper case'),
     ]
-    main_overview = models.CharField(
+    capitalization = models.CharField(
         max_length=50,
         choices=CAPITALIZATION_CHOICES,
         default=CAPITALIZATION_KEEP,
