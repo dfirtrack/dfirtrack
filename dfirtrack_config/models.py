@@ -108,6 +108,20 @@ class MainConfigModel(models.Model):
         default=MAIN_OVERVIEW_SYSTEM,
     )
 
+    CAPITALIZATION_KEEP = 'capitalization_keep'
+    CAPITALIZATION_LOWER = 'capitalization_lower'
+    CAPITALIZATION_UPPER = 'capitalization_upper'
+    CAPITALIZATION_CHOICES = [
+        (CAPITALIZATION_KEEP, 'Keep notation'),
+        (CAPITALIZATION_LOWER, 'Convert to lower case'),
+        (CAPITALIZATION_UPPER, 'Convert to upper case'),
+    ]
+    main_overview = models.CharField(
+        max_length=50,
+        choices=CAPITALIZATION_CHOICES,
+        default=CAPITALIZATION_KEEP,
+    )
+
     # string representation
     def __str__(self):
         return self.main_config_name
