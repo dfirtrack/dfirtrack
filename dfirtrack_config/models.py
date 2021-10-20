@@ -660,10 +660,10 @@ class Workflow(models.Model):
                 for mapping in WorkflowDefaultTasknameAttributes.objects.filter(
                     workflow=workflow
                 ):
-                    # avoid circular imports
-                    task = models.ForeignKey('dfirtrack_main.Task')
+                    # avoid circular imports - TODO: needs maintenance
+                    from dfirtrack_main.models import Task
 
-                    new_task = task(taskname=mapping.taskname)
+                    new_task = Task(taskname=mapping.taskname)
                     new_task.task_created_by_user_id = user
                     new_task.task_modified_by_user_id = user
                     new_task.taskstatus = mapping.task_default_status
@@ -675,10 +675,10 @@ class Workflow(models.Model):
                 for mapping in WorkflowDefaultArtifactAttributes.objects.filter(
                     workflow=workflow
                 ):
-                    # avoid circular imports
-                    artifact = models.ForeignKey('dfirtrack_artifacts.Artifact')
+                    # avoid circular imports - TODO: needs maintenance
+                    from dfirtrack_artifacts.models import Artifact
 
-                    new_artifact = artifact(
+                    new_artifact = Artifact(
                         artifacttype=mapping.artifacttype,
                         artifact_name=mapping.artifact_default_name,
                     )
