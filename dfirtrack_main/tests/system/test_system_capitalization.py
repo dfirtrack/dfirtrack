@@ -18,6 +18,7 @@ def set_capitalization_config(capitalization):
     # return to test
     return
 
+
 class SystemCapitalizationModelTestCase(TestCase):
     """system capitalization model tests"""
 

@@ -30,7 +30,9 @@ class MainConfigFormTestCase(TestCase):
         # get object
         form = MainConfigForm()
         # compare
-        self.assertEqual(form.fields['capitalization'].label, 'Capitalization of system names')
+        self.assertEqual(
+            form.fields['capitalization'].label, 'Capitalization of system names'
+        )
 
     def test_main_config_main_overview_form_label(self):
         """test form label"""
