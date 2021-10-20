@@ -95,6 +95,7 @@ class MainConfigViewTestCase(TestCase):
             'statushistory_entry_numbers': 6,
             'cron_export_path': '/tmp',
             'cron_username': 'cron',
+            'capitalization': 'capitalization_keep',
             'main_overview': 'main_overview_system',
         }
         # get response
@@ -117,6 +118,8 @@ class MainConfigViewTestCase(TestCase):
             'statushistory_entry_numbers': 7,
             'cron_export_path': '/tmp',
             'cron_username': 'cron',
+            'capitalization': 'capitalization_keep',
+            'main_overview': 'main_overview_system',
         }
         # get response
         response = self.client.post('/config/main/', data_dict)
@@ -144,6 +147,7 @@ class MainConfigViewTestCase(TestCase):
             'statushistory_entry_numbers': 8,
             'cron_export_path': '/tmp',
             'cron_username': 'cron',
+            'capitalization': 'capitalization_keep',
             'main_overview': 'main_overview_system',
         }
         # get response
@@ -173,6 +177,7 @@ class MainConfigViewTestCase(TestCase):
             'statushistory_entry_numbers': 9,
             'cron_export_path': '/tmp',
             'cron_username': 'cron',
+            'capitalization': 'capitalization_keep',
             'main_overview': 'main_overview_system',
         }
         # get response

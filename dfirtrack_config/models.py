@@ -4,8 +4,6 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 
-from dfirtrack_main.models import Task
-
 stdlogger = logging.getLogger(__name__)
 
 
@@ -106,6 +104,20 @@ class MainConfigModel(models.Model):
         max_length=50,
         choices=MAIN_OVERVIEW_CHOICES,
         default=MAIN_OVERVIEW_SYSTEM,
+    )
+
+    CAPITALIZATION_KEEP = 'capitalization_keep'
+    CAPITALIZATION_LOWER = 'capitalization_lower'
+    CAPITALIZATION_UPPER = 'capitalization_upper'
+    CAPITALIZATION_CHOICES = [
+        (CAPITALIZATION_KEEP, 'Keep notation'),
+        (CAPITALIZATION_LOWER, 'Convert to lower case'),
+        (CAPITALIZATION_UPPER, 'Convert to upper case'),
+    ]
+    capitalization = models.CharField(
+        max_length=50,
+        choices=CAPITALIZATION_CHOICES,
+        default=CAPITALIZATION_KEEP,
     )
 
     # string representation
@@ -648,6 +660,9 @@ class Workflow(models.Model):
                 for mapping in WorkflowDefaultTasknameAttributes.objects.filter(
                     workflow=workflow
                 ):
+                    # avoid circular imports - TODO: needs maintenance
+                    from dfirtrack_main.models import Task
+
                     new_task = Task(taskname=mapping.taskname)
                     new_task.task_created_by_user_id = user
                     new_task.task_modified_by_user_id = user
@@ -660,7 +675,7 @@ class Workflow(models.Model):
                 for mapping in WorkflowDefaultArtifactAttributes.objects.filter(
                     workflow=workflow
                 ):
-                    # hotfix circular imports, could be avoided by refactoring models
+                    # avoid circular imports - TODO: needs maintenance
                     from dfirtrack_artifacts.models import Artifact
 
                     new_artifact = Artifact(
