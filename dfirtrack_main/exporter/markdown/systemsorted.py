@@ -16,7 +16,7 @@ from dfirtrack_main.models import System
 
 
 def write_report_systemsorted(system, username):
-    """ function that prepares return values and paths """
+    """function that prepares return values and paths"""
 
     """
     the return values (prefix 'r') are used for the `mkdocs.yml` file
@@ -54,7 +54,9 @@ def write_report_systemsorted(system, username):
     rpath = "systems/" + path + ".md"
 
     # get config model
-    model = SystemExporterMarkdownConfigModel.objects.get(system_exporter_markdown_config_name = 'SystemExporterMarkdownConfig')
+    model = SystemExporterMarkdownConfigModel.objects.get(
+        system_exporter_markdown_config_name='SystemExporterMarkdownConfig'
+    )
 
     # finish path for markdown file
     path = model.markdown_path + "/docs/systems/" + path + ".md"
@@ -71,13 +73,20 @@ def write_report_systemsorted(system, username):
     report.close()
 
     # call logger
-    info_logger(username, " SYSTEM_MARKDOWN_CREATED system_id:" + str(system.system_id) + "|system_name:" + str(system.system_name))
+    info_logger(
+        username,
+        " SYSTEM_MARKDOWN_CREATED system_id:"
+        + str(system.system_id)
+        + "|system_name:"
+        + str(system.system_name),
+    )
 
     # return strings for mkdocs.yml (only used in systemsorted_async)
-    return(rid, rfqdn, rpath)
+    return (rid, rfqdn, rpath)
+
 
 def systemsorted(request=None):
-    """ exports markdown report for all systems (helper function to call the real function) """
+    """exports markdown report for all systems (helper function to call the real function)"""
 
     # get username
     if request:
@@ -85,7 +94,7 @@ def systemsorted(request=None):
         username = str(request.user)
     else:
         # get config
-        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
         # get username from config
         username = main_config_model.cron_username
 
@@ -111,8 +120,9 @@ def systemsorted(request=None):
 
     return
 
+
 def systemsorted_async(username, request_user=None):
-    """ exports markdown report for all systems """
+    """exports markdown report for all systems"""
 
     # call directory cleaning function
     clean_directory.clean_directory(username)
@@ -146,13 +156,17 @@ def systemsorted_async(username, request_user=None):
         systemdict = {}
 
     # get config model
-    model = SystemExporterMarkdownConfigModel.objects.get(system_exporter_markdown_config_name = 'SystemExporterMarkdownConfig')
+    model = SystemExporterMarkdownConfigModel.objects.get(
+        system_exporter_markdown_config_name='SystemExporterMarkdownConfig'
+    )
 
     # get path for mkdocs.yml
     mkdconfpath = model.markdown_path + "/mkdocs.yml"
 
     # read content (dictionary) of mkdocs.yml if existent, else create dummy content
-    mkdconfdict = read_or_create_mkdocs_yml.read_or_create_mkdocs_yml(username, mkdconfpath)
+    mkdconfdict = read_or_create_mkdocs_yml.read_or_create_mkdocs_yml(
+        username, mkdconfpath
+    )
 
     # get pages list
     mkdconflist = mkdconfdict['pages']
@@ -169,7 +183,7 @@ def systemsorted_async(username, request_user=None):
             dummy = item['Systems']
             # set index
             j = i
-        except:     # coverage: ignore branch
+        except:  # coverage: ignore branch  # nosec
             # do nothing
             pass
 

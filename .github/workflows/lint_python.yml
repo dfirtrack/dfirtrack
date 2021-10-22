@@ -11,9 +11,11 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
       - run: pip install bandit black codespell flake8 isort mypy pytest pyupgrade safety
-      - run: bandit --recursive --skip B101,B106,B108,B110,B303 .
-      - run: black --check . || true
-      - run: codespell --ignore-words-list="entrys" --skip="*.css,*.js,*.map"
+      - run: bandit --recursive --tests B106 --exclude tests .  # hardcoded_password_funcarg
+      - run: bandit --recursive --tests B108 --exclude tests,dfirtrack_main/views/entry_views.py .  # hardcoded_tmp_directory
+      - run: bandit --recursive --skip B106,B108 .
+      - run: black --check --skip-string-normalization .
+      - run: codespell --skip="*.css,*.js,*.map"
       - run: flake8 . --count --select=E5,E9,F63,F7,F82,W291
                       --max-complexity=132 --max-line-length=313
                       --show-source --statistics
@@ -26,4 +28,4 @@ jobs:
       - run: pytest . || true
       - run: pytest --doctest-modules . || true
       - run: shopt -s globstar && pyupgrade --keep-mock --py36-plus **/*.py
-      - run: safety check || true  # allow failures until `coverage` is fixed
+      - run: safety check

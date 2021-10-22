@@ -4,7 +4,7 @@ from dfirtrack_main.models import Reason
 
 
 class ReasonModelTestCase(TestCase):
-    """ reason model tests """
+    """reason model tests"""
 
     @classmethod
     def setUpTestData(cls):
@@ -13,7 +13,7 @@ class ReasonModelTestCase(TestCase):
         Reason.objects.create(reason_name='reason_1')
 
     def test_reason_string(self):
-        """ test string representation """
+        """test string representation"""
 
         # get object
         reason_1 = Reason.objects.get(reason_name='reason_1')
@@ -21,7 +21,7 @@ class ReasonModelTestCase(TestCase):
         self.assertEqual(str(reason_1), 'reason_1')
 
     def test_reason_id_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         reason_1 = Reason.objects.get(reason_name='reason_1')
@@ -31,7 +31,7 @@ class ReasonModelTestCase(TestCase):
         self.assertEqual(field_label, 'reason id')
 
     def test_reason_name_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         reason_1 = Reason.objects.get(reason_name='reason_1')
@@ -41,7 +41,7 @@ class ReasonModelTestCase(TestCase):
         self.assertEqual(field_label, 'reason name')
 
     def test_reason_note_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         reason_1 = Reason.objects.get(reason_name='reason_1')
@@ -51,11 +51,11 @@ class ReasonModelTestCase(TestCase):
         self.assertEqual(field_label, 'reason note')
 
     def test_reason_name_length(self):
-        """ test for max length """
+        """test for max length"""
 
         # get object
         reason_1 = Reason.objects.get(reason_name='reason_1')
         # get max length
         max_length = reason_1._meta.get_field('reason_name').max_length
         # compare
-        self.assertEqual(max_length, 30)
+        self.assertEqual(max_length, 255)

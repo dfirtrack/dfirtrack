@@ -3,8 +3,14 @@
 FOR NEW TASKSTATUSES ADD NEW BUTTONS HERE
 -->
 
+<!-- taskstatus '00_blocked' -->
+{% if taskstatus.taskstatus_name == '00_blocked' %}
+    <div class="btn btn-light btn-sm copy-false">
+        <img src="{% static 'dfirtrack_main/icons/timer.svg' %}" class="icon-sm copy-false" alt="icon">
+    </div>
+
 <!-- taskstatus '10_pending' -->
-{% if taskstatus.taskstatus_name == '10_pending' %}
+{% elif taskstatus.taskstatus_name == '10_pending' %}
     <div class="btn btn-light btn-sm copy-false">
         <img src="{% static 'dfirtrack_main/icons/moon.svg' %}" class="icon-sm copy-false" alt="icon">
     </div>
@@ -19,6 +25,12 @@ FOR NEW TASKSTATUSES ADD NEW BUTTONS HERE
 {% elif taskstatus.taskstatus_name == '30_done' %}
     <div class="btn btn-light btn-sm copy-false">
         <img src="{% static 'dfirtrack_main/icons/check.svg' %}" class="icon-sm copy-false" alt="icon">
+    </div>
+
+<!-- taskstatus '40_skipped' -->
+{% elif taskstatus.taskstatus_name == '40_skipped' %}
+    <div class="btn btn-light btn-sm copy-false">
+        <img src="{% static 'dfirtrack_main/icons/power-standby.svg' %}" class="icon-sm copy-false" alt="icon">
     </div>
 
 {% endif %}

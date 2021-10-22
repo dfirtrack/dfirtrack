@@ -5,7 +5,7 @@ from dfirtrack_main.models import Tagcolor
 
 
 class TagFormTestCase(TestCase):
-    """ tag form tests """
+    """tag form tests"""
 
     @classmethod
     def setUpTestData(cls):
@@ -14,7 +14,7 @@ class TagFormTestCase(TestCase):
         Tagcolor.objects.create(tagcolor_name='tagcolor_1')
 
     def test_tag_name_form_label(self):
-        """ test form label """
+        """test form label"""
 
         # get object
         form = TagForm()
@@ -22,7 +22,7 @@ class TagFormTestCase(TestCase):
         self.assertEqual(form.fields['tag_name'].label, 'Tag name (*)')
 
     def test_tag_tagcolor_form_label(self):
-        """ test form label """
+        """test form label"""
 
         # get object
         form = TagForm()
@@ -31,7 +31,7 @@ class TagFormTestCase(TestCase):
         self.assertEqual(form.fields['tagcolor'].empty_label, 'Select tag color')
 
     def test_tag_note_form_label(self):
-        """ test form label """
+        """test form label"""
 
         # get object
         form = TagForm()
@@ -39,66 +39,82 @@ class TagFormTestCase(TestCase):
         self.assertEqual(form.fields['tag_note'].label, 'Tag note')
 
     def test_tag_form_empty(self):
-        """ test minimum form requirements / INVALID """
+        """test minimum form requirements / INVALID"""
 
         # get object
-        form = TagForm(data = {})
+        form = TagForm(data={})
         # compare
         self.assertFalse(form.is_valid())
 
     def test_tag_name_form_filled(self):
-        """ test minimum form requirements / INVALID """
+        """test minimum form requirements / INVALID"""
 
         # get object
-        form = TagForm(data = {
-            'tag_name': 'tag_1',
-        })
+        form = TagForm(
+            data={
+                'tag_name': 'tag_1',
+            }
+        )
         # compare
         self.assertFalse(form.is_valid())
 
     def test_tag_tagcolor_form_filled(self):
-        """ test minimum form requirements / VALID """
+        """test minimum form requirements / VALID"""
 
         # get foreign key object id
         tagcolor_id = Tagcolor.objects.get(tagcolor_name='tagcolor_1').tagcolor_id
         # get object
-        form = TagForm(data = {
-            'tag_name': 'tag_1',
-            'tagcolor': tagcolor_id,
-        })
+        form = TagForm(
+            data={
+                'tag_name': 'tag_1',
+                'tagcolor': tagcolor_id,
+            }
+        )
         # compare
         self.assertTrue(form.is_valid())
 
     def test_tag_note_form_filled(self):
-        """ test additional form content """
+        """test additional form content"""
 
         # get foreign key object id
         tagcolor_id = Tagcolor.objects.get(tagcolor_name='tagcolor_1').tagcolor_id
         # get object
-        form = TagForm(data = {
-            'tag_name': 'tag_1',
-            'tagcolor': tagcolor_id,
-            'tag_note': 'lorem ipsum',
-        })
+        form = TagForm(
+            data={
+                'tag_name': 'tag_1',
+                'tagcolor': tagcolor_id,
+                'tag_note': 'lorem ipsum',
+            }
+        )
         # compare
         self.assertTrue(form.is_valid())
 
     def test_tag_name_proper_chars(self):
-        """ test for max length """
+        """test for max length"""
 
         # get foreign key object id
         tagcolor_id = Tagcolor.objects.get(tagcolor_name='tagcolor_1').tagcolor_id
         # get object
-        form = TagForm(data = {'tag_name': 'tttttttttttttttttttttttttttttttttttttttttttttttttt', 'tagcolor': tagcolor_id})
+        form = TagForm(
+            data={
+                'tag_name': 't' * 255,
+                'tagcolor': tagcolor_id,
+            }
+        )
         # compare
         self.assertTrue(form.is_valid())
 
     def test_tag_name_too_many_chars(self):
-        """ test for max length """
+        """test for max length"""
 
         # get foreign key object id
         tagcolor_id = Tagcolor.objects.get(tagcolor_name='tagcolor_1').tagcolor_id
         # get object
-        form = TagForm(data = {'tag_name': 'ttttttttttttttttttttttttttttttttttttttttttttttttttt', 'tagcolor': tagcolor_id})
+        form = TagForm(
+            data={
+                'tag_name': 't' * 256,
+                'tagcolor': tagcolor_id,
+            }
+        )
         # compare
         self.assertFalse(form.is_valid())

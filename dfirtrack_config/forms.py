@@ -37,6 +37,14 @@ from dfirtrack_main.models import (
 class ArtifactExporterSpreadsheetXlsConfigForm(forms.ModelForm):
     """artifact exporter spreadsheet xls config form"""
 
+    # reorder field choices
+    artifactlist_xls_choice_artifactstatus = forms.ModelMultipleChoiceField(
+        queryset=Artifactstatus.objects.order_by('artifactstatus_name'),
+        label='Export only artifacts with this artifactstatus',
+        required=True,
+        widget=forms.CheckboxSelectMultiple(),
+    )
+
     class Meta:
 
         # model
@@ -66,7 +74,6 @@ class ArtifactExporterSpreadsheetXlsConfigForm(forms.ModelForm):
         )
 
         labels = {
-            'artifactlist_xls_choice_artifactstatus': 'Export only artifacts with this artifactstatus',
             'artifactlist_xls_artifact_id': 'Export artifact ID',
             'artifactlist_xls_system_id': 'Export system ID',
             'artifactlist_xls_system_name': 'Export system name',
@@ -85,10 +92,6 @@ class ArtifactExporterSpreadsheetXlsConfigForm(forms.ModelForm):
             'artifactlist_xls_artifact_modify_time': 'Export modify time',
             'artifactlist_xls_worksheet_artifactstatus': 'Export worksheet to explain artifactstatus',
             'artifactlist_xls_worksheet_artifacttype': 'Export worksheet to explain artifacttype',
-        }
-
-        widgets = {
-            'artifactlist_xls_choice_artifactstatus': forms.CheckboxSelectMultiple(),
         }
 
 

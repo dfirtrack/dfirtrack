@@ -20,6 +20,7 @@ class ReportitemList(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " REPORTITEM_LIST_ENTERED")
         return Reportitem.objects.order_by('reportitem_id')
 
+
 class ReportitemDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Reportitem
@@ -30,6 +31,7 @@ class ReportitemDetail(LoginRequiredMixin, DetailView):
         reportitem = self.object
         reportitem.logger(str(self.request.user), " REPORTITEM_DETAIL_ENTERED")
         return context
+
 
 class ReportitemCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
@@ -57,10 +59,14 @@ class ReportitemCreate(LoginRequiredMixin, CreateView):
                 }
             )
         debug_logger(str(request.user), " REPORTITEM_ADD_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Add',
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -73,14 +79,24 @@ class ReportitemCreate(LoginRequiredMixin, CreateView):
             reportitem.logger(str(request.user), " REPORTITEM_ADD_EXECUTED")
             messages.success(request, 'Reportitem added')
             if 'documentation' in request.GET:
-                return redirect(reverse('documentation_list') + f'#reportitem_id_{reportitem.reportitem_id}')
+                return redirect(
+                    reverse('documentation_list')
+                    + f'#reportitem_id_{reportitem.reportitem_id}'
+                )
             else:
-                return redirect(reverse('system_detail', args=(reportitem.system.system_id,)))
+                return redirect(
+                    reverse('system_detail', args=(reportitem.system.system_id,))
+                )
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Add',
+                },
+            )
+
 
 class ReportitemUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
@@ -92,10 +108,14 @@ class ReportitemUpdate(LoginRequiredMixin, UpdateView):
         reportitem = self.get_object()
         form = self.form_class(instance=reportitem)
         reportitem.logger(str(request.user), " REPORTITEM_EDIT_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Edit',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Edit',
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         reportitem = self.get_object()
@@ -108,11 +128,20 @@ class ReportitemUpdate(LoginRequiredMixin, UpdateView):
             reportitem.logger(str(request.user), " REPORTITEM_EDIT_EXECUTED")
             messages.success(request, 'Reportitem edited')
             if 'documentation' in request.GET:
-                return redirect(reverse('documentation_list') + f'#reportitem_id_{reportitem.reportitem_id}')
+                return redirect(
+                    reverse('documentation_list')
+                    + f'#reportitem_id_{reportitem.reportitem_id}'
+                )
             else:
-                return redirect(reverse('system_detail', args=(reportitem.system.system_id,)))
+                return redirect(
+                    reverse('system_detail', args=(reportitem.system.system_id,))
+                )
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Edit',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Edit',
+                },
+            )

@@ -4,7 +4,7 @@ from dfirtrack_main.models import Location
 
 
 class LocationModelTestCase(TestCase):
-    """ location model tests """
+    """location model tests"""
 
     @classmethod
     def setUpTestData(cls):
@@ -13,7 +13,7 @@ class LocationModelTestCase(TestCase):
         Location.objects.create(location_name='location_1')
 
     def test_location_string(self):
-        """ test string representation """
+        """test string representation"""
 
         # get object
         location_1 = Location.objects.get(location_name='location_1')
@@ -21,7 +21,7 @@ class LocationModelTestCase(TestCase):
         self.assertEqual(str(location_1), 'location_1')
 
     def test_location_id_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         location_1 = Location.objects.get(location_name='location_1')
@@ -31,7 +31,7 @@ class LocationModelTestCase(TestCase):
         self.assertEqual(field_label, 'location id')
 
     def test_location_name_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         location_1 = Location.objects.get(location_name='location_1')
@@ -41,7 +41,7 @@ class LocationModelTestCase(TestCase):
         self.assertEqual(field_label, 'location name')
 
     def test_location_note_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         location_1 = Location.objects.get(location_name='location_1')
@@ -51,11 +51,11 @@ class LocationModelTestCase(TestCase):
         self.assertEqual(field_label, 'location note')
 
     def test_location_name_length(self):
-        """ test for max length """
+        """test for max length"""
 
         # get object
         location_1 = Location.objects.get(location_name='location_1')
         # get max length
         max_length = location_1._meta.get_field('location_name').max_length
         # compare
-        self.assertEqual(max_length, 50)
+        self.assertEqual(max_length, 255)

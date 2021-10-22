@@ -5,13 +5,13 @@ from dfirtrack_main.models import Tag
 
 
 class TagWidget(forms.CheckboxSelectMultiple):
-    ''' Custom tag widget '''
+    '''Custom tag widget'''
 
     # widget template for dynamic tags (javascript based)
     template_name = 'dfirtrack_main/widgets/tag_widget.html'
 
     def __init__(self, *args, **kwargs):
-         super().__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def render(self, name, value, attrs=None, choices=(), renderer=None):
         # get all context information parent function

@@ -366,7 +366,7 @@
             <!-- open tasks -->
             {% if system.task_set.all %}
                 {% for i in system.task_set.all %}
-                    {% if i.taskstatus.taskstatus_name != '30_done' %}
+                    {% if i.taskstatus.taskstatus_name == '00_blocked' or i.taskstatus.taskstatus_name == '10_pending' or i.taskstatus.taskstatus_name == '20_working' %}
 
                         <!-- table row -->
                         {% with get_key='system' key_id=system.system_id %}
@@ -477,7 +477,7 @@
                 <!-- closed tasks -->
                 {% if system.task_set.all %}
                     {% for i in system.task_set.all %}
-                        {% if i.taskstatus.taskstatus_name == '30_done' %}
+                        {% if i.taskstatus.taskstatus_name == '30_done' or i.taskstatus.taskstatus_name == '40_skipped' %}
 
                             <!-- table row -->
                             {% with get_key='system' key_id=system.system_id %}

@@ -4,7 +4,7 @@ from dfirtrack_main.models import Taskpriority
 
 
 class TaskpriorityModelTestCase(TestCase):
-    """ taskpriority model tests """
+    """taskpriority model tests"""
 
     @classmethod
     def setUpTestData(cls):
@@ -13,7 +13,7 @@ class TaskpriorityModelTestCase(TestCase):
         Taskpriority.objects.create(taskpriority_name='prio_1')
 
     def test_taskpriority_string(self):
-        """ test string representation """
+        """test string representation"""
 
         # get object
         taskpriority_1 = Taskpriority.objects.get(taskpriority_name='prio_1')
@@ -21,7 +21,7 @@ class TaskpriorityModelTestCase(TestCase):
         self.assertEqual(str(taskpriority_1), 'prio_1')
 
     def test_taskpriority_id_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         taskpriority_1 = Taskpriority.objects.get(taskpriority_name='prio_1')
@@ -31,7 +31,7 @@ class TaskpriorityModelTestCase(TestCase):
         self.assertEqual(field_label, 'taskpriority id')
 
     def test_taskpriority_name_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         taskpriority_1 = Taskpriority.objects.get(taskpriority_name='prio_1')
@@ -41,11 +41,11 @@ class TaskpriorityModelTestCase(TestCase):
         self.assertEqual(field_label, 'taskpriority name')
 
     def test_taskpriority_name_length(self):
-        """ test for max length """
+        """test for max length"""
 
         # get object
         taskpriority_1 = Taskpriority.objects.get(taskpriority_name='prio_1')
         # get max length
         max_length = taskpriority_1._meta.get_field('taskpriority_name').max_length
         # compare
-        self.assertEqual(max_length, 50)
+        self.assertEqual(max_length, 255)

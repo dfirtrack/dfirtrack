@@ -21,6 +21,7 @@ class HeadlineList(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " HEADLINE_LIST_ENTERED")
         return Headline.objects.order_by('headline_name')
 
+
 class HeadlineDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Headline
@@ -32,6 +33,7 @@ class HeadlineDetail(LoginRequiredMixin, DetailView):
         headline.logger(str(self.request.user), " HEADLINE_DETAIL_ENTERED")
         return context
 
+
 class HeadlineCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Headline
@@ -41,11 +43,15 @@ class HeadlineCreate(LoginRequiredMixin, CreateView):
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " HEADLINE_ADD_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-            'object_type': 'headline',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'headline',
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -56,11 +62,16 @@ class HeadlineCreate(LoginRequiredMixin, CreateView):
             messages.success(request, 'Headline added')
             return redirect(reverse('headline_detail', args=(headline.headline_id,)))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-                'object_type': 'headline',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Add',
+                    'object_type': 'headline',
+                },
+            )
+
 
 class HeadlineCreatePopup(LoginRequiredMixin, CreateView):
     login_url = '/login'
@@ -71,11 +82,15 @@ class HeadlineCreatePopup(LoginRequiredMixin, CreateView):
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " HEADLINE_ADD_POPUP_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-            'object_type': 'headline',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'headline',
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -84,13 +99,20 @@ class HeadlineCreatePopup(LoginRequiredMixin, CreateView):
             headline.save()
             headline.logger(str(request.user), " HEADLINE_ADD_POPUP_EXECUTED")
             messages.success(request, 'Headline added')
-            return HttpResponse('<script type="text/javascript">window.close();</script>')
+            return HttpResponse(
+                '<script type="text/javascript">window.close();</script>'
+            )
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-                'object_type': 'headline',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Add',
+                    'object_type': 'headline',
+                },
+            )
+
 
 class HeadlineUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
@@ -102,12 +124,16 @@ class HeadlineUpdate(LoginRequiredMixin, UpdateView):
         headline = self.get_object()
         form = self.form_class(instance=headline)
         headline.logger(str(request.user), " HEADLINE_EDIT_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Edit',
-            'object_type': 'headline',
-            'object_name': headline.headline_name,
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Edit',
+                'object_type': 'headline',
+                'object_name': headline.headline_name,
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         headline = self.get_object()
@@ -119,9 +145,13 @@ class HeadlineUpdate(LoginRequiredMixin, UpdateView):
             messages.success(request, 'Headline edited')
             return redirect(reverse('headline_detail', args=(headline.headline_id,)))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Edit',
-                'object_type': 'headline',
-                'object_name': headline.headline_name,
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Edit',
+                    'object_type': 'headline',
+                    'object_name': headline.headline_name,
+                },
+            )

@@ -19,6 +19,7 @@ class CasetypeList(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " CASETYPE_LIST_ENTERED")
         return Casetype.objects.order_by('casetype_name')
 
+
 class CasetypeDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Casetype
@@ -30,6 +31,7 @@ class CasetypeDetail(LoginRequiredMixin, DetailView):
         casetype.logger(str(self.request.user), ' CASETYPE_DETAIL_ENTERED')
         return context
 
+
 class CasetypeCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Casetype
@@ -39,17 +41,22 @@ class CasetypeCreate(LoginRequiredMixin, CreateView):
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), ' CASETYPE_ADD_ENTERED')
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-            'object_type': 'casetype',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'casetype',
+            },
+        )
 
     def form_valid(self, form):
         self.object = form.save()
         self.object.logger(str(self.request.user), ' CASETYPE_ADD_EXECUTED')
         messages.success(self.request, 'Casetype added')
         return super().form_valid(form)
+
 
 class CasetypeCreatePopup(LoginRequiredMixin, CreateView):
     login_url = '/login'
@@ -60,11 +67,15 @@ class CasetypeCreatePopup(LoginRequiredMixin, CreateView):
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " CASETYPE_ADD_POPUP_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-            'object_type': 'casetype',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'casetype',
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -73,13 +84,20 @@ class CasetypeCreatePopup(LoginRequiredMixin, CreateView):
             casetype.save()
             casetype.logger(str(request.user), " CASETYPE_ADD_POPUP_EXECUTED")
             messages.success(request, 'Casetype added')
-            return HttpResponse('<script type="text/javascript">window.close();</script>')
+            return HttpResponse(
+                '<script type="text/javascript">window.close();</script>'
+            )
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-                'object_type': 'casetype',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Add',
+                    'object_type': 'casetype',
+                },
+            )
+
 
 class CasetypeUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
@@ -89,14 +107,18 @@ class CasetypeUpdate(LoginRequiredMixin, UpdateView):
 
     def get(self, request, *args, **kwargs):
         casetype = self.get_object()
-        form = self.form_class(instance = casetype)
+        form = self.form_class(instance=casetype)
         casetype.logger(str(request.user), ' CASETYPE_EDIT_ENTERED')
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Edit',
-            'object_type': 'casetype',
-            'object_name': casetype.casetype_name,
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Edit',
+                'object_type': 'casetype',
+                'object_name': casetype.casetype_name,
+            },
+        )
 
     def form_valid(self, form):
         self.object = form.save()

@@ -212,7 +212,7 @@
   become_method: sudo
 
 - name: NGINX | Create self signed certificates for SSL
-  command: 'openssl req -newkey rsa:4096 -days 365 -nodes -x509 -subj "/O={{ openssl_o}}/CN={{ fqdn }}/OU={{ openssl_ou }}" -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt'
+  command: 'openssl req -newkey rsa:4096 -days 365 -nodes -x509 -subj "/O={{ openssl_o }}/CN={{ fqdn }}/OU={{ openssl_ou }}" -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt'
   become: yes
   become_method: sudo
 

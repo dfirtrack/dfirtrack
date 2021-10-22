@@ -4,7 +4,7 @@ from dfirtrack_main.models import Domain
 
 
 class DomainModelTestCase(TestCase):
-    """ domain model tests """
+    """domain model tests"""
 
     @classmethod
     def setUpTestData(cls):
@@ -13,7 +13,7 @@ class DomainModelTestCase(TestCase):
         Domain.objects.create(domain_name='domain_1')
 
     def test_domain_string(self):
-        """ test string representation """
+        """test string representation"""
 
         # get object
         domain_1 = Domain.objects.get(domain_name='domain_1')
@@ -21,7 +21,7 @@ class DomainModelTestCase(TestCase):
         self.assertEqual(str(domain_1), 'domain_1')
 
     def test_domain_id_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         domain_1 = Domain.objects.get(domain_name='domain_1')
@@ -31,7 +31,7 @@ class DomainModelTestCase(TestCase):
         self.assertEqual(field_label, 'domain id')
 
     def test_domain_name_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         domain_1 = Domain.objects.get(domain_name='domain_1')
@@ -41,7 +41,7 @@ class DomainModelTestCase(TestCase):
         self.assertEqual(field_label, 'domain name')
 
     def test_domain_note_attribute_label(self):
-        """ test attribute label """
+        """test attribute label"""
 
         # get object
         domain_1 = Domain.objects.get(domain_name='domain_1')
@@ -51,11 +51,11 @@ class DomainModelTestCase(TestCase):
         self.assertEqual(field_label, 'domain note')
 
     def test_domain_name_length(self):
-        """ test for max length """
+        """test for max length"""
 
         # get object
         domain_1 = Domain.objects.get(domain_name='domain_1')
         # get max length
         max_length = domain_1._meta.get_field('domain_name').max_length
         # compare
-        self.assertEqual(max_length, 100)
+        self.assertEqual(max_length, 255)

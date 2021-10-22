@@ -10,14 +10,17 @@ class AnalysisstatusList(LoginRequiredMixin, ListView):
     model = Analysisstatus
     template_name = 'dfirtrack_main/analysisstatus/analysisstatus_list.html'
     context_object_name = 'analysisstatus_list'
+
     def get_queryset(self):
         debug_logger(str(self.request.user), " ANALYSISSTATUS_ENTERED")
         return Analysisstatus.objects.order_by('analysisstatus_name')
+
 
 class AnalysisstatusDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Analysisstatus
     template_name = 'dfirtrack_main/analysisstatus/analysisstatus_detail.html'
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         analysisstatus = self.object

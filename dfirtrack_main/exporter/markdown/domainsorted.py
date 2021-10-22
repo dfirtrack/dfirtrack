@@ -19,7 +19,7 @@ from dfirtrack_main.models import Domain, System
 
 
 def write_report_domainsorted(system, username):
-    """ function that prepares return values and paths """
+    """function that prepares return values and paths"""
 
     """
     the return values (prefix 'r') are used for the `mkdocs.yml` file
@@ -67,7 +67,9 @@ def write_report_domainsorted(system, username):
         rpath = "systems/" + "other_domains/" + path + ".md"
 
     # get config model
-    model = SystemExporterMarkdownConfigModel.objects.get(system_exporter_markdown_config_name = 'SystemExporterMarkdownConfig')
+    model = SystemExporterMarkdownConfigModel.objects.get(
+        system_exporter_markdown_config_name='SystemExporterMarkdownConfig'
+    )
 
     # finish path for markdown file
     if system.domain != None:
@@ -87,13 +89,20 @@ def write_report_domainsorted(system, username):
     report.close()
 
     # call logger
-    info_logger(username, " SYSTEM_MARKDOWN_CREATED system_id:" + str(system.system_id) + "|system_name:" + str(system.system_name))
+    info_logger(
+        username,
+        " SYSTEM_MARKDOWN_CREATED system_id:"
+        + str(system.system_id)
+        + "|system_name:"
+        + str(system.system_name),
+    )
 
     # return strings for mkdocs.yml (only used in domainsorted_async)
-    return(rid, rfqdn, rpath, rdomain)
+    return (rid, rfqdn, rpath, rdomain)
+
 
 def domainsorted(request=None):
-    """ exports markdown report for all systems sorted by domain (helper function to call the real function) """
+    """exports markdown report for all systems sorted by domain (helper function to call the real function)"""
 
     # get username
     if request:
@@ -101,7 +110,7 @@ def domainsorted(request=None):
         username = str(request.user)
     else:
         # get config
-        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+        main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
         # get username from config
         username = main_config_model.cron_username
 
@@ -127,8 +136,9 @@ def domainsorted(request=None):
 
     return
 
+
 def domainsorted_async(username, request_user=None):
-    """ exports markdown report for all systems sorted by domain """
+    """exports markdown report for all systems sorted by domain"""
 
     # call directory cleaning function
     clean_directory.clean_directory(username)
@@ -137,7 +147,9 @@ def domainsorted_async(username, request_user=None):
     domains = Domain.objects.all()
 
     # get config model
-    model = SystemExporterMarkdownConfigModel.objects.get(system_exporter_markdown_config_name = 'SystemExporterMarkdownConfig')
+    model = SystemExporterMarkdownConfigModel.objects.get(
+        system_exporter_markdown_config_name='SystemExporterMarkdownConfig'
+    )
 
     # (re)create markdown directory for existing domains
     if len(domains) > 0:
@@ -148,7 +160,7 @@ def domainsorted_async(username, request_user=None):
     os.mkdir(model.markdown_path + "/docs/systems/other_domains/")
 
     # get all systems
-    systems = System.objects.all().order_by('domain','system_name')
+    systems = System.objects.all().order_by('domain', 'system_name')
 
     # create empty list and dict (needed for mkdocs.yml)
     systemlist = []
@@ -196,7 +208,9 @@ def domainsorted_async(username, request_user=None):
     mkdconfpath = model.markdown_path + "/mkdocs.yml"
 
     # read content (dictionary) of mkdocs.yml if existent, else create dummy content
-    mkdconfdict = read_or_create_mkdocs_yml.read_or_create_mkdocs_yml(username, mkdconfpath)
+    mkdconfdict = read_or_create_mkdocs_yml.read_or_create_mkdocs_yml(
+        username, mkdconfpath
+    )
 
     # get pages list
     mkdconflist = mkdconfdict['pages']
@@ -213,7 +227,7 @@ def domainsorted_async(username, request_user=None):
             dummy = item['Systems']
             # set index
             j = i
-        except:     # coverage: ignore branch
+        except:  # coverage: ignore branch  # nosec
             # do nothing
             pass
 
@@ -236,27 +250,21 @@ def domainsorted_async(username, request_user=None):
     """ adds hyphens for third level entries (are generated without but mkdocs needs them) """
 
     # open mkdocs.yml again for inplace replacement
-    mkdconffile= fileinput.FileInput(mkdconfpath, inplace=True)
+    mkdconffile = fileinput.FileInput(mkdconfpath, inplace=True)
     # iterate over lines in mkdocs.yml
     for line in mkdconffile:
         # add hyphen for entries in third level (needed by mkdocs)
-        line = re.sub(r"^      ",
-                      "    - ",
-                      line.rstrip()
-        )
+        line = re.sub(r"^      ", "    - ", line.rstrip())
         print(line)
 
     """ remove placeholder 'already_used_domain' that was created before for second level entries """
 
     # open mkdocs.yml again for inplace replacement
-    mkdconffile= fileinput.FileInput(mkdconfpath, inplace=True)
+    mkdconffile = fileinput.FileInput(mkdconfpath, inplace=True)
     # iterate over lines in mkdocs.yml
     for line in mkdconffile:
         # change placeholder to empty line
-        line = re.sub(r'^  - "already_used_domain":',
-                      '',
-                      line.rstrip()
-        )
+        line = re.sub(r'^  - "already_used_domain":', '', line.rstrip())
         print(line)
 
     """ remove empty lines created before instead of placeholder """

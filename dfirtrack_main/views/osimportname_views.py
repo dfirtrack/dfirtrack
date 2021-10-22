@@ -20,6 +20,7 @@ class OsimportnameList(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), " OSIMPORTNAME_LIST_ENTERED")
         return Osimportname.objects.order_by('osimportname_name')
 
+
 class OsimportnameCreate(LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Osimportname
@@ -29,11 +30,15 @@ class OsimportnameCreate(LoginRequiredMixin, CreateView):
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         debug_logger(str(request.user), " OSIMPORTNAME_ADD_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Add',
-            'object_type': 'osimportname',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Add',
+                'object_type': 'osimportname',
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -44,11 +49,16 @@ class OsimportnameCreate(LoginRequiredMixin, CreateView):
             messages.success(request, 'OS-Importname added')
             return redirect(reverse('osimportname_list'))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Add',
-                'object_type': 'osimportname',
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Add',
+                    'object_type': 'osimportname',
+                },
+            )
+
 
 class OsimportnameUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
@@ -60,12 +70,16 @@ class OsimportnameUpdate(LoginRequiredMixin, UpdateView):
         osimportname = self.get_object()
         form = self.form_class(instance=osimportname)
         osimportname.logger(str(request.user), " OSIMPORTNAME_EDIT_ENTERED")
-        return render(request, self.template_name, {
-            'form': form,
-            'title': 'Edit',
-            'object_type': 'osimportname',
-            'object_name': osimportname.osimportname_name,
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'title': 'Edit',
+                'object_type': 'osimportname',
+                'object_name': osimportname.osimportname_name,
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         osimportname = self.get_object()
@@ -77,9 +91,13 @@ class OsimportnameUpdate(LoginRequiredMixin, UpdateView):
             messages.success(request, 'OS-Importname edited')
             return redirect(reverse('osimportname_list'))
         else:
-            return render(request, self.template_name, {
-                'form': form,
-                'title': 'Edit',
-                'object_type': 'osimportname',
-                'object_name': osimportname.osimportname_name,
-            })
+            return render(
+                request,
+                self.template_name,
+                {
+                    'form': form,
+                    'title': 'Edit',
+                    'object_type': 'osimportname',
+                    'object_name': osimportname.osimportname_name,
+                },
+            )

@@ -15,6 +15,7 @@ class CasestatusList(LoginRequiredMixin, ListView):
         debug_logger(str(self.request.user), ' CASESTATUS_LIST_ENTERED')
         return Casestatus.objects.order_by('casestatus_name')
 
+
 class CasestatusDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = Casestatus

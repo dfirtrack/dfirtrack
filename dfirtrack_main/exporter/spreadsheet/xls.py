@@ -25,7 +25,7 @@ from dfirtrack_main.models import (
 
 
 def write_row(worksheet, content, row_num, style):
-    """ write single row to worksheet """
+    """write single row to worksheet"""
 
     # write row depending on column number
     for col_num in range(len(content)):
@@ -34,32 +34,31 @@ def write_row(worksheet, content, row_num, style):
     # return worksheet object
     return worksheet
 
+
 def style_headline():
-    """ change style to headline """
+    """change style to headline"""
 
     # define styling for headline
     style = xlwt.XFStyle()
-    style = xlwt.easyxf(
-        'font: bold on; alignment: horizontal center'
-    )
+    style = xlwt.easyxf('font: bold on; alignment: horizontal center')
 
     # return style object
     return style
 
+
 def style_default():
-    """ change style to default """
+    """change style to default"""
 
     # clear styling to default
     style = xlwt.XFStyle()
-    style = xlwt.easyxf(
-        'alignment: vertical top, horizontal left'
-    )
+    style = xlwt.easyxf('alignment: vertical top, horizontal left')
 
     # return style object
     return style
 
+
 def write_xls(username):
-    """ write spreadsheet """
+    """write spreadsheet"""
 
     # create workbook object with UTF-8 encoding
     workbook = xlwt.Workbook(encoding='utf-8')
@@ -71,7 +70,9 @@ def write_xls(username):
     style = style_headline()
 
     # get config model
-    model = SystemExporterSpreadsheetXlsConfigModel.objects.get(system_exporter_spreadsheet_xls_config_name = 'SystemExporterSpreadsheetXlsConfig')
+    model = SystemExporterSpreadsheetXlsConfigModel.objects.get(
+        system_exporter_spreadsheet_xls_config_name='SystemExporterSpreadsheetXlsConfig'
+    )
 
     """ start with headline """
 
@@ -195,7 +196,7 @@ def write_xls(username):
             entryline.append(reason)
         # recommendation
         if model.spread_xls_recommendation:
-            if system.recommendation== None:
+            if system.recommendation == None:
                 recommendation = ''
             else:
                 recommendation = system.recommendation.recommendation_name
@@ -314,7 +315,14 @@ def write_xls(username):
         worksheet_system = write_row(worksheet_system, entryline, row_num, style)
 
         # call logger
-        debug_logger(username, ' SYSTEM_XLS_SYSTEM_EXPORTED ' + 'system_id:' + str(system.system_id) + '|system_name:' + system.system_name)
+        debug_logger(
+            username,
+            ' SYSTEM_XLS_SYSTEM_EXPORTED '
+            + 'system_id:'
+            + str(system.system_id)
+            + '|system_name:'
+            + system.system_name,
+        )
 
     # write an empty row
     row_num += 2
@@ -331,7 +339,11 @@ def write_xls(username):
     """ add worksheet for systemstatus """
 
     # check all conditions
-    if model.spread_xls_worksheet_systemstatus and model.spread_xls_systemstatus and Systemstatus.objects.count() != 0:
+    if (
+        model.spread_xls_worksheet_systemstatus
+        and model.spread_xls_systemstatus
+        and Systemstatus.objects.count() != 0
+    ):
 
         # define name of worksheet within file
         worksheet_systemstatus = workbook.add_sheet('systemstatus')
@@ -351,7 +363,9 @@ def write_xls(username):
         row_num = 0
 
         # write headline
-        worksheet_systemstatus = write_row(worksheet_systemstatus, headline_systemstatus, row_num, style)
+        worksheet_systemstatus = write_row(
+            worksheet_systemstatus, headline_systemstatus, row_num, style
+        )
 
         # clear styling to default
         style = style_default()
@@ -378,12 +392,18 @@ def write_xls(username):
             entryline_systemstatus.append(systemstatus.systemstatus_note)
 
             # write line for systemstatus
-            worksheet_systemstatus = write_row(worksheet_systemstatus, entryline_systemstatus, row_num, style)
+            worksheet_systemstatus = write_row(
+                worksheet_systemstatus, entryline_systemstatus, row_num, style
+            )
 
     """ add worksheet for analysisstatus """
 
     # check all conditions
-    if model.spread_xls_worksheet_analysisstatus and model.spread_xls_analysisstatus and Analysisstatus.objects.count() != 0:
+    if (
+        model.spread_xls_worksheet_analysisstatus
+        and model.spread_xls_analysisstatus
+        and Analysisstatus.objects.count() != 0
+    ):
 
         # define name of worksheet within file
         worksheet_analysisstatus = workbook.add_sheet('analysisstatus')
@@ -403,7 +423,9 @@ def write_xls(username):
         row_num = 0
 
         # write headline
-        worksheet_analysisstatus = write_row(worksheet_analysisstatus, headline_analysisstatus, row_num, style)
+        worksheet_analysisstatus = write_row(
+            worksheet_analysisstatus, headline_analysisstatus, row_num, style
+        )
 
         # clear styling to default
         style = style_default()
@@ -430,12 +452,18 @@ def write_xls(username):
             entryline_analysisstatus.append(analysisstatus.analysisstatus_note)
 
             # write line for analysisstatus
-            worksheet_analysisstatus = write_row(worksheet_analysisstatus, entryline_analysisstatus, row_num, style)
+            worksheet_analysisstatus = write_row(
+                worksheet_analysisstatus, entryline_analysisstatus, row_num, style
+            )
 
     """ add worksheet for reason """
 
     # check all conditions
-    if model.spread_xls_worksheet_reason and model.spread_xls_reason and Reason.objects.count() != 0:
+    if (
+        model.spread_xls_worksheet_reason
+        and model.spread_xls_reason
+        and Reason.objects.count() != 0
+    ):
 
         # define name of worksheet within file
         worksheet_reason = workbook.add_sheet('reasons')
@@ -482,12 +510,18 @@ def write_xls(username):
             entryline_reason.append(reason.reason_note)
 
             # write line for reason
-            worksheet_reason = write_row(worksheet_reason, entryline_reason, row_num, style)
+            worksheet_reason = write_row(
+                worksheet_reason, entryline_reason, row_num, style
+            )
 
     """ add worksheet for recommendation """
 
     # check all conditions
-    if model.spread_xls_worksheet_recommendation and model.spread_xls_recommendation and Recommendation.objects.count() != 0:
+    if (
+        model.spread_xls_worksheet_recommendation
+        and model.spread_xls_recommendation
+        and Recommendation.objects.count() != 0
+    ):
 
         # define name of worksheet within file
         worksheet_recommendation = workbook.add_sheet('recommendations')
@@ -507,7 +541,9 @@ def write_xls(username):
         row_num = 0
 
         # write headline
-        worksheet_recommendation = write_row(worksheet_recommendation, headline_recommendation, row_num, style)
+        worksheet_recommendation = write_row(
+            worksheet_recommendation, headline_recommendation, row_num, style
+        )
 
         # clear styling to default
         style = style_default()
@@ -534,12 +570,18 @@ def write_xls(username):
             entryline_recommendation.append(recommendation.recommendation_note)
 
             # write line for recommendation
-            worksheet_recommendation = write_row(worksheet_recommendation, entryline_recommendation, row_num, style)
+            worksheet_recommendation = write_row(
+                worksheet_recommendation, entryline_recommendation, row_num, style
+            )
 
     """ add worksheet for tag """
 
     # check all conditions
-    if model.spread_xls_worksheet_tag and model.spread_xls_tag and Tag.objects.count() != 0:
+    if (
+        model.spread_xls_worksheet_tag
+        and model.spread_xls_tag
+        and Tag.objects.count() != 0
+    ):
 
         # define name of worksheet within file
         worksheet_tag = workbook.add_sheet('tags')
@@ -594,15 +636,18 @@ def write_xls(username):
     # return xls object
     return workbook
 
+
 @login_required(login_url="/login")
 def system_create_cron(request):
-    """ helper function to check config before creating scheduled task """
+    """helper function to check config before creating scheduled task"""
 
     # get config
-    main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+    main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
 
     # check file system
-    stop_cron_exporter = check_content_file_system(main_config_model, 'SYSTEM_XLS', request)
+    stop_cron_exporter = check_content_file_system(
+        main_config_model, 'SYSTEM_XLS', request
+    )
 
     # check stop condition
     if stop_cron_exporter:
@@ -620,14 +665,15 @@ def system_create_cron(request):
         # build url
         urlpath = '/admin/django_q/schedule/add/'
         urlquery = urlencode(params)
-        admin_url_create_cron = urlunparse(('','',urlpath,'',urlquery,''))
+        admin_url_create_cron = urlunparse(('', '', urlpath, '', urlquery, ''))
 
         # open django admin with pre-filled form for scheduled task
         return redirect(admin_url_create_cron)
 
+
 @login_required(login_url="/login")
 def system(request):
-    """ instant spreadsheet export via button for direct download via browser """
+    """instant spreadsheet export via button for direct download via browser"""
 
     # create xls MIME type object
     xls_browser = HttpResponse(content_type='application/ms-excel')
@@ -647,14 +693,15 @@ def system(request):
     # return spreadsheet object to browser
     return xls_browser
 
+
 def system_cron():
-    """ spreadsheet export via scheduled task to server file system """
+    """spreadsheet export via scheduled task to server file system"""
 
     # prepare time for output file
     filetime = timezone.now().strftime('%Y%m%d_%H%M')
 
     # get config
-    main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
+    main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
 
     # check file system
     stop_cron_exporter = check_content_file_system(main_config_model, 'SYSTEM_XLS')
@@ -665,7 +712,9 @@ def system_cron():
         return
 
     # prepare output file path
-    output_file_path = main_config_model.cron_export_path + '/' + filetime + '_systems.xls'
+    output_file_path = (
+        main_config_model.cron_export_path + '/' + filetime + '_systems.xls'
+    )
 
     # get username from config
     username = main_config_model.cron_username
