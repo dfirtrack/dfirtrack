@@ -48,6 +48,23 @@ $(document).ready( function () {
             { "data": "system_modify_time" }
         ]
     } );
+    $('#table_tag').DataTable( {
+        "pageLength": 25,
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        "order": [[ 0, "asc" ]],
+        "columnDefs": [
+            { "width": "3%", "targets": 0 },
+            { "width": "27%", "targets": 1 },
+            { "width": "5%", "targets": 2 },
+            { "width": "5%", "targets": 3 },
+            { "width": "5%", "targets": 4 },
+            { "width": "5%", "targets": 5 },
+            { "width": "5%", "targets": 6 },
+            { "width": "5%", "targets": 7 },
+            { "width": "20%", "targets": 8 },
+            { "width": "10%", "targets": 9 },
+        ]
+    } );
     $('#table_task_reduced_closed').DataTable( {
         "pageLength": 10,
         "order": [[ 0, "asc" ]],

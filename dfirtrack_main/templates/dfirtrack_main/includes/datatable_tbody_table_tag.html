@@ -1,0 +1,76 @@
+<!-- table body for datatable case -->
+
+{% load static %}
+
+<!-- table row -->
+<!-- (just one row, iterating over rows is done outside of this include file) -->
+<tr>
+
+    <!-- tag id -->
+    <td>
+        {{ i.tag_id }}
+    </td>
+
+    <!-- tag name -->
+    <td>
+        <a href="{{ i.get_absolute_url }}" type="button" class="btn btn-{{ i.tagcolor }} btn-sm round copy-true">
+            <!-- black tag icon for white tag (black color of font is defined in corresponding CSS for button) -->
+            {% if i.tagcolor.tagcolor_name == 'white' %}
+                <img src="{% static 'dfirtrack_main/icons/tag.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+            <!-- white tag icon for other tags (white color of font is defined in corresponding CSS for button) -->
+            {% else %}
+                <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+            {% endif %}
+            {{ i.tag_name }}
+        </a>
+    </td>
+
+    <!-- system -->
+    <td>
+        {{ i.system_set.all|length }}
+    </td>
+
+    <!-- artifact -->
+    <td>
+        {{ i.artifact_tag.all|length }}
+    </td>
+
+    <!-- case -->
+    <td>
+        {{ i.case_set.all|length }}
+    </td>
+
+    <!-- task -->
+    <td>
+        {{ i.task_set.all|length }}
+    </td>
+
+    <!-- note -->
+    <td>
+        {{ i.note_set.all|length }}
+    </td>
+
+    <!-- reportitem -->
+    <td>
+        {{ i.reportitem_set.all|length }}
+    </td>
+
+    <!-- tag modify user -->
+    <td>
+        {% if i.tag_modified_by_user_id %}
+            {{ i.tag_modified_by_user_id }}
+        {% else %}
+            ---
+        {% endif %}
+    </td>
+
+    <!-- edit button -->
+    <td>
+        <a href="{{ i.get_update_url }}" type="button" class="btn btn-sm btn-light copy-false">
+            <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+            Edit
+        </a>
+    </td>
+
+<!-- table row -->
+</tr>

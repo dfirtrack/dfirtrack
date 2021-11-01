@@ -9,7 +9,10 @@
     DFIRTrack - Tags
 </title>
 
+<!-- javascript and CSS for datatables -->
 {% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.css' %}"/>
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.js' %}"></script>
 
 <!-- HTML head in maintemplate -->
 {% endblock %}
@@ -28,134 +31,25 @@
     </div>
 </div>
 
-<!-- headlines -->
-<div class="row font-weight-bold">
+<!-- datatable tag -->
+<table id="table_tag" class="display" width="100%">
 
-    <!-- tag id headline -->
-    <div class="col-1">
-        ID
-    </div>
+    <!-- table head -->
+    <thead>
+        {% include "dfirtrack_main/includes/datatable_thead_table_tag.html" %}
+    </thead>
 
-    <!-- tag name headline -->
-    <div class="col-3">
-        Tag
-    </div>
+    <!-- table body -->
+    <tbody>
+        {% for i in tag_list %}
+            {% include "dfirtrack_main/includes/datatable_tbody_table_tag.html" %}
+        {% endfor %}
+    </tbody>
 
-    <!-- system headline -->
-    <div class="col-1">
-        Systems
-    </div>
+</table>
 
-    <!-- artifact headline -->
-    <div class="col-1">
-        Artifacts
-    </div>
-
-    <!-- case headline -->
-    <div class="col-1">
-        Cases
-    </div>
-
-    <!-- task headline -->
-    <div class="col-1">
-        Tasks
-    </div>
-
-    <!-- note headline -->
-    <div class="col-1">
-        Notes
-    </div>
-
-    <!-- reportitem headline -->
-    <div class="col-1">
-        Reportitems
-    </div>
-
-    <!-- tag modify user headline -->
-    <div class="col-1">
-        Modified by
-    </div>
-
-<!-- headlines -->
-</div>
-
-<!-- tag list -->
-{% for i in tag_list %}
-
-    <!-- tag row -->
-    <div class="row top-distance">
-
-        <!-- tag id -->
-        <div class="col-1">
-            {{ i.tag_id }}
-        </div>
-
-        <!-- tag name -->
-        <div class="col-3">
-            <a href="{{ i.get_absolute_url }}" type="button" class="btn btn-{{ i.tagcolor }} btn-sm round copy-true">
-                <!-- black tag icon for white tag (black color of font is defined in corresponding CSS for button) -->
-                {% if i.tagcolor.tagcolor_name == 'white' %}
-                    <img src="{% static 'dfirtrack_main/icons/tag.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                <!-- white tag icon for other tags (white color of font is defined in corresponding CSS for button) -->
-                {% else %}
-                    <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                {% endif %}
-                {{ i.tag_name }}
-            </a>
-        </div>
-
-        <!-- system -->
-        <div class="col-1">
-            {{ i.system_set.all|length }}
-        </div>
-
-        <!-- artifact -->
-        <div class="col-1">
-            {{ i.artifact_tag.all|length }}
-        </div>
-
-        <!-- case -->
-        <div class="col-1">
-            {{ i.case_set.all|length }}
-        </div>
-
-        <!-- task -->
-        <div class="col-1">
-            {{ i.task_set.all|length }}
-        </div>
-
-        <!-- note -->
-        <div class="col-1">
-            {{ i.note_set.all|length }}
-        </div>
-
-        <!-- reportitem -->
-        <div class="col-1">
-            {{ i.reportitem_set.all|length }}
-        </div>
-
-        <!-- tag modify user -->
-        <div class="col-1">
-            {% if i.tag_modified_by_user_id %}
-                {{ i.tag_modified_by_user_id }}
-            {% else %}
-                ---
-            {% endif %}
-        </div>
-
-        <!-- edit button -->
-        <div class="col-1">
-            <a href="{{ i.get_update_url }}" type="button" class="btn btn-sm btn-light copy-false">
-                <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                Edit
-            </a>
-        </div>
-
-    <!-- tag row -->
-    </div>
-
-<!-- tag list -->
-{% endfor %}
+<!-- javascript for datatables -->
+<script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
 
 <!-- button block -->
 <div class="card card-body bg-dark border-light top-distance copy-false">
@@ -193,6 +87,11 @@
 
 <!-- button block -->
 </div>
+
+<!-- javascript for datatables -->
+{% block datatables %}
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.js' %}"></script>
+{% endblock %}
 
 <!-- HTML body in maintemplate -->
 {% endblock %}
