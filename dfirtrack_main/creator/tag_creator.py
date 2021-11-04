@@ -93,6 +93,9 @@ def tag_creator_async(request_post, request_user):
                 # add tag to system
                 system.tag.add(tag)
 
+                # save system to update system_modify_time
+                system.save()
+
                 """ object counter / log """
 
                 # autoincrement counter
