@@ -153,9 +153,23 @@ class SystemCreatorViewTestCase(TestCase):
             analysisstatus_name='analysisstatus_1'
         )
         systemstatus_2 = Systemstatus.objects.get(systemstatus_name='systemstatus_2')
+        # prepare content for systemlist
+        systemlist_field = (
+            'system_creator_system_1'
+            + '\n'
+            + 'system_creator_system_2'
+            + '\n'
+            + 'system_creator_system_3'
+            + '\n'
+            + ''
+            + '\n'
+            + 'x' * 256
+            + '\n'
+            + 'system_creator_duplicate_system'
+        )
         # create post data
         data_dict = {
-            'systemlist': 'system_creator_system_1\nsystem_creator_system_2\nsystem_creator_system_3\n\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nsystem_creator_duplicate_system',
+            'systemlist': systemlist_field,
             'analysisstatus': analysisstatus_1.analysisstatus_id,
             'systemstatus': systemstatus_2.systemstatus_id,
         }
@@ -201,9 +215,22 @@ class SystemCreatorViewTestCase(TestCase):
             analysisstatus_name='analysisstatus_1'
         )
         systemstatus_2 = Systemstatus.objects.get(systemstatus_name='systemstatus_2')
+        # prepare content for systemlist
+        systemlist_field = (
+            'system_creator_message_1'
+            + '\n'
+            + 'system_creator_message_2'
+            + '\n'
+            + 'system_creator_message_3'
+            + '\n'
+            + '\n'
+            + 'x' * 256
+            + '\n'
+            + 'system_creator_duplicate_system'
+        )
         # create post data
         data_dict = {
-            'systemlist': 'system_creator_message_1\nsystem_creator_message_2\nsystem_creator_message_3\n\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nsystem_creator_duplicate_system',
+            'systemlist': systemlist_field,
             'analysisstatus': analysisstatus_1.analysisstatus_id,
             'systemstatus': systemstatus_2.systemstatus_id,
         }
@@ -235,9 +262,19 @@ class SystemCreatorViewTestCase(TestCase):
             analysisstatus_name='analysisstatus_1'
         )
         systemstatus_2 = Systemstatus.objects.get(systemstatus_name='systemstatus_2')
+        # prepare content for systemlist
+        systemlist_field = (
+            'system_creator_message_4'
+            + '\n'
+            + ''
+            + '\n'
+            + 'system_creator_duplicate_system'
+            + '\n'
+            + 'system_creator_duplicate_system_2'
+        )
         # create post data
         data_dict = {
-            'systemlist': 'system_creator_message_4\n\nsystem_creator_duplicate_system\nsystem_creator_duplicate_system_2',
+            'systemlist': systemlist_field,
             'analysisstatus': analysisstatus_1.analysisstatus_id,
             'systemstatus': systemstatus_2.systemstatus_id,
         }
