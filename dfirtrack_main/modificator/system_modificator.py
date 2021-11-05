@@ -161,7 +161,7 @@ def system_modificator_async(request_post, request_user):
 
         # check for existence of system
         if system_char_field_used:
-            system = System.objects.filter(system_name=line)
+            system = System.objects.filter(system_name=line.strip())
         else:
             system = System.objects.filter(system_id=line)
 
@@ -201,7 +201,7 @@ def system_modificator_async(request_post, request_user):
 
         # get existing system
         if system_char_field_used:
-            system = System.objects.get(system_name=line)
+            system = System.objects.get(system_name=line.strip())
         else:
             system = System.objects.get(system_id=line)
 

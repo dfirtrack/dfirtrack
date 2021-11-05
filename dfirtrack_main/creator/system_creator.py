@@ -125,7 +125,7 @@ def system_creator_async(request_post, request_user):
             continue
 
         # check for existence of system
-        system = System.objects.filter(system_name=line)
+        system = System.objects.filter(system_name=line.strip())
 
         """ already existing system """
 

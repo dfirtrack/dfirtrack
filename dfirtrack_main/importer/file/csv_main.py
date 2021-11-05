@@ -172,7 +172,7 @@ def system_handler(request=None, uploadfile=False):
 
         # get all systems
         systemquery = System.objects.filter(
-            system_name=system_name,
+            system_name=system_name.strip(),
         )
 
         """ check how many systems were returned """
@@ -196,7 +196,7 @@ def system_handler(request=None, uploadfile=False):
 
             # get existing system object
             system = System.objects.get(
-                system_name=system_name,
+                system_name=system_name.strip(),
             )
 
             # change mandatory meta attributes
