@@ -117,7 +117,7 @@ def system_creator_async(request_post, request_user):
             continue
 
         # check line for length of string
-        if len(line) > 50:
+        if len(line) > 255:
             # autoincrement counter
             lines_faulty_counter += 1
             # call logger
