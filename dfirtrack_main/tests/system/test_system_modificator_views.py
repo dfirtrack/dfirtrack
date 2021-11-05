@@ -1508,7 +1508,7 @@ class SystemModificatorViewTestCase(TestCase):
             '2 lines out of 6 lines were faulty (see log file for details).',
         )
 
-    def test_system_modificator_post_split(self):
+    def test_system_modificator_post_strip(self):
         """test modificator view"""
 
         # login testuser
@@ -1521,20 +1521,20 @@ class SystemModificatorViewTestCase(TestCase):
         systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
         # create system
         System.objects.create(
-            system_name='system_modificator_split',
+            system_name='system_modificator_strip',
             systemstatus=systemstatus_1,
             system_created_by_user_id=test_user,
             system_modified_by_user_id=test_user,
         )
         # prepare content for systemlist
         systemlist_field = (
-            'system_modificator_split'
+            'system_modificator_strip'
             + '\n'
-            + '   system_modificator_split'
+            + '   system_modificator_strip'
             + '\n'
-            + 'system_modificator_split   '
+            + 'system_modificator_strip   '
             + '\n'
-            + '   system_modificator_split   ',
+            + '   system_modificator_strip   ',
         )
         # create post data
         data_dict = {
@@ -1552,13 +1552,13 @@ class SystemModificatorViewTestCase(TestCase):
         # get messages
         messages = list(get_messages(response.wsgi_request))
         # get systems
-        system_split = System.objects.filter(system_name='system_modificator_split')
+        system_strip = System.objects.filter(system_name='system_modificator_strip')
         # compare
         self.assertEqual(
             str(messages[1]),
             "4 systems were created / modified.",
         )
-        self.assertEqual(len(system_split), 1)
+        self.assertEqual(len(system_strip), 1)
 
     def test_system_modificator_post_workflow_messages(self):
         """test modificator view"""

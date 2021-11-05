@@ -293,7 +293,7 @@ class SystemCreatorViewTestCase(TestCase):
             '1 line out of 4 lines was faulty (see log file for details).',
         )
 
-    def test_system_creator_post_split(self):
+    def test_system_creator_post_strip(self):
         """test creator view"""
 
         # login testuser
@@ -309,20 +309,20 @@ class SystemCreatorViewTestCase(TestCase):
         systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
         # create system
         System.objects.create(
-            system_name='system_creator_split',
+            system_name='system_creator_strip',
             systemstatus=systemstatus_1,
             system_created_by_user_id=test_user,
             system_modified_by_user_id=test_user,
         )
         # prepare content for systemlist
         systemlist_field = (
-            'system_creator_split'
+            'system_creator_strip'
             + '\n'
-            + '   system_creator_split'
+            + '   system_creator_strip'
             + '\n'
-            + 'system_creator_split   '
+            + 'system_creator_strip   '
             + '\n'
-            + '   system_creator_split   '
+            + '   system_creator_strip   '
         )
         # create post data
         data_dict = {
@@ -337,7 +337,7 @@ class SystemCreatorViewTestCase(TestCase):
         # compare
         self.assertEqual(
             str(messages[1]),
-            "4 systems were skipped. ['system_creator_split', 'system_creator_split', 'system_creator_split', 'system_creator_split']",
+            "4 systems were skipped. ['system_creator_strip', 'system_creator_strip', 'system_creator_strip', 'system_creator_strip']",
         )
 
     def test_system_creator_post_workflow_messages(self):
