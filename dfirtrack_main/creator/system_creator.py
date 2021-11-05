@@ -134,7 +134,7 @@ def system_creator_async(request_post, request_user):
             # autoincrement counter
             systems_skipped_counter += 1
             # add system name to list of skipped systems
-            skipped_systems.append(line)
+            skipped_systems.append(line.strip())
             # call logger
             warning_logger(
                 str(request_user), f' SYSTEM_CREATOR_SYSTEM_EXISTS system_name:{line}'

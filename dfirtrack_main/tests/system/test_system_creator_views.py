@@ -293,6 +293,53 @@ class SystemCreatorViewTestCase(TestCase):
             '1 line out of 4 lines was faulty (see log file for details).',
         )
 
+    def test_system_creator_post_split(self):
+        """test creator view"""
+
+        # login testuser
+        self.client.login(
+            username='testuser_system_creator', password='Jbf5fZBhpg1aZsCW6L8r'
+        )
+        # get user
+        test_user = User.objects.get(username='testuser_system_creator')
+        # create objects
+        analysisstatus_1 = Analysisstatus.objects.create(
+            analysisstatus_name='analysisstatus_1'
+        )
+        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+        # create system
+        System.objects.create(
+            system_name='system_creator_split',
+            systemstatus=systemstatus_1,
+            system_created_by_user_id=test_user,
+            system_modified_by_user_id=test_user,
+        )
+        # prepare content for systemlist
+        systemlist_field = (
+            'system_creator_split'
+            + '\n'
+            + '   system_creator_split'
+            + '\n'
+            + 'system_creator_split   '
+            + '\n'
+            + '   system_creator_split   '
+        )
+        # create post data
+        data_dict = {
+            'systemlist': systemlist_field,
+            'analysisstatus': analysisstatus_1.analysisstatus_id,
+            'systemstatus': systemstatus_1.systemstatus_id,
+        }
+        # get response
+        response = self.client.post('/system/creator/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(
+            str(messages[1]),
+            "4 systems were skipped. ['system_creator_split', 'system_creator_split', 'system_creator_split', 'system_creator_split']",
+        )
+
     def test_system_creator_post_workflow_messages(self):
         """test creator view"""
 

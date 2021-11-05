@@ -1508,6 +1508,58 @@ class SystemModificatorViewTestCase(TestCase):
             '2 lines out of 6 lines were faulty (see log file for details).',
         )
 
+    def test_system_modificator_post_split(self):
+        """test modificator view"""
+
+        # login testuser
+        self.client.login(
+            username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G'
+        )
+        # get user
+        test_user = User.objects.get(username='testuser_system_modificator')
+        # get object
+        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+        # create system
+        System.objects.create(
+            system_name='system_modificator_split',
+            systemstatus=systemstatus_1,
+            system_created_by_user_id=test_user,
+            system_modified_by_user_id=test_user,
+        )
+        # prepare content for systemlist
+        systemlist_field = (
+            'system_modificator_split'
+            + '\n'
+            + '   system_modificator_split'
+            + '\n'
+            + 'system_modificator_split   '
+            + '\n'
+            + '   system_modificator_split   ',
+        )
+        # create post data
+        data_dict = {
+            'systemlist': systemlist_field,
+            'analysisstatus_choice': 'keep_status',
+            'systemstatus_choice': 'keep_status',
+            'company_delete': 'keep_not_add',
+            'contact_delete': 'keep_existing',
+            'location_delete': 'keep_existing',
+            'serviceprovider_delete': 'keep_existing',
+            'tag_delete': 'keep_not_add',
+        }
+        # get response
+        response = self.client.post('/system/modificator/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # get systems
+        system_split = System.objects.filter(system_name='system_modificator_split')
+        # compare
+        self.assertEqual(
+            str(messages[1]),
+            "4 systems were created / modified.",
+        )
+        self.assertEqual(len(system_split), 1)
+
     def test_system_modificator_post_workflow_messages(self):
         """test modificator view"""
 
