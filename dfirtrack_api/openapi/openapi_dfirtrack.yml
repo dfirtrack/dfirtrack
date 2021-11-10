@@ -2,7 +2,7 @@ openapi: 3.0.2
 info:
   title: DFIRTrack
   description: OpenAPI 3 - Documentation of DFIRTrack API
-  version: v2.0.0
+  version: v2.2.9
 paths:
   /api/artifact/:
     get:
@@ -3625,7 +3625,7 @@ components:
           readOnly: true
         analysisstatus_name:
           type: string
-          maxLength: 30
+          maxLength: 255
       required:
       - analysisstatus_name
     Case:
@@ -3637,10 +3637,10 @@ components:
         case_id_external:
           type: string
           nullable: true
-          maxLength: 50
+          maxLength: 255
         case_name:
           type: string
-          maxLength: 50
+          maxLength: 255
         casepriority:
           type: integer
         casestatus:
@@ -3720,7 +3720,7 @@ components:
           readOnly: true
         company_name:
           type: string
-          maxLength: 50
+          maxLength: 255
         division:
           type: integer
           nullable: true
@@ -3734,14 +3734,14 @@ components:
           readOnly: true
         contact_name:
           type: string
-          maxLength: 100
+          maxLength: 255
         contact_email:
           type: string
-          maxLength: 100
+          maxLength: 255
         contact_phone:
           type: string
           nullable: true
-          maxLength: 50
+          maxLength: 255
       required:
       - contact_name
       - contact_email
@@ -3753,7 +3753,7 @@ components:
           readOnly: true
         division_name:
           type: string
-          maxLength: 50
+          maxLength: 255
       required:
       - division_name
     Dnsname:
@@ -3764,7 +3764,7 @@ components:
           readOnly: true
         dnsname_name:
           type: string
-          maxLength: 100
+          maxLength: 255
         domain:
           type: integer
           nullable: true
@@ -3778,7 +3778,7 @@ components:
           readOnly: true
         domain_name:
           type: string
-          maxLength: 100
+          maxLength: 255
       required:
       - domain_name
     Domainuser:
@@ -3789,7 +3789,7 @@ components:
           readOnly: true
         domainuser_name:
           type: string
-          maxLength: 50
+          maxLength: 255
         domain:
           type: integer
         domainuser_is_domainadmin:
@@ -3806,7 +3806,7 @@ components:
           readOnly: true
         headline_name:
           type: string
-          maxLength: 100
+          maxLength: 255
       required:
       - headline_name
     Ip:
@@ -3827,7 +3827,7 @@ components:
           readOnly: true
         location_name:
           type: string
-          maxLength: 50
+          maxLength: 255
       required:
       - location_name
     Note:
@@ -3838,7 +3838,7 @@ components:
           readOnly: true
         note_title:
           type: string
-          maxLength: 250
+          maxLength: 255
         note_content:
           type: string
         note_version:
@@ -3880,7 +3880,7 @@ components:
           readOnly: true
         notestatus_name:
           type: string
-          maxLength: 30
+          maxLength: 255
       required:
       - notestatus_name
     Os:
@@ -3891,7 +3891,7 @@ components:
           readOnly: true
         os_name:
           type: string
-          maxLength: 30
+          maxLength: 255
       required:
       - os_name
     Osarch:
@@ -3902,7 +3902,7 @@ components:
           readOnly: true
         osarch_name:
           type: string
-          maxLength: 10
+          maxLength: 255
       required:
       - osarch_name
     Reason:
@@ -3913,7 +3913,7 @@ components:
           readOnly: true
         reason_name:
           type: string
-          maxLength: 30
+          maxLength: 255
       required:
       - reason_name
     Recommendation:
@@ -3924,7 +3924,7 @@ components:
           readOnly: true
         recommendation_name:
           type: string
-          maxLength: 30
+          maxLength: 255
       required:
       - recommendation_name
     Reportitem:
@@ -3949,7 +3949,7 @@ components:
         reportitem_subheadline:
           type: string
           nullable: true
-          maxLength: 100
+          maxLength: 255
         reportitem_note:
           type: string
         reportitem_create_time:
@@ -3979,7 +3979,7 @@ components:
           readOnly: true
         serviceprovider_name:
           type: string
-          maxLength: 50
+          maxLength: 255
       required:
       - serviceprovider_name
     System:
@@ -3994,7 +3994,7 @@ components:
           readOnly: true
         system_name:
           type: string
-          maxLength: 50
+          maxLength: 255
         domain:
           type: integer
           nullable: true
@@ -4089,7 +4089,7 @@ components:
           readOnly: true
         systemstatus_name:
           type: string
-          maxLength: 30
+          maxLength: 255
       required:
       - systemstatus_name
     Systemtype:
@@ -4100,7 +4100,7 @@ components:
           readOnly: true
         systemtype_name:
           type: string
-          maxLength: 50
+          maxLength: 255
       required:
       - systemtype_name
     Systemuser:
@@ -4111,7 +4111,7 @@ components:
           readOnly: true
         systemuser_name:
           type: string
-          maxLength: 50
+          maxLength: 255
         system:
           type: integer
         systemuser_lastlogon_time:
@@ -4132,7 +4132,7 @@ components:
           readOnly: true
         tag_name:
           type: string
-          maxLength: 50
+          maxLength: 255
         tagcolor:
           type: integer
       required:
@@ -4222,7 +4222,7 @@ components:
           readOnly: true
         taskname_name:
           type: string
-          maxLength: 50
+          maxLength: 255
       required:
       - taskname_name
     Taskpriority:
@@ -4233,7 +4233,7 @@ components:
           readOnly: true
         taskpriority_name:
           type: string
-          maxLength: 50
+          maxLength: 255
       required:
       - taskpriority_name
     Taskstatus:
@@ -4244,7 +4244,7 @@ components:
           readOnly: true
         taskstatus_name:
           type: string
-          maxLength: 50
+          maxLength: 255
       required:
       - taskstatus_name
     AuthToken:
