@@ -50,10 +50,20 @@ class SystemStripModelTestCase(TestCase):
             system_modified_by_user_id=test_user,
         )
         # compare
-        self.assertTrue(System.objects.filter(system_name='system_strip_normal').exists())
+        self.assertTrue(
+            System.objects.filter(system_name='system_strip_normal').exists()
+        )
         self.assertTrue(System.objects.filter(system_name='system_strip_left').exists())
-        self.assertTrue(System.objects.filter(system_name='system_strip_right').exists())
+        self.assertTrue(
+            System.objects.filter(system_name='system_strip_right').exists()
+        )
         self.assertTrue(System.objects.filter(system_name='system_strip_both').exists())
-        self.assertFalse(System.objects.filter(system_name='   system_strip_left').exists())
-        self.assertFalse(System.objects.filter(system_name='system_strip_right   ').exists())
-        self.assertFalse(System.objects.filter(system_name='   system_strip_both   ').exists())
+        self.assertFalse(
+            System.objects.filter(system_name='   system_strip_left').exists()
+        )
+        self.assertFalse(
+            System.objects.filter(system_name='system_strip_right   ').exists()
+        )
+        self.assertFalse(
+            System.objects.filter(system_name='   system_strip_both   ').exists()
+        )
