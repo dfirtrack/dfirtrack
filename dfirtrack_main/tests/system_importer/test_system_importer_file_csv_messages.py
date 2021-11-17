@@ -798,6 +798,59 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
         )
         self.assertEqual(messages[1].level_tag, 'warning')
 
+    def test_system_importer_file_csv_messages_cron_many_systems_strip(self):
+        """test importer view"""
+
+        # change config
+        set_csv_import_filename(
+            'system_importer_file_csv_testfile_13__messages_strip_system.csv'
+        )
+        # change config
+        set_csv_skip_existing_system(True)
+
+        # create system
+        create_system('system_importer_strip')
+
+        # mock timezone.now()
+        t_9 = datetime(2021, 11, 5, 14, 00, tzinfo=timezone.utc)
+        with patch.object(timezone, 'now', return_value=t_9):
+
+            # execute cron job / scheduled task
+            system_cron()
+
+        # login testuser
+        self.client.login(
+            username='testuser_system_importer_file_csv_messages',
+            password='a9aZU5mlnXbVv4TTgcMW',
+        )
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(
+            str(response.context['user']), 'testuser_system_importer_file_csv_messages'
+        )
+        self.assertEqual(
+            messages[0].message,
+            'System CSV importer: created: 0 | updated: 0 | skipped: 4 | multiple: 0 [2021-11-05 14:00:00 - 2021-11-05 14:00:00]',
+        )
+        self.assertEqual(messages[0].level_tag, 'success')
+        # switch user context
+        self.client.logout()
+        self.client.login(username='message_user', password='uNQIBX9woW0M834mJWex')
+        # get response
+        response = self.client.get('/system/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(str(response.context['user']), 'message_user')
+        self.assertEqual(
+            messages[0].message,
+            'System CSV importer: created: 0 | updated: 0 | skipped: 4 | multiple: 0 [2021-11-05 14:00:00 - 2021-11-05 14:00:00]',
+        )
+        self.assertEqual(messages[0].level_tag, 'success')
+
     def test_system_importer_file_csv_messages_instant_many_systems_create(self):
         """test importer view"""
 
@@ -910,6 +963,32 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
             "3 systems were skipped because they existed several times. ['system_csv_12_001', 'system_csv_12_002', 'system_csv_12_003']",
         )
         self.assertEqual(messages[0].level_tag, 'warning')
+
+    def test_system_importer_file_csv_messages_instant_many_systems_strip(self):
+        """test importer view"""
+
+        # change config
+        set_csv_import_filename(
+            'system_importer_file_csv_testfile_13__messages_strip_system.csv'
+        )
+        # change config
+        set_csv_skip_existing_system(True)
+
+        # create system
+        create_system('system_importer_strip')
+
+        # login testuser
+        self.client.login(
+            username='testuser_system_importer_file_csv_messages',
+            password='a9aZU5mlnXbVv4TTgcMW',
+        )
+        # get response
+        response = self.client.get('/system/importer/file/csv/instant/', follow=True)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(messages[0].message, '4 systems were skipped.')
+        self.assertEqual(messages[0].level_tag, 'success')
 
     def test_system_importer_file_csv_messages_upload_post_many_systems_create(self):
         """test importer view"""
@@ -1059,3 +1138,38 @@ class SystemImporterFileCsvMessagesViewTestCase(TestCase):
             "3 systems were skipped because they existed several times. ['system_csv_12_001', 'system_csv_12_002', 'system_csv_12_003']",
         )
         self.assertEqual(messages[0].level_tag, 'warning')
+
+    def test_system_importer_file_csv_messages_upload_post_many_systems_strip(self):
+        """test importer view"""
+
+        # change config
+        set_csv_skip_existing_system(True)
+
+        # create system
+        create_system('system_importer_strip')
+
+        # login testuser
+        self.client.login(
+            username='testuser_system_importer_file_csv_messages',
+            password='a9aZU5mlnXbVv4TTgcMW',
+        )
+        # open upload file
+        systemcsv = open(
+            os.path.join(
+                BASE_DIR,
+                'dfirtrack_main/tests/system_importer/system_importer_file_csv_files/system_importer_file_csv_testfile_13__messages_strip_system.csv',
+            )
+        )
+        # create post data
+        data_dict = {
+            'systemcsv': systemcsv,
+        }
+        # get response
+        response = self.client.post('/system/importer/file/csv/upload/', data_dict)
+        # close file
+        systemcsv.close()
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(messages[0].message, '4 systems were skipped.')
+        self.assertEqual(messages[0].level_tag, 'success')
