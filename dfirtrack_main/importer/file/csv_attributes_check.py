@@ -115,7 +115,7 @@ def check_system_name(model, row, row_counter, request=None):
         stop_system_importer_file_csv = True
 
     # check system column for length of string
-    if len(system_name) > 50:
+    if len(system_name) > 255:
         # if function was called from 'system_instant' and 'system_upload'
         if request:
             # call message

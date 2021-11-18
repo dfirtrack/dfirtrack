@@ -152,7 +152,7 @@ def system_modificator_async(request_post, request_user):
             continue
 
         # check line for length of string
-        if len(line) > 50:
+        if len(line) > 255:
             # autoincrement counter
             lines_faulty_counter += 1
             # call logger
@@ -161,7 +161,7 @@ def system_modificator_async(request_post, request_user):
 
         # check for existence of system
         if system_char_field_used:
-            system = System.objects.filter(system_name=line)
+            system = System.objects.filter(system_name=line.strip())
         else:
             system = System.objects.filter(system_id=line)
 
@@ -201,7 +201,7 @@ def system_modificator_async(request_post, request_user):
 
         # get existing system
         if system_char_field_used:
-            system = System.objects.get(system_name=line)
+            system = System.objects.get(system_name=line.strip())
         else:
             system = System.objects.get(system_id=line)
 

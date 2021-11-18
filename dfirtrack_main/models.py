@@ -1249,10 +1249,15 @@ class System(models.Model):
 
         '''for all systems'''
 
+        # strip whitespaces
+        self.system_name = self.system_name.strip()
+
+        # get capitalization from config
         capitalization = MainConfigModel.objects.get(
             main_config_name='MainConfig'
         ).capitalization
 
+        # change capitalization
         if capitalization == 'capitalization_lower':
             self.system_name = self.system_name.lower()
         elif capitalization == 'capitalization_upper':

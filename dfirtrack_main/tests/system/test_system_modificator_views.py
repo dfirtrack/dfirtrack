@@ -235,9 +235,13 @@ class SystemModificatorViewTestCase(TestCase):
         )
         systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
         systemstatus_2 = Systemstatus.objects.get(systemstatus_name='systemstatus_2')
+        # prepare content for systemlist
+        systemlist_field = (
+            'system_modificator_system_1' + '\n' + 'system_modificator_system_2'
+        )
         # create post data
         data_dict = {
-            'systemlist': 'system_modificator_system_1\nsystem_modificator_system_2',
+            'systemlist': systemlist_field,
             'analysisstatus': analysisstatus_2.analysisstatus_id,
             'analysisstatus_choice': 'change_status',
             'systemstatus': systemstatus_2.systemstatus_id,
@@ -298,9 +302,13 @@ class SystemModificatorViewTestCase(TestCase):
         )
         systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
         systemstatus_2 = Systemstatus.objects.get(systemstatus_name='systemstatus_2')
+        # prepare content for systemlist
+        systemlist_field = (
+            'system_modificator_system_1' + '\n' + 'system_modificator_system_2'
+        )
         # create post data
         data_dict = {
-            'systemlist': 'system_modificator_system_1\nsystem_modificator_system_2',
+            'systemlist': systemlist_field,
             'analysisstatus': analysisstatus_2.analysisstatus_id,
             'analysisstatus_choice': 'keep_status',
             'systemstatus': systemstatus_2.systemstatus_id,
@@ -357,9 +365,13 @@ class SystemModificatorViewTestCase(TestCase):
             analysisstatus_name='analysisstatus_1'
         )
         systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+        # prepare content for systemlist
+        systemlist_field = (
+            'system_modificator_system_1' + '\n' + 'system_modificator_system_2'
+        )
         # create post data
         data_dict = {
-            'systemlist': 'system_modificator_system_1\nsystem_modificator_system_2',
+            'systemlist': systemlist_field,
             'analysisstatus_choice': 'change_status',
             'systemstatus_choice': 'change_status',
             'company_delete': 'keep_not_add',
@@ -415,9 +427,13 @@ class SystemModificatorViewTestCase(TestCase):
         serviceprovider_1 = Serviceprovider.objects.get(
             serviceprovider_name='serviceprovider_1'
         )
+        # prepare content for systemlist
+        systemlist_field = (
+            'system_modificator_system_1' + '\n' + 'system_modificator_system_2'
+        )
         # create post data
         data_dict = {
-            'systemlist': 'system_modificator_system_1\nsystem_modificator_system_2',
+            'systemlist': systemlist_field,
             'analysisstatus_choice': 'keep_status',
             'systemstatus_choice': 'keep_status',
             'company_delete': 'keep_not_add',
@@ -588,9 +604,13 @@ class SystemModificatorViewTestCase(TestCase):
         )
         tag_2 = Tag.objects.get(tag_name='tag_2')
         tag_3 = Tag.objects.get(tag_name='tag_3')
+        # prepare content for systemlist
+        systemlist_field = (
+            'system_modificator_system_1' + '\n' + 'system_modificator_system_2'
+        )
         # create post data
         data_dict = {
-            'systemlist': 'system_modificator_system_1\nsystem_modificator_system_2',
+            'systemlist': systemlist_field,
             'analysisstatus_choice': 'keep_status',
             'systemstatus_choice': 'keep_status',
             'company': [str(company_2.company_id), str(company_3.company_id)],
@@ -756,9 +776,13 @@ class SystemModificatorViewTestCase(TestCase):
         company_3 = Company.objects.get(company_name='company_3')
         tag_2 = Tag.objects.get(tag_name='tag_2')
         tag_3 = Tag.objects.get(tag_name='tag_3')
+        # prepare content for systemlist
+        systemlist_field = (
+            'system_modificator_system_1' + '\n' + 'system_modificator_system_2'
+        )
         # create post data
         data_dict = {
-            'systemlist': 'system_modificator_system_1\nsystem_modificator_system_2',
+            'systemlist': systemlist_field,
             'analysisstatus_choice': 'keep_status',
             'systemstatus_choice': 'keep_status',
             'company': [str(company_2.company_id), str(company_3.company_id)],
@@ -877,9 +901,13 @@ class SystemModificatorViewTestCase(TestCase):
         serviceprovider_1 = Serviceprovider.objects.get(
             serviceprovider_name='serviceprovider_1'
         )
+        # prepare content for systemlist
+        systemlist_field = (
+            'system_modificator_system_1' + '\n' + 'system_modificator_system_2'
+        )
         # create post data
         data_dict = {
-            'systemlist': 'system_modificator_system_1\nsystem_modificator_system_2',
+            'systemlist': systemlist_field,
             'analysisstatus_choice': 'keep_status',
             'systemstatus_choice': 'keep_status',
             'company_delete': 'remove_and_add',
@@ -1046,9 +1074,13 @@ class SystemModificatorViewTestCase(TestCase):
         )
         tag_2 = Tag.objects.get(tag_name='tag_2')
         tag_3 = Tag.objects.get(tag_name='tag_3')
+        # prepare content for systemlist
+        systemlist_field = (
+            'system_modificator_system_1' + '\n' + 'system_modificator_system_2'
+        )
         # create post data
         data_dict = {
-            'systemlist': 'system_modificator_system_1\nsystem_modificator_system_2',
+            'systemlist': systemlist_field,
             'analysisstatus_choice': 'keep_status',
             'systemstatus_choice': 'keep_status',
             'company': [str(company_2.company_id), str(company_3.company_id)],
@@ -1400,9 +1432,13 @@ class SystemModificatorViewTestCase(TestCase):
         self.client.login(
             username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G'
         )
+        # prepare content for systemlist
+        systemlist_field = (
+            'system_modificator_messages_1' + '\n' + '\n' + 'system_modificator_double'
+        )
         # create post data
         data_dict = {
-            'systemlist': 'system_modificator_messages_1\n\nsystem_modificator_double',
+            'systemlist': systemlist_field,
             'analysisstatus_choice': 'keep_status',
             'systemstatus_choice': 'keep_status',
             'company_delete': 'keep_not_add',
@@ -1433,9 +1469,22 @@ class SystemModificatorViewTestCase(TestCase):
         self.client.login(
             username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G'
         )
+        # prepare content for systemlist
+        systemlist_field = (
+            'system_modificator_messages_1'
+            + '\n'
+            + '\n'
+            + 'system_modificator_not_existent'
+            + '\n'
+            + 'system_modificator_double'
+            + '\n'
+            + 'a' * 256
+            + '\n'
+            + 'system_modificator_messages_2',
+        )
         # create post data
         data_dict = {
-            'systemlist': 'system_modificator_messages_1\n\nsystem_modificator_not_existent\nsystem_modificator_double\naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\nsystem_modificator_messages_2',
+            'systemlist': systemlist_field,
             'analysisstatus_choice': 'keep_status',
             'systemstatus_choice': 'keep_status',
             'company_delete': 'keep_not_add',
@@ -1458,6 +1507,58 @@ class SystemModificatorViewTestCase(TestCase):
             str(messages[3]),
             '2 lines out of 6 lines were faulty (see log file for details).',
         )
+
+    def test_system_modificator_post_strip(self):
+        """test modificator view"""
+
+        # login testuser
+        self.client.login(
+            username='testuser_system_modificator', password='QDX5Xp9yhnejSIuYaE1G'
+        )
+        # get user
+        test_user = User.objects.get(username='testuser_system_modificator')
+        # get object
+        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+        # create system
+        System.objects.create(
+            system_name='system_modificator_strip',
+            systemstatus=systemstatus_1,
+            system_created_by_user_id=test_user,
+            system_modified_by_user_id=test_user,
+        )
+        # prepare content for systemlist
+        systemlist_field = (
+            'system_modificator_strip'
+            + '\n'
+            + '   system_modificator_strip'
+            + '\n'
+            + 'system_modificator_strip   '
+            + '\n'
+            + '   system_modificator_strip   ',
+        )
+        # create post data
+        data_dict = {
+            'systemlist': systemlist_field,
+            'analysisstatus_choice': 'keep_status',
+            'systemstatus_choice': 'keep_status',
+            'company_delete': 'keep_not_add',
+            'contact_delete': 'keep_existing',
+            'location_delete': 'keep_existing',
+            'serviceprovider_delete': 'keep_existing',
+            'tag_delete': 'keep_not_add',
+        }
+        # get response
+        response = self.client.post('/system/modificator/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # get systems
+        system_strip = System.objects.filter(system_name='system_modificator_strip')
+        # compare
+        self.assertEqual(
+            str(messages[1]),
+            "4 systems were created / modified.",
+        )
+        self.assertEqual(len(system_strip), 1)
 
     def test_system_modificator_post_workflow_messages(self):
         """test modificator view"""
