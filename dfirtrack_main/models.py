@@ -106,6 +106,13 @@ class Case(models.Model):
         'Casetype', on_delete=models.PROTECT, blank=True, null=True
     )
     tag = models.ManyToManyField('Tag', blank=True)
+    case_assigned_to_user_id = models.ForeignKey(
+        User,
+        on_delete=models.PROTECT,
+        blank=True,
+        null=True,
+        related_name='case_assigned_to',
+    )
 
     # main entity information
     case_id_external = models.CharField(
@@ -192,6 +199,8 @@ class Case(models.Model):
             + str(case.casestatus)
             + "|casetype:"
             + str(case.casetype)
+            + "|case_assigned_to_user_id:"
+            + str(case.case_assigned_to_user_id)
         )
 
     def get_absolute_url(self):
@@ -1196,6 +1205,13 @@ class System(models.Model):
     )
     tag = models.ManyToManyField('Tag', blank=True)
     case = models.ManyToManyField('Case', blank=True)
+    system_assigned_to_user_id = models.ForeignKey(
+        User,
+        on_delete=models.PROTECT,
+        blank=True,
+        null=True,
+        related_name='system_assigned_to',
+    )
 
     # main entity information
     system_uuid = models.UUIDField(editable=False, null=True, unique=True)
@@ -1489,6 +1505,8 @@ class System(models.Model):
             + str(system.system_export_markdown)
             + "|system_export_spreadsheet:"
             + str(system.system_export_spreadsheet)
+            + "|system_assigned_to_user_id:"
+            + str(system.system_assigned_to_user_id)
         )
 
     def get_absolute_url(self):

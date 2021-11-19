@@ -347,6 +347,18 @@ class SystemModelTestCase(TestCase):
         # compare
         self.assertEqual(field_label, 'system modified by user id')
 
+    def test_system_assigned_to_user_id_attribute_label(self):
+        """test attribute label"""
+
+        # get object
+        system_1 = System.objects.get(system_name='system_1')
+        # get label
+        field_label = system_1._meta.get_field(
+            'system_assigned_to_user_id'
+        ).verbose_name
+        # compare
+        self.assertEqual(field_label, 'system assigned to user id')
+
     def test_system_name_length(self):
         """test for max length"""
 

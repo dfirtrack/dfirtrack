@@ -315,6 +315,18 @@ class ArtifactModelTestCase(TestCase):
         # compare
         self.assertEqual(field_label, 'artifact modified by user id')
 
+    def test_artifact_assigned_to_user_id_attribute_label(self):
+        """test attribute label"""
+
+        # get object
+        artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
+        # get label
+        field_label = artifact_1._meta.get_field(
+            'artifact_assigned_to_user_id'
+        ).verbose_name
+        # compare
+        self.assertEqual(field_label, 'artifact assigned to user id')
+
     def test_artifact_md5_length(self):
         """test for max length"""
 

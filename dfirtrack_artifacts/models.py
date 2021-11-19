@@ -45,6 +45,13 @@ class Artifact(models.Model):
     tag = models.ManyToManyField(
         'dfirtrack_main.Tag', related_name='artifact_tag', blank=True
     )
+    artifact_assigned_to_user_id = models.ForeignKey(
+        User,
+        on_delete=models.PROTECT,
+        blank=True,
+        null=True,
+        related_name='artifact_assigned_to',
+    )
 
     # main entity information
     artifact_acquisition_time = models.DateTimeField(blank=True, null=True)
@@ -156,6 +163,8 @@ class Artifact(models.Model):
             + str(artifact.artifact_storage_path)
             + "|artifact_uuid:"
             + str(artifact.artifact_uuid)
+            + "|artifact_assigned_to_user_id:"
+            + str(artifact.artifact_assigned_to_user_id)
         )
 
     def save(self, *args, **kwargs):
