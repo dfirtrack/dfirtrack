@@ -457,6 +457,11 @@ def get_systems_json(request):
             system_values = system_values.filter(tag__tag_id=tag_id).order_by(
                 order_dir + order_column_name
             )
+        # assignment
+        elif '/assignment/' in referer:
+            system_values = System.objects.filter(system_assigned_to_user_id=request.user).order_by(
+                order_dir + order_column_name
+            )
         # catch-all rule to prevent empty 'system_values' if the datatable is included in other views in the future
         else:
             system_values = system_values
