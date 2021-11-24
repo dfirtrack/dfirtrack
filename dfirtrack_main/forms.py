@@ -116,6 +116,14 @@ class CaseForm(forms.ModelForm):
     )
 
     # reorder field choices
+    case_assigned_to_user_id = forms.ModelChoiceField(
+        label=gettext_lazy('Assigned to user'),
+        queryset=User.objects.order_by('username'),
+        required=False,
+        empty_label='Select user (optional)',
+    )
+
+    # reorder field choices
     tag = forms.ModelMultipleChoiceField(
         label=gettext_lazy('Tags'),
         widget=TagWidget,
@@ -139,6 +147,7 @@ class CaseForm(forms.ModelForm):
             'casepriority',
             'casestatus',
             'casetype',
+            'case_assigned_to_user_id',
             'tag',
         )
 
@@ -1064,6 +1073,14 @@ class SystemForm(SystemExtendedBaseForm):
         required=False,
     )
 
+    # reorder field choices
+    system_assigned_to_user_id = forms.ModelChoiceField(
+        label=gettext_lazy('Assigned to user'),
+        queryset=User.objects.order_by('username'),
+        required=False,
+        empty_label='Select user (optional)',
+    )
+
     class Meta(SystemExtendedBaseForm.Meta):
 
         # this HTML forms are shown
@@ -1076,6 +1093,7 @@ class SystemForm(SystemExtendedBaseForm):
             'system_install_time',
             'system_is_vm',
             'system_lastbooted_time',
+            'system_assigned_to_user_id',
         )
 
         # non default form labeling
