@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
 from dfirtrack_artifacts.forms import ArtifactForm
@@ -193,3 +194,37 @@ class ArtifactUpdateView(LoginRequiredMixin, UpdateView):
         self.object.check_existing_hashes(self.request)
 
         return super().form_valid(form)
+
+
+class ArtifactSetUser(LoginRequiredMixin, UpdateView):
+    login_url = '/login'
+    model = Artifact
+
+    def get(self, request, *args, **kwargs):
+        artifact = self.get_object()
+        artifact.artifact_assigned_to_user_id = request.user
+        artifact.save()
+        artifact.logger(str(request.user), " ARTIFACT_SET_USER_EXECUTED")
+        messages.success(request, 'Artifact assigned to you')
+
+        # redirect
+        return redirect(
+            reverse('artifacts_artifact_detail', args=(artifact.artifact_id,))
+        )
+
+
+class ArtifactUnsetUser(LoginRequiredMixin, UpdateView):
+    login_url = '/login'
+    model = Artifact
+
+    def get(self, request, *args, **kwargs):
+        artifact = self.get_object()
+        artifact.artifact_assigned_to_user_id = None
+        artifact.save()
+        artifact.logger(str(request.user), " ARTIFACT_UNSET_USER_EXECUTED")
+        messages.warning(request, 'User assignment for artifact deleted')
+
+        # redirect
+        return redirect(
+            reverse('artifacts_artifact_detail', args=(artifact.artifact_id,))
+        )

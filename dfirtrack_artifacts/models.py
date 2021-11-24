@@ -298,6 +298,12 @@ class Artifact(models.Model):
             if artifacts:
                 messages.warning(request, 'SHA256 already exists for other artifact(s)')
 
+    def get_set_user_url(self):
+        return reverse('artifact_set_user', args=(self.pk,))
+
+    def get_unset_user_url(self):
+        return reverse('artifact_unset_user', args=(self.pk,))
+
 
 class Artifactpriority(models.Model):
     '''priority for analyzing artifact'''

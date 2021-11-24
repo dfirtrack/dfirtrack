@@ -209,6 +209,12 @@ class Case(models.Model):
     def get_update_url(self):
         return reverse('case_update', args=(self.pk,))
 
+    def get_set_user_url(self):
+        return reverse('case_set_user', args=(self.pk,))
+
+    def get_unset_user_url(self):
+        return reverse('case_unset_user', args=(self.pk,))
+
 
 class Casepriority(models.Model):
 
@@ -1514,6 +1520,12 @@ class System(models.Model):
 
     def get_update_url(self):
         return reverse('system_update', args=(self.pk,))
+
+    def get_set_user_url(self):
+        return reverse('system_set_user', args=(self.pk,))
+
+    def get_unset_user_url(self):
+        return reverse('system_unset_user', args=(self.pk,))
 
 
 class Systemhistory(models.Model):

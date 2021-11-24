@@ -89,6 +89,16 @@ urlpatterns = [
     path(r'case/<int:pk>/edit/', case_views.CaseUpdate.as_view(), name='case_update'),
     path(r'case/creator/', case_creator.case_creator, name='case_creator'),
     path(
+        r'case/<int:pk>/set_user/',
+        case_views.CaseSetUser.as_view(),
+        name='case_set_user',
+    ),
+    path(
+        r'case/<int:pk>/unset_user/',
+        case_views.CaseUnsetUser.as_view(),
+        name='case_unset_user',
+    ),
+    path(
         r'casepriority/',
         casepriority_views.CasepriorityList.as_view(),
         name='casepriority_list',
@@ -433,6 +443,16 @@ urlpatterns = [
         name='clear_system_list_filter',
     ),
     path(r'system/creator/', system_creator.system_creator, name='system_creator'),
+    path(
+        r'system/<int:pk>/set_user/',
+        system_views.SystemSetUser.as_view(),
+        name='system_set_user',
+    ),
+    path(
+        r'system/<int:pk>/unset_user/',
+        system_views.SystemUnsetUser.as_view(),
+        name='system_unset_user',
+    ),
     path(
         r'system/exporter/markdown/system/',
         markdown.system,

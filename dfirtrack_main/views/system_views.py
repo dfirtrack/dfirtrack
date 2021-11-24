@@ -459,9 +459,9 @@ def get_systems_json(request):
             )
         # assignment
         elif '/assignment/' in referer:
-            system_values = System.objects.filter(system_assigned_to_user_id=request.user).order_by(
-                order_dir + order_column_name
-            )
+            system_values = System.objects.filter(
+                system_assigned_to_user_id=request.user
+            ).order_by(order_dir + order_column_name)
         # catch-all rule to prevent empty 'system_values' if the datatable is included in other views in the future
         else:
             system_values = system_values
@@ -639,3 +639,33 @@ def get_systems_json(request):
     response = JsonResponse(json_dict, safe=False)
 
     return response
+
+
+class SystemSetUser(LoginRequiredMixin, UpdateView):
+    login_url = '/login'
+    model = System
+
+    def get(self, request, *args, **kwargs):
+        system = self.get_object()
+        system.system_assigned_to_user_id = request.user
+        system.save()
+        system.logger(str(request.user), " SYSTEM_SET_USER_EXECUTED")
+        messages.success(request, 'System assigned to you')
+
+        # redirect
+        return redirect(reverse('system_detail', args=(system.system_id,)))
+
+
+class SystemUnsetUser(LoginRequiredMixin, UpdateView):
+    login_url = '/login'
+    model = System
+
+    def get(self, request, *args, **kwargs):
+        system = self.get_object()
+        system.system_assigned_to_user_id = None
+        system.save()
+        system.logger(str(request.user), " SYSTEM_UNSET_USER_EXECUTED")
+        messages.warning(request, 'User assignment for system deleted')
+
+        # redirect
+        return redirect(reverse('system_detail', args=(system.system_id,)))

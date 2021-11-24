@@ -240,3 +240,33 @@ class CaseUpdate(LoginRequiredMixin, UpdateView):
                     'title': 'Edit',
                 },
             )
+
+
+class CaseSetUser(LoginRequiredMixin, UpdateView):
+    login_url = '/login'
+    model = Case
+
+    def get(self, request, *args, **kwargs):
+        case = self.get_object()
+        case.case_assigned_to_user_id = request.user
+        case.save()
+        case.logger(str(request.user), " CASE_SET_USER_EXECUTED")
+        messages.success(request, 'Case assigned to you')
+
+        # redirect
+        return redirect(reverse('case_detail', args=(case.case_id,)))
+
+
+class CaseUnsetUser(LoginRequiredMixin, UpdateView):
+    login_url = '/login'
+    model = Case
+
+    def get(self, request, *args, **kwargs):
+        case = self.get_object()
+        case.case_assigned_to_user_id = None
+        case.save()
+        case.logger(str(request.user), " CASE_UNSET_USER_EXECUTED")
+        messages.warning(request, 'User assignment for case deleted')
+
+        # redirect
+        return redirect(reverse('case_detail', args=(case.case_id,)))

@@ -42,6 +42,16 @@ urlpatterns = (
         name='artifacts_artifact_update',
     ),
     path(
+        r'artifact/<int:pk>/set_user/',
+        artifact_view.ArtifactSetUser.as_view(),
+        name='artifact_set_user',
+    ),
+    path(
+        r'artifact/<int:pk>/unset_user/',
+        artifact_view.ArtifactUnsetUser.as_view(),
+        name='artifact_unset_user',
+    ),
+    path(
         r'artifact/creator/', artifact_creator.artifact_creator, name='artifact_creator'
     ),
     path(
