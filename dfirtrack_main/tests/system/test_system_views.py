@@ -786,3 +786,90 @@ class SystemViewTestCase(TestCase):
         self.assertRedirects(
             response, destination, status_code=302, target_status_code=200
         )
+
+    def test_system_set_user_redirect(self):
+        """test system set_user view"""
+
+        # login testuser
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get object
+        system_1 = System.objects.get(system_name='system_1')
+        # create url
+        destination = urllib.parse.quote('/system/' + str(system_1.system_id) + '/', safe='/')
+        # get response
+        response = self.client.get(
+            '/system/' + str(system_1.system_id) + '/set_user/', follow=True
+        )
+        # compare
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
+
+    def test_system_set_user_user(self):
+        """test system set_user view"""
+
+        # login testuser
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get user
+        test_user = User.objects.get(username='testuser_system')
+        # get object
+        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+        # create object
+        system_set_user = System.objects.create(
+            system_name='system_unassigned',
+            systemstatus=systemstatus_1,
+            system_created_by_user_id=test_user,
+            system_modified_by_user_id=test_user,
+        )
+        # compare
+        self.assertEqual(None, system_set_user.system_assigned_to_user_id)
+        # get response
+        self.client.get('/system/' + str(system_set_user.system_id) + '/set_user/')
+        # refresh object
+        system_set_user.refresh_from_db()
+        # compare
+        self.assertEqual(test_user, system_set_user.system_assigned_to_user_id)
+
+    def test_system_unset_user_redirect(self):
+        """test system unset_user view"""
+
+        # login testuser
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get object
+        system_1 = System.objects.get(system_name='system_1')
+        # create url
+        destination = urllib.parse.quote('/system/' + str(system_1.system_id) + '/', safe='/')
+        # get response
+        response = self.client.get(
+            '/system/' + str(system_1.system_id) + '/unset_user/', follow=True
+        )
+        # compare
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
+
+    def test_system_unset_user_user(self):
+        """test system unset_user view"""
+
+        # login testuser
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get user
+        test_user = User.objects.get(username='testuser_system')
+        # get object
+        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+        # create object
+        system_unset_user = System.objects.create(
+            system_name='system_assigned',
+            systemstatus=systemstatus_1,
+            system_created_by_user_id=test_user,
+            system_modified_by_user_id=test_user,
+            system_assigned_to_user_id=test_user,
+        )
+        # compare
+        self.assertEqual(test_user, system_unset_user.system_assigned_to_user_id)
+        # get response
+        self.client.get('/system/' + str(system_unset_user.system_id) + '/unset_user/')
+        # refresh object
+        system_unset_user.refresh_from_db()
+        # compare
+        self.assertEqual(None, system_unset_user.system_assigned_to_user_id)

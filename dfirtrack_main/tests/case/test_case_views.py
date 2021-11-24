@@ -911,3 +911,98 @@ class CaseViewTestCase(TestCase):
         # compare (after update)
         self.assertEqual(case_edit_post_retain_end_time.case_start_time, t8_now)
         self.assertEqual(case_edit_post_retain_end_time.case_end_time, t8_now)
+
+    def test_case_set_user_redirect(self):
+        """test case set_user view"""
+
+        # login testuser
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        # get object
+        case_1 = Case.objects.get(case_name='case_1')
+        # create url
+        destination = urllib.parse.quote('/case/' + str(case_1.case_id) + '/', safe='/')
+        # get response
+        response = self.client.get(
+            '/case/' + str(case_1.case_id) + '/set_user/', follow=True
+        )
+        # compare
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
+
+    def test_case_set_user_user(self):
+        """test case set_user view"""
+
+        # login testuser
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        # get user
+        test_user = User.objects.get(username='testuser_case')
+        # get object
+        casepriority_1 = Casepriority.objects.get(casepriority_name='casepriority_1')
+        # get object
+        casestatus_1 = Casestatus.objects.get(casestatus_name='casestatus_1')
+        # create object
+        case_set_user = Case.objects.create(
+            case_name='case_unassigned',
+            case_is_incident=True,
+            casepriority=casepriority_1,
+            casestatus=casestatus_1,
+            case_created_by_user_id=test_user,
+            case_modified_by_user_id=test_user,
+        )
+        # compare
+        self.assertEqual(None, case_set_user.case_assigned_to_user_id)
+        # get response
+        self.client.get('/case/' + str(case_set_user.case_id) + '/set_user/')
+        # refresh object
+        case_set_user.refresh_from_db()
+        # compare
+        self.assertEqual(test_user, case_set_user.case_assigned_to_user_id)
+
+    def test_case_unset_user_redirect(self):
+        """test case unset_user view"""
+
+        # login testuser
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        # get object
+        case_1 = Case.objects.get(case_name='case_1')
+        # create url
+        destination = urllib.parse.quote('/case/' + str(case_1.case_id) + '/', safe='/')
+        # get response
+        response = self.client.get(
+            '/case/' + str(case_1.case_id) + '/unset_user/', follow=True
+        )
+        # compare
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
+
+    def test_case_unset_user_user(self):
+        """test case unset_user view"""
+
+        # login testuser
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        # get user
+        test_user = User.objects.get(username='testuser_case')
+        # get object
+        casepriority_1 = Casepriority.objects.get(casepriority_name='casepriority_1')
+        # get object
+        casestatus_1 = Casestatus.objects.get(casestatus_name='casestatus_1')
+        # create object
+        case_unset_user = Case.objects.create(
+            case_name='case_assigned',
+            case_is_incident=True,
+            casepriority=casepriority_1,
+            casestatus=casestatus_1,
+            case_created_by_user_id=test_user,
+            case_modified_by_user_id=test_user,
+            case_assigned_to_user_id=test_user,
+        )
+        # compare
+        self.assertEqual(test_user, case_unset_user.case_assigned_to_user_id)
+        # get response
+        self.client.get('/case/' + str(case_unset_user.case_id) + '/unset_user/')
+        # refresh object
+        case_unset_user.refresh_from_db()
+        # compare
+        self.assertEqual(None, case_unset_user.case_assigned_to_user_id)
