@@ -795,7 +795,9 @@ class SystemViewTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # create url
-        destination = urllib.parse.quote('/system/' + str(system_1.system_id) + '/', safe='/')
+        destination = urllib.parse.quote(
+            '/system/' + str(system_1.system_id) + '/', safe='/'
+        )
         # get response
         response = self.client.get(
             '/system/' + str(system_1.system_id) + '/set_user/', follow=True
@@ -838,7 +840,9 @@ class SystemViewTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # create url
-        destination = urllib.parse.quote('/system/' + str(system_1.system_id) + '/', safe='/')
+        destination = urllib.parse.quote(
+            '/system/' + str(system_1.system_id) + '/', safe='/'
+        )
         # get response
         response = self.client.get(
             '/system/' + str(system_1.system_id) + '/unset_user/', follow=True

@@ -106,7 +106,8 @@ class CaseFormTestCase(TestCase):
         form = CaseForm()
         # compare
         self.assertEqual(
-            form.fields['case_assigned_to_user_id'].empty_label, 'Select user (optional)'
+            form.fields['case_assigned_to_user_id'].empty_label,
+            'Select user (optional)',
         )
 
     def test_tag_form_label(self):

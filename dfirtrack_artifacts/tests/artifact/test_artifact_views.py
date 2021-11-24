@@ -1396,10 +1396,13 @@ class ArtifactViewTestCase(TestCase):
         # get object
         artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
         # create url
-        destination = urllib.parse.quote('/artifacts/artifact/detail/' + str(artifact_1.artifact_id) + '/', safe='/')
+        destination = urllib.parse.quote(
+            '/artifacts/artifact/detail/' + str(artifact_1.artifact_id) + '/', safe='/'
+        )
         # get response
         response = self.client.get(
-            '/artifacts/artifact/' + str(artifact_1.artifact_id) + '/set_user/', follow=True
+            '/artifacts/artifact/' + str(artifact_1.artifact_id) + '/set_user/',
+            follow=True,
         )
         # compare
         self.assertRedirects(
@@ -1414,9 +1417,13 @@ class ArtifactViewTestCase(TestCase):
         # get user
         test_user = User.objects.get(username='testuser_artifact')
         # get object
-        artifactpriority_1 = Artifactpriority.objects.get(artifactpriority_name='artifactpriority_1')
+        artifactpriority_1 = Artifactpriority.objects.get(
+            artifactpriority_name='artifactpriority_1'
+        )
         # get object
-        artifactstatus_1 = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1')
+        artifactstatus_1 = Artifactstatus.objects.get(
+            artifactstatus_name='artifactstatus_1'
+        )
         # get object
         artifacttype_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_1')
         # get object
@@ -1434,7 +1441,9 @@ class ArtifactViewTestCase(TestCase):
         # compare
         self.assertEqual(None, artifact_set_user.artifact_assigned_to_user_id)
         # get response
-        self.client.get('/artifacts/artifact/' + str(artifact_set_user.artifact_id) + '/set_user/')
+        self.client.get(
+            '/artifacts/artifact/' + str(artifact_set_user.artifact_id) + '/set_user/'
+        )
         # refresh object
         artifact_set_user.refresh_from_db()
         # compare
@@ -1448,10 +1457,13 @@ class ArtifactViewTestCase(TestCase):
         # get object
         artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
         # create url
-        destination = urllib.parse.quote('/artifacts/artifact/detail/' + str(artifact_1.artifact_id) + '/', safe='/')
+        destination = urllib.parse.quote(
+            '/artifacts/artifact/detail/' + str(artifact_1.artifact_id) + '/', safe='/'
+        )
         # get response
         response = self.client.get(
-            '/artifacts/artifact/' + str(artifact_1.artifact_id) + '/unset_user/', follow=True
+            '/artifacts/artifact/' + str(artifact_1.artifact_id) + '/unset_user/',
+            follow=True,
         )
         # compare
         self.assertRedirects(
@@ -1466,9 +1478,13 @@ class ArtifactViewTestCase(TestCase):
         # get user
         test_user = User.objects.get(username='testuser_artifact')
         # get object
-        artifactpriority_1 = Artifactpriority.objects.get(artifactpriority_name='artifactpriority_1')
+        artifactpriority_1 = Artifactpriority.objects.get(
+            artifactpriority_name='artifactpriority_1'
+        )
         # get object
-        artifactstatus_1 = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1')
+        artifactstatus_1 = Artifactstatus.objects.get(
+            artifactstatus_name='artifactstatus_1'
+        )
         # get object
         artifacttype_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_1')
         # get object
@@ -1487,7 +1503,11 @@ class ArtifactViewTestCase(TestCase):
         # compare
         self.assertEqual(test_user, artifact_unset_user.artifact_assigned_to_user_id)
         # get response
-        self.client.get('/artifacts/artifact/' + str(artifact_unset_user.artifact_id) + '/unset_user/')
+        self.client.get(
+            '/artifacts/artifact/'
+            + str(artifact_unset_user.artifact_id)
+            + '/unset_user/'
+        )
         # refresh object
         artifact_unset_user.refresh_from_db()
         # compare
