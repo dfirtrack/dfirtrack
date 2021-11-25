@@ -95,7 +95,7 @@
 
     <!-- artifact headline -->
     <div class="row bottom-distance">
-        <div class="col-2">
+        <div class="col-6">
             <h5>
                 <img src="{% static 'dfirtrack_main/icons/bug-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                 Artifacts assigned to this user{% if artifact %} ({{ artifact|length }}){% endif %}
@@ -146,7 +146,7 @@
 
     <!-- case headline -->
     <div class="row bottom-distance">
-        <div class="col-2">
+        <div class="col-6">
             <h5>
                 <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                 Cases assigned to this user{% if case %} ({{ case|length }}){% endif %}
@@ -194,7 +194,7 @@
 
     <!-- task headline -->
     <div class="row bottom-distance">
-        <div class="col-2">
+        <div class="col-6">
             <h5>
                 <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                 Tasks assigned to this user{% if task %} ({{ task|length }}){% endif %}

@@ -166,7 +166,7 @@
 
     <!-- artifact headline -->
     <div class="row bottom-distance">
-        <div class="col-2">
+        <div class="col-6">
             <h5>
                 <img src="{% static 'dfirtrack_main/icons/bug-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                 Artifacts with this tag{% if tag.artifact_tag.all %} ({{ tag.artifact_tag.all|length }}){% endif %}
@@ -217,7 +217,7 @@
 
     <!-- case headline -->
     <div class="row bottom-distance">
-        <div class="col-2">
+        <div class="col-6">
             <h5>
                 <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                 Cases with this tag{% if tag.case_set.all %} ({{ tag.case_set.all|length }}){% endif %}
@@ -265,7 +265,7 @@
 
     <!-- task headline -->
     <div class="row bottom-distance">
-        <div class="col-2">
+        <div class="col-6">
             <h5>
                 <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                 Tasks with this tag{% if tag.task_set.all %} ({{ tag.task_set.all|length }}){% endif %}
