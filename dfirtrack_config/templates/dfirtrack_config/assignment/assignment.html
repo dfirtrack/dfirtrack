@@ -94,7 +94,11 @@
         <div class="col-6">
             <h5>
                 <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon right-distance copy-false" alt="icon">
-                Systems assigned to this user{% if system %} ({{ system|length }}){% endif %}
+                {% if assignment_user %}
+                    Systems assigned to '{{ assignment_user }}'{% if system %} ({{ system|length }}){% endif %}
+                {% else %}
+                    Unassigned systems{% if system %} ({{ system|length }}){% endif %}
+                {% endif %}
             </h5>
         </div>
     </div>
@@ -144,7 +148,11 @@
         <div class="col-6">
             <h5>
                 <img src="{% static 'dfirtrack_main/icons/bug-light.svg' %}" class="icon right-distance copy-false" alt="icon">
-                Artifacts assigned to this user{% if artifact %} ({{ artifact|length }}){% endif %}
+                {% if assignment_user %}
+                    Artifacts assigned to '{{ assignment_user }}'{% if artifact %} ({{ artifact|length }}){% endif %}
+                {% else %}
+                    Unassigned artifacts{% if artifact %} ({{ artifact|length }}){% endif %}
+                {% endif %}
             </h5>
         </div>
     </div>
@@ -197,7 +205,11 @@
         <div class="col-6">
             <h5>
                 <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon right-distance copy-false" alt="icon">
-                Cases assigned to this user{% if case %} ({{ case|length }}){% endif %}
+                {% if assignment_user %}
+                    Cases assigned to '{{ assignment_user }}'{% if case %} ({{ case|length }}){% endif %}
+                {% else %}
+                    Unassigned cases{% if case %} ({{ case|length }}){% endif %}
+                {% endif %}
             </h5>
         </div>
     </div>
@@ -247,7 +259,11 @@
         <div class="col-6">
             <h5>
                 <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon right-distance copy-false" alt="icon">
-                Tasks assigned to this user{% if task %} ({{ task|length }}){% endif %}
+                {% if assignment_user %}
+                    Tasks assigned to '{{ assignment_user }}'{% if task %} ({{ task|length }}){% endif %}
+                {% else %}
+                    Unassigned tasks{% if task %} ({{ task|length }}){% endif %}
+                {% endif %}
             </h5>
         </div>
     </div>

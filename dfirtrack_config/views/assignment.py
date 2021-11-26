@@ -37,8 +37,6 @@ class AssignmentView(LoginRequiredMixin, FormView):
 
         # initialize filter flag (needed for messages)
         filter_flag = False
-        # initialize user flag (needed for messages)
-        user_flag = False
 
         # filter: even if the persistence option has been deselected, the initial values must correspond to the current filtering until the view is reloaded or left
 
@@ -76,8 +74,6 @@ class AssignmentView(LoginRequiredMixin, FormView):
             user_id = user_config.filter_assignment_view_user.id
             # set initial value for form
             form_initial['user'] = user_id
-            # set user flag
-            user_flag = True
 
         # filter: pre-select form according to previous filter selection
         context['form'] = self.form_class(initial=form_initial)
@@ -93,8 +89,7 @@ class AssignmentView(LoginRequiredMixin, FormView):
         # filter queryset to case
         if user_config.filter_assignment_view_case:
             artifact_queryset = artifact_queryset.filter(case=user_config.filter_assignment_view_case)
-            # TODO: what about case itself?
-            #case_queryset = case_queryset.filter(case=user_config.filter_assignment_view_case)
+            case_queryset = case_queryset.filter(case_id=user_config.filter_assignment_view_case.case_id)
             system_queryset = system_queryset.filter(case=user_config.filter_assignment_view_case)
             task_queryset = task_queryset.filter(case=user_config.filter_assignment_view_case)
 
@@ -111,12 +106,14 @@ class AssignmentView(LoginRequiredMixin, FormView):
             case_queryset = case_queryset.filter(case_assigned_to_user_id=user_config.filter_assignment_view_user)
             system_queryset = system_queryset.filter(system_assigned_to_user_id=user_config.filter_assignment_view_user)
             task_queryset = task_queryset.filter(task_assigned_to_user_id=user_config.filter_assignment_view_user)
+            context['assignment_user'] = user_config.filter_assignment_view_user.username
         # show unassigned entities otherwise
         else:
             artifact_queryset = artifact_queryset.filter(artifact_assigned_to_user_id=None)
             case_queryset = case_queryset.filter(case_assigned_to_user_id=None)
             system_queryset = system_queryset.filter(system_assigned_to_user_id=None)
             task_queryset = task_queryset.filter(task_assigned_to_user_id=None)
+            context['assignment_user'] = None
 
         # add querysets to context
         context['artifact'] = artifact_queryset
@@ -130,11 +127,6 @@ class AssignmentView(LoginRequiredMixin, FormView):
         # info message that filter is active
         if filter_flag:
             messages.info(self.request, 'Filter is active. Entities might be incomplete.')
-        # info message about user
-        if user_flag:
-            messages.info(self.request, f"Entities assigned to '{user_config.filter_assignment_view_user.username}' are shown.")
-        else:
-            messages.info(self.request, 'Unassigned entities are shown.')
 
         # return context dictionary
         return context
