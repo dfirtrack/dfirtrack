@@ -45,12 +45,15 @@ class SystemList(LoginRequiredMixin, FormView):
         for a better understanding of filter related condition flow, every important comment starts with 'filter: '
         """
 
+        # initialize filter flag (needed for messages)
+        filter_flag = False
+
         # get config
         user_config, created = UserConfigModel.objects.get_or_create(
             user_config_username=self.request.user
         )
 
-        # filter: even if the persistence option has been deselected, the initial values must correspond to the current filtering until 'system_list' is reloaded or left
+        # filter: even if the persistence option has been deselected, the initial values must correspond to the current filtering until the view is reloaded or left
 
         # create dict to initialize form values set by filtering in previous view call
         form_initial = {}
@@ -68,6 +71,8 @@ class SystemList(LoginRequiredMixin, FormView):
             case_id = user_config.filter_system_list_case.case_id
             # set initial value for form
             form_initial['case'] = case_id
+            # set filter flag
+            filter_flag = True
 
         # get tag from config
         if user_config.filter_system_list_tag:
@@ -75,12 +80,18 @@ class SystemList(LoginRequiredMixin, FormView):
             tag_id = user_config.filter_system_list_tag.tag_id
             # set initial value for form
             form_initial['tag'] = tag_id
+            # set filter flag
+            filter_flag = True
 
         # filter: pre-select form according to previous filter selection
         context['form'] = self.form_class(initial=form_initial)
 
         # call logger
         debug_logger(str(self.request.user), " SYSTEM_LIST_ENTERED")
+
+        # info message that filter is active
+        if filter_flag:
+            messages.info(self.request, 'Filter is active. Systems might be incomplete.')
 
         # return dictionary with additional values for template
         return context

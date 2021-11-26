@@ -402,6 +402,12 @@
                                     {{ message }}
                                 </div>
 
+                            <!-- the corresponding alert for message level error is danger -->
+                            {% elif message.tags == 'info' %}
+                                <div class="alert alert-primary copy-false">
+                                    {{ message }}
+                                </div>
+
                             <!-- all other alert levels correspond with the message level -->
                             {% else %}
                                 <div class="alert alert-{{ message.tags }} copy-false">
