@@ -1,35 +1,183 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import TemplateView
+from django.contrib.auth.models import User
+from django.shortcuts import redirect
+from django.urls import reverse
+from django.views.generic.edit import FormView
 
 from dfirtrack_artifacts.models import Artifact
+from dfirtrack_config.filter_forms import AssignmentFilterForm
+from dfirtrack_config.models import UserConfigModel
 from dfirtrack_main.logger.default_logger import debug_logger
-from dfirtrack_main.models import Case, System, Task
+from dfirtrack_main.models import Case, System, Tag, Task
 
 
-class AssignmentView(LoginRequiredMixin, TemplateView):
+class AssignmentView(LoginRequiredMixin, FormView):
     """assignment view to show current assignment"""
 
     login_url = '/login'
     template_name = 'dfirtrack_config/assignment/assignment.html'
+    form_class = AssignmentFilterForm
 
     def get_context_data(self, *args, **kwargs):
+        """enrich context data"""
 
+        # get user
         user = self.request.user
 
         # get context
         context = super().get_context_data(*args, **kwargs)
 
-        # get artifacts
-        context['artifact'] = Artifact.objects.filter(artifact_assigned_to_user_id=user)
-        # get cases
-        context['case'] = Case.objects.filter(case_assigned_to_user_id=user)
-        # get systems
-        context['system'] = System.objects.filter(system_assigned_to_user_id=user)
-        # get tasks
-        context['task'] = Task.objects.filter(task_assigned_to_user_id=user)
+        # get config
+        user_config, created = UserConfigModel.objects.get_or_create(
+            user_config_username=self.request.user
+        )
+
+        """form preparation"""
+
+        # initialize filter flag (needed for messages)
+        filter_flag = False
+        # initialize user flag (needed for messages)
+        user_flag = False
+
+        # filter: even if the persistence option has been deselected, the initial values must correspond to the current filtering until the view is reloaded or left
+
+        # create dict to initialize form values set by filtering in previous view call
+        form_initial = {}
+
+        # check box if persistence option was provided
+        if user_config.filter_assignment_view_keep:
+            # set initial value for form
+            form_initial['filter_assignment_view_keep'] = True
+        else:
+            form_initial['filter_assignment_view_keep'] = False
+
+        # get case from config
+        if user_config.filter_assignment_view_case:
+            # get id
+            case_id = user_config.filter_assignment_view_case.case_id
+            # set initial value for form
+            form_initial['case'] = case_id
+            # set filter flag
+            filter_flag = True
+
+        # get tag from config
+        if user_config.filter_assignment_view_tag:
+            # get id
+            tag_id = user_config.filter_assignment_view_tag.tag_id
+            # set initial value for form
+            form_initial['tag'] = tag_id
+            # set filter flag
+            filter_flag = True
+
+        # get user from config
+        if user_config.filter_assignment_view_user:
+            # get id
+            user_id = user_config.filter_assignment_view_user.id
+            # set initial value for form
+            form_initial['user'] = user_id
+            # set user flag
+            user_flag = True
+
+        # filter: pre-select form according to previous filter selection
+        context['form'] = self.form_class(initial=form_initial)
+
+        """filter """
+
+        # get queryset with all entities
+        artifact_queryset = Artifact.objects.all()
+        case_queryset = Case.objects.all()
+        system_queryset = System.objects.all()
+        task_queryset = Task.objects.all()
+
+        # filter queryset to case
+        if user_config.filter_assignment_view_case:
+            artifact_queryset = artifact_queryset.filter(case=user_config.filter_assignment_view_case)
+            # TODO: what about case itself?
+            #case_queryset = case_queryset.filter(case=user_config.filter_assignment_view_case)
+            system_queryset = system_queryset.filter(case=user_config.filter_assignment_view_case)
+            task_queryset = task_queryset.filter(case=user_config.filter_assignment_view_case)
+
+        # filter queryset to tag
+        if user_config.filter_assignment_view_tag:
+            artifact_queryset = artifact_queryset.filter(tag=user_config.filter_assignment_view_tag)
+            case_queryset = case_queryset.filter(tag=user_config.filter_assignment_view_tag)
+            system_queryset = system_queryset.filter(tag=user_config.filter_assignment_view_tag)
+            task_queryset = task_queryset.filter(tag=user_config.filter_assignment_view_tag)
+
+        # filter queryset to user
+        if user_config.filter_assignment_view_user:
+            artifact_queryset = artifact_queryset.filter(artifact_assigned_to_user_id=user_config.filter_assignment_view_user)
+            case_queryset = case_queryset.filter(case_assigned_to_user_id=user_config.filter_assignment_view_user)
+            system_queryset = system_queryset.filter(system_assigned_to_user_id=user_config.filter_assignment_view_user)
+            task_queryset = task_queryset.filter(task_assigned_to_user_id=user_config.filter_assignment_view_user)
+        # show unassigned entities otherwise
+        else:
+            artifact_queryset = artifact_queryset.filter(artifact_assigned_to_user_id=None)
+            case_queryset = case_queryset.filter(case_assigned_to_user_id=None)
+            system_queryset = system_queryset.filter(system_assigned_to_user_id=None)
+            task_queryset = task_queryset.filter(task_assigned_to_user_id=None)
+
+        # add querysets to context
+        context['artifact'] = artifact_queryset
+        context['case'] = case_queryset
+        context['system'] = system_queryset
+        context['task'] = task_queryset
 
         # call logger
         debug_logger(str(self.request.user), ' ASSIGNMENT_ENTERED')
 
+        # info message that filter is active
+        if filter_flag:
+            messages.info(self.request, 'Filter is active. Entities might be incomplete.')
+        # info message about user
+        if user_flag:
+            messages.info(self.request, f"Entities assigned to '{user_config.filter_assignment_view_user.username}' are shown.")
+        else:
+            messages.info(self.request, 'Unassigned entities are shown.')
+
         # return context dictionary
         return context
+
+    def form_valid(self, form):
+        """save form data to config and call view again"""
+
+        # get config
+        user_config, created = UserConfigModel.objects.get_or_create(
+            user_config_username=self.request.user
+        )
+
+        # filter: save filter choices from form in 'assignment_view' to database and call 'assignment_view' again with the new filter options
+
+        # get case from form and save to config
+        if form.data['case']:
+            assignment_view_case = Case.objects.get(case_id=form.data['case'])
+            user_config.filter_assignment_view_case = assignment_view_case
+        else:
+            user_config.filter_assignment_view_case = None
+
+        # get tag from form and save to config
+        if form.data['tag']:
+            assignment_view_tag = Tag.objects.get(tag_id=form.data['tag'])
+            user_config.filter_assignment_view_tag = assignment_view_tag
+        else:
+            user_config.filter_assignment_view_tag = None
+
+        # get user from form and save to config
+        if form.data['user']:
+            assignment_view_user = User.objects.get(id=form.data['user'])
+            user_config.filter_assignment_view_user = assignment_view_user
+        else:
+            user_config.filter_assignment_view_user = None
+
+        # avoid MultiValueDictKeyError by providing default False if checkbox was empty
+        if form.data.get('filter_assignment_view_keep', False):
+            user_config.filter_assignment_view_keep = True
+        else:
+            user_config.filter_assignment_view_keep = False
+
+        # save config
+        user_config.save()
+
+        # call view again
+        return redirect(reverse('assignment'))
