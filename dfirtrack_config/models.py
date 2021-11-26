@@ -552,6 +552,30 @@ class UserConfigModel(models.Model):
         User, on_delete=models.CASCADE, related_name='filter_username', primary_key=True
     )
 
+    # filter settings - assignment view
+    filter_assignment_view_keep = models.BooleanField(default=True)
+    filter_assignment_view_case = models.ForeignKey(
+        'dfirtrack_main.Case',
+        related_name='filter_assignment_view_case',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+    )
+    filter_assignment_view_tag = models.ForeignKey(
+        'dfirtrack_main.Tag',
+        related_name='filter_assignment_view_tag',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+    )
+    filter_assignment_view_user = models.OneToOneField(
+        User,
+        related_name='filter_assignment_view_tag',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+    )
+
     # filter settings - documentation list
     filter_documentation_list_keep = models.BooleanField(default=True)
     filter_documentation_list_case = models.ForeignKey(
