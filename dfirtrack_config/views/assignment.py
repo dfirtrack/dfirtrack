@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
@@ -173,3 +174,22 @@ class AssignmentView(LoginRequiredMixin, FormView):
 
         # call view again
         return redirect(reverse('assignment'))
+
+@login_required(login_url="/login")
+def clear_assignment_view_filter(request):
+    """clear assignment view filter"""
+
+    # get config
+    user_config, created = UserConfigModel.objects.get_or_create(
+        user_config_username=request.user
+    )
+
+    # clear values
+    user_config.filter_assignment_view_case = None
+    user_config.filter_assignment_view_tag = None
+    user_config.filter_assignment_view_user = None
+
+    # save config
+    user_config.save()
+
+    return redirect(reverse('assignment'))

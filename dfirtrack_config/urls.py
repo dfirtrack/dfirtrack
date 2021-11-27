@@ -11,6 +11,11 @@ from dfirtrack_config.views import assignment, main_config_editor, status, statu
 urlpatterns = [
     path(r'assignment/', assignment.AssignmentView.as_view(), name='assignment'),
     path(
+        r'assignment/clear_filter/',
+        assignment.clear_assignment_view_filter,
+        name='clear_assignment_view_filter',
+    ),
+    path(
         r'artifact/exporter/spreadsheet/xls/',
         artifact_exporter_spreadsheet_config_editor.artifact_exporter_spreadsheet_xls_config_view,
         name='artifact_exporter_spreadsheet_xls_config_popup',
