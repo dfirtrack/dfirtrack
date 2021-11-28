@@ -21,7 +21,7 @@ class AssignmentView(LoginRequiredMixin, FormView):
     form_class = AssignmentFilterForm
 
     def get_context_data(self, *args, **kwargs):
-        """enrich context data"""
+        """actually shows the view"""
 
         """prologue"""
 
@@ -164,6 +164,23 @@ class AssignmentView(LoginRequiredMixin, FormView):
             # save config
             user_config.save()
 
+        """visibility"""
+
+        if user_config.filter_assignment_view_show_artifact:
+            context['show_artifact'] = True
+        if user_config.filter_assignment_view_show_case:
+            context['show_case'] = True
+        if user_config.filter_assignment_view_show_note:
+            context['show_note'] = True
+        if user_config.filter_assignment_view_show_reportitem:
+            context['show_reportitem'] = True
+        if user_config.filter_assignment_view_show_system:
+            context['show_system'] = True
+        if user_config.filter_assignment_view_show_tag:
+            context['show_tag'] = True
+        if user_config.filter_assignment_view_show_task:
+            context['show_task'] = True
+
         """epilogue"""
 
         # call logger
@@ -239,4 +256,159 @@ def clear_assignment_view_filter(request):
     # save config
     user_config.save()
 
+    # return to assignment view
+    return redirect(reverse('assignment'))
+
+
+@login_required(login_url="/login")
+def toggle_assignment_view_artifact(request):
+    """toggle visibility"""
+
+    # get config
+    user_config, created = UserConfigModel.objects.get_or_create(
+        user_config_username=request.user
+    )
+
+    # toggle value
+    if user_config.filter_assignment_view_show_artifact:
+        user_config.filter_assignment_view_show_artifact = False
+    else:
+        user_config.filter_assignment_view_show_artifact = True
+
+    # save config
+    user_config.save()
+
+    # return to assignment view
+    return redirect(reverse('assignment'))
+
+
+@login_required(login_url="/login")
+def toggle_assignment_view_case(request):
+    """toggle visibility"""
+
+    # get config
+    user_config, created = UserConfigModel.objects.get_or_create(
+        user_config_username=request.user
+    )
+
+    # toggle value
+    if user_config.filter_assignment_view_show_case:
+        user_config.filter_assignment_view_show_case = False
+    else:
+        user_config.filter_assignment_view_show_case = True
+
+    # save config
+    user_config.save()
+
+    # return to assignment view
+    return redirect(reverse('assignment'))
+
+
+@login_required(login_url="/login")
+def toggle_assignment_view_note(request):
+    """toggle visibility"""
+
+    # get config
+    user_config, created = UserConfigModel.objects.get_or_create(
+        user_config_username=request.user
+    )
+
+    # toggle value
+    if user_config.filter_assignment_view_show_note:
+        user_config.filter_assignment_view_show_note = False
+    else:
+        user_config.filter_assignment_view_show_note = True
+
+    # save config
+    user_config.save()
+
+    # return to assignment view
+    return redirect(reverse('assignment'))
+
+
+@login_required(login_url="/login")
+def toggle_assignment_view_reportitem(request):
+    """toggle visibility"""
+
+    # get config
+    user_config, created = UserConfigModel.objects.get_or_create(
+        user_config_username=request.user
+    )
+
+    # toggle value
+    if user_config.filter_assignment_view_show_reportitem:
+        user_config.filter_assignment_view_show_reportitem = False
+    else:
+        user_config.filter_assignment_view_show_reportitem = True
+
+    # save config
+    user_config.save()
+
+    # return to assignment view
+    return redirect(reverse('assignment'))
+
+
+@login_required(login_url="/login")
+def toggle_assignment_view_system(request):
+    """toggle visibility"""
+
+    # get config
+    user_config, created = UserConfigModel.objects.get_or_create(
+        user_config_username=request.user
+    )
+
+    # toggle value
+    if user_config.filter_assignment_view_show_system:
+        user_config.filter_assignment_view_show_system = False
+    else:
+        user_config.filter_assignment_view_show_system = True
+
+    # save config
+    user_config.save()
+
+    # return to assignment view
+    return redirect(reverse('assignment'))
+
+
+@login_required(login_url="/login")
+def toggle_assignment_view_tag(request):
+    """toggle visibility"""
+
+    # get config
+    user_config, created = UserConfigModel.objects.get_or_create(
+        user_config_username=request.user
+    )
+
+    # toggle value
+    if user_config.filter_assignment_view_show_tag:
+        user_config.filter_assignment_view_show_tag = False
+    else:
+        user_config.filter_assignment_view_show_tag = True
+
+    # save config
+    user_config.save()
+
+    # return to assignment view
+    return redirect(reverse('assignment'))
+
+
+@login_required(login_url="/login")
+def toggle_assignment_view_task(request):
+    """toggle visibility"""
+
+    # get config
+    user_config, created = UserConfigModel.objects.get_or_create(
+        user_config_username=request.user
+    )
+
+    # toggle value
+    if user_config.filter_assignment_view_show_task:
+        user_config.filter_assignment_view_show_task = False
+    else:
+        user_config.filter_assignment_view_show_task = True
+
+    # save config
+    user_config.save()
+
+    # return to assignment view
     return redirect(reverse('assignment'))

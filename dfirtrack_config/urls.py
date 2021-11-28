@@ -22,6 +22,41 @@ urlpatterns = [
         name='clear_assignment_view_filter',
     ),
     path(
+        r'assignment/toggle_artifact/',
+        assignment.toggle_assignment_view_artifact,
+        name='toggle_assignment_view_artifact',
+    ),
+    path(
+        r'assignment/toggle_case/',
+        assignment.toggle_assignment_view_case,
+        name='toggle_assignment_view_case',
+    ),
+    path(
+        r'assignment/toggle_note/',
+        assignment.toggle_assignment_view_note,
+        name='toggle_assignment_view_note',
+    ),
+    path(
+        r'assignment/toggle_reportitem/',
+        assignment.toggle_assignment_view_reportitem,
+        name='toggle_assignment_view_reportitem',
+    ),
+    path(
+        r'assignment/toggle_system/',
+        assignment.toggle_assignment_view_system,
+        name='toggle_assignment_view_system',
+    ),
+    path(
+        r'assignment/toggle_tag/',
+        assignment.toggle_assignment_view_tag,
+        name='toggle_assignment_view_tag',
+    ),
+    path(
+        r'assignment/toggle_task/',
+        assignment.toggle_assignment_view_task,
+        name='toggle_assignment_view_task',
+    ),
+    path(
         r'artifact/exporter/spreadsheet/xls/',
         artifact_exporter_spreadsheet_config_editor.artifact_exporter_spreadsheet_xls_config_view,
         name='artifact_exporter_spreadsheet_xls_config_popup',

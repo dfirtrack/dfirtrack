@@ -575,6 +575,13 @@ class UserConfigModel(models.Model):
         blank=True,
         null=True,
     )
+    filter_assignment_view_show_artifact = models.BooleanField(default=True)
+    filter_assignment_view_show_case = models.BooleanField(default=True)
+    filter_assignment_view_show_note = models.BooleanField(default=True)
+    filter_assignment_view_show_reportitem = models.BooleanField(default=True)
+    filter_assignment_view_show_system = models.BooleanField(default=True)
+    filter_assignment_view_show_tag = models.BooleanField(default=True)
+    filter_assignment_view_show_task = models.BooleanField(default=True)
 
     # filter settings - documentation list
     filter_documentation_list_keep = models.BooleanField(default=True)

@@ -103,6 +103,15 @@
                 {% else %}
                     Unassigned systems{% if system %} ({{ system|length }}){% endif %}
                 {% endif %}
+                {% if show_system %}
+                    <a href="{% url 'toggle_assignment_view_system' %}" class="top-distance copy-false">
+                        <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                    </a>
+                {% else %}
+                    <a href="{% url 'toggle_assignment_view_system' %}" class="top-distance copy-false">
+                        <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                    </a>
+                {% endif %}
             </h5>
         </div>
     </div>
@@ -110,33 +119,39 @@
     <!-- javascript for datatables -->
     <script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
 
-    <!-- systems -->
-    {% if system %}
+    <!-- toggle visibility -->
+    {% if show_system %}
 
-        <!-- datatable system -->
-        <table id="table_system" class="display" width="100%">
+        <!-- systems -->
+        {% if system %}
 
-            <!-- table head -->
-            <thead>
-                {% include "dfirtrack_main/includes/datatable_thead_table_system.html" %}
-            </thead>
+            <!-- datatable system -->
+            <table id="table_system" class="display" width="100%">
 
-            <!-- table body -->
-            <tbody>
-            </tbody>
+                <!-- table head -->
+                <thead>
+                    {% include "dfirtrack_main/includes/datatable_thead_table_system.html" %}
+                </thead>
 
-        <!-- datatable system -->
-        </table>
+                <!-- table body -->
+                <tbody>
+                </tbody>
 
-    <!-- no systems -->
-    {% else %}
-        <div class="row top-distance">
-            <div class="col-3">
-                ---
+            <!-- datatable system -->
+            </table>
+
+        <!-- no systems -->
+        {% else %}
+            <div class="row top-distance">
+                <div class="col-3">
+                    ---
+                </div>
             </div>
-        </div>
 
-    <!-- systems -->
+        <!-- systems -->
+        {% endif %}
+
+    <!-- toggle visibility -->
     {% endif %}
 
 <!-- system block -->
@@ -157,43 +172,58 @@
                 {% else %}
                     Unassigned artifacts{% if artifact %} ({{ artifact|length }}){% endif %}
                 {% endif %}
+                {% if show_artifact %}
+                    <a href="{% url 'toggle_assignment_view_artifact' %}" class="top-distance copy-false">
+                        <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                    </a>
+                {% else %}
+                    <a href="{% url 'toggle_assignment_view_artifact' %}" class="top-distance copy-false">
+                        <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                    </a>
+                {% endif %}
             </h5>
         </div>
     </div>
 
-    <!-- artifacts -->
-    {% if artifact %}
+    <!-- toggle visibility -->
+    {% if show_artifact %}
 
-        <!-- datatable artifact -->
-        <table id="table_artifact" class="display" width="100%">
+        <!-- artifacts -->
+        {% if artifact %}
 
-            <!-- table head -->
-            <thead>
-                {% include "dfirtrack_artifacts/includes/datatable_thead_table_artifact.html" %}
-            </thead>
+            <!-- datatable artifact -->
+            <table id="table_artifact" class="display" width="100%">
 
-            <!-- table body -->
-            <tbody>
-                {% for i in artifact %}
-                    {% include "dfirtrack_artifacts/includes/datatable_tbody_table_artifact.html" %}
-                {% endfor %}
-            </tbody>
+                <!-- table head -->
+                <thead>
+                    {% include "dfirtrack_artifacts/includes/datatable_thead_table_artifact.html" %}
+                </thead>
 
-        <!-- datatable artifact -->
-        </table>
+                <!-- table body -->
+                <tbody>
+                    {% for i in artifact %}
+                        {% include "dfirtrack_artifacts/includes/datatable_tbody_table_artifact.html" %}
+                    {% endfor %}
+                </tbody>
 
-        <!-- javascript for datatables -->
-        <script src="{% static 'dfirtrack_artifacts/datatables_artifacts.js' %}"></script>
+            <!-- datatable artifact -->
+            </table>
 
-    <!-- no artifacts -->
-    {% else %}
-        <div class="row top-distance">
-            <div class="col-3">
-                ---
+            <!-- javascript for datatables -->
+            <script src="{% static 'dfirtrack_artifacts/datatables_artifacts.js' %}"></script>
+
+        <!-- no artifacts -->
+        {% else %}
+            <div class="row top-distance">
+                <div class="col-3">
+                    ---
+                </div>
             </div>
-        </div>
 
-    <!-- artifacts -->
+        <!-- artifacts -->
+        {% endif %}
+
+    <!-- toggle visibility -->
     {% endif %}
 
 <!-- artifact block -->
@@ -214,40 +244,55 @@
                 {% else %}
                     Unassigned cases{% if case %} ({{ case|length }}){% endif %}
                 {% endif %}
+                {% if show_case %}
+                    <a href="{% url 'toggle_assignment_view_case' %}" class="top-distance copy-false">
+                        <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                    </a>
+                {% else %}
+                    <a href="{% url 'toggle_assignment_view_case' %}" class="top-distance copy-false">
+                        <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                    </a>
+                {% endif %}
             </h5>
         </div>
     </div>
 
-    <!-- cases -->
-    {% if case %}
+    <!-- toggle visibility -->
+    {% if show_case %}
 
-        <!-- datatable case -->
-        <table id="table_case" class="display" width="100%">
+        <!-- cases -->
+        {% if case %}
 
-            <!-- table head -->
-            <thead>
-                {% include "dfirtrack_main/includes/datatable_thead_table_case.html" %}
-            </thead>
+            <!-- datatable case -->
+            <table id="table_case" class="display" width="100%">
 
-            <!-- table body -->
-            <tbody>
-                {% for i in case %}
-                    {% include "dfirtrack_main/includes/datatable_tbody_table_case.html" %}
-                {% endfor %}
-            </tbody>
+                <!-- table head -->
+                <thead>
+                    {% include "dfirtrack_main/includes/datatable_thead_table_case.html" %}
+                </thead>
 
-        <!-- datatable case -->
-        </table>
+                <!-- table body -->
+                <tbody>
+                    {% for i in case %}
+                        {% include "dfirtrack_main/includes/datatable_tbody_table_case.html" %}
+                    {% endfor %}
+                </tbody>
 
-    <!-- no cases -->
-    {% else %}
-        <div class="row top-distance">
-            <div class="col-3">
-                ---
+            <!-- datatable case -->
+            </table>
+
+        <!-- no cases -->
+        {% else %}
+            <div class="row top-distance">
+                <div class="col-3">
+                    ---
+                </div>
             </div>
-        </div>
 
-    <!-- cases -->
+        <!-- cases -->
+        {% endif %}
+
+    <!-- toggle visibility -->
     {% endif %}
 
 <!-- case block -->
@@ -268,40 +313,55 @@
                 {% else %}
                     Unassigned tasks{% if task %} ({{ task|length }}){% endif %}
                 {% endif %}
+                {% if show_task %}
+                    <a href="{% url 'toggle_assignment_view_task' %}" class="top-distance copy-false">
+                        <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                    </a>
+                {% else %}
+                    <a href="{% url 'toggle_assignment_view_task' %}" class="top-distance copy-false">
+                        <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                    </a>
+                {% endif %}
             </h5>
         </div>
     </div>
 
-    <!-- tasks -->
-    {% if task %}
+    <!-- toggle visibility -->
+    {% if show_task %}
 
-        <!-- datatable task -->
-        <table id="table_task" class="display" width="100%">
+        <!-- tasks -->
+        {% if task %}
 
-            <!-- table head -->
-            <thead>
-                {% include "dfirtrack_main/includes/datatable_thead_table_task.html" %}
-            </thead>
+            <!-- datatable task -->
+            <table id="table_task" class="display" width="100%">
 
-            <!-- table body -->
-            <tbody>
-                {% for i in task %}
-                    {% include "dfirtrack_main/includes/datatable_tbody_table_task.html" %}
-                {% endfor %}
-            </tbody>
+                <!-- table head -->
+                <thead>
+                    {% include "dfirtrack_main/includes/datatable_thead_table_task.html" %}
+                </thead>
 
-        <!-- datatable task -->
-        </table>
+                <!-- table body -->
+                <tbody>
+                    {% for i in task %}
+                        {% include "dfirtrack_main/includes/datatable_tbody_table_task.html" %}
+                    {% endfor %}
+                </tbody>
 
-    <!-- no tasks -->
-    {% else %}
-        <div class="row top-distance">
-            <div class="col-3">
-                ---
+            <!-- datatable task -->
+            </table>
+
+        <!-- no tasks -->
+        {% else %}
+            <div class="row top-distance">
+                <div class="col-3">
+                    ---
+                </div>
             </div>
-        </div>
 
-    <!-- tasks -->
+        <!-- tasks -->
+        {% endif %}
+
+    <!-- toggle visibility -->
     {% endif %}
 
 <!-- task block -->
