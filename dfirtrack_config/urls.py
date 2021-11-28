@@ -6,7 +6,13 @@ from dfirtrack_config.exporter.spreadsheet import (
     system_exporter_spreadsheet_config_editor,
 )
 from dfirtrack_config.importer.file import system_importer_file_config_editor
-from dfirtrack_config.views import assignment, main_config_editor, status, statushistory, workflow
+from dfirtrack_config.views import (
+    assignment,
+    main_config_editor,
+    status,
+    statushistory,
+    workflow,
+)
 
 urlpatterns = [
     path(r'assignment/', assignment.AssignmentView.as_view(), name='assignment'),

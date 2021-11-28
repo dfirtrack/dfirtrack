@@ -88,29 +88,57 @@ class AssignmentView(LoginRequiredMixin, FormView):
 
         # filter queryset to case
         if user_config.filter_assignment_view_case:
-            artifact_queryset = artifact_queryset.filter(case=user_config.filter_assignment_view_case)
-            case_queryset = case_queryset.filter(case_id=user_config.filter_assignment_view_case.case_id)
-            system_queryset = system_queryset.filter(case=user_config.filter_assignment_view_case)
-            task_queryset = task_queryset.filter(case=user_config.filter_assignment_view_case)
+            artifact_queryset = artifact_queryset.filter(
+                case=user_config.filter_assignment_view_case
+            )
+            case_queryset = case_queryset.filter(
+                case_id=user_config.filter_assignment_view_case.case_id
+            )
+            system_queryset = system_queryset.filter(
+                case=user_config.filter_assignment_view_case
+            )
+            task_queryset = task_queryset.filter(
+                case=user_config.filter_assignment_view_case
+            )
 
         # filter queryset to tag
         if user_config.filter_assignment_view_tag:
-            artifact_queryset = artifact_queryset.filter(tag=user_config.filter_assignment_view_tag)
-            case_queryset = case_queryset.filter(tag=user_config.filter_assignment_view_tag)
-            system_queryset = system_queryset.filter(tag=user_config.filter_assignment_view_tag)
-            task_queryset = task_queryset.filter(tag=user_config.filter_assignment_view_tag)
+            artifact_queryset = artifact_queryset.filter(
+                tag=user_config.filter_assignment_view_tag
+            )
+            case_queryset = case_queryset.filter(
+                tag=user_config.filter_assignment_view_tag
+            )
+            system_queryset = system_queryset.filter(
+                tag=user_config.filter_assignment_view_tag
+            )
+            task_queryset = task_queryset.filter(
+                tag=user_config.filter_assignment_view_tag
+            )
 
         # filter queryset to user
         if user_config.filter_assignment_view_user:
-            artifact_queryset = artifact_queryset.filter(artifact_assigned_to_user_id=user_config.filter_assignment_view_user)
-            case_queryset = case_queryset.filter(case_assigned_to_user_id=user_config.filter_assignment_view_user)
-            system_queryset = system_queryset.filter(system_assigned_to_user_id=user_config.filter_assignment_view_user)
-            task_queryset = task_queryset.filter(task_assigned_to_user_id=user_config.filter_assignment_view_user)
+            artifact_queryset = artifact_queryset.filter(
+                artifact_assigned_to_user_id=user_config.filter_assignment_view_user
+            )
+            case_queryset = case_queryset.filter(
+                case_assigned_to_user_id=user_config.filter_assignment_view_user
+            )
+            system_queryset = system_queryset.filter(
+                system_assigned_to_user_id=user_config.filter_assignment_view_user
+            )
+            task_queryset = task_queryset.filter(
+                task_assigned_to_user_id=user_config.filter_assignment_view_user
+            )
             # add username to context used for template
-            context['assignment_user'] = user_config.filter_assignment_view_user.username
+            context[
+                'assignment_user'
+            ] = user_config.filter_assignment_view_user.username
         # show unassigned entities otherwise
         else:
-            artifact_queryset = artifact_queryset.filter(artifact_assigned_to_user_id=None)
+            artifact_queryset = artifact_queryset.filter(
+                artifact_assigned_to_user_id=None
+            )
             case_queryset = case_queryset.filter(case_assigned_to_user_id=None)
             system_queryset = system_queryset.filter(system_assigned_to_user_id=None)
             task_queryset = task_queryset.filter(task_assigned_to_user_id=None)
@@ -143,7 +171,9 @@ class AssignmentView(LoginRequiredMixin, FormView):
 
         # info message that filter is active (not for user filtering)
         if filter_flag:
-            messages.info(self.request, 'Filter is active. Entities might be incomplete.')
+            messages.info(
+                self.request, 'Filter is active. Entities might be incomplete.'
+            )
 
         # return context dictionary
         return context
@@ -190,6 +220,7 @@ class AssignmentView(LoginRequiredMixin, FormView):
 
         # call view again
         return redirect(reverse('assignment'))
+
 
 @login_required(login_url="/login")
 def clear_assignment_view_filter(request):

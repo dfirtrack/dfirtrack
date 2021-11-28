@@ -91,7 +91,9 @@ class SystemList(LoginRequiredMixin, FormView):
 
         # info message that filter is active
         if filter_flag:
-            messages.info(self.request, 'Filter is active. Systems might be incomplete.')
+            messages.info(
+                self.request, 'Filter is active. Systems might be incomplete.'
+            )
 
         # return dictionary with additional values for template
         return context
