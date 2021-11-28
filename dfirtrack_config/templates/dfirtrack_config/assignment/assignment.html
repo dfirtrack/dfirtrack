@@ -6,7 +6,7 @@
 
 <!-- page title -->
 <title>
-    Assignments
+    DFIRTrack - Assignments
 </title>
 
 {% load static %}
@@ -35,7 +35,11 @@
     <div class="col-6">
         <h5>
             <img src="{% static 'dfirtrack_main/icons/people-light.svg' %}" class="icon right-distance copy-false" alt="icon">
-            Assignments
+            {% if assignment_user %}
+                Assignments for '{{ assignment_user }}'
+            {% else %}
+                Unassigned entities
+            {% endif %}
         </h5>
     </div>
 
