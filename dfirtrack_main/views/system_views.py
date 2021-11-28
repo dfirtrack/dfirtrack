@@ -3,6 +3,7 @@ import ipaddress
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 from django.core.exceptions import FieldError
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
@@ -407,10 +408,14 @@ def get_systems_json(request):
     ):
         search_value = ''
 
+    """get filter values from config"""
+
     # get config
     user_config, created = UserConfigModel.objects.get_or_create(
         user_config_username=request.user
     )
+
+    # system list
 
     # case filter
     if user_config.filter_system_list_case:
@@ -430,6 +435,33 @@ def get_systems_json(request):
     else:
         system_list_tag = None
 
+    # assignment view
+
+    # case filter
+    if user_config.filter_assignment_view_case:
+        # get filter values from config
+        assignment_view_case = Case.objects.get(
+            case_id=user_config.filter_assignment_view_case.case_id
+        )
+    else:
+        assignment_view_case = None
+
+    # tag filter
+    if user_config.filter_assignment_view_tag:
+        # get filter values from config
+        assignment_view_tag = Tag.objects.get(
+            tag_id=user_config.filter_assignment_view_tag.tag_id
+        )
+    else:
+        assignment_view_tag = None
+
+    # user filter
+    if user_config.filter_assignment_view_user:
+        # get filter values from config
+        assignment_view_user = user_config.filter_assignment_view_user
+    else:
+        assignment_view_user = None
+
     """ no search value in datatable search field """
 
     # if no search value is given, get all objects and order them according to user setting
@@ -439,7 +471,7 @@ def get_systems_json(request):
         # start with full query
         system_values = System.objects.all().order_by(order_dir + order_column_name)
 
-        # system detail
+        # system list
         if '/system/' in referer:
             # filter: filtering for case and tag is only applied to 'system_list'
             if system_list_case:
@@ -470,11 +502,16 @@ def get_systems_json(request):
             system_values = system_values.filter(tag__tag_id=tag_id).order_by(
                 order_dir + order_column_name
             )
-        # assignment
+        # assignment view
         elif '/assignment/' in referer:
-            system_values = System.objects.filter(
-                system_assigned_to_user_id=request.user
-            ).order_by(order_dir + order_column_name)
+            if assignment_view_case:
+                system_values = system_values.filter(case=assignment_view_case)
+            if assignment_view_tag:
+                system_values = system_values.filter(tag=assignment_view_tag)
+            if assignment_view_user:
+                system_values = system_values.filter(system_assigned_to_user_id=assignment_view_user)
+            else:
+                system_values = system_values.filter(system_assigned_to_user_id=None)
         # catch-all rule to prevent empty 'system_values' if the datatable is included in other views in the future
         else:
             system_values = system_values
@@ -557,6 +594,16 @@ def get_systems_json(request):
                 system_values = system_values.filter(case=system_list_case)
             if system_list_tag:
                 system_values = system_values.filter(tag=system_list_tag)
+        # assignment view
+        elif '/assignment/' in referer:
+            if assignment_view_case:
+                system_values = system_values.filter(case=assignment_view_case)
+            if assignment_view_tag:
+                system_values = system_values.filter(tag=assignment_view_tag)
+            if assignment_view_user:
+                system_values = system_values.filter(system_assigned_to_user_id=assignment_view_user)
+            else:
+                system_values = system_values.filter(system_assigned_to_user_id=None)
 
         # make the resulting queryset unique and sort it according to user settings
         system_values = system_values.distinct().order_by(order_dir + order_column_name)
