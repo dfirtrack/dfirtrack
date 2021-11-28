@@ -23,8 +23,7 @@ class AssignmentView(LoginRequiredMixin, FormView):
     def get_context_data(self, *args, **kwargs):
         """enrich context data"""
 
-        # get user
-        user = self.request.user
+        """prologue"""
 
         # get context
         context = super().get_context_data(*args, **kwargs)
@@ -79,7 +78,7 @@ class AssignmentView(LoginRequiredMixin, FormView):
         # filter: pre-select form according to previous filter selection
         context['form'] = self.form_class(initial=form_initial)
 
-        """filter """
+        """filter"""
 
         # get queryset with all entities
         artifact_queryset = Artifact.objects.all()
@@ -107,6 +106,7 @@ class AssignmentView(LoginRequiredMixin, FormView):
             case_queryset = case_queryset.filter(case_assigned_to_user_id=user_config.filter_assignment_view_user)
             system_queryset = system_queryset.filter(system_assigned_to_user_id=user_config.filter_assignment_view_user)
             task_queryset = task_queryset.filter(task_assigned_to_user_id=user_config.filter_assignment_view_user)
+            # add username to context used for template
             context['assignment_user'] = user_config.filter_assignment_view_user.username
         # show unassigned entities otherwise
         else:
@@ -114,6 +114,7 @@ class AssignmentView(LoginRequiredMixin, FormView):
             case_queryset = case_queryset.filter(case_assigned_to_user_id=None)
             system_queryset = system_queryset.filter(system_assigned_to_user_id=None)
             task_queryset = task_queryset.filter(task_assigned_to_user_id=None)
+            # add username to context used for template
             context['assignment_user'] = None
 
         # add querysets to context
@@ -122,10 +123,25 @@ class AssignmentView(LoginRequiredMixin, FormView):
         context['system'] = system_queryset
         context['task'] = task_queryset
 
+        """filter cleaning"""
+
+        # filter: clean filtering after providing filter results if persistence option was not selected
+        if not user_config.filter_assignment_view_keep:
+            # unset filter case
+            user_config.filter_assignment_view_case = None
+            # unset filter tag
+            user_config.filter_assignment_view_tag = None
+            # unset filter user
+            user_config.filter_assignment_view_user = None
+            # save config
+            user_config.save()
+
+        """epilogue"""
+
         # call logger
         debug_logger(str(self.request.user), ' ASSIGNMENT_ENTERED')
 
-        # info message that filter is active
+        # info message that filter is active (not for user filtering)
         if filter_flag:
             messages.info(self.request, 'Filter is active. Entities might be incomplete.')
 
