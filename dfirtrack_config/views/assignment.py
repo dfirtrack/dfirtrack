@@ -38,7 +38,7 @@ class AssignmentView(LoginRequiredMixin, FormView):
         # initialize filter flag (needed for messages)
         filter_flag = False
 
-        # filter: even if the persistence option has been deselected, the initial values must correspond to the current filtering until the view is reloaded or left
+        # even if the persistence option has been deselected, the initial values must correspond to the current filtering until the view is reloaded or left
 
         # create dict to initialize form values set by filtering in previous view call
         form_initial = {}
@@ -50,7 +50,7 @@ class AssignmentView(LoginRequiredMixin, FormView):
         else:
             form_initial['filter_assignment_view_keep'] = False
 
-        # get case from config
+        # get case from config and add to initial form value
         if user_config.filter_assignment_view_case:
             # get id
             case_id = user_config.filter_assignment_view_case.case_id
@@ -59,7 +59,7 @@ class AssignmentView(LoginRequiredMixin, FormView):
             # set filter flag
             filter_flag = True
 
-        # get tag from config
+        # get tag from config and add to initial form value
         if user_config.filter_assignment_view_tag:
             # get id
             tag_id = user_config.filter_assignment_view_tag.tag_id
@@ -68,14 +68,14 @@ class AssignmentView(LoginRequiredMixin, FormView):
             # set filter flag
             filter_flag = True
 
-        # get user from config
+        # get user from config and add to initial form value
         if user_config.filter_assignment_view_user:
             # get id
             user_id = user_config.filter_assignment_view_user.id
             # set initial value for form
             form_initial['user'] = user_id
 
-        # filter: pre-select form according to previous filter selection
+        # pre-select form according to previous filter selection
         context['form'] = self.form_class(initial=form_initial)
 
         """filter"""
@@ -125,7 +125,7 @@ class AssignmentView(LoginRequiredMixin, FormView):
 
         """filter cleaning"""
 
-        # filter: clean filtering after providing filter results if persistence option was not selected
+        # clean filtering after providing filter results if persistence option was not selected
         if not user_config.filter_assignment_view_keep:
             # unset filter case
             user_config.filter_assignment_view_case = None
@@ -156,7 +156,7 @@ class AssignmentView(LoginRequiredMixin, FormView):
             user_config_username=self.request.user
         )
 
-        # filter: save filter choices from form in 'assignment_view' to database and call 'assignment_view' again with the new filter options
+        # save filter choices from form in 'assignment_view' to database and call 'assignment_view' again with the new filter options
 
         # get case from form and save to config
         if form.data['case']:
