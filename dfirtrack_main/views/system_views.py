@@ -509,7 +509,9 @@ def get_systems_json(request):
             if assignment_view_tag:
                 system_values = system_values.filter(tag=assignment_view_tag)
             if assignment_view_user:
-                system_values = system_values.filter(system_assigned_to_user_id=assignment_view_user)
+                system_values = system_values.filter(
+                    system_assigned_to_user_id=assignment_view_user
+                )
             else:
                 system_values = system_values.filter(system_assigned_to_user_id=None)
         # catch-all rule to prevent empty 'system_values' if the datatable is included in other views in the future
@@ -601,7 +603,9 @@ def get_systems_json(request):
             if assignment_view_tag:
                 system_values = system_values.filter(tag=assignment_view_tag)
             if assignment_view_user:
-                system_values = system_values.filter(system_assigned_to_user_id=assignment_view_user)
+                system_values = system_values.filter(
+                    system_assigned_to_user_id=assignment_view_user
+                )
             else:
                 system_values = system_values.filter(system_assigned_to_user_id=None)
 
