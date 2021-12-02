@@ -623,6 +623,14 @@ class NoteForm(forms.ModelForm):
     )
 
     # reorder field choices
+    note_assigned_to_user_id = forms.ModelChoiceField(
+        label=gettext_lazy('Assigned to user'),
+        queryset=User.objects.order_by('username'),
+        required=False,
+        empty_label='Select user (optional)',
+    )
+
+    # reorder field choices
     case = forms.ModelChoiceField(
         label=gettext_lazy('Corresponding case'),
         queryset=Case.objects.order_by('case_name'),
@@ -667,6 +675,7 @@ class NoteForm(forms.ModelForm):
             'note_id',
             'note_title',
             'note_content',
+            'note_assigned_to_user_id',
             'tag',
             'case',
             'note_version',
@@ -794,6 +803,14 @@ class ReportitemForm(forms.ModelForm):
     """default model form"""
 
     # reorder field choices
+    reportitem_assigned_to_user_id = forms.ModelChoiceField(
+        label=gettext_lazy('Assigned to user'),
+        queryset=User.objects.order_by('username'),
+        required=False,
+        empty_label='Select user (optional)',
+    )
+
+    # reorder field choices
     case = forms.ModelChoiceField(
         label=gettext_lazy('Corresponding case'),
         queryset=Case.objects.order_by('case_name'),
@@ -849,6 +866,7 @@ class ReportitemForm(forms.ModelForm):
             'tag',
             'reportitem_subheadline',
             'reportitem_note',
+            'reportitem_assigned_to_user_id',
         )
 
         # non default form labeling
@@ -1373,6 +1391,14 @@ class TagForm(forms.ModelForm):
     """default model form"""
 
     # reorder field choices
+    tag_assigned_to_user_id = forms.ModelChoiceField(
+        label=gettext_lazy('Assigned to user'),
+        queryset=User.objects.order_by('username'),
+        required=False,
+        empty_label='Select user (optional)',
+    )
+
+    # reorder field choices
     tagcolor = forms.ModelChoiceField(
         label=gettext_lazy('Tag color (*)'),
         empty_label='Select tag color',
@@ -1389,6 +1415,7 @@ class TagForm(forms.ModelForm):
             'tag_name',
             'tagcolor',
             'tag_note',
+            'tag_assigned_to_user_id',
         )
 
         # non default form labeling

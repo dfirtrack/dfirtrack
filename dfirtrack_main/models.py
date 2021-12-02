@@ -775,6 +775,13 @@ class Note(models.Model):
     case = models.ForeignKey('Case', on_delete=models.SET_NULL, blank=True, null=True)
     notestatus = models.ForeignKey('Notestatus', on_delete=models.PROTECT, default=1)
     tag = models.ManyToManyField('Tag', blank=True)
+    note_assigned_to_user_id = models.ForeignKey(
+        User,
+        on_delete=models.PROTECT,
+        blank=True,
+        null=True,
+        related_name='note_assigned_to',
+    )
 
     # meta information
     note_create_time = models.DateTimeField(auto_now_add=True)
@@ -822,6 +829,8 @@ class Note(models.Model):
             + str(note.case)
             + "|tag:"
             + tagstring
+            + "|note_assigned_to_user_id:"
+            + str(note.note_assigned_to_user_id)
         )
 
     # custom save method
@@ -851,6 +860,12 @@ class Note(models.Model):
 
     def get_update_url(self):
         return reverse('note_update', args=(self.pk,))
+
+    def get_set_user_url(self):
+        return reverse('note_set_user', args=(self.pk,))
+
+    def get_unset_user_url(self):
+        return reverse('note_unset_user', args=(self.pk,))
 
 
 class Notestatus(models.Model):
@@ -1061,6 +1076,13 @@ class Reportitem(models.Model):
     notestatus = models.ForeignKey('Notestatus', on_delete=models.PROTECT, default=1)
     system = models.ForeignKey('System', on_delete=models.CASCADE)
     tag = models.ManyToManyField('Tag', blank=True)
+    reportitem_assigned_to_user_id = models.ForeignKey(
+        User,
+        on_delete=models.PROTECT,
+        blank=True,
+        null=True,
+        related_name='reportitem_assigned_to',
+    )
 
     # main entity information
     reportitem_subheadline = models.CharField(max_length=255, blank=True, null=True)
@@ -1118,6 +1140,8 @@ class Reportitem(models.Model):
             + str(reportitem.case)
             + "|tag:"
             + tagstring
+            + "|reportitem_assigned_to_user_id:"
+            + str(reportitem.reportitem_assigned_to_user_id)
         )
 
     def get_absolute_url(self):
@@ -1125,6 +1149,12 @@ class Reportitem(models.Model):
 
     def get_update_url(self):
         return reverse('reportitem_update', args=(self.pk,))
+
+    def get_set_user_url(self):
+        return reverse('reportitem_set_user', args=(self.pk,))
+
+    def get_unset_user_url(self):
+        return reverse('reportitem_unset_user', args=(self.pk,))
 
 
 class Serviceprovider(models.Model):
@@ -1669,6 +1699,13 @@ class Tag(models.Model):
     # main entity information
     tag_name = models.CharField(max_length=255, unique=True)
     tag_note = models.TextField(blank=True, null=True)
+    tag_assigned_to_user_id = models.ForeignKey(
+        User,
+        on_delete=models.PROTECT,
+        blank=True,
+        null=True,
+        related_name='tag_assigned_to',
+    )
 
     # meta information
     tag_modified_by_user_id = models.ForeignKey(
@@ -1696,6 +1733,8 @@ class Tag(models.Model):
             + str(tag.tag_note)
             + "|tagcolor:"
             + str(tag.tagcolor)
+            + "|tag_assigned_to_user_id:"
+            + str(tag.tag_assigned_to_user_id)
         )
 
     def get_absolute_url(self):
@@ -1706,6 +1745,12 @@ class Tag(models.Model):
 
     def get_delete_url(self):
         return reverse('tag_delete', args=(self.pk,))
+
+    def get_set_user_url(self):
+        return reverse('tag_set_user', args=(self.pk,))
+
+    def get_unset_user_url(self):
+        return reverse('tag_unset_user', args=(self.pk,))
 
 
 class Tagcolor(models.Model):

@@ -133,3 +133,33 @@ class NoteUpdate(LoginRequiredMixin, UpdateView):
                     'note': note,
                 },
             )
+
+
+class NoteSetUser(LoginRequiredMixin, UpdateView):
+    login_url = '/login'
+    model = Note
+
+    def get(self, request, *args, **kwargs):
+        note = self.get_object()
+        note.note_assigned_to_user_id = request.user
+        note.save()
+        note.logger(str(request.user), " NOTE_SET_USER_EXECUTED")
+        messages.success(request, 'Note assigned to you')
+
+        # redirect
+        return redirect(reverse('note_detail', args=(note.note_id,)))
+
+
+class NoteUnsetUser(LoginRequiredMixin, UpdateView):
+    login_url = '/login'
+    model = Note
+
+    def get(self, request, *args, **kwargs):
+        note = self.get_object()
+        note.note_assigned_to_user_id = None
+        note.save()
+        note.logger(str(request.user), " NOTE_UNSET_USER_EXECUTED")
+        messages.warning(request, 'User assignment for note deleted')
+
+        # redirect
+        return redirect(reverse('note_detail', args=(note.note_id,)))

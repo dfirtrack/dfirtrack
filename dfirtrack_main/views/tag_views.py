@@ -133,3 +133,33 @@ class TagUpdate(LoginRequiredMixin, UpdateView):
                     'object_name': tag.tag_name,
                 },
             )
+
+
+class TagSetUser(LoginRequiredMixin, UpdateView):
+    login_url = '/login'
+    model = Tag
+
+    def get(self, request, *args, **kwargs):
+        tag = self.get_object()
+        tag.tag_assigned_to_user_id = request.user
+        tag.save()
+        tag.logger(str(request.user), " TAG_SET_USER_EXECUTED")
+        messages.success(request, 'Tag assigned to you')
+
+        # redirect
+        return redirect(reverse('tag_detail', args=(tag.tag_id,)))
+
+
+class TagUnsetUser(LoginRequiredMixin, UpdateView):
+    login_url = '/login'
+    model = Tag
+
+    def get(self, request, *args, **kwargs):
+        tag = self.get_object()
+        tag.tag_assigned_to_user_id = None
+        tag.save()
+        tag.logger(str(request.user), " TAG_UNSET_USER_EXECUTED")
+        messages.warning(request, 'User assignment for tag deleted')
+
+        # redirect
+        return redirect(reverse('tag_detail', args=(tag.tag_id,)))
