@@ -596,6 +596,26 @@ class NoteViewTestCase(TestCase):
             response, destination, status_code=302, target_status_code=200
         )
 
+    def test_note_set_user_documentation_redirect(self):
+        """test note set_user view"""
+
+        # login testuser
+        self.client.login(username='testuser_note', password='oh8Szsuk8BpbEJ1RRL21')
+        # get object
+        note_1 = Note.objects.get(note_title='note_1')
+        # create url
+        destination = urllib.parse.quote(
+            f'/documentation/#note_id_{note_1.note_id}', safe='/#'
+        )
+        # get response
+        response = self.client.get(
+            '/note/' + str(note_1.note_id) + '/set_user/?documentation', follow=True
+        )
+        # compare
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
+
     def test_note_set_user_user(self):
         """test note set_user view"""
 
@@ -633,6 +653,26 @@ class NoteViewTestCase(TestCase):
         # get response
         response = self.client.get(
             '/note/' + str(note_1.note_id) + '/unset_user/', follow=True
+        )
+        # compare
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
+
+    def test_note_unset_user_documentation_redirect(self):
+        """test note unset_user view"""
+
+        # login testuser
+        self.client.login(username='testuser_note', password='oh8Szsuk8BpbEJ1RRL21')
+        # get object
+        note_1 = Note.objects.get(note_title='note_1')
+        # create url
+        destination = urllib.parse.quote(
+            f'/documentation/#note_id_{note_1.note_id}', safe='/#'
+        )
+        # get response
+        response = self.client.get(
+            '/note/' + str(note_1.note_id) + '/unset_user/?documentation', follow=True
         )
         # compare
         self.assertRedirects(

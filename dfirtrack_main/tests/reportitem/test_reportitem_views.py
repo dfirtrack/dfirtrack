@@ -337,7 +337,7 @@ class ReportitemViewTestCase(TestCase):
             response, destination, status_code=302, target_status_code=200
         )
 
-    def test_reportitem_add_post_redirect_documentation(self):
+    def test_reportitem_add_post_documentation_redirect(self):
         """test add view"""
 
         # login testuser
@@ -542,7 +542,7 @@ class ReportitemViewTestCase(TestCase):
             response, destination, status_code=302, target_status_code=200
         )
 
-    def test_reportitem_edit_post_redirect_documentation(self):
+    def test_reportitem_edit_post_documentation_redirect(self):
         """test edit view"""
 
         # login testuser
@@ -710,6 +710,28 @@ class ReportitemViewTestCase(TestCase):
             response, destination, status_code=302, target_status_code=200
         )
 
+    def test_reportitem_set_user_documentation_redirect(self):
+        """test reportitem set_user view"""
+
+        # login testuser
+        self.client.login(
+            username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS'
+        )
+        # get object
+        reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
+        # create url
+        destination = urllib.parse.quote(
+            f'/documentation/#reportitem_id_{str(reportitem_1.reportitem_id)}', safe='#/'
+        )
+        # get response
+        response = self.client.get(
+            '/reportitem/' + str(reportitem_1.reportitem_id) + '/set_user/?documentation', follow=True
+        )
+        # compare
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
+
     def test_reportitem_set_user_user(self):
         """test reportitem set_user view"""
 
@@ -761,6 +783,29 @@ class ReportitemViewTestCase(TestCase):
         # get response
         response = self.client.get(
             '/reportitem/' + str(reportitem_1.reportitem_id) + '/unset_user/',
+            follow=True,
+        )
+        # compare
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
+
+    def test_reportitem_unset_user_documentation_redirect(self):
+        """test reportitem unset_user view"""
+
+        # login testuser
+        self.client.login(
+            username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS'
+        )
+        # get object
+        reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
+        # create url
+        destination = urllib.parse.quote(
+            f'/documentation/#reportitem_id_{str(reportitem_1.reportitem_id)}', safe='#/'
+        )
+        # get response
+        response = self.client.get(
+            '/reportitem/' + str(reportitem_1.reportitem_id) + '/unset_user/?documentation',
             follow=True,
         )
         # compare
