@@ -10,7 +10,7 @@ from dfirtrack_artifacts.models import Artifact
 from dfirtrack_config.filter_forms import AssignmentFilterForm
 from dfirtrack_config.models import UserConfigModel
 from dfirtrack_main.logger.default_logger import debug_logger
-from dfirtrack_main.models import Case, System, Tag, Task
+from dfirtrack_main.models import Case, Note, Reportitem, System, Tag, Task
 
 
 class AssignmentView(LoginRequiredMixin, FormView):
@@ -83,7 +83,10 @@ class AssignmentView(LoginRequiredMixin, FormView):
         # get queryset with all entities
         artifact_queryset = Artifact.objects.all()
         case_queryset = Case.objects.all()
+        note_queryset = Note.objects.all()
+        reportitem_queryset = Reportitem.objects.all()
         system_queryset = System.objects.all()
+        tag_queryset = Tag.objects.all()
         task_queryset = Task.objects.all()
 
         # filter queryset to case
@@ -94,7 +97,16 @@ class AssignmentView(LoginRequiredMixin, FormView):
             case_queryset = case_queryset.filter(
                 case_id=user_config.filter_assignment_view_case.case_id
             )
+            note_queryset = note_queryset.filter(
+                case=user_config.filter_assignment_view_case
+            )
+            reportitem_queryset = reportitem_queryset.filter(
+                case=user_config.filter_assignment_view_case
+            )
             system_queryset = system_queryset.filter(
+                case=user_config.filter_assignment_view_case
+            )
+            tag_queryset = tag_queryset.filter(
                 case=user_config.filter_assignment_view_case
             )
             task_queryset = task_queryset.filter(
@@ -109,8 +121,17 @@ class AssignmentView(LoginRequiredMixin, FormView):
             case_queryset = case_queryset.filter(
                 tag=user_config.filter_assignment_view_tag
             )
+            note_queryset = note_queryset.filter(
+                tag=user_config.filter_assignment_view_tag
+            )
+            reportitem_queryset = reportitem_queryset.filter(
+                tag=user_config.filter_assignment_view_tag
+            )
             system_queryset = system_queryset.filter(
                 tag=user_config.filter_assignment_view_tag
+            )
+            tag_queryset = tag_queryset.filter(
+                tag_id=user_config.filter_assignment_view_tag.tag_id
             )
             task_queryset = task_queryset.filter(
                 tag=user_config.filter_assignment_view_tag
@@ -124,8 +145,17 @@ class AssignmentView(LoginRequiredMixin, FormView):
             case_queryset = case_queryset.filter(
                 case_assigned_to_user_id=user_config.filter_assignment_view_user
             )
+            note_queryset = note_queryset.filter(
+                note_assigned_to_user_id=user_config.filter_assignment_view_user
+            )
+            reportitem_queryset = reportitem_queryset.filter(
+                reportitem_assigned_to_user_id=user_config.filter_assignment_view_user
+            )
             system_queryset = system_queryset.filter(
                 system_assigned_to_user_id=user_config.filter_assignment_view_user
+            )
+            tag_queryset = tag_queryset.filter(
+                tag_assigned_to_user_id=user_config.filter_assignment_view_user
             )
             task_queryset = task_queryset.filter(
                 task_assigned_to_user_id=user_config.filter_assignment_view_user
@@ -140,7 +170,12 @@ class AssignmentView(LoginRequiredMixin, FormView):
                 artifact_assigned_to_user_id=None
             )
             case_queryset = case_queryset.filter(case_assigned_to_user_id=None)
+            note_queryset = note_queryset.filter(note_assigned_to_user_id=None)
+            reportitem_queryset = reportitem_queryset.filter(
+                reportitem_assigned_to_user_id=None
+            )
             system_queryset = system_queryset.filter(system_assigned_to_user_id=None)
+            tag_queryset = tag_queryset.filter(tag_assigned_to_user_id=None)
             task_queryset = task_queryset.filter(task_assigned_to_user_id=None)
             # add username to context used for template
             context['assignment_user'] = None
@@ -148,7 +183,10 @@ class AssignmentView(LoginRequiredMixin, FormView):
         # add querysets to context
         context['artifact'] = artifact_queryset
         context['case'] = case_queryset
+        context['note'] = note_queryset
+        context['reportitem'] = reportitem_queryset
         context['system'] = system_queryset
+        context['tag'] = tag_queryset
         context['task'] = task_queryset
 
         """filter cleaning"""
