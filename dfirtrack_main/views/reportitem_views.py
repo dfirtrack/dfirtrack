@@ -161,10 +161,13 @@ class ReportitemSetUser(LoginRequiredMixin, UpdateView):
         # redirect
         if 'documentation' in request.GET:
             return redirect(
-                reverse('documentation_list') + f'#reportitem_id_{reportitem.reportitem_id}'
+                reverse('documentation_list')
+                + f'#reportitem_id_{reportitem.reportitem_id}'
             )
         else:
-            return redirect(reverse('reportitem_detail', args=(reportitem.reportitem_id,)))
+            return redirect(
+                reverse('reportitem_detail', args=(reportitem.reportitem_id,))
+            )
 
 
 class ReportitemUnsetUser(LoginRequiredMixin, UpdateView):
@@ -181,7 +184,10 @@ class ReportitemUnsetUser(LoginRequiredMixin, UpdateView):
         # redirect
         if 'documentation' in request.GET:
             return redirect(
-                reverse('documentation_list') + f'#reportitem_id_{reportitem.reportitem_id}'
+                reverse('documentation_list')
+                + f'#reportitem_id_{reportitem.reportitem_id}'
             )
         else:
-            return redirect(reverse('reportitem_detail', args=(reportitem.reportitem_id,)))
+            return redirect(
+                reverse('reportitem_detail', args=(reportitem.reportitem_id,))
+            )

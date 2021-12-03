@@ -148,9 +148,7 @@ class NoteSetUser(LoginRequiredMixin, UpdateView):
 
         # redirect
         if 'documentation' in request.GET:
-            return redirect(
-                reverse('documentation_list') + f'#note_id_{note.note_id}'
-            )
+            return redirect(reverse('documentation_list') + f'#note_id_{note.note_id}')
         else:
             return redirect(reverse('note_detail', args=(note.note_id,)))
 
@@ -168,8 +166,6 @@ class NoteUnsetUser(LoginRequiredMixin, UpdateView):
 
         # redirect
         if 'documentation' in request.GET:
-            return redirect(
-                reverse('documentation_list') + f'#note_id_{note.note_id}'
-            )
+            return redirect(reverse('documentation_list') + f'#note_id_{note.note_id}')
         else:
             return redirect(reverse('note_detail', args=(note.note_id,)))
