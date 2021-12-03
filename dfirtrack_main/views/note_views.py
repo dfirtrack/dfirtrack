@@ -147,7 +147,12 @@ class NoteSetUser(LoginRequiredMixin, UpdateView):
         messages.success(request, 'Note assigned to you')
 
         # redirect
-        return redirect(reverse('note_detail', args=(note.note_id,)))
+        if 'documentation' in request.GET:
+            return redirect(
+                reverse('documentation_list') + f'#note_id_{note.note_id}'
+            )
+        else:
+            return redirect(reverse('note_detail', args=(note.note_id,)))
 
 
 class NoteUnsetUser(LoginRequiredMixin, UpdateView):
@@ -162,4 +167,9 @@ class NoteUnsetUser(LoginRequiredMixin, UpdateView):
         messages.warning(request, 'User assignment for note deleted')
 
         # redirect
-        return redirect(reverse('note_detail', args=(note.note_id,)))
+        if 'documentation' in request.GET:
+            return redirect(
+                reverse('documentation_list') + f'#note_id_{note.note_id}'
+            )
+        else:
+            return redirect(reverse('note_detail', args=(note.note_id,)))

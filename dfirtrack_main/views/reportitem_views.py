@@ -159,7 +159,12 @@ class ReportitemSetUser(LoginRequiredMixin, UpdateView):
         messages.success(request, 'Reportitem assigned to you')
 
         # redirect
-        return redirect(reverse('reportitem_detail', args=(reportitem.reportitem_id,)))
+        if 'documentation' in request.GET:
+            return redirect(
+                reverse('documentation_list') + f'#reportitem_id_{reportitem.reportitem_id}'
+            )
+        else:
+            return redirect(reverse('reportitem_detail', args=(reportitem.reportitem_id,)))
 
 
 class ReportitemUnsetUser(LoginRequiredMixin, UpdateView):
@@ -174,4 +179,9 @@ class ReportitemUnsetUser(LoginRequiredMixin, UpdateView):
         messages.warning(request, 'User assignment for reportitem deleted')
 
         # redirect
-        return redirect(reverse('reportitem_detail', args=(reportitem.reportitem_id,)))
+        if 'documentation' in request.GET:
+            return redirect(
+                reverse('documentation_list') + f'#reportitem_id_{reportitem.reportitem_id}'
+            )
+        else:
+            return redirect(reverse('reportitem_detail', args=(reportitem.reportitem_id,)))
