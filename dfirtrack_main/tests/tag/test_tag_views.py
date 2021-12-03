@@ -444,3 +444,86 @@ class TagViewTestCase(TestCase):
         self.assertRedirects(
             response, destination, status_code=302, target_status_code=200
         )
+
+    def test_tag_set_user_redirect(self):
+        """test tag set_user view"""
+
+        # login testuser
+        self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        # get object
+        tag_1 = Tag.objects.get(tag_name='tag_1')
+        # create url
+        destination = urllib.parse.quote('/tag/' + str(tag_1.tag_id) + '/', safe='/')
+        # get response
+        response = self.client.get(
+            '/tag/' + str(tag_1.tag_id) + '/set_user/', follow=True
+        )
+        # compare
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
+
+    def test_tag_set_user_user(self):
+        """test tag set_user view"""
+
+        # login testuser
+        self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        # get user
+        test_user = User.objects.get(username='testuser_tag')
+        # get object
+        tagcolor_1 = Tagcolor.objects.get(tagcolor_name='tagcolor_1')
+        # create object
+        tag_set_user = Tag.objects.create(
+            tag_name='tag_unassigned',
+            tagcolor=tagcolor_1,
+        )
+        # compare
+        self.assertEqual(None, tag_set_user.tag_assigned_to_user_id)
+        # get response
+        self.client.get('/tag/' + str(tag_set_user.tag_id) + '/set_user/')
+        # refresh object
+        tag_set_user.refresh_from_db()
+        # compare
+        self.assertEqual(test_user, tag_set_user.tag_assigned_to_user_id)
+
+    def test_tag_unset_user_redirect(self):
+        """test tag unset_user view"""
+
+        # login testuser
+        self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        # get object
+        tag_1 = Tag.objects.get(tag_name='tag_1')
+        # create url
+        destination = urllib.parse.quote('/tag/' + str(tag_1.tag_id) + '/', safe='/')
+        # get response
+        response = self.client.get(
+            '/tag/' + str(tag_1.tag_id) + '/unset_user/', follow=True
+        )
+        # compare
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
+
+    def test_tag_unset_user_user(self):
+        """test tag unset_user view"""
+
+        # login testuser
+        self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        # get user
+        test_user = User.objects.get(username='testuser_tag')
+        # get object
+        tagcolor_1 = Tagcolor.objects.get(tagcolor_name='tagcolor_1')
+        # create object
+        tag_unset_user = Tag.objects.create(
+            tag_name='tag_assigned',
+            tagcolor=tagcolor_1,
+            tag_assigned_to_user_id=test_user,
+        )
+        # compare
+        self.assertEqual(test_user, tag_unset_user.tag_assigned_to_user_id)
+        # get response
+        self.client.get('/tag/' + str(tag_unset_user.tag_id) + '/unset_user/')
+        # refresh object
+        tag_unset_user.refresh_from_db()
+        # compare
+        self.assertEqual(None, tag_unset_user.tag_assigned_to_user_id)

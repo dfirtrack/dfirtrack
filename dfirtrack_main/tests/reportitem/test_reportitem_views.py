@@ -687,3 +687,121 @@ class ReportitemViewTestCase(TestCase):
             response,
             f"System &#x27;{system_1.system_name}&#x27; was assigned to case &#x27;{case_1.case_name}&#x27; due to reportitem assignment.",
         )
+
+    def test_reportitem_set_user_redirect(self):
+        """test reportitem set_user view"""
+
+        # login testuser
+        self.client.login(
+            username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS'
+        )
+        # get object
+        reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
+        # create url
+        destination = urllib.parse.quote(
+            '/reportitem/' + str(reportitem_1.reportitem_id) + '/', safe='/'
+        )
+        # get response
+        response = self.client.get(
+            '/reportitem/' + str(reportitem_1.reportitem_id) + '/set_user/', follow=True
+        )
+        # compare
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
+
+    def test_reportitem_set_user_user(self):
+        """test reportitem set_user view"""
+
+        # login testuser
+        self.client.login(
+            username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS'
+        )
+        # get user
+        test_user = User.objects.get(username='testuser_reportitem')
+        # get object
+        headline_1 = Headline.objects.get(headline_name='headline_1')
+        # get object
+        notestatus_1 = Notestatus.objects.get(notestatus_name='notestatus_1')
+        # get object
+        system_1 = System.objects.get(system_name='system_1')
+        # create object
+        reportitem_set_user = Reportitem.objects.create(
+            reportitem_note='reportitem_unassigned',
+            headline=headline_1,
+            notestatus=notestatus_1,
+            system=system_1,
+            reportitem_created_by_user_id=test_user,
+            reportitem_modified_by_user_id=test_user,
+        )
+        # compare
+        self.assertEqual(None, reportitem_set_user.reportitem_assigned_to_user_id)
+        # get response
+        self.client.get(
+            '/reportitem/' + str(reportitem_set_user.reportitem_id) + '/set_user/'
+        )
+        # refresh object
+        reportitem_set_user.refresh_from_db()
+        # compare
+        self.assertEqual(test_user, reportitem_set_user.reportitem_assigned_to_user_id)
+
+    def test_reportitem_unset_user_redirect(self):
+        """test reportitem unset_user view"""
+
+        # login testuser
+        self.client.login(
+            username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS'
+        )
+        # get object
+        reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
+        # create url
+        destination = urllib.parse.quote(
+            '/reportitem/' + str(reportitem_1.reportitem_id) + '/', safe='/'
+        )
+        # get response
+        response = self.client.get(
+            '/reportitem/' + str(reportitem_1.reportitem_id) + '/unset_user/',
+            follow=True,
+        )
+        # compare
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
+
+    def test_reportitem_unset_user_user(self):
+        """test reportitem unset_user view"""
+
+        # login testuser
+        self.client.login(
+            username='testuser_reportitem', password='R2vXUSF3SIB8hhKmnztS'
+        )
+        # get user
+        test_user = User.objects.get(username='testuser_reportitem')
+        # get object
+        headline_1 = Headline.objects.get(headline_name='headline_1')
+        # get object
+        notestatus_1 = Notestatus.objects.get(notestatus_name='notestatus_1')
+        # get object
+        system_1 = System.objects.get(system_name='system_1')
+        # create object
+        reportitem_unset_user = Reportitem.objects.create(
+            reportitem_note='reportitem_assigned',
+            headline=headline_1,
+            notestatus=notestatus_1,
+            system=system_1,
+            reportitem_created_by_user_id=test_user,
+            reportitem_modified_by_user_id=test_user,
+            reportitem_assigned_to_user_id=test_user,
+        )
+        # compare
+        self.assertEqual(
+            test_user, reportitem_unset_user.reportitem_assigned_to_user_id
+        )
+        # get response
+        self.client.get(
+            '/reportitem/' + str(reportitem_unset_user.reportitem_id) + '/unset_user/'
+        )
+        # refresh object
+        reportitem_unset_user.refresh_from_db()
+        # compare
+        self.assertEqual(None, reportitem_unset_user.reportitem_assigned_to_user_id)
