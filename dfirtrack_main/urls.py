@@ -312,6 +312,16 @@ urlpatterns = [
     path(r'note/add/', note_views.NoteCreate.as_view(), name='note_create'),
     path(r'note/<int:pk>/edit/', note_views.NoteUpdate.as_view(), name='note_update'),
     path(
+        r'note/<int:pk>/set_user/',
+        note_views.NoteSetUser.as_view(),
+        name='note_set_user',
+    ),
+    path(
+        r'note/<int:pk>/unset_user/',
+        note_views.NoteUnsetUser.as_view(),
+        name='note_unset_user',
+    ),
+    path(
         r'notestatus/',
         notestatus_views.NotestatusList.as_view(),
         name='notestatus_list',
@@ -400,6 +410,16 @@ urlpatterns = [
         r'reportitem/<int:pk>/edit/',
         reportitem_views.ReportitemUpdate.as_view(),
         name='reportitem_update',
+    ),
+    path(
+        r'reportitem/<int:pk>/set_user/',
+        reportitem_views.ReportitemSetUser.as_view(),
+        name='reportitem_set_user',
+    ),
+    path(
+        r'reportitem/<int:pk>/unset_user/',
+        reportitem_views.ReportitemUnsetUser.as_view(),
+        name='reportitem_unset_user',
     ),
     path(
         r'serviceprovider/',
@@ -564,6 +584,16 @@ urlpatterns = [
     path(r'tag/<int:pk>/edit/', tag_views.TagUpdate.as_view(), name='tag_update'),
     path(r'tag/<int:pk>/delete/', tag_views.TagDelete.as_view(), name='tag_delete'),
     path(r'tag/creator/', tag_creator.tag_creator, name='tag_creator'),
+    path(
+        r'tag/<int:pk>/set_user/',
+        tag_views.TagSetUser.as_view(),
+        name='tag_set_user',
+    ),
+    path(
+        r'tag/<int:pk>/unset_user/',
+        tag_views.TagUnsetUser.as_view(),
+        name='tag_unset_user',
+    ),
     path(r'task/', task_views.TaskList.as_view(), name='task_list'),
     path(r'task/closed/', task_views.TaskClosed.as_view(), name='task_closed'),
     path(r'task/all/', task_views.TaskAll.as_view(), name='task_all'),
