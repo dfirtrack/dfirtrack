@@ -721,11 +721,15 @@ class ReportitemViewTestCase(TestCase):
         reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
         # create url
         destination = urllib.parse.quote(
-            f'/documentation/#reportitem_id_{str(reportitem_1.reportitem_id)}', safe='#/'
+            f'/documentation/#reportitem_id_{str(reportitem_1.reportitem_id)}',
+            safe='#/',
         )
         # get response
         response = self.client.get(
-            '/reportitem/' + str(reportitem_1.reportitem_id) + '/set_user/?documentation', follow=True
+            '/reportitem/'
+            + str(reportitem_1.reportitem_id)
+            + '/set_user/?documentation',
+            follow=True,
         )
         # compare
         self.assertRedirects(
@@ -801,11 +805,14 @@ class ReportitemViewTestCase(TestCase):
         reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
         # create url
         destination = urllib.parse.quote(
-            f'/documentation/#reportitem_id_{str(reportitem_1.reportitem_id)}', safe='#/'
+            f'/documentation/#reportitem_id_{str(reportitem_1.reportitem_id)}',
+            safe='#/',
         )
         # get response
         response = self.client.get(
-            '/reportitem/' + str(reportitem_1.reportitem_id) + '/unset_user/?documentation',
+            '/reportitem/'
+            + str(reportitem_1.reportitem_id)
+            + '/unset_user/?documentation',
             follow=True,
         )
         # compare
