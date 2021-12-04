@@ -24,7 +24,7 @@ def set_user_config(
     filter_documentation_list_tag,
     filter_documentation_list_keep=True,
 ):
-    """ " set user config"""
+    """set user config"""
 
     # get config
     user_config = UserConfigModel.objects.get(user_config_username=test_user)
