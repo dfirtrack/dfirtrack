@@ -49,8 +49,8 @@ def set_user_config(
     return
 
 
-class AssignmentViewTestCase(TestCase):
-    """assignment view tests"""
+class AssignmentFilterTestCase(TestCase):
+    """assignment filter tests"""
 
     @classmethod
     def setUpTestData(cls):
@@ -61,7 +61,7 @@ class AssignmentViewTestCase(TestCase):
         )
 
         # create config
-        UserConfigModel.objects.create(user_config_username=test_user)
+        UserConfigModel.objects.get_or_create(user_config_username=test_user)
 
         # create objects
         artifactstatus_1 = Artifactstatus.objects.create(
