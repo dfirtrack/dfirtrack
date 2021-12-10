@@ -893,3 +893,184 @@ class AssignmentFilterTestCase(TestCase):
         self.assertFalse(
             response.context['task'].filter(task_note=task_3.task_note).exists()
         )
+
+    def test_assignment_view_post_keep_false(self):
+        """all filter applied, keep False"""
+
+        # login testuser
+        self.client.login(
+            username='testuser_assignment_filter', password='B1z2nn60R4XUMmRoqcA7'
+        )
+        # get user
+        test_user = User.objects.get(username='testuser_assignment_filter')
+        # get objects
+        case_1 = Case.objects.get(case_name='case_1')
+        case_2 = Case.objects.get(case_name='case_2')
+        tag_1 = Tag.objects.get(tag_name='tag_1')
+        tag_2 = Tag.objects.get(tag_name='tag_2')
+
+        # change config
+        set_user_config(test_user, case_1, tag_1, test_user, True)
+
+        # get config
+        user_config = UserConfigModel.objects.get(user_config_username=test_user)
+
+        # compare - config before POST
+        self.assertTrue(user_config.filter_assignment_view_keep)
+        self.assertEqual(user_config.filter_assignment_view_case, case_1)
+        self.assertEqual(user_config.filter_assignment_view_tag, tag_1)
+        self.assertEqual(user_config.filter_assignment_view_user, test_user)
+
+        # create post data
+        data_dict = {
+            'case': case_2.case_id,
+            'tag': tag_2.tag_id,
+            'user': test_user.id,
+        }
+
+        # get response
+        self.client.post('/config/assignment/', data_dict)
+        # reload page manually to avoid runtime issues
+        self.client.get('/config/assignment/')
+
+        # update config
+        user_config.refresh_from_db()
+
+        # compare - config after POST
+        self.assertFalse(user_config.filter_assignment_view_keep)
+        self.assertEqual(user_config.filter_assignment_view_case, None)
+        self.assertEqual(user_config.filter_assignment_view_tag, None)
+        self.assertEqual(user_config.filter_assignment_view_user, None)
+
+    def test_assignment_view_post_keep_true(self):
+        """all filters applied, keep True"""
+
+        # login testuser
+        self.client.login(
+            username='testuser_assignment_filter', password='B1z2nn60R4XUMmRoqcA7'
+        )
+        # get user
+        test_user = User.objects.get(username='testuser_assignment_filter')
+        # get objects
+        case_1 = Case.objects.get(case_name='case_1')
+        case_2 = Case.objects.get(case_name='case_2')
+        tag_1 = Tag.objects.get(tag_name='tag_1')
+        tag_2 = Tag.objects.get(tag_name='tag_2')
+
+        # change config
+        set_user_config(test_user, case_1, tag_1, None, False)
+
+        # get config
+        user_config = UserConfigModel.objects.get(user_config_username=test_user)
+
+        # compare - config before POST
+        self.assertFalse(user_config.filter_assignment_view_keep)
+        self.assertEqual(user_config.filter_assignment_view_case, case_1)
+        self.assertEqual(user_config.filter_assignment_view_tag, tag_1)
+        self.assertEqual(user_config.filter_assignment_view_user, None)
+
+        # create post data
+        data_dict = {
+            'case': case_2.case_id,
+            'tag': tag_2.tag_id,
+            'user': test_user.id,
+            'filter_assignment_view_keep': 'on',
+        }
+
+        # get response
+        self.client.post('/config/assignment/', data_dict)
+        # reload page manually to avoid runtime issues
+        self.client.get('/config/assignment/')
+
+        # update config
+        user_config.refresh_from_db()
+
+        # compare - config after POST
+        self.assertTrue(user_config.filter_assignment_view_keep)
+        self.assertEqual(user_config.filter_assignment_view_case, case_2)
+        self.assertEqual(user_config.filter_assignment_view_tag, tag_2)
+        self.assertEqual(user_config.filter_assignment_view_user, test_user)
+
+    def test_assignment_view_post_empty(self):
+        """no filters applied, keep True"""
+
+        # login testuser
+        self.client.login(
+            username='testuser_assignment_filter', password='B1z2nn60R4XUMmRoqcA7'
+        )
+        # get user
+        test_user = User.objects.get(username='testuser_assignment_filter')
+        # get objects
+        case_1 = Case.objects.get(case_name='case_1')
+        tag_1 = Tag.objects.get(tag_name='tag_1')
+
+        # change config
+        set_user_config(test_user, case_1, tag_1, test_user, False)
+
+        # get config
+        user_config = UserConfigModel.objects.get(user_config_username=test_user)
+
+        # compare - config before POST
+        self.assertFalse(user_config.filter_assignment_view_keep)
+        self.assertEqual(user_config.filter_assignment_view_case, case_1)
+        self.assertEqual(user_config.filter_assignment_view_tag, tag_1)
+        self.assertEqual(user_config.filter_assignment_view_user, test_user)
+
+        # create post data
+        data_dict = {
+            'case': '',
+            'tag': '',
+            'user': '',
+            'filter_assignment_view_keep': 'on',
+        }
+
+        # get response
+        self.client.post('/config/assignment/', data_dict)
+        # reload page manually to avoid runtime issues
+        self.client.get('/config/assignment/')
+
+        # update config
+        user_config.refresh_from_db()
+
+        # compare - config after POST
+        self.assertTrue(user_config.filter_assignment_view_keep)
+        self.assertEqual(user_config.filter_assignment_view_case, None)
+        self.assertEqual(user_config.filter_assignment_view_tag, None)
+        self.assertEqual(user_config.filter_assignment_view_user, None)
+
+    def test_assignment_view_clear_filter(self):
+        """test clear filter view"""
+
+        # login testuser
+        self.client.login(
+            username='testuser_assignment_filter', password='B1z2nn60R4XUMmRoqcA7'
+        )
+        # get user
+        test_user = User.objects.get(username='testuser_assignment_filter')
+        # get objects
+        case_1 = Case.objects.get(case_name='case_1')
+        tag_1 = Tag.objects.get(tag_name='tag_1')
+
+        # change config
+        set_user_config(test_user, case_1, tag_1, test_user, True)
+
+        # get config
+        user_config = UserConfigModel.objects.get(user_config_username=test_user)
+
+        # compare - config before POST
+        self.assertTrue(user_config.filter_assignment_view_keep)
+        self.assertEqual(user_config.filter_assignment_view_case, case_1)
+        self.assertEqual(user_config.filter_assignment_view_tag, tag_1)
+        self.assertEqual(user_config.filter_assignment_view_user, test_user)
+
+        # reload page manually to avoid runtime issues
+        self.client.get('/config/assignment/clear_filter/')
+
+        # update config
+        user_config.refresh_from_db()
+
+        # compare - config after POST
+        self.assertTrue(user_config.filter_assignment_view_keep)
+        self.assertEqual(user_config.filter_assignment_view_case, None)
+        self.assertEqual(user_config.filter_assignment_view_tag, None)
+        self.assertEqual(user_config.filter_assignment_view_user, None)
