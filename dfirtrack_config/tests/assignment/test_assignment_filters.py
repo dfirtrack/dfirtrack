@@ -1100,7 +1100,9 @@ class AssignmentFilterTestCase(TestCase):
         """test system datatables processing: w/o search, w/o filter"""
 
         # login testuser
-        self.client.login(username='testuser_assignment_filter', password='B1z2nn60R4XUMmRoqcA7')
+        self.client.login(
+            username='testuser_assignment_filter', password='B1z2nn60R4XUMmRoqcA7'
+        )
         # get user
         test_user = User.objects.get(username='testuser_assignment_filter')
         # change config
@@ -1132,7 +1134,9 @@ class AssignmentFilterTestCase(TestCase):
         """test system datatables processing: w/ search, w/o filter"""
 
         # login testuser
-        self.client.login(username='testuser_assignment_filter', password='B1z2nn60R4XUMmRoqcA7')
+        self.client.login(
+            username='testuser_assignment_filter', password='B1z2nn60R4XUMmRoqcA7'
+        )
         # get user
         test_user = User.objects.get(username='testuser_assignment_filter')
         # change config
@@ -1164,7 +1168,9 @@ class AssignmentFilterTestCase(TestCase):
         """test system datatables processing: w/o search, w/ case filter"""
 
         # login testuser
-        self.client.login(username='testuser_assignment_filter', password='B1z2nn60R4XUMmRoqcA7')
+        self.client.login(
+            username='testuser_assignment_filter', password='B1z2nn60R4XUMmRoqcA7'
+        )
         # get user
         test_user = User.objects.get(username='testuser_assignment_filter')
         # get object
@@ -1199,7 +1205,9 @@ class AssignmentFilterTestCase(TestCase):
         """test system datatables processing: w/ search, w/ case filter"""
 
         # login testuser
-        self.client.login(username='testuser_assignment_filter', password='B1z2nn60R4XUMmRoqcA7')
+        self.client.login(
+            username='testuser_assignment_filter', password='B1z2nn60R4XUMmRoqcA7'
+        )
         # get user
         test_user = User.objects.get(username='testuser_assignment_filter')
         # get object
@@ -1233,7 +1241,9 @@ class AssignmentFilterTestCase(TestCase):
         """test system datatables processing: w/o search, w/ tag filter"""
 
         # login testuser
-        self.client.login(username='testuser_assignment_filter', password='B1z2nn60R4XUMmRoqcA7')
+        self.client.login(
+            username='testuser_assignment_filter', password='B1z2nn60R4XUMmRoqcA7'
+        )
         # get user
         test_user = User.objects.get(username='testuser_assignment_filter')
         # get object
@@ -1267,7 +1277,9 @@ class AssignmentFilterTestCase(TestCase):
         """test system datatables processing: w/ search, w/ tag filter"""
 
         # login testuser
-        self.client.login(username='testuser_assignment_filter', password='B1z2nn60R4XUMmRoqcA7')
+        self.client.login(
+            username='testuser_assignment_filter', password='B1z2nn60R4XUMmRoqcA7'
+        )
         # get user
         test_user = User.objects.get(username='testuser_assignment_filter')
         # get object
@@ -1301,7 +1313,9 @@ class AssignmentFilterTestCase(TestCase):
         """test system datatables processing: w/o search, w/ user filter"""
 
         # login testuser
-        self.client.login(username='testuser_assignment_filter', password='B1z2nn60R4XUMmRoqcA7')
+        self.client.login(
+            username='testuser_assignment_filter', password='B1z2nn60R4XUMmRoqcA7'
+        )
         # get user
         test_user = User.objects.get(username='testuser_assignment_filter')
         # change config
@@ -1333,7 +1347,9 @@ class AssignmentFilterTestCase(TestCase):
         """test system datatables processing: w/ search, w/ user filter"""
 
         # login testuser
-        self.client.login(username='testuser_assignment_filter', password='B1z2nn60R4XUMmRoqcA7')
+        self.client.login(
+            username='testuser_assignment_filter', password='B1z2nn60R4XUMmRoqcA7'
+        )
         # get user
         test_user = User.objects.get(username='testuser_assignment_filter')
         # change config
