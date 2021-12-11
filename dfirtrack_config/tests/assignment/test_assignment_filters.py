@@ -1,3 +1,5 @@
+import json
+
 from django.test import TestCase
 from django.contrib.auth.models import User
 
@@ -47,6 +49,25 @@ def set_user_config(
 
     # return to test
     return
+
+
+def check_data_for_system_name(data, system_name):
+    """check json data if system name was delivered according to filtering"""
+
+    # set default to false
+    system_found = False
+
+    # get list with all system entries from dict
+    for data_entry in data['data']:
+
+        # check dict for system
+        if system_name in data_entry['system_name']:
+
+            # change to true if system was found
+            system_found = True
+
+    # return result
+    return system_found
 
 
 class AssignmentFilterTestCase(TestCase):
@@ -1074,3 +1095,268 @@ class AssignmentFilterTestCase(TestCase):
         self.assertEqual(user_config.filter_assignment_view_case, None)
         self.assertEqual(user_config.filter_assignment_view_tag, None)
         self.assertEqual(user_config.filter_assignment_view_user, None)
+
+    def test_dt_referer_wo_search_wo_filter(self):
+        """test system datatables processing: w/o search, w/o filter"""
+
+        # login testuser
+        self.client.login(username='testuser_assignment_filter', password='B1z2nn60R4XUMmRoqcA7')
+        # get user
+        test_user = User.objects.get(username='testuser_assignment_filter')
+        # change config
+        set_user_config(test_user, None, None, None)
+        # get response
+        response = self.client.get(
+            '/system/json/',
+            {
+                'order[0][column]': '1',
+                'order[0][dir]': 'asc',
+                'start': '0',
+                'length': '25',
+                'search[value]': '',
+                'columns[1][data]': 'system_name',
+                'columns[2][data]': 'systemstatus',
+                'draw': '1',
+            },
+            HTTP_REFERER='/assignment/',
+        )
+        data = json.loads(response.content)
+        # compare
+        self.assertEqual(int(data['recordsFiltered']), 3)
+        self.assertTrue(check_data_for_system_name(data, 'system_1'))
+        self.assertTrue(check_data_for_system_name(data, 'system_2'))
+        self.assertTrue(check_data_for_system_name(data, 'system_3'))
+        self.assertFalse(check_data_for_system_name(data, 'system_4'))
+
+    def test_dt_referer_w_search_wo_filter(self):
+        """test system datatables processing: w/ search, w/o filter"""
+
+        # login testuser
+        self.client.login(username='testuser_assignment_filter', password='B1z2nn60R4XUMmRoqcA7')
+        # get user
+        test_user = User.objects.get(username='testuser_assignment_filter')
+        # change config
+        set_user_config(test_user, None, None, None)
+        # get response
+        response = self.client.get(
+            '/system/json/',
+            {
+                'order[0][column]': '1',
+                'order[0][dir]': 'asc',
+                'start': '0',
+                'length': '25',
+                'search[value]': 'system_1',
+                'columns[1][data]': 'system_name',
+                'columns[2][data]': 'systemstatus',
+                'draw': '1',
+            },
+            HTTP_REFERER='/assignment/',
+        )
+        data = json.loads(response.content)
+        # compare
+        self.assertEqual(int(data['recordsFiltered']), 1)
+        self.assertTrue(check_data_for_system_name(data, 'system_1'))
+        self.assertFalse(check_data_for_system_name(data, 'system_2'))
+        self.assertFalse(check_data_for_system_name(data, 'system_3'))
+        self.assertFalse(check_data_for_system_name(data, 'system_4'))
+
+    def test_dt_referer_wo_search_case_filter(self):
+        """test system datatables processing: w/o search, w/ case filter"""
+
+        # login testuser
+        self.client.login(username='testuser_assignment_filter', password='B1z2nn60R4XUMmRoqcA7')
+        # get user
+        test_user = User.objects.get(username='testuser_assignment_filter')
+        # get object
+        case_1 = Case.objects.get(case_name='case_1')
+        # change config
+        set_user_config(test_user, case_1, None, None)
+        # get response
+        response = self.client.get(
+            '/system/json/',
+            {
+                'order[0][column]': '1',
+                'order[0][dir]': 'asc',
+                'start': '0',
+                'length': '25',
+                'search[value]': '',
+                'columns[1][data]': 'system_name',
+                'columns[2][data]': 'systemstatus',
+                'draw': '1',
+            },
+            HTTP_REFERER='/assignment/',
+        )
+        data = json.loads(response.content)
+        # compare
+        self.assertEqual(int(data['recordsFiltered']), 2)
+        # special case 'system' - system is added to case 1 because of signal for artifact 2 and reportitem 2
+        self.assertTrue(check_data_for_system_name(data, 'system_1'))
+        self.assertTrue(check_data_for_system_name(data, 'system_2'))
+        self.assertFalse(check_data_for_system_name(data, 'system_3'))
+        self.assertFalse(check_data_for_system_name(data, 'system_4'))
+
+    def test_dt_referer_w_search_case_filter(self):
+        """test system datatables processing: w/ search, w/ case filter"""
+
+        # login testuser
+        self.client.login(username='testuser_assignment_filter', password='B1z2nn60R4XUMmRoqcA7')
+        # get user
+        test_user = User.objects.get(username='testuser_assignment_filter')
+        # get object
+        case_1 = Case.objects.get(case_name='case_1')
+        # change config
+        set_user_config(test_user, case_1, None, None)
+        # get response
+        response = self.client.get(
+            '/system/json/',
+            {
+                'order[0][column]': '1',
+                'order[0][dir]': 'asc',
+                'start': '0',
+                'length': '25',
+                'search[value]': 'system_2',
+                'columns[1][data]': 'system_name',
+                'columns[2][data]': 'systemstatus',
+                'draw': '1',
+            },
+            HTTP_REFERER='/assignment/',
+        )
+        data = json.loads(response.content)
+        # compare
+        self.assertEqual(int(data['recordsFiltered']), 1)
+        self.assertFalse(check_data_for_system_name(data, 'system_1'))
+        self.assertTrue(check_data_for_system_name(data, 'system_2'))
+        self.assertFalse(check_data_for_system_name(data, 'system_3'))
+        self.assertFalse(check_data_for_system_name(data, 'system_4'))
+
+    def test_dt_referer_wo_search_tag_filter(self):
+        """test system datatables processing: w/o search, w/ tag filter"""
+
+        # login testuser
+        self.client.login(username='testuser_assignment_filter', password='B1z2nn60R4XUMmRoqcA7')
+        # get user
+        test_user = User.objects.get(username='testuser_assignment_filter')
+        # get object
+        tag_1 = Tag.objects.get(tag_name='tag_1')
+        # change config
+        set_user_config(test_user, None, tag_1, None)
+        # get response
+        response = self.client.get(
+            '/system/json/',
+            {
+                'order[0][column]': '1',
+                'order[0][dir]': 'asc',
+                'start': '0',
+                'length': '25',
+                'search[value]': '',
+                'columns[1][data]': 'system_name',
+                'columns[2][data]': 'systemstatus',
+                'draw': '1',
+            },
+            HTTP_REFERER='/assignment/',
+        )
+        data = json.loads(response.content)
+        # compare
+        self.assertEqual(int(data['recordsFiltered']), 1)
+        self.assertFalse(check_data_for_system_name(data, 'system_1'))
+        self.assertFalse(check_data_for_system_name(data, 'system_2'))
+        self.assertTrue(check_data_for_system_name(data, 'system_3'))
+        self.assertFalse(check_data_for_system_name(data, 'system_4'))
+
+    def test_dt_referer_w_search_tag_filter(self):
+        """test system datatables processing: w/ search, w/ tag filter"""
+
+        # login testuser
+        self.client.login(username='testuser_assignment_filter', password='B1z2nn60R4XUMmRoqcA7')
+        # get user
+        test_user = User.objects.get(username='testuser_assignment_filter')
+        # get object
+        tag_1 = Tag.objects.get(tag_name='tag_1')
+        # change config
+        set_user_config(test_user, None, tag_1, None)
+        # get response
+        response = self.client.get(
+            '/system/json/',
+            {
+                'order[0][column]': '1',
+                'order[0][dir]': 'asc',
+                'start': '0',
+                'length': '25',
+                'search[value]': 'system_1',
+                'columns[1][data]': 'system_name',
+                'columns[2][data]': 'systemstatus',
+                'draw': '1',
+            },
+            HTTP_REFERER='/assignment/',
+        )
+        data = json.loads(response.content)
+        # compare
+        self.assertEqual(int(data['recordsFiltered']), 0)
+        self.assertFalse(check_data_for_system_name(data, 'system_1'))
+        self.assertFalse(check_data_for_system_name(data, 'system_2'))
+        self.assertFalse(check_data_for_system_name(data, 'system_3'))
+        self.assertFalse(check_data_for_system_name(data, 'system_4'))
+
+    def test_dt_referer_wo_search_user_filter(self):
+        """test system datatables processing: w/o search, w/ user filter"""
+
+        # login testuser
+        self.client.login(username='testuser_assignment_filter', password='B1z2nn60R4XUMmRoqcA7')
+        # get user
+        test_user = User.objects.get(username='testuser_assignment_filter')
+        # change config
+        set_user_config(test_user, None, None, test_user)
+        # get response
+        response = self.client.get(
+            '/system/json/',
+            {
+                'order[0][column]': '1',
+                'order[0][dir]': 'asc',
+                'start': '0',
+                'length': '25',
+                'search[value]': '',
+                'columns[1][data]': 'system_name',
+                'columns[2][data]': 'systemstatus',
+                'draw': '1',
+            },
+            HTTP_REFERER='/assignment/',
+        )
+        data = json.loads(response.content)
+        # compare
+        self.assertEqual(int(data['recordsFiltered']), 1)
+        self.assertFalse(check_data_for_system_name(data, 'system_1'))
+        self.assertFalse(check_data_for_system_name(data, 'system_2'))
+        self.assertFalse(check_data_for_system_name(data, 'system_3'))
+        self.assertTrue(check_data_for_system_name(data, 'system_4'))
+
+    def test_dt_referer_w_search_user_filter(self):
+        """test system datatables processing: w/ search, w/ user filter"""
+
+        # login testuser
+        self.client.login(username='testuser_assignment_filter', password='B1z2nn60R4XUMmRoqcA7')
+        # get user
+        test_user = User.objects.get(username='testuser_assignment_filter')
+        # change config
+        set_user_config(test_user, None, None, test_user)
+        # get response
+        response = self.client.get(
+            '/system/json/',
+            {
+                'order[0][column]': '1',
+                'order[0][dir]': 'asc',
+                'start': '0',
+                'length': '25',
+                'search[value]': 'system_4',
+                'columns[1][data]': 'system_name',
+                'columns[2][data]': 'systemstatus',
+                'draw': '1',
+            },
+            HTTP_REFERER='/assignment/',
+        )
+        data = json.loads(response.content)
+        # compare
+        self.assertEqual(int(data['recordsFiltered']), 1)
+        self.assertFalse(check_data_for_system_name(data, 'system_1'))
+        self.assertFalse(check_data_for_system_name(data, 'system_2'))
+        self.assertFalse(check_data_for_system_name(data, 'system_3'))
+        self.assertTrue(check_data_for_system_name(data, 'system_4'))

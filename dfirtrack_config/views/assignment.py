@@ -78,7 +78,12 @@ class AssignmentView(LoginRequiredMixin, FormView):
         # pre-select form according to previous filter selection
         context['form'] = self.form_class(initial=form_initial)
 
-        """filter"""
+        """
+        filter
+        even if system filtering takes place in
+        'dfirtrack_main.views.system_views.get_systems_json'
+        it is currently required for the template 'assignment.html'
+        """
 
         # get queryset with all entities
         artifact_queryset = Artifact.objects.all()
