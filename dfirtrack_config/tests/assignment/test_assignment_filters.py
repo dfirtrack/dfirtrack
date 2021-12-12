@@ -1,6 +1,7 @@
 import json
 
 from django.test import TestCase
+from django.contrib.messages import get_messages
 from django.contrib.auth.models import User
 
 from dfirtrack_artifacts.models import (
@@ -1376,3 +1377,27 @@ class AssignmentFilterTestCase(TestCase):
         self.assertFalse(check_data_for_system_name(data, 'system_2'))
         self.assertFalse(check_data_for_system_name(data, 'system_3'))
         self.assertTrue(check_data_for_system_name(data, 'system_4'))
+
+    def test_assignment_view_filter_message(self):
+        """test filter warning message"""
+
+        # login testuser
+        self.client.login(
+            username='testuser_assignment_filter', password='B1z2nn60R4XUMmRoqcA7'
+        )
+
+        # get user
+        test_user = User.objects.get(username='testuser_assignment_filter')
+
+        # change config
+        case_1 = Case.objects.get(case_name='case_1')
+        set_user_config(test_user, case_1, None, None)
+
+        # get response
+        response = self.client.get('/config/assignment/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(
+            str(messages[0]), 'Filter is active. Entities might be incomplete.'
+        )
