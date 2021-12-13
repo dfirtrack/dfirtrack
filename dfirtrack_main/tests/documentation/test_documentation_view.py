@@ -1,6 +1,7 @@
 import urllib.parse
 
 from django.contrib.auth.models import User
+from django.contrib.messages import get_messages
 from django.test import TestCase
 
 from dfirtrack_config.models import UserConfigModel
@@ -676,3 +677,25 @@ class DocumentationViewTestCase(TestCase):
         self.assertEqual(user_config.filter_documentation_list_notestatus, None)
         self.assertEqual(user_config.filter_documentation_list_tag, None)
         self.assertEqual(user_config.filter_documentation_list_keep, True)
+
+    def test_documentation_list_filter_message(self):
+        """test filter warning message"""
+
+        # login testuser
+        self.client.login(username='testuser_documentation', password='dRekxM3R5frr')
+
+        # get user
+        test_user = User.objects.get(username='testuser_documentation')
+
+        # change config
+        case_1 = Case.objects.get(case_name='case_1')
+        set_user_config(test_user, case_1, None, None, True)
+
+        # get response
+        response = self.client.get('/documentation/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(
+            str(messages[0]), 'Filter is active. Items might be incomplete.'
+        )

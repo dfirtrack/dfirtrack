@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
@@ -18,6 +19,8 @@ class DocumentationList(LoginRequiredMixin, FormView):
     def get_context_data(self, **kwargs):
         """filter objects according to GET parameters"""
 
+        """prologue"""
+
         # get context
         context = super().get_context_data(**kwargs)
 
@@ -26,11 +29,10 @@ class DocumentationList(LoginRequiredMixin, FormView):
             user_config_username=self.request.user
         )
 
-        # initial query with desired ordering
-        note_query = Note.objects.order_by('note_title')
-        reportitem_query = Reportitem.objects.order_by(
-            'system__system_name', 'headline__headline_name'
-        )
+        """form preparation / filter"""
+
+        # initialize filter flag (needed for messages)
+        filter_flag = False
 
         # create dict to initialize form values set by filtering in previous view
         form_initial = {}
@@ -42,6 +44,12 @@ class DocumentationList(LoginRequiredMixin, FormView):
         else:
             form_initial['filter_documentation_list_keep'] = False
 
+        # initial query with desired ordering
+        note_query = Note.objects.order_by('note_title')
+        reportitem_query = Reportitem.objects.order_by(
+            'system__system_name', 'headline__headline_name'
+        )
+
         # get case from config
         if user_config.filter_documentation_list_case:
             # get id
@@ -49,6 +57,8 @@ class DocumentationList(LoginRequiredMixin, FormView):
             # filter objects
             note_query = note_query.filter(case=case_id)
             reportitem_query = reportitem_query.filter(case=case_id)
+            # set filter flag
+            filter_flag = True
             # set initial value for form
             form_initial['case'] = case_id
 
@@ -61,6 +71,8 @@ class DocumentationList(LoginRequiredMixin, FormView):
             # filter objects
             note_query = note_query.filter(notestatus=notestatus_id)
             reportitem_query = reportitem_query.filter(notestatus=notestatus_id)
+            # set filter flag
+            filter_flag = True
             # set initial value for form
             form_initial['notestatus'] = notestatus_id
 
@@ -71,6 +83,8 @@ class DocumentationList(LoginRequiredMixin, FormView):
             # filter objects
             note_query = note_query.filter(tag=tag_id)
             reportitem_query = reportitem_query.filter(tag=tag_id)
+            # set filter flag
+            filter_flag = True
             # set initial value for form
             form_initial['tag'] = tag_id
 
@@ -94,6 +108,10 @@ class DocumentationList(LoginRequiredMixin, FormView):
 
         # call logger
         debug_logger(str(self.request.user), " DOCUMENTATION_LIST_ENTERED")
+
+        # info message that filter is active (not for user filtering)
+        if filter_flag:
+            messages.info(self.request, 'Filter is active. Items might be incomplete.')
 
         # return objects to template
         return context
