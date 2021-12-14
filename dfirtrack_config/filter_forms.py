@@ -11,7 +11,7 @@ class AssignmentFilterForm(forms.ModelForm, BaseFilterForm):
     # show all existing user objects
     user = forms.ModelChoiceField(
         queryset=User.objects.order_by('username'),
-        empty_label='Filter for user',
+        empty_label='No user assigned',
         label='Filter for user',
         required=False,
     )
