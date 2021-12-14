@@ -1,14 +1,10 @@
 import json
 
-from django.test import TestCase
-from django.contrib.messages import get_messages
 from django.contrib.auth.models import User
+from django.contrib.messages import get_messages
+from django.test import TestCase
 
-from dfirtrack_artifacts.models import (
-    Artifact,
-    Artifactstatus,
-    Artifacttype,
-)
+from dfirtrack_artifacts.models import Artifact, Artifactstatus, Artifacttype
 from dfirtrack_config.models import UserConfigModel
 from dfirtrack_main.models import (
     Case,
