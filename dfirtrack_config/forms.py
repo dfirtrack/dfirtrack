@@ -5,10 +5,7 @@ from django.contrib.auth.models import User
 from django.forms.models import ModelMultipleChoiceField
 from django.utils.translation import gettext_lazy
 
-from dfirtrack_artifacts.models import (
-    Artifactstatus,
-    Artifactpriority
-)
+from dfirtrack_artifacts.models import Artifactstatus, Artifactpriority
 from dfirtrack_config.models import (
     ArtifactExporterSpreadsheetXlsConfigModel,
     MainConfigModel,
@@ -1471,32 +1468,33 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
     to add more than one extra WorkflowDefaultArtifactname, refer to template javascript
 '''
 
+
 class WorkflowDefaultArtifactAttributesForm(forms.ModelForm):
 
     artifact_default_status = forms.ModelChoiceField(
         label='Default artifactstatus',
         required=True,
-        queryset=Artifactstatus.objects.order_by('artifactstatus_name')
+        queryset=Artifactstatus.objects.order_by('artifactstatus_name'),
     )
 
     artifact_default_priority = forms.ModelChoiceField(
         label='Default artifactpriority',
         required=True,
-        queryset=Artifactpriority.objects.order_by('artifactpriority_name')
+        queryset=Artifactpriority.objects.order_by('artifactpriority_name'),
     )
 
     class Meta:
 
         model = WorkflowDefaultArtifactAttributes
 
-        fields=[
+        fields = [
             'artifacttype',
             'artifact_default_name',
             'artifact_default_status',
             'artifact_default_priority',
         ]
 
-        widgets={
+        widgets = {
             'artifact_default_name': forms.TextInput(
                 attrs={'placeholder': 'Enter default artifact name'}
             ),
@@ -1506,38 +1504,37 @@ class WorkflowDefaultArtifactAttributesForm(forms.ModelForm):
 WorkflowDefaultArtifactAttributesFormSet = forms.modelformset_factory(
     WorkflowDefaultArtifactAttributes,
     form=WorkflowDefaultArtifactAttributesForm,
-    extra=1
+    extra=1,
 )
+
 
 class WorkflowDefaultTasknameAttributesForm(forms.ModelForm):
 
     task_default_status = forms.ModelChoiceField(
         label='Default taskstatus',
         required=True,
-        queryset=Taskstatus.objects.order_by('taskstatus_name')
+        queryset=Taskstatus.objects.order_by('taskstatus_name'),
     )
 
     task_default_priority = forms.ModelChoiceField(
         label='Default taskpriority',
         required=True,
-        queryset=Taskpriority.objects.order_by('taskpriority_name') 
+        queryset=Taskpriority.objects.order_by('taskpriority_name'),
     )
 
     class Meta:
 
         model = WorkflowDefaultTasknameAttributes
 
-        fields=[
-            'taskname', 
-            'task_default_status', 
-            'task_default_priority'
-        ]
+        fields = ['taskname', 'task_default_status', 'task_default_priority']
+
 
 WorkflowDefaultTasknameAttributesFormSet = forms.modelformset_factory(
     WorkflowDefaultTasknameAttributes,
     form=WorkflowDefaultTasknameAttributesForm,
     extra=1,
 )
+
 
 class WorkflowForm(forms.ModelForm):
 
