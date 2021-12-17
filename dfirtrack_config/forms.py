@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.forms.models import ModelMultipleChoiceField
 from django.utils.translation import gettext_lazy
 
-from dfirtrack_artifacts.models import Artifactstatus, Artifactpriority
+from dfirtrack_artifacts.models import Artifactpriority, Artifactstatus
 from dfirtrack_config.models import (
     ArtifactExporterSpreadsheetXlsConfigModel,
     MainConfigModel,
