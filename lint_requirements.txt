@@ -1,0 +1,9 @@
+bandit
+black
+codespell
+flake8
+isort
+mypy
+pytest
+pyupgrade
+safety

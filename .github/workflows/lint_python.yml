@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
-      - run: pip install bandit black codespell flake8 isort mypy pytest pyupgrade safety
+      - run: pip install -r lint_requirements.txt
       - run: bandit --recursive --tests B106 --exclude tests .  # hardcoded_password_funcarg
       - run: bandit --recursive --tests B108 --exclude tests,dfirtrack_main/views/entry_views.py .  # hardcoded_tmp_directory
       - run: bandit --recursive --skip B106,B108 .
