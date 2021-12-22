@@ -238,6 +238,14 @@ class ArtifactCreatorForm(forms.ModelForm):
         required=True,
     )
 
+    # reorder field choices
+    artifact_assigned_to_user_id = forms.ModelChoiceField(
+        empty_label='Select user (optional)',
+        label=gettext_lazy('Assigned to user'),
+        queryset=User.objects.order_by('username'),
+        required=False,
+    )
+
     # show all existing system objects as multiple choice field
     system = forms.ModelMultipleChoiceField(
         queryset=System.objects.order_by('system_name'),
@@ -275,6 +283,7 @@ class ArtifactCreatorForm(forms.ModelForm):
         fields = (
             'artifactpriority',
             'artifactstatus',
+            'artifact_assigned_to_user_id',
             'artifact_note_analysisresult',
             'artifact_note_external',
             'artifact_note_internal',
