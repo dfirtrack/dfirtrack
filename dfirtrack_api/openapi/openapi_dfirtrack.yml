@@ -2,7 +2,7 @@ openapi: 3.0.2
 info:
   title: DFIRTrack
   description: OpenAPI 3 - Documentation of DFIRTrack API
-  version: v2.2.9
+  version: v2.2.12
 paths:
   /api/artifact/:
     get:
@@ -3578,6 +3578,9 @@ components:
           readOnly: true
         artifact_modified_by_user_id:
           type: integer
+        artifact_assigned_to_user_id:
+          type: integer
+          nullable: true
       required:
       - artifact_name
       - artifacttype
@@ -3675,6 +3678,9 @@ components:
           type: string
           format: date-time
           readOnly: true
+        case_assigned_to_user_id:
+          type: integer
+          nullable: true
       required:
       - case_name
       - case_is_incident
@@ -3866,6 +3872,9 @@ components:
           readOnly: true
         note_modified_by_user_id:
           type: integer
+        note_assigned_to_user_id:
+          type: integer
+          nullable: true
       required:
       - note_title
       - note_content
@@ -3964,6 +3973,9 @@ components:
           readOnly: true
         reportitem_modified_by_user_id:
           type: integer
+        reportitem_assigned_to_user_id:
+          type: integer
+          nullable: true
       required:
       - headline
       - system
@@ -4072,6 +4084,9 @@ components:
           readOnly: true
         system_modified_by_user_id:
           type: integer
+        system_assigned_to_user_id:
+          type: integer
+          nullable: true
         system_export_markdown:
           type: boolean
         system_export_spreadsheet:
@@ -4135,6 +4150,9 @@ components:
           maxLength: 255
         tagcolor:
           type: integer
+        tag_assigned_to_user_id:
+          type: integer
+          nullable: true
       required:
       - tag_name
       - tagcolor
