@@ -53,10 +53,13 @@ class TagAPIViewTestCase(TestCase):
         )
         # login testuser
         self.client.login(username='testuser_tag_api', password='2SxcYh8yo3rGs4PBqhg9')
+        # get user
+        test_user_id = str(User.objects.get(username='testuser_tag_api').id)
         # create POST string
         poststring = {
             "tag_name": "tag_api_2",
             "tagcolor": tagcolor_id,
+            "tag_assigned_to_user_id": test_user_id,
         }
         # get response
         response = self.client.post('/api/tag/', data=poststring)
@@ -122,6 +125,8 @@ class TagAPIViewTestCase(TestCase):
         tag_api_1 = Tag.objects.get(tag_name='tag_api_1')
         # login testuser
         self.client.login(username='testuser_tag_api', password='2SxcYh8yo3rGs4PBqhg9')
+        # get user
+        test_user_id = str(User.objects.get(username='testuser_tag_api').id)
         # create url
         destination = urllib.parse.quote(
             '/api/tag/' + str(tag_api_1.tag_id) + '/', safe='/'
@@ -130,6 +135,7 @@ class TagAPIViewTestCase(TestCase):
         putstring = {
             "tag_name": "new_tag_api_1",
             "tagcolor": tagcolor_id,
+            "tag_assigned_to_user_id": test_user_id,
         }
         # get response
         response = self.client.put(

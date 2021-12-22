@@ -127,6 +127,7 @@ class NoteAPIViewTestCase(TestCase):
             ],
             "note_created_by_user_id": test_user_id,
             "note_modified_by_user_id": test_user_id,
+            "note_assigned_to_user_id": test_user_id,
         }
         # check for existence of object
         note_api_3_none = Note.objects.filter(note_title='note_api_3')
@@ -264,6 +265,7 @@ class NoteAPIViewTestCase(TestCase):
             ],
             "note_created_by_user_id": test_user_id,
             "note_modified_by_user_id": test_user_id,
+            "note_assigned_to_user_id": test_user_id,
         }
         # get response
         response = self.client.put(

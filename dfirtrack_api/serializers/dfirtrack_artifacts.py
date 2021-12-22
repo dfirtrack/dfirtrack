@@ -121,6 +121,7 @@ class ArtifactSerializer(serializers.ModelSerializer):
             'artifact_created_by_user_id',
             'artifact_modify_time',
             'artifact_modified_by_user_id',
+            'artifact_assigned_to_user_id',
         )
         read_only_fields = (
             'artifact_uuid',
