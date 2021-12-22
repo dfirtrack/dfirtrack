@@ -1175,10 +1175,10 @@ class SystemCreatorForm(SystemExtendedBaseForm):
 
     # reorder field choices
     system_assigned_to_user_id = forms.ModelChoiceField(
+        empty_label='Select user (optional)',
         label=gettext_lazy('Assigned to user'),
         queryset=User.objects.order_by('username'),
         required=False,
-        empty_label='Select user (optional)',
     )
 
     class Meta(SystemExtendedBaseForm.Meta):
@@ -1200,6 +1200,14 @@ class SystemModificatorForm(AdminStyleSelectorForm, SystemBaseForm):
         queryset=Analysisstatus.objects.order_by('analysisstatus_name'),
         required=False,
         widget=forms.RadioSelect(),
+    )
+
+    # no model field comes into question, because optional choice in combination with delete checkbox
+    system_assigned_to_user_id = forms.ModelChoiceField(
+        empty_label='Select user (optional)',
+        label=gettext_lazy('Assigned to user'),
+        queryset=User.objects.order_by('username'),
+        required=False,
     )
 
     # no model field comes into question, because optional choice in combination with delete checkbox
@@ -1289,6 +1297,14 @@ class SystemModificatorForm(AdminStyleSelectorForm, SystemBaseForm):
     FK_CHOICES = (
         ('keep_existing', 'Do not change and keep existing'),
         ('switch_new', 'Switch to selected item or none'),
+    )
+
+    # add checkbox
+    assigned_to_user_id_delete = forms.ChoiceField(
+        choices=FK_CHOICES,
+        label=gettext_lazy('How to deal with assigned users'),
+        required=True,
+        widget=forms.RadioSelect(),
     )
 
     # add checkbox
