@@ -1184,9 +1184,7 @@ class SystemCreatorForm(SystemExtendedBaseForm):
     class Meta(SystemExtendedBaseForm.Meta):
 
         # this HTML forms are shown
-        fields = SystemExtendedBaseForm.Meta.fields + (
-            'system_assigned_to_user_id',
-        )
+        fields = SystemExtendedBaseForm.Meta.fields + ('system_assigned_to_user_id',)
 
 
 class SystemModificatorForm(AdminStyleSelectorForm, SystemBaseForm):

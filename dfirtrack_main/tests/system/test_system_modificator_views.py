@@ -972,13 +972,21 @@ class SystemModificatorViewTestCase(TestCase):
         )
         # compare - system_assigned_to_user_id (fk)
         self.assertEqual(
-            System.objects.get(system_name='system_modificator_system_1').system_assigned_to_user_id, None
+            System.objects.get(
+                system_name='system_modificator_system_1'
+            ).system_assigned_to_user_id,
+            None,
         )
         self.assertEqual(
-            System.objects.get(system_name='system_modificator_system_2').system_assigned_to_user_id, None
+            System.objects.get(
+                system_name='system_modificator_system_2'
+            ).system_assigned_to_user_id,
+            None,
         )
         self.assertEqual(
-            System.objects.get(system_name='system_modificator_system_3').system_assigned_to_user_id,
+            System.objects.get(
+                system_name='system_modificator_system_3'
+            ).system_assigned_to_user_id,
             test_user,
         )
         # compare - contact (fk)
@@ -1168,15 +1176,21 @@ class SystemModificatorViewTestCase(TestCase):
         )
         # compare - system_assigned_to_user_id (fk)
         self.assertEqual(
-            System.objects.get(system_name='system_modificator_system_1').system_assigned_to_user_id,
+            System.objects.get(
+                system_name='system_modificator_system_1'
+            ).system_assigned_to_user_id,
             test_user_2,
         )
         self.assertEqual(
-            System.objects.get(system_name='system_modificator_system_2').system_assigned_to_user_id,
+            System.objects.get(
+                system_name='system_modificator_system_2'
+            ).system_assigned_to_user_id,
             test_user_2,
         )
         self.assertEqual(
-            System.objects.get(system_name='system_modificator_system_3').system_assigned_to_user_id,
+            System.objects.get(
+                system_name='system_modificator_system_3'
+            ).system_assigned_to_user_id,
             test_user,
         )
         # compare - contact (fk)

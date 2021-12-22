@@ -220,9 +220,12 @@ class SystemModificatorFormTestCase(TestCase):
         # get object
         form = SystemModificatorForm()
         # compare
-        self.assertEqual(form.fields['system_assigned_to_user_id'].label, 'Assigned to user')
         self.assertEqual(
-            form.fields['system_assigned_to_user_id'].empty_label, 'Select user (optional)'
+            form.fields['system_assigned_to_user_id'].label, 'Assigned to user'
+        )
+        self.assertEqual(
+            form.fields['system_assigned_to_user_id'].empty_label,
+            'Select user (optional)',
         )
 
     def test_system_modificator_assigned_to_user_id_delete_form_label(self):
@@ -232,7 +235,8 @@ class SystemModificatorFormTestCase(TestCase):
         form = SystemModificatorForm()
         # compare
         self.assertEqual(
-            form.fields['assigned_to_user_id_delete'].label, 'How to deal with assigned users'
+            form.fields['assigned_to_user_id_delete'].label,
+            'How to deal with assigned users',
         )
 
     def test_system_modificator_form_empty(self):
