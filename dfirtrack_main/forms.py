@@ -1173,6 +1173,21 @@ class SystemCreatorForm(SystemExtendedBaseForm):
         label='System list (*)',
     )
 
+    # reorder field choices
+    system_assigned_to_user_id = forms.ModelChoiceField(
+        label=gettext_lazy('Assigned to user'),
+        queryset=User.objects.order_by('username'),
+        required=False,
+        empty_label='Select user (optional)',
+    )
+
+    class Meta(SystemExtendedBaseForm.Meta):
+
+        # this HTML forms are shown
+        fields = SystemExtendedBaseForm.Meta.fields + (
+            'system_assigned_to_user_id',
+        )
+
 
 class SystemModificatorForm(AdminStyleSelectorForm, SystemBaseForm):
     """system modificator form, inherits from system base form"""

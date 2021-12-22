@@ -320,6 +320,37 @@
         <!-- button row -->
         </div>
 
+        <!-- user headlines row -->
+        <div class="row top-distance">
+
+            <!-- assigned user headline -->
+            <div class="col-3">
+                <div class="font-weight-bold">
+                    <img src="{% static 'dfirtrack_main/icons/person-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    {{ form.system_assigned_to_user_id.label }}
+                </div>
+            </div>
+
+        <!-- user headlines row -->
+        </div>
+
+        <!-- user row -->
+        <div class="row">
+
+            <!-- assigned user -->
+            <div class="col-3">
+                <div class="card card-body bg-dark border-light top-distance">
+                    <!-- assigned user errors -->
+                    <div class="text-danger">
+                        {{ form.system_assigned_to_user_id.errors }}
+                    </div>
+                    {{ form.system_assigned_to_user_id }}
+                </div>
+            </div>
+
+        <!-- user row -->
+        </div>
+
     <!-- status information -->
     </div>
 
