@@ -45,12 +45,15 @@ class SystemList(LoginRequiredMixin, FormView):
         for a better understanding of filter related condition flow, every important comment starts with 'filter: '
         """
 
+        # initialize filter flag (needed for messages)
+        filter_flag = False
+
         # get config
         user_config, created = UserConfigModel.objects.get_or_create(
             user_config_username=self.request.user
         )
 
-        # filter: even if the persistence option has been deselected, the initial values must correspond to the current filtering until 'system_list' is reloaded or left
+        # filter: even if the persistence option has been deselected, the initial values must correspond to the current filtering until the view is reloaded or left
 
         # create dict to initialize form values set by filtering in previous view call
         form_initial = {}
@@ -68,6 +71,8 @@ class SystemList(LoginRequiredMixin, FormView):
             case_id = user_config.filter_system_list_case.case_id
             # set initial value for form
             form_initial['case'] = case_id
+            # set filter flag
+            filter_flag = True
 
         # get tag from config
         if user_config.filter_system_list_tag:
@@ -75,12 +80,20 @@ class SystemList(LoginRequiredMixin, FormView):
             tag_id = user_config.filter_system_list_tag.tag_id
             # set initial value for form
             form_initial['tag'] = tag_id
+            # set filter flag
+            filter_flag = True
 
         # filter: pre-select form according to previous filter selection
         context['form'] = self.form_class(initial=form_initial)
 
         # call logger
         debug_logger(str(self.request.user), " SYSTEM_LIST_ENTERED")
+
+        # info message that filter is active
+        if filter_flag:
+            messages.info(
+                self.request, 'Filter is active. Systems might be incomplete.'
+            )
 
         # return dictionary with additional values for template
         return context
@@ -394,10 +407,14 @@ def get_systems_json(request):
     ):
         search_value = ''
 
+    """get filter values from config"""
+
     # get config
     user_config, created = UserConfigModel.objects.get_or_create(
         user_config_username=request.user
     )
+
+    # system list
 
     # case filter
     if user_config.filter_system_list_case:
@@ -417,6 +434,33 @@ def get_systems_json(request):
     else:
         system_list_tag = None
 
+    # assignment view
+
+    # case filter
+    if user_config.filter_assignment_view_case:
+        # get filter values from config
+        assignment_view_case = Case.objects.get(
+            case_id=user_config.filter_assignment_view_case.case_id
+        )
+    else:
+        assignment_view_case = None
+
+    # tag filter
+    if user_config.filter_assignment_view_tag:
+        # get filter values from config
+        assignment_view_tag = Tag.objects.get(
+            tag_id=user_config.filter_assignment_view_tag.tag_id
+        )
+    else:
+        assignment_view_tag = None
+
+    # user filter
+    if user_config.filter_assignment_view_user:
+        # get filter values from config
+        assignment_view_user = user_config.filter_assignment_view_user
+    else:
+        assignment_view_user = None
+
     """ no search value in datatable search field """
 
     # if no search value is given, get all objects and order them according to user setting
@@ -426,7 +470,7 @@ def get_systems_json(request):
         # start with full query
         system_values = System.objects.all().order_by(order_dir + order_column_name)
 
-        # system detail
+        # system list
         if '/system/' in referer:
             # filter: filtering for case and tag is only applied to 'system_list'
             if system_list_case:
@@ -457,6 +501,18 @@ def get_systems_json(request):
             system_values = system_values.filter(tag__tag_id=tag_id).order_by(
                 order_dir + order_column_name
             )
+        # assignment view
+        elif '/assignment/' in referer:
+            if assignment_view_case:
+                system_values = system_values.filter(case=assignment_view_case)
+            if assignment_view_tag:
+                system_values = system_values.filter(tag=assignment_view_tag)
+            if assignment_view_user:
+                system_values = system_values.filter(
+                    system_assigned_to_user_id=assignment_view_user
+                )
+            else:
+                system_values = system_values.filter(system_assigned_to_user_id=None)
         # catch-all rule to prevent empty 'system_values' if the datatable is included in other views in the future
         else:
             system_values = system_values
@@ -539,6 +595,18 @@ def get_systems_json(request):
                 system_values = system_values.filter(case=system_list_case)
             if system_list_tag:
                 system_values = system_values.filter(tag=system_list_tag)
+        # assignment view
+        elif '/assignment/' in referer:
+            if assignment_view_case:
+                system_values = system_values.filter(case=assignment_view_case)
+            if assignment_view_tag:
+                system_values = system_values.filter(tag=assignment_view_tag)
+            if assignment_view_user:
+                system_values = system_values.filter(
+                    system_assigned_to_user_id=assignment_view_user
+                )
+            else:
+                system_values = system_values.filter(system_assigned_to_user_id=None)
 
         # make the resulting queryset unique and sort it according to user settings
         system_values = system_values.distinct().order_by(order_dir + order_column_name)
@@ -634,3 +702,33 @@ def get_systems_json(request):
     response = JsonResponse(json_dict, safe=False)
 
     return response
+
+
+class SystemSetUser(LoginRequiredMixin, UpdateView):
+    login_url = '/login'
+    model = System
+
+    def get(self, request, *args, **kwargs):
+        system = self.get_object()
+        system.system_assigned_to_user_id = request.user
+        system.save()
+        system.logger(str(request.user), " SYSTEM_SET_USER_EXECUTED")
+        messages.success(request, 'System assigned to you')
+
+        # redirect
+        return redirect(reverse('system_detail', args=(system.system_id,)))
+
+
+class SystemUnsetUser(LoginRequiredMixin, UpdateView):
+    login_url = '/login'
+    model = System
+
+    def get(self, request, *args, **kwargs):
+        system = self.get_object()
+        system.system_assigned_to_user_id = None
+        system.save()
+        system.logger(str(request.user), " SYSTEM_UNSET_USER_EXECUTED")
+        messages.warning(request, 'User assignment for system deleted')
+
+        # redirect
+        return redirect(reverse('system_detail', args=(system.system_id,)))

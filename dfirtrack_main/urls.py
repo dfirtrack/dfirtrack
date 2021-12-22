@@ -1,5 +1,5 @@
 from django import views as django_views
-from django.conf.urls import url
+from django.conf.urls import re_path
 from django.urls import path
 
 from dfirtrack_main.creator import (
@@ -88,6 +88,16 @@ urlpatterns = [
     path(r'case/add/', case_views.CaseCreate.as_view(), name='case_create'),
     path(r'case/<int:pk>/edit/', case_views.CaseUpdate.as_view(), name='case_update'),
     path(r'case/creator/', case_creator.case_creator, name='case_creator'),
+    path(
+        r'case/<int:pk>/set_user/',
+        case_views.CaseSetUser.as_view(),
+        name='case_set_user',
+    ),
+    path(
+        r'case/<int:pk>/unset_user/',
+        case_views.CaseUnsetUser.as_view(),
+        name='case_unset_user',
+    ),
     path(
         r'casepriority/',
         casepriority_views.CasepriorityList.as_view(),
@@ -302,6 +312,16 @@ urlpatterns = [
     path(r'note/add/', note_views.NoteCreate.as_view(), name='note_create'),
     path(r'note/<int:pk>/edit/', note_views.NoteUpdate.as_view(), name='note_update'),
     path(
+        r'note/<int:pk>/set_user/',
+        note_views.NoteSetUser.as_view(),
+        name='note_set_user',
+    ),
+    path(
+        r'note/<int:pk>/unset_user/',
+        note_views.NoteUnsetUser.as_view(),
+        name='note_unset_user',
+    ),
+    path(
         r'notestatus/',
         notestatus_views.NotestatusList.as_view(),
         name='notestatus_list',
@@ -392,6 +412,16 @@ urlpatterns = [
         name='reportitem_update',
     ),
     path(
+        r'reportitem/<int:pk>/set_user/',
+        reportitem_views.ReportitemSetUser.as_view(),
+        name='reportitem_set_user',
+    ),
+    path(
+        r'reportitem/<int:pk>/unset_user/',
+        reportitem_views.ReportitemUnsetUser.as_view(),
+        name='reportitem_unset_user',
+    ),
+    path(
         r'serviceprovider/',
         serviceprovider_views.ServiceproviderList.as_view(),
         name='serviceprovider_list',
@@ -433,6 +463,16 @@ urlpatterns = [
         name='clear_system_list_filter',
     ),
     path(r'system/creator/', system_creator.system_creator, name='system_creator'),
+    path(
+        r'system/<int:pk>/set_user/',
+        system_views.SystemSetUser.as_view(),
+        name='system_set_user',
+    ),
+    path(
+        r'system/<int:pk>/unset_user/',
+        system_views.SystemUnsetUser.as_view(),
+        name='system_unset_user',
+    ),
     path(
         r'system/exporter/markdown/system/',
         markdown.system,
@@ -544,6 +584,16 @@ urlpatterns = [
     path(r'tag/<int:pk>/edit/', tag_views.TagUpdate.as_view(), name='tag_update'),
     path(r'tag/<int:pk>/delete/', tag_views.TagDelete.as_view(), name='tag_delete'),
     path(r'tag/creator/', tag_creator.tag_creator, name='tag_creator'),
+    path(
+        r'tag/<int:pk>/set_user/',
+        tag_views.TagSetUser.as_view(),
+        name='tag_set_user',
+    ),
+    path(
+        r'tag/<int:pk>/unset_user/',
+        tag_views.TagUnsetUser.as_view(),
+        name='tag_unset_user',
+    ),
     path(r'task/', task_views.TaskList.as_view(), name='task_list'),
     path(r'task/closed/', task_views.TaskClosed.as_view(), name='task_closed'),
     path(r'task/all/', task_views.TaskAll.as_view(), name='task_all'),
@@ -610,5 +660,5 @@ urlpatterns = [
         taskstatus_views.TaskstatusDetail.as_view(),
         name='taskstatus_detail',
     ),
-    url(r'^jsi18n/$', django_views.i18n.JavaScriptCatalog.as_view(), name='jsi18n'),
+    re_path(r'^jsi18n/$', django_views.i18n.JavaScriptCatalog.as_view(), name='jsi18n'),
 ]

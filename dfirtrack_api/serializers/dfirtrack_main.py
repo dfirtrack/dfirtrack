@@ -78,6 +78,7 @@ class CaseSerializer(serializers.ModelSerializer):
             'case_create_time',
             'case_modified_by_user_id',
             'case_modify_time',
+            'case_assigned_to_user_id',
         )
 
 
@@ -291,6 +292,7 @@ class NoteSerializer(serializers.ModelSerializer):
             'note_created_by_user_id',
             'note_modify_time',
             'note_modified_by_user_id',
+            'note_assigned_to_user_id',
         )
 
 
@@ -406,6 +408,7 @@ class ReportitemSerializer(serializers.ModelSerializer):
             'reportitem_created_by_user_id',
             'reportitem_modify_time',
             'reportitem_modified_by_user_id',
+            'reportitem_assigned_to_user_id',
         )
 
 
@@ -535,6 +538,7 @@ class SystemSerializer(serializers.ModelSerializer):
             'system_created_by_user_id',
             'system_modify_time',
             'system_modified_by_user_id',
+            'system_assigned_to_user_id',
             'system_export_markdown',
             'system_export_spreadsheet',
         )
@@ -611,6 +615,7 @@ class TagSerializer(serializers.ModelSerializer):
             'tag_id',
             'tag_name',
             'tagcolor',
+            'tag_assigned_to_user_id',
         )
 
 

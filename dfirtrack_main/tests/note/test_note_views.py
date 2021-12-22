@@ -577,3 +577,130 @@ class NoteViewTestCase(TestCase):
         self.assertRedirects(
             response, destination, status_code=302, target_status_code=200
         )
+
+    def test_note_set_user_redirect(self):
+        """test note set_user view"""
+
+        # login testuser
+        self.client.login(username='testuser_note', password='oh8Szsuk8BpbEJ1RRL21')
+        # get object
+        note_1 = Note.objects.get(note_title='note_1')
+        # create url
+        destination = urllib.parse.quote('/note/' + str(note_1.note_id) + '/', safe='/')
+        # get response
+        response = self.client.get(
+            '/note/' + str(note_1.note_id) + '/set_user/', follow=True
+        )
+        # compare
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
+
+    def test_note_set_user_documentation_redirect(self):
+        """test note set_user view"""
+
+        # login testuser
+        self.client.login(username='testuser_note', password='oh8Szsuk8BpbEJ1RRL21')
+        # get object
+        note_1 = Note.objects.get(note_title='note_1')
+        # create url
+        destination = urllib.parse.quote(
+            f'/documentation/#note_id_{note_1.note_id}', safe='/#'
+        )
+        # get response
+        response = self.client.get(
+            '/note/' + str(note_1.note_id) + '/set_user/?documentation', follow=True
+        )
+        # compare
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
+
+    def test_note_set_user_user(self):
+        """test note set_user view"""
+
+        # login testuser
+        self.client.login(username='testuser_note', password='oh8Szsuk8BpbEJ1RRL21')
+        # get user
+        test_user = User.objects.get(username='testuser_note')
+        # get object
+        notestatus_1 = Notestatus.objects.get(notestatus_name='notestatus_1')
+        # create object
+        note_set_user = Note.objects.create(
+            note_title='note_unassigned',
+            notestatus=notestatus_1,
+            note_created_by_user_id=test_user,
+            note_modified_by_user_id=test_user,
+        )
+        # compare
+        self.assertEqual(None, note_set_user.note_assigned_to_user_id)
+        # get response
+        self.client.get('/note/' + str(note_set_user.note_id) + '/set_user/')
+        # refresh object
+        note_set_user.refresh_from_db()
+        # compare
+        self.assertEqual(test_user, note_set_user.note_assigned_to_user_id)
+
+    def test_note_unset_user_redirect(self):
+        """test note unset_user view"""
+
+        # login testuser
+        self.client.login(username='testuser_note', password='oh8Szsuk8BpbEJ1RRL21')
+        # get object
+        note_1 = Note.objects.get(note_title='note_1')
+        # create url
+        destination = urllib.parse.quote('/note/' + str(note_1.note_id) + '/', safe='/')
+        # get response
+        response = self.client.get(
+            '/note/' + str(note_1.note_id) + '/unset_user/', follow=True
+        )
+        # compare
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
+
+    def test_note_unset_user_documentation_redirect(self):
+        """test note unset_user view"""
+
+        # login testuser
+        self.client.login(username='testuser_note', password='oh8Szsuk8BpbEJ1RRL21')
+        # get object
+        note_1 = Note.objects.get(note_title='note_1')
+        # create url
+        destination = urllib.parse.quote(
+            f'/documentation/#note_id_{note_1.note_id}', safe='/#'
+        )
+        # get response
+        response = self.client.get(
+            '/note/' + str(note_1.note_id) + '/unset_user/?documentation', follow=True
+        )
+        # compare
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
+
+    def test_note_unset_user_user(self):
+        """test note unset_user view"""
+
+        # login testuser
+        self.client.login(username='testuser_note', password='oh8Szsuk8BpbEJ1RRL21')
+        # get user
+        test_user = User.objects.get(username='testuser_note')
+        # get object
+        notestatus_1 = Notestatus.objects.get(notestatus_name='notestatus_1')
+        # create object
+        note_unset_user = Note.objects.create(
+            note_title='note_assigned',
+            notestatus=notestatus_1,
+            note_created_by_user_id=test_user,
+            note_modified_by_user_id=test_user,
+            note_assigned_to_user_id=test_user,
+        )
+        # compare
+        self.assertEqual(test_user, note_unset_user.note_assigned_to_user_id)
+        # get response
+        self.client.get('/note/' + str(note_unset_user.note_id) + '/unset_user/')
+        # refresh object
+        note_unset_user.refresh_from_db()
+        # compare
+        self.assertEqual(None, note_unset_user.note_assigned_to_user_id)

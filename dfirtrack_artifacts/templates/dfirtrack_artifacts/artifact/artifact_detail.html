@@ -166,6 +166,46 @@
     <!-- artifact information row -->
     </div>
 
+    <!-- user row -->
+    <div class="row bottom-distance">
+
+        <!-- assigned user -->
+        <div class="col-2">
+            <div class="font-weight-bold">
+                <img src="{% static 'dfirtrack_main/icons/person-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                Assigned to user:
+            </div>
+            {% if artifact.artifact_assigned_to_user_id %}
+                {{ artifact.artifact_assigned_to_user_id }}
+            {% else %}
+                ---
+            {% endif %}
+        </div>
+
+        <!-- grab / free user assignment button -->
+        <div class="col-3">
+
+            <!-- grab button -->
+            {% if not artifact.artifact_assigned_to_user_id %}
+                <a href="{{ artifact.get_set_user_url }}" type="button" class="btn btn-sm btn-light copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/person.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    Grab
+                </a>
+
+            <!-- free button -->
+            {% else %}
+                <a href="{{ artifact.get_unset_user_url }}" type="button" class="btn btn-sm btn-light copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/delete.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    Free
+                </a>
+            {% endif %}
+
+        <!-- grab / free user assignment button -->
+        </div>
+
+    <!-- user row -->
+    </div>
+
     <!-- artifact information row -->
     <div class="row bottom-distance">
 

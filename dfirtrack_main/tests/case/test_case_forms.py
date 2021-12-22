@@ -89,6 +89,27 @@ class CaseFormTestCase(TestCase):
             form.fields['casetype'].empty_label, 'Select casetype (optional)'
         )
 
+    def test_case_assigned_to_user_id_form_label(self):
+        """test form label"""
+
+        # get object
+        form = CaseForm()
+        # compare
+        self.assertEqual(
+            form.fields['case_assigned_to_user_id'].label, 'Assigned to user'
+        )
+
+    def test_case_assigned_to_user_id_form_empty_label(self):
+        """test form label"""
+
+        # get object
+        form = CaseForm()
+        # compare
+        self.assertEqual(
+            form.fields['case_assigned_to_user_id'].empty_label,
+            'Select user (optional)',
+        )
+
     def test_tag_form_label(self):
         """test form label"""
 

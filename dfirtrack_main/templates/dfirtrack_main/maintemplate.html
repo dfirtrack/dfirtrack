@@ -333,6 +333,14 @@
 
                     <!-- nav bar item -->
                     <li class="nav-item">
+                        <a class="nav-link active top-distance" href="{% url 'assignment' %}" style="background-color: white; color: black;">
+                            <img src="{% static 'dfirtrack_main/icons/people.svg' %}" class="icon right-distance copy-false" alt="icon">
+                            Assignments
+                        </a>
+                    </li>
+
+                    <!-- nav bar item -->
+                    <li class="nav-item">
                         <a class="nav-link active top-distance" href="{% url 'documentation_list' %}" style="background-color: white; color: black;">
                             <img src="{% static 'dfirtrack_main/icons/document.svg' %}" class="icon right-distance copy-false" alt="icon">
                             Documentation
@@ -391,6 +399,12 @@
                             <!-- the corresponding alert for message level error is danger -->
                             {% if message.tags == 'error' %}
                                 <div class="alert alert-danger copy-false">
+                                    {{ message }}
+                                </div>
+
+                            <!-- the corresponding alert for message level error is danger -->
+                            {% elif message.tags == 'info' %}
+                                <div class="alert alert-primary copy-false">
                                     {{ message }}
                                 </div>
 

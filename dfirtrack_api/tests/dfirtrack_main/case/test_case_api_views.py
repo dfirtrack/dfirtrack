@@ -131,6 +131,7 @@ class CaseAPIViewTestCase(TestCase):
             "case_end_time": '2021-05-09T11:25',
             "case_created_by_user_id": test_user_id,
             "case_modified_by_user_id": test_user_id,
+            "case_assigned_to_user_id": test_user_id,
         }
         # check for existence of object
         case_api_3_none = Case.objects.filter(case_name='case_api_3')
@@ -278,6 +279,7 @@ class CaseAPIViewTestCase(TestCase):
             "case_end_time": '2021-05-09T11:45',
             "case_created_by_user_id": test_user_id,
             "case_modified_by_user_id": test_user_id,
+            "case_assigned_to_user_id": test_user_id,
         }
         # get response
         response = self.client.put(

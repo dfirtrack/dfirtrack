@@ -1,6 +1,7 @@
 import re
 
 from django import forms
+from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy
 
 from dfirtrack_artifacts.models import (
@@ -59,6 +60,14 @@ class ArtifactForm(forms.ModelForm):
         required=False,
     )
 
+    # reorder field choices
+    artifact_assigned_to_user_id = forms.ModelChoiceField(
+        label=gettext_lazy('Assigned to user'),
+        queryset=User.objects.order_by('username'),
+        required=False,
+        empty_label='Select user (optional)',
+    )
+
     class Meta:
 
         # model
@@ -80,6 +89,7 @@ class ArtifactForm(forms.ModelForm):
             'artifact_note_internal',
             'artifact_note_external',
             'artifact_note_analysisresult',
+            'artifact_assigned_to_user_id',
         ]
 
         # non default form labeling

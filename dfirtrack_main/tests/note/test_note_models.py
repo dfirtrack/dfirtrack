@@ -162,6 +162,16 @@ class NoteModelTestCase(TestCase):
         # compare
         self.assertEqual(field_label, 'note modified by user id')
 
+    def test_note_assigned_to_user_id_attribute_label(self):
+        """test attribute label"""
+
+        # get object
+        note_1 = Note.objects.get(note_title='note_1')
+        # get label
+        field_label = note_1._meta.get_field('note_assigned_to_user_id').verbose_name
+        # compare
+        self.assertEqual(field_label, 'note assigned to user id')
+
     def test_note_title_length(self):
         """test for max length"""
 

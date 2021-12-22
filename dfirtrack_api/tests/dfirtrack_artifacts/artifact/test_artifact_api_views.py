@@ -178,6 +178,7 @@ class ArtifactAPIViewTestCase(TestCase):
             "artifact_requested_time": '2021-05-09T10:15',
             "artifact_created_by_user_id": test_user_id,
             "artifact_modified_by_user_id": test_user_id,
+            "artifact_assigned_to_user_id": test_user_id,
         }
         # check for existence of object
         artifact_api_3_none = Artifact.objects.filter(artifact_name='artifact_api_3')
@@ -373,6 +374,7 @@ class ArtifactAPIViewTestCase(TestCase):
             "artifact_requested_time": '2021-05-09T10:35',
             "artifact_created_by_user_id": test_user_id,
             "artifact_modified_by_user_id": test_user_id,
+            "artifact_assigned_to_user_id": test_user_id,
         }
         # get response
         response = self.client.put(
