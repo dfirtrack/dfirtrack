@@ -239,6 +239,27 @@ class SystemCreatorFormTestCase(TestCase):
         # compare
         self.assertEqual(form.fields['case'].label, 'Cases')
 
+    def test_system_creator_assigned_to_user_form_label(self):
+        """test form label"""
+
+        # get object
+        form = SystemCreatorForm()
+        # compare
+        self.assertEqual(
+            form.fields['system_assigned_to_user_id'].label, 'Assigned to user'
+        )
+
+    def test_system_creator_assigned_to_user_form_empty_label(self):
+        """test form label"""
+
+        # get object
+        form = SystemCreatorForm()
+        # compare
+        self.assertEqual(
+            form.fields['system_assigned_to_user_id'].empty_label,
+            'Select user (optional)',
+        )
+
     def test_system_creator_form_empty(self):
         """test minimum form requirements / INVALID"""
 

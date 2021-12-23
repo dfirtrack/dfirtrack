@@ -84,6 +84,20 @@ class ArtifactCreatorFormTestCase(TestCase):
             'Artifacttypes (*) - Will also be set as artifact names',
         )
 
+    def test_artifact_creator_artifact_assigned_to_user_id_form_label(self):
+        """test form label"""
+
+        # get object
+        form = ArtifactCreatorForm()
+        # compare
+        self.assertEqual(
+            form.fields['artifact_assigned_to_user_id'].empty_label,
+            'Select user (optional)',
+        )
+        self.assertEqual(
+            form.fields['artifact_assigned_to_user_id'].label, 'Assigned to user'
+        )
+
     def test_artifact_creator_system_form_label(self):
         """test form label"""
 
@@ -289,6 +303,8 @@ class ArtifactCreatorFormTestCase(TestCase):
     def test_artifact_creator_all_fields_form_filled(self):
         """test additional form content"""
 
+        # get user
+        test_user = User.objects.get(username='testuser_artifact_creator')
         # get object
         artifactpriority_id = Artifactpriority.objects.get(
             artifactpriority_name='prio_1'
@@ -331,6 +347,7 @@ class ArtifactCreatorFormTestCase(TestCase):
                 'artifact_note_external': 'lorem ipsum',
                 'artifact_note_internal': 'lorem ipsum',
                 'artifact_source_path': 'evil.exe',
+                'artifact_assigned_to_user_id': test_user.id,
             }
         )
         # compare

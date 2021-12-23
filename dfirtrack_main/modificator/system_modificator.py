@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django_q.tasks import async_task
@@ -74,6 +75,7 @@ def system_modificator(request):
                 'analysisstatus_choice': 'keep_status',
                 'company_delete': 'keep_not_add',
                 'tag_delete': 'keep_not_add',
+                'assigned_to_user_id_delete': 'keep_existing',
                 'contact_delete': 'keep_existing',
                 'location_delete': 'keep_existing',
                 'serviceprovider_delete': 'keep_existing',
@@ -256,6 +258,18 @@ def system_modificator_async(request_post, request_user):
                 system.systemstatus = systemstatus
 
             """ fk non-model fields """
+
+            # replace / delete, if 'switch_new / Switch to selected item or none' was selected
+            if form['assigned_to_user_id_delete'].value() == 'switch_new':
+
+                # replace, if value was submitted via form
+                if form['system_assigned_to_user_id'].value():
+                    user_id = form['system_assigned_to_user_id'].value()
+                    assigned_to_user_id = User.objects.get(id=user_id)
+                    system.system_assigned_to_user_id = assigned_to_user_id
+                # delete, if form field was empty
+                else:
+                    system.system_assigned_to_user_id = None
 
             # replace / delete, if 'switch_new / Switch to selected item or none' was selected
             if form['contact_delete'].value() == 'switch_new':
