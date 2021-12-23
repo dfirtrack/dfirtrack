@@ -40,6 +40,7 @@ from dfirtrack_main.views import (
     reportitem_views,
     serviceprovider_views,
     system_views,
+    system_toggle_views,
     systemstatus_views,
     systemtype_views,
     systemuser_views,
@@ -522,6 +523,11 @@ urlpatterns = [
         r'system/modificator/',
         system_modificator.system_modificator,
         name='system_modificator',
+    ),
+    path(
+        r'system/<int:pk>/toggle_artifact/',
+        system_toggle_views.ToggleSystemDetailArtifact.as_view(),
+        name='toggle_system_detail_artifact',
     ),
     path(
         r'systemstatus/',

@@ -1557,6 +1557,9 @@ class System(models.Model):
     def get_unset_user_url(self):
         return reverse('system_unset_user', args=(self.pk,))
 
+    def get_toggle_artifact_url(self):
+        return reverse('toggle_system_detail_artifact', args=(self.pk,))
+
 
 class Systemhistory(models.Model):
 

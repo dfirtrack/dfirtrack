@@ -160,6 +160,15 @@ class SystemDetail(LoginRequiredMixin, DetailView):
         # get all workflows
         context['workflows'] = Workflow.objects.all()
 
+        # get config
+        user_config, created = UserConfigModel.objects.get_or_create(
+            user_config_username=self.request.user
+        )
+
+        # visibility
+        if user_config.filter_system_detail_show_artifact:
+            context['show_artifact'] = True
+
         # call logger
         system.logger(str(self.request.user), " SYSTEM_DETAIL_ENTERED")
         return context
