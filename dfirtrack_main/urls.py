@@ -40,7 +40,6 @@ from dfirtrack_main.views import (
     reportitem_views,
     serviceprovider_views,
     system_views,
-    system_toggle_views,
     systemstatus_views,
     systemtype_views,
     systemuser_views,
@@ -49,6 +48,7 @@ from dfirtrack_main.views import (
     taskname_views,
     taskpriority_views,
     taskstatus_views,
+    toggle_views,
 )
 
 urlpatterns = [
@@ -526,7 +526,7 @@ urlpatterns = [
     ),
     path(
         r'system/<int:pk>/toggle_artifact/',
-        system_toggle_views.ToggleSystemDetailArtifact.as_view(),
+        toggle_views.ToggleSystemDetailArtifact.as_view(),
         name='toggle_system_detail_artifact',
     ),
     path(
