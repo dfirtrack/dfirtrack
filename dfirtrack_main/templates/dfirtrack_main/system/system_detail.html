@@ -562,22 +562,7 @@
 <!-- artifacts -->
 <div class="card bg-dark border-light card-body top-distance">
 
-{% if show_artifact%}
-
-    <!-- artifacts  headline -->
-    <div class="row bottom-distance">
-        <div class="col">
-            <h5>
-                <img src="{% static 'dfirtrack_main/icons/bug-light.svg' %}" class="icon right-distance copy-false" alt="icon">
-                Artifacts
-                    <a href="{{ system.get_toggle_artifact_url }}" class="top-distance copy-false">
-                        <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
-                    </a>
-            </h5>
-        </div>
-    </div>
-
-{% else %}
+{% if show_artifact %}
 
     <!-- artifacts  headline -->
     <div class="row bottom-distance">
@@ -669,6 +654,21 @@
             </div>
 
         <!-- add artifact / workflow button row -->
+        </div>
+    </div>
+
+{% else %}
+
+    <!-- artifacts  headline -->
+    <div class="row bottom-distance">
+        <div class="col">
+            <h5>
+                <img src="{% static 'dfirtrack_main/icons/bug-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                Artifacts
+                    <a href="{{ system.get_toggle_artifact_url }}" class="top-distance copy-false">
+                        <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                    </a>
+            </h5>
         </div>
     </div>
 
