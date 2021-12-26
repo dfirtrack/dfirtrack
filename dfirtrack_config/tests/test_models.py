@@ -41,6 +41,35 @@ class ConfigModelTestCase(TestCase):
             'ArtifactExporterSpreadsheetXlsConfig',
         )
 
+    def test_artifact_exporter_spreadsheet_xls_config_model_attribute_labels(self):
+        """test attribute labels"""
+
+        # get object
+        artifact_exporter_spreadsheet_xls_config_model = ArtifactExporterSpreadsheetXlsConfigModel.objects.get(
+            artifact_exporter_spreadsheet_xls_config_name='ArtifactExporterSpreadsheetXlsConfig'
+        )
+        # compare
+        self.assertEqual(artifact_exporter_spreadsheet_xls_config_model._meta.get_field('artifact_exporter_spreadsheet_xls_config_name').verbose_name,'artifact exporter spreadsheet xls config name')
+        self.assertEqual(artifact_exporter_spreadsheet_xls_config_model._meta.get_field('artifactlist_xls_choice_artifactstatus').verbose_name,'artifactlist xls choice artifactstatus')
+        self.assertEqual(artifact_exporter_spreadsheet_xls_config_model._meta.get_field('artifactlist_xls_artifact_id').verbose_name,'artifactlist xls artifact id')
+        self.assertEqual(artifact_exporter_spreadsheet_xls_config_model._meta.get_field('artifactlist_xls_system_id').verbose_name,'artifactlist xls system id')
+        self.assertEqual(artifact_exporter_spreadsheet_xls_config_model._meta.get_field('artifactlist_xls_system_name').verbose_name,'artifactlist xls system name')
+        self.assertEqual(artifact_exporter_spreadsheet_xls_config_model._meta.get_field('artifactlist_xls_artifactstatus').verbose_name,'artifactlist xls artifactstatus')
+        self.assertEqual(artifact_exporter_spreadsheet_xls_config_model._meta.get_field('artifactlist_xls_artifactpriority').verbose_name,'artifactlist xls artifactpriority')
+        self.assertEqual(artifact_exporter_spreadsheet_xls_config_model._meta.get_field('artifactlist_xls_artifacttype').verbose_name,'artifactlist xls artifacttype')
+        self.assertEqual(artifact_exporter_spreadsheet_xls_config_model._meta.get_field('artifactlist_xls_artifact_source_path').verbose_name,'artifactlist xls artifact source path')
+        self.assertEqual(artifact_exporter_spreadsheet_xls_config_model._meta.get_field('artifactlist_xls_artifact_storage_path').verbose_name,'artifactlist xls artifact storage path')
+        self.assertEqual(artifact_exporter_spreadsheet_xls_config_model._meta.get_field('artifactlist_xls_artifact_note_internal').verbose_name,'artifactlist xls artifact note internal')
+        self.assertEqual(artifact_exporter_spreadsheet_xls_config_model._meta.get_field('artifactlist_xls_artifact_note_external').verbose_name,'artifactlist xls artifact note external')
+        self.assertEqual(artifact_exporter_spreadsheet_xls_config_model._meta.get_field('artifactlist_xls_artifact_note_analysisresult').verbose_name,'artifactlist xls artifact note analysisresult')
+        self.assertEqual(artifact_exporter_spreadsheet_xls_config_model._meta.get_field('artifactlist_xls_artifact_md5').verbose_name,'artifactlist xls artifact md5')
+        self.assertEqual(artifact_exporter_spreadsheet_xls_config_model._meta.get_field('artifactlist_xls_artifact_sha1').verbose_name,'artifactlist xls artifact sha1')
+        self.assertEqual(artifact_exporter_spreadsheet_xls_config_model._meta.get_field('artifactlist_xls_artifact_sha256').verbose_name,'artifactlist xls artifact sha256')
+        self.assertEqual(artifact_exporter_spreadsheet_xls_config_model._meta.get_field('artifactlist_xls_artifact_create_time').verbose_name,'artifactlist xls artifact create time')
+        self.assertEqual(artifact_exporter_spreadsheet_xls_config_model._meta.get_field('artifactlist_xls_artifact_modify_time').verbose_name,'artifactlist xls artifact modify time')
+        self.assertEqual(artifact_exporter_spreadsheet_xls_config_model._meta.get_field('artifactlist_xls_worksheet_artifactstatus').verbose_name,'artifactlist xls worksheet artifactstatus')
+        self.assertEqual(artifact_exporter_spreadsheet_xls_config_model._meta.get_field('artifactlist_xls_worksheet_artifacttype').verbose_name,'artifactlist xls worksheet artifacttype')
+
     def test_main_config_model_string(self):
         """test string representation"""
 
@@ -48,6 +77,14 @@ class ConfigModelTestCase(TestCase):
         main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
         # compare
         self.assertEqual(str(main_config_model), 'MainConfig')
+
+    def test_main_config_model_attribute_labels(self):
+        """test attribute labels"""
+
+        # get object
+        main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
+        # compare
+        pass
 
     def test_system_exporter_markdown_config_model_string(self):
         """test string representation"""
