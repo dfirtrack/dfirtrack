@@ -5,15 +5,29 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
 
+from dfirtrack_artifacts.models import (
+    Artifactpriority,
+    Artifactstatus,
+    Artifacttype,
+)
 from dfirtrack_config.models import (
     ArtifactExporterSpreadsheetXlsConfigModel,
     MainConfigModel,
     Statushistory,
+    StatushistoryEntry,
     SystemExporterMarkdownConfigModel,
     SystemExporterSpreadsheetCsvConfigModel,
     SystemExporterSpreadsheetXlsConfigModel,
     SystemImporterFileCsvConfigModel,
     UserConfigModel,
+    Workflow,
+    WorkflowDefaultArtifactAttributes,
+    WorkflowDefaultTasknameAttributes,
+)
+from dfirtrack_main.models import (
+    Taskname,
+    Taskstatus,
+    Taskpriority,
 )
 
 
@@ -27,6 +41,15 @@ class ConfigModelTestCase(TestCase):
         User.objects.create_user(
             username='testuser_config_model', password='4APmzkPrXbUV3p3WV5HN'
         )
+        # create objects
+        Artifactpriority.objects.create(artifactpriority_name='artifactpriority_1')
+        Artifactstatus.objects.create(artifactstatus_name='artifactstatus_1')
+        Artifacttype.objects.create(artifacttype_name='artifacttype_1')
+        # create objects
+        Taskname.objects.create(taskname_name='taskname_1')
+        Taskname.objects.create(taskname_name='taskname_2')
+        Taskpriority.objects.create(taskpriority_name='taskpriority_1')
+        Taskstatus.objects.create(taskstatus_name='taskstatus_1')
 
     def test_artifact_exporter_spreadsheet_xls_config_model_string(self):
         """test string representation"""
@@ -315,8 +338,22 @@ class ConfigModelTestCase(TestCase):
 
             # create object
             statushistory = Statushistory.objects.create()
-            # compare
-            self.assertEqual(str(statushistory), '2020-01-02 03:04')
+
+        # compare
+        self.assertEqual(str(statushistory), '2020-01-02 03:04')
+
+    def test_statushistory_model_absolute_url(self):
+        """test absolute URL"""
+
+        # mock timezone.now()
+        t_3 = datetime(2021, 12, 31, 1, 2, 3, tzinfo=timezone.utc)
+        with patch.object(timezone, 'now', return_value=t_3):
+
+            # create object
+            statushistory = Statushistory.objects.create()
+
+        # compare
+        self.assertEqual(statushistory.get_absolute_url(), f'/config/status/{statushistory.statushistory_id}/')
 
     def test_statushistory_model_labels(self):
         """test attribute labels"""
@@ -327,17 +364,30 @@ class ConfigModelTestCase(TestCase):
 
             # create object
             statushistory = Statushistory.objects.create()
-            self.assertEqual(str(statushistory), '2021-01-02 03:04')
 
-        # get object
-        statushistory_model = (
-            Statushistory.objects.get(
-                statushistory_time=t_2
-            )
+        # compare
+        self.assertEqual(str(statushistory), '2021-01-02 03:04')
+        self.assertEqual(statushistory._meta.get_field('statushistory_id').verbose_name,'statushistory id')
+        self.assertEqual(statushistory._meta.get_field('statushistory_time').verbose_name,'statushistory time')
+
+    def test_statushistory_entry_model_labels(self):
+        """test attribute labels"""
+
+        # create object
+        statushistory = Statushistory.objects.create()
+        # create object
+        statushistory_entry = StatushistoryEntry.objects.create(
+            statushistory=statushistory,
+            statushistoryentry_model_name='statushistoryentry_model_name_1',
+            statushistoryentry_model_key='statushistoryentry_model_key_1',
+            statushistoryentry_model_value=42,
         )
         # compare
-        self.assertEqual(statushistory_model._meta.get_field('statushistory_id').verbose_name,'statushistory id')
-        self.assertEqual(statushistory_model._meta.get_field('statushistory_time').verbose_name,'statushistory time')
+        self.assertEqual(statushistory_entry._meta.get_field('statushistoryentry_id').verbose_name,'statushistoryentry id')
+        self.assertEqual(statushistory_entry._meta.get_field('statushistory').verbose_name,'statushistory')
+        self.assertEqual(statushistory_entry._meta.get_field('statushistoryentry_model_name').verbose_name,'statushistoryentry model name')
+        self.assertEqual(statushistory_entry._meta.get_field('statushistoryentry_model_key').verbose_name,'statushistoryentry model key')
+        self.assertEqual(statushistory_entry._meta.get_field('statushistoryentry_model_value').verbose_name,'statushistoryentry model value')
 
     def test_user_config_model_string(self):
         """test string representation"""
@@ -390,3 +440,149 @@ class ConfigModelTestCase(TestCase):
         self.assertEqual(user_config_model._meta.get_field('filter_system_list_keep').verbose_name,'filter system list keep')
         self.assertEqual(user_config_model._meta.get_field('filter_system_list_case').verbose_name,'filter system list case')
         self.assertEqual(user_config_model._meta.get_field('filter_system_list_tag').verbose_name,'filter system list tag')
+
+    def test_workflow_model_string(self):
+        """test string representation"""
+
+        # get user
+        test_user = User.objects.get(username='testuser_config_model')
+        # create object
+        workflow = Workflow.objects.create(
+            workflow_name='workflow_string',
+            workflow_created_by_user_id=test_user,
+            workflow_modified_by_user_id=test_user,
+        )
+        # compare
+        self.assertEqual(str(workflow),'workflow_string')
+
+    def test_workflow_model_labels(self):
+        """test attribute labels"""
+
+        # get user
+        test_user = User.objects.get(username='testuser_config_model')
+        # create object
+        workflow = Workflow.objects.create(
+            workflow_name='workflow_labels',
+            workflow_created_by_user_id=test_user,
+            workflow_modified_by_user_id=test_user,
+        )
+        # compare
+        self.assertEqual(workflow._meta.get_field('workflow_id').verbose_name,'workflow id')
+        self.assertEqual(workflow._meta.get_field('tasknames').verbose_name,'tasknames')
+        self.assertEqual(workflow._meta.get_field('artifacttypes').verbose_name,'artifacttypes')
+        self.assertEqual(workflow._meta.get_field('workflow_name').verbose_name,'workflow name')
+        self.assertEqual(workflow._meta.get_field('workflow_create_time').verbose_name,'workflow create time')
+        self.assertEqual(workflow._meta.get_field('workflow_modify_time').verbose_name,'workflow modify time')
+        self.assertEqual(workflow._meta.get_field('workflow_created_by_user_id').verbose_name,'workflow created by user id')
+        self.assertEqual(workflow._meta.get_field('workflow_modified_by_user_id').verbose_name,'workflow modified by user id')
+
+    def test_workflow_default_artifact_attributes_model_string(self):
+        """test string representation"""
+
+        # get user
+        test_user = User.objects.get(username='testuser_config_model')
+        # get objects
+        artifactpriority_1 = Artifactpriority.objects.get(artifactpriority_name='artifactpriority_1')
+        artifactstatus_1 = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1')
+        artifacttype_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_1')
+        # create object
+        workflow = Workflow.objects.create(
+            workflow_name='workflow_default_artifact_string',
+            workflow_created_by_user_id=test_user,
+            workflow_modified_by_user_id=test_user,
+        )
+        # create object
+        default_artifact = WorkflowDefaultArtifactAttributes.objects.create(
+            workflow=workflow,
+            artifact_default_priority=artifactpriority_1,
+            artifact_default_status=artifactstatus_1,
+            artifacttype=artifacttype_1,
+            artifact_default_name='artifact_default_name_1',
+        )
+        # compare
+        self.assertEqual(str(default_artifact),'artifact_default_name_1')
+
+    def test_workflow_default_artifact_attributes_model_labels(self):
+        """test attribute labels"""
+
+        # get user
+        test_user = User.objects.get(username='testuser_config_model')
+        # get objects
+        artifactpriority_1 = Artifactpriority.objects.get(artifactpriority_name='artifactpriority_1')
+        artifactstatus_1 = Artifactstatus.objects.get(artifactstatus_name='artifactstatus_1')
+        artifacttype_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_1')
+        # create object
+        workflow = Workflow.objects.create(
+            workflow_name='workflow_default_artifact_labels',
+            workflow_created_by_user_id=test_user,
+            workflow_modified_by_user_id=test_user,
+        )
+        # create object
+        default_artifact = WorkflowDefaultArtifactAttributes.objects.create(
+            workflow=workflow,
+            artifact_default_priority=artifactpriority_1,
+            artifact_default_status=artifactstatus_1,
+            artifacttype=artifacttype_1,
+            artifact_default_name='artifact_default_name_2',
+        )
+        # compare
+        self.assertEqual(default_artifact._meta.get_field('workflow_default_artifactname_id').verbose_name,'workflow default artifactname id')
+        self.assertEqual(default_artifact._meta.get_field('workflow').verbose_name,'workflow')
+        self.assertEqual(default_artifact._meta.get_field('artifact_default_priority').verbose_name,'artifact default priority')
+        self.assertEqual(default_artifact._meta.get_field('artifact_default_status').verbose_name,'artifact default status')
+        self.assertEqual(default_artifact._meta.get_field('artifacttype').verbose_name,'artifacttype')
+        self.assertEqual(default_artifact._meta.get_field('artifact_default_name').verbose_name,'artifact default name')
+
+    def test_workflow_default_taskname_attributes_model_string(self):
+        """test string representation"""
+
+        # get user
+        test_user = User.objects.get(username='testuser_config_model')
+        # get objects
+        taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
+        taskpriority_1 = Taskpriority.objects.get(taskpriority_name='taskpriority_1')
+        taskstatus_1 = Taskstatus.objects.get(taskstatus_name='taskstatus_1')
+        # create object
+        workflow = Workflow.objects.create(
+            workflow_name='workflow_default_taskname_string',
+            workflow_created_by_user_id=test_user,
+            workflow_modified_by_user_id=test_user,
+        )
+        # create object
+        default_taskname = WorkflowDefaultTasknameAttributes.objects.create(
+            workflow=workflow,
+            taskname=taskname_1,
+            task_default_priority=taskpriority_1,
+            task_default_status=taskstatus_1,
+        )
+        # compare
+        self.assertEqual(str(default_taskname),'taskname_1')
+
+    def test_workflow_default_taskname_attributes_model_labels(self):
+        """test attribute labels"""
+
+        # get user
+        test_user = User.objects.get(username='testuser_config_model')
+        # get objects
+        taskname_2 = Taskname.objects.get(taskname_name='taskname_2')
+        taskpriority_1 = Taskpriority.objects.get(taskpriority_name='taskpriority_1')
+        taskstatus_1 = Taskstatus.objects.get(taskstatus_name='taskstatus_1')
+        # create object
+        workflow = Workflow.objects.create(
+            workflow_name='workflow_default_taskname_labels',
+            workflow_created_by_user_id=test_user,
+            workflow_modified_by_user_id=test_user,
+        )
+        # create object
+        default_taskname = WorkflowDefaultTasknameAttributes.objects.create(
+            workflow=workflow,
+            taskname=taskname_2,
+            task_default_priority=taskpriority_1,
+            task_default_status=taskstatus_1,
+        )
+        # compare
+        self.assertEqual(default_taskname._meta.get_field('workflow_default_taskname_id').verbose_name,'workflow default taskname id')
+        self.assertEqual(default_taskname._meta.get_field('workflow').verbose_name,'workflow')
+        self.assertEqual(default_taskname._meta.get_field('taskname').verbose_name,'taskname')
+        self.assertEqual(default_taskname._meta.get_field('task_default_priority').verbose_name,'task default priority')
+        self.assertEqual(default_taskname._meta.get_field('task_default_status').verbose_name,'task default status')
