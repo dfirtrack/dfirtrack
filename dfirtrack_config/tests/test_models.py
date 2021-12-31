@@ -428,6 +428,7 @@ class ConfigModelTestCase(TestCase):
         self.assertEqual(user_config_model._meta.get_field('filter_documentation_list_notestatus').verbose_name,'filter documentation list notestatus')
         self.assertEqual(user_config_model._meta.get_field('filter_documentation_list_tag').verbose_name,'filter documentation list tag')
         self.assertEqual(user_config_model._meta.get_field('filter_system_detail_show_artifact').verbose_name,'filter system detail show artifact')
+        self.assertEqual(user_config_model._meta.get_field('filter_system_detail_show_artifact_closed').verbose_name,'filter system detail show artifact closed')
         self.assertEqual(user_config_model._meta.get_field('filter_system_detail_show_task').verbose_name,'filter system detail show task')
         self.assertEqual(user_config_model._meta.get_field('filter_system_detail_show_task_closed').verbose_name,'filter system detail show task closed')
         self.assertEqual(user_config_model._meta.get_field('filter_system_detail_show_technical_information').verbose_name,'filter system detail show technical information')

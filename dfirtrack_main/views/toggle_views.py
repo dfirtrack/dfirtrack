@@ -21,10 +21,267 @@ class ToggleSystemDetailArtifact(LoginRequiredMixin, DetailView):
         )
 
         # toggle value
-        if user_config.filter_system_detail_show_artifact:
-            user_config.filter_system_detail_show_artifact = False
-        else:
-            user_config.filter_system_detail_show_artifact = True
+        user_config.filter_system_detail_show_artifact = not user_config.filter_system_detail_show_artifact
+
+        # save config
+        user_config.save()
+
+        # get system for return redirect
+        system = self.get_object()
+
+        # redirect
+        return redirect(reverse('system_detail', args=(system.system_id,)))
+
+
+class ToggleSystemDetailArtifactClosed(LoginRequiredMixin, DetailView):
+    """toggle visibility"""
+
+    login_url = '/login'
+    model = System
+
+    def get(self, request, *args, **kwargs):
+
+        # get config
+        user_config, created = UserConfigModel.objects.get_or_create(
+            user_config_username=request.user
+        )
+
+        # toggle value
+        user_config.filter_system_detail_show_artifact_closed = not user_config.filter_system_detail_show_artifact_closed
+
+        # save config
+        user_config.save()
+
+        # get system for return redirect
+        system = self.get_object()
+
+        # redirect
+        return redirect(reverse('system_detail', args=(system.system_id,)))
+
+
+class ToggleSystemDetailTask(LoginRequiredMixin, DetailView):
+    """toggle visibility"""
+
+    login_url = '/login'
+    model = System
+
+    def get(self, request, *args, **kwargs):
+
+        # get config
+        user_config, created = UserConfigModel.objects.get_or_create(
+            user_config_username=request.user
+        )
+
+        # toggle value
+        user_config.filter_system_detail_show_task = not user_config.filter_system_detail_show_task
+
+        # save config
+        user_config.save()
+
+        # get system for return redirect
+        system = self.get_object()
+
+        # redirect
+        return redirect(reverse('system_detail', args=(system.system_id,)))
+
+
+class ToggleSystemDetailTaskClosed(LoginRequiredMixin, DetailView):
+    """toggle visibility"""
+
+    login_url = '/login'
+    model = System
+
+    def get(self, request, *args, **kwargs):
+
+        # get config
+        user_config, created = UserConfigModel.objects.get_or_create(
+            user_config_username=request.user
+        )
+
+        # toggle value
+        user_config.filter_system_detail_show_task_closed = not user_config.filter_system_detail_show_task_closed
+
+        # save config
+        user_config.save()
+
+        # get system for return redirect
+        system = self.get_object()
+
+        # redirect
+        return redirect(reverse('system_detail', args=(system.system_id,)))
+
+
+class ToggleSystemDetailTechnicalInformation(LoginRequiredMixin, DetailView):
+    """toggle visibility"""
+
+    login_url = '/login'
+    model = System
+
+    def get(self, request, *args, **kwargs):
+
+        # get config
+        user_config, created = UserConfigModel.objects.get_or_create(
+            user_config_username=request.user
+        )
+
+        # toggle value
+        user_config.filter_system_detail_show_technical_information = not user_config.filter_system_detail_show_technical_information
+
+        # save config
+        user_config.save()
+
+        # get system for return redirect
+        system = self.get_object()
+
+        # redirect
+        return redirect(reverse('system_detail', args=(system.system_id,)))
+
+
+class ToggleSystemDetailTimeline(LoginRequiredMixin, DetailView):
+    """toggle visibility"""
+
+    login_url = '/login'
+    model = System
+
+    def get(self, request, *args, **kwargs):
+
+        # get config
+        user_config, created = UserConfigModel.objects.get_or_create(
+            user_config_username=request.user
+        )
+
+        # toggle value
+        user_config.filter_system_detail_show_timeline = not user_config.filter_system_detail_show_timeline
+
+        # save config
+        user_config.save()
+
+        # get system for return redirect
+        system = self.get_object()
+
+        # redirect
+        return redirect(reverse('system_detail', args=(system.system_id,)))
+
+
+class ToggleSystemDetailVirtualizationInformation(LoginRequiredMixin, DetailView):
+    """toggle visibility"""
+
+    login_url = '/login'
+    model = System
+
+    def get(self, request, *args, **kwargs):
+
+        # get config
+        user_config, created = UserConfigModel.objects.get_or_create(
+            user_config_username=request.user
+        )
+
+        # toggle value
+        user_config.filter_system_detail_show_virtualization_information = not user_config.filter_system_detail_show_virtualization_information
+
+        # save config
+        user_config.save()
+
+        # get system for return redirect
+        system = self.get_object()
+
+        # redirect
+        return redirect(reverse('system_detail', args=(system.system_id,)))
+
+
+class ToggleSystemDetailCompanyInformation(LoginRequiredMixin, DetailView):
+    """toggle visibility"""
+
+    login_url = '/login'
+    model = System
+
+    def get(self, request, *args, **kwargs):
+
+        # get config
+        user_config, created = UserConfigModel.objects.get_or_create(
+            user_config_username=request.user
+        )
+
+        # toggle value
+        user_config.filter_system_detail_show_company_information = not user_config.filter_system_detail_show_company_information
+
+        # save config
+        user_config.save()
+
+        # get system for return redirect
+        system = self.get_object()
+
+        # redirect
+        return redirect(reverse('system_detail', args=(system.system_id,)))
+
+
+class ToggleSystemDetailSystemuser(LoginRequiredMixin, DetailView):
+    """toggle visibility"""
+
+    login_url = '/login'
+    model = System
+
+    def get(self, request, *args, **kwargs):
+
+        # get config
+        user_config, created = UserConfigModel.objects.get_or_create(
+            user_config_username=request.user
+        )
+
+        # toggle value
+        user_config.filter_system_detail_show_systemuser = not user_config.filter_system_detail_show_systemuser
+
+        # save config
+        user_config.save()
+
+        # get system for return redirect
+        system = self.get_object()
+
+        # redirect
+        return redirect(reverse('system_detail', args=(system.system_id,)))
+
+
+class ToggleSystemDetailAnalystmemo(LoginRequiredMixin, DetailView):
+    """toggle visibility"""
+
+    login_url = '/login'
+    model = System
+
+    def get(self, request, *args, **kwargs):
+
+        # get config
+        user_config, created = UserConfigModel.objects.get_or_create(
+            user_config_username=request.user
+        )
+
+        # toggle value
+        user_config.filter_system_detail_show_analystmemo = not user_config.filter_system_detail_show_analystmemo
+
+        # save config
+        user_config.save()
+
+        # get system for return redirect
+        system = self.get_object()
+
+        # redirect
+        return redirect(reverse('system_detail', args=(system.system_id,)))
+
+
+class ToggleSystemDetailReportitem(LoginRequiredMixin, DetailView):
+    """toggle visibility"""
+
+    login_url = '/login'
+    model = System
+
+    def get(self, request, *args, **kwargs):
+
+        # get config
+        user_config, created = UserConfigModel.objects.get_or_create(
+            user_config_username=request.user
+        )
+
+        # toggle value
+        user_config.filter_system_detail_show_reportitem = not user_config.filter_system_detail_show_reportitem
 
         # save config
         user_config.save()

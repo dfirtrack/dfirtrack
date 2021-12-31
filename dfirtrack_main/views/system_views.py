@@ -144,6 +144,8 @@ class SystemDetail(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         system = self.object
 
+        '''installed apps'''
+
         # set dfirtrack_artifacts for template
         if 'dfirtrack_artifacts' in installed_apps:
             context['dfirtrack_artifacts'] = True
@@ -157,17 +159,30 @@ class SystemDetail(LoginRequiredMixin, DetailView):
         else:
             context['dfirtrack_api'] = False
 
+        '''workflows'''
+
         # get all workflows
         context['workflows'] = Workflow.objects.all()
+
+        '''visibility'''
 
         # get config
         user_config, created = UserConfigModel.objects.get_or_create(
             user_config_username=self.request.user
         )
 
-        # visibility
-        if user_config.filter_system_detail_show_artifact:
-            context['show_artifact'] = True
+        # get visibility values from config and add to context
+        context['show_artifact'] = user_config.filter_system_detail_show_artifact
+        context['show_artifact_closed'] = user_config.filter_system_detail_show_artifact_closed
+        context['show_task'] = user_config.filter_system_detail_show_task
+        context['show_task_closed'] = user_config.filter_system_detail_show_task_closed
+        context['show_technical_information'] = user_config.filter_system_detail_show_technical_information
+        context['show_timeline'] = user_config.filter_system_detail_show_timeline
+        context['show_virtualization_information'] = user_config.filter_system_detail_show_virtualization_information
+        context['show_company_information'] = user_config.filter_system_detail_show_company_information
+        context['show_systemuser'] = user_config.filter_system_detail_show_systemuser
+        context['show_analystmemo'] = user_config.filter_system_detail_show_analystmemo
+        context['show_reportitem'] = user_config.filter_system_detail_show_reportitem
 
         # call logger
         system.logger(str(self.request.user), " SYSTEM_DETAIL_ENTERED")
