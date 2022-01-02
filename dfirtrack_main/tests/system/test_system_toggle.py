@@ -162,6 +162,90 @@ class SystemToggleTestCase(TestCase):
         # compare
         self.assertFalse(response.context['show_artifact'])
 
+    def test_system_detail_artifact_closed_toggle_not_logged_in(self):
+        """test toggle view"""
+
+        # get object
+        system_1 = System.objects.get(system_name='system_1')
+        # create url
+        destination = '/login/?next=' + urllib.parse.quote(f'/system/{system_1.system_id}/toggle_artifact_closed/', safe='')
+        # get response
+        response = self.client.get(f'/system/{system_1.system_id}/toggle_artifact_closed/', follow=True)
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_system_detail_artifact_closed_toggle_logged_in(self):
+        """test toggle view"""
+
+        # login testuser
+        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        # get object
+        system_1 = System.objects.get(system_name='system_1')
+        # create url
+        destination = urllib.parse.quote(f'/system/{system_1.system_id}/#artifact', safe='/#')
+        # get response
+        response = self.client.get(f'/system/{system_1.system_id}/toggle_artifact_closed/')
+        # compare
+        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+
+    def test_system_detail_artifact_closed_toggle_redirect(self):
+        """test toggle view"""
+
+        # login testuser
+        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        # get object
+        system_1 = System.objects.get(system_name='system_1')
+        # create url
+        destination = urllib.parse.quote(f'/system/{system_1.system_id}/toggle_artifact_closed/', safe='/')
+        # get response
+        response = self.client.get(f'/system/{system_1.system_id}/toggle_artifact_closed')
+        # compare
+        self.assertRedirects(response, destination, status_code=301, target_status_code=302)
+
+    def test_system_detail_artifact_closed_toggle_context_true(self):
+        """test toggle view"""
+
+        # login testuser
+        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        # get object
+        system_1 = System.objects.get(system_name='system_1')
+        # get user
+        test_user = User.objects.get(username='testuser_system_toggle')
+        # set toggle flags in user config to false
+        set_user_config_toogle_false(test_user)
+        # get response
+        self.client.get(f'/system/{system_1.system_id}/toggle_artifact_closed/')
+        # get config
+        user_config = UserConfigModel.objects.get(user_config_username=test_user)
+        # compare
+        self.assertTrue(user_config.filter_system_detail_show_artifact_closed)
+        # reload system detail to get response context
+        response = self.client.get(f'/system/{system_1.system_id}/')
+        # compare
+        self.assertTrue(response.context['show_artifact_closed'])
+
+    def test_system_detail_artifact_closed_toggle_context_false(self):
+        """test toggle view"""
+
+        # login testuser
+        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        # get object
+        system_1 = System.objects.get(system_name='system_1')
+        # get user
+        test_user = User.objects.get(username='testuser_system_toggle')
+        # set toggle flags in user config to true
+        set_user_config_toogle_true(test_user)
+        # get response
+        self.client.get(f'/system/{system_1.system_id}/toggle_artifact_closed/')
+        # get config
+        user_config = UserConfigModel.objects.get(user_config_username=test_user)
+        # compare
+        self.assertFalse(user_config.filter_system_detail_show_artifact_closed)
+        # reload system detail to get response context
+        response = self.client.get(f'/system/{system_1.system_id}/')
+        # compare
+        self.assertFalse(response.context['show_artifact_closed'])
+
     def test_system_detail_task_toggle_not_logged_in(self):
         """test toggle view"""
 
