@@ -209,20 +209,13 @@ class AssignmentView(LoginRequiredMixin, FormView):
 
         """visibility"""
 
-        if user_config.filter_assignment_view_show_artifact:
-            context['show_artifact'] = True
-        if user_config.filter_assignment_view_show_case:
-            context['show_case'] = True
-        if user_config.filter_assignment_view_show_note:
-            context['show_note'] = True
-        if user_config.filter_assignment_view_show_reportitem:
-            context['show_reportitem'] = True
-        if user_config.filter_assignment_view_show_system:
-            context['show_system'] = True
-        if user_config.filter_assignment_view_show_tag:
-            context['show_tag'] = True
-        if user_config.filter_assignment_view_show_task:
-            context['show_task'] = True
+        context['show_artifact'] = user_config.filter_assignment_view_show_artifact
+        context['show_case'] = user_config.filter_assignment_view_show_case
+        context['show_note'] = user_config.filter_assignment_view_show_note
+        context['show_reportitem'] = user_config.filter_assignment_view_show_reportitem
+        context['show_system'] = user_config.filter_assignment_view_show_system
+        context['show_tag'] = user_config.filter_assignment_view_show_tag
+        context['show_task'] = user_config.filter_assignment_view_show_task
 
         """epilogue"""
 
