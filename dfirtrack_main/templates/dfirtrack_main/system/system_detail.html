@@ -1243,6 +1243,9 @@
         <div class="col">
             <a href="#analystmemos" data-bs-toggle="collapse">
                 <h5>Analystmemos
+                {% if system.analystmemo_set.all %}
+                    ({{ system.analystmemo_set.all|length }})
+                {% endif %}
                     <a href="{{ system.get_toggle_analystmemo_url }}" class="top-distance copy-false">
                         <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
                     </a>
@@ -1311,6 +1314,9 @@
         <div class="col">
             <a href="#analystmemos" data-bs-toggle="collapse">
                 <h5>Analystmemos
+                {% if system.analystmemo_set.all %}
+                    ({{ system.analystmemo_set.all|length }})
+                {% endif %}
                     <a href="{{ system.get_toggle_analystmemo_url }}" class="top-distance copy-false">
                         <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
                     </a>
@@ -1337,6 +1343,9 @@
         <div class="col">
             <a href="#reportitems" data-bs-toggle="collapse">
                 <h5>Reportitems
+                {% if system.reportitem_set.all %}
+                    ({{ system.reportitem_set.all|length }})
+                {% endif %}
                     <a href="{{ system.get_toggle_reportitem_url }}" class="top-distance copy-false">
                         <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
                     </a>
@@ -1419,6 +1428,9 @@
         <div class="col">
             <a href="#reportitems" data-bs-toggle="collapse">
                 <h5>Reportitems
+                {% if system.reportitem_set.all %}
+                    ({{ system.reportitem_set.all|length }})
+                {% endif %}
                     <a href="{{ system.get_toggle_reportitem_url }}" class="top-distance copy-false">
                         <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
                     </a>
