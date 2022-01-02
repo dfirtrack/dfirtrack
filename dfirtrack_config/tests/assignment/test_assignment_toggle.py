@@ -82,7 +82,7 @@ class AssignmentToggleTestCase(TestCase):
             username='testuser_assignment_toggle', password='KAeyjTTJP7DzWKpdhKla'
         )
         # create url
-        destination = urllib.parse.quote('/config/assignment/', safe='/')
+        destination = urllib.parse.quote('/config/assignment/#artifact', safe='/#')
         # get response
         response = self.client.get('/config/assignment/toggle_artifact/')
         # compare
@@ -168,7 +168,7 @@ class AssignmentToggleTestCase(TestCase):
             username='testuser_assignment_toggle', password='KAeyjTTJP7DzWKpdhKla'
         )
         # create url
-        destination = urllib.parse.quote('/config/assignment/', safe='/')
+        destination = urllib.parse.quote('/config/assignment/#case', safe='/#')
         # get response
         response = self.client.get('/config/assignment/toggle_case/')
         # compare
@@ -252,7 +252,7 @@ class AssignmentToggleTestCase(TestCase):
             username='testuser_assignment_toggle', password='KAeyjTTJP7DzWKpdhKla'
         )
         # create url
-        destination = urllib.parse.quote('/config/assignment/', safe='/')
+        destination = urllib.parse.quote('/config/assignment/#note', safe='/#')
         # get response
         response = self.client.get('/config/assignment/toggle_note/')
         # compare
@@ -336,7 +336,7 @@ class AssignmentToggleTestCase(TestCase):
             username='testuser_assignment_toggle', password='KAeyjTTJP7DzWKpdhKla'
         )
         # create url
-        destination = urllib.parse.quote('/config/assignment/', safe='/')
+        destination = urllib.parse.quote('/config/assignment/#reportitem', safe='/#')
         # get response
         response = self.client.get('/config/assignment/toggle_reportitem/')
         # compare
@@ -422,7 +422,7 @@ class AssignmentToggleTestCase(TestCase):
             username='testuser_assignment_toggle', password='KAeyjTTJP7DzWKpdhKla'
         )
         # create url
-        destination = urllib.parse.quote('/config/assignment/', safe='/')
+        destination = urllib.parse.quote('/config/assignment/#system', safe='/#')
         # get response
         response = self.client.get('/config/assignment/toggle_system/')
         # compare
@@ -506,7 +506,7 @@ class AssignmentToggleTestCase(TestCase):
             username='testuser_assignment_toggle', password='KAeyjTTJP7DzWKpdhKla'
         )
         # create url
-        destination = urllib.parse.quote('/config/assignment/', safe='/')
+        destination = urllib.parse.quote('/config/assignment/#tag', safe='/#')
         # get response
         response = self.client.get('/config/assignment/toggle_tag/')
         # compare
@@ -590,7 +590,7 @@ class AssignmentToggleTestCase(TestCase):
             username='testuser_assignment_toggle', password='KAeyjTTJP7DzWKpdhKla'
         )
         # create url
-        destination = urllib.parse.quote('/config/assignment/', safe='/')
+        destination = urllib.parse.quote('/config/assignment/#task', safe='/#')
         # get response
         response = self.client.get('/config/assignment/toggle_task/')
         # compare

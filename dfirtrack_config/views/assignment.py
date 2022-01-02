@@ -319,7 +319,7 @@ def toggle_assignment_view_artifact(request):
     user_config.save()
 
     # return to assignment view
-    return redirect(reverse('assignment'))
+    return redirect(reverse('assignment') + '#artifact')
 
 
 @login_required(login_url="/login")
@@ -338,7 +338,7 @@ def toggle_assignment_view_case(request):
     user_config.save()
 
     # return to assignment view
-    return redirect(reverse('assignment'))
+    return redirect(reverse('assignment') + '#case')
 
 
 @login_required(login_url="/login")
@@ -357,7 +357,7 @@ def toggle_assignment_view_note(request):
     user_config.save()
 
     # return to assignment view
-    return redirect(reverse('assignment'))
+    return redirect(reverse('assignment') + '#note')
 
 
 @login_required(login_url="/login")
@@ -376,7 +376,7 @@ def toggle_assignment_view_reportitem(request):
     user_config.save()
 
     # return to assignment view
-    return redirect(reverse('assignment'))
+    return redirect(reverse('assignment') + '#reportitem')
 
 
 @login_required(login_url="/login")
@@ -395,7 +395,7 @@ def toggle_assignment_view_system(request):
     user_config.save()
 
     # return to assignment view
-    return redirect(reverse('assignment'))
+    return redirect(reverse('assignment') + '#system')
 
 
 @login_required(login_url="/login")
@@ -414,7 +414,7 @@ def toggle_assignment_view_tag(request):
     user_config.save()
 
     # return to assignment view
-    return redirect(reverse('assignment'))
+    return redirect(reverse('assignment') + '#tag')
 
 
 @login_required(login_url="/login")
@@ -433,4 +433,4 @@ def toggle_assignment_view_task(request):
     user_config.save()
 
     # return to assignment view
-    return redirect(reverse('assignment'))
+    return redirect(reverse('assignment') + '#task')
