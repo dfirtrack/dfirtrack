@@ -209,3 +209,19 @@ class NoteModelTestCase(TestCase):
 
         # check
         self.assertFalse(note_1.note_is_abandoned)
+
+    def test_note_get_set_user_url(self):
+        """test URL method"""
+
+        # get object
+        note_1 = Note.objects.get(note_title='note_1')
+        # compare
+        self.assertEqual(note_1.get_set_user_url(), f'/note/{note_1.note_id}/set_user/')
+
+    def test_note_get_unset_user_url(self):
+        """test URL method"""
+
+        # get object
+        note_1 = Note.objects.get(note_title='note_1')
+        # compare
+        self.assertEqual(note_1.get_unset_user_url(), f'/note/{note_1.note_id}/unset_user/')

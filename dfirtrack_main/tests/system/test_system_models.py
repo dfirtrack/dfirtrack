@@ -368,3 +368,19 @@ class SystemModelTestCase(TestCase):
         max_length = system_1._meta.get_field('system_name').max_length
         # compare
         self.assertEqual(max_length, 255)
+
+    def test_system_get_set_user_url(self):
+        """test URL method"""
+
+        # get object
+        system_1 = System.objects.get(system_name='system_1')
+        # compare
+        self.assertEqual(system_1.get_set_user_url(), f'/system/{system_1.system_id}/set_user/')
+
+    def test_system_get_unset_user_url(self):
+        """test URL method"""
+
+        # get object
+        system_1 = System.objects.get(system_name='system_1')
+        # compare
+        self.assertEqual(system_1.get_unset_user_url(), f'/system/{system_1.system_id}/unset_user/')

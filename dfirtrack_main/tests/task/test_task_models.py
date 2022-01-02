@@ -461,3 +461,23 @@ class TaskModelTestCase(TestCase):
         # compare
         self.assertEqual(task_times.task_started_time, None)
         self.assertEqual(task_times.task_finished_time, None)
+
+    def test_task_get_set_user_url(self):
+        """test URL method"""
+
+        # get object
+        taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
+        # get object
+        task_1 = Task.objects.get(taskname=taskname_1)
+        # compare
+        self.assertEqual(task_1.get_set_user_url(), f'/task/{task_1.task_id}/set_user/')
+
+    def test_task_get_unset_user_url(self):
+        """test URL method"""
+
+        # get object
+        taskname_1 = Taskname.objects.get(taskname_name='taskname_1')
+        # get object
+        task_1 = Task.objects.get(taskname=taskname_1)
+        # compare
+        self.assertEqual(task_1.get_unset_user_url(), f'/task/{task_1.task_id}/unset_user/')

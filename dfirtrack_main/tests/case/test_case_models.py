@@ -229,3 +229,19 @@ class CaseModelTestCase(TestCase):
         max_length = case_1._meta.get_field('case_id_external').max_length
         # compare
         self.assertEqual(max_length, 255)
+
+    def test_case_get_set_user_url(self):
+        """test URL method"""
+
+        # get object
+        case_1 = Case.objects.get(case_name='case_1')
+        # compare
+        self.assertEqual(case_1.get_set_user_url(), f'/case/{case_1.case_id}/set_user/')
+
+    def test_case_get_unset_user_url(self):
+        """test URL method"""
+
+        # get object
+        case_1 = Case.objects.get(case_name='case_1')
+        # compare
+        self.assertEqual(case_1.get_unset_user_url(), f'/case/{case_1.case_id}/unset_user/')
