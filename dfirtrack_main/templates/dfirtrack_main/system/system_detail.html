@@ -493,18 +493,19 @@
     <!-- add task / workflow button row -->
     </div>
 
-    <!-- closed tasks headline -->
-    <div class="row font-weight-bold bottom-distance">
-        <div class="col-3">
-            <a href="#closed_tasks" data-bs-toggle="collapse" class="copy-true">
-                Closed tasks
-                <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon-sm copy-false left-distance" alt="icon">
-            </a>
-        </div>
-    </div>
+    {% if show_task_closed %}
 
-    <!-- closed tasks collapse -->
-    <div id="closed_tasks" class="collapse">
+        <!-- closed tasks headline -->
+        <div class="row font-weight-bold bottom-distance">
+            <div class="col-3">
+                <a href="#closed_tasks" data-bs-toggle="collapse" class="copy-true">
+                    Closed tasks
+                        <a href="{{ system.get_toggle_task_closed_url }}" class="top-distance copy-false">
+                            <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                        </a>
+                </a>
+            </div>
+        </div>
 
         <!-- closed tasks datatable -->
         <table id="table_task_reduced_closed" class="display" width="100%">
@@ -553,8 +554,21 @@
         <!-- closed tasks datatable -->
         </table>
 
-    <!-- closed tasks collapse -->
-    </div>
+    {% else %}
+
+        <!-- closed tasks headline -->
+        <div class="row font-weight-bold bottom-distance">
+            <div class="col-3">
+                <a href="#closed_tasks" data-bs-toggle="collapse" class="copy-true">
+                    Closed tasks
+                        <a href="{{ system.get_toggle_task_closed_url }}" class="top-distance copy-false">
+                            <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                        </a>
+                </a>
+            </div>
+        </div>
+
+    {% endif %}
 
 {% else %}
 
