@@ -30,7 +30,7 @@ class ToggleSystemDetailArtifact(LoginRequiredMixin, DetailView):
         system = self.get_object()
 
         # redirect
-        return redirect(reverse('system_detail', args=(system.system_id,)))
+        return redirect(reverse('system_detail', args=(system.system_id,)) + '#artifact')
 
 
 class ToggleSystemDetailArtifactClosed(LoginRequiredMixin, DetailView):
@@ -56,7 +56,7 @@ class ToggleSystemDetailArtifactClosed(LoginRequiredMixin, DetailView):
         system = self.get_object()
 
         # redirect
-        return redirect(reverse('system_detail', args=(system.system_id,)))
+        return redirect(reverse('system_detail', args=(system.system_id,)) + '#artifact')
 
 
 class ToggleSystemDetailTask(LoginRequiredMixin, DetailView):
@@ -82,7 +82,7 @@ class ToggleSystemDetailTask(LoginRequiredMixin, DetailView):
         system = self.get_object()
 
         # redirect
-        return redirect(reverse('system_detail', args=(system.system_id,)))
+        return redirect(reverse('system_detail', args=(system.system_id,)) + '#task')
 
 
 class ToggleSystemDetailTaskClosed(LoginRequiredMixin, DetailView):
@@ -108,7 +108,7 @@ class ToggleSystemDetailTaskClosed(LoginRequiredMixin, DetailView):
         system = self.get_object()
 
         # redirect
-        return redirect(reverse('system_detail', args=(system.system_id,)))
+        return redirect(reverse('system_detail', args=(system.system_id,)) + '#task')
 
 
 class ToggleSystemDetailTechnicalInformation(LoginRequiredMixin, DetailView):
@@ -134,7 +134,7 @@ class ToggleSystemDetailTechnicalInformation(LoginRequiredMixin, DetailView):
         system = self.get_object()
 
         # redirect
-        return redirect(reverse('system_detail', args=(system.system_id,)))
+        return redirect(reverse('system_detail', args=(system.system_id,)) + '#technical_information')
 
 
 class ToggleSystemDetailTimeline(LoginRequiredMixin, DetailView):
@@ -160,7 +160,7 @@ class ToggleSystemDetailTimeline(LoginRequiredMixin, DetailView):
         system = self.get_object()
 
         # redirect
-        return redirect(reverse('system_detail', args=(system.system_id,)))
+        return redirect(reverse('system_detail', args=(system.system_id,)) + '#timeline')
 
 
 class ToggleSystemDetailVirtualizationInformation(LoginRequiredMixin, DetailView):
@@ -186,7 +186,7 @@ class ToggleSystemDetailVirtualizationInformation(LoginRequiredMixin, DetailView
         system = self.get_object()
 
         # redirect
-        return redirect(reverse('system_detail', args=(system.system_id,)))
+        return redirect(reverse('system_detail', args=(system.system_id,)) + '#virtualization_information')
 
 
 class ToggleSystemDetailCompanyInformation(LoginRequiredMixin, DetailView):
@@ -212,7 +212,7 @@ class ToggleSystemDetailCompanyInformation(LoginRequiredMixin, DetailView):
         system = self.get_object()
 
         # redirect
-        return redirect(reverse('system_detail', args=(system.system_id,)))
+        return redirect(reverse('system_detail', args=(system.system_id,)) + '#company_information')
 
 
 class ToggleSystemDetailSystemuser(LoginRequiredMixin, DetailView):
@@ -238,7 +238,7 @@ class ToggleSystemDetailSystemuser(LoginRequiredMixin, DetailView):
         system = self.get_object()
 
         # redirect
-        return redirect(reverse('system_detail', args=(system.system_id,)))
+        return redirect(reverse('system_detail', args=(system.system_id,)) + '#systemuser')
 
 
 class ToggleSystemDetailAnalystmemo(LoginRequiredMixin, DetailView):
@@ -264,7 +264,7 @@ class ToggleSystemDetailAnalystmemo(LoginRequiredMixin, DetailView):
         system = self.get_object()
 
         # redirect
-        return redirect(reverse('system_detail', args=(system.system_id,)))
+        return redirect(reverse('system_detail', args=(system.system_id,)) + '#analystmemo')
 
 
 class ToggleSystemDetailReportitem(LoginRequiredMixin, DetailView):
@@ -290,4 +290,4 @@ class ToggleSystemDetailReportitem(LoginRequiredMixin, DetailView):
         system = self.get_object()
 
         # redirect
-        return redirect(reverse('system_detail', args=(system.system_id,)))
+        return redirect(reverse('system_detail', args=(system.system_id,)) + '#reportitem')

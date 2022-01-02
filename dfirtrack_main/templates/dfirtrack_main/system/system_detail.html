@@ -380,12 +380,12 @@
     <!-- tasks information headline -->
     <div class="row">
         <div class="col">
-            <h5>
+            <h5 id="task">
                 <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                 Tasks
-                    <a href="{{ system.get_toggle_task_url }}" class="top-distance copy-false">
-                        <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
-                    </a>
+                <a href="{{ system.get_toggle_task_url }}" class="top-distance copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                </a>
             </h5>
         </div>
     </div>
@@ -498,11 +498,9 @@
         <!-- closed tasks headline -->
         <div class="row font-weight-bold bottom-distance">
             <div class="col-3">
-                <a href="#closed_tasks" data-bs-toggle="collapse" class="copy-true">
-                    Closed tasks
-                        <a href="{{ system.get_toggle_task_closed_url }}" class="top-distance copy-false">
-                            <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
-                        </a>
+                Closed tasks
+                <a href="{{ system.get_toggle_task_closed_url }}" class="top-distance copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
                 </a>
             </div>
         </div>
@@ -559,11 +557,9 @@
         <!-- closed tasks headline -->
         <div class="row font-weight-bold bottom-distance">
             <div class="col-3">
-                <a href="#closed_tasks" data-bs-toggle="collapse" class="copy-true">
-                    Closed tasks
-                        <a href="{{ system.get_toggle_task_closed_url }}" class="top-distance copy-false">
-                            <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
-                        </a>
+                Closed tasks
+                <a href="{{ system.get_toggle_task_closed_url }}" class="top-distance copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
                 </a>
             </div>
         </div>
@@ -575,12 +571,12 @@
     <!-- tasks information headline -->
     <div class="row">
         <div class="col">
-            <h5>
+            <h5 id="task">
                 <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                 Tasks
-                    <a href="{{ system.get_toggle_task_url }}" class="top-distance copy-false">
-                        <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
-                    </a>
+                <a href="{{ system.get_toggle_task_url }}" class="top-distance copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                </a>
             </h5>
         </div>
     </div>
@@ -603,12 +599,12 @@
     <!-- artifacts  headline -->
     <div class="row bottom-distance">
         <div class="col">
-            <h5>
+            <h5 id="artifact">
                 <img src="{% static 'dfirtrack_main/icons/bug-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                 Artifacts
-                    <a href="{{ system.get_toggle_artifact_url }}" class="top-distance copy-false">
-                        <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
-                    </a>
+                <a href="{{ system.get_toggle_artifact_url }}" class="top-distance copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                </a>
             </h5>
         </div>
     </div>
@@ -698,12 +694,12 @@
     <!-- artifacts  headline -->
     <div class="row">
         <div class="col">
-            <h5>
+            <h5 id="artifact">
                 <img src="{% static 'dfirtrack_main/icons/bug-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                 Artifacts
-                    <a href="{{ system.get_toggle_artifact_url }}" class="top-distance copy-false">
-                        <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
-                    </a>
+                <a href="{{ system.get_toggle_artifact_url }}" class="top-distance copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                </a>
             </h5>
         </div>
     </div>
@@ -726,11 +722,11 @@
     <!-- timeline headline -->
     <div class="row bottom-distance">
         <div class="col">
-            <h5>
+            <h5 id="timeline">
                 Timeline
-                    <a href="{{ system.get_toggle_timeline_url }}" class="top-distance copy-false">
-                        <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
-                    </a>
+                <a href="{{ system.get_toggle_timeline_url }}" class="top-distance copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                </a>
             </h5>
         </div>
     </div>
@@ -835,11 +831,11 @@
     <!-- timeline headline -->
     <div class="row">
         <div class="col">
-            <h5>
+            <h5 id="timeline">
                 Timeline
-                    <a href="{{ system.get_toggle_timeline_url }}" class="top-distance copy-false">
-                        <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
-                    </a>
+                <a href="{{ system.get_toggle_timeline_url }}" class="top-distance copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                </a>
             </h5>
         </div>
     </div>
@@ -862,13 +858,12 @@
     <!-- technical information headline -->
     <div class="row">
         <div class="col">
-            <a href="#technical_information" data-bs-toggle="collapse">
-                <h5>Technical information
-                    <a href="{{ system.get_toggle_technical_information_url }}" class="top-distance copy-false">
-                        <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
-                    </a>
-                </h5>
-            </a>
+            <h5 id="technical_information">
+                Technical information
+                <a href="{{ system.get_toggle_technical_information_url }}" class="top-distance copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                </a>
+            </h5>
         </div>
     </div>
 
@@ -982,13 +977,12 @@
     <!-- technical information headline -->
     <div class="row">
         <div class="col">
-            <a href="#technical_information" data-bs-toggle="collapse">
-                <h5>Technical information
-                    <a href="{{ system.get_toggle_technical_information_url }}" class="top-distance copy-false">
-                        <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
-                    </a>
-                </h5>
-            </a>
+            <h5 id="technical_information">
+                Technical information
+                <a href="{{ system.get_toggle_technical_information_url }}" class="top-distance copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                </a>
+            </h5>
         </div>
     </div>
 
@@ -1007,13 +1001,12 @@
     <!-- virtualization headline -->
     <div class="row">
         <div class="col">
-            <a href="#virtualization_information" data-bs-toggle="collapse">
-                <h5>Virtualization information
-                    <a href="{{ system.get_toggle_virtualization_information_url }}" class="top-distance copy-false">
-                        <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
-                    </a>
-                </h5>
-            </a>
+            <h5 id="virtualization_information">
+                Virtualization information
+                <a href="{{ system.get_toggle_virtualization_information_url }}" class="top-distance copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                </a>
+            </h5>
         </div>
     </div>
 
@@ -1051,13 +1044,12 @@
     <!-- virtualization headline -->
     <div class="row">
         <div class="col">
-            <a href="#virtualization_information" data-bs-toggle="collapse">
-                <h5>Virtualization information
-                    <a href="{{ system.get_toggle_virtualization_information_url }}" class="top-distance copy-false">
-                        <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
-                    </a>
-                </h5>
-            </a>
+            <h5 id="virtualization_information">
+                Virtualization information
+                <a href="{{ system.get_toggle_virtualization_information_url }}" class="top-distance copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                </a>
+            </h5>
         </div>
     </div>
 
@@ -1076,13 +1068,12 @@
     <!-- company information headline -->
     <div class="row">
         <div class="col">
-            <a href="#company_information" data-bs-toggle="collapse">
-                <h5>Company information
-                    <a href="{{ system.get_toggle_company_information_url }}" class="top-distance copy-false">
-                        <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
-                    </a>
-                </h5>
-            </a>
+            <h5 id="company_information">
+                Company information
+                <a href="{{ system.get_toggle_company_information_url }}" class="top-distance copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                </a>
+            </h5>
         </div>
     </div>
 
@@ -1159,13 +1150,12 @@
     <!-- company information headline -->
     <div class="row">
         <div class="col">
-            <a href="#company_information" data-bs-toggle="collapse">
-                <h5>Company information
-                    <a href="{{ system.get_toggle_company_information_url }}" class="top-distance copy-false">
-                        <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
-                    </a>
-                </h5>
-            </a>
+            <h5 id="company_information">
+                Company information
+                <a href="{{ system.get_toggle_company_information_url }}" class="top-distance copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                </a>
+            </h5>
         </div>
     </div>
 
@@ -1184,13 +1174,12 @@
     <!-- systemusers headline  -->
     <div class="row">
         <div class="col">
-            <a href="#systemusers" data-bs-toggle="collapse">
-                <h5>Systemusers
-                    <a href="{{ system.get_toggle_systemuser_url }}" class="top-distance copy-false">
-                        <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
-                    </a>
-                </h5>
-            </a>
+            <h5 id="systemuser">
+                Systemusers
+                <a href="{{ system.get_toggle_systemuser_url }}" class="top-distance copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                </a>
+            </h5>
         </div>
     </div>
 
@@ -1230,13 +1219,12 @@
     <!-- systemusers headline  -->
     <div class="row">
         <div class="col">
-            <a href="#systemusers" data-bs-toggle="collapse">
-                <h5>Systemusers
-                    <a href="{{ system.get_toggle_systemuser_url }}" class="top-distance copy-false">
-                        <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
-                    </a>
-                </h5>
-            </a>
+            <h5 id="systemuser">
+                Systemusers
+                <a href="{{ system.get_toggle_systemuser_url }}" class="top-distance copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                </a>
+            </h5>
         </div>
     </div>
 
@@ -1255,16 +1243,15 @@
     <!-- analystmemos headline -->
     <div class="row">
         <div class="col">
-            <a href="#analystmemos" data-bs-toggle="collapse">
-                <h5>Analystmemos
+            <h5 id="analystmemo">
+                Analystmemos
                 {% if system.analystmemo_set.all %}
                     ({{ system.analystmemo_set.all|length }})
                 {% endif %}
-                    <a href="{{ system.get_toggle_analystmemo_url }}" class="top-distance copy-false">
-                        <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
-                    </a>
-                </h5>
-            </a>
+                <a href="{{ system.get_toggle_analystmemo_url }}" class="top-distance copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                </a>
+            </h5>
             <div class="text-muted copy-false">(just notes for information)</div>
         </div>
     </div>
@@ -1326,16 +1313,15 @@
     <!-- analystmemos headline -->
     <div class="row">
         <div class="col">
-            <a href="#analystmemos" data-bs-toggle="collapse">
-                <h5>Analystmemos
+            <h5 id="analystmemo">
+                Analystmemos
                 {% if system.analystmemo_set.all %}
                     ({{ system.analystmemo_set.all|length }})
                 {% endif %}
-                    <a href="{{ system.get_toggle_analystmemo_url }}" class="top-distance copy-false">
-                        <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
-                    </a>
-                </h5>
-            </a>
+                <a href="{{ system.get_toggle_analystmemo_url }}" class="top-distance copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                </a>
+            </h5>
             <div class="text-muted copy-false">(just notes for information)</div>
         </div>
     </div>
@@ -1355,16 +1341,15 @@
     <!-- reportitems headline -->
     <div class="row">
         <div class="col">
-            <a href="#reportitems" data-bs-toggle="collapse">
-                <h5>Reportitems
+            <h5 id="reportitem">
+                Reportitems
                 {% if system.reportitem_set.all %}
                     ({{ system.reportitem_set.all|length }})
                 {% endif %}
-                    <a href="{{ system.get_toggle_reportitem_url }}" class="top-distance copy-false">
-                        <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
-                    </a>
-                </h5>
-            </a>
+                <a href="{{ system.get_toggle_reportitem_url }}" class="top-distance copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                </a>
+            </h5>
             <div class="text-muted copy-false">(will be exported to the systemreport)</div>
         </div>
     </div>
@@ -1440,16 +1425,15 @@
     <!-- reportitems headline -->
     <div class="row">
         <div class="col">
-            <a href="#reportitems" data-bs-toggle="collapse">
-                <h5>Reportitems
+            <h5 id="reportitem">
+                Reportitems
                 {% if system.reportitem_set.all %}
                     ({{ system.reportitem_set.all|length }})
                 {% endif %}
-                    <a href="{{ system.get_toggle_reportitem_url }}" class="top-distance copy-false">
-                        <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
-                    </a>
-                </h5>
-            </a>
+                <a href="{{ system.get_toggle_reportitem_url }}" class="top-distance copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                </a>
+            </h5>
             <div class="text-muted copy-false">(will be exported to the systemreport)</div>
         </div>
     </div>
