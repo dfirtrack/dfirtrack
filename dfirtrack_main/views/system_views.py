@@ -13,7 +13,8 @@ from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, FormView, UpdateView
 
 from dfirtrack.settings import INSTALLED_APPS as installed_apps
-from dfirtrack_artifacts.models import Artifact
+from dfirtrack_artifacts.models import Artifactstatus
+from dfirtrack_artifacts.views.artifact_view import query_artifact
 from dfirtrack_config.models import MainConfigModel, UserConfigModel, Workflow
 from dfirtrack_main.filter_forms import SystemFilterForm
 from dfirtrack_main.forms import SystemForm, SystemNameForm
@@ -144,14 +145,25 @@ class SystemDetail(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         system = self.object
 
-        '''installed apps'''
+        '''artifacts'''
 
-        # set dfirtrack_artifacts for template
-        if 'dfirtrack_artifacts' in installed_apps:
-            context['dfirtrack_artifacts'] = True
-            context['artifacts'] = Artifact.objects.filter(system=system)
-        else:
-            context['dfirtrack_artifacts'] = False
+        # get config
+        main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
+
+        # get all artifactstatus from database
+        artifactstatus_all = Artifactstatus.objects.all()
+
+        # get 'open' artifactstatus from config
+        artifactstatus_open = main_config_model.artifactstatus_open.all()
+        # query artifacts according to subset of artifactstatus open
+        context['artifacts_open'] = query_artifact(artifactstatus_open)
+
+        # get diff between all artifactstatus and open artifactstatu
+        artifactstatus_closed = artifactstatus_all.difference(artifactstatus_open)
+        # query artifacts according to subset of artifactstatus closed
+        context['artifacts_closed'] = query_artifact(artifactstatus_closed)
+
+        '''api'''
 
         # set dfirtrack_api for template
         if 'dfirtrack_api' in installed_apps:

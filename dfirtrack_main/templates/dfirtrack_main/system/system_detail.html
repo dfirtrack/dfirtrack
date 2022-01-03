@@ -588,16 +588,13 @@
 
 <!-- ############################################ -->
 
-<!-- check for artifacts app -->
-{% if dfirtrack_artifacts == True %}
-
 <!-- artifacts -->
 <div class="card bg-dark border-light card-body top-distance">
 
 {% if show_artifact %}
 
     <!-- artifacts  headline -->
-    <div class="row bottom-distance">
+    <div class="row">
         <div class="col">
             <a href="{{ system.get_toggle_artifact_url }}" class="top-distance copy-false">
                 <h5 id="artifact">
@@ -609,8 +606,13 @@
         </div>
     </div>
 
+    <!-- open artifacts headline -->
+    <div class="row font-weight-bold top-distance bottom-distance">
+        <div class="col-3">Open artifacts</div>
+    </div>
+
     <!-- datatable artifacts -->
-    <table id="table_system_artifact" class="display" width="100%">
+    <table id="table_system_artifact_open" class="display" width="100%">
 
         <!-- table head -->
         <thead>
@@ -619,8 +621,8 @@
 
         <!-- table body -->
         <tbody>
-            {% if artifacts %}
-                {% for i in artifacts %}
+            {% if artifacts_open %}
+                {% for i in artifacts_open %}
                     {% include "dfirtrack_artifacts/includes/datatable_tbody_table_artifact_reduced.html" %}
                 {% endfor %}
             {% else %}
@@ -638,11 +640,8 @@
     <!-- datatable artifacts -->
     </table>
 
-    <!-- javascript for datatables -->
-    <script src="{% static 'dfirtrack_artifacts/datatables_artifacts.js' %}"></script>
-
     <!-- add artifact / workflow button row -->
-    <div class="row top-distance">
+    <div class="row bottom-distance top-distance">
         <div class="col btn-group">
 
             <!-- add artifact button -->
@@ -689,6 +688,64 @@
         </div>
     </div>
 
+    {% if show_artifact_closed %}
+
+        <!-- closed artifacts headline -->
+        <div class="row font-weight-bold bottom-distance">
+            <div class="col-3">
+                Closed artifacts
+                <a href="{{ system.get_toggle_artifact_closed_url }}" class="top-distance copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                </a>
+            </div>
+        </div>
+
+        <!-- datatable artifacts -->
+        <table id="table_system_artifact_closed" class="display" width="100%">
+
+            <!-- table head -->
+            <thead>
+                {% include "dfirtrack_artifacts/includes/datatable_thead_table_artifact_reduced.html" %}
+            </thead>
+
+            <!-- table body -->
+            <tbody>
+                {% if artifacts_closed %}
+                    {% for i in artifacts_closed %}
+                        {% include "dfirtrack_artifacts/includes/datatable_tbody_table_artifact_reduced.html" %}
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td>---</td>
+                        <td>---</td>
+                        <td>---</td>
+                        <td>---</td>
+                        <td>---</td>
+                        <td>---</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+
+        <!-- datatable artifacts -->
+        </table>
+
+    {% else %}
+
+        <!-- closed artifacts headline -->
+        <div class="row font-weight-bold bottom-distance">
+            <div class="col-3">
+                Closed artifacts
+                <a href="{{ system.get_toggle_artifact_closed_url }}" class="top-distance copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                </a>
+            </div>
+        </div>
+
+    {% endif %}
+
+    <!-- javascript for datatables -->
+    <script src="{% static 'dfirtrack_artifacts/datatables_artifacts.js' %}"></script>
+
 {% else %}
 
     <!-- artifacts  headline -->
@@ -708,9 +765,6 @@
 
 <!-- artifacts -->
 </div>
-
-<!-- check for artifacts app -->
-{% endif %}
 
 <!-- ############################################ -->
 
