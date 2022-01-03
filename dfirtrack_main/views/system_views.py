@@ -13,13 +13,37 @@ from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, FormView, UpdateView
 
 from dfirtrack.settings import INSTALLED_APPS as installed_apps
-from dfirtrack_artifacts.models import Artifactstatus
-from dfirtrack_artifacts.views.artifact_view import query_artifact
+from dfirtrack_artifacts.models import Artifact, Artifactstatus
 from dfirtrack_config.models import MainConfigModel, UserConfigModel, Workflow
 from dfirtrack_main.filter_forms import SystemFilterForm
 from dfirtrack_main.forms import SystemForm, SystemNameForm
 from dfirtrack_main.logger.default_logger import debug_logger, warning_logger
 from dfirtrack_main.models import Analysisstatus, Case, Ip, System, Systemstatus, Tag
+
+
+def query_artifact(artifactstatus_list, system):
+    """query artifacts with a list of specific artifactstatus"""
+
+    # create empty artifact queryset
+    artifacts_merged = Artifact.objects.none()
+
+    # iterate over artifactstatus objects
+    for artifactstatus in artifactstatus_list:
+
+        # get artifacts with specific artifactstatus
+        artifacts = Artifact.objects.filter(
+            artifactstatus=artifactstatus,
+            system=system,
+        )
+
+        # add artifacts from above query to merge queryset
+        artifacts_merged = artifacts | artifacts_merged
+
+    # sort artifacts by id
+    artifacts_sorted = artifacts_merged.order_by('artifact_id')
+
+    # return sorted artifacts with specific artifactstatus
+    return artifacts_sorted
 
 
 class SystemList(LoginRequiredMixin, FormView):
@@ -156,12 +180,12 @@ class SystemDetail(LoginRequiredMixin, DetailView):
         # get 'open' artifactstatus from config
         artifactstatus_open = main_config_model.artifactstatus_open.all()
         # query artifacts according to subset of artifactstatus open
-        context['artifacts_open'] = query_artifact(artifactstatus_open)
+        context['artifacts_open'] = query_artifact(artifactstatus_open,system=system)
 
         # get diff between all artifactstatus and open artifactstatu
         artifactstatus_closed = artifactstatus_all.difference(artifactstatus_open)
         # query artifacts according to subset of artifactstatus closed
-        context['artifacts_closed'] = query_artifact(artifactstatus_closed)
+        context['artifacts_closed'] = query_artifact(artifactstatus_closed,system=system)
 
         '''api'''
 
