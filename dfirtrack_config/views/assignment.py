@@ -81,7 +81,7 @@ class AssignmentView(LoginRequiredMixin, FormView):
         """
         filter
         even if system filtering takes place in
-        'dfirtrack_main.views.system_views.get_systems_json'
+        'dfirtrack_main.views.json_provider_views.get_systems_json'
         it is currently required for the template 'assignment.html'
         """
 
