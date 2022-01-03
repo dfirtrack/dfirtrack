@@ -177,6 +177,9 @@ class SystemDetail(LoginRequiredMixin, DetailView):
         # get all artifactstatus from database
         artifactstatus_all = Artifactstatus.objects.all()
 
+        # get all artifacts of system for number
+        context['artifacts_all'] = Artifact.objects.filter(system=system)
+
         # get 'open' artifactstatus from config
         artifactstatus_open = main_config_model.artifactstatus_open.all()
         # query artifacts according to subset of artifactstatus open
