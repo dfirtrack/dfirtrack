@@ -20,6 +20,11 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='userconfigmodel',
+            name='filter_system_detail_show_artifact_closed',
+            field=models.BooleanField(default=False),
+        ),
+        migrations.AddField(
+            model_name='userconfigmodel',
             name='filter_system_detail_show_company_information',
             field=models.BooleanField(default=False),
         ),
