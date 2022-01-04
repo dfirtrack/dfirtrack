@@ -82,7 +82,7 @@ class AssignmentToggleTestCase(TestCase):
             username='testuser_assignment_toggle', password='KAeyjTTJP7DzWKpdhKla'
         )
         # create url
-        destination = urllib.parse.quote('/config/assignment/', safe='/')
+        destination = urllib.parse.quote('/config/assignment/#artifact', safe='/#')
         # get response
         response = self.client.get('/config/assignment/toggle_artifact/')
         # compare
@@ -119,13 +119,16 @@ class AssignmentToggleTestCase(TestCase):
         test_user = User.objects.get(username='testuser_assignment_toggle')
         # set toggle flags in user config to false
         set_user_config_toogle_false(test_user)
-
         # get response
         self.client.get('/config/assignment/toggle_artifact/')
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
         self.assertTrue(user_config.filter_assignment_view_show_artifact)
+        # reload assignment view to get response context
+        response = self.client.get('/config/assignment/')
+        # compare
+        self.assertTrue(response.context['show_artifact'])
 
     def test_assignment_view_artifact_toggle_context_false(self):
         """test toggle view"""
@@ -138,13 +141,16 @@ class AssignmentToggleTestCase(TestCase):
         test_user = User.objects.get(username='testuser_assignment_toggle')
         # set toggle flags in user config to true
         set_user_config_toogle_true(test_user)
-
         # get response
         self.client.get('/config/assignment/toggle_artifact/')
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
         self.assertFalse(user_config.filter_assignment_view_show_artifact)
+        # reload assignment view to get response context
+        response = self.client.get('/config/assignment/')
+        # compare
+        self.assertFalse(response.context['show_artifact'])
 
     def test_assignment_view_case_toggle_not_logged_in(self):
         """test toggle view"""
@@ -168,7 +174,7 @@ class AssignmentToggleTestCase(TestCase):
             username='testuser_assignment_toggle', password='KAeyjTTJP7DzWKpdhKla'
         )
         # create url
-        destination = urllib.parse.quote('/config/assignment/', safe='/')
+        destination = urllib.parse.quote('/config/assignment/#case', safe='/#')
         # get response
         response = self.client.get('/config/assignment/toggle_case/')
         # compare
@@ -203,13 +209,16 @@ class AssignmentToggleTestCase(TestCase):
         test_user = User.objects.get(username='testuser_assignment_toggle')
         # set toggle flags in user config to false
         set_user_config_toogle_false(test_user)
-
         # get response
         self.client.get('/config/assignment/toggle_case/')
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
         self.assertTrue(user_config.filter_assignment_view_show_case)
+        # reload assignment view to get response context
+        response = self.client.get('/config/assignment/')
+        # compare
+        self.assertTrue(response.context['show_case'])
 
     def test_assignment_view_case_toggle_context_false(self):
         """test toggle view"""
@@ -222,13 +231,16 @@ class AssignmentToggleTestCase(TestCase):
         test_user = User.objects.get(username='testuser_assignment_toggle')
         # set toggle flags in user config to true
         set_user_config_toogle_true(test_user)
-
         # get response
         self.client.get('/config/assignment/toggle_case/')
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
         self.assertFalse(user_config.filter_assignment_view_show_case)
+        # reload assignment view to get response context
+        response = self.client.get('/config/assignment/')
+        # compare
+        self.assertFalse(response.context['show_case'])
 
     def test_assignment_view_note_toggle_not_logged_in(self):
         """test toggle view"""
@@ -252,7 +264,7 @@ class AssignmentToggleTestCase(TestCase):
             username='testuser_assignment_toggle', password='KAeyjTTJP7DzWKpdhKla'
         )
         # create url
-        destination = urllib.parse.quote('/config/assignment/', safe='/')
+        destination = urllib.parse.quote('/config/assignment/#note', safe='/#')
         # get response
         response = self.client.get('/config/assignment/toggle_note/')
         # compare
@@ -287,13 +299,16 @@ class AssignmentToggleTestCase(TestCase):
         test_user = User.objects.get(username='testuser_assignment_toggle')
         # set toggle flags in user config to false
         set_user_config_toogle_false(test_user)
-
         # get response
         self.client.get('/config/assignment/toggle_note/')
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
         self.assertTrue(user_config.filter_assignment_view_show_note)
+        # reload assignment view to get response context
+        response = self.client.get('/config/assignment/')
+        # compare
+        self.assertTrue(response.context['show_note'])
 
     def test_assignment_view_note_toggle_context_false(self):
         """test toggle view"""
@@ -306,13 +321,16 @@ class AssignmentToggleTestCase(TestCase):
         test_user = User.objects.get(username='testuser_assignment_toggle')
         # set toggle flags in user config to true
         set_user_config_toogle_true(test_user)
-
         # get response
         self.client.get('/config/assignment/toggle_note/')
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
         self.assertFalse(user_config.filter_assignment_view_show_note)
+        # reload assignment view to get response context
+        response = self.client.get('/config/assignment/')
+        # compare
+        self.assertFalse(response.context['show_note'])
 
     def test_assignment_view_reportitem_toggle_not_logged_in(self):
         """test toggle view"""
@@ -336,7 +354,7 @@ class AssignmentToggleTestCase(TestCase):
             username='testuser_assignment_toggle', password='KAeyjTTJP7DzWKpdhKla'
         )
         # create url
-        destination = urllib.parse.quote('/config/assignment/', safe='/')
+        destination = urllib.parse.quote('/config/assignment/#reportitem', safe='/#')
         # get response
         response = self.client.get('/config/assignment/toggle_reportitem/')
         # compare
@@ -373,13 +391,16 @@ class AssignmentToggleTestCase(TestCase):
         test_user = User.objects.get(username='testuser_assignment_toggle')
         # set toggle flags in user config to false
         set_user_config_toogle_false(test_user)
-
         # get response
         self.client.get('/config/assignment/toggle_reportitem/')
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
         self.assertTrue(user_config.filter_assignment_view_show_reportitem)
+        # reload assignment view to get response context
+        response = self.client.get('/config/assignment/')
+        # compare
+        self.assertTrue(response.context['show_reportitem'])
 
     def test_assignment_view_reportitem_toggle_context_false(self):
         """test toggle view"""
@@ -392,13 +413,16 @@ class AssignmentToggleTestCase(TestCase):
         test_user = User.objects.get(username='testuser_assignment_toggle')
         # set toggle flags in user config to true
         set_user_config_toogle_true(test_user)
-
         # get response
         self.client.get('/config/assignment/toggle_reportitem/')
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
         self.assertFalse(user_config.filter_assignment_view_show_reportitem)
+        # reload assignment view to get response context
+        response = self.client.get('/config/assignment/')
+        # compare
+        self.assertFalse(response.context['show_reportitem'])
 
     def test_assignment_view_system_toggle_not_logged_in(self):
         """test toggle view"""
@@ -422,7 +446,7 @@ class AssignmentToggleTestCase(TestCase):
             username='testuser_assignment_toggle', password='KAeyjTTJP7DzWKpdhKla'
         )
         # create url
-        destination = urllib.parse.quote('/config/assignment/', safe='/')
+        destination = urllib.parse.quote('/config/assignment/#system', safe='/#')
         # get response
         response = self.client.get('/config/assignment/toggle_system/')
         # compare
@@ -457,13 +481,16 @@ class AssignmentToggleTestCase(TestCase):
         test_user = User.objects.get(username='testuser_assignment_toggle')
         # set toggle flags in user config to false
         set_user_config_toogle_false(test_user)
-
         # get response
         self.client.get('/config/assignment/toggle_system/')
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
         self.assertTrue(user_config.filter_assignment_view_show_system)
+        # reload assignment view to get response context
+        response = self.client.get('/config/assignment/')
+        # compare
+        self.assertTrue(response.context['show_system'])
 
     def test_assignment_view_system_toggle_context_false(self):
         """test toggle view"""
@@ -476,13 +503,16 @@ class AssignmentToggleTestCase(TestCase):
         test_user = User.objects.get(username='testuser_assignment_toggle')
         # set toggle flags in user config to true
         set_user_config_toogle_true(test_user)
-
         # get response
         self.client.get('/config/assignment/toggle_system/')
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
         self.assertFalse(user_config.filter_assignment_view_show_system)
+        # reload assignment view to get response context
+        response = self.client.get('/config/assignment/')
+        # compare
+        self.assertFalse(response.context['show_system'])
 
     def test_assignment_view_tag_toggle_not_logged_in(self):
         """test toggle view"""
@@ -506,7 +536,7 @@ class AssignmentToggleTestCase(TestCase):
             username='testuser_assignment_toggle', password='KAeyjTTJP7DzWKpdhKla'
         )
         # create url
-        destination = urllib.parse.quote('/config/assignment/', safe='/')
+        destination = urllib.parse.quote('/config/assignment/#tag', safe='/#')
         # get response
         response = self.client.get('/config/assignment/toggle_tag/')
         # compare
@@ -541,13 +571,16 @@ class AssignmentToggleTestCase(TestCase):
         test_user = User.objects.get(username='testuser_assignment_toggle')
         # set toggle flags in user config to false
         set_user_config_toogle_false(test_user)
-
         # get response
         self.client.get('/config/assignment/toggle_tag/')
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
         self.assertTrue(user_config.filter_assignment_view_show_tag)
+        # reload assignment view to get response context
+        response = self.client.get('/config/assignment/')
+        # compare
+        self.assertTrue(response.context['show_tag'])
 
     def test_assignment_view_tag_toggle_context_false(self):
         """test toggle view"""
@@ -560,13 +593,16 @@ class AssignmentToggleTestCase(TestCase):
         test_user = User.objects.get(username='testuser_assignment_toggle')
         # set toggle flags in user config to true
         set_user_config_toogle_true(test_user)
-
         # get response
         self.client.get('/config/assignment/toggle_tag/')
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
         self.assertFalse(user_config.filter_assignment_view_show_tag)
+        # reload assignment view to get response context
+        response = self.client.get('/config/assignment/')
+        # compare
+        self.assertFalse(response.context['show_tag'])
 
     def test_assignment_view_task_toggle_not_logged_in(self):
         """test toggle view"""
@@ -590,7 +626,7 @@ class AssignmentToggleTestCase(TestCase):
             username='testuser_assignment_toggle', password='KAeyjTTJP7DzWKpdhKla'
         )
         # create url
-        destination = urllib.parse.quote('/config/assignment/', safe='/')
+        destination = urllib.parse.quote('/config/assignment/#task', safe='/#')
         # get response
         response = self.client.get('/config/assignment/toggle_task/')
         # compare
@@ -625,13 +661,16 @@ class AssignmentToggleTestCase(TestCase):
         test_user = User.objects.get(username='testuser_assignment_toggle')
         # set toggle flags in user config to false
         set_user_config_toogle_false(test_user)
-
         # get response
         self.client.get('/config/assignment/toggle_task/')
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
         self.assertTrue(user_config.filter_assignment_view_show_task)
+        # reload assignment view to get response context
+        response = self.client.get('/config/assignment/')
+        # compare
+        self.assertTrue(response.context['show_task'])
 
     def test_assignment_view_task_toggle_context_false(self):
         """test toggle view"""
@@ -644,10 +683,13 @@ class AssignmentToggleTestCase(TestCase):
         test_user = User.objects.get(username='testuser_assignment_toggle')
         # set toggle flags in user config to true
         set_user_config_toogle_true(test_user)
-
         # get response
         self.client.get('/config/assignment/toggle_task/')
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
         self.assertFalse(user_config.filter_assignment_view_show_task)
+        # reload assignment view to get response context
+        response = self.client.get('/config/assignment/')
+        # compare
+        self.assertFalse(response.context['show_task'])

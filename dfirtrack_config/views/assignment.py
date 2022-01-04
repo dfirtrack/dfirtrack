@@ -209,20 +209,13 @@ class AssignmentView(LoginRequiredMixin, FormView):
 
         """visibility"""
 
-        if user_config.filter_assignment_view_show_artifact:
-            context['show_artifact'] = True
-        if user_config.filter_assignment_view_show_case:
-            context['show_case'] = True
-        if user_config.filter_assignment_view_show_note:
-            context['show_note'] = True
-        if user_config.filter_assignment_view_show_reportitem:
-            context['show_reportitem'] = True
-        if user_config.filter_assignment_view_show_system:
-            context['show_system'] = True
-        if user_config.filter_assignment_view_show_tag:
-            context['show_tag'] = True
-        if user_config.filter_assignment_view_show_task:
-            context['show_task'] = True
+        context['show_artifact'] = user_config.filter_assignment_view_show_artifact
+        context['show_case'] = user_config.filter_assignment_view_show_case
+        context['show_note'] = user_config.filter_assignment_view_show_note
+        context['show_reportitem'] = user_config.filter_assignment_view_show_reportitem
+        context['show_system'] = user_config.filter_assignment_view_show_system
+        context['show_tag'] = user_config.filter_assignment_view_show_tag
+        context['show_task'] = user_config.filter_assignment_view_show_task
 
         """epilogue"""
 
@@ -313,16 +306,15 @@ def toggle_assignment_view_artifact(request):
     )
 
     # toggle value
-    if user_config.filter_assignment_view_show_artifact:
-        user_config.filter_assignment_view_show_artifact = False
-    else:
-        user_config.filter_assignment_view_show_artifact = True
+    user_config.filter_assignment_view_show_artifact = (
+        not user_config.filter_assignment_view_show_artifact
+    )
 
     # save config
     user_config.save()
 
     # return to assignment view
-    return redirect(reverse('assignment'))
+    return redirect(reverse('assignment') + '#artifact')
 
 
 @login_required(login_url="/login")
@@ -335,16 +327,15 @@ def toggle_assignment_view_case(request):
     )
 
     # toggle value
-    if user_config.filter_assignment_view_show_case:
-        user_config.filter_assignment_view_show_case = False
-    else:
-        user_config.filter_assignment_view_show_case = True
+    user_config.filter_assignment_view_show_case = (
+        not user_config.filter_assignment_view_show_case
+    )
 
     # save config
     user_config.save()
 
     # return to assignment view
-    return redirect(reverse('assignment'))
+    return redirect(reverse('assignment') + '#case')
 
 
 @login_required(login_url="/login")
@@ -357,16 +348,15 @@ def toggle_assignment_view_note(request):
     )
 
     # toggle value
-    if user_config.filter_assignment_view_show_note:
-        user_config.filter_assignment_view_show_note = False
-    else:
-        user_config.filter_assignment_view_show_note = True
+    user_config.filter_assignment_view_show_note = (
+        not user_config.filter_assignment_view_show_note
+    )
 
     # save config
     user_config.save()
 
     # return to assignment view
-    return redirect(reverse('assignment'))
+    return redirect(reverse('assignment') + '#note')
 
 
 @login_required(login_url="/login")
@@ -379,16 +369,15 @@ def toggle_assignment_view_reportitem(request):
     )
 
     # toggle value
-    if user_config.filter_assignment_view_show_reportitem:
-        user_config.filter_assignment_view_show_reportitem = False
-    else:
-        user_config.filter_assignment_view_show_reportitem = True
+    user_config.filter_assignment_view_show_reportitem = (
+        not user_config.filter_assignment_view_show_reportitem
+    )
 
     # save config
     user_config.save()
 
     # return to assignment view
-    return redirect(reverse('assignment'))
+    return redirect(reverse('assignment') + '#reportitem')
 
 
 @login_required(login_url="/login")
@@ -401,16 +390,15 @@ def toggle_assignment_view_system(request):
     )
 
     # toggle value
-    if user_config.filter_assignment_view_show_system:
-        user_config.filter_assignment_view_show_system = False
-    else:
-        user_config.filter_assignment_view_show_system = True
+    user_config.filter_assignment_view_show_system = (
+        not user_config.filter_assignment_view_show_system
+    )
 
     # save config
     user_config.save()
 
     # return to assignment view
-    return redirect(reverse('assignment'))
+    return redirect(reverse('assignment') + '#system')
 
 
 @login_required(login_url="/login")
@@ -423,16 +411,15 @@ def toggle_assignment_view_tag(request):
     )
 
     # toggle value
-    if user_config.filter_assignment_view_show_tag:
-        user_config.filter_assignment_view_show_tag = False
-    else:
-        user_config.filter_assignment_view_show_tag = True
+    user_config.filter_assignment_view_show_tag = (
+        not user_config.filter_assignment_view_show_tag
+    )
 
     # save config
     user_config.save()
 
     # return to assignment view
-    return redirect(reverse('assignment'))
+    return redirect(reverse('assignment') + '#tag')
 
 
 @login_required(login_url="/login")
@@ -445,13 +432,12 @@ def toggle_assignment_view_task(request):
     )
 
     # toggle value
-    if user_config.filter_assignment_view_show_task:
-        user_config.filter_assignment_view_show_task = False
-    else:
-        user_config.filter_assignment_view_show_task = True
+    user_config.filter_assignment_view_show_task = (
+        not user_config.filter_assignment_view_show_task
+    )
 
     # save config
     user_config.save()
 
     # return to assignment view
-    return redirect(reverse('assignment'))
+    return redirect(reverse('assignment') + '#task')

@@ -82,3 +82,19 @@ class TagModelTestCase(TestCase):
         max_length = tag_1._meta.get_field('tag_name').max_length
         # compare
         self.assertEqual(max_length, 255)
+
+    def test_tag_get_set_user_url(self):
+        """test URL method"""
+
+        # get object
+        tag_1 = Tag.objects.get(tag_name='tag_1')
+        # compare
+        self.assertEqual(tag_1.get_set_user_url(), f'/tag/{tag_1.tag_id}/set_user/')
+
+    def test_tag_get_unset_user_url(self):
+        """test URL method"""
+
+        # get object
+        tag_1 = Tag.objects.get(tag_name='tag_1')
+        # compare
+        self.assertEqual(tag_1.get_unset_user_url(), f'/tag/{tag_1.tag_id}/unset_user/')

@@ -607,6 +607,21 @@ class UserConfigModel(models.Model):
         null=True,
     )
 
+    # filter settings - system detail
+    filter_system_detail_show_artifact = models.BooleanField(default=True)
+    filter_system_detail_show_artifact_closed = models.BooleanField(default=False)
+    filter_system_detail_show_task = models.BooleanField(default=True)
+    filter_system_detail_show_task_closed = models.BooleanField(default=False)
+    filter_system_detail_show_technical_information = models.BooleanField(default=False)
+    filter_system_detail_show_timeline = models.BooleanField(default=False)
+    filter_system_detail_show_virtualization_information = models.BooleanField(
+        default=False
+    )
+    filter_system_detail_show_company_information = models.BooleanField(default=False)
+    filter_system_detail_show_systemuser = models.BooleanField(default=False)
+    filter_system_detail_show_analystmemo = models.BooleanField(default=False)
+    filter_system_detail_show_reportitem = models.BooleanField(default=False)
+
     # filter settings - system list
     filter_system_list_keep = models.BooleanField(default=True)
     filter_system_list_case = models.ForeignKey(

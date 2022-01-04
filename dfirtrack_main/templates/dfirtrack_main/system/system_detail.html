@@ -375,13 +375,21 @@
 <!-- tasks information -->
 <div class="card bg-dark border-light card-body top-distance">
 
+{% if show_task %}
+
     <!-- tasks information headline -->
     <div class="row">
         <div class="col">
-            <h5>
-                <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon right-distance copy-false" alt="icon">
-                Tasks
-            </h5>
+            <a href="{{ system.get_toggle_task_url }}" class="top-distance copy-false">
+                <h5 id="task">
+                    <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    Tasks
+                    {% if tasks_all %}
+                        ({{ tasks_all|length }})
+                    {% endif %}
+                    <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                </h5>
+            </a>
         </div>
     </div>
 
@@ -404,16 +412,14 @@
         <tbody>
 
             <!-- open tasks -->
-            {% if system.task_set.all %}
-                {% for i in system.task_set.all %}
-                    {% if i.taskstatus.taskstatus_name == '00_blocked' or i.taskstatus.taskstatus_name == '10_pending' or i.taskstatus.taskstatus_name == '20_working' %}
+            {% if tasks_open %}
+                {% for i in tasks_open %}
 
-                        <!-- table row -->
-                        {% with get_key='system' key_id=system.system_id %}
-                            {% include "dfirtrack_main/includes/datatable_tbody_table_task_reduced_open.html" %}
-                        {% endwith  %}
+                    <!-- table row -->
+                    {% with get_key='system' key_id=system.system_id %}
+                        {% include "dfirtrack_main/includes/datatable_tbody_table_task_reduced_open.html" %}
+                    {% endwith  %}
 
-                    {% endif %}
                 {% endfor %}
 
             <!-- no open tasks -->
@@ -488,18 +494,17 @@
     <!-- add task / workflow button row -->
     </div>
 
-    <!-- closed tasks headline -->
-    <div class="row font-weight-bold bottom-distance">
-        <div class="col-3">
-            <a href="#closed_tasks" data-bs-toggle="collapse" class="copy-true">
-                Closed tasks
-                <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon-sm copy-false left-distance" alt="icon">
-            </a>
-        </div>
-    </div>
+    {% if show_task_closed %}
 
-    <!-- closed tasks collapse -->
-    <div id="closed_tasks" class="collapse">
+        <!-- closed tasks headline -->
+        <div class="row font-weight-bold bottom-distance">
+            <div class="col-3">
+                Closed tasks
+                <a href="{{ system.get_toggle_task_closed_url }}" class="top-distance copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                </a>
+            </div>
+        </div>
 
         <!-- closed tasks datatable -->
         <table id="table_task_reduced_closed" class="display" width="100%">
@@ -515,16 +520,14 @@
             <tbody>
 
                 <!-- closed tasks -->
-                {% if system.task_set.all %}
-                    {% for i in system.task_set.all %}
-                        {% if i.taskstatus.taskstatus_name == '30_done' or i.taskstatus.taskstatus_name == '40_skipped' %}
+                {% if tasks_closed %}
+                    {% for i in tasks_closed %}
 
-                            <!-- table row -->
-                            {% with get_key='system' key_id=system.system_id %}
-                                {% include "dfirtrack_main/includes/datatable_tbody_table_task_reduced_closed.html" %}
-                            {% endwith %}
+                        <!-- table row -->
+                        {% with get_key='system' key_id=system.system_id %}
+                            {% include "dfirtrack_main/includes/datatable_tbody_table_task_reduced_closed.html" %}
+                        {% endwith %}
 
-                        {% endif %}
                     {% endfor %}
                 {% else %}
 
@@ -548,32 +551,73 @@
         <!-- closed tasks datatable -->
         </table>
 
-    <!-- closed tasks collapse -->
+    {% else %}
+
+        <!-- closed tasks headline -->
+        <div class="row font-weight-bold bottom-distance">
+            <div class="col-3">
+                Closed tasks
+                <a href="{{ system.get_toggle_task_closed_url }}" class="top-distance copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                </a>
+            </div>
+        </div>
+
+    {% endif %}
+
+{% else %}
+
+    <!-- tasks information headline -->
+    <div class="row">
+        <div class="col">
+            <a href="{{ system.get_toggle_task_url }}" class="top-distance copy-false">
+                <h5 id="task">
+                    <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    Tasks
+                    {% if tasks_all %}
+                        ({{ tasks_all|length }})
+                    {% endif %}
+                    <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                </h5>
+            </a>
+        </div>
     </div>
+
+{% endif %}
 
 <!-- tasks information -->
 </div>
 
 <!-- ############################################ -->
 
-<!-- check for artifacts app -->
-{% if dfirtrack_artifacts == True %}
-
 <!-- artifacts -->
 <div class="card bg-dark border-light card-body top-distance">
 
+{% if show_artifact %}
+
     <!-- artifacts  headline -->
-    <div class="row bottom-distance">
+    <div class="row">
         <div class="col">
-            <h5>
-                <img src="{% static 'dfirtrack_main/icons/bug-light.svg' %}" class="icon right-distance copy-false" alt="icon">
-                Artifacts
-            </h5>
+            <a href="{{ system.get_toggle_artifact_url }}" class="top-distance copy-false">
+                <h5 id="artifact">
+                    <img src="{% static 'dfirtrack_main/icons/bug-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    Artifacts
+                    {% if artifacts_all %}
+                        ({{ artifacts_all|length }})
+                    {% endif %}
+                    <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                </h5>
+            </a>
         </div>
     </div>
 
+    <!-- open artifacts headline -->
+    <div class="row font-weight-bold top-distance bottom-distance">
+        <div class="col-3">Open artifacts</div>
+    </div>
+
     <!-- datatable artifacts -->
-    <table id="table_system_artifact" class="display" width="100%">
+    <table id="table_system_artifact_open" class="display" width="100%">
 
         <!-- table head -->
         <thead>
@@ -582,8 +626,8 @@
 
         <!-- table body -->
         <tbody>
-            {% if artifacts %}
-                {% for i in artifacts %}
+            {% if artifacts_open %}
+                {% for i in artifacts_open %}
                     {% include "dfirtrack_artifacts/includes/datatable_tbody_table_artifact_reduced.html" %}
                 {% endfor %}
             {% else %}
@@ -600,9 +644,6 @@
 
     <!-- datatable artifacts -->
     </table>
-
-    <!-- javascript for datatables -->
-    <script src="{% static 'dfirtrack_artifacts/datatables_artifacts.js' %}"></script>
 
     <!-- add artifact / workflow button row -->
     <div class="row bottom-distance top-distance">
@@ -652,96 +693,33 @@
         </div>
     </div>
 
-<!-- artifacts -->
-</div>
+    {% if show_artifact_closed %}
 
-<!-- check for artifacts app -->
-{% endif %}
-
-<!-- ############################################ -->
-
-<!-- timeline -->
-<div class="card bg-dark border-light card-body top-distance">
-
-    <!-- timeline headline -->
-    <div class="row bottom-distance">
-        <div class="col">
-            <a href="#timeline" data-bs-toggle="collapse">
-                <h5>Timeline
+        <!-- closed artifacts headline -->
+        <div class="row font-weight-bold bottom-distance">
+            <div class="col-3">
+                Closed artifacts
+                <a href="{{ system.get_toggle_artifact_closed_url }}" class="top-distance copy-false">
                     <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
-                </h5>
-            </a>
+                </a>
+            </div>
         </div>
-    </div>
 
-    <!-- timeline collapse -->
-    <div id="timeline" class="collapse">
-
-        <!-- timeline datatable -->
-        <table id="table_timeline" class="display" width="100%">
+        <!-- datatable artifacts -->
+        <table id="table_system_artifact_closed" class="display" width="100%">
 
             <!-- table head -->
             <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Date</th>
-                    <th>Time (UTC)</th>
-                    <th>System</th>
-                    <th>Type</th>
-                    <th>Content</th>
-                </tr>
+                {% include "dfirtrack_artifacts/includes/datatable_thead_table_artifact_reduced.html" %}
             </thead>
 
             <!-- table body -->
             <tbody>
-
-                <!-- entries -->
-                {% if system.entry_set.all %}
-                    {% for i in system.entry_set.all %}
-
-                        <!-- table row -->
-                        <tr>
-
-                            <!-- entry id -->
-                            <td>
-                                <a href="{{ i.get_absolute_url }}">
-                                    {{ i.entry_id }}
-                                </a>
-                            </td>
-
-                            <!-- entry date -->
-                            <td>
-                                {{ i.entry_date }}
-                            </td>
-
-                            <!-- entry time utc -->
-                            <td>
-                                {{ i.entry_utc }}
-                            </td>
-
-                            <!-- entry system -->
-                            <td>
-                                {{ i.entry_system }}
-                            </td>
-
-                            <!-- entry type -->
-                            <td>
-                                {{ i.entry_type }}
-                            </td>
-
-                            <!-- entry content -->
-                            <td>
-                                {{ i.entry_content }}
-                            </td>
-
-                        </tr>
-
+                {% if artifacts_closed %}
+                    {% for i in artifacts_closed %}
+                        {% include "dfirtrack_artifacts/includes/datatable_tbody_table_artifact_reduced.html" %}
                     {% endfor %}
-
-                <!-- no entries -->
-                {% else%}
-
-                    <!-- table row -->
+                {% else %}
                     <tr>
                         <td>---</td>
                         <td>---</td>
@@ -751,29 +729,180 @@
                         <td>---</td>
                     </tr>
                 {% endif %}
-
-            <!-- table body -->
             </tbody>
 
-        <!-- timeline datatable -->
+        <!-- datatable artifacts -->
         </table>
 
-        <!-- add entry buttons row -->
-        <div class="row">
+    {% else %}
 
-            <!-- add single entry button -->
+        <!-- closed artifacts headline -->
+        <div class="row font-weight-bold bottom-distance">
             <div class="col-3">
-                <a href="{% url 'entry_create' %}?system={{ system.system_id }}" type="button" class="btn btn-light btn-sm top-distance copy-false">
-                    <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                    Add entry
+                Closed artifacts
+                <a href="{{ system.get_toggle_artifact_closed_url }}" class="top-distance copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
                 </a>
             </div>
-
-        <!-- add entry buttons row -->
         </div>
 
-    <!-- timeline collapse -->
+    {% endif %}
+
+    <!-- javascript for datatables -->
+    <script src="{% static 'dfirtrack_artifacts/datatables_artifacts.js' %}"></script>
+
+{% else %}
+
+    <!-- artifacts  headline -->
+    <div class="row">
+        <div class="col">
+            <a href="{{ system.get_toggle_artifact_url }}" class="top-distance copy-false">
+                <h5 id="artifact">
+                    <img src="{% static 'dfirtrack_main/icons/bug-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    Artifacts
+                    {% if artifacts_all %}
+                        ({{ artifacts_all|length }})
+                    {% endif %}
+                    <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                </h5>
+            </a>
+        </div>
     </div>
+
+{% endif %}
+
+<!-- artifacts -->
+</div>
+
+<!-- ############################################ -->
+
+<!-- timeline -->
+<div class="card bg-dark border-light card-body top-distance">
+
+{% if show_timeline %}
+
+    <!-- timeline headline -->
+    <div class="row bottom-distance">
+        <div class="col">
+            <a href="{{ system.get_toggle_timeline_url }}" class="top-distance copy-false">
+                <h5 id="timeline">
+                    Timeline
+                    <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                </h5>
+            </a>
+        </div>
+    </div>
+
+    <!-- timeline datatable -->
+    <table id="table_timeline" class="display" width="100%">
+
+        <!-- table head -->
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Date</th>
+                <th>Time (UTC)</th>
+                <th>System</th>
+                <th>Type</th>
+                <th>Content</th>
+            </tr>
+        </thead>
+
+        <!-- table body -->
+        <tbody>
+
+            <!-- entries -->
+            {% if system.entry_set.all %}
+                {% for i in system.entry_set.all %}
+
+                    <!-- table row -->
+                    <tr>
+
+                        <!-- entry id -->
+                        <td>
+                            <a href="{{ i.get_absolute_url }}">
+                                {{ i.entry_id }}
+                            </a>
+                        </td>
+
+                        <!-- entry date -->
+                        <td>
+                            {{ i.entry_date }}
+                        </td>
+
+                        <!-- entry time utc -->
+                        <td>
+                            {{ i.entry_utc }}
+                        </td>
+
+                        <!-- entry system -->
+                        <td>
+                            {{ i.entry_system }}
+                        </td>
+
+                        <!-- entry type -->
+                        <td>
+                            {{ i.entry_type }}
+                        </td>
+
+                        <!-- entry content -->
+                        <td>
+                            {{ i.entry_content }}
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+            <!-- no entries -->
+            {% else%}
+
+                <!-- table row -->
+                <tr>
+                    <td>---</td>
+                    <td>---</td>
+                    <td>---</td>
+                    <td>---</td>
+                    <td>---</td>
+                    <td>---</td>
+                </tr>
+            {% endif %}
+
+        <!-- table body -->
+        </tbody>
+
+    <!-- timeline datatable -->
+    </table>
+
+    <!-- add entry buttons row -->
+    <div class="row">
+
+        <!-- add single entry button -->
+        <div class="col-3">
+            <a href="{% url 'entry_create' %}?system={{ system.system_id }}" type="button" class="btn btn-light btn-sm top-distance copy-false">
+                <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                Add entry
+            </a>
+        </div>
+
+    <!-- add entry buttons row -->
+    </div>
+
+{% else %}
+
+    <!-- timeline headline -->
+    <div class="row">
+        <div class="col">
+            <a href="{{ system.get_toggle_timeline_url }}" class="top-distance copy-false">
+                <h5 id="timeline">
+                    Timeline
+                    <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                </h5>
+            </a>
+        </div>
+    </div>
+
+{% endif %}
 
 <!-- javascript for datatables -->
 <script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
@@ -786,127 +915,140 @@
 <!-- technical information -->
 <div class="card bg-dark border-light card-body top-distance">
 
+{% if show_technical_information %}
+
     <!-- technical information headline -->
     <div class="row">
         <div class="col">
-            <a href="#technical_information" data-bs-toggle="collapse">
-                <h5>Technical information
+            <a href="{{ system.get_toggle_technical_information_url }}" class="top-distance copy-false">
+                <h5 id="technical_information">
+                    Technical information
                     <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
                 </h5>
             </a>
         </div>
     </div>
 
-    <!-- technical information collapse -->
-    <div id="technical_information" class="collapse">
+    <!-- technical information row -->
+    <div class="row bottom-distance">
 
-        <!-- technical information row -->
-        <div class="row bottom-distance">
-
-            <!-- systemtype -->
-            <div class="col-3">
-                <div class="font-weight-bold">Systemtype</div>
-                {% if system.systemtype %}
-                    <a href="{{ system.systemtype.get_absolute_url }}">
-                        {{ system.systemtype }}
-                    </a>
-                {% else %}
-                    ---
-                {% endif %}
-            </div>
-
-            <!-- IP addresses -->
-            <div class="col-3">
-                <div class="font-weight-bold">IP addresses</div>
-                {% if system.ip.all %}
-                    {% for i in system.ip.all %}
-                        <a href="{{ i.get_absolute_url }}">
-                            {{ i.ip_ip }}<br>
-                        </a>
-                    {% endfor %}
-                {% else %}
-                    ---
-                {% endif %}
-            </div>
-
-            <!-- domain -->
-            <div class="col-3">
-                <div class="font-weight-bold">Domain</div>
-                {% if system.domain %}
-                    <!-- tooltip with domain note -->
-                    <span data-toggle="tooltip" data-placement="auto" title="{{ system.domain.domain_note }}">
-                        <a href="{{ system.domain.get_absolute_url }}">
-                            {{ system.domain.domain_name }}
-                        </a>
-                    </span>
-                {% else %}
-                    ---
-                {% endif %}
-            </div>
-
-            <!-- operating system -->
-            <div class="col-3">
-                <div class="font-weight-bold">Operating system</div>
-                {% if system.os %}
-                    <a href="{{ system.os.get_absolute_url }}">
-                        {{ system.os.os_name }}
-                    </a>
-                {% else %}
-                    ---
-                {% endif %}
-            </div>
-
-        <!-- technical information row -->
+        <!-- systemtype -->
+        <div class="col-3">
+            <div class="font-weight-bold">Systemtype</div>
+            {% if system.systemtype %}
+                <a href="{{ system.systemtype.get_absolute_url }}">
+                    {{ system.systemtype }}
+                </a>
+            {% else %}
+                ---
+            {% endif %}
         </div>
 
-        <!-- technical information row -->
-        <div class="row">
-
-            <!-- installation time -->
-            <div class="col-3">
-                <div class="font-weight-bold">Installation time</div>
-                {% if system.system_install_time %}
-                    {{ system.system_install_time|date:"Y-m-d H:i" }}
-                {% else %}
-                    ---
-                {% endif %}
-            </div>
-
-            <!-- last booted time -->
-            <div class="col-3">
-                <div class="font-weight-bold">Last booted</div>
-                {% if system.system_lastbooted_time %}
-                    {{ system.system_lastbooted_time|date:"Y-m-d H:i" }}
-                {% else %}
-                    ---
-                {% endif %}
-            </div>
-
-            <!-- deprecated time -->
-            <div class="col-3">
-                <div class="font-weight-bold">System is depracted since</div>
-                {% if system.system_deprecated_time %}
-                    {{ system.system_deprecated_time|date:"Y-m-d H:i" }}
-                {% else %}
-                    ---
-                {% endif %}
-            </div>
-
-            <!-- operating system architecture -->
-            <div class="col-3">
-                <div class="font-weight-bold">OS architecture</div>
-                {% if system.osarch %}
-                    {{ system.osarch }}
-                {% else %}
-                    ---
-                {% endif %}
-            </div>
-
-        <!-- technical information row -->
+        <!-- IP addresses -->
+        <div class="col-3">
+            <div class="font-weight-bold">IP addresses</div>
+            {% if system.ip.all %}
+                {% for i in system.ip.all %}
+                    <a href="{{ i.get_absolute_url }}">
+                        {{ i.ip_ip }}<br>
+                    </a>
+                {% endfor %}
+            {% else %}
+                ---
+            {% endif %}
         </div>
 
-    <!-- technical information collapse -->
+        <!-- domain -->
+        <div class="col-3">
+            <div class="font-weight-bold">Domain</div>
+            {% if system.domain %}
+                <!-- tooltip with domain note -->
+                <span data-toggle="tooltip" data-placement="auto" title="{{ system.domain.domain_note }}">
+                    <a href="{{ system.domain.get_absolute_url }}">
+                        {{ system.domain.domain_name }}
+                    </a>
+                </span>
+            {% else %}
+                ---
+            {% endif %}
+        </div>
+
+        <!-- operating system -->
+        <div class="col-3">
+            <div class="font-weight-bold">Operating system</div>
+            {% if system.os %}
+                <a href="{{ system.os.get_absolute_url }}">
+                    {{ system.os.os_name }}
+                </a>
+            {% else %}
+                ---
+            {% endif %}
+        </div>
+
+    <!-- technical information row -->
     </div>
+
+    <!-- technical information row -->
+    <div class="row">
+
+        <!-- installation time -->
+        <div class="col-3">
+            <div class="font-weight-bold">Installation time</div>
+            {% if system.system_install_time %}
+                {{ system.system_install_time|date:"Y-m-d H:i" }}
+            {% else %}
+                ---
+            {% endif %}
+        </div>
+
+        <!-- last booted time -->
+        <div class="col-3">
+            <div class="font-weight-bold">Last booted</div>
+            {% if system.system_lastbooted_time %}
+                {{ system.system_lastbooted_time|date:"Y-m-d H:i" }}
+            {% else %}
+                ---
+            {% endif %}
+        </div>
+
+        <!-- deprecated time -->
+        <div class="col-3">
+            <div class="font-weight-bold">System is depracted since</div>
+            {% if system.system_deprecated_time %}
+                {{ system.system_deprecated_time|date:"Y-m-d H:i" }}
+            {% else %}
+                ---
+            {% endif %}
+        </div>
+
+        <!-- operating system architecture -->
+        <div class="col-3">
+            <div class="font-weight-bold">OS architecture</div>
+            {% if system.osarch %}
+                {{ system.osarch }}
+            {% else %}
+                ---
+            {% endif %}
+        </div>
+
+    <!-- technical information row -->
+    </div>
+
+{% else %}
+
+    <!-- technical information headline -->
+    <div class="row">
+        <div class="col">
+            <a href="{{ system.get_toggle_technical_information_url }}" class="top-distance copy-false">
+                <h5 id="technical_information">
+                    Technical information
+                    <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                </h5>
+            </a>
+        </div>
+    </div>
+
+{% endif %}
 
 <!-- technical information -->
 </div>
@@ -916,51 +1058,64 @@
 <!-- virtualization information -->
 <div class="card bg-dark border-light card-body top-distance">
 
+{% if show_virtualization_information %}
+
     <!-- virtualization headline -->
     <div class="row">
         <div class="col">
-            <a href="#virtualization_information" data-bs-toggle="collapse">
-                <h5>Virtualization information
+            <a href="{{ system.get_toggle_virtualization_information_url }}" class="top-distance copy-false">
+                <h5 id="virtualization_information">
+                    Virtualization information
                     <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
                 </h5>
             </a>
         </div>
     </div>
 
-    <!-- virtualization information collapse -->
-    <div id="virtualization_information" class="collapse">
+    <!-- virtualization information row -->
+    <div class="row">
 
-        <!-- virtualization information row -->
-        <div class="row">
-
-            <!-- virtual machine -->
-            <div class="col-3">
-                <div class="font-weight-bold">System is a VM</div>
-                {% if system.system_is_vm is none %}
-                    Unknown
-                {% else %}
-                    {{ system.system_is_vm }}
-                {% endif %}
-            </div>
-
-            <!-- host system -->
-            <div class="col-3">
-                <div class="font-weight-bold">Host system (hypervisor)</div>
-                {% if system.host_system %}
-                    <a href="{{ system.host_system.get_absolute_url }}" type="button" class="btn btn-primary btn-sm top-distance copy-true">
-                        <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                        {{ system.host_system.system_name }}
-                    </a>
-                {% else %}
-                    ---
-                {% endif %}
-            </div>
-
-        <!-- virtualization information row -->
+        <!-- virtual machine -->
+        <div class="col-3">
+            <div class="font-weight-bold">System is a VM</div>
+            {% if system.system_is_vm is none %}
+                Unknown
+            {% else %}
+                {{ system.system_is_vm }}
+            {% endif %}
         </div>
 
-    <!-- virtualization information collapse -->
+        <!-- host system -->
+        <div class="col-3">
+            <div class="font-weight-bold">Host system (hypervisor)</div>
+            {% if system.host_system %}
+                <a href="{{ system.host_system.get_absolute_url }}" type="button" class="btn btn-primary btn-sm top-distance copy-true">
+                    <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    {{ system.host_system.system_name }}
+                </a>
+            {% else %}
+                ---
+            {% endif %}
+        </div>
+
+    <!-- virtualization information row -->
     </div>
+
+{% else %}
+
+    <!-- virtualization headline -->
+    <div class="row">
+        <div class="col">
+            <a href="{{ system.get_toggle_virtualization_information_url }}" class="top-distance copy-false">
+                <h5 id="virtualization_information">
+                    Virtualization information
+                    <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                </h5>
+            </a>
+        </div>
+    </div>
+
+{% endif %}
 
 <!-- virtualization information -->
 </div>
@@ -970,90 +1125,103 @@
 <!-- company information -->
 <div class="card bg-dark border-light card-body top-distance">
 
+{% if show_company_information %}
+
     <!-- company information headline -->
     <div class="row">
         <div class="col">
-            <a href="#company_information" data-bs-toggle="collapse">
-                <h5>Company information
+            <a href="{{ system.get_toggle_company_information_url }}" class="top-distance copy-false">
+                <h5 id="company_information">
+                    Company information
                     <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
                 </h5>
             </a>
         </div>
     </div>
 
-    <!-- company information collapse -->
-    <div id="company_information" class="collapse">
+    <!-- company information row -->
+    <div class="row">
 
-        <!-- company information row -->
-        <div class="row">
-
-            <!-- company -->
-            <div class="col-3">
-                <div class="font-weight-bold">Companies</div>
-                {% if system.company.all %}
-                    {% for i in system.company.all %}
-                        <!-- tooltip with company note -->
-                        <span data-toggle="tooltip" data-placement="auto" title="{{ i.company_note }}">
-                            <a href="{{ i.get_absolute_url }}">
-                                {{ i.company_name }}<br>
-                            </a>
-                        </span>
-                    {% endfor %}
-                {% else %}
-                    ---
-                {% endif %}
-            </div>
-
-            <!-- location -->
-            <div class="col-3">
-                <div class="font-weight-bold">Location</div>
-                {% if system.location %}
-                    <!-- tooltip with location note -->
-                    <span data-toggle="tooltip" data-placement="auto" title="{{ system.location.location_note }}">
-                        <a href="{{ system.location.get_absolute_url }}">
-                            {{ system.location }}
+        <!-- company -->
+        <div class="col-3">
+            <div class="font-weight-bold">Companies</div>
+            {% if system.company.all %}
+                {% for i in system.company.all %}
+                    <!-- tooltip with company note -->
+                    <span data-toggle="tooltip" data-placement="auto" title="{{ i.company_note }}">
+                        <a href="{{ i.get_absolute_url }}">
+                            {{ i.company_name }}<br>
                         </a>
                     </span>
-                {% else %}
-                    ---
-                {% endif %}
-            </div>
-
-            <!-- serviceprovider -->
-            <div class="col-3">
-                <div class="font-weight-bold">Serviceprovider</div>
-                {% if system.serviceprovider %}
-                    <!-- tooltip with serviceprovider note -->
-                    <span data-toggle="tooltip" data-placement="auto" title="{{ system.serviceprovider.serviceprovider_note }}">
-                        <a href="{{ system.serviceprovider.get_absolute_url }}">
-                            {{ system.serviceprovider }}
-                        </a>
-                    </span>
-                {% else %}
-                    ---
-                {% endif %}
-            </div>
-
-            <!-- contact -->
-            <div class="col-3">
-                <div class="font-weight-bold">Contact</div>
-                {% if system.contact %}
-                    <!-- tooltip with contact note -->
-                    <span data-toggle="tooltip" data-placement="auto" title="{{ system.contact.contact_note }}">
-                        <a href="{{ system.contact.get_absolute_url }}">
-                            {{ system.contact.contact_name }}
-                        </a>
-                    </span>
-                {% else %}
-                    ---
-                {% endif %}
-            </div>
-
-        <!-- company information row -->
+                {% endfor %}
+            {% else %}
+                ---
+            {% endif %}
         </div>
 
-    <!-- company information collapse -->
+        <!-- location -->
+        <div class="col-3">
+            <div class="font-weight-bold">Location</div>
+            {% if system.location %}
+                <!-- tooltip with location note -->
+                <span data-toggle="tooltip" data-placement="auto" title="{{ system.location.location_note }}">
+                    <a href="{{ system.location.get_absolute_url }}">
+                        {{ system.location }}
+                    </a>
+                </span>
+            {% else %}
+                ---
+            {% endif %}
+        </div>
+
+        <!-- serviceprovider -->
+        <div class="col-3">
+            <div class="font-weight-bold">Serviceprovider</div>
+            {% if system.serviceprovider %}
+                <!-- tooltip with serviceprovider note -->
+                <span data-toggle="tooltip" data-placement="auto" title="{{ system.serviceprovider.serviceprovider_note }}">
+                    <a href="{{ system.serviceprovider.get_absolute_url }}">
+                        {{ system.serviceprovider }}
+                    </a>
+                </span>
+            {% else %}
+                ---
+            {% endif %}
+        </div>
+
+        <!-- contact -->
+        <div class="col-3">
+            <div class="font-weight-bold">Contact</div>
+            {% if system.contact %}
+                <!-- tooltip with contact note -->
+                <span data-toggle="tooltip" data-placement="auto" title="{{ system.contact.contact_note }}">
+                    <a href="{{ system.contact.get_absolute_url }}">
+                        {{ system.contact.contact_name }}
+                    </a>
+                </span>
+            {% else %}
+                ---
+            {% endif %}
+        </div>
+
+    <!-- company information row -->
     </div>
+
+{% else %}
+
+    <!-- company information headline -->
+    <div class="row">
+        <div class="col">
+            <a href="{{ system.get_toggle_company_information_url }}" class="top-distance copy-false">
+                <h5 id="company_information">
+                    Company information
+                    <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                </h5>
+            </a>
+        </div>
+    </div>
+
+{% endif %}
 
 <!-- company information -->
 </div>
@@ -1063,53 +1231,66 @@
 <!-- systemusers -->
 <div class="card bg-dark border-light card-body top-distance">
 
+{% if show_systemuser %}
+
     <!-- systemusers headline  -->
     <div class="row">
         <div class="col">
-            <a href="#systemusers" data-bs-toggle="collapse">
-                <h5>Systemusers
+            <a href="{{ system.get_toggle_systemuser_url }}" class="top-distance copy-false">
+                <h5 id="systemuser">
+                    Systemusers
                     <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
                 </h5>
             </a>
         </div>
     </div>
 
-    <!-- systemusers collapse  -->
-    <div id="systemusers" class="collapse">
+    <!-- single row for all systemusers (but linebreaks) -->
+    {% if system.systemuser_set.all %}
 
-        <!-- single row for all systemusers (but linebreaks) -->
-        {% if system.systemuser_set.all %}
+        <!-- systemusers row -->
+        <div class="row top-distance">
 
-            <!-- systemusers row -->
-            <div class="row top-distance">
-
-                <!-- systemusers -->
-                <div class="col">
-                    {% for i in system.systemuser_set.all %}
-                        <img src="{% static 'dfirtrack_main/icons/person-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                        <!-- systemuser admin -->
-                        {% if i.systemuser_is_systemadmin %}
-                            {{ i.systemuser_name }} (Admin)
-                        {% else %}
-                            {{ i.systemuser_name }}
-                        {% endif %}
-                        <!-- systemuser lastlogon time -->
-                        {% if i.systemuser_lastlogon_time %}
-                            ({{ i.systemuser_lastlogon_time|date:"Y-m-d H:i" }})
-                        {% endif %}
-                        <br>
-                    {% endfor %}
-                </div>
-
-            <!-- systemusers row -->
+            <!-- systemusers -->
+            <div class="col">
+                {% for i in system.systemuser_set.all %}
+                    <img src="{% static 'dfirtrack_main/icons/person-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    <!-- systemuser admin -->
+                    {% if i.systemuser_is_systemadmin %}
+                        {{ i.systemuser_name }} (Admin)
+                    {% else %}
+                        {{ i.systemuser_name }}
+                    {% endif %}
+                    <!-- systemuser lastlogon time -->
+                    {% if i.systemuser_lastlogon_time %}
+                        ({{ i.systemuser_lastlogon_time|date:"Y-m-d H:i" }})
+                    {% endif %}
+                    <br>
+                {% endfor %}
             </div>
 
-        {% else %}
-            ---
-        {% endif %}
+        <!-- systemusers row -->
+        </div>
 
-    <!-- systemusers collapse  -->
+    {% else %}
+        ---
+    {% endif %}
+
+{% else %}
+
+    <!-- systemusers headline  -->
+    <div class="row">
+        <div class="col">
+            <a href="{{ system.get_toggle_systemuser_url }}" class="top-distance copy-false">
+                <h5 id="systemuser">
+                    Systemusers
+                    <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                </h5>
+            </a>
+        </div>
     </div>
+
+{% endif %}
 
 <!-- systemusers -->
 </div>
@@ -1119,11 +1300,17 @@
 <!-- analystmemos -->
 <div class="card bg-dark border-light card-body top-distance">
 
+{% if show_analystmemo %}
+
     <!-- analystmemos headline -->
     <div class="row">
         <div class="col">
-            <a href="#analystmemos" data-bs-toggle="collapse">
-                <h5>Analystmemos
+            <a href="{{ system.get_toggle_analystmemo_url }}" class="top-distance copy-false">
+                <h5 id="analystmemo">
+                    Analystmemos
+                    {% if system.analystmemo_set.all %}
+                        ({{ system.analystmemo_set.all|length }})
+                    {% endif %}
                     <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
                 </h5>
             </a>
@@ -1131,63 +1318,77 @@
         </div>
     </div>
 
-    <!-- analystmemos collapse -->
-    <div id="analystmemos" class="collapse">
+    <!-- all analystmemos -->
+    {% if system.analystmemo_set.all %}
+        {% for i in system.analystmemo_set.all %}
 
-        <!-- all analystmemos -->
-        {% if system.analystmemo_set.all %}
-            {% for i in system.analystmemo_set.all %}
+            <!-- single analystmemo -->
+            <div class="card bg-dark border-light card-body top-distance">
 
-                <!-- single analystmemo -->
-                <div class="card bg-dark border-light card-body top-distance">
-
-                    <!-- single analystmemo headline -->
-                    <div class="row">
-                        <div class="col">
-                            <a href="#analystmemo_{{ i.analystmemo_id }}" data-bs-toggle="collapse">
-                                Analystmemo
-                                <span class="text-muted">
-                                    created {{ i.analystmemo_create_time|date:"Y-m-d H:i" }} by {{ i.analystmemo_created_by_user_id }} and last edited {{ i.analystmemo_modify_time|date:"Y-m-d H:i" }} by {{ i.analystmemo_modified_by_user_id }}
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- single analystmemo collapse -->
-                    <div id="analystmemo_{{ i.analystmemo_id }}" class="collapse">
-
-                        <!-- reportitem note with linebreaks -->
-                        {{ i.analystmemo_note|linebreaks }}
-
-                        <!-- analystmemo edit button -->
-                        <a href="{{ i.get_update_url }}" type="button" class="btn btn-light btn-sm copy-false">
-                            <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                            Edit
+                <!-- single analystmemo headline -->
+                <div class="row">
+                    <div class="col">
+                        <a href="#analystmemo_{{ i.analystmemo_id }}" data-bs-toggle="collapse">
+                            Analystmemo
+                            <span class="text-muted">
+                                created {{ i.analystmemo_create_time|date:"Y-m-d H:i" }} by {{ i.analystmemo_created_by_user_id }} and last edited {{ i.analystmemo_modify_time|date:"Y-m-d H:i" }} by {{ i.analystmemo_modified_by_user_id }}
+                            </span>
                         </a>
-
-                    <!-- single analystmemo collapse -->
                     </div>
-
-                <!-- single analystmemo -->
                 </div>
 
-            {% endfor %}
-        {% else %}
-            ---
-        {% endif %}
+                <!-- single analystmemo collapse -->
+                <div id="analystmemo_{{ i.analystmemo_id }}" class="collapse">
 
-        <!-- analystmemo add button -->
-        <div class="row">
-            <div class="col-1">
-                <a href="{% url 'analystmemo_create' %}?system={{ system.system_id }}" type="button" class="btn btn-light btn-sm top-distance copy-false">
-                    <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                    Add analystmemo
-                </a>
+                    <!-- reportitem note with linebreaks -->
+                    {{ i.analystmemo_note|linebreaks }}
+
+                    <!-- analystmemo edit button -->
+                    <a href="{{ i.get_update_url }}" type="button" class="btn btn-light btn-sm copy-false">
+                        <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                        Edit
+                    </a>
+
+                <!-- single analystmemo collapse -->
+                </div>
+
+            <!-- single analystmemo -->
             </div>
-        </div>
 
-    <!-- analystmemos collapse -->
+        {% endfor %}
+    {% else %}
+        ---
+    {% endif %}
+
+    <!-- analystmemo add button -->
+    <div class="row">
+        <div class="col-1">
+            <a href="{% url 'analystmemo_create' %}?system={{ system.system_id }}" type="button" class="btn btn-light btn-sm top-distance copy-false">
+                <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                Add analystmemo
+            </a>
+        </div>
     </div>
+
+{% else %}
+
+    <!-- analystmemos headline -->
+    <div class="row">
+        <div class="col">
+            <a href="{{ system.get_toggle_analystmemo_url }}" class="top-distance copy-false">
+                <h5 id="analystmemo">
+                    Analystmemos
+                    {% if system.analystmemo_set.all %}
+                        ({{ system.analystmemo_set.all|length }})
+                    {% endif %}
+                    <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                </h5>
+            </a>
+            <div class="text-muted copy-false">(just notes for information)</div>
+        </div>
+    </div>
+
+{% endif %}
 
 <!-- analystmemos -->
 </div>
@@ -1197,11 +1398,17 @@
 <!-- reportitems -->
 <div class="card bg-dark border-light card-body top-distance">
 
+{% if show_reportitem %}
+
     <!-- reportitems headline -->
     <div class="row">
         <div class="col">
-            <a href="#reportitems" data-bs-toggle="collapse">
-                <h5>Reportitems
+            <a href="{{ system.get_toggle_reportitem_url }}" class="top-distance copy-false">
+                <h5 id="reportitem">
+                    Reportitems
+                    {% if system.reportitem_set.all %}
+                        ({{ system.reportitem_set.all|length }})
+                    {% endif %}
                     <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
                 </h5>
             </a>
@@ -1209,77 +1416,91 @@
         </div>
     </div>
 
-    <!-- reportitems collapse -->
-    <div id="reportitems" class="collapse">
+    <!-- all reportitems -->
+    {% if system.reportitem_set.all %}
+        {% for i in system.reportitem_set.all %}
 
-        <!-- all reportitems -->
-        {% if system.reportitem_set.all %}
-            {% for i in system.reportitem_set.all %}
+            <!-- single reportitem -->
+            <div class="card bg-dark border-light card-body top-distance">
 
-                <!-- single reportitem -->
-                <div class="card bg-dark border-light card-body top-distance">
+                <!-- single reportitem headline -->
+                <div class="row top-distance">
+                    <div class="col">
+                        <a href="#reportitem_{{ i.reportitem_id }}" data-bs-toggle="collapse">
 
-                    <!-- single reportitem headline -->
-                    <div class="row top-distance">
-                        <div class="col">
-                            <a href="#reportitem_{{ i.reportitem_id }}" data-bs-toggle="collapse">
+                            <!-- with subheadline -->
+                            {% if i.reportitem_subheadline %}
+                                <b>{{ i.headline }} - {{ i.reportitem_subheadline }}</b>
+                                | Reportitem
+                                <span class="text-muted">
+                                    created {{ i.reportitem_create_time|date:"Y-m-d H:i" }} by {{ i.reportitem_created_by_user_id }} and last edited {{ i.reportitem_modify_time|date:"Y-m-d H:i" }} by {{ i.reportitem_modified_by_user_id }}
+                                </span>
 
-                                <!-- with subheadline -->
-                                {% if i.reportitem_subheadline %}
-                                    <b>{{ i.headline }} - {{ i.reportitem_subheadline }}</b>
-                                    | Reportitem
-                                    <span class="text-muted">
-                                        created {{ i.reportitem_create_time|date:"Y-m-d H:i" }} by {{ i.reportitem_created_by_user_id }} and last edited {{ i.reportitem_modify_time|date:"Y-m-d H:i" }} by {{ i.reportitem_modified_by_user_id }}
-                                    </span>
+                            <!-- without subheadline -->
+                            {% else %}
+                                <b>{{ i.headline }}</b>
+                                | Reportitem
+                                <span class="text-muted">
+                                    created {{ i.reportitem_create_time|date:"Y-m-d H:i" }} by {{ i.reportitem_created_by_user_id }} and last edited {{ i.reportitem_modify_time|date:"Y-m-d H:i" }} by {{ i.reportitem_modified_by_user_id }}
+                                </span>
+                            {% endif %}
 
-                                <!-- without subheadline -->
-                                {% else %}
-                                    <b>{{ i.headline }}</b>
-                                    | Reportitem
-                                    <span class="text-muted">
-                                        created {{ i.reportitem_create_time|date:"Y-m-d H:i" }} by {{ i.reportitem_created_by_user_id }} and last edited {{ i.reportitem_modify_time|date:"Y-m-d H:i" }} by {{ i.reportitem_modified_by_user_id }}
-                                    </span>
-                                {% endif %}
-
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- single reportitem collapse -->
-                    <div id="reportitem_{{ i.reportitem_id }}" class="collapse markdown-preview">
-
-                        <!-- reportitem note with linebreaks -->
-                        {{ i.reportitem_note|safe_markdown }}
-
-                        <!-- reportitem edit button -->
-                        <a href="{{ i.get_update_url }}" type="button" class="btn btn-light btn-sm top-distance copy-false">
-                            <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                            Edit
                         </a>
-
-                    <!-- single reportitem collapse -->
                     </div>
-
-                <!-- single reportitem -->
                 </div>
 
-            {% endfor %}
-        {% else %}
-            ---
-        {% endif %}
+                <!-- single reportitem collapse -->
+                <div id="reportitem_{{ i.reportitem_id }}" class="collapse markdown-preview">
 
-        <!-- reportitem add button -->
-        <div class="row">
-            <div class="col-1">
-                <a href="{% url 'reportitem_create' %}?system={{ system.system_id }}" type="button" class="btn btn-light btn-sm top-distance copy-false">
-                    <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                    Add reportitem
-                </a>
+                    <!-- reportitem note with linebreaks -->
+                    {{ i.reportitem_note|safe_markdown }}
+
+                    <!-- reportitem edit button -->
+                    <a href="{{ i.get_update_url }}" type="button" class="btn btn-light btn-sm top-distance copy-false">
+                        <img src="{% static 'dfirtrack_main/icons/pencil.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                        Edit
+                    </a>
+
+                <!-- single reportitem collapse -->
+                </div>
+
+            <!-- single reportitem -->
             </div>
-        </div>
 
-    <!-- reportitems collapse -->
+        {% endfor %}
+    {% else %}
+        ---
+    {% endif %}
+
+    <!-- reportitem add button -->
+    <div class="row">
+        <div class="col-1">
+            <a href="{% url 'reportitem_create' %}?system={{ system.system_id }}" type="button" class="btn btn-light btn-sm top-distance copy-false">
+                <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                Add reportitem
+            </a>
+        </div>
     </div>
+
+{% else %}
+
+    <!-- reportitems headline -->
+    <div class="row">
+        <div class="col">
+            <a href="{{ system.get_toggle_reportitem_url }}" class="top-distance copy-false">
+                <h5 id="reportitem">
+                    Reportitems
+                    {% if system.reportitem_set.all %}
+                        ({{ system.reportitem_set.all|length }})
+                    {% endif %}
+                    <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                </h5>
+            </a>
+            <div class="text-muted copy-false">(will be exported to the systemreport)</div>
+        </div>
+    </div>
+
+{% endif %}
 
 <!-- reportitems -->
 </div>

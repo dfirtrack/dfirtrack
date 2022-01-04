@@ -1557,6 +1557,41 @@ class System(models.Model):
     def get_unset_user_url(self):
         return reverse('system_unset_user', args=(self.pk,))
 
+    def get_toggle_artifact_url(self):
+        return reverse('toggle_system_detail_artifact', args=(self.pk,))
+
+    def get_toggle_artifact_closed_url(self):
+        return reverse('toggle_system_detail_artifact_closed', args=(self.pk,))
+
+    def get_toggle_task_url(self):
+        return reverse('toggle_system_detail_task', args=(self.pk,))
+
+    def get_toggle_task_closed_url(self):
+        return reverse('toggle_system_detail_task_closed', args=(self.pk,))
+
+    def get_toggle_technical_information_url(self):
+        return reverse('toggle_system_detail_technical_information', args=(self.pk,))
+
+    def get_toggle_timeline_url(self):
+        return reverse('toggle_system_detail_timeline', args=(self.pk,))
+
+    def get_toggle_virtualization_information_url(self):
+        return reverse(
+            'toggle_system_detail_virtualization_information', args=(self.pk,)
+        )
+
+    def get_toggle_company_information_url(self):
+        return reverse('toggle_system_detail_company_information', args=(self.pk,))
+
+    def get_toggle_systemuser_url(self):
+        return reverse('toggle_system_detail_systemuser', args=(self.pk,))
+
+    def get_toggle_analystmemo_url(self):
+        return reverse('toggle_system_detail_analystmemo', args=(self.pk,))
+
+    def get_toggle_reportitem_url(self):
+        return reverse('toggle_system_detail_reportitem', args=(self.pk,))
+
 
 class Systemhistory(models.Model):
 

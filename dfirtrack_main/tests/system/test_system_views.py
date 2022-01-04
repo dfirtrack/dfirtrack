@@ -5,11 +5,22 @@ from django.contrib.messages import get_messages
 from django.test import TestCase
 
 from dfirtrack.settings import INSTALLED_APPS as installed_apps
-from dfirtrack_artifacts.models import Artifact
-
-# from dfirtrack_config.models import MainConfigModel
-from dfirtrack_config.models import Workflow
-from dfirtrack_main.models import Ip, System, Systemstatus
+from dfirtrack_artifacts.models import (
+    Artifact,
+    Artifactpriority,
+    Artifactstatus,
+    Artifacttype,
+)
+from dfirtrack_config.models import MainConfigModel, Workflow
+from dfirtrack_main.models import (
+    Ip,
+    System,
+    Systemstatus,
+    Task,
+    Taskname,
+    Taskpriority,
+    Taskstatus,
+)
 
 
 class SystemViewTestCase(TestCase):
@@ -26,9 +37,15 @@ class SystemViewTestCase(TestCase):
         # create object
         systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
 
-        # create object
-        System.objects.create(
+        # create objects
+        system_1 = System.objects.create(
             system_name='system_1',
+            systemstatus=systemstatus_1,
+            system_created_by_user_id=test_user,
+            system_modified_by_user_id=test_user,
+        )
+        system_2 = System.objects.create(
+            system_name='system_2',
             systemstatus=systemstatus_1,
             system_created_by_user_id=test_user,
             system_modified_by_user_id=test_user,
@@ -39,6 +56,186 @@ class SystemViewTestCase(TestCase):
             workflow_name='workflow_1',
             workflow_created_by_user_id=test_user,
             workflow_modified_by_user_id=test_user,
+        )
+
+        # create object
+        artifactpriority_1 = Artifactpriority.objects.create(
+            artifactpriority_name='artifactpriority_1'
+        )
+
+        # create objects
+        artifactstatus_open = Artifactstatus.objects.create(
+            artifactstatus_name='artifactstatus_open'
+        )
+        artifactstatus_closed = Artifactstatus.objects.create(
+            artifactstatus_name='artifactstatus_closed'
+        )
+
+        # create object
+        artifacttype_1 = Artifacttype.objects.create(artifacttype_name='artifacttype_1')
+
+        # create objects
+        Artifact.objects.create(
+            artifact_name='artifact_open_system_1',
+            artifactpriority=artifactpriority_1,
+            artifactstatus=artifactstatus_open,
+            artifacttype=artifacttype_1,
+            system=system_1,
+            artifact_created_by_user_id=test_user,
+            artifact_modified_by_user_id=test_user,
+        )
+        Artifact.objects.create(
+            artifact_name='artifact_closed_system_1',
+            artifactpriority=artifactpriority_1,
+            artifactstatus=artifactstatus_closed,
+            artifacttype=artifacttype_1,
+            system=system_1,
+            artifact_created_by_user_id=test_user,
+            artifact_modified_by_user_id=test_user,
+        )
+        Artifact.objects.create(
+            artifact_name='artifact_open_system_2',
+            artifactpriority=artifactpriority_1,
+            artifactstatus=artifactstatus_open,
+            artifacttype=artifacttype_1,
+            system=system_2,
+            artifact_created_by_user_id=test_user,
+            artifact_modified_by_user_id=test_user,
+        )
+        Artifact.objects.create(
+            artifact_name='artifact_closed_system_2',
+            artifactpriority=artifactpriority_1,
+            artifactstatus=artifactstatus_closed,
+            artifacttype=artifacttype_1,
+            system=system_2,
+            artifact_created_by_user_id=test_user,
+            artifact_modified_by_user_id=test_user,
+        )
+
+        # get config
+        main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
+        main_config_model.artifactstatus_open.add(artifactstatus_open)
+
+        # create objects
+        taskname_00_blocked_system_1 = Taskname.objects.create(
+            taskname_name='task_00_blocked_system_1'
+        )
+        taskname_10_pending_system_1 = Taskname.objects.create(
+            taskname_name='task_10_pending_system_1'
+        )
+        taskname_20_working_system_1 = Taskname.objects.create(
+            taskname_name='task_20_working_system_1'
+        )
+        taskname_30_done_system_1 = Taskname.objects.create(
+            taskname_name='task_30_done_system_1'
+        )
+        taskname_40_skipped_system_1 = Taskname.objects.create(
+            taskname_name='task_40_skipped_system_1'
+        )
+        taskname_00_blocked_system_2 = Taskname.objects.create(
+            taskname_name='task_00_blocked_system_2'
+        )
+        taskname_10_pending_system_2 = Taskname.objects.create(
+            taskname_name='task_10_pending_system_2'
+        )
+        taskname_20_working_system_2 = Taskname.objects.create(
+            taskname_name='task_20_working_system_2'
+        )
+        taskname_30_done_system_2 = Taskname.objects.create(
+            taskname_name='task_30_done_system_2'
+        )
+        taskname_40_skipped_system_2 = Taskname.objects.create(
+            taskname_name='task_40_skipped_system_2'
+        )
+        taskpriority_1 = Taskpriority.objects.create(taskpriority_name='taskpriority_1')
+
+        # get objects
+        taskstatus_00_blocked = Taskstatus.objects.get(taskstatus_name='00_blocked')
+        taskstatus_10_pending = Taskstatus.objects.get(taskstatus_name='10_pending')
+        taskstatus_20_working = Taskstatus.objects.get(taskstatus_name='20_working')
+        taskstatus_30_done = Taskstatus.objects.get(taskstatus_name='30_done')
+        taskstatus_40_skipped = Taskstatus.objects.get(taskstatus_name='40_skipped')
+
+        # create objects
+        Task.objects.create(
+            taskname=taskname_00_blocked_system_1,
+            taskpriority=taskpriority_1,
+            taskstatus=taskstatus_00_blocked,
+            system=system_1,
+            task_created_by_user_id=test_user,
+            task_modified_by_user_id=test_user,
+        )
+        Task.objects.create(
+            taskname=taskname_10_pending_system_1,
+            taskpriority=taskpriority_1,
+            taskstatus=taskstatus_10_pending,
+            system=system_1,
+            task_created_by_user_id=test_user,
+            task_modified_by_user_id=test_user,
+        )
+        Task.objects.create(
+            taskname=taskname_20_working_system_1,
+            taskpriority=taskpriority_1,
+            taskstatus=taskstatus_20_working,
+            system=system_1,
+            task_created_by_user_id=test_user,
+            task_modified_by_user_id=test_user,
+        )
+        Task.objects.create(
+            taskname=taskname_30_done_system_1,
+            taskpriority=taskpriority_1,
+            taskstatus=taskstatus_30_done,
+            system=system_1,
+            task_created_by_user_id=test_user,
+            task_modified_by_user_id=test_user,
+        )
+        Task.objects.create(
+            taskname=taskname_40_skipped_system_1,
+            taskpriority=taskpriority_1,
+            taskstatus=taskstatus_40_skipped,
+            system=system_1,
+            task_created_by_user_id=test_user,
+            task_modified_by_user_id=test_user,
+        )
+        Task.objects.create(
+            taskname=taskname_00_blocked_system_2,
+            taskpriority=taskpriority_1,
+            taskstatus=taskstatus_00_blocked,
+            system=system_2,
+            task_created_by_user_id=test_user,
+            task_modified_by_user_id=test_user,
+        )
+        Task.objects.create(
+            taskname=taskname_10_pending_system_2,
+            taskpriority=taskpriority_1,
+            taskstatus=taskstatus_10_pending,
+            system=system_2,
+            task_created_by_user_id=test_user,
+            task_modified_by_user_id=test_user,
+        )
+        Task.objects.create(
+            taskname=taskname_20_working_system_2,
+            taskpriority=taskpriority_1,
+            taskstatus=taskstatus_20_working,
+            system=system_2,
+            task_created_by_user_id=test_user,
+            task_modified_by_user_id=test_user,
+        )
+        Task.objects.create(
+            taskname=taskname_30_done_system_2,
+            taskpriority=taskpriority_1,
+            taskstatus=taskstatus_30_done,
+            system=system_2,
+            task_created_by_user_id=test_user,
+            task_modified_by_user_id=test_user,
+        )
+        Task.objects.create(
+            taskname=taskname_40_skipped_system_2,
+            taskpriority=taskpriority_1,
+            taskstatus=taskstatus_40_skipped,
+            system=system_2,
+            task_created_by_user_id=test_user,
+            task_modified_by_user_id=test_user,
         )
 
     def test_system_list_not_logged_in(self):
@@ -195,21 +392,6 @@ class SystemViewTestCase(TestCase):
             response, destination, status_code=301, target_status_code=200
         )
 
-    def test_system_detail_context_with_artifacts(self):
-        """test detail view"""
-
-        # add app to dfirtrack.settings
-        if 'dfirtrack_artifacts' not in installed_apps:
-            installed_apps.append('dfirtrack_artifacts')
-        # get object
-        system_1 = System.objects.get(system_name='system_1')
-        # login testuser
-        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
-        # get response
-        response = self.client.get('/system/' + str(system_1.system_id) + '/')
-        # compare
-        self.assertTrue(response.context['dfirtrack_artifacts'])
-
     def test_system_detail_context_workflows(self):
         """test detail view"""
 
@@ -225,12 +407,73 @@ class SystemViewTestCase(TestCase):
         # compare
         self.assertEqual(str(response.context['workflows'][0]), 'workflow_1')
 
-    def test_system_detail_context_without_artifacts(self):
+    def test_system_detail_context_artifacts_all(self):
         """test detail view"""
 
-        # remove app from dfirtrack.settings
-        if 'dfirtrack_artifacts' in installed_apps:
-            installed_apps.remove('dfirtrack_artifacts')
+        # get objects
+        system_1 = System.objects.get(system_name='system_1')
+        # login testuser
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get response
+        response = self.client.get('/system/' + str(system_1.system_id) + '/')
+        # compare
+        self.assertTrue(
+            response.context['artifacts_all']
+            .filter(artifact_name='artifact_open_system_1')
+            .exists()
+        )
+        self.assertTrue(
+            response.context['artifacts_all']
+            .filter(artifact_name='artifact_closed_system_1')
+            .exists()
+        )
+        self.assertFalse(
+            response.context['artifacts_all']
+            .filter(artifact_name='artifact_open_system_2')
+            .exists()
+        )
+        self.assertFalse(
+            response.context['artifacts_all']
+            .filter(artifact_name='artifact_closed_system_2')
+            .exists()
+        )
+        self.assertEqual(len(response.context['artifacts_all']), 2)
+
+    def test_system_detail_context_artifacts_open(self):
+        """test detail view"""
+
+        # get objects
+        system_1 = System.objects.get(system_name='system_1')
+        # login testuser
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get response
+        response = self.client.get('/system/' + str(system_1.system_id) + '/')
+        # compare
+        self.assertTrue(
+            response.context['artifacts_open']
+            .filter(artifact_name='artifact_open_system_1')
+            .exists()
+        )
+        self.assertFalse(
+            response.context['artifacts_open']
+            .filter(artifact_name='artifact_closed_system_1')
+            .exists()
+        )
+        self.assertFalse(
+            response.context['artifacts_open']
+            .filter(artifact_name='artifact_open_system_2')
+            .exists()
+        )
+        self.assertFalse(
+            response.context['artifacts_open']
+            .filter(artifact_name='artifact_closed_system_2')
+            .exists()
+        )
+        self.assertEqual(len(response.context['artifacts_open']), 1)
+
+    def test_system_detail_context_artifacts_closed(self):
+        """test detail view"""
+
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # login testuser
@@ -238,24 +481,303 @@ class SystemViewTestCase(TestCase):
         # get response
         response = self.client.get('/system/' + str(system_1.system_id) + '/')
         # compare
-        self.assertFalse(response.context['dfirtrack_artifacts'])
+        self.assertFalse(
+            response.context['artifacts_closed']
+            .filter(artifact_name='artifact_open_system_1')
+            .exists()
+        )
+        self.assertTrue(
+            response.context['artifacts_closed']
+            .filter(artifact_name='artifact_closed_system_1')
+            .exists()
+        )
+        self.assertFalse(
+            response.context['artifacts_closed']
+            .filter(artifact_name='artifact_open_system_2')
+            .exists()
+        )
+        self.assertFalse(
+            response.context['artifacts_closed']
+            .filter(artifact_name='artifact_closed_system_2')
+            .exists()
+        )
+        self.assertEqual(len(response.context['artifacts_closed']), 1)
 
-    def test_system_detail_queryset_context_with_artifacts(self):
+    def test_system_detail_context_tasks_all(self):
         """test detail view"""
 
-        # add app to dfirtrack.settings
-        if 'dfirtrack_artifacts' not in installed_apps:
-            installed_apps.append('dfirtrack_artifacts')
-        # get object
+        # get objects
+        taskname_00_blocked_system_1 = Taskname.objects.get(
+            taskname_name='task_00_blocked_system_1'
+        )
+        taskname_10_pending_system_1 = Taskname.objects.get(
+            taskname_name='task_10_pending_system_1'
+        )
+        taskname_20_working_system_1 = Taskname.objects.get(
+            taskname_name='task_20_working_system_1'
+        )
+        taskname_30_done_system_1 = Taskname.objects.get(
+            taskname_name='task_30_done_system_1'
+        )
+        taskname_40_skipped_system_1 = Taskname.objects.get(
+            taskname_name='task_40_skipped_system_1'
+        )
+        taskname_00_blocked_system_2 = Taskname.objects.get(
+            taskname_name='task_00_blocked_system_2'
+        )
+        taskname_10_pending_system_2 = Taskname.objects.get(
+            taskname_name='task_10_pending_system_2'
+        )
+        taskname_20_working_system_2 = Taskname.objects.get(
+            taskname_name='task_20_working_system_2'
+        )
+        taskname_30_done_system_2 = Taskname.objects.get(
+            taskname_name='task_30_done_system_2'
+        )
+        taskname_40_skipped_system_2 = Taskname.objects.get(
+            taskname_name='task_40_skipped_system_2'
+        )
         system_1 = System.objects.get(system_name='system_1')
         # login testuser
         self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
-        # get queryset
-        artifact_queryset = Artifact.objects.filter(system=system_1)
         # get response
         response = self.client.get('/system/' + str(system_1.system_id) + '/')
         # compare
-        self.assertEqual(type(response.context['artifacts']), type(artifact_queryset))
+        self.assertTrue(
+            response.context['tasks_all']
+            .filter(taskname=taskname_00_blocked_system_1)
+            .exists()
+        )
+        self.assertTrue(
+            response.context['tasks_all']
+            .filter(taskname=taskname_10_pending_system_1)
+            .exists()
+        )
+        self.assertTrue(
+            response.context['tasks_all']
+            .filter(taskname=taskname_20_working_system_1)
+            .exists()
+        )
+        self.assertTrue(
+            response.context['tasks_all']
+            .filter(taskname=taskname_30_done_system_1)
+            .exists()
+        )
+        self.assertTrue(
+            response.context['tasks_all']
+            .filter(taskname=taskname_40_skipped_system_1)
+            .exists()
+        )
+        self.assertFalse(
+            response.context['tasks_all']
+            .filter(taskname=taskname_00_blocked_system_2)
+            .exists()
+        )
+        self.assertFalse(
+            response.context['tasks_all']
+            .filter(taskname=taskname_10_pending_system_2)
+            .exists()
+        )
+        self.assertFalse(
+            response.context['tasks_all']
+            .filter(taskname=taskname_20_working_system_2)
+            .exists()
+        )
+        self.assertFalse(
+            response.context['tasks_all']
+            .filter(taskname=taskname_30_done_system_2)
+            .exists()
+        )
+        self.assertFalse(
+            response.context['tasks_all']
+            .filter(taskname=taskname_40_skipped_system_2)
+            .exists()
+        )
+        self.assertEqual(len(response.context['tasks_all']), 5)
+
+    def test_system_detail_context_tasks_open(self):
+        """test detail view"""
+
+        # get objects
+        taskname_00_blocked_system_1 = Taskname.objects.get(
+            taskname_name='task_00_blocked_system_1'
+        )
+        taskname_10_pending_system_1 = Taskname.objects.get(
+            taskname_name='task_10_pending_system_1'
+        )
+        taskname_20_working_system_1 = Taskname.objects.get(
+            taskname_name='task_20_working_system_1'
+        )
+        taskname_30_done_system_1 = Taskname.objects.get(
+            taskname_name='task_30_done_system_1'
+        )
+        taskname_40_skipped_system_1 = Taskname.objects.get(
+            taskname_name='task_40_skipped_system_1'
+        )
+        taskname_00_blocked_system_2 = Taskname.objects.get(
+            taskname_name='task_00_blocked_system_2'
+        )
+        taskname_10_pending_system_2 = Taskname.objects.get(
+            taskname_name='task_10_pending_system_2'
+        )
+        taskname_20_working_system_2 = Taskname.objects.get(
+            taskname_name='task_20_working_system_2'
+        )
+        taskname_30_done_system_2 = Taskname.objects.get(
+            taskname_name='task_30_done_system_2'
+        )
+        taskname_40_skipped_system_2 = Taskname.objects.get(
+            taskname_name='task_40_skipped_system_2'
+        )
+        system_1 = System.objects.get(system_name='system_1')
+        # login testuser
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get response
+        response = self.client.get('/system/' + str(system_1.system_id) + '/')
+        # compare
+        self.assertTrue(
+            response.context['tasks_all']
+            .filter(taskname=taskname_00_blocked_system_1)
+            .exists()
+        )
+        self.assertTrue(
+            response.context['tasks_all']
+            .filter(taskname=taskname_10_pending_system_1)
+            .exists()
+        )
+        self.assertTrue(
+            response.context['tasks_all']
+            .filter(taskname=taskname_20_working_system_1)
+            .exists()
+        )
+        self.assertTrue(
+            response.context['tasks_all']
+            .filter(taskname=taskname_30_done_system_1)
+            .exists()
+        )
+        self.assertTrue(
+            response.context['tasks_all']
+            .filter(taskname=taskname_40_skipped_system_1)
+            .exists()
+        )
+        self.assertFalse(
+            response.context['tasks_all']
+            .filter(taskname=taskname_00_blocked_system_2)
+            .exists()
+        )
+        self.assertFalse(
+            response.context['tasks_all']
+            .filter(taskname=taskname_10_pending_system_2)
+            .exists()
+        )
+        self.assertFalse(
+            response.context['tasks_all']
+            .filter(taskname=taskname_20_working_system_2)
+            .exists()
+        )
+        self.assertFalse(
+            response.context['tasks_all']
+            .filter(taskname=taskname_30_done_system_2)
+            .exists()
+        )
+        self.assertFalse(
+            response.context['tasks_all']
+            .filter(taskname=taskname_40_skipped_system_2)
+            .exists()
+        )
+        self.assertEqual(len(response.context['tasks_open']), 3)
+
+    def test_system_detail_context_tasks_closed(self):
+        """test detail view"""
+
+        # get object
+        taskname_00_blocked_system_1 = Taskname.objects.get(
+            taskname_name='task_00_blocked_system_1'
+        )
+        taskname_10_pending_system_1 = Taskname.objects.get(
+            taskname_name='task_10_pending_system_1'
+        )
+        taskname_20_working_system_1 = Taskname.objects.get(
+            taskname_name='task_20_working_system_1'
+        )
+        taskname_30_done_system_1 = Taskname.objects.get(
+            taskname_name='task_30_done_system_1'
+        )
+        taskname_40_skipped_system_1 = Taskname.objects.get(
+            taskname_name='task_40_skipped_system_1'
+        )
+        taskname_00_blocked_system_2 = Taskname.objects.get(
+            taskname_name='task_00_blocked_system_2'
+        )
+        taskname_10_pending_system_2 = Taskname.objects.get(
+            taskname_name='task_10_pending_system_2'
+        )
+        taskname_20_working_system_2 = Taskname.objects.get(
+            taskname_name='task_20_working_system_2'
+        )
+        taskname_30_done_system_2 = Taskname.objects.get(
+            taskname_name='task_30_done_system_2'
+        )
+        taskname_40_skipped_system_2 = Taskname.objects.get(
+            taskname_name='task_40_skipped_system_2'
+        )
+        system_1 = System.objects.get(system_name='system_1')
+        # login testuser
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get response
+        response = self.client.get('/system/' + str(system_1.system_id) + '/')
+        # compare
+        self.assertTrue(
+            response.context['tasks_all']
+            .filter(taskname=taskname_00_blocked_system_1)
+            .exists()
+        )
+        self.assertTrue(
+            response.context['tasks_all']
+            .filter(taskname=taskname_10_pending_system_1)
+            .exists()
+        )
+        self.assertTrue(
+            response.context['tasks_all']
+            .filter(taskname=taskname_20_working_system_1)
+            .exists()
+        )
+        self.assertTrue(
+            response.context['tasks_all']
+            .filter(taskname=taskname_30_done_system_1)
+            .exists()
+        )
+        self.assertTrue(
+            response.context['tasks_all']
+            .filter(taskname=taskname_40_skipped_system_1)
+            .exists()
+        )
+        self.assertFalse(
+            response.context['tasks_all']
+            .filter(taskname=taskname_00_blocked_system_2)
+            .exists()
+        )
+        self.assertFalse(
+            response.context['tasks_all']
+            .filter(taskname=taskname_10_pending_system_2)
+            .exists()
+        )
+        self.assertFalse(
+            response.context['tasks_all']
+            .filter(taskname=taskname_20_working_system_2)
+            .exists()
+        )
+        self.assertFalse(
+            response.context['tasks_all']
+            .filter(taskname=taskname_30_done_system_2)
+            .exists()
+        )
+        self.assertFalse(
+            response.context['tasks_all']
+            .filter(taskname=taskname_40_skipped_system_2)
+            .exists()
+        )
+        self.assertEqual(len(response.context['tasks_closed']), 2)
 
     def test_system_detail_context_with_api(self):
         """test detail view"""

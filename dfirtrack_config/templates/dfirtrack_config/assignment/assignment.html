@@ -96,7 +96,7 @@
     <!-- system headline -->
     <div class="row bottom-distance">
         <div class="col-6">
-            <h5>
+            <h5 id="system">
                 <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                 {% if assignment_user %}
                     Systems assigned to '{{ assignment_user }}'{% if system %} ({{ system|length }}){% endif %}
@@ -165,7 +165,7 @@
     <!-- artifact headline -->
     <div class="row bottom-distance">
         <div class="col-6">
-            <h5>
+            <h5 id="artifact">
                 <img src="{% static 'dfirtrack_main/icons/bug-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                 {% if assignment_user %}
                     Artifacts assigned to '{{ assignment_user }}'{% if artifact %} ({{ artifact|length }}){% endif %}
@@ -237,7 +237,7 @@
     <!-- case headline -->
     <div class="row bottom-distance">
         <div class="col-6">
-            <h5>
+            <h5 id="case">
                 <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                 {% if assignment_user %}
                     Cases assigned to '{{ assignment_user }}'{% if case %} ({{ case|length }}){% endif %}
@@ -306,7 +306,7 @@
     <!-- task headline -->
     <div class="row bottom-distance">
         <div class="col-6">
-            <h5>
+            <h5 id="task">
                 <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                 {% if assignment_user %}
                     Tasks assigned to '{{ assignment_user }}'{% if task %} ({{ task|length }}){% endif %}
@@ -375,7 +375,7 @@
     <!-- tag headline -->
     <div class="row bottom-distance">
         <div class="col-6">
-            <h5>
+            <h5 id="tag">
                 <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                 {% if assignment_user %}
                     Tags assigned to '{{ assignment_user }}'{% if tag %} ({{ tag|length }}){% endif %}
@@ -444,7 +444,7 @@
     <!-- note headline -->
     <div class="row bottom-distance">
         <div class="col-6">
-            <h5>
+            <h5 id="note">
                 <img src="{% static 'dfirtrack_main/icons/paperclip-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                 {% if assignment_user %}
                     Notes assigned to '{{ assignment_user }}'{% if note %} ({{ note|length }}){% endif %}
@@ -513,7 +513,7 @@
     <!-- reportitem headline -->
     <div class="row bottom-distance">
         <div class="col-6">
-            <h5>
+            <h5 id="reportitem">
                 <img src="{% static 'dfirtrack_main/icons/paperclip-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                 {% if assignment_user %}
                     Reportitems assigned to '{{ assignment_user }}'{% if reportitem %} ({{ reportitem|length }}){% endif %}

@@ -13,12 +13,71 @@ from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, FormView, UpdateView
 
 from dfirtrack.settings import INSTALLED_APPS as installed_apps
-from dfirtrack_artifacts.models import Artifact
+from dfirtrack_artifacts.models import Artifact, Artifactstatus
 from dfirtrack_config.models import MainConfigModel, UserConfigModel, Workflow
 from dfirtrack_main.filter_forms import SystemFilterForm
 from dfirtrack_main.forms import SystemForm, SystemNameForm
 from dfirtrack_main.logger.default_logger import debug_logger, warning_logger
-from dfirtrack_main.models import Analysisstatus, Case, Ip, System, Systemstatus, Tag
+from dfirtrack_main.models import (
+    Analysisstatus,
+    Case,
+    Ip,
+    System,
+    Systemstatus,
+    Tag,
+    Task,
+    Taskstatus,
+)
+
+
+def query_artifact(artifactstatus_list, system):
+    """query artifacts with a list of specific artifactstatus"""
+
+    # create empty artifact queryset
+    artifacts_merged = Artifact.objects.none()
+
+    # iterate over artifactstatus objects
+    for artifactstatus in artifactstatus_list:
+
+        # get artifacts with specific artifactstatus
+        artifacts = Artifact.objects.filter(
+            artifactstatus=artifactstatus,
+            system=system,
+        )
+
+        # add artifacts from above query to merge queryset
+        artifacts_merged = artifacts | artifacts_merged
+
+    # sort artifacts by id
+    artifacts_sorted = artifacts_merged.order_by('artifact_id')
+
+    # return sorted artifacts with specific artifactstatus
+    return artifacts_sorted
+
+
+def query_task(taskstatus_list, system):
+    """query tasks with a list of specific taskstatus"""
+
+    # create empty task queryset
+    tasks_merged = Task.objects.none()
+
+    # iterate over taskstatus objects
+    for taskstatus in taskstatus_list:
+
+        # get tasks with specific taskstatus
+        tasks = Task.objects.filter(
+            taskstatus=taskstatus,
+            system=system,
+        )
+
+        # add tasks from above query to merge queryset
+        tasks_merged = tasks | tasks_merged
+
+    # sort tasks by id
+    tasks_sorted = tasks_merged.order_by('task_id')
+
+    # return sorted tasks with specific taskstatus
+    return tasks_sorted
 
 
 class SystemList(LoginRequiredMixin, FormView):
@@ -144,12 +203,49 @@ class SystemDetail(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         system = self.object
 
-        # set dfirtrack_artifacts for template
-        if 'dfirtrack_artifacts' in installed_apps:
-            context['dfirtrack_artifacts'] = True
-            context['artifacts'] = Artifact.objects.filter(system=system)
-        else:
-            context['dfirtrack_artifacts'] = False
+        '''artifacts'''
+
+        # get config
+        main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
+
+        # get all artifactstatus from database
+        artifactstatus_all = Artifactstatus.objects.all()
+
+        # get all artifacts of system for number
+        context['artifacts_all'] = Artifact.objects.filter(system=system)
+
+        # get 'open' artifactstatus from config
+        artifactstatus_open = main_config_model.artifactstatus_open.all()
+        # query artifacts according to subset of artifactstatus open
+        context['artifacts_open'] = query_artifact(artifactstatus_open, system=system)
+
+        # get diff between all artifactstatus and open artifactstatu
+        artifactstatus_closed = artifactstatus_all.difference(artifactstatus_open)
+        # query artifacts according to subset of artifactstatus closed
+        context['artifacts_closed'] = query_artifact(
+            artifactstatus_closed, system=system
+        )
+
+        '''tasks'''
+
+        # get all tasks of system for number
+        context['tasks_all'] = Task.objects.filter(system=system)
+
+        # get open taskstatus
+        taskstatus_open = Taskstatus.objects.filter(
+            taskstatus_name__in=['00_blocked', '10_pending', '20_working']
+        )
+        # query tasks according to subset of taskstatus open
+        context['tasks_open'] = query_task(taskstatus_open, system=system)
+
+        # get open taskstatus
+        taskstatus_closed = Taskstatus.objects.filter(
+            taskstatus_name__in=['30_done', '40_skipped']
+        )
+        # query tasks according to subset of taskstatus closed
+        context['tasks_closed'] = query_task(taskstatus_closed, system=system)
+
+        '''api'''
 
         # set dfirtrack_api for template
         if 'dfirtrack_api' in installed_apps:
@@ -157,8 +253,38 @@ class SystemDetail(LoginRequiredMixin, DetailView):
         else:
             context['dfirtrack_api'] = False
 
+        '''workflows'''
+
         # get all workflows
         context['workflows'] = Workflow.objects.all()
+
+        '''visibility'''
+
+        # get config
+        user_config, created = UserConfigModel.objects.get_or_create(
+            user_config_username=self.request.user
+        )
+
+        # get visibility values from config and add to context
+        context['show_artifact'] = user_config.filter_system_detail_show_artifact
+        context[
+            'show_artifact_closed'
+        ] = user_config.filter_system_detail_show_artifact_closed
+        context['show_task'] = user_config.filter_system_detail_show_task
+        context['show_task_closed'] = user_config.filter_system_detail_show_task_closed
+        context[
+            'show_technical_information'
+        ] = user_config.filter_system_detail_show_technical_information
+        context['show_timeline'] = user_config.filter_system_detail_show_timeline
+        context[
+            'show_virtualization_information'
+        ] = user_config.filter_system_detail_show_virtualization_information
+        context[
+            'show_company_information'
+        ] = user_config.filter_system_detail_show_company_information
+        context['show_systemuser'] = user_config.filter_system_detail_show_systemuser
+        context['show_analystmemo'] = user_config.filter_system_detail_show_analystmemo
+        context['show_reportitem'] = user_config.filter_system_detail_show_reportitem
 
         # call logger
         system.logger(str(self.request.user), " SYSTEM_DETAIL_ENTERED")

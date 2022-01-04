@@ -49,7 +49,7 @@ class ArtifactListView(LoginRequiredMixin, ListView):
 
         # get 'open' artifactstatus from config
         artifactstatus_open = main_config_model.artifactstatus_open.all()
-        # guery artifacts according to subset of artifactstatus open
+        # query artifacts according to subset of artifactstatus open
         artifacts = query_artifact(artifactstatus_open)
 
         # return artifacts according to query
@@ -78,7 +78,7 @@ class ArtifactClosedView(LoginRequiredMixin, ListView):
         # get diff between all artifactstatus and open artifactstatus
         artifactstatus_closed = artifactstatus_all.difference(artifactstatus_open)
 
-        # guery artifacts according to subset of artifactstatus closed
+        # query artifacts according to subset of artifactstatus closed
         artifacts = query_artifact(artifactstatus_closed)
         # return artifacts according to query
         return artifacts
