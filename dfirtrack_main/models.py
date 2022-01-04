@@ -1576,7 +1576,9 @@ class System(models.Model):
         return reverse('toggle_system_detail_timeline', args=(self.pk,))
 
     def get_toggle_virtualization_information_url(self):
-        return reverse('toggle_system_detail_virtualization_information', args=(self.pk,))
+        return reverse(
+            'toggle_system_detail_virtualization_information', args=(self.pk,)
+        )
 
     def get_toggle_company_information_url(self):
         return reverse('toggle_system_detail_company_information', args=(self.pk,))

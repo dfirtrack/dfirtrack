@@ -21,7 +21,9 @@ class ToggleSystemDetailArtifact(LoginRequiredMixin, DetailView):
         )
 
         # toggle value
-        user_config.filter_system_detail_show_artifact = not user_config.filter_system_detail_show_artifact
+        user_config.filter_system_detail_show_artifact = (
+            not user_config.filter_system_detail_show_artifact
+        )
 
         # save config
         user_config.save()
@@ -30,7 +32,9 @@ class ToggleSystemDetailArtifact(LoginRequiredMixin, DetailView):
         system = self.get_object()
 
         # redirect
-        return redirect(reverse('system_detail', args=(system.system_id,)) + '#artifact')
+        return redirect(
+            reverse('system_detail', args=(system.system_id,)) + '#artifact'
+        )
 
 
 class ToggleSystemDetailArtifactClosed(LoginRequiredMixin, DetailView):
@@ -47,7 +51,9 @@ class ToggleSystemDetailArtifactClosed(LoginRequiredMixin, DetailView):
         )
 
         # toggle value
-        user_config.filter_system_detail_show_artifact_closed = not user_config.filter_system_detail_show_artifact_closed
+        user_config.filter_system_detail_show_artifact_closed = (
+            not user_config.filter_system_detail_show_artifact_closed
+        )
 
         # save config
         user_config.save()
@@ -56,7 +62,9 @@ class ToggleSystemDetailArtifactClosed(LoginRequiredMixin, DetailView):
         system = self.get_object()
 
         # redirect
-        return redirect(reverse('system_detail', args=(system.system_id,)) + '#artifact')
+        return redirect(
+            reverse('system_detail', args=(system.system_id,)) + '#artifact'
+        )
 
 
 class ToggleSystemDetailTask(LoginRequiredMixin, DetailView):
@@ -73,7 +81,9 @@ class ToggleSystemDetailTask(LoginRequiredMixin, DetailView):
         )
 
         # toggle value
-        user_config.filter_system_detail_show_task = not user_config.filter_system_detail_show_task
+        user_config.filter_system_detail_show_task = (
+            not user_config.filter_system_detail_show_task
+        )
 
         # save config
         user_config.save()
@@ -99,7 +109,9 @@ class ToggleSystemDetailTaskClosed(LoginRequiredMixin, DetailView):
         )
 
         # toggle value
-        user_config.filter_system_detail_show_task_closed = not user_config.filter_system_detail_show_task_closed
+        user_config.filter_system_detail_show_task_closed = (
+            not user_config.filter_system_detail_show_task_closed
+        )
 
         # save config
         user_config.save()
@@ -125,7 +137,9 @@ class ToggleSystemDetailTechnicalInformation(LoginRequiredMixin, DetailView):
         )
 
         # toggle value
-        user_config.filter_system_detail_show_technical_information = not user_config.filter_system_detail_show_technical_information
+        user_config.filter_system_detail_show_technical_information = (
+            not user_config.filter_system_detail_show_technical_information
+        )
 
         # save config
         user_config.save()
@@ -134,7 +148,10 @@ class ToggleSystemDetailTechnicalInformation(LoginRequiredMixin, DetailView):
         system = self.get_object()
 
         # redirect
-        return redirect(reverse('system_detail', args=(system.system_id,)) + '#technical_information')
+        return redirect(
+            reverse('system_detail', args=(system.system_id,))
+            + '#technical_information'
+        )
 
 
 class ToggleSystemDetailTimeline(LoginRequiredMixin, DetailView):
@@ -151,7 +168,9 @@ class ToggleSystemDetailTimeline(LoginRequiredMixin, DetailView):
         )
 
         # toggle value
-        user_config.filter_system_detail_show_timeline = not user_config.filter_system_detail_show_timeline
+        user_config.filter_system_detail_show_timeline = (
+            not user_config.filter_system_detail_show_timeline
+        )
 
         # save config
         user_config.save()
@@ -160,7 +179,9 @@ class ToggleSystemDetailTimeline(LoginRequiredMixin, DetailView):
         system = self.get_object()
 
         # redirect
-        return redirect(reverse('system_detail', args=(system.system_id,)) + '#timeline')
+        return redirect(
+            reverse('system_detail', args=(system.system_id,)) + '#timeline'
+        )
 
 
 class ToggleSystemDetailVirtualizationInformation(LoginRequiredMixin, DetailView):
@@ -177,7 +198,9 @@ class ToggleSystemDetailVirtualizationInformation(LoginRequiredMixin, DetailView
         )
 
         # toggle value
-        user_config.filter_system_detail_show_virtualization_information = not user_config.filter_system_detail_show_virtualization_information
+        user_config.filter_system_detail_show_virtualization_information = (
+            not user_config.filter_system_detail_show_virtualization_information
+        )
 
         # save config
         user_config.save()
@@ -186,7 +209,10 @@ class ToggleSystemDetailVirtualizationInformation(LoginRequiredMixin, DetailView
         system = self.get_object()
 
         # redirect
-        return redirect(reverse('system_detail', args=(system.system_id,)) + '#virtualization_information')
+        return redirect(
+            reverse('system_detail', args=(system.system_id,))
+            + '#virtualization_information'
+        )
 
 
 class ToggleSystemDetailCompanyInformation(LoginRequiredMixin, DetailView):
@@ -203,7 +229,9 @@ class ToggleSystemDetailCompanyInformation(LoginRequiredMixin, DetailView):
         )
 
         # toggle value
-        user_config.filter_system_detail_show_company_information = not user_config.filter_system_detail_show_company_information
+        user_config.filter_system_detail_show_company_information = (
+            not user_config.filter_system_detail_show_company_information
+        )
 
         # save config
         user_config.save()
@@ -212,7 +240,9 @@ class ToggleSystemDetailCompanyInformation(LoginRequiredMixin, DetailView):
         system = self.get_object()
 
         # redirect
-        return redirect(reverse('system_detail', args=(system.system_id,)) + '#company_information')
+        return redirect(
+            reverse('system_detail', args=(system.system_id,)) + '#company_information'
+        )
 
 
 class ToggleSystemDetailSystemuser(LoginRequiredMixin, DetailView):
@@ -229,7 +259,9 @@ class ToggleSystemDetailSystemuser(LoginRequiredMixin, DetailView):
         )
 
         # toggle value
-        user_config.filter_system_detail_show_systemuser = not user_config.filter_system_detail_show_systemuser
+        user_config.filter_system_detail_show_systemuser = (
+            not user_config.filter_system_detail_show_systemuser
+        )
 
         # save config
         user_config.save()
@@ -238,7 +270,9 @@ class ToggleSystemDetailSystemuser(LoginRequiredMixin, DetailView):
         system = self.get_object()
 
         # redirect
-        return redirect(reverse('system_detail', args=(system.system_id,)) + '#systemuser')
+        return redirect(
+            reverse('system_detail', args=(system.system_id,)) + '#systemuser'
+        )
 
 
 class ToggleSystemDetailAnalystmemo(LoginRequiredMixin, DetailView):
@@ -255,7 +289,9 @@ class ToggleSystemDetailAnalystmemo(LoginRequiredMixin, DetailView):
         )
 
         # toggle value
-        user_config.filter_system_detail_show_analystmemo = not user_config.filter_system_detail_show_analystmemo
+        user_config.filter_system_detail_show_analystmemo = (
+            not user_config.filter_system_detail_show_analystmemo
+        )
 
         # save config
         user_config.save()
@@ -264,7 +300,9 @@ class ToggleSystemDetailAnalystmemo(LoginRequiredMixin, DetailView):
         system = self.get_object()
 
         # redirect
-        return redirect(reverse('system_detail', args=(system.system_id,)) + '#analystmemo')
+        return redirect(
+            reverse('system_detail', args=(system.system_id,)) + '#analystmemo'
+        )
 
 
 class ToggleSystemDetailReportitem(LoginRequiredMixin, DetailView):
@@ -281,7 +319,9 @@ class ToggleSystemDetailReportitem(LoginRequiredMixin, DetailView):
         )
 
         # toggle value
-        user_config.filter_system_detail_show_reportitem = not user_config.filter_system_detail_show_reportitem
+        user_config.filter_system_detail_show_reportitem = (
+            not user_config.filter_system_detail_show_reportitem
+        )
 
         # save config
         user_config.save()
@@ -290,4 +330,6 @@ class ToggleSystemDetailReportitem(LoginRequiredMixin, DetailView):
         system = self.get_object()
 
         # redirect
-        return redirect(reverse('system_detail', args=(system.system_id,)) + '#reportitem')
+        return redirect(
+            reverse('system_detail', args=(system.system_id,)) + '#reportitem'
+        )

@@ -18,7 +18,16 @@ from dfirtrack_config.models import MainConfigModel, UserConfigModel, Workflow
 from dfirtrack_main.filter_forms import SystemFilterForm
 from dfirtrack_main.forms import SystemForm, SystemNameForm
 from dfirtrack_main.logger.default_logger import debug_logger, warning_logger
-from dfirtrack_main.models import Analysisstatus, Case, Ip, System, Systemstatus, Tag, Task, Taskstatus
+from dfirtrack_main.models import (
+    Analysisstatus,
+    Case,
+    Ip,
+    System,
+    Systemstatus,
+    Tag,
+    Task,
+    Taskstatus,
+)
 
 
 def query_artifact(artifactstatus_list, system):
@@ -208,12 +217,14 @@ class SystemDetail(LoginRequiredMixin, DetailView):
         # get 'open' artifactstatus from config
         artifactstatus_open = main_config_model.artifactstatus_open.all()
         # query artifacts according to subset of artifactstatus open
-        context['artifacts_open'] = query_artifact(artifactstatus_open,system=system)
+        context['artifacts_open'] = query_artifact(artifactstatus_open, system=system)
 
         # get diff between all artifactstatus and open artifactstatu
         artifactstatus_closed = artifactstatus_all.difference(artifactstatus_open)
         # query artifacts according to subset of artifactstatus closed
-        context['artifacts_closed'] = query_artifact(artifactstatus_closed,system=system)
+        context['artifacts_closed'] = query_artifact(
+            artifactstatus_closed, system=system
+        )
 
         '''tasks'''
 
@@ -221,14 +232,18 @@ class SystemDetail(LoginRequiredMixin, DetailView):
         context['tasks_all'] = Task.objects.filter(system=system)
 
         # get open taskstatus
-        taskstatus_open = Taskstatus.objects.filter(taskstatus_name__in=['00_blocked', '10_pending', '20_working'])
+        taskstatus_open = Taskstatus.objects.filter(
+            taskstatus_name__in=['00_blocked', '10_pending', '20_working']
+        )
         # query tasks according to subset of taskstatus open
-        context['tasks_open'] = query_task(taskstatus_open,system=system)
+        context['tasks_open'] = query_task(taskstatus_open, system=system)
 
         # get open taskstatus
-        taskstatus_closed = Taskstatus.objects.filter(taskstatus_name__in=['30_done', '40_skipped'])
+        taskstatus_closed = Taskstatus.objects.filter(
+            taskstatus_name__in=['30_done', '40_skipped']
+        )
         # query tasks according to subset of taskstatus closed
-        context['tasks_closed'] = query_task(taskstatus_closed,system=system)
+        context['tasks_closed'] = query_task(taskstatus_closed, system=system)
 
         '''api'''
 
@@ -252,13 +267,21 @@ class SystemDetail(LoginRequiredMixin, DetailView):
 
         # get visibility values from config and add to context
         context['show_artifact'] = user_config.filter_system_detail_show_artifact
-        context['show_artifact_closed'] = user_config.filter_system_detail_show_artifact_closed
+        context[
+            'show_artifact_closed'
+        ] = user_config.filter_system_detail_show_artifact_closed
         context['show_task'] = user_config.filter_system_detail_show_task
         context['show_task_closed'] = user_config.filter_system_detail_show_task_closed
-        context['show_technical_information'] = user_config.filter_system_detail_show_technical_information
+        context[
+            'show_technical_information'
+        ] = user_config.filter_system_detail_show_technical_information
         context['show_timeline'] = user_config.filter_system_detail_show_timeline
-        context['show_virtualization_information'] = user_config.filter_system_detail_show_virtualization_information
-        context['show_company_information'] = user_config.filter_system_detail_show_company_information
+        context[
+            'show_virtualization_information'
+        ] = user_config.filter_system_detail_show_virtualization_information
+        context[
+            'show_company_information'
+        ] = user_config.filter_system_detail_show_company_information
         context['show_systemuser'] = user_config.filter_system_detail_show_systemuser
         context['show_analystmemo'] = user_config.filter_system_detail_show_analystmemo
         context['show_reportitem'] = user_config.filter_system_detail_show_reportitem

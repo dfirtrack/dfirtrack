@@ -306,7 +306,9 @@ def toggle_assignment_view_artifact(request):
     )
 
     # toggle value
-    user_config.filter_assignment_view_show_artifact = not user_config.filter_assignment_view_show_artifact
+    user_config.filter_assignment_view_show_artifact = (
+        not user_config.filter_assignment_view_show_artifact
+    )
 
     # save config
     user_config.save()
@@ -325,7 +327,9 @@ def toggle_assignment_view_case(request):
     )
 
     # toggle value
-    user_config.filter_assignment_view_show_case = not user_config.filter_assignment_view_show_case
+    user_config.filter_assignment_view_show_case = (
+        not user_config.filter_assignment_view_show_case
+    )
 
     # save config
     user_config.save()
@@ -344,7 +348,9 @@ def toggle_assignment_view_note(request):
     )
 
     # toggle value
-    user_config.filter_assignment_view_show_note = not user_config.filter_assignment_view_show_note
+    user_config.filter_assignment_view_show_note = (
+        not user_config.filter_assignment_view_show_note
+    )
 
     # save config
     user_config.save()
@@ -363,7 +369,9 @@ def toggle_assignment_view_reportitem(request):
     )
 
     # toggle value
-    user_config.filter_assignment_view_show_reportitem = not user_config.filter_assignment_view_show_reportitem
+    user_config.filter_assignment_view_show_reportitem = (
+        not user_config.filter_assignment_view_show_reportitem
+    )
 
     # save config
     user_config.save()
@@ -382,7 +390,9 @@ def toggle_assignment_view_system(request):
     )
 
     # toggle value
-    user_config.filter_assignment_view_show_system = not user_config.filter_assignment_view_show_system
+    user_config.filter_assignment_view_show_system = (
+        not user_config.filter_assignment_view_show_system
+    )
 
     # save config
     user_config.save()
@@ -401,7 +411,9 @@ def toggle_assignment_view_tag(request):
     )
 
     # toggle value
-    user_config.filter_assignment_view_show_tag = not user_config.filter_assignment_view_show_tag
+    user_config.filter_assignment_view_show_tag = (
+        not user_config.filter_assignment_view_show_tag
+    )
 
     # save config
     user_config.save()
@@ -420,7 +432,9 @@ def toggle_assignment_view_task(request):
     )
 
     # toggle value
-    user_config.filter_assignment_view_show_task = not user_config.filter_assignment_view_show_task
+    user_config.filter_assignment_view_show_task = (
+        not user_config.filter_assignment_view_show_task
+    )
 
     # save config
     user_config.save()

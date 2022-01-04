@@ -481,7 +481,10 @@ class ArtifactModelTestCase(TestCase):
         # get object
         artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
         # compare
-        self.assertEqual(artifact_1.get_set_user_url(), f'/artifacts/artifact/{artifact_1.artifact_id}/set_user/')
+        self.assertEqual(
+            artifact_1.get_set_user_url(),
+            f'/artifacts/artifact/{artifact_1.artifact_id}/set_user/',
+        )
 
     def test_artifact_get_unset_user_url(self):
         """test URL method"""
@@ -489,4 +492,7 @@ class ArtifactModelTestCase(TestCase):
         # get object
         artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
         # compare
-        self.assertEqual(artifact_1.get_unset_user_url(), f'/artifacts/artifact/{artifact_1.artifact_id}/unset_user/')
+        self.assertEqual(
+            artifact_1.get_unset_user_url(),
+            f'/artifacts/artifact/{artifact_1.artifact_id}/unset_user/',
+        )

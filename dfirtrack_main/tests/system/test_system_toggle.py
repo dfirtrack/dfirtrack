@@ -62,7 +62,9 @@ class SystemToggleTestCase(TestCase):
     def setUpTestData(cls):
 
         # create user
-        test_user = User.objects.create_user(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        test_user = User.objects.create_user(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
 
         # create config
         UserConfigModel.objects.get_or_create(user_config_username=test_user)
@@ -84,45 +86,65 @@ class SystemToggleTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # create url
-        destination = '/login/?next=' + urllib.parse.quote(f'/system/{system_1.system_id}/toggle_artifact/', safe='')
+        destination = '/login/?next=' + urllib.parse.quote(
+            f'/system/{system_1.system_id}/toggle_artifact/', safe=''
+        )
         # get response
-        response = self.client.get(f'/system/{system_1.system_id}/toggle_artifact/', follow=True)
+        response = self.client.get(
+            f'/system/{system_1.system_id}/toggle_artifact/', follow=True
+        )
         # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
 
     def test_system_detail_artifact_toggle_logged_in(self):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # create url
-        destination = urllib.parse.quote(f'/system/{system_1.system_id}/#artifact', safe='/#')
+        destination = urllib.parse.quote(
+            f'/system/{system_1.system_id}/#artifact', safe='/#'
+        )
         # get response
         response = self.client.get(f'/system/{system_1.system_id}/toggle_artifact/')
         # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
 
     def test_system_detail_artifact_toggle_redirect(self):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # create url
-        destination = urllib.parse.quote(f'/system/{system_1.system_id}/toggle_artifact/', safe='/')
+        destination = urllib.parse.quote(
+            f'/system/{system_1.system_id}/toggle_artifact/', safe='/'
+        )
         # get response
         response = self.client.get(f'/system/{system_1.system_id}/toggle_artifact')
         # compare
-        self.assertRedirects(response, destination, status_code=301, target_status_code=302)
+        self.assertRedirects(
+            response, destination, status_code=301, target_status_code=302
+        )
 
     def test_system_detail_artifact_toggle_context_true(self):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # get user
@@ -144,7 +166,9 @@ class SystemToggleTestCase(TestCase):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # get user
@@ -168,45 +192,69 @@ class SystemToggleTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # create url
-        destination = '/login/?next=' + urllib.parse.quote(f'/system/{system_1.system_id}/toggle_artifact_closed/', safe='')
+        destination = '/login/?next=' + urllib.parse.quote(
+            f'/system/{system_1.system_id}/toggle_artifact_closed/', safe=''
+        )
         # get response
-        response = self.client.get(f'/system/{system_1.system_id}/toggle_artifact_closed/', follow=True)
+        response = self.client.get(
+            f'/system/{system_1.system_id}/toggle_artifact_closed/', follow=True
+        )
         # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
 
     def test_system_detail_artifact_closed_toggle_logged_in(self):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # create url
-        destination = urllib.parse.quote(f'/system/{system_1.system_id}/#artifact', safe='/#')
+        destination = urllib.parse.quote(
+            f'/system/{system_1.system_id}/#artifact', safe='/#'
+        )
         # get response
-        response = self.client.get(f'/system/{system_1.system_id}/toggle_artifact_closed/')
+        response = self.client.get(
+            f'/system/{system_1.system_id}/toggle_artifact_closed/'
+        )
         # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
 
     def test_system_detail_artifact_closed_toggle_redirect(self):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # create url
-        destination = urllib.parse.quote(f'/system/{system_1.system_id}/toggle_artifact_closed/', safe='/')
+        destination = urllib.parse.quote(
+            f'/system/{system_1.system_id}/toggle_artifact_closed/', safe='/'
+        )
         # get response
-        response = self.client.get(f'/system/{system_1.system_id}/toggle_artifact_closed')
+        response = self.client.get(
+            f'/system/{system_1.system_id}/toggle_artifact_closed'
+        )
         # compare
-        self.assertRedirects(response, destination, status_code=301, target_status_code=302)
+        self.assertRedirects(
+            response, destination, status_code=301, target_status_code=302
+        )
 
     def test_system_detail_artifact_closed_toggle_context_true(self):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # get user
@@ -228,7 +276,9 @@ class SystemToggleTestCase(TestCase):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # get user
@@ -252,45 +302,65 @@ class SystemToggleTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # create url
-        destination = '/login/?next=' + urllib.parse.quote(f'/system/{system_1.system_id}/toggle_task/', safe='')
+        destination = '/login/?next=' + urllib.parse.quote(
+            f'/system/{system_1.system_id}/toggle_task/', safe=''
+        )
         # get response
-        response = self.client.get(f'/system/{system_1.system_id}/toggle_task/', follow=True)
+        response = self.client.get(
+            f'/system/{system_1.system_id}/toggle_task/', follow=True
+        )
         # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
 
     def test_system_detail_task_toggle_logged_in(self):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # create url
-        destination = urllib.parse.quote(f'/system/{system_1.system_id}/#task', safe='/#')
+        destination = urllib.parse.quote(
+            f'/system/{system_1.system_id}/#task', safe='/#'
+        )
         # get response
         response = self.client.get(f'/system/{system_1.system_id}/toggle_task/')
         # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
 
     def test_system_detail_task_toggle_redirect(self):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # create url
-        destination = urllib.parse.quote(f'/system/{system_1.system_id}/toggle_task/', safe='/')
+        destination = urllib.parse.quote(
+            f'/system/{system_1.system_id}/toggle_task/', safe='/'
+        )
         # get response
         response = self.client.get(f'/system/{system_1.system_id}/toggle_task')
         # compare
-        self.assertRedirects(response, destination, status_code=301, target_status_code=302)
+        self.assertRedirects(
+            response, destination, status_code=301, target_status_code=302
+        )
 
     def test_system_detail_task_toggle_context_true(self):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # get user
@@ -312,7 +382,9 @@ class SystemToggleTestCase(TestCase):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # get user
@@ -336,45 +408,65 @@ class SystemToggleTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # create url
-        destination = '/login/?next=' + urllib.parse.quote(f'/system/{system_1.system_id}/toggle_task_closed/', safe='')
+        destination = '/login/?next=' + urllib.parse.quote(
+            f'/system/{system_1.system_id}/toggle_task_closed/', safe=''
+        )
         # get response
-        response = self.client.get(f'/system/{system_1.system_id}/toggle_task_closed/', follow=True)
+        response = self.client.get(
+            f'/system/{system_1.system_id}/toggle_task_closed/', follow=True
+        )
         # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
 
     def test_system_detail_task_closed_toggle_logged_in(self):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # create url
-        destination = urllib.parse.quote(f'/system/{system_1.system_id}/#task', safe='/#')
+        destination = urllib.parse.quote(
+            f'/system/{system_1.system_id}/#task', safe='/#'
+        )
         # get response
         response = self.client.get(f'/system/{system_1.system_id}/toggle_task_closed/')
         # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
 
     def test_system_detail_task_closed_toggle_redirect(self):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # create url
-        destination = urllib.parse.quote(f'/system/{system_1.system_id}/toggle_task_closed/', safe='/')
+        destination = urllib.parse.quote(
+            f'/system/{system_1.system_id}/toggle_task_closed/', safe='/'
+        )
         # get response
         response = self.client.get(f'/system/{system_1.system_id}/toggle_task_closed')
         # compare
-        self.assertRedirects(response, destination, status_code=301, target_status_code=302)
+        self.assertRedirects(
+            response, destination, status_code=301, target_status_code=302
+        )
 
     def test_system_detail_task_closed_toggle_context_true(self):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # get user
@@ -396,7 +488,9 @@ class SystemToggleTestCase(TestCase):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # get user
@@ -420,45 +514,69 @@ class SystemToggleTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # create url
-        destination = '/login/?next=' + urllib.parse.quote(f'/system/{system_1.system_id}/toggle_technical_information/', safe='')
+        destination = '/login/?next=' + urllib.parse.quote(
+            f'/system/{system_1.system_id}/toggle_technical_information/', safe=''
+        )
         # get response
-        response = self.client.get(f'/system/{system_1.system_id}/toggle_technical_information/', follow=True)
+        response = self.client.get(
+            f'/system/{system_1.system_id}/toggle_technical_information/', follow=True
+        )
         # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
 
     def test_system_detail_technical_information_toggle_logged_in(self):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # create url
-        destination = urllib.parse.quote(f'/system/{system_1.system_id}/#technical_information', safe='/#')
+        destination = urllib.parse.quote(
+            f'/system/{system_1.system_id}/#technical_information', safe='/#'
+        )
         # get response
-        response = self.client.get(f'/system/{system_1.system_id}/toggle_technical_information/')
+        response = self.client.get(
+            f'/system/{system_1.system_id}/toggle_technical_information/'
+        )
         # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
 
     def test_system_detail_technical_information_toggle_redirect(self):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # create url
-        destination = urllib.parse.quote(f'/system/{system_1.system_id}/toggle_technical_information/', safe='/')
+        destination = urllib.parse.quote(
+            f'/system/{system_1.system_id}/toggle_technical_information/', safe='/'
+        )
         # get response
-        response = self.client.get(f'/system/{system_1.system_id}/toggle_technical_information')
+        response = self.client.get(
+            f'/system/{system_1.system_id}/toggle_technical_information'
+        )
         # compare
-        self.assertRedirects(response, destination, status_code=301, target_status_code=302)
+        self.assertRedirects(
+            response, destination, status_code=301, target_status_code=302
+        )
 
     def test_system_detail_technical_information_toggle_context_true(self):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # get user
@@ -480,7 +598,9 @@ class SystemToggleTestCase(TestCase):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # get user
@@ -504,45 +624,65 @@ class SystemToggleTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # create url
-        destination = '/login/?next=' + urllib.parse.quote(f'/system/{system_1.system_id}/toggle_timeline/', safe='')
+        destination = '/login/?next=' + urllib.parse.quote(
+            f'/system/{system_1.system_id}/toggle_timeline/', safe=''
+        )
         # get response
-        response = self.client.get(f'/system/{system_1.system_id}/toggle_timeline/', follow=True)
+        response = self.client.get(
+            f'/system/{system_1.system_id}/toggle_timeline/', follow=True
+        )
         # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
 
     def test_system_detail_timeline_toggle_logged_in(self):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # create url
-        destination = urllib.parse.quote(f'/system/{system_1.system_id}/#timeline', safe='/#')
+        destination = urllib.parse.quote(
+            f'/system/{system_1.system_id}/#timeline', safe='/#'
+        )
         # get response
         response = self.client.get(f'/system/{system_1.system_id}/toggle_timeline/')
         # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
 
     def test_system_detail_timeline_toggle_redirect(self):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # create url
-        destination = urllib.parse.quote(f'/system/{system_1.system_id}/toggle_timeline/', safe='/')
+        destination = urllib.parse.quote(
+            f'/system/{system_1.system_id}/toggle_timeline/', safe='/'
+        )
         # get response
         response = self.client.get(f'/system/{system_1.system_id}/toggle_timeline')
         # compare
-        self.assertRedirects(response, destination, status_code=301, target_status_code=302)
+        self.assertRedirects(
+            response, destination, status_code=301, target_status_code=302
+        )
 
     def test_system_detail_timeline_toggle_context_true(self):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # get user
@@ -564,7 +704,9 @@ class SystemToggleTestCase(TestCase):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # get user
@@ -588,45 +730,70 @@ class SystemToggleTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # create url
-        destination = '/login/?next=' + urllib.parse.quote(f'/system/{system_1.system_id}/toggle_virtualization_information/', safe='')
+        destination = '/login/?next=' + urllib.parse.quote(
+            f'/system/{system_1.system_id}/toggle_virtualization_information/', safe=''
+        )
         # get response
-        response = self.client.get(f'/system/{system_1.system_id}/toggle_virtualization_information/', follow=True)
+        response = self.client.get(
+            f'/system/{system_1.system_id}/toggle_virtualization_information/',
+            follow=True,
+        )
         # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
 
     def test_system_detail_virtualization_information_toggle_logged_in(self):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # create url
-        destination = urllib.parse.quote(f'/system/{system_1.system_id}/#virtualization_information', safe='/#')
+        destination = urllib.parse.quote(
+            f'/system/{system_1.system_id}/#virtualization_information', safe='/#'
+        )
         # get response
-        response = self.client.get(f'/system/{system_1.system_id}/toggle_virtualization_information/')
+        response = self.client.get(
+            f'/system/{system_1.system_id}/toggle_virtualization_information/'
+        )
         # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
 
     def test_system_detail_virtualization_information_toggle_redirect(self):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # create url
-        destination = urllib.parse.quote(f'/system/{system_1.system_id}/toggle_virtualization_information/', safe='/')
+        destination = urllib.parse.quote(
+            f'/system/{system_1.system_id}/toggle_virtualization_information/', safe='/'
+        )
         # get response
-        response = self.client.get(f'/system/{system_1.system_id}/toggle_virtualization_information')
+        response = self.client.get(
+            f'/system/{system_1.system_id}/toggle_virtualization_information'
+        )
         # compare
-        self.assertRedirects(response, destination, status_code=301, target_status_code=302)
+        self.assertRedirects(
+            response, destination, status_code=301, target_status_code=302
+        )
 
     def test_system_detail_virtualization_information_toggle_context_true(self):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # get user
@@ -634,11 +801,15 @@ class SystemToggleTestCase(TestCase):
         # set toggle flags in user config to false
         set_user_config_toogle_false(test_user)
         # get response
-        self.client.get(f'/system/{system_1.system_id}/toggle_virtualization_information/')
+        self.client.get(
+            f'/system/{system_1.system_id}/toggle_virtualization_information/'
+        )
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
-        self.assertTrue(user_config.filter_system_detail_show_virtualization_information)
+        self.assertTrue(
+            user_config.filter_system_detail_show_virtualization_information
+        )
         # reload system detail to get response context
         response = self.client.get(f'/system/{system_1.system_id}/')
         # compare
@@ -648,7 +819,9 @@ class SystemToggleTestCase(TestCase):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # get user
@@ -656,11 +829,15 @@ class SystemToggleTestCase(TestCase):
         # set toggle flags in user config to true
         set_user_config_toogle_true(test_user)
         # get response
-        self.client.get(f'/system/{system_1.system_id}/toggle_virtualization_information/')
+        self.client.get(
+            f'/system/{system_1.system_id}/toggle_virtualization_information/'
+        )
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
-        self.assertFalse(user_config.filter_system_detail_show_virtualization_information)
+        self.assertFalse(
+            user_config.filter_system_detail_show_virtualization_information
+        )
         # reload system detail to get response context
         response = self.client.get(f'/system/{system_1.system_id}/')
         # compare
@@ -672,45 +849,69 @@ class SystemToggleTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # create url
-        destination = '/login/?next=' + urllib.parse.quote(f'/system/{system_1.system_id}/toggle_company_information/', safe='')
+        destination = '/login/?next=' + urllib.parse.quote(
+            f'/system/{system_1.system_id}/toggle_company_information/', safe=''
+        )
         # get response
-        response = self.client.get(f'/system/{system_1.system_id}/toggle_company_information/', follow=True)
+        response = self.client.get(
+            f'/system/{system_1.system_id}/toggle_company_information/', follow=True
+        )
         # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
 
     def test_system_detail_company_information_toggle_logged_in(self):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # create url
-        destination = urllib.parse.quote(f'/system/{system_1.system_id}/#company_information', safe='/#')
+        destination = urllib.parse.quote(
+            f'/system/{system_1.system_id}/#company_information', safe='/#'
+        )
         # get response
-        response = self.client.get(f'/system/{system_1.system_id}/toggle_company_information/')
+        response = self.client.get(
+            f'/system/{system_1.system_id}/toggle_company_information/'
+        )
         # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
 
     def test_system_detail_company_information_toggle_redirect(self):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # create url
-        destination = urllib.parse.quote(f'/system/{system_1.system_id}/toggle_company_information/', safe='/')
+        destination = urllib.parse.quote(
+            f'/system/{system_1.system_id}/toggle_company_information/', safe='/'
+        )
         # get response
-        response = self.client.get(f'/system/{system_1.system_id}/toggle_company_information')
+        response = self.client.get(
+            f'/system/{system_1.system_id}/toggle_company_information'
+        )
         # compare
-        self.assertRedirects(response, destination, status_code=301, target_status_code=302)
+        self.assertRedirects(
+            response, destination, status_code=301, target_status_code=302
+        )
 
     def test_system_detail_company_information_toggle_context_true(self):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # get user
@@ -732,7 +933,9 @@ class SystemToggleTestCase(TestCase):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # get user
@@ -756,45 +959,65 @@ class SystemToggleTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # create url
-        destination = '/login/?next=' + urllib.parse.quote(f'/system/{system_1.system_id}/toggle_systemuser/', safe='')
+        destination = '/login/?next=' + urllib.parse.quote(
+            f'/system/{system_1.system_id}/toggle_systemuser/', safe=''
+        )
         # get response
-        response = self.client.get(f'/system/{system_1.system_id}/toggle_systemuser/', follow=True)
+        response = self.client.get(
+            f'/system/{system_1.system_id}/toggle_systemuser/', follow=True
+        )
         # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
 
     def test_system_detail_systemuser_toggle_logged_in(self):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # create url
-        destination = urllib.parse.quote(f'/system/{system_1.system_id}/#systemuser', safe='/#')
+        destination = urllib.parse.quote(
+            f'/system/{system_1.system_id}/#systemuser', safe='/#'
+        )
         # get response
         response = self.client.get(f'/system/{system_1.system_id}/toggle_systemuser/')
         # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
 
     def test_system_detail_systemuser_toggle_redirect(self):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # create url
-        destination = urllib.parse.quote(f'/system/{system_1.system_id}/toggle_systemuser/', safe='/')
+        destination = urllib.parse.quote(
+            f'/system/{system_1.system_id}/toggle_systemuser/', safe='/'
+        )
         # get response
         response = self.client.get(f'/system/{system_1.system_id}/toggle_systemuser')
         # compare
-        self.assertRedirects(response, destination, status_code=301, target_status_code=302)
+        self.assertRedirects(
+            response, destination, status_code=301, target_status_code=302
+        )
 
     def test_system_detail_systemuser_toggle_context_true(self):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # get user
@@ -816,7 +1039,9 @@ class SystemToggleTestCase(TestCase):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # get user
@@ -840,45 +1065,65 @@ class SystemToggleTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # create url
-        destination = '/login/?next=' + urllib.parse.quote(f'/system/{system_1.system_id}/toggle_analystmemo/', safe='')
+        destination = '/login/?next=' + urllib.parse.quote(
+            f'/system/{system_1.system_id}/toggle_analystmemo/', safe=''
+        )
         # get response
-        response = self.client.get(f'/system/{system_1.system_id}/toggle_analystmemo/', follow=True)
+        response = self.client.get(
+            f'/system/{system_1.system_id}/toggle_analystmemo/', follow=True
+        )
         # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
 
     def test_system_detail_analystmemo_toggle_logged_in(self):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # create url
-        destination = urllib.parse.quote(f'/system/{system_1.system_id}/#analystmemo', safe='/#')
+        destination = urllib.parse.quote(
+            f'/system/{system_1.system_id}/#analystmemo', safe='/#'
+        )
         # get response
         response = self.client.get(f'/system/{system_1.system_id}/toggle_analystmemo/')
         # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
 
     def test_system_detail_analystmemo_toggle_redirect(self):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # create url
-        destination = urllib.parse.quote(f'/system/{system_1.system_id}/toggle_analystmemo/', safe='/')
+        destination = urllib.parse.quote(
+            f'/system/{system_1.system_id}/toggle_analystmemo/', safe='/'
+        )
         # get response
         response = self.client.get(f'/system/{system_1.system_id}/toggle_analystmemo')
         # compare
-        self.assertRedirects(response, destination, status_code=301, target_status_code=302)
+        self.assertRedirects(
+            response, destination, status_code=301, target_status_code=302
+        )
 
     def test_system_detail_analystmemo_toggle_context_true(self):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # get user
@@ -900,7 +1145,9 @@ class SystemToggleTestCase(TestCase):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # get user
@@ -924,45 +1171,65 @@ class SystemToggleTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # create url
-        destination = '/login/?next=' + urllib.parse.quote(f'/system/{system_1.system_id}/toggle_reportitem/', safe='')
+        destination = '/login/?next=' + urllib.parse.quote(
+            f'/system/{system_1.system_id}/toggle_reportitem/', safe=''
+        )
         # get response
-        response = self.client.get(f'/system/{system_1.system_id}/toggle_reportitem/', follow=True)
+        response = self.client.get(
+            f'/system/{system_1.system_id}/toggle_reportitem/', follow=True
+        )
         # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
 
     def test_system_detail_reportitem_toggle_logged_in(self):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # create url
-        destination = urllib.parse.quote(f'/system/{system_1.system_id}/#reportitem', safe='/#')
+        destination = urllib.parse.quote(
+            f'/system/{system_1.system_id}/#reportitem', safe='/#'
+        )
         # get response
         response = self.client.get(f'/system/{system_1.system_id}/toggle_reportitem/')
         # compare
-        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
 
     def test_system_detail_reportitem_toggle_redirect(self):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # create url
-        destination = urllib.parse.quote(f'/system/{system_1.system_id}/toggle_reportitem/', safe='/')
+        destination = urllib.parse.quote(
+            f'/system/{system_1.system_id}/toggle_reportitem/', safe='/'
+        )
         # get response
         response = self.client.get(f'/system/{system_1.system_id}/toggle_reportitem')
         # compare
-        self.assertRedirects(response, destination, status_code=301, target_status_code=302)
+        self.assertRedirects(
+            response, destination, status_code=301, target_status_code=302
+        )
 
     def test_system_detail_reportitem_toggle_context_true(self):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # get user
@@ -984,7 +1251,9 @@ class SystemToggleTestCase(TestCase):
         """test toggle view"""
 
         # login testuser
-        self.client.login(username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt')
+        self.client.login(
+            username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'
+        )
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # get user

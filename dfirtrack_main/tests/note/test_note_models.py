@@ -224,4 +224,6 @@ class NoteModelTestCase(TestCase):
         # get object
         note_1 = Note.objects.get(note_title='note_1')
         # compare
-        self.assertEqual(note_1.get_unset_user_url(), f'/note/{note_1.note_id}/unset_user/')
+        self.assertEqual(
+            note_1.get_unset_user_url(), f'/note/{note_1.note_id}/unset_user/'
+        )

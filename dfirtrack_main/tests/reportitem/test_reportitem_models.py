@@ -256,7 +256,10 @@ class ReportitemModelTestCase(TestCase):
         # get object
         reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
         # compare
-        self.assertEqual(reportitem_1.get_set_user_url(), f'/reportitem/{reportitem_1.reportitem_id}/set_user/')
+        self.assertEqual(
+            reportitem_1.get_set_user_url(),
+            f'/reportitem/{reportitem_1.reportitem_id}/set_user/',
+        )
 
     def test_reportitem_get_unset_user_url(self):
         """test URL method"""
@@ -264,4 +267,7 @@ class ReportitemModelTestCase(TestCase):
         # get object
         reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
         # compare
-        self.assertEqual(reportitem_1.get_unset_user_url(), f'/reportitem/{reportitem_1.reportitem_id}/unset_user/')
+        self.assertEqual(
+            reportitem_1.get_unset_user_url(),
+            f'/reportitem/{reportitem_1.reportitem_id}/unset_user/',
+        )

@@ -375,7 +375,9 @@ class SystemModelTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # compare
-        self.assertEqual(system_1.get_set_user_url(), f'/system/{system_1.system_id}/set_user/')
+        self.assertEqual(
+            system_1.get_set_user_url(), f'/system/{system_1.system_id}/set_user/'
+        )
 
     def test_system_get_unset_user_url(self):
         """test URL method"""
@@ -383,7 +385,9 @@ class SystemModelTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # compare
-        self.assertEqual(system_1.get_unset_user_url(), f'/system/{system_1.system_id}/unset_user/')
+        self.assertEqual(
+            system_1.get_unset_user_url(), f'/system/{system_1.system_id}/unset_user/'
+        )
 
     def test_system_toggle_artifact_url(self):
         """test URL method"""
@@ -391,7 +395,10 @@ class SystemModelTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # compare
-        self.assertEqual(system_1.get_toggle_artifact_url(), f'/system/{system_1.system_id}/toggle_artifact/')
+        self.assertEqual(
+            system_1.get_toggle_artifact_url(),
+            f'/system/{system_1.system_id}/toggle_artifact/',
+        )
 
     def test_system_toggle_artifact_closed_url(self):
         """test URL method"""
@@ -399,7 +406,10 @@ class SystemModelTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # compare
-        self.assertEqual(system_1.get_toggle_artifact_closed_url(), f'/system/{system_1.system_id}/toggle_artifact_closed/')
+        self.assertEqual(
+            system_1.get_toggle_artifact_closed_url(),
+            f'/system/{system_1.system_id}/toggle_artifact_closed/',
+        )
 
     def test_system_toggle_task_url(self):
         """test URL method"""
@@ -407,7 +417,9 @@ class SystemModelTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # compare
-        self.assertEqual(system_1.get_toggle_task_url(), f'/system/{system_1.system_id}/toggle_task/')
+        self.assertEqual(
+            system_1.get_toggle_task_url(), f'/system/{system_1.system_id}/toggle_task/'
+        )
 
     def test_system_toggle_task_closed_url(self):
         """test URL method"""
@@ -415,7 +427,10 @@ class SystemModelTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # compare
-        self.assertEqual(system_1.get_toggle_task_closed_url(), f'/system/{system_1.system_id}/toggle_task_closed/')
+        self.assertEqual(
+            system_1.get_toggle_task_closed_url(),
+            f'/system/{system_1.system_id}/toggle_task_closed/',
+        )
 
     def test_system_toggle_technical_information_url(self):
         """test URL method"""
@@ -423,7 +438,10 @@ class SystemModelTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # compare
-        self.assertEqual(system_1.get_toggle_technical_information_url(), f'/system/{system_1.system_id}/toggle_technical_information/')
+        self.assertEqual(
+            system_1.get_toggle_technical_information_url(),
+            f'/system/{system_1.system_id}/toggle_technical_information/',
+        )
 
     def test_system_toggle_timeline_url(self):
         """test URL method"""
@@ -431,7 +449,10 @@ class SystemModelTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # compare
-        self.assertEqual(system_1.get_toggle_timeline_url(), f'/system/{system_1.system_id}/toggle_timeline/')
+        self.assertEqual(
+            system_1.get_toggle_timeline_url(),
+            f'/system/{system_1.system_id}/toggle_timeline/',
+        )
 
     def test_system_toggle_virtualization_information_url(self):
         """test URL method"""
@@ -439,7 +460,10 @@ class SystemModelTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # compare
-        self.assertEqual(system_1.get_toggle_virtualization_information_url(), f'/system/{system_1.system_id}/toggle_virtualization_information/')
+        self.assertEqual(
+            system_1.get_toggle_virtualization_information_url(),
+            f'/system/{system_1.system_id}/toggle_virtualization_information/',
+        )
 
     def test_system_toggle_company_information_url(self):
         """test URL method"""
@@ -447,7 +471,10 @@ class SystemModelTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # compare
-        self.assertEqual(system_1.get_toggle_company_information_url(), f'/system/{system_1.system_id}/toggle_company_information/')
+        self.assertEqual(
+            system_1.get_toggle_company_information_url(),
+            f'/system/{system_1.system_id}/toggle_company_information/',
+        )
 
     def test_system_toggle_systemuser_url(self):
         """test URL method"""
@@ -455,7 +482,10 @@ class SystemModelTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # compare
-        self.assertEqual(system_1.get_toggle_systemuser_url(), f'/system/{system_1.system_id}/toggle_systemuser/')
+        self.assertEqual(
+            system_1.get_toggle_systemuser_url(),
+            f'/system/{system_1.system_id}/toggle_systemuser/',
+        )
 
     def test_system_toggle_analystmemo_url(self):
         """test URL method"""
@@ -463,7 +493,10 @@ class SystemModelTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # compare
-        self.assertEqual(system_1.get_toggle_analystmemo_url(), f'/system/{system_1.system_id}/toggle_analystmemo/')
+        self.assertEqual(
+            system_1.get_toggle_analystmemo_url(),
+            f'/system/{system_1.system_id}/toggle_analystmemo/',
+        )
 
     def test_system_toggle_reportitem_url(self):
         """test URL method"""
@@ -471,4 +504,7 @@ class SystemModelTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         # compare
-        self.assertEqual(system_1.get_toggle_reportitem_url(), f'/system/{system_1.system_id}/toggle_reportitem/')
+        self.assertEqual(
+            system_1.get_toggle_reportitem_url(),
+            f'/system/{system_1.system_id}/toggle_reportitem/',
+        )

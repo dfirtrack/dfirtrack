@@ -480,4 +480,6 @@ class TaskModelTestCase(TestCase):
         # get object
         task_1 = Task.objects.get(taskname=taskname_1)
         # compare
-        self.assertEqual(task_1.get_unset_user_url(), f'/task/{task_1.task_id}/unset_user/')
+        self.assertEqual(
+            task_1.get_unset_user_url(), f'/task/{task_1.task_id}/unset_user/'
+        )
