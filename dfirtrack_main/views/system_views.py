@@ -18,7 +18,7 @@ from dfirtrack_config.models import MainConfigModel, UserConfigModel, Workflow
 from dfirtrack_main.filter_forms import SystemFilterForm
 from dfirtrack_main.forms import SystemForm, SystemNameForm
 from dfirtrack_main.logger.default_logger import debug_logger, warning_logger
-from dfirtrack_main.models import Analysisstatus, Case, Ip, System, Systemstatus, Tag
+from dfirtrack_main.models import Analysisstatus, Case, Ip, System, Systemstatus, Tag, Task, Taskstatus
 
 
 def query_artifact(artifactstatus_list, system):
@@ -44,6 +44,31 @@ def query_artifact(artifactstatus_list, system):
 
     # return sorted artifacts with specific artifactstatus
     return artifacts_sorted
+
+
+def query_task(taskstatus_list, system):
+    """query tasks with a list of specific taskstatus"""
+
+    # create empty task queryset
+    tasks_merged = Task.objects.none()
+
+    # iterate over taskstatus objects
+    for taskstatus in taskstatus_list:
+
+        # get tasks with specific taskstatus
+        tasks = Task.objects.filter(
+            taskstatus=taskstatus,
+            system=system,
+        )
+
+        # add tasks from above query to merge queryset
+        tasks_merged = tasks | tasks_merged
+
+    # sort tasks by id
+    tasks_sorted = tasks_merged.order_by('task_id')
+
+    # return sorted tasks with specific taskstatus
+    return tasks_sorted
 
 
 class SystemList(LoginRequiredMixin, FormView):
@@ -189,6 +214,21 @@ class SystemDetail(LoginRequiredMixin, DetailView):
         artifactstatus_closed = artifactstatus_all.difference(artifactstatus_open)
         # query artifacts according to subset of artifactstatus closed
         context['artifacts_closed'] = query_artifact(artifactstatus_closed,system=system)
+
+        '''tasks'''
+
+        # get all tasks of system for number
+        context['tasks_all'] = Task.objects.filter(system=system)
+
+        # get open taskstatus
+        taskstatus_open = Taskstatus.objects.filter(taskstatus_name__in=['00_blocked', '10_pending', '20_working'])
+        # query tasks according to subset of taskstatus open
+        context['tasks_open'] = query_task(taskstatus_open,system=system)
+
+        # get open taskstatus
+        taskstatus_closed = Taskstatus.objects.filter(taskstatus_name__in=['30_done', '40_skipped'])
+        # query tasks according to subset of taskstatus closed
+        context['tasks_closed'] = query_task(taskstatus_closed,system=system)
 
         '''api'''
 

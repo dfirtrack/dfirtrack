@@ -384,6 +384,9 @@
                 <h5 id="task">
                     <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                     Tasks
+                    {% if tasks_all %}
+                        ({{ tasks_all|length }})
+                    {% endif %}
                     <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
                 </h5>
             </a>
@@ -409,16 +412,14 @@
         <tbody>
 
             <!-- open tasks -->
-            {% if system.task_set.all %}
-                {% for i in system.task_set.all %}
-                    {% if i.taskstatus.taskstatus_name == '00_blocked' or i.taskstatus.taskstatus_name == '10_pending' or i.taskstatus.taskstatus_name == '20_working' %}
+            {% if tasks_open %}
+                {% for i in tasks_open %}
 
-                        <!-- table row -->
-                        {% with get_key='system' key_id=system.system_id %}
-                            {% include "dfirtrack_main/includes/datatable_tbody_table_task_reduced_open.html" %}
-                        {% endwith  %}
+                    <!-- table row -->
+                    {% with get_key='system' key_id=system.system_id %}
+                        {% include "dfirtrack_main/includes/datatable_tbody_table_task_reduced_open.html" %}
+                    {% endwith  %}
 
-                    {% endif %}
                 {% endfor %}
 
             <!-- no open tasks -->
@@ -519,16 +520,14 @@
             <tbody>
 
                 <!-- closed tasks -->
-                {% if system.task_set.all %}
-                    {% for i in system.task_set.all %}
-                        {% if i.taskstatus.taskstatus_name == '30_done' or i.taskstatus.taskstatus_name == '40_skipped' %}
+                {% if tasks_closed %}
+                    {% for i in tasks_closed %}
 
-                            <!-- table row -->
-                            {% with get_key='system' key_id=system.system_id %}
-                                {% include "dfirtrack_main/includes/datatable_tbody_table_task_reduced_closed.html" %}
-                            {% endwith %}
+                        <!-- table row -->
+                        {% with get_key='system' key_id=system.system_id %}
+                            {% include "dfirtrack_main/includes/datatable_tbody_table_task_reduced_closed.html" %}
+                        {% endwith %}
 
-                        {% endif %}
                     {% endfor %}
                 {% else %}
 
@@ -575,6 +574,9 @@
                 <h5 id="task">
                     <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                     Tasks
+                    {% if tasks_all %}
+                        ({{ tasks_all|length }})
+                    {% endif %}
                     <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
                 </h5>
             </a>
