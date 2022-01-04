@@ -9,16 +9,18 @@ from django.urls import reverse
 from dfirtrack_config.models import UserConfigModel
 from dfirtrack_main.models import Case, System, Tag
 
-def get_filter_user_settings(request):
 
-    """get filter values from config"""
+def get_filter_user_settings(request):
+    """get filter values for all referers from config"""
 
     # get config
     user_config, created = UserConfigModel.objects.get_or_create(
         user_config_username=request.user
     )
 
-    # system list
+    # add below: new filter values
+
+    '''system list'''
 
     # case filter
     if user_config.filter_system_list_case:
@@ -38,7 +40,7 @@ def get_filter_user_settings(request):
     else:
         system_list_tag = None
 
-    # assignment view
+    '''assignment view'''
 
     # case filter
     if user_config.filter_assignment_view_case:
@@ -65,9 +67,11 @@ def get_filter_user_settings(request):
     else:
         assignment_view_user = None
 
+    # return filter objects for all referers
     return system_list_case, system_list_tag, assignment_view_case, assignment_view_tag, assignment_view_user
 
 def clean_user_config(request):
+    """TODO: deprecated according to ticket 13"""
 
     # get config
     user_config, created = UserConfigModel.objects.get_or_create(
@@ -106,7 +110,6 @@ def get_systems_json(request):
         for x in search_value
     ):
         search_value = ''
-
 
     # start with empty query
     system_values = System.objects.none()
@@ -158,6 +161,8 @@ def get_systems_json(request):
 
     # get filter values from user config
     system_list_case, system_list_tag, assignment_view_case, assignment_view_tag, assignment_view_user = get_filter_user_settings(request)
+
+    # add below: new referers and apply filter values
 
     # add optional filtering from user_settings
     # system list
@@ -262,6 +267,7 @@ def get_systems_json(request):
     json_dict['data'] = visible_system_list
 
     # filter: clean filtering after providing filter results if persistence option was not selected
+    # TODO: deprecated according to ticket 13
     clean_user_config(request)
 
     # convert dict with data to jsonresponse
