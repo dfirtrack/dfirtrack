@@ -9,6 +9,7 @@ from django.urls import reverse
 from dfirtrack_config.models import UserConfigModel
 from dfirtrack_main.models import Case, System, Tag
 
+
 def get_filter_user_settings(request):
 
     """get filter values from config"""
@@ -65,7 +66,14 @@ def get_filter_user_settings(request):
     else:
         assignment_view_user = None
 
-    return system_list_case, system_list_tag, assignment_view_case, assignment_view_tag, assignment_view_user
+    return (
+        system_list_case,
+        system_list_tag,
+        assignment_view_case,
+        assignment_view_tag,
+        assignment_view_user,
+    )
+
 
 def clean_user_config(request):
 
@@ -81,6 +89,7 @@ def clean_user_config(request):
         user_config.filter_system_list_tag = None
         # save config
         user_config.save()
+
 
 @login_required(login_url="/login")
 def get_systems_json(request):
@@ -98,7 +107,14 @@ def get_systems_json(request):
     get_params = request.GET
     order_column_number = get_params['order[0][column]']
     order_column_name = get_params['columns[' + order_column_number + '][data]']
+    # need to modify order_column_name to order by correct field!
+    if order_column_name == "analysisstatus":
+        order_column_name = "analysisstatus__analysisstatus_name"
+    elif order_column_name == "systemstatus":
+        order_column_name = "systemstatus__systemstatus_name"
+    # order direction: empty if descending (default), '-' is ascending
     order_dir = '' if (get_params['order[0][dir]'] == 'asc') else '-'
+    # search value entered by user
     search_value = get_params['search[value]']
     # check that string contains only alphanumerical chars or spaces (or '_','-',':')
     if not all(
@@ -106,7 +122,6 @@ def get_systems_json(request):
         for x in search_value
     ):
         search_value = ''
-
 
     # start with empty query
     system_values = System.objects.none()
@@ -122,11 +137,11 @@ def get_systems_json(request):
             if search_value != "":
                 if isinstance(System._meta.get_field(tmp_column_name), ForeignKey):
                     filter_kwargs = {
-                    tmp_column_name
-                    + '__'
-                    + tmp_column_name
-                    + '_name'
-                    + '__icontains': search_value
+                        tmp_column_name
+                        + '__'
+                        + tmp_column_name
+                        + '_name'
+                        + '__icontains': search_value
                     }
                 else:
                     filter_kwargs = {tmp_column_name + '__icontains': search_value}
@@ -136,9 +151,7 @@ def get_systems_json(request):
             # analysisstatus detail
             if '/analysisstatus/' in referer:
                 analysisstatus_id = referer.split("/")[-2]
-                filter_kwargs[
-                    "analysisstatus__analysisstatus_id"
-                ] = analysisstatus_id
+                filter_kwargs["analysisstatus__analysisstatus_id"] = analysisstatus_id
             # systemstatus detail
             elif '/systemstatus/' in referer:
                 systemstatus_id = referer.split("/")[-2]
@@ -152,12 +165,16 @@ def get_systems_json(request):
                 tag_id = referer.split("/")[-2]
                 filter_kwargs["tag__tag_id"] = tag_id
             # apply search filter
-            system_values = system_values | System.objects.filter(
-                **filter_kwargs
-            )
+            system_values = system_values | System.objects.filter(**filter_kwargs)
 
     # get filter values from user config
-    system_list_case, system_list_tag, assignment_view_case, assignment_view_tag, assignment_view_user = get_filter_user_settings(request)
+    (
+        system_list_case,
+        system_list_tag,
+        assignment_view_case,
+        assignment_view_tag,
+        assignment_view_user,
+    ) = get_filter_user_settings(request)
 
     # add optional filtering from user_settings
     # system list
@@ -224,8 +241,7 @@ def get_systems_json(request):
     # construct the final list with systems that are presented to user
     visible_system_list = []
     for i in system_values[start : (start + length)]:
-        # construct the data to be presented in the system table, important: if you add something here, make sure you also add it above in the cleaned_system_values generation to stay consistent
-        # TODO: what "cleaned_system_values generation"?
+        # construct the data to be presented in the system table
         visible_system_list.append(
             {
                 "system_id": i.system_id,
