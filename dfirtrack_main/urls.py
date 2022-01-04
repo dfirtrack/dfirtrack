@@ -1,5 +1,5 @@
 from django import views as django_views
-from django.conf.urls import url
+from django.conf.urls import re_path
 from django.urls import path
 
 from dfirtrack_main.creator import (
@@ -610,5 +610,5 @@ urlpatterns = [
         taskstatus_views.TaskstatusDetail.as_view(),
         name='taskstatus_detail',
     ),
-    url(r'^jsi18n/$', django_views.i18n.JavaScriptCatalog.as_view(), name='jsi18n'),
+    re_path(r'^jsi18n/$', django_views.i18n.JavaScriptCatalog.as_view(), name='jsi18n'),
 ]
