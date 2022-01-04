@@ -5,11 +5,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
 
-from dfirtrack_artifacts.models import (
-    Artifactpriority,
-    Artifactstatus,
-    Artifacttype,
-)
+from dfirtrack_artifacts.models import Artifactpriority, Artifactstatus, Artifacttype
 from dfirtrack_config.models import (
     ArtifactExporterSpreadsheetXlsConfigModel,
     MainConfigModel,
@@ -24,11 +20,7 @@ from dfirtrack_config.models import (
     WorkflowDefaultArtifactAttributes,
     WorkflowDefaultTasknameAttributes,
 )
-from dfirtrack_main.models import (
-    Taskname,
-    Taskstatus,
-    Taskpriority,
-)
+from dfirtrack_main.models import Taskname, Taskpriority, Taskstatus
 
 
 class ConfigModelTestCase(TestCase):

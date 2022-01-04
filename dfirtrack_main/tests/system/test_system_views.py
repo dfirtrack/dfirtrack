@@ -11,7 +11,6 @@ from dfirtrack_artifacts.models import (
     Artifactstatus,
     Artifacttype,
 )
-
 from dfirtrack_config.models import MainConfigModel, Workflow
 from dfirtrack_main.models import (
     Ip,
