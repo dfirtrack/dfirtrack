@@ -9,11 +9,6 @@ from django.urls import reverse
 from dfirtrack_config.models import UserConfigModel
 from dfirtrack_main.models import Case, System, Tag
 
-<<<<<<< HEAD
-
-def get_filter_user_settings(request):
-=======
->>>>>>> 2a6c289e0b1756cd91d381616377c28ab9c8d89c
 
 def get_filter_user_settings(request):
     """get filter values for all referers from config"""
@@ -72,7 +67,6 @@ def get_filter_user_settings(request):
     else:
         assignment_view_user = None
 
-<<<<<<< HEAD
     return (
         system_list_case,
         system_list_tag,
@@ -81,10 +75,6 @@ def get_filter_user_settings(request):
         assignment_view_user,
     )
 
-=======
-    # return filter objects for all referers
-    return system_list_case, system_list_tag, assignment_view_case, assignment_view_tag, assignment_view_user
->>>>>>> 2a6c289e0b1756cd91d381616377c28ab9c8d89c
 
 def clean_user_config(request):
     """TODO: deprecated according to ticket 13"""
