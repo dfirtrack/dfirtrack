@@ -99,7 +99,7 @@ def get_systems_json(request):
 
     # get referrer
     try:
-        referrer = request.headers['referrer']
+        referrer = request.headers['referer']
     # if '/system/json/' was called directly for some reason
     except KeyError:
         # call 'system_list' properly to refresh this call
