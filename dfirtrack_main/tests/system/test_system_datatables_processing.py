@@ -461,3 +461,75 @@ class SystemDatatablesProcessingTestCase(TestCase):
         data = json.loads(response.content)
         # compare
         self.assertEqual(int(data['recordsFiltered']), 0)
+
+    def test_dt_no_referer(self):
+        """test system datatables processing"""
+        # login testuser
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # expected output
+        destination = '/system/'
+        # get response
+        response = self.client.get(
+            '/system/json/',
+            {
+                'order[0][column]': '1',
+                'order[0][dir]': 'asc',
+                'start': '0',
+                'length': '25',
+                'search[value]': 'system_1',
+                'columns[1][data]': 'system_name',
+                'columns[2][data]': 'systemstatus',
+                'draw': '1',
+            },
+        )
+        # compare
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
+
+    def test_dt_order_systemstatus(self):
+        """test system datatables processing"""
+        # login testuser
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get response
+        response = self.client.get(
+            '/system/json/',
+            {
+                'order[0][column]': '2',
+                'order[0][dir]': 'asc',
+                'start': '0',
+                'length': '25',
+                'search[value]': '',
+                'columns[1][data]': 'system_name',
+                'columns[2][data]': 'systemstatus',
+                'draw': '1',
+            },
+            HTTP_REFERER='/system/',
+        )
+        data = json.loads(response.content)
+        # compare
+        self.assertIn('systemstatus_1', data['data'][0]['systemstatus'])
+
+    def test_dt_order_analysisstatus(self):
+        """test system datatables processing"""
+        # login testuser
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get response
+        response = self.client.get(
+            '/system/json/',
+            {
+                'order[0][column]': '3',
+                'order[0][dir]': 'asc',
+                'start': '0',
+                'length': '25',
+                'search[value]': '',
+                'columns[1][data]': 'system_name',
+                'columns[2][data]': 'systemstatus',
+                'columns[3][data]': 'analysisstatus',
+                'draw': '1',
+            },
+            HTTP_REFERER='/system/',
+        )
+        data = json.loads(response.content)
+        # compare
+        self.assertIn('analysisstatus_1', data['data'][0]['analysisstatus'])
