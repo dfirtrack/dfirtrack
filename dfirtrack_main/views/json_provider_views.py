@@ -11,7 +11,7 @@ from dfirtrack_main.models import Case, System, Tag
 
 
 def get_filter_user_settings(request):
-    """get filter values for all referers from config"""
+    """get filter values for all referrers from config"""
 
     # get config
     user_config, created = UserConfigModel.objects.get_or_create(
@@ -97,9 +97,9 @@ def clean_user_config(request):
 def get_systems_json(request):
     """function to create system query used by datatable JSON"""
 
-    # get referer
+    # get referrer
     try:
-        referer = request.headers['Referer']
+        referrer = request.headers['referrer']
     # if '/system/json/' was called directly for some reason
     except KeyError:
         # call 'system_list' properly to refresh this call
@@ -135,7 +135,7 @@ def get_systems_json(request):
             tmp_column_name = get_params[entry]
             # we start with an empty queryset and add all systems that have a match in one of their relevant fields
             # filter_kwargs is necessary for dynamic filter design
-            # if filter_kwargs is empty, all entries will be retruned
+            # if filter_kwargs is empty, all entries will be returned
             if search_value != "":
                 if isinstance(System._meta.get_field(tmp_column_name), ForeignKey):
                     filter_kwargs = {
@@ -149,22 +149,22 @@ def get_systems_json(request):
                     filter_kwargs = {tmp_column_name + '__icontains': search_value}
             else:
                 filter_kwargs = {}
-            # check referer to show only relevant systems if we are not on /system/
+            # check referrer to show only relevant systems if we are not on /system/
             # analysisstatus detail
-            if '/analysisstatus/' in referer:
-                analysisstatus_id = referer.split("/")[-2]
+            if '/analysisstatus/' in referrer:
+                analysisstatus_id = referrer.split("/")[-2]
                 filter_kwargs["analysisstatus__analysisstatus_id"] = analysisstatus_id
             # systemstatus detail
-            elif '/systemstatus/' in referer:
-                systemstatus_id = referer.split("/")[-2]
+            elif '/systemstatus/' in referrer:
+                systemstatus_id = referrer.split("/")[-2]
                 filter_kwargs["systemstatus__systemstatus_id"] = systemstatus_id
             # case detail
-            elif '/case/' in referer:
-                case_id = referer.split("/")[-2]
+            elif '/case/' in referrer:
+                case_id = referrer.split("/")[-2]
                 filter_kwargs["case__case_id"] = case_id
             # tag detail
-            elif '/tag/' in referer:
-                tag_id = referer.split("/")[-2]
+            elif '/tag/' in referrer:
+                tag_id = referrer.split("/")[-2]
                 filter_kwargs["tag__tag_id"] = tag_id
             # apply search filter
             system_values = system_values | System.objects.filter(**filter_kwargs)
@@ -178,17 +178,17 @@ def get_systems_json(request):
         assignment_view_user,
     ) = get_filter_user_settings(request)
 
-    # add below: new referers and apply filter values
+    # add below: new referrers and apply filter values
 
     # add optional filtering from user_settings
     # system list
-    if '/system/' in referer:
+    if '/system/' in referrer:
         if system_list_case:
             system_values = system_values.filter(case=system_list_case)
         if system_list_tag:
             system_values = system_values.filter(tag=system_list_tag)
     # assignment view
-    elif '/assignment/' in referer:
+    elif '/assignment/' in referrer:
         if assignment_view_case:
             system_values = system_values.filter(case=assignment_view_case)
         if assignment_view_tag:
