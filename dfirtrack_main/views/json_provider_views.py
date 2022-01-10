@@ -9,17 +9,23 @@ from django.urls import reverse
 from dfirtrack_config.models import UserConfigModel
 from dfirtrack_main.models import Case, System, Tag
 
+<<<<<<< HEAD
 
 def get_filter_user_settings(request):
+=======
+>>>>>>> 2a6c289e0b1756cd91d381616377c28ab9c8d89c
 
-    """get filter values from config"""
+def get_filter_user_settings(request):
+    """get filter values for all referers from config"""
 
     # get config
     user_config, created = UserConfigModel.objects.get_or_create(
         user_config_username=request.user
     )
 
-    # system list
+    # add below: new filter values
+
+    '''system list'''
 
     # case filter
     if user_config.filter_system_list_case:
@@ -39,7 +45,7 @@ def get_filter_user_settings(request):
     else:
         system_list_tag = None
 
-    # assignment view
+    '''assignment view'''
 
     # case filter
     if user_config.filter_assignment_view_case:
@@ -66,6 +72,7 @@ def get_filter_user_settings(request):
     else:
         assignment_view_user = None
 
+<<<<<<< HEAD
     return (
         system_list_case,
         system_list_tag,
@@ -74,8 +81,13 @@ def get_filter_user_settings(request):
         assignment_view_user,
     )
 
+=======
+    # return filter objects for all referers
+    return system_list_case, system_list_tag, assignment_view_case, assignment_view_tag, assignment_view_user
+>>>>>>> 2a6c289e0b1756cd91d381616377c28ab9c8d89c
 
 def clean_user_config(request):
+    """TODO: deprecated according to ticket 13"""
 
     # get config
     user_config, created = UserConfigModel.objects.get_or_create(
@@ -175,6 +187,8 @@ def get_systems_json(request):
         assignment_view_tag,
         assignment_view_user,
     ) = get_filter_user_settings(request)
+
+    # add below: new referers and apply filter values
 
     # add optional filtering from user_settings
     # system list
@@ -278,6 +292,7 @@ def get_systems_json(request):
     json_dict['data'] = visible_system_list
 
     # filter: clean filtering after providing filter results if persistence option was not selected
+    # TODO: deprecated according to ticket 13
     clean_user_config(request)
 
     # convert dict with data to jsonresponse

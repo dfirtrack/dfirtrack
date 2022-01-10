@@ -3,11 +3,7 @@ import ipaddress
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.exceptions import FieldError
-from django.http import JsonResponse
 from django.shortcuts import redirect, render
-from django.template.loader import render_to_string
-from django.templatetags.static import static
 from django.urls import reverse
 from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, FormView, UpdateView
