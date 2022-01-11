@@ -1,0 +1,62 @@
+name: Generate DFIRTrack Python Client
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  generate-python-client:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get_version.outputs.version }}
+      branch: ${{ steps.extract_branch.outputs.branch }}
+    name: dfirtrack-api-client
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Extract branch name
+        shell: bash
+        run: echo "::set-output name=branch::$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+
+      - name: Retrieve DFIRTrack Version and set env with version number
+        run: echo "::set-output name=version::$(curl https://raw.githubusercontent.com/dfirtrack/dfirtrack/${{ steps.extract_branch.outputs.branch }}/dfirtrack_main/templatetags/dfirtrack_main_tags.py | grep "versionnumber =" | cut -d "'" -f2 | cut -d "v" -f2)"
+        id: get_version
+
+      - name: Debug Variables
+        run: echo "${{ steps.extract_branch.outputs.branch }} - ${{ steps.get_version.outputs.version }}"
+      
+      - name: Set API Version in python.yml
+        run: |
+             sed -i -e 's/  packageVersion: VERSION/  packageVersion: ${{ steps.get_version.outputs.version }}/g' python.yml
+             
+      - name: Generate DFIRTrack Python Client
+        uses: openapi-generators/openapitools-generator-action@v1
+        with:
+          generator: python
+          generator-tag: latest-release
+          config-file: python.yml
+          openapi-url: https://raw.githubusercontent.com/dfirtrack/dfirtrack/${{ steps.extract_branch.outputs.branch }}/dfirtrack_api/openapi/openapi_dfirtrack.yml
+          command-args: --git-repo-id "dfirtrack-api-python-client" --git-user-id "dfirtrack"
+
+      - name: Pushes python client to the githup repo
+        uses: dmnemec/copy_file_to_another_repo_action@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        with:
+          source_file: 'python-client/'
+          destination_repo: 'dfirtrack/dfirtrack-api-python-client'
+          user_name: 'Sven Ulke'
+          user_email: 'spueschel89@gmail.com'
+          commit_message: 'Update dfirtrack-api-python-client to version ${{ steps.get_version.outputs.version }}'
+          use_rsync: 'true'
+      
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          token: ${{ secrets.API_TOKEN_GITHUB_API_CLIENTS }}
+          body: "Release of dfirtrack-api-python-client version ${{ steps.get_version.outputs.version }}"
+          repository: dfirtrack/dfirtrack-api-python-client
