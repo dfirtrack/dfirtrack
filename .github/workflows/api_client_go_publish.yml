@@ -1,16 +1,16 @@
-name: Generate DFIRTrack Python Client
+name: Generate DFIRTrack Go Client
 on:
   push:
     tags:
       - '*'
 
 jobs:
-  generate-python-client:
+  generate-go-client:
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.get_version.outputs.version }}
       branch: ${{ steps.extract_branch.outputs.branch }}
-    name: dfirtrack-api-client
+    name: dfirtrack-api-client-go
     steps:
 
       - name: Checkout
@@ -28,35 +28,35 @@ jobs:
       - name: Debug Variables
         run: echo "${{ steps.extract_branch.outputs.branch }} - ${{ steps.get_version.outputs.version }}"
       
-      - name: Set API Version in python.yml
+      - name: Set API Version in go.yml
         run: |
-             sed -i -e 's/  packageVersion: VERSION/  packageVersion: ${{ steps.get_version.outputs.version }}/g' python.yml
+             sed -i -e 's/  packageVersion: VERSION/  packageVersion: ${{ steps.get_version.outputs.version }}/g' go.yml
              
-      - name: Generate DFIRTrack Python Client
+      - name: Generate DFIRTrack Go Client
         uses: openapi-generators/openapitools-generator-action@v1
         with:
-          generator: python
+          generator: go
           generator-tag: latest-release
-          config-file: dfirtrack_api/openapi/generator-config/python.yml
+          config-file: dfirtrack_api/openapi/generator-config/go.yml
           openapi-url: https://raw.githubusercontent.com/dfirtrack/dfirtrack/${{ steps.extract_branch.outputs.branch }}/dfirtrack_api/openapi/openapi_dfirtrack.yml
-          command-args: --git-repo-id "dfirtrack-api-python-client" --git-user-id "dfirtrack"
+          command-args: --git-repo-id "dfirtrackapi" --git-user-id "dfirtrack"
 
-      - name: Pushes python client to the githup repo
+      - name: Pushes the go client to the githup repo
         uses: dmnemec/copy_file_to_another_repo_action@main
         env:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
-          source_file: 'python-client/'
-          destination_repo: 'dfirtrack/dfirtrack-api-python-client'
+          source_file: 'go-client/'
+          destination_repo: 'dfirtrack/dfirtrackapi'
           user_name: 'Sven Ulke'
           user_email: 'spueschel89@gmail.com'
-          commit_message: 'Update dfirtrack-api-python-client to version ${{ steps.get_version.outputs.version }}'
+          commit_message: 'Update dfirtrackapi to version ${{ steps.get_version.outputs.version }}'
           use_rsync: 'true'
       
       - name: Create Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          token: ${{ secrets.API_TOKEN_GITHUB_API_CLIENTS }}
-          body: "Release of dfirtrack-api-python-client version ${{ steps.get_version.outputs.version }}"
-          repository: dfirtrack/dfirtrack-api-python-client
+          token: ${{ secrets.API_TOKEN_GITHUB }}
+          body: "Release of dfirtrackapi version ${{ steps.get_version.outputs.version }}"
+          repository: dfirtrack/dfirtrackapi
