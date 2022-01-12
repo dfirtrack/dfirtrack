@@ -27,11 +27,11 @@ jobs:
 
       - name: Debug Variables
         run: echo "${{ steps.extract_branch.outputs.branch }} - ${{ steps.get_version.outputs.version }}"
-      
+
       - name: Set API Version in python.yml
         run: |
              sed -i -e 's/  packageVersion: VERSION/  packageVersion: ${{ steps.get_version.outputs.version }}/g' python.yml
-             
+
       - name: Generate DFIRTrack Python Client
         uses: openapi-generators/openapitools-generator-action@v1
         with:
@@ -52,7 +52,7 @@ jobs:
           user_email: 'spueschel89@gmail.com'
           commit_message: 'Update dfirtrack-api-python-client to version ${{ steps.get_version.outputs.version }}'
           use_rsync: 'true'
-      
+
       - name: Create Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
