@@ -1,0 +1,5 @@
+additionalProperties:
+  packageName: dfirtrackapi_client
+  packageVersion: VERSION
+  projectName: dfirtrack-api-client
+  packageUrl: https://github.com/dfirtrack/dfirtrack-api-python-client
