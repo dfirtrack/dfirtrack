@@ -1,0 +1,5 @@
+additionalProperties:
+  packageName: dfirtrackapi
+  packageVersion: VERSION
+  projectName: dfirtrackapi
+  packageUrl: https://github.com/dfirtrack/dfirtrackapi

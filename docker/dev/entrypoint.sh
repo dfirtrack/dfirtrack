@@ -23,7 +23,6 @@ fi
 
 # we copy the files that were modified during the docker build process to the "dynamic" directory
 cp /dfirtrack-static/dfirtrack/local_settings.py /dfirtrack/dfirtrack/local_settings.py
-cp /dfirtrack-static/dfirtrack/settings.py /dfirtrack/dfirtrack/settings.py
 cp -r /dfirtrack-static/markdown/ /dfirtrack/markdown/
 
 service nginx start

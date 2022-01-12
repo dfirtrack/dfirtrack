@@ -30,6 +30,7 @@ from dfirtrack_main.views import (
     entry_views,
     headline_views,
     ip_views,
+    json_provider_views,
     location_views,
     note_views,
     notestatus_views,
@@ -457,7 +458,7 @@ urlpatterns = [
         system_views.SystemUpdate.as_view(),
         name='system_update',
     ),
-    path(r'system/json/', system_views.get_systems_json, name='system_json'),
+    path(r'system/json/', json_provider_views.get_systems_json, name='system_json'),
     path(
         r'system/clear_filter/',
         system_views.clear_system_list_filter,
