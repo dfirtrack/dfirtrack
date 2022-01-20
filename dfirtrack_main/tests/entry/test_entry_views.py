@@ -499,6 +499,8 @@ class EntryViewTestCase(TestCase):
         data_dict = {
             'system': system_1.system_id,
             'entryfile': csv_file,
+            'delimiter': ',',
+            'quotechar': '"',
         }
         destination = '/entry/import/step2/'
 
@@ -527,6 +529,8 @@ class EntryViewTestCase(TestCase):
         data_dict = {
             'system': system_1.system_id,
             'entryfile': csv_file,
+            'delimiter': ',',
+            'quotechar': '"',
         }
         # static uuid
         test_uuid = uuid.uuid4()
@@ -546,6 +550,8 @@ class EntryViewTestCase(TestCase):
                 self.client.session['entry_csv_import']['fields'],
                 ['datetime', 'timestamp_desc', 'message'],
             )
+            self.assertEqual(self.client.session['entry_csv_import']['delimiter'], ',')
+            self.assertEqual(self.client.session['entry_csv_import']['quotechar'], '"')
 
     def test_entry_csv_import_post_step1_with_case(self):
         """test step1 view"""
@@ -569,6 +575,8 @@ class EntryViewTestCase(TestCase):
             'system': system_1.system_id,
             'case': case_1.case_id,
             'entryfile': csv_file,
+            'delimiter': ',',
+            'quotechar': '"',
         }
         # get response
         test_uuid = uuid.uuid4()
@@ -589,6 +597,8 @@ class EntryViewTestCase(TestCase):
                 self.client.session['entry_csv_import']['fields'],
                 ['datetime', 'timestamp_desc', 'message'],
             )
+            self.assertEqual(self.client.session['entry_csv_import']['delimiter'], ',')
+            self.assertEqual(self.client.session['entry_csv_import']['quotechar'], '"')
 
     def test_entry_csv_import_step1_post_invalid_data(self):
         """test step1 view"""
@@ -695,6 +705,8 @@ class EntryViewTestCase(TestCase):
             'system': system_id,
             'case': None,
             'file_name': 'test_file_name',
+            'delimiter': ',',
+            'quotechar': '"',
         }
         session.save()
         # create post data

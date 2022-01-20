@@ -1,5 +1,4 @@
 import hashlib
-import os
 from datetime import datetime
 
 from django.contrib.auth.models import User
@@ -41,7 +40,9 @@ class EntryCsvImporterTestCase(TestCase):
             tag_modified_by_user_id=test_user,
         )
 
-    def execute_csv_entry_import_async(self, csv_string):
+    def execute_csv_entry_import_async(
+        self, csv_string, delimiter=None, quotechar=None
+    ):
         # get objects
         system_id = System.objects.get(system_name='system_1').system_id
         test_user = User.objects.get(username='testuser_entry')
@@ -54,12 +55,22 @@ class EntryCsvImporterTestCase(TestCase):
         }
         # mockup file
         test_file_path = '/tmp/test.csv'
+        # set delimiter and quotechar
+        if not delimiter:
+            delimiter = ','
+        if not quotechar:
+            quotechar = '"'
 
         with patch("builtins.open", mock_open(read_data=csv_string)) as mock_file:
             with patch("os.remove", return_value=True) as mock_os:
                 # execute csv entry import
                 csv_entry_import_async(
-                    system_id, test_file_path, field_mapping, test_user
+                    system_id,
+                    test_file_path,
+                    field_mapping,
+                    test_user,
+                    delimiter,
+                    quotechar,
                 )
 
                 # check mockup file access
@@ -92,12 +103,16 @@ class EntryCsvImporterTestCase(TestCase):
     def test_upload_csv_entry_sha1_calculation(self):
         """test upload one entry sha1 calculation"""
 
+        # get system
+        system_id = System.objects.get(system_name='system_1').system_id
+
         # prepare csv string
         now = datetime.now(tz=get_current_timezone())
         csv_string = f'datetime,type,message\n"{now}",sha1_test,"Lorem ipsum","[]"'
         # calculate hash
         m = hashlib.sha1()  # nosec
-        m.update(str(now).encode())
+        m.update(str(system_id).encode())
+        m.update(now.isoformat().encode())
         m.update(b'sha1_test')
         m.update(b'Lorem ipsum')
 
@@ -113,6 +128,9 @@ class EntryCsvImporterTestCase(TestCase):
     def test_upload_csv_entry_tag(self):
         """test upload one entry sha1 calculation"""
 
+        # get system
+        system_id = System.objects.get(system_name='system_1').system_id
+
         # prepare csv string
         now = datetime.now(tz=get_current_timezone())
         csv_string = (
@@ -120,7 +138,8 @@ class EntryCsvImporterTestCase(TestCase):
         )
         # calculate hash
         m = hashlib.sha1()  # nosec
-        m.update(str(now).encode())
+        m.update(str(system_id).encode())
+        m.update(now.isoformat().encode())
         m.update(b'sha1_test')
         m.update(b'Lorem ipsum')
 
@@ -197,7 +216,14 @@ class EntryCsvImporterTestCase(TestCase):
         test_file_path = '/tmp/file_not_found_test.csv'
 
         # execute csv entry import
-        csv_entry_import_async(system_id, test_file_path, field_mapping, test_user)
+        csv_entry_import_async(
+            system_id,
+            test_file_path,
+            field_mapping,
+            test_user,
+            delimiter='"',
+            quotechar=',',
+        )
 
         # check mockup file access
 
@@ -208,3 +234,45 @@ class EntryCsvImporterTestCase(TestCase):
             str(messages[0]),
             "Could not import the CSV file. Maybe the upload wasn't successful or the file was deleted.",
         )
+
+    def test_upload_custom_delimiter(self):
+        """test upload duplicated entries"""
+
+        # login
+        self.client.login(username='testuser_entry', password='GB1237lbSGB13jXjCRoL')
+        # prepare csv string
+        now = datetime.now(tz=get_current_timezone())
+        csv_string = f'datetime|type|message\n"{now}"|dup_test|"Lorem ipsum"|[]'
+
+        # execute
+        self.execute_csv_entry_import_async(csv_string, delimiter='|')
+
+        # get messages
+        response = self.client.get('/entry/')
+        messages = list(response.context['messages'])
+        # get created entry
+        entries = Entry.objects.filter(entry_time=str(now))
+        # check
+        self.assertEqual(len(entries), 1)
+        self.assertEqual(len(messages), 1)
+
+    def test_upload_custom_quotechar(self):
+        """test upload duplicated entries"""
+
+        # login
+        self.client.login(username='testuser_entry', password='GB1237lbSGB13jXjCRoL')
+        # prepare csv string
+        now = datetime.now(tz=get_current_timezone())
+        csv_string = f"datetime,type,message\n'{now}',dup_test,'Lorem ipsum',[]"
+
+        # execute
+        self.execute_csv_entry_import_async(csv_string, quotechar="'")
+
+        # get messages
+        response = self.client.get('/entry/')
+        messages = list(response.context['messages'])
+        # get created entry
+        entries = Entry.objects.filter(entry_time=str(now))
+        # check
+        self.assertEqual(len(entries), 1)
+        self.assertEqual(len(messages), 1)

@@ -486,6 +486,20 @@ class EntryFileImport(forms.ModelForm):
         label='CSV file (*)', widget=forms.FileInput(attrs={'class': 'form-control'})
     )
 
+    # delimiter field (variable is used in request object)
+    delimiter = forms.CharField(
+        label='Delimiter (*)',
+        max_length=1,
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+    )
+
+    # quotechar field (variable is used in request object)
+    quotechar = forms.CharField(
+        label='Quotechar (*)',
+        max_length=1,
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+    )
+
     class Meta:
 
         # model

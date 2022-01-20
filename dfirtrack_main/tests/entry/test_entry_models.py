@@ -1,4 +1,8 @@
+import hashlib
+from datetime import datetime
+
 from django.contrib.auth.models import User
+from django.db.utils import IntegrityError
 from django.test import TestCase
 from django.utils import timezone
 
@@ -48,11 +52,7 @@ class EntryModelTestCase(TestCase):
         # compare
         self.assertEqual(
             str(entry_1),
-            str(entry_id)
-            + ' | '
-            + str(entry_1.system)
-            + ' | '
-            + 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+            f'{str(entry_id)} | {str(entry_1.system)} | da39a3ee5e6b4b0d3255bfef95601890afd80709',
         )
 
     def test_entry_verbose_name_plural(self):
@@ -294,3 +294,64 @@ class EntryModelTestCase(TestCase):
 
         # compare
         self.assertEqual(entry_1.entry_system, system_1.system_name)
+
+    def test_entry_save(self):
+        """test entry save method"""
+
+        # get objects
+        system_1 = System.objects.get(system_name='system_1')
+        test_user = User.objects.get(username='testuser_entry')
+        # set entry values
+        now = datetime.now(tz=timezone.get_current_timezone())
+        s_type = "Entry Type"
+        s_content = "Entry Content"
+
+        entry_save_test = Entry.objects.create(
+            system=system_1,
+            entry_time=now,
+            entry_type=s_type,
+            entry_content=s_content,
+            entry_created_by_user_id=test_user,
+            entry_modified_by_user_id=test_user,
+        )
+
+        m = hashlib.sha1()
+        m.update(str(system_1.system_id).encode())
+        m.update(now.isoformat().encode())
+        m.update(s_type.encode())
+        m.update(s_content.encode())
+
+        # compare
+        self.assertEqual(m.hexdigest(), entry_save_test.entry_sha1)
+
+    def test_entry_save_failed(self):
+        """test clean method"""
+
+        # get objects
+        system_1 = System.objects.get(system_name='system_1')
+        test_user = User.objects.get(username='testuser_entry')
+        # set entry values
+        now = datetime.now(tz=timezone.get_current_timezone())
+        s_type = "Entry Type"
+        s_content = "Entry Content"
+
+        Entry.objects.create(
+            system=system_1,
+            entry_time=now,
+            entry_type=s_type,
+            entry_content=s_content,
+            entry_created_by_user_id=test_user,
+            entry_modified_by_user_id=test_user,
+        )
+
+        entry = Entry()
+        entry.system = system_1
+        entry.entry_time = now
+        entry.entry_type = s_type
+        entry.entry_content = s_content
+        entry.entry_created_by_user_id = test_user
+        entry.entry_modified_by_user_id = test_user
+
+        # compare
+        with self.assertRaises(IntegrityError):
+            entry.save()

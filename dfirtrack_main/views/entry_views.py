@@ -139,6 +139,8 @@ def import_csv_step1(request):
         form = EntryFileImport(request.POST, request.FILES)
         if form.is_valid():
             f = request.FILES['entryfile']
+            delimiter = request.POST['delimiter']
+            quotechar = request.POST['quotechar']
 
             # write upload to random tmp file
             file_name = f'/tmp/{uuid.uuid4()}'
@@ -148,7 +150,9 @@ def import_csv_step1(request):
 
             # get first row of uploaded csv (fields)
             with open(file_name, newline='') as csvfile:
-                spamreader = csv.reader(csvfile, delimiter=',', quotechar='"')
+                spamreader = csv.reader(
+                    csvfile, delimiter=delimiter, quotechar=quotechar
+                )
                 fields = next(spamreader)
 
             # save form for case and system info
@@ -160,6 +164,8 @@ def import_csv_step1(request):
                 'system': entry.system.system_id,
                 'case': entry.case.case_id if entry.case else None,
                 'file_name': file_name,
+                'delimiter': delimiter,
+                'quotechar': quotechar,
             }
 
             messages.success(request, 'Uploaded csv to DFIRTrack.')
@@ -207,6 +213,8 @@ def import_csv_step2(request):
                 request.session['entry_csv_import']['file_name'],
                 field_mapping,
                 request.user,
+                request.session['entry_csv_import']['delimiter'],
+                request.session['entry_csv_import']['quotechar'],
                 request.session['entry_csv_import']['case'],
             )
             # delete session information

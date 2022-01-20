@@ -326,6 +326,24 @@ class EntryFormTestCase(TestCase):
         self.assertEqual(form.fields['entryfile'].label, 'CSV file (*)')
         self.assertEqual(form.fields['entryfile'].widget.attrs['class'], 'form-control')
 
+    def test_entry_file_import_delimiter_form_label(self):
+        """test form label"""
+
+        # get object
+        form = EntryFileImport()
+        # compare
+        self.assertEqual(form.fields['delimiter'].label, 'Delimiter (*)')
+        self.assertEqual(form.fields['delimiter'].widget.attrs['class'], 'form-control')
+
+    def test_entry_file_import_quotechar_form_label(self):
+        """test form label"""
+
+        # get object
+        form = EntryFileImport()
+        # compare
+        self.assertEqual(form.fields['quotechar'].label, 'Quotechar (*)')
+        self.assertEqual(form.fields['quotechar'].widget.attrs['class'], 'form-control')
+
     def test_entry_file_import_form_filled(self):
         """test additional form content"""
 
@@ -337,7 +355,7 @@ class EntryFormTestCase(TestCase):
         )
         # get object
         form = EntryFileImport(
-            {'system': system_id},
+            {'system': system_id, 'delimiter': ',', 'quotechar': '"'},
             {'entryfile': csv_file},
         )
         # compare
