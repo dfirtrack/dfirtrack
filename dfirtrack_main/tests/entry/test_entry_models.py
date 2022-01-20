@@ -315,7 +315,7 @@ class EntryModelTestCase(TestCase):
             entry_modified_by_user_id=test_user,
         )
 
-        m = hashlib.sha1()
+        m = hashlib.sha1() # nosec
         m.update(str(system_1.system_id).encode())
         m.update(now.isoformat().encode())
         m.update(s_type.encode())
