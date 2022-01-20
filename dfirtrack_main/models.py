@@ -627,7 +627,7 @@ class Entry(models.Model):
 
     # entry_sha1 calculation
     def calculate_sha1(self):
-        m = hashlib.sha1()
+        m = hashlib.sha1() # nosec
         if hasattr(self, 'system'):
             m.update(str(self.system.system_id).encode())
         if self.entry_time:
