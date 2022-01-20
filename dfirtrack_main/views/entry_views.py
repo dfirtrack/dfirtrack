@@ -149,11 +149,19 @@ def import_csv_step1(request):
                     dest.write(chunk)
 
             # get first row of uploaded csv (fields)
-            with open(file_name, newline='') as csvfile:
-                spamreader = csv.reader(
-                    csvfile, delimiter=delimiter, quotechar=quotechar
+            try:
+                with open(file_name, newline='') as csvfile:
+                    spamreader = csv.reader(
+                        csvfile, delimiter=delimiter, quotechar=quotechar
+                    )
+                    fields = next(spamreader)
+            except UnicodeDecodeError as e:
+                messages.error(request, 'Uploaded CSV is not a valid unicode file.')
+                return render(
+                    request,
+                    'dfirtrack_main/entry/entry_import_step1.html',
+                    {'form': form},
                 )
-                fields = next(spamreader)
 
             # save form for case and system info
             entry = form.save(commit=False)

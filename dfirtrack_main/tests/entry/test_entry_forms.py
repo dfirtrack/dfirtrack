@@ -361,6 +361,28 @@ class EntryFormTestCase(TestCase):
         # compare
         self.assertTrue(form.is_valid())
 
+    def test_entry_file_import_invalid_content_type(self):
+        """test additional form content"""
+
+        # get foreign key object id
+        system_id = System.objects.get(system_name='system_1').system_id
+        # mock csv file
+        csv_file = SimpleUploadedFile(
+            "test.csv",
+            b"datetime,timestamp_desc,message",
+            content_type="invalid/content",
+        )
+        # get object
+        form = EntryFileImport(
+            {'system': system_id, 'delimiter': ',', 'quotechar': '"'},
+            {'entryfile': csv_file},
+        )
+        # compare
+        self.assertFalse(form.is_valid())
+        self.assertInHTML(
+            'Uploaded file is not a CSV file.', form.errors['entryfile'][0]
+        )
+
     '''
          EntryFileImportFields Form Tests
     '''

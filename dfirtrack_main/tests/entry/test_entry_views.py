@@ -3,6 +3,7 @@ import uuid
 from unittest.mock import patch
 
 from django.contrib.auth.models import User
+from django.contrib.messages import get_messages
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 from django.utils import timezone
@@ -613,6 +614,33 @@ class EntryViewTestCase(TestCase):
             response, 'dfirtrack_main/entry/entry_import_step1.html'
         )
         self.assertContains(response, 'This field is required')
+
+    def test_entry_csv_import_post_step1_invalid_unicode(self):
+        """test step1 view"""
+
+        # get objects
+        system_1 = System.objects.get(system_name='system_1')
+        # sample file
+        csv_file = SimpleUploadedFile("test.csv", b"\x89", content_type="text/csv")
+        # login testuser
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        # create post data
+        data_dict = {
+            'system': system_1.system_id,
+            'entryfile': csv_file,
+            'delimiter': ',',
+            'quotechar': '"',
+        }
+
+        # get resposne
+        response = self.client.post('/entry/import/step1/', data_dict)
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertTemplateUsed(
+            response, 'dfirtrack_main/entry/entry_import_step1.html'
+        )
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]), 'Uploaded CSV is not a valid unicode file.')
 
     def test_entry_csv_import_step2_not_logged_in(self):
         """test step2 view"""
