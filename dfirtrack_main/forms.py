@@ -571,9 +571,13 @@ class EntryFileImportFields(forms.Form):
         form_choices = sorted(set(zip(index, choices)))
 
         # set select choices dynamically, based on uploaded csv file
+        form_choices[0] = (-1, 'Select datetime field')
         self.fields['entry_time'].choices = form_choices
+        form_choices[0] = (-1, 'Select entry type field')
         self.fields['entry_type'].choices = form_choices
+        form_choices[0] = (-1, 'Select entry content field')
         self.fields['entry_content'].choices = form_choices
+        form_choices[0] = (-1, 'Select tag field (field)')
         self.fields['entry_tag'].choices = form_choices
 
 

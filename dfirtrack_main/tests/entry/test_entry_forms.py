@@ -420,9 +420,18 @@ class EntryFormTestCase(TestCase):
         # get object
         form = EntryFileImportFields([])
 
-        self.assertEqual(form.fields['entry_time'].choices, [(-1, '--')])
-        self.assertEqual(form.fields['entry_type'].choices, [(-1, '--')])
-        self.assertEqual(form.fields['entry_content'].choices, [(-1, '--')])
+        self.assertEqual(
+            form.fields['entry_time'].choices, [(-1, 'Select datetime field')]
+        )
+        self.assertEqual(
+            form.fields['entry_type'].choices, [(-1, 'Select entry type field')]
+        )
+        self.assertEqual(
+            form.fields['entry_content'].choices, [(-1, 'Select entry content field')]
+        )
+        self.assertEqual(
+            form.fields['entry_tag'].choices, [(-1, 'Select tag field (field)')]
+        )
 
     def test_entry_file_import_fileds_mock_choices(self):
         """ " test dynamic choices"""
@@ -432,7 +441,7 @@ class EntryFormTestCase(TestCase):
 
         # expected choices
         result = [
-            (-1, '--'),
+            (-1, 'Select datetime field'),
             (0, 'c_0'),
             (1, 'c_1'),
             (2, 'c_2'),
@@ -440,8 +449,11 @@ class EntryFormTestCase(TestCase):
 
         # check
         self.assertEqual(form.fields['entry_time'].choices, result)
+        result[0] = (-1, 'Select entry type field')
         self.assertEqual(form.fields['entry_type'].choices, result)
+        result[0] = (-1, 'Select entry content field')
         self.assertEqual(form.fields['entry_content'].choices, result)
+        result[0] = (-1, 'Select tag field (field)')
         self.assertEqual(form.fields['entry_tag'].choices, result)
 
     def test_entry_file_import_fileds_form_filled(self):
