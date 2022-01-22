@@ -43,7 +43,7 @@ class EntryFormTestCase(TestCase):
         # compare
         self.assertEqual(
             form.fields['entry_time'].label,
-            'Entry time (for sorting) (YYYY-MM-DD HH:MM:SS) (*)',
+            'Entry time (YYYY-MM-DD HH:MM:SS) (*)',
         )
 
     def test_system_form_label(self):
@@ -55,21 +55,13 @@ class EntryFormTestCase(TestCase):
         self.assertEqual(form.fields['system'].label, 'System (*)')
         self.assertEqual(form.fields['system'].empty_label, 'Select system')
 
-    def test_entry_sha1_form_label(self):
-        """test form label"""
-
-        # get object
-        form = EntryForm()
-        # compare
-        self.assertEqual(form.fields['entry_sha1'].label, 'Entry sha1')
-
     def test_entry_type_form_label(self):
         """test form label"""
 
         # get object
         form = EntryForm()
         # compare
-        self.assertEqual(form.fields['entry_type'].label, 'Entry type')
+        self.assertEqual(form.fields['entry_type'].label, 'Type')
 
     def test_entry_content_form_label(self):
         """test form label"""
@@ -77,7 +69,7 @@ class EntryFormTestCase(TestCase):
         # get object
         form = EntryForm()
         # compare
-        self.assertEqual(form.fields['entry_content'].label, 'Entry content')
+        self.assertEqual(form.fields['entry_content'].label, 'Content')
 
     def test_entry_note_form_label(self):
         """test form label"""
@@ -85,7 +77,7 @@ class EntryFormTestCase(TestCase):
         # get object
         form = EntryForm()
         # compare
-        self.assertEqual(form.fields['entry_note'].label, 'Entry note')
+        self.assertEqual(form.fields['entry_note'].label, 'Note')
 
     def test_case_form_label(self):
         """test form label"""
@@ -134,22 +126,6 @@ class EntryFormTestCase(TestCase):
             data={
                 'entry_time': '2009-08-07 12:34:56',
                 'system': system_id,
-            }
-        )
-        # compare
-        self.assertTrue(form.is_valid())
-
-    def test_entry_sha1_form_filled(self):
-        """test additional form content"""
-
-        # get foreign key object id
-        system_id = System.objects.get(system_name='system_1').system_id
-        # get object
-        form = EntryForm(
-            data={
-                'entry_time': '2009-08-07 12:34:56',
-                'system': system_id,
-                'entry_sha1': 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
             }
         )
         # compare
@@ -220,42 +196,6 @@ class EntryFormTestCase(TestCase):
         )
         # compare
         self.assertTrue(form.is_valid())
-
-    def test_entry_sha1_proper_chars(self):
-        """test for max length"""
-
-        # define datetime string
-        entry_time_string = '2009-08-07 12:34:56'
-        # get foreign key object id
-        system_id = System.objects.get(system_name='system_1').system_id
-        # get object
-        form = EntryForm(
-            data={
-                'entry_time': entry_time_string,
-                'system': system_id,
-                'entry_sha1': 's' * 40,
-            }
-        )
-        # compare
-        self.assertTrue(form.is_valid())
-
-    def test_entry_sha1_too_many_chars(self):
-        """test for max length"""
-
-        # define datetime string
-        entry_time_string = '2009-08-07 12:34:56'
-        # get foreign key object id
-        system_id = System.objects.get(system_name='system_1').system_id
-        # get object
-        form = EntryForm(
-            data={
-                'entry_time': entry_time_string,
-                'system': system_id,
-                'entry_sha1': 's' * 41,
-            }
-        )
-        # compare
-        self.assertFalse(form.is_valid())
 
     def test_entry_type_proper_chars(self):
         """test for max length"""

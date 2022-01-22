@@ -438,7 +438,6 @@ class EntryForm(forms.ModelForm):
         fields = (
             'entry_time',
             'system',
-            'entry_sha1',
             'entry_type',
             'entry_content',
             'entry_note',
@@ -449,14 +448,16 @@ class EntryForm(forms.ModelForm):
         # non default form labeling
         labels = {
             'entry_time': gettext_lazy(
-                'Entry time (for sorting) (YYYY-MM-DD HH:MM:SS) (*)'
+                'Entry time (YYYY-MM-DD HH:MM:SS) (*)'
             ),
+            'entry_type': gettext_lazy('Type'),
+            'entry_content': gettext_lazy('Content'),
+            'entry_note': gettext_lazy('Note'),
         }
 
         # special form type or option
         widgets = {
             'entry_time': forms.DateTimeInput(attrs={'autofocus': 'autofocus'}),
-            'entry_sha1': forms.TextInput(),
             'entry_type': forms.TextInput(),
             'entry_content': forms.Textarea(attrs={'rows': 3}),
             'entry_note': forms.Textarea(attrs={'rows': 10}),
