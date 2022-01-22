@@ -632,7 +632,7 @@ class EntryViewTestCase(TestCase):
             'quotechar': '"',
         }
 
-        # get resposne
+        # get response
         response = self.client.post('/entry/import/step1/', data_dict)
         messages = list(get_messages(response.wsgi_request))
         # compare
