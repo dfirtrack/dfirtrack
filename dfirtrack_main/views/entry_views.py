@@ -71,11 +71,26 @@ class EntryCreate(LoginRequiredMixin, CreateView):
             entry = form.save(commit=False)
             entry.entry_created_by_user_id = request.user
             entry.entry_modified_by_user_id = request.user
-            entry.save()
-            form.save_m2m()
-            entry.logger(str(request.user), " ENTRY_ADD_EXECUTED")
-            messages.success(request, 'Entry added')
-            return redirect(reverse('system_detail', args=(entry.system.system_id,)))
+            try:
+                entry.save()
+                form.save_m2m()
+                entry.logger(str(request.user), " ENTRY_ADD_EXECUTED")
+                messages.success(request, 'Entry added')
+                return redirect(
+                    reverse('system_detail', args=(entry.system.system_id,))
+                )
+            except:
+                messages.warning(request, 'Entry with same content already exists')
+                # reload
+                return render(
+                    request,
+                    self.template_name,
+                    {
+                        'form': form,
+                        'title': 'Add',
+                        'object_type': 'entry',
+                    },
+                )
         else:
             return render(
                 request,
@@ -114,11 +129,26 @@ class EntryUpdate(LoginRequiredMixin, UpdateView):
         if form.is_valid():
             entry = form.save(commit=False)
             entry.entry_modified_by_user_id = request.user
-            entry.save()
-            form.save_m2m()
-            entry.logger(str(request.user), " ENTRY_EDIT_EXECUTED")
-            messages.success(request, 'Entry edited')
-            return redirect(reverse('system_detail', args=(entry.system.system_id,)))
+            try:
+                entry.save()
+                form.save_m2m()
+                entry.logger(str(request.user), " ENTRY_EDIT_EXECUTED")
+                messages.success(request, 'Entry edited')
+                return redirect(
+                    reverse('system_detail', args=(entry.system.system_id,))
+                )
+            except:
+                messages.warning(request, 'Entry with same content already exists')
+                # reload
+                return render(
+                    request,
+                    self.template_name,
+                    {
+                        'form': form,
+                        'title': 'Edit',
+                        'object_type': 'entry',
+                    },
+                )
         else:
             return render(
                 request,
