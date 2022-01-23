@@ -37,7 +37,7 @@ class EntryViewTestCase(TestCase):
         Entry.objects.create(
             system=system_1,
             entry_time=timezone.now(),
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709',
+            entry_note='test_entry_view_entry',
             entry_created_by_user_id=test_user,
             entry_modified_by_user_id=test_user,
         )
@@ -103,7 +103,7 @@ class EntryViewTestCase(TestCase):
 
         # get object
         entry_1 = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_view_entry',
         )
         # create url
         destination = '/login/?next=' + urllib.parse.quote(
@@ -121,7 +121,7 @@ class EntryViewTestCase(TestCase):
 
         # get object
         entry_1 = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_view_entry',
         )
         # login testuser
         self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
@@ -135,7 +135,7 @@ class EntryViewTestCase(TestCase):
 
         # get object
         entry_1 = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_view_entry',
         )
         # login testuser
         self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
@@ -149,7 +149,7 @@ class EntryViewTestCase(TestCase):
 
         # get object
         entry_1 = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_view_entry',
         )
         # login testuser
         self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
@@ -163,7 +163,7 @@ class EntryViewTestCase(TestCase):
 
         # get object
         entry_1 = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_view_entry',
         )
         # login testuser
         self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
@@ -259,7 +259,7 @@ class EntryViewTestCase(TestCase):
         data_dict = {
             'system': system_id,
             'entry_time': '2013-12-11 23:45:01',
-            'entry_sha1': '988881adc9fc3655077dc2d4d757d480b5ea0e11',
+            'entry_note': 'test_entry_view_entry_2',
             'entry_created_by_user_id': test_user_id,
             'entry_modified_by_user_id': test_user_id,
         }
@@ -301,7 +301,7 @@ class EntryViewTestCase(TestCase):
 
         # get object
         entry_1 = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_view_entry',
         )
         # create url
         destination = '/login/?next=' + urllib.parse.quote(
@@ -321,7 +321,7 @@ class EntryViewTestCase(TestCase):
 
         # get object
         entry_1 = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_view_entry',
         )
         # login testuser
         self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
@@ -335,7 +335,7 @@ class EntryViewTestCase(TestCase):
 
         # get object
         entry_1 = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_view_entry',
         )
         # login testuser
         self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
@@ -349,7 +349,7 @@ class EntryViewTestCase(TestCase):
 
         # get object
         entry_1 = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_view_entry',
         )
         # login testuser
         self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
@@ -363,7 +363,7 @@ class EntryViewTestCase(TestCase):
 
         # get object
         entry_1 = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_view_entry',
         )
         # login testuser
         self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
@@ -393,7 +393,7 @@ class EntryViewTestCase(TestCase):
         entry_1 = Entry.objects.create(
             system=system_1,
             entry_time=timezone.now(),
-            entry_sha1='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+            entry_note='test_entry_view_entry_3',
             entry_created_by_user_id=test_user,
             entry_modified_by_user_id=test_user,
         )
@@ -401,7 +401,7 @@ class EntryViewTestCase(TestCase):
         data_dict = {
             'system': system_1.system_id,
             'entry_time': '2013-12-11 23:45:01',
-            'entry_sha1': 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+            'entry_note': 'test_entry_view_entry_3_1',
             'entry_modified_by_user_id': test_user.id,
         }
         # get response
@@ -424,7 +424,7 @@ class EntryViewTestCase(TestCase):
         self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # get object
         entry_id = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_view_entry',
         ).entry_id
         # create post data
         data_dict = {}
@@ -440,7 +440,7 @@ class EntryViewTestCase(TestCase):
         self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # get object
         entry_id = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_view_entry',
         ).entry_id
         # create post data
         data_dict = {}
@@ -473,7 +473,7 @@ class EntryViewTestCase(TestCase):
         # compare
         self.assertEqual(response.status_code, 200)
 
-    def test_entry_csv_import_step1(self):
+    def test_entry_csv_import_step1_template(self):
         """test step1 view"""
 
         # login testuser
@@ -670,7 +670,7 @@ class EntryViewTestCase(TestCase):
         # compare
         self.assertEqual(response.status_code, 200)
 
-    def test_entry_csv_import_step2(self):
+    def test_entry_csv_import_step2_template(self):
         """test step2 view"""
 
         # login testuser
