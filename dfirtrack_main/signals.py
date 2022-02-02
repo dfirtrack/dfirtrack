@@ -1,12 +1,12 @@
 from django.contrib.auth.models import User
 from django.contrib.messages import constants
-from django.db.models.signals import post_save, pre_delete, pre_save
+from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
 
 from dfirtrack_artifacts.models import Artifact
 from dfirtrack_main.async_messages import message_users
 from dfirtrack_main.logger.default_logger import info_logger
-from dfirtrack_main.models import Case, Entry, Reportitem, System
+from dfirtrack_main.models import Case, Reportitem, System
 
 
 @receiver(pre_delete, sender=Artifact)
@@ -122,20 +122,3 @@ def reportitem_post_save_system_case(sender, instance, *args, **kwargs):
                 'signal',
                 f' SYSTEM_CASE_ASSIGNMENT system_id:{reportitem_system.system_id}|system_name:{reportitem_system.system_name}|case_id:{reportitem_case.case_id}|case_name:{reportitem_case.case_name}|reason:reportitem_assignment',
             )
-
-
-@receiver(pre_save, sender=Entry)
-def entry_pre_save_check_sha1(sender, instance, *args, **kwargs):
-    """checks, wether entry (with SHA1) for a specific system already exists"""
-
-    # improve readability
-    entry = instance
-
-    # check, if there already is an entry for this system with same hash
-    entry_query = Entry.objects.filter(
-        system=entry.system,
-        entry_sha1=entry.entry_sha1,
-    )
-    # raise exception if SHA1 was found
-    if len(entry_query) != 0:
-        raise Exception('duplicate entry for associated system')
