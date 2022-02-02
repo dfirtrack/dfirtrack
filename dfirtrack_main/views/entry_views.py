@@ -4,6 +4,8 @@ import uuid
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db import transaction
+from django.db.utils import IntegrityError
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.generic import DetailView, ListView
@@ -71,11 +73,27 @@ class EntryCreate(LoginRequiredMixin, CreateView):
             entry = form.save(commit=False)
             entry.entry_created_by_user_id = request.user
             entry.entry_modified_by_user_id = request.user
-            entry.save()
-            form.save_m2m()
-            entry.logger(str(request.user), " ENTRY_ADD_EXECUTED")
-            messages.success(request, 'Entry added')
-            return redirect(reverse('system_detail', args=(entry.system.system_id,)))
+            try:
+                with transaction.atomic():
+                    entry.save()
+                form.save_m2m()
+                entry.logger(str(request.user), " ENTRY_ADD_EXECUTED")
+                messages.success(request, 'Entry added')
+                return redirect(
+                    reverse('system_detail', args=(entry.system.system_id,))
+                )
+            except IntegrityError:
+                messages.warning(request, 'Entry with same content already exists')
+                # reload
+                return render(
+                    request,
+                    self.template_name,
+                    {
+                        'form': form,
+                        'title': 'Add',
+                        'object_type': 'entry',
+                    },
+                )
         else:
             return render(
                 request,
@@ -114,11 +132,27 @@ class EntryUpdate(LoginRequiredMixin, UpdateView):
         if form.is_valid():
             entry = form.save(commit=False)
             entry.entry_modified_by_user_id = request.user
-            entry.save()
-            form.save_m2m()
-            entry.logger(str(request.user), " ENTRY_EDIT_EXECUTED")
-            messages.success(request, 'Entry edited')
-            return redirect(reverse('system_detail', args=(entry.system.system_id,)))
+            try:
+                with transaction.atomic():
+                    entry.save()
+                form.save_m2m()
+                entry.logger(str(request.user), " ENTRY_EDIT_EXECUTED")
+                messages.success(request, 'Entry edited')
+                return redirect(
+                    reverse('system_detail', args=(entry.system.system_id,))
+                )
+            except IntegrityError:
+                messages.warning(request, 'Entry with same content already exists')
+                # reload
+                return render(
+                    request,
+                    self.template_name,
+                    {
+                        'form': form,
+                        'title': 'Edit',
+                        'object_type': 'entry',
+                    },
+                )
         else:
             return render(
                 request,
@@ -155,7 +189,7 @@ def import_csv_step1(request):
                         csvfile, delimiter=delimiter, quotechar=quotechar
                     )
                     fields = next(spamreader)
-            except UnicodeDecodeError as e:
+            except UnicodeDecodeError:
                 messages.error(request, 'Uploaded CSV is not a valid unicode file.')
                 return render(
                     request,

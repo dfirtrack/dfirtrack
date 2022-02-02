@@ -2,7 +2,6 @@ import hashlib
 from datetime import datetime
 
 from django.contrib.auth.models import User
-from django.db.utils import IntegrityError
 from django.test import TestCase
 from django.utils import timezone
 
@@ -35,7 +34,7 @@ class EntryModelTestCase(TestCase):
         Entry.objects.create(
             system=system_1,
             entry_time=timezone.now(),
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709',
+            entry_note='test_entry_models_entry',
             entry_created_by_user_id=test_user,
             entry_modified_by_user_id=test_user,
         )
@@ -45,14 +44,12 @@ class EntryModelTestCase(TestCase):
 
         # get object
         entry_1 = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_models_entry',
         )
-        # get object id
-        entry_id = entry_1.entry_id
         # compare
         self.assertEqual(
             str(entry_1),
-            f'{str(entry_id)} | {str(entry_1.system)} | da39a3ee5e6b4b0d3255bfef95601890afd80709',
+            f'{str(entry_1.entry_id)} | {str(entry_1.system)} | {str(entry_1.entry_sha1)}',
         )
 
     def test_entry_verbose_name_plural(self):
@@ -60,7 +57,7 @@ class EntryModelTestCase(TestCase):
 
         # get object
         entry_1 = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_models_entry',
         )
         # compare
         self.assertEqual(entry_1._meta.verbose_name_plural, 'entries')
@@ -70,7 +67,7 @@ class EntryModelTestCase(TestCase):
 
         # get object
         entry_1 = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_models_entry',
         )
         # get label
         field_label = entry_1._meta.get_field('entry_id').verbose_name
@@ -82,7 +79,7 @@ class EntryModelTestCase(TestCase):
 
         # get object
         entry_1 = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_models_entry',
         )
         # get label
         field_label = entry_1._meta.get_field('system').verbose_name
@@ -94,7 +91,7 @@ class EntryModelTestCase(TestCase):
 
         # get object
         entry_1 = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_models_entry',
         )
         # get label
         field_label = entry_1._meta.get_field('case').verbose_name
@@ -106,7 +103,7 @@ class EntryModelTestCase(TestCase):
 
         # get object
         entry_1 = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_models_entry',
         )
         # get label
         field_label = entry_1._meta.get_field('tag').verbose_name
@@ -118,7 +115,7 @@ class EntryModelTestCase(TestCase):
 
         # get object
         entry_1 = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_models_entry',
         )
         # get label
         field_label = entry_1._meta.get_field('entry_time').verbose_name
@@ -130,7 +127,7 @@ class EntryModelTestCase(TestCase):
 
         # get object
         entry_1 = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_models_entry',
         )
         # get label
         field_label = entry_1._meta.get_field('entry_sha1').verbose_name
@@ -142,7 +139,7 @@ class EntryModelTestCase(TestCase):
 
         # get object
         entry_1 = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_models_entry',
         )
         # get label
         field_label = entry_1._meta.get_field('entry_type').verbose_name
@@ -154,7 +151,7 @@ class EntryModelTestCase(TestCase):
 
         # get object
         entry_1 = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_models_entry',
         )
         # get label
         field_label = entry_1._meta.get_field('entry_content').verbose_name
@@ -166,7 +163,7 @@ class EntryModelTestCase(TestCase):
 
         # get object
         entry_1 = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_models_entry',
         )
         # get label
         field_label = entry_1._meta.get_field('entry_note').verbose_name
@@ -178,7 +175,7 @@ class EntryModelTestCase(TestCase):
 
         # get object
         entry_1 = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_models_entry',
         )
         # get label
         field_label = entry_1._meta.get_field('entry_create_time').verbose_name
@@ -190,7 +187,7 @@ class EntryModelTestCase(TestCase):
 
         # get object
         entry_1 = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_models_entry',
         )
         # get label
         field_label = entry_1._meta.get_field('entry_modify_time').verbose_name
@@ -202,7 +199,7 @@ class EntryModelTestCase(TestCase):
 
         # get object
         entry_1 = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_models_entry',
         )
         # get label
         field_label = entry_1._meta.get_field('entry_created_by_user_id').verbose_name
@@ -214,7 +211,7 @@ class EntryModelTestCase(TestCase):
 
         # get object
         entry_1 = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_models_entry',
         )
         # get label
         field_label = entry_1._meta.get_field('entry_modified_by_user_id').verbose_name
@@ -226,7 +223,7 @@ class EntryModelTestCase(TestCase):
 
         # get object
         entry_1 = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_models_entry',
         )
         # get max length
         max_length = entry_1._meta.get_field('entry_sha1').max_length
@@ -238,7 +235,7 @@ class EntryModelTestCase(TestCase):
 
         # get object
         entry_1 = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_models_entry',
         )
         # get max length
         max_length = entry_1._meta.get_field('entry_type').max_length
@@ -254,15 +251,15 @@ class EntryModelTestCase(TestCase):
         test_user = User.objects.get(username='testuser_entry')
         system_1 = System.objects.get(system_name='system_1')
         # create entry
-        entry_1 = Entry.objects.create(
+        entry_2 = Entry.objects.create(
             system=system_1,
             entry_time=now,
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80aaa',
+            entry_note='test_entry_models_entry_2',
             entry_created_by_user_id=test_user,
             entry_modified_by_user_id=test_user,
         )
         # compare
-        self.assertEqual(entry_1.entry_date, now.strftime('%Y-%m-%d'))
+        self.assertEqual(entry_2.entry_date, now.strftime('%Y-%m-%d'))
 
     def test_entry_utc_property(self):
         """test entry utc property"""
@@ -273,15 +270,15 @@ class EntryModelTestCase(TestCase):
         test_user = User.objects.get(username='testuser_entry')
         system_1 = System.objects.get(system_name='system_1')
         # create entry
-        entry_1 = Entry.objects.create(
+        entry_3 = Entry.objects.create(
             system=system_1,
             entry_time=now,
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80aaa',
+            entry_note='test_entry_models_entry_3',
             entry_created_by_user_id=test_user,
             entry_modified_by_user_id=test_user,
         )
         # compare
-        self.assertEqual(entry_1.entry_utc, now.strftime('%H:%M:%S'))
+        self.assertEqual(entry_3.entry_utc, now.strftime('%H:%M:%S'))
 
     def test_entry_system_property(self):
         """test entry_system property"""
@@ -289,7 +286,7 @@ class EntryModelTestCase(TestCase):
         # get object
         system_1 = System.objects.get(system_name='system_1')
         entry_1 = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_models_entry',
         )
 
         # compare
@@ -353,5 +350,5 @@ class EntryModelTestCase(TestCase):
         entry.entry_modified_by_user_id = test_user
 
         # compare
-        with self.assertRaises(IntegrityError):
+        with self.assertRaises(Exception):
             entry.save()

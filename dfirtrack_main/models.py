@@ -625,26 +625,27 @@ class Entry(models.Model):
         User, on_delete=models.PROTECT, related_name='entry_modified_by'
     )
 
-    # entry_sha1 calculation
+    # entry SHA1 calculation
     def calculate_sha1(self):
         m = hashlib.sha1()  # nosec
-        if hasattr(self, 'system'):
-            m.update(str(self.system.system_id).encode())
-        if self.entry_time:
-            if isinstance(self.entry_time, str):
-                m.update(self.entry_time.encode())
-            else:
-                m.update(self.entry_time.isoformat().encode())
+        # system
+        m.update(str(self.system.system_id).encode())
+        # time
+        if isinstance(self.entry_time, str):
+            m.update(self.entry_time.encode())
+        else:
+            m.update(self.entry_time.isoformat().encode())
+        # type (optional)
         if self.entry_type:
             m.update(self.entry_type.encode())
+        # content (optional)
         if self.entry_content:
             m.update(self.entry_content.encode())
         self.entry_sha1 = m.hexdigest()
 
-    # Custom save method to calculate and save the hash
+    # custom save method to calculate and save the hash
     def save(self, *args, **kwargs):
-        if not self.entry_sha1:
-            self.calculate_sha1()
+        self.calculate_sha1()
         return super().save(*args, **kwargs)
 
     # property fields

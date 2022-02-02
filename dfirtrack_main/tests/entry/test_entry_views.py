@@ -37,7 +37,7 @@ class EntryViewTestCase(TestCase):
         Entry.objects.create(
             system=system_1,
             entry_time=timezone.now(),
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709',
+            entry_note='test_entry_view_entry',
             entry_created_by_user_id=test_user,
             entry_modified_by_user_id=test_user,
         )
@@ -103,7 +103,7 @@ class EntryViewTestCase(TestCase):
 
         # get object
         entry_1 = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_view_entry',
         )
         # create url
         destination = '/login/?next=' + urllib.parse.quote(
@@ -121,7 +121,7 @@ class EntryViewTestCase(TestCase):
 
         # get object
         entry_1 = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_view_entry',
         )
         # login testuser
         self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
@@ -135,7 +135,7 @@ class EntryViewTestCase(TestCase):
 
         # get object
         entry_1 = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_view_entry',
         )
         # login testuser
         self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
@@ -149,7 +149,7 @@ class EntryViewTestCase(TestCase):
 
         # get object
         entry_1 = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_view_entry',
         )
         # login testuser
         self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
@@ -163,7 +163,7 @@ class EntryViewTestCase(TestCase):
 
         # get object
         entry_1 = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_view_entry',
         )
         # login testuser
         self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
@@ -251,17 +251,13 @@ class EntryViewTestCase(TestCase):
 
         # login testuser
         self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
-        # get user
-        test_user_id = User.objects.get(username='testuser_entry').id
         # get object
         system_id = System.objects.get(system_name='system_1').system_id
         # create post data
         data_dict = {
             'system': system_id,
             'entry_time': '2013-12-11 23:45:01',
-            'entry_sha1': '988881adc9fc3655077dc2d4d757d480b5ea0e11',
-            'entry_created_by_user_id': test_user_id,
-            'entry_modified_by_user_id': test_user_id,
+            'entry_note': 'test_entry_view_entry_2',
         }
         # get response
         response = self.client.post('/entry/add/', data_dict)
@@ -296,12 +292,61 @@ class EntryViewTestCase(TestCase):
         # compare
         self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
 
+    def test_entry_add_post_duplicate(self):
+        """test add view"""
+
+        # login testuser
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        # get time in different formats to avoid runtime warnings
+        t1_datetime = timezone.now().replace(microsecond=0)
+        t1_string = t1_datetime.strftime('%Y-%m-%d %H:%M:%S')
+        # get user
+        test_user = User.objects.get(username='testuser_entry')
+        # get object
+        system_1 = System.objects.get(system_name='system_1')
+        # create object
+        Entry.objects.create(
+            system=system_1,
+            entry_time=t1_datetime,
+            entry_type='duplicate_entry_1',
+            entry_content='duplicate_entry_1',
+            entry_note='duplicate_entry_1',
+            entry_created_by_user_id=test_user,
+            entry_modified_by_user_id=test_user,
+        )
+        # get object
+        duplicate_entry = Entry.objects.filter(entry_note='duplicate_entry_1')
+        # compare
+        self.assertEqual(len(duplicate_entry), 1)
+        # create post data
+        data_dict = {
+            'system': system_1.system_id,
+            'entry_time': t1_string,
+            'entry_type': 'duplicate_entry_1',
+            'entry_content': 'duplicate_entry_1',
+            'entry_note': 'duplicate_entry_1',
+        }
+        # get response
+        response = self.client.post('/entry/add/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]), 'Entry with same content already exists')
+        self.assertEqual(messages[0].level_tag, 'warning')
+        # get object
+        duplicate_entry = Entry.objects.filter(entry_note='duplicate_entry_1')
+        # compare
+        self.assertEqual(len(duplicate_entry), 1)
+
     def test_entry_edit_not_logged_in(self):
         """test edit view"""
 
         # get object
         entry_1 = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_view_entry',
         )
         # create url
         destination = '/login/?next=' + urllib.parse.quote(
@@ -321,7 +366,7 @@ class EntryViewTestCase(TestCase):
 
         # get object
         entry_1 = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_view_entry',
         )
         # login testuser
         self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
@@ -335,7 +380,7 @@ class EntryViewTestCase(TestCase):
 
         # get object
         entry_1 = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_view_entry',
         )
         # login testuser
         self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
@@ -349,7 +394,7 @@ class EntryViewTestCase(TestCase):
 
         # get object
         entry_1 = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_view_entry',
         )
         # login testuser
         self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
@@ -363,7 +408,7 @@ class EntryViewTestCase(TestCase):
 
         # get object
         entry_1 = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_view_entry',
         )
         # login testuser
         self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
@@ -393,7 +438,7 @@ class EntryViewTestCase(TestCase):
         entry_1 = Entry.objects.create(
             system=system_1,
             entry_time=timezone.now(),
-            entry_sha1='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+            entry_note='test_entry_view_entry_3',
             entry_created_by_user_id=test_user,
             entry_modified_by_user_id=test_user,
         )
@@ -401,7 +446,7 @@ class EntryViewTestCase(TestCase):
         data_dict = {
             'system': system_1.system_id,
             'entry_time': '2013-12-11 23:45:01',
-            'entry_sha1': 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+            'entry_note': 'test_entry_view_entry_3_1',
             'entry_modified_by_user_id': test_user.id,
         }
         # get response
@@ -424,7 +469,7 @@ class EntryViewTestCase(TestCase):
         self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # get object
         entry_id = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_view_entry',
         ).entry_id
         # create post data
         data_dict = {}
@@ -440,7 +485,7 @@ class EntryViewTestCase(TestCase):
         self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # get object
         entry_id = Entry.objects.get(
-            entry_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709'
+            entry_note='test_entry_view_entry',
         ).entry_id
         # create post data
         data_dict = {}
@@ -448,6 +493,65 @@ class EntryViewTestCase(TestCase):
         response = self.client.post('/entry/' + str(entry_id) + '/edit/', data_dict)
         # compare
         self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
+
+    def test_entry_edit_post_duplicate(self):
+        """test edit view"""
+
+        # login testuser
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        # get time in different formats to avoid runtime warnings
+        t2_datetime = timezone.now().replace(microsecond=0)
+        t2_string = t2_datetime.strftime('%Y-%m-%d %H:%M:%S')
+        # get user
+        test_user = User.objects.get(username='testuser_entry')
+        # get object
+        system_1 = System.objects.get(system_name='system_1')
+        # create object (for collision)
+        Entry.objects.create(
+            system=system_1,
+            entry_time=t2_datetime,
+            entry_type='duplicate_entry_2',
+            entry_content='duplicate_entry_2',
+            entry_note='duplicate_entry_2',
+            entry_created_by_user_id=test_user,
+            entry_modified_by_user_id=test_user,
+        )
+        # create object (to change)
+        entry_id = Entry.objects.create(
+            system=system_1,
+            entry_time=t2_datetime,
+            entry_type='no_duplicate_entry_2',
+            entry_content='no_duplicate_entry_2',
+            entry_note='no_duplicate_entry_2',
+            entry_created_by_user_id=test_user,
+            entry_modified_by_user_id=test_user,
+        ).entry_id
+        # get object
+        duplicate_entry = Entry.objects.filter(entry_note='duplicate_entry_2')
+        # compare
+        self.assertEqual(len(duplicate_entry), 1)
+        # create post data
+        data_dict = {
+            'system': system_1.system_id,
+            'entry_time': t2_string,
+            'entry_type': 'duplicate_entry_2',
+            'entry_content': 'duplicate_entry_2',
+            'entry_note': 'duplicate_entry_2',
+        }
+        # get response
+        response = self.client.post('/entry/' + str(entry_id) + '/edit/', data_dict)
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'dfirtrack_main/generic_form.html')
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]), 'Entry with same content already exists')
+        self.assertEqual(messages[0].level_tag, 'warning')
+        # get object
+        duplicate_entry = Entry.objects.filter(entry_note='duplicate_entry_2')
+        # compare
+        self.assertEqual(len(duplicate_entry), 1)
 
     def test_entry_csv_import_step1_not_logged_in(self):
         """test step1 view"""
@@ -473,7 +577,7 @@ class EntryViewTestCase(TestCase):
         # compare
         self.assertEqual(response.status_code, 200)
 
-    def test_entry_csv_import_step1(self):
+    def test_entry_csv_import_step1_template(self):
         """test step1 view"""
 
         # login testuser
@@ -641,6 +745,7 @@ class EntryViewTestCase(TestCase):
         )
         self.assertEqual(len(messages), 1)
         self.assertEqual(str(messages[0]), 'Uploaded CSV is not a valid unicode file.')
+        self.assertEqual(messages[0].level_tag, 'error')
 
     def test_entry_csv_import_step2_not_logged_in(self):
         """test step2 view"""
@@ -670,7 +775,7 @@ class EntryViewTestCase(TestCase):
         # compare
         self.assertEqual(response.status_code, 200)
 
-    def test_entry_csv_import_step2(self):
+    def test_entry_csv_import_step2_template(self):
         """test step2 view"""
 
         # login testuser

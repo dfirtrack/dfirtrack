@@ -1,5 +1,3 @@
-from wsgiref.validate import validator
-
 from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.contrib.auth.models import User
@@ -447,9 +445,7 @@ class EntryForm(forms.ModelForm):
 
         # non default form labeling
         labels = {
-            'entry_time': gettext_lazy(
-                'Entry time (YYYY-MM-DD HH:MM:SS) (*)'
-            ),
+            'entry_time': gettext_lazy('Entry time (YYYY-MM-DD HH:MM:SS) (*)'),
             'entry_type': gettext_lazy('Type'),
             'entry_content': gettext_lazy('Content'),
             'entry_note': gettext_lazy('Note'),
@@ -487,7 +483,7 @@ class EntryFileImport(forms.ModelForm):
     # file upload field (variable is used in request object)
     def checkFileContentType(self):
         if 'text/' not in self.content_type:
-            raise ValidationError(f'Uploaded file is not a CSV file.')
+            raise ValidationError('Uploaded file is not a CSV file.')
 
     entryfile = forms.FileField(
         label='CSV file (*)',
