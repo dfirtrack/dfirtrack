@@ -2,7 +2,6 @@ import hashlib
 from datetime import datetime
 
 from django.contrib.auth.models import User
-from django.db.utils import IntegrityError
 from django.test import TestCase
 from django.utils import timezone
 

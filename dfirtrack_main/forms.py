@@ -1,5 +1,3 @@
-from wsgiref.validate import validator
-
 from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.contrib.auth.models import User
@@ -487,7 +485,7 @@ class EntryFileImport(forms.ModelForm):
     # file upload field (variable is used in request object)
     def checkFileContentType(self):
         if 'text/' not in self.content_type:
-            raise ValidationError(f'Uploaded file is not a CSV file.')
+            raise ValidationError('Uploaded file is not a CSV file.')
 
     entryfile = forms.FileField(
         label='CSV file (*)',

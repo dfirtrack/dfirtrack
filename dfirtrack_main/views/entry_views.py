@@ -189,7 +189,7 @@ def import_csv_step1(request):
                         csvfile, delimiter=delimiter, quotechar=quotechar
                     )
                     fields = next(spamreader)
-            except UnicodeDecodeError as e:
+            except UnicodeDecodeError:
                 messages.error(request, 'Uploaded CSV is not a valid unicode file.')
                 return render(
                     request,
