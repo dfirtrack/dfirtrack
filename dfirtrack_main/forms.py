@@ -445,9 +445,7 @@ class EntryForm(forms.ModelForm):
 
         # non default form labeling
         labels = {
-            'entry_time': gettext_lazy(
-                'Entry time (YYYY-MM-DD HH:MM:SS) (*)'
-            ),
+            'entry_time': gettext_lazy('Entry time (YYYY-MM-DD HH:MM:SS) (*)'),
             'entry_type': gettext_lazy('Type'),
             'entry_content': gettext_lazy('Content'),
             'entry_note': gettext_lazy('Note'),
