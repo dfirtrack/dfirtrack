@@ -44,7 +44,7 @@ jobs:
       - name: Pushes python client to the githup repo
         uses: dmnemec/copy_file_to_another_repo_action@main
         env:
-          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB_API_CLIENTS }}
         with:
           source_file: 'python-client/'
           destination_repo: 'dfirtrack/dfirtrack-api-python-client'

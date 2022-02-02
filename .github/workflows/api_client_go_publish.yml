@@ -44,7 +44,7 @@ jobs:
       - name: Pushes the go client to the githup repo
         uses: dmnemec/copy_file_to_another_repo_action@main
         env:
-          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB_API_CLIENTS }}
         with:
           source_file: 'go-client/'
           destination_repo: 'dfirtrack/dfirtrackapi'
@@ -57,6 +57,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          token: ${{ secrets.API_TOKEN_GITHUB }}
+          token: ${{ secrets.API_TOKEN_GITHUB_API_CLIENTS }}
           body: "Release of dfirtrackapi version ${{ steps.get_version.outputs.version }}"
           repository: dfirtrack/dfirtrackapi
