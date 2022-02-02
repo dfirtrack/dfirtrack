@@ -298,8 +298,8 @@ class EntryViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # get time in different formats to avoid runtime warnings
-        t1_datetime = timezone.now().replace(microsecond = 0)
-        t1_string = t1_datetime .strftime('%Y-%m-%d %H:%M:%S')
+        t1_datetime = timezone.now().replace(microsecond=0)
+        t1_string = t1_datetime.strftime('%Y-%m-%d %H:%M:%S')
         # get user
         test_user = User.objects.get(username='testuser_entry')
         # get object
@@ -500,8 +500,8 @@ class EntryViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # get time in different formats to avoid runtime warnings
-        t2_datetime = timezone.now().replace(microsecond = 0)
-        t2_string = t2_datetime .strftime('%Y-%m-%d %H:%M:%S')
+        t2_datetime = timezone.now().replace(microsecond=0)
+        t2_string = t2_datetime.strftime('%Y-%m-%d %H:%M:%S')
         # get user
         test_user = User.objects.get(username='testuser_entry')
         # get object
