@@ -30,7 +30,7 @@ jobs:
 
       - name: Set API Version in go.yml
         run: |
-             sed -i -e 's/  packageVersion: VERSION/  packageVersion: ${{ steps.get_version.outputs.version }}/g' go.yml
+             sed -i -e 's/  packageVersion: VERSION/  packageVersion: ${{ steps.get_version.outputs.version }}/g' dfirtrack_api/openapi/generator-config/go.yml
 
       - name: Generate DFIRTrack Go Client
         uses: openapi-generators/openapitools-generator-action@v1

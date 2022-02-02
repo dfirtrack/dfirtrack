@@ -30,7 +30,7 @@ jobs:
 
       - name: Set API Version in python.yml
         run: |
-             sed -i -e 's/  packageVersion: VERSION/  packageVersion: ${{ steps.get_version.outputs.version }}/g' python.yml
+             sed -i -e 's/  packageVersion: VERSION/  packageVersion: ${{ steps.get_version.outputs.version }}/g' dfirtrack_api/openapi/generator-config/python.yml
 
       - name: Generate DFIRTrack Python Client
         uses: openapi-generators/openapitools-generator-action@v1
