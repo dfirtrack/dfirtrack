@@ -4,6 +4,8 @@ import uuid
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db import transaction
+from django.db.utils import IntegrityError
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.generic import DetailView, ListView
@@ -72,14 +74,15 @@ class EntryCreate(LoginRequiredMixin, CreateView):
             entry.entry_created_by_user_id = request.user
             entry.entry_modified_by_user_id = request.user
             try:
-                entry.save()
+                with transaction.atomic():
+                    entry.save()
                 form.save_m2m()
                 entry.logger(str(request.user), " ENTRY_ADD_EXECUTED")
                 messages.success(request, 'Entry added')
                 return redirect(
                     reverse('system_detail', args=(entry.system.system_id,))
                 )
-            except:
+            except IntegrityError:
                 messages.warning(request, 'Entry with same content already exists')
                 # reload
                 return render(
@@ -130,14 +133,15 @@ class EntryUpdate(LoginRequiredMixin, UpdateView):
             entry = form.save(commit=False)
             entry.entry_modified_by_user_id = request.user
             try:
-                entry.save()
+                with transaction.atomic():
+                    entry.save()
                 form.save_m2m()
                 entry.logger(str(request.user), " ENTRY_EDIT_EXECUTED")
                 messages.success(request, 'Entry edited')
                 return redirect(
                     reverse('system_detail', args=(entry.system.system_id,))
                 )
-            except:
+            except IntegrityError:
                 messages.warning(request, 'Entry with same content already exists')
                 # reload
                 return render(

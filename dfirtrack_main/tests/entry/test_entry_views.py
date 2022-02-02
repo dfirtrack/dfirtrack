@@ -308,6 +308,8 @@ class EntryViewTestCase(TestCase):
         Entry.objects.create(
             system=system_1,
             entry_time=t1_datetime,
+            entry_type='duplicate_entry_1',
+            entry_content='duplicate_entry_1',
             entry_note='duplicate_entry_1',
             entry_created_by_user_id=test_user,
             entry_modified_by_user_id=test_user,
@@ -320,6 +322,8 @@ class EntryViewTestCase(TestCase):
         data_dict = {
             'system': system_1.system_id,
             'entry_time': t1_string,
+            'entry_type': 'duplicate_entry_1',
+            'entry_content': 'duplicate_entry_1',
             'entry_note': 'duplicate_entry_1',
         }
         # get response
@@ -502,11 +506,23 @@ class EntryViewTestCase(TestCase):
         test_user = User.objects.get(username='testuser_entry')
         # get object
         system_1 = System.objects.get(system_name='system_1')
-        # create object
+        # create object (for collision)
+        Entry.objects.create(
+            system=system_1,
+            entry_time=t2_datetime,
+            entry_type='duplicate_entry_2',
+            entry_content='duplicate_entry_2',
+            entry_note='duplicate_entry_2',
+            entry_created_by_user_id=test_user,
+            entry_modified_by_user_id=test_user,
+        )
+        # create object (to change)
         entry_id = Entry.objects.create(
             system=system_1,
             entry_time=t2_datetime,
-            entry_note='duplicate_entry_2',
+            entry_type='no_duplicate_entry_2',
+            entry_content='no_duplicate_entry_2',
+            entry_note='no_duplicate_entry_2',
             entry_created_by_user_id=test_user,
             entry_modified_by_user_id=test_user,
         ).entry_id
@@ -518,6 +534,8 @@ class EntryViewTestCase(TestCase):
         data_dict = {
             'system': system_1.system_id,
             'entry_time': t2_string,
+            'entry_type': 'duplicate_entry_2',
+            'entry_content': 'duplicate_entry_2',
             'entry_note': 'duplicate_entry_2',
         }
         # get response
