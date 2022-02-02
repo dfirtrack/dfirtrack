@@ -1,15 +1,5 @@
 from rest_framework import serializers
 
-from dfirtrack_api.serializers.dfirtrack_artifacts_fk import (
-    ArtifactpriorityFkSerializer,
-    ArtifactstatusFkSerializer,
-    ArtifacttypeFkSerializer,
-)
-from dfirtrack_api.serializers.dfirtrack_main_fk import (
-    CaseFkSerializer,
-    SystemFkSerializer,
-    TagFkSerializer,
-)
 from dfirtrack_artifacts.models import (
     Artifact,
     Artifactpriority,
@@ -56,46 +46,6 @@ class ArtifacttypeSerializer(serializers.ModelSerializer):
 
 class ArtifactSerializer(serializers.ModelSerializer):
     """create serializer for model instance"""
-
-    # redefine representation
-    def to_representation(self, instance):
-
-        # get serializers of foreignkey relationsships
-        self.fields['artifactpriority'] = ArtifactpriorityFkSerializer(
-            many=False, read_only=True
-        )
-        self.fields['artifactstatus'] = ArtifactstatusFkSerializer(
-            many=False, read_only=True
-        )
-        self.fields['artifacttype'] = ArtifacttypeFkSerializer(
-            many=False, read_only=True
-        )
-        self.fields['case'] = CaseFkSerializer(many=False, read_only=True)
-        self.fields['system'] = SystemFkSerializer(many=False, read_only=True)
-        self.fields['tag'] = TagFkSerializer(many=True, read_only=True)
-
-        # get existing to_representation
-        representation = super().to_representation(instance)
-
-        # change mandatory time strings
-        representation['artifact_create_time'] = instance.artifact_create_time.strftime(
-            '%Y-%m-%dT%H:%M'
-        )
-        representation['artifact_modify_time'] = instance.artifact_modify_time.strftime(
-            '%Y-%m-%dT%H:%M'
-        )
-
-        # change optional time strings
-        if instance.artifact_acquisition_time:
-            representation[
-                'artifact_acquisition_time'
-            ] = instance.artifact_acquisition_time.strftime('%Y-%m-%dT%H:%M')
-        if instance.artifact_requested_time:
-            representation[
-                'artifact_requested_time'
-            ] = instance.artifact_requested_time.strftime('%Y-%m-%dT%H:%M')
-
-        return representation
 
     class Meta:
         model = Artifact
