@@ -4,6 +4,8 @@ import uuid
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db import transaction
+from django.db.utils import IntegrityError
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.generic import DetailView, ListView
@@ -71,11 +73,27 @@ class EntryCreate(LoginRequiredMixin, CreateView):
             entry = form.save(commit=False)
             entry.entry_created_by_user_id = request.user
             entry.entry_modified_by_user_id = request.user
-            entry.save()
-            form.save_m2m()
-            entry.logger(str(request.user), " ENTRY_ADD_EXECUTED")
-            messages.success(request, 'Entry added')
-            return redirect(reverse('system_detail', args=(entry.system.system_id,)))
+            try:
+                with transaction.atomic():
+                    entry.save()
+                form.save_m2m()
+                entry.logger(str(request.user), " ENTRY_ADD_EXECUTED")
+                messages.success(request, 'Entry added')
+                return redirect(
+                    reverse('system_detail', args=(entry.system.system_id,))
+                )
+            except IntegrityError:
+                messages.warning(request, 'Entry with same content already exists')
+                # reload
+                return render(
+                    request,
+                    self.template_name,
+                    {
+                        'form': form,
+                        'title': 'Add',
+                        'object_type': 'entry',
+                    },
+                )
         else:
             return render(
                 request,
@@ -114,11 +132,27 @@ class EntryUpdate(LoginRequiredMixin, UpdateView):
         if form.is_valid():
             entry = form.save(commit=False)
             entry.entry_modified_by_user_id = request.user
-            entry.save()
-            form.save_m2m()
-            entry.logger(str(request.user), " ENTRY_EDIT_EXECUTED")
-            messages.success(request, 'Entry edited')
-            return redirect(reverse('system_detail', args=(entry.system.system_id,)))
+            try:
+                with transaction.atomic():
+                    entry.save()
+                form.save_m2m()
+                entry.logger(str(request.user), " ENTRY_EDIT_EXECUTED")
+                messages.success(request, 'Entry edited')
+                return redirect(
+                    reverse('system_detail', args=(entry.system.system_id,))
+                )
+            except IntegrityError:
+                messages.warning(request, 'Entry with same content already exists')
+                # reload
+                return render(
+                    request,
+                    self.template_name,
+                    {
+                        'form': form,
+                        'title': 'Edit',
+                        'object_type': 'entry',
+                    },
+                )
         else:
             return render(
                 request,
@@ -139,6 +173,8 @@ def import_csv_step1(request):
         form = EntryFileImport(request.POST, request.FILES)
         if form.is_valid():
             f = request.FILES['entryfile']
+            delimiter = request.POST['delimiter']
+            quotechar = request.POST['quotechar']
 
             # write upload to random tmp file
             file_name = f'/tmp/{uuid.uuid4()}'
@@ -147,9 +183,19 @@ def import_csv_step1(request):
                     dest.write(chunk)
 
             # get first row of uploaded csv (fields)
-            with open(file_name, newline='') as csvfile:
-                spamreader = csv.reader(csvfile, delimiter=',', quotechar='"')
-                fields = next(spamreader)
+            try:
+                with open(file_name, newline='') as csvfile:
+                    spamreader = csv.reader(
+                        csvfile, delimiter=delimiter, quotechar=quotechar
+                    )
+                    fields = next(spamreader)
+            except UnicodeDecodeError:
+                messages.error(request, 'Uploaded CSV is not a valid unicode file.')
+                return render(
+                    request,
+                    'dfirtrack_main/entry/entry_import_step1.html',
+                    {'form': form},
+                )
 
             # save form for case and system info
             entry = form.save(commit=False)
@@ -160,6 +206,8 @@ def import_csv_step1(request):
                 'system': entry.system.system_id,
                 'case': entry.case.case_id if entry.case else None,
                 'file_name': file_name,
+                'delimiter': delimiter,
+                'quotechar': quotechar,
             }
 
             messages.success(request, 'Uploaded csv to DFIRTrack.')
@@ -207,6 +255,8 @@ def import_csv_step2(request):
                 request.session['entry_csv_import']['file_name'],
                 field_mapping,
                 request.user,
+                request.session['entry_csv_import']['delimiter'],
+                request.session['entry_csv_import']['quotechar'],
                 request.session['entry_csv_import']['case'],
             )
             # delete session information

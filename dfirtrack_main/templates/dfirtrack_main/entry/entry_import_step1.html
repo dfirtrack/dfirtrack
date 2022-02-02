@@ -45,16 +45,26 @@
                     </small>
                 </div>
             </div>
-            <div class="row top-distance">
+            <div class="row top-distance bottom-distance">
                 <div class="form-group col-6">
                     <label for="id_case" class="form-label">{{form.case.label}}</label>
                     {{form.case}}
                 </div>
             </div>
-            <div class="row top-distance bottom-distance">
+            <div class="row top-distance">
                 <div class="form-group col-6">
                     <label for="id_entryfile" class="form-label">{{form.entryfile.label}}</label>
                     {{form.entryfile}}
+                </div>
+            </div>
+            <div class="row top-distance bottom-distance">
+                <div class="form-group col-md-3">
+                    <label for="id_delimiter" class="form-label">{{form.delimiter.label}}</label>
+                    {{form.delimiter}}
+                </div>    
+                <div class="form-group col-md-3">
+                    <label for="id_quotechar" class="form-label">{{form.quotechar.label}}</label>
+                    {{form.quotechar}}
                 </div>
             </div>
         </div>

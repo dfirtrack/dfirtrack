@@ -1,3 +1,4 @@
+import hashlib
 import logging
 import uuid
 from time import strftime
@@ -624,8 +625,30 @@ class Entry(models.Model):
         User, on_delete=models.PROTECT, related_name='entry_modified_by'
     )
 
-    # property fields
+    # entry SHA1 calculation
+    def calculate_sha1(self):
+        m = hashlib.sha1()  # nosec
+        # system
+        m.update(str(self.system.system_id).encode())
+        # time
+        if isinstance(self.entry_time, str):
+            m.update(self.entry_time.encode())
+        else:
+            m.update(self.entry_time.isoformat().encode())
+        # type (optional)
+        if self.entry_type:
+            m.update(self.entry_type.encode())
+        # content (optional)
+        if self.entry_content:
+            m.update(self.entry_content.encode())
+        self.entry_sha1 = m.hexdigest()
 
+    # custom save method to calculate and save the hash
+    def save(self, *args, **kwargs):
+        self.calculate_sha1()
+        return super().save(*args, **kwargs)
+
+    # property fields
     @property
     def entry_date(self):
         return self.entry_time.strftime('%Y-%m-%d')
@@ -649,18 +672,9 @@ class Entry(models.Model):
     # define logger
     def logger(entry, request_user, log_text):
         stdlogger.info(
-            request_user
-            + log_text
-            + " entry_id:"
-            + str(entry.entry_id)
-            + "|system:"
-            + str(entry.system)
-            + "|entry_sha1:"
-            + str(entry.entry_sha1)
-            + "|entry_note:"
-            + str(entry.entry_note)
-            + "|case:"
-            + str(entry.case)
+            f'{request_user}{log_text} entry_id:{str(entry.entry_id)}|'
+            f'system{str(entry.system)}|entry_sha1:{str(entry.entry_sha1)}|'
+            f'entry_note:{str(entry.entry_note)}|case:{str(entry.case)}'
         )
 
     def get_absolute_url(self):

@@ -1,10 +1,11 @@
 import ast
 import csv
-import hashlib
 import os
 
 from django.contrib.messages import constants
 from django.core.exceptions import ValidationError
+from django.db import transaction
+from django.db.utils import IntegrityError
 
 from dfirtrack_main.async_messages import message_user
 from dfirtrack_main.logger.default_logger import debug_logger, info_logger
@@ -12,7 +13,13 @@ from dfirtrack_main.models import Case, Entry, System, Tag
 
 
 def csv_entry_import_async(
-    system_id, file_name, field_mapping, request_user, case_id=None
+    system_id,
+    file_name,
+    field_mapping,
+    request_user,
+    delimiter,
+    quotechar,
+    case_id=None,
 ):
     """async entry csv import"""
 
@@ -24,7 +31,7 @@ def csv_entry_import_async(
     case = Case.objects.get(case_id=case_id) if case_id else None
     try:
         with open(file_name, newline='') as csvfile:
-            spamreader = csv.reader(csvfile, delimiter=',', quotechar='"')
+            spamreader = csv.reader(csvfile, delimiter=delimiter, quotechar=quotechar)
             next(spamreader)
             for row in spamreader:
                 try:
@@ -33,27 +40,22 @@ def csv_entry_import_async(
                     entry.system = system
                     entry.entry_created_by_user_id = request_user
                     entry.entry_modified_by_user_id = request_user
-                    m = hashlib.sha1()  # nosec
                     entry.entry_time = row[field_mapping['entry_time']]
-                    m.update(entry.entry_time.encode())
                     entry.entry_type = row[field_mapping['entry_type']]
-                    m.update(entry.entry_type.encode())
                     entry.entry_content = row[field_mapping['entry_content']]
-                    m.update(entry.entry_content.encode())
-                    entry.entry_sha1 = m.hexdigest()
                     entry.case = case
-                    if not Entry.objects.filter(entry_sha1=m.hexdigest()).exists():
-                        entry.full_clean()
+                    entry.full_clean()
+                    with transaction.atomic():
                         entry.save()
-                        if field_mapping['entry_tag'] != -1:
-                            tags = ast.literal_eval(row[field_mapping['entry_tag']])
-                            for tag_name in tags:
-                                tag = Tag.objects.filter(tag_name=tag_name)
-                                if len(tag) == 1:
-                                    entry.tag.add(tag[0])
-                    else:
-                        dup_count += 1
-                        continue
+                    if field_mapping['entry_tag'] != -1:
+                        tags = ast.literal_eval(row[field_mapping['entry_tag']])
+                        for tag_name in tags:
+                            tag = Tag.objects.filter(tag_name=tag_name)
+                            if len(tag) == 1:
+                                entry.tag.add(tag[0])
+                except IntegrityError:
+                    dup_count += 1
+                    continue
                 except ValidationError as e:
                     debug_logger(str(request_user), f' ENTRY_CSV_IMPORT' f' ERROR: {e}')
                     fail_count += 1
