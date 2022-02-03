@@ -220,8 +220,16 @@ def import_csv_step1(request):
             )
     else:
         # GET request
+        if 'system' in request.GET:
+            system = request.GET['system']
+            form = EntryFileImport(
+                initial={
+                    'system': system,
+                }
+            )
+        else:
+            form = EntryFileImport()
         debug_logger(str(request.user), ' ENTRY_CSV_IMPORTER_STEP1_ENTERED')
-        form = EntryFileImport()
         return render(
             request, 'dfirtrack_main/entry/entry_import_step1.html', {'form': form}
         )

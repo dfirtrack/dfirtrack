@@ -577,6 +577,18 @@ class EntryViewTestCase(TestCase):
         # compare
         self.assertEqual(response.status_code, 200)
 
+    def test_entry_csv_import_step1_system_selected(self):
+        """test step1 view"""
+
+        # login testuser
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        # get object
+        system_id = str(System.objects.get(system_name='system_1').system_id)
+        # get response
+        response = self.client.get(f'/entry/import/step1/?system={system_id}')
+        # compare
+        self.assertEqual(response.status_code, 200)
+
     def test_entry_csv_import_step1_template(self):
         """test step1 view"""
 
