@@ -10,7 +10,7 @@ $(document).ready( function () {
         "order": [[ 0, "asc" ]]
     } );
     $('#table_entry').DataTable( {
-        "pageLength": 30,
+        "pageLength": 25,
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         "order": [[ 1, "asc" ], [ 2, "asc" ]]
     } );
@@ -106,7 +106,7 @@ $(document).ready( function () {
         "order": [[ 0, "asc" ]]
     } );
     $('#table_timeline').DataTable( {
-        "pageLength": 30,
+        "pageLength": 25,
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         "order": [[ 1, "asc" ], [ 2, "asc" ]]
     } );
