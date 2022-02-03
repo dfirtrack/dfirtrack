@@ -192,6 +192,10 @@ a:hover {
         height: 100%;
         overflow-y: auto;
     }
+
+    #dfirtrack-navbar ul {
+        width: 100%;
+    }
 }
 
 @media(max-width: 1450px) {

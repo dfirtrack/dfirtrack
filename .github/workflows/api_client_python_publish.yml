@@ -30,7 +30,7 @@ jobs:
 
       - name: Set API Version in python.yml
         run: |
-             sed -i -e 's/  packageVersion: VERSION/  packageVersion: ${{ steps.get_version.outputs.version }}/g' python.yml
+             sed -i -e 's/  packageVersion: VERSION/  packageVersion: ${{ steps.get_version.outputs.version }}/g' dfirtrack_api/openapi/generator-config/python.yml
 
       - name: Generate DFIRTrack Python Client
         uses: openapi-generators/openapitools-generator-action@v1
@@ -44,7 +44,7 @@ jobs:
       - name: Pushes python client to the githup repo
         uses: dmnemec/copy_file_to_another_repo_action@main
         env:
-          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB_API_CLIENTS }}
         with:
           source_file: 'python-client/'
           destination_repo: 'dfirtrack/dfirtrack-api-python-client'

@@ -436,7 +436,6 @@ class EntryForm(forms.ModelForm):
         fields = (
             'entry_time',
             'system',
-            'entry_sha1',
             'entry_type',
             'entry_content',
             'entry_note',
@@ -446,15 +445,15 @@ class EntryForm(forms.ModelForm):
 
         # non default form labeling
         labels = {
-            'entry_time': gettext_lazy(
-                'Entry time (for sorting) (YYYY-MM-DD HH:MM:SS) (*)'
-            ),
+            'entry_time': gettext_lazy('Entry time (YYYY-MM-DD HH:MM:SS) (*)'),
+            'entry_type': gettext_lazy('Type'),
+            'entry_content': gettext_lazy('Content'),
+            'entry_note': gettext_lazy('Note'),
         }
 
         # special form type or option
         widgets = {
             'entry_time': forms.DateTimeInput(attrs={'autofocus': 'autofocus'}),
-            'entry_sha1': forms.TextInput(),
             'entry_type': forms.TextInput(),
             'entry_content': forms.Textarea(attrs={'rows': 3}),
             'entry_note': forms.Textarea(attrs={'rows': 10}),
@@ -482,8 +481,28 @@ class EntryFileImport(forms.ModelForm):
     )
 
     # file upload field (variable is used in request object)
+    def checkFileContentType(self):
+        if 'text/' not in self.content_type:
+            raise ValidationError('Uploaded file is not a CSV file.')
+
     entryfile = forms.FileField(
-        label='CSV file (*)', widget=forms.FileInput(attrs={'class': 'form-control'})
+        label='CSV file (*)',
+        widget=forms.FileInput(attrs={'class': 'form-control'}),
+        validators=[checkFileContentType],
+    )
+
+    # delimiter field (variable is used in request object)
+    delimiter = forms.CharField(
+        label='Delimiter (*)',
+        max_length=1,
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+    )
+
+    # quotechar field (variable is used in request object)
+    quotechar = forms.CharField(
+        label='Quotechar (*)',
+        max_length=1,
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
     )
 
     class Meta:
@@ -549,9 +568,13 @@ class EntryFileImportFields(forms.Form):
         form_choices = sorted(set(zip(index, choices)))
 
         # set select choices dynamically, based on uploaded csv file
+        form_choices[0] = (-1, 'Select datetime field')
         self.fields['entry_time'].choices = form_choices
+        form_choices[0] = (-1, 'Select entry type field')
         self.fields['entry_type'].choices = form_choices
+        form_choices[0] = (-1, 'Select entry content field')
         self.fields['entry_content'].choices = form_choices
+        form_choices[0] = (-1, 'Select tag field (field)')
         self.fields['entry_tag'].choices = form_choices
 
 
