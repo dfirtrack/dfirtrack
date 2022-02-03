@@ -22,7 +22,11 @@
 <!-- headline -->
 <div class="bottom-distance">
     <h4>
-        Entry CSV import step (2/2) - System '{{ system_name }}'
+        Entry CSV import step (2/2) - System
+        <div class="btn btn-primary copy-true">
+            <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+            {{ system_name }}
+        </div>
     </h4>
 </div>
 
