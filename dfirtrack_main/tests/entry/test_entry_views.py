@@ -766,9 +766,14 @@ class EntryViewTestCase(TestCase):
 
         # login testuser
         self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        # get objects
+        system_id = System.objects.get(system_name='system_1').system_id
         # mock session
         session = self.client.session
-        session['entry_csv_import'] = {'fields': ['dummy']}
+        session['entry_csv_import'] = {
+            'fields': ['dummy'],
+            'system': system_id,
+        }
         session.save()
         # get response
         response = self.client.get('/entry/import/step2/')
@@ -780,9 +785,14 @@ class EntryViewTestCase(TestCase):
 
         # login testuser
         self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        # get objects
+        system_id = System.objects.get(system_name='system_1').system_id
         # mock session
         session = self.client.session
-        session['entry_csv_import'] = {'fields': ['dummy']}
+        session['entry_csv_import'] = {
+            'fields': ['dummy'],
+            'system': system_id,
+        }
         session.save()
         # get response
         response = self.client.get('/entry/import/step2/')
