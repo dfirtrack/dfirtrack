@@ -577,6 +577,18 @@ class EntryViewTestCase(TestCase):
         # compare
         self.assertEqual(response.status_code, 200)
 
+    def test_entry_csv_import_step1_system_selected(self):
+        """test step1 view"""
+
+        # login testuser
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        # get object
+        system_id = str(System.objects.get(system_name='system_1').system_id)
+        # get response
+        response = self.client.get(f'/entry/import/step1/?system={system_id}')
+        # compare
+        self.assertEqual(response.status_code, 200)
+
     def test_entry_csv_import_step1_template(self):
         """test step1 view"""
 
@@ -592,14 +604,14 @@ class EntryViewTestCase(TestCase):
     def test_entry_csv_import_post_step1_redirect(self):
         """test step1 view"""
 
+        # login testuser
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # get objects
         system_1 = System.objects.get(system_name='system_1')
         # sample file
         csv_file = SimpleUploadedFile(
             "test.csv", b"datetime,timestamp_desc,message", content_type="text/csv"
         )
-        # login testuser
-        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # create post data
         data_dict = {
             'system': system_1.system_id,
@@ -607,11 +619,11 @@ class EntryViewTestCase(TestCase):
             'delimiter': ',',
             'quotechar': '"',
         }
+        # create url
         destination = '/entry/import/step2/'
-
         # get response
         response = self.client.post('/entry/import/step1/', data_dict, follow=True)
-        # check
+        # compare
         self.assertRedirects(
             response, destination, status_code=302, target_status_code=200
         )
@@ -622,14 +634,14 @@ class EntryViewTestCase(TestCase):
     def test_entry_csv_import_post_step1_no_case(self):
         """test step1 view"""
 
+        # login testuser
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # get objects
         system_1 = System.objects.get(system_name='system_1')
         # sample file
         csv_file = SimpleUploadedFile(
             "test.csv", b"datetime,timestamp_desc,message", content_type="text/csv"
         )
-        # login testuser
-        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # create post data
         data_dict = {
             'system': system_1.system_id,
@@ -661,6 +673,8 @@ class EntryViewTestCase(TestCase):
     def test_entry_csv_import_post_step1_with_case(self):
         """test step1 view"""
 
+        # login testuser
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # get objects
         system_1 = System.objects.get(system_name='system_1')
         test_user = User.objects.get(username='testuser_entry')
@@ -673,8 +687,6 @@ class EntryViewTestCase(TestCase):
         csv_file = SimpleUploadedFile(
             "test.csv", b"datetime,timestamp_desc,message", content_type="text/csv"
         )
-        # login testuser
-        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # create post data
         data_dict = {
             'system': system_1.system_id,
@@ -687,23 +699,23 @@ class EntryViewTestCase(TestCase):
         test_uuid = uuid.uuid4()
         with patch.object(uuid, 'uuid4', return_value=test_uuid):
             self.client.post('/entry/import/step1/', data_dict)
-            # compare
-            self.assertEqual(
-                self.client.session['entry_csv_import']['file_name'],
-                f'/tmp/{test_uuid}',
-            )
-            self.assertEqual(
-                self.client.session['entry_csv_import']['system'], system_1.system_id
-            )
-            self.assertEqual(
-                self.client.session['entry_csv_import']['case'], case_1.case_id
-            )
-            self.assertEqual(
-                self.client.session['entry_csv_import']['fields'],
-                ['datetime', 'timestamp_desc', 'message'],
-            )
-            self.assertEqual(self.client.session['entry_csv_import']['delimiter'], ',')
-            self.assertEqual(self.client.session['entry_csv_import']['quotechar'], '"')
+        # compare
+        self.assertEqual(
+            self.client.session['entry_csv_import']['file_name'],
+            f'/tmp/{test_uuid}',
+        )
+        self.assertEqual(
+            self.client.session['entry_csv_import']['system'], system_1.system_id
+        )
+        self.assertEqual(
+            self.client.session['entry_csv_import']['case'], case_1.case_id
+        )
+        self.assertEqual(
+            self.client.session['entry_csv_import']['fields'],
+            ['datetime', 'timestamp_desc', 'message'],
+        )
+        self.assertEqual(self.client.session['entry_csv_import']['delimiter'], ',')
+        self.assertEqual(self.client.session['entry_csv_import']['quotechar'], '"')
 
     def test_entry_csv_import_step1_post_invalid_data(self):
         """test step1 view"""
@@ -714,6 +726,7 @@ class EntryViewTestCase(TestCase):
         data_dict = {}
         # get response
         response = self.client.post('/entry/import/step1/', data_dict)
+        # compare
         self.assertTemplateUsed(
             response, 'dfirtrack_main/entry/entry_import_step1.html'
         )
@@ -722,12 +735,12 @@ class EntryViewTestCase(TestCase):
     def test_entry_csv_import_post_step1_invalid_unicode(self):
         """test step1 view"""
 
+        # login testuser
+        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # get objects
         system_1 = System.objects.get(system_name='system_1')
         # sample file
         csv_file = SimpleUploadedFile("test.csv", b"\x89", content_type="text/csv")
-        # login testuser
-        self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
         # create post data
         data_dict = {
             'system': system_1.system_id,
@@ -735,7 +748,6 @@ class EntryViewTestCase(TestCase):
             'delimiter': ',',
             'quotechar': '"',
         }
-
         # get response
         response = self.client.post('/entry/import/step1/', data_dict)
         messages = list(get_messages(response.wsgi_request))
@@ -766,9 +778,14 @@ class EntryViewTestCase(TestCase):
 
         # login testuser
         self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        # get objects
+        system_id = System.objects.get(system_name='system_1').system_id
         # mock session
         session = self.client.session
-        session['entry_csv_import'] = {'fields': ['dummy']}
+        session['entry_csv_import'] = {
+            'fields': ['dummy'],
+            'system': system_id,
+        }
         session.save()
         # get response
         response = self.client.get('/entry/import/step2/')
@@ -780,9 +797,14 @@ class EntryViewTestCase(TestCase):
 
         # login testuser
         self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        # get objects
+        system_id = System.objects.get(system_name='system_1').system_id
         # mock session
         session = self.client.session
-        session['entry_csv_import'] = {'fields': ['dummy']}
+        session['entry_csv_import'] = {
+            'fields': ['dummy'],
+            'system': system_id,
+        }
         session.save()
         # get response
         response = self.client.get('/entry/import/step2/')
@@ -804,6 +826,7 @@ class EntryViewTestCase(TestCase):
         data_dict = {}
         # get response
         response = self.client.post('/entry/import/step2/', data_dict)
+        # compare
         self.assertTemplateUsed(
             response, 'dfirtrack_main/entry/entry_import_step2.html'
         )
@@ -814,12 +837,11 @@ class EntryViewTestCase(TestCase):
 
         # login testuser
         self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
-
         # destination
         destination = '/entry/import/step1/'
         # get response
         response = self.client.get('/entry/import/step2/')
-        # check
+        # compare
         self.assertRedirects(
             response, destination, status_code=302, target_status_code=200
         )
@@ -827,10 +849,10 @@ class EntryViewTestCase(TestCase):
     def test_entry_csv_import_post_step2_success_redirect(self):
         """test step1 view"""
 
-        # get objects
-        system_id = System.objects.get(system_name='system_1').system_id
         # login testuser
         self.client.login(username='testuser_entry', password='GBabI7lbSGB13jXjCRoL')
+        # get objects
+        system_id = System.objects.get(system_name='system_1').system_id
         # prepare session
         session = self.client.session
         session['entry_csv_import'] = {
@@ -854,7 +876,7 @@ class EntryViewTestCase(TestCase):
         # post data
         response = self.client.post('/entry/import/step2/', data_dict, follow=True)
 
-        # check
+        # compare
         self.assertRedirects(
             response, destination, status_code=302, target_status_code=200
         )

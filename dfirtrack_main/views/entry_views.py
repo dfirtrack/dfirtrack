@@ -14,7 +14,7 @@ from django_q.tasks import async_task
 
 from dfirtrack_main.forms import EntryFileImport, EntryFileImportFields, EntryForm
 from dfirtrack_main.logger.default_logger import debug_logger
-from dfirtrack_main.models import Entry
+from dfirtrack_main.models import Entry, System
 
 
 class EntryList(LoginRequiredMixin, ListView):
@@ -210,7 +210,7 @@ def import_csv_step1(request):
                 'quotechar': quotechar,
             }
 
-            messages.success(request, 'Uploaded csv to DFIRTrack.')
+            messages.success(request, 'Uploaded CSV to DFIRTrack.')
 
             # goto step 2
             return redirect(reverse('entry_import_step2'))
@@ -220,8 +220,16 @@ def import_csv_step1(request):
             )
     else:
         # GET request
+        if 'system' in request.GET:
+            system = request.GET['system']
+            form = EntryFileImport(
+                initial={
+                    'system': system,
+                }
+            )
+        else:
+            form = EntryFileImport()
         debug_logger(str(request.user), ' ENTRY_CSV_IMPORTER_STEP1_ENTERED')
-        form = EntryFileImport()
         return render(
             request, 'dfirtrack_main/entry/entry_import_step1.html', {'form': form}
         )
@@ -262,7 +270,7 @@ def import_csv_step2(request):
             # delete session information
             del request.session['entry_csv_import']
 
-            messages.success(request, 'Entry csv importer started')
+            messages.success(request, 'Entry CSV importer started')
 
             return redirect(reverse('entry_list'))
         else:
@@ -274,6 +282,11 @@ def import_csv_step2(request):
         debug_logger(str(request.user), ' ENTRY_CSV_IMPORTER_STEP2_ENTERED')
         # prepare dynamic form with csv field information
         form = EntryFileImportFields(request.session['entry_csv_import']['fields'])
+        # get system for template
+        system_id = request.session['entry_csv_import']['system']
+        system_name = System.objects.get(system_id=system_id).system_name
         return render(
-            request, 'dfirtrack_main/entry/entry_import_step2.html', {'form': form}
+            request,
+            'dfirtrack_main/entry/entry_import_step2.html',
+            {'form': form, 'system_name': system_name},
         )

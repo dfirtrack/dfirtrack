@@ -876,16 +876,25 @@
 
     <!-- add entry buttons row -->
     <div class="row">
+        <div class="col btn-group">
 
-        <!-- add single entry button -->
-        <div class="col-3">
-            <a href="{% url 'entry_create' %}?system={{ system.system_id }}" type="button" class="btn btn-light btn-sm top-distance copy-false">
-                <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                Add entry
-            </a>
-        </div>
+            <!-- add single entry button -->
+            <div>
+                <a href="{% url 'entry_create' %}?system={{ system.system_id }}" type="button" class="btn btn-light btn-sm top-distance right-distance copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/plus.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    Add entry
+                </a>
+            </div>
+
+            <div>
+                <a href="{% url 'entry_import_step1' %}?system={{ system.system_id }}" type="button" class="btn btn-light btn-sm top-distance copy-false">
+                    <img src="/static/dfirtrack_main/icons/data-transfer-upload.svg" class="icon-sm right-distance copy-false" alt="icon">
+                    Import CSV
+                </a>
+            </div>
 
     <!-- add entry buttons row -->
+        </div>
     </div>
 
 {% else %}
