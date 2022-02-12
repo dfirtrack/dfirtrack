@@ -30,6 +30,7 @@ class Artifact(models.Model):
         'Artifactstatus', on_delete=models.PROTECT, default=1
     )
     artifacttype = models.ForeignKey('Artifacttype', on_delete=models.PROTECT)
+
     case = models.ForeignKey(
         'dfirtrack_main.Case',
         related_name='artifact_case',
@@ -45,6 +46,28 @@ class Artifact(models.Model):
     tag = models.ManyToManyField(
         'dfirtrack_main.Tag', related_name='artifact_tag', blank=True
     )
+
+    # main entity information
+    artifact_name = models.CharField(max_length=4096)
+
+    artifact_note_analysisresult = models.TextField(blank=True, null=True)
+    artifact_note_external = models.TextField(blank=True, null=True)
+    artifact_note_internal = models.TextField(blank=True, null=True)
+
+    artifact_md5 = models.CharField(max_length=32, blank=True, null=True)
+    artifact_sha1 = models.CharField(max_length=40, blank=True, null=True)
+    artifact_sha256 = models.CharField(max_length=64, blank=True, null=True)
+
+    artifact_source_path = models.CharField(max_length=4096, blank=True, null=True)
+    artifact_storage_path = models.CharField(max_length=4096, unique=True)
+
+    artifact_acquisition_time = models.DateTimeField(blank=True, null=True)
+    artifact_requested_time = models.DateTimeField(blank=True, null=True)
+
+    artifact_slug = models.CharField(max_length=4096)
+    artifact_uuid = models.UUIDField(editable=False)
+
+    # meta information
     artifact_assigned_to_user_id = models.ForeignKey(
         User,
         on_delete=models.PROTECT,
@@ -52,23 +75,6 @@ class Artifact(models.Model):
         null=True,
         related_name='artifact_assigned_to',
     )
-
-    # main entity information
-    artifact_acquisition_time = models.DateTimeField(blank=True, null=True)
-    artifact_md5 = models.CharField(max_length=32, blank=True, null=True)
-    artifact_name = models.CharField(max_length=4096)
-    artifact_note_analysisresult = models.TextField(blank=True, null=True)
-    artifact_note_external = models.TextField(blank=True, null=True)
-    artifact_note_internal = models.TextField(blank=True, null=True)
-    artifact_requested_time = models.DateTimeField(blank=True, null=True)
-    artifact_sha1 = models.CharField(max_length=40, blank=True, null=True)
-    artifact_sha256 = models.CharField(max_length=64, blank=True, null=True)
-    artifact_slug = models.CharField(max_length=4096)
-    artifact_source_path = models.CharField(max_length=4096, blank=True, null=True)
-    artifact_storage_path = models.CharField(max_length=4096, unique=True)
-    artifact_uuid = models.UUIDField(editable=False)
-
-    # meta information
     artifact_create_time = models.DateTimeField(auto_now_add=True)
     artifact_modify_time = models.DateTimeField(auto_now=True)
     artifact_created_by_user_id = models.ForeignKey(
