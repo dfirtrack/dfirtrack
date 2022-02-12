@@ -186,8 +186,11 @@ class SystemExporterSpreadsheetCsvConfigModel(models.Model):
     spread_csv_serviceprovider = models.BooleanField(default=False)
     spread_csv_tag = models.BooleanField(default=True)
     spread_csv_case = models.BooleanField(default=False)
+    spread_csv_system_assigned_to_user_id = models.BooleanField(default=False)
     spread_csv_system_create_time = models.BooleanField(default=True)
+    spread_csv_system_created_by_user_id = models.BooleanField(default=False)
     spread_csv_system_modify_time = models.BooleanField(default=True)
+    spread_csv_system_modified_by_user_id = models.BooleanField(default=False)
 
     # string representation
     def __str__(self):
@@ -218,8 +221,11 @@ class SystemExporterSpreadsheetXlsConfigModel(models.Model):
     spread_xls_serviceprovider = models.BooleanField(default=False)
     spread_xls_tag = models.BooleanField(default=True)
     spread_xls_case = models.BooleanField(default=False)
+    spread_xls_system_assigned_to_user_id = models.BooleanField(default=False)
     spread_xls_system_create_time = models.BooleanField(default=True)
+    spread_xls_system_created_by_user_id = models.BooleanField(default=False)
     spread_xls_system_modify_time = models.BooleanField(default=True)
+    spread_xls_system_modified_by_user_id = models.BooleanField(default=False)
     spread_xls_worksheet_systemstatus = models.BooleanField(default=False)
     spread_xls_worksheet_analysisstatus = models.BooleanField(default=False)
     spread_xls_worksheet_reason = models.BooleanField(default=False)

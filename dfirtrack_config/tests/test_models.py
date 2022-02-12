@@ -454,15 +454,33 @@ class ConfigModelTestCase(TestCase):
         )
         self.assertEqual(
             system_exporter_spreadsheet_csv_config_model._meta.get_field(
+                'spread_csv_system_assigned_to_user_id'
+            ).verbose_name,
+            'spread csv system assigned to user id',
+        )
+        self.assertEqual(
+            system_exporter_spreadsheet_csv_config_model._meta.get_field(
                 'spread_csv_system_create_time'
             ).verbose_name,
             'spread csv system create time',
         )
         self.assertEqual(
             system_exporter_spreadsheet_csv_config_model._meta.get_field(
+                'spread_csv_system_created_by_user_id'
+            ).verbose_name,
+            'spread csv system created by user id',
+        )
+        self.assertEqual(
+            system_exporter_spreadsheet_csv_config_model._meta.get_field(
                 'spread_csv_system_modify_time'
             ).verbose_name,
             'spread csv system modify time',
+        )
+        self.assertEqual(
+            system_exporter_spreadsheet_csv_config_model._meta.get_field(
+                'spread_csv_system_modified_by_user_id'
+            ).verbose_name,
+            'spread csv system modified by user id',
         )
 
     def test_system_exporter_spreadsheet_xls_config_model_string(self):
@@ -584,15 +602,33 @@ class ConfigModelTestCase(TestCase):
         )
         self.assertEqual(
             system_exporter_spreadsheet_xls_config_model._meta.get_field(
+                'spread_xls_system_assigned_to_user_id'
+            ).verbose_name,
+            'spread xls system assigned to user id',
+        )
+        self.assertEqual(
+            system_exporter_spreadsheet_xls_config_model._meta.get_field(
                 'spread_xls_system_create_time'
             ).verbose_name,
             'spread xls system create time',
         )
         self.assertEqual(
             system_exporter_spreadsheet_xls_config_model._meta.get_field(
+                'spread_xls_system_created_by_user_id'
+            ).verbose_name,
+            'spread xls system created by user id',
+        )
+        self.assertEqual(
+            system_exporter_spreadsheet_xls_config_model._meta.get_field(
                 'spread_xls_system_modify_time'
             ).verbose_name,
             'spread xls system modify time',
+        )
+        self.assertEqual(
+            system_exporter_spreadsheet_xls_config_model._meta.get_field(
+                'spread_xls_system_modified_by_user_id'
+            ).verbose_name,
+            'spread xls system modified by user id',
         )
         self.assertEqual(
             system_exporter_spreadsheet_xls_config_model._meta.get_field(
