@@ -88,7 +88,7 @@ class ArtifactExporterSpreadsheetXlsConfigFormTestCase(TestCase):
         )
         self.assertEqual(
             form.fields['artifactlist_xls_artifact_assigned_to_user_id'].label,
-            'Export assigned_to user',
+            'Export assigned to user',
         )
         self.assertEqual(
             form.fields['artifactlist_xls_artifact_create_time'].label,

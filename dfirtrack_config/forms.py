@@ -100,7 +100,7 @@ class ArtifactExporterSpreadsheetXlsConfigForm(forms.ModelForm):
             'artifactlist_xls_artifact_sha256': 'Export SHA256',
             'artifactlist_xls_artifact_source_path': 'Export source path',
             'artifactlist_xls_artifact_storage_path': 'Export storage path',
-            'artifactlist_xls_artifact_assigned_to_user_id': 'Export assigned_to user',
+            'artifactlist_xls_artifact_assigned_to_user_id': 'Export assigned to user',
             'artifactlist_xls_artifact_create_time': 'Export create time',
             'artifactlist_xls_artifact_created_by_user_id': 'Export created by user',
             'artifactlist_xls_artifact_modify_time': 'Export modify time',
