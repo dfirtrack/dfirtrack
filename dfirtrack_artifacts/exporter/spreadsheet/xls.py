@@ -80,10 +80,22 @@ def write_xls(username):
         headline.append('SHA1')
     if model.artifactlist_xls_artifact_sha256:
         headline.append('SHA256')
+    if model.artifactlist_xls_case_id:
+        headline.append('Case ID')
+    if model.artifactlist_xls_case_name:
+        headline.append('Case')
+    if model.artifactlist_xls_tag_all:
+        headline.append('Tags')
+    if model.artifactlist_xls_artifact_assigned_to_user_id:
+        headline.append('Assigned to')
     if model.artifactlist_xls_artifact_create_time:
         headline.append('Created')
+    if model.artifactlist_xls_artifact_created_by_user_id:
+        headline.append('Created by')
     if model.artifactlist_xls_artifact_modify_time:
         headline.append('Modified')
+    if model.artifactlist_xls_artifact_modified_by_user_id:
+        headline.append('Modified by')
 
     # write headline
     worksheet_artifact = write_row(worksheet_artifact, headline, row_num, style)
@@ -196,18 +208,65 @@ def write_xls(username):
             else:
                 artifact_sha256 = artifact.artifact_sha256
             entryline.append(artifact_sha256)
+        # case id
+        if model.artifactlist_xls_case_id:
+            if artifact.case:
+                case_id = artifact.case.case_id
+            else:
+                case_id = ''
+            entryline.append(case_id)
+        # case name
+        if model.artifactlist_xls_case_name:
+            if artifact.case:
+                case_name = artifact.case.case_name
+            else:
+                case_name = ''
+            entryline.append(case_name)
+        # tag
+        if model.artifactlist_xls_tag_all:
+            tags_all = artifact.tag.all().order_by('tag_name')
+            # count tags
+            n = artifact.tag.count()
+            # create empty tag string
+            tag = ''
+            # set counter
+            i = 1
+            # iterate over tag objects in tag list
+            for tag_obj in tags_all:
+                # add actual tag to tag string
+                tag = tag + tag_obj.tag_name
+                # add newline except for last tag
+                if i < n:
+                    tag = tag + ' '
+                    i = i + 1
+            entryline.append(tag)
+        # artifact assigned to user
+        if model.artifactlist_xls_artifact_assigned_to_user_id:
+            if artifact.artifact_assigned_to_user_id:
+                artifact_assigned_to_user_id = str(artifact.artifact_assigned_to_user_id)
+            else:
+                artifact_assigned_to_user_id = ''
+            entryline.append(artifact_assigned_to_user_id)
         # artifact create time
         if model.artifactlist_xls_artifact_create_time:
             artifact_create_time = artifact.artifact_create_time.strftime(
                 '%Y-%m-%d %H:%M'
             )
             entryline.append(artifact_create_time)
+        # artifact created by user
+        if model.artifactlist_xls_artifact_created_by_user_id:
+            artifact_created_by_user_id = str(artifact.artifact_created_by_user_id)
+            entryline.append(artifact_created_by_user_id)
         # artifact modify time
         if model.artifactlist_xls_artifact_modify_time:
             artifact_modify_time = artifact.artifact_modify_time.strftime(
                 '%Y-%m-%d %H:%M'
             )
             entryline.append(artifact_modify_time)
+        # artifact modified by user
+        if model.artifactlist_xls_artifact_modified_by_user_id:
+            artifact_modified_by_user_id = str(artifact.artifact_modified_by_user_id)
+            entryline.append(artifact_modified_by_user_id)
 
         # write line for artifact
         worksheet_artifact = write_row(worksheet_artifact, entryline, row_num, style)
