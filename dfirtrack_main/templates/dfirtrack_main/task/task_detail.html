@@ -148,7 +148,7 @@
                 Assigned to user:
             </div>
             {% if task.task_assigned_to_user_id %}
-                    {% include "dfirtrack_main/includes/username.html" with user=task.task_assigned_to_user_id %}
+                {{ task.task_assigned_to_user_id }}
             {% else %}
                 ---
             {% endif %}

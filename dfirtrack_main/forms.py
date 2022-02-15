@@ -45,17 +45,6 @@ from dfirtrack_main.models import (
 from dfirtrack_main.widgets import TagWidget
 
 
-# override User string representation
-def form_username_str(self):
-    if self.get_full_name():
-        return f'{self.get_full_name()} ({self.get_username()})'
-    else:
-        return self.get_username()
-
-
-User.__str__ = form_username_str
-
-
 class AdminStyleSelectorForm(forms.ModelForm):
     """inherit from this class if you want to use the ModelMultipleChoiceField with the FilteredSelectMultiple widget"""
 

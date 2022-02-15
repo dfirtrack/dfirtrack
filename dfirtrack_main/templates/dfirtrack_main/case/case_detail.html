@@ -170,7 +170,7 @@
                 Assigned to user:
             </div>
             {% if case.case_assigned_to_user_id %}
-                {% include "dfirtrack_main/includes/username.html" with user=case.case_assigned_to_user_id%}
+                {{ case.case_assigned_to_user_id }}
             {% else %}
                 ---
             {% endif %}

@@ -22,7 +22,7 @@
         <!-- user creating model -->
         <div class="col-3">
             <div class="font-weight-bold">Created by:</div>
-            {% include "dfirtrack_main/includes/username.html" with user=created_by_user_id %}
+            {{ created_by_user_id }}
         </div>
 
         <!-- model modify time -->
@@ -34,7 +34,7 @@
         <!-- user modifying model -->
         <div class="col-3">
             <div class="font-weight-bold">Modified by:</div>
-                {% include "dfirtrack_main/includes/username.html" with user=modified_by_user_id %}
+            {{ modified_by_user_id }}
         </div>
 
     <!-- meta information row -->

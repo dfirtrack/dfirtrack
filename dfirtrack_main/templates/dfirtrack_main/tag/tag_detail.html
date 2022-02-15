@@ -82,7 +82,7 @@
         <small class="text-muted">
             Modified by:
             {% if tag.tag_modified_by_user_id %}
-                {% include "dfirtrack_main/includes/username.html" with user=tag.tag_modified_by_user_id %}
+                {{ tag.tag_modified_by_user_id }}
             {% else %}
                 ---
             {% endif %}
@@ -102,7 +102,7 @@
             Assigned to user:
         </div>
         {% if tag.tag_assigned_to_user_id %}
-            {% include "dfirtrack_main/includes/username.html" with user=tag.tag_assigned_to_user_id %}
+            {{ tag.tag_assigned_to_user_id }}
         {% else %}
             ---
         {% endif %}

@@ -87,7 +87,7 @@
             <center>
                 <div class="top-distance copy-false">
                 <img src="{% static 'dfirtrack_main/icons/person-light.svg' %}" class="icon-sm copy-false" alt="icon">
-                    {% include "dfirtrack_main/includes/username.html" with user=user %}
+                {{ user.get_username }}
                 </div>
             </center>
         </div>

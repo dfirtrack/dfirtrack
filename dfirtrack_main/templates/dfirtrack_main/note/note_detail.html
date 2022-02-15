@@ -113,7 +113,7 @@
                 Assigned to user:
             </div>
             {% if note.note_assigned_to_user_id %}
-                {% include "dfirtrack_main/includes/username.html" with user=note.note_assigned_to_user_id %}
+                {{ note.note_assigned_to_user_id }}
             {% else %}
                 ---
             {% endif %}
