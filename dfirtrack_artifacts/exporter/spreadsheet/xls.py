@@ -243,7 +243,9 @@ def write_xls(username):
         # artifact assigned to user
         if model.artifactlist_xls_artifact_assigned_to_user_id:
             if artifact.artifact_assigned_to_user_id:
-                artifact_assigned_to_user_id = str(artifact.artifact_assigned_to_user_id)
+                artifact_assigned_to_user_id = str(
+                    artifact.artifact_assigned_to_user_id
+                )
             else:
                 artifact_assigned_to_user_id = ''
             entryline.append(artifact_assigned_to_user_id)

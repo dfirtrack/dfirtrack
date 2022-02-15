@@ -54,9 +54,7 @@ class ArtifactExporterSpreadsheetXlsConfigFormTestCase(TestCase):
         self.assertEqual(
             form.fields['artifactlist_xls_system_name'].label, 'Export system name'
         )
-        self.assertEqual(
-            form.fields['artifactlist_xls_tag_all'].label, 'Export tags'
-        )
+        self.assertEqual(form.fields['artifactlist_xls_tag_all'].label, 'Export tags')
         self.assertEqual(
             form.fields['artifactlist_xls_artifact_note_analysisresult'].label,
             'Export analysis result',
