@@ -116,7 +116,7 @@
 
                 <!-- analystmemo create user -->
                 <td>
-                    {{ i.analystmemo_created_by_user_id }}
+                    {% include "dfirtrack_main/includes/username.html" with user=i.analystmemo_created_by_user_id %}
                 </td>
 
                 <!-- analystmemo modify time -->
@@ -126,7 +126,7 @@
 
                 <!-- analystmemo modify user -->
                 <td>
-                    {{ i.analystmemo_modified_by_user_id }}
+                    {% include "dfirtrack_main/includes/username.html" with user=i.analystmemo_modified_by_user_id %}
                 </td>
 
             <!-- table row -->
