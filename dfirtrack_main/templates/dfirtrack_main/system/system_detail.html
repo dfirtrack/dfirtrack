@@ -1340,7 +1340,10 @@
                         <a href="#analystmemo_{{ i.analystmemo_id }}" data-bs-toggle="collapse">
                             Analystmemo
                             <span class="text-muted">
-                                created {{ i.analystmemo_create_time|date:"Y-m-d H:i" }} by {{ i.analystmemo_created_by_user_id }} and last edited {{ i.analystmemo_modify_time|date:"Y-m-d H:i" }} by {{ i.analystmemo_modified_by_user_id }}
+                                created {{ i.analystmemo_create_time|date:"Y-m-d H:i" }}
+                                by {% include "dfirtrack_main/includes/username.html" with user=i.analystmemo_created_by_user_id %}
+                                and last edited {{ i.analystmemo_modify_time|date:"Y-m-d H:i" }}
+                                by {% include "dfirtrack_main/includes/username.html" with user=i.analystmemo_modified_by_user_id %}
                             </span>
                         </a>
                     </div>
@@ -1442,7 +1445,10 @@
                                 <b>{{ i.headline }} - {{ i.reportitem_subheadline }}</b>
                                 | Reportitem
                                 <span class="text-muted">
-                                    created {{ i.reportitem_create_time|date:"Y-m-d H:i" }} by {{ i.reportitem_created_by_user_id }} and last edited {{ i.reportitem_modify_time|date:"Y-m-d H:i" }} by {{ i.reportitem_modified_by_user_id }}
+                                    created {{ i.reportitem_create_time|date:"Y-m-d H:i" }}
+                                    by {% include "dfirtrack_main/includes/username.html" with user=i.reportitem_created_by_user_id %}
+                                    and last edited {{ i.reportitem_modify_time|date:"Y-m-d H:i" }}
+                                    by {% include "dfirtrack_main/includes/username.html" with user=i.reportitem_modified_by_user_id %}
                                 </span>
 
                             <!-- without subheadline -->
@@ -1450,7 +1456,10 @@
                                 <b>{{ i.headline }}</b>
                                 | Reportitem
                                 <span class="text-muted">
-                                    created {{ i.reportitem_create_time|date:"Y-m-d H:i" }} by {{ i.reportitem_created_by_user_id }} and last edited {{ i.reportitem_modify_time|date:"Y-m-d H:i" }} by {{ i.reportitem_modified_by_user_id }}
+                                    created {{ i.reportitem_create_time|date:"Y-m-d H:i" }}
+                                    by {% include "dfirtrack_main/includes/username.html" with user=i.reportitem_created_by_user_id %}
+                                    and last edited {{ i.reportitem_modify_time|date:"Y-m-d H:i" }}
+                                    by {% include "dfirtrack_main/includes/username.html" with user=i.reportitem_modified_by_user_id %}
                                 </span>
                             {% endif %}
 

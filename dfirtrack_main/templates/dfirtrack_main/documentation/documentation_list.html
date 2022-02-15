@@ -169,12 +169,14 @@
 
         <!-- note create time / user -->
         <div class="col-3">
-            Created {{ note.note_create_time|date:"Y-m-d H:i" }} by {{ note.note_created_by_user_id }}
+            Created {{ note.note_create_time|date:"Y-m-d H:i" }} by 
+            {% include "dfirtrack_main/includes/username.html" with user=note.note_created_by_user_id %}
         </div>
 
         <!-- note modify time / user -->
         <div class="col-3">
-            Modified {{ note.note_modify_time|date:"Y-m-d H:i" }} by {{ note.note_modified_by_user_id }}
+            Modified {{ note.note_modify_time|date:"Y-m-d H:i" }} by 
+            {% include "dfirtrack_main/includes/username.html" with user=note.note_modified_by_user_id %}
         </div>
 
     <!-- note metadata row -->
@@ -190,7 +192,7 @@
                 Assigned to user:
             </div>
             {% if note.note_assigned_to_user_id %}
-                {{ note.note_assigned_to_user_id }}
+                {% include "dfirtrack_main/includes/username.html" with user=note.note_assigned_to_user_id %}
             {% else %}
                 ---
             {% endif %}
@@ -304,12 +306,14 @@
 
         <!-- reportitem create time -->
         <div class="col-3">
-            Created {{ reportitem.reportitem_create_time|date:"Y-m-d H:i" }} by {{ reportitem.reportitem_created_by_user_id }}
+            Created {{ reportitem.reportitem_create_time|date:"Y-m-d H:i" }} by
+            {% include "dfirtrack_main/includes/username.html" with user=reportitem.reportitem_created_by_user_id %}
         </div>
 
         <!-- reportitem modify time -->
         <div class="col-3">
-            Modified {{ reportitem.reportitem_modify_time|date:"Y-m-d H:i" }} by {{ reportitem.reportitem_modified_by_user_id }}
+            Modified {{ reportitem.reportitem_modify_time|date:"Y-m-d H:i" }} by
+            {% include "dfirtrack_main/includes/username.html" with user=reportitem.reportitem_modified_by_user_id %}
         </div>
 
     <!-- system reportitem metadata row -->
@@ -325,7 +329,7 @@
                 Assigned to user:
             </div>
             {% if reportitem.reportitem_assigned_to_user_id %}
-                {{ reportitem.reportitem_assigned_to_user_id }}
+                {% include "dfirtrack_main/includes/username.html" with user=reportitem.reportitem_assigned_to_user_id %}
             {% else %}
                 ---
             {% endif %}

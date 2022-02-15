@@ -185,11 +185,15 @@ a:hover {
         display: none!important;
     }
 
-    #dfirtrack-navbar {
+    .navbar {
         position: sticky;
+        top: 0px;
+        height: 100%;
+    }
+
+    #dfirtrack-navbar {
         top: 10px;
         right: 0;
-        height: 100%;
         overflow-y: auto;
     }
 
