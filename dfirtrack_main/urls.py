@@ -265,6 +265,9 @@ urlpatterns = [
     path(
         r'entry/import/step2/', entry_views.import_csv_step2, name='entry_import_step2'
     ),
+    path(
+        r'filter/<str:filter_object>/', json_provider_views.filter, name='filter'
+    ),
     path(r'headline/', headline_views.HeadlineList.as_view(), name='headline_list'),
     path(
         r'headline/<int:pk>/',
