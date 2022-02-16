@@ -1,11 +1,16 @@
+import re
+from tkinter import NONE
+from unittest.mock import NonCallableMagicMock
 from django.contrib.auth.decorators import login_required
 from django.db.models import ForeignKey
+from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.templatetags.static import static
 from django.urls import reverse
 
+from dfirtrack_artifacts.models import Artifact
 from dfirtrack_config.models import UserConfigModel
 from dfirtrack_main.models import Case, System, Tag
 
@@ -289,3 +294,105 @@ def get_systems_json(request):
     response = JsonResponse(json_dict, safe=False)
 
     return response
+
+
+def validate_int(list_ints):
+    validated = list()
+    for i in list_ints:
+        try:
+            validated.append(int(i))
+        except ValueError:
+            pass
+    return validated
+
+
+@login_required(login_url="/login")
+def filter(request, filter_object):
+    ''' post request filter everything '''
+
+    filter_params = {**request.POST, **request.GET}
+    search_value = filter_params.get('search[value]')[0]
+
+    if filter_object.lower() == 'system':
+        model = System
+        queryset = System.objects
+        display_fields = {
+            'system_id': None,
+            'system_name': """f'''
+                <a href="{obj.get_absolute_url()}" type="button" class="btn btn-primary btn-sm copy-true">
+                <img src="{static('dfirtrack_main/icons/monitor-light.svg')}" class="icon right-distance copy-false" alt="icon">
+                {obj.system_name}</a>'''""",
+            'systemstatus': """render_to_string(
+                'dfirtrack_main/includes/button_systemstatus.html',
+                {'systemstatus': obj.systemstatus},
+            )""",
+            'analysisstatus': """f'''
+                <span data-toggle="tooltip" data-placement="auto" title="{obj.analysisstatus.analysisstatus_note}">
+                    <a href="{obj.analysisstatus.get_absolute_url()}">{obj.analysisstatus}
+                </a>
+                </span>'''""",
+            'system_create_time': "obj.system_create_time.strftime('%Y-%m-%d %H:%M')",
+            'system_modify_time': "obj.system_modify_time.strftime('%Y-%m-%d %H:%M')"
+        }
+    elif filter_object.lower() == 'artifact':
+        model = Artifact
+        queryset = Artifact.objects
+        display_fields = [
+            'artifact_id',
+            'artifact_name',
+            'artifact_status',
+            'artifact_priority',
+            'artifact_type',
+            'system',
+            'artifact_requested_time',
+            'artifact_acquisition_time',
+            'artifact_create_time',
+            'artifact_modify_time'
+        ]
+
+    # build filter params
+    filter_kwargs = dict()
+    if 'name' in filter_params:
+        key = f'{model._meta.model_name}_name__icontains'
+        filter_kwargs[key] = filter_params['name'][0]
+    if 'case' in filter_params:
+        key = f'case__in'
+        filter_kwargs[key] = validate_int(filter_params['case'])
+    if 'assignment' in filter_params:
+        key = f'{model._meta.model_name}_assigned_to_user_id__in'
+        filter_kwargs[key] = validate_int(filter_params['assignment'])
+    if 'tags[]' in filter_params:
+        key = 'tag__in'
+        filter_kwargs[key] = validate_int(filter_params['tags[]'])
+    if 'status[]' in filter_params:
+        key = f'{model._meta.model_name}status__in'
+        filter_kwargs[key] = validate_int(filter_params['status[]'])
+
+    if search_value != '':
+        for entry in filter_params:
+            if entry.endswith('[data]'):
+                tmp_column_name = filter_params[entry][0]     
+                if isinstance(model._meta.get_field(tmp_column_name), ForeignKey):
+                    key = f'{tmp_column_name}__{tmp_column_name}_name__icontains'
+                else:
+                    key =  f'{tmp_column_name}__icontains'
+
+                filter_kwargs[key] = search_value
+
+    results = list()
+    for obj in queryset.filter(Q(**filter_kwargs, _connector=Q.OR)).distinct():
+        model_dict = dict()
+        for field, func in display_fields.items():
+            if func:
+                model_dict[field] = eval(func)
+            else:
+                model_dict[field] = getattr(obj, field)
+        results.append(model_dict)
+
+    json_dict = {
+        'draw': filter_params.get('draw')[0] if filter_params.get('draw') else 1,
+        'recordsTotal': queryset.all().count(),
+        'recordsTotal': len(results),
+        'data': results
+    }
+    return JsonResponse(json_dict, safe=False)
