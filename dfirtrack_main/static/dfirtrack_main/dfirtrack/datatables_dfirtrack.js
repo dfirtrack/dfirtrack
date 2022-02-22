@@ -36,7 +36,7 @@ $(document).ready( function () {
         "serverSide":true,
         "ajax": {
             "type" : "GET",
-            "url": window.location.protocol+"//"+window.location.hostname+(window.location.port ? ':'+location.port: '')+"/system/json/"
+            "url": "/filter/system/?" + window.location.pathname.split('/')[1] + "=" + window.location.pathname.split('/')[2]
         },
         "bStateSave": true,
         "columns": [

@@ -108,38 +108,8 @@ class SystemList(LoginRequiredMixin, FormView):
             user_config_username=self.request.user
         )
 
-        # filter: even if the persistence option has been deselected, the initial values must correspond to the current filtering until the view is reloaded or left
-
-        # create dict to initialize form values set by filtering in previous view call
-        form_initial = {}
-
-        # check box if persistence option was provided
-        if user_config.filter_system_list_keep:
-            # set initial value for form
-            form_initial['filter_system_list_keep'] = True
-        else:
-            form_initial['filter_system_list_keep'] = False
-
-        # get case from config
-        if user_config.filter_system_list_case:
-            # get id
-            case_id = user_config.filter_system_list_case.case_id
-            # set initial value for form
-            form_initial['case'] = case_id
-            # set filter flag
-            filter_flag = True
-
-        # get tag from config
-        if user_config.filter_system_list_tag:
-            # get id
-            tag_id = user_config.filter_system_list_tag.tag_id
-            # set initial value for form
-            form_initial['tag'] = tag_id
-            # set filter flag
-            filter_flag = True
-
         # filter: pre-select form according to previous filter selection
-        context['form'] = self.form_class(initial=form_initial)
+        context['form'] = self.form_class(instance=user_config)
 
         # call logger
         debug_logger(str(self.request.user), " SYSTEM_LIST_ENTERED")
@@ -153,38 +123,18 @@ class SystemList(LoginRequiredMixin, FormView):
         # return dictionary with additional values for template
         return context
 
-    def form_valid(self, form):
+    def post(self, request, *args, **kwargs):
         """save form data to config and call view again"""
-
-        # get config
         user_config, created = UserConfigModel.objects.get_or_create(
-            user_config_username=self.request.user
+            user_config_username=request.POST.get('user_config_username')
         )
 
-        # filter: save filter choices from form in 'system_list' to database and call 'system_list' again with the new filter options
+        form = self.form_class(request.POST, instance=user_config)
 
-        # get case from form and save to config
-        if form.data['case']:
-            system_list_case = Case.objects.get(case_id=form.data['case'])
-            user_config.filter_system_list_case = system_list_case
-        else:
-            user_config.filter_system_list_case = None
-
-        # get tag from form and save to config
-        if form.data['tag']:
-            system_list_tag = Tag.objects.get(tag_id=form.data['tag'])
-            user_config.filter_system_list_tag = system_list_tag
-        else:
-            user_config.filter_system_list_tag = None
-
-        # avoid MultiValueDictKeyError by providing default False if checkbox was empty
-        if form.data.get('filter_system_list_keep', False):
-            user_config.filter_system_list_keep = True
-        else:
-            user_config.filter_system_list_keep = False
-
-        # save config
-        user_config.save()
+        if form.is_valid():
+            user_config = form.save(commit=False)
+            user_config.save()
+            form.save_m2m()
 
         # call view again
         return redirect(reverse('system_list'))
@@ -496,7 +446,7 @@ def clear_system_list_filter(request):
 
     # clear values
     user_config.filter_system_list_case = None
-    user_config.filter_system_list_tag = None
+    user_config.filter_system_list_tag.clear()
 
     # save config
     user_config.save()

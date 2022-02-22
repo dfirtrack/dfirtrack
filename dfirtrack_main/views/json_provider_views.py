@@ -1,8 +1,10 @@
 import re
 from tkinter import NONE
 from unittest.mock import NonCallableMagicMock
+from xml.dom.minidom import Attr
 from django.contrib.auth.decorators import login_required
 from django.db.models import ForeignKey
+from django.db.models import ManyToManyField
 from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -295,17 +297,6 @@ def get_systems_json(request):
 
     return response
 
-
-def validate_int(list_ints):
-    validated = list()
-    for i in list_ints:
-        try:
-            validated.append(int(i))
-        except ValueError:
-            pass
-    return validated
-
-
 @login_required(login_url="/login")
 def filter(request, filter_object):
     ''' post request filter everything '''
@@ -313,60 +304,25 @@ def filter(request, filter_object):
     filter_params = {**request.POST, **request.GET}
     search_value = filter_params.get('search[value]')[0]
 
+    # get config
+    user_config, created = UserConfigModel.objects.get_or_create(
+        user_config_username=request.user
+    )
+
     if filter_object.lower() == 'system':
         model = System
         queryset = System.objects
-        display_fields = {
-            'system_id': None,
-            'system_name': """f'''
-                <a href="{obj.get_absolute_url()}" type="button" class="btn btn-primary btn-sm copy-true">
-                <img src="{static('dfirtrack_main/icons/monitor-light.svg')}" class="icon right-distance copy-false" alt="icon">
-                {obj.system_name}</a>'''""",
-            'systemstatus': """render_to_string(
-                'dfirtrack_main/includes/button_systemstatus.html',
-                {'systemstatus': obj.systemstatus},
-            )""",
-            'analysisstatus': """f'''
-                <span data-toggle="tooltip" data-placement="auto" title="{obj.analysisstatus.analysisstatus_note}">
-                    <a href="{obj.analysisstatus.get_absolute_url()}">{obj.analysisstatus}
-                </a>
-                </span>'''""",
-            'system_create_time': "obj.system_create_time.strftime('%Y-%m-%d %H:%M')",
-            'system_modify_time': "obj.system_modify_time.strftime('%Y-%m-%d %H:%M')"
-        }
-    elif filter_object.lower() == 'artifact':
-        model = Artifact
-        queryset = Artifact.objects
-        display_fields = [
-            'artifact_id',
-            'artifact_name',
-            'artifact_status',
-            'artifact_priority',
-            'artifact_type',
-            'system',
-            'artifact_requested_time',
-            'artifact_acquisition_time',
-            'artifact_create_time',
-            'artifact_modify_time'
-        ]
 
-    # build filter params
-    filter_kwargs = dict()
-    if 'name' in filter_params:
-        key = f'{model._meta.model_name}_name__icontains'
-        filter_kwargs[key] = filter_params['name'][0]
-    if 'case' in filter_params:
-        key = f'case__in'
-        filter_kwargs[key] = validate_int(filter_params['case'])
-    if 'assignment' in filter_params:
-        key = f'{model._meta.model_name}_assigned_to_user_id__in'
-        filter_kwargs[key] = validate_int(filter_params['assignment'])
-    if 'tags[]' in filter_params:
-        key = 'tag__in'
-        filter_kwargs[key] = validate_int(filter_params['tags[]'])
-    if 'status[]' in filter_params:
-        key = f'{model._meta.model_name}status__in'
-        filter_kwargs[key] = validate_int(filter_params['status[]'])
+    order_column_number = filter_params.get('order[0][column]')[0]
+    order_column_name = filter_params.get(f'columns[{order_column_number}][data]')[0]
+    # order direction: empty if descending (default), '-' is ascending
+    order_dir = '' if filter_params.get('order[0][dir]')[0] == 'asc' else '-'
+    if isinstance(model._meta.get_field(order_column_name), ForeignKey):
+        order_column_name = f'{order_column_name}__{order_column_name}_name'
+
+    # search field input
+    and_filter_kwargs = dict()
+    or_filter_kwargs = dict()
 
     if search_value != '':
         for entry in filter_params:
@@ -377,22 +333,76 @@ def filter(request, filter_object):
                 else:
                     key =  f'{tmp_column_name}__icontains'
 
-                filter_kwargs[key] = search_value
+                or_filter_kwargs[key] = search_value
+    
+    for filter,value in filter_params.items():
+        if filter in model.__dict__:
+            and_filter_kwargs[f'{filter}__in'] = value
+
+    # assignments
+    user_config_filter = re.compile(f'filter_{filter_object.lower()}_[a-z]+_([a-z]+)')
+    for attr in user_config._meta.get_fields():
+        matches = user_config_filter.findall(attr.get_attname())
+        if len(matches):
+            ref_obj = matches[0]
+            if ref_obj in model.__dict__:
+                value = getattr(user_config, attr.get_attname())
+                if value:
+                    if isinstance(attr, ManyToManyField):
+                        values = value.all()
+                        if len(values):
+                            or_filter_kwargs[f'{ref_obj}__in'] = values
+                    else:
+                        and_filter_kwargs[ref_obj] = value
+
+    filter_results = queryset.filter(
+        Q(**or_filter_kwargs, _connector=Q.OR)
+    ).filter(**and_filter_kwargs).distinct().order_by(order_dir + order_column_name)
+
+    # starting point for records in table
+    start = int(filter_params['start'][0])
+    # how many records are to be shown? if all records are to be shown, length is set to -1
+    length = (
+        int(filter_params['length'][0])
+        if int(filter_params['length'][0]) != -1
+        else len(filter_params)
+    )
 
     results = list()
-    for obj in queryset.filter(Q(**filter_kwargs, _connector=Q.OR)).distinct():
-        model_dict = dict()
-        for field, func in display_fields.items():
-            if func:
-                model_dict[field] = eval(func)
-            else:
-                model_dict[field] = getattr(obj, field)
-        results.append(model_dict)
+    for obj in list(filter_results)[start:(start+length)]:
+        if filter_object.lower() == 'system':
+            results.append(
+                {
+                    "system_id": obj.system_id,
+                    "system_name": "<a href='"
+                    + obj.get_absolute_url()
+                    + "' type='button' class='btn btn-primary btn-sm copy-true'><img src='"
+                    + static("dfirtrack_main/icons/monitor-light.svg")
+                    + "' class='icon right-distance copy-false' alt='icon'>"
+                    + obj.system_name
+                    + "</a>",
+                    "systemstatus": render_to_string(
+                        'dfirtrack_main/includes/button_systemstatus.html',
+                        {'systemstatus': obj.systemstatus},
+                    ),
+                    "analysisstatus": "<span data-toggle='tooltip' data-placement='auto' title='"
+                    + str(obj.analysisstatus.analysisstatus_note or "")
+                    + "'><a href='"
+                    + obj.analysisstatus.get_absolute_url()
+                    + "'>"
+                    + str(obj.analysisstatus)
+                    + "</a></span>"
+                    if obj.analysisstatus is not None
+                    else "---",
+                    "system_create_time": obj.system_create_time.strftime("%Y-%m-%d %H:%M"),
+                    "system_modify_time": obj.system_modify_time.strftime("%Y-%m-%d %H:%M"),
+                }
+            )
 
     json_dict = {
         'draw': filter_params.get('draw')[0] if filter_params.get('draw') else 1,
         'recordsTotal': queryset.all().count(),
-        'recordsTotal': len(results),
+        'recordsFiltered': filter_results.count(),
         'data': results
     }
     return JsonResponse(json_dict, safe=False)
