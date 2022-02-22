@@ -168,7 +168,7 @@ class AssignmentView(LoginRequiredMixin, FormView):
             # add username to context used for template
             context[
                 'assignment_user'
-            ] = user_config.filter_assignment_view_user.username
+            ] = user_config.filter_assignment_view_user
         # show unassigned entities otherwise
         else:
             artifact_queryset = artifact_queryset.filter(

@@ -36,7 +36,7 @@
         <h5>
             <img src="{% static 'dfirtrack_main/icons/people-light.svg' %}" class="icon right-distance copy-false" alt="icon">
             {% if assignment_user %}
-                Assignments for '{{ assignment_user }}'
+                Assignments for '{% include 'dfirtrack_main/includes/username.html' with user=assignment_user %}'
             {% else %}
                 Unassigned entities
             {% endif %}
@@ -99,7 +99,7 @@
             <h5 id="system">
                 <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                 {% if assignment_user %}
-                    Systems assigned to '{{ assignment_user }}'{% if system %} ({{ system|length }}){% endif %}
+                    Systems assigned to '{{ assignment_user.get_username }}'{% if system %} ({{ system|length }}){% endif %}
                 {% else %}
                     Unassigned systems{% if system %} ({{ system|length }}){% endif %}
                 {% endif %}
@@ -168,7 +168,7 @@
             <h5 id="artifact">
                 <img src="{% static 'dfirtrack_main/icons/bug-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                 {% if assignment_user %}
-                    Artifacts assigned to '{{ assignment_user }}'{% if artifact %} ({{ artifact|length }}){% endif %}
+                    Artifacts assigned to '{{ assignment_user.get_username }}'{% if artifact %} ({{ artifact|length }}){% endif %}
                 {% else %}
                     Unassigned artifacts{% if artifact %} ({{ artifact|length }}){% endif %}
                 {% endif %}
@@ -240,7 +240,7 @@
             <h5 id="case">
                 <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                 {% if assignment_user %}
-                    Cases assigned to '{{ assignment_user }}'{% if case %} ({{ case|length }}){% endif %}
+                    Cases assigned to '{{ assignment_user.get_username }}'{% if case %} ({{ case|length }}){% endif %}
                 {% else %}
                     Unassigned cases{% if case %} ({{ case|length }}){% endif %}
                 {% endif %}
@@ -309,7 +309,7 @@
             <h5 id="task">
                 <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                 {% if assignment_user %}
-                    Tasks assigned to '{{ assignment_user }}'{% if task %} ({{ task|length }}){% endif %}
+                    Tasks assigned to '{{ assignment_user.get_username }}'{% if task %} ({{ task|length }}){% endif %}
                 {% else %}
                     Unassigned tasks{% if task %} ({{ task|length }}){% endif %}
                 {% endif %}
@@ -378,7 +378,7 @@
             <h5 id="tag">
                 <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                 {% if assignment_user %}
-                    Tags assigned to '{{ assignment_user }}'{% if tag %} ({{ tag|length }}){% endif %}
+                    Tags assigned to '{{ assignment_user.get_username }}'{% if tag %} ({{ tag|length }}){% endif %}
                 {% else %}
                     Unassigned tags{% if tag %} ({{ tag|length }}){% endif %}
                 {% endif %}
@@ -447,7 +447,7 @@
             <h5 id="note">
                 <img src="{% static 'dfirtrack_main/icons/paperclip-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                 {% if assignment_user %}
-                    Notes assigned to '{{ assignment_user }}'{% if note %} ({{ note|length }}){% endif %}
+                    Notes assigned to '{{ assignment_user.get_username }}'{% if note %} ({{ note|length }}){% endif %}
                 {% else %}
                     Unassigned notes{% if note %} ({{ note|length }}){% endif %}
                 {% endif %}
@@ -516,7 +516,7 @@
             <h5 id="reportitem">
                 <img src="{% static 'dfirtrack_main/icons/paperclip-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                 {% if assignment_user %}
-                    Reportitems assigned to '{{ assignment_user }}'{% if reportitem %} ({{ reportitem|length }}){% endif %}
+                    Reportitems assigned to '{{ assignment_user.get_username }}'{% if reportitem %} ({{ reportitem|length }}){% endif %}
                 {% else %}
                     Unassigned reportitems{% if reportitem %} ({{ reportitem|length }}){% endif %}
                 {% endif %}
