@@ -14,7 +14,15 @@ from dfirtrack_config.models import (
     ArtifactExporterSpreadsheetXlsConfigModel,
     MainConfigModel,
 )
-from dfirtrack_main.models import System, Systemstatus
+from dfirtrack_main.models import (
+    Case,
+    Casepriority,
+    Casestatus,
+    System,
+    Systemstatus,
+    Tag,
+    Tagcolor,
+)
 
 
 class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
@@ -52,6 +60,19 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
             artifacttype_note='lorem ipsum',
         )
 
+        # create objects
+        casepriority_1 = Casepriority.objects.create(casepriority_name='casepriority_1')
+        casestatus_1 = Casestatus.objects.create(casestatus_name='casestatus_1')
+
+        # create object
+        case_1 = Case.objects.create(
+            case_name='case_1',
+            case_is_incident=True,
+            case_created_by_user_id=test_user,
+            casepriority=casepriority_1,
+            casestatus=casestatus_1,
+        )
+
         # create object
         systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
 
@@ -63,6 +84,12 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
             system_modified_by_user_id=test_user,
         )
 
+        # create object
+        tagcolor_1 = Tagcolor.objects.create(tagcolor_name='tagcolor_1')
+        # create object
+        tag_1 = Tag.objects.create(tag_name='tag_1', tagcolor=tagcolor_1)
+        tag_2 = Tag.objects.create(tag_name='tag_2', tagcolor=tagcolor_1)
+
         """ create artifacts """
 
         # mock timezone.now()
@@ -70,10 +97,11 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         with patch.object(timezone, 'now', return_value=t_1):
 
             # create object with maximum attributes
-            Artifact.objects.create(
+            artifact_1 = Artifact.objects.create(
                 artifact_name='artifact_exporter_spreadsheet_xls_artifact_1_all_attributes',
                 artifactstatus=artifactstatus_3,
                 artifacttype=artifacttype_1,
+                case=case_1,
                 system=system_1,
                 artifact_source_path=r'C:\Temp\malicious.exe',
                 artifact_note_internal='artifact note for internal usage',
@@ -82,9 +110,13 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
                 artifact_md5='d41d8cd98f00b204e9800998ecf8427e',
                 artifact_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709',
                 artifact_sha256='e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
+                artifact_assigned_to_user_id=test_user,
                 artifact_created_by_user_id=test_user,
                 artifact_modified_by_user_id=test_user,
             )
+
+        artifact_1.tag.add(tag_1)
+        artifact_1.tag.add(tag_2)
 
         # mock timezone.now()
         t_2 = datetime(2009, 8, 7, 23, 45, tzinfo=timezone.utc)
@@ -352,10 +384,22 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_sha256 = (
             True
         )
+        artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_case_id = True
+        artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_case_name = True
+        artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_tag_all = True
+        artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_assigned_to_user_id = (
+            True
+        )
         artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_create_time = (
             True
         )
+        artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_created_by_user_id = (
+            True
+        )
         artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_modify_time = (
+            True
+        )
+        artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_modified_by_user_id = (
             True
         )
         artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_worksheet_artifactstatus = (
@@ -459,7 +503,7 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
 
         # compare number of rows and columns
         self.assertEqual(sheet_artifacts.nrows, 6)
-        self.assertEqual(sheet_artifacts.ncols, 17)
+        self.assertEqual(sheet_artifacts.ncols, 23)
         self.assertEqual(sheet_artifactstatus.nrows, 14)
         self.assertEqual(sheet_artifactstatus.ncols, 3)
         self.assertEqual(sheet_artifacttype.nrows, 7)
@@ -483,8 +527,14 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
                 'MD5',
                 'SHA1',
                 'SHA256',
+                'Case ID',
+                'Case',
+                'Tags',
+                'Assigned to',
                 'Created',
+                'Created by',
                 'Modified',
+                'Modified by',
             ],
         )
         self.assertEqual(
@@ -531,8 +581,25 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         self.assertEqual(sheet_artifacts.cell(1, 12).value, artifact_1.artifact_md5)
         self.assertEqual(sheet_artifacts.cell(1, 13).value, artifact_1.artifact_sha1)
         self.assertEqual(sheet_artifacts.cell(1, 14).value, artifact_1.artifact_sha256)
-        self.assertEqual(sheet_artifacts.cell(1, 15).value, '2012-11-10 12:34')
-        self.assertEqual(sheet_artifacts.cell(1, 16).value, '2012-11-10 12:34')
+        self.assertEqual(
+            int(sheet_artifacts.cell(1, 15).value), artifact_1.case.case_id
+        )
+        self.assertEqual(sheet_artifacts.cell(1, 16).value, artifact_1.case.case_name)
+        self.assertEqual(sheet_artifacts.cell(1, 17).value, 'tag_1 tag_2')
+        self.assertEqual(
+            sheet_artifacts.cell(1, 18).value,
+            str(artifact_1.artifact_assigned_to_user_id),
+        )
+        self.assertEqual(sheet_artifacts.cell(1, 19).value, '2012-11-10 12:34')
+        self.assertEqual(
+            sheet_artifacts.cell(1, 20).value,
+            str(artifact_1.artifact_created_by_user_id),
+        )
+        self.assertEqual(sheet_artifacts.cell(1, 21).value, '2012-11-10 12:34')
+        self.assertEqual(
+            sheet_artifacts.cell(1, 22).value,
+            str(artifact_1.artifact_modified_by_user_id),
+        )
         # compare content - artifact 2
         self.assertEqual(int(sheet_artifacts.cell(2, 0).value), artifact_2.artifact_id)
         self.assertEqual(sheet_artifacts.cell(2, 1).value, artifact_2.artifact_name)
@@ -563,8 +630,20 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         self.assertEqual(sheet_artifacts.cell(2, 12).value, '')
         self.assertEqual(sheet_artifacts.cell(2, 13).value, '')
         self.assertEqual(sheet_artifacts.cell(2, 14).value, '')
-        self.assertEqual(sheet_artifacts.cell(2, 15).value, '2009-08-07 23:45')
-        self.assertEqual(sheet_artifacts.cell(2, 16).value, '2009-08-07 23:45')
+        self.assertEqual(sheet_artifacts.cell(2, 15).value, '')
+        self.assertEqual(sheet_artifacts.cell(2, 16).value, '')
+        self.assertEqual(sheet_artifacts.cell(2, 17).value, '')
+        self.assertEqual(sheet_artifacts.cell(2, 18).value, '')
+        self.assertEqual(sheet_artifacts.cell(2, 19).value, '2009-08-07 23:45')
+        self.assertEqual(
+            sheet_artifacts.cell(2, 20).value,
+            str(artifact_1.artifact_created_by_user_id),
+        )
+        self.assertEqual(sheet_artifacts.cell(2, 21).value, '2009-08-07 23:45')
+        self.assertEqual(
+            sheet_artifacts.cell(2, 22).value,
+            str(artifact_1.artifact_modified_by_user_id),
+        )
         # compare content - artifactstatus worksheet (whole columns)
         self.assertEqual(sheet_artifactstatus.col_values(0), artifactstatus_id_list)
         self.assertEqual(sheet_artifactstatus.col_values(1), artifactstatus_name_list)
