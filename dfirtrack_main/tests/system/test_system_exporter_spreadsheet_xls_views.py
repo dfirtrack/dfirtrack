@@ -121,6 +121,7 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
                 os=os_1,
                 location=location_1,
                 serviceprovider=serviceprovider_1,
+                system_assigned_to_user_id=test_user,
                 system_created_by_user_id=test_user,
                 system_modified_by_user_id=test_user,
             )
@@ -345,10 +346,19 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
         system_exporter_spreadsheet_xls_config_model.spread_xls_serviceprovider = True
         system_exporter_spreadsheet_xls_config_model.spread_xls_tag = True
         system_exporter_spreadsheet_xls_config_model.spread_xls_case = True
+        system_exporter_spreadsheet_xls_config_model.spread_xls_system_assigned_to_user_id = (
+            True
+        )
         system_exporter_spreadsheet_xls_config_model.spread_xls_system_create_time = (
             True
         )
+        system_exporter_spreadsheet_xls_config_model.spread_xls_system_created_by_user_id = (
+            True
+        )
         system_exporter_spreadsheet_xls_config_model.spread_xls_system_modify_time = (
+            True
+        )
+        system_exporter_spreadsheet_xls_config_model.spread_xls_system_modified_by_user_id = (
             True
         )
         system_exporter_spreadsheet_xls_config_model.spread_xls_worksheet_systemstatus = (
@@ -486,7 +496,7 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
 
         # compare number of rows and columns
         self.assertEqual(sheet_systems.nrows, 6)
-        self.assertEqual(sheet_systems.ncols, 18)
+        self.assertEqual(sheet_systems.ncols, 21)
         self.assertEqual(sheet_systemstatus.nrows, 10)
         self.assertEqual(sheet_systemstatus.ncols, 3)
         self.assertEqual(sheet_analysisstatus.nrows, 7)
@@ -517,8 +527,11 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
                 'Serviceprovider',
                 'Tag',
                 'Case',
+                'Assigned to',
                 'Created',
+                'Created by',
                 'Modified',
+                'Modified by',
             ],
         )
         # compare content - system 1
@@ -555,8 +568,17 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
         )
         self.assertEqual(sheet_systems.cell(1, 14).value, 'tag_1\ntag_2\ntag_3')
         self.assertEqual(sheet_systems.cell(1, 15).value, 'case_1\ncase_2\ncase_3')
-        self.assertEqual(sheet_systems.cell(1, 16).value, '2001-02-03 04:05')
+        self.assertEqual(
+            sheet_systems.cell(1, 16).value, 'testuser_system_exporter_spreadsheet_xls'
+        )
         self.assertEqual(sheet_systems.cell(1, 17).value, '2001-02-03 04:05')
+        self.assertEqual(
+            sheet_systems.cell(1, 18).value, 'testuser_system_exporter_spreadsheet_xls'
+        )
+        self.assertEqual(sheet_systems.cell(1, 19).value, '2001-02-03 04:05')
+        self.assertEqual(
+            sheet_systems.cell(1, 20).value, 'testuser_system_exporter_spreadsheet_xls'
+        )
         # compare content - system 2
         self.assertEqual(int(sheet_systems.cell(2, 0).value), system_2.system_id)
         self.assertEqual(sheet_systems.cell(2, 1).value, system_2.system_name)
@@ -575,8 +597,16 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
         self.assertEqual(sheet_systems.cell(2, 12).value, '')
         self.assertEqual(sheet_systems.cell(2, 13).value, '')
         self.assertEqual(sheet_systems.cell(2, 14).value, '')
-        self.assertEqual(sheet_systems.cell(2, 16).value, '2009-08-07 06:05')
+        self.assertEqual(sheet_systems.cell(2, 15).value, '')
+        self.assertEqual(sheet_systems.cell(2, 16).value, '')
         self.assertEqual(sheet_systems.cell(2, 17).value, '2009-08-07 06:05')
+        self.assertEqual(
+            sheet_systems.cell(2, 18).value, 'testuser_system_exporter_spreadsheet_xls'
+        )
+        self.assertEqual(sheet_systems.cell(2, 19).value, '2009-08-07 06:05')
+        self.assertEqual(
+            sheet_systems.cell(2, 20).value, 'testuser_system_exporter_spreadsheet_xls'
+        )
         # compare content - systemstatus worksheet (whole columns)
         self.assertEqual(sheet_systemstatus.col_values(0), systemstatus_id_list)
         self.assertEqual(sheet_systemstatus.col_values(1), systemstatus_name_list)
@@ -727,10 +757,19 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
         system_exporter_spreadsheet_xls_config_model.spread_xls_serviceprovider = True
         system_exporter_spreadsheet_xls_config_model.spread_xls_tag = True
         system_exporter_spreadsheet_xls_config_model.spread_xls_case = True
+        system_exporter_spreadsheet_xls_config_model.spread_xls_system_assigned_to_user_id = (
+            True
+        )
         system_exporter_spreadsheet_xls_config_model.spread_xls_system_create_time = (
             True
         )
+        system_exporter_spreadsheet_xls_config_model.spread_xls_system_created_by_user_id = (
+            True
+        )
         system_exporter_spreadsheet_xls_config_model.spread_xls_system_modify_time = (
+            True
+        )
+        system_exporter_spreadsheet_xls_config_model.spread_xls_system_modified_by_user_id = (
             True
         )
         system_exporter_spreadsheet_xls_config_model.spread_xls_worksheet_systemstatus = (
@@ -868,7 +907,7 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
 
         # compare number of rows and columns
         self.assertEqual(sheet_systems.nrows, 6)
-        self.assertEqual(sheet_systems.ncols, 18)
+        self.assertEqual(sheet_systems.ncols, 21)
         self.assertEqual(sheet_systemstatus.nrows, 10)
         self.assertEqual(sheet_systemstatus.ncols, 3)
         self.assertEqual(sheet_analysisstatus.nrows, 7)
@@ -899,8 +938,11 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
                 'Serviceprovider',
                 'Tag',
                 'Case',
+                'Assigned to',
                 'Created',
+                'Created by',
                 'Modified',
+                'Modified by',
             ],
         )
         # compare content - system 1
@@ -937,8 +979,17 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
         )
         self.assertEqual(sheet_systems.cell(1, 14).value, 'tag_1\ntag_2\ntag_3')
         self.assertEqual(sheet_systems.cell(1, 15).value, 'case_1\ncase_2\ncase_3')
-        self.assertEqual(sheet_systems.cell(1, 16).value, '2001-02-03 04:05')
+        self.assertEqual(
+            sheet_systems.cell(1, 16).value, 'testuser_system_exporter_spreadsheet_xls'
+        )
         self.assertEqual(sheet_systems.cell(1, 17).value, '2001-02-03 04:05')
+        self.assertEqual(
+            sheet_systems.cell(1, 18).value, 'testuser_system_exporter_spreadsheet_xls'
+        )
+        self.assertEqual(sheet_systems.cell(1, 19).value, '2001-02-03 04:05')
+        self.assertEqual(
+            sheet_systems.cell(1, 20).value, 'testuser_system_exporter_spreadsheet_xls'
+        )
         # compare content - system 2
         self.assertEqual(int(sheet_systems.cell(2, 0).value), system_2.system_id)
         self.assertEqual(sheet_systems.cell(2, 1).value, system_2.system_name)
@@ -957,8 +1008,16 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
         self.assertEqual(sheet_systems.cell(2, 12).value, '')
         self.assertEqual(sheet_systems.cell(2, 13).value, '')
         self.assertEqual(sheet_systems.cell(2, 14).value, '')
-        self.assertEqual(sheet_systems.cell(2, 16).value, '2009-08-07 06:05')
+        self.assertEqual(sheet_systems.cell(2, 15).value, '')
+        self.assertEqual(sheet_systems.cell(2, 16).value, '')
         self.assertEqual(sheet_systems.cell(2, 17).value, '2009-08-07 06:05')
+        self.assertEqual(
+            sheet_systems.cell(2, 18).value, 'testuser_system_exporter_spreadsheet_xls'
+        )
+        self.assertEqual(sheet_systems.cell(2, 19).value, '2009-08-07 06:05')
+        self.assertEqual(
+            sheet_systems.cell(2, 20).value, 'testuser_system_exporter_spreadsheet_xls'
+        )
         # compare content - systemstatus worksheet (whole columns)
         self.assertEqual(sheet_systemstatus.col_values(0), systemstatus_id_list)
         self.assertEqual(sheet_systemstatus.col_values(1), systemstatus_name_list)

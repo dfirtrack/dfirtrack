@@ -69,10 +69,16 @@ def write_csv(username, csv_file):
         headline.append('Tag')
     if model.spread_csv_case:
         headline.append('Case')
+    if model.spread_csv_system_assigned_to_user_id:
+        headline.append('Assigned to')
     if model.spread_csv_system_create_time:
         headline.append('Created')
+    if model.spread_csv_system_created_by_user_id:
+        headline.append('Created by')
     if model.spread_csv_system_modify_time:
         headline.append('Modified')
+    if model.spread_csv_system_modified_by_user_id:
+        headline.append('Modified by')
 
     # write headline
     csv_writer.writerow(headline)
@@ -247,14 +253,29 @@ def write_csv(username, csv_file):
                     case = case + ','
                     i = i + 1
             entryline.append(case)
+        # system assigned to user
+        if model.spread_csv_system_assigned_to_user_id:
+            if system.system_assigned_to_user_id:
+                system_assigned_to_user_id = str(system.system_assigned_to_user_id)
+            else:
+                system_assigned_to_user_id = ''
+            entryline.append(system_assigned_to_user_id)
         # system create time
         if model.spread_csv_system_create_time:
             system_create_time = system.system_create_time.strftime('%Y-%m-%d %H:%M')
             entryline.append(system_create_time)
+        # system created by user
+        if model.spread_csv_system_created_by_user_id:
+            system_created_by_user_id = str(system.system_created_by_user_id)
+            entryline.append(system_created_by_user_id)
         # system modify time
         if model.spread_csv_system_modify_time:
             system_modify_time = system.system_modify_time.strftime('%Y-%m-%d %H:%M')
             entryline.append(system_modify_time)
+        # system modified by user
+        if model.spread_csv_system_modified_by_user_id:
+            system_modified_by_user_id = str(system.system_modified_by_user_id)
+            entryline.append(system_modified_by_user_id)
 
         # write entryline
         csv_writer.writerow(entryline)

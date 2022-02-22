@@ -121,6 +121,7 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
                 os=os_1,
                 location=location_1,
                 serviceprovider=serviceprovider_1,
+                system_assigned_to_user_id=test_user,
                 system_created_by_user_id=test_user,
                 system_modified_by_user_id=test_user,
             )
@@ -320,10 +321,19 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         system_exporter_spreadsheet_csv_config_model.spread_csv_serviceprovider = True
         system_exporter_spreadsheet_csv_config_model.spread_csv_tag = True
         system_exporter_spreadsheet_csv_config_model.spread_csv_case = True
+        system_exporter_spreadsheet_csv_config_model.spread_csv_system_assigned_to_user_id = (
+            True
+        )
         system_exporter_spreadsheet_csv_config_model.spread_csv_system_create_time = (
             True
         )
+        system_exporter_spreadsheet_csv_config_model.spread_csv_system_created_by_user_id = (
+            True
+        )
         system_exporter_spreadsheet_csv_config_model.spread_csv_system_modify_time = (
+            True
+        )
+        system_exporter_spreadsheet_csv_config_model.spread_csv_system_modified_by_user_id = (
             True
         )
         system_exporter_spreadsheet_csv_config_model.save()
@@ -388,8 +398,11 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
                     self.assertEqual(csv_line[13], 'Serviceprovider')
                     self.assertEqual(csv_line[14], 'Tag')
                     self.assertEqual(csv_line[15], 'Case')
-                    self.assertEqual(csv_line[16], 'Created')
-                    self.assertEqual(csv_line[17], 'Modified')
+                    self.assertEqual(csv_line[16], 'Assigned to')
+                    self.assertEqual(csv_line[17], 'Created')
+                    self.assertEqual(csv_line[18], 'Created by')
+                    self.assertEqual(csv_line[19], 'Modified')
+                    self.assertEqual(csv_line[20], 'Modified by')
                 elif i == 2:
                     self.assertEqual(csv_line[0], str(system_1.system_id))
                     self.assertEqual(csv_line[1], 'system_1_all_attributes')
@@ -407,8 +420,17 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
                     self.assertEqual(csv_line[13], 'serviceprovider_1')
                     self.assertEqual(csv_line[14], 'tag_1,tag_2,tag_3')
                     self.assertEqual(csv_line[15], 'case_1,case_2,case_3')
-                    self.assertEqual(csv_line[16], '2011-12-13 14:15')
+                    self.assertEqual(
+                        csv_line[16], 'testuser_system_exporter_spreadsheet_csv'
+                    )
                     self.assertEqual(csv_line[17], '2011-12-13 14:15')
+                    self.assertEqual(
+                        csv_line[18], 'testuser_system_exporter_spreadsheet_csv'
+                    )
+                    self.assertEqual(csv_line[19], '2011-12-13 14:15')
+                    self.assertEqual(
+                        csv_line[20], 'testuser_system_exporter_spreadsheet_csv'
+                    )
                 elif i == 3:
                     self.assertEqual(csv_line[0], str(system_2.system_id))
                     self.assertEqual(csv_line[1], 'system_2_no_attributes')
@@ -426,8 +448,15 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
                     self.assertEqual(csv_line[13], '')
                     self.assertEqual(csv_line[14], '')
                     self.assertEqual(csv_line[15], '')
-                    self.assertEqual(csv_line[16], '2009-08-17 16:15')
+                    self.assertEqual(csv_line[16], '')
                     self.assertEqual(csv_line[17], '2009-08-17 16:15')
+                    self.assertEqual(
+                        csv_line[18], 'testuser_system_exporter_spreadsheet_csv'
+                    )
+                    self.assertEqual(csv_line[19], '2009-08-17 16:15')
+                    self.assertEqual(
+                        csv_line[20], 'testuser_system_exporter_spreadsheet_csv'
+                    )
                 elif i == 5:
                     self.assertEqual(csv_line[0], 'Created:')
                     self.assertEqual(csv_line[1], t2_now.strftime('%Y-%m-%d %H:%M'))
@@ -559,10 +588,19 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         system_exporter_spreadsheet_csv_config_model.spread_csv_serviceprovider = True
         system_exporter_spreadsheet_csv_config_model.spread_csv_tag = True
         system_exporter_spreadsheet_csv_config_model.spread_csv_case = True
+        system_exporter_spreadsheet_csv_config_model.spread_csv_system_assigned_to_user_id = (
+            True
+        )
         system_exporter_spreadsheet_csv_config_model.spread_csv_system_create_time = (
             True
         )
+        system_exporter_spreadsheet_csv_config_model.spread_csv_system_created_by_user_id = (
+            True
+        )
         system_exporter_spreadsheet_csv_config_model.spread_csv_system_modify_time = (
+            True
+        )
+        system_exporter_spreadsheet_csv_config_model.spread_csv_system_modified_by_user_id = (
             True
         )
         system_exporter_spreadsheet_csv_config_model.save()
@@ -623,8 +661,11 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
                     self.assertEqual(csv_line[13], 'Serviceprovider')
                     self.assertEqual(csv_line[14], 'Tag')
                     self.assertEqual(csv_line[15], 'Case')
-                    self.assertEqual(csv_line[16], 'Created')
-                    self.assertEqual(csv_line[17], 'Modified')
+                    self.assertEqual(csv_line[16], 'Assigned to')
+                    self.assertEqual(csv_line[17], 'Created')
+                    self.assertEqual(csv_line[18], 'Created by')
+                    self.assertEqual(csv_line[19], 'Modified')
+                    self.assertEqual(csv_line[20], 'Modified by')
                 elif i == 2:
                     self.assertEqual(csv_line[0], str(system_1.system_id))
                     self.assertEqual(csv_line[1], 'system_1_all_attributes')
@@ -642,8 +683,17 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
                     self.assertEqual(csv_line[13], 'serviceprovider_1')
                     self.assertEqual(csv_line[14], 'tag_1,tag_2,tag_3')
                     self.assertEqual(csv_line[15], 'case_1,case_2,case_3')
-                    self.assertEqual(csv_line[16], '2011-12-13 14:15')
+                    self.assertEqual(
+                        csv_line[16], 'testuser_system_exporter_spreadsheet_csv'
+                    )
                     self.assertEqual(csv_line[17], '2011-12-13 14:15')
+                    self.assertEqual(
+                        csv_line[18], 'testuser_system_exporter_spreadsheet_csv'
+                    )
+                    self.assertEqual(csv_line[19], '2011-12-13 14:15')
+                    self.assertEqual(
+                        csv_line[20], 'testuser_system_exporter_spreadsheet_csv'
+                    )
                 elif i == 3:
                     self.assertEqual(csv_line[0], str(system_2.system_id))
                     self.assertEqual(csv_line[1], 'system_2_no_attributes')
@@ -661,8 +711,15 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
                     self.assertEqual(csv_line[13], '')
                     self.assertEqual(csv_line[14], '')
                     self.assertEqual(csv_line[15], '')
-                    self.assertEqual(csv_line[16], '2009-08-17 16:15')
+                    self.assertEqual(csv_line[16], '')
                     self.assertEqual(csv_line[17], '2009-08-17 16:15')
+                    self.assertEqual(
+                        csv_line[18], 'testuser_system_exporter_spreadsheet_csv'
+                    )
+                    self.assertEqual(csv_line[19], '2009-08-17 16:15')
+                    self.assertEqual(
+                        csv_line[20], 'testuser_system_exporter_spreadsheet_csv'
+                    )
                 elif i == 5:
                     self.assertEqual(csv_line[0], 'Created:')
                     self.assertEqual(csv_line[1], t3_now.strftime('%Y-%m-%d %H:%M'))

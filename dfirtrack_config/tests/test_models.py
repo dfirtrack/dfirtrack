@@ -84,6 +84,36 @@ class ConfigModelTestCase(TestCase):
         )
         self.assertEqual(
             artifact_exporter_spreadsheet_xls_config_model._meta.get_field(
+                'artifactlist_xls_artifactpriority'
+            ).verbose_name,
+            'artifactlist xls artifactpriority',
+        )
+        self.assertEqual(
+            artifact_exporter_spreadsheet_xls_config_model._meta.get_field(
+                'artifactlist_xls_artifactstatus'
+            ).verbose_name,
+            'artifactlist xls artifactstatus',
+        )
+        self.assertEqual(
+            artifact_exporter_spreadsheet_xls_config_model._meta.get_field(
+                'artifactlist_xls_artifacttype'
+            ).verbose_name,
+            'artifactlist xls artifacttype',
+        )
+        self.assertEqual(
+            artifact_exporter_spreadsheet_xls_config_model._meta.get_field(
+                'artifactlist_xls_case_id'
+            ).verbose_name,
+            'artifactlist xls case id',
+        )
+        self.assertEqual(
+            artifact_exporter_spreadsheet_xls_config_model._meta.get_field(
+                'artifactlist_xls_case_name'
+            ).verbose_name,
+            'artifactlist xls case name',
+        )
+        self.assertEqual(
+            artifact_exporter_spreadsheet_xls_config_model._meta.get_field(
                 'artifactlist_xls_system_id'
             ).verbose_name,
             'artifactlist xls system id',
@@ -96,39 +126,15 @@ class ConfigModelTestCase(TestCase):
         )
         self.assertEqual(
             artifact_exporter_spreadsheet_xls_config_model._meta.get_field(
-                'artifactlist_xls_artifactstatus'
+                'artifactlist_xls_tag_all'
             ).verbose_name,
-            'artifactlist xls artifactstatus',
+            'artifactlist xls tag all',
         )
         self.assertEqual(
             artifact_exporter_spreadsheet_xls_config_model._meta.get_field(
-                'artifactlist_xls_artifactpriority'
+                'artifactlist_xls_artifact_note_analysisresult'
             ).verbose_name,
-            'artifactlist xls artifactpriority',
-        )
-        self.assertEqual(
-            artifact_exporter_spreadsheet_xls_config_model._meta.get_field(
-                'artifactlist_xls_artifacttype'
-            ).verbose_name,
-            'artifactlist xls artifacttype',
-        )
-        self.assertEqual(
-            artifact_exporter_spreadsheet_xls_config_model._meta.get_field(
-                'artifactlist_xls_artifact_source_path'
-            ).verbose_name,
-            'artifactlist xls artifact source path',
-        )
-        self.assertEqual(
-            artifact_exporter_spreadsheet_xls_config_model._meta.get_field(
-                'artifactlist_xls_artifact_storage_path'
-            ).verbose_name,
-            'artifactlist xls artifact storage path',
-        )
-        self.assertEqual(
-            artifact_exporter_spreadsheet_xls_config_model._meta.get_field(
-                'artifactlist_xls_artifact_note_internal'
-            ).verbose_name,
-            'artifactlist xls artifact note internal',
+            'artifactlist xls artifact note analysisresult',
         )
         self.assertEqual(
             artifact_exporter_spreadsheet_xls_config_model._meta.get_field(
@@ -138,9 +144,9 @@ class ConfigModelTestCase(TestCase):
         )
         self.assertEqual(
             artifact_exporter_spreadsheet_xls_config_model._meta.get_field(
-                'artifactlist_xls_artifact_note_analysisresult'
+                'artifactlist_xls_artifact_note_internal'
             ).verbose_name,
-            'artifactlist xls artifact note analysisresult',
+            'artifactlist xls artifact note internal',
         )
         self.assertEqual(
             artifact_exporter_spreadsheet_xls_config_model._meta.get_field(
@@ -162,15 +168,45 @@ class ConfigModelTestCase(TestCase):
         )
         self.assertEqual(
             artifact_exporter_spreadsheet_xls_config_model._meta.get_field(
+                'artifactlist_xls_artifact_source_path'
+            ).verbose_name,
+            'artifactlist xls artifact source path',
+        )
+        self.assertEqual(
+            artifact_exporter_spreadsheet_xls_config_model._meta.get_field(
+                'artifactlist_xls_artifact_storage_path'
+            ).verbose_name,
+            'artifactlist xls artifact storage path',
+        )
+        self.assertEqual(
+            artifact_exporter_spreadsheet_xls_config_model._meta.get_field(
+                'artifactlist_xls_artifact_assigned_to_user_id'
+            ).verbose_name,
+            'artifactlist xls artifact assigned to user id',
+        )
+        self.assertEqual(
+            artifact_exporter_spreadsheet_xls_config_model._meta.get_field(
                 'artifactlist_xls_artifact_create_time'
             ).verbose_name,
             'artifactlist xls artifact create time',
         )
         self.assertEqual(
             artifact_exporter_spreadsheet_xls_config_model._meta.get_field(
+                'artifactlist_xls_artifact_created_by_user_id'
+            ).verbose_name,
+            'artifactlist xls artifact created by user id',
+        )
+        self.assertEqual(
+            artifact_exporter_spreadsheet_xls_config_model._meta.get_field(
                 'artifactlist_xls_artifact_modify_time'
             ).verbose_name,
             'artifactlist xls artifact modify time',
+        )
+        self.assertEqual(
+            artifact_exporter_spreadsheet_xls_config_model._meta.get_field(
+                'artifactlist_xls_artifact_modified_by_user_id'
+            ).verbose_name,
+            'artifactlist xls artifact modified by user id',
         )
         self.assertEqual(
             artifact_exporter_spreadsheet_xls_config_model._meta.get_field(
@@ -418,15 +454,33 @@ class ConfigModelTestCase(TestCase):
         )
         self.assertEqual(
             system_exporter_spreadsheet_csv_config_model._meta.get_field(
+                'spread_csv_system_assigned_to_user_id'
+            ).verbose_name,
+            'spread csv system assigned to user id',
+        )
+        self.assertEqual(
+            system_exporter_spreadsheet_csv_config_model._meta.get_field(
                 'spread_csv_system_create_time'
             ).verbose_name,
             'spread csv system create time',
         )
         self.assertEqual(
             system_exporter_spreadsheet_csv_config_model._meta.get_field(
+                'spread_csv_system_created_by_user_id'
+            ).verbose_name,
+            'spread csv system created by user id',
+        )
+        self.assertEqual(
+            system_exporter_spreadsheet_csv_config_model._meta.get_field(
                 'spread_csv_system_modify_time'
             ).verbose_name,
             'spread csv system modify time',
+        )
+        self.assertEqual(
+            system_exporter_spreadsheet_csv_config_model._meta.get_field(
+                'spread_csv_system_modified_by_user_id'
+            ).verbose_name,
+            'spread csv system modified by user id',
         )
 
     def test_system_exporter_spreadsheet_xls_config_model_string(self):
@@ -548,15 +602,33 @@ class ConfigModelTestCase(TestCase):
         )
         self.assertEqual(
             system_exporter_spreadsheet_xls_config_model._meta.get_field(
+                'spread_xls_system_assigned_to_user_id'
+            ).verbose_name,
+            'spread xls system assigned to user id',
+        )
+        self.assertEqual(
+            system_exporter_spreadsheet_xls_config_model._meta.get_field(
                 'spread_xls_system_create_time'
             ).verbose_name,
             'spread xls system create time',
         )
         self.assertEqual(
             system_exporter_spreadsheet_xls_config_model._meta.get_field(
+                'spread_xls_system_created_by_user_id'
+            ).verbose_name,
+            'spread xls system created by user id',
+        )
+        self.assertEqual(
+            system_exporter_spreadsheet_xls_config_model._meta.get_field(
                 'spread_xls_system_modify_time'
             ).verbose_name,
             'spread xls system modify time',
+        )
+        self.assertEqual(
+            system_exporter_spreadsheet_xls_config_model._meta.get_field(
+                'spread_xls_system_modified_by_user_id'
+            ).verbose_name,
+            'spread xls system modified by user id',
         )
         self.assertEqual(
             system_exporter_spreadsheet_xls_config_model._meta.get_field(
