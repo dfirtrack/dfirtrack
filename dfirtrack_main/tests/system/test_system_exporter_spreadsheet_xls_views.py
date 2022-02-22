@@ -568,11 +568,17 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
         )
         self.assertEqual(sheet_systems.cell(1, 14).value, 'tag_1\ntag_2\ntag_3')
         self.assertEqual(sheet_systems.cell(1, 15).value, 'case_1\ncase_2\ncase_3')
-        self.assertEqual(sheet_systems.cell(1, 16).value, 'testuser_system_exporter_spreadsheet_xls')
+        self.assertEqual(
+            sheet_systems.cell(1, 16).value, 'testuser_system_exporter_spreadsheet_xls'
+        )
         self.assertEqual(sheet_systems.cell(1, 17).value, '2001-02-03 04:05')
-        self.assertEqual(sheet_systems.cell(1, 18).value, 'testuser_system_exporter_spreadsheet_xls')
+        self.assertEqual(
+            sheet_systems.cell(1, 18).value, 'testuser_system_exporter_spreadsheet_xls'
+        )
         self.assertEqual(sheet_systems.cell(1, 19).value, '2001-02-03 04:05')
-        self.assertEqual(sheet_systems.cell(1, 20).value, 'testuser_system_exporter_spreadsheet_xls')
+        self.assertEqual(
+            sheet_systems.cell(1, 20).value, 'testuser_system_exporter_spreadsheet_xls'
+        )
         # compare content - system 2
         self.assertEqual(int(sheet_systems.cell(2, 0).value), system_2.system_id)
         self.assertEqual(sheet_systems.cell(2, 1).value, system_2.system_name)
@@ -594,9 +600,13 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
         self.assertEqual(sheet_systems.cell(2, 15).value, '')
         self.assertEqual(sheet_systems.cell(2, 16).value, '')
         self.assertEqual(sheet_systems.cell(2, 17).value, '2009-08-07 06:05')
-        self.assertEqual(sheet_systems.cell(2, 18).value, 'testuser_system_exporter_spreadsheet_xls')
+        self.assertEqual(
+            sheet_systems.cell(2, 18).value, 'testuser_system_exporter_spreadsheet_xls'
+        )
         self.assertEqual(sheet_systems.cell(2, 19).value, '2009-08-07 06:05')
-        self.assertEqual(sheet_systems.cell(2, 20).value, 'testuser_system_exporter_spreadsheet_xls')
+        self.assertEqual(
+            sheet_systems.cell(2, 20).value, 'testuser_system_exporter_spreadsheet_xls'
+        )
         # compare content - systemstatus worksheet (whole columns)
         self.assertEqual(sheet_systemstatus.col_values(0), systemstatus_id_list)
         self.assertEqual(sheet_systemstatus.col_values(1), systemstatus_name_list)
@@ -969,11 +979,17 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
         )
         self.assertEqual(sheet_systems.cell(1, 14).value, 'tag_1\ntag_2\ntag_3')
         self.assertEqual(sheet_systems.cell(1, 15).value, 'case_1\ncase_2\ncase_3')
-        self.assertEqual(sheet_systems.cell(1, 16).value, 'testuser_system_exporter_spreadsheet_xls')
+        self.assertEqual(
+            sheet_systems.cell(1, 16).value, 'testuser_system_exporter_spreadsheet_xls'
+        )
         self.assertEqual(sheet_systems.cell(1, 17).value, '2001-02-03 04:05')
-        self.assertEqual(sheet_systems.cell(1, 18).value, 'testuser_system_exporter_spreadsheet_xls')
+        self.assertEqual(
+            sheet_systems.cell(1, 18).value, 'testuser_system_exporter_spreadsheet_xls'
+        )
         self.assertEqual(sheet_systems.cell(1, 19).value, '2001-02-03 04:05')
-        self.assertEqual(sheet_systems.cell(1, 20).value, 'testuser_system_exporter_spreadsheet_xls')
+        self.assertEqual(
+            sheet_systems.cell(1, 20).value, 'testuser_system_exporter_spreadsheet_xls'
+        )
         # compare content - system 2
         self.assertEqual(int(sheet_systems.cell(2, 0).value), system_2.system_id)
         self.assertEqual(sheet_systems.cell(2, 1).value, system_2.system_name)
@@ -995,9 +1011,13 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
         self.assertEqual(sheet_systems.cell(2, 15).value, '')
         self.assertEqual(sheet_systems.cell(2, 16).value, '')
         self.assertEqual(sheet_systems.cell(2, 17).value, '2009-08-07 06:05')
-        self.assertEqual(sheet_systems.cell(2, 18).value, 'testuser_system_exporter_spreadsheet_xls')
+        self.assertEqual(
+            sheet_systems.cell(2, 18).value, 'testuser_system_exporter_spreadsheet_xls'
+        )
         self.assertEqual(sheet_systems.cell(2, 19).value, '2009-08-07 06:05')
-        self.assertEqual(sheet_systems.cell(2, 20).value, 'testuser_system_exporter_spreadsheet_xls')
+        self.assertEqual(
+            sheet_systems.cell(2, 20).value, 'testuser_system_exporter_spreadsheet_xls'
+        )
         # compare content - systemstatus worksheet (whole columns)
         self.assertEqual(sheet_systemstatus.col_values(0), systemstatus_id_list)
         self.assertEqual(sheet_systemstatus.col_values(1), systemstatus_name_list)
