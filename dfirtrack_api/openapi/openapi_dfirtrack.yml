@@ -2,7 +2,7 @@ openapi: 3.0.2
 info:
   title: DFIRTrack
   description: OpenAPI 3 - Documentation of DFIRTrack API
-  version: v2.4.3
+  version: v2.4.4
 paths:
   /api/artifact/:
     get:
