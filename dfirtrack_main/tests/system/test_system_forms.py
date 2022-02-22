@@ -34,6 +34,12 @@ class SystemFormTestCase(TestCase):
         test_user = User.objects.create_user(
             username='testuser_system', password='zU7LnCr4vW9C8HwQ9gGl'
         )
+        User.objects.create_user(
+            username='testuser_system_fullname',
+            password='zU7LnCr4vW9C8HwQ9gGl',
+            first_name='Testuser',
+            last_name='System',
+        )
 
         # create object
         systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
@@ -357,6 +363,24 @@ class SystemFormTestCase(TestCase):
         self.assertEqual(
             form.fields['system_assigned_to_user_id'].empty_label,
             'Select user (optional)',
+        )
+
+    def test_system_assigned_to_user_id_form_first_value(self):
+        """test form value"""
+
+        # get users
+        test_user = User.objects.get(username='testuser_system')
+        test_user_fullname = User.objects.get(username='testuser_system_fullname')
+
+        # get object
+        form = SystemForm()
+        # compare
+        # form.fields['system_assigned_to_user_id'].choices.queryset.first()
+        queryset = form.fields['system_assigned_to_user_id']._get_queryset()
+        self.assertEqual(str(queryset.first()), test_user.get_username())
+        self.assertEqual(
+            str(queryset.last()),
+            f'{test_user_fullname.get_full_name()} ({test_user_fullname.get_username()})',
         )
 
     def test_system_form_empty(self):
