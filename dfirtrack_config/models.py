@@ -558,6 +558,11 @@ class StatushistoryEntry(models.Model):
 
 class UserConfigModel(models.Model):
     """user config, single object per user"""
+    #TODO Refactor
+    # Choice Field for individual views unique together with user_config_username
+    # General foreign keys tag, user, case
+    # Json field view - with function and hardcoded dict for each view
+    # Some Solution for general status foreign key https://docs.djangoproject.com/en/1.10/ref/contrib/contenttypes/#generic-relations
 
     # user / primary key
     user_config_username = models.OneToOneField(
@@ -580,7 +585,7 @@ class UserConfigModel(models.Model):
         blank=True,
         null=True,
     )
-    filter_assignment_view_user = models.OneToOneField(
+    filter_assignment_view_user = models.ForeignKey(
         User,
         related_name='filter_assignment_view_tag',
         on_delete=models.SET_NULL,
@@ -618,6 +623,13 @@ class UserConfigModel(models.Model):
         blank=True,
         null=True,
     )
+    filter_documentation_list_user = models.ForeignKey(
+        User,
+        related_name='filter_documentation_list_user',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+    )
 
     # filter settings - system detail
     filter_system_detail_show_artifact = models.BooleanField(default=True)
@@ -643,9 +655,14 @@ class UserConfigModel(models.Model):
         blank=True,
         null=True,
     )
-    filter_system_list_tag = models.ForeignKey(
+    filter_system_list_tag = models.ManyToManyField(
         'dfirtrack_main.Tag',
         related_name='filter_system_list_tag',
+        blank=True
+    )
+    filter_system_list_user = models.ForeignKey(
+        User,
+        related_name='filter_system_list_user',
         on_delete=models.SET_NULL,
         blank=True,
         null=True,

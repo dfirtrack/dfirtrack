@@ -2,10 +2,9 @@ from django import forms
 from django.contrib.auth.models import User
 
 from dfirtrack_config.models import UserConfigModel
-from dfirtrack_main.filter_forms import BaseFilterForm
 
 
-class AssignmentFilterForm(forms.ModelForm, BaseFilterForm):
+class AssignmentFilterForm(forms.ModelForm):
     """assignment filter form"""
 
     # show all existing user objects
