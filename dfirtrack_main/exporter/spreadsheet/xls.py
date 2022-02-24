@@ -171,48 +171,48 @@ def write_xls(username):
 
         # dnsname
         if model.spread_xls_dnsname:
-            if system.dnsname == None:
-                dnsname = ''
-            else:
+            if system.dnsname:
                 dnsname = system.dnsname.dnsname_name
+            else:
+                dnsname = ''
             entryline.append(dnsname)
         # domain
         if model.spread_xls_domain:
-            if system.domain == None:
-                domain = ''
-            else:
+            if system.domain:
                 domain = system.domain.domain_name
+            else:
+                domain = ''
             entryline.append(domain)
         # systemstatus
         if model.spread_xls_systemstatus:
             entryline.append(system.systemstatus.systemstatus_name)
         # analysisstatus
         if model.spread_xls_analysisstatus:
-            if system.analysisstatus == None:
-                analysisstatus = ''
-            else:
+            if system.analysisstatus:
                 analysisstatus = system.analysisstatus.analysisstatus_name
+            else:
+                analysisstatus = ''
             entryline.append(analysisstatus)
         # reason
         if model.spread_xls_reason:
-            if system.reason == None:
-                reason = ''
-            else:
+            if system.reason:
                 reason = system.reason.reason_name
+            else:
+                reason = ''
             entryline.append(reason)
         # recommendation
         if model.spread_xls_recommendation:
-            if system.recommendation == None:
-                recommendation = ''
-            else:
+            if system.recommendation:
                 recommendation = system.recommendation.recommendation_name
+            else:
+                recommendation = ''
             entryline.append(recommendation)
         # systemtype
         if model.spread_xls_systemtype:
-            if system.systemtype == None:
-                systemtype = ''
-            else:
+            if system.systemtype:
                 systemtype = system.systemtype.systemtype_name
+            else:
+                systemtype = ''
             entryline.append(systemtype)
         # ip
         if model.spread_xls_ip:
@@ -235,10 +235,10 @@ def write_xls(username):
             entryline.append(ip)
         # os
         if model.spread_xls_os:
-            if system.os == None:
-                os = ''
-            else:
+            if system.os:
                 os = system.os.os_name
+            else:
+                os = ''
             entryline.append(os)
         # company
         if model.spread_xls_company:
@@ -260,17 +260,17 @@ def write_xls(username):
             entryline.append(company)
         # location
         if model.spread_xls_location:
-            if system.location == None:
-                location = ''
-            else:
+            if system.location:
                 location = system.location.location_name
+            else:
+                location = ''
             entryline.append(location)
         # serviceprovider
         if model.spread_xls_serviceprovider:
-            if system.serviceprovider == None:
-                serviceprovider = ''
-            else:
+            if system.serviceprovider:
                 serviceprovider = system.serviceprovider.serviceprovider_name
+            else:
+                serviceprovider = ''
             entryline.append(serviceprovider)
         # tag
         if model.spread_xls_tag:
