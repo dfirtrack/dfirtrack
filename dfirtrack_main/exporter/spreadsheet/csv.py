@@ -20,13 +20,17 @@ from dfirtrack_main.models import System
 def write_csv(username, csv_file):
     """write spreadsheet"""
 
-    # create file object for writing lines
-    csv_writer = csv.writer(csv_file)
-
     # get config model
     model = SystemExporterSpreadsheetCsvConfigModel.objects.get(
         system_exporter_spreadsheet_csv_config_name='SystemExporterSpreadsheetCsvConfig'
     )
+
+    # options for later config expansion
+    DELIMITER = ','
+    QUOTECHAR = '"'
+
+    # create file object for writing lines
+    csv_writer = csv.writer(csv_file, delimiter=DELIMITER, quotechar=QUOTECHAR, quoting=csv.QUOTE_MINIMAL)
 
     """ start with headline """
 
