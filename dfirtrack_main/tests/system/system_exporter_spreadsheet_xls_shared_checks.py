@@ -126,13 +126,13 @@ def system_exporter_spreadsheet_xls_complete_spreadsheet_check(
             'Reason',
             'Recommendation',
             'Systemtype',
-            'IP',
+            'IPs',
             'OS',
-            'Company',
+            'Companies',
             'Location',
             'Serviceprovider',
-            'Tag',
-            'Case',
+            'Tags',
+            'Cases',
             'Assigned to',
             'Created',
             'Created by',
@@ -159,16 +159,16 @@ def system_exporter_spreadsheet_xls_complete_spreadsheet_check(
     self.assertEqual(
         sheet_systems.cell(1, 8).value, system_1.systemtype.systemtype_name
     )
-    self.assertEqual(sheet_systems.cell(1, 9).value, '127.0.0.1\n127.0.0.2\n127.0.0.3')
+    self.assertEqual(sheet_systems.cell(1, 9).value, '127.0.0.1 127.0.0.2 127.0.0.3')
     self.assertEqual(sheet_systems.cell(1, 10).value, system_1.os.os_name)
-    self.assertEqual(sheet_systems.cell(1, 11).value, 'company_1\ncompany_2\ncompany_3')
+    self.assertEqual(sheet_systems.cell(1, 11).value, 'company_1 company_2 company_3')
     self.assertEqual(sheet_systems.cell(1, 12).value, system_1.location.location_name)
     self.assertEqual(
         sheet_systems.cell(1, 13).value,
         system_1.serviceprovider.serviceprovider_name,
     )
-    self.assertEqual(sheet_systems.cell(1, 14).value, 'tag_1\ntag_2\ntag_3')
-    self.assertEqual(sheet_systems.cell(1, 15).value, 'case_1\ncase_2\ncase_3')
+    self.assertEqual(sheet_systems.cell(1, 14).value, 'tag_1 tag_2 tag_3')
+    self.assertEqual(sheet_systems.cell(1, 15).value, 'case_1 case_2 case_3')
     self.assertEqual(
         sheet_systems.cell(1, 16).value, 'testuser_system_exporter_spreadsheet_xls'
     )

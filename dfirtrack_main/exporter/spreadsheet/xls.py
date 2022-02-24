@@ -105,19 +105,19 @@ def write_xls(username):
     if model.spread_xls_systemtype:
         headline.append('Systemtype')
     if model.spread_xls_ip:
-        headline.append('IP')
+        headline.append('IPs')
     if model.spread_xls_os:
         headline.append('OS')
     if model.spread_xls_company:
-        headline.append('Company')
+        headline.append('Companies')
     if model.spread_xls_location:
         headline.append('Location')
     if model.spread_xls_serviceprovider:
         headline.append('Serviceprovider')
     if model.spread_xls_tag:
-        headline.append('Tag')
+        headline.append('Tags')
     if model.spread_xls_case:
-        headline.append('Case')
+        headline.append('Cases')
     if model.spread_xls_system_assigned_to_user_id:
         headline.append('Assigned to')
     if model.spread_xls_system_create_time:
@@ -230,7 +230,7 @@ def write_xls(username):
                 ip = ip + ip_obj.ip_ip
                 # add newline except for last ip
                 if i < n:
-                    ip = ip + '\n'
+                    ip = ip + ' '
                     i = i + 1
             entryline.append(ip)
         # os
@@ -255,7 +255,7 @@ def write_xls(username):
                 company = company + company_obj.company_name
                 # add newline except for last company
                 if i < n:
-                    company = company + '\n'
+                    company = company + ' '
                     i = i + 1
             entryline.append(company)
         # location
@@ -287,7 +287,7 @@ def write_xls(username):
                 tag = tag + tag_obj.tag_name
                 # add newline except for last tag
                 if i < n:
-                    tag = tag + '\n'
+                    tag = tag + ' '
                     i = i + 1
             entryline.append(tag)
         # case
@@ -305,7 +305,7 @@ def write_xls(username):
                 case = case + case_obj.case_name
                 # add newline except for last case
                 if i < n:
-                    case = case + '\n'
+                    case = case + ' '
                     i = i + 1
             entryline.append(case)
         # system assigned to user
