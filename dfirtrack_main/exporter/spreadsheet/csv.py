@@ -30,7 +30,9 @@ def write_csv(username, csv_file):
     QUOTECHAR = '"'
 
     # create file object for writing lines
-    csv_writer = csv.writer(csv_file, delimiter=DELIMITER, quotechar=QUOTECHAR, quoting=csv.QUOTE_MINIMAL)
+    csv_writer = csv.writer(
+        csv_file, delimiter=DELIMITER, quotechar=QUOTECHAR, quoting=csv.QUOTE_MINIMAL
+    )
 
     """ start with headline """
 
