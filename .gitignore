@@ -372,3 +372,6 @@ venv/
 
 # Vagrant
 .vagrant/
+
+# Markdown
+markdown/
