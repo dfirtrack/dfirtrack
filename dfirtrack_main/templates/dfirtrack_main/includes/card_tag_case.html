@@ -39,7 +39,7 @@
                     Cases
                 </h5>
                 {% for i in model.case.all|dictsort:"case_name" %}
-                    <a href="{{ i.case.get_absolute_url }}" type="button" class="btn btn-primary btn-sm bottom-left top-right top-distance copy-true">
+                    <a href="{{ i.get_absolute_url }}" type="button" class="btn btn-primary btn-sm bottom-left top-right top-distance copy-true">
                         <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
                         {{ i.case_name }}
                     </a>
