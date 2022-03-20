@@ -1,5 +1,5 @@
-import yaml
 from django.test import TestCase
+from dfirtrack_api.utils.api_completeness import DFIRTrackOpenAPISpecification
 
 
 class DFIRTrackUtilityAPICompletnessTestCase(TestCase):
@@ -10,14 +10,24 @@ class DFIRTrackUtilityAPICompletnessTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        # load openapi specification
         pass
 
-    def test_load_openapi_specification(self):
-        with open('dfirtrack_api/openapi/openapi_dfirtrack.yml') as spec:
-            try:
-                openapiSpec = yaml.safe_load(spec)
-            except yaml.YAMLError as e:
-                print(e)
+    def test_check_openapi_specification_path(self):
+        # setup
+        spec = DFIRTrackOpenAPISpecification()
 
-            self.assertIsNotNone(openapiSpec)
+        # assert
+        self.assertEqual(spec.OPENAPI_DEFINITION_FILE, "dfirtrack_api/openapi/openapi_dfirtrack.yml")
+
+        # Cleanup - not needed
+
+    def test_load_openapi_specification(self):
+        # setup
+        spec = DFIRTrackOpenAPISpecification()
+        # work
+        spec.load()
+
+        # assert
+        self.assertIsNotNone = spec.OPENAPI_SPECIFICATION
+
+        # Setup
