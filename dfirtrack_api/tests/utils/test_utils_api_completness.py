@@ -1,7 +1,8 @@
 from django.test import TestCase
+
 from dfirtrack_api.utils.api_completeness import (
-    DFIRTrackOpenAPISpecification,
     DFIRTrackModels,
+    DFIRTrackOpenAPISpecification,
 )
 from dfirtrack_main.templatetags import dfirtrack_main_tags
 
