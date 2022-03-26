@@ -1,5 +1,8 @@
 from django.test import TestCase
-from dfirtrack_api.utils.api_completeness import DFIRTrackOpenAPISpecification, DFIRTrackModels
+from dfirtrack_api.utils.api_completeness import (
+    DFIRTrackOpenAPISpecification,
+    DFIRTrackModels,
+)
 from dfirtrack_main.templatetags import dfirtrack_main_tags
 
 
@@ -31,7 +34,7 @@ class DFIRTrackUtilityAPICompletnessTestCase(TestCase):
         # Cleanup - not needed
 
     def test_load_openapi_specification(self):
-        """ Test that the loading of the openapi specification works """
+        """Test that the loading of the openapi specification works"""
 
         # Setup
         spec = DFIRTrackOpenAPISpecification()
@@ -141,8 +144,8 @@ class DFIRTrackUtilityAPICompletnessTestCase(TestCase):
             'Success',
             'Token',
             'TokenProxy',
-            'User'
-            ]
+            'User',
+        ]
 
         all_models = DFIRTrackModels().get_models_names()
         models_filtered = sorted(set(all_models).difference(MODEL_EXCEPTIONS))
