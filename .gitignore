@@ -373,5 +373,5 @@ venv/
 # Vagrant
 .vagrant/
 
-# Markdown
+# Markdown folder from Docker Dev Container
 markdown/
