@@ -1,5 +1,6 @@
+from tkinter import W
 from django.test import TestCase
-from dfirtrack_api.utils.api_completeness import DFIRTrackOpenAPISpecification
+from dfirtrack_api.utils.api_completeness import DFIRTrackOpenAPISpecification, DFIRTrackModels
 from dfirtrack_main.templatetags import dfirtrack_main_tags
 
 
@@ -45,7 +46,7 @@ class DFIRTrackUtilityAPICompletnessTestCase(TestCase):
 
         # Cleanup - not needed
 
-    def test_compare_openapi_spec_uptodate(self):
+    def test_compare_openapi_spec_uptodate_version(self):
         """
         Check that the OPENAPI specification is uptodate
         and is the same as the dfirtrack version used
@@ -63,3 +64,37 @@ class DFIRTrackUtilityAPICompletnessTestCase(TestCase):
         self.assertEqual(desired, actual)
 
         # Cleanup - None needed
+
+    def test_retrieve_dfirtrack_django_models(self):
+        """
+        Test that all models that are available in DFIRTrack
+        from all available django apps can be loaded
+        """
+        # Setup
+        dfir_models = DFIRTrackModels()
+
+        # Exercise
+        actual = dfir_models.count
+
+        # Verifiy
+        self.assertGreater(actual, 0)
+
+        # Cleanup - Not needed
+
+    def test_load_openapi_schemaobjects(self):
+        """
+        Load the schema objects that have been defined in the OpenAPI specifiaction
+        """
+
+        # Setup
+        spec = DFIRTrackOpenAPISpecification()
+        spec.load()
+        desired = 'Artifact'
+
+        # Exercise
+        actual = spec.get_schema_objects()
+
+        # Verifiy
+        self.assertIn(desired, actual)
+
+        # Cleanup - Not needed
