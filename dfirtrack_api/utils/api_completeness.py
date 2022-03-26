@@ -70,7 +70,7 @@ class DFIRTrackModels(object):
 
     def count(self):
         """
-        Return the numer of models that are loaded
+        Return the number of models that are loaded
         """
         return self.count
 

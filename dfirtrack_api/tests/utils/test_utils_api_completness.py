@@ -8,8 +8,8 @@ from dfirtrack_main.templatetags import dfirtrack_main_tags
 
 class DFIRTrackUtilityAPICompletnessTestCase(TestCase):
     """
-    Test case for the utlity that helps to determine
-    the completness of the API
+    Test case for the utility that helps to determine
+    the completeness of the API
     """
 
     @classmethod
@@ -50,7 +50,7 @@ class DFIRTrackUtilityAPICompletnessTestCase(TestCase):
 
     def test_compare_openapi_spec_uptodate_version(self):
         """
-        Check that the OPENAPI specification is uptodate
+        Check that the OPENAPI specification is up-to-date
         and is the same as the dfirtrack version used
         """
 
@@ -119,7 +119,7 @@ class DFIRTrackUtilityAPICompletnessTestCase(TestCase):
         """
 
         # Setup
-        # The following models will not be checked because thei make no sense in the API
+        # The following models will not be checked because they make no sense in the API
         MODEL_EXCEPTIONS = [
             'ArtifactExporterSpreadsheetXlsConfigModel',
             'MainConfigModel',
