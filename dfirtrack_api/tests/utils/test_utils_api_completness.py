@@ -1,6 +1,6 @@
 from django.test import TestCase
 from dfirtrack_api.utils.api_completeness import DFIRTrackOpenAPISpecification
-
+from dfirtrack_main
 
 class DFIRTrackUtilityAPICompletnessTestCase(TestCase):
     """
@@ -13,21 +13,55 @@ class DFIRTrackUtilityAPICompletnessTestCase(TestCase):
         pass
 
     def test_check_openapi_specification_path(self):
-        # setup
-        spec = DFIRTrackOpenAPISpecification()
+        """
+        Test that the default openapi specification path is correct
+        """
 
-        # assert
-        self.assertEqual(spec.OPENAPI_DEFINITION_FILE, "dfirtrack_api/openapi/openapi_dfirtrack.yml")
+        # Setup
+        spec = DFIRTrackOpenAPISpecification()
+        desired = 'dfirtrack_api/openapi/openapi_dfirtrack.yml'
+
+        # Exercise
+        actual = spec.OPENAPI_DEFINITION_FILE
+
+        # Verify
+        self.assertEqual(actual, desired)
 
         # Cleanup - not needed
 
     def test_load_openapi_specification(self):
-        # setup
-        spec = DFIRTrackOpenAPISpecification()
-        # work
-        spec.load()
-
-        # assert
-        self.assertIsNotNone = spec.OPENAPI_SPECIFICATION
+        """ Test that the loading of the openapi specification works """
 
         # Setup
+        spec = DFIRTrackOpenAPISpecification()
+
+        # Exercise
+        spec.load()
+        actual = spec.OPENAPI_SPECIFICATION
+
+        # Verify
+        self.assertIsNotNone(actual)
+
+        # Cleanup - not needed
+
+    def test_compare_openapi_spec_uptodate(self):
+        """
+        Check that the OPENAPI specification is uptodate
+        and is the same as the dfirtrack version used
+        """
+
+        # Setup 
+        spec = DFIRTrackOpenAPISpecification()
+        desired = dfirtrack_main.
+
+        # Exercise
+        spec.load()
+
+        # Verify
+        self.assertIsNotNone = spec.OPENAPI_SPECIFICATION
+        # Exercise
+        # Verify 
+        # Cleanup 
+
+
+        #spec.OPENAPI_SPEFICIATION['info']['version']
