@@ -45,6 +45,16 @@ class DFIRTrackOpenAPISpecification(object):
         """
         return self.schema_objects
 
+    def get_schema_object_names(self):
+        """
+        Return a list of all names of the schema objects
+        that are defined in openapi specification
+        """
+        schemas = []
+        for s in self.schema_objects:
+            schemas.append(s)
+        return sorted(schemas)
+
 
 class DFIRTrackModels(object):
     """

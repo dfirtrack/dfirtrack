@@ -146,7 +146,7 @@ class DFIRTrackUtilityAPICompletnessTestCase(TestCase):
             ]
 
         all_models = DFIRTrackModels().get_models_names()
-        models_filtered = set(all_models).difference(MODEL_EXCEPTIONS)
+        models_filtered = sorted(set(all_models).difference(MODEL_EXCEPTIONS))
 
         # Exercise
         # Remove exceptions
