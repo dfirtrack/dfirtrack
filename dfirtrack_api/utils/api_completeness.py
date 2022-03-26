@@ -63,3 +63,19 @@ class DFIRTrackModels(object):
         Return the numer of models that are loaded
         """
         return self.count
+
+    def get_models(self):
+        """
+        Return the models
+        """
+        return self.models
+
+    def get_models_names(self):
+        """
+        Returns a sorted list of all
+        model names
+        """
+        names = []
+        for m in self.models:
+            names.append(m.__name__)
+        return sorted(names)
