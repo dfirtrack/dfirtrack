@@ -51,13 +51,12 @@ class DFIRTrackUtilityAPICompletnessTestCase(TestCase):
         and is the same as the dfirtrack version used
         """
 
-        # Setup 
+        # Setup
         spec = DFIRTrackOpenAPISpecification()
         desired = dfirtrack_main_tags.dfirtrack_version()
 
         # Exercise
         spec.load()
-        #actual = spec.OPENAPI_SPECIFICATION['info']['version']
         actual = spec.get_version()
 
         # Verify

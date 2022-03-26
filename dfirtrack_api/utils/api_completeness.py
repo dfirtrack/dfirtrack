@@ -26,4 +26,3 @@ class DFIRTrackOpenAPISpecification(object):
         Retrieves the DFIRTrack version from the OpenAPI specification
         """
         return self.OPENAPI_SPECIFICATION['info']['version']
-
