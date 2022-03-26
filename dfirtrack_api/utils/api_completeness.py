@@ -20,3 +20,10 @@ class DFIRTrackOpenAPISpecification(object):
                 print(e)
 
         return None
+
+    def get_version(self):
+        """
+        Retrieves the DFIRTrack version from the OpenAPI specification
+        """
+        return self.OPENAPI_SPECIFICATION['info']['version']
+

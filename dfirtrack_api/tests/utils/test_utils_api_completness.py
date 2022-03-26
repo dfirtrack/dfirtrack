@@ -1,6 +1,7 @@
 from django.test import TestCase
 from dfirtrack_api.utils.api_completeness import DFIRTrackOpenAPISpecification
-from dfirtrack_main
+from dfirtrack_main.templatetags import dfirtrack_main_tags
+
 
 class DFIRTrackUtilityAPICompletnessTestCase(TestCase):
     """
@@ -52,16 +53,14 @@ class DFIRTrackUtilityAPICompletnessTestCase(TestCase):
 
         # Setup 
         spec = DFIRTrackOpenAPISpecification()
-        desired = dfirtrack_main.
+        desired = dfirtrack_main_tags.dfirtrack_version()
 
         # Exercise
         spec.load()
+        #actual = spec.OPENAPI_SPECIFICATION['info']['version']
+        actual = spec.get_version()
 
         # Verify
-        self.assertIsNotNone = spec.OPENAPI_SPECIFICATION
-        # Exercise
-        # Verify 
-        # Cleanup 
+        self.assertEqual(desired, actual)
 
-
-        #spec.OPENAPI_SPEFICIATION['info']['version']
+        # Cleanup - None needed
