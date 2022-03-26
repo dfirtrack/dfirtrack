@@ -14,6 +14,7 @@ class DFIRTrackOpenAPISpecification(object):
         self.OPENAPI_SPECIFICATION = None
         self.dfirtrack_version = None
         self.schema_objects = None
+        self.load()
 
     def load(self):
         """
@@ -56,3 +57,9 @@ class DFIRTrackModels(object):
         """
         self.models = apps.get_models()
         self.count = len(self.models)
+
+    def count(self):
+        """
+        Return the numer of models that are loaded
+        """
+        return self.count
