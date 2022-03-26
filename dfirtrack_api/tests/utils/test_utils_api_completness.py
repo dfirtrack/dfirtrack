@@ -98,3 +98,62 @@ class DFIRTrackUtilityAPICompletnessTestCase(TestCase):
         self.assertIn(desired, actual)
 
         # Cleanup - Not needed
+
+    def test_all_models_exist_in_api(self):
+        """
+        Test that all main DFIRTrack models exist in OpenAPI
+        schema definition and are therefore exposed via API.
+
+        We need to verify that each element of the DFIRTrack models
+        are defined in the openapi specification file (actuals), if
+        so the models will be exposed via API.
+
+        If this test fails it will mean that a model of DFIRTrack
+        is currently not exposed within the API and must be added to that
+
+        Please note if you want to disable the check for a specific module,
+        because this should be never exposed via API add it to the EXCEPTIONS
+        list
+        """
+
+        # Setup
+        # The following models will not be checked because thei make no sense in the API
+        MODEL_EXCEPTIONS = [
+            'ArtifactExporterSpreadsheetXlsConfigModel',
+            'MainConfigModel',
+            'SystemExporterMarkdownConfigModel',
+            'SystemExporterSpreadsheetCsvConfigModel',
+            'SystemExporterSpreadsheetXlsConfigModel',
+            'SystemImporterFileCsvConfigModel',
+            'Statushistory',
+            'StatushistoryEntry',
+            'UserConfigModel',
+            'Workflow',
+            'WorkflowDefaultArtifactAttributes',
+            'WorkflowDefaultTasknameAttributes',
+            'ContentType',
+            'Failure',
+            'Group',
+            'LogEntry',
+            'OrmQ',
+            'Permission',
+            'Schedule',
+            'Session',
+            'Success',
+            'Token',
+            'TokenProxy',
+            'User'
+            ]
+
+        all_models = DFIRTrackModels().get_models_names()
+        models_filtered = set(all_models).difference(MODEL_EXCEPTIONS)
+
+        # Exercise
+        # Remove exceptions
+        actual_schemas = DFIRTrackOpenAPISpecification().get_schema_object_names()
+
+        # Verifiy - stepwise
+        for desired in models_filtered:
+            self.assertIn(desired, actual_schemas)
+
+        # Cleanup - Not needed
