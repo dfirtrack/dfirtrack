@@ -2,7 +2,7 @@ import yaml
 from django.apps import apps
 
 
-class DFIRTrackOpenAPISpecification(object):
+class DFIRTrackOpenAPISpecification:
     """
     Class to work with the DFIRTrack OpenAPI
     specification file
@@ -56,7 +56,7 @@ class DFIRTrackOpenAPISpecification(object):
         return sorted(schemas)
 
 
-class DFIRTrackModels(object):
+class DFIRTrackModels:
     """
     Class that holds all the DFIRTrack models in use
     """
