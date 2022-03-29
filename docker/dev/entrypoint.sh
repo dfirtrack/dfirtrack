@@ -6,7 +6,7 @@ export PGPASSWORD=${DB_PASSWORD:-'dfirtrack'}
 export PGHOST=${DB_HOST:-'db'}
 export PGUSER=${DB_USER:-'dfirtrack'}
 export PGNAME=${DB_NAME:-'dfirtrack'}
-export DISABLE_HTTPS=${DISABLE_HTTPS:-'true'}
+export DISABLE_HTTPS=${DISABLE_HTTPS:-'false'}
 
 # wait for psql docker container to come up
 until psql -h $PGHOST -U $PGUSER -d $PGNAME -c '\q'
