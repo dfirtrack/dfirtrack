@@ -16,6 +16,7 @@ RUN rm /etc/nginx/sites-enabled/default
 COPY docker/shared_files/nginx.site.conf /etc/nginx/sites-available/dfirtrack
 COPY docker/shared_files/nginx.site.insecure.conf /etc/nginx/sites-available/dfirtrack_insecure
 RUN mkdir /etc/nginx/ssl
+RUN sed -i 's/# server_tokens off;/server_tokens off;/g' /etc/nginx/nginx.conf
 
 # create certificate for tls and modify nginx config accordingly
 WORKDIR /dfirtrack-static
