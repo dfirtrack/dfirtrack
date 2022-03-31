@@ -18,7 +18,6 @@ COPY docker/shared_files/nginx.site.insecure.conf /etc/nginx/sites-available/dfi
 RUN mkdir /etc/nginx/ssl
 RUN sed -i 's/# server_tokens off;/server_tokens off;/g' /etc/nginx/nginx.conf
 
-
 # create certificate for tls and modify nginx config accordingly
 WORKDIR /dfirtrack
 ARG openssl_o=testo
