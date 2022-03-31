@@ -1,6 +1,5 @@
 from django import views as django_views
-from django.conf.urls import re_path
-from django.urls import path
+from django.urls import path, re_path
 
 from dfirtrack_main.creator import (
     case_creator,
