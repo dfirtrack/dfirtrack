@@ -265,7 +265,10 @@ urlpatterns = [
         r'entry/import/step2/', entry_views.import_csv_step2, name='entry_import_step2'
     ),
     path(
-        r'filter/<str:filter_object>/', json_provider_views.filter, name='filter'
+        r'filter/system/', json_provider_views.filter_system, name='filter_system'
+    ),
+    path(
+        r'filter/artifact/', json_provider_views.filter_artifacts, name='filter_artifact'
     ),
     path(r'headline/', headline_views.HeadlineList.as_view(), name='headline_list'),
     path(
@@ -460,7 +463,6 @@ urlpatterns = [
         system_views.SystemUpdate.as_view(),
         name='system_update',
     ),
-    path(r'system/json/', json_provider_views.get_systems_json, name='system_json'),
     path(
         r'system/clear_filter/',
         system_views.clear_system_list_filter,

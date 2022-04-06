@@ -49,45 +49,7 @@
 
 <!-- ############################################ -->
 
-<!-- filter form -->
-<form method="POST" class="post-form">
-
-    {% csrf_token %}
-
-    <!-- show form related errors -->
-    {% include "dfirtrack_main/includes/form_errors.html" %}
-
-    <!-- filter row -->
-    <div class"row top-distance bottom-distance">
-
-        <!-- form fields -->
-        {{ form.user }}
-        {{ form.case }}
-        {{ form.tag }}
-
-        <!-- apply button -->
-        {% include "dfirtrack_main/includes/button_apply_filter.html" %}
-
-        <!-- clear button -->
-        {% with clear_url='clear_assignment_view_filter' %}
-            {% include "dfirtrack_main/includes/button_clear_filter.html" %}
-        {% endwith %}
-
-    <!-- filter row -->
-    </div>
-
-    <!-- persistence settings row -->
-    <div class"row bottom-distance">
-
-        <!-- keep filter settings -->
-        {{ form.filter_assignment_view_keep }}
-        {{ form.filter_assignment_view_keep.label }}
-
-    <!-- persistence settings row -->
-    </div>
-
-<!-- filter form -->
-</form>
+{% include 'dfirtrack_main/includes/filter_row.html' with clear_url='clear_assignment_view_filter' %}
 
 <!-- ############################################ -->
 
@@ -189,41 +151,23 @@
     <!-- toggle visibility -->
     {% if show_artifact %}
 
-        <!-- artifacts -->
-        {% if artifact %}
+        <!-- artifacts -->       
 
-            <!-- datatable artifact -->
-            <table id="table_artifact" class="display" width="100%">
+        <!-- datatable artifact -->
+        <table id="table_artifact_details" class="display" width="100%">
 
-                <!-- table head -->
-                <thead>
-                    {% include "dfirtrack_artifacts/includes/datatable_thead_table_artifact.html" %}
-                </thead>
+            <!-- table head -->
+            <thead>
+                {% include "dfirtrack_artifacts/includes/datatable_thead_table_artifact.html" %}
+            </thead>
 
-                <!-- table body -->
-                <tbody>
-                    {% for i in artifact %}
-                        {% include "dfirtrack_artifacts/includes/datatable_tbody_table_artifact.html" %}
-                    {% endfor %}
-                </tbody>
+            <!-- table body -->
+            <tbody>
+            </tbody>
 
-            <!-- datatable artifact -->
-            </table>
-
-            <!-- javascript for datatables -->
-            <script src="{% static 'dfirtrack_artifacts/datatables_artifacts.js' %}"></script>
-
-        <!-- no artifacts -->
-        {% else %}
-            <div class="row top-distance">
-                <div class="col-3">
-                    ---
-                </div>
-            </div>
-
-        <!-- artifacts -->
-        {% endif %}
-
+        <!-- datatable artifact -->
+        </table>
+        
     <!-- toggle visibility -->
     {% endif %}
 
@@ -577,10 +521,11 @@
 
 <!-- ############################################ -->
 
-<!-- javascript for datatables -->
-{% block datatables %}
-    <script src="{% get_static_prefix %}dfirtrack_main/{% dep_datatables_version %}/datatables.min.js"></script>
+<!-- HTML body in maintemplate -->
 {% endblock %}
 
-<!-- HTML body in maintemplate -->
+<!-- javascript for datatables -->
+{% block datatables %}
+    <script src="{% static 'dfirtrack_artifacts/datatables_artifacts.js' %}"></script>
+    <script src="{% get_static_prefix %}dfirtrack_main/{% dep_datatables_version %}/datatables.min.js"></script>
 {% endblock %}
