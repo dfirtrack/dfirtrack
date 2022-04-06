@@ -1,4 +1,4 @@
-name: 'Container Vulnerabilty Scan'
+name: 'Container Vulnerability Scan'
 
 # This workflow automatically scans the Docker container for dfirtrack using Trivy.
 # Scanning is limited to the 'latest'-container which is automatically updated with each release.
