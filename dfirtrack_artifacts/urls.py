@@ -18,18 +18,23 @@ urlpatterns = (
     ),
     path(
         r'artifact/closed/',
-        artifact_view.ArtifactClosedView.as_view(),
+        artifact_view.ArtifactListView.as_view(),
         name='artifacts_artifact_closed',
     ),
     path(
         r'artifact/all/',
-        artifact_view.ArtifactAllView.as_view(),
+        artifact_view.ArtifactListView.as_view(),
         name='artifacts_artifact_all',
     ),
     path(
         r'artifact/create/',
         artifact_view.ArtifactCreateView.as_view(),
         name='artifacts_artifact_create',
+    ),
+    path(
+        r'artifact/clear_filter/',
+        artifact_view.clear_artifact_list_filter,
+        name='clear_artifact_list_filter',
     ),
     path(
         r'artifact/detail/<int:pk>/',

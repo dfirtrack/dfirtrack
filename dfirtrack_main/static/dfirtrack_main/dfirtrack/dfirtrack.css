@@ -180,7 +180,7 @@ a:hover {
 }
 
 /* sticky navbar */
-@media(min-width: 1450px) {
+@media(min-width: 1650px) {
     .navbar-toggler {
         display: none!important;
     }
@@ -191,14 +191,23 @@ a:hover {
         right: 0;
         height: 100%;
         overflow-y: auto;
+        min-width: 220px;        
     }
 
     #dfirtrack-navbar ul {
         width: 100%;
     }
+
+    .navbar {
+        min-height: calc(100vh - 50px);
+    }
+
+    #mainrow {
+        flex-wrap: nowrap !important;
+    }
 }
 
-@media(max-width: 1450px) {
+@media(max-width: 1650px) {
     .navbar-toggler {
         margin-top: 8px;
     }
@@ -242,6 +251,25 @@ a:hover {
 
 #tableOfContents .nav-link {
     padding: .1rem 0rem;
+}
+
+/* card design */
+.tab-card {
+    border: 1px solid #343a40;
+}
+
+.card-header {
+    background-color: #343a40;
+}
+
+.nav-tabs .nav-link.active {
+    background-color: #212529;
+    color: #fff;
+    border-color: #212529;
+}
+
+.nav-tabs .nav-link {    
+    color: #fff;
 }
 
 /* go to top of page button */

@@ -626,20 +626,6 @@
 
         <!-- table body -->
         <tbody>
-            {% if artifacts_open %}
-                {% for i in artifacts_open %}
-                    {% include "dfirtrack_artifacts/includes/datatable_tbody_table_artifact_reduced.html" %}
-                {% endfor %}
-            {% else %}
-                <tr>
-                    <td>---</td>
-                    <td>---</td>
-                    <td>---</td>
-                    <td>---</td>
-                    <td>---</td>
-                    <td>---</td>
-                </tr>
-            {% endif %}
         </tbody>
 
     <!-- datatable artifacts -->
@@ -715,20 +701,6 @@
 
             <!-- table body -->
             <tbody>
-                {% if artifacts_closed %}
-                    {% for i in artifacts_closed %}
-                        {% include "dfirtrack_artifacts/includes/datatable_tbody_table_artifact_reduced.html" %}
-                    {% endfor %}
-                {% else %}
-                    <tr>
-                        <td>---</td>
-                        <td>---</td>
-                        <td>---</td>
-                        <td>---</td>
-                        <td>---</td>
-                        <td>---</td>
-                    </tr>
-                {% endif %}
             </tbody>
 
         <!-- datatable artifacts -->
@@ -747,9 +719,6 @@
         </div>
 
     {% endif %}
-
-    <!-- javascript for datatables -->
-    <script src="{% static 'dfirtrack_artifacts/datatables_artifacts.js' %}"></script>
 
 {% else %}
 
@@ -913,8 +882,6 @@
 
 {% endif %}
 
-<!-- javascript for datatables -->
-<script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
 
 <!-- timeline end -->
 </div>
@@ -1558,13 +1525,15 @@
 <!-- lower buttons row -->
 </div>
 
-<!-- javascript for datatables in maintemplate -->
-{% block datatables %}
-<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.js' %}"></script>
-{% endblock %}
-
 <!-- martor -->
 {% include "dfirtrack_main/includes/martor_javascript.html" %}
 
 <!-- HTML body in maintemplate -->
+{% endblock %}
+
+<!-- javascript for datatables in maintemplate -->
+{% block datatables %}
+<script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
+<script src="{% static 'dfirtrack_artifacts/datatables_artifacts.js' %}"></script>
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.js' %}"></script>
 {% endblock %}

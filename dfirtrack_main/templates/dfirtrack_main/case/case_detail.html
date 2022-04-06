@@ -485,10 +485,7 @@
             </tbody>
 
         <!-- datatable system -->
-        </table>
-
-        <!-- javascript for datatables -->
-        <script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
+        </table>    
 
     <!-- no systems -->
     {% else %}
@@ -523,40 +520,25 @@
 </div>
 
 <!-- artifacts -->
-{% if artifacts %}
 
-    <!-- datatable artifact -->
-    <table id="table_artifact" class="display" width="100%">
 
-        <!-- table head -->
-        <thead>
-            {% include "dfirtrack_artifacts/includes/datatable_thead_table_artifact.html" %}
-        </thead>
+<!-- datatable artifact -->
+<table id="table_artifact_details" class="display" width="100%">
 
-        <!-- table body -->
-        <tbody>
-            <!-- iterate over rows -->
-            {% for i in artifacts %}
-                {% include "dfirtrack_artifacts/includes/datatable_tbody_table_artifact.html" %}
-            {% endfor %}
-        </tbody>
+    <!-- table head -->
+    <thead>
+        {% include "dfirtrack_artifacts/includes/datatable_thead_table_artifact.html" %}
+    </thead>
 
-    <!-- datatable artifact -->
-    </table>
+    <!-- table body -->
+    <tbody>
+    </tbody>
 
-    <!-- javascript for datatables -->
-    <script src="{% static 'dfirtrack_artifacts/datatables_artifacts.js' %}"></script>
-
-<!-- no artifacts -->
-{% else %}
-    <div class="row top-distance">
-        <div class="col-3">
-            ---
-        </div>
-    </div>
+<!-- datatable artifact -->
+</table>
 
 <!-- artifacts -->
-{% endif %}
+
 
 <!-- artifact block -->
 </div>
@@ -565,11 +547,6 @@
 {% endif %}
 
 <!-- ############################################ -->
-
-<!-- javascript for datatables -->
-{% block datatables %}
-<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.js' %}"></script>
-{% endblock %}
 
 <!-- button row -->
 <div class="row top-distance">
@@ -594,4 +571,11 @@
 </div>
 
 <!-- HTML body in maintemplate -->
+{% endblock %}
+
+<!-- javascript for datatables -->
+{% block datatables %}
+<script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
+<script src="{% static 'dfirtrack_artifacts/datatables_artifacts.js' %}"></script>
+<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.js' %}"></script>
 {% endblock %}

@@ -6,6 +6,15 @@ from django.views.generic import DetailView
 from dfirtrack_config.models import UserConfigModel
 from dfirtrack_main.models import System
 
+def toggle_user_config(user, key):
+    # get config
+    user_config, created = UserConfigModel.objects.get_or_create(
+            user_config_username=user,
+            filter_view='system_detail'
+        )
+    
+    # toggle user config key
+    user_config.toggle_user_config(key)
 
 class ToggleSystemDetailArtifact(LoginRequiredMixin, DetailView):
     """toggle visibility"""
@@ -15,18 +24,8 @@ class ToggleSystemDetailArtifact(LoginRequiredMixin, DetailView):
 
     def get(self, request, *args, **kwargs):
 
-        # get config
-        user_config, created = UserConfigModel.objects.get_or_create(
-            user_config_username=request.user
-        )
-
-        # toggle value
-        user_config.filter_system_detail_show_artifact = (
-            not user_config.filter_system_detail_show_artifact
-        )
-
-        # save config
-        user_config.save()
+        # toggle config
+        toggle_user_config(request.user, 'show_artifact')
 
         # get system for return redirect
         system = self.get_object()
@@ -45,18 +44,8 @@ class ToggleSystemDetailArtifactClosed(LoginRequiredMixin, DetailView):
 
     def get(self, request, *args, **kwargs):
 
-        # get config
-        user_config, created = UserConfigModel.objects.get_or_create(
-            user_config_username=request.user
-        )
-
-        # toggle value
-        user_config.filter_system_detail_show_artifact_closed = (
-            not user_config.filter_system_detail_show_artifact_closed
-        )
-
-        # save config
-        user_config.save()
+        # toggle config
+        toggle_user_config(request.user, 'show_artifact_closed')
 
         # get system for return redirect
         system = self.get_object()
@@ -75,18 +64,8 @@ class ToggleSystemDetailTask(LoginRequiredMixin, DetailView):
 
     def get(self, request, *args, **kwargs):
 
-        # get config
-        user_config, created = UserConfigModel.objects.get_or_create(
-            user_config_username=request.user
-        )
-
-        # toggle value
-        user_config.filter_system_detail_show_task = (
-            not user_config.filter_system_detail_show_task
-        )
-
-        # save config
-        user_config.save()
+        # toggle config
+        toggle_user_config(request.user, 'show_task')
 
         # get system for return redirect
         system = self.get_object()
@@ -103,18 +82,8 @@ class ToggleSystemDetailTaskClosed(LoginRequiredMixin, DetailView):
 
     def get(self, request, *args, **kwargs):
 
-        # get config
-        user_config, created = UserConfigModel.objects.get_or_create(
-            user_config_username=request.user
-        )
-
-        # toggle value
-        user_config.filter_system_detail_show_task_closed = (
-            not user_config.filter_system_detail_show_task_closed
-        )
-
-        # save config
-        user_config.save()
+        # toggle config
+        toggle_user_config(request.user, 'show_task_closed')
 
         # get system for return redirect
         system = self.get_object()
@@ -131,18 +100,8 @@ class ToggleSystemDetailTechnicalInformation(LoginRequiredMixin, DetailView):
 
     def get(self, request, *args, **kwargs):
 
-        # get config
-        user_config, created = UserConfigModel.objects.get_or_create(
-            user_config_username=request.user
-        )
-
-        # toggle value
-        user_config.filter_system_detail_show_technical_information = (
-            not user_config.filter_system_detail_show_technical_information
-        )
-
-        # save config
-        user_config.save()
+        # toggle config
+        toggle_user_config(request.user, 'show_technical_information')
 
         # get system for return redirect
         system = self.get_object()
@@ -162,18 +121,8 @@ class ToggleSystemDetailTimeline(LoginRequiredMixin, DetailView):
 
     def get(self, request, *args, **kwargs):
 
-        # get config
-        user_config, created = UserConfigModel.objects.get_or_create(
-            user_config_username=request.user
-        )
-
-        # toggle value
-        user_config.filter_system_detail_show_timeline = (
-            not user_config.filter_system_detail_show_timeline
-        )
-
-        # save config
-        user_config.save()
+        # toggle config
+        toggle_user_config(request.user, 'show_timeline')
 
         # get system for return redirect
         system = self.get_object()
@@ -192,18 +141,8 @@ class ToggleSystemDetailVirtualizationInformation(LoginRequiredMixin, DetailView
 
     def get(self, request, *args, **kwargs):
 
-        # get config
-        user_config, created = UserConfigModel.objects.get_or_create(
-            user_config_username=request.user
-        )
-
-        # toggle value
-        user_config.filter_system_detail_show_virtualization_information = (
-            not user_config.filter_system_detail_show_virtualization_information
-        )
-
-        # save config
-        user_config.save()
+        # toggle config
+        toggle_user_config(request.user, 'show_virtualization_information')
 
         # get system for return redirect
         system = self.get_object()
@@ -223,18 +162,8 @@ class ToggleSystemDetailCompanyInformation(LoginRequiredMixin, DetailView):
 
     def get(self, request, *args, **kwargs):
 
-        # get config
-        user_config, created = UserConfigModel.objects.get_or_create(
-            user_config_username=request.user
-        )
-
-        # toggle value
-        user_config.filter_system_detail_show_company_information = (
-            not user_config.filter_system_detail_show_company_information
-        )
-
-        # save config
-        user_config.save()
+        # toggle config
+        toggle_user_config(request.user, 'show_company_information')
 
         # get system for return redirect
         system = self.get_object()
@@ -253,18 +182,8 @@ class ToggleSystemDetailSystemuser(LoginRequiredMixin, DetailView):
 
     def get(self, request, *args, **kwargs):
 
-        # get config
-        user_config, created = UserConfigModel.objects.get_or_create(
-            user_config_username=request.user
-        )
-
-        # toggle value
-        user_config.filter_system_detail_show_systemuser = (
-            not user_config.filter_system_detail_show_systemuser
-        )
-
-        # save config
-        user_config.save()
+        # toggle config
+        toggle_user_config(request.user, 'show_systemuser')
 
         # get system for return redirect
         system = self.get_object()
@@ -283,18 +202,8 @@ class ToggleSystemDetailAnalystmemo(LoginRequiredMixin, DetailView):
 
     def get(self, request, *args, **kwargs):
 
-        # get config
-        user_config, created = UserConfigModel.objects.get_or_create(
-            user_config_username=request.user
-        )
-
-        # toggle value
-        user_config.filter_system_detail_show_analystmemo = (
-            not user_config.filter_system_detail_show_analystmemo
-        )
-
-        # save config
-        user_config.save()
+        # toggle config
+        toggle_user_config(request.user, 'show_analystmemo')
 
         # get system for return redirect
         system = self.get_object()
@@ -313,18 +222,8 @@ class ToggleSystemDetailReportitem(LoginRequiredMixin, DetailView):
 
     def get(self, request, *args, **kwargs):
 
-        # get config
-        user_config, created = UserConfigModel.objects.get_or_create(
-            user_config_username=request.user
-        )
-
-        # toggle value
-        user_config.filter_system_detail_show_reportitem = (
-            not user_config.filter_system_detail_show_reportitem
-        )
-
-        # save config
-        user_config.save()
+        # toggle config
+        toggle_user_config(request.user, 'show_reportitem')
 
         # get system for return redirect
         system = self.get_object()

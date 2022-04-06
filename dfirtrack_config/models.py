@@ -1,6 +1,8 @@
 import logging
 
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.urls import reverse
 
@@ -546,119 +548,93 @@ class StatushistoryEntry(models.Model):
 
 class UserConfigModel(models.Model):
     """user config, single object per user"""
-    #TODO Refactor
-    # Choice Field for individual views unique together with user_config_username
-    # General foreign keys tag, user, case
-    # Json field view - with function and hardcoded dict for each view
-    # Some Solution for general status foreign key https://docs.djangoproject.com/en/1.10/ref/contrib/contenttypes/#generic-relations
 
-    # user / primary key
-    user_config_username = models.OneToOneField(
-        User, on_delete=models.CASCADE, related_name='filter_username', primary_key=True
+    # primary key
+    user_config_id = models.AutoField(primary_key=True)
+
+    # user
+    user_config_username = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='filter_username'
     )
 
-    # filter settings - assignment view
-    filter_assignment_view_keep = models.BooleanField(default=True)
-    filter_assignment_view_case = models.ForeignKey(
+    # filter settings - view
+    filter_view = models.CharField(
+        max_length=50, blank=False
+    )
+
+    # filter setting - shows
+    filter_view_show = models.JSONField(
+        blank=True,
+        null=True
+    )
+
+    # filter settings - list views
+    filter_list_case = models.ForeignKey(
         'dfirtrack_main.Case',
-        related_name='filter_assignment_view_case',
-        on_delete=models.SET_NULL,
-        blank=True,
-        null=True,
-    )
-    filter_assignment_view_tag = models.ForeignKey(
-        'dfirtrack_main.Tag',
-        related_name='filter_assignment_view_tag',
-        on_delete=models.SET_NULL,
-        blank=True,
-        null=True,
-    )
-    filter_assignment_view_user = models.ForeignKey(
-        User,
-        related_name='filter_assignment_view_tag',
-        on_delete=models.SET_NULL,
-        blank=True,
-        null=True,
-    )
-    filter_assignment_view_show_artifact = models.BooleanField(default=True)
-    filter_assignment_view_show_case = models.BooleanField(default=True)
-    filter_assignment_view_show_note = models.BooleanField(default=True)
-    filter_assignment_view_show_reportitem = models.BooleanField(default=True)
-    filter_assignment_view_show_system = models.BooleanField(default=True)
-    filter_assignment_view_show_tag = models.BooleanField(default=True)
-    filter_assignment_view_show_task = models.BooleanField(default=True)
-
-    # filter settings - documentation list
-    filter_documentation_list_keep = models.BooleanField(default=True)
-    filter_documentation_list_case = models.ForeignKey(
-        'dfirtrack_main.Case',
-        related_name='filter_documentation_list_case',
-        on_delete=models.SET_NULL,
-        blank=True,
-        null=True,
-    )
-    filter_documentation_list_notestatus = models.ForeignKey(
-        'dfirtrack_main.Notestatus',
-        related_name='filter_documentation_list_notestatus',
-        on_delete=models.SET_NULL,
-        blank=True,
-        null=True,
-    )
-    filter_documentation_list_tag = models.ForeignKey(
-        'dfirtrack_main.Tag',
-        related_name='filter_documentation_list_tag',
-        on_delete=models.SET_NULL,
-        blank=True,
-        null=True,
-    )
-    filter_documentation_list_user = models.ForeignKey(
-        User,
-        related_name='filter_documentation_list_user',
+        related_name='filter_list_case',
         on_delete=models.SET_NULL,
         blank=True,
         null=True,
     )
 
-    # filter settings - system detail
-    filter_system_detail_show_artifact = models.BooleanField(default=True)
-    filter_system_detail_show_artifact_closed = models.BooleanField(default=False)
-    filter_system_detail_show_task = models.BooleanField(default=True)
-    filter_system_detail_show_task_closed = models.BooleanField(default=False)
-    filter_system_detail_show_technical_information = models.BooleanField(default=False)
-    filter_system_detail_show_timeline = models.BooleanField(default=False)
-    filter_system_detail_show_virtualization_information = models.BooleanField(
-        default=False
-    )
-    filter_system_detail_show_company_information = models.BooleanField(default=False)
-    filter_system_detail_show_systemuser = models.BooleanField(default=False)
-    filter_system_detail_show_analystmemo = models.BooleanField(default=False)
-    filter_system_detail_show_reportitem = models.BooleanField(default=False)
-
-    # filter settings - system list
-    filter_system_list_keep = models.BooleanField(default=True)
-    filter_system_list_case = models.ForeignKey(
-        'dfirtrack_main.Case',
-        related_name='filter_system_list_case',
-        on_delete=models.SET_NULL,
-        blank=True,
-        null=True,
-    )
-    filter_system_list_tag = models.ManyToManyField(
+    # filter settings - list views
+    filter_list_tag = models.ManyToManyField(
         'dfirtrack_main.Tag',
-        related_name='filter_system_list_tag',
+        related_name='filter_list_tag',
         blank=True
     )
-    filter_system_list_user = models.ForeignKey(
+
+    # filter settings - list views
+    filter_list_assigned_to_user_id = models.ForeignKey(
         User,
-        related_name='filter_system_list_user',
+        related_name='filter_list_assigned_to_user_id',
         on_delete=models.SET_NULL,
         blank=True,
         null=True,
     )
+
+    # filter settings - list views generic status
+    content_type = models.ForeignKey(
+        ContentType, 
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True
+    )
+
+    object_id = models.PositiveIntegerField(
+        blank=True,
+        null=True
+    )
+
+    filter_list_status = GenericForeignKey(
+        'content_type', 
+        'object_id',
+    )
+
+    # meta information
+    class Meta:
+        unique_together = ['user_config_username', 'filter_view']
 
     # string representation
     def __str__(self):
         return f'User config {self.user_config_username}'
+
+    # toggle user config view show
+    def toggle_user_config(self, key):
+        self.filter_view_show[key] = not self.filter_view_show[key]
+        self.save()
+
+    # check if filter is active
+    def is_filter_active(self):
+        if self.filter_list_case:
+            return True
+        if self.filter_list_status:
+            return True
+        if self.filter_list_tag.count() > 0:
+            return True
+        if self.filter_list_assigned_to_user_id:
+            return True
+        return False
 
 
 class Workflow(models.Model):
