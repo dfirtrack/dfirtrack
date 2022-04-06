@@ -14,13 +14,13 @@
 
 <!-- static files -->
 {% load static %}
+{% load dfirtrack_main_tags %}
 {% load martortags %}
 
-
 <!-- CSS for datatables -->
-<link rel="stylesheet" type="text/css" href="{% static 'dfirtrack_main/datatables-1.11.5/datatables.min.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% get_static_prefix %}dfirtrack_main/{% dep_datatables_version %}/datatables.min.css"/>
 <!-- javascript for datatables -->
-<script src="{% static 'dfirtrack_main/datatables-1.11.5/datatables.js' %}"></script>
+<script src="{% get_static_prefix %}dfirtrack_main/{% dep_datatables_version %}/datatables.js"></script>
 
 <!-- martor -->
 {% include "dfirtrack_main/includes/martor_css.html" %}
@@ -1569,7 +1569,7 @@
 
 <!-- javascript for datatables in maintemplate -->
 {% block datatables %}
-<script src="{% static 'dfirtrack_main/datatables-1.11.5/datatables.min.js' %}"></script>
+<script src="{% get_static_prefix %}dfirtrack_main/{% dep_datatables_version %}/datatables.min.js"></script>
 {% endblock %}
 
 <!-- martor -->
