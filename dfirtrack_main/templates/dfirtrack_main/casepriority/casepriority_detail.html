@@ -11,8 +11,8 @@
 
 <!-- javascript and CSS for datatables -->
 {% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.css' %}"/>
-<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'dfirtrack_main/datatables-1.11.5/datatables.min.css' %}"/>
+<script src="{% static 'dfirtrack_main/datatables-1.11.5/datatables.js' %}"></script>
 
 <!-- HTML head in maintemplate -->
 {% endblock %}
@@ -38,7 +38,7 @@
     <!-- casepriority name -->
     <div class="col-3">
         <h5>
-            Casepriority 
+            Casepriority
             {% with priority_name=casepriority.casepriority_name %}
                 {% include "dfirtrack_main/includes/button_priority.html" %}
             {% endwith %}
@@ -123,7 +123,7 @@
 
 <!-- javascript for datatables -->
 {% block datatables %}
-<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.js' %}"></script>
+<script src="{% static 'dfirtrack_main/datatables-1.11.5/datatables.min.js' %}"></script>
 {% endblock %}
 
 <!-- HTML body in maintemplate -->
