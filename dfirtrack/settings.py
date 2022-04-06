@@ -12,8 +12,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY', 'CHANGEME')
 
-SESSION_COOKIE_SECURE = True
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -200,6 +198,14 @@ import local settings from local_settings
 use settings from this file in case of missing local settings
 try statements are split to avoid conflicts in case of missing values
 """
+
+# SESSION_COOKIE_SECURE
+try:
+    from .local_settings import SESSION_COOKIE_SECURE
+
+except ImportError:  # coverage: ignore branch
+
+    SESSION_COOKIE_SECURE = True
 
 # ALLOWED_HOSTS
 try:
