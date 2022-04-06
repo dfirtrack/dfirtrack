@@ -199,6 +199,23 @@ use settings from this file in case of missing local settings
 try statements are split to avoid conflicts in case of missing values
 """
 
+# DEBUG
+try:
+    from .local_settings import DEBUG
+
+except ImportError:  # coverage: ignore branch
+
+    # change to True for debugging
+    DEBUG = False
+
+# SESSION_COOKIE_SECURE
+try:
+    from .local_settings import SESSION_COOKIE_SECURE
+
+except ImportError:  # coverage: ignore branch
+
+    SESSION_COOKIE_SECURE = True
+
 # ALLOWED_HOSTS
 try:
     from .local_settings import ALLOWED_HOSTS
@@ -236,23 +253,6 @@ except ImportError:  # coverage: ignore branch
             }
         }
 
-# DATA_UPLOAD_MAX_NUMBER_FIELDS
-try:
-    from .local_settings import DATA_UPLOAD_MAX_NUMBER_FIELDS
-
-except ImportError:  # coverage: ignore branch
-
-    DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000
-
-# DEBUG
-try:
-    from .local_settings import DEBUG
-
-except ImportError:  # coverage: ignore branch
-
-    # change to True for debugging
-    DEBUG = False
-
 # STATIC_ROOT
 try:
     from .local_settings import STATIC_ROOT
@@ -260,3 +260,11 @@ try:
 except ImportError:  # coverage: ignore branch
 
     STATIC_ROOT = '/var/www/html/static/'
+
+# DATA_UPLOAD_MAX_NUMBER_FIELDS
+try:
+    from .local_settings import DATA_UPLOAD_MAX_NUMBER_FIELDS
+
+except ImportError:  # coverage: ignore branch
+
+    DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000

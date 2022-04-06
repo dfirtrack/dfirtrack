@@ -216,6 +216,14 @@
   become: yes
   become_method: sudo
 
+- name: NGINX | Remove server tokens
+  replace:
+    path: /etc/nginx/nginx.conf
+    regexp: "# server_tokens off;"
+    replace: "server_tokens off;"
+  become: yes
+  become_method: sudo
+
 - name: NGINX | Copy nginx-config
   template:
     src: default.j2

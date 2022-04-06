@@ -4,6 +4,8 @@
 
 To run DFIRTrack in a docker container simply execute `docker-compose up` in the `/docker/dev` or `/docker/prod` directory of this repo. **Before doing so, please check the `.env` file that is located in the same directory and make necessary changes.** This file is used to set internal variables, e.g. passwords and usernames. Make sure to rebuild the container (e.g. with `docker-compose up --build`) whenever there are changes in the `.env` file.
 
+If you want to build the containers with `docker build` for some reason, make sure to run the command from the root directory of this repo with `docker build -f=docker/<dev|prod>/Dockerfile .` - this is relevant for the build context!
+
 The container uses the local version of DFIRTrack. It uses gunicorn and nginx to serve the application and a separate container for the postgres database. The database is using a docker volume to persist changes - when you want to start with a fresh database, simply delete the volume.
 
 To be able to use the container in a cloud environment, most of the settings can also be changed with environment variables. The following list shows the available environment variables.
