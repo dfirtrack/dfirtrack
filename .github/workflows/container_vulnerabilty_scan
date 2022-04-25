@@ -1,0 +1,34 @@
+name: 'Container Vulnerability Scan'
+
+# This workflow automatically scans the Docker container for dfirtrack using Trivy.
+# Scanning is limited to the 'latest'-container which is automatically updated with each release.
+# Scans run regularly on tuesday at 0400 and after a new container for 'latest' has been pushed.
+
+on:
+  schedule:
+    # run weekly on tuesday at 0400
+    - cron: '0 4 * * 2'
+  workflow_run:
+    workflows: ['Docker publish']
+    types: ['completed']
+    branches: ['master']
+
+jobs:
+  container-scan:
+    name: 'Container Scan'
+    runs-on: 'ubuntu-latest'
+    steps:
+      - name: 'Run Trivy vulnerability scanner'
+        uses: 'aquasecurity/trivy-action@master'
+        with:
+          image-ref: 'dfirtrack/dfirtrack:latest'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: 'Upload Trivy scan results to GitHub Security tab'
+        uses: 'github/codeql-action/upload-sarif@v1'
+        with:
+          sarif_file: 'trivy-results.sarif'
