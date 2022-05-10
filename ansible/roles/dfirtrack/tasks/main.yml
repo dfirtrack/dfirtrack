@@ -2,20 +2,20 @@
 # tasks file for dfirtrack
 
 - name: GIT | Install git
-  apt:
+  ansible.builtin.apt:
     name: git
     state: present
   become: yes
   become_method: sudo
 
 - name: DFIRTRACK | Clone repo
-  git:
+  ansible.builtin.git:
     repo: "https://github.com/stuhli/dfirtrack.git"
     dest: "{{ dfirtrack_dir }}"
     version: "{{ dfirtrack_branch }}"
 
 - name: DFIRTRACK | Copy local_settings.py
-  template:
+  ansible.builtin.template:
     src: local_settings.py.j2
     dest: "{{ dfirtrack_dir }}/dfirtrack/local_settings.py"
     owner: "{{ ansible_user }}"
@@ -23,14 +23,14 @@
     mode: "0640"
 
 - name: DFIRTRACK | Change secret key
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "{{ dfirtrack_dir }}/dfirtrack/settings.py"
     regexp: "^SECRET_KEY"
     line: "SECRET_KEY = '{{ secret_key }}'"
   ignore_errors: '{{ ansible_check_mode }}'
 
 - name: DJANGO | Install python dependencies
-  apt:
+  ansible.builtin.apt:
     name:
       - libpq-dev
       - python3-setuptools
@@ -41,18 +41,18 @@
   become_method: sudo
 
 - name: DJANGO | Create subdirectory for virtual environment
-  set_fact:
+  ansible.builtin.set_fact:
     venv_dir: "{{ dfirtrack_dir }}/venv"
 
 - name: DJANGO | Install django and requirements
-  pip:
+  ansible.builtin.pip:
     requirements: "{{ dfirtrack_dir }}/requirements.txt"
     virtualenv_python: python3
     state: present
     virtualenv: "{{ venv_dir }}"
 
 - name: DFIRTRACK | Create log directory
-  file:
+  ansible.builtin.file:
     name: "{{ log_dir }}"
     state: directory
     owner: "{{ ansible_user }}"
@@ -62,14 +62,14 @@
   become_method: sudo
 
 - name: MARKDOWN | Install mkdocs
-  apt:
+  ansible.builtin.apt:
     name: mkdocs
     state: present
   become: yes
   become_method: sudo
 
 - name: MARKDOWN | Create initial directory
-  file:
+  ansible.builtin.file:
     name: "{{ markdown_dir }}"
     state: directory
     owner: "{{ ansible_user }}"
@@ -77,12 +77,12 @@
     mode: '0755'
 
 - name: MARKDOWN | Init project
-  command: "chdir={{ markdown_dir }} mkdocs new {{ markdown_proj }}"
+  ansible.builtin.command: "chdir={{ markdown_dir }} mkdocs new {{ markdown_proj }}"
   environment:
     LC_ALL: "C.UTF-8"
 
 - name: MARKDOWN | Create subdirectory for systems
-  file:
+  ansible.builtin.file:
     name: "{{ markdown_dir }}/{{ markdown_proj }}/docs/systems"
     state: directory
     owner: "{{ ansible_user }}"
@@ -90,7 +90,7 @@
     mode: '0755'
 
 - name: MARKDOWN | Copy mkdocs.yml
-  template:
+  ansible.builtin.template:
     src: mkdocs.yml.j2
     dest: "{{ markdown_dir }}/{{ markdown_proj }}/mkdocs.yml"
     owner: "{{ ansible_user }}"
@@ -98,26 +98,26 @@
     mode: '0755'
 
 - name: POSTGRESQL | Install psycopg2 to make ansible talk with postgresql (Ubuntu 20)
-  apt:
+  ansible.builtin.apt:
     name: python3-psycopg2
   become: yes
   become_method: sudo
 
 - name: POSTGRESQL | Install acl to make user switching work (Ubuntu 20)
-  apt:
+  ansible.builtin.apt:
     name: acl
   become: yes
   become_method: sudo
   when: (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.04') or (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.10')
 
 - name: POSTGRESQL | Install postgresql
-  apt:
+  ansible.builtin.apt:
     name: postgresql
   become: yes
   become_method: sudo
 
 - name: POSTGRESQL | Change password of user postgres
-  postgresql_user:
+  community.general.postgresql_user:
     name: postgres
     password: "{{ postgresql_postgres_password }}"
     encrypted: yes
@@ -128,7 +128,7 @@
 
 # CREATEDB necessary for creating test database
 - name: POSTGRESQL | Create dedicated user
-  postgresql_user:
+  community.general.postgresql_user:
     name: "{{ postgresql_user }}"
     password: "{{ postgresql_user_password }}"
     encrypted: yes
@@ -139,7 +139,7 @@
   ignore_errors: '{{ ansible_check_mode }}'
 
 - name: POSTGRESQL | Create database
-  postgresql_db:
+  community.general.postgresql_db:
     name: "{{ postgresql_database }}"
     owner: "{{ postgresql_user }}"
   become: yes
@@ -148,7 +148,7 @@
   ignore_errors: '{{ ansible_check_mode }}'
 
 - name: POSTGRESQL | Create backup directory
-  file:
+  ansible.builtin.file:
     name: "{{ postgresql_backup_dir }}"
     state: directory
     owner: "{{ ansible_user }}"
@@ -156,17 +156,17 @@
     mode: '0755'
 
 - name: POSTGRESQL | Set path of config (Ubuntu 18.04)
-  set_fact:
+  ansible.builtin.set_fact:
     postgresql_config: "/etc/postgresql/10/main/pg_hba.conf"
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '18.04'
 
 - name: POSTGRESQL | Set path of config (Ubuntu 20)
-  set_fact:
+  ansible.builtin.set_fact:
     postgresql_config: "/etc/postgresql/12/main/pg_hba.conf"
   when: (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.04') or (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.10')
 
 - name: POSTGRESQL | Edit config for backup
-  replace:
+  ansible.builtin.replace:
     name: "{{ postgresql_config }}"
     regexp: "^local   all             all                                     peer"
     replace: "local   all             all                                     md5"
@@ -177,7 +177,7 @@
   ignore_errors: '{{ ansible_check_mode }}'
 
 - name: POSTGRESQL | Create backup cron job
-  cron:
+  ansible.builtin.cron:
     name: "dfirtrack"
     user: "{{ ansible_user }}"
     job: "PGPASSWORD='{{ postgresql_user_password }}' /usr/bin/pg_dump -U {{ postgresql_user }} {{ postgresql_database }} > {{ postgresql_backup_dir }}/`date --utc +\\%Y\\%m\\%d_\\%H\\%M`_{{ postgresql_database }}.sql"
@@ -188,26 +188,26 @@
     dow: "*"
 
 - name: DJANGO | Migrate
-  django_manage:
+  community.general.django_manage:
     command: "migrate"
     app_path: "{{ dfirtrack_dir }}"
     virtualenv: "{{ venv_dir }}"
 
 - name: DJANGO | Create cache table
-  django_manage:
+  community.general.django_manage:
     command: "createcachetable"
     app_path: "{{ dfirtrack_dir }}"
     virtualenv: "{{ venv_dir }}"
 
 - name: NGINX | Install nginx
-  apt:
+  ansible.builtin.apt:
     name: nginx
     state: present
   become: yes
   become_method: sudo
 
 - name: NGINX | Make SSL directory
-  file:
+  ansible.builtin.file:
     path: /etc/nginx/ssl
     state: directory
     owner: root
@@ -217,12 +217,12 @@
   become_method: sudo
 
 - name: NGINX | Create self signed certificates for SSL
-  command: 'openssl req -newkey rsa:4096 -days 365 -nodes -x509 -subj "/O={{ openssl_o }}/CN={{ fqdn }}/OU={{ openssl_ou }}" -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt'
+  ansible.builtin.command: 'openssl req -newkey rsa:4096 -days 365 -nodes -x509 -subj "/O={{ openssl_o }}/CN={{ fqdn }}/OU={{ openssl_ou }}" -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt'
   become: yes
   become_method: sudo
 
 - name: NGINX | Remove server tokens
-  replace:
+  ansible.builtin.replace:
     path: /etc/nginx/nginx.conf
     regexp: "# server_tokens off;"
     replace: "server_tokens off;"
@@ -231,7 +231,7 @@
   ignore_errors: '{{ ansible_check_mode }}'
 
 - name: NGINX | Copy nginx-config
-  template:
+  ansible.builtin.template:
     src: default.j2
     dest: /etc/nginx/sites-available/default
     owner: root
@@ -243,7 +243,7 @@
     - NGINX | Restart nginx
 
 - name: NGINX | Create directory of webserver files
-  file:
+  ansible.builtin.file:
     name: "{{ www_dir }}/static"
     state: directory
     owner: "{{ ansible_user }}"
@@ -253,13 +253,13 @@
   become_method: sudo
 
 - name: DJANGO | Collect static files
-  django_manage:
+  community.general.django_manage:
     command: "collectstatic"
     app_path: "{{ dfirtrack_dir }}"
     virtualenv: "{{ venv_dir }}"
 
 - name: NGINX | Change ownership of webserver files
-  file:
+  ansible.builtin.file:
     name: "{{ www_dir }}"
     owner: "www-data"
     group: "www-data"
@@ -268,7 +268,7 @@
   become_method: sudo
 
 - name: GUNICORN | Create file for service
-  template:
+  ansible.builtin.template:
     src: gunicorn.service.j2
     dest: /etc/systemd/system/gunicorn.service
     owner: root
@@ -278,7 +278,7 @@
   become_method: sudo
 
 - name: QCLUSTER | Create file for service
-  template:
+  ansible.builtin.template:
     src: qcluster.service.j2
     dest: /etc/systemd/system/qcluster.service
     owner: root
@@ -288,13 +288,13 @@
   become_method: sudo
 
 - name: SYSTEMCTL | Reload systemctl daemon
-  systemd:
+  ansible.builtin.systemd:
     daemon-reload: yes
   become: yes
   become_method: sudo
 
 - name: GUNICORN | Enable and start service
-  systemd:
+  ansible.builtin.systemd:
     name: 'gunicorn'
     enabled: yes
     state: started
@@ -303,7 +303,7 @@
   ignore_errors: '{{ ansible_check_mode }}'
 
 - name: QCLUSTER | Enable and start service
-  systemd:
+  ansible.builtin.systemd:
     name: 'qcluster'
     enabled: yes
     state: started
@@ -312,41 +312,41 @@
   ignore_errors: '{{ ansible_check_mode }}'
 
 - name: UFW | Install ufw
-  apt:
+  ansible.builtin.apt:
     name: ufw
     state: present
   become: yes
   become_method: sudo
 
 - name: UFW | Deny incoming traffic
-  ufw:
+  community.general.ufw:
     direction: incoming
     policy: deny
   become: true
   become_method: sudo
 
 - name: UFW | Allow outgoing traffic
-  ufw:
+  community.general.ufw:
     direction: outgoing
     policy: allow
   become: true
   become_method: sudo
 
 - name: UFW | Allow ssh
-  ufw:
+  community.general.ufw:
     rule: allow
     name: OpenSSH
   become: true
   become_method: sudo
 
 - name: UFW | Enable extensive logging
-  ufw:
+  community.general.ufw:
     logging: "high"
   become: true
   become_method: sudo
 
 - name: UFW | limit login rate for ssh
-  ufw:
+  community.general.ufw:
     rule: limit
     port: 22
     proto: tcp
@@ -354,21 +354,21 @@
   become_method: sudo
 
 - name: UFW | Allow http
-  ufw:
+  community.general.ufw:
     rule: allow
     port: 80
   become: yes
   become_method: sudo
 
 - name: UFW | Allow https
-  ufw:
+  community.general.ufw:
     rule: allow
     port: 443
   become: yes
   become_method: sudo
 
 - name: UFW | Enable firewall
-  ufw:
+  community.general.ufw:
     state: enabled
   become: yes
   become_method: sudo
