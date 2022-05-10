@@ -3,173 +3,173 @@
 
 - name: GIT | Install git
   ansible.builtin.apt:
-    name: git
+    name: 'git'
     state: present
   become: yes
   become_method: sudo
 
 - name: DFIRTRACK | Clone repo
   ansible.builtin.git:
-    repo: "https://github.com/dfirtrack/dfirtrack.git"
-    dest: "{{ dfirtrack_dir }}"
-    version: "{{ dfirtrack_branch }}"
+    repo: 'https://github.com/dfirtrack/dfirtrack.git'
+    dest: '{{ dfirtrack_dir }}'
+    version: '{{ dfirtrack_branch }}'
 
 - name: DFIRTRACK | Copy local_settings.py
   ansible.builtin.template:
-    src: local_settings.py.j2
-    dest: "{{ dfirtrack_dir }}/dfirtrack/local_settings.py"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-    mode: "0640"
+    src: 'local_settings.py.j2'
+    dest: '{{ dfirtrack_dir }}/dfirtrack/local_settings.py'
+    owner: '{{ ansible_user }}'
+    group: '{{ ansible_user }}'
+    mode: '0640'
 
 - name: DFIRTRACK | Change secret key
   ansible.builtin.lineinfile:
-    path: "{{ dfirtrack_dir }}/dfirtrack/settings.py"
-    regexp: "^SECRET_KEY"
-    line: "SECRET_KEY = '{{ secret_key }}'"
+    path: '{{ dfirtrack_dir }}/dfirtrack/settings.py'
+    regexp: '^SECRET_KEY'
+    line: 'SECRET_KEY = "{{ secret_key }}"'
   ignore_errors: '{{ ansible_check_mode }}'
 
 - name: DJANGO | Install python dependencies
   ansible.builtin.apt:
     name:
-      - libpq-dev
-      - python3-setuptools
-      - python3-pip
-      - virtualenv
+      - 'libpq-dev'
+      - 'python3-setuptools'
+      - 'python3-pip'
+      - 'virtualenv'
     state: present
   become: yes
   become_method: sudo
 
 - name: DJANGO | Create subdirectory for virtual environment
   ansible.builtin.set_fact:
-    venv_dir: "{{ dfirtrack_dir }}/venv"
+    venv_dir: '{{ dfirtrack_dir }}/venv'
 
 - name: DJANGO | Install django and requirements
   ansible.builtin.pip:
-    requirements: "{{ dfirtrack_dir }}/requirements.txt"
+    requirements: '{{ dfirtrack_dir }}/requirements.txt'
     virtualenv_python: python3
     state: present
-    virtualenv: "{{ venv_dir }}"
+    virtualenv: '{{ venv_dir }}'
 
 - name: DFIRTRACK | Create log directory
   ansible.builtin.file:
-    name: "{{ log_dir }}"
+    name: '{{ log_dir }}'
     state: directory
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+    owner: '{{ ansible_user }}'
+    group: '{{ ansible_user }}'
     mode: '0755'
   become: yes
   become_method: sudo
 
 - name: MARKDOWN | Install mkdocs
   ansible.builtin.apt:
-    name: mkdocs
+    name: 'mkdocs'
     state: present
   become: yes
   become_method: sudo
 
 - name: MARKDOWN | Create initial directory
   ansible.builtin.file:
-    name: "{{ markdown_dir }}"
+    name: '{{ markdown_dir }}'
     state: directory
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+    owner: '{{ ansible_user }}'
+    group: '{{ ansible_user }}'
     mode: '0755'
 
 - name: MARKDOWN | Init project
-  ansible.builtin.command: "chdir={{ markdown_dir }} mkdocs new {{ markdown_proj }}"
+  ansible.builtin.command: 'chdir={{ markdown_dir }} mkdocs new {{ markdown_proj }}'
   environment:
-    LC_ALL: "C.UTF-8"
+    LC_ALL: 'C.UTF-8'
 
 - name: MARKDOWN | Create subdirectory for systems
   ansible.builtin.file:
-    name: "{{ markdown_dir }}/{{ markdown_proj }}/docs/systems"
+    name: '{{ markdown_dir }}/{{ markdown_proj }}/docs/systems/'
     state: directory
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+    owner: '{{ ansible_user }}'
+    group: '{{ ansible_user }}'
     mode: '0755'
 
 - name: MARKDOWN | Copy mkdocs.yml
   ansible.builtin.template:
-    src: mkdocs.yml.j2
-    dest: "{{ markdown_dir }}/{{ markdown_proj }}/mkdocs.yml"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+    src: 'mkdocs.yml.j2'
+    dest: '{{ markdown_dir }}/{{ markdown_proj }}/mkdocs.yml'
+    owner: '{{ ansible_user }}'
+    group: '{{ ansible_user }}'
     mode: '0755'
 
 - name: POSTGRESQL | Install psycopg2 to make ansible talk with postgresql (Ubuntu 20)
   ansible.builtin.apt:
-    name: python3-psycopg2
+    name: 'python3-psycopg2'
   become: yes
   become_method: sudo
 
 - name: POSTGRESQL | Install acl to make user switching work (Ubuntu 20)
   ansible.builtin.apt:
-    name: acl
+    name: 'acl'
   become: yes
   become_method: sudo
   when: (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.04') or (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.10')
 
 - name: POSTGRESQL | Install postgresql
   ansible.builtin.apt:
-    name: postgresql
+    name: 'postgresql'
   become: yes
   become_method: sudo
 
 - name: POSTGRESQL | Change password of user postgres
   community.general.postgresql_user:
-    name: postgres
-    password: "{{ postgresql_postgres_password }}"
+    name: 'postgres'
+    password: '{{ postgresql_postgres_password }}'
     encrypted: yes
   become: yes
   become_method: sudo
-  become_user: postgres
+  become_user: 'postgres'
   ignore_errors: '{{ ansible_check_mode }}'
 
 # CREATEDB necessary for creating test database
 - name: POSTGRESQL | Create dedicated user
   community.general.postgresql_user:
-    name: "{{ postgresql_user }}"
-    password: "{{ postgresql_user_password }}"
+    name: '{{ postgresql_user }}'
+    password: '{{ postgresql_user_password }}'
     encrypted: yes
     role_attr_flags: CREATEDB
   become: yes
   become_method: sudo
-  become_user: postgres
+  become_user: 'postgres'
   ignore_errors: '{{ ansible_check_mode }}'
 
 - name: POSTGRESQL | Create database
   community.general.postgresql_db:
-    name: "{{ postgresql_database }}"
-    owner: "{{ postgresql_user }}"
+    name: '{{ postgresql_database }}'
+    owner: '{{ postgresql_user }}'
   become: yes
   become_method: sudo
-  become_user: postgres
+  become_user: 'postgres'
   ignore_errors: '{{ ansible_check_mode }}'
 
 - name: POSTGRESQL | Create backup directory
   ansible.builtin.file:
-    name: "{{ postgresql_backup_dir }}"
+    name: '{{ postgresql_backup_dir }}'
     state: directory
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+    owner: '{{ ansible_user }}'
+    group: '{{ ansible_user }}'
     mode: '0755'
 
 - name: POSTGRESQL | Set path of config (Ubuntu 18.04)
   ansible.builtin.set_fact:
-    postgresql_config: "/etc/postgresql/10/main/pg_hba.conf"
+    postgresql_config: '/etc/postgresql/10/main/pg_hba.conf'
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '18.04'
 
 - name: POSTGRESQL | Set path of config (Ubuntu 20)
   ansible.builtin.set_fact:
-    postgresql_config: "/etc/postgresql/12/main/pg_hba.conf"
+    postgresql_config: '/etc/postgresql/12/main/pg_hba.conf'
   when: (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.04') or (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.10')
 
 - name: POSTGRESQL | Edit config for backup
   ansible.builtin.replace:
-    name: "{{ postgresql_config }}"
-    regexp: "^local   all             all                                     peer"
-    replace: "local   all             all                                     md5"
+    name: '{{ postgresql_config }}'
+    regexp: '^local   all             all                                     peer'
+    replace: 'local   all             all                                     md5'
   notify:
     - POSTGRESQL | Restart PostgreSQL
   become: yes
@@ -178,40 +178,40 @@
 
 - name: POSTGRESQL | Create backup cron job
   ansible.builtin.cron:
-    name: "dfirtrack"
-    user: "{{ ansible_user }}"
-    job: "PGPASSWORD='{{ postgresql_user_password }}' /usr/bin/pg_dump -U {{ postgresql_user }} {{ postgresql_database }} > {{ postgresql_backup_dir }}/`date --utc +\\%Y\\%m\\%d_\\%H\\%M`_{{ postgresql_database }}.sql"
-    minute: "00"
-    hour: "*"
-    dom: "*"
-    month: "*"
-    dow: "*"
+    name: 'dfirtrack'
+    user: '{{ ansible_user }}'
+    job: 'PGPASSWORD="{{ postgresql_user_password }}" /usr/bin/pg_dump -U {{ postgresql_user }} {{ postgresql_database }} > {{ postgresql_backup_dir }}/`date --utc +\\%Y\\%m\\%d_\\%H\\%M`_{{ postgresql_database }}.sql'
+    minute: '00'
+    hour: '*'
+    dom: '*'
+    month: '*'
+    dow: '*'
 
 - name: DJANGO | Migrate
   community.general.django_manage:
-    command: "migrate"
-    app_path: "{{ dfirtrack_dir }}"
-    virtualenv: "{{ venv_dir }}"
+    command: 'migrate'
+    app_path: '{{ dfirtrack_dir }}'
+    virtualenv: '{{ venv_dir }}'
 
 - name: DJANGO | Create cache table
   community.general.django_manage:
-    command: "createcachetable"
-    app_path: "{{ dfirtrack_dir }}"
-    virtualenv: "{{ venv_dir }}"
+    command: 'createcachetable'
+    app_path: '{{ dfirtrack_dir }}'
+    virtualenv: '{{ venv_dir }}'
 
 - name: NGINX | Install nginx
   ansible.builtin.apt:
-    name: nginx
+    name: 'nginx'
     state: present
   become: yes
   become_method: sudo
 
 - name: NGINX | Make SSL directory
   ansible.builtin.file:
-    path: /etc/nginx/ssl
+    path: '/etc/nginx/ssl/'
     state: directory
-    owner: root
-    group: root
+    owner: 'root'
+    group: 'root'
     mode: '0755'
   become: yes
   become_method: sudo
@@ -223,19 +223,19 @@
 
 - name: NGINX | Remove server tokens
   ansible.builtin.replace:
-    path: /etc/nginx/nginx.conf
-    regexp: "# server_tokens off;"
-    replace: "server_tokens off;"
+    path: '/etc/nginx/nginx.conf'
+    regexp: '# server_tokens off;'
+    replace: 'server_tokens off;'
   become: yes
   become_method: sudo
   ignore_errors: '{{ ansible_check_mode }}'
 
 - name: NGINX | Copy nginx-config
   ansible.builtin.template:
-    src: default.j2
-    dest: /etc/nginx/sites-available/default
-    owner: root
-    group: root
+    src: 'default.j2'
+    dest: '/etc/nginx/sites-available/default'
+    owner: 'root'
+    group: 'root'
     mode: '0644'
   become: yes
   become_method: sudo
@@ -244,45 +244,45 @@
 
 - name: NGINX | Create directory of webserver files
   ansible.builtin.file:
-    name: "{{ www_dir }}/static"
+    name: '{{ www_dir }}/static/'
     state: directory
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+    owner: '{{ ansible_user }}'
+    group: '{{ ansible_user }}'
     mode: '0755'
   become: yes
   become_method: sudo
 
 - name: DJANGO | Collect static files
   community.general.django_manage:
-    command: "collectstatic"
-    app_path: "{{ dfirtrack_dir }}"
-    virtualenv: "{{ venv_dir }}"
+    command: 'collectstatic'
+    app_path: '{{ dfirtrack_dir }}'
+    virtualenv: '{{ venv_dir }}'
 
 - name: NGINX | Change ownership of webserver files
   ansible.builtin.file:
-    name: "{{ www_dir }}"
-    owner: "www-data"
-    group: "www-data"
+    name: '{{ www_dir }}'
+    owner: 'www-data'
+    group: 'www-data'
     recurse: yes
   become: yes
   become_method: sudo
 
 - name: GUNICORN | Create file for service
   ansible.builtin.template:
-    src: gunicorn.service.j2
-    dest: /etc/systemd/system/gunicorn.service
-    owner: root
-    group: root
+    src: 'gunicorn.service.j2'
+    dest: '/etc/systemd/system/gunicorn.service'
+    owner: 'root'
+    group: 'root'
     mode: '0644'
   become: yes
   become_method: sudo
 
 - name: QCLUSTER | Create file for service
   ansible.builtin.template:
-    src: qcluster.service.j2
-    dest: /etc/systemd/system/qcluster.service
-    owner: root
-    group: root
+    src: 'qcluster.service.j2'
+    dest: '/etc/systemd/system/qcluster.service'
+    owner: 'root'
+    group: 'root'
     mode: '0644'
   become: yes
   become_method: sudo
@@ -313,7 +313,7 @@
 
 - name: UFW | Install ufw
   ansible.builtin.apt:
-    name: ufw
+    name: 'ufw'
     state: present
   become: yes
   become_method: sudo
@@ -341,7 +341,7 @@
 
 - name: UFW | Enable extensive logging
   community.general.ufw:
-    logging: "high"
+    logging: 'high'
   become: true
   become_method: sudo
 
