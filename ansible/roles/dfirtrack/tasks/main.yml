@@ -10,7 +10,7 @@
 
 - name: DFIRTRACK | Clone repo
   ansible.builtin.git:
-    repo: "https://github.com/stuhli/dfirtrack.git"
+    repo: "https://github.com/dfirtrack/dfirtrack.git"
     dest: "{{ dfirtrack_dir }}"
     version: "{{ dfirtrack_branch }}"
 
