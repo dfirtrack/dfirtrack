@@ -27,6 +27,7 @@
     path: "{{ dfirtrack_dir }}/dfirtrack/settings.py"
     regexp: "^SECRET_KEY"
     line: "SECRET_KEY = '{{ secret_key }}'"
+  ignore_errors: '{{ ansible_check_mode }}'
 
 - name: DJANGO | Install python dependencies
   apt:
@@ -123,6 +124,7 @@
   become: yes
   become_method: sudo
   become_user: postgres
+  ignore_errors: '{{ ansible_check_mode }}'
 
 # CREATEDB necessary for creating test database
 - name: POSTGRESQL | Create dedicated user
@@ -134,6 +136,7 @@
   become: yes
   become_method: sudo
   become_user: postgres
+  ignore_errors: '{{ ansible_check_mode }}'
 
 - name: POSTGRESQL | Create database
   postgresql_db:
@@ -142,6 +145,7 @@
   become: yes
   become_method: sudo
   become_user: postgres
+  ignore_errors: '{{ ansible_check_mode }}'
 
 - name: POSTGRESQL | Create backup directory
   file:
@@ -170,6 +174,7 @@
     - POSTGRESQL | Restart PostgreSQL
   become: yes
   become_method: sudo
+  ignore_errors: '{{ ansible_check_mode }}'
 
 - name: POSTGRESQL | Create backup cron job
   cron:
@@ -223,6 +228,7 @@
     replace: "server_tokens off;"
   become: yes
   become_method: sudo
+  ignore_errors: '{{ ansible_check_mode }}'
 
 - name: NGINX | Copy nginx-config
   template:
@@ -294,6 +300,7 @@
     state: started
   become: yes
   become_method: sudo
+  ignore_errors: '{{ ansible_check_mode }}'
 
 - name: QCLUSTER | Enable and start service
   systemd:
@@ -302,6 +309,7 @@
     state: started
   become: yes
   become_method: sudo
+  ignore_errors: '{{ ansible_check_mode }}'
 
 - name: UFW | Install ufw
   apt:
