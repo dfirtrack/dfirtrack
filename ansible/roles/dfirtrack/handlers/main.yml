@@ -2,7 +2,7 @@
 # handlers file for dfirtrack
 
 - name: NGINX | Restart nginx
-  service:
+  ansible.builtin.service:
     name: nginx
     state: restarted
   become: yes
@@ -10,7 +10,7 @@
   ignore_errors: '{{ ansible_check_mode }}'
 
 - name: POSTGRESQL | Restart PostgreSQL
-  service:
+  ansible.builtin.service:
     name: postgresql
     state: restarted
   become: yes
