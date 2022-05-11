@@ -108,7 +108,7 @@
     name: 'acl'
   become: yes
   become_method: sudo
-  when: (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.04') or (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.10')
+  when: (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.04') or (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.10') or (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '21.10') or (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '22.04')
 
 - name: POSTGRESQL | Install postgresql
   ansible.builtin.apt:
@@ -164,6 +164,16 @@
   ansible.builtin.set_fact:
     postgresql_config: '/etc/postgresql/12/main/pg_hba.conf'
   when: (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.04') or (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.10')
+
+- name: POSTGRESQL | Set path of config (Ubuntu 21.10)
+  ansible.builtin.set_fact:
+    postgresql_config: '/etc/postgresql/13/main/pg_hba.conf'
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '21.10'
+
+- name: POSTGRESQL | Set path of config (Ubuntu 22.04)
+  ansible.builtin.set_fact:
+    postgresql_config: '/etc/postgresql/14/main/pg_hba.conf'
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '22.04'
 
 - name: POSTGRESQL | Edit config for backup
   ansible.builtin.replace:
