@@ -12,12 +12,13 @@
 
     <!-- load static files -->
     {% load static %}
+    {% load dfirtrack_main_tags %}
 
     <!-- favicon -->
     <link rel="shortcut icon" href="{% static 'dfirtrack_main/img/favicon.ico' %}"/>
 
     <!-- bootstrap CSS -->
-    <link rel="stylesheet" href="{% static 'dfirtrack_main/bootstrap-5.1.3/css/bootstrap.min.css' %}" type = "text/css"/>
+    <link rel="stylesheet" href="{% get_static_prefix %}dfirtrack_main/{% dep_bootstrap_version %}/css/bootstrap.min.css" type = "text/css"/>
 
     <meta name="viewport" content = "width=device-width, initial-scale=1.0">
 
