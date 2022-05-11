@@ -9,9 +9,6 @@ from dfirtrack.config import LOGGING_PATH
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY', 'CHANGEME')
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -198,6 +195,14 @@ import local settings from local_settings
 use settings from this file in case of missing local settings
 try statements are split to avoid conflicts in case of missing values
 """
+
+# SECRET_KEY
+try:
+    from .local_settings import SECRET_KEY
+
+except ImportError:  # coverage: ignore branch
+
+    SECRET_KEY = os.getenv('SECRET_KEY', 'CHANGEME')
 
 # DEBUG
 try:

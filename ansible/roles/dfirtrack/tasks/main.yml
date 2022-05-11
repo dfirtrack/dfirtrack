@@ -25,13 +25,6 @@
         group: '{{ ansible_user }}'
         mode: '0640'
 
-    - name: DFIRTRACK | Change secret key
-      ansible.builtin.lineinfile:
-        path: '{{ dfirtrack_dir }}/dfirtrack/settings.py'
-        regexp: '^SECRET_KEY'
-        line: 'SECRET_KEY = "{{ secret_key }}"'
-      ignore_errors: '{{ ansible_check_mode }}'
-
 - name: DJANGO
   block:
 
