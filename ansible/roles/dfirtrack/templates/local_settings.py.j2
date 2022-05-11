@@ -4,6 +4,8 @@ Django settings for DFIRTrack project provided with Ansible.
 These settings extend the default dfirtrack.settings.
 """
 
+SECRET_KEY = '{{ secret_key }}'
+
 DEBUG = False
 
 SESSION_COOKIE_SECURE = True
