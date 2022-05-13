@@ -58,7 +58,7 @@ Other distributions may work as well but are not tested and are not supported.
 For fast and uncomplicated installation on a dedicated server including all dependencies an [Ansible](https://docs.ansible.com/ansible/latest/) playbook and role were written (available in `ansible`).
 For information about deployment with Ansible look at the  [Wiki - Ansible](https://github.com/stuhli/dfirtrack/wiki/Ansible).
 
-For development and production two docker environments were prepared (see [Wiki - Docker](https://github.com/stuhli/dfirtrack/wiki/Docker) and [README - Docker](https://github.com/dfirtrack/dfirtrack/tree/master/docker)).
+For development and production two docker environments were prepared as well as pre-build docker images on docker hub (see [Wiki - Docker](https://github.com/stuhli/dfirtrack/wiki/Docker).
 
 For installation with your own setup or for quick testing look at the [Wiki - Installation](https://github.com/stuhli/dfirtrack/wiki/Installation).
 
