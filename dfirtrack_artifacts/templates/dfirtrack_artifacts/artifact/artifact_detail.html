@@ -78,6 +78,26 @@
 <!-- artifact name row -->
 </div>
 
+<!-- copy button row-->
+<div class="row bottom-distance">
+
+    <!-- copy button -->
+    <div class="col-3">
+            <button class="btn btn-outline-primary btn-sm" data-clipboard-text="{{ artifact.artifact_name }}">
+                Copy artifact name
+            </button>
+    </div>
+
+    <!-- copy button -->
+    <div class="col-3">
+            <button class="btn btn-outline-primary btn-sm" data-clipboard-text="{{ artifact.system.system_name }}">
+                Copy hostname
+            </button>
+    </div>
+
+<!-- copy button row-->
+</div>
+
 <!-- id row -->
 <div class="row bottom-distance">
 
