@@ -18,6 +18,9 @@ class Command(BaseCommand):
         # get filename from argument (type list)
         userfile = options['userfile'][0]
 
+        # get filename from argument (type list)
+        is_staff = options['is_staff']
+
         # try to open file
         try:
             # open file
@@ -72,14 +75,21 @@ class Command(BaseCommand):
             # try to create user
             try:
                 User.objects.create_user(
-                    username=username_from_row, password=password_from_row
+                    username=username_from_row, password=password_from_row, is_staff=is_staff
                 )
                 # write message to stdout
-                self.stdout.write(
-                    self.style.SUCCESS(
-                        f'User "{username_from_row}" successfully created.'
+                if is_staff:
+                    self.stdout.write(
+                        self.style.SUCCESS(
+                            f'User "{username_from_row}" successfully created and added to staff.'
+                        )
                     )
-                )
+                else:
+                    self.stdout.write(
+                        self.style.SUCCESS(
+                            f'User "{username_from_row}" successfully created.'
+                        )
+                    )
             # user already exists
             except IntegrityError:
                 # write message to stdout
