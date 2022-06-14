@@ -9,12 +9,14 @@ class Command(BaseCommand):
     help = 'Add users from file.'
 
     def add_arguments(self, parser):
-        parser.add_argument('FILE', nargs=1, type=str)
+        parser.add_argument('userfile', nargs=1, type=str, help='A comma-seperated CSV file containing user names and passwords (<USER>,<PASSWORD>).')
+
+        parser.add_argument('--is_staff', action='store_true', help='Designates whether the users can access the admin site.')
 
     def handle(self, *args, **options):
 
         # get filename from argument (type list)
-        userfile = options['FILE'][0]
+        userfile = options['userfile'][0]
 
         # try to open file
         try:

@@ -8,16 +8,16 @@ class Command(BaseCommand):
     help = 'Add users from file to group.'
 
     def add_arguments(self, parser):
-        parser.add_argument('FILE', nargs=1, type=str)
-        parser.add_argument('GROUP', nargs=1, type=str)
+        parser.add_argument('userfile', nargs=1, type=str, help='A comma-seperated CSV file containing user names in first column.')
+        parser.add_argument('groupname', nargs=1, type=str, help='The group name to add the users.')
 
     def handle(self, *args, **options):
 
         # get filename from argument (type list)
-        userfile = options['FILE'][0]
+        userfile = options['userfile'][0]
 
         # get group from argument (type list)
-        groupname = options['GROUP'][0]
+        groupname = options['groupname'][0]
 
         # try to get group
         try:
