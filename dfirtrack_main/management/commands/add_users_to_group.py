@@ -5,13 +5,29 @@ from django.core.management.base import BaseCommand
 
 
 class Command(BaseCommand):
+    '''add users from file to group.'''
+
+    # command help message
     help = 'Add users from file to group.'
 
     def add_arguments(self, parser):
-        parser.add_argument('userfile', nargs=1, type=str, help='A comma-seperated CSV file containing user names in first column.')
-        parser.add_argument('groupname', nargs=1, type=str, help='The group name to add the users.')
+        '''arguments'''
+
+        # CSV file with at least username (string)
+        parser.add_argument(
+            'userfile',
+            nargs=1,
+            type=str,
+            help='A comma-seperated CSV file containing user names in first column.',
+        )
+
+        # group name (string)
+        parser.add_argument(
+            'groupname', nargs=1, type=str, help='The group name to add the users.'
+        )
 
     def handle(self, *args, **options):
+        '''command logic'''
 
         # get filename from argument (type list)
         userfile = options['userfile'][0]

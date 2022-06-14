@@ -6,14 +6,31 @@ from django.db.utils import IntegrityError
 
 
 class Command(BaseCommand):
+    '''add users from file'''
+
+    # command help message
     help = 'Add users from file.'
 
     def add_arguments(self, parser):
-        parser.add_argument('userfile', nargs=1, type=str, help='A comma-seperated CSV file containing user names and passwords (<USER>,<PASSWORD>).')
+        '''arguments'''
 
-        parser.add_argument('--is_staff', action='store_true', help='Designates whether the users can access the admin site.')
+        # CSV file path with username, password (string)
+        parser.add_argument(
+            'userfile',
+            nargs=1,
+            type=str,
+            help='A comma-seperated CSV file containing user names and passwords (<USER>,<PASSWORD>).',
+        )
+
+        # is_staff switch (boolean)
+        parser.add_argument(
+            '--is_staff',
+            action='store_true',
+            help='Designates whether the users can access the admin site.',
+        )
 
     def handle(self, *args, **options):
+        '''command logic'''
 
         # get filename from argument (type list)
         userfile = options['userfile'][0]
@@ -75,7 +92,9 @@ class Command(BaseCommand):
             # try to create user
             try:
                 User.objects.create_user(
-                    username=username_from_row, password=password_from_row, is_staff=is_staff
+                    username=username_from_row,
+                    password=password_from_row,
+                    is_staff=is_staff,
                 )
                 # write message to stdout
                 if is_staff:
