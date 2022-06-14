@@ -57,7 +57,11 @@ class Command(BaseCommand):
         except UnicodeDecodeError:
 
             # write message to stdout
-            self.stdout.write(self.style.ERROR(f'File "{userfile}" does not seem to be a valid CSV file.'))
+            self.stdout.write(
+                self.style.ERROR(
+                    f'File "{userfile}" does not seem to be a valid CSV file.'
+                )
+            )
 
             # return (wrong file type)
             return
@@ -80,11 +84,17 @@ class Command(BaseCommand):
                 # add user to group
                 group.user_set.add(user)
                 # write message to stdout
-                self.stdout.write(self.style.SUCCESS(f'User "{username_from_row}" successfully added to group "{groupname}".'))
+                self.stdout.write(
+                    self.style.SUCCESS(
+                        f'User "{username_from_row}" successfully added to group "{groupname}".'
+                    )
+                )
             # user does not exist
             except User.DoesNotExist:
                 # write message to stdout
-                self.stdout.write(self.style.ERROR(f'User "{username_from_row}" does not exist.'))
+                self.stdout.write(
+                    self.style.ERROR(f'User "{username_from_row}" does not exist.')
+                )
 
         # close file
         usercsv.close()

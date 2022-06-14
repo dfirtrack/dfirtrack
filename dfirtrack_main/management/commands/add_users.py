@@ -45,7 +45,11 @@ class Command(BaseCommand):
         except UnicodeDecodeError:
 
             # write message to stdout
-            self.stdout.write(self.style.ERROR(f'File "{userfile}" does not seem to be a valid CSV file.'))
+            self.stdout.write(
+                self.style.ERROR(
+                    f'File "{userfile}" does not seem to be a valid CSV file.'
+                )
+            )
 
             # return (wrong file type)
             return
@@ -69,11 +73,17 @@ class Command(BaseCommand):
                     username=username_from_row, password=password_from_row
                 )
                 # write message to stdout
-                self.stdout.write(self.style.SUCCESS(f'User "{username_from_row}" successfully created.'))
+                self.stdout.write(
+                    self.style.SUCCESS(
+                        f'User "{username_from_row}" successfully created.'
+                    )
+                )
             # user already exists
             except IntegrityError:
                 # write message to stdout
-                self.stdout.write(self.style.ERROR(f'User "{username_from_row}" already exists.'))
+                self.stdout.write(
+                    self.style.ERROR(f'User "{username_from_row}" already exists.')
+                )
 
         # close file
         usercsv.close()
