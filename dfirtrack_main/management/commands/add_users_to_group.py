@@ -1,20 +1,32 @@
 import csv
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import Group, User
 from django.core.management.base import BaseCommand
-from django.db.utils import IntegrityError
 
 
 class Command(BaseCommand):
-    help = 'Add users from file.'
+    help = 'Add users from file to group.'
 
     def add_arguments(self, parser):
         parser.add_argument('FILE', nargs=1, type=str)
+        parser.add_argument('GROUP', nargs=1, type=str)
 
     def handle(self, *args, **options):
 
         # get filename from argument (type list)
         userfile = options['FILE'][0]
+
+        # get group from argument (type list)
+        groupname = options['GROUP'][0]
+
+        # try to get group
+        try:
+            group = Group.objects.get(name=groupname)
+        except Group.DoesNotExist:
+            # write message to stdout
+            self.stdout.write(self.style.ERROR(f'Group "{groupname}" does not exist.'))
+            # return (group does not exist)
+            return
 
         # try to open file
         try:
@@ -61,19 +73,18 @@ class Command(BaseCommand):
 
             # get values from CSV
             username_from_row = row[0]
-            password_from_row = row[1]
 
-            # try to create user
+            # try to get user
             try:
-                User.objects.create_user(
-                    username=username_from_row, password=password_from_row
-                )
+                user = User.objects.get(username=username_from_row)
+                # add user to group
+                group.user_set.add(user)
                 # write message to stdout
-                self.stdout.write(self.style.SUCCESS(f'User "{username_from_row}" successfully created.'))
-            # user already exists
-            except IntegrityError:
+                self.stdout.write(self.style.SUCCESS(f'User "{username_from_row}" successfully added to group "{groupname}".'))
+            # user does not exist
+            except User.DoesNotExist:
                 # write message to stdout
-                self.stdout.write(self.style.ERROR(f'User "{username_from_row}" already exists.'))
+                self.stdout.write(self.style.ERROR(f'User "{username_from_row}" does not exist.'))
 
         # close file
         usercsv.close()
