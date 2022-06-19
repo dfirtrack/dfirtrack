@@ -3,6 +3,8 @@ import csv
 from django.contrib.auth.models import Group, User
 from django.core.management.base import BaseCommand
 
+from dfirtrack_main.management.commands.check_file import check_file
+
 
 class Command(BaseCommand):
     '''add users from file to group.'''
@@ -35,6 +37,18 @@ class Command(BaseCommand):
         # get group from argument (type list)
         groupname = options['groupname'][0]
 
+        # TODO: [code] remove hardcoded arguments
+        quotechar = "'"
+        delimiter = ','
+
+        # check file and get file handle
+        usercsv = check_file(self, userfile, quotechar, delimiter)
+
+        # if no file handle was returned
+        if not usercsv:
+            # return
+            return
+
         # try to get group
         try:
             group = Group.objects.get(name=groupname)
@@ -43,47 +57,6 @@ class Command(BaseCommand):
             self.stdout.write(self.style.ERROR(f'Group "{groupname}" does not exist.'))
             # return (group does not exist)
             return
-
-        # try to open file
-        try:
-            # open file
-            usercsv = open(userfile)
-
-        # file does not exist
-        except FileNotFoundError:
-            # write message to stdout
-            self.stdout.write(self.style.ERROR(f'File "{userfile}" does not exist.'))
-            # return (file does not exist)
-            return
-
-        # TODO: [code] remove hardcoded arguments
-        quotechar = "'"
-        delimiter = ','
-
-        # read rows out of csv
-        rows = csv.reader(usercsv, delimiter=delimiter, quotechar=quotechar)
-
-        try:
-            # try to iterate over rows
-            for row in rows:
-                # do nothing
-                pass
-
-        # wrong file type
-        except UnicodeDecodeError:
-
-            # write message to stdout
-            self.stdout.write(
-                self.style.ERROR(
-                    f'File "{userfile}" does not seem to be a valid CSV file.'
-                )
-            )
-
-            # return (wrong file type)
-            return
-
-        # jump to begin of file again after iterating in file check
-        usercsv.seek(0)
 
         # read rows out of csv
         rows = csv.reader(usercsv, delimiter=delimiter, quotechar=quotechar)
@@ -96,15 +69,26 @@ class Command(BaseCommand):
 
             # try to get user
             try:
+                # get user
                 user = User.objects.get(username=username_from_row)
-                # add user to group
-                group.user_set.add(user)
-                # write message to stdout
-                self.stdout.write(
-                    self.style.SUCCESS(
-                        f'User "{username_from_row}" successfully added to group "{groupname}".'
+                # check if user already is member of group
+                if user.groups.filter(name=groupname).exists():
+                    # write message to stdout
+                    self.stdout.write(
+                        self.style.WARNING(
+                            f'User "{username_from_row}" is already member of group "{groupname}".'
+                        )
                     )
-                )
+                # user is not member of group
+                else:
+                    # add user to group
+                    group.user_set.add(user)
+                    # write message to stdout
+                    self.stdout.write(
+                        self.style.SUCCESS(
+                            f'User "{username_from_row}" successfully added to group "{groupname}".'
+                        )
+                    )
             # user does not exist
             except User.DoesNotExist:
                 # write message to stdout

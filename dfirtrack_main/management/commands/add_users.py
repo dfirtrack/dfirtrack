@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
 from django.db.utils import IntegrityError
 
+from dfirtrack_main.management.commands.check_file import check_file
+
 
 class Command(BaseCommand):
     '''add users from file'''
@@ -38,46 +40,17 @@ class Command(BaseCommand):
         # get filename from argument (type list)
         is_staff = options['is_staff']
 
-        # try to open file
-        try:
-            # open file
-            usercsv = open(userfile)
-
-        # file does not exist
-        except FileNotFoundError:
-            # write message to stdout
-            self.stdout.write(self.style.ERROR(f'File "{userfile}" does not exist.'))
-            # return (file does not exist)
-            return
-
         # TODO: [code] remove hardcoded arguments
         quotechar = "'"
         delimiter = ','
 
-        # read rows out of csv
-        rows = csv.reader(usercsv, delimiter=delimiter, quotechar=quotechar)
+        # check file and get file handle
+        usercsv = check_file(self, userfile, quotechar, delimiter)
 
-        try:
-            # try to iterate over rows
-            for row in rows:
-                # do nothing
-                pass
-
-        # wrong file type
-        except UnicodeDecodeError:
-
-            # write message to stdout
-            self.stdout.write(
-                self.style.ERROR(
-                    f'File "{userfile}" does not seem to be a valid CSV file.'
-                )
-            )
-
-            # return (wrong file type)
+        # if no file handle was returned
+        if not usercsv:
+            # return
             return
-
-        # jump to begin of file again after iterating in file check
-        usercsv.seek(0)
 
         # read rows out of csv
         rows = csv.reader(usercsv, delimiter=delimiter, quotechar=quotechar)
@@ -88,6 +61,8 @@ class Command(BaseCommand):
             # get values from CSV
             username_from_row = row[0]
             password_from_row = row[1]
+
+            # TODO: [code] add tests for invalid usernames and passwords
 
             # try to create user
             try:
@@ -113,7 +88,9 @@ class Command(BaseCommand):
             except IntegrityError:
                 # write message to stdout
                 self.stdout.write(
-                    self.style.ERROR(f'User "{username_from_row}" already exists.')
+                    self.style.WARNING(
+                        f'User "{username_from_row}" already exists (password not changed).'
+                    )
                 )
 
         # close file
