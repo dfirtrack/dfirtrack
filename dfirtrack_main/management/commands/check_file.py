@@ -35,7 +35,7 @@ def check_file(self, importfile, delimiter, quotechar):
         importcsv = open(importfile)
 
     # file does not exist
-    except FileNotFoundError:
+    except FileNotFoundError:  # coverage: ignore branch
         # write message to stdout
         self.stdout.write(self.style.ERROR(f'File "{importfile}" does not exist.'))
         # return (file does not exist)

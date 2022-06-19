@@ -2,6 +2,7 @@ import csv
 
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
+from django.db import transaction
 from django.db.utils import DataError, IntegrityError
 
 from dfirtrack_main.management.commands.check_file import check_file
@@ -105,11 +106,13 @@ class Command(BaseCommand):
 
             # try to create user
             try:
-                User.objects.create_user(
-                    username=username_from_row,
-                    password=password_from_row,
-                    is_staff=is_staff,
-                )
+                # atomic transaction needed for tests in combination with forced exception
+                with transaction.atomic():
+                    User.objects.create_user(
+                        username=username_from_row,
+                        password=password_from_row,
+                        is_staff=is_staff,
+                    )
                 # write message to stdout
                 if is_staff:
                     self.stdout.write(
