@@ -21,14 +21,33 @@ class Command(BaseCommand):
             'userfile',
             nargs=1,
             type=str,
-            help='A comma-seperated CSV file containing user names and passwords (<USER>,<PASSWORD>).',
+            help='A CSV file containing user names and passwords (<USER>,<PASSWORD>).',
         )
 
         # is_staff switch (boolean)
         parser.add_argument(
+            '-s',
             '--is_staff',
             action='store_true',
             help='Designates whether the users can access the admin site.',
+        )
+
+        # delimiter (choice)
+        parser.add_argument(
+            '-d',
+            '--delimiter',
+            choices=['COMMA', 'SEMICOLON', 'PIPE'],
+            type=str,
+            help='Delimiter used in CSV file (defaults to "COMMA").',
+        )
+
+        # quotechar (choice)
+        parser.add_argument(
+            '-q',
+            '--quotechar',
+            choices=['SINGLE', 'DOUBLE'],
+            type=str,
+            help='Quotechar used in CSV file (defaults to "SINGLE").',
         )
 
     def handle(self, *args, **options):
@@ -37,15 +56,37 @@ class Command(BaseCommand):
         # get filename from argument (type list)
         userfile = options['userfile'][0]
 
-        # get filename from argument (type list)
+        # get filename from argument (type boolean)
         is_staff = options['is_staff']
 
-        # TODO: [code] remove hardcoded arguments
-        quotechar = "'"
-        delimiter = ','
+        # get delimiter
+        delimiter = options['delimiter']
+
+        # get quotechar
+        quotechar = options['quotechar']
+
+        # define delimiter
+        if delimiter:
+            if delimiter == 'COMMA':
+                delimiter = ','
+            if delimiter == 'SEMICOLON':
+                delimiter = ';'
+            if delimiter == 'PIPE':
+                delimiter = '|'
+        else:
+            delimiter = ','
+
+        # get quotechar
+        if quotechar:
+            if quotechar == 'SINGLE':
+                quotechar = "'"
+            if quotechar == 'DOUBLE':
+                quotechar = '"'
+        else:
+            quotechar = "'"
 
         # check file and get file handle
-        usercsv = check_file(self, userfile, quotechar, delimiter)
+        usercsv = check_file(self, userfile, delimiter, quotechar)
 
         # if no file handle was returned
         if not usercsv:

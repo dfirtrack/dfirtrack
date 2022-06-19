@@ -20,12 +20,30 @@ class Command(BaseCommand):
             'userfile',
             nargs=1,
             type=str,
-            help='A comma-seperated CSV file containing user names in first column.',
+            help='A CSV file containing user names in first column.',
         )
 
         # group name (string)
         parser.add_argument(
             'groupname', nargs=1, type=str, help='The group name to add the users.'
+        )
+
+        # delimiter (choice)
+        parser.add_argument(
+            '-d',
+            '--delimiter',
+            choices=['COMMA', 'SEMICOLON', 'PIPE'],
+            type=str,
+            help='Delimiter used in CSV file (defaults to "COMMA").',
+        )
+
+        # quotechar (choice)
+        parser.add_argument(
+            '-q',
+            '--quotechar',
+            choices=['SINGLE', 'DOUBLE'],
+            type=str,
+            help='Quotechar used in CSV file (defaults to "SINGLE").',
         )
 
     def handle(self, *args, **options):
@@ -37,12 +55,34 @@ class Command(BaseCommand):
         # get group from argument (type list)
         groupname = options['groupname'][0]
 
-        # TODO: [code] remove hardcoded arguments
-        quotechar = "'"
-        delimiter = ','
+        # get delimiter
+        delimiter = options['delimiter']
+
+        # get quotechar
+        quotechar = options['quotechar']
+
+        # define delimiter
+        if delimiter:
+            if delimiter == 'COMMA':
+                delimiter = ','
+            if delimiter == 'SEMICOLON':
+                delimiter = ';'
+            if delimiter == 'PIPE':
+                delimiter = '|'
+        else:
+            delimiter = ','
+
+        # get quotechar
+        if quotechar:
+            if quotechar == 'SINGLE':
+                quotechar = "'"
+            if quotechar == 'DOUBLE':
+                quotechar = '"'
+        else:
+            quotechar = "'"
 
         # check file and get file handle
-        usercsv = check_file(self, userfile, quotechar, delimiter)
+        usercsv = check_file(self, userfile, delimiter, quotechar)
 
         # if no file handle was returned
         if not usercsv:

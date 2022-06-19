@@ -2,7 +2,7 @@ import csv
 import os
 
 
-def check_file(self, importfile, quotechar, delimiter):
+def check_file(self, importfile, delimiter, quotechar):
 
     '''file system checks'''
 
