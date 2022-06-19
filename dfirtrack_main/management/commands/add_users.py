@@ -2,7 +2,7 @@ import csv
 
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
-from django.db.utils import IntegrityError
+from django.db.utils import DataError, IntegrityError
 
 from dfirtrack_main.management.commands.check_file import check_file
 
@@ -62,8 +62,6 @@ class Command(BaseCommand):
             username_from_row = row[0]
             password_from_row = row[1]
 
-            # TODO: [code] add tests for invalid usernames and passwords
-
             # try to create user
             try:
                 User.objects.create_user(
@@ -91,6 +89,12 @@ class Command(BaseCommand):
                     self.style.WARNING(
                         f'User "{username_from_row}" already exists (password not changed).'
                     )
+                )
+            # username invalid
+            except DataError:
+                # write message to stdout
+                self.stdout.write(
+                    self.style.ERROR(f'Username "{username_from_row}" is invalid.')
                 )
 
         # close file
