@@ -5,7 +5,7 @@ from django.core.management.base import BaseCommand
 from django.db import transaction
 from django.db.utils import DataError, IntegrityError
 
-from dfirtrack_main.management.commands.check_file import check_file
+from dfirtrack_main.management.commands._check_file import check_file
 
 
 class Command(BaseCommand):
