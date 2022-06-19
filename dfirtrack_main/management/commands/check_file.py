@@ -6,13 +6,11 @@ def check_file(self, importfile, delimiter, quotechar):
 
     '''file system checks'''
 
-    # no read permission
-    if not os.access(importfile, os.R_OK):
+    # file does not exist (has to be checked before the other checks)
+    if not os.path.isfile(importfile):
         # write message to stdout
-        self.stdout.write(
-            self.style.ERROR(f'No read permission for file "{importfile}".')
-        )
-        # return (no read permission))
+        self.stdout.write(self.style.ERROR(f'File "{importfile}" does not exist.'))
+        # return (file does not exist)
         return None
 
     # file is empty
@@ -20,6 +18,15 @@ def check_file(self, importfile, delimiter, quotechar):
         # write message to stdout
         self.stdout.write(self.style.ERROR(f'File "{importfile}" is empty.'))
         # return (file is empty)
+        return None
+
+    # no read permission
+    if not os.access(importfile, os.R_OK):
+        # write message to stdout
+        self.stdout.write(
+            self.style.ERROR(f'No read permission for file "{importfile}".')
+        )
+        # return (no read permission))
         return None
 
     # try to open file
