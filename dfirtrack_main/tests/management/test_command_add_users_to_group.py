@@ -26,7 +26,7 @@ class CommandAddUsersToGroupTestCase(TestCase):
         call_command('add_users_to_group', importfile, groupname, stdout=out)
         # compare
         self.assertIn(
-            f'\x1b[31;1mFile "{importfile}" does not seem to be a valid CSV file.\x1b[0m\n',
+            f'File "{importfile}" does not seem to be a valid CSV file.',
             out.getvalue(),
         )
 
@@ -42,9 +42,7 @@ class CommandAddUsersToGroupTestCase(TestCase):
         # call command
         call_command('add_users_to_group', importfile, groupname, stdout=out)
         # compare
-        self.assertIn(
-            f'\x1b[31;1mFile "{importfile}" is empty.\x1b[0m\n', out.getvalue()
-        )
+        self.assertIn(f'File "{importfile}" is empty.', out.getvalue())
 
     def test_command_add_users_to_group_file_archive(self):
         """test command"""
@@ -59,7 +57,7 @@ class CommandAddUsersToGroupTestCase(TestCase):
         call_command('add_users_to_group', importfile, groupname, stdout=out)
         # compare
         self.assertIn(
-            f'\x1b[31;1mFile "{importfile}" does not seem to be a valid CSV file.\x1b[0m\n',
+            f'File "{importfile}" does not seem to be a valid CSV file.',
             out.getvalue(),
         )
 
@@ -87,7 +85,7 @@ class CommandAddUsersToGroupTestCase(TestCase):
         call_command('add_users_to_group', importfile, groupname, stdout=out)
         # compare
         self.assertIn(
-            f'\x1b[31;1mNo read permission for file "{importfile}".\x1b[0m\n',
+            f'No read permission for file "{importfile}".',
             out.getvalue(),
         )
 
@@ -103,9 +101,7 @@ class CommandAddUsersToGroupTestCase(TestCase):
         # call command
         call_command('add_users_to_group', importfile, groupname, stdout=out)
         # compare
-        self.assertEquals(
-            f'\x1b[31;1mFile "{importfile}" does not exist.\x1b[0m\n', out.getvalue()
-        )
+        self.assertIn(f'File "{importfile}" does not exist.', out.getvalue())
 
     def test_command_add_users_to_group_group_not_existent(self):
         """test command"""
@@ -119,9 +115,7 @@ class CommandAddUsersToGroupTestCase(TestCase):
         # call command
         call_command('add_users_to_group', importfile, groupname, stdout=out)
         # compare
-        self.assertEquals(
-            f'\x1b[31;1mGroup "{groupname}" does not exist.\x1b[0m\n', out.getvalue()
-        )
+        self.assertIn(f'Group "{groupname}" does not exist.', out.getvalue())
 
     def test_command_add_users_to_group(self):
         """test command"""
@@ -150,16 +144,14 @@ class CommandAddUsersToGroupTestCase(TestCase):
         call_command('add_users_to_group', importfile, groupname, stdout=out)
         # compare
         self.assertIn(
-            f'\x1b[32;1mUser "user_211" successfully added to group "{groupname}".\x1b[0m\n',
+            f'User "user_211" successfully added to group "{groupname}".',
             out.getvalue(),
         )
         self.assertIn(
-            f'\x1b[33;1mUser "user_212" is already member of group "{groupname}".\x1b[0m\n',
+            f'User "user_212" is already member of group "{groupname}".',
             out.getvalue(),
         )
-        self.assertIn(
-            '\x1b[31;1mUser "user_213" does not exist.\x1b[0m\n', out.getvalue()
-        )
+        self.assertIn('User "user_213" does not exist.', out.getvalue())
         self.assertTrue(user_211.groups.filter(name=groupname).exists())
         self.assertTrue(user_212.groups.filter(name=groupname).exists())
 
@@ -191,11 +183,11 @@ class CommandAddUsersToGroupTestCase(TestCase):
         call_command('add_users_to_group', *args, **opts, stdout=out)
         # compare
         self.assertIn(
-            f'\x1b[32;1mUser "user_031" successfully added to group "{groupname}".\x1b[0m\n',
+            f'User "user_031" successfully added to group "{groupname}".',
             out.getvalue(),
         )
         self.assertIn(
-            f'\x1b[32;1mUser "user_032" successfully added to group "{groupname}".\x1b[0m\n',
+            f'User "user_032" successfully added to group "{groupname}".',
             out.getvalue(),
         )
         self.assertTrue(user_031.groups.filter(name=groupname).exists())
@@ -229,11 +221,11 @@ class CommandAddUsersToGroupTestCase(TestCase):
         call_command('add_users_to_group', *args, **opts, stdout=out)
         # compare
         self.assertIn(
-            f'\x1b[32;1mUser "user_041" successfully added to group "{groupname}".\x1b[0m\n',
+            f'User "user_041" successfully added to group "{groupname}".',
             out.getvalue(),
         )
         self.assertIn(
-            f'\x1b[32;1mUser "user_042" successfully added to group "{groupname}".\x1b[0m\n',
+            f'User "user_042" successfully added to group "{groupname}".',
             out.getvalue(),
         )
         self.assertTrue(user_041.groups.filter(name=groupname).exists())
@@ -267,11 +259,11 @@ class CommandAddUsersToGroupTestCase(TestCase):
         call_command('add_users_to_group', *args, **opts, stdout=out)
         # compare
         self.assertIn(
-            f'\x1b[32;1mUser "user_051" successfully added to group "{groupname}".\x1b[0m\n',
+            f'User "user_051" successfully added to group "{groupname}".',
             out.getvalue(),
         )
         self.assertIn(
-            f'\x1b[32;1mUser "user_052" successfully added to group "{groupname}".\x1b[0m\n',
+            f'User "user_052" successfully added to group "{groupname}".',
             out.getvalue(),
         )
         self.assertTrue(user_051.groups.filter(name=groupname).exists())
@@ -305,11 +297,11 @@ class CommandAddUsersToGroupTestCase(TestCase):
         call_command('add_users_to_group', *args, **opts, stdout=out)
         # compare
         self.assertIn(
-            f'\x1b[32;1mUser "user_061" successfully added to group "{groupname}".\x1b[0m\n',
+            f'User "user_061" successfully added to group "{groupname}".',
             out.getvalue(),
         )
         self.assertIn(
-            f'\x1b[32;1mUser "user_062" successfully added to group "{groupname}".\x1b[0m\n',
+            f'User "user_062" successfully added to group "{groupname}".',
             out.getvalue(),
         )
         self.assertTrue(user_061.groups.filter(name=groupname).exists())
@@ -343,11 +335,11 @@ class CommandAddUsersToGroupTestCase(TestCase):
         call_command('add_users_to_group', *args, **opts, stdout=out)
         # compare
         self.assertIn(
-            f'\x1b[32;1mUser "user_071" successfully added to group "{groupname}".\x1b[0m\n',
+            f'User "user_071" successfully added to group "{groupname}".',
             out.getvalue(),
         )
         self.assertIn(
-            f'\x1b[32;1mUser "user_072" successfully added to group "{groupname}".\x1b[0m\n',
+            f'User "user_072" successfully added to group "{groupname}".',
             out.getvalue(),
         )
         self.assertTrue(user_071.groups.filter(name=groupname).exists())

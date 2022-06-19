@@ -24,7 +24,7 @@ class CommandAddUsersTestCase(TestCase):
         call_command('add_users', importfile, stdout=out)
         # compare
         self.assertIn(
-            f'\x1b[31;1mFile "{importfile}" does not seem to be a valid CSV file.\x1b[0m\n',
+            f'File "{importfile}" does not seem to be a valid CSV file.',
             out.getvalue(),
         )
 
@@ -38,9 +38,7 @@ class CommandAddUsersTestCase(TestCase):
         # call command
         call_command('add_users', importfile, stdout=out)
         # compare
-        self.assertIn(
-            f'\x1b[31;1mFile "{importfile}" is empty.\x1b[0m\n', out.getvalue()
-        )
+        self.assertIn(f'File "{importfile}" is empty.', out.getvalue())
 
     def test_command_add_users_file_archive(self):
         """test command"""
@@ -53,7 +51,7 @@ class CommandAddUsersTestCase(TestCase):
         call_command('add_users', importfile, stdout=out)
         # compare
         self.assertIn(
-            f'\x1b[31;1mFile "{importfile}" does not seem to be a valid CSV file.\x1b[0m\n',
+            f'File "{importfile}" does not seem to be a valid CSV file.',
             out.getvalue(),
         )
 
@@ -79,7 +77,7 @@ class CommandAddUsersTestCase(TestCase):
         call_command('add_users', importfile, stdout=out)
         # compare
         self.assertIn(
-            f'\x1b[31;1mNo read permission for file "{importfile}".\x1b[0m\n',
+            f'No read permission for file "{importfile}".',
             out.getvalue(),
         )
 
@@ -93,9 +91,7 @@ class CommandAddUsersTestCase(TestCase):
         # call command
         call_command('add_users', importfile, stdout=out)
         # compare
-        self.assertEquals(
-            f'\x1b[31;1mFile "{importfile}" does not exist.\x1b[0m\n', out.getvalue()
-        )
+        self.assertIn(f'File "{importfile}" does not exist.', out.getvalue())
 
     def test_command_add_users(self):
         """test command"""
@@ -115,19 +111,13 @@ class CommandAddUsersTestCase(TestCase):
         # create long user name string
         username = 'u' * 151
         # compare
+        self.assertIn('User "user_011" successfully created.', out.getvalue())
+        self.assertIn('User "user_012" successfully created.', out.getvalue())
         self.assertIn(
-            '\x1b[32;1mUser "user_011" successfully created.\x1b[0m\n', out.getvalue()
-        )
-        self.assertIn(
-            '\x1b[32;1mUser "user_012" successfully created.\x1b[0m\n', out.getvalue()
-        )
-        self.assertIn(
-            '\x1b[33;1mUser "user_013" already exists (password not changed).\x1b[0m\n',
+            'User "user_013" already exists (password not changed).',
             out.getvalue(),
         )
-        self.assertIn(
-            f'\x1b[31;1mUsername "{username}" is invalid.\x1b[0m\n', out.getvalue()
-        )
+        self.assertIn(f'Username "{username}" is invalid.', out.getvalue())
         self.assertTrue(User.objects.filter(username='user_011').exists())
         self.assertTrue(User.objects.filter(username='user_012').exists())
         self.assertTrue(User.objects.filter(username='user_013').exists())
@@ -152,15 +142,15 @@ class CommandAddUsersTestCase(TestCase):
         call_command('add_users', *args, **opts, stdout=out)
         # compare
         self.assertIn(
-            '\x1b[32;1mUser "user_021" successfully created and added to staff.\x1b[0m\n',
+            'User "user_021" successfully created and added to staff.',
             out.getvalue(),
         )
         self.assertIn(
-            '\x1b[32;1mUser "user_022" successfully created and added to staff.\x1b[0m\n',
+            'User "user_022" successfully created and added to staff.',
             out.getvalue(),
         )
         self.assertIn(
-            '\x1b[33;1mUser "user_023" already exists (password not changed).\x1b[0m\n',
+            'User "user_023" already exists (password not changed).',
             out.getvalue(),
         )
         self.assertTrue(User.objects.filter(username='user_021').exists())
@@ -186,12 +176,8 @@ class CommandAddUsersTestCase(TestCase):
         # call command
         call_command('add_users', *args, **opts, stdout=out)
         # compare
-        self.assertIn(
-            '\x1b[32;1mUser "user_031" successfully created.\x1b[0m\n', out.getvalue()
-        )
-        self.assertIn(
-            '\x1b[32;1mUser "user_032" successfully created.\x1b[0m\n', out.getvalue()
-        )
+        self.assertIn('User "user_031" successfully created.', out.getvalue())
+        self.assertIn('User "user_032" successfully created.', out.getvalue())
         self.assertTrue(User.objects.filter(username='user_031').exists())
         self.assertTrue(User.objects.filter(username='user_032').exists())
 
@@ -211,12 +197,8 @@ class CommandAddUsersTestCase(TestCase):
         # call command
         call_command('add_users', *args, **opts, stdout=out)
         # compare
-        self.assertIn(
-            '\x1b[32;1mUser "user_041" successfully created.\x1b[0m\n', out.getvalue()
-        )
-        self.assertIn(
-            '\x1b[32;1mUser "user_042" successfully created.\x1b[0m\n', out.getvalue()
-        )
+        self.assertIn('User "user_041" successfully created.', out.getvalue())
+        self.assertIn('User "user_042" successfully created.', out.getvalue())
         self.assertTrue(User.objects.filter(username='user_041').exists())
         self.assertTrue(User.objects.filter(username='user_042').exists())
 
@@ -236,12 +218,8 @@ class CommandAddUsersTestCase(TestCase):
         # call command
         call_command('add_users', *args, **opts, stdout=out)
         # compare
-        self.assertIn(
-            '\x1b[32;1mUser "user_051" successfully created.\x1b[0m\n', out.getvalue()
-        )
-        self.assertIn(
-            '\x1b[32;1mUser "user_052" successfully created.\x1b[0m\n', out.getvalue()
-        )
+        self.assertIn('User "user_051" successfully created.', out.getvalue())
+        self.assertIn('User "user_052" successfully created.', out.getvalue())
         self.assertTrue(User.objects.filter(username='user_051').exists())
         self.assertTrue(User.objects.filter(username='user_052').exists())
 
@@ -261,12 +239,8 @@ class CommandAddUsersTestCase(TestCase):
         # call command
         call_command('add_users', *args, **opts, stdout=out)
         # compare
-        self.assertIn(
-            '\x1b[32;1mUser "user_061" successfully created.\x1b[0m\n', out.getvalue()
-        )
-        self.assertIn(
-            '\x1b[32;1mUser "user_062" successfully created.\x1b[0m\n', out.getvalue()
-        )
+        self.assertIn('User "user_061" successfully created.', out.getvalue())
+        self.assertIn('User "user_062" successfully created.', out.getvalue())
         self.assertTrue(User.objects.filter(username='user_061').exists())
         self.assertTrue(User.objects.filter(username='user_062').exists())
 
@@ -286,11 +260,7 @@ class CommandAddUsersTestCase(TestCase):
         # call command
         call_command('add_users', *args, **opts, stdout=out)
         # compare
-        self.assertIn(
-            '\x1b[32;1mUser "user_071" successfully created.\x1b[0m\n', out.getvalue()
-        )
-        self.assertIn(
-            '\x1b[32;1mUser "user_072" successfully created.\x1b[0m\n', out.getvalue()
-        )
+        self.assertIn('User "user_071" successfully created.', out.getvalue())
+        self.assertIn('User "user_072" successfully created.', out.getvalue())
         self.assertTrue(User.objects.filter(username='user_071').exists())
         self.assertTrue(User.objects.filter(username='user_072').exists())
