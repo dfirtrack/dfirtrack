@@ -26,6 +26,21 @@ from dfirtrack_main.models import (
 )
 
 
+@login_required(login_url="/login")
+def system_update_form_dispatcher(request):
+    """ redirect system update form according to config """
+
+    # get config
+    model = MainConfigModel.objects.get(main_config_name='MainConfig')
+
+    # system name is editable
+    if model.system_name_editable:
+        return redirect(reverse('system_list'))
+    # system name is not editable
+    else:
+        return redirect(reverse('system_list'))
+
+
 def query_artifact(artifactstatus_list, system):
     """query artifacts with a list of specific artifactstatus"""
 
@@ -350,6 +365,11 @@ class SystemCreate(LoginRequiredMixin, CreateView):
         else:
             return render(request, self.template_name, {'form': form})
 
+class SystemNameEditableUpdate(LoginRequiredMixin, UpdateView):
+        form_class = SystemNameForm
+
+class SystemNameFixedUpdate(LoginRequiredMixin, UpdateView):
+        form_class = SystemForm
 
 class SystemUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
