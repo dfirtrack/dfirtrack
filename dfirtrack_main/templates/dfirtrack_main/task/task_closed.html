@@ -26,33 +26,41 @@
 <div class="row bottom-distance">
     <div class="col-3">
         <h5>
+            <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon right-distance copy-false" alt="icon">
             Closed tasks
         </h5>
     </div>
-
-    <!-- headline button -->
-    {% include "dfirtrack_main/includes/menu_top_task.html" %}
-
 <!-- headline -->
 </div>
 
-<!-- datatable task closed -->
-<table id="table_task" class="display" width="100%">
+<div class="card bg-dark tab-card mb-3">
 
-    <!-- table head -->
-    <thead>
-        {% include "dfirtrack_main/includes/datatable_thead_table_task.html" %}
-    </thead>
+    <div class="card-header">
+         <!-- headline button -->
+        {% include "dfirtrack_main/includes/menu_top_task.html" %}
+    </div>
 
-    <!-- table body -->
-    <tbody>
-        {% for i in task_list %}
-            {% include "dfirtrack_main/includes/datatable_tbody_table_task.html" %}
-        {% endfor %}
-    </tbody>
+    <!-- task card table -->
+    <div class="card-body bg-dark">
+        <!-- datatable task closed -->
+        <table id="table_task" class="display" width="100%">
 
-<!-- datatable task closed -->
-</table>
+            <!-- table head -->
+            <thead>
+                {% include "dfirtrack_main/includes/datatable_thead_table_task.html" %}
+            </thead>
+
+            <!-- table body -->
+            <tbody>
+                {% for i in task_list %}
+                    {% include "dfirtrack_main/includes/datatable_tbody_table_task.html" %}
+                {% endfor %}
+            </tbody>
+
+        <!-- datatable task closed -->
+        </table>
+    </div>
+</div>
 
 <!-- javascript for datatables -->
 <script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>

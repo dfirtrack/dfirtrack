@@ -27,8 +27,7 @@ class DocumentationList(LoginRequiredMixin, FormView):
 
         # get config
         user_config, created = UserConfigModel.objects.get_or_create(
-            user_config_username=self.request.user,
-            filter_view=self.filter_view
+            user_config_username=self.request.user, filter_view=self.filter_view
         )
 
         """form preparation / filter"""
@@ -45,7 +44,7 @@ class DocumentationList(LoginRequiredMixin, FormView):
             case_id = user_config.filter_list_case.case_id
             # filter objects
             note_query = note_query.filter(case=case_id)
-            reportitem_query = reportitem_query.filter(case=case_id)            
+            reportitem_query = reportitem_query.filter(case=case_id)
 
         # get notestatus from config
         if user_config.filter_list_status:
@@ -53,7 +52,7 @@ class DocumentationList(LoginRequiredMixin, FormView):
             notestatus_id = user_config.filter_list_status.notestatus_id
             # filter objects
             note_query = note_query.filter(notestatus=notestatus_id)
-            reportitem_query = reportitem_query.filter(notestatus=notestatus_id)    
+            reportitem_query = reportitem_query.filter(notestatus=notestatus_id)
 
         # get tag from config
         if user_config.filter_list_tag.count() > 0:
@@ -79,12 +78,11 @@ class DocumentationList(LoginRequiredMixin, FormView):
 
         # return objects to template
         return context
-    
+
     def post(self, request, *args, **kwargs):
         """save form data to config and call view again"""
         user_config, created = UserConfigModel.objects.get_or_create(
-            user_config_username=request.user,
-            filter_view=self.filter_view
+            user_config_username=request.user, filter_view=self.filter_view
         )
 
         form = self.form_class(request.POST, instance=user_config)
@@ -104,8 +102,7 @@ def clear_documentation_list_filter(request):
 
     # get config
     user_config, created = UserConfigModel.objects.get_or_create(
-        user_config_username=request.user,
-        filter_view='documentation'
+        user_config_username=request.user, filter_view='documentation'
     )
 
     # clear values

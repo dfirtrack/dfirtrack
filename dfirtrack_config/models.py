@@ -570,15 +570,10 @@ class UserConfigModel(models.Model):
     )
 
     # filter settings - view
-    filter_view = models.CharField(
-        max_length=50, blank=False
-    )
+    filter_view = models.CharField(max_length=50, blank=False)
 
     # filter setting - shows
-    filter_view_show = models.JSONField(
-        blank=True,
-        null=True
-    )
+    filter_view_show = models.JSONField(blank=True, null=True)
 
     # filter settings - list views
     filter_list_case = models.ForeignKey(
@@ -591,9 +586,7 @@ class UserConfigModel(models.Model):
 
     # filter settings - list views
     filter_list_tag = models.ManyToManyField(
-        'dfirtrack_main.Tag',
-        related_name='filter_list_tag',
-        blank=True
+        'dfirtrack_main.Tag', related_name='filter_list_tag', blank=True
     )
 
     # filter settings - list views
@@ -607,19 +600,13 @@ class UserConfigModel(models.Model):
 
     # filter settings - list views generic status
     content_type = models.ForeignKey(
-        ContentType, 
-        on_delete=models.CASCADE,
-        blank=True,
-        null=True
+        ContentType, on_delete=models.CASCADE, blank=True, null=True
     )
 
-    object_id = models.PositiveIntegerField(
-        blank=True,
-        null=True
-    )
+    object_id = models.PositiveIntegerField(blank=True, null=True)
 
     filter_list_status = GenericForeignKey(
-        'content_type', 
+        'content_type',
         'object_id',
     )
 

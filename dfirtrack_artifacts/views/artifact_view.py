@@ -2,14 +2,14 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
-from django.urls import reverse, resolve
+from django.urls import resolve, reverse
 from django.views.generic import CreateView, DetailView, FormView, ListView, UpdateView
 
 from dfirtrack_artifacts.forms import ArtifactForm
 from dfirtrack_artifacts.models import Artifact, Artifactpriority, Artifactstatus
 from dfirtrack_config.models import MainConfigModel, UserConfigModel
-from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.filter_forms import GeneralFilterForm
+from dfirtrack_main.logger.default_logger import debug_logger
 
 
 class ArtifactListView(LoginRequiredMixin, FormView):
@@ -20,13 +20,12 @@ class ArtifactListView(LoginRequiredMixin, FormView):
     form_class = GeneralFilterForm
     filter_view = 'artifact_list'
 
-    def get_context_data(self, **kwargs) :
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
         # get config
         user_config, created = UserConfigModel.objects.get_or_create(
-            user_config_username=self.request.user,
-            filter_view=self.filter_view
+            user_config_username=self.request.user, filter_view=self.filter_view
         )
 
         # filter: pre-select form according to previous filter selection
@@ -47,12 +46,11 @@ class ArtifactListView(LoginRequiredMixin, FormView):
             debug_logger(str(self.request.user), ' ARTIFACT_ALL_ENTERED')
             context['artifact_site'] = 'all'
         return context
-    
+
     def post(self, request, *args, **kwargs):
         """save form data to config and call view again"""
         user_config, created = UserConfigModel.objects.get_or_create(
-            user_config_username=request.user,
-            filter_view=self.filter_view
+            user_config_username=request.user, filter_view=self.filter_view
         )
 
         form = self.form_class(request.POST, instance=user_config)
@@ -63,7 +61,9 @@ class ArtifactListView(LoginRequiredMixin, FormView):
             form.save_m2m()
 
         # call view again
-        return redirect(reverse('artifact_list'))
+        request.get_full_path()
+        return redirect(request.get_full_path())
+
 
 class ArtifactDetailView(LoginRequiredMixin, DetailView):
     login_url = '/login'
@@ -198,14 +198,14 @@ class ArtifactUnsetUser(LoginRequiredMixin, UpdateView):
             reverse('artifacts_artifact_detail', args=(artifact.artifact_id,))
         )
 
+
 @login_required(login_url="/login")
 def clear_artifact_list_filter(request):
     """clear system list filter"""
 
     # get config
     user_config, created = UserConfigModel.objects.get_or_create(
-        user_config_username=request.user,
-        filter_view='artifact_list'
+        user_config_username=request.user, filter_view='artifact_list'
     )
 
     # clear values
