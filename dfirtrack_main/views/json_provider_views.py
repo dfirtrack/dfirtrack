@@ -1,12 +1,8 @@
-from tkinter import NONE
-from xml.sax import make_parser
-
 from django.contrib.auth.decorators import login_required
 from django.db.models import ForeignKey, Q
 from django.http import JsonResponse
 from django.template.loader import render_to_string
 from django.templatetags.static import static
-from wcwidth import list_versions
 
 from dfirtrack_artifacts.models import Artifact
 from dfirtrack_config.models import MainConfigModel, UserConfigModel
@@ -36,7 +32,7 @@ def _filter(model, queryset, simple_filter_params, filter_params, request_user):
     and_filter_kwargs = dict()
     or_filter_kwargs = dict()
 
-    # create serach filter for every column of the model
+    # create search filter for every column of the model
     if search_value != '':
         # get entries from datatable data fields
         for entry in filter_params:
@@ -47,7 +43,7 @@ def _filter(model, queryset, simple_filter_params, filter_params, request_user):
                 if isinstance(model._meta.get_field(tmp_column_name), ForeignKey):
                     key = f'{tmp_column_name}__{tmp_column_name}_name__icontains'
                 else:
-                    # otherwise field contains insenstive
+                    # otherwise field contains insensitive
                     key = f'{tmp_column_name}__icontains'
 
                 # add search filter to or kwargs "name or status or etc."
@@ -153,7 +149,7 @@ def filter_system(request):
     }
     return JsonResponse(json_dict, safe=False)
 
-
+@login_required(login_url="/login")
 def filter_artifacts(request):
     model = Artifact
     queryset = Artifact.objects
