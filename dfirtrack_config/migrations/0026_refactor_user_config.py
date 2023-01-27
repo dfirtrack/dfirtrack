@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('contenttypes', '0002_remove_content_type_name'),
         ('dfirtrack_main', '0024_user_assignment'),
-        ('dfirtrack_config', '0024_system_list_toggle'),
+        ('dfirtrack_config', '0025_assigned_users_spreadsheet_export'),
     ]
 
     operations = [
