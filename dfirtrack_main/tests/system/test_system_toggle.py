@@ -11,19 +11,23 @@ def set_user_config_toogle_false(test_user):
     """set toggle flags in user config to false"""
 
     # get config
-    user_config = UserConfigModel.objects.get(user_config_username=test_user)
+    user_config, created = UserConfigModel.objects.get_or_create(
+        user_config_username=test_user, filter_view='system_detail'
+    )
     # set values
-    user_config.filter_system_detail_show_artifact = False
-    user_config.filter_system_detail_show_artifact_closed = False
-    user_config.filter_system_detail_show_task = False
-    user_config.filter_system_detail_show_task_closed = False
-    user_config.filter_system_detail_show_technical_information = False
-    user_config.filter_system_detail_show_timeline = False
-    user_config.filter_system_detail_show_virtualization_information = False
-    user_config.filter_system_detail_show_company_information = False
-    user_config.filter_system_detail_show_systemuser = False
-    user_config.filter_system_detail_show_analystmemo = False
-    user_config.filter_system_detail_show_reportitem = False
+    user_config.filter_view_show = {
+        'show_artifact': False,
+        'show_artifact_closed': False,
+        'show_task': False,
+        'show_task_closed': False,
+        'show_technical_information': False,
+        'show_timeline': False,
+        'show_virtualization_information': False,
+        'show_company_information': False,
+        'show_systemuser': False,
+        'show_analystmemo': False,
+        'show_reportitem': False,
+    }
     # save config
     user_config.save()
 
@@ -35,19 +39,23 @@ def set_user_config_toogle_true(test_user):
     """set toggle flags in user config to true"""
 
     # get config
-    user_config = UserConfigModel.objects.get(user_config_username=test_user)
+    user_config, created = UserConfigModel.objects.get_or_create(
+        user_config_username=test_user, filter_view='system_detail'
+    )
     # set values
-    user_config.filter_system_detail_show_artifact = True
-    user_config.filter_system_detail_show_artifact_closed = True
-    user_config.filter_system_detail_show_task = True
-    user_config.filter_system_detail_show_task_closed = True
-    user_config.filter_system_detail_show_technical_information = True
-    user_config.filter_system_detail_show_timeline = True
-    user_config.filter_system_detail_show_virtualization_information = True
-    user_config.filter_system_detail_show_company_information = True
-    user_config.filter_system_detail_show_systemuser = True
-    user_config.filter_system_detail_show_analystmemo = True
-    user_config.filter_system_detail_show_reportitem = True
+    user_config.filter_view_show = {
+        'show_artifact': True,
+        'show_artifact_closed': True,
+        'show_task': True,
+        'show_task_closed': True,
+        'show_technical_information': True,
+        'show_timeline': True,
+        'show_virtualization_information': True,
+        'show_company_information': True,
+        'show_systemuser': True,
+        'show_analystmemo': True,
+        'show_reportitem': True,
+    }
     # save config
     user_config.save()
 
@@ -67,7 +75,24 @@ class SystemToggleTestCase(TestCase):
         )
 
         # create config
-        UserConfigModel.objects.get_or_create(user_config_username=test_user)
+        user_config, created = UserConfigModel.objects.get_or_create(
+            user_config_username=test_user, filter_view='system_detail'
+        )
+        # set toggle default values
+        user_config.filter_view_show = {
+            'show_artifact': True,
+            'show_artifact_closed': False,
+            'show_task': True,
+            'show_task_closed': False,
+            'show_technical_information': False,
+            'show_timeline': False,
+            'show_virtualization_information': False,
+            'show_company_information': False,
+            'show_systemuser': False,
+            'show_analystmemo': False,
+            'show_reportitem': False,
+        }
+        user_config.save()
 
         # create object
         systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
@@ -156,7 +181,7 @@ class SystemToggleTestCase(TestCase):
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
-        self.assertTrue(user_config.filter_system_detail_show_artifact)
+        self.assertTrue(user_config.filter_view_show['show_artifact'])
         # reload system detail to get response context
         response = self.client.get(f'/system/{system_1.system_id}/')
         # compare
@@ -180,7 +205,7 @@ class SystemToggleTestCase(TestCase):
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
-        self.assertFalse(user_config.filter_system_detail_show_artifact)
+        self.assertFalse(user_config.filter_view_show['show_artifact'])
         # reload system detail to get response context
         response = self.client.get(f'/system/{system_1.system_id}/')
         # compare
@@ -266,7 +291,7 @@ class SystemToggleTestCase(TestCase):
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
-        self.assertTrue(user_config.filter_system_detail_show_artifact_closed)
+        self.assertTrue(user_config.filter_view_show['show_artifact_closed'])
         # reload system detail to get response context
         response = self.client.get(f'/system/{system_1.system_id}/')
         # compare
@@ -290,7 +315,7 @@ class SystemToggleTestCase(TestCase):
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
-        self.assertFalse(user_config.filter_system_detail_show_artifact_closed)
+        self.assertFalse(user_config.filter_view_show['show_artifact_closed'])
         # reload system detail to get response context
         response = self.client.get(f'/system/{system_1.system_id}/')
         # compare
@@ -372,7 +397,7 @@ class SystemToggleTestCase(TestCase):
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
-        self.assertTrue(user_config.filter_system_detail_show_task)
+        self.assertTrue(user_config.filter_view_show['show_task'])
         # reload system detail to get response context
         response = self.client.get(f'/system/{system_1.system_id}/')
         # compare
@@ -396,7 +421,7 @@ class SystemToggleTestCase(TestCase):
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
-        self.assertFalse(user_config.filter_system_detail_show_task)
+        self.assertFalse(user_config.filter_view_show['show_task'])
         # reload system detail to get response context
         response = self.client.get(f'/system/{system_1.system_id}/')
         # compare
@@ -478,7 +503,7 @@ class SystemToggleTestCase(TestCase):
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
-        self.assertTrue(user_config.filter_system_detail_show_task_closed)
+        self.assertTrue(user_config.filter_view_show['show_task_closed'])
         # reload system detail to get response context
         response = self.client.get(f'/system/{system_1.system_id}/')
         # compare
@@ -502,7 +527,7 @@ class SystemToggleTestCase(TestCase):
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
-        self.assertFalse(user_config.filter_system_detail_show_task_closed)
+        self.assertFalse(user_config.filter_view_show['show_task_closed'])
         # reload system detail to get response context
         response = self.client.get(f'/system/{system_1.system_id}/')
         # compare
@@ -588,7 +613,7 @@ class SystemToggleTestCase(TestCase):
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
-        self.assertTrue(user_config.filter_system_detail_show_technical_information)
+        self.assertTrue(user_config.filter_view_show['show_technical_information'])
         # reload system detail to get response context
         response = self.client.get(f'/system/{system_1.system_id}/')
         # compare
@@ -612,7 +637,7 @@ class SystemToggleTestCase(TestCase):
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
-        self.assertFalse(user_config.filter_system_detail_show_technical_information)
+        self.assertFalse(user_config.filter_view_show['show_technical_information'])
         # reload system detail to get response context
         response = self.client.get(f'/system/{system_1.system_id}/')
         # compare
@@ -694,7 +719,7 @@ class SystemToggleTestCase(TestCase):
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
-        self.assertTrue(user_config.filter_system_detail_show_timeline)
+        self.assertTrue(user_config.filter_view_show['show_timeline'])
         # reload system detail to get response context
         response = self.client.get(f'/system/{system_1.system_id}/')
         # compare
@@ -718,7 +743,7 @@ class SystemToggleTestCase(TestCase):
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
-        self.assertFalse(user_config.filter_system_detail_show_timeline)
+        self.assertFalse(user_config.filter_view_show['show_timeline'])
         # reload system detail to get response context
         response = self.client.get(f'/system/{system_1.system_id}/')
         # compare
@@ -807,9 +832,7 @@ class SystemToggleTestCase(TestCase):
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
-        self.assertTrue(
-            user_config.filter_system_detail_show_virtualization_information
-        )
+        self.assertTrue(user_config.filter_view_show['show_virtualization_information'])
         # reload system detail to get response context
         response = self.client.get(f'/system/{system_1.system_id}/')
         # compare
@@ -836,7 +859,7 @@ class SystemToggleTestCase(TestCase):
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
         self.assertFalse(
-            user_config.filter_system_detail_show_virtualization_information
+            user_config.filter_view_show['show_virtualization_information']
         )
         # reload system detail to get response context
         response = self.client.get(f'/system/{system_1.system_id}/')
@@ -923,7 +946,7 @@ class SystemToggleTestCase(TestCase):
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
-        self.assertTrue(user_config.filter_system_detail_show_company_information)
+        self.assertTrue(user_config.filter_view_show['show_company_information'])
         # reload system detail to get response context
         response = self.client.get(f'/system/{system_1.system_id}/')
         # compare
@@ -947,7 +970,7 @@ class SystemToggleTestCase(TestCase):
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
-        self.assertFalse(user_config.filter_system_detail_show_company_information)
+        self.assertFalse(user_config.filter_view_show['show_company_information'])
         # reload system detail to get response context
         response = self.client.get(f'/system/{system_1.system_id}/')
         # compare
@@ -1029,7 +1052,7 @@ class SystemToggleTestCase(TestCase):
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
-        self.assertTrue(user_config.filter_system_detail_show_systemuser)
+        self.assertTrue(user_config.filter_view_show['show_systemuser'])
         # reload system detail to get response context
         response = self.client.get(f'/system/{system_1.system_id}/')
         # compare
@@ -1053,7 +1076,7 @@ class SystemToggleTestCase(TestCase):
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
-        self.assertFalse(user_config.filter_system_detail_show_systemuser)
+        self.assertFalse(user_config.filter_view_show['show_systemuser'])
         # reload system detail to get response context
         response = self.client.get(f'/system/{system_1.system_id}/')
         # compare
@@ -1135,7 +1158,7 @@ class SystemToggleTestCase(TestCase):
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
-        self.assertTrue(user_config.filter_system_detail_show_analystmemo)
+        self.assertTrue(user_config.filter_view_show['show_analystmemo'])
         # reload system detail to get response context
         response = self.client.get(f'/system/{system_1.system_id}/')
         # compare
@@ -1159,7 +1182,7 @@ class SystemToggleTestCase(TestCase):
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
-        self.assertFalse(user_config.filter_system_detail_show_analystmemo)
+        self.assertFalse(user_config.filter_view_show['show_analystmemo'])
         # reload system detail to get response context
         response = self.client.get(f'/system/{system_1.system_id}/')
         # compare
@@ -1241,7 +1264,7 @@ class SystemToggleTestCase(TestCase):
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
-        self.assertTrue(user_config.filter_system_detail_show_reportitem)
+        self.assertTrue(user_config.filter_view_show['show_reportitem'])
         # reload system detail to get response context
         response = self.client.get(f'/system/{system_1.system_id}/')
         # compare
@@ -1265,7 +1288,7 @@ class SystemToggleTestCase(TestCase):
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
-        self.assertFalse(user_config.filter_system_detail_show_reportitem)
+        self.assertFalse(user_config.filter_view_show['show_reportitem'])
         # reload system detail to get response context
         response = self.client.get(f'/system/{system_1.system_id}/')
         # compare

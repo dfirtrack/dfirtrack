@@ -27,31 +27,38 @@
     <!-- headline -->
     <div class="col-3">
         <h5>
+            <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon right-distance copy-false" alt="icon">
             Closed cases
         </h5>
     </div>
-
-    <!-- headline buttons -->
-    {% include "dfirtrack_main/includes/menu_top_case.html" %}
-
 </div>
 
-<!-- datatable case -->
-<table id="table_case" class="display" width="100%">
+<!-- case table card -->
+<div class="card bg-dark tab-card mb-3">
 
-    <!-- table head -->
-    <thead>
-        {% include "dfirtrack_main/includes/datatable_thead_table_case.html" %}
-    </thead>
+    <!-- headline buttons -->
+    <div class="card-header">
+        {% include "dfirtrack_main/includes/menu_top_case.html" %}
+    </div>
 
-    <!-- table body -->
-    <tbody>
-        {% for i in case_list %}
-            {% include "dfirtrack_main/includes/datatable_tbody_table_case.html" %}
-        {% endfor %}
-    </tbody>
+    <div class="card-body bg-dark">
+    <!-- datatable case -->
+        <table id="table_case" class="display" width="100%">
+            <!-- table head -->
+            <thead>
+                {% include "dfirtrack_main/includes/datatable_thead_table_case.html" %}
+            </thead>
 
-</table>
+            <!-- table body -->
+            <tbody>
+                {% for i in case_list %}
+                    {% include "dfirtrack_main/includes/datatable_tbody_table_case.html" %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+<!-- case table card -->
+</div>
 
 <!-- javascript for datatables -->
 <script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>

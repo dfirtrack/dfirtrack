@@ -6,15 +6,16 @@ from django.views.generic import DetailView
 from dfirtrack_config.models import UserConfigModel
 from dfirtrack_main.models import System
 
+
 def toggle_user_config(user, key):
     # get config
     user_config, created = UserConfigModel.objects.get_or_create(
-            user_config_username=user,
-            filter_view='system_detail'
-        )
-    
+        user_config_username=user, filter_view='system_detail'
+    )
+
     # toggle user config key
     user_config.toggle_user_config(key)
+
 
 class ToggleSystemDetailArtifact(LoginRequiredMixin, DetailView):
     """toggle visibility"""

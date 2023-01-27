@@ -30,8 +30,7 @@ class AssignmentView(LoginRequiredMixin, FormView):
 
         # get config
         user_config, created = UserConfigModel.objects.get_or_create(
-            user_config_username=self.request.user,
-            filter_view=self.filter_view
+            user_config_username=self.request.user, filter_view=self.filter_view
         )
 
         """form preparation"""
@@ -61,7 +60,9 @@ class AssignmentView(LoginRequiredMixin, FormView):
         # get queryset with all entities
         case = filter_kwargs.pop('case', None)
         if case:
-            case_queryset = Case.objects.all().filter(**filter_kwargs).filter(case_id=case.case_id)
+            case_queryset = (
+                Case.objects.all().filter(**filter_kwargs).filter(case_id=case.case_id)
+            )
             filter_kwargs['case'] = case
         else:
             case_queryset = Case.objects.all().filter(**filter_kwargs)
@@ -93,9 +94,7 @@ class AssignmentView(LoginRequiredMixin, FormView):
                 task_assigned_to_user_id=user_config.filter_list_assigned_to_user_id
             )
             # add username to context used for template
-            context[
-                'assignment_user'
-            ] = user_config.filter_list_assigned_to_user_id
+            context['assignment_user'] = user_config.filter_list_assigned_to_user_id
         # show unassigned entities otherwise
         else:
             case_queryset = case_queryset.filter(case_assigned_to_user_id=None)
@@ -150,8 +149,7 @@ class AssignmentView(LoginRequiredMixin, FormView):
     def post(self, request, *args, **kwargs):
         """save form data to config and call view again"""
         user_config, created = UserConfigModel.objects.get_or_create(
-            user_config_username=request.user,
-            filter_view=self.filter_view
+            user_config_username=request.user, filter_view=self.filter_view
         )
 
         form = self.form_class(request.POST, instance=user_config)
@@ -164,15 +162,16 @@ class AssignmentView(LoginRequiredMixin, FormView):
         # call view again
         return redirect(reverse('assignment'))
 
+
 def toggle_user_config(user, key):
     # get config
     user_config, created = UserConfigModel.objects.get_or_create(
-            user_config_username=user,
-            filter_view='assignment'
-        )
-    
+        user_config_username=user, filter_view='assignment'
+    )
+
     # toggle user config key
     user_config.toggle_user_config(key)
+
 
 @login_required(login_url="/login")
 def clear_assignment_view_filter(request):
@@ -180,8 +179,7 @@ def clear_assignment_view_filter(request):
 
     # get config
     user_config, created = UserConfigModel.objects.get_or_create(
-        user_config_username=request.user,
-        filter_view='assignment'
+        user_config_username=request.user, filter_view='assignment'
     )
 
     # clear values

@@ -10,15 +10,19 @@ def set_user_config_toogle_false(test_user):
     """set toggle flags in user config to false"""
 
     # get config
-    user_config = UserConfigModel.objects.get(user_config_username=test_user)
+    user_config = UserConfigModel.objects.get(
+        user_config_username=test_user, filter_view='assignment'
+    )
     # set values
-    user_config.filter_assignment_view_show_artifact = False
-    user_config.filter_assignment_view_show_case = False
-    user_config.filter_assignment_view_show_note = False
-    user_config.filter_assignment_view_show_reportitem = False
-    user_config.filter_assignment_view_show_system = False
-    user_config.filter_assignment_view_show_tag = False
-    user_config.filter_assignment_view_show_task = False
+    user_config.filter_view_show = {
+        'show_artifact': False,
+        'show_case': False,
+        'show_note': False,
+        'show_reportitem': False,
+        'show_system': False,
+        'show_tag': False,
+        'show_task': False,
+    }
     # save config
     user_config.save()
 
@@ -30,15 +34,19 @@ def set_user_config_toogle_true(test_user):
     """set toggle flags in user config to true"""
 
     # get config
-    user_config = UserConfigModel.objects.get(user_config_username=test_user)
+    user_config = UserConfigModel.objects.get(
+        user_config_username=test_user, filter_view='assignment'
+    )
     # set values
-    user_config.filter_assignment_view_show_artifact = True
-    user_config.filter_assignment_view_show_case = True
-    user_config.filter_assignment_view_show_note = True
-    user_config.filter_assignment_view_show_reportitem = True
-    user_config.filter_assignment_view_show_system = True
-    user_config.filter_assignment_view_show_tag = True
-    user_config.filter_assignment_view_show_task = True
+    user_config.filter_view_show = {
+        'show_artifact': True,
+        'show_case': True,
+        'show_note': True,
+        'show_reportitem': True,
+        'show_system': True,
+        'show_tag': True,
+        'show_task': True,
+    }
     # save config
     user_config.save()
 
@@ -58,7 +66,11 @@ class AssignmentToggleTestCase(TestCase):
         )
 
         # create config
-        UserConfigModel.objects.get_or_create(user_config_username=test_user)
+        UserConfigModel.objects.get_or_create(
+            user_config_username=test_user, filter_view='assignment'
+        )
+        # set toggle default
+        set_user_config_toogle_true(test_user)
 
     def test_assignment_view_artifact_toggle_not_logged_in(self):
         """test toggle view"""
@@ -124,7 +136,7 @@ class AssignmentToggleTestCase(TestCase):
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
-        self.assertTrue(user_config.filter_assignment_view_show_artifact)
+        self.assertTrue(user_config.filter_view_show['show_artifact'])
         # reload assignment view to get response context
         response = self.client.get('/config/assignment/')
         # compare
@@ -146,7 +158,7 @@ class AssignmentToggleTestCase(TestCase):
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
-        self.assertFalse(user_config.filter_assignment_view_show_artifact)
+        self.assertFalse(user_config.filter_view_show['show_artifact'])
         # reload assignment view to get response context
         response = self.client.get('/config/assignment/')
         # compare
@@ -214,7 +226,7 @@ class AssignmentToggleTestCase(TestCase):
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
-        self.assertTrue(user_config.filter_assignment_view_show_case)
+        self.assertTrue(user_config.filter_view_show['show_case'])
         # reload assignment view to get response context
         response = self.client.get('/config/assignment/')
         # compare
@@ -236,7 +248,7 @@ class AssignmentToggleTestCase(TestCase):
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
-        self.assertFalse(user_config.filter_assignment_view_show_case)
+        self.assertFalse(user_config.filter_view_show['show_case'])
         # reload assignment view to get response context
         response = self.client.get('/config/assignment/')
         # compare
@@ -304,7 +316,7 @@ class AssignmentToggleTestCase(TestCase):
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
-        self.assertTrue(user_config.filter_assignment_view_show_note)
+        self.assertTrue(user_config.filter_view_show['show_note'])
         # reload assignment view to get response context
         response = self.client.get('/config/assignment/')
         # compare
@@ -326,7 +338,7 @@ class AssignmentToggleTestCase(TestCase):
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
-        self.assertFalse(user_config.filter_assignment_view_show_note)
+        self.assertFalse(user_config.filter_view_show['show_note'])
         # reload assignment view to get response context
         response = self.client.get('/config/assignment/')
         # compare
@@ -396,7 +408,7 @@ class AssignmentToggleTestCase(TestCase):
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
-        self.assertTrue(user_config.filter_assignment_view_show_reportitem)
+        self.assertTrue(user_config.filter_view_show['show_reportitem'])
         # reload assignment view to get response context
         response = self.client.get('/config/assignment/')
         # compare
@@ -418,7 +430,7 @@ class AssignmentToggleTestCase(TestCase):
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
-        self.assertFalse(user_config.filter_assignment_view_show_reportitem)
+        self.assertFalse(user_config.filter_view_show['show_reportitem'])
         # reload assignment view to get response context
         response = self.client.get('/config/assignment/')
         # compare
@@ -486,7 +498,7 @@ class AssignmentToggleTestCase(TestCase):
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
-        self.assertTrue(user_config.filter_assignment_view_show_system)
+        self.assertTrue(user_config.filter_view_show['show_system'])
         # reload assignment view to get response context
         response = self.client.get('/config/assignment/')
         # compare
@@ -508,7 +520,7 @@ class AssignmentToggleTestCase(TestCase):
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
-        self.assertFalse(user_config.filter_assignment_view_show_system)
+        self.assertFalse(user_config.filter_view_show['show_system'])
         # reload assignment view to get response context
         response = self.client.get('/config/assignment/')
         # compare
@@ -576,7 +588,7 @@ class AssignmentToggleTestCase(TestCase):
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
-        self.assertTrue(user_config.filter_assignment_view_show_tag)
+        self.assertTrue(user_config.filter_view_show['show_tag'])
         # reload assignment view to get response context
         response = self.client.get('/config/assignment/')
         # compare
@@ -598,7 +610,7 @@ class AssignmentToggleTestCase(TestCase):
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
-        self.assertFalse(user_config.filter_assignment_view_show_tag)
+        self.assertFalse(user_config.filter_view_show['show_tag'])
         # reload assignment view to get response context
         response = self.client.get('/config/assignment/')
         # compare
@@ -666,7 +678,7 @@ class AssignmentToggleTestCase(TestCase):
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
-        self.assertTrue(user_config.filter_assignment_view_show_task)
+        self.assertTrue(user_config.filter_view_show['show_task'])
         # reload assignment view to get response context
         response = self.client.get('/config/assignment/')
         # compare
@@ -688,7 +700,7 @@ class AssignmentToggleTestCase(TestCase):
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
         # compare
-        self.assertFalse(user_config.filter_assignment_view_show_task)
+        self.assertFalse(user_config.filter_view_show['show_task'])
         # reload assignment view to get response context
         response = self.client.get('/config/assignment/')
         # compare

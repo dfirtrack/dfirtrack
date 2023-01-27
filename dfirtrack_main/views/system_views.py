@@ -26,31 +26,6 @@ from dfirtrack_main.models import (
 )
 
 
-def query_artifact(artifactstatus_list, system):
-    """query artifacts with a list of specific artifactstatus"""
-
-    # create empty artifact queryset
-    artifacts_merged = Artifact.objects.none()
-
-    # iterate over artifactstatus objects
-    for artifactstatus in artifactstatus_list:
-
-        # get artifacts with specific artifactstatus
-        artifacts = Artifact.objects.filter(
-            artifactstatus=artifactstatus,
-            system=system,
-        )
-
-        # add artifacts from above query to merge queryset
-        artifacts_merged = artifacts | artifacts_merged
-
-    # sort artifacts by id
-    artifacts_sorted = artifacts_merged.order_by('artifact_id')
-
-    # return sorted artifacts with specific artifactstatus
-    return artifacts_sorted
-
-
 def query_task(taskstatus_list, system):
     """query tasks with a list of specific taskstatus"""
 
@@ -102,10 +77,8 @@ class SystemList(LoginRequiredMixin, FormView):
 
         # get config
         user_config, created = UserConfigModel.objects.get_or_create(
-            user_config_username=self.request.user,
-            filter_view=self.filter_view
+            user_config_username=self.request.user, filter_view=self.filter_view
         )
-
 
         # filter: pre-select form according to previous filter selection
         context['form'] = self.form_class(instance=user_config)
@@ -125,8 +98,7 @@ class SystemList(LoginRequiredMixin, FormView):
     def post(self, request, *args, **kwargs):
         """save form data to config and call view again"""
         user_config, created = UserConfigModel.objects.get_or_create(
-            user_config_username=request.user,
-            filter_view=self.filter_view
+            user_config_username=request.user, filter_view=self.filter_view
         )
 
         form = self.form_class(request.POST, instance=user_config)
@@ -186,8 +158,7 @@ class SystemDetail(LoginRequiredMixin, DetailView):
 
         # get config
         user_config, created = UserConfigModel.objects.get_or_create(
-            user_config_username=self.request.user,
-            filter_view=self.filter_view
+            user_config_username=self.request.user, filter_view=self.filter_view
         )
 
         # get visibility values from config and add to context
@@ -205,7 +176,7 @@ class SystemDetail(LoginRequiredMixin, DetailView):
                 'show_company_information': False,
                 'show_systemuser': False,
                 'show_analystmemo': False,
-                'show_reportitem': False
+                'show_reportitem': False,
             }
             user_config.save()
 
@@ -284,21 +255,19 @@ class SystemUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'dfirtrack_main/system/system_edit.html'
 
     # get config model (without try statement 'manage.py migrate' fails (but not in tests))
-    try:
-        system_name_editable = MainConfigModel.objects.get(
-            main_config_name='MainConfig'
-        ).system_name_editable
-    except:  # coverage: ignore branch
-        system_name_editable = False
+    def __init__(self, *args, **kwargs) -> None:
+        try:
+            system_name_editable = MainConfigModel.objects.get(
+                main_config_name='MainConfig'
+            ).system_name_editable
+        except:  # coverage: ignore branch
+            system_name_editable = False
 
-    # choose form class depending on variable
-    if system_name_editable is False:
-        form_class = SystemForm
-    elif system_name_editable is True:
-        form_class = SystemNameForm
-    else:
-        # enforce default value False
-        form_class = SystemForm
+        # choose form class depending on variable
+        self.form_class = SystemForm
+        if system_name_editable is True:
+            self.form_class = SystemNameForm
+        super().__init__(*args, **kwargs)
 
     def get(self, request, *args, **kwargs):
         system = self.get_object()
@@ -310,12 +279,6 @@ class SystemUpdate(LoginRequiredMixin, UpdateView):
             ).system_name_editable
         except:  # coverage: ignore branch
             system_name_editable = False
-
-        # set system_name_editable for template
-        if system_name_editable is False:
-            system_name_edit = False
-        elif system_name_editable is True:
-            system_name_edit = True
 
         """ get all existing ip addresses """
 
@@ -351,7 +314,7 @@ class SystemUpdate(LoginRequiredMixin, UpdateView):
             {
                 'form': form,
                 # boolean variable is used in template
-                'system_name_edit': system_name_edit,
+                'system_name_edit': system_name_editable,
                 # return system object in context for use in template
                 'system': system,
             },
@@ -418,8 +381,7 @@ def clear_system_list_filter(request):
 
     # get config
     user_config, created = UserConfigModel.objects.get_or_create(
-        user_config_username=request.user,
-        filter_view='system_list'
+        user_config_username=request.user, filter_view='system_list'
     )
 
     # clear values

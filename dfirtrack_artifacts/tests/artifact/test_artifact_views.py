@@ -160,7 +160,7 @@ class ArtifactViewTestCase(TestCase):
         response = self.client.get('/artifacts/artifact/closed/')
         # compare
         self.assertTemplateUsed(
-            response, 'dfirtrack_artifacts/artifact/artifact_closed.html'
+            response, 'dfirtrack_artifacts/artifact/artifact_list.html'
         )
 
     def test_artifact_closed_get_user_context(self):
@@ -220,7 +220,7 @@ class ArtifactViewTestCase(TestCase):
         response = self.client.get('/artifacts/artifact/all/')
         # compare
         self.assertTemplateUsed(
-            response, 'dfirtrack_artifacts/artifact/artifact_all.html'
+            response, 'dfirtrack_artifacts/artifact/artifact_list.html'
         )
 
     def test_artifact_all_get_user_context(self):

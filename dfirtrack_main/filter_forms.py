@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 
 from dfirtrack_config.models import UserConfigModel
 from dfirtrack_main.models import Case, Notestatus, Tag
+from dfirtrack_main.widgets import TagWidget
 
 
 class GeneralFilterForm(forms.ModelForm):
@@ -14,7 +15,7 @@ class GeneralFilterForm(forms.ModelForm):
         empty_label='Filter for case',
         label='Filter for case',
         required=False,
-        widget=forms.Select(attrs={'class': 'form-select'})
+        widget=forms.Select(attrs={'class': 'form-select form-select-sm'}),
     )
 
     # show all existing tag objects
@@ -22,7 +23,7 @@ class GeneralFilterForm(forms.ModelForm):
         queryset=Tag.objects.order_by('tag_name'),
         label='Filter for tag',
         required=False,
-        widget=forms.SelectMultiple(attrs={'class': 'form-select'})
+        widget=TagWidget,
     )
 
     # show all existing user objects
@@ -31,13 +32,11 @@ class GeneralFilterForm(forms.ModelForm):
         empty_label='No user assigned',
         label='Filter for user',
         required=False,
-        widget=forms.Select(attrs={'class': 'form-select'})
+        widget=forms.Select(attrs={'class': 'form-select form-select-sm'}),
     )
 
     # config model pk
-    user_config_id = forms.IntegerField(
-        widget=forms.HiddenInput()
-    )
+    user_config_id = forms.IntegerField(widget=forms.HiddenInput())
 
     class Meta:
 
@@ -49,8 +48,9 @@ class GeneralFilterForm(forms.ModelForm):
             'filter_list_case',
             'filter_list_tag',
             'filter_list_assigned_to_user_id',
-            'user_config_id'
+            'user_config_id',
         )
+
 
 class DocumentationFilterForm(GeneralFilterForm):
     """documentation filter form"""
@@ -61,7 +61,7 @@ class DocumentationFilterForm(GeneralFilterForm):
         empty_label='Filter for notestatus',
         label='Filter for notestatus',
         required=False,
-        widget=forms.Select(attrs={'class': 'form-select'})
+        widget=forms.Select(attrs={'class': 'form-select'}),
     )
 
     # set initial status value to be selected during rendering
@@ -69,10 +69,12 @@ class DocumentationFilterForm(GeneralFilterForm):
         user_config = kwargs.get('instance')
         super().__init__(*args, **kwargs)
         if user_config and user_config.filter_list_status:
-            self.initial['filter_list_status'] = user_config.filter_list_status.notestatus_id
+            self.initial[
+                'filter_list_status'
+            ] = user_config.filter_list_status.notestatus_id
 
     # save status value from cleaned data
-    def save(self, *args, **kwargs):   
+    def save(self, *args, **kwargs):
         if 'filter_list_status' in self.changed_data:
             self.instance.filter_list_status = self.cleaned_data['filter_list_status']
         return super().save(*args, **kwargs)
@@ -88,5 +90,5 @@ class DocumentationFilterForm(GeneralFilterForm):
             'filter_list_tag',
             'filter_list_assigned_to_user_id',
             'user_config_id',
-            'filter_list_status'
+            'filter_list_status',
         )

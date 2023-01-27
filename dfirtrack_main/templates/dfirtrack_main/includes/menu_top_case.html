@@ -1,45 +1,19 @@
 {% load static %}
-<!-- open artifacts button -->
-<div class="col-2">
-    {% if request.path|slice:"-5:" == "case/" %}
-        <button type="button" class="btn btn-light copy-false" disabled>
-            <img src="{% static 'dfirtrack_main/icons/list.svg' %}" class="icon right-distance copy-false" alt="icon">
-            Open cases
-        </button>
-    {% else %}
-        <a href="{% url 'case_list' %}" type="button" class="btn btn-light copy-false">
-            <img src="{% static 'dfirtrack_main/icons/list.svg' %}" class="icon right-distance copy-false" alt="icon">
-            Open cases
-        </a>
-    {% endif %}
-</div>
 
-<!-- closed artifacts button -->
-<div class="col-2">
-    {% if request.path|slice:"-7:" == "closed/" %}
-        <button class="btn btn-light copy-false" disabled>
-            <img src="{% static 'dfirtrack_main/icons/list.svg' %}" class="icon right-distance copy-false" alt="icon">
-            Closed cases
-        </button>
-    {% else %}
-        <a href="{% url 'case_closed' %}" type="button" class="btn btn-light copy-false">
-            <img src="{% static 'dfirtrack_main/icons/list.svg' %}" class="icon right-distance copy-false" alt="icon">
-            Closed cases
-        </a>
-    {% endif %}
-</div>
-
-<!-- all artifacts button -->
-<div class="col-2">
-    {% if request.path|slice:"-4:" == "all/" %}
-        <button class="btn btn-light copy-false" disabled>
-            <img src="{% static 'dfirtrack_main/icons/list.svg' %}" class="icon right-distance copy-false" alt="icon">
-            All cases
-        </button>
-    {% else %}
-        <a href="{% url 'case_all' %}" class="btn btn-light copy-false">
-            <img src="{% static 'dfirtrack_main/icons/list.svg' %}" class="icon right-distance copy-false" alt="icon">
-            All cases
-        </a>
-    {% endif %}
-</div>
+<ul class="nav nav-tabs card-header-tabs">
+    <li class="nav-item">
+    <a class="nav-link {% if request.path|slice:"-5:" == "case/" %}active{% endif %}" href="{% url 'case_list' %}">
+        Open cases
+    </a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link {% if request.path|slice:"-7:" == "closed/" %}active{% endif %}" href="{% url 'case_closed' %}">
+        Closed cases
+    </a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link {% if request.path|slice:"-4:" == "all/" %}active{% endif %}" href="{% url 'case_all' %}">
+        All cases
+    </a>
+    </li>
+</ul>
