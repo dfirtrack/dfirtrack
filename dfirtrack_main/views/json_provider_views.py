@@ -149,6 +149,7 @@ def filter_system(request):
     }
     return JsonResponse(json_dict, safe=False)
 
+
 @login_required(login_url="/login")
 def filter_artifacts(request):
     model = Artifact
