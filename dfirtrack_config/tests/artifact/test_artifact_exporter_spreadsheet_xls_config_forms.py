@@ -9,7 +9,6 @@ class ArtifactExporterSpreadsheetXlsConfigFormTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Artifactstatus.objects.create(
             artifactstatus_name='artifactstatus_1',

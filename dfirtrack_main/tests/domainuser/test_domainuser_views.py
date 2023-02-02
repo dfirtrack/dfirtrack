@@ -11,7 +11,6 @@ class DomainuserViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         User.objects.create_user(
             username='testuser_domainuser', password='8fcseQ9rXyG9vNaoECnq'

@@ -28,7 +28,6 @@ class ConfigModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         User.objects.create_user(
             username='testuser_config_model', password='4APmzkPrXbUV3p3WV5HN'
@@ -1112,7 +1111,6 @@ class ConfigModelTestCase(TestCase):
         # mock timezone.now()
         t_1 = datetime(2020, 1, 2, 3, 4, 5, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_1):
-
             # create object
             statushistory = Statushistory.objects.create()
 
@@ -1125,7 +1123,6 @@ class ConfigModelTestCase(TestCase):
         # mock timezone.now()
         t_3 = datetime(2021, 12, 31, 1, 2, 3, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_3):
-
             # create object
             statushistory = Statushistory.objects.create()
 
@@ -1141,7 +1138,6 @@ class ConfigModelTestCase(TestCase):
         # mock timezone.now()
         t_2 = datetime(2021, 1, 2, 3, 4, 5, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_2):
-
             # create object
             statushistory = Statushistory.objects.create()
 

@@ -13,7 +13,6 @@ from dfirtrack_main.models import Entry, System, Systemstatus, Tag, Tagcolor
 class EntryCsvImporterTestCase(TestCase):
     @classmethod
     def setUpTestData(self):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_entry', password='GB1237lbSGB13jXjCRoL'
@@ -200,7 +199,6 @@ class EntryCsvImporterTestCase(TestCase):
         )
 
     def test_upload_csv_file_not_found(self):
-
         # login
         self.client.login(username='testuser_entry', password='GB1237lbSGB13jXjCRoL')
         # get objects

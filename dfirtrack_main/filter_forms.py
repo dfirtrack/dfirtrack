@@ -39,7 +39,6 @@ class GeneralFilterForm(forms.ModelForm):
     user_config_id = forms.IntegerField(widget=forms.HiddenInput())
 
     class Meta:
-
         # model
         model = UserConfigModel
 
@@ -80,7 +79,6 @@ class DocumentationFilterForm(GeneralFilterForm):
         return super().save(*args, **kwargs)
 
     class Meta:
-
         # model
         model = UserConfigModel
 

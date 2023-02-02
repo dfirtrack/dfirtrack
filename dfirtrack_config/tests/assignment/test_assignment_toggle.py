@@ -59,7 +59,6 @@ class AssignmentToggleTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_assignment_toggle', password='KAeyjTTJP7DzWKpdhKla'

@@ -8,7 +8,6 @@ class DomainuserModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         domain_1 = Domain.objects.create(
             domain_name='domain_1',

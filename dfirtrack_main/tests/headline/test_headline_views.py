@@ -11,7 +11,6 @@ class HeadlineViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Headline.objects.create(headline_name='headline_1')
         # create user

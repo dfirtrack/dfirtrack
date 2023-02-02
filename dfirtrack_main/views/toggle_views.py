@@ -24,7 +24,6 @@ class ToggleSystemDetailArtifact(LoginRequiredMixin, DetailView):
     model = System
 
     def get(self, request, *args, **kwargs):
-
         # toggle config
         toggle_user_config(request.user, 'show_artifact')
 
@@ -44,7 +43,6 @@ class ToggleSystemDetailArtifactClosed(LoginRequiredMixin, DetailView):
     model = System
 
     def get(self, request, *args, **kwargs):
-
         # toggle config
         toggle_user_config(request.user, 'show_artifact_closed')
 
@@ -64,7 +62,6 @@ class ToggleSystemDetailTask(LoginRequiredMixin, DetailView):
     model = System
 
     def get(self, request, *args, **kwargs):
-
         # toggle config
         toggle_user_config(request.user, 'show_task')
 
@@ -82,7 +79,6 @@ class ToggleSystemDetailTaskClosed(LoginRequiredMixin, DetailView):
     model = System
 
     def get(self, request, *args, **kwargs):
-
         # toggle config
         toggle_user_config(request.user, 'show_task_closed')
 
@@ -100,7 +96,6 @@ class ToggleSystemDetailTechnicalInformation(LoginRequiredMixin, DetailView):
     model = System
 
     def get(self, request, *args, **kwargs):
-
         # toggle config
         toggle_user_config(request.user, 'show_technical_information')
 
@@ -121,7 +116,6 @@ class ToggleSystemDetailTimeline(LoginRequiredMixin, DetailView):
     model = System
 
     def get(self, request, *args, **kwargs):
-
         # toggle config
         toggle_user_config(request.user, 'show_timeline')
 
@@ -141,7 +135,6 @@ class ToggleSystemDetailVirtualizationInformation(LoginRequiredMixin, DetailView
     model = System
 
     def get(self, request, *args, **kwargs):
-
         # toggle config
         toggle_user_config(request.user, 'show_virtualization_information')
 
@@ -162,7 +155,6 @@ class ToggleSystemDetailCompanyInformation(LoginRequiredMixin, DetailView):
     model = System
 
     def get(self, request, *args, **kwargs):
-
         # toggle config
         toggle_user_config(request.user, 'show_company_information')
 
@@ -182,7 +174,6 @@ class ToggleSystemDetailSystemuser(LoginRequiredMixin, DetailView):
     model = System
 
     def get(self, request, *args, **kwargs):
-
         # toggle config
         toggle_user_config(request.user, 'show_systemuser')
 
@@ -202,7 +193,6 @@ class ToggleSystemDetailAnalystmemo(LoginRequiredMixin, DetailView):
     model = System
 
     def get(self, request, *args, **kwargs):
-
         # toggle config
         toggle_user_config(request.user, 'show_analystmemo')
 
@@ -222,7 +212,6 @@ class ToggleSystemDetailReportitem(LoginRequiredMixin, DetailView):
     model = System
 
     def get(self, request, *args, **kwargs):
-
         # toggle config
         toggle_user_config(request.user, 'show_reportitem')
 

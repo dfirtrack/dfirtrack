@@ -68,7 +68,6 @@ class SystemToggleTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_system_toggle', password='V1z7IQhdpWRYKkqdMLDt'

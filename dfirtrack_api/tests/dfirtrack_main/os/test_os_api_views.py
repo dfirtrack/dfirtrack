@@ -11,7 +11,6 @@ class IpAPIViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Os.objects.create(os_name='os_api_1')
         # create user

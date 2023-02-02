@@ -40,7 +40,6 @@ class ReportitemCreate(LoginRequiredMixin, CreateView):
     template_name = 'dfirtrack_main/reportitem/reportitem_generic_form.html'
 
     def get(self, request, *args, **kwargs):
-
         # get id of first status objects sorted by name
         notestatus = Notestatus.objects.order_by('notestatus_name')[0].notestatus_id
 

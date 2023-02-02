@@ -34,7 +34,6 @@ def query_task(taskstatus_list, system):
 
     # iterate over taskstatus objects
     for taskstatus in taskstatus_list:
-
         # get tasks with specific taskstatus
         tasks = Task.objects.filter(
             taskstatus=taskstatus,
@@ -192,7 +191,6 @@ class SystemCreate(LoginRequiredMixin, CreateView):
     template_name = 'dfirtrack_main/system/system_add.html'
 
     def get(self, request, *args, **kwargs):
-
         # get id of first status objects sorted by name
         systemstatus = Systemstatus.objects.order_by('systemstatus_name')[
             0

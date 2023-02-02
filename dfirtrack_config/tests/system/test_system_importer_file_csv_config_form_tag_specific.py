@@ -10,7 +10,6 @@ class SystemImporterFileCsvConfigFormTagSpecificTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         User.objects.create_user(
             username='testuser_system_importer_file_csv_config',

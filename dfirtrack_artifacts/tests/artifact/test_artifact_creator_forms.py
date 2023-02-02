@@ -11,7 +11,6 @@ class ArtifactCreatorFormTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_artifact_creator', password='SCYWC2EqHES9IV4TjZ2B'

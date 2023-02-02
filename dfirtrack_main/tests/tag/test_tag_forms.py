@@ -9,7 +9,6 @@ class TagFormTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Tagcolor.objects.create(tagcolor_name='tagcolor_1')
 

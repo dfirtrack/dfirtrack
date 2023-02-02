@@ -49,7 +49,6 @@ class ArtifactExporterSpreadsheetXlsConfigForm(forms.ModelForm):
     )
 
     class Meta:
-
         # model
         model = ArtifactExporterSpreadsheetXlsConfigModel
 
@@ -164,7 +163,6 @@ class MainConfigForm(forms.ModelForm):
     )
 
     class Meta:
-
         # model
         model = MainConfigModel
 
@@ -289,7 +287,6 @@ class SystemExporterMarkdownConfigForm(forms.ModelForm):
     """system exporter markdown config form"""
 
     class Meta:
-
         # model
         model = SystemExporterMarkdownConfigModel
 
@@ -350,7 +347,6 @@ class SystemExporterSpreadsheetCsvConfigForm(forms.ModelForm):
     """system exporter spreadsheet CSV config form"""
 
     class Meta:
-
         # model
         model = SystemExporterSpreadsheetCsvConfigModel
 
@@ -406,7 +402,6 @@ class SystemExporterSpreadsheetXlsConfigForm(forms.ModelForm):
     """system exporter spreadsheet XLS config form"""
 
     class Meta:
-
         # model
         model = SystemExporterSpreadsheetXlsConfigModel
 
@@ -588,7 +583,6 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
     )
 
     class Meta:
-
         # model
         model = SystemImporterFileCsvConfigModel
 
@@ -1251,7 +1245,6 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
 
         # check all column values against each other
         for column in all_columns_dict:
-
             # explicitly copy dict
             pruned_columns_dict = dict(all_columns_dict)
             # remove column from copied dict
@@ -1496,7 +1489,6 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
 
 
 class WorkflowDefaultArtifactAttributesForm(forms.ModelForm):
-
     artifact_default_status = forms.ModelChoiceField(
         label='Default artifactstatus',
         required=True,
@@ -1510,7 +1502,6 @@ class WorkflowDefaultArtifactAttributesForm(forms.ModelForm):
     )
 
     class Meta:
-
         model = WorkflowDefaultArtifactAttributes
 
         fields = [
@@ -1535,7 +1526,6 @@ WorkflowDefaultArtifactAttributesFormSet = forms.modelformset_factory(
 
 
 class WorkflowDefaultTasknameAttributesForm(forms.ModelForm):
-
     task_default_status = forms.ModelChoiceField(
         label='Default taskstatus',
         required=True,
@@ -1549,7 +1539,6 @@ class WorkflowDefaultTasknameAttributesForm(forms.ModelForm):
     )
 
     class Meta:
-
         model = WorkflowDefaultTasknameAttributes
 
         fields = ['taskname', 'task_default_status', 'task_default_priority']
@@ -1563,7 +1552,6 @@ WorkflowDefaultTasknameAttributesFormSet = forms.modelformset_factory(
 
 
 class WorkflowForm(forms.ModelForm):
-
     # reorder field choices
     workflow_name = forms.CharField(
         max_length=50,

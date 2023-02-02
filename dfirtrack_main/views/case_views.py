@@ -22,7 +22,6 @@ def query_case(casestatus_list):
 
     # iterate over casestatus objects
     for casestatus in casestatus_list:
-
         # get cases with specific casestatus
         cases = Case.objects.filter(casestatus=casestatus)
 
@@ -43,7 +42,6 @@ class CaseList(LoginRequiredMixin, ListView):
     context_object_name = 'case_list'
 
     def get_queryset(self):
-
         # call logger
         debug_logger(str(self.request.user), ' CASE_LIST_ENTERED')
         # get config
@@ -67,7 +65,6 @@ class CaseClosed(LoginRequiredMixin, ListView):
     context_object_name = 'case_list'
 
     def get_queryset(self):
-
         # call logger
         debug_logger(str(self.request.user), ' CASE_CLOSED_ENTERED')
         # get config
@@ -151,7 +148,6 @@ class CaseCreate(LoginRequiredMixin, CreateView):
     template_name = 'dfirtrack_main/case/case_generic_form.html'
 
     def get(self, request, *args, **kwargs):
-
         # get id of first status objects sorted by name
         casepriority = Casepriority.objects.order_by('casepriority_name')[
             0

@@ -15,7 +15,6 @@ from dfirtrack_main.widgets import TagWidget
 
 
 class ArtifactForm(forms.ModelForm):
-
     # reorder field choices
     system = forms.ModelChoiceField(
         label=gettext_lazy('System (*)'),
@@ -69,7 +68,6 @@ class ArtifactForm(forms.ModelForm):
     )
 
     class Meta:
-
         # model
         model = Artifact
 
@@ -275,7 +273,6 @@ class ArtifactCreatorForm(forms.ModelForm):
     )
 
     class Meta:
-
         # model
         model = Artifact
 
@@ -350,7 +347,6 @@ class ArtifactCreatorForm(forms.ModelForm):
 
 class ArtifacttypeForm(forms.ModelForm):
     class Meta:
-
         # model
         model = Artifacttype
 

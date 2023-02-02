@@ -24,7 +24,6 @@ def insert_tags(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('dfirtrack_main', '0002_default_values'),
     ]

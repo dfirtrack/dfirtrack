@@ -13,7 +13,6 @@ class ArtifactExporterSpreadsheetXlsConfigViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         User.objects.create_user(
             username='testuser_artifact_exporter_spreadsheet_xls_config',

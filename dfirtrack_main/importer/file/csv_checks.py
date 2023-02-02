@@ -976,7 +976,6 @@ def check_config_attributes(model, request=None):
 
     # check all column values against each other
     for column in all_columns_dict:
-
         # explicitly copy dict
         pruned_columns_dict = dict(all_columns_dict)
         # remove column from copied dict

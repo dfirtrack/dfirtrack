@@ -10,7 +10,6 @@ class WorkflowDefaultArtifactAttributesModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create objects
         artifacttype_1 = Artifacttype.objects.create(artifacttype_name='artifacttype_1')
         artfactstatus_1 = Artifactstatus.objects.get(

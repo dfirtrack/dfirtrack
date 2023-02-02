@@ -11,7 +11,6 @@ class SystemstatusAPIViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Systemstatus.objects.create(systemstatus_name='systemstatus_api_1')
         # create user

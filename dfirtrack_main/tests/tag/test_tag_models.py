@@ -8,7 +8,6 @@ class TagModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         tagcolor_1 = Tagcolor.objects.create(tagcolor_name='tagcolor_1')
 

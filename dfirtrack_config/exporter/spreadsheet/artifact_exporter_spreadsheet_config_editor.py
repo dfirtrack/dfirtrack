@@ -10,10 +10,8 @@ from dfirtrack_main.logger.default_logger import info_logger
 
 @login_required(login_url="/login")
 def artifact_exporter_spreadsheet_xls_config_view(request):
-
     # form was valid to post
     if request.method == "POST":
-
         # get config model
         model = ArtifactExporterSpreadsheetXlsConfigModel.objects.get(
             artifact_exporter_spreadsheet_xls_config_name='ArtifactExporterSpreadsheetXlsConfig'
@@ -22,7 +20,6 @@ def artifact_exporter_spreadsheet_xls_config_view(request):
         form = ArtifactExporterSpreadsheetXlsConfigForm(request.POST, instance=model)
 
         if form.is_valid():
-
             # save settings
             model = form.save(commit=False)
             model.save()
@@ -54,7 +51,6 @@ def artifact_exporter_spreadsheet_xls_config_view(request):
             )
 
     else:
-
         # get config model
         model = ArtifactExporterSpreadsheetXlsConfigModel.objects.get(
             artifact_exporter_spreadsheet_xls_config_name='ArtifactExporterSpreadsheetXlsConfig'

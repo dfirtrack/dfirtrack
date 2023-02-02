@@ -11,7 +11,6 @@ class DnsnameViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Dnsname.objects.create(dnsname_name='dnsname_1')
         # create user

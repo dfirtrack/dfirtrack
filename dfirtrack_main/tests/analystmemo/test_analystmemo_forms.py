@@ -10,7 +10,6 @@ class AnalystmemoFormTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_analystmemo', password='i9gekSgVmDKQN7c5dj5p'

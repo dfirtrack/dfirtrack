@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('dfirtrack_main', '0017_simplify_system_times'),
         ('dfirtrack_config', '0017_main_overview_status'),

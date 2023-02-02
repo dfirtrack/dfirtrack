@@ -23,7 +23,6 @@ class MainOverviewViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         User.objects.create_user(
             username='testuser_main_overview', password='RYgxCfV2NRcfXlJvsSHP'

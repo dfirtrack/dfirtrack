@@ -23,7 +23,6 @@ class SystemImporterFileCsvConfigFormCsvVsDbTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         testuser = User.objects.create_user(
             username='testuser_system_importer_file_csv_config',

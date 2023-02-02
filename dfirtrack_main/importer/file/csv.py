@@ -55,7 +55,6 @@ def system_create_cron(request):
         # return to 'system_list'
         return redirect(reverse('system_list'))
     else:
-
         # create parameter dict
         params = {}
 
@@ -163,13 +162,11 @@ def system_upload(request):
 
     # POST request
     if request.method == "POST":
-
         # get systemcsv from request (no submitted file only relevant for tests, normally form enforces file submitting)
         check_systemcsv = request.FILES.get('systemcsv', False)
 
         # check request for systemcsv (file submitted - no submitted file only relevant for tests, normally form enforces file submitting)
         if check_systemcsv:
-
             # get config model
             model = SystemImporterFileCsvConfigModel.objects.get(
                 system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
@@ -192,7 +189,6 @@ def system_upload(request):
 
         # check request for systemcsv (file not submitted - no submitted file only relevant for tests, normally form enforces file submitting)
         else:
-
             # get empty form
             form = SystemImporterFileCsvForm()
 
@@ -210,7 +206,6 @@ def system_upload(request):
 
     # GET request
     else:
-
         # get config model
         model = SystemImporterFileCsvConfigModel.objects.get(
             system_importer_file_csv_config_name='SystemImporterFileCsvConfig'

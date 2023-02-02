@@ -110,7 +110,6 @@ def write_xls(username):
 
     # iterate over artifacts
     for artifact in artifacts:
-
         # leave loop if artifactstatus of this artifact is not configured for export
         if (
             artifact.artifactstatus
@@ -307,7 +306,6 @@ def write_xls(username):
         and model.artifactlist_xls_artifactstatus
         and Artifactstatus.objects.count() != 0
     ):
-
         # define name of worksheet within file
         worksheet_artifactstatus = workbook.add_sheet('artifactstatus')
 
@@ -340,7 +338,6 @@ def write_xls(username):
 
         # iterate over artifactstatus
         for artifactstatus in artifactstatuss:
-
             # autoincrement row counter
             row_num += 1
 
@@ -371,7 +368,6 @@ def write_xls(username):
         and model.artifactlist_xls_artifacttype
         and Artifacttype.objects.count() != 0
     ):
-
         # define name of worksheet within file
         worksheet_artifacttype = workbook.add_sheet('artifacttype')
 
@@ -404,7 +400,6 @@ def write_xls(username):
 
         # iterate over artifacttype
         for artifacttype in artifacttypes:
-
             # autoincrement row counter
             row_num += 1
 

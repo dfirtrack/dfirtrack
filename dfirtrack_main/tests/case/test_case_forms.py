@@ -8,7 +8,6 @@ class CaseFormTestCase(TestCase):
     """case form tests"""
 
     def setUp(cls):
-
         # create objects
         Casepriority.objects.create(casepriority_name='casepriority_1')
         Casestatus.objects.create(casestatus_name='casestatus_1')

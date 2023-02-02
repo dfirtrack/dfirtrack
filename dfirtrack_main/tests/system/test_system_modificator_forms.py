@@ -20,7 +20,6 @@ class SystemModificatorFormTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
 

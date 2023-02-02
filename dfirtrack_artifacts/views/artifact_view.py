@@ -84,7 +84,6 @@ class ArtifactCreateView(LoginRequiredMixin, CreateView):
     form_class = ArtifactForm
 
     def get(self, request, *args, **kwargs):
-
         # get id of first status objects sorted by name
         artifactpriority = Artifactpriority.objects.order_by('artifactpriority_name')[
             0

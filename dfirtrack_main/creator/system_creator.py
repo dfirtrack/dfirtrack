@@ -21,7 +21,6 @@ def system_creator(request):
 
     # form was valid to post
     if request.method == "POST":
-
         # get objects from request object
         request_post = request.POST
         request_user = request.user
@@ -41,7 +40,6 @@ def system_creator(request):
 
     # show empty form
     else:
-
         # get id of first status objects sorted by name
         systemstatus = Systemstatus.objects.order_by('systemstatus_name')[
             0
@@ -107,7 +105,6 @@ def system_creator_async(request_post, request_user):
 
     # iterate over lines
     for line in lines:
-
         # skip empty lines
         if line == '':
             # autoincrement counter
@@ -149,7 +146,6 @@ def system_creator_async(request_post, request_user):
 
         # create system
         if form.is_valid():
-
             """object creation"""
 
             # don't save form yet

@@ -21,7 +21,6 @@ from dfirtrack_main.models import (
 
 
 def get_status_objects(context):
-
     # get config model
     main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
     # get number of entries to show
@@ -141,7 +140,6 @@ class StatusDetailView(LoginRequiredMixin, DetailView):
     template_name = 'dfirtrack_config/status/status_detail.html'
 
     def get_context_data(self, *args, **kwargs):
-
         # get context
         context = super().get_context_data(*args, **kwargs)
 
@@ -171,7 +169,6 @@ class StatusView(LoginRequiredMixin, TemplateView):
     template_name = 'dfirtrack_config/status/status.html'
 
     def get_context_data(self, *args, **kwargs):
-
         # get context
         context = super().get_context_data(*args, **kwargs)
 

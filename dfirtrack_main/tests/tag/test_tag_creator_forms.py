@@ -10,7 +10,6 @@ class TagCreatorFormTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_tag_creator', password='rJaOH5aKfrbPpFmzdG3b'

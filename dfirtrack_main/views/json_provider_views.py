@@ -57,7 +57,6 @@ def _filter(model, queryset, simple_filter_params, filter_params, request_user):
 
     # get user config filter for model list view and config views
     if 'config' in simple_filter_params or filter_object in simple_filter_params:
-
         # set filter view for user config model
         filter_view = simple_filter_params.get('config', f'{filter_object}_list')
 

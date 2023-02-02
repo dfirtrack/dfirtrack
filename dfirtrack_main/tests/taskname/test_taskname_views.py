@@ -12,7 +12,6 @@ class TasknameViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         User.objects.create_user(
             username='testuser_taskname', password='7xajmDLqQh1hs8i5PAx7'

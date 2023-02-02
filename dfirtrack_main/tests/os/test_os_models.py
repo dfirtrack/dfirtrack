@@ -8,7 +8,6 @@ class OsModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Os.objects.create(os_name='os_1')
 

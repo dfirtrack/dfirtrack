@@ -8,7 +8,6 @@ class SystemstatusModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Systemstatus.objects.create(systemstatus_name='systemstatus_1')
 

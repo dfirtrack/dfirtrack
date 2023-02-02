@@ -10,7 +10,6 @@ class MainConfigFormTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         pass
 
     def test_main_config_system_name_editable_form_label(self):

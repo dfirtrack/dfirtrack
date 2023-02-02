@@ -8,7 +8,6 @@ class SystemImporterFileCsvConfigFormLabelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         pass
 
     def test_system_importer_file_csv_config_labels(self):

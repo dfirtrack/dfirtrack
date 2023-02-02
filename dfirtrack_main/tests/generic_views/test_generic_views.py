@@ -7,7 +7,6 @@ class GenericViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         User.objects.create_user(
             username='testuser_generic_views', password='D9lPsoHFXeCNKEzM3IgE'

@@ -57,10 +57,8 @@ def check_data_for_system_name(data, system_name):
 
     # get list with all system entries from dict
     for data_entry in data['data']:
-
         # check dict for system
         if system_name in data_entry['system_name']:
-
             # change to true if system was found
             system_found = True
 
@@ -73,7 +71,6 @@ class AssignmentFilterTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_assignment_filter', password='B1z2nn60R4XUMmRoqcA7'

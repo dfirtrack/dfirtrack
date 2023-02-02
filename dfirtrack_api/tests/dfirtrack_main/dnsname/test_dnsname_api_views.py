@@ -11,7 +11,6 @@ class DnsnameAPIViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Domain.objects.create(domain_name='domain_api_1')
         # create object

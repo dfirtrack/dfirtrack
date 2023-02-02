@@ -20,7 +20,6 @@ class ReportitemAPIViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_reportitem_api', password='8tFw47zfEbIdrAtyrOGg'

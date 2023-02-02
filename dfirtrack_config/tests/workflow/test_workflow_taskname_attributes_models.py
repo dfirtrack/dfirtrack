@@ -10,7 +10,6 @@ class WorkflowDefaultTasknameAttributesModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create objects
         taskname_1 = Taskname.objects.create(taskname_name='taskname_1')
         taskpriority_1 = Taskpriority.objects.get(taskpriority_name='10_low')

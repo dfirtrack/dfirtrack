@@ -8,7 +8,6 @@ class TaskpriorityModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Taskpriority.objects.create(taskpriority_name='prio_1')
 

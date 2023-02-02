@@ -10,7 +10,6 @@ class SystemhistoryModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_systemhistory', password='J8yfJRg6ydiEb5dXVHVZ'

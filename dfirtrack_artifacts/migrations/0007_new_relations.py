@@ -2,7 +2,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('dfirtrack_main', '0015_added_verbose_name_plural'),
         ('dfirtrack_artifacts', '0006_added_verbose_name_plural'),

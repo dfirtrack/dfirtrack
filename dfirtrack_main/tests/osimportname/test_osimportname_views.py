@@ -11,7 +11,6 @@ class OsimportnameViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         os_1 = Os.objects.create(os_name='os_1')
         # create object

@@ -41,7 +41,6 @@ def insert_casestatus(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('dfirtrack_main', '0012_case_attributes'),
     ]

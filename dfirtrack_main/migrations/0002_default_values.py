@@ -139,7 +139,6 @@ def insert_taskstatus(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('dfirtrack_main', '0001_initial'),
     ]

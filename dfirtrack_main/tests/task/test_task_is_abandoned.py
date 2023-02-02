@@ -23,7 +23,6 @@ class TaskIsAbandonedTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_task_is_abandoned', password='kOlEaeHosQ2H3svhYkzv'

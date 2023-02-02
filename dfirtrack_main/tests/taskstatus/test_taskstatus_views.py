@@ -11,7 +11,6 @@ class TaskstatusViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Taskstatus.objects.create(taskstatus_name='taskstatus_1')
         # create user

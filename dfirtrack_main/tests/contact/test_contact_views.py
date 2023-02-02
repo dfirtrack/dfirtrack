@@ -11,7 +11,6 @@ class ContactViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Contact.objects.create(
             contact_name='contact_1', contact_email='contact_1@example.org'

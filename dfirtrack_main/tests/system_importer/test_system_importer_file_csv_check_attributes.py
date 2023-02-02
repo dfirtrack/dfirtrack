@@ -461,7 +461,6 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         # mock timezone.now()
         t_1 = datetime(2021, 3, 8, 18, 5, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_1):
-
             # execute cron job / scheduled task
             system_cron()
 
@@ -589,7 +588,6 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         # mock timezone.now()
         t_2 = datetime(2021, 3, 8, 18, 10, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_2):
-
             # execute cron job / scheduled task
             system_cron()
 
@@ -713,7 +711,6 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         # mock timezone.now()
         t_4 = datetime(2021, 3, 8, 18, 20, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_4):
-
             # execute cron job / scheduled task
             system_cron()
 

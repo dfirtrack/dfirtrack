@@ -2,7 +2,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('dfirtrack_main', '0014_case_expansion'),
         ('dfirtrack_config', '0014_main_overview'),
