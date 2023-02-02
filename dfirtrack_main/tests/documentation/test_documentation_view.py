@@ -653,8 +653,10 @@ class DocumentationViewTestCase(TestCase):
         tag_1 = Tag.objects.get(tag_name='tag_1')
         set_user_config(test_user, case_1, notestatus_1, tag_1)
 
-        # refresh config
-        user_config.refresh_from_db()
+        # refresh config not working because of generic foreign keyno
+        user_config = UserConfigModel.objects.get(
+            user_config_username=test_user, filter_view="documentation"
+        )
         # compare - settings before request
         self.assertEqual(user_config.filter_list_case, case_1)
         self.assertEqual(user_config.filter_list_status, notestatus_1)
