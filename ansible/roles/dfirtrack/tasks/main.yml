@@ -1,6 +1,4 @@
 ---
-# tasks file for dfirtrack
-
 - name: GIT | Install git
   ansible.builtin.apt:
     name: 'git'
@@ -255,21 +253,22 @@
 - name: DJANGO
   module_defaults:
     community.general.django_manage:
-      project_path: '{{ dfirtrack_dir }}'
       virtualenv: '{{ venv_dir }}'
   block:
-
     - name: DJANGO | Migrate
       community.general.django_manage:
         command: 'migrate'
+        project_path: '{{ dfirtrack_dir }}'
 
     - name: DJANGO | Create cache table
       community.general.django_manage:
         command: 'createcachetable'
+        project_path: '{{ dfirtrack_dir }}'
 
     - name: DJANGO | Collect static files
       community.general.django_manage:
         command: 'collectstatic'
+        project_path: '{{ dfirtrack_dir }}'
 
 - name: NGINX | Change ownership of webserver files
   ansible.builtin.file:
