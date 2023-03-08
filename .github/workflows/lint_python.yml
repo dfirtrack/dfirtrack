@@ -10,6 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
+      - run: pip install --upgrade pip setuptools
       - run: pip install -r lint_requirements.txt
       - run: bandit --recursive --tests B106 --exclude tests .  # hardcoded_password_funcarg
       - run: bandit --recursive --tests B108 --exclude tests,dfirtrack_main/views/entry_views.py .  # hardcoded_tmp_directory
