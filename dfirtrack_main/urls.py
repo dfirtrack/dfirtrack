@@ -452,11 +452,10 @@ urlpatterns = [
         r'system/<int:pk>/', system_views.SystemDetail.as_view(), name='system_detail'
     ),
     path(r'system/add/', system_views.SystemCreate.as_view(), name='system_create'),
-    path(
-        r'system/<int:pk>/edit/',
-        system_views.SystemUpdate.as_view(),
-        name='system_update',
-    ),
+    #path(r'system/<int:pk>/edit/', system_views.SystemUpdate.as_view(), name='system_update',), DEBUG
+    #path(r'system/<int:pk>/edit/', system_views.SystemUpdate.as_view(), name='system_update',), DEBUG
+    path(r'system/<int:pk>/edit/', system_views.system_update_form_dispatcher, name='system_update',),
+    #path(r'system/<int:pk>/update_formward/', system_views.SystemUpdate.as_view(), name='system_update_forward',),
     path(r'system/json/', json_provider_views.get_systems_json, name='system_json'),
     path(
         r'system/clear_filter/',

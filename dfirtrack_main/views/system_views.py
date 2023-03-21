@@ -27,7 +27,7 @@ from dfirtrack_main.models import (
 
 
 @login_required(login_url="/login")
-def system_update_form_dispatcher(request):
+def system_update_form_dispatcher(request, pk):
     """ redirect system update form according to config """
 
     # get config
@@ -35,10 +35,19 @@ def system_update_form_dispatcher(request):
 
     # system name is editable
     if model.system_name_editable:
-        return redirect(reverse('system_list'))
+        #return redirect(reverse('system_update'), pk=pk)
+        #form_class = SystemNameForm
+        #SystemUpdate.as_view()(request, pk=pk, form_class=form_class)
+        return SystemUpdate.as_view()(request, pk=pk)
+        #return redirect(reverse('system_update_forward'), pk=pk)
     # system name is not editable
     else:
-        return redirect(reverse('system_list'))
+        #return redirect(reverse('system_update'), pk=pk)
+        form_class = SystemForm
+        #SystemUpdate.as_view()(request, pk=pk, form_class=form_class)
+        #SystemUpdate.as_view()(request, pk=pk)
+        return SystemUpdate.as_view(form_class=form_class)(request, pk=pk)
+        #return redirect(reverse('system_update_forward'), pk=pk)
 
 
 def query_artifact(artifactstatus_list, system):
@@ -366,32 +375,35 @@ class SystemCreate(LoginRequiredMixin, CreateView):
             return render(request, self.template_name, {'form': form})
 
 class SystemNameEditableUpdate(LoginRequiredMixin, UpdateView):
-        form_class = SystemNameForm
+    form_class = SystemNameForm
+    #return SystemUpdate.as_view()(self.request)
 
 class SystemNameFixedUpdate(LoginRequiredMixin, UpdateView):
-        form_class = SystemForm
+    form_class = SystemForm
+    #return SystemUpdate.as_view()(self.request)
 
 class SystemUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login'
     model = System
     template_name = 'dfirtrack_main/system/system_edit.html'
 
-    # get config model (without try statement 'manage.py migrate' fails (but not in tests))
-    try:
-        system_name_editable = MainConfigModel.objects.get(
-            main_config_name='MainConfig'
-        ).system_name_editable
-    except:  # coverage: ignore branch
-        system_name_editable = False
-
-    # choose form class depending on variable
-    if system_name_editable is False:
-        form_class = SystemForm
-    elif system_name_editable is True:
-        form_class = SystemNameForm
-    else:
-        # enforce default value False
-        form_class = SystemForm
+    form_class = form_class
+#    # get config model (without try statement 'manage.py migrate' fails (but not in tests))
+#    try:
+#        system_name_editable = MainConfigModel.objects.get(
+#            main_config_name='MainConfig'
+#        ).system_name_editable
+#    except:  # coverage: ignore branch
+#        system_name_editable = False
+#
+#    # choose form class depending on variable
+#    if system_name_editable is False:
+#        form_class = SystemForm
+#    elif system_name_editable is True:
+#        form_class = SystemNameForm
+#    else:
+#        # enforce default value False
+#        form_class = SystemForm
 
     def get(self, request, *args, **kwargs):
         system = self.get_object()
