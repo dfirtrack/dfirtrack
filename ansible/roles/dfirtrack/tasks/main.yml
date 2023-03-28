@@ -1,6 +1,4 @@
 ---
-# tasks file for dfirtrack
-
 - name: GIT | Install git
   ansible.builtin.apt:
     name: 'git'
@@ -89,7 +87,9 @@
       register: markdown_exists
 
     - name: MARKDOWN | Init project
-      ansible.builtin.command: 'chdir={{ markdown_dir }} mkdocs new {{ markdown_proj }}'
+      ansible.builtin.command:
+        chdir: '{{ markdown_dir }}'
+        cmd: 'mkdocs new {{ markdown_proj }}'
       environment:
         LC_ALL: 'C.UTF-8'
       when: not markdown_exists.stat.exists
@@ -253,21 +253,22 @@
 - name: DJANGO
   module_defaults:
     community.general.django_manage:
-      app_path: '{{ dfirtrack_dir }}'
       virtualenv: '{{ venv_dir }}'
   block:
-
     - name: DJANGO | Migrate
       community.general.django_manage:
         command: 'migrate'
+        project_path: '{{ dfirtrack_dir }}'
 
     - name: DJANGO | Create cache table
       community.general.django_manage:
         command: 'createcachetable'
+        project_path: '{{ dfirtrack_dir }}'
 
     - name: DJANGO | Collect static files
       community.general.django_manage:
         command: 'collectstatic'
+        project_path: '{{ dfirtrack_dir }}'
 
 - name: NGINX | Change ownership of webserver files
   ansible.builtin.file:

@@ -33,7 +33,6 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_artifact_exporter_spreadsheet_xls',
@@ -98,7 +97,6 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         # mock timezone.now()
         t_1 = datetime(2012, 11, 10, 12, 34, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_1):
-
             # create object with maximum attributes
             artifact_1 = Artifact.objects.create(
                 artifact_name='artifact_exporter_spreadsheet_xls_artifact_1_all_attributes',
@@ -124,7 +122,6 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         # mock timezone.now()
         t_2 = datetime(2009, 8, 7, 23, 45, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_2):
-
             # create object with minimum attributes
             Artifact.objects.create(
                 artifact_name='artifact_exporter_spreadsheet_xls_artifact_2_no_attributes',
@@ -281,7 +278,6 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         # mock timezone.now()
         t1_now = timezone.now()
         with patch.object(timezone, 'now', return_value=t1_now):
-
             # get response
             response = self.client.get(
                 '/artifacts/artifact/exporter/spreadsheet/xls/artifact/'
@@ -432,7 +428,6 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         # mock timezone.now()
         t2_now = timezone.now()
         with patch.object(timezone, 'now', return_value=t2_now):
-
             # get response
             response = self.client.get(
                 '/artifacts/artifact/exporter/spreadsheet/xls/artifact/'
@@ -642,7 +637,6 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         # mock timezone.now()
         t3_now = timezone.now()
         with patch.object(timezone, 'now', return_value=t3_now):
-
             # create spreadsheet without GET by directly calling the function
             artifact_cron()
 

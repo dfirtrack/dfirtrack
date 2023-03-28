@@ -15,7 +15,6 @@ class CaseViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6'
@@ -585,7 +584,6 @@ class CaseViewTestCase(TestCase):
         # mock timezone.now()
         t2_now = timezone.now()
         with patch.object(timezone, 'now', return_value=t2_now):
-
             # get response
             self.client.post('/case/add/', data_dict)
 
@@ -628,7 +626,6 @@ class CaseViewTestCase(TestCase):
         # mock timezone.now()
         t3_now = timezone.now()
         with patch.object(timezone, 'now', return_value=t3_now):
-
             # get response
             self.client.post('/case/add/', data_dict)
 
@@ -688,7 +685,6 @@ class CaseViewTestCase(TestCase):
         # mock timezone.now()
         t4_now = timezone.now()
         with patch.object(timezone, 'now', return_value=t4_now):
-
             # get response
             self.client.post(
                 '/case/' + str(case_edit_post_set_start_time.case_id) + '/edit/',
@@ -749,7 +745,6 @@ class CaseViewTestCase(TestCase):
         # mock timezone.now()
         t5_now = timezone.now()
         with patch.object(timezone, 'now', return_value=t5_now):
-
             # get response
             self.client.post(
                 '/case/' + str(case_edit_post_set_end_time.case_id) + '/edit/',
@@ -793,7 +788,6 @@ class CaseViewTestCase(TestCase):
         # mock timezone.now()
         t6_now = timezone.now()
         with patch.object(timezone, 'now', return_value=t6_now):
-
             # get response
             self.client.post('/case/add/', data_dict)
 
@@ -824,7 +818,6 @@ class CaseViewTestCase(TestCase):
         # mock timezone.now()
         t7_now = timezone.now()
         with patch.object(timezone, 'now', return_value=t7_now):
-
             # get response
             self.client.post(
                 '/case/' + str(case_edit_post_retain_start_time.case_id) + '/edit/',
@@ -868,7 +861,6 @@ class CaseViewTestCase(TestCase):
         # mock timezone.now()
         t8_now = timezone.now()
         with patch.object(timezone, 'now', return_value=t8_now):
-
             # get response
             self.client.post('/case/add/', data_dict)
 
@@ -899,7 +891,6 @@ class CaseViewTestCase(TestCase):
         # mock timezone.now()
         t9_now = timezone.now()
         with patch.object(timezone, 'now', return_value=t9_now):
-
             # get response
             self.client.post(
                 '/case/' + str(case_edit_post_retain_end_time.case_id) + '/edit/',

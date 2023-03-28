@@ -41,7 +41,6 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_system_exporter_spreadsheet_csv',
@@ -110,7 +109,6 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         # mock timezone.now()
         t_1 = datetime(2011, 12, 13, 14, 15, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_1):
-
             # create object with maximum attributes
             system_1 = System.objects.create(
                 system_name='system_1_all_attributes',
@@ -146,7 +144,6 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         # mock timezone.now()
         t_2 = datetime(2009, 8, 17, 16, 15, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_2):
-
             # create object with minimum attributes
             System.objects.create(
                 system_name='system_2_no_attributes',
@@ -257,7 +254,6 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         # mock timezone.now()
         t1_now = timezone.now()
         with patch.object(timezone, 'now', return_value=t1_now):
-
             # get response
             response = self.client.get('/system/exporter/spreadsheet/csv/system/')
 
@@ -352,7 +348,6 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         # mock timezone.now()
         t2_now = timezone.now()
         with patch.object(timezone, 'now', return_value=t2_now):
-
             # get response
             response = self.client.get('/system/exporter/spreadsheet/csv/system/')
 
@@ -512,7 +507,6 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         # mock timezone.now()
         t3_now = timezone.now()
         with patch.object(timezone, 'now', return_value=t3_now):
-
             # create spreadsheet without GET by directly calling the function
             system_cron()
 

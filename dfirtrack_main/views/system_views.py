@@ -11,7 +11,7 @@ from django.views.generic.edit import CreateView, FormView, UpdateView
 from dfirtrack.settings import INSTALLED_APPS as installed_apps
 from dfirtrack_artifacts.models import Artifact, Artifactstatus
 from dfirtrack_config.models import MainConfigModel, UserConfigModel, Workflow
-from dfirtrack_main.filter_forms import SystemFilterForm
+from dfirtrack_main.filter_forms import GeneralFilterForm
 from dfirtrack_main.forms import SystemForm, SystemNameForm
 from dfirtrack_main.logger.default_logger import debug_logger, warning_logger
 from dfirtrack_main.models import (
@@ -26,31 +26,6 @@ from dfirtrack_main.models import (
 )
 
 
-def query_artifact(artifactstatus_list, system):
-    """query artifacts with a list of specific artifactstatus"""
-
-    # create empty artifact queryset
-    artifacts_merged = Artifact.objects.none()
-
-    # iterate over artifactstatus objects
-    for artifactstatus in artifactstatus_list:
-
-        # get artifacts with specific artifactstatus
-        artifacts = Artifact.objects.filter(
-            artifactstatus=artifactstatus,
-            system=system,
-        )
-
-        # add artifacts from above query to merge queryset
-        artifacts_merged = artifacts | artifacts_merged
-
-    # sort artifacts by id
-    artifacts_sorted = artifacts_merged.order_by('artifact_id')
-
-    # return sorted artifacts with specific artifactstatus
-    return artifacts_sorted
-
-
 def query_task(taskstatus_list, system):
     """query tasks with a list of specific taskstatus"""
 
@@ -59,7 +34,6 @@ def query_task(taskstatus_list, system):
 
     # iterate over taskstatus objects
     for taskstatus in taskstatus_list:
-
         # get tasks with specific taskstatus
         tasks = Task.objects.filter(
             taskstatus=taskstatus,
@@ -78,8 +52,9 @@ def query_task(taskstatus_list, system):
 
 class SystemList(LoginRequiredMixin, FormView):
     login_url = '/login'
-    form_class = SystemFilterForm
+    form_class = GeneralFilterForm
     template_name = 'dfirtrack_main/system/system_list.html'
+    filter_view = 'system_list'
 
     def get_context_data(self, **kwargs):
         """enrich context data"""
@@ -97,55 +72,21 @@ class SystemList(LoginRequiredMixin, FormView):
 
         """
         filter: provide initial form values according to config
-        for a better understanding of filter related condition flow, every important comment starts with 'filter: '
         """
-
-        # initialize filter flag (needed for messages)
-        filter_flag = False
 
         # get config
         user_config, created = UserConfigModel.objects.get_or_create(
-            user_config_username=self.request.user
+            user_config_username=self.request.user, filter_view=self.filter_view
         )
 
-        # filter: even if the persistence option has been deselected, the initial values must correspond to the current filtering until the view is reloaded or left
-
-        # create dict to initialize form values set by filtering in previous view call
-        form_initial = {}
-
-        # check box if persistence option was provided
-        if user_config.filter_system_list_keep:
-            # set initial value for form
-            form_initial['filter_system_list_keep'] = True
-        else:
-            form_initial['filter_system_list_keep'] = False
-
-        # get case from config
-        if user_config.filter_system_list_case:
-            # get id
-            case_id = user_config.filter_system_list_case.case_id
-            # set initial value for form
-            form_initial['case'] = case_id
-            # set filter flag
-            filter_flag = True
-
-        # get tag from config
-        if user_config.filter_system_list_tag:
-            # get id
-            tag_id = user_config.filter_system_list_tag.tag_id
-            # set initial value for form
-            form_initial['tag'] = tag_id
-            # set filter flag
-            filter_flag = True
-
         # filter: pre-select form according to previous filter selection
-        context['form'] = self.form_class(initial=form_initial)
+        context['form'] = self.form_class(instance=user_config)
 
         # call logger
         debug_logger(str(self.request.user), " SYSTEM_LIST_ENTERED")
 
         # info message that filter is active
-        if filter_flag:
+        if user_config.is_filter_active():
             messages.info(
                 self.request, 'Filter is active. Systems might be incomplete.'
             )
@@ -153,38 +94,18 @@ class SystemList(LoginRequiredMixin, FormView):
         # return dictionary with additional values for template
         return context
 
-    def form_valid(self, form):
+    def post(self, request, *args, **kwargs):
         """save form data to config and call view again"""
-
-        # get config
         user_config, created = UserConfigModel.objects.get_or_create(
-            user_config_username=self.request.user
+            user_config_username=request.user, filter_view=self.filter_view
         )
 
-        # filter: save filter choices from form in 'system_list' to database and call 'system_list' again with the new filter options
+        form = self.form_class(request.POST, instance=user_config)
 
-        # get case from form and save to config
-        if form.data['case']:
-            system_list_case = Case.objects.get(case_id=form.data['case'])
-            user_config.filter_system_list_case = system_list_case
-        else:
-            user_config.filter_system_list_case = None
-
-        # get tag from form and save to config
-        if form.data['tag']:
-            system_list_tag = Tag.objects.get(tag_id=form.data['tag'])
-            user_config.filter_system_list_tag = system_list_tag
-        else:
-            user_config.filter_system_list_tag = None
-
-        # avoid MultiValueDictKeyError by providing default False if checkbox was empty
-        if form.data.get('filter_system_list_keep', False):
-            user_config.filter_system_list_keep = True
-        else:
-            user_config.filter_system_list_keep = False
-
-        # save config
-        user_config.save()
+        if form.is_valid():
+            user_config = form.save(commit=False)
+            user_config.save()
+            form.save_m2m()
 
         # call view again
         return redirect(reverse('system_list'))
@@ -194,33 +115,11 @@ class SystemDetail(LoginRequiredMixin, DetailView):
     login_url = '/login'
     model = System
     template_name = 'dfirtrack_main/system/system_detail.html'
+    filter_view = 'system_detail'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         system = self.object
-
-        '''artifacts'''
-
-        # get config
-        main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
-
-        # get all artifactstatus from database
-        artifactstatus_all = Artifactstatus.objects.all()
-
-        # get all artifacts of system for number
-        context['artifacts_all'] = Artifact.objects.filter(system=system)
-
-        # get 'open' artifactstatus from config
-        artifactstatus_open = main_config_model.artifactstatus_open.all()
-        # query artifacts according to subset of artifactstatus open
-        context['artifacts_open'] = query_artifact(artifactstatus_open, system=system)
-
-        # get diff between all artifactstatus and open artifactstatu
-        artifactstatus_closed = artifactstatus_all.difference(artifactstatus_open)
-        # query artifacts according to subset of artifactstatus closed
-        context['artifacts_closed'] = query_artifact(
-            artifactstatus_closed, system=system
-        )
 
         '''tasks'''
 
@@ -258,29 +157,27 @@ class SystemDetail(LoginRequiredMixin, DetailView):
 
         # get config
         user_config, created = UserConfigModel.objects.get_or_create(
-            user_config_username=self.request.user
+            user_config_username=self.request.user, filter_view=self.filter_view
         )
 
         # get visibility values from config and add to context
-        context['show_artifact'] = user_config.filter_system_detail_show_artifact
-        context[
-            'show_artifact_closed'
-        ] = user_config.filter_system_detail_show_artifact_closed
-        context['show_task'] = user_config.filter_system_detail_show_task
-        context['show_task_closed'] = user_config.filter_system_detail_show_task_closed
-        context[
-            'show_technical_information'
-        ] = user_config.filter_system_detail_show_technical_information
-        context['show_timeline'] = user_config.filter_system_detail_show_timeline
-        context[
-            'show_virtualization_information'
-        ] = user_config.filter_system_detail_show_virtualization_information
-        context[
-            'show_company_information'
-        ] = user_config.filter_system_detail_show_company_information
-        context['show_systemuser'] = user_config.filter_system_detail_show_systemuser
-        context['show_analystmemo'] = user_config.filter_system_detail_show_analystmemo
-        context['show_reportitem'] = user_config.filter_system_detail_show_reportitem
+        if user_config.filter_view_show:
+            context.update(user_config.filter_view_show)
+        else:
+            user_config.filter_view_show = {
+                'show_artifact': True,
+                'show_artifact_closed': False,
+                'show_task': True,
+                'show_task_closed': False,
+                'show_technical_information': False,
+                'show_timeline': False,
+                'show_virtualization_information': False,
+                'show_company_information': False,
+                'show_systemuser': False,
+                'show_analystmemo': False,
+                'show_reportitem': False,
+            }
+            user_config.save()
 
         # call logger
         system.logger(str(self.request.user), " SYSTEM_DETAIL_ENTERED")
@@ -294,7 +191,6 @@ class SystemCreate(LoginRequiredMixin, CreateView):
     template_name = 'dfirtrack_main/system/system_add.html'
 
     def get(self, request, *args, **kwargs):
-
         # get id of first status objects sorted by name
         systemstatus = Systemstatus.objects.order_by('systemstatus_name')[
             0
@@ -357,21 +253,19 @@ class SystemUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'dfirtrack_main/system/system_edit.html'
 
     # get config model (without try statement 'manage.py migrate' fails (but not in tests))
-    try:
-        system_name_editable = MainConfigModel.objects.get(
-            main_config_name='MainConfig'
-        ).system_name_editable
-    except:  # coverage: ignore branch
-        system_name_editable = False
+    def __init__(self, *args, **kwargs) -> None:
+        try:
+            system_name_editable = MainConfigModel.objects.get(
+                main_config_name='MainConfig'
+            ).system_name_editable
+        except:  # coverage: ignore branch
+            system_name_editable = False
 
-    # choose form class depending on variable
-    if system_name_editable is False:
-        form_class = SystemForm
-    elif system_name_editable is True:
-        form_class = SystemNameForm
-    else:
-        # enforce default value False
-        form_class = SystemForm
+        # choose form class depending on variable
+        self.form_class = SystemForm
+        if system_name_editable is True:
+            self.form_class = SystemNameForm
+        super().__init__(*args, **kwargs)
 
     def get(self, request, *args, **kwargs):
         system = self.get_object()
@@ -383,12 +277,6 @@ class SystemUpdate(LoginRequiredMixin, UpdateView):
             ).system_name_editable
         except:  # coverage: ignore branch
             system_name_editable = False
-
-        # set system_name_editable for template
-        if system_name_editable is False:
-            system_name_edit = False
-        elif system_name_editable is True:
-            system_name_edit = True
 
         """ get all existing ip addresses """
 
@@ -424,7 +312,7 @@ class SystemUpdate(LoginRequiredMixin, UpdateView):
             {
                 'form': form,
                 # boolean variable is used in template
-                'system_name_edit': system_name_edit,
+                'system_name_edit': system_name_editable,
                 # return system object in context for use in template
                 'system': system,
             },
@@ -491,12 +379,13 @@ def clear_system_list_filter(request):
 
     # get config
     user_config, created = UserConfigModel.objects.get_or_create(
-        user_config_username=request.user
+        user_config_username=request.user, filter_view='system_list'
     )
 
     # clear values
-    user_config.filter_system_list_case = None
-    user_config.filter_system_list_tag = None
+    user_config.filter_list_case = None
+    user_config.filter_list_assigned_to_user_id = None
+    user_config.filter_list_tag.clear()
 
     # save config
     user_config.save()

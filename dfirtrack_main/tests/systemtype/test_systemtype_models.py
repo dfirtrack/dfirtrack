@@ -8,7 +8,6 @@ class SystemtypeModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Systemtype.objects.create(systemtype_name='systemtype_1')
 

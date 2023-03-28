@@ -9,7 +9,6 @@ class AssignmentViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         User.objects.create_user(
             username='testuser_assignment', password='8t5Uw5eAYDtd5X6TVAXK'

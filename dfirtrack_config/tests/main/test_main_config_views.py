@@ -12,7 +12,6 @@ class MainConfigViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         User.objects.create_user(
             username='testuser_main_config', password='4jl475KM3wof8w5mQ7SN'

@@ -23,7 +23,6 @@ def insert_artifactpriorities(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('dfirtrack_artifacts', '0004_artifactpriority'),
     ]

@@ -22,7 +22,6 @@ def check_and_create_ip(ip_ip, model, row_counter, request=None):
 
     # value is an IP
     try:
-
         # check ip column for IP(s)
         ipaddress.ip_address(ip_ip)
 
@@ -38,7 +37,6 @@ def check_and_create_ip(ip_ip, model, row_counter, request=None):
 
     # value is not an IP
     except ValueError:
-
         # if function was called from 'system_instant' and 'system_upload'
         if request:
             # call message

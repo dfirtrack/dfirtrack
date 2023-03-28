@@ -8,7 +8,6 @@ class CasetypeModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Casetype.objects.create(casetype_name='casetype_1')
 

@@ -28,7 +28,6 @@ class TaskViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_task', password='8dR7ilC8cnCr8U2aq14V'
@@ -656,7 +655,6 @@ class TaskViewTestCase(TestCase):
         # mock timezone.now()
         dt = datetime(2020, 1, 2, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=dt):
-
             # login testuser
             self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
             # get user
@@ -697,7 +695,6 @@ class TaskViewTestCase(TestCase):
         # mock timezone.now()
         dt = datetime(2020, 1, 2, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=dt):
-
             # login testuser
             self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
             # get user
@@ -1070,7 +1067,6 @@ class TaskViewTestCase(TestCase):
         # mock timezone.now()
         dt = datetime(2020, 1, 2, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=dt):
-
             # login testuser
             self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
             # get user
@@ -1114,7 +1110,6 @@ class TaskViewTestCase(TestCase):
         # mock timezone.now()
         dt = datetime(2020, 1, 2, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=dt):
-
             # login testuser
             self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
             # get user
@@ -1274,7 +1269,6 @@ class TaskViewTestCase(TestCase):
         # mock timezone.now()
         dt = datetime(2020, 1, 2, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=dt):
-
             # login testuser
             self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
             # get user
@@ -1425,7 +1419,6 @@ class TaskViewTestCase(TestCase):
         # mock timezone.now()
         dt = datetime(2020, 1, 2, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=dt):
-
             # login testuser
             self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
             # get user

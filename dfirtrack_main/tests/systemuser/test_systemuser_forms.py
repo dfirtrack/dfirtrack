@@ -11,7 +11,6 @@ class SystemuserFormTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_systemuser', password='u6YexpBiCjk1fdx68uHY'

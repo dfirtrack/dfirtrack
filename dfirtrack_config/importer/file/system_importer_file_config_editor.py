@@ -12,10 +12,8 @@ from dfirtrack_main.logger.default_logger import info_logger
 
 @login_required(login_url="/login")
 def system_importer_file_csv_config_view(request):
-
     # POST request
     if request.method == "POST":
-
         # get config model
         model = SystemImporterFileCsvConfigModel.objects.get(
             system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
@@ -24,7 +22,6 @@ def system_importer_file_csv_config_view(request):
         form = SystemImporterFileCsvConfigForm(request.POST, instance=model)
 
         if form.is_valid():
-
             # save settings
             model = form.save(commit=False)
             model.save()
@@ -85,7 +82,6 @@ def system_importer_file_csv_config_view(request):
 
     # GET request
     else:
-
         # get config model
         model = SystemImporterFileCsvConfigModel.objects.get(
             system_importer_file_csv_config_name='SystemImporterFileCsvConfig'

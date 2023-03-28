@@ -13,7 +13,6 @@ class SystemCreatorViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_system_creator', password='Jbf5fZBhpg1aZsCW6L8r'

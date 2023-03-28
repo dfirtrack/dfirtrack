@@ -35,8 +35,9 @@ $(document).ready( function () {
         "processing":true,
         "serverSide":true,
         "ajax": {
-            "type" : "GET",
-            "url": window.location.protocol+"//"+window.location.hostname+(window.location.port ? ':'+location.port: '')+"/system/json/"
+            "type" : "POST",
+            "url": "/filter/system/?" + window.location.pathname.split('/')[1] + "=" + ((window.location.pathname.split('/')[2]) ? window.location.pathname.split('/')[2] : 'all') ,
+            "headers": {'X-CSRFToken': csrftoken}
         },
         "bStateSave": true,
         "columns": [

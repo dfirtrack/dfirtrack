@@ -19,7 +19,6 @@ class SystemImporterFileCsvCheckContentFileTypeViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create users
         test_user = User.objects.create_user(
             username='testuser_system_importer_file_csv_check_content_file_type',

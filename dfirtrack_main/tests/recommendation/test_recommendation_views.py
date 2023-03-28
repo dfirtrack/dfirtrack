@@ -11,7 +11,6 @@ class RecommendationViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Recommendation.objects.create(recommendation_name='recommendation_1')
         # create user

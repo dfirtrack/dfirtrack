@@ -18,13 +18,11 @@ def artifact_creator(request):
 
     # form was valid to post
     if request.method == 'POST':
-
         # get form
         form = ArtifactCreatorForm(request.POST)
 
         # form was valid
         if form.is_valid():
-
             # get objects from request object
             request_post = request.POST
             request_user = request.user
@@ -44,7 +42,6 @@ def artifact_creator(request):
 
     # show empty form
     else:
-
         # get id of first status objects sorted by name
         artifactpriority = Artifactpriority.objects.order_by('artifactpriority_name')[
             0
@@ -88,19 +85,16 @@ def artifact_creator_async(request_post, request_user):
 
     # iterate over systems
     for system in systems:
-
         # autoincrement counter
         system_artifacts_created_counter += 1
 
         # iterate over artifacttypes
         for artifacttype in artifacttypes:
-
             # create form with request data
             form = ArtifactCreatorForm(request_post)
 
             # create artifact
             if form.is_valid():
-
                 """object creation"""
 
                 # don't save form yet

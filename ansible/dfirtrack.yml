@@ -1,5 +1,6 @@
 ---
-- hosts: dfirtrack.testing.vm
+- name: DFIRTRACK Testing VM Setup
+  hosts: dfirtrack.testing.vm
 
   roles:
     - { role: dfirtrack }

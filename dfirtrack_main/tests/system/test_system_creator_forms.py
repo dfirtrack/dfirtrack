@@ -26,7 +26,6 @@ class SystemCreatorFormTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_system_creator', password='HN9KSZUyIx5sWgrX9rIx'

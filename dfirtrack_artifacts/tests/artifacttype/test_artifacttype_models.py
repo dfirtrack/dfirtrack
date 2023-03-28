@@ -8,7 +8,6 @@ class ArtifacttypeModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Artifacttype.objects.create(artifacttype_name='artifacttype_1')
 

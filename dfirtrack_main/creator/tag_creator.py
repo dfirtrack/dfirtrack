@@ -17,13 +17,11 @@ def tag_creator(request):
 
     # form was valid to post
     if request.method == 'POST':
-
         # get form
         form = TagCreatorForm(request.POST)
 
         # form was valid
         if form.is_valid():
-
             # get objects from request object
             request_post = request.POST
             request_user = request.user
@@ -71,19 +69,16 @@ def tag_creator_async(request_post, request_user):
 
     # iterate over systems
     for system_id in systems:
-
         # autoincrement counter
         system_tags_created_counter += 1
 
         # iterate over tags
         for tag_id in tags:
-
             # create form with request data
             form = TagCreatorForm(request_post)
 
             # create relation
             if form.is_valid():
-
                 """object creation"""
 
                 # get objects

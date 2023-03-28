@@ -9,7 +9,6 @@ class SystemStripModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         User.objects.create_user(
             username='testuser_system_strip', password='43IcVLP2qSdrqGufkWOX'

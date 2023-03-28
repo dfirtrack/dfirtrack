@@ -11,7 +11,6 @@ class ReasonViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Reason.objects.create(reason_name='reason_1')
         # create user

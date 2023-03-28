@@ -11,7 +11,6 @@ class TaskpriorityAPIViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Taskpriority.objects.create(taskpriority_name='tp_1')
         # create user

@@ -11,7 +11,6 @@ class ServiceproviderAPIViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Serviceprovider.objects.create(serviceprovider_name='serviceprovider_api_1')
         # create user

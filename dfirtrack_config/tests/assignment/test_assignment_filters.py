@@ -30,17 +30,18 @@ def set_user_config(
     filter_assignment_view_case,
     filter_assignment_view_tag,
     filter_assignment_view_user,
-    filter_assignment_view_keep=True,
+    filter_view="assignment",
 ):
     """set user config"""
 
     # get config
     user_config = UserConfigModel.objects.get(user_config_username=test_user)
     # set values
-    user_config.filter_assignment_view_case = filter_assignment_view_case
-    user_config.filter_assignment_view_tag = filter_assignment_view_tag
-    user_config.filter_assignment_view_user = filter_assignment_view_user
-    user_config.filter_assignment_view_keep = filter_assignment_view_keep
+    user_config.filter_list_case = filter_assignment_view_case
+    if filter_assignment_view_tag:
+        user_config.filter_list_tag.set(filter_assignment_view_tag)
+    user_config.filter_list_assigned_to_user_id = filter_assignment_view_user
+    user_config.filter_view = filter_view
     # save config
     user_config.save()
 
@@ -56,10 +57,8 @@ def check_data_for_system_name(data, system_name):
 
     # get list with all system entries from dict
     for data_entry in data['data']:
-
         # check dict for system
         if system_name in data_entry['system_name']:
-
             # change to true if system was found
             system_found = True
 
@@ -72,7 +71,6 @@ class AssignmentFilterTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_assignment_filter', password='B1z2nn60R4XUMmRoqcA7'
@@ -334,10 +332,6 @@ class AssignmentFilterTestCase(TestCase):
         # get user
         test_user = User.objects.get(username='testuser_assignment_filter')
         # get objects
-        artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
-        artifact_2 = Artifact.objects.get(artifact_name='artifact_2')
-        artifact_3 = Artifact.objects.get(artifact_name='artifact_3')
-        artifact_4 = Artifact.objects.get(artifact_name='artifact_4')
         case_1 = Case.objects.get(case_name='case_1')
         case_2 = Case.objects.get(case_name='case_2')
         case_3 = Case.objects.get(case_name='case_3')
@@ -369,21 +363,6 @@ class AssignmentFilterTestCase(TestCase):
         # get response
         response = self.client.get('/config/assignment/')
         # compare
-        self.assertTrue(
-            response.context['artifact']
-            .filter(artifact_name=artifact_1.artifact_name)
-            .exists()
-        )
-        self.assertTrue(
-            response.context['artifact']
-            .filter(artifact_name=artifact_2.artifact_name)
-            .exists()
-        )
-        self.assertTrue(
-            response.context['artifact']
-            .filter(artifact_name=artifact_3.artifact_name)
-            .exists()
-        )
         self.assertTrue(
             response.context['case'].filter(case_name=case_1.case_name).exists()
         )
@@ -445,11 +424,6 @@ class AssignmentFilterTestCase(TestCase):
             response.context['task'].filter(task_note=task_3.task_note).exists()
         )
         self.assertFalse(
-            response.context['artifact']
-            .filter(artifact_name=artifact_4.artifact_name)
-            .exists()
-        )
-        self.assertFalse(
             response.context['case'].filter(case_name=case_4.case_name).exists()
         )
         self.assertFalse(
@@ -480,10 +454,6 @@ class AssignmentFilterTestCase(TestCase):
         # get user
         test_user = User.objects.get(username='testuser_assignment_filter')
         # get objects
-        artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
-        artifact_2 = Artifact.objects.get(artifact_name='artifact_2')
-        artifact_3 = Artifact.objects.get(artifact_name='artifact_3')
-        artifact_4 = Artifact.objects.get(artifact_name='artifact_4')
         case_1 = Case.objects.get(case_name='case_1')
         case_2 = Case.objects.get(case_name='case_2')
         case_3 = Case.objects.get(case_name='case_3')
@@ -516,11 +486,6 @@ class AssignmentFilterTestCase(TestCase):
         response = self.client.get('/config/assignment/')
         # compare
         self.assertTrue(
-            response.context['artifact']
-            .filter(artifact_name=artifact_2.artifact_name)
-            .exists()
-        )
-        self.assertTrue(
             response.context['note'].filter(note_title=note_2.note_title).exists()
         )
         self.assertTrue(
@@ -533,21 +498,6 @@ class AssignmentFilterTestCase(TestCase):
         )
         self.assertTrue(
             response.context['task'].filter(task_note=task_2.task_note).exists()
-        )
-        self.assertFalse(
-            response.context['artifact']
-            .filter(artifact_name=artifact_1.artifact_name)
-            .exists()
-        )
-        self.assertFalse(
-            response.context['artifact']
-            .filter(artifact_name=artifact_3.artifact_name)
-            .exists()
-        )
-        self.assertFalse(
-            response.context['artifact']
-            .filter(artifact_name=artifact_4.artifact_name)
-            .exists()
         )
         self.assertFalse(
             response.context['case'].filter(case_name=case_3.case_name).exists()
@@ -629,10 +579,6 @@ class AssignmentFilterTestCase(TestCase):
         # get user
         test_user = User.objects.get(username='testuser_assignment_filter')
         # get objects
-        artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
-        artifact_2 = Artifact.objects.get(artifact_name='artifact_2')
-        artifact_3 = Artifact.objects.get(artifact_name='artifact_3')
-        artifact_4 = Artifact.objects.get(artifact_name='artifact_4')
         case_1 = Case.objects.get(case_name='case_1')
         case_2 = Case.objects.get(case_name='case_2')
         case_3 = Case.objects.get(case_name='case_3')
@@ -659,16 +605,11 @@ class AssignmentFilterTestCase(TestCase):
         task_4 = Task.objects.get(task_note='task_4')
 
         # change config
-        set_user_config(test_user, None, tag_1, None)
+        set_user_config(test_user, None, [tag_1], None)
 
         # get response
         response = self.client.get('/config/assignment/')
         # compare
-        self.assertTrue(
-            response.context['artifact']
-            .filter(artifact_name=artifact_3.artifact_name)
-            .exists()
-        )
         self.assertTrue(
             response.context['case'].filter(case_name=case_3.case_name).exists()
         )
@@ -685,21 +626,6 @@ class AssignmentFilterTestCase(TestCase):
         )
         self.assertTrue(
             response.context['task'].filter(task_note=task_3.task_note).exists()
-        )
-        self.assertFalse(
-            response.context['artifact']
-            .filter(artifact_name=artifact_1.artifact_name)
-            .exists()
-        )
-        self.assertFalse(
-            response.context['artifact']
-            .filter(artifact_name=artifact_2.artifact_name)
-            .exists()
-        )
-        self.assertFalse(
-            response.context['artifact']
-            .filter(artifact_name=artifact_4.artifact_name)
-            .exists()
         )
         self.assertFalse(
             response.context['case'].filter(case_name=case_1.case_name).exists()
@@ -776,10 +702,6 @@ class AssignmentFilterTestCase(TestCase):
         # get user
         test_user = User.objects.get(username='testuser_assignment_filter')
         # get objects
-        artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
-        artifact_2 = Artifact.objects.get(artifact_name='artifact_2')
-        artifact_3 = Artifact.objects.get(artifact_name='artifact_3')
-        artifact_4 = Artifact.objects.get(artifact_name='artifact_4')
         case_1 = Case.objects.get(case_name='case_1')
         case_2 = Case.objects.get(case_name='case_2')
         case_3 = Case.objects.get(case_name='case_3')
@@ -812,11 +734,6 @@ class AssignmentFilterTestCase(TestCase):
         response = self.client.get('/config/assignment/')
         # compare
         self.assertTrue(
-            response.context['artifact']
-            .filter(artifact_name=artifact_4.artifact_name)
-            .exists()
-        )
-        self.assertTrue(
             response.context['case'].filter(case_name=case_4.case_name).exists()
         )
         self.assertTrue(
@@ -835,21 +752,6 @@ class AssignmentFilterTestCase(TestCase):
         )
         self.assertTrue(
             response.context['task'].filter(task_note=task_4.task_note).exists()
-        )
-        self.assertFalse(
-            response.context['artifact']
-            .filter(artifact_name=artifact_1.artifact_name)
-            .exists()
-        )
-        self.assertFalse(
-            response.context['artifact']
-            .filter(artifact_name=artifact_2.artifact_name)
-            .exists()
-        )
-        self.assertFalse(
-            response.context['artifact']
-            .filter(artifact_name=artifact_3.artifact_name)
-            .exists()
         )
         self.assertFalse(
             response.context['case'].filter(case_name=case_1.case_name).exists()
@@ -912,55 +814,7 @@ class AssignmentFilterTestCase(TestCase):
             response.context['task'].filter(task_note=task_3.task_note).exists()
         )
 
-    def test_assignment_view_post_keep_false(self):
-        """all filter applied, keep False"""
-
-        # login testuser
-        self.client.login(
-            username='testuser_assignment_filter', password='B1z2nn60R4XUMmRoqcA7'
-        )
-        # get user
-        test_user = User.objects.get(username='testuser_assignment_filter')
-        # get objects
-        case_1 = Case.objects.get(case_name='case_1')
-        case_2 = Case.objects.get(case_name='case_2')
-        tag_1 = Tag.objects.get(tag_name='tag_1')
-        tag_2 = Tag.objects.get(tag_name='tag_2')
-
-        # change config
-        set_user_config(test_user, case_1, tag_1, test_user, True)
-
-        # get config
-        user_config = UserConfigModel.objects.get(user_config_username=test_user)
-
-        # compare - config before POST
-        self.assertTrue(user_config.filter_assignment_view_keep)
-        self.assertEqual(user_config.filter_assignment_view_case, case_1)
-        self.assertEqual(user_config.filter_assignment_view_tag, tag_1)
-        self.assertEqual(user_config.filter_assignment_view_user, test_user)
-
-        # create post data
-        data_dict = {
-            'case': case_2.case_id,
-            'tag': tag_2.tag_id,
-            'user': test_user.id,
-        }
-
-        # get response
-        self.client.post('/config/assignment/', data_dict)
-        # reload page manually to avoid runtime issues
-        self.client.get('/config/assignment/')
-
-        # update config
-        user_config.refresh_from_db()
-
-        # compare - config after POST
-        self.assertFalse(user_config.filter_assignment_view_keep)
-        self.assertEqual(user_config.filter_assignment_view_case, None)
-        self.assertEqual(user_config.filter_assignment_view_tag, None)
-        self.assertEqual(user_config.filter_assignment_view_user, None)
-
-    def test_assignment_view_post_keep_true(self):
+    def test_assignment_view_post(self):
         """all filters applied, keep True"""
 
         # login testuser
@@ -976,23 +830,22 @@ class AssignmentFilterTestCase(TestCase):
         tag_2 = Tag.objects.get(tag_name='tag_2')
 
         # change config
-        set_user_config(test_user, case_1, tag_1, None, False)
+        set_user_config(test_user, case_1, [tag_1], None)
 
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
 
         # compare - config before POST
-        self.assertFalse(user_config.filter_assignment_view_keep)
-        self.assertEqual(user_config.filter_assignment_view_case, case_1)
-        self.assertEqual(user_config.filter_assignment_view_tag, tag_1)
-        self.assertEqual(user_config.filter_assignment_view_user, None)
+        self.assertEqual(user_config.filter_list_case, case_1)
+        self.assertEqual(user_config.filter_list_tag.first(), tag_1)
+        self.assertEqual(user_config.filter_list_assigned_to_user_id, None)
 
         # create post data
         data_dict = {
-            'case': case_2.case_id,
-            'tag': tag_2.tag_id,
-            'user': test_user.id,
-            'filter_assignment_view_keep': 'on',
+            'filter_list_case': case_2.case_id,
+            'filter_list_tag': tag_2.tag_id,
+            'filter_list_assigned_to_user_id': test_user.id,
+            'user_config_id': user_config.user_config_id,
         }
 
         # get response
@@ -1004,10 +857,9 @@ class AssignmentFilterTestCase(TestCase):
         user_config.refresh_from_db()
 
         # compare - config after POST
-        self.assertTrue(user_config.filter_assignment_view_keep)
-        self.assertEqual(user_config.filter_assignment_view_case, case_2)
-        self.assertEqual(user_config.filter_assignment_view_tag, tag_2)
-        self.assertEqual(user_config.filter_assignment_view_user, test_user)
+        self.assertEqual(user_config.filter_list_case, case_2)
+        self.assertEqual(user_config.filter_list_tag.first(), tag_2)
+        self.assertEqual(user_config.filter_list_assigned_to_user_id.id, test_user.id)
 
     def test_assignment_view_post_empty(self):
         """no filters applied, keep True"""
@@ -1023,23 +875,22 @@ class AssignmentFilterTestCase(TestCase):
         tag_1 = Tag.objects.get(tag_name='tag_1')
 
         # change config
-        set_user_config(test_user, case_1, tag_1, test_user, False)
+        set_user_config(test_user, case_1, [tag_1], test_user)
 
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
 
         # compare - config before POST
-        self.assertFalse(user_config.filter_assignment_view_keep)
-        self.assertEqual(user_config.filter_assignment_view_case, case_1)
-        self.assertEqual(user_config.filter_assignment_view_tag, tag_1)
-        self.assertEqual(user_config.filter_assignment_view_user, test_user)
+        self.assertEqual(user_config.filter_list_case, case_1)
+        self.assertEqual(user_config.filter_list_tag.first(), tag_1)
+        self.assertEqual(user_config.filter_list_assigned_to_user_id.id, test_user.id)
 
         # create post data
         data_dict = {
-            'case': '',
-            'tag': '',
-            'user': '',
-            'filter_assignment_view_keep': 'on',
+            'filter_list_case': '',
+            'filter_list_tag': [],
+            'filter_list_assigned_to_user_id': '',
+            'user_config_id': user_config.user_config_id,
         }
 
         # get response
@@ -1051,10 +902,9 @@ class AssignmentFilterTestCase(TestCase):
         user_config.refresh_from_db()
 
         # compare - config after POST
-        self.assertTrue(user_config.filter_assignment_view_keep)
-        self.assertEqual(user_config.filter_assignment_view_case, None)
-        self.assertEqual(user_config.filter_assignment_view_tag, None)
-        self.assertEqual(user_config.filter_assignment_view_user, None)
+        self.assertEqual(user_config.filter_list_case, None)
+        self.assertEqual(user_config.filter_list_tag.first(), None)
+        self.assertEqual(user_config.filter_list_assigned_to_user_id, None)
 
     def test_assignment_view_clear_filter(self):
         """test clear filter view"""
@@ -1070,16 +920,15 @@ class AssignmentFilterTestCase(TestCase):
         tag_1 = Tag.objects.get(tag_name='tag_1')
 
         # change config
-        set_user_config(test_user, case_1, tag_1, test_user, True)
+        set_user_config(test_user, case_1, [tag_1], test_user)
 
         # get config
         user_config = UserConfigModel.objects.get(user_config_username=test_user)
 
         # compare - config before POST
-        self.assertTrue(user_config.filter_assignment_view_keep)
-        self.assertEqual(user_config.filter_assignment_view_case, case_1)
-        self.assertEqual(user_config.filter_assignment_view_tag, tag_1)
-        self.assertEqual(user_config.filter_assignment_view_user, test_user)
+        self.assertEqual(user_config.filter_list_case, case_1)
+        self.assertEqual(user_config.filter_list_tag.first(), tag_1)
+        self.assertEqual(user_config.filter_list_assigned_to_user_id, test_user)
 
         # reload page manually to avoid runtime issues
         self.client.get('/config/assignment/clear_filter/')
@@ -1088,10 +937,9 @@ class AssignmentFilterTestCase(TestCase):
         user_config.refresh_from_db()
 
         # compare - config after POST
-        self.assertTrue(user_config.filter_assignment_view_keep)
-        self.assertEqual(user_config.filter_assignment_view_case, None)
-        self.assertEqual(user_config.filter_assignment_view_tag, None)
-        self.assertEqual(user_config.filter_assignment_view_user, None)
+        self.assertEqual(user_config.filter_list_case, None)
+        self.assertEqual(user_config.filter_list_tag.first(), None)
+        self.assertEqual(user_config.filter_list_assigned_to_user_id, None)
 
     def test_dt_referer_wo_search_wo_filter(self):
         """test system datatables processing: w/o search, w/o filter"""
@@ -1105,8 +953,8 @@ class AssignmentFilterTestCase(TestCase):
         # change config
         set_user_config(test_user, None, None, None)
         # get response
-        response = self.client.get(
-            '/system/json/',
+        response = self.client.post(
+            '/filter/system/?config=assignment',
             {
                 'order[0][column]': '1',
                 'order[0][dir]': 'asc',
@@ -1121,11 +969,11 @@ class AssignmentFilterTestCase(TestCase):
         )
         data = json.loads(response.content)
         # compare
-        self.assertEqual(int(data['recordsFiltered']), 3)
+        self.assertEqual(int(data['recordsFiltered']), 4)
         self.assertTrue(check_data_for_system_name(data, 'system_1'))
         self.assertTrue(check_data_for_system_name(data, 'system_2'))
         self.assertTrue(check_data_for_system_name(data, 'system_3'))
-        self.assertFalse(check_data_for_system_name(data, 'system_4'))
+        self.assertTrue(check_data_for_system_name(data, 'system_4'))
 
     def test_dt_referer_w_search_wo_filter(self):
         """test system datatables processing: w/ search, w/o filter"""
@@ -1139,8 +987,8 @@ class AssignmentFilterTestCase(TestCase):
         # change config
         set_user_config(test_user, None, None, None)
         # get response
-        response = self.client.get(
-            '/system/json/',
+        response = self.client.post(
+            '/filter/system/',
             {
                 'order[0][column]': '1',
                 'order[0][dir]': 'asc',
@@ -1175,8 +1023,8 @@ class AssignmentFilterTestCase(TestCase):
         # change config
         set_user_config(test_user, case_1, None, None)
         # get response
-        response = self.client.get(
-            '/system/json/',
+        response = self.client.post(
+            '/filter/system/?config=assignment',
             {
                 'order[0][column]': '1',
                 'order[0][dir]': 'asc',
@@ -1212,8 +1060,8 @@ class AssignmentFilterTestCase(TestCase):
         # change config
         set_user_config(test_user, case_1, None, None)
         # get response
-        response = self.client.get(
-            '/system/json/',
+        response = self.client.post(
+            '/filter/system/',
             {
                 'order[0][column]': '1',
                 'order[0][dir]': 'asc',
@@ -1246,10 +1094,10 @@ class AssignmentFilterTestCase(TestCase):
         # get object
         tag_1 = Tag.objects.get(tag_name='tag_1')
         # change config
-        set_user_config(test_user, None, tag_1, None)
+        set_user_config(test_user, None, [tag_1], None)
         # get response
-        response = self.client.get(
-            '/system/json/',
+        response = self.client.post(
+            '/filter/system/?config=assignment',
             {
                 'order[0][column]': '1',
                 'order[0][dir]': 'asc',
@@ -1282,10 +1130,10 @@ class AssignmentFilterTestCase(TestCase):
         # get object
         tag_1 = Tag.objects.get(tag_name='tag_1')
         # change config
-        set_user_config(test_user, None, tag_1, None)
+        set_user_config(test_user, None, [tag_1], None)
         # get response
-        response = self.client.get(
-            '/system/json/',
+        response = self.client.post(
+            '/filter/system/?config=assignment',
             {
                 'order[0][column]': '1',
                 'order[0][dir]': 'asc',
@@ -1296,14 +1144,13 @@ class AssignmentFilterTestCase(TestCase):
                 'columns[2][data]': 'systemstatus',
                 'draw': '1',
             },
-            HTTP_REFERER='/assignment/',
         )
         data = json.loads(response.content)
         # compare
-        self.assertEqual(int(data['recordsFiltered']), 0)
-        self.assertFalse(check_data_for_system_name(data, 'system_1'))
+        self.assertEqual(int(data['recordsFiltered']), 2)
+        self.assertTrue(check_data_for_system_name(data, 'system_1'))
         self.assertFalse(check_data_for_system_name(data, 'system_2'))
-        self.assertFalse(check_data_for_system_name(data, 'system_3'))
+        self.assertTrue(check_data_for_system_name(data, 'system_3'))
         self.assertFalse(check_data_for_system_name(data, 'system_4'))
 
     def test_dt_referer_wo_search_user_filter(self):
@@ -1318,8 +1165,8 @@ class AssignmentFilterTestCase(TestCase):
         # change config
         set_user_config(test_user, None, None, test_user)
         # get response
-        response = self.client.get(
-            '/system/json/',
+        response = self.client.post(
+            '/filter/system/?config=assignment',
             {
                 'order[0][column]': '1',
                 'order[0][dir]': 'asc',
@@ -1352,8 +1199,8 @@ class AssignmentFilterTestCase(TestCase):
         # change config
         set_user_config(test_user, None, None, test_user)
         # get response
-        response = self.client.get(
-            '/system/json/',
+        response = self.client.post(
+            '/filter/system/',
             {
                 'order[0][column]': '1',
                 'order[0][dir]': 'asc',
@@ -1397,3 +1244,5 @@ class AssignmentFilterTestCase(TestCase):
         self.assertEqual(
             str(messages[0]), 'Filter is active. Entities might be incomplete.'
         )
+
+    # @TODO test assignment json filter artifact

@@ -11,7 +11,6 @@ class WorkflowDefaultTasknameAttributesFormSetTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create or get objects
         Taskname.objects.create(taskname_name='taskname_1')
         Taskpriority.objects.get(taskpriority_name='10_low')

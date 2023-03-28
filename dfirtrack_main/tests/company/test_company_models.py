@@ -8,7 +8,6 @@ class CompanyModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Company.objects.create(company_name='company_1')
 

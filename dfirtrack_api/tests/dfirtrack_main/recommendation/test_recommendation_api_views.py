@@ -11,7 +11,6 @@ class RecommendationAPIViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Recommendation.objects.create(recommendation_name='recommendation_api_1')
         # create user

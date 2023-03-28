@@ -1,0 +1,40 @@
+<div class="row bottom-distance">
+    <form method="POST" class="post-form">
+        {% csrf_token %}
+        {{ form.user_config_id }}
+
+        <!-- show form related errors -->
+        {% include "dfirtrack_main/includes/form_errors.html" %}
+
+        <!-- filter row -->
+        <div class="row top-distance bottom-distance">
+
+            <!-- form fields -->
+            {% for field in form %}
+                {% if field != form.user_config_id %}
+                    <div class="form-group col">
+                        <label for="{{field.id_for_label}}" class="form-label">{{field.label}}</label>
+                        {{ field }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+        <!-- filter row -->
+        </div>
+
+
+        <div class="row">
+            <!-- persistence settings col -->
+            <div class="col-md-3">
+                <!-- apply button -->
+                {% include "dfirtrack_main/includes/button_apply_filter.html" %}
+
+                <!-- clear button -->
+                {% include "dfirtrack_main/includes/button_clear_filter.html" %}
+            </div>
+            <!-- persistence settings col -->
+        </div>
+
+    <!-- filter form -->
+    </form>
+</div>

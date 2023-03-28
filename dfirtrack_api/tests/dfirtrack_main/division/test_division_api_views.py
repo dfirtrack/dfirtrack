@@ -11,7 +11,6 @@ class DivisionAPIViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Division.objects.create(division_name='division_api_1')
         # create user

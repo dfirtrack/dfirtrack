@@ -8,7 +8,6 @@ class NotestatusModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Notestatus.objects.create(notestatus_name='notestatus_1')
 

@@ -3,6 +3,7 @@ import logging
 # define logger callable by module name
 stdlogger = logging.getLogger(__name__)
 
+
 # log level DEBUG
 def debug_logger(request_user, log_text):
     stdlogger.debug(request_user + log_text)

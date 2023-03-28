@@ -16,10 +16,8 @@ from dfirtrack_main.logger.default_logger import info_logger
 
 @login_required(login_url="/login")
 def system_exporter_spreadsheet_csv_config_view(request):
-
     # form was valid to post
     if request.method == "POST":
-
         # get config model
         model = SystemExporterSpreadsheetCsvConfigModel.objects.get(
             system_exporter_spreadsheet_csv_config_name='SystemExporterSpreadsheetCsvConfig'
@@ -28,7 +26,6 @@ def system_exporter_spreadsheet_csv_config_view(request):
         form = SystemExporterSpreadsheetCsvConfigForm(request.POST, instance=model)
 
         if form.is_valid():
-
             # save settings
             model = form.save(commit=False)
             model.save()
@@ -60,7 +57,6 @@ def system_exporter_spreadsheet_csv_config_view(request):
             )
 
     else:
-
         # get config model
         model = SystemExporterSpreadsheetCsvConfigModel.objects.get(
             system_exporter_spreadsheet_csv_config_name='SystemExporterSpreadsheetCsvConfig'
@@ -80,10 +76,8 @@ def system_exporter_spreadsheet_csv_config_view(request):
 
 @login_required(login_url="/login")
 def system_exporter_spreadsheet_xls_config_view(request):
-
     # form was valid to post
     if request.method == "POST":
-
         # get config model
         model = SystemExporterSpreadsheetXlsConfigModel.objects.get(
             system_exporter_spreadsheet_xls_config_name='SystemExporterSpreadsheetXlsConfig'
@@ -92,7 +86,6 @@ def system_exporter_spreadsheet_xls_config_view(request):
         form = SystemExporterSpreadsheetXlsConfigForm(request.POST, instance=model)
 
         if form.is_valid():
-
             # save settings
             model = form.save(commit=False)
             model.save()
@@ -124,7 +117,6 @@ def system_exporter_spreadsheet_xls_config_view(request):
             )
 
     else:
-
         # get config model
         model = SystemExporterSpreadsheetXlsConfigModel.objects.get(
             system_exporter_spreadsheet_xls_config_name='SystemExporterSpreadsheetXlsConfig'

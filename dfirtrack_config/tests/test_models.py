@@ -28,7 +28,6 @@ class ConfigModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         User.objects.create_user(
             username='testuser_config_model', password='4APmzkPrXbUV3p3WV5HN'
@@ -1112,7 +1111,6 @@ class ConfigModelTestCase(TestCase):
         # mock timezone.now()
         t_1 = datetime(2020, 1, 2, 3, 4, 5, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_1):
-
             # create object
             statushistory = Statushistory.objects.create()
 
@@ -1125,7 +1123,6 @@ class ConfigModelTestCase(TestCase):
         # mock timezone.now()
         t_3 = datetime(2021, 12, 31, 1, 2, 3, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_3):
-
             # create object
             statushistory = Statushistory.objects.create()
 
@@ -1141,7 +1138,6 @@ class ConfigModelTestCase(TestCase):
         # mock timezone.now()
         t_2 = datetime(2021, 1, 2, 3, 4, 5, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_2):
-
             # create object
             statushistory = Statushistory.objects.create()
 
@@ -1223,172 +1219,26 @@ class ConfigModelTestCase(TestCase):
             'user config username',
         )
         self.assertEqual(
-            user_config_model._meta.get_field(
-                'filter_assignment_view_keep'
-            ).verbose_name,
-            'filter assignment view keep',
+            user_config_model._meta.get_field('filter_view').verbose_name,
+            'filter view',
+        )
+        self.assertEqual(
+            user_config_model._meta.get_field('filter_view_show').verbose_name,
+            'filter view show',
+        )
+        self.assertEqual(
+            user_config_model._meta.get_field('filter_list_case').verbose_name,
+            'filter list case',
+        )
+        self.assertEqual(
+            user_config_model._meta.get_field('filter_list_tag').verbose_name,
+            'filter list tag',
         )
         self.assertEqual(
             user_config_model._meta.get_field(
-                'filter_assignment_view_case'
+                'filter_list_assigned_to_user_id'
             ).verbose_name,
-            'filter assignment view case',
-        )
-        self.assertEqual(
-            user_config_model._meta.get_field(
-                'filter_assignment_view_tag'
-            ).verbose_name,
-            'filter assignment view tag',
-        )
-        self.assertEqual(
-            user_config_model._meta.get_field(
-                'filter_assignment_view_user'
-            ).verbose_name,
-            'filter assignment view user',
-        )
-        self.assertEqual(
-            user_config_model._meta.get_field(
-                'filter_assignment_view_show_artifact'
-            ).verbose_name,
-            'filter assignment view show artifact',
-        )
-        self.assertEqual(
-            user_config_model._meta.get_field(
-                'filter_assignment_view_show_case'
-            ).verbose_name,
-            'filter assignment view show case',
-        )
-        self.assertEqual(
-            user_config_model._meta.get_field(
-                'filter_assignment_view_show_note'
-            ).verbose_name,
-            'filter assignment view show note',
-        )
-        self.assertEqual(
-            user_config_model._meta.get_field(
-                'filter_assignment_view_show_reportitem'
-            ).verbose_name,
-            'filter assignment view show reportitem',
-        )
-        self.assertEqual(
-            user_config_model._meta.get_field(
-                'filter_assignment_view_show_system'
-            ).verbose_name,
-            'filter assignment view show system',
-        )
-        self.assertEqual(
-            user_config_model._meta.get_field(
-                'filter_assignment_view_show_tag'
-            ).verbose_name,
-            'filter assignment view show tag',
-        )
-        self.assertEqual(
-            user_config_model._meta.get_field(
-                'filter_assignment_view_show_task'
-            ).verbose_name,
-            'filter assignment view show task',
-        )
-        self.assertEqual(
-            user_config_model._meta.get_field(
-                'filter_documentation_list_keep'
-            ).verbose_name,
-            'filter documentation list keep',
-        )
-        self.assertEqual(
-            user_config_model._meta.get_field(
-                'filter_documentation_list_case'
-            ).verbose_name,
-            'filter documentation list case',
-        )
-        self.assertEqual(
-            user_config_model._meta.get_field(
-                'filter_documentation_list_notestatus'
-            ).verbose_name,
-            'filter documentation list notestatus',
-        )
-        self.assertEqual(
-            user_config_model._meta.get_field(
-                'filter_documentation_list_tag'
-            ).verbose_name,
-            'filter documentation list tag',
-        )
-        self.assertEqual(
-            user_config_model._meta.get_field(
-                'filter_system_detail_show_artifact'
-            ).verbose_name,
-            'filter system detail show artifact',
-        )
-        self.assertEqual(
-            user_config_model._meta.get_field(
-                'filter_system_detail_show_artifact_closed'
-            ).verbose_name,
-            'filter system detail show artifact closed',
-        )
-        self.assertEqual(
-            user_config_model._meta.get_field(
-                'filter_system_detail_show_task'
-            ).verbose_name,
-            'filter system detail show task',
-        )
-        self.assertEqual(
-            user_config_model._meta.get_field(
-                'filter_system_detail_show_task_closed'
-            ).verbose_name,
-            'filter system detail show task closed',
-        )
-        self.assertEqual(
-            user_config_model._meta.get_field(
-                'filter_system_detail_show_technical_information'
-            ).verbose_name,
-            'filter system detail show technical information',
-        )
-        self.assertEqual(
-            user_config_model._meta.get_field(
-                'filter_system_detail_show_timeline'
-            ).verbose_name,
-            'filter system detail show timeline',
-        )
-        self.assertEqual(
-            user_config_model._meta.get_field(
-                'filter_system_detail_show_virtualization_information'
-            ).verbose_name,
-            'filter system detail show virtualization information',
-        )
-        self.assertEqual(
-            user_config_model._meta.get_field(
-                'filter_system_detail_show_company_information'
-            ).verbose_name,
-            'filter system detail show company information',
-        )
-        self.assertEqual(
-            user_config_model._meta.get_field(
-                'filter_system_detail_show_systemuser'
-            ).verbose_name,
-            'filter system detail show systemuser',
-        )
-        self.assertEqual(
-            user_config_model._meta.get_field(
-                'filter_system_detail_show_analystmemo'
-            ).verbose_name,
-            'filter system detail show analystmemo',
-        )
-        self.assertEqual(
-            user_config_model._meta.get_field(
-                'filter_system_detail_show_reportitem'
-            ).verbose_name,
-            'filter system detail show reportitem',
-        )
-        self.assertEqual(
-            user_config_model._meta.get_field('filter_system_list_keep').verbose_name,
-            'filter system list keep',
-        )
-        self.assertEqual(
-            user_config_model._meta.get_field('filter_system_list_case').verbose_name,
-            'filter system list case',
-        )
-        self.assertEqual(
-            user_config_model._meta.get_field('filter_system_list_tag').verbose_name,
-            'filter system list tag',
+            'filter list assigned to user id',
         )
 
     def test_workflow_model_string(self):

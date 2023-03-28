@@ -8,7 +8,6 @@ class CasepriorityModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Casepriority.objects.create(casepriority_name='casepriority_1')
 

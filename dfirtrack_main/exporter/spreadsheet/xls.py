@@ -142,7 +142,6 @@ def write_xls(username):
 
     # iterate over systems
     for system in systems:
-
         # skip system depending on export variable
         if system.system_export_spreadsheet == False:
             continue
@@ -365,7 +364,6 @@ def write_xls(username):
         and model.spread_xls_systemstatus
         and Systemstatus.objects.count() != 0
     ):
-
         # define name of worksheet within file
         worksheet_systemstatus = workbook.add_sheet('systemstatus')
 
@@ -398,7 +396,6 @@ def write_xls(username):
 
         # iterate over systemstatus
         for systemstatus in systemstatuss:
-
             # autoincrement row counter
             row_num += 1
 
@@ -425,7 +422,6 @@ def write_xls(username):
         and model.spread_xls_analysisstatus
         and Analysisstatus.objects.count() != 0
     ):
-
         # define name of worksheet within file
         worksheet_analysisstatus = workbook.add_sheet('analysisstatus')
 
@@ -458,7 +454,6 @@ def write_xls(username):
 
         # iterate over analysisstatus
         for analysisstatus in analysisstatuss:
-
             # autoincrement row counter
             row_num += 1
 
@@ -485,7 +480,6 @@ def write_xls(username):
         and model.spread_xls_reason
         and Reason.objects.count() != 0
     ):
-
         # define name of worksheet within file
         worksheet_reason = workbook.add_sheet('reasons')
 
@@ -516,7 +510,6 @@ def write_xls(username):
 
         # iterate over reasons
         for reason in reasons:
-
             # autoincrement row counter
             row_num += 1
 
@@ -543,7 +536,6 @@ def write_xls(username):
         and model.spread_xls_recommendation
         and Recommendation.objects.count() != 0
     ):
-
         # define name of worksheet within file
         worksheet_recommendation = workbook.add_sheet('recommendations')
 
@@ -576,7 +568,6 @@ def write_xls(username):
 
         # iterate over recommendations
         for recommendation in recommendations:
-
             # autoincrement row counter
             row_num += 1
 
@@ -603,7 +594,6 @@ def write_xls(username):
         and model.spread_xls_tag
         and Tag.objects.count() != 0
     ):
-
         # define name of worksheet within file
         worksheet_tag = workbook.add_sheet('tags')
 
@@ -634,7 +624,6 @@ def write_xls(username):
 
         # iterate over tags
         for tag in tags:
-
             # autoincrement row counter
             row_num += 1
 
@@ -675,7 +664,6 @@ def system_create_cron(request):
         # return to 'system_list'
         return redirect(reverse('system_list'))
     else:
-
         # create parameter dict
         params = {}
 

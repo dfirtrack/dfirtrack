@@ -6,7 +6,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('dfirtrack_main', '0015_added_verbose_name_plural'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),

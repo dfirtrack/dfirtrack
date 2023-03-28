@@ -2,7 +2,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('dfirtrack_config', '0010_mainconfigmodel_artifactstatus_times'),
     ]

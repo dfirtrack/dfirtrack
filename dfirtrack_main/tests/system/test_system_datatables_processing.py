@@ -21,7 +21,6 @@ class SystemDatatablesProcessingTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_system', password='LqShcoecDud6JLRxhfKV'
@@ -111,9 +110,9 @@ class SystemDatatablesProcessingTestCase(TestCase):
         """test system datatables processing"""
 
         # create url
-        destination = '/login/?next=' + urllib.parse.quote('/system/json/', safe='')
+        destination = '/login/?next=' + urllib.parse.quote('/filter/system/', safe='')
         # get response
-        response = self.client.get('/system/json/', follow=True)
+        response = self.client.post('/filter/system/', follow=True)
         # compare
         self.assertRedirects(
             response, destination, status_code=302, target_status_code=200
@@ -123,8 +122,8 @@ class SystemDatatablesProcessingTestCase(TestCase):
         """test system datatables processing"""
         # login testuser
         self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
-        response = self.client.get(
-            '/system/json/',
+        response = self.client.post(
+            '/filter/system/?system=all',
             {
                 'order[0][column]': '1',
                 'order[0][dir]': 'asc',
@@ -135,7 +134,6 @@ class SystemDatatablesProcessingTestCase(TestCase):
                 'columns[2][data]': 'systemstatus',
                 'draw': '1',
             },
-            HTTP_REFERER='/system/',
         )
         # compare
         self.assertEqual(response.status_code, 200)
@@ -145,8 +143,8 @@ class SystemDatatablesProcessingTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get response
-        response = self.client.get(
-            '/system/json/',
+        response = self.client.post(
+            '/filter/system/?system=all',
             {
                 'order[0][column]': '1',
                 'order[0][dir]': 'asc',
@@ -157,7 +155,6 @@ class SystemDatatablesProcessingTestCase(TestCase):
                 'columns[2][data]': 'systemstatus',
                 'draw': '1',
             },
-            HTTP_REFERER='/system/',
         )
         data = json.loads(response.content)
         # compare
@@ -169,8 +166,8 @@ class SystemDatatablesProcessingTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get response
-        response = self.client.get(
-            '/system/json/',
+        response = self.client.post(
+            '/filter/system/?system=all',
             {
                 'order[0][column]': '1',
                 'order[0][dir]': 'asc',
@@ -181,7 +178,6 @@ class SystemDatatablesProcessingTestCase(TestCase):
                 'columns[2][data]': 'systemstatus',
                 'draw': '1',
             },
-            HTTP_REFERER='/system/',
         )
         data = json.loads(response.content)
         # compare
@@ -193,8 +189,8 @@ class SystemDatatablesProcessingTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get response
-        response = self.client.get(
-            '/system/json/',
+        response = self.client.post(
+            '/filter/system/?system=all',
             {
                 'order[0][column]': '1',
                 'order[0][dir]': 'asc',
@@ -205,11 +201,10 @@ class SystemDatatablesProcessingTestCase(TestCase):
                 'columns[2][data]': 'systemstatus',
                 'draw': '1',
             },
-            HTTP_REFERER='/system/',
         )
         data = json.loads(response.content)
         # compare
-        self.assertEqual(int(data['recordsFiltered']), 6)
+        self.assertEqual(int(data['recordsFiltered']), 0)
 
     def test_dt_referer_systemstatus_wo_search(self):
         """test system datatables processing"""
@@ -220,8 +215,8 @@ class SystemDatatablesProcessingTestCase(TestCase):
             systemstatus_name='systemstatus_1'
         ).systemstatus_id
         # get response
-        response = self.client.get(
-            '/system/json/',
+        response = self.client.post(
+            f'/filter/system/?systemstatus={systemstatus_id}',
             {
                 'order[0][column]': '1',
                 'order[0][dir]': 'asc',
@@ -232,7 +227,6 @@ class SystemDatatablesProcessingTestCase(TestCase):
                 'columns[2][data]': 'systemstatus',
                 'draw': '1',
             },
-            HTTP_REFERER=f'/systemstatus/{systemstatus_id}/',
         )
         data = json.loads(response.content)
         # compare
@@ -251,8 +245,8 @@ class SystemDatatablesProcessingTestCase(TestCase):
             systemstatus_name='systemstatus_1'
         ).systemstatus_id
         # get response
-        response = self.client.get(
-            '/system/json/',
+        response = self.client.post(
+            f'/filter/system/?systemstatus={systemstatus_id}',
             {
                 'order[0][column]': '1',
                 'order[0][dir]': 'asc',
@@ -263,7 +257,6 @@ class SystemDatatablesProcessingTestCase(TestCase):
                 'columns[2][data]': 'systemstatus',
                 'draw': '1',
             },
-            HTTP_REFERER=f'/systemstatus/{systemstatus_id}/',
         )
         data = json.loads(response.content)
         # compare
@@ -277,8 +270,8 @@ class SystemDatatablesProcessingTestCase(TestCase):
         # get data
         case_id = Case.objects.get(case_name='case_1').case_id
         # get response
-        response = self.client.get(
-            '/system/json/',
+        response = self.client.post(
+            f'/filter/system/?case={case_id}',
             {
                 'order[0][column]': '1',
                 'order[0][dir]': 'asc',
@@ -289,7 +282,6 @@ class SystemDatatablesProcessingTestCase(TestCase):
                 'columns[2][data]': 'systemstatus',
                 'draw': '1',
             },
-            HTTP_REFERER=f'/case/{case_id}/',
         )
         data = json.loads(response.content)
         # compare
@@ -306,8 +298,8 @@ class SystemDatatablesProcessingTestCase(TestCase):
         # get data
         case_id = Case.objects.get(case_name='case_1').case_id
         # get response
-        response = self.client.get(
-            '/system/json/',
+        response = self.client.post(
+            f'/filter/system/?case={case_id}',
             {
                 'order[0][column]': '1',
                 'order[0][dir]': 'asc',
@@ -318,7 +310,6 @@ class SystemDatatablesProcessingTestCase(TestCase):
                 'columns[2][data]': 'systemstatus',
                 'draw': '1',
             },
-            HTTP_REFERER=f'/case/{case_id}/',
         )
         data = json.loads(response.content)
         # compare
@@ -334,8 +325,8 @@ class SystemDatatablesProcessingTestCase(TestCase):
             analysisstatus_name='analysisstatus_1'
         ).analysisstatus_id
         # get response
-        response = self.client.get(
-            '/system/json/',
+        response = self.client.post(
+            f'/filter/system/?analysisstatus={analysisstatus_id}',
             {
                 'order[0][column]': '1',
                 'order[0][dir]': 'asc',
@@ -346,7 +337,6 @@ class SystemDatatablesProcessingTestCase(TestCase):
                 'columns[2][data]': 'systemstatus',
                 'draw': '1',
             },
-            HTTP_REFERER=f'/analysisstatus/{analysisstatus_id}/',
         )
         data = json.loads(response.content)
         # compare
@@ -365,8 +355,8 @@ class SystemDatatablesProcessingTestCase(TestCase):
             analysisstatus_name='analysisstatus_1'
         ).analysisstatus_id
         # get response
-        response = self.client.get(
-            '/system/json/',
+        response = self.client.post(
+            f'/filter/system/?analysisstatus={analysisstatus_id}',
             {
                 'order[0][column]': '1',
                 'order[0][dir]': 'asc',
@@ -377,7 +367,6 @@ class SystemDatatablesProcessingTestCase(TestCase):
                 'columns[2][data]': 'systemstatus',
                 'draw': '1',
             },
-            HTTP_REFERER=f'/analysisstatus/{analysisstatus_id}/',
         )
         data = json.loads(response.content)
         # compare
@@ -391,8 +380,8 @@ class SystemDatatablesProcessingTestCase(TestCase):
         # get data
         tag_id = Tag.objects.get(tag_name='tag_1').tag_id
         # get response
-        response = self.client.get(
-            '/system/json/',
+        response = self.client.post(
+            f'/filter/system/?tag={tag_id}',
             {
                 'order[0][column]': '1',
                 'order[0][dir]': 'asc',
@@ -403,7 +392,6 @@ class SystemDatatablesProcessingTestCase(TestCase):
                 'columns[2][data]': 'systemstatus',
                 'draw': '1',
             },
-            HTTP_REFERER=f'/tag/{tag_id}/',
         )
         data = json.loads(response.content)
         # compare
@@ -420,8 +408,8 @@ class SystemDatatablesProcessingTestCase(TestCase):
         # get data
         tag_id = Tag.objects.get(tag_name='tag_1').tag_id
         # get response
-        response = self.client.get(
-            '/system/json/',
+        response = self.client.post(
+            f'/filter/system/?tag={tag_id}',
             {
                 'order[0][column]': '1',
                 'order[0][dir]': 'asc',
@@ -432,7 +420,6 @@ class SystemDatatablesProcessingTestCase(TestCase):
                 'columns[2][data]': 'systemstatus',
                 'draw': '1',
             },
-            HTTP_REFERER=f'/tag/{tag_id}/',
         )
         data = json.loads(response.content)
         # compare
@@ -444,8 +431,8 @@ class SystemDatatablesProcessingTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get response
-        response = self.client.get(
-            '/system/json/',
+        response = self.client.post(
+            '/filter/system/?system=all',
             {
                 'order[0][column]': '1',
                 'order[0][dir]': 'asc',
@@ -456,44 +443,18 @@ class SystemDatatablesProcessingTestCase(TestCase):
                 'columns[2][data]': 'systemstatus',
                 'draw': '1',
             },
-            HTTP_REFERER='/system/',
         )
         data = json.loads(response.content)
         # compare
         self.assertEqual(int(data['recordsFiltered']), 0)
-
-    def test_dt_no_referer(self):
-        """test system datatables processing"""
-        # login testuser
-        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
-        # expected output
-        destination = '/system/'
-        # get response
-        response = self.client.get(
-            '/system/json/',
-            {
-                'order[0][column]': '1',
-                'order[0][dir]': 'asc',
-                'start': '0',
-                'length': '25',
-                'search[value]': 'system_1',
-                'columns[1][data]': 'system_name',
-                'columns[2][data]': 'systemstatus',
-                'draw': '1',
-            },
-        )
-        # compare
-        self.assertRedirects(
-            response, destination, status_code=302, target_status_code=200
-        )
 
     def test_dt_order_systemstatus(self):
         """test system datatables processing"""
         # login testuser
         self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get response
-        response = self.client.get(
-            '/system/json/',
+        response = self.client.post(
+            '/filter/system/?system=all',
             {
                 'order[0][column]': '2',
                 'order[0][dir]': 'asc',
@@ -504,7 +465,6 @@ class SystemDatatablesProcessingTestCase(TestCase):
                 'columns[2][data]': 'systemstatus',
                 'draw': '1',
             },
-            HTTP_REFERER='/system/',
         )
         data = json.loads(response.content)
         # compare
@@ -515,8 +475,8 @@ class SystemDatatablesProcessingTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
         # get response
-        response = self.client.get(
-            '/system/json/',
+        response = self.client.post(
+            '/filter/system/?system=all',
             {
                 'order[0][column]': '3',
                 'order[0][dir]': 'asc',
@@ -528,7 +488,6 @@ class SystemDatatablesProcessingTestCase(TestCase):
                 'columns[3][data]': 'analysisstatus',
                 'draw': '1',
             },
-            HTTP_REFERER='/system/',
         )
         data = json.loads(response.content)
         # compare

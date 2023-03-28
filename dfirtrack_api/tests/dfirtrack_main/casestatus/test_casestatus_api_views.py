@@ -11,7 +11,6 @@ class CasestatusAPIViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Casestatus.objects.create(casestatus_name='casestatus_api_1')
         # create user

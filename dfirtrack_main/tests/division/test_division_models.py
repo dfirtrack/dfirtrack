@@ -8,7 +8,6 @@ class DivisionModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Division.objects.create(division_name='division_1')
 

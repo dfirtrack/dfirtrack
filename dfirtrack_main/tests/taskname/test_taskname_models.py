@@ -8,7 +8,6 @@ class TasknameModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Taskname.objects.create(taskname_name='taskname_1')
 

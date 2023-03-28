@@ -11,7 +11,6 @@ class NoteAPIViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_note_api', password='2to8VdHRHNUcNS7CXmDd'

@@ -16,7 +16,6 @@ stdlogger = logging.getLogger(__name__)
 
 
 class Analysisstatus(models.Model):
-
     # primary key
     analysisstatus_id = models.AutoField(primary_key=True)
 
@@ -49,7 +48,6 @@ class Analysisstatus(models.Model):
 
 
 class Analystmemo(models.Model):
-
     # primary key
     analystmemo_id = models.AutoField(primary_key=True)
 
@@ -94,7 +92,6 @@ class Analystmemo(models.Model):
 
 
 class Case(models.Model):
-
     # primary key
     case_id = models.AutoField(primary_key=True)
 
@@ -143,7 +140,6 @@ class Case(models.Model):
 
     # define logger
     def logger(case, request_user, log_text):  # coverage: ignore branch
-
         if case.case_start_time != None:
             # cast datetime object to string
             starttime = case.case_start_time.strftime('%Y-%m-%d %H:%M:%S')
@@ -218,7 +214,6 @@ class Case(models.Model):
 
 
 class Casepriority(models.Model):
-
     # primary key
     casepriority_id = models.AutoField(primary_key=True)
 
@@ -260,7 +255,6 @@ class Casepriority(models.Model):
 
 
 class Casestatus(models.Model):
-
     # primary key
     casestatus_id = models.AutoField(primary_key=True)
 
@@ -302,7 +296,6 @@ class Casestatus(models.Model):
 
 
 class Casetype(models.Model):
-
     # primary key
     casetype_id = models.AutoField(primary_key=True)
 
@@ -346,7 +339,6 @@ class Casetype(models.Model):
 
 
 class Company(models.Model):
-
     # primary key
     company_id = models.AutoField(primary_key=True)
 
@@ -389,7 +381,6 @@ class Company(models.Model):
 
 
 class Contact(models.Model):
-
     # primary key
     contact_id = models.AutoField(primary_key=True)
 
@@ -428,7 +419,6 @@ class Contact(models.Model):
 
 
 class Division(models.Model):
-
     # primary key
     division_id = models.AutoField(primary_key=True)
 
@@ -461,7 +451,6 @@ class Division(models.Model):
 
 
 class Dnsname(models.Model):
-
     # primary key
     dnsname_id = models.AutoField(primary_key=True)
 
@@ -501,7 +490,6 @@ class Dnsname(models.Model):
 
 
 class Domain(models.Model):
-
     # primary key
     domain_id = models.AutoField(primary_key=True)
 
@@ -534,7 +522,6 @@ class Domain(models.Model):
 
 
 class Domainuser(models.Model):
-
     # primary key
     domainuser_id = models.AutoField(primary_key=True)
 
@@ -556,7 +543,6 @@ class Domainuser(models.Model):
 
     # define logger
     def logger(domainuser, request_user, log_text):  # coverage: ignore branch
-
         """
         ManyToMany-Relationsship don't get the default 'None' string if they are empty.
         So the default string is set to 'None'.
@@ -599,7 +585,6 @@ class Domainuser(models.Model):
 
 
 class Entry(models.Model):
-
     # primary key
     entry_id = models.AutoField(primary_key=True)
 
@@ -685,7 +670,6 @@ class Entry(models.Model):
 
 
 class Headline(models.Model):
-
     # primary key
     headline_id = models.AutoField(primary_key=True)
 
@@ -715,7 +699,6 @@ class Headline(models.Model):
 
 
 class Ip(models.Model):
-
     # primary key
     ip_id = models.AutoField(primary_key=True)
 
@@ -742,7 +725,6 @@ class Ip(models.Model):
 
 
 class Location(models.Model):
-
     # primary key
     location_id = models.AutoField(primary_key=True)
 
@@ -775,7 +757,6 @@ class Location(models.Model):
 
 
 class Note(models.Model):
-
     # primary key
     note_id = models.AutoField(primary_key=True)
 
@@ -813,7 +794,6 @@ class Note(models.Model):
 
     # define logger
     def logger(note, request_user, log_text):
-
         # get objects
         tags = note.tag.all()
         # create empty list
@@ -849,7 +829,6 @@ class Note(models.Model):
 
     # custom save method
     def save(self, *args, **kwargs):
-
         """note_version"""
 
         if not self.pk:
@@ -883,7 +862,6 @@ class Note(models.Model):
 
 
 class Notestatus(models.Model):
-
     # primary key
     notestatus_id = models.AutoField(primary_key=True)
 
@@ -916,7 +894,6 @@ class Notestatus(models.Model):
 
 
 class Os(models.Model):
-
     # primary key
     os_id = models.AutoField(primary_key=True)
 
@@ -949,7 +926,6 @@ class Os(models.Model):
 
 
 class Osarch(models.Model):
-
     # primary key
     osarch_id = models.AutoField(primary_key=True)
 
@@ -979,7 +955,6 @@ class Osarch(models.Model):
 
 
 class Osimportname(models.Model):
-
     # primary key
     osimportname_id = models.AutoField(primary_key=True)
 
@@ -1014,7 +989,6 @@ class Osimportname(models.Model):
 
 
 class Reason(models.Model):
-
     # primary key
     reason_id = models.AutoField(primary_key=True)
 
@@ -1047,7 +1021,6 @@ class Reason(models.Model):
 
 
 class Recommendation(models.Model):
-
     # primary key
     recommendation_id = models.AutoField(primary_key=True)
 
@@ -1080,7 +1053,6 @@ class Recommendation(models.Model):
 
 
 class Reportitem(models.Model):
-
     # primary key
     reportitem_id = models.AutoField(primary_key=True)
 
@@ -1122,7 +1094,6 @@ class Reportitem(models.Model):
 
     # define logger
     def logger(reportitem, request_user, log_text):
-
         # get objects
         tags = reportitem.tag.all()
         # create empty list
@@ -1172,7 +1143,6 @@ class Reportitem(models.Model):
 
 
 class Serviceprovider(models.Model):
-
     # primary key
     serviceprovider_id = models.AutoField(primary_key=True)
 
@@ -1205,7 +1175,6 @@ class Serviceprovider(models.Model):
 
 
 class System(models.Model):
-
     # primary key
     system_id = models.AutoField(primary_key=True)
 
@@ -1312,7 +1281,6 @@ class System(models.Model):
 
     # extend save method
     def save(self, *args, **kwargs):
-
         '''for all systems'''
 
         # strip whitespaces
@@ -1333,7 +1301,6 @@ class System(models.Model):
 
         # check for existing system
         if self.pk:
-
             '''systemhistory'''
 
             ''' systemstatus (null = False) '''
@@ -1400,7 +1367,6 @@ class System(models.Model):
 
         # check for new system
         if not self.pk:
-
             '''systemhistory'''
 
             # initial set previous status (null = False)
@@ -1419,7 +1385,6 @@ class System(models.Model):
 
     # define logger
     def logger(system, request_user, log_text):  # coverage: ignore branch
-
         """
         ManyToMany-Relationsship don't get the default 'None' string if they are empty.
         So the default string is set to 'None'.
@@ -1608,7 +1573,6 @@ class System(models.Model):
 
 
 class Systemhistory(models.Model):
-
     # primary key
     systemhistory_id = models.AutoField(primary_key=True)
 
@@ -1630,7 +1594,6 @@ class Systemhistory(models.Model):
 
 
 class Systemstatus(models.Model):
-
     # primary key
     systemstatus_id = models.AutoField(primary_key=True)
 
@@ -1663,7 +1626,6 @@ class Systemstatus(models.Model):
 
 
 class Systemtype(models.Model):
-
     # primary key
     systemtype_id = models.AutoField(primary_key=True)
 
@@ -1693,7 +1655,6 @@ class Systemtype(models.Model):
 
 
 class Systemuser(models.Model):
-
     # primary key
     systemuser_id = models.AutoField(primary_key=True)
 
@@ -1738,7 +1699,6 @@ class Systemuser(models.Model):
 
 
 class Tag(models.Model):
-
     # primary key
     tag_id = models.AutoField(primary_key=True)
 
@@ -1803,7 +1763,6 @@ class Tag(models.Model):
 
 
 class Tagcolor(models.Model):
-
     # primary key
     tagcolor_id = models.AutoField(primary_key=True)
 
@@ -1827,7 +1786,6 @@ class Tagcolor(models.Model):
 
 
 class Task(models.Model):
-
     # primary key
     task_id = models.AutoField(primary_key=True)
 
@@ -2010,7 +1968,6 @@ class Task(models.Model):
 
 
 class Taskname(models.Model):
-
     # primary key
     taskname_id = models.AutoField(primary_key=True)
 
@@ -2043,7 +2000,6 @@ class Taskname(models.Model):
 
 
 class Taskpriority(models.Model):
-
     # primary key
     taskpriority_id = models.AutoField(primary_key=True)
 
@@ -2070,7 +2026,6 @@ class Taskpriority(models.Model):
 
 
 class Taskstatus(models.Model):
-
     # primary key
     taskstatus_id = models.AutoField(primary_key=True)
 

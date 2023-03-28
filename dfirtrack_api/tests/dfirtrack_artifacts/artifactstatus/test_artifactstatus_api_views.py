@@ -11,7 +11,6 @@ class ArtifactstatusAPIViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Artifactstatus.objects.create(artifactstatus_name='artifactstatus_api_1')
         # create user

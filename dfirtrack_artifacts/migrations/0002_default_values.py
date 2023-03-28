@@ -52,7 +52,6 @@ def insert_artifacttypes(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('dfirtrack_artifacts', '0001_initial'),
     ]

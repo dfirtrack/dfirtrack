@@ -245,7 +245,6 @@ class SystemImporterFileCsvCompleteAttributesCsvViewTestCase(TestCase):
         # mock timezone.now()
         t_4 = datetime(2021, 3, 6, 18, 14, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_4):
-
             # execute cron job / scheduled task
             system_cron()
 

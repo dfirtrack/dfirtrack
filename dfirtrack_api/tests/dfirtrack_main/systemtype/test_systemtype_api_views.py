@@ -11,7 +11,6 @@ class SystemtypeAPIViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Systemtype.objects.create(systemtype_name='systemtype_api_1')
         # create user

@@ -85,7 +85,6 @@ class TaskCreate(LoginRequiredMixin, CreateView):
     template_name = 'dfirtrack_main/task/task_generic_form.html'
 
     def get(self, request, *args, **kwargs):
-
         # get id of first status objects sorted by name
         taskpriority = Taskpriority.objects.order_by('taskpriority_name')[
             0

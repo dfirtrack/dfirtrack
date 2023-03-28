@@ -201,7 +201,6 @@ try:
     from .local_settings import SECRET_KEY
 
 except ImportError:  # coverage: ignore branch
-
     SECRET_KEY = os.getenv('SECRET_KEY', 'CHANGEME')
 
 # DEBUG
@@ -209,7 +208,6 @@ try:
     from .local_settings import DEBUG
 
 except ImportError:  # coverage: ignore branch
-
     # change to True for debugging
     DEBUG = False
 
@@ -218,7 +216,6 @@ try:
     from .local_settings import SESSION_COOKIE_SECURE
 
 except ImportError:  # coverage: ignore branch
-
     SESSION_COOKIE_SECURE = True
 
 # ALLOWED_HOSTS
@@ -226,7 +223,6 @@ try:
     from .local_settings import ALLOWED_HOSTS
 
 except ImportError:  # coverage: ignore branch
-
     # add IP or FQDN if relevant
     ALLOWED_HOSTS = ['localhost']
 
@@ -235,7 +231,6 @@ try:
     from .local_settings import DATABASES
 
 except ImportError:  # coverage: ignore branch
-
     # Database - check environment variables for context
     if "CI" in os.environ:
         # use PostgreSQL for GitHub action
@@ -263,7 +258,6 @@ try:
     from .local_settings import STATIC_ROOT
 
 except ImportError:  # coverage: ignore branch
-
     STATIC_ROOT = '/var/www/html/static/'
 
 # DATA_UPLOAD_MAX_NUMBER_FIELDS
@@ -271,5 +265,4 @@ try:
     from .local_settings import DATA_UPLOAD_MAX_NUMBER_FIELDS
 
 except ImportError:  # coverage: ignore branch
-
     DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000

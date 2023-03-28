@@ -1,99 +1,68 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
-from django.urls import reverse
-from django.views.generic import CreateView, DetailView, ListView, UpdateView
+from django.urls import resolve, reverse
+from django.views.generic import CreateView, DetailView, FormView, ListView, UpdateView
 
 from dfirtrack_artifacts.forms import ArtifactForm
 from dfirtrack_artifacts.models import Artifact, Artifactpriority, Artifactstatus
-from dfirtrack_config.models import MainConfigModel
+from dfirtrack_config.models import MainConfigModel, UserConfigModel
+from dfirtrack_main.filter_forms import GeneralFilterForm
 from dfirtrack_main.logger.default_logger import debug_logger
 
 
-def query_artifact(artifactstatus_list):
-    """query artifacts with a list of specific artifactstatus"""
-
-    # create empty artifact queryset
-    artifacts_merged = Artifact.objects.none()
-
-    # iterate over artifactstatus objects
-    for artifactstatus in artifactstatus_list:
-
-        # get artifacts with specific artifactstatus
-        artifacts = Artifact.objects.filter(artifactstatus=artifactstatus)
-
-        # add artifacts from above query to merge queryset
-        artifacts_merged = artifacts | artifacts_merged
-
-    # sort artifacts by id
-    artifacts_sorted = artifacts_merged.order_by('artifact_id')
-
-    # return sorted artifacts with specific artifactstatus
-    return artifacts_sorted
-
-
-class ArtifactListView(LoginRequiredMixin, ListView):
+class ArtifactListView(LoginRequiredMixin, FormView):
     login_url = '/login'
     model = Artifact
     template_name = 'dfirtrack_artifacts/artifact/artifact_list.html'
     context_object_name = 'artifact_list'
+    form_class = GeneralFilterForm
+    filter_view = 'artifact_list'
 
-    def get_queryset(self):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
 
-        # call logger
-        debug_logger(str(self.request.user), ' ARTIFACT_LIST_ENTERED')
         # get config
-        main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
+        user_config, created = UserConfigModel.objects.get_or_create(
+            user_config_username=self.request.user, filter_view=self.filter_view
+        )
 
-        """ get all artifacts with artifactstatus to be considered open """
+        # filter: pre-select form according to previous filter selection
+        context['form'] = self.form_class(instance=user_config)
 
-        # get 'open' artifactstatus from config
-        artifactstatus_open = main_config_model.artifactstatus_open.all()
-        # query artifacts according to subset of artifactstatus open
-        artifacts = query_artifact(artifactstatus_open)
+        # get current artifact view
+        current_url = resolve(self.request.path_info).url_name
+        if current_url == 'artifacts_artifact_list':
+            # call logger
+            debug_logger(str(self.request.user), ' ARTIFACT_OPEN_ENTERED')
+            context['artifact_site'] = 'open'
+        elif current_url == 'artifacts_artifact_closed':
+            # call logger
+            debug_logger(str(self.request.user), ' ARTIFACT_CLOSED_ENTERED')
+            context['artifact_site'] = 'closed'
+        else:
+            # call logger
+            debug_logger(str(self.request.user), ' ARTIFACT_ALL_ENTERED')
+            context['artifact_site'] = 'all'
+        return context
 
-        # return artifacts according to query
-        return artifacts
+    def post(self, request, *args, **kwargs):
+        """save form data to config and call view again"""
+        user_config, created = UserConfigModel.objects.get_or_create(
+            user_config_username=request.user, filter_view=self.filter_view
+        )
 
+        form = self.form_class(request.POST, instance=user_config)
 
-class ArtifactClosedView(LoginRequiredMixin, ListView):
-    login_url = '/login'
-    model = Artifact
-    template_name = 'dfirtrack_artifacts/artifact/artifact_closed.html'
-    context_object_name = 'artifact_list'
+        if form.is_valid():
+            user_config = form.save(commit=False)
+            user_config.save()
+            form.save_m2m()
 
-    def get_queryset(self):
-
-        # call logger
-        debug_logger(str(self.request.user), ' ARTIFACT_CLOSED_ENTERED')
-        # get config
-        main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
-
-        """ get all artifacts with artifactstatus to be considered closed """
-
-        # get all artifactstatus from database
-        artifactstatus_all = Artifactstatus.objects.all()
-        # get 'open' artifactstatus from config
-        artifactstatus_open = main_config_model.artifactstatus_open.all()
-        # get diff between all artifactstatus and open artifactstatus
-        artifactstatus_closed = artifactstatus_all.difference(artifactstatus_open)
-
-        # query artifacts according to subset of artifactstatus closed
-        artifacts = query_artifact(artifactstatus_closed)
-        # return artifacts according to query
-        return artifacts
-
-
-class ArtifactAllView(LoginRequiredMixin, ListView):
-    login_url = '/login'
-    model = Artifact
-    template_name = 'dfirtrack_artifacts/artifact/artifact_all.html'
-    context_object_name = 'artifact_list'
-
-    def get_queryset(self):
-        # call logger
-        debug_logger(str(self.request.user), ' ARTIFACT_ALL_ENTERED')
-        return Artifact.objects.order_by('artifact_id')
+        # call view again
+        request.get_full_path()
+        return redirect(request.get_full_path())
 
 
 class ArtifactDetailView(LoginRequiredMixin, DetailView):
@@ -115,7 +84,6 @@ class ArtifactCreateView(LoginRequiredMixin, CreateView):
     form_class = ArtifactForm
 
     def get(self, request, *args, **kwargs):
-
         # get id of first status objects sorted by name
         artifactpriority = Artifactpriority.objects.order_by('artifactpriority_name')[
             0
@@ -228,3 +196,23 @@ class ArtifactUnsetUser(LoginRequiredMixin, UpdateView):
         return redirect(
             reverse('artifacts_artifact_detail', args=(artifact.artifact_id,))
         )
+
+
+@login_required(login_url="/login")
+def clear_artifact_list_filter(request):
+    """clear system list filter"""
+
+    # get config
+    user_config, created = UserConfigModel.objects.get_or_create(
+        user_config_username=request.user, filter_view='artifact_list'
+    )
+
+    # clear values
+    user_config.filter_list_case = None
+    user_config.filter_list_assigned_to_user_id = None
+    user_config.filter_list_tag.clear()
+
+    # save config
+    user_config.save()
+
+    return redirect(reverse('artifacts_artifact_list'))

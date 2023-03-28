@@ -96,7 +96,6 @@ def write_csv(username, csv_file):
 
     # iterate over systems
     for system in systems:
-
         # skip system depending on export variable
         if system.system_export_spreadsheet == False:
             continue
@@ -331,7 +330,6 @@ def system_create_cron(request):
         # return to 'system_list'
         return redirect(reverse('system_list'))
     else:
-
         # create parameter dict
         params = {}
 

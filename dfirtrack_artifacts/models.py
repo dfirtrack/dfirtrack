@@ -94,7 +94,6 @@ class Artifact(models.Model):
 
     # define logger
     def logger(artifact, request_user, log_text):  # coverage: ignore branch
-
         if artifact.artifact_requested_time != None:
             # cast datetime object to string
             requestedtime = artifact.artifact_requested_time.strftime(
@@ -174,7 +173,6 @@ class Artifact(models.Model):
         )
 
     def save(self, *args, **kwargs):
-
         # generate slug
         self.artifact_slug = slugify(self.artifact_name)
 

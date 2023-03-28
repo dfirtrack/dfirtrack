@@ -103,7 +103,6 @@ class Command(BaseCommand):
 
         # iterate over rows
         for row in rows:
-
             # get values from CSV
             username_from_row = row[0]
 

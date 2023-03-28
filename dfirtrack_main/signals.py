@@ -21,13 +21,11 @@ def artifact_pre_delete_task_set_abandoned(sender, instance, *args, **kwargs):
 
     # if there any tasks for this artifact
     if tasks:
-
         # remove all tasks from artifact (otherwise 'self.artifact' would be still existing)
         artifact.task_set.clear()
 
         # iterate over tasks
         for task in tasks:
-
             # refresh object
             task.refresh_from_db()
 
@@ -47,13 +45,11 @@ def case_pre_delete_task_set_abandoned(sender, instance, *args, **kwargs):
 
     # if there any tasks for this case
     if tasks:
-
         # remove all tasks from case (otherwise 'self.case' would be still existing)
         case.task_set.clear()
 
         # iterate over tasks
         for task in tasks:
-
             # refresh object
             task.refresh_from_db()
 
@@ -73,13 +69,11 @@ def system_pre_delete_task_set_abandoned(sender, instance, *args, **kwargs):
 
     # if there any tasks for this system
     if tasks:
-
         # remove all tasks from system (otherwise 'self.system' would be still existing)
         system.task_set.clear()
 
         # iterate over tasks
         for task in tasks:
-
             # refresh object
             task.refresh_from_db()
 
@@ -96,14 +90,12 @@ def reportitem_post_save_system_case(sender, instance, *args, **kwargs):
 
     # reportitem was linked with a case
     if reportitem.case:
-
         # improve readability
         reportitem_case = reportitem.case
         reportitem_system = reportitem.system
 
         # check whether reportitem's system is linked with reportitem's case
         if not reportitem_case in reportitem_system.case.all():
-
             # link reportitem's system with reportitem's case
             reportitem_system.case.add(reportitem_case)
 

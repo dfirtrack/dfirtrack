@@ -28,7 +28,6 @@ class SystemViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_system', password='LqShcoecDud6JLRxhfKV'
@@ -406,102 +405,6 @@ class SystemViewTestCase(TestCase):
         response = self.client.get(f'/system/{system_1.system_id}/')
         # compare
         self.assertEqual(str(response.context['workflows'][0]), 'workflow_1')
-
-    def test_system_detail_context_artifacts_all(self):
-        """test detail view"""
-
-        # get objects
-        system_1 = System.objects.get(system_name='system_1')
-        # login testuser
-        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
-        # get response
-        response = self.client.get('/system/' + str(system_1.system_id) + '/')
-        # compare
-        self.assertTrue(
-            response.context['artifacts_all']
-            .filter(artifact_name='artifact_open_system_1')
-            .exists()
-        )
-        self.assertTrue(
-            response.context['artifacts_all']
-            .filter(artifact_name='artifact_closed_system_1')
-            .exists()
-        )
-        self.assertFalse(
-            response.context['artifacts_all']
-            .filter(artifact_name='artifact_open_system_2')
-            .exists()
-        )
-        self.assertFalse(
-            response.context['artifacts_all']
-            .filter(artifact_name='artifact_closed_system_2')
-            .exists()
-        )
-        self.assertEqual(len(response.context['artifacts_all']), 2)
-
-    def test_system_detail_context_artifacts_open(self):
-        """test detail view"""
-
-        # get objects
-        system_1 = System.objects.get(system_name='system_1')
-        # login testuser
-        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
-        # get response
-        response = self.client.get('/system/' + str(system_1.system_id) + '/')
-        # compare
-        self.assertTrue(
-            response.context['artifacts_open']
-            .filter(artifact_name='artifact_open_system_1')
-            .exists()
-        )
-        self.assertFalse(
-            response.context['artifacts_open']
-            .filter(artifact_name='artifact_closed_system_1')
-            .exists()
-        )
-        self.assertFalse(
-            response.context['artifacts_open']
-            .filter(artifact_name='artifact_open_system_2')
-            .exists()
-        )
-        self.assertFalse(
-            response.context['artifacts_open']
-            .filter(artifact_name='artifact_closed_system_2')
-            .exists()
-        )
-        self.assertEqual(len(response.context['artifacts_open']), 1)
-
-    def test_system_detail_context_artifacts_closed(self):
-        """test detail view"""
-
-        # get object
-        system_1 = System.objects.get(system_name='system_1')
-        # login testuser
-        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
-        # get response
-        response = self.client.get('/system/' + str(system_1.system_id) + '/')
-        # compare
-        self.assertFalse(
-            response.context['artifacts_closed']
-            .filter(artifact_name='artifact_open_system_1')
-            .exists()
-        )
-        self.assertTrue(
-            response.context['artifacts_closed']
-            .filter(artifact_name='artifact_closed_system_1')
-            .exists()
-        )
-        self.assertFalse(
-            response.context['artifacts_closed']
-            .filter(artifact_name='artifact_open_system_2')
-            .exists()
-        )
-        self.assertFalse(
-            response.context['artifacts_closed']
-            .filter(artifact_name='artifact_closed_system_2')
-            .exists()
-        )
-        self.assertEqual(len(response.context['artifacts_closed']), 1)
 
     def test_system_detail_context_tasks_all(self):
         """test detail view"""
@@ -1236,41 +1139,47 @@ class SystemViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'dfirtrack_main/system/system_edit.html')
 
     # TODO: does not work so far, model change in config does not affect the underlying view (it is not model related)
-    #    def test_system_edit_post_system_name_editable_redirect(self):
-    #        """ test edit view """
-    #
-    #        # login testuser
-    #        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
-    #        # get config model
-    #        main_config_model = MainConfigModel.objects.get(main_config_name = 'MainConfig')
-    #        # set config model
-    #        main_config_model.system_name_editable = True
-    #        main_config_model.save()
-    #        # get user
-    #        test_user = User.objects.get(username = 'testuser_system')
-    #        # get object
-    #        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
-    #        # create object
-    #        system_1 = System.objects.create(
-    #            system_name = 'system_edit_post_test_3',
-    #            systemstatus = systemstatus_1,
-    #            system_created_by_user_id = test_user,
-    #            system_modified_by_user_id = test_user,
-    #        )
-    #        # create post data
-    #        data_dict = {
-    #            'system_name': 'system_edit_post_test_4',
-    #            'systemstatus': systemstatus_1.systemstatus_id,
-    #            'iplist': '',
-    #        }
-    #        # get response
-    #        response = self.client.post('/system/' + str(system_1.system_id) + '/edit/', data_dict)
-    #        # get object
-    #        system_2 = System.objects.get(system_name='system_edit_post_test_4')
-    #        # create url
-    #        destination = urllib.parse.quote('/system/' + str(system_2.system_id) + '/', safe='/')
-    #        # compare
-    #        self.assertRedirects(response, destination, status_code=302, target_status_code=200)
+    def test_system_edit_post_system_name_editable_redirect(self):
+        """test edit view"""
+
+        # login testuser
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get config model
+        main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
+        # set config model
+        main_config_model.system_name_editable = True
+        main_config_model.save()
+        # get user
+        test_user = User.objects.get(username='testuser_system')
+        # get object
+        systemstatus_1 = Systemstatus.objects.get(systemstatus_name='systemstatus_1')
+        # create object
+        system_1 = System.objects.create(
+            system_name='system_edit_post_test_3',
+            systemstatus=systemstatus_1,
+            system_created_by_user_id=test_user,
+            system_modified_by_user_id=test_user,
+        )
+        # create post data
+        data_dict = {
+            'system_name': 'system_edit_post_test_4',
+            'systemstatus': systemstatus_1.systemstatus_id,
+            'iplist': '',
+        }
+        # get response
+        response = self.client.post(
+            '/system/' + str(system_1.system_id) + '/edit/', data_dict
+        )
+        # get object
+        system_2 = System.objects.get(system_name='system_edit_post_test_4')
+        # create url
+        destination = urllib.parse.quote(
+            '/system/' + str(system_2.system_id) + '/', safe='/'
+        )
+        # compare
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
 
     def test_system_edit_post_system_name_not_editable_redirect(self):
         """test edit view"""

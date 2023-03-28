@@ -16,7 +16,6 @@ class EntryViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_entry', password='GBabI7lbSGB13jXjCRoL'

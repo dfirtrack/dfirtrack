@@ -3,7 +3,6 @@ import os
 
 
 def check_file(self, importfile, delimiter, quotechar):
-
     '''file system checks'''
 
     # file does not exist (has to be checked before the other checks)
@@ -54,7 +53,6 @@ def check_file(self, importfile, delimiter, quotechar):
 
     # wrong file type
     except (UnicodeDecodeError, csv.Error):
-
         # write message to stdout
         self.stdout.write(
             self.style.ERROR(

@@ -17,13 +17,11 @@ def task_creator(request):
 
     # form was valid to post
     if request.method == 'POST':
-
         # get form
         form = TaskCreatorForm(request.POST)
 
         # form was valid
         if form.is_valid():
-
             # get objects from request object
             request_post = request.POST
             request_user = request.user
@@ -43,7 +41,6 @@ def task_creator(request):
 
     # show empty form
     else:
-
         # get id of first status objects sorted by name
         taskpriority = Taskpriority.objects.order_by('taskpriority_name')[
             0
@@ -83,19 +80,16 @@ def task_creator_async(request_post, request_user):
 
     # iterate over systems
     for system in systems:
-
         # autoincrement counter
         system_tasks_created_counter += 1
 
         # iterate over tasknames
         for taskname in tasknames:
-
             # create form with request data
             form = TaskCreatorForm(request_post)
 
             # create task
             if form.is_valid():
-
                 """object creation"""
 
                 # don't save form yet

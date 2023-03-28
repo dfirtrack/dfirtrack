@@ -11,7 +11,6 @@ class OsarchAPIViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Osarch.objects.create(osarch_name='osarch_1')
         # create user

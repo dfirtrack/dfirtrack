@@ -167,7 +167,6 @@ class EntryUpdate(LoginRequiredMixin, UpdateView):
 
 @login_required(login_url="/login")
 def import_csv_step1(request):
-
     if request.method == "POST":
         # POST request
         form = EntryFileImport(request.POST, request.FILES)

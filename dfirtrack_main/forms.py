@@ -78,7 +78,6 @@ class AnalystmemoForm(forms.ModelForm):
     )
 
     class Meta:
-
         # model
         model = Analystmemo
 
@@ -143,7 +142,6 @@ class CaseForm(forms.ModelForm):
     )
 
     class Meta:
-
         # model
         model = Case
 
@@ -202,7 +200,6 @@ class CasetypeForm(forms.ModelForm):
     """default model form"""
 
     class Meta:
-
         # model
         model = Casetype
 
@@ -235,7 +232,6 @@ class CompanyForm(forms.ModelForm):
     )
 
     class Meta:
-
         # model
         model = Company
 
@@ -261,7 +257,6 @@ class ContactForm(forms.ModelForm):
     """default model form"""
 
     class Meta:
-
         # model
         model = Contact
 
@@ -289,7 +284,6 @@ class DivisionForm(forms.ModelForm):
     """default model form"""
 
     class Meta:
-
         # model
         model = Division
 
@@ -322,7 +316,6 @@ class DnsnameForm(forms.ModelForm):
     )
 
     class Meta:
-
         # model
         model = Dnsname
 
@@ -349,7 +342,6 @@ class DomainForm(forms.ModelForm):
     """default model form"""
 
     class Meta:
-
         # model
         model = Domain
 
@@ -389,7 +381,6 @@ class DomainuserForm(forms.ModelForm):
     )
 
     class Meta:
-
         # model
         model = Domainuser
 
@@ -439,7 +430,6 @@ class EntryForm(forms.ModelForm):
     )
 
     class Meta:
-
         # model
         model = Entry
 
@@ -517,7 +507,6 @@ class EntryFileImport(forms.ModelForm):
     )
 
     class Meta:
-
         # model
         model = Entry
         fields = ('system', 'case')
@@ -554,7 +543,6 @@ class EntryFileImportFields(forms.Form):
     )
 
     def clean(self):
-
         if (
             'entry_time' in self.cleaned_data
             and self.cleaned_data['entry_time'] == '-1'
@@ -593,7 +581,6 @@ class HeadlineForm(forms.ModelForm):
     """default model form"""
 
     class Meta:
-
         # model
         model = Headline
 
@@ -615,7 +602,6 @@ class LocationForm(forms.ModelForm):
     """default model form"""
 
     class Meta:
-
         # model
         model = Location
 
@@ -700,7 +686,6 @@ class NoteForm(forms.ModelForm):
         return note_version
 
     class Meta:
-
         # model
         model = Note
 
@@ -731,7 +716,6 @@ class OsForm(forms.ModelForm):
     """default model form"""
 
     class Meta:
-
         # model
         model = Os
 
@@ -760,7 +744,6 @@ class OsimportnameForm(forms.ModelForm):
     )
 
     class Meta:
-
         # model
         model = Osimportname
 
@@ -787,7 +770,6 @@ class ReasonForm(forms.ModelForm):
     """default model form"""
 
     class Meta:
-
         # model
         model = Reason
 
@@ -812,7 +794,6 @@ class RecommendationForm(forms.ModelForm):
     """default model form"""
 
     class Meta:
-
         # model
         model = Recommendation
 
@@ -887,7 +868,6 @@ class ReportitemForm(forms.ModelForm):
     )
 
     class Meta:
-
         # model
         model = Reportitem
 
@@ -924,7 +904,6 @@ class ServiceproviderForm(forms.ModelForm):
     """default model form"""
 
     class Meta:
-
         # model
         model = Serviceprovider
 
@@ -965,7 +944,6 @@ class SystemBaseForm(forms.ModelForm):
     )
 
     class Meta:
-
         # model
         model = System
 
@@ -1076,7 +1054,6 @@ class SystemExtendedBaseForm(SystemBaseForm):
     )
 
     class Meta(SystemBaseForm.Meta):
-
         # this HTML forms are shown
         fields = SystemBaseForm.Meta.fields + (
             'analysisstatus',
@@ -1134,7 +1111,6 @@ class SystemForm(SystemExtendedBaseForm):
     )
 
     class Meta(SystemExtendedBaseForm.Meta):
-
         # this HTML forms are shown
         fields = SystemExtendedBaseForm.Meta.fields + (
             'host_system',
@@ -1176,7 +1152,6 @@ class SystemNameForm(SystemForm):
     """this form allows editing of system_name, inherits from system form"""
 
     class Meta(SystemForm.Meta):
-
         # add system_name to shown HTML forms
         fields = SystemForm.Meta.fields + ('system_name',)
 
@@ -1216,7 +1191,6 @@ class SystemCreatorForm(SystemExtendedBaseForm):
     )
 
     class Meta(SystemExtendedBaseForm.Meta):
-
         # this HTML forms are shown
         fields = SystemExtendedBaseForm.Meta.fields + ('system_assigned_to_user_id',)
 
@@ -1395,7 +1369,6 @@ class SystemtypeForm(forms.ModelForm):
     """default model form"""
 
     class Meta:
-
         # model
         model = Systemtype
 
@@ -1424,7 +1397,6 @@ class SystemuserForm(forms.ModelForm):
     )
 
     class Meta:
-
         # model
         model = Systemuser
 
@@ -1469,7 +1441,6 @@ class TagForm(forms.ModelForm):
     )
 
     class Meta:
-
         # model
         model = Tag
 
@@ -1549,7 +1520,6 @@ class TaskBaseForm(forms.ModelForm):
     )
 
     class Meta:
-
         # model
         model = Task
 
@@ -1611,7 +1581,6 @@ class TaskForm(TaskBaseForm):
     )
 
     class Meta(TaskBaseForm.Meta):
-
         # this HTML forms are shown
         fields = TaskBaseForm.Meta.fields + (
             'parent_task',
@@ -1661,7 +1630,6 @@ class TasknameForm(forms.ModelForm):
     """default model form"""
 
     class Meta:
-
         # model
         model = Taskname
 
