@@ -16,7 +16,7 @@ jobs:
       - run: bandit --recursive --tests B108 --exclude tests,dfirtrack_main/views/entry_views.py .  # hardcoded_tmp_directory
       - run: bandit --recursive --skip B106,B108 .
       - run: black --check --skip-string-normalization .
-      - run: codespell --skip="*.css,*.js,*.map" --ignore-words-list aNULL
+      - run: codespell --skip="*.css,*.js,*.map" --ignore-words-list="aNULL"
       - run: flake8 . --count --select=E5,E9,F63,F7,F82,W291
                       --max-complexity=132 --max-line-length=313
                       --show-source --statistics
