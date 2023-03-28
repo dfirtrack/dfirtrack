@@ -195,7 +195,7 @@ a:hover {
         top: 10px;
         right: 0;
         height: 100%;
-        overflow-y: auto;      
+        overflow-y: auto;
     }
 
     #dfirtrack-navbar ul {
@@ -272,7 +272,7 @@ a:hover {
     border-color: #212529;
 }
 
-.nav-tabs .nav-link {    
+.nav-tabs .nav-link {
     color: #fff;
 }
 

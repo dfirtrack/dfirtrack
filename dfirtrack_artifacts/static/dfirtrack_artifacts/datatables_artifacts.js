@@ -19,7 +19,7 @@ generic_datatable = {
     ]
 }
 
-reduced_datatable = Object.assign({}, 
+reduced_datatable = Object.assign({},
     generic_datatable,
     {
         "columns": [
@@ -34,7 +34,7 @@ reduced_datatable = Object.assign({},
     }
 )
 
-$(document).ready( function () {    
+$(document).ready( function () {
 
     $('#table_artifact').DataTable(Object.assign({},
         generic_datatable,
@@ -46,10 +46,10 @@ $(document).ready( function () {
             }
         }
     ));
-    
+
     $('#table_artifact_details').DataTable( Object.assign({},
         generic_datatable,
-        {    
+        {
             "ajax": {
                 "type" : "POST",
                 "url": "/filter/artifact/?" + window.location.pathname.split('/')[1] + "=" + window.location.pathname.split('/')[2],
@@ -57,7 +57,7 @@ $(document).ready( function () {
             }
         }
     ));
-    $('#table_system_artifact_open').DataTable( Object.assign({}, 
+    $('#table_system_artifact_open').DataTable( Object.assign({},
         reduced_datatable,
         {
             "ajax": {
@@ -67,7 +67,7 @@ $(document).ready( function () {
             }
         }
     ));
-    $('#table_system_artifact_closed').DataTable( Object.assign({}, 
+    $('#table_system_artifact_closed').DataTable( Object.assign({},
         reduced_datatable,
         {
             "ajax": {
@@ -80,7 +80,7 @@ $(document).ready( function () {
 
     $('#table_artifact_artifactstatus').DataTable( Object.assign({},
         generic_datatable,
-        {    
+        {
             "ajax": {
                 "type" : "POST",
                 "url": "/filter/artifact/?artifactstatus=" + window.location.pathname.split('/')[4],
@@ -91,7 +91,7 @@ $(document).ready( function () {
 
     $('#table_artifact_artifactpriority').DataTable( Object.assign({},
         generic_datatable,
-        {    
+        {
             "ajax": {
                 "type" : "POST",
                 "url": "/filter/artifact/?artifactpriority=" + window.location.pathname.split('/')[4],
@@ -102,12 +102,12 @@ $(document).ready( function () {
 
     $('#table_artifact_artifacttype').DataTable( Object.assign({},
         generic_datatable,
-        {    
+        {
             "ajax": {
                 "type" : "POST",
                 "url": "/filter/artifact/?artifacttype=" + window.location.pathname.split('/')[4],
                 "headers": {'X-CSRFToken': csrftoken}
             }
         }
-    )); 
+    ));
 } );

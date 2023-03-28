@@ -275,7 +275,7 @@ function add_tag(value, label) {
     $(`#hidden_tags input[value='${value}']`).attr( "checked", "" );
     // remove tag from dropdown
     $(`#tag_select option[value='${value}']`).remove()
-    
+
     // create span
     let tag_span = $('<span>', {text: " "});
     // create tag icon image default light icon
@@ -299,7 +299,7 @@ function add_tag(value, label) {
     tag_link.attr("onclick", `remove_tag(this, ${value})`)
     // add tag button to span
     tag_span.append(tag_link)
-    
+
     // add visual tag to div
     $(`#selected_tags`).append(tag_span);
 }
