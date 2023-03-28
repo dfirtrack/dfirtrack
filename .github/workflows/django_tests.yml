@@ -42,8 +42,11 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Install psycopg2 prerequisites
-      run: sudo apt-get install python-dev libpq-dev
+    - name: Install psycopg2 prerequisites 1
+      run: sudo apt-get install libpq-dev
+    - name: Install psycopg2 prerequisites 2
+      run: sudo apt-get install python-dev
+      if: matrix.os == 'ubuntu-20.04'
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
