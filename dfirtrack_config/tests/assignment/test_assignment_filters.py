@@ -359,6 +359,7 @@ class AssignmentFilterTestCase(TestCase):
         # get response
         response = self.client.get('/config/assignment/')
         # compare
+        self.assertEqual(response.context['artifact_number'], 3)
         self.assertTrue(
             response.context['case'].filter(case_name=case_1.case_name).exists()
         )
@@ -466,6 +467,7 @@ class AssignmentFilterTestCase(TestCase):
         # get response
         response = self.client.get('/config/assignment/')
         # compare
+        self.assertEqual(response.context['artifact_number'], 1)
         self.assertTrue(
             response.context['note'].filter(note_title=note_2.note_title).exists()
         )
@@ -577,6 +579,7 @@ class AssignmentFilterTestCase(TestCase):
         # get response
         response = self.client.get('/config/assignment/')
         # compare
+        self.assertEqual(response.context['artifact_number'], 1)
         self.assertTrue(
             response.context['case'].filter(case_name=case_3.case_name).exists()
         )
@@ -685,6 +688,7 @@ class AssignmentFilterTestCase(TestCase):
         # get response
         response = self.client.get('/config/assignment/')
         # compare
+        self.assertEqual(response.context['artifact_number'], 1)
         self.assertTrue(
             response.context['case'].filter(case_name=case_4.case_name).exists()
         )

@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic.edit import FormView
 
+from dfirtrack_artifacts.models import Artifact
 from dfirtrack_config.models import UserConfigModel
 from dfirtrack_main.filter_forms import GeneralFilterForm
 from dfirtrack_main.logger.default_logger import debug_logger
@@ -57,6 +58,7 @@ class AssignmentView(LoginRequiredMixin, FormView):
         """
 
         # get queryset with all entities
+        artifact_queryset = Artifact.objects.all().filter(**filter_kwargs)
         case = filter_kwargs.pop('case', None)
         if case:
             case_queryset = (
@@ -74,6 +76,9 @@ class AssignmentView(LoginRequiredMixin, FormView):
 
         # filter queryset to user
         if user_config.filter_list_assigned_to_user_id:
+            artifact_queryset = artifact_queryset.filter(
+                artifact_assigned_to_user_id=user_config.filter_list_assigned_to_user_id
+            )
             case_queryset = case_queryset.filter(
                 case_assigned_to_user_id=user_config.filter_list_assigned_to_user_id
             )
@@ -108,6 +113,7 @@ class AssignmentView(LoginRequiredMixin, FormView):
             context['assignment_user'] = None
 
         # add querysets to context
+        context['artifact_number'] = artifact_queryset.count()
         context['case'] = case_queryset
         context['note'] = note_queryset
         context['reportitem'] = reportitem_queryset
