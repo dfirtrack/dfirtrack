@@ -344,10 +344,6 @@ class AssignmentFilterTestCase(TestCase):
         reportitem_2 = Reportitem.objects.get(reportitem_note='reportitem_2')
         reportitem_3 = Reportitem.objects.get(reportitem_note='reportitem_3')
         reportitem_4 = Reportitem.objects.get(reportitem_note='reportitem_4')
-        system_1 = System.objects.get(system_name='system_1')
-        system_2 = System.objects.get(system_name='system_2')
-        system_3 = System.objects.get(system_name='system_3')
-        system_4 = System.objects.get(system_name='system_4')
         tag_1 = Tag.objects.get(tag_name='tag_1')
         tag_2 = Tag.objects.get(tag_name='tag_2')
         tag_3 = Tag.objects.get(tag_name='tag_3')
@@ -396,15 +392,7 @@ class AssignmentFilterTestCase(TestCase):
             .filter(reportitem_note=reportitem_3.reportitem_note)
             .exists()
         )
-        self.assertTrue(
-            response.context['system'].filter(system_name=system_1.system_name).exists()
-        )
-        self.assertTrue(
-            response.context['system'].filter(system_name=system_2.system_name).exists()
-        )
-        self.assertTrue(
-            response.context['system'].filter(system_name=system_3.system_name).exists()
-        )
+        self.assertEqual(response.context['system_number'], 3)
         self.assertTrue(
             response.context['tag'].filter(tag_name=tag_1.tag_name).exists()
         )
@@ -433,9 +421,6 @@ class AssignmentFilterTestCase(TestCase):
             response.context['reportitem']
             .filter(reportitem_note=reportitem_4.reportitem_note)
             .exists()
-        )
-        self.assertFalse(
-            response.context['system'].filter(system_name=system_4.system_name).exists()
         )
         self.assertFalse(
             response.context['tag'].filter(tag_name=tag_4.tag_name).exists()
@@ -466,10 +451,6 @@ class AssignmentFilterTestCase(TestCase):
         reportitem_2 = Reportitem.objects.get(reportitem_note='reportitem_2')
         reportitem_3 = Reportitem.objects.get(reportitem_note='reportitem_3')
         reportitem_4 = Reportitem.objects.get(reportitem_note='reportitem_4')
-        system_1 = System.objects.get(system_name='system_1')
-        system_2 = System.objects.get(system_name='system_2')
-        system_3 = System.objects.get(system_name='system_3')
-        system_4 = System.objects.get(system_name='system_4')
         tag_1 = Tag.objects.get(tag_name='tag_1')
         tag_2 = Tag.objects.get(tag_name='tag_2')
         tag_3 = Tag.objects.get(tag_name='tag_3')
@@ -493,9 +474,9 @@ class AssignmentFilterTestCase(TestCase):
             .filter(reportitem_note=reportitem_2.reportitem_note)
             .exists()
         )
-        self.assertTrue(
-            response.context['system'].filter(system_name=system_2.system_name).exists()
-        )
+        # special case 'system' - system is added to case 1 because of signal for artifact 2 and reportitem 2
+        # therefore 2 instead of expectet 1
+        self.assertEqual(response.context['system_number'], 2)
         self.assertTrue(
             response.context['task'].filter(task_note=task_2.task_note).exists()
         )
@@ -530,12 +511,6 @@ class AssignmentFilterTestCase(TestCase):
             .exists()
         )
         self.assertFalse(
-            response.context['system'].filter(system_name=system_3.system_name).exists()
-        )
-        self.assertFalse(
-            response.context['system'].filter(system_name=system_4.system_name).exists()
-        )
-        self.assertFalse(
             response.context['tag'].filter(tag_name=tag_1.tag_name).exists()
         )
         self.assertFalse(
@@ -559,10 +534,6 @@ class AssignmentFilterTestCase(TestCase):
         )
         self.assertFalse(
             response.context['case'].filter(case_name=case_2.case_name).exists()
-        )
-        # special case 'system' - system is added to case 1 because of signal for artifact 2 and reportitem 2
-        self.assertTrue(
-            response.context['system'].filter(system_name=system_1.system_name).exists()
         )
         # special case 'tag' - tag has no case relation so no cases are returned
         self.assertFalse(
@@ -591,10 +562,6 @@ class AssignmentFilterTestCase(TestCase):
         reportitem_2 = Reportitem.objects.get(reportitem_note='reportitem_2')
         reportitem_3 = Reportitem.objects.get(reportitem_note='reportitem_3')
         reportitem_4 = Reportitem.objects.get(reportitem_note='reportitem_4')
-        system_1 = System.objects.get(system_name='system_1')
-        system_2 = System.objects.get(system_name='system_2')
-        system_3 = System.objects.get(system_name='system_3')
-        system_4 = System.objects.get(system_name='system_4')
         tag_1 = Tag.objects.get(tag_name='tag_1')
         tag_2 = Tag.objects.get(tag_name='tag_2')
         tag_3 = Tag.objects.get(tag_name='tag_3')
@@ -621,9 +588,7 @@ class AssignmentFilterTestCase(TestCase):
             .filter(reportitem_note=reportitem_3.reportitem_note)
             .exists()
         )
-        self.assertTrue(
-            response.context['system'].filter(system_name=system_3.system_name).exists()
-        )
+        self.assertEqual(response.context['system_number'], 1)
         self.assertTrue(
             response.context['task'].filter(task_note=task_3.task_note).exists()
         )
@@ -659,15 +624,6 @@ class AssignmentFilterTestCase(TestCase):
             response.context['reportitem']
             .filter(reportitem_note=reportitem_4.reportitem_note)
             .exists()
-        )
-        self.assertFalse(
-            response.context['system'].filter(system_name=system_1.system_name).exists()
-        )
-        self.assertFalse(
-            response.context['system'].filter(system_name=system_2.system_name).exists()
-        )
-        self.assertFalse(
-            response.context['system'].filter(system_name=system_4.system_name).exists()
         )
         self.assertFalse(
             response.context['tag'].filter(tag_name=tag_2.tag_name).exists()
@@ -714,10 +670,6 @@ class AssignmentFilterTestCase(TestCase):
         reportitem_2 = Reportitem.objects.get(reportitem_note='reportitem_2')
         reportitem_3 = Reportitem.objects.get(reportitem_note='reportitem_3')
         reportitem_4 = Reportitem.objects.get(reportitem_note='reportitem_4')
-        system_1 = System.objects.get(system_name='system_1')
-        system_2 = System.objects.get(system_name='system_2')
-        system_3 = System.objects.get(system_name='system_3')
-        system_4 = System.objects.get(system_name='system_4')
         tag_1 = Tag.objects.get(tag_name='tag_1')
         tag_2 = Tag.objects.get(tag_name='tag_2')
         tag_3 = Tag.objects.get(tag_name='tag_3')
@@ -744,9 +696,7 @@ class AssignmentFilterTestCase(TestCase):
             .filter(reportitem_note=reportitem_4.reportitem_note)
             .exists()
         )
-        self.assertTrue(
-            response.context['system'].filter(system_name=system_4.system_name).exists()
-        )
+        self.assertEqual(response.context['system_number'], 1)
         self.assertTrue(
             response.context['tag'].filter(tag_name=tag_4.tag_name).exists()
         )
@@ -785,15 +735,6 @@ class AssignmentFilterTestCase(TestCase):
             response.context['reportitem']
             .filter(reportitem_note=reportitem_3.reportitem_note)
             .exists()
-        )
-        self.assertFalse(
-            response.context['system'].filter(system_name=system_1.system_name).exists()
-        )
-        self.assertFalse(
-            response.context['system'].filter(system_name=system_2.system_name).exists()
-        )
-        self.assertFalse(
-            response.context['system'].filter(system_name=system_3.system_name).exists()
         )
         self.assertFalse(
             response.context['tag'].filter(tag_name=tag_1.tag_name).exists()

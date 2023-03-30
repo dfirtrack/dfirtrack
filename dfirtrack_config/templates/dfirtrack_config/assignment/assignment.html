@@ -62,9 +62,9 @@
             <h5 id="system">
                 <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                 {% if assignment_user %}
-                    Systems assigned to '{{ assignment_user.get_username }}'{% if system %} ({{ system|length }}){% endif %}
+                    Systems assigned to '{{ assignment_user.get_username }}'{% if system_number %} ({{ system_number }}){% endif %}
                 {% else %}
-                    Unassigned systems{% if system %} ({{ system|length }}){% endif %}
+                    Unassigned systems{% if system_number %} ({{ system_number }}){% endif %}
                 {% endif %}
                 {% if show_system %}
                     <a href="{% url 'toggle_assignment_view_system' %}" class="top-distance copy-false">
@@ -85,34 +85,20 @@
     <!-- toggle visibility -->
     {% if show_system %}
 
-        <!-- systems -->
-        {% if system %}
+        <!-- datatable system -->
+        <table id="table_system" class="display" width="100%">
 
-            <!-- datatable system -->
-            <table id="table_system" class="display" width="100%">
+            <!-- table head -->
+            <thead>
+                {% include "dfirtrack_main/includes/datatable_thead_table_system.html" %}
+            </thead>
 
-                <!-- table head -->
-                <thead>
-                    {% include "dfirtrack_main/includes/datatable_thead_table_system.html" %}
-                </thead>
+            <!-- table body -->
+            <tbody>
+            </tbody>
 
-                <!-- table body -->
-                <tbody>
-                </tbody>
-
-            <!-- datatable system -->
-            </table>
-
-        <!-- no systems -->
-        {% else %}
-            <div class="row top-distance">
-                <div class="col-3">
-                    ---
-                </div>
-            </div>
-
-        <!-- systems -->
-        {% endif %}
+        <!-- datatable system -->
+        </table>
 
     <!-- toggle visibility -->
     {% endif %}

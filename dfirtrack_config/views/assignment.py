@@ -111,7 +111,7 @@ class AssignmentView(LoginRequiredMixin, FormView):
         context['case'] = case_queryset
         context['note'] = note_queryset
         context['reportitem'] = reportitem_queryset
-        context['system'] = system_queryset
+        context['system_number'] = system_queryset.count()
         context['tag'] = tag_queryset
         context['task'] = task_queryset
 
