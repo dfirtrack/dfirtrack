@@ -109,6 +109,7 @@ class CaseDetail(LoginRequiredMixin, DetailView):
         # set dfirtrack_artifacts for template
         if 'dfirtrack_artifacts' in installed_apps:
             context['dfirtrack_artifacts'] = True
+            context['artifact_number'] = Artifact.objects.filter(case=case).count()
         else:
             context['dfirtrack_artifacts'] = False
 
