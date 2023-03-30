@@ -159,7 +159,7 @@ def filter_artifacts(request):
         # get main config
         main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
 
-        # get oopen artifact status
+        # get open artifact status
         artifactstatus_open = main_config_model.artifactstatus_open.all()
 
         # filter artifacts based on status
@@ -191,7 +191,7 @@ def filter_artifacts(request):
                 + f'{ obj.artifactpriority.artifactpriority_name }</a>',
                 "artifacttype": f'<a href="{ obj.artifacttype.get_absolute_url() }">{ obj.artifacttype.artifacttype_name }</a>',
                 "system": f'<a href="{obj.system.get_absolute_url()}" type="button" class="btn btn-primary btn-sm copy-true"><img src="{static("dfirtrack_main/icons/monitor-light.svg")}" '
-                + f'class="icon right-distance copy-false" alt="icon">"{obj.system.system_name}</a>',
+                + f'class="icon right-distance copy-false" alt="icon">{obj.system.system_name}</a>',
                 "artifact_requested_time": obj.artifact_requested_time.strftime(
                     "%Y-%m-%d %H:%M"
                 )
