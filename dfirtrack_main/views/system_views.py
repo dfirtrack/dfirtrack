@@ -9,7 +9,7 @@ from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, FormView, UpdateView
 
 from dfirtrack.settings import INSTALLED_APPS as installed_apps
-from dfirtrack_artifacts.models import Artifact, Artifactstatus
+from dfirtrack_artifacts.models import Artifact
 from dfirtrack_config.models import MainConfigModel, UserConfigModel, Workflow
 from dfirtrack_main.filter_forms import GeneralFilterForm
 from dfirtrack_main.forms import SystemForm, SystemNameForm
@@ -120,6 +120,11 @@ class SystemDetail(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         system = self.object
+
+        '''artifacts'''
+
+        # get all artifacts of system for number
+        context['artifacts_number'] = Artifact.objects.filter(system=system).count()
 
         '''tasks'''
 

@@ -602,8 +602,8 @@
                 <h5 id="artifact">
                     <img src="{% static 'dfirtrack_main/icons/bug-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                     Artifacts
-                    {% if artifacts_all %}
-                        ({{ artifacts_all|length }})
+                    {% if artifacts_number %}
+                        ({{ artifacts_number }})
                     {% endif %}
                     <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
                 </h5>
@@ -729,8 +729,8 @@
                 <h5 id="artifact">
                     <img src="{% static 'dfirtrack_main/icons/bug-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                     Artifacts
-                    {% if artifacts_all %}
-                        ({{ artifacts_all|length }})
+                    {% if artifacts_number %}
+                        ({{ artifacts_number }})
                     {% endif %}
                     <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
                 </h5>
