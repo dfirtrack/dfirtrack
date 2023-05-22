@@ -515,7 +515,7 @@
     <div class="col-3">
         <h5>
             <img src="{% static 'dfirtrack_main/icons/bug-light.svg' %}" class="icon right-distance copy-false" alt="icon">
-            Artifacts associated with this case{% if artifacts %} ({{ artifacts|length }}){% endif %}
+            Artifacts associated with this case <span id="artifact_count"></span>
         </h5>
     </div>
 </div>

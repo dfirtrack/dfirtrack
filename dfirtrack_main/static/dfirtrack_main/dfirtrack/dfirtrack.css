@@ -189,6 +189,7 @@ a:hover {
         position: sticky;
         top: 0px;
         height: 100%;
+        align-items: normal;
     }
 
     #dfirtrack-navbar {

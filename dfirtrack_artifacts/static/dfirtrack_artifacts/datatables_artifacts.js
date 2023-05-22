@@ -53,7 +53,12 @@ $(document).ready( function () {
             "ajax": {
                 "type" : "POST",
                 "url": "/filter/artifact/?" + window.location.pathname.split('/')[1] + "=" + window.location.pathname.split('/')[2],
-                "headers": {'X-CSRFToken': csrftoken}
+                "headers": {'X-CSRFToken': csrftoken},
+                "complete":  function (json) {
+                    console.log(json)
+                    total = json.responseJSON.recordsTotal
+                    $('#artifact_count').text("("+ total + ")")
+                }
             }
         }
     ));

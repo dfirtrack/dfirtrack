@@ -108,6 +108,12 @@ def filter_system(request):
     model = System
     queryset = System.objects
 
+    if 'case' in request.GET:
+            queryset = queryset.filter(case=request.GET['case'])
+
+    if 'tag' in request.GET:
+            queryset = queryset.filter(tag=request.GET['tag'])
+
     # build results (html code) for starting point to how many records to show
     filter_results = _filter(model, queryset, request.GET, request.POST, request.user)
     results = list()
@@ -172,6 +178,14 @@ def filter_artifacts(request):
             # in open status
             queryset = queryset.filter(artifactstatus__in=artifactstatus_open)
 
+    # filter artifactes based on case or tag for detailed case or tag view
+    # correction of total count for datatables
+    if 'case' in request.GET:
+            queryset = queryset.filter(case=request.GET['case'])
+
+    if 'tag' in request.GET:
+            queryset = queryset.filter(tag=request.GET['tag'])
+
     # build results (html code) for starting point to how many records to show
     filter_results = _filter(model, queryset, request.GET, request.POST, request.user)
     results = list()
@@ -191,7 +205,7 @@ def filter_artifacts(request):
                 + f'{ obj.artifactpriority.artifactpriority_name }</a>',
                 "artifacttype": f'<a href="{ obj.artifacttype.get_absolute_url() }">{ obj.artifacttype.artifacttype_name }</a>',
                 "system": f'<a href="{obj.system.get_absolute_url()}" type="button" class="btn btn-primary btn-sm copy-true"><img src="{static("dfirtrack_main/icons/monitor-light.svg")}" '
-                + f'class="icon right-distance copy-false" alt="icon">"{obj.system.system_name}</a>',
+                + f'class="icon right-distance copy-false" alt="icon">{obj.system.system_name}</a>',
                 "artifact_requested_time": obj.artifact_requested_time.strftime(
                     "%Y-%m-%d %H:%M"
                 )

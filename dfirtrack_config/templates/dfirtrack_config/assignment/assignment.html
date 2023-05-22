@@ -131,9 +131,9 @@
             <h5 id="artifact">
                 <img src="{% static 'dfirtrack_main/icons/bug-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                 {% if assignment_user %}
-                    Artifacts assigned to '{{ assignment_user.get_username }}'{% if artifact %} ({{ artifact|length }}){% endif %}
+                    Artifacts assigned to '{{ assignment_user.get_username }}' <span id="artifact_count"></span>
                 {% else %}
-                    Unassigned artifacts{% if artifact %} ({{ artifact|length }}){% endif %}
+                    Unassigned artifacts <span id="artifact_count"></span>
                 {% endif %}
                 {% if show_artifact %}
                     <a href="{% url 'toggle_assignment_view_artifact' %}" class="top-distance copy-false">
