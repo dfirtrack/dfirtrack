@@ -182,13 +182,13 @@ def filter_artifacts(request):
             # in open status
             queryset = queryset.filter(artifactstatus__in=artifactstatus_open)
 
-    # filter artifactes based on case or tag for detailed case or tag view
+    # filter artifacts based on case or tag for detailed case or tag view
     # correction of total count for datatables
     if 'case' in request.GET:
-            queryset = queryset.filter(case=request.GET['case'])
+        queryset = queryset.filter(case=request.GET['case'])
 
     if 'tag' in request.GET:
-            queryset = queryset.filter(tag=request.GET['tag'])
+        queryset = queryset.filter(tag=request.GET['tag'])
 
     # build results (html code) for starting point to how many records to show
     filter_results = _filter(model, queryset, request.GET, request.POST, request.user)
