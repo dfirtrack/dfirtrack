@@ -6,8 +6,14 @@ from django.test import TestCase
 from django.utils import timezone
 
 from dfirtrack.settings import INSTALLED_APPS as installed_apps
+from dfirtrack_artifacts.models import (
+    Artifact,
+    Artifactpriority,
+    Artifactstatus,
+    Artifacttype,
+)
 from dfirtrack_config.models import MainConfigModel
-from dfirtrack_main.models import Case, Casepriority, Casestatus
+from dfirtrack_main.models import Case, Casepriority, Casestatus, System, Systemstatus
 
 
 class CaseViewTestCase(TestCase):
@@ -25,12 +31,48 @@ class CaseViewTestCase(TestCase):
         casestatus_1 = Casestatus.objects.create(casestatus_name='casestatus_1')
 
         # create object
-        Case.objects.create(
+        case_1 = Case.objects.create(
             case_name='case_1',
             case_is_incident=True,
             case_created_by_user_id=test_user,
             casepriority=casepriority_1,
             casestatus=casestatus_1,
+        )
+
+        # create objects
+        systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
+        system_1 = System.objects.create(
+            system_name='system_1',
+            systemstatus=systemstatus_1,
+            system_created_by_user_id=test_user,
+            system_modified_by_user_id=test_user,
+        )
+
+        # create object
+        artifactpriority_1 = Artifactpriority.objects.create(
+            artifactpriority_name='artifactpriority_1'
+        )
+
+        # create objects
+        artifactstatus_1 = Artifactstatus.objects.create(
+            artifactstatus_name='artifactstatus_1'
+        )
+
+        # create object
+        artifacttype_1 = Artifacttype.objects.create(
+            artifacttype_name='artifacttype_1'
+        )
+
+        # create objects
+        Artifact.objects.create(
+            artifact_name='artifact_system_1',
+            artifactpriority=artifactpriority_1,
+            artifactstatus=artifactstatus_1,
+            artifacttype=artifacttype_1,
+            case=case_1,
+            system=system_1,
+            artifact_created_by_user_id=test_user,
+            artifact_modified_by_user_id=test_user,
         )
 
     def test_case_list_not_logged_in(self):
@@ -298,6 +340,21 @@ class CaseViewTestCase(TestCase):
         response = self.client.get('/case/' + str(case_1.case_id) + '/')
         # compare
         self.assertFalse(response.context['dfirtrack_artifacts'])
+
+    def test_case_detail_context_artifact_number(self):
+        """test detail view"""
+
+        # add app to dfirtrack.settings
+        if 'dfirtrack_artifacts' not in installed_apps:
+            installed_apps.append('dfirtrack_artifacts')
+        # get object
+        case_1 = Case.objects.get(case_name='case_1')
+        # login testuser
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        # get response
+        response = self.client.get('/case/' + str(case_1.case_id) + '/')
+        # compare
+        self.assertEqual(response.context['artifact_number'], 1)
 
     def test_case_add_not_logged_in(self):
         """test add view"""
