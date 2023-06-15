@@ -712,6 +712,18 @@ class SystemViewTestCase(TestCase):
         # compare
         self.assertFalse(response.context['dfirtrack_api'])
 
+    def test_system_detail_context_artifacts_number(self):
+        """test detail view"""
+
+        # get object
+        system_1 = System.objects.get(system_name='system_1')
+        # login testuser
+        self.client.login(username='testuser_system', password='LqShcoecDud6JLRxhfKV')
+        # get response
+        response = self.client.get('/system/' + str(system_1.system_id) + '/')
+        # compare
+        self.assertEqual(response.context['artifacts_number'], 2)
+
     def test_system_add_not_logged_in(self):
         """test add view"""
 
