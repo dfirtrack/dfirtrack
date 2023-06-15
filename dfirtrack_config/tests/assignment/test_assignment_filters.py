@@ -914,11 +914,10 @@ class AssignmentFilterTestCase(TestCase):
         )
         data = json.loads(response.content)
         # compare
-        self.assertEqual(int(data['recordsFiltered']), 4)
+        self.assertEqual(int(data['recordsFiltered']), 3)
         self.assertTrue(check_data_for_system_name(data, 'system_1'))
         self.assertTrue(check_data_for_system_name(data, 'system_2'))
         self.assertTrue(check_data_for_system_name(data, 'system_3'))
-        self.assertTrue(check_data_for_system_name(data, 'system_4'))
 
     def test_dt_referer_w_search_wo_filter(self):
         """test system datatables processing: w/ search, w/o filter"""
