@@ -101,7 +101,9 @@ class AssignmentView(LoginRequiredMixin, FormView):
             context['assignment_user'] = user_config.filter_list_assigned_to_user_id
         # show unassigned entities otherwise
         else:
-            artifact_queryset = artifact_queryset.filter(artifact_assigned_to_user_id=None)
+            artifact_queryset = artifact_queryset.filter(
+                artifact_assigned_to_user_id=None
+            )
             case_queryset = case_queryset.filter(case_assigned_to_user_id=None)
             note_queryset = note_queryset.filter(note_assigned_to_user_id=None)
             reportitem_queryset = reportitem_queryset.filter(

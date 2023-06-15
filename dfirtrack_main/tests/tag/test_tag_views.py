@@ -46,9 +46,7 @@ class TagViewTestCase(TestCase):
         )
 
         # create object
-        artifacttype_1 = Artifacttype.objects.create(
-            artifacttype_name='artifacttype_1'
-        )
+        artifacttype_1 = Artifacttype.objects.create(artifacttype_name='artifacttype_1')
 
         # create objects
         artifact_1 = Artifact.objects.create(
@@ -577,7 +575,8 @@ class TagViewTestCase(TestCase):
         # get object
         tag_1 = Tag.objects.get(tag_name='tag_1')
         # get response
-        response = self.client.post(f'/filter/artifact/?tag={tag_1.tag_id}',
+        response = self.client.post(
+            f'/filter/artifact/?tag={tag_1.tag_id}',
             {
                 'order[0][column]': '1',
                 'order[0][dir]': 'asc',

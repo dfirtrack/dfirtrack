@@ -113,10 +113,10 @@ def filter_system(request):
     queryset = System.objects
 
     if 'case' in request.GET:
-            queryset = queryset.filter(case=request.GET['case'])
+        queryset = queryset.filter(case=request.GET['case'])
 
     if 'tag' in request.GET:
-            queryset = queryset.filter(tag=request.GET['tag'])
+        queryset = queryset.filter(tag=request.GET['tag'])
 
     # build results (html code) for starting point to how many records to show
     filter_results = _filter(model, queryset, request.GET, request.POST, request.user)

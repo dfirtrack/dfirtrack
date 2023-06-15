@@ -59,9 +59,7 @@ class CaseViewTestCase(TestCase):
         )
 
         # create object
-        artifacttype_1 = Artifacttype.objects.create(
-            artifacttype_name='artifacttype_1'
-        )
+        artifacttype_1 = Artifacttype.objects.create(artifacttype_name='artifacttype_1')
 
         # create objects
         Artifact.objects.create(
@@ -1063,7 +1061,8 @@ class CaseViewTestCase(TestCase):
         # get object
         case_1 = Case.objects.get(case_name='case_1')
         # get response
-        response = self.client.post(f'/filter/artifact/?case={case_1.case_id}',
+        response = self.client.post(
+            f'/filter/artifact/?case={case_1.case_id}',
             {
                 'order[0][column]': '1',
                 'order[0][dir]': 'asc',
