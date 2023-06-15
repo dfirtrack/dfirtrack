@@ -31,6 +31,12 @@ class ArtifactListView(LoginRequiredMixin, FormView):
         # filter: pre-select form according to previous filter selection
         context['form'] = self.form_class(instance=user_config)
 
+        # info message that filter is active
+        if user_config.is_filter_active():
+            messages.info(
+                self.request, 'Filter is active. Artifacts might be incomplete.'
+            )
+
         # get current artifact view
         current_url = resolve(self.request.path_info).url_name
         if current_url == 'artifacts_artifact_list':

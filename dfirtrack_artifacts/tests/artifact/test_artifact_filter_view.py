@@ -488,3 +488,27 @@ class ArtifactFilterViewTestCase(TestCase):
         # compare - settings after request
         self.assertEqual(user_config.filter_list_case, None)
         self.assertEqual(user_config.filter_list_tag.first(), None)
+
+    def test_artifact_list_filter_message(self):
+        """test filter warning message"""
+
+        # login testuser
+        self.client.login(
+            username='testuser_artifact_filter', password='9PUdBjlawv5WCdFXEYf6'
+        )
+
+        # get user
+        test_user = User.objects.get(username='testuser_artifact_filter')
+
+        # change config
+        case_1 = Case.objects.get(case_name='case_1')
+        set_user_config(test_user, case_1, None)
+
+        # get response
+        response = self.client.get('/artifacts/artifact/')
+        # get messages
+        messages = list(get_messages(response.wsgi_request))
+        # compare
+        self.assertEqual(
+            str(messages[0]), 'Filter is active. Artifacts might be incomplete.'
+        )
