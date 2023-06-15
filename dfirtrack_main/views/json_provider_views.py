@@ -82,6 +82,10 @@ def _filter(model, queryset, simple_filter_params, filter_params, request_user):
                 and_filter_kwargs[
                     f'{filter_object.lower()}_assigned_to_user_id'
                 ] = user_config.filter_list_assigned_to_user_id
+            elif filter_view == 'assignment':
+                and_filter_kwargs[
+                    f'{filter_object.lower()}_assigned_to_user_id__isnull'
+                ] = True
 
     # filter queryset using Q for or_kwargs and filter and_kwargs in seconed step
     filter_results = (
