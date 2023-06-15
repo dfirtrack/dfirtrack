@@ -1054,3 +1054,25 @@ class CaseViewTestCase(TestCase):
         case_unset_user.refresh_from_db()
         # compare
         self.assertEqual(None, case_unset_user.case_assigned_to_user_id)
+
+    def test_case_detail_artifact_filter_json_provider(self):
+        """test artifact filter for case detail view in dfirtrack_main/views/json_provider_views.py"""
+
+        # login testuser
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        # get object
+        case_1 = Case.objects.get(case_name='case_1')
+        # get response
+        response = self.client.post(f'/filter/artifact/?case={case_1.case_id}',
+            {
+                'order[0][column]': '1',
+                'order[0][dir]': 'asc',
+                'start': '0',
+                'length': '25',
+                'search[value]': '',
+                'columns[1][data]': 'artifact_name',
+                'draw': '1',
+            },
+        )
+        # compare
+        self.assertContains(response, 'artifact_system_1')

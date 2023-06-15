@@ -3,7 +3,13 @@ import urllib.parse
 from django.contrib.auth.models import User
 from django.test import TestCase
 
-from dfirtrack_main.models import Tag, Tagcolor
+from dfirtrack_artifacts.models import (
+    Artifact,
+    Artifactpriority,
+    Artifactstatus,
+    Artifacttype,
+)
+from dfirtrack_main.models import System, Systemstatus, Tag, Tagcolor
 
 
 class TagViewTestCase(TestCase):
@@ -14,11 +20,47 @@ class TagViewTestCase(TestCase):
         # create object
         tagcolor_1 = Tagcolor.objects.create(tagcolor_name='tagcolor_1')
         # create object
-        Tag.objects.create(tag_name='tag_1', tagcolor=tagcolor_1)
+        tag_1 = Tag.objects.create(tag_name='tag_1', tagcolor=tagcolor_1)
         # create user
-        User.objects.create_user(
+        test_user = User.objects.create_user(
             username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b'
         )
+
+        # create objects
+        systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
+        system_1 = System.objects.create(
+            system_name='system_1',
+            systemstatus=systemstatus_1,
+            system_created_by_user_id=test_user,
+            system_modified_by_user_id=test_user,
+        )
+
+        # create object
+        artifactpriority_1 = Artifactpriority.objects.create(
+            artifactpriority_name='artifactpriority_1'
+        )
+
+        # create objects
+        artifactstatus_1 = Artifactstatus.objects.create(
+            artifactstatus_name='artifactstatus_1'
+        )
+
+        # create object
+        artifacttype_1 = Artifacttype.objects.create(
+            artifacttype_name='artifacttype_1'
+        )
+
+        # create objects
+        artifact_1 = Artifact.objects.create(
+            artifact_name='artifact_tag_filter',
+            artifactpriority=artifactpriority_1,
+            artifactstatus=artifactstatus_1,
+            artifacttype=artifacttype_1,
+            system=system_1,
+            artifact_created_by_user_id=test_user,
+            artifact_modified_by_user_id=test_user,
+        )
+        artifact_1.tag.add(tag_1)
 
     def test_tag_list_not_logged_in(self):
         """test list view"""
@@ -526,3 +568,25 @@ class TagViewTestCase(TestCase):
         tag_unset_user.refresh_from_db()
         # compare
         self.assertEqual(None, tag_unset_user.tag_assigned_to_user_id)
+
+    def test_tag_detail_artifact_filter_json_provider(self):
+        """test artifact filter for tag detail view in dfirtrack_main/views/json_provider_views.py"""
+
+        # login testuser
+        self.client.login(username='testuser_tag', password='QVe1EH1Z5MshOW2GHS4b')
+        # get object
+        tag_1 = Tag.objects.get(tag_name='tag_1')
+        # get response
+        response = self.client.post(f'/filter/artifact/?tag={tag_1.tag_id}',
+            {
+                'order[0][column]': '1',
+                'order[0][dir]': 'asc',
+                'start': '0',
+                'length': '25',
+                'search[value]': '',
+                'columns[1][data]': 'artifact_name',
+                'draw': '1',
+            },
+        )
+        # compare
+        self.assertContains(response, 'artifact_tag_filter')
