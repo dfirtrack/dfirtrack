@@ -29,7 +29,7 @@ class GeneralFilterForm(forms.ModelForm):
     # show all existing user objects
     filter_list_assigned_to_user_id = forms.ModelChoiceField(
         queryset=User.objects.order_by('username'),
-        empty_label='No user assigned',
+        empty_label='Filter for user',
         label='Filter for user',
         required=False,
         widget=forms.Select(attrs={'class': 'form-select form-select-sm'}),

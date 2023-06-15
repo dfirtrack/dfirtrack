@@ -185,7 +185,7 @@ class GeneralFilterFormTestCase(TestCase):
         # compare
         self.assertEqual(
             form.fields['filter_list_assigned_to_user_id'].empty_label,
-            'No user assigned',
+            'Filter for user',
         )
 
     def test_system_filter_form_empty(self):
