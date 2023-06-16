@@ -7,82 +7,82 @@
 
   vars_prompt:
 
-  - name: 'dfirtrack_branch'
-    prompt: 'DFIRTRACK | Enter the BRANCH to clone (recommended: master / develop)'
-    default: 'develop'
-    private: false
+    - name: 'dfirtrack_branch'
+      prompt: 'DFIRTRACK | Enter the BRANCH to clone (recommended: master / develop)'
+      default: 'develop'
+      private: false
 
-  - name: 'dfirtrack_dir'
-    prompt: 'DFIRTRACK | Enter the PATH of the PROJECT (ABSOLUTE path)'
-    default: '/home/forensics/dfirtrack/'
-    private: false
+    - name: 'dfirtrack_dir'
+      prompt: 'DFIRTRACK | Enter the PATH of the PROJECT (ABSOLUTE path)'
+      default: '/home/forensics/dfirtrack/'
+      private: false
 
-  - name: 'log_dir'
-    prompt: 'DFIRTRACK | Enter the DIRECTORY of LOGFILES (ABSOLUTE path)'
-    default: '/home/forensics/log/'
-    private: false
+    - name: 'log_dir'
+      prompt: 'DFIRTRACK | Enter the DIRECTORY of LOGFILES (ABSOLUTE path)'
+      default: '/home/forensics/log/'
+      private: false
 
-  - name: 'secret_key'
-    prompt: 'DFIRTRACK | Enter a SECRET KEY of settings.py'
-    default: 'CHANGEME'
-    private: false
+    - name: 'secret_key'
+      prompt: 'DFIRTRACK | Enter a SECRET KEY of settings.py'
+      default: 'CHANGEME'
+      private: false
 
-  - name: 'markdown_proj'
-    prompt: 'MARKDOWN | Enter a PROJECT NAME for MARKDOWN'
-    default: 'markdown'
-    private: false
+    - name: 'markdown_proj'
+      prompt: 'MARKDOWN | Enter a PROJECT NAME for MARKDOWN'
+      default: 'markdown'
+      private: false
 
-  - name: 'markdown_dir'
-    prompt: 'MARKDOWN | Enter the DIRECTORY of MARKDOWN files (ABSOLUTE path, WITHOUT project name)'
-    default: '/home/forensics/'
-    private: false
+    - name: 'markdown_dir'
+      prompt: 'MARKDOWN | Enter the DIRECTORY of MARKDOWN files (ABSOLUTE path, WITHOUT project name)'
+      default: '/home/forensics/'
+      private: false
 
-  - name: 'postgresql_postgres_password'
-    prompt: 'POSTGRESQL | Enter PASSWORD of user POSTGRES'
-    default: 'foobar123!'
-    private: false
+    - name: 'postgresql_postgres_password'
+      prompt: 'POSTGRESQL | Enter PASSWORD of user POSTGRES'
+      default: 'foobar123!'
+      private: false
 
-  - name: 'postgresql_database'
-    prompt: 'POSTGRESQL | Enter NAME of DATABASE'
-    default: 'dfirtrack'
-    private: false
+    - name: 'postgresql_database'
+      prompt: 'POSTGRESQL | Enter NAME of DATABASE'
+      default: 'dfirtrack'
+      private: false
 
-  - name: 'postgresql_user'
-    prompt: 'POSTGRESQL | Enter USERNAME of DEDICATED USER'
-    default: 'dfirtrack'
-    private: false
+    - name: 'postgresql_user'
+      prompt: 'POSTGRESQL | Enter USERNAME of DEDICATED USER'
+      default: 'dfirtrack'
+      private: false
 
-  - name: 'postgresql_user_password'
-    prompt: 'POSTGRESQL | Enter PASSWORD of DEDICATED USER'
-    default: 'foobar123!'
-    private: false
+    - name: 'postgresql_user_password'
+      prompt: 'POSTGRESQL | Enter PASSWORD of DEDICATED USER'
+      default: 'foobar123!'
+      private: false
 
-  - name: 'postgresql_backup_dir'
-    prompt: 'POSTGRESQL | Enter the DIRECTORY of DATABASE BACKUP (ABSOLUTE path)'
-    default: '/home/forensics/dfirtrack_backup/'
-    private: false
+    - name: 'postgresql_backup_dir'
+      prompt: 'POSTGRESQL | Enter the DIRECTORY of DATABASE BACKUP (ABSOLUTE path)'
+      default: '/home/forensics/dfirtrack_backup/'
+      private: false
 
-  - name: 'fqdn'
-    prompt: 'NGINX | Enter FQDN / URL (without protocol)'
-    default: 'dfirtrack.testing.vm'
-    private: false
+    - name: 'fqdn'
+      prompt: 'NGINX | Enter FQDN / URL (without protocol)'
+      default: 'dfirtrack.testing.vm'
+      private: false
 
-  - name: 'service_name'
-    prompt: 'NGINX | Enter the NAME OF THE SERVICE (used for logfile)'
-    default: 'dfirtrack'
-    private: false
+    - name: 'service_name'
+      prompt: 'NGINX | Enter the NAME OF THE SERVICE (used for logfile)'
+      default: 'dfirtrack'
+      private: false
 
-  - name: 'openssl_o'
-    prompt: 'NGINX | Enter the ORGANIZATION NAME shown in SSL'
-    default: 'foobar'
-    private: false
+    - name: 'openssl_o'
+      prompt: 'NGINX | Enter the ORGANIZATION NAME shown in SSL'
+      default: 'foobar'
+      private: false
 
-  - name: 'openssl_ou'
-    prompt: 'NGINX | Enter the ORGANIZATION UNIT NAME shown in SSL'
-    default: 'foobar'
-    private: false
+    - name: 'openssl_ou'
+      prompt: 'NGINX | Enter the ORGANIZATION UNIT NAME shown in SSL'
+      default: 'foobar'
+      private: false
 
-  - name: 'www_dir'
-    prompt: 'NGINX | Enter the DIRECTORY of WEBSERVER FILES (ABSOLUTE path WITHOUT trailing slash)'
-    default: '/var/www/html/'
-    private: false
+    - name: 'www_dir'
+      prompt: 'NGINX | Enter the DIRECTORY of WEBSERVER FILES (ABSOLUTE path WITHOUT trailing slash)'
+      default: '/var/www/html/'
+      private: false
