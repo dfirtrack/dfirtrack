@@ -2,7 +2,7 @@ openapi: 3.0.2
 info:
   title: DFIRTrack
   description: OpenAPI 3 - Documentation of DFIRTrack API
-  version: v2.4.7
+  version: v2.5.0
 paths:
   /api/artifact/:
     get:
@@ -4004,6 +4004,7 @@ components:
           type: string
           format: uuid
           readOnly: true
+          nullable: true
         system_name:
           type: string
           maxLength: 255
