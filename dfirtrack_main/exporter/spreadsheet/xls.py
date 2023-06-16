@@ -149,9 +149,6 @@ def write_xls(username):
         # autoincrement row counter
         row_num += 1
 
-        # set column counter
-        col_num = 1
-
         # create empty list for line
         entryline = []
 
@@ -399,9 +396,6 @@ def write_xls(username):
             # autoincrement row counter
             row_num += 1
 
-            # set column counter
-            col_num = 1
-
             # create empty list for line
             entryline_systemstatus = []
 
@@ -457,9 +451,6 @@ def write_xls(username):
             # autoincrement row counter
             row_num += 1
 
-            # set column counter
-            col_num = 1
-
             # create empty list for line
             entryline_analysisstatus = []
 
@@ -512,9 +503,6 @@ def write_xls(username):
         for reason in reasons:
             # autoincrement row counter
             row_num += 1
-
-            # set column counter
-            col_num = 1
 
             # create empty list for line
             entryline_reason = []
@@ -571,9 +559,6 @@ def write_xls(username):
             # autoincrement row counter
             row_num += 1
 
-            # set column counter
-            col_num = 1
-
             # create empty list for line
             entryline_recommendation = []
 
@@ -626,9 +611,6 @@ def write_xls(username):
         for tag in tags:
             # autoincrement row counter
             row_num += 1
-
-            # set column counter
-            col_num = 1
 
             # create empty list for line
             entryline_tag = []

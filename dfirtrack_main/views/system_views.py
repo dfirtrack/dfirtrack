@@ -16,11 +16,9 @@ from dfirtrack_main.forms import SystemForm, SystemNameForm
 from dfirtrack_main.logger.default_logger import debug_logger, warning_logger
 from dfirtrack_main.models import (
     Analysisstatus,
-    Case,
     Ip,
     System,
     Systemstatus,
-    Tag,
     Task,
     Taskstatus,
 )

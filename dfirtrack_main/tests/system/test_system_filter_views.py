@@ -266,8 +266,6 @@ class SystemFilterViewTestCase(TestCase):
         self.client.login(
             username='testuser_system_filter', password='9PUdBmEvJv5WCdFXEYf6'
         )
-        # get user
-        test_user = User.objects.get(username='testuser_system_filter')
         # get objects
         system_plain = System.objects.get(system_name='system_plain')
         system_case = System.objects.get(system_name='system_case')
@@ -304,8 +302,6 @@ class SystemFilterViewTestCase(TestCase):
         self.client.login(
             username='testuser_system_filter', password='9PUdBmEvJv5WCdFXEYf6'
         )
-        # get user
-        test_user = User.objects.get(username='testuser_system_filter')
         # get objects
         system_plain = System.objects.get(system_name='system_plain')
         system_case = System.objects.get(system_name='system_case')

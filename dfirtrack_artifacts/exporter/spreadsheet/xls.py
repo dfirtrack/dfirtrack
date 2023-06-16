@@ -120,9 +120,6 @@ def write_xls(username):
         # autoincrement row counter
         row_num += 1
 
-        # set column counter
-        col_num = 1
-
         # create empty list for line
         entryline = []
 
@@ -341,9 +338,6 @@ def write_xls(username):
             # autoincrement row counter
             row_num += 1
 
-            # set column counter
-            col_num = 1
-
             # create empty list for line
             entryline_artifactstatus = []
 
@@ -402,9 +396,6 @@ def write_xls(username):
         for artifacttype in artifacttypes:
             # autoincrement row counter
             row_num += 1
-
-            # set column counter
-            col_num = 1
 
             # create empty list for line
             entryline_artifacttype = []

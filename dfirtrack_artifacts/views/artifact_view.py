@@ -3,11 +3,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
 from django.urls import resolve, reverse
-from django.views.generic import CreateView, DetailView, FormView, ListView, UpdateView
+from django.views.generic import CreateView, DetailView, FormView, UpdateView
 
 from dfirtrack_artifacts.forms import ArtifactForm
 from dfirtrack_artifacts.models import Artifact, Artifactpriority, Artifactstatus
-from dfirtrack_config.models import MainConfigModel, UserConfigModel
+from dfirtrack_config.models import UserConfigModel
 from dfirtrack_main.filter_forms import GeneralFilterForm
 from dfirtrack_main.logger.default_logger import debug_logger
 
