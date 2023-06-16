@@ -4,7 +4,7 @@
     name: 'git'
     state: present
   become: yes
-  become_method: sudo
+  become_method: ansible.builtin.sudo
 
 - name: DFIRTRACK
   block:
@@ -35,7 +35,7 @@
           - 'virtualenv'
         state: present
       become: yes
-      become_method: sudo
+      become_method: ansible.builtin.sudo
 
     - name: DJANGO | Create subdirectory for virtual environment
       ansible.builtin.set_fact:
@@ -56,7 +56,7 @@
     group: '{{ ansible_user }}'
     mode: '0755'
   become: yes
-  become_method: sudo
+  become_method: ansible.builtin.sudo
 
 - name: MARKDOWN
   module_defaults:
@@ -73,7 +73,7 @@
         name: 'mkdocs'
         state: present
       become: yes
-      become_method: sudo
+      become_method: ansible.builtin.sudo
 
     - name: MARKDOWN | Create initial directory
       ansible.builtin.file:
@@ -108,7 +108,7 @@
 
 - name: POSTGRESQL
   become: yes
-  become_method: sudo
+  become_method: ansible.builtin.sudo
   block:
 
     - name: POSTGRESQL | Install psycopg2 to make ansible talk with postgresql (Ubuntu 20)
@@ -200,7 +200,7 @@
 
 - name: NGINX
   become: yes
-  become_method: sudo
+  become_method: ansible.builtin.sudo
   block:
 
     - name: NGINX | Install nginx
@@ -277,7 +277,7 @@
     group: 'www-data'
     recurse: yes
   become: yes
-  become_method: sudo
+  become_method: ansible.builtin.sudo
 
 - name: SERVICES
   module_defaults:
@@ -285,7 +285,7 @@
       owner: 'root'
       group: 'root'
   become: yes
-  become_method: sudo
+  become_method: ansible.builtin.sudo
   block:
 
     - name: GUNICORN | Create file for service
@@ -320,7 +320,7 @@
 
 - name: UFW
   become: yes
-  become_method: sudo
+  become_method: ansible.builtin.sudo
   block:
 
     - name: UFW | Install ufw
