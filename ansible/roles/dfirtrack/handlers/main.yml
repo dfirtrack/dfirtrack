@@ -5,7 +5,7 @@
   ansible.builtin.service:
     name: nginx
     state: restarted
-  become: yes
+  become: true
   become_method: ansible.builtin.sudo
   ignore_errors: '{{ ansible_check_mode }}'
 
@@ -13,6 +13,6 @@
   ansible.builtin.service:
     name: postgresql
     state: restarted
-  become: yes
+  become: true
   become_method: ansible.builtin.sudo
   ignore_errors: '{{ ansible_check_mode }}'
