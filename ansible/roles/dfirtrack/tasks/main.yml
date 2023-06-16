@@ -118,7 +118,11 @@
     - name: POSTGRESQL | Install acl to make user switching work (Ubuntu 20)
       ansible.builtin.apt:
         name: 'acl'
-      when: (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.04') or (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.10') or (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '21.10') or (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '22.04')
+      when: >
+        (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.04') or
+        (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.10') or
+        (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '21.10') or
+        (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '22.04')
 
     - name: POSTGRESQL | Install postgresql
       ansible.builtin.apt:
@@ -165,7 +169,9 @@
     - name: POSTGRESQL | Set path of config (Ubuntu 20)
       ansible.builtin.set_fact:
         postgresql_config: '/etc/postgresql/12/main/pg_hba.conf'
-      when: (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.04') or (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.10')
+      when: >
+        (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.04') or
+        (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.10')
 
     - name: POSTGRESQL | Set path of config (Ubuntu 21.10)
       ansible.builtin.set_fact:
